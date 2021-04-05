@@ -11,7 +11,7 @@
 import { join } from 'path';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
-import SQL, { Database } from 'better-sqlite3';
+import SQL, { Database, Statement } from 'better-sqlite3';
 
 import { v4 as generateUUID } from 'uuid';
 import {
@@ -213,6 +213,26 @@ const dataInterface: ServerInterface = {
   removeKnownDraftAttachments,
 };
 export default dataInterface;
+
+type DatabaseQueryCache = Map<string, Statement<any[]>>;
+
+const statementCache = new WeakMap<Database, DatabaseQueryCache>();
+
+function prepare(db: Database, query: string): Statement<Query> {
+  let dbCache = statementCache.get(db);
+  if (!dbCache) {
+    dbCache = new Map();
+    statementCache.set(db, dbCache);
+  }
+
+  let result = dbCache.get(query);
+  if (!result) {
+    result = db.prepare(query);
+    dbCache.set(query, result);
+  }
+
+  return result;
+}
 
 function objectToJSON(data: any) {
   return JSON.stringify(data);
@@ -1756,7 +1776,8 @@ async function createOrUpdateSession(data: SessionType): Promise<void> {
     );
   }
 
-  db.prepare<Query>(
+  prepare(
+    db,
     `
     INSERT OR REPLACE INTO sessions (
       id,
@@ -2071,7 +2092,8 @@ async function updateConversation(data: ConversationType): Promise<void> {
       ? members.join(' ')
       : null;
 
-  db.prepare<Query>(
+  prepare(
+    db,
     `
     UPDATE conversations SET
       json = $json,
@@ -2407,7 +2429,8 @@ async function saveMessage(
   };
 
   if (id && !forceSave) {
-    db.prepare<Query>(
+    prepare(
+      db,
       `
       UPDATE messages SET
         id = $id,
@@ -2467,7 +2490,8 @@ async function saveMessage(
     id,
   });
 
-  db.prepare<Query>(
+  prepare(
+    db,
     `
     INSERT INTO messages (
       id,
@@ -2624,21 +2648,20 @@ async function getMessageBySender({
   sent_at: number;
 }): Promise<Array<MessageType>> {
   const db = getInstance();
-  const rows: JSONRows = db
-    .prepare<Query>(
-      `
-      SELECT json FROM messages WHERE
-        (source = $source OR sourceUuid = $sourceUuid) AND
-        sourceDevice = $sourceDevice AND
-        sent_at = $sent_at;
-      `
-    )
-    .all({
-      source,
-      sourceUuid,
-      sourceDevice,
-      sent_at,
-    });
+  const rows: JSONRows = prepare(
+    db,
+    `
+    SELECT json FROM messages WHERE
+      (source = $source OR sourceUuid = $sourceUuid) AND
+      sourceDevice = $sourceDevice AND
+      sent_at = $sent_at;
+    `
+  ).all({
+    source,
+    sourceUuid,
+    sourceDevice,
+    sent_at,
+  });
 
   return rows.map(row => jsonToObject(row.json));
 }
@@ -3154,7 +3177,8 @@ async function saveUnprocessed(
   }
 
   if (forceSave) {
-    db.prepare<Query>(
+    prepare(
+      db,
       `
       INSERT INTO unprocessed (
         id,
@@ -3181,7 +3205,8 @@ async function saveUnprocessed(
     return id;
   }
 
-  db.prepare<Query>(
+  prepare(
+    db,
     `
     UPDATE unprocessed SET
       timestamp = $timestamp,
@@ -3237,7 +3262,8 @@ async function updateUnprocessedWithData(
   const db = getInstance();
   const { source, sourceUuid, sourceDevice, serverTimestamp, decrypted } = data;
 
-  db.prepare<Query>(
+  prepare(
+    db,
     `
     UPDATE unprocessed SET
       source = $source,
@@ -3311,7 +3337,7 @@ async function removeUnprocessed(id: string | Array<string>): Promise<void> {
   const db = getInstance();
 
   if (!Array.isArray(id)) {
-    db.prepare<Query>('DELETE FROM unprocessed WHERE id = id;').run({ id });
+    prepare(db, 'DELETE FROM unprocessed WHERE id = id;').run({ id });
 
     return;
   }
