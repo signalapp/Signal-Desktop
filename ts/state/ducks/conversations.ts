@@ -72,7 +72,6 @@ export type ConversationType = {
   canEditGroupInfo?: boolean;
   color?: ColorType;
   discoveredUnregisteredAt?: number;
-  isAccepted?: boolean;
   isArchived?: boolean;
   isBlocked?: boolean;
   isGroupV1AndDisabled?: boolean;
