@@ -86,7 +86,7 @@ export const CallingPip = ({
   const [windowHeight, setWindowHeight] = React.useState(window.innerHeight);
   const [positionState, setPositionState] = React.useState<PositionState>({
     mode: PositionMode.SnapToRight,
-    offsetY: 0,
+    offsetY: PIP_TOP_MARGIN,
   });
 
   React.useEffect(() => {
