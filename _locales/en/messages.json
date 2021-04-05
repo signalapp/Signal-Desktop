@@ -4755,6 +4755,10 @@
     "message": "Block group",
     "description": "This is a button to block a group"
   },
+  "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+    "message": "Before you leave, you must choose at least one new admin for this group.",
+    "description": "Shown if, before leaving a group, you need to choose an admin"
+  },
   "ConversationDetailsActions--leave-group-modal-title": {
     "message": "Do you really want to leave?",
     "description": "This is the modal title for confirming leaving a group"

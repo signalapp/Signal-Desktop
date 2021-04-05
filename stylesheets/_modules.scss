@@ -2966,6 +2966,16 @@ button.module-conversation-details__action-button {
 
   &__leave-group {
     color: $color-accent-red;
+
+    &--disabled {
+      @include light-theme {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+    }
   }
 
   &__block-group {
@@ -3180,6 +3190,16 @@ button.module-conversation-details__action-button {
           -webkit-mask: url(../images/icons/v2/leave-24.svg) no-repeat center;
           background-color: $color-accent-red;
         }
+
+        &--disabled::after {
+          @include light-theme {
+            background-color: $color-gray-60;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-25;
+          }
+        }
       }
 
       &--block {
@@ -3248,19 +3268,19 @@ button.module-conversation-details__action-button {
       &--button {
         color: inherit;
         background: none;
-      }
 
-      &:hover {
-        @include light-theme {
-          background-color: $color-gray-02;
-        }
+        &:hover:not(:disabled) {
+          @include light-theme {
+            background-color: $color-gray-02;
+          }
 
-        @include dark-theme {
-          background-color: $color-gray-90;
-        }
+          @include dark-theme {
+            background-color: $color-gray-90;
+          }
 
-        & .module-conversation-details-panel-row__actions {
-          opacity: 1;
+          & .module-conversation-details-panel-row__actions {
+            opacity: 1;
+          }
         }
       }
 

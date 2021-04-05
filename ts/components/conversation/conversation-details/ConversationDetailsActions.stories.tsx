@@ -1,7 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { isBoolean } from 'lodash';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -21,6 +22,11 @@ const story = storiesOf(
 );
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  cannotLeaveBecauseYouAreLastAdmin: isBoolean(
+    overrideProps.cannotLeaveBecauseYouAreLastAdmin
+  )
+    ? overrideProps.cannotLeaveBecauseYouAreLastAdmin
+    : false,
   conversationTitle: overrideProps.conversationTitle || '',
   onBlockAndDelete: action('onBlockAndDelete'),
   onDelete: action('onDelete'),
@@ -29,6 +35,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
 story.add('Basic', () => {
   const props = createProps();
+
+  return <ConversationDetailsActions {...props} />;
+});
+
+story.add('Cannot leave because you are the last admin', () => {
+  const props = createProps({ cannotLeaveBecauseYouAreLastAdmin: true });
 
   return <ConversationDetailsActions {...props} />;
 });

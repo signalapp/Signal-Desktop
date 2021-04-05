@@ -8,6 +8,7 @@ import { bemGenerator } from './util';
 export type Props = {
   alwaysShowActions?: boolean;
   className?: string;
+  disabled?: boolean;
   icon?: React.ReactNode;
   label: string | React.ReactNode;
   info?: string;
@@ -21,6 +22,7 @@ const bem = bemGenerator('module-conversation-details-panel-row');
 export const PanelRow: React.ComponentType<Props> = ({
   alwaysShowActions,
   className,
+  disabled,
   icon,
   label,
   info,
@@ -45,6 +47,7 @@ export const PanelRow: React.ComponentType<Props> = ({
   if (onClick) {
     return (
       <button
+        disabled={disabled}
         type="button"
         className={classNames(bem('root', 'button'), className)}
         onClick={onClick}

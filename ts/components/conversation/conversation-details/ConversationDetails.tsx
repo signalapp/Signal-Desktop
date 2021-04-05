@@ -101,11 +101,20 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     throw new Error('ConversationDetails rendered without a conversation');
   }
 
+  const memberships = conversation.memberships || [];
   const pendingMemberships = conversation.pendingMemberships || [];
   const pendingApprovalMemberships =
     conversation.pendingApprovalMemberships || [];
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
+
+  const otherMemberships = memberships.filter(({ member }) => !member.isMe);
+  const isJustMe = otherMemberships.length === 0;
+  const isAnyoneElseAnAdmin = otherMemberships.some(
+    membership => membership.isAdmin
+  );
+  const cannotLeaveBecauseYouAreLastAdmin =
+    isAdmin && !isJustMe && !isAnyoneElseAnAdmin;
 
   let modalNode: ReactNode;
   switch (modalState) {
@@ -158,11 +167,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
             });
           }}
           conversationIdsAlreadyInGroup={
-            new Set(
-              (conversation.memberships || []).map(
-                membership => membership.member.id
-              )
-            )
+            new Set(memberships.map(membership => membership.member.id))
           }
           groupTitle={conversation.title}
           i18n={i18n}
@@ -238,7 +243,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       <ConversationDetailsMembershipList
         canAddNewMembers={canEditGroupInfo}
         i18n={i18n}
-        memberships={conversation.memberships || []}
+        memberships={memberships}
         showContactModal={showContactModal}
         startAddingNewMembers={() => {
           setModalState(ModalState.AddingGroupMembers);
@@ -294,6 +299,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
 
       <ConversationDetailsActions
         i18n={i18n}
+        cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
         conversationTitle={conversation.title}
         onDelete={onDelete}
         onBlockAndDelete={onBlockAndDelete}

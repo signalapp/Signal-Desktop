@@ -25,7 +25,7 @@ const conversation: ConversationType = {
   lastUpdated: 0,
   markedUnread: false,
   memberships: Array.from(Array(32)).map((_, i) => ({
-    isAdmin: false,
+    isAdmin: i === 1,
     member: getDefaultConversation({
       isMe: i === 2,
     }),
@@ -82,6 +82,44 @@ story.add('as Admin', () => {
   const props = createProps();
 
   return <ConversationDetails {...props} isAdmin />;
+});
+
+story.add('as last admin', () => {
+  const props = createProps();
+
+  return (
+    <ConversationDetails
+      {...props}
+      isAdmin
+      conversation={{
+        ...conversation,
+        memberships: conversation.memberships?.map(membership => ({
+          ...membership,
+          isAdmin: Boolean(membership.member.isMe),
+        })),
+      }}
+    />
+  );
+});
+
+story.add('as only admin', () => {
+  const props = createProps();
+
+  return (
+    <ConversationDetails
+      {...props}
+      isAdmin
+      conversation={{
+        ...conversation,
+        memberships: conversation.memberships
+          ?.filter(membership => membership.member.isMe)
+          .map(membership => ({
+            ...membership,
+            isAdmin: true,
+          })),
+      }}
+    />
+  );
 });
 
 story.add('Group Editable', () => {
