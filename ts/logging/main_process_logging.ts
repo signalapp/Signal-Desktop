@@ -17,6 +17,8 @@ import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
 import { createStream } from 'rotating-file-stream';
 
+import { Environment, getEnvironment } from '../environment';
+
 import {
   LogEntryType,
   LogLevel,
@@ -37,7 +39,10 @@ declare global {
 
 let globalLogger: undefined | pinoms.Logger;
 
-const isRunningFromConsole = Boolean(process.stdout.isTTY);
+const isRunningFromConsole =
+  Boolean(process.stdout.isTTY) ||
+  getEnvironment() === Environment.Test ||
+  getEnvironment() === Environment.TestLib;
 
 export async function initialize(): Promise<pinoms.Logger> {
   if (globalLogger) {

@@ -6,9 +6,7 @@
 const ByteBuffer = require('../components/bytebuffer/dist/ByteBufferAB.js');
 const { setEnvironment, Environment } = require('../ts/environment');
 
-before(() => {
-  setEnvironment(Environment.Test);
-});
+setEnvironment(Environment.Test);
 
 // To replicate logic we have on the client side
 global.window = {
