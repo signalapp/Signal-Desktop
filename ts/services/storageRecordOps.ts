@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
@@ -22,6 +22,16 @@ import {
   waitThenMaybeUpdateGroup,
   waitThenRespondToGroupV2Migration,
 } from '../groups';
+import { assert } from '../util/assert';
+import { missingCaseError } from '../util/missingCaseError';
+import {
+  PhoneNumberSharingMode,
+  parsePhoneNumberSharingMode,
+} from '../util/phoneNumberSharingMode';
+import {
+  PhoneNumberDiscoverability,
+  parsePhoneNumberDiscoverability,
+} from '../util/phoneNumberDiscoverability';
 import { ConversationModel } from '../models/conversations';
 import { ConversationAttributesTypeType } from '../model-types.d';
 
@@ -158,6 +168,43 @@ export async function toAccountRecord(
     window.storage.get('typingIndicators')
   );
   accountRecord.linkPreviews = Boolean(window.storage.get('linkPreviews'));
+
+  const PHONE_NUMBER_SHARING_MODE_ENUM =
+    window.textsecure.protobuf.AccountRecord.PhoneNumberSharingMode;
+  const phoneNumberSharingMode = parsePhoneNumberSharingMode(
+    window.storage.get('phoneNumberSharingMode')
+  );
+  switch (phoneNumberSharingMode) {
+    case PhoneNumberSharingMode.Everybody:
+      accountRecord.phoneNumberSharingMode =
+        PHONE_NUMBER_SHARING_MODE_ENUM.EVERYBODY;
+      break;
+    case PhoneNumberSharingMode.ContactsOnly:
+      accountRecord.phoneNumberSharingMode =
+        PHONE_NUMBER_SHARING_MODE_ENUM.CONTACTS_ONLY;
+      break;
+    case PhoneNumberSharingMode.Nobody:
+      accountRecord.phoneNumberSharingMode =
+        PHONE_NUMBER_SHARING_MODE_ENUM.NOBODY;
+      break;
+    default:
+      throw missingCaseError(phoneNumberSharingMode);
+  }
+
+  const phoneNumberDiscoverability = parsePhoneNumberDiscoverability(
+    window.storage.get('phoneNumberDiscoverability')
+  );
+  switch (phoneNumberDiscoverability) {
+    case PhoneNumberDiscoverability.Discoverable:
+      accountRecord.notDiscoverableByPhoneNumber = false;
+      break;
+    case PhoneNumberDiscoverability.NotDiscoverable:
+      accountRecord.notDiscoverableByPhoneNumber = true;
+      break;
+    default:
+      throw missingCaseError(phoneNumberDiscoverability);
+  }
+
   const pinnedConversations = window.storage
     .get<Array<string>>('pinnedConversationIds', [])
     .map(id => {
@@ -655,8 +702,10 @@ export async function mergeAccountRecord(
   const {
     avatarUrl,
     linkPreviews,
+    notDiscoverableByPhoneNumber,
     noteToSelfArchived,
     noteToSelfMarkedUnread,
+    phoneNumberSharingMode,
     pinnedConversations: remotelyPinnedConversationClasses,
     profileKey,
     readReceipts,
@@ -677,6 +726,36 @@ export async function mergeAccountRecord(
   if (typeof linkPreviews === 'boolean') {
     window.storage.put('linkPreviews', linkPreviews);
   }
+
+  const PHONE_NUMBER_SHARING_MODE_ENUM =
+    window.textsecure.protobuf.AccountRecord.PhoneNumberSharingMode;
+  let phoneNumberSharingModeToStore: PhoneNumberSharingMode;
+  switch (phoneNumberSharingMode) {
+    case undefined:
+    case null:
+    case PHONE_NUMBER_SHARING_MODE_ENUM.EVERYBODY:
+      phoneNumberSharingModeToStore = PhoneNumberSharingMode.Everybody;
+      break;
+    case PHONE_NUMBER_SHARING_MODE_ENUM.CONTACTS_ONLY:
+      phoneNumberSharingModeToStore = PhoneNumberSharingMode.ContactsOnly;
+      break;
+    case PHONE_NUMBER_SHARING_MODE_ENUM.NOBODY:
+      phoneNumberSharingModeToStore = PhoneNumberSharingMode.Nobody;
+      break;
+    default:
+      assert(
+        false,
+        `storageService.mergeAccountRecord: Got an unexpected phone number sharing mode: ${phoneNumberSharingMode}. Falling back to default`
+      );
+      phoneNumberSharingModeToStore = PhoneNumberSharingMode.Everybody;
+      break;
+  }
+  window.storage.put('phoneNumberSharingMode', phoneNumberSharingModeToStore);
+
+  const discoverability = notDiscoverableByPhoneNumber
+    ? PhoneNumberDiscoverability.NotDiscoverable
+    : PhoneNumberDiscoverability.Discoverable;
+  window.storage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey) {
     window.storage.put('profileKey', profileKey.toArrayBuffer());

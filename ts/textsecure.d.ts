@@ -1107,8 +1107,16 @@ export declare class PinnedConversationClass {
   groupMasterKey?: ProtoBinaryType;
 }
 
+declare enum AccountRecordPhoneNumberSharingMode {
+  EVERYBODY = 0,
+  CONTACTS_ONLY = 1,
+  NOBODY = 2,
+}
+
 export declare class AccountRecordClass {
+  static PhoneNumberSharingMode: typeof AccountRecordPhoneNumberSharingMode;
   static PinnedConversation: typeof PinnedConversationClass;
+
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
@@ -1124,6 +1132,8 @@ export declare class AccountRecordClass {
   sealedSenderIndicators?: boolean | null;
   typingIndicators?: boolean | null;
   linkPreviews?: boolean | null;
+  phoneNumberSharingMode?: AccountRecordPhoneNumberSharingMode;
+  notDiscoverableByPhoneNumber?: boolean;
   pinnedConversations?: PinnedConversationClass[];
   noteToSelfMarkedUnread?: boolean;
 
