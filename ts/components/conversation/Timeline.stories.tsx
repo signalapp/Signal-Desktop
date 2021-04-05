@@ -3,13 +3,14 @@
 
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { boolean, number } from '@storybook/addon-knobs';
+import { text, boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { PropsType, Timeline } from './Timeline';
 import { TimelineItem, TimelineItemType } from './TimelineItem';
+import { ConversationHero } from './ConversationHero';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { TimelineLoadingRow } from './TimelineLoadingRow';
 import { TypingBubble } from './TypingBubble';
@@ -279,7 +280,28 @@ const renderItem = (id: string) => (
 const renderLastSeenIndicator = () => (
   <LastSeenIndicator count={2} i18n={i18n} />
 );
-const renderHeroRow = () => <div />;
+
+const getAbout = () => text('about', '👍 Free to chat');
+const getTitle = () => text('name', 'Cayce Bollard');
+const getName = () => text('name', 'Cayce Bollard');
+const getProfileName = () => text('profileName', 'Cayce Bollard (profile)');
+const getAvatarPath = () =>
+  text('avatarPath', '/fixtures/kitten-4-112-112.jpg');
+const getPhoneNumber = () => text('phoneNumber', '+1 (808) 555-1234');
+
+const renderHeroRow = () => (
+  <ConversationHero
+    about={getAbout()}
+    i18n={i18n}
+    title={getTitle()}
+    avatarPath={getAvatarPath()}
+    name={getName()}
+    profileName={getProfileName()}
+    phoneNumber={getPhoneNumber()}
+    conversationType="direct"
+    sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
+  />
+);
 const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;
 const renderTypingBubble = () => (
   <TypingBubble
@@ -297,7 +319,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),
   haveOldest: boolean('haveOldest', overrideProps.haveOldest !== false),
   isLoadingMessages: false,
-  items: Object.keys(items),
+  items: overrideProps.items || Object.keys(items),
   resetCounter: 0,
   scrollToIndex: overrideProps.scrollToIndex,
   scrollToIndexCounter: 0,
@@ -324,6 +346,14 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 story.add('Oldest and Newest', () => {
   const props = createProps();
+
+  return <Timeline {...props} />;
+});
+
+story.add('Empty (just hero)', () => {
+  const props = createProps({
+    items: [],
+  });
 
   return <Timeline {...props} />;
 });
