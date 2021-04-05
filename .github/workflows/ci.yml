@@ -15,7 +15,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '14.16.0'
-    - run: npm install -g yarn@1.22.0
+    - run: npm install -g yarn@1.22.10
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: yarn lint
@@ -34,7 +34,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '14.16.0'
-    - run: npm install -g yarn@1.22.0
+    - run: npm install -g yarn@1.22.10
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: yarn prepare-beta-build
@@ -57,7 +57,7 @@ jobs:
       with:
         node-version: '14.16.0'
     - run: sudo apt-get install xvfb
-    - run: npm install -g yarn@1.22.0
+    - run: npm install -g yarn@1.22.10
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: yarn prepare-beta-build
@@ -83,7 +83,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '14.16.0'
-    - run: npm install -g yarn@1.22.0
+    - run: npm install -g yarn@1.22.10
     - run: yarn install --frozen-lockfile
     - run: yarn generate
     - run: node build\grunt.js
