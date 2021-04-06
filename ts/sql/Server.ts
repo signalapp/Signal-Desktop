@@ -1436,6 +1436,164 @@ function updateToSchemaVersion24(currentVersion: number, db: Database): void {
   console.log('updateToSchemaVersion24: success!');
 }
 
+async function updateToSchemaVersion25(currentVersion: number, db: Database) {
+  if (currentVersion >= 25) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE messages
+      RENAME TO old_messages
+    `);
+
+    const indicesToDrop = [
+      'messages_expires_at',
+      'messages_receipt',
+      'messages_schemaVersion',
+      'messages_conversation',
+      'messages_duplicate_check',
+      'messages_hasAttachments',
+      'messages_hasFileAttachments',
+      'messages_hasVisualMediaAttachments',
+      'messages_without_timer',
+      'messages_unread',
+      'messages_view_once',
+      'messages_sourceUuid',
+    ];
+    for (const index of indicesToDrop) {
+      db.exec(`DROP INDEX IF EXISTS ${index};`);
+    }
+
+    db.exec(`
+      --
+      -- Create a new table with a different primary key
+      --
+
+      CREATE TABLE messages(
+        rowid INTEGER PRIMARY KEY ASC,
+        id STRING UNIQUE,
+        json TEXT,
+        unread INTEGER,
+        expires_at INTEGER,
+        sent_at INTEGER,
+        schemaVersion INTEGER,
+        conversationId STRING,
+        received_at INTEGER,
+        source STRING,
+        sourceDevice STRING,
+        hasAttachments INTEGER,
+        hasFileAttachments INTEGER,
+        hasVisualMediaAttachments INTEGER,
+        expireTimer INTEGER,
+        expirationStartTimestamp INTEGER,
+        type STRING,
+        body TEXT,
+        messageTimer INTEGER,
+        messageTimerStart INTEGER,
+        messageTimerExpiresAt INTEGER,
+        isErased INTEGER,
+        isViewOnce INTEGER,
+        sourceUuid TEXT);
+
+      -- Create index in lieu of old PRIMARY KEY
+      CREATE INDEX messages_id ON messages (id ASC);
+
+      --
+      -- Recreate indices
+      --
+
+      CREATE INDEX messages_expires_at ON messages (expires_at);
+
+      CREATE INDEX messages_receipt ON messages (sent_at);
+
+      CREATE INDEX messages_schemaVersion ON messages (schemaVersion);
+
+      CREATE INDEX messages_conversation ON messages
+        (conversationId, received_at);
+
+      CREATE INDEX messages_duplicate_check ON messages
+        (source, sourceDevice, sent_at);
+
+      CREATE INDEX messages_hasAttachments ON messages
+        (conversationId, hasAttachments, received_at);
+
+      CREATE INDEX messages_hasFileAttachments ON messages
+        (conversationId, hasFileAttachments, received_at);
+
+      CREATE INDEX messages_hasVisualMediaAttachments ON messages
+        (conversationId, hasVisualMediaAttachments, received_at);
+
+      CREATE INDEX messages_without_timer ON messages
+        (expireTimer, expires_at, type)
+        WHERE expires_at IS NULL AND expireTimer IS NOT NULL;
+
+      CREATE INDEX messages_unread ON messages
+        (conversationId, unread) WHERE unread IS NOT NULL;
+
+      CREATE INDEX messages_view_once ON messages
+        (isErased) WHERE isViewOnce = 1;
+
+      CREATE INDEX messages_sourceUuid on messages(sourceUuid);
+
+      -- New index for searchMessages
+      CREATE INDEX messages_searchOrder on messages(received_at, sent_at);
+
+      --
+      -- Re-create messages_fts and add triggers
+      --
+
+      DROP TABLE messages_fts;
+
+      CREATE VIRTUAL TABLE messages_fts USING fts5(body);
+
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages BEGIN
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+
+      CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+      END;
+
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+
+      --
+      -- Copy data over
+      --
+
+      INSERT INTO messages
+      (
+        id, json, unread, expires_at, sent_at, schemaVersion, conversationId,
+        received_at, source, sourceDevice, hasAttachments, hasFileAttachments,
+        hasVisualMediaAttachments, expireTimer, expirationStartTimestamp, type,
+        body, messageTimer, messageTimerStart, messageTimerExpiresAt, isErased,
+        isViewOnce, sourceUuid
+      )
+      SELECT
+        id, json, unread, expires_at, sent_at, schemaVersion, conversationId,
+        received_at, source, sourceDevice, hasAttachments, hasFileAttachments,
+        hasVisualMediaAttachments, expireTimer, expirationStartTimestamp, type,
+        body, messageTimer, messageTimerStart, messageTimerExpiresAt, isErased,
+        isViewOnce, sourceUuid
+      FROM old_messages;
+
+      -- Drop old database
+      DROP TABLE old_messages;
+    `);
+
+    db.pragma('user_version = 25');
+  })();
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1461,6 +1619,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion22,
   updateToSchemaVersion23,
   updateToSchemaVersion24,
+  updateToSchemaVersion25,
 ];
 
 function updateSchema(db: Database): void {
@@ -2149,7 +2308,7 @@ async function updateConversations(
 async function removeConversation(id: Array<string> | string): Promise<void> {
   const db = getInstance();
   if (!Array.isArray(id)) {
-    db.prepare<Query>('DELETE FROM conversations WHERE id = id;').run({
+    db.prepare<Query>('DELETE FROM conversations WHERE id = $id;').run({
       id,
     });
 
@@ -2300,7 +2459,7 @@ async function searchMessages(
         messages.json,
         snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
       FROM messages_fts
-      INNER JOIN messages on messages_fts.id = messages.id
+      INNER JOIN messages on messages_fts.rowid = messages.rowid
       WHERE
         messages_fts match $query
       ORDER BY messages.received_at DESC, messages.sent_at DESC
@@ -2328,7 +2487,7 @@ async function searchMessagesInConversation(
         messages.json,
         snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
       FROM messages_fts
-      INNER JOIN messages on messages_fts.id = messages.id
+      INNER JOIN messages on messages_fts.rowid = messages.rowid
       WHERE
         messages_fts match $query AND
         messages.conversationId = $conversationId
@@ -2462,26 +2621,6 @@ async function saveMessage(
       WHERE id = $id;
       `
     ).run(payload);
-    db.prepare<Query>('DELETE FROM messages_fts WHERE id = $id;').run({
-      id,
-    });
-
-    if (body) {
-      db.prepare<Query>(
-        `
-        INSERT INTO messages_fts(
-          id,
-          body
-        ) VALUES (
-          $id,
-          $body
-        );
-        `
-      ).run({
-        id,
-        body,
-      });
-    }
 
     return id;
   }
@@ -2490,10 +2629,6 @@ async function saveMessage(
     ...data,
     id: id || generateUUID(),
   };
-
-  db.prepare<Query>('DELETE FROM messages_fts WHERE id = $id;').run({
-    id,
-  });
 
   prepare(
     db,
@@ -2549,20 +2684,6 @@ async function saveMessage(
     id: toCreate.id,
     json: objectToJSON(toCreate),
   });
-  db.prepare<Query>(
-    `
-    INSERT INTO messages_fts(
-      id,
-      body
-    ) VALUES (
-      $id,
-      $body
-    );
-    `
-  ).run({
-    id,
-    body,
-  });
 
   return toCreate.id;
 }
@@ -2583,31 +2704,18 @@ async function saveMessages(
 async function removeMessage(id: string): Promise<void> {
   const db = getInstance();
 
-  db.transaction(() => {
-    db.prepare<Query>('DELETE FROM messages WHERE id = id;').run({ id });
-    db.prepare<Query>('DELETE FROM messages_fts WHERE id = id;').run({
-      id,
-    });
-  })();
+  db.prepare<Query>('DELETE FROM messages WHERE id = $id;').run({ id });
 }
 
 async function removeMessages(ids: Array<string>): Promise<void> {
   const db = getInstance();
 
-  db.transaction(() => {
-    db.prepare<ArrayQuery>(
-      `
-      DELETE FROM messages
-      WHERE id IN ( ${ids.map(() => '?').join(', ')} );
-      `
-    ).run(ids);
-    db.prepare<ArrayQuery>(
-      `
-      DELETE FROM messages_fts
-      WHERE id IN ( ${ids.map(() => '?').join(', ')} );
-      `
-    ).run(ids);
-  })();
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM messages
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
 }
 
 async function getMessageById(id: string): Promise<MessageType | undefined> {
@@ -3342,7 +3450,7 @@ async function removeUnprocessed(id: string | Array<string>): Promise<void> {
   const db = getInstance();
 
   if (!Array.isArray(id)) {
-    prepare(db, 'DELETE FROM unprocessed WHERE id = id;').run({ id });
+    prepare(db, 'DELETE FROM unprocessed WHERE id = $id;').run({ id });
 
     return;
   }
