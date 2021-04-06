@@ -9,6 +9,8 @@ import { assert } from '../util/assert';
 export enum ButtonVariant {
   Primary,
   Secondary,
+  SecondaryAffirmative,
+  SecondaryDestructive,
   Destructive,
 }
 
@@ -29,6 +31,14 @@ type PropsType = {
 const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
   [ButtonVariant.Primary, 'module-Button--primary'],
   [ButtonVariant.Secondary, 'module-Button--secondary'],
+  [
+    ButtonVariant.SecondaryAffirmative,
+    'module-Button--secondary module-Button--secondary--affirmative',
+  ],
+  [
+    ButtonVariant.SecondaryDestructive,
+    'module-Button--secondary module-Button--secondary--destructive',
+  ],
   [ButtonVariant.Destructive, 'module-Button--destructive'],
 ]);
 

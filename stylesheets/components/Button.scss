@@ -71,6 +71,14 @@
         background: fade-out($background-color, 0.6);
       }
 
+      &--primary {
+        color: $ultramarine-ui-light;
+      }
+
+      &--destructive {
+        color: $color-accent-red;
+      }
+
       @include hover-and-active-states($background-color, $color-black);
     }
 
@@ -84,6 +92,14 @@
       &:disabled {
         color: $color-white-alpha-20;
         background: fade-out($background-color, 0.6);
+      }
+
+      &--primary {
+        color: $ultramarine-ui-dark;
+      }
+
+      &--destructive {
+        color: $color-accent-red;
       }
 
       @include hover-and-active-states($background-color, $color-white);

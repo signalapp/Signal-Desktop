@@ -3970,42 +3970,11 @@ button.module-conversation-details__action-button {
     flex-direction: row;
     justify-content: center;
 
-    &__button {
-      border: none;
-      border-radius: 4px;
+    .module-Button {
       min-width: 80px;
-      height: 36px;
-      padding: 0 14px;
-      text-align: center;
-
-      &:focus {
-        outline: none;
-
-        @include keyboard-mode {
-          box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
-        }
-      }
-
-      @include font-body-1-bold;
-
-      @include light-theme {
-        background-color: $color-gray-05;
-      }
-
-      @include dark-theme {
-        background-color: $color-gray-75;
-      }
 
       &:not(:last-of-type) {
         margin-right: 8px;
-      }
-
-      &--deny {
-        color: $color-accent-red;
-      }
-
-      &--accept {
-        color: $color-accent-blue;
       }
     }
   }

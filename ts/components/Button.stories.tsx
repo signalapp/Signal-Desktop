@@ -11,49 +11,25 @@ const story = storiesOf('Components/Button', module);
 
 story.add('Kitchen sink', () => (
   <>
-    <p>
-      <Button onClick={action('onClick')} variant={ButtonVariant.Primary}>
-        Hello world
-      </Button>
-    </p>
-    <p>
-      <Button
-        onClick={action('onClick')}
-        variant={ButtonVariant.Primary}
-        disabled
-      >
-        Hello world
-      </Button>
-    </p>
-
-    <p>
-      <Button onClick={action('onClick')} variant={ButtonVariant.Secondary}>
-        Hello world
-      </Button>
-    </p>
-    <p>
-      <Button
-        onClick={action('onClick')}
-        variant={ButtonVariant.Secondary}
-        disabled
-      >
-        Hello world
-      </Button>
-    </p>
-
-    <p>
-      <Button onClick={action('onClick')} variant={ButtonVariant.Destructive}>
-        Hello world
-      </Button>
-    </p>
-    <p>
-      <Button
-        onClick={action('onClick')}
-        variant={ButtonVariant.Destructive}
-        disabled
-      >
-        Hello world
-      </Button>
-    </p>
+    {[
+      ButtonVariant.Primary,
+      ButtonVariant.Secondary,
+      ButtonVariant.SecondaryAffirmative,
+      ButtonVariant.SecondaryDestructive,
+      ButtonVariant.Destructive,
+    ].map(variant => (
+      <React.Fragment key={variant}>
+        <p>
+          <Button onClick={action('onClick')} variant={variant}>
+            Hello world
+          </Button>
+        </p>
+        <p>
+          <Button disabled onClick={action('onClick')} variant={variant}>
+            Hello world
+          </Button>
+        </p>
+      </React.Fragment>
+    ))}
   </>
 ));

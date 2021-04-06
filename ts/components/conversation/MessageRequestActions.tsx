@@ -1,9 +1,9 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import classNames from 'classnames';
 import { ContactName, PropsType as ContactNameProps } from './ContactName';
+import { Button, ButtonVariant } from '../Button';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
@@ -81,60 +81,40 @@ export const MessageRequestActions = ({
           />
         </p>
         <div className="module-message-request-actions__buttons">
-          <button
-            type="button"
+          <Button
             onClick={() => {
               setMrState(MessageRequestState.deleting);
             }}
-            tabIndex={0}
-            className={classNames(
-              'module-message-request-actions__buttons__button',
-              'module-message-request-actions__buttons__button--deny'
-            )}
+            variant={ButtonVariant.SecondaryDestructive}
           >
             {i18n('MessageRequests--delete')}
-          </button>
+          </Button>
           {isBlocked ? (
-            <button
-              type="button"
+            <Button
               onClick={() => {
                 setMrState(MessageRequestState.unblocking);
               }}
-              tabIndex={0}
-              className={classNames(
-                'module-message-request-actions__buttons__button',
-                'module-message-request-actions__buttons__button--accept'
-              )}
+              variant={ButtonVariant.SecondaryAffirmative}
             >
               {i18n('MessageRequests--unblock')}
-            </button>
+            </Button>
           ) : (
-            <button
-              type="button"
+            <Button
               onClick={() => {
                 setMrState(MessageRequestState.blocking);
               }}
-              tabIndex={0}
-              className={classNames(
-                'module-message-request-actions__buttons__button',
-                'module-message-request-actions__buttons__button--deny'
-              )}
+              variant={ButtonVariant.SecondaryDestructive}
             >
               {i18n('MessageRequests--block')}
-            </button>
+            </Button>
           )}
           {!isBlocked ? (
-            <button
-              type="button"
+            <Button
               onClick={onAccept}
-              tabIndex={0}
-              className={classNames(
-                'module-message-request-actions__buttons__button',
-                'module-message-request-actions__buttons__button--accept'
-              )}
+              variant={ButtonVariant.SecondaryAffirmative}
             >
               {i18n('MessageRequests--accept')}
-            </button>
+            </Button>
           ) : null}
         </div>
       </div>
