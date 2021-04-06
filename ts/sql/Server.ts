@@ -313,7 +313,7 @@ function getSQLCipherIntegrityCheck(db: Database): Array<string> | undefined {
 }
 
 function getSQLIntegrityCheck(db: Database): string | undefined {
-  const checkResult = db.pragma('integrity_check', { simple: true });
+  const checkResult = db.pragma('quick_check', { simple: true });
   if (checkResult !== 'ok') {
     return checkResult;
   }
@@ -1618,6 +1618,11 @@ async function close(): Promise<void> {
 
   const dbRef = globalInstance;
   globalInstance = undefined;
+
+  // SQLLite documentation suggests that we run `PRAGMA optimize` right before
+  // closing the database connection.
+  dbRef.pragma('optimize');
+
   dbRef.close();
 }
 

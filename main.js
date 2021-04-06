@@ -121,6 +121,9 @@ const { Environment } = require('./ts/environment');
 
 const sql = new MainSQL();
 
+let sqlInitTimeStart = 0;
+let sqlInitTimeEnd = 0;
+
 let appStartInitialSpellcheckSetting = true;
 
 const defaultWebPrefs = {
@@ -963,10 +966,12 @@ app.on('ready', async () => {
   // from when it's first ready until the loading screen disappears.
   ipc.once('signal-app-loaded', () => {
     const loadTime = Date.now() - startTime;
+    const sqlInitTime = sqlInitTimeEnd - sqlInitTimeStart;
     console.log('App loaded - time:', loadTime);
+    console.log('SQL init - time:', sqlInitTime);
 
     if (enableCI) {
-      console._log('ci: app_loaded=%j', { loadTime });
+      console._log('ci: app_loaded=%j', { loadTime, sqlInitTime });
     }
   });
 
@@ -1027,6 +1032,8 @@ app.on('ready', async () => {
     key = crypto.randomBytes(32).toString('hex');
     userConfig.set('key', key);
   }
+
+  sqlInitTimeStart = Date.now();
   const sqlInitPromise = sql.initialize({
     configDir: userDataPath,
     key,
@@ -1074,6 +1081,7 @@ app.on('ready', async () => {
 
   try {
     await sqlInitPromise;
+    sqlInitTimeEnd = Date.now();
   } catch (error) {
     console.log('sql.initialize was unsuccessful; returning early');
     const buttonIndex = dialog.showMessageBoxSync({
