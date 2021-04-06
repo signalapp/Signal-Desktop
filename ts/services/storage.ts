@@ -70,6 +70,10 @@ function backOff(count: number) {
   return sleep(ms);
 }
 
+function redactStorageID(storageID: string): string {
+  return storageID.substring(0, 3);
+}
+
 type RemoteRecord = {
   itemType: number;
   storageID: string;
@@ -167,7 +171,7 @@ async function generateManifest(
     } else {
       window.log.info(
         'storageService.generateManifest: unknown conversation',
-        conversation.debugID()
+        conversation.idForLogging()
       );
     }
 
@@ -201,8 +205,25 @@ async function generateManifest(
       if (isNewItem) {
         newItems.add(storageItem);
 
+        if (storageID) {
+          window.log.info(
+            'storageService.generateManifest: new key',
+            conversation.idForLogging(),
+            redactStorageID(storageID)
+          );
+        } else {
+          window.log.info(
+            'storageService.generateManifest: no storage id',
+            conversation.idForLogging()
+          );
+        }
+
         const oldStorageID = conversation.get('storageID');
         if (oldStorageID) {
+          window.log.info(
+            'storageService.generateManifest: deleting key',
+            redactStorageID(oldStorageID)
+          );
           deleteKeys.push(base64ToArrayBuffer(oldStorageID));
         }
 
@@ -313,7 +334,7 @@ async function generateManifest(
     if (storageKeyDuplicates.has(storageID)) {
       window.log.info(
         'storageService.generateManifest: removing duplicate identifier from inserts',
-        storageID
+        redactStorageID(storageID)
       );
       newItems.delete(storageItem);
     }
@@ -594,11 +615,17 @@ async function mergeRecord(
       isUnsupported = true;
       window.log.info('storageService.mergeRecord: Unknown record:', itemType);
     }
+    window.log.info(
+      'storageService.mergeRecord: merged',
+      redactStorageID(storageID),
+      itemType,
+      hasConflict
+    );
   } catch (err) {
     hasError = true;
     window.log.error(
       'storageService.mergeRecord: Error with',
-      storageID,
+      redactStorageID(storageID),
       itemType
     );
   }
@@ -663,6 +690,10 @@ async function processManifest(
 
   const remoteOnlyRecords = new Map<string, RemoteRecord>();
   remoteOnlySet.forEach(storageID => {
+    window.log.info(
+      'storageService.processManifest: remote key',
+      redactStorageID(storageID)
+    );
     remoteOnlyRecords.set(storageID, {
       storageID,
       itemType: remoteKeysTypeMap.get(storageID),
@@ -865,7 +896,7 @@ async function processRemoteRecords(
         if (storageID && !remoteOnlyRecords.has(storageID)) {
           window.log.info(
             'storageService.processRemoteRecords: clearing storageID',
-            conversation.debugID()
+            conversation.idForLogging()
           );
           conversation.unset('storageID');
         }

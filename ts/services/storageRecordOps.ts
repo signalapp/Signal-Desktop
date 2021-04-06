@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
+import { isEqual, isNumber } from 'lodash';
 
 import {
   arrayBufferToBase64,
@@ -64,7 +64,7 @@ function addUnknownFields(
   if (record.__unknownFields) {
     window.log.info(
       'storageService.addUnknownFields: Unknown fields found for',
-      conversation.debugID()
+      conversation.idForLogging()
     );
     conversation.set({
       storageUnknownFields: arrayBufferToBase64(record.__unknownFields),
@@ -74,7 +74,7 @@ function addUnknownFields(
     // saved locally then we need to clear it out
     window.log.info(
       'storageService.addUnknownFields: Clearing unknown fields for',
-      conversation.debugID()
+      conversation.idForLogging()
     );
     conversation.unset('storageUnknownFields');
   }
@@ -256,7 +256,8 @@ export async function toAccountRecord(
     );
 
   window.log.info(
-    `toAccountRecord: sending ${pinnedConversations.length} pinned conversations`
+    'storageService.toAccountRecord: pinnedConversations',
+    pinnedConversations.length
   );
 
   accountRecord.pinnedConversations = pinnedConversations;
@@ -344,7 +345,7 @@ function doRecordsConflict(
   remoteRecord: RecordClassObject,
   conversation: ConversationModel
 ): boolean {
-  const debugID = conversation.debugID();
+  const idForLogging = conversation.idForLogging();
 
   const localKeys = Object.keys(localRecord);
   const remoteKeys = Object.keys(remoteRecord);
@@ -352,7 +353,7 @@ function doRecordsConflict(
   if (localKeys.length !== remoteKeys.length) {
     window.log.info(
       'storageService.doRecordsConflict: Local keys do not match remote keys',
-      debugID,
+      idForLogging,
       localKeys.join(','),
       remoteKeys.join(',')
     );
@@ -362,18 +363,6 @@ function doRecordsConflict(
   return localKeys.reduce((hasConflict: boolean, key: string): boolean => {
     const localValue = localRecord[key];
     const remoteValue = remoteRecord[key];
-    if (Object.prototype.toString.call(localValue) === '[object ArrayBuffer]') {
-      const isEqual =
-        arrayBufferToBase64(localValue) === arrayBufferToBase64(remoteValue);
-      if (!isEqual) {
-        window.log.info(
-          'storageService.doRecordsConflict: Conflict found for',
-          key,
-          debugID
-        );
-      }
-      return hasConflict || !isEqual;
-    }
 
     if (localValue === remoteValue) {
       return hasConflict || false;
@@ -389,12 +378,17 @@ function doRecordsConflict(
       return hasConflict || false;
     }
 
-    window.log.info(
-      'storageService.doRecordsConflict: Conflict found for',
-      key,
-      debugID
-    );
-    return true;
+    const areEqual = isEqual(localValue, remoteValue);
+
+    if (!areEqual) {
+      window.log.info(
+        'storageService.doRecordsConflict: Conflict found for',
+        key,
+        idForLogging
+      );
+    }
+
+    return !areEqual;
   }, false);
 }
 
@@ -442,7 +436,9 @@ export async function mergeGroupV1Record(
   // Here we ensure that the record we're about to process is GV1 otherwise
   // we drop the update.
   if (conversation && !conversation.isGroupV1()) {
-    throw new Error(`Record has group type mismatch ${conversation.debugID()}`);
+    throw new Error(
+      `Record has group type mismatch ${conversation.idForLogging()}`
+    );
   }
 
   if (!conversation) {
@@ -462,7 +458,7 @@ export async function mergeGroupV1Record(
   if (conversation) {
     window.log.info(
       'storageService.mergeGroupV1Record: found existing group',
-      conversation.debugID()
+      conversation.idForLogging()
     );
   } else {
     conversation = await window.ConversationController.getOrCreateAndWait(
@@ -471,7 +467,7 @@ export async function mergeGroupV1Record(
     );
     window.log.info(
       'storageService.mergeGroupV1Record: created a new group locally',
-      conversation.debugID()
+      conversation.idForLogging()
     );
   }
 
@@ -500,7 +496,7 @@ export async function mergeGroupV1Record(
     window.log.info(
       'storageService.mergeGroupV1Record marking v1 ' +
         ' group for an update to v2',
-      conversation.debugID()
+      conversation.idForLogging()
     );
 
     // We want to upgrade group in the storage after merging it.
@@ -570,7 +566,10 @@ export async function mergeGroupV2Record(
   const masterKeyBuffer = groupV2Record.masterKey.toArrayBuffer();
   const conversation = await getGroupV2Conversation(masterKeyBuffer);
 
-  window.log.info('storageService.mergeGroupV2Record:', conversation.debugID());
+  window.log.info(
+    'storageService.mergeGroupV2Record:',
+    conversation.idForLogging()
+  );
 
   conversation.set({
     isArchived: Boolean(groupV2Record.archived),
@@ -647,7 +646,10 @@ export async function mergeContactRecord(
     'private'
   );
 
-  window.log.info('storageService.mergeContactRecord:', conversation.debugID());
+  window.log.info(
+    'storageService.mergeContactRecord:',
+    conversation.idForLogging()
+  );
 
   if (contactRecord.profileKey) {
     await conversation.setProfileKey(
@@ -706,7 +708,7 @@ export async function mergeAccountRecord(
     noteToSelfArchived,
     noteToSelfMarkedUnread,
     phoneNumberSharingMode,
-    pinnedConversations: remotelyPinnedConversationClasses,
+    pinnedConversations,
     profileKey,
     readReceipts,
     sealedSenderIndicators,
@@ -761,7 +763,7 @@ export async function mergeAccountRecord(
     window.storage.put('profileKey', profileKey.toArrayBuffer());
   }
 
-  if (remotelyPinnedConversationClasses) {
+  if (pinnedConversations) {
     const modelPinnedConversations = window
       .getConversations()
       .filter(conversation => Boolean(conversation.get('isPinned')));
@@ -795,8 +797,12 @@ export async function mergeAccountRecord(
       'storageService.mergeAccountRecord: Local pinned',
       locallyPinnedConversations.length
     );
+    window.log.info(
+      'storageService.mergeAccountRecord: Remote pinned',
+      pinnedConversations.length
+    );
 
-    const remotelyPinnedConversationPromises = remotelyPinnedConversationClasses.map(
+    const remotelyPinnedConversationPromises = pinnedConversations.map(
       async pinnedConversation => {
         let conversationId;
         let conversationType: ConversationAttributesTypeType = 'private';

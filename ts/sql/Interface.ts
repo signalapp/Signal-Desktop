@@ -203,7 +203,7 @@ export type ServerInterface = DataInterface & {
   getAllConversations: () => Promise<Array<ConversationType>>;
   getAllGroupsInvolvingId: (id: string) => Promise<Array<ConversationType>>;
   getAllPrivateConversations: () => Promise<Array<ConversationType>>;
-  getConversationById: (id: string) => Promise<ConversationType>;
+  getConversationById: (id: string) => Promise<ConversationType | null>;
   getExpiredMessages: () => Promise<Array<MessageType>>;
   getMessageById: (id: string) => Promise<MessageType | undefined>;
   getMessageBySender: (options: {
@@ -291,7 +291,7 @@ export type ClientInterface = DataInterface & {
   getConversationById: (
     id: string,
     options: { Conversation: typeof ConversationModel }
-  ) => Promise<ConversationModel>;
+  ) => Promise<ConversationModel | undefined>;
   getExpiredMessages: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;

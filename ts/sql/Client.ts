@@ -746,6 +746,10 @@ async function getConversationById(
 ) {
   const data = await channels.getConversationById(id);
 
+  if (!data) {
+    return undefined;
+  }
+
   return new Conversation(data);
 }
 
