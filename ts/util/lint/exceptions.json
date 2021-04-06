@@ -1584,6 +1584,275 @@
     "reasonDetail": "Protected from arbitrary input"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/ansi-styles/index.js",
+    "line": "\t\t\tstyles[name] = wrap(identity, offset);",
+    "lineNumber": 52,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/ansi-styles/index.js",
+    "line": "\t\t\tstyles[name] = wrap(suite[targetSpace], offset);",
+    "lineNumber": 54,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/cliui/build/lib/index.js",
+    "line": "                wrapped = mixin.wrap(col.text, this.negatePadding(col), { hard: true }).split('\\n');",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/cliui/build/lib/string-utils.js",
+    "line": "export function wrap(str, width) {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/after.js",
+    "line": " * var done = _.after(saves.length, function() {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/after.js",
+    "line": "function after(n, func) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/before.js",
+    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/before.js",
+    "line": "function before(n, func) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/core.js",
+    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 2244,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/core.js",
+    "line": "  function before(n, func) {",
+    "lineNumber": 2247,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/core.js",
+    "line": "    return before(2, func);",
+    "lineNumber": 2397,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/core.js",
+    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 3499,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/core.min.js",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/fp/_baseConvert.js",
+    "line": "  function wrap(name, func, placeholder) {",
+    "lineNumber": 468,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/fp/_baseConvert.js",
+    "line": "    return wrap(name, func, defaultHolder);",
+    "lineNumber": 521,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/fp/_baseConvert.js",
+    "line": "        pairs.push([key, wrap(key, func, _)]);",
+    "lineNumber": 531,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/iteratee.js",
+    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.js",
+    "line": "     * var done = _.after(saves.length, function() {",
+    "lineNumber": 10049,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.js",
+    "line": "    function after(n, func) {",
+    "lineNumber": 10058,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.js",
+    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 10107,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.js",
+    "line": "    function before(n, func) {",
+    "lineNumber": 10110,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.js",
+    "line": "      return before(2, func);",
+    "lineNumber": 10686,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.js",
+    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 11017,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.js",
+    "line": "    function wrap(value, wrapper) {",
+    "lineNumber": 11024,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.js",
+    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 15594,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.min.js",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/lodash.min.js",
+    "lineNumber": 107,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/once.js",
+    "line": "  return before(2, func);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/wrap.js",
+    "line": " * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/lodash/wrap.js",
+    "line": "function wrap(value, wrapper) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/yargs/build/lib/completion-templates.js",
+    "line": "    type_list=$({{app_path}} --get-yargs-completions \"\\${args[@]}\")",
+    "lineNumber": 16,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/yargs/build/lib/completion-templates.js",
+    "line": "    COMPREPLY=( $(compgen -W \"\\${type_list}\" -- \\${cur_word}) )",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/yargs/build/lib/completion-templates.js",
+    "line": "  IFS=$'\\n' reply=($(COMP_CWORD=\"$((CURRENT-1))\" COMP_LINE=\"$BUFFER\" COMP_POINT=\"$CURSOR\" {{app_path}} --get-yargs-completions \"\\${words[@]}\"))",
+    "lineNumber": 41,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/yargs/build/lib/yargs-factory.js",
+    "line": "        usage.wrap(cols);",
+    "lineNumber": 751,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@electron/get/node_modules/@sindresorhus/is/dist/index.js",
     "line": "        'innerHTML',",
@@ -6388,6 +6657,14 @@
     "lineNumber": 1323,
     "reasonCategory": "falseMatch",
     "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/jpeg-js/lib/decoder.js",
+    "line": "    load: function load(path) {",
+    "lineNumber": 551,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
   },
   {
     "rule": "eval",
@@ -11615,6 +11892,1432 @@
     "updated": "2021-03-09T20:56:35.403Z"
   },
   {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/client/elementHandle.js",
+    "line": "    async innerHTML() {",
+    "lineNumber": 90,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/client/elementHandle.js",
+    "line": "        return this._wrapApiCall('elementHandle.innerHTML', async (channel) => {",
+    "lineNumber": 91,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/client/elementHandle.js",
+    "line": "            return (await channel.innerHTML()).value;",
+    "lineNumber": 92,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/client/elementHandle.js",
+    "line": "    async $(selector) {",
+    "lineNumber": 221,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/client/elementHandle.js",
+    "line": "    async $$(selector) {",
+    "lineNumber": 226,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/client/elementHandle.js",
+    "line": "    async $eval(selector, pageFunction, arg) {",
+    "lineNumber": 232,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/client/elementHandle.js",
+    "line": "    async $$eval(selector, pageFunction, arg) {",
+    "lineNumber": 238,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/client/frame.js",
+    "line": "    async $(selector) {",
+    "lineNumber": 190,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/client/frame.js",
+    "line": "    async $eval(selector, pageFunction, arg) {",
+    "lineNumber": 211,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/client/frame.js",
+    "line": "    async $$eval(selector, pageFunction, arg) {",
+    "lineNumber": 218,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/client/frame.js",
+    "line": "    async $$(selector) {",
+    "lineNumber": 225,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/client/frame.js",
+    "line": "    async innerHTML(selector, options = {}) {",
+    "lineNumber": 313,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/client/frame.js",
+    "line": "        return this._wrapApiCall(this._apiName('innerHTML'), async (channel) => {",
+    "lineNumber": 314,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/client/frame.js",
+    "line": "            return (await channel.innerHTML({ selector, ...options })).value;",
+    "lineNumber": 315,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "    async $(selector) {",
+    "lineNumber": 237,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "        return this._attributeToPage(() => this._mainFrame.$(selector));",
+    "lineNumber": 238,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "    async $eval(selector, pageFunction, arg) {",
+    "lineNumber": 250,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "        return this._attributeToPage(() => this._mainFrame.$eval(selector, pageFunction, arg));",
+    "lineNumber": 252,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "    async $$eval(selector, pageFunction, arg) {",
+    "lineNumber": 254,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "        return this._attributeToPage(() => this._mainFrame.$$eval(selector, pageFunction, arg));",
+    "lineNumber": 256,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "    async $$(selector) {",
+    "lineNumber": 258,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "        return this._attributeToPage(() => this._mainFrame.$$(selector));",
+    "lineNumber": 259,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "    async innerHTML(selector, options) {",
+    "lineNumber": 467,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/client/page.js",
+    "line": "        return this._attributeToPage(() => this._mainFrame.innerHTML(selector, options));",
+    "lineNumber": 468,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/dispatchers/elementHandlerDispatcher.js",
+    "line": "    async innerHTML(params, metadata) {",
+    "lineNumber": 52,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/dispatchers/elementHandlerDispatcher.js",
+    "line": "        return { value: await this._elementHandle.innerHTML() };",
+    "lineNumber": 53,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/dispatchers/elementHandlerDispatcher.js",
+    "line": "        const handle = await this._elementHandle.$(params.selector);",
+    "lineNumber": 127,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/dispatchers/elementHandlerDispatcher.js",
+    "line": "        const elements = await this._elementHandle.$$(params.selector);",
+    "lineNumber": 131,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/dispatchers/frameDispatcher.js",
+    "line": "        return { element: elementHandlerDispatcher_1.ElementHandleDispatcher.createNullable(this._scope, await this._frame.$(params.selector)) };",
+    "lineNumber": 75,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/dispatchers/frameDispatcher.js",
+    "line": "        const elements = await this._frame.$$(params.selector);",
+    "lineNumber": 78,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/dispatchers/frameDispatcher.js",
+    "line": "    async innerHTML(params, metadata) {",
+    "lineNumber": 115,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/dispatchers/frameDispatcher.js",
+    "line": "        return { value: await this._frame.innerHTML(metadata, params.selector, params) };",
+    "lineNumber": 116,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/generated/consoleApiSource.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/playwright/lib/generated/consoleApiSource.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/generated/injectedScriptSource.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/playwright/lib/generated/injectedScriptSource.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/playwright/lib/generated/recorderSource.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/generated/utilityScriptSource.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/playwright/lib/server/common/selectorParser.js",
+    "line": "        append();",
+    "lineNumber": 87,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/playwright/lib/server/common/selectorParser.js",
+    "line": "            append();",
+    "lineNumber": 104,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/playwright/lib/server/common/selectorParser.js",
+    "line": "    append();",
+    "lineNumber": 112,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/server/dom.js",
+    "line": "    async innerHTML() {",
+    "lineNumber": 177,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/server/dom.js",
+    "line": "            return { value: element.innerHTML };",
+    "lineNumber": 182,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/server/dom.js",
+    "line": "    async $(selector) {",
+    "lineNumber": 586,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/server/dom.js",
+    "line": "    async $$(selector) {",
+    "lineNumber": 589,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/server/dom.js",
+    "line": "            return element.innerHTML;",
+    "lineNumber": 889,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/server/frames.js",
+    "line": "    async $(selector) {",
+    "lineNumber": 527,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/server/frames.js",
+    "line": "        const handle = await this.$(selector);",
+    "lineNumber": 564,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/server/frames.js",
+    "line": "    async $$(selector) {",
+    "lineNumber": 577,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/playwright/lib/server/frames.js",
+    "line": "                retVal += document.documentElement.outerHTML;",
+    "lineNumber": 587,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-document.write(",
+    "path": "node_modules/playwright/lib/server/frames.js",
+    "line": "                document.write(html);",
+    "lineNumber": 609,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/server/frames.js",
+    "line": "    async innerHTML(metadata, selector, options = {}) {",
+    "lineNumber": 808,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/server/frames.js",
+    "line": "            progress.log(`  retrieving innerHTML from \"${selector}\"`);",
+    "lineNumber": 813,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/server/frames.js",
+    "line": "            const element = await this.$(selector);",
+    "lineNumber": 840,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/playwright/lib/server/frames.js",
+    "line": "                let result = self.eval(expression);",
+    "lineNumber": 908,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/playwright/lib/server/snapshot/snapshotStorage.js",
+    "line": "    async load(tracePrefix, resourcesDir) {",
+    "lineNumber": 82,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/playwright/lib/server/supplements/recorder/csharp.js",
+    "line": "    prepend(text) {",
+    "lineNumber": 225,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/playwright/lib/server/supplements/recorder/javascript.js",
+    "line": "    prepend(text) {",
+    "lineNumber": 185,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/playwright/lib/server/supplements/recorder/python.js",
+    "line": "    prepend(text) {",
+    "lineNumber": 198,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/playwright/lib/server/trace/viewer/traceViewer.js",
+    "line": "        await snapshotStorage.load(tracePrefix, resourcesDir);",
+    "lineNumber": 81,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/third_party/highlightjs/highlightjs/core.js",
+    "line": "                    domProps: { innerHTML: this.highlighted }",
+    "lineNumber": 1160,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/third_party/highlightjs/highlightjs/core.js",
+    "line": "        resultNode.innerHTML = result.value;",
+    "lineNumber": 1181,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/third_party/highlightjs/highlightjs/core.js",
+    "line": "                block.innerHTML = block.innerHTML.replace(/\\n/g, '').replace(/<br[ /]*>/g, '\\n');",
+    "lineNumber": 1944,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/third_party/highlightjs/highlightjs/core.js",
+    "line": "        element.innerHTML = result.value;",
+    "lineNumber": 1979,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/third_party/highlightjs/highlightjs/languages/javascript.js",
+    "line": "                begin: /\\$[(.]/ // relevance booster for a pattern common to JS libs: `$(something)` and `$.something`",
+    "lineNumber": 567,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "var reservedProps = ['children', 'dangerouslySetInnerHTML', // TODO: This prevents the assignment of defaultValue to regular",
+    "lineNumber": 867,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "'defaultValue', 'defaultChecked', 'innerHTML', 'suppressContentEditableWarning', 'suppressHydrationWarning', 'style'];",
+    "lineNumber": 870,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      error('A future version of React will block javascript: URLs as a security precaution. ' + 'Use event handlers instead if you can. If you need to generate unsafe HTML try ' + 'using dangerouslySetInnerHTML instead. React was passed %s.', JSON.stringify(url));",
+    "lineNumber": 1049,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "  if (!(props.dangerouslySetInnerHTML == null)) {",
+    "lineNumber": 2552,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      throw Error( \"`dangerouslySetInnerHTML` does not make sense on <textarea>.\" );",
+    "lineNumber": 2554,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": " * Set the innerHTML property of a node",
+    "lineNumber": 2726,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    if (!('innerHTML' in node)) {",
+    "lineNumber": 2736,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      // IE does not have innerHTML for SVG nodes, so instead we inject the",
+    "lineNumber": 2737,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      reusableSVGContainer.innerHTML = '<svg>' + html.valueOf().toString() + '</svg>';",
+    "lineNumber": 2741,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "  node.innerHTML = html;",
+    "lineNumber": 2756,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    if (!(props.children == null && props.dangerouslySetInnerHTML == null)) {",
+    "lineNumber": 3242,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "        throw Error( tag + \" is a void element tag and must neither have `children` nor use `dangerouslySetInnerHTML`.\" );",
+    "lineNumber": 3244,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "  if (props.dangerouslySetInnerHTML != null) {",
+    "lineNumber": 3249,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "        throw Error( \"Can only set one of `children` or `props.dangerouslySetInnerHTML`.\" );",
+    "lineNumber": 3252,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    if (!(typeof props.dangerouslySetInnerHTML === 'object' && HTML in props.dangerouslySetInnerHTML)) {",
+    "lineNumber": 3256,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "        throw Error( \"`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. Please visit https://reactjs.org/link/dangerously-set-inner-html for more information.\" );",
+    "lineNumber": 3258,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "  dangerouslysetinnerhtml: 'dangerouslySetInnerHTML',",
+    "lineNumber": 3341,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "  innerhtml: 'innerHTML',",
+    "lineNumber": 3375,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      error('Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');",
+    "lineNumber": 4023,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      error('Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');",
+    "lineNumber": 4023,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "var DANGEROUSLY_SET_INNER_HTML = 'dangerouslySetInnerHTML';",
+    "lineNumber": 9283,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    testElement.innerHTML = html;",
+    "lineNumber": 9409,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    return testElement.innerHTML;",
+    "lineNumber": 9410,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      // Create the script via .innerHTML so its \"parser-inserted\" flag is",
+    "lineNumber": 9529,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      div.innerHTML = '<script><' + '/script>'; // eslint-disable-line",
+    "lineNumber": 9533,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "        var serverHTML = domElement.innerHTML;",
+    "lineNumber": 10128,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "  return type === 'textarea' || type === 'option' || type === 'noscript' || typeof props.children === 'string' || typeof props.children === 'number' || typeof props.dangerouslySetInnerHTML === 'object' && props.dangerouslySetInnerHTML !== null && props.dangerouslySetInnerHTML.__html != null;",
+    "lineNumber": 10770,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    parentNode.insertBefore(child, container);",
+    "lineNumber": 10820,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "function insertBefore(parentInstance, child, beforeChild) {",
+    "lineNumber": 10841,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "  parentInstance.insertBefore(child, beforeChild);",
+    "lineNumber": 10842,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    container.parentNode.insertBefore(child, beforeChild);",
+    "lineNumber": 10846,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    container.insertBefore(child, beforeChild);",
+    "lineNumber": 10848,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "lineNumber": 13708,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "lineNumber": 13708,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "            throw Error( \"Function components cannot have string refs. We recommend using useRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref\" );",
+    "lineNumber": 13725,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "          throw Error( \"Expected ref to be a function, a string, an object returned by React.createRef(), or null.\" );",
+    "lineNumber": 13764,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "        error('Expected useImperativeHandle() first argument to either be a ' + 'ref callback or React.createRef() object. Instead received: %s.', 'an object with keys {' + Object.keys(refObject).join(', ') + '}');",
+    "lineNumber": 16325,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "          error('Unexpected ref object provided for %s. ' + 'Use either a ref-setter function or React.createRef().', getComponentName(finishedWork.type));",
+    "lineNumber": 21426,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      insertBefore(parent, stateNode, before);",
+    "lineNumber": 21769,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "function findDOMNode(componentOrElement) {",
+    "lineNumber": 26590,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "function createRef() {",
+    "lineNumber": 27305,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "lineNumber": 27486,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "lineNumber": 27486,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "function useRef(initialValue) {",
+    "lineNumber": 28380,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "  return dispatcher.useRef(initialValue);",
+    "lineNumber": 28382,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "      style.insertBefore(cssNode, childNodes[index]);",
+    "lineNumber": 30635,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "                    domProps: { innerHTML: this.highlighted }",
+    "lineNumber": 31917,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "        resultNode.innerHTML = result.value;",
+    "lineNumber": 31938,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "                block.innerHTML = block.innerHTML.replace(/\\n/g, '').replace(/<br[ /]*>/g, '\\n');",
+    "lineNumber": 32701,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "        element.innerHTML = result.value;",
+    "lineNumber": 32736,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "                begin: /\\$[(.]/ // relevance booster for a pattern common to JS libs: `$(something)` and `$.something`",
+    "lineNumber": 34083,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    const revealedLineRef = React.createRef();",
+    "lineNumber": 34528,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "            React.createElement(\"div\", { className: 'source-code', dangerouslySetInnerHTML: { __html: markup } }));",
+    "lineNumber": 34539,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    const messagesEndRef = React.createRef();",
+    "lineNumber": 34895,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    const messagesEndRef = React.createRef();",
+    "lineNumber": 35176,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/recorder/app.bundle.js",
+    "line": "    const selectorInputRef = React.createRef();",
+    "lineNumber": 35181,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "var reservedProps = ['children', 'dangerouslySetInnerHTML', // TODO: This prevents the assignment of defaultValue to regular",
+    "lineNumber": 1021,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "'defaultValue', 'defaultChecked', 'innerHTML', 'suppressContentEditableWarning', 'suppressHydrationWarning', 'style'];",
+    "lineNumber": 1024,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      error('A future version of React will block javascript: URLs as a security precaution. ' + 'Use event handlers instead if you can. If you need to generate unsafe HTML try ' + 'using dangerouslySetInnerHTML instead. React was passed %s.', JSON.stringify(url));",
+    "lineNumber": 1203,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "  if (!(props.dangerouslySetInnerHTML == null)) {",
+    "lineNumber": 2706,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      throw Error( \"`dangerouslySetInnerHTML` does not make sense on <textarea>.\" );",
+    "lineNumber": 2708,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": " * Set the innerHTML property of a node",
+    "lineNumber": 2880,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    if (!('innerHTML' in node)) {",
+    "lineNumber": 2890,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      // IE does not have innerHTML for SVG nodes, so instead we inject the",
+    "lineNumber": 2891,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      reusableSVGContainer.innerHTML = '<svg>' + html.valueOf().toString() + '</svg>';",
+    "lineNumber": 2895,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "  node.innerHTML = html;",
+    "lineNumber": 2910,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    if (!(props.children == null && props.dangerouslySetInnerHTML == null)) {",
+    "lineNumber": 3396,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "        throw Error( tag + \" is a void element tag and must neither have `children` nor use `dangerouslySetInnerHTML`.\" );",
+    "lineNumber": 3398,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "  if (props.dangerouslySetInnerHTML != null) {",
+    "lineNumber": 3403,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "        throw Error( \"Can only set one of `children` or `props.dangerouslySetInnerHTML`.\" );",
+    "lineNumber": 3406,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    if (!(typeof props.dangerouslySetInnerHTML === 'object' && HTML in props.dangerouslySetInnerHTML)) {",
+    "lineNumber": 3410,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "        throw Error( \"`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. Please visit https://reactjs.org/link/dangerously-set-inner-html for more information.\" );",
+    "lineNumber": 3412,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "  dangerouslysetinnerhtml: 'dangerouslySetInnerHTML',",
+    "lineNumber": 3495,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "  innerhtml: 'innerHTML',",
+    "lineNumber": 3529,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      error('Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');",
+    "lineNumber": 4177,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      error('Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');",
+    "lineNumber": 4177,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "var DANGEROUSLY_SET_INNER_HTML = 'dangerouslySetInnerHTML';",
+    "lineNumber": 9437,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    testElement.innerHTML = html;",
+    "lineNumber": 9563,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    return testElement.innerHTML;",
+    "lineNumber": 9564,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      // Create the script via .innerHTML so its \"parser-inserted\" flag is",
+    "lineNumber": 9683,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      div.innerHTML = '<script><' + '/script>'; // eslint-disable-line",
+    "lineNumber": 9687,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "        var serverHTML = domElement.innerHTML;",
+    "lineNumber": 10282,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "  return type === 'textarea' || type === 'option' || type === 'noscript' || typeof props.children === 'string' || typeof props.children === 'number' || typeof props.dangerouslySetInnerHTML === 'object' && props.dangerouslySetInnerHTML !== null && props.dangerouslySetInnerHTML.__html != null;",
+    "lineNumber": 10924,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    parentNode.insertBefore(child, container);",
+    "lineNumber": 10974,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "function insertBefore(parentInstance, child, beforeChild) {",
+    "lineNumber": 10995,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "  parentInstance.insertBefore(child, beforeChild);",
+    "lineNumber": 10996,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    container.parentNode.insertBefore(child, beforeChild);",
+    "lineNumber": 11000,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    container.insertBefore(child, beforeChild);",
+    "lineNumber": 11002,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "lineNumber": 13862,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "lineNumber": 13862,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "            throw Error( \"Function components cannot have string refs. We recommend using useRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref\" );",
+    "lineNumber": 13879,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "          throw Error( \"Expected ref to be a function, a string, an object returned by React.createRef(), or null.\" );",
+    "lineNumber": 13918,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "        error('Expected useImperativeHandle() first argument to either be a ' + 'ref callback or React.createRef() object. Instead received: %s.', 'an object with keys {' + Object.keys(refObject).join(', ') + '}');",
+    "lineNumber": 16479,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "          error('Unexpected ref object provided for %s. ' + 'Use either a ref-setter function or React.createRef().', getComponentName(finishedWork.type));",
+    "lineNumber": 21580,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      insertBefore(parent, stateNode, before);",
+    "lineNumber": 21923,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "function findDOMNode(componentOrElement) {",
+    "lineNumber": 26744,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "function createRef() {",
+    "lineNumber": 27459,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "lineNumber": 27640,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "lineNumber": 27640,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "function useRef(initialValue) {",
+    "lineNumber": 28534,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "  return dispatcher.useRef(initialValue);",
+    "lineNumber": 28536,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "      style.insertBefore(cssNode, childNodes[index]);",
+    "lineNumber": 30789,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "                    domProps: { innerHTML: this.highlighted }",
+    "lineNumber": 32071,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "        resultNode.innerHTML = result.value;",
+    "lineNumber": 32092,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "                block.innerHTML = block.innerHTML.replace(/\\n/g, '').replace(/<br[ /]*>/g, '\\n');",
+    "lineNumber": 32855,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "        element.innerHTML = result.value;",
+    "lineNumber": 32890,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "                begin: /\\$[(.]/ // relevance booster for a pattern common to JS libs: `$(something)` and `$.something`",
+    "lineNumber": 34237,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    const revealedLineRef = React.createRef();",
+    "lineNumber": 34682,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "            React.createElement(\"div\", { className: 'source-code', dangerouslySetInnerHTML: { __html: markup } }));",
+    "lineNumber": 34693,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    const ref = React.useRef(null);",
+    "lineNumber": 35188,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    const iframeRef = React.createRef();",
+    "lineNumber": 35638,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "node_modules/playwright/lib/web/traceViewer/app.bundle.js",
+    "line": "    const targetLineRef = React.createRef();",
+    "lineNumber": 35801,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/playwright/node_modules/commander/index.js",
+    "line": "          desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name] || '', descriptionWidth, width + 4));",
+    "lineNumber": 1580,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/playwright/node_modules/commander/index.js",
+    "line": "function wrap(str, width, indent) {",
+    "lineNumber": 1748,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/playwright/node_modules/commander/index.js",
+    "line": "  return wrap(str, width, indent);",
+    "lineNumber": 1778,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/popper.js/dist/esm/popper.min.js",
     "lineNumber": 4,
@@ -11658,6 +13361,14 @@
     "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proper-lockfile/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T04:01:59.934Z"
   },
   {
     "rule": "eval",
