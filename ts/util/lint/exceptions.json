@@ -15796,214 +15796,6 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/node-path.js",
-    "line": "function insertBefore(context, newNode) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/node-path.js",
-    "line": "function insertAfter(context, newNode) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
-    "line": "      before(type, path);",
-    "lineNumber": 77,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
-    "line": "      after(type, path);",
-    "lineNumber": 79,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
-    "line": "        before(unionType, path);",
-    "lineNumber": 90,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
-    "line": "        after(unionType, path);",
-    "lineNumber": 92,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/node-path.js",
-    "line": "function insertBefore(context, newNode) {",
-    "lineNumber": 33,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/node-path.js",
-    "line": "function insertAfter(context, newNode) {",
-    "lineNumber": 37,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
-    "line": "      before(type, path);",
-    "lineNumber": 86,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
-    "line": "      after(type, path);",
-    "lineNumber": 88,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
-    "line": "        before(unionType, path);",
-    "lineNumber": 99,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
-    "line": "        after(unionType, path);",
-    "lineNumber": 101,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/esm/index.js",
-    "line": "  function before(type, path) {",
-    "lineNumber": 73,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/esm/index.js",
-    "line": "  function after(type, path) {",
-    "lineNumber": 77,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/lib/index.js",
-    "line": "  function before(type, path) {",
-    "lineNumber": 90,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/lib/index.js",
-    "line": "  function after(type, path) {",
-    "lineNumber": 94,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/acorn/dist/acorn.js",
-    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
-    "lineNumber": 3119,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/terser-webpack-plugin/node_modules/eslint-scope/lib/index.js",
-    "line": " * @param {boolean} [providedOptions.ignoreEval=false]- whether to check 'eval()' calls",
-    "lineNumber": 121,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/terser-webpack-plugin/node_modules/eslint-scope/lib/scope.js",
-    "line": "         * Moreover, if 'eval()' is used in a scope, it might introduce new",
-    "lineNumber": 182,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/terser-webpack-plugin/node_modules/eslint-scope/lib/scope.js",
-    "line": "         * Whether this is a scope that contains an 'eval()' invocation.",
-    "lineNumber": 236,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/EvalDevToolModuleTemplatePlugin.js",
-    "line": "\t\t\t\t\t`eval(${JSON.stringify(content + footer)});`",
-    "lineNumber": 48,
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/EvalSourceMapDevToolModuleTemplatePlugin.js",
-    "line": "\t\t\t\t\t`eval(${JSON.stringify(content + footer)});`",
-    "lineNumber": 98,
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/HotModuleReplacement.runtime.js",
-    "line": "\t\t\treturn $require$(request);",
-    "lineNumber": 44,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/HotModuleReplacement.runtime.js",
-    "line": "\t\t\t\t$require$(moduleId);",
-    "lineNumber": 603,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/Template.js",
-    "line": "const PATH_NAME_NORMALIZE_REPLACE_REGEX = /[^a-zA-Z0-9_!§$()=\\-^°]+/g;",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/optimize/ModuleConcatenationPlugin.js",
-    "line": "\t\t\t\t\t\tparser.state.module.buildMeta.moduleConcatenationBailout = \"eval()\";",
-    "lineNumber": 31,
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
     "rule": "jQuery-before(",
     "path": "node_modules/test-exclude/node_modules/braces/index.js",
     "line": "        str = tokens.before(str, es6Regex());",
@@ -17401,5 +17193,95 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-08T15:46:32.143Z",
     "reasonDetail": "Doesn't manipulate the DOM. This is just a function."
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/browser-source-map-support.js",
+    "lineNumber": 90,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
+    "line": "  // Most eval() calls are in this format",
+    "lineNumber": 234,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
+    "line": "  // Parse nested eval() calls using recursion",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
+    "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
+    "lineNumber": 344,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
+    "line": "  // Code called using eval() needs special handling",
+    "lineNumber": 373,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/tools/domprops.js",
+    "line": "    \"innerHTML\",",
+    "lineNumber": 3419,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/tools/domprops.js",
+    "line": "    \"outerHTML\",",
+    "lineNumber": 4349,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
   }
 ]

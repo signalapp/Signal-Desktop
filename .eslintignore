@@ -30,3 +30,4 @@ sticker-creator/**/*.js
 **/*.d.ts
 .eslintrc.js
 webpack.config.ts
+preload.bundle.*

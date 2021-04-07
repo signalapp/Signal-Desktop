@@ -5,6 +5,9 @@
 
 /* eslint-disable global-require, no-inner-declarations */
 
+const preloadStartTime = Date.now();
+let preloadEndTime = 0;
+
 try {
   const electron = require('electron');
   const semver = require('semver');
@@ -108,7 +111,10 @@ try {
 
   window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
-  window.logAppLoadedEvent = () => ipc.send('signal-app-loaded');
+  window.logAppLoadedEvent = () =>
+    ipc.send('signal-app-loaded', {
+      preloadTime: preloadEndTime - preloadStartTime,
+    });
 
   // We never do these in our code, so we'll prevent it everywhere
   window.open = () => null;
@@ -715,4 +721,5 @@ try {
   throw error;
 }
 
+preloadEndTime = Date.now();
 window.log.info('preload complete');

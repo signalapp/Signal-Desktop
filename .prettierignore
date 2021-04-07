@@ -45,3 +45,4 @@ _locales/**/*.json
 # Symlink into third-party `components`:
 stylesheets/_intlTelInput.scss
 
+preload.bundle.*

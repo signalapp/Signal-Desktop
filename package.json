@@ -212,6 +212,7 @@
     "@types/storybook__addon-actions": "3.4.3",
     "@types/storybook__addon-knobs": "5.0.3",
     "@types/storybook__react": "4.0.2",
+    "@types/terser-webpack-plugin": "5.0.3",
     "@types/underscore": "1.10.3",
     "@types/uuid": "3.4.4",
     "@types/webpack-dev-server": "3.11.3",
@@ -264,6 +265,7 @@
     "snyk": "1.316.1",
     "spectron": "5.0.0",
     "style-loader": "1.0.0",
+    "terser-webpack-plugin": "5.1.1",
     "ts-dedent": "2.0.0",
     "ts-loader": "4.1.0",
     "ts-node": "8.3.0",
@@ -396,7 +398,7 @@
       "stylesheets/*.css",
       "!js/register.js",
       "app/*",
-      "preload.js",
+      "preload.bundle.js",
       "preload_utils.js",
       "about_preload.js",
       "settings_preload.js",
@@ -440,7 +442,8 @@
       "node_modules/libsignal-client/build/*${platform}*.node",
       "node_modules/ringrtc/build/${platform}/**",
       "!**/node_modules/ffi-napi/deps",
-      "!**/node_modules/react-dom/*/*.development.js"
+      "!**/node_modules/react-dom/*/*.development.js",
+      "!node_modules/.cache"
     ]
   }
 }

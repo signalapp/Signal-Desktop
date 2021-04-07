@@ -336,7 +336,12 @@ async function createWindow() {
       nodeIntegrationInWorker: false,
       contextIsolation: false,
       enableRemoteModule: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(
+        __dirname,
+        enableCI || config.environment === 'production'
+          ? 'preload.bundle.js'
+          : 'preload.js'
+      ),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
       backgroundThrottling: false,
@@ -964,14 +969,15 @@ app.on('ready', async () => {
 
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.
-  ipc.once('signal-app-loaded', () => {
+  ipc.once('signal-app-loaded', (event, { preloadTime }) => {
     const loadTime = Date.now() - startTime;
     const sqlInitTime = sqlInitTimeEnd - sqlInitTimeStart;
     console.log('App loaded - time:', loadTime);
     console.log('SQL init - time:', sqlInitTime);
+    console.log('Preload - time:', preloadTime);
 
     if (enableCI) {
-      console._log('ci: app_loaded=%j', { loadTime, sqlInitTime });
+      console._log('ci: app_loaded=%j', { loadTime, sqlInitTime, preloadTime });
     }
   });
 

@@ -13,6 +13,7 @@ import {
   cloneDeep,
   compact,
   fromPairs,
+  toPairs,
   get,
   groupBy,
   isFunction,
@@ -258,9 +259,9 @@ async function goBackToMainProcess(): Promise<void> {
 
 const channelsAsUnknown = fromPairs(
   compact(
-    map(dataInterface, (value: any) => {
+    map(toPairs(dataInterface), ([name, value]: [string, any]) => {
       if (isFunction(value)) {
-        return [value.name, makeChannel(value.name)];
+        return [name, makeChannel(name)];
       }
 
       return null;
