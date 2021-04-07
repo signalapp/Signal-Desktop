@@ -1853,6 +1853,70 @@
     "updated": "2021-04-06T04:01:59.934Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@discoveryjs/json-ext/dist/json-ext.js",
+    "line": "    function append(array, elements) {",
+    "lineNumber": 480,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@discoveryjs/json-ext/dist/json-ext.js",
+    "line": "                        append(this.valueStack.value, JSON.parse('[' + fragment + ']'));",
+    "lineNumber": 588,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@discoveryjs/json-ext/dist/json-ext.js",
+    "line": "                        append(this.valueStack.value, JSON.parse('[' + fragment + ']'));",
+    "lineNumber": 618,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@discoveryjs/json-ext/dist/json-ext.js",
+    "line": "                    append(this.valueStack.value, JSON.parse(fragment));",
+    "lineNumber": 652,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@discoveryjs/json-ext/src/parse-chunked.js",
+    "line": "function append(array, elements) {",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@discoveryjs/json-ext/src/parse-chunked.js",
+    "line": "                    append(this.valueStack.value, JSON.parse('[' + fragment + ']'));",
+    "lineNumber": 130,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@discoveryjs/json-ext/src/parse-chunked.js",
+    "line": "                    append(this.valueStack.value, JSON.parse('[' + fragment + ']'));",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@discoveryjs/json-ext/src/parse-chunked.js",
+    "line": "                append(this.valueStack.value, JSON.parse(fragment));",
+    "lineNumber": 194,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@electron/get/node_modules/@sindresorhus/is/dist/index.js",
     "line": "        'innerHTML',",
@@ -2673,10 +2737,10 @@
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/cliui/index.js",
-    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), { hard: true }).split('\\n')",
-    "lineNumber": 216,
+    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), {hard: true}).split('\\n')",
+    "lineNumber": 212,
     "reasonCategory": "falseMatch",
-    "updated": "2020-09-04T18:54:59.993Z"
+    "updated": "2021-04-05T20:48:36.065Z"
   },
   {
     "rule": "jQuery-load(",
@@ -2701,6 +2765,214 @@
     "lineNumber": 22,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/node-path.js",
+    "line": "function insertBefore(context, newNode) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/node-path.js",
+    "line": "function insertAfter(context, newNode) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
+    "line": "      before(type, path);",
+    "lineNumber": 77,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
+    "line": "      after(type, path);",
+    "lineNumber": 79,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
+    "line": "        before(unionType, path);",
+    "lineNumber": 90,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
+    "line": "        after(unionType, path);",
+    "lineNumber": 92,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/node-path.js",
+    "line": "function insertBefore(context, newNode) {",
+    "lineNumber": 33,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/node-path.js",
+    "line": "function insertAfter(context, newNode) {",
+    "lineNumber": 37,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
+    "line": "      before(type, path);",
+    "lineNumber": 86,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
+    "line": "      after(type, path);",
+    "lineNumber": 88,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
+    "line": "        before(unionType, path);",
+    "lineNumber": 99,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
+    "line": "        after(unionType, path);",
+    "lineNumber": 101,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/esm/index.js",
+    "line": "  function before(type, path) {",
+    "lineNumber": 73,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/esm/index.js",
+    "line": "  function after(type, path) {",
+    "lineNumber": 77,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/lib/index.js",
+    "line": "  function before(type, path) {",
+    "lineNumber": 90,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/lib/index.js",
+    "line": "  function after(type, path) {",
+    "lineNumber": 94,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/acorn/dist/acorn.js",
+    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
+    "lineNumber": 3119,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/eslint-scope/lib/index.js",
+    "line": " * @param {boolean} [providedOptions.ignoreEval=false]- whether to check 'eval()' calls",
+    "lineNumber": 121,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/eslint-scope/lib/scope.js",
+    "line": "         * Moreover, if 'eval()' is used in a scope, it might introduce new",
+    "lineNumber": 182,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/eslint-scope/lib/scope.js",
+    "line": "         * Whether this is a scope that contains an 'eval()' invocation.",
+    "lineNumber": 236,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/EvalDevToolModuleTemplatePlugin.js",
+    "line": "\t\t\t\t\t`eval(${JSON.stringify(content + footer)});`",
+    "lineNumber": 48,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/EvalSourceMapDevToolModuleTemplatePlugin.js",
+    "line": "\t\t\t\t\t`eval(${JSON.stringify(content + footer)});`",
+    "lineNumber": 98,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/HotModuleReplacement.runtime.js",
+    "line": "\t\t\treturn $require$(request);",
+    "lineNumber": 44,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/HotModuleReplacement.runtime.js",
+    "line": "\t\t\t\t$require$(moduleId);",
+    "lineNumber": 603,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/Template.js",
+    "line": "const PATH_NAME_NORMALIZE_REPLACE_REGEX = /[^a-zA-Z0-9_!§$()=\\-^°]+/g;",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/optimize/ModuleConcatenationPlugin.js",
+    "line": "\t\t\t\t\t\tparser.state.module.buildMeta.moduleConcatenationBailout = \"eval()\";",
+    "lineNumber": 31,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-05T20:48:36.065Z"
   },
   {
     "rule": "jQuery-prepend(",
@@ -3105,6 +3377,13 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-08-26T00:10:28.628Z",
     "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/envinfo/dist/envinfo.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
   },
   {
     "rule": "thenify-multiArgs",
@@ -5632,6 +5911,176 @@
     "lineNumber": 1,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
+    "line": "        desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name], descriptionWidth, width + 4));",
+    "lineNumber": 1390,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
+    "line": "function wrap(str, width, indent) {",
+    "lineNumber": 1524,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
+    "line": "  return wrap(str, width, indent);",
+    "lineNumber": 1554,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/browser-source-map-support.js",
+    "lineNumber": 90,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/source-map-support.js",
+    "line": "  // Most eval() calls are in this format",
+    "lineNumber": 234,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/source-map-support.js",
+    "line": "  // Parse nested eval() calls using recursion",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/source-map-support.js",
+    "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
+    "lineNumber": 344,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/source-map-support.js",
+    "line": "  // Code called using eval() needs special handling",
+    "lineNumber": 373,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/tools/domprops.js",
+    "line": "    \"innerHTML\",",
+    "lineNumber": 3422,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/html-minifier-terser/node_modules/terser/tools/domprops.js",
+    "line": "    \"outerHTML\",",
+    "lineNumber": 4353,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-wrapAll(",
+    "path": "node_modules/html-minifier/node_modules/clean-css/lib/optimizer/wrap-for-optimizing.js",
+    "line": "function wrapAll(properties, includeVariable, skipProperties) {",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier/node_modules/clean-css/lib/writer/simple.js",
+    "line": "  wrap(serializeContext, value);",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier/node_modules/clean-css/lib/writer/simple.js",
+    "line": "function wrap(serializeContext, value) {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier/node_modules/clean-css/lib/writer/source-maps.js",
+    "line": "  wrap(serializeContext, value);",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier/node_modules/clean-css/lib/writer/source-maps.js",
+    "line": "function wrap(serializeContext, value) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/html-minifier/node_modules/uglify-js/lib/transform.js",
+    "line": "        if (tw.before) x = tw.before(this, descend, in_list);",
+    "lineNumber": 173,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/html-minifier/node_modules/uglify-js/lib/transform.js",
+    "line": "                y = tw.after(x, in_list);",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
   },
   {
     "rule": "jQuery-load(",
@@ -9704,6 +10153,14 @@
     "updated": "2018-09-19T18:06:35.446Z"
   },
   {
+    "rule": "eval",
+    "path": "node_modules/loader-runner/lib/loadLoader.js",
+    "line": "\t\t\tvar modulePromise = eval(\"import(\" + JSON.stringify(loaderUrl.toString()) + \")\");",
+    "lineNumber": 9,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
     "rule": "jQuery-after(",
     "path": "node_modules/lodash-es/after.js",
     "line": " * var done = _.after(saves.length, function() {",
@@ -9983,14 +10440,6 @@
     "lineNumber": 453,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/nconf/node_modules/cliui/index.js",
-    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), {hard: true}).split('\\n')",
-    "lineNumber": 212,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-04T18:54:59.993Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -14744,6 +15193,38 @@
     "reasonDetail": "necessary for react-quill"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/rechoir/node_modules/resolve/lib/async.js",
+    "line": "        load(exts, x, loadAsFilePackage);",
+    "lineNumber": 174,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/rechoir/node_modules/resolve/lib/async.js",
+    "line": "        function load(exts, x, loadPackage) {",
+    "lineNumber": 176,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/rechoir/node_modules/resolve/lib/async.js",
+    "line": "                    if (r) return load(",
+    "lineNumber": 191,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/rechoir/node_modules/resolve/lib/async.js",
+    "line": "                load(exts.slice(1), x, pkg);",
+    "lineNumber": 202,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/redux/node_modules/js-tokens/index.js",
     "lineNumber": 10,
@@ -15313,6 +15794,214 @@
     "lineNumber": 246,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/node-path.js",
+    "line": "function insertBefore(context, newNode) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/node-path.js",
+    "line": "function insertAfter(context, newNode) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
+    "line": "      before(type, path);",
+    "lineNumber": 77,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
+    "line": "      after(type, path);",
+    "lineNumber": 79,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
+    "line": "        before(unionType, path);",
+    "lineNumber": 90,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/esm/traverse.js",
+    "line": "        after(unionType, path);",
+    "lineNumber": 92,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/node-path.js",
+    "line": "function insertBefore(context, newNode) {",
+    "lineNumber": 33,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/node-path.js",
+    "line": "function insertAfter(context, newNode) {",
+    "lineNumber": 37,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
+    "line": "      before(type, path);",
+    "lineNumber": 86,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
+    "line": "      after(type, path);",
+    "lineNumber": 88,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
+    "line": "        before(unionType, path);",
+    "lineNumber": 99,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/ast/lib/traverse.js",
+    "line": "        after(unionType, path);",
+    "lineNumber": 101,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/esm/index.js",
+    "line": "  function before(type, path) {",
+    "lineNumber": 73,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/esm/index.js",
+    "line": "  function after(type, path) {",
+    "lineNumber": 77,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/lib/index.js",
+    "line": "  function before(type, path) {",
+    "lineNumber": 90,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/@webassemblyjs/wasm-edit/lib/index.js",
+    "line": "  function after(type, path) {",
+    "lineNumber": 94,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/acorn/dist/acorn.js",
+    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
+    "lineNumber": 3119,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/terser-webpack-plugin/node_modules/eslint-scope/lib/index.js",
+    "line": " * @param {boolean} [providedOptions.ignoreEval=false]- whether to check 'eval()' calls",
+    "lineNumber": 121,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/terser-webpack-plugin/node_modules/eslint-scope/lib/scope.js",
+    "line": "         * Moreover, if 'eval()' is used in a scope, it might introduce new",
+    "lineNumber": 182,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/terser-webpack-plugin/node_modules/eslint-scope/lib/scope.js",
+    "line": "         * Whether this is a scope that contains an 'eval()' invocation.",
+    "lineNumber": 236,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/EvalDevToolModuleTemplatePlugin.js",
+    "line": "\t\t\t\t\t`eval(${JSON.stringify(content + footer)});`",
+    "lineNumber": 48,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/EvalSourceMapDevToolModuleTemplatePlugin.js",
+    "line": "\t\t\t\t\t`eval(${JSON.stringify(content + footer)});`",
+    "lineNumber": 98,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/HotModuleReplacement.runtime.js",
+    "line": "\t\t\treturn $require$(request);",
+    "lineNumber": 44,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/HotModuleReplacement.runtime.js",
+    "line": "\t\t\t\t$require$(moduleId);",
+    "lineNumber": 603,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/Template.js",
+    "line": "const PATH_NAME_NORMALIZE_REPLACE_REGEX = /[^a-zA-Z0-9_!§$()=\\-^°]+/g;",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/terser-webpack-plugin/node_modules/webpack/lib/optimize/ModuleConcatenationPlugin.js",
+    "line": "\t\t\t\t\t\tparser.state.module.buildMeta.moduleConcatenationBailout = \"eval()\";",
+    "lineNumber": 31,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-05T20:48:36.065Z"
   },
   {
     "rule": "jQuery-before(",
