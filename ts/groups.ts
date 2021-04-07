@@ -2498,7 +2498,7 @@ export async function respondToGroupV2Migration({
     attributes.secretParams,
     logId
   );
-  const newAttributes = await applyGroupState({
+  const { newAttributes, newProfileKeys } = await applyGroupState({
     group: attributes,
     groupState,
   });
@@ -2543,7 +2543,7 @@ export async function respondToGroupV2Migration({
     updates: {
       newAttributes,
       groupChangeMessages,
-      members: [],
+      members: profileKeysToMembers(newProfileKeys),
     },
   });
 
@@ -3317,7 +3317,7 @@ async function integrateGroupChange({
       logId
     );
 
-    const newAttributes = await applyGroupState({
+    const { newAttributes, newProfileKeys } = await applyGroupState({
       group,
       groupState: decryptedGroupState,
       sourceConversationId: isFirstFetch ? sourceConversationId : undefined,
@@ -3330,7 +3330,7 @@ async function integrateGroupChange({
         current: newAttributes,
         sourceConversationId: isFirstFetch ? sourceConversationId : undefined,
       }),
-      members: getMembers(decryptedGroupState),
+      members: profileKeysToMembers(newProfileKeys),
     };
   }
 
@@ -3358,10 +3358,7 @@ async function integrateGroupChange({
   return {
     newAttributes,
     groupChangeMessages,
-    members: newProfileKeys.map(item => ({
-      ...item,
-      profileKey: arrayBufferToBase64(item.profileKey),
-    })),
+    members: profileKeysToMembers(newProfileKeys),
   };
 }
 
@@ -3407,7 +3404,7 @@ async function getCurrentGroupState({
   window.log.info(
     `getCurrentGroupState/${logId}: Applying full group state, from version ${oldVersion} to ${newVersion}.`
   );
-  const newAttributes = await applyGroupState({
+  const { newAttributes, newProfileKeys } = await applyGroupState({
     group,
     groupState: decryptedGroupState,
   });
@@ -3419,7 +3416,7 @@ async function getCurrentGroupState({
       current: newAttributes,
       dropInitialJoinMessage,
     }),
-    members: getMembers(decryptedGroupState),
+    members: profileKeysToMembers(newProfileKeys),
   };
 }
 
@@ -3827,14 +3824,10 @@ function extractDiffs({
   return result;
 }
 
-function getMembers(groupState: GroupClass) {
-  if (!groupState.members || !groupState.members.length) {
-    return [];
-  }
-
-  return groupState.members.map((member: MemberClass) => ({
-    profileKey: arrayBufferToBase64(member.profileKey),
-    uuid: member.userId,
+function profileKeysToMembers(items: Array<GroupChangeMemberType>) {
+  return items.map(item => ({
+    profileKey: arrayBufferToBase64(item.profileKey),
+    uuid: item.uuid,
   }));
 }
 
@@ -3842,7 +3835,7 @@ type GroupChangeMemberType = {
   profileKey: ArrayBuffer;
   uuid: string;
 };
-type GroupChangeResultType = {
+type GroupApplyResultType = {
   newAttributes: ConversationAttributesType;
   newProfileKeys: Array<GroupChangeMemberType>;
 };
@@ -3855,7 +3848,7 @@ async function applyGroupChange({
   actions: GroupChangeClass.Actions;
   group: ConversationAttributesType;
   sourceConversationId: string;
-}): Promise<GroupChangeResultType> {
+}): Promise<GroupApplyResultType> {
   const logId = idForLogging(group.groupId);
   const ourConversationId = window.ConversationController.getOurConversationId();
 
@@ -3894,12 +3887,7 @@ async function applyGroupChange({
 
     const conversation = window.ConversationController.getOrCreate(
       added.userId,
-      'private',
-      {
-        profileKey: added.profileKey
-          ? arrayBufferToBase64(added.profileKey)
-          : undefined,
-      }
+      'private'
     );
 
     if (members[conversation.id]) {
@@ -4085,10 +4073,7 @@ async function applyGroupChange({
 
     const conversation = window.ConversationController.getOrCreate(
       uuid,
-      'private',
-      {
-        profileKey: profileKey ? arrayBufferToBase64(profileKey) : undefined,
-      }
+      'private'
     );
 
     const previousRecord = pendingMembers[conversation.id];
@@ -4426,12 +4411,13 @@ async function applyGroupState({
   group: ConversationAttributesType;
   groupState: GroupClass;
   sourceConversationId?: string;
-}): Promise<ConversationAttributesType> {
+}): Promise<GroupApplyResultType> {
   const logId = idForLogging(group.groupId);
   const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
   const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
   const version = groupState.version || 0;
   const result = { ...group };
+  const newProfileKeys: Array<GroupChangeMemberType> = [];
 
   // version
   result.revision = version;
@@ -4480,12 +4466,7 @@ async function applyGroupState({
     result.membersV2 = groupState.members.map((member: MemberClass) => {
       const conversation = window.ConversationController.getOrCreate(
         member.userId,
-        'private',
-        {
-          profileKey: member.profileKey
-            ? arrayBufferToBase64(member.profileKey)
-            : undefined,
-        }
+        'private'
       );
 
       if (ourConversationId && conversation.id === ourConversationId) {
@@ -4508,6 +4489,11 @@ async function applyGroupState({
         );
       }
 
+      newProfileKeys.push({
+        profileKey: member.profileKey,
+        uuid: member.userId,
+      });
+
       return {
         role: member.role || MEMBER_ROLE_ENUM.DEFAULT,
         joinedAtVersion: member.joinedAtVersion || version,
@@ -4526,12 +4512,7 @@ async function applyGroupState({
         if (member.member && member.member.userId) {
           pending = window.ConversationController.getOrCreate(
             member.member.userId,
-            'private',
-            {
-              profileKey: member.member.profileKey
-                ? arrayBufferToBase64(member.member.profileKey)
-                : undefined,
-            }
+            'private'
           );
         } else {
           throw new Error(
@@ -4556,6 +4537,11 @@ async function applyGroupState({
           );
         }
 
+        newProfileKeys.push({
+          profileKey: member.member.profileKey,
+          uuid: member.member.userId,
+        });
+
         return {
           addedByUserId: invitedBy.id,
           conversationId: pending.id,
@@ -4575,12 +4561,7 @@ async function applyGroupState({
         if (member.userId) {
           pending = window.ConversationController.getOrCreate(
             member.userId,
-            'private',
-            {
-              profileKey: member.profileKey
-                ? arrayBufferToBase64(member.profileKey)
-                : undefined,
-            }
+            'private'
           );
         } else {
           throw new Error(
@@ -4604,7 +4585,10 @@ async function applyGroupState({
     result.groupInviteLinkPassword = undefined;
   }
 
-  return result;
+  return {
+    newAttributes: result,
+    newProfileKeys,
+  };
 }
 
 function isValidRole(role?: number): role is number {
