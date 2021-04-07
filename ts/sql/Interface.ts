@@ -91,9 +91,9 @@ export type StickerType = {
   id: number;
   packId: string;
 
-  emoji: string;
-  isCoverOnly: string;
-  lastUsed: number;
+  emoji: string | null;
+  isCoverOnly: boolean;
+  lastUsed?: number;
   path: string;
   width: number;
   height: number;

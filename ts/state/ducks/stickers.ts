@@ -24,8 +24,8 @@ export type StickerDBType = {
   readonly id: number;
   readonly packId: string;
 
-  readonly emoji: string;
-  readonly isCoverOnly: string;
+  readonly emoji: string | null;
+  readonly isCoverOnly: boolean;
   readonly lastUsed: number;
   readonly path: string;
 };
@@ -75,7 +75,7 @@ export type StickersStateType = {
 export type StickerType = {
   readonly id: number;
   readonly packId: string;
-  readonly emoji: string;
+  readonly emoji: string | null;
   readonly url: string;
 };
 

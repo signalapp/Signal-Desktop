@@ -69,6 +69,16 @@ type ConversationRow = Readonly<{
   profileLastFetchedAt: null | number;
 }>;
 type ConversationRows = Array<ConversationRow>;
+type StickerRow = Readonly<{
+  id: number;
+  packId: string;
+  emoji: string | null;
+  height: number;
+  isCoverOnly: number;
+  lastUsed: number;
+  path: string;
+  width: number;
+}>;
 
 type EmptyQuery = [];
 type ArrayQuery = Array<Array<null | number | string>>;
@@ -257,6 +267,12 @@ function rowToConversation(row: ConversationRow): ConversationType {
   return {
     ...parsedJson,
     profileLastFetchedAt,
+  };
+}
+function rowToSticker(row: StickerRow): StickerType {
+  return {
+    ...row,
+    isCoverOnly: Boolean(row.isCoverOnly),
   };
 }
 
@@ -3682,7 +3698,6 @@ async function updateStickerPackStatus(
     UPDATE sticker_packs
     SET status = $status, installedAt = $installedAt
     WHERE id = $id;
-    )
     `
   ).run({
     id,
@@ -3751,8 +3766,8 @@ async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
     emoji,
     height,
     id,
-    isCoverOnly,
-    lastUsed,
+    isCoverOnly: isCoverOnly ? 1 : 0,
+    lastUsed: lastUsed || null,
     packId,
     path,
     width,
@@ -3996,7 +4011,7 @@ async function getAllStickers(): Promise<Array<StickerType>> {
     )
     .all();
 
-  return rows || [];
+  return (rows || []).map(row => rowToSticker(row));
 }
 async function getRecentStickers({ limit }: { limit?: number } = {}): Promise<
   Array<StickerType>
@@ -4018,7 +4033,7 @@ async function getRecentStickers({ limit }: { limit?: number } = {}): Promise<
       limit: limit || 24,
     });
 
-  return rows || [];
+  return (rows || []).map(row => rowToSticker(row));
 }
 
 // Emojis
