@@ -5,12 +5,21 @@ import { assert } from 'chai';
 import crypto from 'crypto';
 
 import { typedArrayToArrayBuffer as toArrayBuffer } from '../../Crypto';
-import { hash, sign, encrypt, decrypt } from '../../util/synchronousCrypto';
+import {
+  HashType,
+  hash,
+  sign,
+  encrypt,
+  decrypt,
+} from '../../util/synchronousCrypto';
 
 describe('synchronousCrypto', () => {
   describe('hash', () => {
     it('returns SHA512 hash of the input', () => {
-      const result = hash(toArrayBuffer(Buffer.from('signal')));
+      const result = hash(
+        HashType.size512,
+        toArrayBuffer(Buffer.from('signal'))
+      );
       assert.strictEqual(
         Buffer.from(result).toString('base64'),
         'WxneQjrfSlY95Bi+SAzDAr2cf3mxUXePeNYn6DILN4a8NFr9VelTbP5tGHdthi+' +

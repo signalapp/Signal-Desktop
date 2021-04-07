@@ -14,9 +14,14 @@ export function sign(key: ArrayBuffer, data: ArrayBuffer): ArrayBuffer {
   );
 }
 
-export function hash(data: ArrayBuffer): ArrayBuffer {
+export enum HashType {
+  size256 = 'sha256',
+  size512 = 'sha512',
+}
+
+export function hash(type: HashType, data: ArrayBuffer): ArrayBuffer {
   return toArrayBuffer(
-    crypto.createHash('sha512').update(Buffer.from(data)).digest()
+    crypto.createHash(type).update(Buffer.from(data)).digest()
   );
 }
 

@@ -8,6 +8,7 @@ import {
   CipherType,
   encrypt,
   decrypt,
+  HashType,
   hash,
   sign,
 } from './util/synchronousCrypto';
@@ -470,8 +471,8 @@ export async function decryptAesGcm(
 
 // Hashing
 
-export async function sha256(data: ArrayBuffer): Promise<ArrayBuffer> {
-  return hash(data);
+export function sha256(data: ArrayBuffer): ArrayBuffer {
+  return hash(HashType.size256, data);
 }
 
 // Utility
@@ -628,7 +629,7 @@ export async function encryptCdsDiscoveryRequest(
   });
   const queryDataPlaintext = concatenateBytes(nonce, numbersArray.buffer);
   const queryDataKey = getRandomBytes(32);
-  const commitment = await sha256(queryDataPlaintext);
+  const commitment = sha256(queryDataPlaintext);
   const iv = getRandomBytes(12);
   const queryDataCiphertext = await encryptAesGcm(
     queryDataKey,
