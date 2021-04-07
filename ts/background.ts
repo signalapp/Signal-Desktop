@@ -11,6 +11,7 @@ import * as refreshSenderCertificate from './refreshSenderCertificate';
 import { SenderCertificateMode } from './metadata/SecretSessionCipher';
 import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
+import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -2601,6 +2602,13 @@ export async function startApp(): Promise<void> {
       );
 
       const { reaction } = data.message;
+
+      if (!isValidReactionEmoji(reaction.emoji)) {
+        window.log.warn('Received an invalid reaction emoji. Dropping it');
+        confirm();
+        return Promise.resolve();
+      }
+
       window.log.info(
         'Queuing incoming reaction for',
         reaction.targetTimestamp
@@ -2894,6 +2902,13 @@ export async function startApp(): Promise<void> {
       );
 
       const { reaction } = data.message;
+
+      if (!isValidReactionEmoji(reaction.emoji)) {
+        window.log.warn('Received an invalid reaction emoji. Dropping it');
+        event.confirm();
+        return Promise.resolve();
+      }
+
       window.log.info('Queuing sent reaction for', reaction.targetTimestamp);
       const reactionModel = window.Whisper.Reactions.add({
         emoji: reaction.emoji,

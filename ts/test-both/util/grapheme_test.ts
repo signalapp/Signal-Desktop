@@ -3,9 +3,26 @@
 
 import { assert } from 'chai';
 
-import { count } from '../../util/grapheme';
+import { getGraphemes, count } from '../../util/grapheme';
 
 describe('grapheme utilities', () => {
+  describe('getGraphemes', () => {
+    it('returns extended graphemes in a string', () => {
+      assert.deepEqual([...getGraphemes('')], []);
+      assert.deepEqual([...getGraphemes('hello')], [...'hello']);
+      assert.deepEqual(
+        [...getGraphemes('Bokmål')],
+        ['B', 'o', 'k', 'm', 'å', 'l']
+      );
+
+      assert.deepEqual([...getGraphemes('💩💩💩')], ['💩', '💩', '💩']);
+      assert.deepEqual([...getGraphemes('👩‍❤️‍👩')], ['👩‍❤️‍👩']);
+      assert.deepEqual([...getGraphemes('👌🏽👌🏾👌🏿')], ['👌🏽', '👌🏾', '👌🏿']);
+
+      assert.deepEqual([...getGraphemes('L̷̳͔̲͝Ģ̵̮̯̤̩̙͍̬̟͉̹̘̹͍͈̮̦̰̣͟͝O̶̴̮̻̮̗͘͡!̴̷̟͓͓')], ['L̷̳͔̲͝', 'Ģ̵̮̯̤̩̙͍̬̟͉̹̘̹͍͈̮̦̰̣͟͝', 'O̶̴̮̻̮̗͘͡', '!̴̷̟͓͓']);
+    });
+  });
+
   describe('count', () => {
     it('returns the number of extended graphemes in a string (not necessarily the length)', () => {
       // These tests modified [from iOS][0].
