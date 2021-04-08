@@ -10,6 +10,7 @@ import {
 import Crypto from './textsecure/Crypto';
 import MessageReceiver from './textsecure/MessageReceiver';
 import MessageSender from './textsecure/SendMessage';
+import SyncRequest from './textsecure/SyncRequest';
 import EventTarget from './textsecure/EventTarget';
 import { ByteBufferClass } from './window.d';
 import SendMessage, { SendOptionsType } from './textsecure/SendMessage';
@@ -90,7 +91,7 @@ export type TextSecureType = {
   MessageReceiver: typeof MessageReceiver;
   AccountManager: WhatIsThis;
   MessageSender: WhatIsThis;
-  SyncRequest: WhatIsThis;
+  SyncRequest: typeof SyncRequest;
 };
 
 type StoredSignedPreKeyType = SignedPreKeyType & {

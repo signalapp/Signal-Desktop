@@ -54,7 +54,11 @@ import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
 } from '../util/phoneNumberSharingMode';
-import { SerializedCertificateType } from '../metadata/SecretSessionCipher';
+import {
+  SenderCertificateMode,
+  SerializedCertificateType,
+} from '../metadata/SecretSessionCipher';
+import { senderCertificateService } from '../services/senderCertificate';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -1090,7 +1094,7 @@ export class ConversationModel extends window.Backbone.Model<
     return undefined;
   }
 
-  sendTypingMessage(isTyping: boolean): void {
+  async sendTypingMessage(isTyping: boolean): Promise<void> {
     if (!window.textsecure.messaging) {
       return;
     }
@@ -1109,7 +1113,7 @@ export class ConversationModel extends window.Backbone.Model<
       return;
     }
 
-    const sendOptions = this.getSendOptions();
+    const sendOptions = await this.getSendOptions();
     this.wrapSend(
       window.textsecure.messaging.sendTypingMessage(
         {
@@ -1912,7 +1916,10 @@ export class ConversationModel extends window.Backbone.Model<
     await this.applyMessageRequestResponse(response);
 
     const { ourNumber, ourUuid } = this;
-    const { wrap, sendOptions } = window.ConversationController.prepareForSend(
+    const {
+      wrap,
+      sendOptions,
+    } = await window.ConversationController.prepareForSend(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ourNumber || ourUuid!,
       {
@@ -2105,12 +2112,12 @@ export class ConversationModel extends window.Backbone.Model<
     // Because syncVerification sends a (null) message to the target of the verify and
     //   a sync message to our own devices, we need to send the accessKeys down for both
     //   contacts. So we merge their sendOptions.
-    const { sendOptions } = window.ConversationController.prepareForSend(
+    const { sendOptions } = await window.ConversationController.prepareForSend(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.ourNumber || this.ourUuid!,
       { syncMessage: true }
     );
-    const contactSendOptions = this.getSendOptions();
+    const contactSendOptions = await this.getSendOptions();
     const options = { ...sendOptions, ...contactSendOptions };
 
     const promise = window.textsecure.storage.protocol.loadIdentityKey(e164);
@@ -3107,7 +3114,7 @@ export class ConversationModel extends window.Backbone.Model<
         throw new Error('Cannot send DOE while offline!');
       }
 
-      const options = this.getSendOptions();
+      const options = await this.getSendOptions();
 
       const promise = (() => {
         if (this.isPrivate()) {
@@ -3239,7 +3246,7 @@ export class ConversationModel extends window.Backbone.Model<
         return message.sendSyncMessageOnly(dataMessage);
       }
 
-      const options = this.getSendOptions();
+      const options = await this.getSendOptions();
 
       const promise = (() => {
         if (this.isPrivate()) {
@@ -3302,7 +3309,7 @@ export class ConversationModel extends window.Backbone.Model<
     await window.textsecure.messaging.sendProfileKeyUpdate(
       profileKey,
       recipients,
-      this.getSendOptions(),
+      await this.getSendOptions(),
       this.get('groupId')
     );
   }
@@ -3435,7 +3442,7 @@ export class ConversationModel extends window.Backbone.Model<
       }
 
       const conversationType = this.get('type');
-      const options = this.getSendOptions();
+      const options = await this.getSendOptions();
 
       let promise;
       if (conversationType === Message.GROUP) {
@@ -3555,17 +3562,17 @@ export class ConversationModel extends window.Backbone.Model<
     );
   }
 
-  getSendOptions(options = {}): SendOptionsType {
-    const sendMetadata = this.getSendMetadata(options);
+  async getSendOptions(options = {}): Promise<SendOptionsType> {
+    const sendMetadata = await this.getSendMetadata(options);
 
     return {
       sendMetadata,
     };
   }
 
-  getSendMetadata(
+  async getSendMetadata(
     options: { syncMessage?: string; disableMeCheck?: boolean } = {}
-  ): SendMetadataType | undefined {
+  ): Promise<SendMetadataType | undefined> {
     const { syncMessage, disableMeCheck } = options;
 
     // START: this code has an Expiration date of ~2018/11/21
@@ -3580,11 +3587,19 @@ export class ConversationModel extends window.Backbone.Model<
     // END
 
     if (!this.isPrivate()) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const infoArray = this.contactCollection!.map(conversation =>
-        conversation.getSendMetadata(options)
+      assert(
+        this.contactCollection,
+        'getSendMetadata: expected contactCollection to be defined'
       );
-      return Object.assign({}, ...infoArray);
+      const result: SendMetadataType = {};
+      await Promise.all(
+        this.contactCollection.map(async conversation => {
+          const sendMetadata =
+            (await conversation.getSendMetadata(options)) || {};
+          Object.assign(result, sendMetadata);
+        })
+      );
+      return result;
     }
 
     const accessKey = this.get('accessKey');
@@ -3598,7 +3613,7 @@ export class ConversationModel extends window.Backbone.Model<
     const e164 = this.get('e164');
     const uuid = this.get('uuid');
 
-    const senderCertificate = this.getSenderCertificateForDirectConversation();
+    const senderCertificate = await this.getSenderCertificateForDirectConversation();
 
     // If we've never fetched user's profile, we default to what we have
     if (sealedSender === SEALED_SENDER.UNKNOWN) {
@@ -3630,9 +3645,9 @@ export class ConversationModel extends window.Backbone.Model<
     };
   }
 
-  private getSenderCertificateForDirectConversation():
-    | undefined
-    | SerializedCertificateType {
+  private getSenderCertificateForDirectConversation(): Promise<
+    undefined | SerializedCertificateType
+  > {
     if (!this.isPrivate()) {
       throw new Error(
         'getSenderCertificateForDirectConversation should only be called for direct conversations'
@@ -3643,33 +3658,26 @@ export class ConversationModel extends window.Backbone.Model<
       window.storage.get('phoneNumberSharingMode')
     );
 
-    let storageKey: 'senderCertificate' | 'senderCertificateNoE164';
+    let certificateMode: SenderCertificateMode;
     switch (phoneNumberSharingMode) {
       case PhoneNumberSharingMode.Everybody:
-        storageKey = 'senderCertificate';
+        certificateMode = SenderCertificateMode.WithE164;
         break;
       case PhoneNumberSharingMode.ContactsOnly: {
         const isInSystemContacts = Boolean(this.get('name'));
-        storageKey = isInSystemContacts
-          ? 'senderCertificate'
-          : 'senderCertificateNoE164';
+        certificateMode = isInSystemContacts
+          ? SenderCertificateMode.WithE164
+          : SenderCertificateMode.WithoutE164;
         break;
       }
       case PhoneNumberSharingMode.Nobody:
-        storageKey = 'senderCertificateNoE164';
+        certificateMode = SenderCertificateMode.WithoutE164;
         break;
       default:
         throw missingCaseError(phoneNumberSharingMode);
     }
 
-    const result = window.storage.get<SerializedCertificateType>(storageKey);
-    assert(
-      result,
-      `getSenderCertificateForDirectConversation: couldn't find a certificate stored in ${JSON.stringify(
-        storageKey
-      )}. Returning undefined`
-    );
-    return result;
+    return senderCertificateService.get(certificateMode);
   }
 
   // Is this someone who is a contact, or are we sharing our profile with them?
@@ -4055,7 +4063,7 @@ export class ConversationModel extends window.Backbone.Model<
     if (this.get('profileSharing')) {
       profileKey = window.storage.get('profileKey');
     }
-    const sendOptions = this.getSendOptions();
+    const sendOptions = await this.getSendOptions();
     let promise;
 
     if (this.isMe()) {
@@ -4174,7 +4182,7 @@ export class ConversationModel extends window.Backbone.Model<
       const message = window.MessageController.register(model.id, model);
       this.addSingleMessage(message);
 
-      const options = this.getSendOptions();
+      const options = await this.getSendOptions();
       message.send(
         this.wrapSend(
           // TODO: DESKTOP-724
@@ -4227,7 +4235,7 @@ export class ConversationModel extends window.Backbone.Model<
       const message = window.MessageController.register(model.id, model);
       this.addSingleMessage(message);
 
-      const options = this.getSendOptions();
+      const options = await this.getSendOptions();
       message.send(
         this.wrapSend(
           window.textsecure.messaging.leaveGroup(
@@ -4299,7 +4307,7 @@ export class ConversationModel extends window.Backbone.Model<
       //   to a contact, we need accessKeys for both.
       const {
         sendOptions,
-      } = window.ConversationController.prepareForSend(
+      } = await window.ConversationController.prepareForSend(
         window.ConversationController.getOurConversationId(),
         { syncMessage: true }
       );
@@ -4314,7 +4322,7 @@ export class ConversationModel extends window.Backbone.Model<
     // Only send read receipts for accepted conversations
     if (window.storage.get('read-receipt-setting') && this.getAccepted()) {
       window.log.info(`Sending ${items.length} read receipts`);
-      const convoSendOptions = this.getSendOptions();
+      const convoSendOptions = await this.getSendOptions();
       const receiptsBySender = window._.groupBy(items, 'senderId');
 
       await Promise.all(
@@ -4452,7 +4460,8 @@ export class ConversationModel extends window.Backbone.Model<
         ));
       }
 
-      const sendMetadata = c.getSendMetadata({ disableMeCheck: true }) || {};
+      const sendMetadata =
+        (await c.getSendMetadata({ disableMeCheck: true })) || {};
       const getInfo =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         sendMetadata[c.get('uuid')!] || sendMetadata[c.get('e164')!] || {};

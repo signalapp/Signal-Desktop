@@ -804,7 +804,9 @@ export type WebAPIType = {
     }
   ) => Promise<any>;
   getProvisioningSocket: () => WebSocket;
-  getSenderCertificate: (withUuid?: boolean) => Promise<any>;
+  getSenderCertificate: (
+    withUuid?: boolean
+  ) => Promise<{ certificate: string }>;
   getSticker: (packId: string, stickerId: number) => Promise<any>;
   getStickerPackManifest: (packId: string) => Promise<StickerPackManifestType>;
   getStorageCredentials: MessageSender['getStorageCredentials'];

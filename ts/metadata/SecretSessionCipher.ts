@@ -3,6 +3,7 @@
 
 /* eslint-disable class-methods-use-this */
 
+import * as z from 'zod';
 import * as CiphertextMessage from './CiphertextMessage';
 import {
   bytesFromString,
@@ -44,9 +45,16 @@ export const enum SenderCertificateMode {
   WithoutE164,
 }
 
-export type SerializedCertificateType = {
-  serialized: ArrayBuffer;
-};
+export const serializedCertificateSchema = z
+  .object({
+    expires: z.number().optional(),
+    serialized: z.instanceof(ArrayBuffer),
+  })
+  .nonstrict();
+
+export type SerializedCertificateType = z.infer<
+  typeof serializedCertificateSchema
+>;
 
 type ServerCertificateType = {
   id: number;

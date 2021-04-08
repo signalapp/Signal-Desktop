@@ -722,19 +722,19 @@ export class ConversationController {
     return null;
   }
 
-  prepareForSend(
+  async prepareForSend(
     id: string | undefined,
     options?: WhatIsThis
-  ): {
+  ): Promise<{
     wrap: (
       promise: Promise<CallbackResultType | void | null>
     ) => Promise<CallbackResultType | void | null>;
     sendOptions: SendOptionsType | undefined;
-  } {
+  }> {
     // id is any valid conversation identifier
     const conversation = this.get(id);
     const sendOptions = conversation
-      ? conversation.getSendOptions(options)
+      ? await conversation.getSendOptions(options)
       : undefined;
     const wrap = conversation
       ? conversation.wrapSend.bind(conversation)

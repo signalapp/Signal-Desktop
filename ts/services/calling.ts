@@ -730,10 +730,10 @@ export class CallingClass {
     });
   }
 
-  private sendGroupCallUpdateMessage(
+  private async sendGroupCallUpdateMessage(
     conversationId: string,
     eraId: string
-  ): void {
+  ): Promise<void> {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       window.log.error(
@@ -743,7 +743,7 @@ export class CallingClass {
     }
 
     const groupV2 = conversation.getGroupV2Info();
-    const sendOptions = conversation.getSendOptions();
+    const sendOptions = await conversation.getSendOptions();
     if (!groupV2) {
       window.log.error(
         'Unable to send group call update message for conversation that lacks groupV2 info'
@@ -1258,7 +1258,7 @@ export class CallingClass {
   ): Promise<boolean> {
     const conversation = window.ConversationController.get(remoteUserId);
     const sendOptions = conversation
-      ? conversation.getSendOptions()
+      ? await conversation.getSendOptions()
       : undefined;
 
     if (!window.textsecure.messaging) {

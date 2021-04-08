@@ -70,8 +70,8 @@ import * as searchDuck from './state/ducks/search';
 import * as stickersDuck from './state/ducks/stickers';
 import * as conversationsSelectors from './state/selectors/conversations';
 import * as searchSelectors from './state/selectors/search';
-import { SendOptionsType } from './textsecure/SendMessage';
 import AccountManager from './textsecure/AccountManager';
+import { SendOptionsType } from './textsecure/SendMessage';
 import Data from './sql/Client';
 import { UserMessage } from './types/Message';
 import { PhoneNumberFormat } from 'google-libphonenumber';
@@ -97,6 +97,7 @@ import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './LibSignalStore';
 import { StartupQueue } from './util/StartupQueue';
 import * as synchronousCrypto from './util/synchronousCrypto';
+import SyncRequest from './textsecure/SyncRequest';
 
 export { Long } from 'long';
 
@@ -169,7 +170,7 @@ declare global {
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => number;
-    getSyncRequest: () => WhatIsThis;
+    getSyncRequest: () => SyncRequest;
     getTitle: () => string;
     waitForEmptyEventQueue: () => Promise<void>;
     getVersion: () => string;
@@ -578,6 +579,7 @@ export type DCodeIOType = {
     fromString: (str: string | null) => Long;
     isLong: (obj: unknown) => obj is Long;
   };
+  ProtoBuf: WhatIsThis;
 };
 
 type MessageControllerType = {

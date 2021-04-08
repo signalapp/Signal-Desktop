@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable more/no-then */
@@ -9,9 +9,10 @@
 import EventTarget from './EventTarget';
 import MessageReceiver from './MessageReceiver';
 import MessageSender from './SendMessage';
+import { assert } from '../util/assert';
 
 class SyncRequestInner extends EventTarget {
-  receiver: MessageReceiver;
+  private started = false;
 
   contactSync?: boolean;
 
@@ -23,7 +24,10 @@ class SyncRequestInner extends EventTarget {
 
   ongroup: Function;
 
-  constructor(sender: MessageSender, receiver: MessageReceiver) {
+  constructor(
+    private sender: MessageSender,
+    private receiver: MessageReceiver
+  ) {
     super();
 
     if (
@@ -34,21 +38,30 @@ class SyncRequestInner extends EventTarget {
         'Tried to construct a SyncRequest without MessageSender and MessageReceiver'
       );
     }
-    this.receiver = receiver;
 
     this.oncontact = this.onContactSyncComplete.bind(this);
     receiver.addEventListener('contactsync', this.oncontact);
 
     this.ongroup = this.onGroupSyncComplete.bind(this);
     receiver.addEventListener('groupsync', this.ongroup);
+  }
+
+  async start(): Promise<void> {
+    if (this.started) {
+      assert(false, 'SyncRequestInner: started more than once. Doing nothing');
+      return;
+    }
+    this.started = true;
+
+    const { sender } = this;
 
     const ourNumber = window.textsecure.storage.user.getNumber();
-    const { wrap, sendOptions } = window.ConversationController.prepareForSend(
-      ourNumber,
-      {
-        syncMessage: true,
-      }
-    );
+    const {
+      wrap,
+      sendOptions,
+    } = await window.ConversationController.prepareForSend(ourNumber, {
+      syncMessage: true,
+    });
 
     window.log.info('SyncRequest created. Sending config sync request...');
     wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));
@@ -106,13 +119,20 @@ class SyncRequestInner extends EventTarget {
 }
 
 export default class SyncRequest {
-  constructor(sender: MessageSender, receiver: MessageReceiver) {
-    const inner = new SyncRequestInner(sender, receiver);
-    this.addEventListener = inner.addEventListener.bind(inner);
-    this.removeEventListener = inner.removeEventListener.bind(inner);
-  }
+  private inner: SyncRequestInner;
 
   addEventListener: (name: string, handler: Function) => void;
 
   removeEventListener: (name: string, handler: Function) => void;
+
+  constructor(sender: MessageSender, receiver: MessageReceiver) {
+    const inner = new SyncRequestInner(sender, receiver);
+    this.inner = inner;
+    this.addEventListener = inner.addEventListener.bind(inner);
+    this.removeEventListener = inner.removeEventListener.bind(inner);
+  }
+
+  start(): void {
+    this.inner.start();
+  }
 }

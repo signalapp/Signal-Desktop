@@ -1255,7 +1255,7 @@ class MessageReceiverInner extends EventTarget {
     await sessionCipher.closeOpenSessionForDevice();
 
     // Send a null message with newly-created session
-    const sendOptions = conversation.getSendOptions();
+    const sendOptions = await conversation.getSendOptions();
     await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
   }
 

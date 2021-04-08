@@ -1241,7 +1241,7 @@ export async function modifyGroupV2({
           ? window.storage.get('profileKey')
           : undefined;
 
-        const sendOptions = conversation.getSendOptions();
+        const sendOptions = await conversation.getSendOptions();
         const timestamp = Date.now();
 
         const promise = conversation.wrapSend(

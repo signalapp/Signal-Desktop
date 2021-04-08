@@ -1703,9 +1703,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const {
         wrap,
         sendOptions,
-      } = window.ConversationController.prepareForSend(ourNumber || ourUuid, {
-        syncMessage: true,
-      });
+      } = await window.ConversationController.prepareForSend(
+        ourNumber || ourUuid,
+        {
+          syncMessage: true,
+        }
+      );
 
       await wrap(
         window.textsecure.messaging.syncViewOnceOpen(
@@ -2119,7 +2122,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     let promise;
-    const options = conversation.getSendOptions();
+    const options = await conversation.getSendOptions();
 
     if (conversation.isPrivate()) {
       const [identifier] = recipients;
@@ -2312,9 +2315,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return this.sendSyncMessageOnly(dataMessage);
     }
 
-    const { wrap, sendOptions } = window.ConversationController.prepareForSend(
-      identifier
-    );
+    const {
+      wrap,
+      sendOptions,
+    } = await window.ConversationController.prepareForSend(identifier);
     const promise = window.textsecure.messaging.sendMessageToIdentifier(
       identifier,
       body,
@@ -2533,7 +2537,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async sendSyncMessage(): Promise<WhatIsThis> {
     const ourNumber = window.textsecure.storage.user.getNumber();
     const ourUuid = window.textsecure.storage.user.getUuid();
-    const { wrap, sendOptions } = window.ConversationController.prepareForSend(
+    const {
+      wrap,
+      sendOptions,
+    } = await window.ConversationController.prepareForSend(
       ourUuid || ourNumber,
       {
         syncMessage: true,

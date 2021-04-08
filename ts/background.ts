@@ -7,8 +7,7 @@ import { WhatIsThis } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
-import * as refreshSenderCertificate from './refreshSenderCertificate';
-import { SenderCertificateMode } from './metadata/SecretSessionCipher';
+import { senderCertificateService } from './services/senderCertificate';
 import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
@@ -30,6 +29,17 @@ export async function startApp(): Promise<void> {
       err && err.stack ? err.stack : err
     );
   }
+
+  window.textsecure.protobuf.onLoad(() => {
+    senderCertificateService.initialize({
+      WebAPI: window.WebAPI,
+      navigator,
+      onlineEventTarget: window,
+      SenderCertificate: window.textsecure.protobuf.SenderCertificate,
+      storage: window.storage,
+    });
+  });
+
   const eventHandlerQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -70,7 +80,7 @@ export async function startApp(): Promise<void> {
             const {
               wrap,
               sendOptions,
-            } = window.ConversationController.prepareForSend(c.get('id'));
+            } = await window.ConversationController.prepareForSend(c.get('id'));
             // eslint-disable-next-line no-await-in-loop
             await wrap(
               window.textsecure.messaging.sendDeliveryReceipt(
@@ -1592,11 +1602,14 @@ export async function startApp(): Promise<void> {
     );
   }
 
-  window.getSyncRequest = () =>
-    new window.textsecure.SyncRequest(
+  window.getSyncRequest = () => {
+    const syncRequest = new window.textsecure.SyncRequest(
       window.textsecure.messaging,
       messageReceiver
     );
+    syncRequest.start();
+    return syncRequest;
+  };
 
   let disconnectTimer: WhatIsThis | null = null;
   let reconnectTimer: WhatIsThis | null = null;
@@ -1948,10 +1961,7 @@ export async function startApp(): Promise<void> {
           );
           onChangeTheme();
         }
-        const syncRequest = new window.textsecure.SyncRequest(
-          window.textsecure.messaging,
-          messageReceiver
-        );
+        const syncRequest = window.getSyncRequest();
         window.Whisper.events.trigger('contactsync:begin');
         syncRequest.addEventListener('success', () => {
           window.log.info('sync successful');
@@ -1969,7 +1979,7 @@ export async function startApp(): Promise<void> {
         const {
           wrap,
           sendOptions,
-        } = window.ConversationController.prepareForSend(ourId, {
+        } = await window.ConversationController.prepareForSend(ourId, {
           syncMessage: true,
         });
 
@@ -2088,17 +2098,6 @@ export async function startApp(): Promise<void> {
     window.Whisper.RotateSignedPreKeyListener.init(
       window.Whisper.events,
       newVersion
-    );
-
-    [SenderCertificateMode.WithE164, SenderCertificateMode.WithoutE164].forEach(
-      mode => {
-        refreshSenderCertificate.initialize({
-          events: window.Whisper.events,
-          storage: window.storage,
-          mode,
-          navigator,
-        });
-      }
     );
 
     window.Whisper.deliveryReceiptQueue.start();
