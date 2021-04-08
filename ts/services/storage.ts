@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, isNumber, partition } from 'lodash';
+import { debounce, isNumber } from 'lodash';
 import pMap from 'p-map';
 
 import Crypto from '../textsecure/Crypto';
@@ -654,46 +654,60 @@ async function processManifest(
     );
   });
 
-  const localKeys = window
-    .getConversations()
-    .map((conversation: ConversationModel) => conversation.get('storageID'))
-    .filter(Boolean);
+  const remoteKeys = new Set(remoteKeysTypeMap.keys());
+  const localKeys: Set<string> = new Set();
+
+  const conversations = window.getConversations();
+  conversations.forEach((conversation: ConversationModel) => {
+    const storageID = conversation.get('storageID');
+    if (storageID) {
+      localKeys.add(storageID);
+    }
+  });
 
   const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
     window.storage.get('storage-service-unknown-records') || [];
 
-  unknownRecordsArray.forEach((record: UnknownRecord) => {
+  const stillUnknown = unknownRecordsArray.filter((record: UnknownRecord) => {
     // Do not include any unknown records that we already support
     if (!validRecordTypes.has(record.itemType)) {
-      localKeys.push(record.storageID);
+      localKeys.add(record.storageID);
+      return false;
     }
+    return true;
   });
 
   window.log.info(
-    'storageService.processManifest: local keys:',
-    localKeys.length
+    'storageService.processManifest: local records:',
+    conversations.length
   );
-
   window.log.info(
-    'storageService.processManifest: incl. unknown records:',
-    unknownRecordsArray.length
+    'storageService.processManifest: local keys:',
+    localKeys.size
   );
-
-  const remoteKeys = Array.from(remoteKeysTypeMap.keys());
+  window.log.info(
+    'storageService.processManifest: unknown records:',
+    stillUnknown.length
+  );
+  window.log.info(
+    'storageService.processManifest: remote keys:',
+    remoteKeys.size
+  );
 
   const remoteOnlySet: Set<string> = new Set();
   remoteKeys.forEach((key: string) => {
-    if (!localKeys.includes(key)) {
+    if (!localKeys.has(key)) {
       remoteOnlySet.add(key);
     }
   });
 
+  window.log.info(
+    'storageService.processManifest: remote ids:',
+    Array.from(remoteOnlySet).map(redactStorageID).join(',')
+  );
+
   const remoteOnlyRecords = new Map<string, RemoteRecord>();
   remoteOnlySet.forEach(storageID => {
-    window.log.info(
-      'storageService.processManifest: remote key',
-      redactStorageID(storageID)
-    );
     remoteOnlyRecords.set(storageID, {
       storageID,
       itemType: remoteKeysTypeMap.get(storageID),
@@ -703,13 +717,36 @@ async function processManifest(
   // if the remote only keys are larger or equal to our local keys then it
   // was likely a forced push of storage service. We keep track of these
   // merges so that we can detect possible infinite loops
-  const isForcePushed = remoteOnlyRecords.size >= localKeys.length;
+  const isForcePushed = remoteOnlyRecords.size >= localKeys.size;
 
   const conflictCount = await processRemoteRecords(
     remoteOnlyRecords,
     isForcePushed
   );
-  const hasConflicts = conflictCount !== 0;
+
+  let hasConflicts = conflictCount !== 0;
+
+  // Post-merge, if our local records contain any storage IDs that were not
+  // present in the remote manifest then we'll need to clear it, generate a
+  // new storageID for that record, and upload.
+  // This might happen if a device pushes a manifest which doesn't contain
+  // the keys that we have in our local database.
+  window.getConversations().forEach((conversation: ConversationModel) => {
+    const storageID = conversation.get('storageID');
+    if (storageID && !remoteKeys.has(storageID)) {
+      window.log.info(
+        'storageService.processManifest: local key was not in remote manifest',
+        redactStorageID(storageID),
+        conversation.idForLogging()
+      );
+      conversation.set({
+        needsStorageServiceSync: true,
+        storageID: undefined,
+      });
+      updateConversation(conversation.attributes);
+      hasConflicts = true;
+    }
+  });
 
   return hasConflicts;
 }
@@ -722,7 +759,7 @@ async function processRemoteRecords(
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
 
   window.log.info(
-    'storageService.processRemoteRecords: remote keys',
+    'storageService.processRemoteRecords: remote only keys',
     remoteOnlyRecords.size
   );
 
@@ -809,12 +846,12 @@ async function processRemoteRecords(
     { concurrency: 5 }
   );
 
-  // Merge Account records last
-  const sortedStorageItems = ([] as Array<MergeableItemType>).concat(
-    ...partition(
-      decryptedStorageItems,
-      storageRecord => storageRecord.storageRecord.account === undefined
-    )
+  // Merge Account records last since it contains the pinned conversations
+  // and we need all other records merged first before we can find the pinned
+  // records in our db
+  const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
+  const sortedStorageItems = decryptedStorageItems.sort((_, b) =>
+    b.itemType === ITEM_TYPE.ACCOUNT ? -1 : 1
   );
 
   try {

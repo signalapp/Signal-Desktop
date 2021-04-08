@@ -32,8 +32,8 @@ import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
 } from '../util/phoneNumberDiscoverability';
+import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual';
 import { ConversationModel } from '../models/conversations';
-import { ConversationAttributesTypeType } from '../model-types.d';
 
 const { updateConversation } = dataInterface;
 
@@ -364,6 +364,48 @@ function doRecordsConflict(
     const localValue = localRecord[key];
     const remoteValue = remoteRecord[key];
 
+    // Sometimes we have a ByteBuffer and an ArrayBuffer, this ensures that we
+    // are comparing them both equally by converting them into base64 string.
+    if (Object.prototype.toString.call(localValue) === '[object ArrayBuffer]') {
+      const areEqual =
+        arrayBufferToBase64(localValue) === arrayBufferToBase64(remoteValue);
+      if (!areEqual) {
+        window.log.info(
+          'storageService.doRecordsConflict: Conflict found for ArrayBuffer',
+          key,
+          idForLogging
+        );
+      }
+      return hasConflict || !areEqual;
+    }
+
+    // If both types are Long we can use Long's equals to compare them
+    if (
+      window.dcodeIO.Long.isLong(localValue) &&
+      window.dcodeIO.Long.isLong(remoteValue)
+    ) {
+      const areEqual = localValue.equals(remoteValue);
+      if (!areEqual) {
+        window.log.info(
+          'storageService.doRecordsConflict: Conflict found for Long',
+          key,
+          idForLogging
+        );
+      }
+      return hasConflict || !areEqual;
+    }
+
+    if (key === 'pinnedConversations') {
+      const areEqual = arePinnedConversationsEqual(localValue, remoteValue);
+      if (!areEqual) {
+        window.log.info(
+          'storageService.doRecordsConflict: Conflict found for pinnedConversations',
+          idForLogging
+        );
+      }
+      return hasConflict || !areEqual;
+    }
+
     if (localValue === remoteValue) {
       return hasConflict || false;
     }
@@ -373,7 +415,10 @@ function doRecordsConflict(
     // conflicting.
     if (
       remoteValue === null &&
-      (localValue === false || localValue === '' || localValue === 0)
+      (localValue === false ||
+        localValue === '' ||
+        localValue === 0 ||
+        (window.dcodeIO.Long.isLong(localValue) && localValue.toNumber() === 0))
     ) {
       return hasConflict || false;
     }
@@ -805,7 +850,6 @@ export async function mergeAccountRecord(
     const remotelyPinnedConversationPromises = pinnedConversations.map(
       async pinnedConversation => {
         let conversationId;
-        let conversationType: ConversationAttributesTypeType = 'private';
 
         switch (pinnedConversation.identifier) {
           case 'contact': {
@@ -815,7 +859,6 @@ export async function mergeAccountRecord(
             conversationId = window.ConversationController.ensureContactIds(
               pinnedConversation.contact
             );
-            conversationType = 'private';
             break;
           }
           case 'legacyGroupId': {
@@ -823,7 +866,6 @@ export async function mergeAccountRecord(
               throw new Error('mergeAccountRecord: no legacyGroupId found');
             }
             conversationId = pinnedConversation.legacyGroupId.toBinary();
-            conversationType = 'group';
             break;
           }
           case 'groupMasterKey': {
@@ -835,7 +877,6 @@ export async function mergeAccountRecord(
             const groupId = arrayBufferToBase64(groupFields.id);
 
             conversationId = groupId;
-            conversationType = 'group';
             break;
           }
           default: {
@@ -851,13 +892,6 @@ export async function mergeAccountRecord(
             pinnedConversation.identifier
           );
           return undefined;
-        }
-
-        if (conversationType === 'private') {
-          return window.ConversationController.getOrCreateAndWait(
-            conversationId,
-            conversationType
-          );
         }
 
         return window.ConversationController.get(conversationId);

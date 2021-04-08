@@ -572,8 +572,11 @@ export type DCodeIOType = {
     Long: DCodeIOType['Long'];
   };
   Long: Long & {
+    equals: (other: Long | number | string) => boolean;
     fromBits: (low: number, high: number, unsigned: boolean) => number;
+    fromNumber: (value: number, unsigned?: boolean) => Long;
     fromString: (str: string | null) => Long;
+    isLong: (obj: unknown) => obj is Long;
   };
 };
 
