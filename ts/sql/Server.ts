@@ -2966,10 +2966,10 @@ async function getLastConversationActivity({
   ourConversationId: string;
 }): Promise<MessageType | undefined> {
   const db = getInstance();
-  const row = db
-    .prepare<Query>(
-      `
-      SELECT * FROM messages
+  const row = prepare(
+    db,
+    `
+      SELECT json FROM messages
       WHERE
         conversationId = $conversationId AND
         (type IS NULL
@@ -2997,11 +2997,10 @@ async function getLastConversationActivity({
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
       `
-    )
-    .get({
-      conversationId,
-      ourConversationId,
-    });
+  ).get({
+    conversationId,
+    ourConversationId,
+  });
 
   if (!row) {
     return undefined;
@@ -3017,10 +3016,10 @@ async function getLastConversationPreview({
   ourConversationId: string;
 }): Promise<MessageType | undefined> {
   const db = getInstance();
-  const row = db
-    .prepare<Query>(
-      `
-      SELECT * FROM messages
+  const row = prepare(
+    db,
+    `
+      SELECT json FROM messages
       WHERE
         conversationId = $conversationId AND
         (
@@ -3043,11 +3042,10 @@ async function getLastConversationPreview({
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
       `
-    )
-    .get({
-      conversationId,
-      ourConversationId,
-    });
+  ).get({
+    conversationId,
+    ourConversationId,
+  });
 
   if (!row) {
     return undefined;
