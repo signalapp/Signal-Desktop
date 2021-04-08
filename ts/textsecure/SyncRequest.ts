@@ -24,9 +24,12 @@ class SyncRequestInner extends EventTarget {
 
   ongroup: Function;
 
+  timeoutMillis: number;
+
   constructor(
     private sender: MessageSender,
-    private receiver: MessageReceiver
+    private receiver: MessageReceiver,
+    timeoutMillis?: number
   ) {
     super();
 
@@ -44,6 +47,8 @@ class SyncRequestInner extends EventTarget {
 
     this.ongroup = this.onGroupSyncComplete.bind(this);
     receiver.addEventListener('groupsync', this.ongroup);
+
+    this.timeoutMillis = timeoutMillis || 60000;
   }
 
   async start(): Promise<void> {
@@ -81,7 +86,7 @@ class SyncRequestInner extends EventTarget {
           error && error.stack ? error.stack : error
         );
       });
-    this.timeout = setTimeout(this.onTimeout.bind(this), 60000);
+    this.timeout = setTimeout(this.onTimeout.bind(this), this.timeoutMillis);
   }
 
   onContactSyncComplete() {
@@ -125,8 +130,12 @@ export default class SyncRequest {
 
   removeEventListener: (name: string, handler: Function) => void;
 
-  constructor(sender: MessageSender, receiver: MessageReceiver) {
-    const inner = new SyncRequestInner(sender, receiver);
+  constructor(
+    sender: MessageSender,
+    receiver: MessageReceiver,
+    timeoutMillis?: number
+  ) {
+    const inner = new SyncRequestInner(sender, receiver, timeoutMillis);
     this.inner = inner;
     this.addEventListener = inner.addEventListener.bind(inner);
     this.removeEventListener = inner.removeEventListener.bind(inner);

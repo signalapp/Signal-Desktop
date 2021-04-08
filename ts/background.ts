@@ -365,7 +365,7 @@ export async function startApp(): Promise<void> {
         onChangeTheme();
       },
       getHideMenuBar: () => window.storage.get('hide-menu-bar'),
-      setHideMenuBar: (value: WhatIsThis) => {
+      setHideMenuBar: (value: boolean) => {
         window.storage.put('hide-menu-bar', value);
         window.setAutoHideMenuBar(value);
         window.setMenuBarVisibility(!value);
@@ -373,53 +373,56 @@ export async function startApp(): Promise<void> {
 
       getNotificationSetting: () =>
         window.storage.get('notification-setting', 'message'),
-      setNotificationSetting: (value: WhatIsThis) =>
+      setNotificationSetting: (value: 'message' | 'name' | 'count' | 'off') =>
         window.storage.put('notification-setting', value),
       getNotificationDrawAttention: () =>
         window.storage.get('notification-draw-attention', true),
-      setNotificationDrawAttention: (value: WhatIsThis) =>
+      setNotificationDrawAttention: (value: boolean) =>
         window.storage.put('notification-draw-attention', value),
       getAudioNotification: () => window.storage.get('audio-notification'),
-      setAudioNotification: (value: WhatIsThis) =>
+      setAudioNotification: (value: boolean) =>
         window.storage.put('audio-notification', value),
       getCountMutedConversations: () =>
         window.storage.get('badge-count-muted-conversations', false),
-      setCountMutedConversations: (value: WhatIsThis) => {
+      setCountMutedConversations: (value: boolean) => {
         window.storage.put('badge-count-muted-conversations', value);
         window.Whisper.events.trigger('updateUnreadCount');
       },
       getCallRingtoneNotification: () =>
         window.storage.get('call-ringtone-notification', true),
-      setCallRingtoneNotification: (value: WhatIsThis) =>
+      setCallRingtoneNotification: (value: boolean) =>
         window.storage.put('call-ringtone-notification', value),
       getCallSystemNotification: () =>
         window.storage.get('call-system-notification', true),
-      setCallSystemNotification: (value: WhatIsThis) =>
+      setCallSystemNotification: (value: boolean) =>
         window.storage.put('call-system-notification', value),
       getIncomingCallNotification: () =>
         window.storage.get('incoming-call-notification', true),
-      setIncomingCallNotification: (value: WhatIsThis) =>
+      setIncomingCallNotification: (value: boolean) =>
         window.storage.put('incoming-call-notification', value),
 
       getSpellCheck: () => window.storage.get('spell-check', true),
-      setSpellCheck: (value: WhatIsThis) => {
+      setSpellCheck: (value: boolean) => {
         window.storage.put('spell-check', value);
       },
 
       getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
-      setAlwaysRelayCalls: (value: WhatIsThis) =>
+      setAlwaysRelayCalls: (value: boolean) =>
         window.storage.put('always-relay-calls', value),
 
       // eslint-disable-next-line eqeqeq
       isPrimary: () => window.textsecure.storage.user.getDeviceId() == '1',
       getSyncRequest: () =>
-        new Promise((resolve, reject) => {
-          const syncRequest = window.getSyncRequest();
-          syncRequest.addEventListener('success', resolve);
-          syncRequest.addEventListener('timeout', reject);
+        new Promise<void>((resolve, reject) => {
+          const FIVE_MINUTES = 5 * 60 * 60 * 1000;
+          const syncRequest = window.getSyncRequest(FIVE_MINUTES);
+          syncRequest.addEventListener('success', () => resolve());
+          syncRequest.addEventListener('timeout', () =>
+            reject(new Error('timeout'))
+          );
         }),
       getLastSyncTime: () => window.storage.get('synced_at'),
-      setLastSyncTime: (value: WhatIsThis) =>
+      setLastSyncTime: (value: number) =>
         window.storage.put('synced_at', value),
 
       addDarkOverlay: () => {
@@ -1602,10 +1605,11 @@ export async function startApp(): Promise<void> {
     );
   }
 
-  window.getSyncRequest = () => {
+  window.getSyncRequest = (timeoutMillis?: number) => {
     const syncRequest = new window.textsecure.SyncRequest(
       window.textsecure.messaging,
-      messageReceiver
+      messageReceiver,
+      timeoutMillis
     );
     syncRequest.start();
     return syncRequest;
@@ -1822,7 +1826,9 @@ export async function startApp(): Promise<void> {
       addQueuedEventListener('message', onMessageReceived);
       addQueuedEventListener('delivery', onDeliveryReceipt);
       addQueuedEventListener('contact', onContactReceived);
+      addQueuedEventListener('contactsync', onContactSyncComplete);
       addQueuedEventListener('group', onGroupReceived);
+      addQueuedEventListener('groupsync', onGroupSyncComplete);
       addQueuedEventListener('sent', onSentMessage);
       addQueuedEventListener('readSync', onReadSync);
       addQueuedEventListener('read', onReadReceipt);
@@ -2334,6 +2340,11 @@ export async function startApp(): Promise<void> {
     });
   }
 
+  async function onContactSyncComplete() {
+    window.log.info('onContactSyncComplete');
+    await window.storage.put('synced_at', Date.now());
+  }
+
   async function onContactReceived(ev: WhatIsThis) {
     const details = ev.contactDetails;
 
@@ -2464,6 +2475,11 @@ export async function startApp(): Promise<void> {
     } catch (error) {
       window.log.error('onContactReceived error:', Errors.toLogFormat(error));
     }
+  }
+
+  async function onGroupSyncComplete() {
+    window.log.info('onGroupSyncComplete');
+    await window.storage.put('synced_at', Date.now());
   }
 
   // Note: this handler is only for v1 groups received via 'group sync' messages

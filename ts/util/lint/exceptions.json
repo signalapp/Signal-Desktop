@@ -17100,7 +17100,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));",
-    "lineNumber": 43,
+    "lineNumber": 44,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -17108,7 +17108,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestBlockSyncMessage(sendOptions));",
-    "lineNumber": 45,
+    "lineNumber": 46,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -17116,7 +17116,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestContactSyncMessage(sendOptions))",
-    "lineNumber": 47,
+    "lineNumber": 48,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -17124,7 +17124,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "            return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 50,
+    "lineNumber": 51,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -17132,7 +17132,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "    wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));",
-    "lineNumber": 67,
+    "lineNumber": 72,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -17140,7 +17140,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "    wrap(sender.sendRequestBlockSyncMessage(sendOptions));",
-    "lineNumber": 70,
+    "lineNumber": 75,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -17148,7 +17148,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
-    "lineNumber": 73,
+    "lineNumber": 78,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -17156,7 +17156,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 76,
+    "lineNumber": 81,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },

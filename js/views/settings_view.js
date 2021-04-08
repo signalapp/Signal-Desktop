@@ -312,6 +312,10 @@
         await window.makeSyncRequest();
         this.onsuccess();
       } catch (error) {
+        window.log.error(
+          'settings sync timeout error:',
+          error && error.stack ? error.stack : error
+        );
         this.ontimeout();
       }
     },

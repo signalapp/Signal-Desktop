@@ -170,7 +170,7 @@ declare global {
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => number;
-    getSyncRequest: () => SyncRequest;
+    getSyncRequest: (timeoutMillis?: number) => SyncRequest;
     getTitle: () => string;
     waitForEmptyEventQueue: () => Promise<void>;
     getVersion: () => string;
