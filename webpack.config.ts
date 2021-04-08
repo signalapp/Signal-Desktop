@@ -28,7 +28,6 @@ const csp = `
 const stickerCreatorConfig: Configuration = {
   context,
   mode: mode as Configuration['mode'],
-  cache: { type: 'filesystem' },
   devtool: 'source-map',
   entry: [
     'react-hot-loader/patch',
@@ -115,7 +114,6 @@ const EXTERNAL_MODULE = new Set([
 const preloadConfig: Configuration = {
   context,
   mode: mode as Configuration['mode'],
-  cache: { type: 'filesystem' },
   devtool: mode === 'development' ? 'inline-source-map' : false,
   entry: ['./preload.js'],
   // Stack-traces have to be readable so don't mangle function names.
