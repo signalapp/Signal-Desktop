@@ -2260,6 +2260,10 @@ export class ConversationModel extends window.Backbone.Model<
       return false;
     }
 
+    if (!this.isGroupV1() && !this.isPrivate()) {
+      return false;
+    }
+
     return !this.get('profileSharing');
   }
 
