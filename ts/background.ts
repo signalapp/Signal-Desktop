@@ -12,6 +12,8 @@ import { SenderCertificateMode } from './metadata/SecretSessionCipher';
 import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
+import { ConversationModel } from './models/conversations';
+import { createBatcher } from './util/batcher';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -849,19 +851,35 @@ export async function startApp(): Promise<void> {
       }
       conversationAdded(conversation.id, conversation.format());
     });
-    convoCollection.on('change', conversation => {
-      if (!conversation) {
-        return;
-      }
+
+    const changedConvoBatcher = createBatcher<ConversationModel>({
+      name: 'changedConvoBatcher',
+      processBatch(batch) {
+        const deduped = Array.from(new Set(batch));
+        window.log.info(
+          'changedConvoBatcher: deduped ' +
+            `${batch.length} into ${deduped.length}`
+        );
+
+        deduped.forEach(conversation => {
+          conversationChanged(conversation.id, conversation.format());
+        });
+      },
 
       // This delay ensures that the .format() call isn't synchronous as a
       //   Backbone property is changed. Important because our _byUuid/_byE164
       //   lookups aren't up-to-date as the change happens; just a little bit
       //   after.
-      setTimeout(
-        () => conversationChanged(conversation.id, conversation.format()),
-        1
-      );
+      wait: 1,
+      maxSize: Infinity,
+    });
+
+    convoCollection.on('change', conversation => {
+      if (!conversation) {
+        return;
+      }
+
+      changedConvoBatcher.add(conversation);
     });
     convoCollection.on('reset', removeAllConversations);
 
