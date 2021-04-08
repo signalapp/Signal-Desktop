@@ -44,6 +44,10 @@ type PromisePair<T> = {
 export class MainSQL {
   private readonly worker: Worker;
 
+  private isReady = false;
+
+  private onReady: Promise<void> | undefined;
+
   private readonly onExit: Promise<void>;
 
   private seq = 0;
@@ -81,16 +85,37 @@ export class MainSQL {
   }
 
   public async initialize(options: InitializeOptions): Promise<void> {
-    return this.send({ type: 'init', options });
+    if (this.isReady || this.onReady) {
+      throw new Error('Already initialized');
+    }
+
+    this.onReady = this.send({ type: 'init', options });
+
+    await this.onReady;
+
+    this.onReady = undefined;
+    this.isReady = true;
   }
 
   public async close(): Promise<void> {
+    if (!this.isReady) {
+      throw new Error('Not initialized');
+    }
+
     await this.send({ type: 'close' });
     await this.onExit;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async sqlCall(method: string, args: ReadonlyArray<any>): Promise<any> {
+    if (this.onReady) {
+      await this.onReady;
+    }
+
+    if (!this.isReady) {
+      throw new Error('Not initialized');
+    }
+
     return this.send({ type: 'sqlCall', method, args });
   }
 

@@ -133,14 +133,22 @@ const defaultWebPrefs = {
 };
 
 async function getSpellCheckSetting() {
+  const fastValue = ephemeralConfig.get('spell-check');
+  if (fastValue !== undefined) {
+    console.log('got fast spellcheck setting', fastValue);
+    return fastValue;
+  }
+
   const json = await sql.sqlCall('getItemById', ['spell-check']);
 
   // Default to `true` if setting doesn't exist yet
-  if (!json) {
-    return true;
-  }
+  const slowValue = json ? json.value : true;
 
-  return json.value;
+  ephemeralConfig.set('spell-check', slowValue);
+
+  console.log('got slow spellcheck setting', slowValue);
+
+  return slowValue;
 }
 
 function showWindow() {
@@ -316,7 +324,7 @@ if (OS.isWindows()) {
 async function createWindow() {
   const { screen } = electron;
   const windowOptions = {
-    show: !startInTray, // allow to start minimised in tray
+    show: false,
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
     minWidth: MIN_WIDTH,
@@ -528,7 +536,43 @@ async function createWindow() {
   mainWindow.on('leave-full-screen', () => {
     mainWindow.webContents.send('full-screen-change', false);
   });
+
+  mainWindow.once('ready-to-show', async () => {
+    console.log('main window is ready-to-show');
+
+    try {
+      await sqlInitPromise;
+    } catch (error) {
+      console.log(
+        'main window is ready, but sql has errored',
+        error && error.stack
+      );
+      return;
+    }
+
+    if (!mainWindow) {
+      return;
+    }
+
+    // allow to start minimised in tray
+    if (!startInTray) {
+      console.log('showing main window');
+      mainWindow.show();
+    }
+  });
 }
+
+// Renderer asks if we are done with the database
+ipc.on('database-ready', async event => {
+  try {
+    await sqlInitPromise;
+  } catch (error) {
+    return;
+  }
+
+  console.log('sending `database-ready`');
+  event.sender.send('database-ready');
+});
 
 ipc.on('show-window', () => {
   showWindow();
@@ -960,6 +1004,29 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
   });
 }
 
+async function initializeSQL() {
+  const userDataPath = await getRealPath(app.getPath('userData'));
+
+  let key = userConfig.get('key');
+  if (!key) {
+    console.log(
+      'key/initialize: Generating new encryption key, since we did not find it on disk'
+    );
+    // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
+    key = crypto.randomBytes(32).toString('hex');
+    userConfig.set('key', key);
+  }
+
+  sqlInitTimeStart = Date.now();
+  await sql.initialize({
+    configDir: userDataPath,
+    key,
+  });
+  sqlInitTimeEnd = Date.now();
+}
+
+const sqlInitPromise = initializeSQL();
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -1029,23 +1096,6 @@ app.on('ready', async () => {
 
   GlobalErrors.updateLocale(locale.messages);
 
-  let key = userConfig.get('key');
-  if (!key) {
-    console.log(
-      'key/initialize: Generating new encryption key, since we did not find it on disk'
-    );
-    // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-    key = crypto.randomBytes(32).toString('hex');
-    userConfig.set('key', key);
-  }
-
-  sqlInitTimeStart = Date.now();
-  const sqlInitPromise = sql.initialize({
-    configDir: userDataPath,
-    key,
-    messages: locale.messages,
-  });
-
   // If the sql initialization takes more than three seconds to complete, we
   // want to notify the user that things are happening
   const timeout = new Promise(resolve => setTimeout(resolve, 3000, 'timeout'));
@@ -1085,9 +1135,11 @@ app.on('ready', async () => {
     loadingWindow.loadURL(prepareURL([__dirname, 'loading.html']));
   });
 
+  // Run window preloading in parallel with database initialization.
+  await createWindow();
+
   try {
     await sqlInitPromise;
-    sqlInitTimeEnd = Date.now();
   } catch (error) {
     console.log('sql.initialize was unsuccessful; returning early');
     const buttonIndex = dialog.showMessageBoxSync({
@@ -1182,7 +1234,6 @@ app.on('ready', async () => {
 
   ready = true;
 
-  await createWindow();
   if (usingTrayIcon) {
     tray = createTrayIcon(getMainWindow, locale.messages);
   }
@@ -1451,7 +1502,7 @@ installSettingsGetter('badge-count-muted-conversations');
 installSettingsSetter('badge-count-muted-conversations');
 
 installSettingsGetter('spell-check');
-installSettingsSetter('spell-check');
+installSettingsSetter('spell-check', true);
 
 installSettingsGetter('always-relay-calls');
 installSettingsSetter('always-relay-calls');
@@ -1557,8 +1608,12 @@ function installSettingsGetter(name) {
   });
 }
 
-function installSettingsSetter(name) {
+function installSettingsSetter(name, isEphemeral = false) {
   ipc.on(`set-${name}`, (event, value) => {
+    if (isEphemeral) {
+      ephemeralConfig.set('spell-check', value);
+    }
+
     if (mainWindow && mainWindow.webContents) {
       ipc.once(`set-success-${name}`, (_event, error) => {
         const contents = event.sender;

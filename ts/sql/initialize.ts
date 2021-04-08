@@ -8,7 +8,18 @@ import sql from './Server';
 
 const getRealPath = pify(fs.realpath);
 
-export async function initialize(): Promise<void> {
+// Called from renderer.
+export async function initialize(isTesting = false): Promise<void> {
+  if (!isTesting) {
+    ipc.send('database-ready');
+
+    await new Promise<void>(resolve => {
+      ipc.once('database-ready', () => {
+        resolve();
+      });
+    });
+  }
+
   const configDir = await getRealPath(ipc.sendSync('get-user-data-path'));
   const key = ipc.sendSync('user-config-key');
 
