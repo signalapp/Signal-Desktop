@@ -21,7 +21,6 @@ export function cleanSearchTerm(searchTerm: string): string {
       token !== ',' &&
       token !== 'near'
   );
-  const withWildcards = withoutSpecialTokens.map(token => `${token}*`);
 
-  return withWildcards.join(' ').trim();
+  return withoutSpecialTokens.join(' ').trim();
 }

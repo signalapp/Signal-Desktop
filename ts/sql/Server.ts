@@ -2528,15 +2528,15 @@ async function searchMessages(
   const rows = await db.all(
     `SELECT
       messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
+      snippet(messages_fts, 1, '<<left>>', '<<right>>', '...', 10) as snippet
     FROM messages_fts
     INNER JOIN messages on messages_fts.id = messages.id
     WHERE
-      messages_fts match $query
+      messages_fts.body like $query
     ORDER BY messages.received_at DESC, messages.sent_at DESC
     LIMIT $limit;`,
     {
-      $query: query,
+      $query: `%${query}%`,
       $limit: limit || 500,
     }
   );
@@ -2556,16 +2556,16 @@ async function searchMessagesInConversation(
   const rows = await db.all(
     `SELECT
       messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
+      snippet(messages_fts, 1, '<<left>>', '<<right>>', '...', 10) as snippet
     FROM messages_fts
     INNER JOIN messages on messages_fts.id = messages.id
     WHERE
-      messages_fts match $query AND
+      messages_fts.body like $query AND
       messages.conversationId = $conversationId
     ORDER BY messages.received_at DESC, messages.sent_at DESC
     LIMIT $limit;`,
     {
-      $query: query,
+      $query: `%${query}%`,
       $conversationId: conversationId,
       $limit: limit || 100,
     }
