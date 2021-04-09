@@ -121,9 +121,9 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
       /* eslint-disable no-nested-ternary */
       messageText = (
         <>
-          {muteExpiresAt && Date.now() < muteExpiresAt && (
+          {muteExpiresAt && Date.now() < muteExpiresAt ? (
             <span className={`${MESSAGE_TEXT_CLASS_NAME}__muted`} />
-          )}
+          ) : null}
           {!acceptedMessageRequest ? (
             <span className={`${MESSAGE_TEXT_CLASS_NAME}__message-request`}>
               {i18n('ConversationListItem--message-request')}

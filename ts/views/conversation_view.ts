@@ -478,7 +478,10 @@ Whisper.ConversationView = Whisper.View.extend({
               : this.model.getTitle();
             searchInConversation(this.model.id, name);
           },
-          onSetMuteNotifications: (ms: number) => this.setMuteNotifications(ms),
+          onSetMuteNotifications: (ms: number) =>
+            this.model.setMuteExpiration(
+              ms >= Number.MAX_SAFE_INTEGER ? ms : Date.now() + ms
+            ),
           onSetPin: this.setPin.bind(this),
           // These are view only and don't update the Conversation model, so they
           //   need a manual update call.
@@ -3160,31 +3163,6 @@ Whisper.ConversationView = Whisper.View.extend({
       name: 'updateAccessControlMembers',
       task: async () => this.model.updateAccessControlMembers(value),
     });
-  },
-
-  setMuteNotifications(ms: number) {
-    const muteExpiresAt = ms > 0 ? Date.now() + ms : undefined;
-
-    if (muteExpiresAt) {
-      // we use a timeoutId here so that we can reference the mute that was
-      // potentially set in the ConversationController. Specifically for a
-      // scenario where a conversation is already muted and we boot up the app,
-      // a timeout will be already set. But if we change the mute to a later
-      // date a new timeout would need to be set and the old one cleared. With
-      // this ID we can reference the existing timeout.
-      const timeoutId = this.model.getMuteTimeoutId();
-      window.Signal.Services.removeTimeout(timeoutId);
-      window.Signal.Services.onTimeout(
-        muteExpiresAt,
-        () => {
-          this.setMuteNotifications(0);
-        },
-        timeoutId
-      );
-    }
-
-    this.model.set({ muteExpiresAt });
-    this.saveModel();
   },
 
   async destroyMessages() {

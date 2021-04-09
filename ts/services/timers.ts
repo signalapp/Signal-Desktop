@@ -59,9 +59,11 @@ export function onTimeout(
 }
 
 export function removeTimeout(uuid: string): void {
-  if (timeoutStore.has(uuid)) {
-    timeoutStore.delete(uuid);
+  if (!timeoutStore.has(uuid)) {
+    return;
   }
+
+  timeoutStore.delete(uuid);
 
   allTimeouts.forEach((timeout: TimeoutType) => {
     if (uuid === timeout.uuid) {

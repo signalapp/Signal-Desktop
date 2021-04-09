@@ -3328,6 +3328,10 @@
     "message": "Mute for one hour",
     "description": "Label for muting the conversation"
   },
+  "muteEightHours": {
+    "message": "Mute for eight hours",
+    "description": "Label for muting the conversation"
+  },
   "muteDay": {
     "message": "Mute for one day",
     "description": "Label for muting the conversation"
@@ -3336,13 +3340,17 @@
     "message": "Mute for one week",
     "description": "Label for muting the conversation"
   },
-  "muteYear": {
-    "message": "Mute for one year",
+  "muteAlways": {
+    "message": "Mute always",
     "description": "Label for muting the conversation"
   },
   "unmute": {
     "message": "Unmute",
     "description": "Label for unmuting the conversation"
+  },
+  "muteExpirationLabelAlways": {
+    "message": "Muted always",
+    "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
     "message": "Muted until $duration$",

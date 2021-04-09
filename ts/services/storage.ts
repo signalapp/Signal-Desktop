@@ -626,7 +626,8 @@ async function mergeRecord(
     window.log.error(
       'storageService.mergeRecord: Error with',
       redactStorageID(storageID),
-      itemType
+      itemType,
+      String(err)
     );
   }
 

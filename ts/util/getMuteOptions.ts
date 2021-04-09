@@ -17,6 +17,10 @@ export function getMuteOptions(i18n: LocalizerType): Array<MuteOption> {
       value: moment.duration(1, 'hour').as('milliseconds'),
     },
     {
+      name: i18n('muteEightHours'),
+      value: moment.duration(8, 'hour').as('milliseconds'),
+    },
+    {
       name: i18n('muteDay'),
       value: moment.duration(1, 'day').as('milliseconds'),
     },
@@ -25,8 +29,8 @@ export function getMuteOptions(i18n: LocalizerType): Array<MuteOption> {
       value: moment.duration(1, 'week').as('milliseconds'),
     },
     {
-      name: i18n('muteYear'),
-      value: moment.duration(1, 'year').as('milliseconds'),
+      name: i18n('muteAlways'),
+      value: Number.MAX_SAFE_INTEGER,
     },
   ];
 }

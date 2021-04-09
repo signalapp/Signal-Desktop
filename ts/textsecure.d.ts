@@ -1057,6 +1057,7 @@ export declare class ContactRecordClass {
   whitelisted?: boolean | null;
   archived?: boolean | null;
   markedUnread?: boolean;
+  mutedUntilTimestamp?: ProtoBigNumberType;
 
   __unknownFields?: ArrayBuffer;
 }
@@ -1073,6 +1074,7 @@ export declare class GroupV1RecordClass {
   whitelisted?: boolean | null;
   archived?: boolean | null;
   markedUnread?: boolean;
+  mutedUntilTimestamp?: ProtoBigNumberType;
 
   __unknownFields?: ArrayBuffer;
 }
@@ -1089,6 +1091,7 @@ export declare class GroupV2RecordClass {
   whitelisted?: boolean | null;
   archived?: boolean | null;
   markedUnread?: boolean;
+  mutedUntilTimestamp?: ProtoBigNumberType;
 
   __unknownFields?: ArrayBuffer;
 }

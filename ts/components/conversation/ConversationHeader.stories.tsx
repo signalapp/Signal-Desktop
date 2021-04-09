@@ -239,6 +239,22 @@ const stories: Array<ConversationHeaderStory> = [
           outgoingCallButtonStyle: OutgoingCallButtonStyle.Join,
         },
       },
+      {
+        title: 'In a forever muted group',
+        props: {
+          ...commonProps,
+          color: 'signal-blue',
+          title: 'Way too many messages',
+          name: 'Way too many messages',
+          phoneNumber: '',
+          id: '1',
+          type: 'group',
+          expireTimer: 10,
+          acceptedMessageRequest: true,
+          outgoingCallButtonStyle: OutgoingCallButtonStyle.JustVideo,
+          muteExpiresAt: Infinity,
+        },
+      },
     ],
   },
   {

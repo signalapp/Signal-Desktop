@@ -5021,6 +5021,42 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
+  setMuteExpiration(
+    muteExpiresAt = 0,
+    { viaStorageServiceSync = false } = {}
+  ): void {
+    const prevExpiration = this.get('muteExpiresAt');
+
+    if (prevExpiration === muteExpiresAt) {
+      return;
+    }
+
+    // we use a timeoutId here so that we can reference the mute that was
+    // potentially set in the ConversationController. Specifically for a
+    // scenario where a conversation is already muted and we boot up the app,
+    // a timeout will be already set. But if we change the mute to a later
+    // date a new timeout would need to be set and the old one cleared. With
+    // this ID we can reference the existing timeout.
+    const timeoutId = this.getMuteTimeoutId();
+    window.Signal.Services.removeTimeout(timeoutId);
+
+    if (muteExpiresAt && muteExpiresAt < Number.MAX_SAFE_INTEGER) {
+      window.Signal.Services.onTimeout(
+        muteExpiresAt,
+        () => {
+          this.setMuteExpiration(0);
+        },
+        timeoutId
+      );
+    }
+
+    this.set({ muteExpiresAt });
+    if (!viaStorageServiceSync) {
+      this.captureChange('mutedUntilTimestamp');
+    }
+    window.Signal.Data.updateConversation(this.attributes);
+  }
+
   isMuted(): boolean {
     return isMuted(this.get('muteExpiresAt'));
   }

@@ -378,14 +378,24 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     const muteOptions: Array<MuteOption> = [];
     if (isMuted(muteExpiresAt)) {
       const expires = moment(muteExpiresAt);
-      const muteExpirationLabel = moment().isSame(expires, 'day')
-        ? expires.format('hh:mm A')
-        : expires.format('M/D/YY, hh:mm A');
+
+      let muteExpirationLabel: string;
+      if (Number(muteExpiresAt) >= Number.MAX_SAFE_INTEGER) {
+        muteExpirationLabel = i18n('muteExpirationLabelAlways');
+      } else {
+        const muteExpirationUntil = moment().isSame(expires, 'day')
+          ? expires.format('hh:mm A')
+          : expires.format('M/D/YY, hh:mm A');
+
+        muteExpirationLabel = i18n('muteExpirationLabel', [
+          muteExpirationUntil,
+        ]);
+      }
 
       muteOptions.push(
         ...[
           {
-            name: i18n('muteExpirationLabel', [muteExpirationLabel]),
+            name: muteExpirationLabel,
             disabled: true,
             value: 0,
           },
