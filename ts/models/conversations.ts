@@ -5066,6 +5066,12 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async notify(message: WhatIsThis, reaction?: WhatIsThis): Promise<void> {
+    // As a performance optimization don't perform any work if notifications are
+    // disabled.
+    if (!window.Whisper.Notifications.isEnabled) {
+      return;
+    }
+
     if (this.isMuted()) {
       return;
     }

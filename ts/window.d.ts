@@ -708,6 +708,7 @@ export type WhisperType = {
   BodyRangeType: BodyRangeType;
 
   Notifications: {
+    isEnabled: boolean;
     removeBy: (filter: Partial<unknown>) => void;
     add: (notification: unknown) => void;
     clear: () => void;
