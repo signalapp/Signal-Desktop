@@ -3826,7 +3826,7 @@ async function addStickerPackReference(
       $packId
     )
     `
-  ).all({
+  ).run({
     messageId,
     packId,
   });
