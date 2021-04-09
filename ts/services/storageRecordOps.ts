@@ -506,6 +506,10 @@ export async function mergeGroupV1Record(
       conversation.idForLogging()
     );
   } else {
+    if (groupV1Record.id.byteLength !== 16) {
+      throw new Error('Not a valid gv1');
+    }
+
     conversation = await window.ConversationController.getOrCreateAndWait(
       groupId,
       'group'
