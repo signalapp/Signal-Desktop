@@ -15440,7 +15440,7 @@
     "rule": "jQuery-$(",
     "path": "node_modules/sharp/lib/libvips.js",
     "line": "    const brewPkgConfigPath = spawnSync('which brew >/dev/null 2>&1 && eval $(brew --env) && echo $PKG_CONFIG_LIBDIR', spawnSyncOptions).stdout || '';",
-    "lineNumber": 71,
+    "lineNumber": 89,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
   },
