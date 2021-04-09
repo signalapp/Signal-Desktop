@@ -12,6 +12,7 @@ import {
 } from 'lodash';
 import { ClientZkGroupCipher } from 'zkgroup';
 import { v4 as getGuid } from 'uuid';
+import LRU from 'lru-cache';
 import {
   getCredentialsForToday,
   GROUP_CREDENTIALS_KEY,
@@ -201,6 +202,18 @@ export type GroupV2ChangeType = {
   from?: string;
   details: Array<GroupV2ChangeDetailType>;
 };
+
+export type GroupFields = {
+  readonly id: ArrayBuffer;
+  readonly secretParams: ArrayBuffer;
+  readonly publicParams: ArrayBuffer;
+};
+
+const MAX_CACHED_GROUP_FIELDS = 100;
+
+const groupFieldsCache = new LRU<string, GroupFields>({
+  max: MAX_CACHED_GROUP_FIELDS,
+});
 
 const { updateConversation } = dataInterface;
 
@@ -1314,18 +1327,26 @@ export function idForLogging(groupId: string | undefined): string {
   return `groupv2(${groupId})`;
 }
 
-export function deriveGroupFields(
-  masterKey: ArrayBuffer
-): { id: ArrayBuffer; secretParams: ArrayBuffer; publicParams: ArrayBuffer } {
+export function deriveGroupFields(masterKey: ArrayBuffer): GroupFields {
+  const cacheKey = arrayBufferToBase64(masterKey);
+  const cached = groupFieldsCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
+  window.log.info('deriveGroupFields: cache miss');
+
   const secretParams = deriveGroupSecretParams(masterKey);
   const publicParams = deriveGroupPublicParams(secretParams);
   const id = deriveGroupID(secretParams);
 
-  return {
+  const fresh = {
     id,
     secretParams,
     publicParams,
   };
+  groupFieldsCache.set(cacheKey, fresh);
+  return fresh;
 }
 
 async function makeRequestWithTemporalRetry<T>({
