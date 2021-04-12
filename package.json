@@ -300,6 +300,7 @@
       "debug_log_preload.js",
       "password_preload.js",
       "main.js",
+      "certificates/**",
       "images/**",
       "fonts/*",
       "build/assets",
