@@ -78,7 +78,9 @@ const getOutgoingCallButtonStyle = (
 };
 
 const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
-  const conversation = getConversationSelector(state)(ownProps.id);
+  const { id } = ownProps;
+
+  const conversation = getConversationSelector(state)(id);
   if (!conversation) {
     throw new Error('Could not find conversation');
   }
@@ -92,7 +94,6 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
       'expireTimer',
       'isArchived',
       'isMe',
-      'isMissingMandatoryProfileSharing',
       'isPinned',
       'isVerified',
       'left',
@@ -106,6 +107,14 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
       'groupVersion',
     ]),
     conversationTitle: state.conversations.selectedConversationTitle,
+    isMissingMandatoryProfileSharing: Boolean(
+      !conversation.profileSharing &&
+        window.Signal.RemoteConfig.isEnabled(
+          'desktop.mandatoryProfileSharing'
+        ) &&
+        conversation.messageCount &&
+        conversation.messageCount > 0
+    ),
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),

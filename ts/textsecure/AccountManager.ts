@@ -17,8 +17,10 @@ import ProvisioningCipher from './ProvisioningCipher';
 import WebSocketResource, {
   IncomingWebSocketRequest,
 } from './WebsocketResources';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 
 const ARCHIVE_AGE = 30 * 24 * 60 * 60 * 1000;
+const PREKEY_ROTATION_AGE = 24 * 60 * 60 * 1000;
 
 function getIdentifier(id: string) {
   if (!id || !id.length) {
@@ -211,14 +213,18 @@ export default class AccountManager extends EventTarget {
                 const proto = window.textsecure.protobuf.ProvisioningUuid.decode(
                   request.body
                 );
-                setProvisioningUrl(
-                  [
-                    'tsdevice:/?uuid=',
-                    proto.uuid,
-                    '&pub_key=',
-                    encodeURIComponent(btoa(utils.getString(pubKey))),
-                  ].join('')
-                );
+                const url = [
+                  'tsdevice:/?uuid=',
+                  proto.uuid,
+                  '&pub_key=',
+                  encodeURIComponent(btoa(utils.getString(pubKey))),
+                ].join('');
+
+                if (window.CI) {
+                  window.CI.setProvisioningURL(url);
+                }
+
+                setProvisioningUrl(url);
                 request.respond(200, 'OK');
               } else if (
                 request.path === '/v1/message' &&
@@ -318,10 +324,9 @@ export default class AccountManager extends EventTarget {
       existingKeys.sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
       const confirmedKeys = existingKeys.filter(key => key.confirmed);
 
-      const ONE_DAY_AGO = Date.now() - 24 * 60 * 60 * 1000;
       if (
         confirmedKeys.length >= 3 &&
-        confirmedKeys[0].created_at > ONE_DAY_AGO
+        isMoreRecentThan(confirmedKeys[0].created_at, PREKEY_ROTATION_AGE)
       ) {
         window.log.warn(
           'rotateSignedPreKey: 3+ confirmed keys, most recent is less than a day old. Cancelling rotation.'
@@ -434,9 +439,8 @@ export default class AccountManager extends EventTarget {
             return;
           }
           const createdAt = key.created_at || 0;
-          const age = Date.now() - createdAt;
 
-          if (age > ARCHIVE_AGE) {
+          if (isOlderThan(createdAt, ARCHIVE_AGE)) {
             window.log.info(
               'Removing confirmed signed prekey:',
               key.keyId,
@@ -460,8 +464,7 @@ export default class AccountManager extends EventTarget {
           }
 
           const createdAt = key.created_at || 0;
-          const age = Date.now() - createdAt;
-          if (age > ARCHIVE_AGE) {
+          if (isOlderThan(createdAt, ARCHIVE_AGE)) {
             window.log.info(
               'Removing unconfirmed signed prekey:',
               key.keyId,

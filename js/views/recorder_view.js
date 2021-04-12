@@ -11,7 +11,7 @@
 
   Whisper.RecorderView = Whisper.View.extend({
     className: 'recorder clearfix',
-    templateName: 'recorder',
+    template: () => $('#recorder').html(),
     initialize() {
       this.startTime = Date.now();
       this.interval = setInterval(this.updateTime.bind(this), 1000);

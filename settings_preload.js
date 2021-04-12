@@ -126,6 +126,7 @@ function makeSetter(name) {
     });
 }
 
-require('./ts/logging/set_up_renderer_logging');
-
 window.Backbone = require('backbone');
+require('./ts/backbone/views/whisper_view');
+require('./ts/backbone/views/toast_view');
+require('./ts/logging/set_up_renderer_logging').initialize();

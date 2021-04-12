@@ -8,6 +8,7 @@
       "dom", // Required to access `window`
       "es2017" // Required by `@sindresorhus/is`
     ],
+    "incremental": true,
     // "allowJs": true,                       // Allow javascript files to be compiled.
     // "checkJs": true,                       // Report errors in .js files.
     "jsx": "react", // Specify JSX code generation: 'preserve', 'react-native', or 'react'.
@@ -15,7 +16,7 @@
     // "sourceMap": true,                     // Generates corresponding '.map' file.
     // "outFile": "./",                       // Concatenate and emit output to single file.
     // "outDir": "./",                        // Redirect output structure to the directory.
-    "rootDir": "./ts", // Specify the root directory of input files. Use to control the output directory structure with --outDir.
+    "rootDir": "./", // Specify the root directory of input files. Use to control the output directory structure with --outDir.
     // "removeComments": true,                // Do not emit comments to output.
     // "noEmit": true,                        // Do not emit outputs.
     // "importHelpers": true,                 // Import emit helpers from 'tslib'.

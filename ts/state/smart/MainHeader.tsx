@@ -20,13 +20,14 @@ import {
   getUserNumber,
   getUserUuid,
 } from '../selectors/user';
-import { getMe } from '../selectors/conversations';
+import { getMe, getSelectedConversation } from '../selectors/conversations';
 
 const mapStateToProps = (state: StateType) => {
   return {
     searchTerm: getQuery(state),
     searchConversationId: getSearchConversationId(state),
     searchConversationName: getSearchConversationName(state),
+    selectedConversation: getSelectedConversation(state),
     startSearchCounter: getStartSearchCounter(state),
     regionCode: getRegionCode(state),
     ourConversationId: getUserConversationId(state),

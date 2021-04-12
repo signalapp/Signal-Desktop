@@ -125,6 +125,7 @@ const rules = {
         '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
     },
   ],
+  curly: 'error',
 };
 
 module.exports = {

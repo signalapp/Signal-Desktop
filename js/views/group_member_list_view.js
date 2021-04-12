@@ -1,16 +1,15 @@
 // Copyright 2015-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Whisper, i18n */
+/* global Whisper, i18n, $ */
 
 // eslint-disable-next-line func-names
 (function () {
   window.Whisper = window.Whisper || {};
 
-  // TODO: take a title string which could replace the 'members' header
   Whisper.GroupMemberList = Whisper.View.extend({
     className: 'group-member-list panel',
-    templateName: 'group-member-list',
+    template: () => $('#group-member-list').html(),
     initialize(options) {
       this.needVerify = options.needVerify;
 

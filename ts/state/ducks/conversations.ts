@@ -16,10 +16,11 @@ import {
 } from 'lodash';
 
 import { StateType as RootStateType } from '../reducer';
+import * as groups from '../../groups';
 import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
+import { assert } from '../../util/assert';
 import { trigger } from '../../shims/events';
-import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
 import { BodyRangeType } from '../../types/Util';
@@ -30,6 +31,11 @@ import {
 } from '../../components/conversation/conversation-details/PendingInvites';
 import { GroupV2Membership } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { MediaItemType } from '../../components/LightboxGallery';
+import {
+  getGroupSizeRecommendedLimit,
+  getGroupSizeHardLimit,
+} from '../../groups/limits';
+import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition';
 
 // State
 
@@ -65,10 +71,12 @@ export type ConversationType = {
   canChangeTimer?: boolean;
   canEditGroupInfo?: boolean;
   color?: ColorType;
+  discoveredUnregisteredAt?: number;
   isAccepted?: boolean;
   isArchived?: boolean;
   isBlocked?: boolean;
   isGroupV1AndDisabled?: boolean;
+  isGroupV2Capable?: boolean;
   isPinned?: boolean;
   isUntrusted?: boolean;
   isVerified?: boolean;
@@ -84,6 +92,7 @@ export type ConversationType = {
   markedUnread?: boolean;
   phoneNumber?: string;
   membersCount?: number;
+  messageCount?: number;
   accessControlAddFromInviteLink?: number;
   accessControlAttributes?: number;
   accessControlMembers?: number;
@@ -110,6 +119,7 @@ export type ConversationType = {
     profileName?: string;
   } | null;
   recentMediaItems?: Array<MediaItemType>;
+  profileSharing?: boolean;
 
   shouldShowDraft?: boolean;
   draftText?: string | null;
@@ -120,7 +130,6 @@ export type ConversationType = {
   groupVersion?: 1 | 2;
   groupId?: string;
   groupLink?: string;
-  isMissingMandatoryProfileSharing?: boolean;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest?: boolean;
   secretParams?: string;
@@ -219,18 +228,58 @@ export type PreJoinConversationType = {
   approvalRequired: boolean;
 };
 
+export enum ComposerStep {
+  StartDirectConversation,
+  ChooseGroupMembers,
+  SetGroupMetadata,
+}
+
+export enum OneTimeModalState {
+  NeverShown,
+  Showing,
+  Shown,
+}
+
+type ComposerGroupCreationState = {
+  groupAvatar: undefined | ArrayBuffer;
+  groupName: string;
+  maximumGroupSizeModalState: OneTimeModalState;
+  recommendedGroupSizeModalState: OneTimeModalState;
+  selectedConversationIds: Array<string>;
+};
+
+type ComposerStateType =
+  | {
+      step: ComposerStep.StartDirectConversation;
+      contactSearchTerm: string;
+    }
+  | ({
+      step: ComposerStep.ChooseGroupMembers;
+      contactSearchTerm: string;
+      cantAddContactIdForModal: undefined | string;
+    } & ComposerGroupCreationState)
+  | ({
+      step: ComposerStep.SetGroupMetadata;
+    } & ComposerGroupCreationState &
+      (
+        | { isCreating: false; hasError: boolean }
+        | { isCreating: true; hasError: false }
+      ));
+
 export type ConversationsStateType = {
   preJoinConversation?: PreJoinConversationType;
+  invitedConversationIdsForNewlyCreatedGroup?: Array<string>;
   conversationLookup: ConversationLookupType;
   conversationsByE164: ConversationLookupType;
   conversationsByUuid: ConversationLookupType;
   conversationsByGroupId: ConversationLookupType;
-  selectedConversation?: string;
+  selectedConversationId?: string;
   selectedMessage?: string;
   selectedMessageCounter: number;
   selectedConversationTitle?: string;
   selectedConversationPanelDepth: number;
   showArchived: boolean;
+  composer?: ComposerStateType;
 
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
@@ -264,6 +313,25 @@ export const getConversationCallMode = (
 
 // Actions
 
+type CantAddContactToGroupActionType = {
+  type: 'CANT_ADD_CONTACT_TO_GROUP';
+  payload: {
+    conversationId: string;
+  };
+};
+type ClearGroupCreationErrorActionType = { type: 'CLEAR_GROUP_CREATION_ERROR' };
+type ClearInvitedConversationsForNewlyCreatedGroupActionType = {
+  type: 'CLEAR_INVITED_CONVERSATIONS_FOR_NEWLY_CREATED_GROUP';
+};
+type CloseCantAddContactToGroupModalActionType = {
+  type: 'CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL';
+};
+type CloseMaximumGroupSizeModalActionType = {
+  type: 'CLOSE_MAXIMUM_GROUP_SIZE_MODAL';
+};
+type CloseRecommendedGroupSizeModalActionType = {
+  type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL';
+};
 type SetPreJoinConversationActionType = {
   type: 'SET_PRE_JOIN_CONVERSATION';
   payload: {
@@ -296,6 +364,18 @@ export type ConversationUnloadedActionType = {
   payload: {
     id: string;
   };
+};
+type CreateGroupPendingActionType = {
+  type: 'CREATE_GROUP_PENDING';
+};
+type CreateGroupFulfilledActionType = {
+  type: 'CREATE_GROUP_FULFILLED';
+  payload: {
+    invitedConversationIds: Array<string>;
+  };
+};
+type CreateGroupRejectedActionType = {
+  type: 'CREATE_GROUP_REJECTED';
 };
 export type RemoveAllConversationsActionType = {
   type: 'CONVERSATIONS_REMOVE_ALL';
@@ -431,6 +511,18 @@ export type ShowArchivedConversationsActionType = {
   type: 'SHOW_ARCHIVED_CONVERSATIONS';
   payload: null;
 };
+type SetComposeGroupAvatarActionType = {
+  type: 'SET_COMPOSE_GROUP_AVATAR';
+  payload: { groupAvatar: undefined | ArrayBuffer };
+};
+type SetComposeGroupNameActionType = {
+  type: 'SET_COMPOSE_GROUP_NAME';
+  payload: { groupName: string };
+};
+type SetComposeSearchTermActionType = {
+  type: 'SET_COMPOSE_SEARCH_TERM';
+  payload: { contactSearchTerm: string };
+};
 type SetRecentMediaItemsActionType = {
   type: 'SET_RECENT_MEDIA_ITEMS';
   payload: {
@@ -438,15 +530,45 @@ type SetRecentMediaItemsActionType = {
     recentMediaItems: Array<MediaItemType>;
   };
 };
+type StartComposingActionType = {
+  type: 'START_COMPOSING';
+};
+type ShowChooseGroupMembersActionType = {
+  type: 'SHOW_CHOOSE_GROUP_MEMBERS';
+};
+type StartSettingGroupMetadataActionType = {
+  type: 'START_SETTING_GROUP_METADATA';
+};
+export type SwitchToAssociatedViewActionType = {
+  type: 'SWITCH_TO_ASSOCIATED_VIEW';
+  payload: { conversationId: string };
+};
+export type ToggleConversationInChooseMembersActionType = {
+  type: 'TOGGLE_CONVERSATION_IN_CHOOSE_MEMBERS';
+  payload: {
+    conversationId: string;
+    maxRecommendedGroupSize: number;
+    maxGroupSize: number;
+  };
+};
 
 export type ConversationActionType =
+  | CantAddContactToGroupActionType
   | ClearChangedMessagesActionType
+  | ClearGroupCreationErrorActionType
+  | ClearInvitedConversationsForNewlyCreatedGroupActionType
   | ClearSelectedMessageActionType
   | ClearUnreadMetricsActionType
+  | CloseCantAddContactToGroupModalActionType
+  | CloseMaximumGroupSizeModalActionType
+  | CloseRecommendedGroupSizeModalActionType
   | ConversationAddedActionType
   | ConversationChangedActionType
   | ConversationRemovedActionType
   | ConversationUnloadedActionType
+  | CreateGroupFulfilledActionType
+  | CreateGroupPendingActionType
+  | CreateGroupRejectedActionType
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessagesAddedActionType
@@ -458,6 +580,9 @@ export type ConversationActionType =
   | RepairOldestMessageActionType
   | ScrollToMessageActionType
   | SelectedConversationChangedActionType
+  | SetComposeGroupAvatarActionType
+  | SetComposeGroupNameActionType
+  | SetComposeSearchTermActionType
   | SetConversationHeaderTitleActionType
   | SetIsNearBottomActionType
   | SetLoadCountdownStartActionType
@@ -466,18 +591,30 @@ export type ConversationActionType =
   | SetRecentMediaItemsActionType
   | SetSelectedConversationPanelDepthActionType
   | ShowArchivedConversationsActionType
-  | ShowInboxActionType;
+  | ShowInboxActionType
+  | StartComposingActionType
+  | ShowChooseGroupMembersActionType
+  | StartSettingGroupMetadataActionType
+  | SwitchToAssociatedViewActionType
+  | ToggleConversationInChooseMembersActionType;
 
 // Action Creators
 
 export const actions = {
+  cantAddContactToGroup,
   clearChangedMessages,
+  clearInvitedConversationsForNewlyCreatedGroup,
+  clearGroupCreationError,
   clearSelectedMessage,
   clearUnreadMetrics,
+  closeCantAddContactToGroupModal,
+  closeRecommendedGroupSizeModal,
+  closeMaximumGroupSizeModal,
   conversationAdded,
   conversationChanged,
   conversationRemoved,
   conversationUnloaded,
+  createGroup,
   messageChanged,
   messageDeleted,
   messagesAdded,
@@ -490,6 +627,9 @@ export const actions = {
   repairOldestMessage,
   scrollToMessage,
   selectMessage,
+  setComposeGroupAvatar,
+  setComposeGroupName,
+  setComposeSearchTerm,
   setIsNearBottom,
   setLoadCountdownStart,
   setMessagesLoading,
@@ -499,8 +639,21 @@ export const actions = {
   setSelectedConversationPanelDepth,
   showArchivedConversations,
   showInbox,
+  startComposing,
+  showChooseGroupMembers,
+  startNewConversationFromPhoneNumber,
+  startSettingGroupMetadata,
+  toggleConversationInChooseMembers,
 };
 
+function cantAddContactToGroup(
+  conversationId: string
+): CantAddContactToGroupActionType {
+  return {
+    type: 'CANT_ADD_CONTACT_TO_GROUP',
+    payload: { conversationId },
+  };
+}
 function setPreJoinConversation(
   data: PreJoinConversationType | undefined
 ): SetPreJoinConversationActionType {
@@ -555,6 +708,56 @@ function conversationUnloaded(id: string): ConversationUnloadedActionType {
     },
   };
 }
+
+function createGroup(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | CreateGroupPendingActionType
+  | CreateGroupFulfilledActionType
+  | CreateGroupRejectedActionType
+  | SwitchToAssociatedViewActionType
+> {
+  return async (dispatch, getState, ...args) => {
+    const { composer } = getState().conversations;
+    if (
+      composer?.step !== ComposerStep.SetGroupMetadata ||
+      composer.isCreating
+    ) {
+      assert(false, 'Cannot create group in this stage; doing nothing');
+      return;
+    }
+
+    dispatch({ type: 'CREATE_GROUP_PENDING' });
+
+    try {
+      const conversation = await groups.createGroupV2({
+        name: composer.groupName.trim(),
+        avatar: composer.groupAvatar,
+        conversationIds: composer.selectedConversationIds,
+      });
+      dispatch({
+        type: 'CREATE_GROUP_FULFILLED',
+        payload: {
+          invitedConversationIds: (
+            conversation.get('pendingMembersV2') || []
+          ).map(member => member.conversationId),
+        },
+      });
+      openConversationInternal({
+        conversationId: conversation.id,
+        switchToAssociatedView: true,
+      })(dispatch, getState, ...args);
+    } catch (err) {
+      window.log.error(
+        'Failed to create group',
+        err && err.stack ? err.stack : err
+      );
+      dispatch({ type: 'CREATE_GROUP_REJECTED' });
+    }
+  };
+}
+
 function removeAllConversations(): RemoveAllConversationsActionType {
   return {
     type: 'CONVERSATIONS_REMOVE_ALL',
@@ -740,6 +943,12 @@ function clearChangedMessages(
     },
   };
 }
+function clearInvitedConversationsForNewlyCreatedGroup(): ClearInvitedConversationsForNewlyCreatedGroupActionType {
+  return { type: 'CLEAR_INVITED_CONVERSATIONS_FOR_NEWLY_CREATED_GROUP' };
+}
+function clearGroupCreationError(): ClearGroupCreationErrorActionType {
+  return { type: 'CLEAR_GROUP_CREATION_ERROR' };
+}
 function clearSelectedMessage(): ClearSelectedMessageActionType {
   return {
     type: 'CLEAR_SELECTED_MESSAGE',
@@ -756,7 +965,15 @@ function clearUnreadMetrics(
     },
   };
 }
-
+function closeCantAddContactToGroupModal(): CloseCantAddContactToGroupModalActionType {
+  return { type: 'CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL' };
+}
+function closeMaximumGroupSizeModal(): CloseMaximumGroupSizeModalActionType {
+  return { type: 'CLOSE_MAXIMUM_GROUP_SIZE_MODAL' };
+}
+function closeRecommendedGroupSizeModal(): CloseRecommendedGroupSizeModalActionType {
+  return { type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL' };
+}
 function scrollToMessage(
   conversationId: string,
   messageId: string
@@ -770,19 +987,107 @@ function scrollToMessage(
   };
 }
 
+function setComposeGroupAvatar(
+  groupAvatar: undefined | ArrayBuffer
+): SetComposeGroupAvatarActionType {
+  return {
+    type: 'SET_COMPOSE_GROUP_AVATAR',
+    payload: { groupAvatar },
+  };
+}
+
+function setComposeGroupName(groupName: string): SetComposeGroupNameActionType {
+  return {
+    type: 'SET_COMPOSE_GROUP_NAME',
+    payload: { groupName },
+  };
+}
+
+function setComposeSearchTerm(
+  contactSearchTerm: string
+): SetComposeSearchTermActionType {
+  return {
+    type: 'SET_COMPOSE_SEARCH_TERM',
+    payload: { contactSearchTerm },
+  };
+}
+
+function startComposing(): StartComposingActionType {
+  return { type: 'START_COMPOSING' };
+}
+
+function showChooseGroupMembers(): ShowChooseGroupMembersActionType {
+  return { type: 'SHOW_CHOOSE_GROUP_MEMBERS' };
+}
+
+function startNewConversationFromPhoneNumber(
+  e164: string
+): ThunkAction<void, RootStateType, unknown, ShowInboxActionType> {
+  return dispatch => {
+    trigger('showConversation', e164);
+
+    dispatch(showInbox());
+  };
+}
+
+function startSettingGroupMetadata(): StartSettingGroupMetadataActionType {
+  return { type: 'START_SETTING_GROUP_METADATA' };
+}
+
+function toggleConversationInChooseMembers(
+  conversationId: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ToggleConversationInChooseMembersActionType
+> {
+  return dispatch => {
+    const maxRecommendedGroupSize = getGroupSizeRecommendedLimit(151);
+    const maxGroupSize = Math.max(
+      getGroupSizeHardLimit(1001),
+      maxRecommendedGroupSize + 1
+    );
+
+    assert(
+      maxGroupSize > maxRecommendedGroupSize,
+      'Expected the hard max group size to be larger than the recommended maximum'
+    );
+
+    dispatch({
+      type: 'TOGGLE_CONVERSATION_IN_CHOOSE_MEMBERS',
+      payload: { conversationId, maxGroupSize, maxRecommendedGroupSize },
+    });
+  };
+}
+
 // Note: we need two actions here to simplify. Operations outside of the left pane can
 //   trigger an 'openConversation' so we go through Whisper.events for all
 //   conversation selection. Internal just triggers the Whisper.event, and External
 //   makes the changes to the store.
-function openConversationInternal(
-  id: string,
-  messageId?: string
-): NoopActionType {
-  trigger('showConversation', id, messageId);
+function openConversationInternal({
+  conversationId,
+  messageId,
+  switchToAssociatedView,
+}: Readonly<{
+  conversationId: string;
+  messageId?: string;
+  switchToAssociatedView?: boolean;
+}>): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SwitchToAssociatedViewActionType
+> {
+  return dispatch => {
+    trigger('showConversation', conversationId, messageId);
 
-  return {
-    type: 'NOOP',
-    payload: null,
+    if (switchToAssociatedView) {
+      dispatch({
+        type: 'SWITCH_TO_ASSOCIATED_VIEW',
+        payload: { conversationId },
+      });
+    }
   };
 }
 function openConversationExternal(
@@ -949,10 +1254,94 @@ export function updateConversationLookups(
   return result;
 }
 
+function closeComposerModal(
+  state: Readonly<ConversationsStateType>,
+  modalToClose: 'maximumGroupSizeModalState' | 'recommendedGroupSizeModalState'
+): ConversationsStateType {
+  const { composer } = state;
+  if (composer?.step !== ComposerStep.ChooseGroupMembers) {
+    assert(false, "Can't close the modal in this composer step. Doing nothing");
+    return state;
+  }
+  if (composer[modalToClose] !== OneTimeModalState.Showing) {
+    return state;
+  }
+  return {
+    ...state,
+    composer: {
+      ...composer,
+      [modalToClose]: OneTimeModalState.Shown,
+    },
+  };
+}
+
 export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
   action: Readonly<ConversationActionType>
 ): ConversationsStateType {
+  if (action.type === 'CANT_ADD_CONTACT_TO_GROUP') {
+    const { composer } = state;
+    if (composer?.step !== ComposerStep.ChooseGroupMembers) {
+      assert(false, "Can't update modal in this composer step. Doing nothing");
+      return state;
+    }
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        cantAddContactIdForModal: action.payload.conversationId,
+      },
+    };
+  }
+
+  if (action.type === 'CLEAR_INVITED_CONVERSATIONS_FOR_NEWLY_CREATED_GROUP') {
+    return omit(state, 'invitedConversationIdsForNewlyCreatedGroup');
+  }
+
+  if (action.type === 'CLEAR_GROUP_CREATION_ERROR') {
+    const { composer } = state;
+    if (composer?.step !== ComposerStep.SetGroupMetadata) {
+      assert(
+        false,
+        "Can't clear group creation error in this composer state. Doing nothing"
+      );
+      return state;
+    }
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        hasError: false,
+      },
+    };
+  }
+
+  if (action.type === 'CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL') {
+    const { composer } = state;
+    if (composer?.step !== ComposerStep.ChooseGroupMembers) {
+      assert(
+        false,
+        "Can't close the modal in this composer step. Doing nothing"
+      );
+      return state;
+    }
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        cantAddContactIdForModal: undefined,
+      },
+    };
+  }
+
+  if (action.type === 'CLOSE_MAXIMUM_GROUP_SIZE_MODAL') {
+    return closeComposerModal(state, 'maximumGroupSizeModalState' as const);
+  }
+
+  if (action.type === 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL') {
+    return closeComposerModal(state, 'recommendedGroupSizeModalState' as const);
+  }
+
   if (action.type === 'SET_PRE_JOIN_CONVERSATION') {
     const { payload } = action;
     const { data } = payload;
@@ -981,7 +1370,7 @@ export function reducer(
     const { id, data } = payload;
     const { conversationLookup } = state;
 
-    let { showArchived, selectedConversation } = state;
+    let { showArchived, selectedConversationId } = state;
 
     const existing = conversationLookup[id];
     // In the change case we only modify the lookup if we already had that conversation
@@ -989,7 +1378,7 @@ export function reducer(
       return state;
     }
 
-    if (selectedConversation === id) {
+    if (selectedConversationId === id) {
       // Archived -> Inbox: we go back to the normal inbox view
       if (existing.isArchived && !data.isArchived) {
         showArchived = false;
@@ -999,13 +1388,13 @@ export function reducer(
       //   behavior - no selected conversation in the left pane, but a conversation show
       //   in the right pane.
       if (!existing.isArchived && data.isArchived) {
-        selectedConversation = undefined;
+        selectedConversationId = undefined;
       }
     }
 
     return {
       ...state,
-      selectedConversation,
+      selectedConversationId,
       showArchived,
       conversationLookup: {
         ...conversationLookup,
@@ -1040,14 +1429,14 @@ export function reducer(
     }
 
     const { messageIds } = existingConversation;
-    const selectedConversation =
-      state.selectedConversation !== id
-        ? state.selectedConversation
+    const selectedConversationId =
+      state.selectedConversationId !== id
+        ? state.selectedConversationId
         : undefined;
 
     return {
       ...state,
-      selectedConversation,
+      selectedConversationId,
       selectedConversationPanelDepth: 0,
       messagesLookup: omit(state.messagesLookup, messageIds),
       messagesByConversation: omit(state.messagesByConversation, [id]),
@@ -1055,6 +1444,47 @@ export function reducer(
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
     return getEmptyState();
+  }
+  if (action.type === 'CREATE_GROUP_PENDING') {
+    const { composer } = state;
+    if (composer?.step !== ComposerStep.SetGroupMetadata) {
+      // This should be unlikely, but it can happen if someone closes the composer while
+      //   a group is being created.
+      return state;
+    }
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        hasError: false,
+        isCreating: true,
+      },
+    };
+  }
+  if (action.type === 'CREATE_GROUP_FULFILLED') {
+    // We don't do much here and instead rely on `openConversationInternal` to do most of
+    //   the work.
+    return {
+      ...state,
+      invitedConversationIdsForNewlyCreatedGroup:
+        action.payload.invitedConversationIds,
+    };
+  }
+  if (action.type === 'CREATE_GROUP_REJECTED') {
+    const { composer } = state;
+    if (composer?.step !== ComposerStep.SetGroupMetadata) {
+      // This should be unlikely, but it can happen if someone closes the composer while
+      //   a group is being created.
+      return state;
+    }
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        hasError: true,
+        isCreating: false,
+      },
+    };
   }
   if (action.type === 'SET_SELECTED_CONVERSATION_PANEL_DEPTH') {
     return {
@@ -1065,7 +1495,7 @@ export function reducer(
   if (action.type === 'MESSAGE_SELECTED') {
     const { messageId, conversationId } = action.payload;
 
-    if (state.selectedConversation !== conversationId) {
+    if (state.selectedConversationId !== conversationId) {
       return state;
     }
 
@@ -1621,18 +2051,18 @@ export function reducer(
 
     return {
       ...state,
-      selectedConversation: id,
+      selectedConversationId: id,
     };
   }
   if (action.type === 'SHOW_INBOX') {
     return {
-      ...state,
+      ...omit(state, 'composer'),
       showArchived: false,
     };
   }
   if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
     return {
-      ...state,
+      ...omit(state, 'composer'),
       showArchived: true,
     };
   }
@@ -1666,6 +2096,202 @@ export function reducer(
         [id]: data,
       },
       ...updateConversationLookups(data, undefined, state),
+    };
+  }
+
+  if (action.type === 'START_COMPOSING') {
+    if (state.composer?.step === ComposerStep.StartDirectConversation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      showArchived: false,
+      composer: {
+        step: ComposerStep.StartDirectConversation,
+        contactSearchTerm: '',
+      },
+    };
+  }
+
+  if (action.type === 'SHOW_CHOOSE_GROUP_MEMBERS') {
+    let selectedConversationIds: Array<string>;
+    let recommendedGroupSizeModalState: OneTimeModalState;
+    let maximumGroupSizeModalState: OneTimeModalState;
+    let groupName: string;
+    let groupAvatar: undefined | ArrayBuffer;
+
+    switch (state.composer?.step) {
+      case ComposerStep.ChooseGroupMembers:
+        return state;
+      case ComposerStep.SetGroupMetadata:
+        ({
+          selectedConversationIds,
+          recommendedGroupSizeModalState,
+          maximumGroupSizeModalState,
+          groupName,
+          groupAvatar,
+        } = state.composer);
+        break;
+      default:
+        selectedConversationIds = [];
+        recommendedGroupSizeModalState = OneTimeModalState.NeverShown;
+        maximumGroupSizeModalState = OneTimeModalState.NeverShown;
+        groupName = '';
+        break;
+    }
+
+    return {
+      ...state,
+      showArchived: false,
+      composer: {
+        step: ComposerStep.ChooseGroupMembers,
+        contactSearchTerm: '',
+        selectedConversationIds,
+        cantAddContactIdForModal: undefined,
+        recommendedGroupSizeModalState,
+        maximumGroupSizeModalState,
+        groupName,
+        groupAvatar,
+      },
+    };
+  }
+
+  if (action.type === 'START_SETTING_GROUP_METADATA') {
+    const { composer } = state;
+
+    switch (composer?.step) {
+      case ComposerStep.ChooseGroupMembers:
+        return {
+          ...state,
+          showArchived: false,
+          composer: {
+            step: ComposerStep.SetGroupMetadata,
+            isCreating: false,
+            hasError: false,
+            ...pick(composer, [
+              'groupAvatar',
+              'groupName',
+              'maximumGroupSizeModalState',
+              'recommendedGroupSizeModalState',
+              'selectedConversationIds',
+            ]),
+          },
+        };
+      case ComposerStep.SetGroupMetadata:
+        return state;
+      default:
+        assert(
+          false,
+          'Cannot transition to setting group metadata from this state'
+        );
+        return state;
+    }
+  }
+
+  if (action.type === 'SET_COMPOSE_GROUP_AVATAR') {
+    const { composer } = state;
+
+    switch (composer?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return {
+          ...state,
+          composer: {
+            ...composer,
+            groupAvatar: action.payload.groupAvatar,
+          },
+        };
+      default:
+        assert(false, 'Setting compose group avatar at this step is a no-op');
+        return state;
+    }
+  }
+
+  if (action.type === 'SET_COMPOSE_GROUP_NAME') {
+    const { composer } = state;
+
+    switch (composer?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return {
+          ...state,
+          composer: {
+            ...composer,
+            groupName: action.payload.groupName,
+          },
+        };
+      default:
+        assert(false, 'Setting compose group name at this step is a no-op');
+        return state;
+    }
+  }
+
+  if (action.type === 'SET_COMPOSE_SEARCH_TERM') {
+    const { composer } = state;
+    if (!composer) {
+      assert(
+        false,
+        'Setting compose search term with the composer closed is a no-op'
+      );
+      return state;
+    }
+    if (composer?.step === ComposerStep.SetGroupMetadata) {
+      assert(false, 'Setting compose search term at this step is a no-op');
+      return state;
+    }
+
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        contactSearchTerm: action.payload.contactSearchTerm,
+      },
+    };
+  }
+
+  if (action.type === 'SWITCH_TO_ASSOCIATED_VIEW') {
+    const conversation = getOwn(
+      state.conversationLookup,
+      action.payload.conversationId
+    );
+    if (!conversation) {
+      return state;
+    }
+    return {
+      ...omit(state, 'composer'),
+      showArchived: Boolean(conversation.isArchived),
+    };
+  }
+
+  if (action.type === 'TOGGLE_CONVERSATION_IN_CHOOSE_MEMBERS') {
+    const { composer } = state;
+    if (composer?.step !== ComposerStep.ChooseGroupMembers) {
+      assert(
+        false,
+        'Toggling conversation members is a no-op in this composer step'
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        ...toggleSelectedContactForGroupAddition(
+          action.payload.conversationId,
+          {
+            maxGroupSize: action.payload.maxGroupSize,
+            maxRecommendedGroupSize: action.payload.maxRecommendedGroupSize,
+            maximumGroupSizeModalState: composer.maximumGroupSizeModalState,
+            // We say you're already in the group, even though it hasn't been created yet.
+            numberOfContactsAlreadyInGroup: 1,
+            recommendedGroupSizeModalState:
+              composer.recommendedGroupSizeModalState,
+            selectedConversationIds: composer.selectedConversationIds,
+          }
+        ),
+      },
     };
   }
 

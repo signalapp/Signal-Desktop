@@ -1,7 +1,8 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { ReactNode } from 'react';
+import Measure from 'react-measure';
 import moment from 'moment';
 import classNames from 'classnames';
 import {
@@ -17,7 +18,7 @@ import { InContactsIcon } from '../InContactsIcon';
 
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
-import { getMuteOptions } from '../../util/getMuteOptions';
+import { MuteOption, getMuteOptions } from '../../util/getMuteOptions';
 import {
   ExpirationTimerOptions,
   TimerOption,
@@ -92,27 +93,33 @@ export type PropsType = PropsDataType &
   PropsActionsType &
   PropsHousekeepingType;
 
-export class ConversationHeader extends React.Component<PropsType> {
-  public showMenuBound: (event: React.MouseEvent<HTMLButtonElement>) => void;
+type StateType = {
+  isNarrow: boolean;
+};
+
+export class ConversationHeader extends React.Component<PropsType, StateType> {
+  private showMenuBound: (event: React.MouseEvent<HTMLButtonElement>) => void;
 
   // Comes from a third-party dependency
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public menuTriggerRef: React.RefObject<any>;
+  private menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: PropsType) {
     super(props);
+
+    this.state = { isNarrow: false };
 
     this.menuTriggerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
   }
 
-  public showMenu(event: React.MouseEvent<HTMLButtonElement>): void {
+  private showMenu(event: React.MouseEvent<HTMLButtonElement>): void {
     if (this.menuTriggerRef.current) {
       this.menuTriggerRef.current.handleContextClick(event);
     }
   }
 
-  public renderBackButton(): JSX.Element {
+  private renderBackButton(): ReactNode {
     const { i18n, onGoBack, showBackButton } = this.props;
 
     return (
@@ -120,8 +127,8 @@ export class ConversationHeader extends React.Component<PropsType> {
         type="button"
         onClick={onGoBack}
         className={classNames(
-          'module-conversation-header__back-icon',
-          showBackButton ? 'module-conversation-header__back-icon--show' : null
+          'module-ConversationHeader__back-icon',
+          showBackButton ? 'module-ConversationHeader__back-icon--show' : null
         )}
         disabled={!showBackButton}
         aria-label={i18n('goBack')}
@@ -129,51 +136,49 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderTitle(): JSX.Element | null {
-    const {
-      name,
-      phoneNumber,
-      title,
-      type,
-      i18n,
-      isMe,
-      profileName,
-      isVerified,
-    } = this.props;
+  private renderHeaderInfoTitle(): ReactNode {
+    const { name, title, type, i18n, isMe } = this.props;
 
     if (isMe) {
       return (
-        <div className="module-conversation-header__title">
+        <div className="module-ConversationHeader__header__info__title">
           {i18n('noteToSelf')}
         </div>
       );
     }
 
     const shouldShowIcon = Boolean(name && type === 'direct');
-    const shouldShowNumber = Boolean(phoneNumber && (name || profileName));
 
     return (
-      <div className="module-conversation-header__title">
+      <div className="module-ConversationHeader__header__info__title">
         <Emojify text={title} />
         {shouldShowIcon ? (
-          <span>
-            {' '}
-            <InContactsIcon i18n={i18n} />
-          </span>
-        ) : null}
-        {shouldShowNumber ? ` · ${phoneNumber}` : null}
-        {isVerified ? (
-          <span>
-            {' · '}
-            <span className="module-conversation-header__title__verified-icon" />
-            {i18n('verified')}
-          </span>
+          <InContactsIcon
+            className="module-ConversationHeader__header__info__title__in-contacts-icon"
+            i18n={i18n}
+          />
         ) : null}
       </div>
     );
   }
 
-  public renderAvatar(): JSX.Element {
+  private renderHeaderInfoSubtitle(): ReactNode {
+    const expirationNode = this.renderExpirationLength();
+    const verifiedNode = this.renderVerifiedIcon();
+
+    if (expirationNode || verifiedNode) {
+      return (
+        <div className="module-ConversationHeader__header__info__subtitle">
+          {expirationNode}
+          {verifiedNode}
+        </div>
+      );
+    }
+
+    return null;
+  }
+
+  private renderAvatar(): ReactNode {
     const {
       avatarPath,
       color,
@@ -187,7 +192,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     } = this.props;
 
     return (
-      <span className="module-conversation-header__avatar">
+      <span className="module-ConversationHeader__header__avatar">
         <Avatar
           avatarPath={avatarPath}
           color={color}
@@ -204,34 +209,38 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderExpirationLength(): JSX.Element | null {
-    const { i18n, expireTimer, showBackButton } = this.props;
+  private renderExpirationLength(): ReactNode {
+    const { i18n, expireTimer } = this.props;
 
     const expirationSettingName = expireTimer
-      ? ExpirationTimerOptions.getName(i18n, expireTimer)
+      ? ExpirationTimerOptions.getAbbreviated(i18n, expireTimer)
       : undefined;
     if (!expirationSettingName) {
       return null;
     }
 
     return (
-      <div
-        className={classNames(
-          'module-conversation-header__expiration',
-          showBackButton
-            ? 'module-conversation-header__expiration--hidden'
-            : null
-        )}
-      >
-        <div className="module-conversation-header__expiration__clock-icon" />
-        <div className="module-conversation-header__expiration__setting">
-          {expirationSettingName}
-        </div>
+      <div className="module-ConversationHeader__header__info__subtitle__expiration">
+        {expirationSettingName}
       </div>
     );
   }
 
-  public renderMoreButton(triggerId: string): JSX.Element {
+  private renderVerifiedIcon(): ReactNode {
+    const { i18n, isVerified } = this.props;
+
+    if (!isVerified) {
+      return null;
+    }
+
+    return (
+      <div className="module-ConversationHeader__header__info__subtitle__verified">
+        {i18n('verified')}
+      </div>
+    );
+  }
+
+  private renderMoreButton(triggerId: string): ReactNode {
     const { i18n, showBackButton } = this.props;
 
     return (
@@ -240,10 +249,9 @@ export class ConversationHeader extends React.Component<PropsType> {
           type="button"
           onClick={this.showMenuBound}
           className={classNames(
-            'module-conversation-header__more-button',
-            showBackButton
-              ? null
-              : 'module-conversation-header__more-button--show'
+            'module-ConversationHeader__button',
+            'module-ConversationHeader__button--more',
+            showBackButton ? null : 'module-ConversationHeader__button--show'
           )}
           disabled={showBackButton}
           aria-label={i18n('moreInfo')}
@@ -252,7 +260,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderSearchButton(): JSX.Element {
+  private renderSearchButton(): ReactNode {
     const { i18n, onSearchInConversation, showBackButton } = this.props;
 
     return (
@@ -260,10 +268,9 @@ export class ConversationHeader extends React.Component<PropsType> {
         type="button"
         onClick={onSearchInConversation}
         className={classNames(
-          'module-conversation-header__search-button',
-          showBackButton
-            ? null
-            : 'module-conversation-header__search-button--show'
+          'module-ConversationHeader__button',
+          'module-ConversationHeader__button--search',
+          showBackButton ? null : 'module-ConversationHeader__button--show'
         )}
         disabled={showBackButton}
         aria-label={i18n('search')}
@@ -271,7 +278,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  private renderOutgoingCallButtons(): JSX.Element | null {
+  private renderOutgoingCallButtons(): ReactNode {
     const {
       i18n,
       onOutgoingAudioCallInConversation,
@@ -279,17 +286,16 @@ export class ConversationHeader extends React.Component<PropsType> {
       outgoingCallButtonStyle,
       showBackButton,
     } = this.props;
+    const { isNarrow } = this.state;
 
     const videoButton = (
       <button
         type="button"
         onClick={onOutgoingVideoCallInConversation}
         className={classNames(
-          'module-conversation-header__calling-button',
-          'module-conversation-header__calling-button--video',
-          showBackButton
-            ? null
-            : 'module-conversation-header__calling-button--show'
+          'module-ConversationHeader__button',
+          'module-ConversationHeader__button--video',
+          showBackButton ? null : 'module-ConversationHeader__button--show'
         )}
         disabled={showBackButton}
         aria-label={i18n('makeOutgoingVideoCall')}
@@ -309,11 +315,11 @@ export class ConversationHeader extends React.Component<PropsType> {
               type="button"
               onClick={onOutgoingAudioCallInConversation}
               className={classNames(
-                'module-conversation-header__calling-button',
-                'module-conversation-header__calling-button--audio',
+                'module-ConversationHeader__button',
+                'module-ConversationHeader__button--audio',
                 showBackButton
                   ? null
-                  : 'module-conversation-header__calling-button--show'
+                  : 'module-ConversationHeader__button--show'
               )}
               disabled={showBackButton}
               aria-label={i18n('makeOutgoingCall')}
@@ -323,18 +329,17 @@ export class ConversationHeader extends React.Component<PropsType> {
       case OutgoingCallButtonStyle.Join:
         return (
           <button
+            aria-label={i18n('joinOngoingCall')}
             type="button"
             onClick={onOutgoingVideoCallInConversation}
             className={classNames(
-              'module-conversation-header__calling-button',
-              'module-conversation-header__calling-button--join',
-              showBackButton
-                ? null
-                : 'module-conversation-header__calling-button--show'
+              'module-ConversationHeader__button',
+              'module-ConversationHeader__button--join-call',
+              showBackButton ? null : 'module-ConversationHeader__button--show'
             )}
             disabled={showBackButton}
           >
-            {i18n('joinOngoingCall')}
+            {isNarrow ? null : i18n('joinOngoingCall')}
           </button>
         );
       default:
@@ -342,7 +347,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     }
   }
 
-  public renderMenu(triggerId: string): JSX.Element {
+  private renderMenu(triggerId: string): ReactNode {
     const {
       i18n,
       acceptedMessageRequest,
@@ -370,7 +375,7 @@ export class ConversationHeader extends React.Component<PropsType> {
       onMoveToInbox,
     } = this.props;
 
-    const muteOptions = [];
+    const muteOptions: Array<MuteOption> = [];
     if (isMuted(muteExpiresAt)) {
       const expires = moment(muteExpiresAt);
       const muteExpirationLabel = moment().isSame(expires, 'day')
@@ -406,10 +411,7 @@ export class ConversationHeader extends React.Component<PropsType> {
         isMissingMandatoryProfileSharing
     );
 
-    const hasGV2AdminEnabled =
-      isGroup &&
-      groupVersion === 2 &&
-      window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
+    const hasGV2AdminEnabled = isGroup && groupVersion === 2;
 
     return (
       <ContextMenu id={triggerId}>
@@ -484,7 +486,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  private renderHeader(): JSX.Element {
+  private renderHeader(): ReactNode {
     const {
       conversationTitle,
       groupVersion,
@@ -497,92 +499,94 @@ export class ConversationHeader extends React.Component<PropsType> {
 
     if (conversationTitle !== undefined) {
       return (
-        <div className="module-conversation-header__title-flex">
-          <div className="module-conversation-header__title">
-            {conversationTitle}
+        <div className="module-ConversationHeader__header">
+          <div className="module-ConversationHeader__header__info">
+            <div className="module-ConversationHeader__header__info__title">
+              {conversationTitle}
+            </div>
           </div>
         </div>
       );
     }
 
-    const hasGV2AdminEnabled =
-      groupVersion === 2 &&
-      window.Signal.RemoteConfig.isEnabled('desktop.gv2Admin');
-
-    if (type === 'group' && hasGV2AdminEnabled) {
-      const onHeaderClick = () => onShowConversationDetails();
-      const onKeyDown = (e: React.KeyboardEvent): void => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.stopPropagation();
-          e.preventDefault();
-
-          onShowConversationDetails();
-        }
-      };
-
-      return (
-        <div
-          className="module-conversation-header__title-flex module-conversation-header__title-clickable"
-          onClick={onHeaderClick}
-          onKeyDown={onKeyDown}
-          role="button"
-          tabIndex={0}
-        >
-          {this.renderAvatar()}
-          {this.renderTitle()}
-        </div>
-      );
-    }
-
-    if (type === 'group' || isMe) {
-      return (
-        <div className="module-conversation-header__title-flex">
-          {this.renderAvatar()}
-          {this.renderTitle()}
-        </div>
-      );
-    }
-
-    const onContactClick = () => onShowContactModal(id);
-    const onKeyDown = (e: React.KeyboardEvent): void => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.stopPropagation();
-        e.preventDefault();
-
-        onShowContactModal(id);
+    let onClick: undefined | (() => void);
+    switch (type) {
+      case 'direct':
+        onClick = isMe
+          ? undefined
+          : () => {
+              onShowContactModal(id);
+            };
+        break;
+      case 'group': {
+        const hasGV2AdminEnabled = groupVersion === 2;
+        onClick = hasGV2AdminEnabled
+          ? () => {
+              onShowConversationDetails();
+            }
+          : undefined;
+        break;
       }
-    };
+      default:
+        throw missingCaseError(type);
+    }
 
-    return (
-      <div
-        className="module-conversation-header__title-flex module-conversation-header__title-clickable"
-        onClick={onContactClick}
-        onKeyDown={onKeyDown}
-        role="button"
-        tabIndex={0}
-      >
+    const contents = (
+      <>
         {this.renderAvatar()}
-        {this.renderTitle()}
-      </div>
+        <div className="module-ConversationHeader__header__info">
+          {this.renderHeaderInfoTitle()}
+          {this.renderHeaderInfoSubtitle()}
+        </div>
+      </>
     );
+
+    if (onClick) {
+      return (
+        <button
+          type="button"
+          className="module-ConversationHeader__header module-ConversationHeader__header--clickable"
+          onClick={onClick}
+        >
+          {contents}
+        </button>
+      );
+    }
+
+    return <div className="module-ConversationHeader__header">{contents}</div>;
   }
 
-  public render(): JSX.Element {
+  public render(): ReactNode {
     const { id } = this.props;
+    const { isNarrow } = this.state;
     const triggerId = `conversation-${id}`;
 
     return (
-      <div className="module-conversation-header">
-        {this.renderBackButton()}
-        <div className="module-conversation-header__title-container">
-          {this.renderHeader()}
-        </div>
-        {this.renderExpirationLength()}
-        {this.renderOutgoingCallButtons()}
-        {this.renderSearchButton()}
-        {this.renderMoreButton(triggerId)}
-        {this.renderMenu(triggerId)}
-      </div>
+      <Measure
+        bounds
+        onResize={({ bounds }) => {
+          if (!bounds || !bounds.width) {
+            return;
+          }
+          this.setState({ isNarrow: bounds.width < 500 });
+        }}
+      >
+        {({ measureRef }) => (
+          <div
+            className={classNames('module-ConversationHeader', {
+              'module-ConversationHeader--narrow': isNarrow,
+            })}
+            ref={measureRef}
+          >
+            {this.renderBackButton()}
+            {this.renderHeader()}
+            {this.renderOutgoingCallButtons()}
+            {this.renderSearchButton()}
+            {this.renderMoreButton(triggerId)}
+            {this.renderMenu(triggerId)}
+          </div>
+        )}
+      </Measure>
     );
   }
 }

@@ -1,6 +1,7 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as z from 'zod';
 import FormData from 'form-data';
 import { gzip } from 'zlib';
 import pify from 'pify';
@@ -9,28 +10,21 @@ import { getUserAgent } from '../util/getUserAgent';
 
 const BASE_URL = 'https://debuglogs.org';
 
-const isObject = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && !Array.isArray(value) && Boolean(value);
+const tokenBodySchema = z
+  .object({
+    fields: z.record(z.unknown()),
+    url: z.string(),
+  })
+  .nonstrict();
 
 const parseTokenBody = (
-  body: unknown
+  rawBody: unknown
 ): { fields: Record<string, unknown>; url: string } => {
-  if (!isObject(body)) {
-    throw new Error('Token body is not an object');
-  }
+  const body = tokenBodySchema.parse(rawBody);
 
-  const { fields, url } = body as Record<string, unknown>;
-
-  if (!isObject(fields)) {
-    throw new Error('Token body\'s "fields" key is not an object');
-  }
-
-  if (typeof url !== 'string') {
-    throw new Error('Token body\'s "url" key is not a string');
-  }
   let parsedUrl: URL;
   try {
-    parsedUrl = new URL(url);
+    parsedUrl = new URL(body.url);
   } catch (err) {
     throw new Error("Token body's URL was not a valid URL");
   }
@@ -38,7 +32,7 @@ const parseTokenBody = (
     throw new Error("Token body's URL was not HTTPS");
   }
 
-  return { fields, url };
+  return body;
 };
 
 export const uploadDebugLogs = async (

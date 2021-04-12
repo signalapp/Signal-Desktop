@@ -18,32 +18,38 @@
         MessageCollection: Whisper.MessageCollection,
       });
 
-      await Promise.all(
-        messages.map(async fromDB => {
-          const message = MessageController.register(fromDB.id, fromDB);
+      const messageIds = [];
+      const inMemoryMessages = [];
+      const messageCleanup = [];
 
-          window.log.info('Message expired', {
-            sentAt: message.get('sent_at'),
-          });
+      messages.forEach(dbMessage => {
+        const message = MessageController.register(dbMessage.id, dbMessage);
+        messageIds.push(message.id);
+        inMemoryMessages.push(message);
+        messageCleanup.push(message.cleanup());
+      });
 
-          // We delete after the trigger to allow the conversation time to process
-          //   the expiration before the message is removed from the database.
-          await window.Signal.Data.removeMessage(message.id, {
-            Message: Whisper.Message,
-          });
+      // We delete after the trigger to allow the conversation time to process
+      //   the expiration before the message is removed from the database.
+      await window.Signal.Data.removeMessages(messageIds);
+      await Promise.all(messageCleanup);
 
-          Whisper.events.trigger(
-            'messageExpired',
-            message.id,
-            message.conversationId
-          );
+      inMemoryMessages.forEach(message => {
+        window.log.info('Message expired', {
+          sentAt: message.get('sent_at'),
+        });
 
-          const conversation = message.getConversation();
-          if (conversation) {
-            conversation.trigger('expired', message);
-          }
-        })
-      );
+        Whisper.events.trigger(
+          'messageExpired',
+          message.id,
+          message.conversationId
+        );
+
+        const conversation = message.getConversation();
+        if (conversation) {
+          conversation.trigger('expired', message);
+        }
+      });
     } catch (error) {
       window.log.error(
         'destroyExpiredMessages: Error deleting expired messages',

@@ -14,7 +14,6 @@ import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import PQueue from 'p-queue';
 import sql from '@journeyapps/sqlcipher';
-import { app, clipboard, dialog } from 'electron';
 
 import pify from 'pify';
 import { v4 as generateUUID } from 'uuid';
@@ -22,6 +21,7 @@ import {
   Dictionary,
   forEach,
   fromPairs,
+  isNil,
   isNumber,
   isObject,
   isString,
@@ -29,10 +29,11 @@ import {
   last,
   map,
   pick,
+  omit,
 } from 'lodash';
 
-import { redactAll } from '../../js/modules/privacy';
-import { remove as removeUserConfig } from '../../app/user_config';
+import { assert } from '../util/assert';
+import { isNormalNumber } from '../util/isNormalNumber';
 import { combineNames } from '../util/combineNames';
 
 import { GroupV2MemberType } from '../model-types.d';
@@ -54,6 +55,7 @@ import {
   StickerType,
   UnprocessedType,
 } from './Interface';
+import { applyQueueing } from './Queueing';
 
 declare global {
   // We want to extend `Function`'s properties, so we need to use an interface.
@@ -195,19 +197,52 @@ const dataInterface: ServerInterface = {
   // Server-only
 
   initialize,
+  initializeRenderer,
 
   removeKnownAttachments,
   removeKnownStickers,
   removeKnownDraftAttachments,
 };
 
-export default dataInterface;
+export default applyQueueing(dataInterface);
 
 function objectToJSON(data: any) {
   return JSON.stringify(data);
 }
 function jsonToObject(json: string): any {
   return JSON.parse(json);
+}
+function rowToConversation(
+  row: Readonly<{
+    json: string;
+    profileLastFetchedAt: null | number;
+  }>
+): ConversationType {
+  const parsedJson = JSON.parse(row.json);
+
+  let profileLastFetchedAt: undefined | number;
+  if (isNormalNumber(row.profileLastFetchedAt)) {
+    profileLastFetchedAt = row.profileLastFetchedAt;
+  } else {
+    assert(
+      isNil(row.profileLastFetchedAt),
+      'profileLastFetchedAt contained invalid data; defaulting to undefined'
+    );
+    profileLastFetchedAt = undefined;
+  }
+
+  return {
+    ...parsedJson,
+    profileLastFetchedAt,
+  };
+}
+
+function isRenderer() {
+  if (typeof process === 'undefined' || !process) {
+    return true;
+  }
+
+  return process.type === 'renderer';
 }
 
 async function openDatabase(filePath: string): Promise<sql.Database> {
@@ -229,6 +264,9 @@ async function openDatabase(filePath: string): Promise<sql.Database> {
     };
 
     instance = new sql.Database(filePath, callback);
+
+    // See: https://github.com/mapbox/node-sqlite3/issues/1395
+    instance.serialize();
   });
 }
 
@@ -277,6 +315,10 @@ async function setUserVersion(
 async function keyDatabase(instance: PromisifiedSQLDatabase, key: string) {
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
   await instance.run(`PRAGMA key = "x'${key}'";`);
+
+  // https://sqlite.org/wal.html
+  await instance.run('PRAGMA journal_mode = WAL;');
+  await instance.run('PRAGMA synchronous = NORMAL;');
 }
 async function getUserVersion(instance: PromisifiedSQLDatabase) {
   const row = await instance.get('PRAGMA user_version;');
@@ -1645,6 +1687,32 @@ async function updateToSchemaVersion23(
   }
 }
 
+async function updateToSchemaVersion24(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 24) {
+    return;
+  }
+
+  await instance.run('BEGIN TRANSACTION;');
+
+  try {
+    await instance.run(`
+      ALTER TABLE conversations
+      ADD COLUMN profileLastFetchedAt INTEGER;
+    `);
+
+    await instance.run('PRAGMA user_version = 24;');
+    await instance.run('COMMIT TRANSACTION;');
+
+    console.log('updateToSchemaVersion24: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK;');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1669,6 +1737,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion21,
   updateToSchemaVersion22,
   updateToSchemaVersion23,
+  updateToSchemaVersion24,
 ];
 
 async function updateSchema(instance: PromisifiedSQLDatabase) {
@@ -1702,6 +1771,7 @@ async function updateSchema(instance: PromisifiedSQLDatabase) {
 }
 
 let globalInstance: PromisifiedSQLDatabase | undefined;
+let globalInstanceRenderer: PromisifiedSQLDatabase | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
 
@@ -1788,37 +1858,57 @@ async function initialize({
     await getMessageCount();
   } catch (error) {
     console.log('Database startup error:', error.stack);
-    const buttonIndex = dialog.showMessageBoxSync({
-      buttons: [
-        messages.copyErrorAndQuit.message,
-        messages.deleteAndRestart.message,
-      ],
-      defaultId: 0,
-      detail: redactAll(error.stack),
-      message: messages.databaseError.message,
-      noLink: true,
-      type: 'error',
-    });
-
-    if (buttonIndex === 0) {
-      clipboard.writeText(
-        `Database startup error:\n\n${redactAll(error.stack)}`
-      );
-    } else {
-      if (promisified) {
-        await promisified.close();
-      }
-      await removeDB();
-      removeUserConfig();
-      app.relaunch();
+    if (promisified) {
+      await promisified.close();
     }
+    throw error;
+  }
+}
 
-    app.exit(1);
-
-    return false;
+async function initializeRenderer({
+  configDir,
+  key,
+}: {
+  configDir: string;
+  key: string;
+}) {
+  if (!isRenderer()) {
+    throw new Error('Cannot call from main process.');
+  }
+  if (globalInstanceRenderer) {
+    throw new Error('Cannot initialize more than once!');
+  }
+  if (!isString(configDir)) {
+    throw new Error('initialize: configDir is required!');
+  }
+  if (!isString(key)) {
+    throw new Error('initialize: key is required!');
   }
 
-  return true;
+  if (!indexedDBPath) {
+    indexedDBPath = join(configDir, 'IndexedDB');
+  }
+
+  const dbDir = join(configDir, 'sql');
+
+  if (!databaseFilePath) {
+    databaseFilePath = join(dbDir, 'db.sqlite');
+  }
+
+  let promisified: PromisifiedSQLDatabase | undefined;
+
+  try {
+    promisified = await openAndSetUpSQLCipher(databaseFilePath, { key });
+
+    // At this point we can allow general access to the database
+    globalInstanceRenderer = promisified;
+
+    // test database
+    await getMessageCount();
+  } catch (error) {
+    window.log.error('Database startup error:', error.stack);
+    throw error;
+  }
 }
 
 async function close() {
@@ -1842,6 +1932,8 @@ async function removeDB() {
   }
 
   rimraf.sync(databaseFilePath);
+  rimraf.sync(`${databaseFilePath}-shm`);
+  rimraf.sync(`${databaseFilePath}-wal`);
 }
 
 async function removeIndexedDBFiles() {
@@ -1857,6 +1949,13 @@ async function removeIndexedDBFiles() {
 }
 
 function getInstance(): PromisifiedSQLDatabase {
+  if (isRenderer()) {
+    if (!globalInstanceRenderer) {
+      throw new Error('getInstance: globalInstanceRenderer not set!');
+    }
+    return globalInstanceRenderer;
+  }
+
   if (!globalInstance) {
     throw new Error('getInstance: globalInstance not set!');
   }
@@ -2148,6 +2247,7 @@ async function saveConversation(
     name,
     profileFamilyName,
     profileName,
+    profileLastFetchedAt,
     type,
     uuid,
   } = data;
@@ -2174,7 +2274,8 @@ async function saveConversation(
     name,
     profileName,
     profileFamilyName,
-    profileFullName
+    profileFullName,
+    profileLastFetchedAt
   ) values (
     $id,
     $json,
@@ -2189,11 +2290,12 @@ async function saveConversation(
     $name,
     $profileName,
     $profileFamilyName,
-    $profileFullName
+    $profileFullName,
+    $profileLastFetchedAt
   );`,
     {
       $id: id,
-      $json: objectToJSON(data),
+      $json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
 
       $e164: e164,
       $uuid: uuid,
@@ -2206,6 +2308,7 @@ async function saveConversation(
       $profileName: profileName,
       $profileFamilyName: profileFamilyName,
       $profileFullName: combineNames(profileName, profileFamilyName),
+      $profileLastFetchedAt: profileLastFetchedAt,
     }
   );
 }
@@ -2242,6 +2345,7 @@ async function updateConversation(data: ConversationType) {
     name,
     profileName,
     profileFamilyName,
+    profileLastFetchedAt,
     e164,
     uuid,
   } = data;
@@ -2266,11 +2370,12 @@ async function updateConversation(data: ConversationType) {
       name = $name,
       profileName = $profileName,
       profileFamilyName = $profileFamilyName,
-      profileFullName = $profileFullName
+      profileFullName = $profileFullName,
+      profileLastFetchedAt = $profileLastFetchedAt
     WHERE id = $id;`,
     {
       $id: id,
-      $json: objectToJSON(data),
+      $json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
 
       $e164: e164,
       $uuid: uuid,
@@ -2282,9 +2387,11 @@ async function updateConversation(data: ConversationType) {
       $profileName: profileName,
       $profileFamilyName: profileFamilyName,
       $profileFullName: combineNames(profileName, profileFamilyName),
+      $profileLastFetchedAt: profileLastFetchedAt,
     }
   );
 }
+
 async function updateConversations(array: Array<ConversationType>) {
   const db = getInstance();
   await db.run('BEGIN TRANSACTION;');
@@ -2345,9 +2452,13 @@ async function eraseStorageServiceStateFromConversations() {
 
 async function getAllConversations() {
   const db = getInstance();
-  const rows = await db.all('SELECT json FROM conversations ORDER BY id ASC;');
+  const rows = await db.all(`
+    SELECT json, profileLastFetchedAt
+    FROM conversations
+    ORDER BY id ASC;
+  `);
 
-  return map(rows, row => jsonToObject(row.json));
+  return map(rows, row => rowToConversation(row));
 }
 
 async function getAllConversationIds() {
@@ -2360,18 +2471,20 @@ async function getAllConversationIds() {
 async function getAllPrivateConversations() {
   const db = getInstance();
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
-      type = 'private'
-     ORDER BY id ASC;`
+    `SELECT json, profileLastFetchedAt
+    FROM conversations
+    WHERE type = 'private'
+    ORDER BY id ASC;`
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return map(rows, row => rowToConversation(row));
 }
 
 async function getAllGroupsInvolvingId(id: string) {
   const db = getInstance();
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json, profileLastFetchedAt
+     FROM conversations WHERE
       type = 'group' AND
       members LIKE $id
      ORDER BY id ASC;`,
@@ -2380,7 +2493,7 @@ async function getAllGroupsInvolvingId(id: string) {
     }
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return map(rows, row => rowToConversation(row));
 }
 
 async function searchConversations(
@@ -2389,23 +2502,22 @@ async function searchConversations(
 ): Promise<Array<ConversationType>> {
   const db = getInstance();
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json, profileLastFetchedAt
+     FROM conversations WHERE
       (
-        e164 LIKE $e164 OR
-        name LIKE $name OR
-        profileFullName LIKE $profileFullName
+        e164 LIKE $query OR
+        name LIKE $query OR
+        profileFullName LIKE $query
       )
      ORDER BY active_at DESC
      LIMIT $limit`,
     {
-      $e164: `%${query}%`,
-      $name: `%${query}%`,
-      $profileFullName: `%${query}%`,
+      $query: `%${query}%`,
       $limit: limit || 100,
     }
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return map(rows, row => rowToConversation(row));
 }
 
 async function searchMessages(
@@ -2416,7 +2528,7 @@ async function searchMessages(
   const rows = await db.all(
     `SELECT
       messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
     FROM messages_fts
     INNER JOIN messages on messages_fts.id = messages.id
     WHERE
@@ -2444,7 +2556,7 @@ async function searchMessagesInConversation(
   const rows = await db.all(
     `SELECT
       messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
     FROM messages_fts
     INNER JOIN messages on messages_fts.id = messages.id
     WHERE
@@ -2546,7 +2658,7 @@ async function saveMessage(
           `UPDATE messages SET
             id = $id,
             json = $json,
-  
+
             body = $body,
             conversationId = $conversationId,
             expirationStartTimestamp = $expirationStartTimestamp,
@@ -2613,12 +2725,16 @@ async function saveMessage(
   }
 
   try {
+    await db.run('DELETE FROM messages_fts WHERE id = $id;', {
+      $id: id,
+    });
+
     await Promise.all([
       db.run(
         `INSERT INTO messages (
           id,
           json,
-  
+
           body,
           conversationId,
           expirationStartTimestamp,
@@ -2640,7 +2756,7 @@ async function saveMessage(
         ) values (
           $id,
           $json,
-  
+
           $body,
           $conversationId,
           $expirationStartTimestamp,
@@ -2969,7 +3085,7 @@ async function getLastConversationActivity({
   const row = await db.get(
     `SELECT * FROM messages WHERE
        conversationId = $conversationId AND
-       (type IS NULL 
+       (type IS NULL
         OR
         type NOT IN (
           'profile-change',
@@ -3412,7 +3528,7 @@ async function getAllUnprocessed() {
   return rows;
 }
 
-async function removeUnprocessed(id: string) {
+async function removeUnprocessed(id: string | Array<string>) {
   const db = getInstance();
 
   if (!Array.isArray(id)) {
@@ -4151,7 +4267,9 @@ function getExternalFilesForMessage(message: MessageType) {
   return files;
 }
 
-function getExternalFilesForConversation(conversation: ConversationType) {
+function getExternalFilesForConversation(
+  conversation: Pick<ConversationType, 'avatar' | 'profileAvatar'>
+) {
   const { avatar, profileAvatar } = conversation;
   const files: Array<string> = [];
 
@@ -4166,7 +4284,9 @@ function getExternalFilesForConversation(conversation: ConversationType) {
   return files;
 }
 
-function getExternalDraftFilesForConversation(conversation: ConversationType) {
+function getExternalDraftFilesForConversation(
+  conversation: Pick<ConversationType, 'draftAttachments'>
+) {
   const draftAttachments = conversation.draftAttachments || [];
   const files: Array<string> = [];
 

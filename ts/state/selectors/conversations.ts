@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { fromPairs, isNumber } from 'lodash';
+import { fromPairs, isNumber, isString } from 'lodash';
 import { createSelector } from 'reselect';
 
 import { StateType } from '../reducer';
 import {
+  ComposerStep,
   ConversationLookupType,
   ConversationMessageType,
   ConversationsStateType,
@@ -14,14 +15,20 @@ import {
   MessageLookupType,
   MessagesByConversationType,
   MessageType,
+  OneTimeModalState,
   PreJoinConversationType,
 } from '../ducks/conversations';
+import { LocalizerType } from '../../types/Util';
 import { getOwn } from '../../util/getOwn';
+import { deconstructLookup } from '../../util/deconstructLookup';
 import type { CallsByConversationType } from '../ducks/calling';
 import { getCallsByConversation } from './calling';
 import { getBubbleProps } from '../../shims/Whisper';
 import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
+import { assert } from '../../util/assert';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+import { filterAndSortContacts } from '../../util/filterAndSortContacts';
 
 import {
   getInteractionMode,
@@ -83,10 +90,29 @@ export const getConversationsByGroupId = createSelector(
   }
 );
 
-export const getSelectedConversation = createSelector(
+export const getSelectedConversationId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {
-    return state.selectedConversation;
+    return state.selectedConversationId;
+  }
+);
+
+export const getSelectedConversation = createSelector(
+  getSelectedConversationId,
+  getConversationLookup,
+  (
+    selectedConversationId: string | undefined,
+    conversationLookup: ConversationLookupType
+  ): undefined | ConversationType => {
+    if (!selectedConversationId) {
+      return undefined;
+    }
+    const conversation = getOwn(conversationLookup, selectedConversationId);
+    assert(
+      conversation,
+      'getSelectedConversation: could not find selected conversation in lookup; returning undefined'
+    );
+    return conversation;
   }
 );
 
@@ -113,6 +139,33 @@ export const getShowArchived = createSelector(
   (state: ConversationsStateType): boolean => {
     return Boolean(state.showArchived);
   }
+);
+
+const getComposerState = createSelector(
+  getConversations,
+  (state: ConversationsStateType) => state.composer
+);
+
+export const getComposerStep = createSelector(
+  getComposerState,
+  (composerState): undefined | ComposerStep => composerState?.step
+);
+
+export const hasGroupCreationError = createSelector(
+  getComposerState,
+  (composerState): boolean => {
+    if (composerState?.step === ComposerStep.SetGroupMetadata) {
+      return composerState.hasError;
+    }
+    return false;
+  }
+);
+
+export const isCreatingGroup = createSelector(
+  getComposerState,
+  (composerState): boolean =>
+    composerState?.step === ComposerStep.SetGroupMetadata &&
+    composerState.isCreating
 );
 
 export const getMessages = createSelector(
@@ -221,9 +274,43 @@ export const _getLeftPaneLists = (
 export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
-  getSelectedConversation,
+  getSelectedConversationId,
   getPinnedConversationIds,
   _getLeftPaneLists
+);
+
+export const getMaximumGroupSizeModalState = createSelector(
+  getComposerState,
+  (composerState): OneTimeModalState => {
+    switch (composerState?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return composerState.maximumGroupSizeModalState;
+      default:
+        assert(
+          false,
+          'Can\'t get the maximum group size modal state in this composer state; returning "never shown"'
+        );
+        return OneTimeModalState.NeverShown;
+    }
+  }
+);
+
+export const getRecommendedGroupSizeModalState = createSelector(
+  getComposerState,
+  (composerState): OneTimeModalState => {
+    switch (composerState?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return composerState.recommendedGroupSizeModalState;
+      default:
+        assert(
+          false,
+          'Can\'t get the recommended group size modal state in this composer state; returning "never shown"'
+        );
+        return OneTimeModalState.NeverShown;
+    }
+  }
 );
 
 export const getMe = createSelector(
@@ -234,6 +321,148 @@ export const getMe = createSelector(
   ): ConversationType => {
     return lookup[ourConversationId];
   }
+);
+
+export const getComposerContactSearchTerm = createSelector(
+  getComposerState,
+  (composer): string => {
+    if (!composer) {
+      assert(false, 'getComposerContactSearchTerm: composer is not open');
+      return '';
+    }
+    if (composer.step === ComposerStep.SetGroupMetadata) {
+      assert(
+        false,
+        'getComposerContactSearchTerm: composer does not have a search term'
+      );
+      return '';
+    }
+    return composer.contactSearchTerm;
+  }
+);
+
+/**
+ * This returns contacts for the composer and group members, which isn't just your primary
+ * system contacts. It may include false positives, which is better than missing contacts.
+ *
+ * Because it filters unregistered contacts and that's (partially) determined by the
+ * current time, it's possible for this to return stale contacts that have unregistered
+ * if no other conversations change. This should be a rare false positive.
+ */
+export const getContacts = createSelector(
+  getConversationLookup,
+  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
+    Object.values(conversationLookup).filter(
+      contact =>
+        contact.type === 'direct' &&
+        !contact.isMe &&
+        !contact.isBlocked &&
+        !isConversationUnregistered(contact) &&
+        (isString(contact.name) || contact.profileSharing)
+    )
+);
+
+const getNormalizedComposerContactSearchTerm = createSelector(
+  getComposerContactSearchTerm,
+  (searchTerm: string): string => searchTerm.trim()
+);
+
+const getNoteToSelfTitle = createSelector(getIntl, (i18n: LocalizerType) =>
+  i18n('noteToSelf').toLowerCase()
+);
+
+export const getComposeContacts = createSelector(
+  getNormalizedComposerContactSearchTerm,
+  getContacts,
+  getMe,
+  getNoteToSelfTitle,
+  (
+    searchTerm: string,
+    contacts: Array<ConversationType>,
+    noteToSelf: ConversationType,
+    noteToSelfTitle: string
+  ): Array<ConversationType> => {
+    const result: Array<ConversationType> = filterAndSortContacts(
+      contacts,
+      searchTerm
+    );
+    if (!searchTerm || noteToSelfTitle.includes(searchTerm)) {
+      result.push(noteToSelf);
+    }
+    return result;
+  }
+);
+
+export const getCandidateContactsForNewGroup = createSelector(
+  getContacts,
+  getNormalizedComposerContactSearchTerm,
+  filterAndSortContacts
+);
+
+export const getCantAddContactForModal = createSelector(
+  getConversationLookup,
+  getComposerState,
+  (conversationLookup, composerState): undefined | ConversationType => {
+    if (composerState?.step !== ComposerStep.ChooseGroupMembers) {
+      return undefined;
+    }
+
+    const conversationId = composerState.cantAddContactIdForModal;
+    if (!conversationId) {
+      return undefined;
+    }
+
+    const result = getOwn(conversationLookup, conversationId);
+    assert(
+      result,
+      'getCantAddContactForModal: failed to look up conversation by ID; returning undefined'
+    );
+    return result;
+  }
+);
+
+const getGroupCreationComposerState = createSelector(
+  getComposerState,
+  (
+    composerState
+  ): {
+    groupName: string;
+    groupAvatar: undefined | ArrayBuffer;
+    selectedConversationIds: Array<string>;
+  } => {
+    switch (composerState?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return composerState;
+      default:
+        assert(
+          false,
+          'getSetGroupMetadataComposerState: expected step to be SetGroupMetadata'
+        );
+        return {
+          groupName: '',
+          groupAvatar: undefined,
+          selectedConversationIds: [],
+        };
+    }
+  }
+);
+
+export const getComposeGroupAvatar = createSelector(
+  getGroupCreationComposerState,
+  (composerState): undefined | ArrayBuffer => composerState.groupAvatar
+);
+
+export const getComposeGroupName = createSelector(
+  getGroupCreationComposerState,
+  (composerState): string => composerState.groupName
+);
+
+export const getComposeSelectedContacts = createSelector(
+  getConversationLookup,
+  getGroupCreationComposerState,
+  (conversationLookup, composerState): Array<ConversationType> =>
+    deconstructLookup(conversationLookup, composerState.selectedConversationIds)
 );
 
 // This is where we will put Conversation selector logic, replicating what
@@ -297,7 +526,7 @@ export const getConversationSelector = createSelector(
       if (onE164) {
         return selector(onE164);
       }
-      const onUuid = getOwn(byUuid, id);
+      const onUuid = getOwn(byUuid, id.toLowerCase ? id.toLowerCase() : id);
       if (onUuid) {
         return selector(onUuid);
       }
@@ -330,10 +559,8 @@ export function _messageSelector(
   _ourNumber: string,
   _regionCode: string,
   interactionMode: 'mouse' | 'keyboard',
+  _getConversationById: GetConversationByIdType,
   _callsByConversation: CallsByConversationType,
-  _conversation?: ConversationType,
-  _author?: ConversationType,
-  _quoted?: ConversationType,
   selectedMessageId?: string,
   selectedMessageCounter?: number
 ): TimelineItemType {
@@ -369,10 +596,8 @@ type CachedMessageSelectorType = (
   ourNumber: string,
   regionCode: string,
   interactionMode: 'mouse' | 'keyboard',
+  getConversationById: GetConversationByIdType,
   callsByConversation: CallsByConversationType,
-  conversation?: ConversationType,
-  author?: ConversationType,
-  quoted?: ConversationType,
   selectedMessageId?: string,
   selectedMessageCounter?: number
 ) => TimelineItemType;
@@ -412,30 +637,13 @@ export const getMessageSelector = createSelector(
         return undefined;
       }
 
-      const { conversationId, source, type, quote } = message;
-      const conversation = conversationSelector(conversationId);
-      let author: ConversationType | undefined;
-      let quoted: ConversationType | undefined;
-
-      if (type === 'incoming') {
-        author = conversationSelector(source);
-      } else if (type === 'outgoing') {
-        author = conversationSelector(ourNumber);
-      }
-
-      if (quote && (quote.author || quote.authorUuid)) {
-        quoted = conversationSelector(quote.authorUuid || quote.author);
-      }
-
       return messageSelector(
         message,
         ourNumber,
         regionCode,
         interactionMode,
+        conversationSelector,
         callsByConversation,
-        conversation,
-        author,
-        quoted,
         selectedMessage ? selectedMessage.id : undefined,
         selectedMessage ? selectedMessage.counter : undefined
       );
@@ -538,4 +746,17 @@ export const getConversationMessagesSelector = createSelector(
       return conversationMessagesSelector(conversation);
     };
   }
+);
+
+export const getInvitedContactsForNewlyCreatedGroup = createSelector(
+  getConversationLookup,
+  getConversations,
+  (
+    conversationLookup,
+    { invitedConversationIdsForNewlyCreatedGroup = [] }
+  ): Array<ConversationType> =>
+    deconstructLookup(
+      conversationLookup,
+      invitedConversationIdsForNewlyCreatedGroup
+    )
 );

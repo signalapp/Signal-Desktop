@@ -5,7 +5,8 @@
   ConversationController,
   i18n,
   Whisper,
-  Signal
+  Signal,
+  $
 */
 
 // eslint-disable-next-line func-names
@@ -60,7 +61,7 @@
   });
 
   Whisper.AppLoadingScreen = Whisper.View.extend({
-    templateName: 'app-loading-screen',
+    template: () => $('#app-loading-screen').html(),
     className: 'app-loading-screen',
     updateProgress(count) {
       if (count > 0) {
@@ -74,7 +75,7 @@
   });
 
   Whisper.InboxView = Whisper.View.extend({
-    templateName: 'two-column',
+    template: () => $('#two-column').html(),
     className: 'inbox index',
     initialize(options = {}) {
       this.ready = false;
@@ -212,7 +213,7 @@
 
       const { openConversationExternal } = window.reduxActions.conversations;
       if (openConversationExternal) {
-        openConversationExternal(id, messageId);
+        openConversationExternal(conversation.id, messageId);
       }
 
       this.conversation_stack.open(conversation, messageId);

@@ -100,9 +100,7 @@
           await message.setToExpire(false, { skipSave: true });
         }
 
-        await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        });
+        window.Signal.Util.queueUpdateMessage(message.attributes);
 
         // notify frontend listeners
         const conversation = ConversationController.get(

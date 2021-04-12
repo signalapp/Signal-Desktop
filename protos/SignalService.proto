@@ -209,7 +209,7 @@ message DataMessage {
   message Reaction {
     optional string emoji            = 1;
     optional bool   remove           = 2;
-    optional string targetAuthorE164 = 3;
+    reserved /* targetAuthorE164 */    3; // removed
     optional string targetAuthorUuid = 4;
     optional uint64 targetTimestamp  = 5;
   }
@@ -428,6 +428,8 @@ message SyncMessage {
 message AttachmentPointer {
   enum Flags {
     VOICE_MESSAGE = 1;
+    BORDERLESS    = 2;
+    GIF           = 3;
   }
 
   oneof attachment_identifier {

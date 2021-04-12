@@ -15,7 +15,6 @@ import { ContactName } from './ContactName';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
 
 export type Props = {
-  attachment?: QuotedAttachmentType;
   authorTitle: string;
   authorPhoneNumber?: string;
   authorProfileName?: string;
@@ -29,6 +28,7 @@ export type Props = {
   onClick?: () => void;
   onClose?: () => void;
   text: string;
+  rawAttachment?: QuotedAttachmentType;
   referencedMessageNotFound: boolean;
 };
 
@@ -55,11 +55,20 @@ function validateQuote(quote: Props): boolean {
     return true;
   }
 
-  if (quote.attachment) {
+  if (quote.rawAttachment) {
     return true;
   }
 
   return false;
+}
+
+// Long message attachments should not be shown.
+function getAttachment(
+  rawAttachment: undefined | QuotedAttachmentType
+): undefined | QuotedAttachmentType {
+  return rawAttachment && !MIME.isLongMessage(rawAttachment.contentType)
+    ? rawAttachment
+    : undefined;
 }
 
 function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
@@ -173,7 +182,8 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderGenericFile(): JSX.Element | null {
-    const { attachment, isIncoming } = this.props;
+    const { rawAttachment, isIncoming } = this.props;
+    const attachment = getAttachment(rawAttachment);
 
     if (!attachment) {
       return null;
@@ -205,8 +215,9 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderIconContainer(): JSX.Element | null {
-    const { attachment } = this.props;
+    const { rawAttachment } = this.props;
     const { imageBroken } = this.state;
+    const attachment = getAttachment(rawAttachment);
 
     if (!attachment) {
       return null;
@@ -233,7 +244,7 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderText(): JSX.Element | null {
-    const { bodyRanges, i18n, text, attachment, isIncoming } = this.props;
+    const { bodyRanges, i18n, text, rawAttachment, isIncoming } = this.props;
 
     if (text) {
       const quoteText = bodyRanges
@@ -252,6 +263,8 @@ export class Quote extends React.Component<Props, State> {
         </div>
       );
     }
+
+    const attachment = getAttachment(rawAttachment);
 
     if (!attachment) {
       return null;

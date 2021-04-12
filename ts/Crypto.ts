@@ -4,10 +4,23 @@
 import pProps from 'p-props';
 import { chunk } from 'lodash';
 
-export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
-  const { buffer, byteOffset, byteLength } = typedArray;
+import {
+  CipherType,
+  encrypt,
+  decrypt,
+  HashType,
+  hash,
+  sign,
+} from './util/synchronousCrypto';
 
-  return buffer.slice(byteOffset, byteLength + byteOffset) as typeof typedArray;
+export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
+  const ab = new ArrayBuffer(typedArray.length);
+  // Create a new Uint8Array backed by the ArrayBuffer and copy all values from
+  // the `typedArray` into it by calling `.set()` method. Note that raw
+  // ArrayBuffer doesn't offer this API, because it is supposed to be used with
+  // concrete data view (i.e. Uint8Array, Float64Array, and so on.)
+  new Uint8Array(ab).set(typedArray, 0);
+  return ab;
 }
 
 export function arrayBufferToBase64(arrayBuffer: ArrayBuffer): string {
@@ -75,8 +88,8 @@ export async function deriveMasterKeyFromGroupV1(
 }
 
 export async function computeHash(data: ArrayBuffer): Promise<string> {
-  const hash = await crypto.subtle.digest({ name: 'SHA-512' }, data);
-  return arrayBufferToBase64(hash);
+  const digest = await crypto.subtle.digest({ name: 'SHA-512' }, data);
+  return arrayBufferToBase64(digest);
 }
 
 // High-level Operations
@@ -327,21 +340,7 @@ export async function hmacSha256(
   key: ArrayBuffer,
   plaintext: ArrayBuffer
 ): Promise<ArrayBuffer> {
-  const algorithm: HmacImportParams = {
-    name: 'HMAC',
-    hash: 'SHA-256',
-  };
-  const extractable = false;
-
-  const cryptoKey = await window.crypto.subtle.importKey(
-    'raw',
-    key,
-    algorithm,
-    extractable,
-    ['sign']
-  );
-
-  return window.crypto.subtle.sign(algorithm, cryptoKey, plaintext);
+  return sign(key, plaintext);
 }
 
 export async function _encryptAes256CbcPkcsPadding(
@@ -401,32 +400,7 @@ export async function encryptAesCtr(
   plaintext: ArrayBuffer,
   counter: ArrayBuffer
 ): Promise<ArrayBuffer> {
-  const extractable = false;
-  const algorithm = {
-    name: 'AES-CTR',
-    counter: new Uint8Array(counter),
-    length: 128,
-  };
-
-  const cryptoKey = await crypto.subtle.importKey(
-    'raw',
-    key,
-    // `algorithm` appears to be an instance of AesCtrParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-CTR", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
-    extractable,
-    ['encrypt']
-  );
-
-  const ciphertext = await crypto.subtle.encrypt(
-    algorithm,
-    cryptoKey,
-    plaintext
-  );
-
-  return ciphertext;
+  return encrypt(key, plaintext, counter, CipherType.AES256CTR);
 }
 
 export async function decryptAesCtr(
@@ -434,31 +408,7 @@ export async function decryptAesCtr(
   ciphertext: ArrayBuffer,
   counter: ArrayBuffer
 ): Promise<ArrayBuffer> {
-  const extractable = false;
-  const algorithm = {
-    name: 'AES-CTR',
-    counter: new Uint8Array(counter),
-    length: 128,
-  };
-
-  const cryptoKey = await crypto.subtle.importKey(
-    'raw',
-    key,
-    // `algorithm` appears to be an instance of AesCtrParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-CTR", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
-    extractable,
-    ['decrypt']
-  );
-  const plaintext = await crypto.subtle.decrypt(
-    algorithm,
-    cryptoKey,
-    ciphertext
-  );
-
-  return plaintext;
+  return decrypt(key, ciphertext, counter, CipherType.AES256CTR);
 }
 
 export async function encryptAesGcm(
@@ -521,8 +471,8 @@ export async function decryptAesGcm(
 
 // Hashing
 
-export async function sha256(data: ArrayBuffer): Promise<ArrayBuffer> {
-  return crypto.subtle.digest('SHA-256', data);
+export function sha256(data: ArrayBuffer): ArrayBuffer {
+  return hash(HashType.size256, data);
 }
 
 // Utility
@@ -679,7 +629,7 @@ export async function encryptCdsDiscoveryRequest(
   });
   const queryDataPlaintext = concatenateBytes(nonce, numbersArray.buffer);
   const queryDataKey = getRandomBytes(32);
-  const commitment = await sha256(queryDataPlaintext);
+  const commitment = sha256(queryDataPlaintext);
   const iv = getRandomBytes(12);
   const queryDataCiphertext = await encryptAesGcm(
     queryDataKey,

@@ -9,24 +9,36 @@ import { createBatcher } from './batcher';
 import { createWaitBatcher } from './waitBatcher';
 import { deleteForEveryone } from './deleteForEveryone';
 import { downloadAttachment } from './downloadAttachment';
-import {
-  generateSecurityNumber,
-  getPlaceholder as getSafetyNumberPlaceholder,
-} from './safetyNumber';
+import { generateSecurityNumber } from './safetyNumber';
 import { getStringForProfileChange } from './getStringForProfileChange';
 import { getTextWithMentions } from './getTextWithMentions';
 import { getUserAgent } from './getUserAgent';
 import { hasExpired } from './hasExpired';
+import { incrementMessageCounter } from './incrementMessageCounter';
 import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
+import {
+  queueUpdateMessage,
+  saveNewMessageBatcher,
+  setBatchingStrategy,
+} from './messageBatcher';
 import { missingCaseError } from './missingCaseError';
 import { parseRemoteClientExpiration } from './parseRemoteClientExpiration';
 import { sleep } from './sleep';
 import { longRunningTaskWrapper } from './longRunningTaskWrapper';
 import { toWebSafeBase64, fromWebSafeBase64 } from './webSafeBase64';
+import { mapToSupportLocale } from './mapToSupportLocale';
+import {
+  sessionRecordToProtobuf,
+  sessionStructureToArrayBuffer,
+} from './sessionTranslation';
 import * as zkgroup from './zkgroup';
+import { StartupQueue } from './StartupQueue';
 
 export {
+  GoogleChrome,
+  Registration,
+  StartupQueue,
   arrayBufferToObjectURL,
   combineNames,
   createBatcher,
@@ -35,18 +47,22 @@ export {
   downloadAttachment,
   fromWebSafeBase64,
   generateSecurityNumber,
-  getSafetyNumberPlaceholder,
   getStringForProfileChange,
   getTextWithMentions,
   getUserAgent,
-  GoogleChrome,
   hasExpired,
+  incrementMessageCounter,
   isFileDangerous,
   longRunningTaskWrapper,
   makeLookup,
+  mapToSupportLocale,
   missingCaseError,
   parseRemoteClientExpiration,
-  Registration,
+  queueUpdateMessage,
+  saveNewMessageBatcher,
+  setBatchingStrategy,
+  sessionRecordToProtobuf,
+  sessionStructureToArrayBuffer,
   sleep,
   toWebSafeBase64,
   zkgroup,

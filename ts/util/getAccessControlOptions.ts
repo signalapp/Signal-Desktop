@@ -19,7 +19,7 @@ export function getAccessControlOptions(
       value: accessEnum.MEMBER,
     },
     {
-      name: i18n('GroupV2--admin'),
+      name: i18n('GroupV2--only-admins'),
       value: accessEnum.ADMINISTRATOR,
     },
   ];

@@ -10,7 +10,7 @@
   window.Whisper = window.Whisper || {};
 
   Whisper.StandaloneRegistrationView = Whisper.View.extend({
-    templateName: 'standalone',
+    template: () => $('#standalone').html(),
     className: 'full-screen-flow',
     initialize() {
       window.readyForUpdates();

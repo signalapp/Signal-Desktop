@@ -186,8 +186,6 @@ story.add('Blurhash', () => {
   const props = {
     ...defaultProps,
     blurHash: 'thisisafakeblurhashthatwasmadeup',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    url: undefined as any,
   };
 
   return <Image {...props} />;
@@ -198,8 +196,6 @@ story.add('undefined blurHash (light)', () => {
   const props = {
     ...defaultProps,
     blurHash: undefined,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    url: undefined as any,
     theme: ThemeType.light,
   };
 
@@ -211,8 +207,6 @@ story.add('undefined blurHash (dark)', () => {
   const props = {
     ...defaultProps,
     blurHash: undefined,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    url: undefined as any,
     theme: ThemeType.dark,
   };
 
@@ -225,8 +219,6 @@ story.add('Missing Image', () => {
     ...defaultProps,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     attachment: undefined as any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    url: undefined as any,
   };
 
   return <Image {...props} />;

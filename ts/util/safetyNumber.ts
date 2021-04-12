@@ -1,6 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { PublicKey, Fingerprint } from 'libsignal-client';
 import { ConversationType } from '../state/ducks/conversations';
 
 export async function generateSecurityNumber(
@@ -9,18 +10,22 @@ export async function generateSecurityNumber(
   theirNumber: string,
   theirKey: ArrayBuffer
 ): Promise<string> {
-  return new window.libsignal.FingerprintGenerator(5200).createFor(
-    ourNumber,
-    ourKey,
-    theirNumber,
-    theirKey
-  );
-}
+  const ourNumberBuf = Buffer.from(ourNumber);
+  const ourKeyObj = PublicKey.deserialize(Buffer.from(ourKey));
+  const theirNumberBuf = Buffer.from(theirNumber);
+  const theirKeyObj = PublicKey.deserialize(Buffer.from(theirKey));
 
-export function getPlaceholder(): string {
-  return Array.from(Array(12))
-    .map(() => 'XXXXX')
-    .join(' ');
+  const fingerprint = Fingerprint.new(
+    5200,
+    2,
+    ourNumberBuf,
+    ourKeyObj,
+    theirNumberBuf,
+    theirKeyObj
+  );
+
+  const fingerprintString = fingerprint.displayableFingerprint().toString();
+  return Promise.resolve(fingerprintString);
 }
 
 export async function generateSecurityNumberBlock(

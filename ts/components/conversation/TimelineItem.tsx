@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -6,15 +6,19 @@ import { LocalizerType, ThemeType } from '../../types/Util';
 
 import {
   Message,
+  InteractionModeType,
   Props as AllMessageProps,
   PropsActions as MessageActionsType,
   PropsData as MessageProps,
 } from './Message';
-
 import {
   CallingNotification,
   PropsActionsType as CallingNotificationActionsType,
 } from './CallingNotification';
+import {
+  ChatSessionRefreshedNotification,
+  PropsActionsType as PropsChatSessionRefreshedActionsType,
+} from './ChatSessionRefreshedNotification';
 import { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import {
@@ -57,6 +61,10 @@ import {
 type CallHistoryType = {
   type: 'callHistory';
   data: CallingNotificationType;
+};
+type ChatSessionRefreshedType = {
+  type: 'chatSessionRefreshed';
+  data: null;
 };
 type LinkNotificationType = {
   type: 'linkNotification';
@@ -105,6 +113,7 @@ type ProfileChangeNotificationType = {
 
 export type TimelineItemType =
   | CallHistoryType
+  | ChatSessionRefreshedType
   | GroupNotificationType
   | GroupV1MigrationType
   | GroupV2ChangeType
@@ -126,17 +135,19 @@ type PropsLocalType = {
   selectMessage: (messageId: string, conversationId: string) => unknown;
   renderContact: SmartContactRendererType;
   i18n: LocalizerType;
+  interactionMode: InteractionModeType;
   theme?: ThemeType;
 };
 
 type PropsActionsType = MessageActionsType &
   CallingNotificationActionsType &
+  PropsChatSessionRefreshedActionsType &
   UnsupportedMessageActionsType &
   SafetyNumberActionsType;
 
 export type PropsType = PropsLocalType &
   PropsActionsType &
-  Pick<AllMessageProps, 'renderEmojiPicker'>;
+  Pick<AllMessageProps, 'renderEmojiPicker' | 'renderAudioAttachment'>;
 
 export class TimelineItem extends React.PureComponent<PropsType> {
   public render(): JSX.Element | null {
@@ -182,6 +193,14 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           returnToActiveCall={returnToActiveCall}
           startCallingLobby={startCallingLobby}
           {...item.data}
+        />
+      );
+    } else if (item.type === 'chatSessionRefreshed') {
+      notification = (
+        <ChatSessionRefreshedNotification
+          {...this.props}
+          {...item.data}
+          i18n={i18n}
         />
       );
     } else if (item.type === 'linkNotification') {

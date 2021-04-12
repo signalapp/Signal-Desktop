@@ -13,7 +13,7 @@ const ZONE_IDENTIFIER_CONTENTS = Buffer.from('[ZoneTransfer]\r\nZoneId=3');
  *
  * To do this, we write the "Zone.Identifier" for the NTFS alternative data stream.
  *
- * This can fail in a bunch of sitations:
+ * This can fail in a bunch of situations:
  *
  * - The OS is not Windows.
  * - The filesystem is not NTFS.

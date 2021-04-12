@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global
@@ -31,7 +31,6 @@
       const sentAt = message.get('sent_at');
       const reactionsBySource = this.filter(re => {
         const targetSenderId = ConversationController.ensureContactIds({
-          e164: re.get('targetAuthorE164'),
           uuid: re.get('targetAuthorUuid'),
         });
         const targetTimestamp = re.get('targetTimestamp');
@@ -52,7 +51,6 @@
         //   to to figure that out.
         const targetConversation = await ConversationController.getConversationForTargetMessage(
           ConversationController.ensureContactIds({
-            e164: reaction.get('targetAuthorE164'),
             uuid: reaction.get('targetAuthorUuid'),
           }),
           reaction.get('targetTimestamp')
@@ -60,7 +58,6 @@
         if (!targetConversation) {
           window.log.info(
             'No target conversation for reaction',
-            reaction.get('targetAuthorE164'),
             reaction.get('targetAuthorUuid'),
             reaction.get('targetTimestamp')
           );
@@ -91,7 +88,6 @@
 
             const mcid = contact.get('id');
             const recid = ConversationController.ensureContactIds({
-              e164: reaction.get('targetAuthorE164'),
               uuid: reaction.get('targetAuthorUuid'),
             });
             return mcid === recid;
@@ -100,7 +96,6 @@
           if (!targetMessage) {
             window.log.info(
               'No message for reaction',
-              reaction.get('targetAuthorE164'),
               reaction.get('targetAuthorUuid'),
               reaction.get('targetTimestamp')
             );
@@ -110,7 +105,6 @@
             if (reaction.get('remove')) {
               this.remove(reaction);
               const oldReaction = this.where({
-                targetAuthorE164: reaction.get('targetAuthorE164'),
                 targetAuthorUuid: reaction.get('targetAuthorUuid'),
                 targetTimestamp: reaction.get('targetTimestamp'),
                 emoji: reaction.get('emoji'),

@@ -1,9 +1,10 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
 import { createSelector } from 'reselect';
-import { instance } from '../../util/libphonenumberInstance';
+
+import { deconstructLookup } from '../../util/deconstructLookup';
 
 import { StateType } from '../reducer';
 
@@ -17,20 +18,17 @@ import {
   ConversationType,
 } from '../ducks/conversations';
 
-import {
-  PropsDataType as SearchResultsPropsType,
-  SearchResultRowType,
-} from '../../components/SearchResults';
-import { PropsDataType as MessageSearchResultPropsDataType } from '../../components/MessageSearchResult';
+import { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper';
+import { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult';
 
-import { getRegionCode, getUserConversationId } from './user';
-import { getUserAgent } from './items';
+import { getUserConversationId } from './user';
 import {
   GetConversationByIdType,
   getConversationLookup,
   getConversationSelector,
-  getSelectedConversation,
 } from './conversations';
+
+import { BodyRangeType } from '../../types/Util';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 
@@ -60,184 +58,55 @@ export const getStartSearchCounter = createSelector(
 );
 
 export const isSearching = createSelector(
-  getSearch,
-  (state: SearchStateType) => {
-    const { query } = state;
-
-    return query && query.trim().length > 1;
-  }
+  getQuery,
+  (query: string): boolean => query.trim().length > 1
 );
 
 export const getMessageSearchResultLookup = createSelector(
   getSearch,
   (state: SearchStateType) => state.messageLookup
 );
+
 export const getSearchResults = createSelector(
-  [
-    getSearch,
-    getRegionCode,
-    getUserAgent,
-    getConversationLookup,
-    getSelectedConversation,
-    getSelectedMessage,
-  ],
+  [getSearch, getConversationLookup],
   (
     state: SearchStateType,
-    regionCode: string,
-    userAgent: string,
-    lookup: ConversationLookupType,
-    selectedConversationId?: string,
-    selectedMessageId?: string
-  ): SearchResultsPropsType | undefined => {
+    conversationLookup: ConversationLookupType
+  ): LeftPaneSearchPropsType => {
     const {
-      contacts,
-      conversations,
+      contactIds,
+      conversationIds,
       discussionsLoading,
       messageIds,
+      messageLookup,
       messagesLoading,
       searchConversationName,
     } = state;
 
-    const showStartNewConversation = Boolean(
-      state.normalizedPhoneNumber && !lookup[state.normalizedPhoneNumber]
-    );
-    const haveConversations = conversations && conversations.length;
-    const haveContacts = contacts && contacts.length;
-    const haveMessages = messageIds && messageIds.length;
-    const noResults =
-      !discussionsLoading &&
-      !messagesLoading &&
-      !showStartNewConversation &&
-      !haveConversations &&
-      !haveContacts &&
-      !haveMessages;
-
-    const items: Array<SearchResultRowType> = [];
-
-    if (showStartNewConversation) {
-      items.push({
-        type: 'start-new-conversation',
-        data: undefined,
-      });
-
-      const isIOS = userAgent === 'OWI';
-      let isValidNumber = false;
-      try {
-        // Sometimes parse() throws, like for invalid country codes
-        const parsedNumber = instance.parse(state.query, regionCode);
-        isValidNumber = instance.isValidNumber(parsedNumber);
-      } catch (_) {
-        // no-op
-      }
-
-      if (!isIOS && isValidNumber) {
-        items.push({
-          type: 'sms-mms-not-supported-text',
-          data: undefined,
-        });
-      }
-    }
-
-    if (haveConversations) {
-      items.push({
-        type: 'conversations-header',
-        data: undefined,
-      });
-      conversations.forEach(id => {
-        const data = lookup[id];
-        items.push({
-          type: 'conversation',
-          data: {
-            ...data,
-            isSelected: Boolean(data && id === selectedConversationId),
-          },
-        });
-      });
-    } else if (discussionsLoading) {
-      items.push({
-        type: 'conversations-header',
-        data: undefined,
-      });
-      items.push({
-        type: 'spinner',
-        data: undefined,
-      });
-    }
-
-    if (haveContacts) {
-      items.push({
-        type: 'contacts-header',
-        data: undefined,
-      });
-      contacts.forEach(id => {
-        const data = lookup[id];
-
-        items.push({
-          type: 'contact',
-          data: {
-            ...data,
-            isSelected: Boolean(data && id === selectedConversationId),
-          },
-        });
-      });
-    }
-
-    if (haveMessages) {
-      items.push({
-        type: 'messages-header',
-        data: undefined,
-      });
-      messageIds.forEach(messageId => {
-        items.push({
-          type: 'message',
-          data: messageId,
-        });
-      });
-    } else if (messagesLoading) {
-      items.push({
-        type: 'messages-header',
-        data: undefined,
-      });
-      items.push({
-        type: 'spinner',
-        data: undefined,
-      });
-    }
-
     return {
-      discussionsLoading,
-      items,
-      messagesLoading,
-      noResults,
-      regionCode,
+      conversationResults: discussionsLoading
+        ? { isLoading: true }
+        : {
+            isLoading: false,
+            results: deconstructLookup(conversationLookup, conversationIds),
+          },
+      contactResults: discussionsLoading
+        ? { isLoading: true }
+        : {
+            isLoading: false,
+            results: deconstructLookup(conversationLookup, contactIds),
+          },
+      messageResults: messagesLoading
+        ? { isLoading: true }
+        : {
+            isLoading: false,
+            results: deconstructLookup(messageLookup, messageIds),
+          },
       searchConversationName,
       searchTerm: state.query,
-      selectedConversationId,
-      selectedMessageId,
     };
   }
 );
-
-export function _messageSearchResultSelector(
-  message: MessageSearchResultType,
-  from: ConversationType,
-  to: ConversationType,
-  searchConversationId?: string,
-  selectedMessageId?: string
-): MessageSearchResultPropsDataType {
-  return {
-    from,
-    to,
-
-    id: message.id,
-    conversationId: message.conversationId,
-    sentAt: message.sent_at,
-    snippet: message.snippet,
-
-    isSelected: Boolean(selectedMessageId && message.id === selectedMessageId),
-    isSearchingInConversation: Boolean(searchConversationId),
-  };
-}
 
 // A little optimization to reset our selector cache whenever high-level application data
 //   changes: regionCode and userNumber.
@@ -248,18 +117,58 @@ type CachedMessageSearchResultSelectorType = (
   searchConversationId?: string,
   selectedMessageId?: string
 ) => MessageSearchResultPropsDataType;
+
 export const getCachedSelectorForMessageSearchResult = createSelector(
   getUserConversationId,
-  (): CachedMessageSearchResultSelectorType => {
+  getConversationSelector,
+  (
+    _,
+    conversationSelector: GetConversationByIdType
+  ): CachedMessageSearchResultSelectorType => {
     // Note: memoizee will check all parameters provided, and only run our selector
     //   if any of them have changed.
-    return memoizee(_messageSearchResultSelector, { max: 500 });
+    return memoizee(
+      (
+        message: MessageSearchResultType,
+        from: ConversationType,
+        to: ConversationType,
+        searchConversationId?: string,
+        selectedMessageId?: string
+      ) => {
+        const bodyRanges = message.bodyRanges || [];
+        return {
+          from,
+          to,
+
+          id: message.id,
+          conversationId: message.conversationId,
+          sentAt: message.sent_at,
+          snippet: message.snippet,
+          bodyRanges: bodyRanges.map((bodyRange: BodyRangeType) => {
+            const conversation = conversationSelector(bodyRange.mentionUuid);
+
+            return {
+              ...bodyRange,
+              replacementText: conversation.title,
+            };
+          }),
+          body: message.body,
+
+          isSelected: Boolean(
+            selectedMessageId && message.id === selectedMessageId
+          ),
+          isSearchingInConversation: Boolean(searchConversationId),
+        };
+      },
+      { max: 500 }
+    );
   }
 );
 
 type GetMessageSearchResultByIdType = (
   id: string
 ) => MessageSearchResultPropsDataType | undefined;
+
 export const getMessageSearchResultSelector = createSelector(
   getCachedSelectorForMessageSearchResult,
   getMessageSearchResultLookup,

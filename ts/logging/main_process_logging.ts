@@ -8,12 +8,14 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { app, ipcMain as ipc } from 'electron';
-import * as bunyan from 'bunyan';
+import pinoms from 'pino-multi-stream';
+import pino from 'pino';
 import * as mkdirp from 'mkdirp';
 import * as _ from 'lodash';
 import readFirstLine from 'firstline';
 import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
+import { createStream } from 'rotating-file-stream';
 
 import {
   LogEntryType,
@@ -33,11 +35,11 @@ declare global {
   }
 }
 
-let globalLogger: undefined | bunyan;
+let globalLogger: undefined | pinoms.Logger;
 
 const isRunningFromConsole = Boolean(process.stdout.isTTY);
 
-export async function initialize(): Promise<bunyan> {
+export async function initialize(): Promise<pinoms.Logger> {
   if (globalLogger) {
     throw new Error('Already called initialize!');
   }
@@ -61,51 +63,33 @@ export async function initialize(): Promise<bunyan> {
     }, 500);
   }
 
-  const logFile = path.join(logPath, 'log.log');
-  const loggerOptions: bunyan.LoggerOptions = {
-    name: 'log',
-    streams: [
-      {
-        type: 'rotating-file',
-        path: logFile,
-        period: '1d',
-        count: 3,
-      },
-    ],
-  };
+  const logFile = path.join(logPath, 'main.log');
+  const stream = createStream(logFile, {
+    interval: '1d',
+    rotate: 3,
+  });
+
+  stream.on('close', () => {
+    globalLogger = undefined;
+  });
+
+  stream.on('error', () => {
+    globalLogger = undefined;
+  });
+
+  const streams: pinoms.Streams = [];
+  streams.push({ stream });
 
   if (isRunningFromConsole) {
-    loggerOptions.streams?.push({
-      level: 'debug',
+    streams.push({
+      level: 'debug' as const,
       stream: process.stdout,
     });
   }
 
-  const logger = bunyan.createLogger(loggerOptions);
-
-  ipc.on('batch-log', (_first, batch: unknown) => {
-    if (!Array.isArray(batch)) {
-      logger.error(
-        'batch-log IPC event was called with a non-array; dropping logs'
-      );
-      return;
-    }
-
-    batch.forEach(item => {
-      if (isLogEntry(item)) {
-        const levelString = getLogLevelString(item.level);
-        logger[levelString](
-          {
-            time: item.time,
-          },
-          item.msg
-        );
-      } else {
-        logger.error(
-          'batch-log IPC event was called with an invalid log entry; dropping entry'
-        );
-      }
-    });
+  const logger = pinoms({
+    streams,
+    timestamp: pino.stdTimeFunctions.isoTime,
   });
 
   ipc.on('fetch-log', event => {

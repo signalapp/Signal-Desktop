@@ -1,4 +1,4 @@
-// Copyright 2014-2020 Signal Messenger, LLC
+// Copyright 2014-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const { join } = require('path');
@@ -113,12 +113,8 @@ module.exports = grunt => {
         tasks: ['exec:build-protobuf'],
       },
       sass: {
-        files: ['./stylesheets/*.scss'],
+        files: ['./stylesheets/*.scss', './stylesheets/**/*.scss'],
         tasks: ['sass'],
-      },
-      transpile: {
-        files: ['./ts/**/*.ts', './ts/**/*.tsx'],
-        tasks: ['exec:transpile'],
       },
     },
     exec: {
@@ -386,12 +382,18 @@ module.exports = grunt => {
           console.log('window opened');
         })
         .then(() =>
-          // Get the window's title
-          app.client.getTitle()
-        )
-        .then(title => {
           // Verify the window's title
-          assert.equal(title, packageJson.productName);
+          app.client.waitUntil(
+            async () =>
+              (await app.client.getTitle()) === packageJson.productName,
+            {
+              timeoutMsg: `Expected window title to be ${JSON.stringify(
+                packageJson.productName
+              )}`,
+            }
+          )
+        )
+        .then(() => {
           console.log('title ok');
         })
         .then(() => {

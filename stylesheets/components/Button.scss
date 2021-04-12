@@ -1,0 +1,113 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-Button {
+  @mixin focus-box-shadow($inner-color, $outer-color) {
+    &:focus {
+      box-shadow: 0 0 0 1px $inner-color, 0 0 0 4px $outer-color;
+    }
+  }
+
+  @mixin hover-and-active-states($background-color, $mix-color) {
+    &:hover:not(:disabled) {
+      background: mix($background-color, $mix-color, 85%);
+    }
+    &:active:not(:disabled) {
+      background: mix($background-color, $mix-color, 75%);
+    }
+  }
+
+  @include button-reset;
+  @include font-body-1-bold;
+
+  border-radius: 4px;
+  padding: 8px 16px;
+  text-align: center;
+  user-select: none;
+
+  @include keyboard-mode {
+    @include focus-box-shadow($color-white, $ultramarine-ui-light);
+  }
+
+  @include dark-keyboard-mode {
+    @include focus-box-shadow($color-black, $ultramarine-brand-light);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    $color: $color-white;
+    $background-color: $ultramarine-ui-light;
+
+    color: $color;
+    background: $background-color;
+
+    &:disabled {
+      color: fade-out($color, 0.4);
+      background: fade-out($background-color, 0.6);
+    }
+
+    @include light-theme {
+      @include hover-and-active-states($background-color, $color-black);
+    }
+
+    @include dark-theme {
+      @include hover-and-active-states($background-color, $color-white);
+    }
+  }
+
+  &--secondary {
+    @include light-theme {
+      $color: $color-gray-90;
+      $background-color: $color-gray-05;
+
+      color: $color;
+      background: $background-color;
+
+      &:disabled {
+        color: $color-black-alpha-40;
+        background: fade-out($background-color, 0.6);
+      }
+
+      @include hover-and-active-states($background-color, $color-black);
+    }
+
+    @include dark-theme {
+      $color: $color-gray-05;
+      $background-color: $color-gray-65;
+
+      color: $color;
+      background: $background-color;
+
+      &:disabled {
+        color: $color-white-alpha-20;
+        background: fade-out($background-color, 0.6);
+      }
+
+      @include hover-and-active-states($background-color, $color-white);
+    }
+  }
+
+  &--destructive {
+    $color: $color-white;
+    $background-color: $color-accent-red;
+
+    color: $color;
+    background: $background-color;
+
+    &:disabled {
+      color: fade-out($color, 0.4);
+      background: fade-out($background-color, 0.6);
+    }
+
+    @include light-theme {
+      @include hover-and-active-states($background-color, $color-black);
+    }
+
+    @include dark-theme {
+      @include hover-and-active-states($background-color, $color-white);
+    }
+  }
+}

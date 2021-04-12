@@ -1,14 +1,14 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Whisper, Signal */
+/* global Whisper, Signal, $ */
 
 // eslint-disable-next-line func-names
 (function () {
   window.Whisper = window.Whisper || {};
 
   Whisper.SafetyNumberChangeDialogView = Whisper.View.extend({
-    templateName: 'safety-number-change-dialog',
+    template: () => $('#safety-number-change-dialog').html(),
     initialize(options) {
       const dialog = new Whisper.ReactWrapperView({
         Component: window.Signal.Components.SafetyNumberChangeDialog,

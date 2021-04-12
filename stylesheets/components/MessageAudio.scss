@@ -1,0 +1,295 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-message__audio-attachment {
+  display: flex;
+
+  flex-direction: row;
+  align-items: center;
+
+  margin-top: 2px;
+}
+
+/* The separator between audio and text */
+.module-message__audio-attachment--with-content-below {
+  border-bottom: 1px solid $color-white-alpha-20;
+  padding-bottom: 12px;
+  margin-bottom: 7px;
+
+  .module-message__audio-attachment--incoming & {
+    @mixin android {
+      border-color: $color-white-alpha-20;
+    }
+
+    @include light-theme {
+      @include android;
+    }
+    @include dark-theme {
+      @include android;
+    }
+    @include ios-theme {
+      border-color: $color-black-alpha-20;
+    }
+    @include ios-dark-theme {
+      border-color: $color-white-alpha-20;
+    }
+  }
+
+  .module-message__container--outgoing & {
+    @mixin ios {
+      border-color: $color-white-alpha-20;
+    }
+
+    @include light-theme {
+      border-color: $color-black-alpha-20;
+    }
+    @include dark-theme {
+      border-color: $color-white-alpha-20;
+    }
+    @include ios-theme {
+      @include ios;
+    }
+    @include ios-dark-theme {
+      @include ios;
+    }
+  }
+}
+
+.module-message__audio-attachment--with-content-above {
+  margin-top: 6px;
+}
+
+.module-message__audio-attachment__button,
+.module-message__audio-attachment__spinner {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+
+  @include button-reset;
+
+  outline: none;
+  border-radius: 18px;
+
+  &::before {
+    display: block;
+    height: 100%;
+    content: '';
+  }
+
+  @mixin audio-icon($name, $icon, $color) {
+    &--#{$name}::before {
+      @include color-svg('../images/icons/v2/#{$icon}.svg', $color, false);
+    }
+  }
+
+  @mixin all-audio-icons($color) {
+    @include audio-icon(play, play-solid-20, $color);
+    @include audio-icon(pause, pause-solid-20, $color);
+    @include audio-icon(download, arrow-down-20, $color);
+    @include audio-icon(pending, audio-spinner-arc-22, $color);
+  }
+
+  &--pending {
+    cursor: auto;
+  }
+
+  &--pending::before {
+    animation: spinner-arc-animation 1000ms linear infinite;
+  }
+
+  .module-message__audio-attachment--incoming & {
+    @mixin android {
+      background: $color-white-alpha-20;
+
+      @include all-audio-icons($color-white);
+    }
+
+    @include light-theme {
+      @include android;
+    }
+    @include dark-theme {
+      @include android;
+    }
+    @include ios-theme {
+      background: $color-white;
+
+      @include all-audio-icons($color-gray-60);
+    }
+    @include ios-dark-theme {
+      background: $color-gray-60;
+
+      @include all-audio-icons($color-gray-15);
+    }
+  }
+
+  .module-message__audio-attachment--outgoing & {
+    @mixin android {
+      background: $color-white;
+
+      @include all-audio-icons($color-gray-60);
+    }
+
+    @mixin ios {
+      background: $color-white-alpha-20;
+
+      @include all-audio-icons($color-white);
+    }
+
+    @include light-theme {
+      @include android;
+    }
+    @include dark-theme {
+      @include android;
+    }
+    @include ios-theme {
+      @include ios;
+    }
+    @include ios-dark-theme {
+      @include ios;
+    }
+  }
+}
+
+.module-message__audio-attachment__waveform {
+  flex-shrink: 0;
+  margin-left: 12px;
+
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  outline: 0;
+}
+
+.module-message__audio-attachment__waveform__bar {
+  display: inline-block;
+
+  width: 2px;
+  border-radius: 2px;
+  transition: height 250ms, background 250ms;
+
+  &:not(:first-of-type) {
+    margin-left: 2px;
+  }
+
+  .module-message__audio-attachment--incoming & {
+    @mixin android {
+      background: $color-white-alpha-40;
+      &--active {
+        background: $color-white-alpha-80;
+      }
+    }
+
+    @include light-theme {
+      @include android;
+    }
+    @include dark-theme {
+      @include android;
+    }
+    @include ios-theme {
+      background: $color-black-alpha-40;
+      &--active {
+        background: $color-black-alpha-80;
+      }
+    }
+    @include ios-dark-theme {
+      background: $color-white-alpha-40;
+      &--active {
+        background: $color-white-alpha-70;
+      }
+    }
+  }
+
+  .module-message__audio-attachment--outgoing & {
+    @mixin ios {
+      background: $color-white-alpha-40;
+      &--active {
+        background: $color-white-alpha-80;
+      }
+    }
+
+    @include light-theme {
+      background: $color-black-alpha-20;
+      &--active {
+        background: $color-black-alpha-50;
+      }
+    }
+    @include dark-theme {
+      background: $color-white-alpha-40;
+      &--active {
+        background: $color-white-alpha-80;
+      }
+    }
+    @include ios-theme {
+      @include ios;
+    }
+    @include ios-dark-theme {
+      @include ios;
+    }
+  }
+}
+
+.module-message__audio-attachment__countdown {
+  flex-shrink: 1;
+
+  /* Prevent text from jumping when countdown changes */
+  min-width: 32px;
+  text-align: right;
+
+  user-select: none;
+
+  @include font-caption;
+
+  .module-message__audio-attachment--incoming & {
+    @mixin android {
+      color: $color-white-alpha-80;
+    }
+    @include light-theme {
+      @include android;
+    }
+    @include dark-theme {
+      @include android;
+    }
+    @include ios-theme {
+      color: $color-black-alpha-60;
+    }
+    @include ios-dark-theme {
+      color: $color-white-alpha-80;
+    }
+  }
+
+  .module-message__audio-attachment--outgoing & {
+    @mixin ios {
+      color: $color-white-alpha-80;
+    }
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-white-alpha-80;
+    }
+    @include ios-theme {
+      @include ios;
+    }
+    @include ios-dark-theme {
+      @include ios;
+    }
+  }
+}
+
+@media (min-width: 0px) and (max-width: 799px) {
+  .module-message__audio-attachment__waveform {
+    margin-left: 4px;
+  }
+
+  /* Clip the countdown text when it is too long on small screens */
+  .module-message__audio-attachment__countdown {
+    margin-left: 4px;
+
+    max-width: 46px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

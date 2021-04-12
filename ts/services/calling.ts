@@ -478,6 +478,18 @@ export class CallingClass {
         this.syncGroupCallToRedux(conversationId, groupCall);
       },
       onPeekChanged: groupCall => {
+        const localDeviceState = groupCall.getLocalDeviceState();
+        const { eraId } = groupCall.getPeekInfo() || {};
+        if (
+          updateMessageState === GroupCallUpdateMessageState.SentNothing &&
+          localDeviceState.connectionState !== ConnectionState.NotConnected &&
+          localDeviceState.joinState === JoinState.Joined &&
+          eraId
+        ) {
+          updateMessageState = GroupCallUpdateMessageState.SentJoin;
+          this.sendGroupCallUpdateMessage(conversationId, eraId);
+        }
+
         this.updateCallHistoryForGroupCall(
           conversationId,
           groupCall.getPeekInfo()

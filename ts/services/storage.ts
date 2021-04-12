@@ -1,7 +1,7 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, isNumber, partition } from 'lodash';
+import { debounce, isNumber } from 'lodash';
 import pMap from 'p-map';
 
 import Crypto from '../textsecure/Crypto';
@@ -19,7 +19,6 @@ import {
   StorageManifestClass,
   StorageRecordClass,
 } from '../textsecure.d';
-import { isEnabled } from '../RemoteConfig';
 import {
   mergeAccountRecord,
   mergeContactRecord,
@@ -33,6 +32,8 @@ import {
 import { ConversationModel } from '../models/conversations';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
+import { isMoreRecentThan } from '../util/timestamp';
+import { isStorageWriteFeatureEnabled } from '../storage/isFeatureEnabled';
 
 const {
   eraseStorageServiceStateFromConversations,
@@ -41,7 +42,7 @@ const {
 
 let consecutiveStops = 0;
 let consecutiveConflicts = 0;
-const forcedPushBucket: Array<number> = [];
+const uploadBucket: Array<number> = [];
 
 const validRecordTypes = new Set([
   0, // UNKNOWN
@@ -70,10 +71,16 @@ function backOff(count: number) {
   return sleep(ms);
 }
 
-type UnknownRecord = {
+function redactStorageID(storageID: string): string {
+  return storageID.substring(0, 3);
+}
+
+type RemoteRecord = {
   itemType: number;
   storageID: string;
 };
+
+type UnknownRecord = RemoteRecord;
 
 async function encryptRecord(
   storageID: string | undefined,
@@ -119,6 +126,7 @@ type GeneratedManifestType = {
 
 async function generateManifest(
   version: number,
+  previousManifest?: ManifestRecordClass,
   isNewManifest = false
 ): Promise<GeneratedManifestType> {
   window.log.info(
@@ -127,9 +135,12 @@ async function generateManifest(
     isNewManifest
   );
 
+  await window.ConversationController.checkForConflicts();
+
   const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
 
   const conversationsToUpdate = [];
+  const insertKeys: Array<string> = [];
   const deleteKeys: Array<ArrayBuffer> = [];
   const manifestRecordKeys: Set<ManifestRecordIdentifierClass> = new Set();
   const newItems: Set<StorageItemClass> = new Set();
@@ -163,7 +174,7 @@ async function generateManifest(
     } else {
       window.log.info(
         'storageService.generateManifest: unknown conversation',
-        conversation.debugID()
+        conversation.idForLogging()
       );
     }
 
@@ -197,8 +208,26 @@ async function generateManifest(
       if (isNewItem) {
         newItems.add(storageItem);
 
+        if (storageID) {
+          insertKeys.push(storageID);
+          window.log.info(
+            'storageService.generateManifest: new key',
+            conversation.idForLogging(),
+            redactStorageID(storageID)
+          );
+        } else {
+          window.log.info(
+            'storageService.generateManifest: no storage id',
+            conversation.idForLogging()
+          );
+        }
+
         const oldStorageID = conversation.get('storageID');
         if (oldStorageID) {
+          window.log.info(
+            'storageService.generateManifest: deleting key',
+            redactStorageID(oldStorageID)
+          );
           deleteKeys.push(base64ToArrayBuffer(oldStorageID));
         }
 
@@ -212,7 +241,7 @@ async function generateManifest(
     }
   }
 
-  const unknownRecordsArray = (
+  const unknownRecordsArray: ReadonlyArray<UnknownRecord> = (
     window.storage.get('storage-service-unknown-records') || []
   ).filter((record: UnknownRecord) => !validRecordTypes.has(record.itemType));
 
@@ -231,7 +260,7 @@ async function generateManifest(
     manifestRecordKeys.add(identifier);
   });
 
-  const recordsWithErrors =
+  const recordsWithErrors: ReadonlyArray<UnknownRecord> =
     window.storage.get('storage-service-error-records') || [];
 
   window.log.info(
@@ -309,7 +338,7 @@ async function generateManifest(
     if (storageKeyDuplicates.has(storageID)) {
       window.log.info(
         'storageService.generateManifest: removing duplicate identifier from inserts',
-        storageID
+        redactStorageID(storageID)
       );
       newItems.delete(storageItem);
     }
@@ -317,6 +346,60 @@ async function generateManifest(
   });
 
   storageKeyDuplicates.clear();
+
+  // If we have a copy of what the current remote manifest is then we run these
+  // additional validations comparing our pending manifest to the remote
+  // manifest:
+  if (previousManifest) {
+    const pendingInserts: Set<string> = new Set();
+    const pendingDeletes: Set<string> = new Set();
+
+    const remoteKeys: Set<string> = new Set();
+    previousManifest.keys.forEach(
+      (identifier: ManifestRecordIdentifierClass) => {
+        const storageID = arrayBufferToBase64(identifier.raw.toArrayBuffer());
+        remoteKeys.add(storageID);
+      }
+    );
+
+    const localKeys: Set<string> = new Set();
+    manifestRecordKeys.forEach((identifier: ManifestRecordIdentifierClass) => {
+      const storageID = arrayBufferToBase64(identifier.raw.toArrayBuffer());
+      localKeys.add(storageID);
+
+      if (!remoteKeys.has(storageID)) {
+        pendingInserts.add(storageID);
+      }
+    });
+
+    remoteKeys.forEach(storageID => {
+      if (!localKeys.has(storageID)) {
+        pendingDeletes.add(storageID);
+      }
+    });
+
+    if (deleteKeys.length !== pendingDeletes.size) {
+      throw new Error('invalid write delete keys length do not match');
+    }
+    if (newItems.size !== pendingInserts.size) {
+      throw new Error('invalid write insert items length do not match');
+    }
+    deleteKeys.forEach(key => {
+      const storageID = arrayBufferToBase64(key);
+      if (!pendingDeletes.has(storageID)) {
+        throw new Error(
+          'invalid write delete key missing from pending deletes'
+        );
+      }
+    });
+    insertKeys.forEach(storageID => {
+      if (!pendingInserts.has(storageID)) {
+        throw new Error(
+          'invalid write insert key missing from pending inserts'
+        );
+      }
+    });
+  }
 
   const manifestRecord = new window.textsecure.protobuf.ManifestRecord();
   manifestRecord.version = version;
@@ -463,7 +546,7 @@ async function createNewManifest() {
     conversationsToUpdate,
     newItems,
     storageManifest,
-  } = await generateManifest(version, true);
+  } = await generateManifest(version, undefined, true);
 
   await uploadManifest(version, {
     conversationsToUpdate,
@@ -590,11 +673,18 @@ async function mergeRecord(
       isUnsupported = true;
       window.log.info('storageService.mergeRecord: Unknown record:', itemType);
     }
+    window.log.info(
+      'storageService.mergeRecord: merged',
+      redactStorageID(storageID),
+      itemType,
+      hasConflict
+    );
   } catch (err) {
     hasError = true;
     window.log.error(
-      'storageService.mergeRecord: merging record failed',
-      err && err.stack ? err.stack : String(err)
+      'storageService.mergeRecord: Error with',
+      redactStorageID(storageID),
+      itemType
     );
   }
 
@@ -610,9 +700,6 @@ async function mergeRecord(
 async function processManifest(
   manifest: ManifestRecordClass
 ): Promise<boolean> {
-  const storageKeyBase64 = window.storage.get('storageKey');
-  const storageKey = base64ToArrayBuffer(storageKeyBase64);
-
   if (!window.textsecure.messaging) {
     throw new Error('storageService.processManifest: We are offline!');
   }
@@ -625,61 +712,104 @@ async function processManifest(
     );
   });
 
-  const localKeys = window
-    .getConversations()
-    .map((conversation: ConversationModel) => conversation.get('storageID'))
-    .filter(Boolean);
+  const remoteKeys = new Set(remoteKeysTypeMap.keys());
+  const localKeys: Set<string> = new Set();
 
-  const unknownRecordsArray =
-    window.storage.get('storage-service-unknown-records') || [];
-
-  unknownRecordsArray.forEach((record: UnknownRecord) => {
-    // Do not include any unknown records that we already support
-    if (!validRecordTypes.has(record.itemType)) {
-      localKeys.push(record.storageID);
+  const conversations = window.getConversations();
+  conversations.forEach((conversation: ConversationModel) => {
+    const storageID = conversation.get('storageID');
+    if (storageID) {
+      localKeys.add(storageID);
     }
   });
 
-  const recordsWithErrors =
-    window.storage.get('storage-service-error-records') || [];
+  const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
+    window.storage.get('storage-service-unknown-records') || [];
 
-  // Do not fetch any records that we failed to merge in the previous fetch
-  recordsWithErrors.forEach((record: UnknownRecord) => {
-    localKeys.push(record.storageID);
+  const stillUnknown = unknownRecordsArray.filter((record: UnknownRecord) => {
+    // Do not include any unknown records that we already support
+    if (!validRecordTypes.has(record.itemType)) {
+      localKeys.add(record.storageID);
+      return false;
+    }
+    return true;
   });
 
   window.log.info(
+    'storageService.processManifest: local records:',
+    conversations.length
+  );
+  window.log.info(
     'storageService.processManifest: local keys:',
-    localKeys.length
-  );
-
-  window.log.info(
-    'storageService.processManifest: incl. unknown records:',
-    unknownRecordsArray.length
+    localKeys.size
   );
   window.log.info(
-    'storageService.processManifest: incl. records with errors:',
-    recordsWithErrors.length
+    'storageService.processManifest: unknown records:',
+    stillUnknown.length
   );
-
-  const remoteKeys = Array.from(remoteKeysTypeMap.keys());
+  window.log.info(
+    'storageService.processManifest: remote keys:',
+    remoteKeys.size
+  );
 
   const remoteOnlySet: Set<string> = new Set();
   remoteKeys.forEach((key: string) => {
-    if (!localKeys.includes(key)) {
+    if (!localKeys.has(key)) {
       remoteOnlySet.add(key);
     }
   });
 
-  const remoteOnly = Array.from(remoteOnlySet);
+  window.log.info(
+    'storageService.processManifest: remote ids:',
+    Array.from(remoteOnlySet).map(redactStorageID).join(',')
+  );
+
+  const remoteOnlyRecords = new Map<string, RemoteRecord>();
+  remoteOnlySet.forEach(storageID => {
+    remoteOnlyRecords.set(storageID, {
+      storageID,
+      itemType: remoteKeysTypeMap.get(storageID),
+    });
+  });
+
+  const conflictCount = await processRemoteRecords(remoteOnlyRecords);
+
+  // Post-merge, if our local records contain any storage IDs that were not
+  // present in the remote manifest then we'll need to clear it, generate a
+  // new storageID for that record, and upload.
+  // This might happen if a device pushes a manifest which doesn't contain
+  // the keys that we have in our local database.
+  window.getConversations().forEach((conversation: ConversationModel) => {
+    const storageID = conversation.get('storageID');
+    if (storageID && !remoteKeys.has(storageID)) {
+      window.log.info(
+        'storageService.processManifest: local key was not in remote manifest',
+        redactStorageID(storageID),
+        conversation.idForLogging()
+      );
+      conversation.unset('storageID');
+      updateConversation(conversation.attributes);
+    }
+  });
+
+  return conflictCount !== 0;
+}
+
+async function processRemoteRecords(
+  remoteOnlyRecords: Map<string, RemoteRecord>
+): Promise<number> {
+  const storageKeyBase64 = window.storage.get('storageKey');
+  const storageKey = base64ToArrayBuffer(storageKeyBase64);
 
   window.log.info(
-    'storageService.processManifest: remote keys',
-    remoteOnly.length
+    'storageService.processRemoteRecords: remote only keys',
+    remoteOnlyRecords.size
   );
 
   const readOperation = new window.textsecure.protobuf.ReadOperation();
-  readOperation.readKey = remoteOnly.map(base64ToArrayBuffer);
+  readOperation.readKey = Array.from(remoteOnlyRecords.keys()).map(
+    base64ToArrayBuffer
+  );
 
   const credentials = window.storage.get('storageCredentials');
   const storageItemsBuffer = await window.textsecure.messaging.getStorageRecords(
@@ -695,9 +825,9 @@ async function processManifest(
 
   if (!storageItems.items) {
     window.log.info(
-      'storageService.processManifest: No storage items retrieved'
+      'storageService.processRemoteRecords: No storage items retrieved'
     );
-    return false;
+    return 0;
   }
 
   const decryptedStorageItems = await pMap(
@@ -709,11 +839,11 @@ async function processManifest(
 
       if (!key || !storageItemCiphertext) {
         window.log.error(
-          'storageService.processManifest: No key or Ciphertext available'
+          'storageService.processRemoteRecords: No key or Ciphertext available'
         );
         await stopStorageServiceSync();
         throw new Error(
-          'storageService.processManifest: Missing key and/or Ciphertext'
+          'storageService.processRemoteRecords: Missing key and/or Ciphertext'
         );
       }
 
@@ -732,7 +862,7 @@ async function processManifest(
         );
       } catch (err) {
         window.log.error(
-          'storageService.processManifest: Error decrypting storage item'
+          'storageService.processRemoteRecords: Error decrypting storage item'
         );
         await stopStorageServiceSync();
         throw err;
@@ -742,8 +872,16 @@ async function processManifest(
         storageItemPlaintext
       );
 
+      const remoteRecord = remoteOnlyRecords.get(base64ItemID);
+      if (!remoteRecord) {
+        throw new Error(
+          "Got a remote record that wasn't requested with " +
+            `storageID: ${base64ItemID}`
+        );
+      }
+
       return {
-        itemType: remoteKeysTypeMap.get(base64ItemID),
+        itemType: remoteRecord.itemType,
         storageID: base64ItemID,
         storageRecord,
       };
@@ -751,33 +889,37 @@ async function processManifest(
     { concurrency: 5 }
   );
 
-  // Merge Account records last
-  const sortedStorageItems = ([] as Array<MergeableItemType>).concat(
-    ...partition(
-      decryptedStorageItems,
-      storageRecord => storageRecord.storageRecord.account === undefined
-    )
+  // Merge Account records last since it contains the pinned conversations
+  // and we need all other records merged first before we can find the pinned
+  // records in our db
+  const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
+  const sortedStorageItems = decryptedStorageItems.sort((_, b) =>
+    b.itemType === ITEM_TYPE.ACCOUNT ? -1 : 1
   );
 
   try {
     window.log.info(
-      `storageService.processManifest: Attempting to merge ${sortedStorageItems.length} records`
+      `storageService.processRemoteRecords: Attempting to merge ${sortedStorageItems.length} records`
     );
     const mergedRecords = await pMap(sortedStorageItems, mergeRecord, {
       concurrency: 5,
     });
     window.log.info(
-      `storageService.processManifest: Processed ${mergedRecords.length} records`
+      `storageService.processRemoteRecords: Processed ${mergedRecords.length} records`
     );
 
+    // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
+
+    const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
+      window.storage.get('storage-service-unknown-records') || [];
     unknownRecordsArray.forEach((record: UnknownRecord) => {
       unknownRecords.set(record.storageID, record);
     });
 
     const newRecordsWithErrors: Array<UnknownRecord> = [];
 
-    let hasConflict = false;
+    let conflictCount = 0;
 
     mergedRecords.forEach((mergedRecord: MergedRecordType) => {
       if (mergedRecord.isUnsupported) {
@@ -792,7 +934,9 @@ async function processManifest(
         });
       }
 
-      hasConflict = hasConflict || mergedRecord.hasConflict;
+      if (mergedRecord.hasConflict) {
+        conflictCount += 1;
+      }
     });
 
     // Filter out all the unknown records we're already supporting
@@ -801,13 +945,13 @@ async function processManifest(
     );
 
     window.log.info(
-      'storageService.processManifest: Unknown records found:',
+      'storageService.processRemoteRecords: Unknown records found:',
       newUnknownRecords.length
     );
     window.storage.put('storage-service-unknown-records', newUnknownRecords);
 
     window.log.info(
-      'storageService.processManifest: Records with errors:',
+      'storageService.processRemoteRecords: Records with errors:',
       newRecordsWithErrors.length
     );
     // Refresh the list of records that had errors with every push, that way
@@ -815,79 +959,33 @@ async function processManifest(
     // fresh.
     window.storage.put('storage-service-error-records', newRecordsWithErrors);
 
-    const now = Date.now();
-
-    // if the remote only keys are larger or equal to our local keys then it
-    // was likely a forced push of storage service. We keep track of these
-    // merges so that we can detect possible infinite loops
-    if (remoteOnly.length >= localKeys.length) {
+    if (conflictCount !== 0) {
       window.log.info(
-        'storageService.processManifest: remote manifest was likely force pushed',
-        now
-      );
-      forcedPushBucket.push(now);
-
-      // we need to check our conversations because maybe all of them were not
-      // updated properly, for those that weren't we'll clear their storage
-      // key so that they can be included in the next update
-      window.getConversations().forEach((conversation: ConversationModel) => {
-        const storageID = conversation.get('storageID');
-        if (storageID && !remoteOnlySet.has(storageID)) {
-          window.log.info(
-            'storageService.processManifest: clearing storageID',
-            conversation.debugID()
-          );
-          conversation.unset('storageID');
-        }
-      });
-
-      if (forcedPushBucket.length >= 3) {
-        const [firstMostRecentForcedPush] = forcedPushBucket;
-
-        if (now - firstMostRecentForcedPush < 5 * MINUTE) {
-          window.log.info(
-            'storageService.processManifest: thrasing? Backing off'
-          );
-          const error = new Error();
-          error.code = 'E_BACKOFF';
-          throw error;
-        }
-
-        window.log.info(
-          'storageService.processManifest: thrash timestamp of first -> now',
-          firstMostRecentForcedPush,
-          now
-        );
-        forcedPushBucket.shift();
-      }
-    }
-
-    if (hasConflict) {
-      window.log.info(
-        'storageService.processManifest: Conflict found, uploading changes'
+        'storageService.processRemoteRecords: ' +
+          `${conflictCount} conflicts found, uploading changes`
       );
 
-      return true;
+      return conflictCount;
     }
 
     consecutiveConflicts = 0;
   } catch (err) {
     window.log.error(
-      'storageService.processManifest: failed!',
+      'storageService.processRemoteRecords: failed!',
       err && err.stack ? err.stack : String(err)
     );
   }
 
-  return false;
+  return 0;
 }
 
-async function sync(): Promise<void> {
-  if (!isEnabled('desktop.storage')) {
+async function sync(): Promise<ManifestRecordClass | undefined> {
+  if (!isStorageWriteFeatureEnabled()) {
     window.log.info(
       'storageService.sync: Not starting desktop.storage is falsey'
     );
 
-    return;
+    return undefined;
   }
 
   if (!window.storage.get('storageKey')) {
@@ -896,6 +994,7 @@ async function sync(): Promise<void> {
 
   window.log.info('storageService.sync: starting...');
 
+  let manifest: ManifestRecordClass | undefined;
   try {
     // If we've previously interacted with strage service, update 'fetchComplete' record
     const previousFetchComplete = window.storage.get('storageFetchComplete');
@@ -905,12 +1004,12 @@ async function sync(): Promise<void> {
     }
 
     const localManifestVersion = manifestFromStorage || 0;
-    const manifest = await fetchManifest(localManifestVersion);
+    manifest = await fetchManifest(localManifestVersion);
 
     // Guarding against no manifests being returned, everything should be ok
     if (!manifest) {
       window.log.info('storageService.sync: no new manifest');
-      return;
+      return undefined;
     }
 
     const version = manifest.version.toNumber();
@@ -923,7 +1022,7 @@ async function sync(): Promise<void> {
 
     const hasConflicts = await processManifest(manifest);
     if (hasConflicts) {
-      await upload();
+      await upload(true);
     }
 
     // We now know that we've successfully completed a storage service fetch
@@ -933,29 +1032,16 @@ async function sync(): Promise<void> {
       'storageService.sync: error processing manifest',
       err && err.stack ? err.stack : String(err)
     );
-
-    // When we're told to backoff, backoff to the max which should be
-    // ~5 minutes. If this job was running inside a queue it'll probably time
-    // out.
-    if (err.code === 'E_BACKOFF') {
-      await backOff(9001);
-    }
   }
 
   window.log.info('storageService.sync: complete');
+  return manifest;
 }
 
-async function upload(): Promise<void> {
-  if (!isEnabled('desktop.storage')) {
+async function upload(fromSync = false): Promise<void> {
+  if (!isStorageWriteFeatureEnabled()) {
     window.log.info(
-      'storageService.upload: Not starting desktop.storage is falsey'
-    );
-
-    return;
-  }
-  if (!isEnabled('desktop.storageWrite2')) {
-    window.log.info(
-      'storageService.upload: Not starting desktop.storageWrite2 is falsey'
+      'storageService.upload: Not starting because the feature is not enabled'
     );
 
     return;
@@ -963,6 +1049,22 @@ async function upload(): Promise<void> {
 
   if (!window.textsecure.messaging) {
     throw new Error('storageService.upload: We are offline!');
+  }
+
+  // Rate limit uploads coming from syncing
+  if (fromSync) {
+    uploadBucket.push(Date.now());
+    if (uploadBucket.length >= 3) {
+      const [firstMostRecentWrite] = uploadBucket;
+
+      if (isMoreRecentThan(5 * MINUTE, firstMostRecentWrite)) {
+        throw new Error(
+          'storageService.uploadManifest: too many writes too soon.'
+        );
+      }
+
+      uploadBucket.shift();
+    }
   }
 
   if (!window.storage.get('storageKey')) {
@@ -976,6 +1078,14 @@ async function upload(): Promise<void> {
     return;
   }
 
+  let previousManifest: ManifestRecordClass | undefined;
+  if (!fromSync) {
+    // Syncing before we upload so that we repair any unknown records and
+    // records with errors as well as ensure that we have the latest up to date
+    // manifest.
+    previousManifest = await sync();
+  }
+
   const localManifestVersion = window.storage.get('manifestVersion') || 0;
   const version = Number(localManifestVersion) + 1;
 
@@ -985,7 +1095,7 @@ async function upload(): Promise<void> {
   );
 
   try {
-    const generatedManifest = await generateManifest(version);
+    const generatedManifest = await generateManifest(version, previousManifest);
     await uploadManifest(version, generatedManifest);
   } catch (err) {
     if (err.code === 409) {
@@ -1031,7 +1141,9 @@ export const storageServiceUploadJob = debounce(() => {
     return;
   }
 
-  storageJobQueue(upload, `upload v${window.storage.get('manifestVersion')}`);
+  storageJobQueue(async () => {
+    await upload();
+  }, `upload v${window.storage.get('manifestVersion')}`);
 }, 500);
 
 export const runStorageServiceSyncJob = debounce(() => {
@@ -1042,5 +1154,7 @@ export const runStorageServiceSyncJob = debounce(() => {
     return;
   }
 
-  storageJobQueue(sync, `sync v${window.storage.get('manifestVersion')}`);
+  storageJobQueue(async () => {
+    await sync();
+  }, `sync v${window.storage.get('manifestVersion')}`);
 }, 500);

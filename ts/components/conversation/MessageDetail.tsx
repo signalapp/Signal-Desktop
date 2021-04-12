@@ -1,25 +1,32 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
+import { GlobalAudioProvider } from '../GlobalAudioContext';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
-import { Message, MessageStatusType, Props as MessageProps } from './Message';
+import {
+  Message,
+  MessageStatusType,
+  Props as MessagePropsType,
+  PropsData as MessagePropsDataType,
+} from './Message';
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
+import { assert } from '../../util/assert';
 
-type Contact = {
-  status: MessageStatusType;
+export type Contact = {
+  status: MessageStatusType | null;
 
   title: string;
   phoneNumber?: string;
   name?: string;
   profileName?: string;
   avatarPath?: string;
-  color: ColorType;
+  color?: ColorType;
   isOutgoingKeyError: boolean;
   isUnidentifiedDelivery: boolean;
 
@@ -30,15 +37,36 @@ type Contact = {
 };
 
 export type Props = {
-  sentAt: number;
-  receivedAt: number;
-
-  message: MessageProps;
-  errors: Array<Error>;
   contacts: Array<Contact>;
+  errors: Array<Error>;
+  message: MessagePropsDataType;
+  receivedAt: number;
+  sentAt: number;
 
   i18n: LocalizerType;
-};
+} & Pick<
+  MessagePropsType,
+  | 'clearSelectedMessage'
+  | 'deleteMessage'
+  | 'deleteMessageForEveryone'
+  | 'displayTapToViewMessage'
+  | 'downloadAttachment'
+  | 'interactionMode'
+  | 'kickOffAttachmentDownload'
+  | 'markAttachmentAsCorrupted'
+  | 'openConversation'
+  | 'openLink'
+  | 'reactToMessage'
+  | 'renderAudioAttachment'
+  | 'renderEmojiPicker'
+  | 'replyToMessage'
+  | 'retrySend'
+  | 'showContactDetail'
+  | 'showContactModal'
+  | 'showExpiredIncomingTapToViewToast'
+  | 'showExpiredOutgoingTapToViewToast'
+  | 'showVisualAttachment'
+>;
 
 const _keyForError = (error: Error): string => {
   return `${error.name}-${error.message}`;
@@ -84,14 +112,14 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderDeleteButton(): JSX.Element {
-    const { i18n, message } = this.props;
+    const { deleteMessage, i18n, message } = this.props;
 
     return (
       <div className="module-message-detail__delete-button-container">
         <button
           type="button"
           onClick={() => {
-            message.deleteMessage(message.id);
+            deleteMessage(message.id);
           }}
           className="module-message-detail__delete-button"
         >
@@ -127,7 +155,9 @@ export class MessageDetail extends React.Component<Props> {
       <div
         className={classNames(
           'module-message-detail__contact__status-icon',
-          `module-message-detail__contact__status-icon--${contact.status}`
+          contact.status
+            ? `module-message-detail__contact__status-icon--${contact.status}`
+            : undefined
         )}
       />
     ) : null;
@@ -179,13 +209,83 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { errors, message, receivedAt, sentAt, i18n } = this.props;
+    const {
+      errors,
+      message,
+      receivedAt,
+      sentAt,
+
+      clearSelectedMessage,
+      deleteMessage,
+      deleteMessageForEveryone,
+      displayTapToViewMessage,
+      downloadAttachment,
+      i18n,
+      interactionMode,
+      kickOffAttachmentDownload,
+      markAttachmentAsCorrupted,
+      openConversation,
+      openLink,
+      reactToMessage,
+      renderAudioAttachment,
+      renderEmojiPicker,
+      replyToMessage,
+      retrySend,
+      showContactDetail,
+      showContactModal,
+      showExpiredIncomingTapToViewToast,
+      showExpiredOutgoingTapToViewToast,
+      showVisualAttachment,
+    } = this.props;
 
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       <div className="module-message-detail" tabIndex={0} ref={this.focusRef}>
         <div className="module-message-detail__message-container">
-          <Message {...message} i18n={i18n} />
+          <GlobalAudioProvider conversationId={message.conversationId}>
+            <Message
+              {...message}
+              clearSelectedMessage={clearSelectedMessage}
+              deleteMessage={deleteMessage}
+              deleteMessageForEveryone={deleteMessageForEveryone}
+              disableMenu
+              disableScroll
+              displayTapToViewMessage={displayTapToViewMessage}
+              downloadAttachment={downloadAttachment}
+              i18n={i18n}
+              interactionMode={interactionMode}
+              kickOffAttachmentDownload={kickOffAttachmentDownload}
+              markAttachmentAsCorrupted={markAttachmentAsCorrupted}
+              openConversation={openConversation}
+              openLink={openLink}
+              reactToMessage={reactToMessage}
+              renderAudioAttachment={renderAudioAttachment}
+              renderEmojiPicker={renderEmojiPicker}
+              replyToMessage={replyToMessage}
+              retrySend={retrySend}
+              scrollToQuotedMessage={() => {
+                assert(
+                  false,
+                  'scrollToQuotedMessage should never be called because scrolling is disabled'
+                );
+              }}
+              showContactDetail={showContactDetail}
+              showContactModal={showContactModal}
+              showExpiredIncomingTapToViewToast={
+                showExpiredIncomingTapToViewToast
+              }
+              showExpiredOutgoingTapToViewToast={
+                showExpiredOutgoingTapToViewToast
+              }
+              showMessageDetail={() => {
+                assert(
+                  false,
+                  "showMessageDetail should never be called because the menu is disabled (and we're already in the message detail!)"
+                );
+              }}
+              showVisualAttachment={showVisualAttachment}
+            />
+          </GlobalAudioProvider>
         </div>
         <table className="module-message-detail__info">
           <tbody>

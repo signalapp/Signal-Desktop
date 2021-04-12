@@ -23,6 +23,7 @@ export type UnprocessedType = {
   decrypted?: string;
   envelope?: string;
   id: string;
+  timestamp: number;
   serverTimestamp?: number;
   source?: string;
   sourceDevice?: number;
@@ -147,6 +148,7 @@ export type StorageProtocolType = StorageType & {
     publicKey?: ArrayBuffer
   ) => Promise<void>;
   removeSignedPreKey: (keyId: number) => Promise<void>;
+  removeAllSessions: (identifier: string) => Promise<void>;
   removeAllData: () => Promise<void>;
   on: (key: string, callback: () => void) => WhatIsThis;
   removeAllConfiguration: () => Promise<void>;
@@ -215,6 +217,12 @@ type SubProtocolProtobufTypes = {
   WebSocketResponseMessage: typeof WebSocketResponseMessageClass;
 };
 
+type UnidentifiedDeliveryTypes = {
+  ServerCertificate: typeof ServerCertificateClass;
+  SenderCertificate: typeof SenderCertificateClass;
+  UnidentifiedSenderMessage: typeof UnidentifiedSenderMessageClass;
+};
+
 type ProtobufCollectionType = {
   onLoad: (callback: () => unknown) => void;
 } & DeviceMessagesProtobufTypes &
@@ -222,7 +230,8 @@ type ProtobufCollectionType = {
   GroupsProtobufTypes &
   SignalServiceProtobufTypes &
   SignalStorageProtobufTypes &
-  SubProtocolProtobufTypes;
+  SubProtocolProtobufTypes &
+  UnidentifiedDeliveryTypes;
 
 // Note: there are a lot of places in the code that overwrite a field like this
 //   with a type that the app can use. Being more rigorous with these
@@ -566,6 +575,8 @@ export declare class AttachmentPointerClass {
 
   static Flags: {
     VOICE_MESSAGE: number;
+    BORDERLESS: number;
+    GIF: number;
   };
 
   cdnId?: ProtoBigNumberType;
@@ -725,7 +736,6 @@ export declare namespace DataMessageClass {
   class Reaction {
     emoji: string | null;
     remove: boolean;
-    targetAuthorE164: string | null;
     targetAuthorUuid: string | null;
     targetTimestamp: ProtoBigNumberType | null;
   }
@@ -787,6 +797,8 @@ export declare class EnvelopeClass {
 
   // Note: these additional properties are added in the course of processing
   id: string;
+  receivedAtCounter: number;
+  receivedAtDate: number;
   unidentifiedDeliveryReceived?: boolean;
   messageAgeSec?: number;
 }
@@ -1095,8 +1107,16 @@ export declare class PinnedConversationClass {
   groupMasterKey?: ProtoBinaryType;
 }
 
+declare enum AccountRecordPhoneNumberSharingMode {
+  EVERYBODY = 0,
+  CONTACTS_ONLY = 1,
+  NOBODY = 2,
+}
+
 export declare class AccountRecordClass {
+  static PhoneNumberSharingMode: typeof AccountRecordPhoneNumberSharingMode;
   static PinnedConversation: typeof PinnedConversationClass;
+
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
@@ -1112,6 +1132,8 @@ export declare class AccountRecordClass {
   sealedSenderIndicators?: boolean | null;
   typingIndicators?: boolean | null;
   linkPreviews?: boolean | null;
+  phoneNumberSharingMode?: AccountRecordPhoneNumberSharingMode;
+  notDiscoverableByPhoneNumber?: boolean;
   pinnedConversations?: PinnedConversationClass[];
   noteToSelfMarkedUnread?: boolean;
 
@@ -1185,8 +1207,8 @@ export declare namespace SyncMessageClass {
     groupIds?: Array<ProtoBinaryType>;
   }
   class Read {
-    sender?: string;
-    senderUuid?: string;
+    sender: string | null;
+    senderUuid: string | null;
     timestamp?: ProtoBigNumberType;
   }
   class Request {
@@ -1353,3 +1375,90 @@ export declare class WebSocketResponseMessageClass {
 }
 
 export { CallingMessageClass };
+
+// UnidentifiedDelivery.proto
+
+export declare class ServerCertificateClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => ServerCertificateClass;
+  toArrayBuffer: () => ArrayBuffer;
+
+  certificate?: ProtoBinaryType;
+  signature?: ProtoBinaryType;
+}
+
+export declare namespace ServerCertificateClass {
+  class Certificate {
+    static decode: (
+      data: ArrayBuffer | ByteBufferClass,
+      encoding?: string
+    ) => Certificate;
+    toArrayBuffer: () => ArrayBuffer;
+
+    id?: number;
+    key?: ProtoBinaryType;
+  }
+}
+
+export declare class SenderCertificateClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => SenderCertificateClass;
+  toArrayBuffer: () => ArrayBuffer;
+
+  certificate?: ProtoBinaryType;
+  signature?: ProtoBinaryType;
+}
+
+export declare namespace SenderCertificateClass {
+  class Certificate {
+    static decode: (
+      data: ArrayBuffer | ByteBufferClass,
+      encoding?: string
+    ) => Certificate;
+    toArrayBuffer: () => ArrayBuffer;
+
+    sender?: string;
+    senderUuid?: string;
+    senderDevice?: number;
+    expires?: ProtoBigNumberType;
+    identityKey?: ProtoBinaryType;
+    signer?: SenderCertificateClass;
+  }
+}
+
+export declare class UnidentifiedSenderMessageClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => UnidentifiedSenderMessageClass;
+  toArrayBuffer: () => ArrayBuffer;
+
+  ephemeralPublic?: ProtoBinaryType;
+  encryptedStatic?: ProtoBinaryType;
+  encryptedMessage?: ProtoBinaryType;
+}
+
+export declare namespace UnidentifiedSenderMessageClass {
+  class Message {
+    static decode: (
+      data: ArrayBuffer | ByteBufferClass,
+      encoding?: string
+    ) => Message;
+    toArrayBuffer: () => ArrayBuffer;
+
+    type?: number;
+    senderCertificate?: SenderCertificateClass;
+    content?: ProtoBinaryType;
+  }
+}
+
+export declare namespace UnidentifiedSenderMessageClass.Message {
+  class Type {
+    static PREKEY_MESSAGE: number;
+    static MESSAGE: number;
+  }
+}

@@ -52,8 +52,10 @@ import {
   StickerType,
   UnprocessedType,
 } from './Interface';
+import Server from './Server';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
+import { waitForPendingQueries } from './Queueing';
 
 // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
@@ -86,6 +88,7 @@ let _jobCounter = 0;
 let _shuttingDown = false;
 let _shutdownCallback: Function | null = null;
 let _shutdownPromise: Promise<any> | null = null;
+let shouldUseRendererProcess = true;
 
 // Because we can't force this module to conform to an interface, we narrow our exports
 //   to this one default export, which does conform to the interface.
@@ -232,11 +235,24 @@ const dataInterface: ClientInterface = {
 
   // Client-side only, and test-only
 
+  goBackToMainProcess,
   _removeConversations,
   _jobs,
 };
 
 export default dataInterface;
+
+async function goBackToMainProcess(): Promise<void> {
+  window.log.info('data.goBackToMainProcess: waiting for pending queries');
+
+  // Let pending queries finish before we'll give write access to main process.
+  // We don't want to be writing from two processes at the same time!
+  await waitForPendingQueries();
+
+  window.log.info('data.goBackToMainProcess: switching to main process');
+
+  shouldUseRendererProcess = false;
+}
 
 const channelsAsUnknown = fromPairs(
   compact(
@@ -267,6 +283,11 @@ function _cleanData(
 }
 
 function _cleanMessageData(data: MessageType): MessageType {
+  // Ensure that all messages have the received_at set properly
+  if (!data.received_at) {
+    assert(false, 'received_at was not set on the message');
+    data.received_at = window.Signal.Util.incrementMessageCounter();
+  }
   return _cleanData(omit(data, ['dataMessage']));
 }
 
@@ -422,6 +443,18 @@ if (ipcRenderer && ipcRenderer.on) {
 
 function makeChannel(fnName: string) {
   return async (...args: Array<any>) => {
+    // During startup we want to avoid the high overhead of IPC so we utilize
+    // the db that exists in the renderer process to be able to boot up quickly
+    // once the app is running we switch back to the main process to avoid the
+    // UI from locking up whenever we do costly db operations.
+    if (shouldUseRendererProcess) {
+      const serverFnName = fnName as keyof ServerInterface;
+      // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return Server[serverFnName](...args);
+    }
+
     const jobId = _makeJob(fnName);
 
     return new Promise((resolve, reject) => {
@@ -481,6 +514,8 @@ function keysFromArrayBuffer(keys: Array<string>, data: any) {
 // Top-level calls
 
 async function shutdown() {
+  await waitForPendingQueries();
+
   // Stop accepting new SQL jobs, flush outstanding queue
   await _shutdown();
 
@@ -711,10 +746,15 @@ async function getConversationById(
 ) {
   const data = await channels.getConversationById(id);
 
+  if (!data) {
+    return undefined;
+  }
+
   return new Conversation(data);
 }
 
 const updateConversationBatcher = createBatcher<ConversationType>({
+  name: 'sql.Client.updateConversationBatcher',
   wait: 500,
   maxSize: 20,
   processBatch: async (items: Array<ConversationType>) => {
@@ -1226,7 +1266,7 @@ async function updateUnprocessedsWithData(array: Array<UnprocessedType>) {
   await channels.updateUnprocessedsWithData(array);
 }
 
-async function removeUnprocessed(id: string) {
+async function removeUnprocessed(id: string | Array<string>) {
   await channels.removeUnprocessed(id);
 }
 

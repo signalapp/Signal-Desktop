@@ -4,17 +4,16 @@
 import { get, throttle } from 'lodash';
 import { WebAPIType } from './textsecure/WebAPI';
 
-type ConfigKeyType =
+export type ConfigKeyType =
   | 'desktop.cds'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
   | 'desktop.groupCalling'
   | 'desktop.gv2'
-  | 'desktop.gv2Admin'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.messageRequests'
   | 'desktop.storage'
-  | 'desktop.storageWrite2'
+  | 'desktop.storageWrite3'
   | 'global.groupsv2.maxGroupSize'
   | 'global.groupsv2.groupSizeHardLimit';
 type ConfigValueType = {

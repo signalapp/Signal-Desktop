@@ -17,6 +17,7 @@ const toMediaItem = (date: Date): MediaItemType => ({
   message: {
     id: 'id',
     received_at: date.getTime(),
+    received_at_ms: date.getTime(),
     attachments: [],
   },
   attachment: {
@@ -57,6 +58,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1523534400000,
+              received_at_ms: 1523534400000,
               attachments: [],
             },
             attachment: {
@@ -71,6 +73,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1523491260000,
+              received_at_ms: 1523491260000,
               attachments: [],
             },
             attachment: {
@@ -90,6 +93,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1523491140000,
+              received_at_ms: 1523491140000,
               attachments: [],
             },
             attachment: {
@@ -109,6 +113,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1523232060000,
+              received_at_ms: 1523232060000,
               attachments: [],
             },
             attachment: {
@@ -128,6 +133,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1523231940000,
+              received_at_ms: 1523231940000,
               attachments: [],
             },
             attachment: {
@@ -142,6 +148,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1522540860000,
+              received_at_ms: 1522540860000,
               attachments: [],
             },
             attachment: {
@@ -163,6 +170,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1522540740000,
+              received_at_ms: 1522540740000,
               attachments: [],
             },
             attachment: {
@@ -177,6 +185,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1519912800000,
+              received_at_ms: 1519912800000,
               attachments: [],
             },
             attachment: {
@@ -198,6 +207,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1298937540000,
+              received_at_ms: 1298937540000,
               attachments: [],
             },
             attachment: {
@@ -212,6 +222,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1296554400000,
+              received_at_ms: 1296554400000,
               attachments: [],
             },
             attachment: {

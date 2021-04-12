@@ -28,7 +28,7 @@ export type AttachmentType = {
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
-  url: string;
+  url?: string;
   size?: number;
   fileSize?: string;
   pending?: boolean;
@@ -49,6 +49,7 @@ export type AttachmentType = {
     contentType: MIME.MIMEType;
     path: string;
   };
+  isCorrupted?: boolean;
 };
 
 // UI-focused functions
@@ -87,6 +88,7 @@ export function isAudio(
     attachments &&
     attachments[0] &&
     attachments[0].contentType &&
+    !attachments[0].isCorrupted &&
     MIME.isAudio(attachments[0].contentType)
   );
 }
@@ -107,7 +109,9 @@ export function canDisplayImage(
   );
 }
 
-export function getThumbnailUrl(attachment: AttachmentType): string {
+export function getThumbnailUrl(
+  attachment: AttachmentType
+): string | undefined {
   if (attachment.thumbnail) {
     return attachment.thumbnail.url;
   }
@@ -115,7 +119,7 @@ export function getThumbnailUrl(attachment: AttachmentType): string {
   return getUrl(attachment);
 }
 
-export function getUrl(attachment: AttachmentType): string {
+export function getUrl(attachment: AttachmentType): string | undefined {
   if (attachment.screenshot) {
     return attachment.screenshot.url;
   }

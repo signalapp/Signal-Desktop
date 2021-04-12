@@ -93,6 +93,12 @@ message GroupV2Record {
 }
 
 message AccountRecord {
+  enum PhoneNumberSharingMode {
+    EVERYBODY     = 0;
+    CONTACTS_ONLY = 1;
+    NOBODY        = 2;
+  }
+
   message PinnedConversation {
     message Contact {
       optional string uuid = 1;
@@ -106,16 +112,18 @@ message AccountRecord {
     }
   }
 
-  optional bytes              profileKey             = 1;
-  optional string             givenName              = 2;
-  optional string             familyName             = 3;
-  optional string             avatarUrl              = 4;
-  optional bool               noteToSelfArchived     = 5;
-  optional bool               readReceipts           = 6;
-  optional bool               sealedSenderIndicators = 7;
-  optional bool               typingIndicators       = 8;
-  optional bool               proxiedLinkPreviews    = 9;
-  optional bool               noteToSelfMarkedUnread = 10;
-  optional bool               linkPreviews           = 11;
-  repeated PinnedConversation pinnedConversations    = 14;
+  optional bytes                  profileKey                   = 1;
+  optional string                 givenName                    = 2;
+  optional string                 familyName                   = 3;
+  optional string                 avatarUrl                    = 4;
+  optional bool                   noteToSelfArchived           = 5;
+  optional bool                   readReceipts                 = 6;
+  optional bool                   sealedSenderIndicators       = 7;
+  optional bool                   typingIndicators             = 8;
+  optional bool                   proxiedLinkPreviews          = 9;
+  optional bool                   noteToSelfMarkedUnread       = 10;
+  optional bool                   linkPreviews                 = 11;
+  optional PhoneNumberSharingMode phoneNumberSharingMode       = 12;
+  optional bool                   notDiscoverableByPhoneNumber = 13;
+  repeated PinnedConversation     pinnedConversations          = 14;
 }

@@ -86,7 +86,7 @@ async function fetchWithRedirects(
     }
     urlsSeen.add(nextHrefToLoad);
 
-    // This `await` is deliberatly inside of a loop.
+    // This `await` is deliberately inside of a loop.
     // eslint-disable-next-line no-await-in-loop
     const response = await fetchFn(nextHrefToLoad, {
       ...options,
@@ -354,9 +354,10 @@ const parseMetadata = (
   const rawImageHref =
     getOpenGraphContent(document, ['og:image', 'og:image:url']) ||
     getLinkHrefAttribute(document, [
+      'apple-touch-icon',
+      'apple-touch-icon-precomposed',
       'shortcut icon',
       'icon',
-      'apple-touch-icon',
     ]);
   const imageUrl = rawImageHref ? maybeParseUrl(rawImageHref, href) : null;
   const imageHref = imageUrl ? imageUrl.href : null;

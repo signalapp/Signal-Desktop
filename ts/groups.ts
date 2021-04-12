@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
@@ -7,7 +7,6 @@ import {
   difference,
   flatten,
   fromPairs,
-  isFinite,
   isNumber,
   values,
 } from 'lodash';
@@ -18,8 +17,10 @@ import {
   GROUP_CREDENTIALS_KEY,
   maybeFetchNewCredentials,
 } from './services/groupCredentialFetcher';
+import { isStorageWriteFeatureEnabled } from './storage/isFeatureEnabled';
 import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
+import { assert } from './util/assert';
 import {
   ConversationAttributesType,
   GroupV2MemberType,
@@ -72,6 +73,7 @@ import {
 import MessageSender, { CallbackResultType } from './textsecure/SendMessage';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
 import { ConversationModel } from './models/conversations';
+import { getGroupSizeHardLimit } from './groups/limits';
 
 export { joinViaLink } from './groups/joinViaLink';
 
@@ -222,9 +224,16 @@ type UpdatesResultType = {
   newAttributes: ConversationAttributesType;
 };
 
+type UploadedAvatarType = {
+  data: ArrayBuffer;
+  hash: string;
+  key: string;
+};
+
 // Constants
 
 export const MASTER_KEY_LENGTH = 32;
+const GROUP_TITLE_MAX_ENCRYPTED_BYTES = 1024;
 export const ID_V1_LENGTH = 16;
 export const ID_LENGTH = 32;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
@@ -324,21 +333,25 @@ export function parseGroupLink(
 
 // Group Modifications
 
-async function uploadAvatar({
-  logId,
-  path,
-  publicParams,
-  secretParams,
-}: {
-  logId: string;
-  path: string;
-  publicParams: string;
-  secretParams: string;
-}): Promise<{ hash: string; key: string }> {
+async function uploadAvatar(
+  options: {
+    logId: string;
+    publicParams: string;
+    secretParams: string;
+  } & ({ path: string } | { data: ArrayBuffer })
+): Promise<UploadedAvatarType> {
+  const { logId, publicParams, secretParams } = options;
+
   try {
     const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
 
-    const data = await window.Signal.Migrations.readAttachmentData(path);
+    let data: ArrayBuffer;
+    if ('data' in options) {
+      ({ data } = options);
+    } else {
+      data = await window.Signal.Migrations.readAttachmentData(options.path);
+    }
+
     const hash = await computeHash(data);
 
     const blob = new window.textsecure.protobuf.GroupAttributeBlob();
@@ -350,13 +363,14 @@ async function uploadAvatar({
       logId: `uploadGroupAvatar/${logId}`,
       publicParams,
       secretParams,
-      request: (sender, options) =>
-        sender.uploadGroupAvatar(ciphertext, options),
+      request: (sender, requestOptions) =>
+        sender.uploadGroupAvatar(ciphertext, requestOptions),
     });
 
     return {
-      key,
+      data,
       hash,
+      key,
     };
   } catch (error) {
     window.log.warn(
@@ -367,11 +381,39 @@ async function uploadAvatar({
   }
 }
 
-async function buildGroupProto({
-  attributes,
-}: {
-  attributes: ConversationAttributesType;
-}): Promise<GroupClass> {
+function buildGroupTitleBuffer(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  title: string
+): ArrayBuffer {
+  const titleBlob = new window.textsecure.protobuf.GroupAttributeBlob();
+  titleBlob.title = title;
+  const titleBlobPlaintext = titleBlob.toArrayBuffer();
+
+  const result = encryptGroupBlob(clientZkGroupCipher, titleBlobPlaintext);
+
+  if (result.byteLength > GROUP_TITLE_MAX_ENCRYPTED_BYTES) {
+    throw new Error('buildGroupTitleBuffer: encrypted group title is too long');
+  }
+
+  return result;
+}
+
+function buildGroupProto(
+  attributes: Pick<
+    ConversationAttributesType,
+    | 'accessControl'
+    | 'expireTimer'
+    | 'id'
+    | 'membersV2'
+    | 'name'
+    | 'pendingMembersV2'
+    | 'publicParams'
+    | 'revision'
+    | 'secretParams'
+  > & {
+    avatarUrl?: string;
+  }
+): GroupClass {
   const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
   const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
   const logId = `groupv2(${attributes.id})`;
@@ -399,26 +441,12 @@ async function buildGroupProto({
   proto.publicKey = base64ToArrayBuffer(publicParams);
   proto.version = attributes.revision || 0;
 
-  const titleBlob = new window.textsecure.protobuf.GroupAttributeBlob();
-  titleBlob.title = attributes.name;
-  const titleBlobPlaintext = titleBlob.toArrayBuffer();
-  proto.title = encryptGroupBlob(clientZkGroupCipher, titleBlobPlaintext);
+  if (attributes.name) {
+    proto.title = buildGroupTitleBuffer(clientZkGroupCipher, attributes.name);
+  }
 
-  if (attributes.avatar && attributes.avatar.path) {
-    const { path } = attributes.avatar;
-    const { key, hash } = await uploadAvatar({
-      logId,
-      path,
-      publicParams,
-      secretParams,
-    });
-
-    // eslint-disable-next-line no-param-reassign
-    attributes.avatar.hash = hash;
-    // eslint-disable-next-line no-param-reassign
-    attributes.avatar.url = key;
-
-    proto.avatar = key;
+  if (attributes.avatarUrl) {
+    proto.avatar = attributes.avatarUrl;
   }
 
   if (attributes.expireTimer) {
@@ -454,7 +482,7 @@ async function buildGroupProto({
     const profileKeyCredentialBase64 = conversation.get('profileKeyCredential');
     if (!profileKeyCredentialBase64) {
       throw new Error(
-        `buildGroupProto/${logId}: member was missing profileKeyCredentia!`
+        `buildGroupProto/${logId}: member was missing profileKeyCredential!`
       );
     }
     const presentation = createProfileKeyCredentialPresentation(
@@ -520,6 +548,224 @@ async function buildGroupProto({
   );
 
   return proto;
+}
+
+export async function buildAddMembersChange(
+  conversation: Pick<
+    ConversationAttributesType,
+    'id' | 'publicParams' | 'revision' | 'secretParams'
+  >,
+  conversationIds: ReadonlyArray<string>
+): Promise<undefined | GroupChangeClass.Actions> {
+  const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
+
+  const { id, publicParams, revision, secretParams } = conversation;
+
+  const logId = `groupv2(${id})`;
+
+  if (!publicParams) {
+    throw new Error(
+      `buildAddMembersChange/${logId}: attributes were missing publicParams!`
+    );
+  }
+  if (!secretParams) {
+    throw new Error(
+      `buildAddMembersChange/${logId}: attributes were missing secretParams!`
+    );
+  }
+
+  const newGroupVersion = (revision || 0) + 1;
+  const serverPublicParamsBase64 = window.getServerPublicParams();
+  const clientZkProfileCipher = getClientZkProfileOperations(
+    serverPublicParamsBase64
+  );
+  const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
+
+  const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+  const ourConversation = window.ConversationController.get(ourConversationId);
+  const ourUuid = ourConversation?.get('uuid');
+  if (!ourUuid) {
+    throw new Error(
+      `buildAddMembersChange/${logId}: unable to find our own UUID!`
+    );
+  }
+  const ourUuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, ourUuid);
+
+  const now = Date.now();
+
+  const addMembers: Array<GroupChangeClass.Actions.AddMemberAction> = [];
+  const addPendingMembers: Array<GroupChangeClass.Actions.AddMemberPendingProfileKeyAction> = [];
+
+  await Promise.all(
+    conversationIds.map(async conversationId => {
+      const contact = window.ConversationController.get(conversationId);
+      if (!contact) {
+        assert(
+          false,
+          `buildAddMembersChange/${logId}: missing local contact, skipping`
+        );
+        return;
+      }
+
+      const uuid = contact.get('uuid');
+      if (!uuid) {
+        assert(false, `buildAddMembersChange/${logId}: missing UUID; skipping`);
+        return;
+      }
+
+      // Refresh our local data to be sure
+      if (
+        !contact.get('capabilities')?.gv2 ||
+        !contact.get('profileKey') ||
+        !contact.get('profileKeyCredential')
+      ) {
+        await contact.getProfiles();
+      }
+
+      if (!contact.get('capabilities')?.gv2) {
+        assert(
+          false,
+          `buildAddMembersChange/${logId}: member is missing GV2 capability; skipping`
+        );
+        return;
+      }
+
+      const profileKey = contact.get('profileKey');
+      const profileKeyCredential = contact.get('profileKeyCredential');
+
+      if (!profileKey) {
+        assert(
+          false,
+          `buildAddMembersChange/${logId}: member is missing profile key; skipping`
+        );
+        return;
+      }
+
+      const member = new window.textsecure.protobuf.Member();
+      member.userId = encryptUuid(clientZkGroupCipher, uuid);
+      member.role = MEMBER_ROLE_ENUM.DEFAULT;
+      member.joinedAtVersion = newGroupVersion;
+
+      // This is inspired by [Android's equivalent code][0].
+      //
+      // [0]: https://github.com/signalapp/Signal-Android/blob/2be306867539ab1526f0e49d1aa7bd61e783d23f/libsignal/service/src/main/java/org/whispersystems/signalservice/api/groupsv2/GroupsV2Operations.java#L152-L174
+      if (profileKey && profileKeyCredential) {
+        member.presentation = createProfileKeyCredentialPresentation(
+          clientZkProfileCipher,
+          profileKeyCredential,
+          secretParams
+        );
+
+        const addMemberAction = new window.textsecure.protobuf.GroupChange.Actions.AddMemberAction();
+        addMemberAction.added = member;
+        addMemberAction.joinFromInviteLink = false;
+
+        addMembers.push(addMemberAction);
+      } else {
+        const memberPendingProfileKey = new window.textsecure.protobuf.MemberPendingProfileKey();
+        memberPendingProfileKey.member = member;
+        memberPendingProfileKey.addedByUserId = ourUuidCipherTextBuffer;
+        memberPendingProfileKey.timestamp = now;
+
+        const addPendingMemberAction = new window.textsecure.protobuf.GroupChange.Actions.AddMemberPendingProfileKeyAction();
+        addPendingMemberAction.added = memberPendingProfileKey;
+
+        addPendingMembers.push(addPendingMemberAction);
+      }
+    })
+  );
+
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+  if (!addMembers.length && !addPendingMembers.length) {
+    // This shouldn't happen. When these actions are passed to `modifyGroupV2`, a warning
+    //   will be logged.
+    return undefined;
+  }
+  if (addMembers.length) {
+    actions.addMembers = addMembers;
+  }
+  if (addPendingMembers.length) {
+    actions.addPendingMembers = addPendingMembers;
+  }
+  actions.version = newGroupVersion;
+
+  return actions;
+}
+
+export async function buildUpdateAttributesChange(
+  conversation: Pick<
+    ConversationAttributesType,
+    'id' | 'revision' | 'publicParams' | 'secretParams'
+  >,
+  attributes: Readonly<{
+    avatar?: undefined | ArrayBuffer;
+    title?: string;
+  }>
+): Promise<undefined | GroupChangeClass.Actions> {
+  const { publicParams, secretParams, revision, id } = conversation;
+
+  const logId = `groupv2(${id})`;
+
+  if (!publicParams) {
+    throw new Error(
+      `buildUpdateAttributesChange/${logId}: attributes were missing publicParams!`
+    );
+  }
+  if (!secretParams) {
+    throw new Error(
+      `buildUpdateAttributesChange/${logId}: attributes were missing secretParams!`
+    );
+  }
+
+  const actions = new window.textsecure.protobuf.GroupChange.Actions();
+
+  let hasChangedSomething = false;
+
+  const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
+
+  // There are three possible states here:
+  //
+  // 1. 'avatar' not in attributes: we don't want to change the avatar.
+  // 2. attributes.avatar === undefined: we want to clear the avatar.
+  // 3. attributes.avatar !== undefined: we want to update the avatar.
+  if ('avatar' in attributes) {
+    hasChangedSomething = true;
+
+    actions.modifyAvatar = new window.textsecure.protobuf.GroupChange.Actions.ModifyAvatarAction();
+    const { avatar } = attributes;
+    if (avatar) {
+      const uploadedAvatar = await uploadAvatar({
+        data: avatar,
+        logId,
+        publicParams,
+        secretParams,
+      });
+      actions.modifyAvatar.avatar = uploadedAvatar.key;
+    }
+
+    // If we don't set `actions.modifyAvatar.avatar`, it will be cleared.
+  }
+
+  const { title } = attributes;
+  if (title) {
+    hasChangedSomething = true;
+
+    actions.modifyTitle = new window.textsecure.protobuf.GroupChange.Actions.ModifyTitleAction();
+    actions.modifyTitle.title = buildGroupTitleBuffer(
+      clientZkGroupCipher,
+      title
+    );
+  }
+
+  if (!hasChangedSomething) {
+    // This shouldn't happen. When these actions are passed to `modifyGroupV2`, a warning
+    //   will be logged.
+    return undefined;
+  }
+
+  actions.version = (revision || 0) + 1;
+
+  return actions;
 }
 
 export function buildDisappearingMessagesTimerChange({
@@ -917,11 +1163,13 @@ export async function uploadGroupChange({
 export async function modifyGroupV2({
   conversation,
   createGroupChange,
+  extraConversationsForSend,
   inviteLinkPassword,
   name,
 }: {
   conversation: ConversationModel;
   createGroupChange: () => Promise<GroupChangeClass.Actions | undefined>;
+  extraConversationsForSend?: Array<string>;
   inviteLinkPassword?: string;
   name: string;
 }): Promise<void> {
@@ -1002,6 +1250,7 @@ export async function modifyGroupV2({
               groupV2: conversation.getGroupV2Info({
                 groupChange: groupChangeBuffer,
                 includePendingMembers: true,
+                extraConversationsForSend,
               }),
               timestamp,
               profileKey,
@@ -1157,6 +1406,238 @@ export async function fetchMembershipProof({
     request: (sender, options) => sender.getGroupMembershipToken(options),
   });
   return response.token;
+}
+
+// Creating a group
+
+export async function createGroupV2({
+  name,
+  avatar,
+  conversationIds,
+}: Readonly<{
+  name: string;
+  avatar: undefined | ArrayBuffer;
+  conversationIds: Array<string>;
+}>): Promise<ConversationModel> {
+  // Ensure we have the credentials we need before attempting GroupsV2 operations
+  await maybeFetchNewCredentials();
+
+  if (!isStorageWriteFeatureEnabled()) {
+    throw new Error(
+      'createGroupV2: storage service write is not enabled. Cannot create the group'
+    );
+  }
+
+  const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+  const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
+
+  const masterKeyBuffer = getRandomBytes(32);
+  const fields = deriveGroupFields(masterKeyBuffer);
+
+  const groupId = arrayBufferToBase64(fields.id);
+  const logId = `groupv2(${groupId})`;
+
+  const masterKey = arrayBufferToBase64(masterKeyBuffer);
+  const secretParams = arrayBufferToBase64(fields.secretParams);
+  const publicParams = arrayBufferToBase64(fields.publicParams);
+
+  const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+  const ourConversation = window.ConversationController.get(ourConversationId);
+  if (!ourConversation) {
+    throw new Error(
+      `createGroupV2/${logId}: cannot get our own conversation. Cannot create the group`
+    );
+  }
+
+  const membersV2: Array<GroupV2MemberType> = [
+    {
+      conversationId: ourConversationId,
+      role: MEMBER_ROLE_ENUM.ADMINISTRATOR,
+      joinedAtVersion: 0,
+    },
+  ];
+  const pendingMembersV2: Array<GroupV2PendingMemberType> = [];
+
+  let uploadedAvatar: undefined | UploadedAvatarType;
+
+  await Promise.all([
+    ...conversationIds.map(async conversationId => {
+      const contact = window.ConversationController.get(conversationId);
+      if (!contact) {
+        assert(
+          false,
+          `createGroupV2/${logId}: missing local contact, skipping`
+        );
+        return;
+      }
+
+      if (!contact.get('uuid')) {
+        assert(false, `createGroupV2/${logId}: missing UUID; skipping`);
+        return;
+      }
+
+      // Refresh our local data to be sure
+      if (
+        !contact.get('capabilities')?.gv2 ||
+        !contact.get('profileKey') ||
+        !contact.get('profileKeyCredential')
+      ) {
+        await contact.getProfiles();
+      }
+
+      if (!contact.get('capabilities')?.gv2) {
+        assert(
+          false,
+          `createGroupV2/${logId}: member is missing GV2 capability; skipping`
+        );
+        return;
+      }
+
+      if (contact.get('profileKey') && contact.get('profileKeyCredential')) {
+        membersV2.push({
+          conversationId,
+          role: MEMBER_ROLE_ENUM.DEFAULT,
+          joinedAtVersion: 0,
+        });
+      } else {
+        pendingMembersV2.push({
+          addedByUserId: ourConversationId,
+          conversationId,
+          timestamp: Date.now(),
+          role: MEMBER_ROLE_ENUM.DEFAULT,
+        });
+      }
+    }),
+    (async () => {
+      if (!avatar) {
+        return;
+      }
+
+      uploadedAvatar = await uploadAvatar({
+        data: avatar,
+        logId,
+        publicParams,
+        secretParams,
+      });
+    })(),
+  ]);
+
+  if (membersV2.length + pendingMembersV2.length > getGroupSizeHardLimit()) {
+    throw new Error(
+      `createGroupV2/${logId}: Too many members! Member count: ${membersV2.length}, Pending member count: ${pendingMembersV2.length}`
+    );
+  }
+
+  const protoAndConversationAttributes = {
+    name,
+
+    // Core GroupV2 info
+    revision: 0,
+    publicParams,
+    secretParams,
+
+    // GroupV2 state
+    accessControl: {
+      attributes: ACCESS_ENUM.MEMBER,
+      members: ACCESS_ENUM.MEMBER,
+      addFromInviteLink: ACCESS_ENUM.UNSATISFIABLE,
+    },
+    membersV2,
+    pendingMembersV2,
+  };
+
+  const groupProto = await buildGroupProto({
+    id: groupId,
+    avatarUrl: uploadedAvatar?.key,
+    ...protoAndConversationAttributes,
+  });
+
+  await makeRequestWithTemporalRetry({
+    logId: `createGroupV2/${logId}`,
+    publicParams,
+    secretParams,
+    request: (sender, options) => sender.createGroup(groupProto, options),
+  });
+
+  let avatarAttribute: ConversationAttributesType['avatar'];
+  if (uploadedAvatar) {
+    try {
+      avatarAttribute = {
+        url: uploadedAvatar.key,
+        path: await window.Signal.Migrations.writeNewAttachmentData(
+          uploadedAvatar.data
+        ),
+        hash: uploadedAvatar.hash,
+      };
+    } catch (err) {
+      window.log.warn(
+        `createGroupV2/${logId}: avatar failed to save to disk. Continuing on`
+      );
+    }
+  }
+
+  const now = Date.now();
+
+  const conversation = await window.ConversationController.getOrCreateAndWait(
+    groupId,
+    'group',
+    {
+      ...protoAndConversationAttributes,
+      active_at: now,
+      addedBy: ourConversationId,
+      avatar: avatarAttribute,
+      groupVersion: 2,
+      masterKey,
+      profileSharing: true,
+      timestamp: now,
+      needsStorageServiceSync: true,
+    }
+  );
+
+  await conversation.queueJob(() => {
+    window.Signal.Services.storageServiceUploadJob();
+  });
+
+  const timestamp = Date.now();
+  const profileKey = ourConversation.get('profileKey');
+
+  const groupV2Info = conversation.getGroupV2Info({
+    includePendingMembers: true,
+  });
+
+  await wrapWithSyncMessageSend({
+    conversation,
+    logId: `sendMessageToGroup/${logId}`,
+    send: async sender =>
+      sender.sendMessageToGroup({
+        groupV2: groupV2Info,
+        timestamp,
+        profileKey: profileKey ? base64ToArrayBuffer(profileKey) : undefined,
+      }),
+    timestamp,
+  });
+
+  const createdTheGroupMessage: MessageAttributesType = {
+    ...generateBasicMessage(),
+    type: 'group-v2-change',
+    sourceUuid: conversation.ourUuid,
+    conversationId: conversation.id,
+    received_at: window.Signal.Util.incrementMessageCounter(),
+    received_at_ms: timestamp,
+    sent_at: timestamp,
+    groupV2Change: {
+      from: ourConversationId,
+      details: [{ type: 'create' }],
+    },
+  };
+  await window.Signal.Data.saveMessages([createdTheGroupMessage], {
+    forceSave: true,
+  });
+  const model = new window.Whisper.Message(createdTheGroupMessage);
+  window.MessageController.register(model.id, model);
+  conversation.trigger('newmessage', model);
+
+  return conversation;
 }
 
 // Migrating a group
@@ -1451,6 +1932,8 @@ export async function initiateMigrationToGroupV2(
   // Ensure we have the credentials we need before attempting GroupsV2 operations
   await maybeFetchNewCredentials();
 
+  let ourProfileKey: undefined | string;
+
   try {
     await conversation.queueJob(async () => {
       const ACCESS_ENUM =
@@ -1485,6 +1968,15 @@ export async function initiateMigrationToGroupV2(
           `initiateMigrationToGroupV2/${logId}: Couldn't fetch our own conversationId!`
         );
       }
+      const ourConversation = window.ConversationController.get(
+        ourConversationId
+      );
+      if (!ourConversation) {
+        throw new Error(
+          `initiateMigrationToGroupV2/${logId}: cannot get our own conversation. Cannot migrate`
+        );
+      }
+      ourProfileKey = ourConversation.get('profileKey');
 
       const {
         membersV2,
@@ -1493,33 +1985,37 @@ export async function initiateMigrationToGroupV2(
         previousGroupV1Members,
       } = await getGroupMigrationMembers(conversation);
 
-      const rawSizeLimit = window.Signal.RemoteConfig.getValue(
-        'global.groupsv2.groupSizeHardLimit'
-      );
-      if (!rawSizeLimit) {
-        throw new Error(
-          `initiateMigrationToGroupV2/${logId}: Failed to fetch group size limit`
-        );
-      }
-      const sizeLimit = parseInt(rawSizeLimit, 10);
-      if (!isFinite(sizeLimit)) {
-        throw new Error(
-          `initiateMigrationToGroupV2/${logId}: Failed to parse group size limit`
-        );
-      }
-      if (membersV2.length + pendingMembersV2.length > sizeLimit) {
+      if (
+        membersV2.length + pendingMembersV2.length >
+        getGroupSizeHardLimit()
+      ) {
         throw new Error(
           `initiateMigrationToGroupV2/${logId}: Too many members! Member count: ${membersV2.length}, Pending member count: ${pendingMembersV2.length}`
         );
       }
 
       // Note: A few group elements don't need to change here:
-      //   - avatar
       //   - name
       //   - expireTimer
+      let avatarAttribute: ConversationAttributesType['avatar'];
+      const avatarPath = conversation.attributes.avatar?.path;
+      if (avatarPath) {
+        const { hash, key } = await uploadAvatar({
+          logId,
+          publicParams,
+          secretParams,
+          path: avatarPath,
+        });
+        avatarAttribute = {
+          url: key,
+          path: avatarPath,
+          hash,
+        };
+      }
 
       const newAttributes = {
         ...conversation.attributes,
+        avatar: avatarAttribute,
 
         // Core GroupV2 info
         revision: 0,
@@ -1550,12 +2046,10 @@ export async function initiateMigrationToGroupV2(
         members: undefined,
       };
 
-      const groupProto = await buildGroupProto({ attributes: newAttributes });
-
-      // Capture the CDK key provided by the server when we uploade
-      if (groupProto.avatar && newAttributes.avatar) {
-        newAttributes.avatar.url = groupProto.avatar;
-      }
+      const groupProto = buildGroupProto({
+        ...newAttributes,
+        avatarUrl: avatarAttribute?.url,
+      });
 
       try {
         await makeRequestWithTemporalRetry({
@@ -1621,7 +2115,6 @@ export async function initiateMigrationToGroupV2(
   // We've migrated the group, now we need to let all other group members know about it
   const logId = conversation.idForLogging();
   const timestamp = Date.now();
-  const profileKey = conversation.get('profileKey');
 
   await wrapWithSyncMessageSend({
     conversation,
@@ -1633,7 +2126,9 @@ export async function initiateMigrationToGroupV2(
           includePendingMembers: true,
         }),
         timestamp,
-        profileKey: profileKey ? base64ToArrayBuffer(profileKey) : undefined,
+        profileKey: ourProfileKey
+          ? base64ToArrayBuffer(ourProfileKey)
+          : undefined,
       }),
     timestamp,
   });
@@ -2003,7 +2498,7 @@ export async function respondToGroupV2Migration({
     attributes.secretParams,
     logId
   );
-  const newAttributes = await applyGroupState({
+  const { newAttributes, newProfileKeys } = await applyGroupState({
     group: attributes,
     groupState,
   });
@@ -2048,7 +2543,7 @@ export async function respondToGroupV2Migration({
     updates: {
       newAttributes,
       groupChangeMessages,
-      members: [],
+      members: profileKeysToMembers(newProfileKeys),
     },
   });
 
@@ -2159,8 +2654,9 @@ async function updateGroup({
   // Ensure that all generated messages are ordered properly.
   // Before the provided timestamp so update messages appear before the
   //   initiating message, or after now().
-  const finalReceivedAt = receivedAt || Date.now();
-  const finalSentAt = sentAt || Date.now();
+  const finalReceivedAt =
+    receivedAt || window.Signal.Util.incrementMessageCounter();
+  const initialSentAt = sentAt || Date.now();
 
   // GroupV1 -> GroupV2 migration changes the groupId, and we need to update our id-based
   //   lookups if there's a change on that field.
@@ -2174,7 +2670,7 @@ async function updateGroup({
     //   Unknown Group in the left pane.
     active_at:
       (isInitialDataFetch || justJoinedGroup) && newAttributes.name
-        ? finalReceivedAt
+        ? initialSentAt
         : newAttributes.active_at,
     temporaryMemberCount: isInGroup
       ? undefined
@@ -2186,7 +2682,7 @@ async function updateGroup({
   }
 
   // Save all synthetic messages describing group changes
-  let syntheticSentAt = finalSentAt - (groupChangeMessages.length + 1);
+  let syntheticSentAt = initialSentAt - (groupChangeMessages.length + 1);
   const changeMessagesToSave = groupChangeMessages.map(changeMessage => {
     // We do this to preserve the order of the timeline. We only update sentAt to ensure
     //   that we don't stomp on messages received around the same time as the message
@@ -2197,6 +2693,7 @@ async function updateGroup({
       ...changeMessage,
       conversationId: conversation.id,
       received_at: finalReceivedAt,
+      received_at_ms: syntheticSentAt,
       sent_at: syntheticSentAt,
     };
   });
@@ -2820,7 +3317,7 @@ async function integrateGroupChange({
       logId
     );
 
-    const newAttributes = await applyGroupState({
+    const { newAttributes, newProfileKeys } = await applyGroupState({
       group,
       groupState: decryptedGroupState,
       sourceConversationId: isFirstFetch ? sourceConversationId : undefined,
@@ -2833,7 +3330,7 @@ async function integrateGroupChange({
         current: newAttributes,
         sourceConversationId: isFirstFetch ? sourceConversationId : undefined,
       }),
-      members: getMembers(decryptedGroupState),
+      members: profileKeysToMembers(newProfileKeys),
     };
   }
 
@@ -2861,10 +3358,7 @@ async function integrateGroupChange({
   return {
     newAttributes,
     groupChangeMessages,
-    members: newProfileKeys.map(item => ({
-      ...item,
-      profileKey: arrayBufferToBase64(item.profileKey),
-    })),
+    members: profileKeysToMembers(newProfileKeys),
   };
 }
 
@@ -2905,7 +3399,12 @@ async function getCurrentGroupState({
     logId
   );
 
-  const newAttributes = await applyGroupState({
+  const oldVersion = group.version;
+  const newVersion = decryptedGroupState.version;
+  window.log.info(
+    `getCurrentGroupState/${logId}: Applying full group state, from version ${oldVersion} to ${newVersion}.`
+  );
+  const { newAttributes, newProfileKeys } = await applyGroupState({
     group,
     groupState: decryptedGroupState,
   });
@@ -2917,7 +3416,7 @@ async function getCurrentGroupState({
       current: newAttributes,
       dropInitialJoinMessage,
     }),
-    members: getMembers(decryptedGroupState),
+    members: profileKeysToMembers(newProfileKeys),
   };
 }
 
@@ -3325,14 +3824,10 @@ function extractDiffs({
   return result;
 }
 
-function getMembers(groupState: GroupClass) {
-  if (!groupState.members || !groupState.members.length) {
-    return [];
-  }
-
-  return groupState.members.map((member: MemberClass) => ({
-    profileKey: arrayBufferToBase64(member.profileKey),
-    uuid: member.userId,
+function profileKeysToMembers(items: Array<GroupChangeMemberType>) {
+  return items.map(item => ({
+    profileKey: arrayBufferToBase64(item.profileKey),
+    uuid: item.uuid,
   }));
 }
 
@@ -3340,7 +3835,7 @@ type GroupChangeMemberType = {
   profileKey: ArrayBuffer;
   uuid: string;
 };
-type GroupChangeResultType = {
+type GroupApplyResultType = {
   newAttributes: ConversationAttributesType;
   newProfileKeys: Array<GroupChangeMemberType>;
 };
@@ -3353,7 +3848,7 @@ async function applyGroupChange({
   actions: GroupChangeClass.Actions;
   group: ConversationAttributesType;
   sourceConversationId: string;
-}): Promise<GroupChangeResultType> {
+}): Promise<GroupApplyResultType> {
   const logId = idForLogging(group.groupId);
   const ourConversationId = window.ConversationController.getOurConversationId();
 
@@ -3392,12 +3887,7 @@ async function applyGroupChange({
 
     const conversation = window.ConversationController.getOrCreate(
       added.userId,
-      'private',
-      {
-        profileKey: added.profileKey
-          ? arrayBufferToBase64(added.profileKey)
-          : undefined,
-      }
+      'private'
     );
 
     if (members[conversation.id]) {
@@ -3583,10 +4073,7 @@ async function applyGroupChange({
 
     const conversation = window.ConversationController.getOrCreate(
       uuid,
-      'private',
-      {
-        profileKey: profileKey ? arrayBufferToBase64(profileKey) : undefined,
-      }
+      'private'
     );
 
     const previousRecord = pendingMembers[conversation.id];
@@ -3924,12 +4411,13 @@ async function applyGroupState({
   group: ConversationAttributesType;
   groupState: GroupClass;
   sourceConversationId?: string;
-}): Promise<ConversationAttributesType> {
+}): Promise<GroupApplyResultType> {
   const logId = idForLogging(group.groupId);
   const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
   const MEMBER_ROLE_ENUM = window.textsecure.protobuf.Member.Role;
   const version = groupState.version || 0;
   const result = { ...group };
+  const newProfileKeys: Array<GroupChangeMemberType> = [];
 
   // version
   result.revision = version;
@@ -3978,12 +4466,7 @@ async function applyGroupState({
     result.membersV2 = groupState.members.map((member: MemberClass) => {
       const conversation = window.ConversationController.getOrCreate(
         member.userId,
-        'private',
-        {
-          profileKey: member.profileKey
-            ? arrayBufferToBase64(member.profileKey)
-            : undefined,
-        }
+        'private'
       );
 
       if (ourConversationId && conversation.id === ourConversationId) {
@@ -4006,6 +4489,11 @@ async function applyGroupState({
         );
       }
 
+      newProfileKeys.push({
+        profileKey: member.profileKey,
+        uuid: member.userId,
+      });
+
       return {
         role: member.role || MEMBER_ROLE_ENUM.DEFAULT,
         joinedAtVersion: member.joinedAtVersion || version,
@@ -4024,12 +4512,7 @@ async function applyGroupState({
         if (member.member && member.member.userId) {
           pending = window.ConversationController.getOrCreate(
             member.member.userId,
-            'private',
-            {
-              profileKey: member.member.profileKey
-                ? arrayBufferToBase64(member.member.profileKey)
-                : undefined,
-            }
+            'private'
           );
         } else {
           throw new Error(
@@ -4054,6 +4537,11 @@ async function applyGroupState({
           );
         }
 
+        newProfileKeys.push({
+          profileKey: member.member.profileKey,
+          uuid: member.member.userId,
+        });
+
         return {
           addedByUserId: invitedBy.id,
           conversationId: pending.id,
@@ -4073,12 +4561,7 @@ async function applyGroupState({
         if (member.userId) {
           pending = window.ConversationController.getOrCreate(
             member.userId,
-            'private',
-            {
-              profileKey: member.profileKey
-                ? arrayBufferToBase64(member.profileKey)
-                : undefined,
-            }
+            'private'
           );
         } else {
           throw new Error(
@@ -4102,7 +4585,10 @@ async function applyGroupState({
     result.groupInviteLinkPassword = undefined;
   }
 
-  return result;
+  return {
+    newAttributes: result,
+    newProfileKeys,
+  };
 }
 
 function isValidRole(role?: number): role is number {

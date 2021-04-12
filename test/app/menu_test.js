@@ -50,6 +50,7 @@ describe('SignalMenu', () => {
               };
               const options = {
                 isBeta: false,
+                devTools: true,
                 openContactUs: null,
                 openForums: null,
                 openJoinTheBeta: null,

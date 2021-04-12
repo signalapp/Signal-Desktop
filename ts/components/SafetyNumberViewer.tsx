@@ -4,7 +4,6 @@
 import React from 'react';
 import { ConversationType } from '../state/ducks/conversations';
 import { LocalizerType } from '../types/Util';
-import { getPlaceholder } from '../util/safetyNumber';
 import { Intl } from './Intl';
 
 export type PropsType = {
@@ -112,3 +111,9 @@ export const SafetyNumberViewer = ({
     </div>
   );
 };
+
+function getPlaceholder(): string {
+  return Array.from(Array(12))
+    .map(() => 'XXXXX')
+    .join(' ');
+}

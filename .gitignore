@@ -14,6 +14,8 @@ release/
 *.sublime*
 /sql/
 /start.sh
+.eslintcache
+tsconfig.tsbuildinfo
 
 # generated files
 js/components.js
@@ -36,3 +38,4 @@ sticker-creator/**/*.js
 sticker-creator/dist/*
 
 /.idea
+/storybook-static/

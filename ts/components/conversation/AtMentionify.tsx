@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { sortBy } from 'lodash';
 import { Emojify } from './Emojify';
 import { BodyRangesType } from '../../types/Util';
 
@@ -102,7 +103,8 @@ AtMentionify.preprocessMentions = (
     return text;
   }
 
-  return bodyRanges.reduce((str, range) => {
+  // Sorting by the start index to ensure that we always replace last -> first.
+  return sortBy(bodyRanges, 'start').reduceRight((str, range) => {
     const textBegin = str.substr(0, range.start);
     const encodedMention = `\uFFFC@${range.start}`;
     const textEnd = str.substr(range.start + range.length, str.length);

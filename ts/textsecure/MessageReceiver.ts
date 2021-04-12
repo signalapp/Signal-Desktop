@@ -15,6 +15,7 @@ import { v4 as getGuid } from 'uuid';
 
 import { SessionCipherClass, SignalProtocolAddressClass } from '../libsignal.d';
 import { BatcherType, createBatcher } from '../util/batcher';
+import { assert } from '../util/assert';
 
 import EventTarget from './EventTarget';
 import { WebAPIType } from './WebAPI';
@@ -26,6 +27,10 @@ import Crypto from './Crypto';
 import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
 import { IncomingIdentityKeyError } from './Errors';
+import {
+  createCertificateValidator,
+  SecretSessionCipher,
+} from '../metadata/SecretSessionCipher';
 
 import {
   AttachmentPointerClass,
@@ -47,6 +52,8 @@ import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
+
+type SessionResetsType = Record<string, number>;
 
 declare global {
   // We want to extend `Event`, so we need an interface.
@@ -117,6 +124,8 @@ class MessageReceiverInner extends EventTarget {
 
   count: number;
 
+  processedCount: number;
+
   deviceId?: number;
 
   hasConnected?: boolean;
@@ -163,6 +172,7 @@ class MessageReceiverInner extends EventTarget {
     super();
 
     this.count = 0;
+    this.processedCount = 0;
 
     this.signalingKey = signalingKey;
     this.username = oldUsername;
@@ -194,20 +204,29 @@ class MessageReceiverInner extends EventTarget {
     this.appQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
 
     this.cacheAddBatcher = createBatcher<CacheAddItemType>({
-      wait: 200,
+      name: 'MessageReceiver.cacheAddBatcher',
+      wait: 75,
       maxSize: 30,
-      processBatch: this.cacheAndQueueBatch.bind(this),
+      processBatch: (items: Array<CacheAddItemType>) => {
+        // Not returning the promise here because we don't want to stall
+        // the batch.
+        this.cacheAndQueueBatch(items);
+      },
     });
     this.cacheUpdateBatcher = createBatcher<CacheUpdateItemType>({
-      wait: 500,
+      name: 'MessageReceiver.cacheUpdateBatcher',
+      wait: 75,
       maxSize: 30,
       processBatch: this.cacheUpdateBatch.bind(this),
     });
     this.cacheRemoveBatcher = createBatcher<string>({
-      wait: 500,
+      name: 'MessageReceiver.cacheRemoveBatcher',
+      wait: 75,
       maxSize: 30,
       processBatch: this.cacheRemoveBatch.bind(this),
     });
+
+    this.cleanupSessionResets();
   }
 
   static stringToArrayBuffer = (string: string): ArrayBuffer =>
@@ -237,6 +256,7 @@ class MessageReceiverInner extends EventTarget {
     }
 
     this.isEmptied = false;
+
     this.hasConnected = true;
 
     if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
@@ -418,6 +438,9 @@ class MessageReceiverInner extends EventTarget {
           ? envelope.serverTimestamp.toNumber()
           : null;
 
+        envelope.receivedAtCounter = window.Signal.Util.incrementMessageCounter();
+        envelope.receivedAtDate = Date.now();
+
         // Calculate the message age (time on server).
         envelope.messageAgeSec = this.calculateMessageAge(
           headers,
@@ -425,6 +448,7 @@ class MessageReceiverInner extends EventTarget {
         );
 
         this.cacheAndQueue(envelope, plaintext, request);
+        this.processedCount += 1;
       } catch (e) {
         request.respond(500, 'Bad encrypted websocket message');
         window.log.error(
@@ -490,7 +514,13 @@ class MessageReceiverInner extends EventTarget {
   }
 
   onEmpty() {
-    const emitEmpty = () => {
+    const emitEmpty = async () => {
+      await Promise.all([
+        this.cacheAddBatcher.flushAndWait(),
+        this.cacheUpdateBatcher.flushAndWait(),
+        this.cacheRemoveBatcher.flushAndWait(),
+      ]);
+
       window.log.info("MessageReceiver: emitting 'empty' event");
       const ev = new Event('empty');
       this.dispatchEvent(ev);
@@ -553,6 +583,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async queueCached(item: UnprocessedType) {
+    window.log.info('MessageReceiver.queueCached', item.id);
     try {
       let envelopePlaintext: ArrayBuffer;
 
@@ -574,6 +605,8 @@ class MessageReceiverInner extends EventTarget {
         envelopePlaintext
       );
       envelope.id = item.id;
+      envelope.receivedAtCounter = item.timestamp;
+      envelope.receivedAtDate = Date.now();
       envelope.source = envelope.source || item.source;
       envelope.sourceUuid = envelope.sourceUuid || item.sourceUuid;
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
@@ -696,6 +729,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async cacheAndQueueBatch(items: Array<CacheAddItemType>) {
+    window.log.info('MessageReceiver.cacheAndQueueBatch', items.length);
     const dataArray = items.map(item => item.data);
     try {
       await window.textsecure.storage.unprocessed.batchAdd(dataArray);
@@ -733,7 +767,7 @@ class MessageReceiverInner extends EventTarget {
       id,
       version: 2,
       envelope: MessageReceiverInner.arrayBufferToStringBase64(plaintext),
-      timestamp: Date.now(),
+      timestamp: envelope.receivedAtCounter,
       attempts: 1,
     };
     this.cacheAddBatcher.add({
@@ -744,6 +778,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async cacheUpdateBatch(items: Array<Partial<UnprocessedType>>) {
+    window.log.info('MessageReceiver.cacheUpdateBatch', items.length);
     await window.textsecure.storage.unprocessed.addDecryptedDataToList(items);
   }
 
@@ -940,7 +975,7 @@ class MessageReceiverInner extends EventTarget {
       address,
       options
     );
-    const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
+    const secretSessionCipher = new SecretSessionCipher(
       window.textsecure.storage.protocol,
       options
     );
@@ -973,7 +1008,7 @@ class MessageReceiverInner extends EventTarget {
         window.log.info('received unidentified sender message');
         promise = secretSessionCipher
           .decrypt(
-            window.Signal.Metadata.createCertificateValidator(serverTrustRoot),
+            createCertificateValidator(serverTrustRoot),
             ciphertext.toArrayBuffer(),
             Math.min(envelope.serverTimestamp || Date.now(), Date.now()),
             me
@@ -1021,6 +1056,12 @@ class MessageReceiverInner extends EventTarget {
               envelope.unidentifiedDeliveryReceived = !(
                 originalSource || originalSourceUuid
               );
+
+              if (!content) {
+                throw new Error(
+                  'MessageReceiver.decrypt: Content returned was falsey!'
+                );
+              }
 
               // Return just the content because that matches the signature of the other
               //   decrypt methods used above.
@@ -1084,37 +1125,138 @@ class MessageReceiverInner extends EventTarget {
 
         // Note: this is an out of band update; there are cases where the item in the
         //   cache has already been deleted by the time this runs. That's okay.
-        this.updateCache(envelope, plaintext);
+        try {
+          this.updateCache(envelope, plaintext);
+        } catch (error) {
+          const errorString = error && error.stack ? error.stack : error;
+          window.log.error(`decrypt: updateCache failed: ${errorString}`);
+        }
 
         return plaintext;
       })
       .catch(async error => {
-        let errorToThrow = error;
+        this.removeFromCache(envelope);
 
-        if (error && error.message === 'Unknown identity key') {
-          // create an error that the UI will pick up and ask the
-          // user if they want to re-negotiate
-          const buffer = window.dcodeIO.ByteBuffer.wrap(ciphertext);
-          errorToThrow = new IncomingIdentityKeyError(
-            address.toString(),
-            buffer.toArrayBuffer(),
-            error.identityKey
+        const uuid = envelope.sourceUuid;
+        const deviceId = envelope.sourceDevice;
+
+        // We don't do a light session reset if it's just a duplicated message
+        if (error && error.name === 'MessageCounterError') {
+          throw error;
+        }
+
+        if (uuid && deviceId) {
+          await this.maybeLightSessionReset(uuid, deviceId);
+        } else {
+          const envelopeId = this.getEnvelopeId(envelope);
+          window.log.error(
+            `MessageReceiver.decrypt: Envelope ${envelopeId} missing uuid or deviceId`
           );
         }
 
-        if (envelope.timestamp && envelope.timestamp.toNumber) {
-          // eslint-disable-next-line no-param-reassign
-          envelope.timestamp = envelope.timestamp.toNumber();
-        }
-
-        const ev = new Event('error');
-        ev.error = errorToThrow;
-        ev.proto = envelope;
-        ev.confirm = this.removeFromCache.bind(this, envelope);
-
-        const returnError = async () => Promise.reject(errorToThrow);
-        return this.dispatchAndWait(ev).then(returnError, returnError);
+        throw error;
       });
+  }
+
+  isOverHourIntoPast(timestamp: number): boolean {
+    const HOUR = 1000 * 60 * 60;
+    const now = Date.now();
+    const oneHourIntoPast = now - HOUR;
+
+    return isNumber(timestamp) && timestamp <= oneHourIntoPast;
+  }
+
+  // We don't lose anything if we delete keys over an hour into the past, because we only
+  //   change our behavior if the timestamps stored are less than an hour ago.
+  cleanupSessionResets(): void {
+    const sessionResets = window.storage.get(
+      'sessionResets',
+      {}
+    ) as SessionResetsType;
+
+    const keys = Object.keys(sessionResets);
+    keys.forEach(key => {
+      const timestamp = sessionResets[key];
+      if (!timestamp || this.isOverHourIntoPast(timestamp)) {
+        delete sessionResets[key];
+      }
+    });
+
+    window.storage.put('sessionResets', sessionResets);
+  }
+
+  async maybeLightSessionReset(uuid: string, deviceId: number): Promise<void> {
+    const id = `${uuid}.${deviceId}`;
+
+    try {
+      const sessionResets = window.storage.get(
+        'sessionResets',
+        {}
+      ) as SessionResetsType;
+      const lastReset = sessionResets[id];
+
+      // We emit this event every time we encounter an error, not just when we reset the
+      //   session. This is because a message might have been lost with every decryption
+      //   failure.
+      const event = new Event('light-session-reset');
+      event.senderUuid = uuid;
+      this.dispatchAndWait(event);
+
+      if (lastReset && !this.isOverHourIntoPast(lastReset)) {
+        window.log.warn(
+          `maybeLightSessionReset/${id}: Skipping session reset, last reset at ${lastReset}`
+        );
+        return;
+      }
+
+      sessionResets[id] = Date.now();
+      window.storage.put('sessionResets', sessionResets);
+
+      await this.lightSessionReset(uuid, deviceId);
+    } catch (error) {
+      // If we failed to do the session reset, then we'll allow another attempt sooner
+      //   than one hour from now.
+      const sessionResets = window.storage.get(
+        'sessionResets',
+        {}
+      ) as SessionResetsType;
+      delete sessionResets[id];
+      window.storage.put('sessionResets', sessionResets);
+
+      const errorString = error && error.stack ? error.stack : error;
+      window.log.error(
+        `maybeLightSessionReset/${id}: Encountered error`,
+        errorString
+      );
+    }
+  }
+
+  async lightSessionReset(uuid: string, deviceId: number): Promise<void> {
+    const id = `${uuid}.${deviceId}`;
+
+    // First, fetch this conversation
+    const conversationId = window.ConversationController.ensureContactIds({
+      uuid,
+    });
+    assert(conversationId, `lightSessionReset/${id}: missing conversationId`);
+
+    const conversation = window.ConversationController.get(conversationId);
+    assert(conversation, `lightSessionReset/${id}: missing conversation`);
+
+    window.log.warn(`lightSessionReset/${id}: Resetting session`);
+
+    // Archive open session with this device
+    const address = new window.libsignal.SignalProtocolAddress(uuid, deviceId);
+    const sessionCipher = new window.libsignal.SessionCipher(
+      window.textsecure.storage.protocol,
+      address
+    );
+
+    await sessionCipher.closeOpenSessionForDevice();
+
+    // Send a null message with newly-created session
+    const sendOptions = conversation.getSendOptions();
+    await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
   }
 
   async decryptPreKeyWhisperMessage(
@@ -1145,6 +1287,10 @@ class MessageReceiverInner extends EventTarget {
     envelope: EnvelopeClass,
     sentContainer: SyncMessageClass.Sent
   ) {
+    window.log.info(
+      'MessageReceiver.handleSentMessage',
+      this.getEnvelopeId(envelope)
+    );
     const {
       destination,
       destinationUuid,
@@ -1212,6 +1358,8 @@ class MessageReceiverInner extends EventTarget {
           unidentifiedStatus,
           message,
           isRecipientUpdate,
+          receivedAtCounter: envelope.receivedAtCounter,
+          receivedAtDate: envelope.receivedAtDate,
         };
         if (expirationStartTimestamp) {
           ev.data.expirationStartTimestamp = expirationStartTimestamp.toNumber();
@@ -1222,7 +1370,10 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async handleDataMessage(envelope: EnvelopeClass, msg: DataMessageClass) {
-    window.log.info('data message from', this.getEnvelopeId(envelope));
+    window.log.info(
+      'MessageReceiver.handleDataMessage',
+      this.getEnvelopeId(envelope)
+    );
     let p: Promise<any> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     const destination = envelope.sourceUuid || envelope.source;
@@ -1300,6 +1451,8 @@ class MessageReceiverInner extends EventTarget {
           serverTimestamp: envelope.serverTimestamp,
           unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
           message,
+          receivedAtCounter: envelope.receivedAtCounter,
+          receivedAtDate: envelope.receivedAtDate,
         };
         return this.dispatchAndWait(ev);
       })
@@ -1307,6 +1460,10 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async handleLegacyMessage(envelope: EnvelopeClass) {
+    window.log.info(
+      'MessageReceiver.handleLegacyMessage',
+      this.getEnvelopeId(envelope)
+    );
     return this.decrypt(envelope, envelope.legacyMessage).then(plaintext => {
       if (!plaintext) {
         window.log.warn('handleLegacyMessage: plaintext was falsey');
@@ -1325,6 +1482,10 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async handleContentMessage(envelope: EnvelopeClass) {
+    window.log.info(
+      'MessageReceiver.handleContentMessage',
+      this.getEnvelopeId(envelope)
+    );
     return this.decrypt(envelope, envelope.content).then(plaintext => {
       if (!plaintext) {
         window.log.warn('handleContentMessage: plaintext was falsey');
@@ -1467,7 +1628,10 @@ class MessageReceiverInner extends EventTarget {
   }
 
   handleNullMessage(envelope: EnvelopeClass) {
-    window.log.info('null message from', this.getEnvelopeId(envelope));
+    window.log.info(
+      'MessageReceiver.handleNullMessage',
+      this.getEnvelopeId(envelope)
+    );
     this.removeFromCache(envelope);
   }
 
@@ -1666,7 +1830,6 @@ class MessageReceiverInner extends EventTarget {
       return undefined;
     }
     if (syncMessage.read && syncMessage.read.length) {
-      window.log.info('read messages from', this.getEnvelopeId(envelope));
       return this.handleRead(envelope, syncMessage.read);
     }
     if (syncMessage.verified) {
@@ -1840,6 +2003,7 @@ class MessageReceiverInner extends EventTarget {
     envelope: EnvelopeClass,
     read: Array<SyncMessageClass.Read>
   ) {
+    window.log.info('MessageReceiver.handleRead', this.getEnvelopeId(envelope));
     const results = [];
     for (let i = 0; i < read.length; i += 1) {
       const ev = new Event('readSync');
@@ -2266,7 +2430,12 @@ export default class MessageReceiver {
     this.stopProcessing = inner.stopProcessing.bind(inner);
     this.unregisterBatchers = inner.unregisterBatchers.bind(inner);
 
+    // For tests
+    this.isOverHourIntoPast = inner.isOverHourIntoPast.bind(inner);
+    this.cleanupSessionResets = inner.cleanupSessionResets.bind(inner);
+
     inner.connect();
+    this.getProcessedCount = () => inner.processedCount;
   }
 
   addEventListener: (name: string, handler: Function) => void;
@@ -2286,6 +2455,12 @@ export default class MessageReceiver {
   stopProcessing: () => Promise<void>;
 
   unregisterBatchers: () => void;
+
+  isOverHourIntoPast: (timestamp: number) => boolean;
+
+  cleanupSessionResets: () => void;
+
+  getProcessedCount: () => number;
 
   static stringToArrayBuffer = MessageReceiverInner.stringToArrayBuffer;
 

@@ -17,6 +17,7 @@ export type PropsType = {
   copyGroupLink: (groupLink: string) => void;
   generateNewGroupLink: () => void;
   i18n: LocalizerType;
+  isAdmin: boolean;
   setAccessControlAddFromInviteLinkSetting: (value: boolean) => void;
 };
 
@@ -27,6 +28,7 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
   copyGroupLink,
   generateNewGroupLink,
   i18n,
+  isAdmin,
   setAccessControlAddFromInviteLinkSetting,
 }) => {
   if (conversation === undefined) {
@@ -54,19 +56,21 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
           info={groupLinkInfo}
           label={i18n('ConversationDetails--group-link')}
           right={
-            <div className="module-conversation-details-select">
-              <select
-                onChange={createEventHandler(changeHasGroupLink)}
-                value={String(Boolean(hasGroupLink))}
-              >
-                <option value="true" aria-label={i18n('on')}>
-                  {i18n('on')}
-                </option>
-                <option value="false" aria-label={i18n('off')}>
-                  {i18n('off')}
-                </option>
-              </select>
-            </div>
+            isAdmin ? (
+              <div className="module-conversation-details-select">
+                <select
+                  onChange={createEventHandler(changeHasGroupLink)}
+                  value={String(Boolean(hasGroupLink))}
+                >
+                  <option value="true" aria-label={i18n('on')}>
+                    {i18n('on')}
+                  </option>
+                  <option value="false" aria-label={i18n('off')}>
+                    {i18n('off')}
+                  </option>
+                </select>
+              </div>
+            ) : null
           }
         />
       </PanelSection>
@@ -88,41 +92,45 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
                 }
               }}
             />
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('GroupLinkManagement--reset')}
-                  icon="reset"
-                />
-              }
-              label={i18n('GroupLinkManagement--reset')}
-              onClick={generateNewGroupLink}
-            />
+            {isAdmin ? (
+              <PanelRow
+                icon={
+                  <ConversationDetailsIcon
+                    ariaLabel={i18n('GroupLinkManagement--reset')}
+                    icon="reset"
+                  />
+                }
+                label={i18n('GroupLinkManagement--reset')}
+                onClick={generateNewGroupLink}
+              />
+            ) : null}
           </PanelSection>
 
-          <PanelSection>
-            <PanelRow
-              info={i18n('GroupLinkManagement--approve-info')}
-              label={i18n('GroupLinkManagement--approve-label')}
-              right={
-                <div className="module-conversation-details-select">
-                  <select
-                    onChange={createEventHandler(
-                      setAccessControlAddFromInviteLinkSetting
-                    )}
-                    value={String(membersNeedAdminApproval)}
-                  >
-                    <option value="true" aria-label={i18n('on')}>
-                      {i18n('on')}
-                    </option>
-                    <option value="false" aria-label={i18n('off')}>
-                      {i18n('off')}
-                    </option>
-                  </select>
-                </div>
-              }
-            />
-          </PanelSection>
+          {isAdmin ? (
+            <PanelSection>
+              <PanelRow
+                info={i18n('GroupLinkManagement--approve-info')}
+                label={i18n('GroupLinkManagement--approve-label')}
+                right={
+                  <div className="module-conversation-details-select">
+                    <select
+                      onChange={createEventHandler(
+                        setAccessControlAddFromInviteLinkSetting
+                      )}
+                      value={String(membersNeedAdminApproval)}
+                    >
+                      <option value="true" aria-label={i18n('on')}>
+                        {i18n('on')}
+                      </option>
+                      <option value="false" aria-label={i18n('off')}>
+                        {i18n('off')}
+                      </option>
+                    </select>
+                  </div>
+                }
+              />
+            </PanelSection>
+          ) : null}
         </>
       ) : null}
     </>

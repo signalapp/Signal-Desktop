@@ -9,9 +9,16 @@ import {
   MessageType,
 } from '../../../state/ducks/conversations';
 import { noopAction } from '../../../state/ducks/noop';
-import { getEmptyState as getEmptySearchState } from '../../../state/ducks/search';
+import {
+  getEmptyState as getEmptySearchState,
+  MessageSearchResultType,
+} from '../../../state/ducks/search';
 import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user';
-import { getMessageSearchResultSelector } from '../../../state/selectors/search';
+import {
+  getMessageSearchResultSelector,
+  getSearchResults,
+} from '../../../state/selectors/search';
+import { makeLookup } from '../../../util/makeLookup';
 
 import { StateType, reducer as rootReducer } from '../../../state/reducer';
 
@@ -31,6 +38,15 @@ describe('both/state/selectors/search', () => {
       attachments: [],
       sticker: {},
       unread: false,
+    };
+  }
+
+  function getDefaultSearchMessage(id: string): MessageSearchResultType {
+    return {
+      ...getDefaultMessage(id),
+      body: 'foo bar',
+      bodyRanges: [],
+      snippet: 'foo bar',
     };
   }
 
@@ -63,6 +79,8 @@ describe('both/state/selectors/search', () => {
               ...getDefaultMessage(id),
               type: 'keychange' as const,
               snippet: 'snippet',
+              body: 'snippet',
+              bodyRanges: [],
             },
           },
         },
@@ -100,6 +118,8 @@ describe('both/state/selectors/search', () => {
               sourceUuid: fromId,
               conversationId: toId,
               snippet: 'snippet',
+              body: 'snippet',
+              bodyRanges: [],
             },
           },
         },
@@ -115,6 +135,8 @@ describe('both/state/selectors/search', () => {
         conversationId: toId,
         sentAt: undefined,
         snippet: 'snippet',
+        body: 'snippet',
+        bodyRanges: [],
 
         isSelected: false,
         isSearchingInConversation: false,
@@ -151,6 +173,8 @@ describe('both/state/selectors/search', () => {
               type: 'outgoing' as const,
               conversationId: toId,
               snippet: 'snippet',
+              body: 'snippet',
+              bodyRanges: [],
             },
           },
         },
@@ -166,6 +190,8 @@ describe('both/state/selectors/search', () => {
         conversationId: toId,
         sentAt: undefined,
         snippet: 'snippet',
+        body: 'snippet',
+        bodyRanges: [],
 
         isSelected: false,
         isSearchingInConversation: false,
@@ -178,9 +204,6 @@ describe('both/state/selectors/search', () => {
         ...state,
         conversations: {
           ...state.conversations,
-          conversationLookup: {
-            ...state.conversations.conversationLookup,
-          },
         },
       };
       const secondSelector = getMessageSearchResultSelector(secondState);
@@ -207,6 +230,83 @@ describe('both/state/selectors/search', () => {
       const thirdActual = thirdSelector(searchId);
 
       assert.notStrictEqual(actual, thirdActual);
+    });
+  });
+
+  describe('#getSearchResults', () => {
+    it("returns loading search results when they're loading", () => {
+      const state = {
+        ...getEmptyRootState(),
+        search: {
+          ...getEmptySearchState(),
+          query: 'foo bar',
+          discussionsLoading: true,
+          messagesLoading: true,
+        },
+      };
+
+      assert.deepEqual(getSearchResults(state), {
+        conversationResults: { isLoading: true },
+        contactResults: { isLoading: true },
+        messageResults: { isLoading: true },
+        searchConversationName: undefined,
+        searchTerm: 'foo bar',
+      });
+    });
+
+    it('returns loaded search results', () => {
+      const conversations: Array<ConversationType> = [
+        getDefaultConversation('1'),
+        getDefaultConversation('2'),
+      ];
+      const contacts: Array<ConversationType> = [
+        getDefaultConversation('3'),
+        getDefaultConversation('4'),
+        getDefaultConversation('5'),
+      ];
+      const messages: Array<MessageSearchResultType> = [
+        getDefaultSearchMessage('a'),
+        getDefaultSearchMessage('b'),
+        getDefaultSearchMessage('c'),
+      ];
+
+      const getId = ({ id }: Readonly<{ id: string }>) => id;
+
+      const state: StateType = {
+        ...getEmptyRootState(),
+        conversations: {
+          // This test state is invalid, but is good enough for this test.
+          ...getEmptyConversationState(),
+          conversationLookup: makeLookup([...conversations, ...contacts], 'id'),
+        },
+        search: {
+          ...getEmptySearchState(),
+          query: 'foo bar',
+          conversationIds: conversations.map(getId),
+          contactIds: contacts.map(getId),
+          messageIds: messages.map(getId),
+          messageLookup: makeLookup(messages, 'id'),
+          discussionsLoading: false,
+          messagesLoading: false,
+        },
+      };
+
+      assert.deepEqual(getSearchResults(state), {
+        conversationResults: {
+          isLoading: false,
+          results: conversations,
+        },
+        contactResults: {
+          isLoading: false,
+          results: contacts,
+        },
+        messageResults: {
+          isLoading: false,
+          results: messages,
+        },
+        searchConversationName: undefined,
+        searchTerm: 'foo bar',
+      });
     });
   });
 });

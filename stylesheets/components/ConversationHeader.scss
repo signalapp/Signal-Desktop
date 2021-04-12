@@ -1,0 +1,311 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-ConversationHeader {
+  --button-spacing: 24px;
+
+  &.module-ConversationHeader--narrow {
+    --button-spacing: 16px;
+  }
+
+  -webkit-app-region: var(--draggable-app-region);
+  padding-top: var(--title-bar-drag-area-height);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: calc(#{$header-height} + var(--title-bar-drag-area-height));
+
+  @include light-theme {
+    color: $color-gray-90;
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+    background-color: $color-gray-95;
+  }
+
+  &__back-icon {
+    $transition: 250ms ease-out;
+
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    margin-left: -24px;
+    vertical-align: text-bottom;
+    border: none;
+    opacity: 0;
+    transition: margin-left $transition, opacity $transition;
+
+    &:disabled {
+      cursor: default;
+    }
+
+    &--show {
+      opacity: 1;
+      margin-right: 6px;
+      margin-left: 12px;
+    }
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-gray-90
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-gray-02
+      );
+    }
+  }
+
+  &__header {
+    $padding: 4px 12px;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    margin-left: 4px;
+    margin-right: var(--button-spacing);
+    padding: $padding;
+    overflow: hidden;
+    min-width: 0;
+    transition: margin-right 200ms ease-out;
+
+    &--clickable {
+      @include button-reset;
+      border-radius: 4px;
+      -webkit-app-region: no-drag;
+
+      // These are clobbered by button-reset:
+      margin-left: 4px;
+      margin-right: var(--button-spacing);
+      padding: $padding;
+
+      @include keyboard-mode {
+        &:focus {
+          color: $ultramarine-ui-light;
+        }
+      }
+      @include dark-keyboard-mode {
+        &:focus {
+          color: $ultramarine-ui-dark;
+        }
+      }
+    }
+
+    &__avatar {
+      min-width: 32px;
+      margin-right: 12px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+
+      &__title {
+        @include font-body-1-bold;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        user-select: none;
+
+        &__in-contacts-icon {
+          margin-left: 4px;
+        }
+      }
+
+      &__subtitle {
+        display: flex;
+        @include font-body-2;
+
+        @include light-theme {
+          color: $color-gray-60;
+        }
+        @include dark-theme {
+          color: $color-gray-25;
+        }
+
+        @mixin subtitle-element($icon) {
+          display: flex;
+          align-items: center;
+          user-select: none;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+
+          &::before {
+            content: '';
+            width: 13px;
+            height: 13px;
+            display: block;
+            margin-right: 4px;
+
+            @include light-theme {
+              @include color-svg($icon, $color-gray-60);
+            }
+            @include dark-theme {
+              @include color-svg($icon, $color-gray-25);
+            }
+          }
+        }
+
+        &__expiration {
+          @include subtitle-element('../images/icons/v2/timer-24.svg');
+          margin-right: 12px;
+        }
+
+        &__verified {
+          @include subtitle-element('../images/icons/v2/check-24.svg');
+        }
+      }
+    }
+  }
+
+  &__button {
+    $icon-size: 32px;
+
+    -webkit-app-region: no-drag;
+    @include button-reset;
+    align-items: stretch;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    display: flex;
+    height: $icon-size;
+    margin-right: var(--button-spacing);
+    min-width: $icon-size;
+    opacity: 0;
+    padding: 2px;
+    transition: margin-right 200ms ease-out, opacity 200ms ease-out,
+      background 100ms ease-out;
+    width: $icon-size;
+
+    &:disabled {
+      cursor: default;
+    }
+
+    &--show {
+      opacity: 1;
+    }
+
+    @include light-theme {
+      &:hover,
+      &:focus {
+        background: $color-gray-02;
+      }
+      &:active {
+        background: $color-gray-05;
+      }
+    }
+    @include dark-theme {
+      &:hover,
+      &:focus {
+        background: $color-gray-80;
+      }
+      &:active {
+        background: $color-gray-75;
+      }
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        border-color: $ultramarine-ui-light;
+      }
+    }
+    @include dark-keyboard-mode {
+      &:focus {
+        border-color: $ultramarine-ui-dark;
+      }
+    }
+
+    @mixin normal-button($light-icon, $dark-icon) {
+      &::before {
+        content: '';
+        display: block;
+        flex-grow: 1;
+        @include light-theme {
+          @include color-svg($light-icon, $color-gray-75);
+          &:hover,
+          &:active,
+          &:focus {
+            @include color-svg($light-icon, $color-gray-90);
+          }
+        }
+        @include dark-theme {
+          @include color-svg($dark-icon, $color-gray-15);
+          &:hover,
+          &:active,
+          &:focus {
+            @include color-svg($dark-icon, $color-gray-02);
+          }
+        }
+      }
+    }
+
+    &--video {
+      @include normal-button(
+        '../images/icons/v2/video-outline-24.svg',
+        '../images/icons/v2/video-solid-24.svg'
+      );
+    }
+
+    &--audio {
+      @include normal-button(
+        '../images/icons/v2/phone-right-outline-24.svg',
+        '../images/icons/v2/phone-right-solid-24.svg'
+      );
+    }
+
+    &--search {
+      @include normal-button(
+        '../images/icons/v2/search-24.svg',
+        '../images/icons/v2/search-24.svg'
+      );
+    }
+
+    &--more {
+      @include normal-button(
+        '../images/icons/v2/chevron-down-24.svg',
+        '../images/icons/v2/chevron-down-24.svg'
+      );
+    }
+
+    &--join-call {
+      @include font-body-1;
+      align-items: center;
+      background-color: $color-accent-green;
+      border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
+      color: $color-white;
+      display: flex;
+      outline: none;
+      overflow: hidden;
+      padding: 5px 18px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      user-select: none;
+      width: auto;
+
+      &:before {
+        $icon-size: 24px;
+
+        @include color-svg(
+          '../images/icons/v2/video-solid-24.svg',
+          $color-white
+        );
+        content: '';
+        display: block;
+        height: $icon-size;
+        margin-right: 5px;
+        min-width: $icon-size;
+        width: $icon-size;
+      }
+    }
+  }
+}

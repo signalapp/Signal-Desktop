@@ -1,10 +1,11 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { times } from 'lodash';
 
 import { setup as setupI18n } from '../../../../js/modules/i18n';
 import enMessages from '../../../../_locales/en/messages.json';
@@ -23,9 +24,11 @@ const conversation: ConversationType = {
   id: '',
   lastUpdated: 0,
   markedUnread: false,
-  memberships: Array.from(Array(32)).map(() => ({
-    isAdmin: false,
-    member: getDefaultConversation({}),
+  memberships: Array.from(Array(32)).map((_, i) => ({
+    isAdmin: i === 1,
+    member: getDefaultConversation({
+      isMe: i === 2,
+    }),
     metadata: {
       conversationId: '',
       joinedAtVersion: 0,
@@ -45,7 +48,11 @@ const conversation: ConversationType = {
 };
 
 const createProps = (hasGroupLink = false): Props => ({
+  addMembers: async () => {
+    action('addMembers');
+  },
   canEditGroupInfo: false,
+  candidateContactsToAdd: times(10, () => getDefaultConversation()),
   conversation,
   hasGroupLink,
   i18n,
@@ -58,6 +65,9 @@ const createProps = (hasGroupLink = false): Props => ({
   showGroupV2Permissions: action('showGroupV2Permissions'),
   showPendingInvites: action('showPendingInvites'),
   showLightboxForMedia: action('showLightboxForMedia'),
+  updateGroupAttributes: async () => {
+    action('updateGroupAttributes')();
+  },
   onBlockAndDelete: action('onBlockAndDelete'),
   onDelete: action('onDelete'),
 });
@@ -72,6 +82,44 @@ story.add('as Admin', () => {
   const props = createProps();
 
   return <ConversationDetails {...props} isAdmin />;
+});
+
+story.add('as last admin', () => {
+  const props = createProps();
+
+  return (
+    <ConversationDetails
+      {...props}
+      isAdmin
+      conversation={{
+        ...conversation,
+        memberships: conversation.memberships?.map(membership => ({
+          ...membership,
+          isAdmin: Boolean(membership.member.isMe),
+        })),
+      }}
+    />
+  );
+});
+
+story.add('as only admin', () => {
+  const props = createProps();
+
+  return (
+    <ConversationDetails
+      {...props}
+      isAdmin
+      conversation={{
+        ...conversation,
+        memberships: conversation.memberships
+          ?.filter(membership => membership.member.isMe)
+          .map(membership => ({
+            ...membership,
+            isAdmin: true,
+          })),
+      }}
+    />
+  );
 });
 
 story.add('Group Editable', () => {

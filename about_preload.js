@@ -25,4 +25,4 @@ window.closeAbout = () => ipcRenderer.send('close-about');
 
 window.i18n = i18n.setup(locale, localeMessages);
 
-require('./ts/logging/set_up_renderer_logging');
+require('./ts/logging/set_up_renderer_logging').initialize();

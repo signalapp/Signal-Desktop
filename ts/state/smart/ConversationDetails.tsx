@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -8,11 +8,15 @@ import {
   ConversationDetails,
   StateProps,
 } from '../../components/conversation/conversation-details/ConversationDetails';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getContacts,
+  getConversationSelector,
+} from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 import { MediaItemType } from '../../components/LightboxGallery';
 
 export type SmartConversationDetailsProps = {
+  addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   conversationId: string;
   hasGroupLink: boolean;
   loadRecentMediaItems: (limit: number) => void;
@@ -26,6 +30,12 @@ export type SmartConversationDetailsProps = {
     selectedMediaItem: MediaItemType,
     media: Array<MediaItemType>
   ) => void;
+  updateGroupAttributes: (
+    _: Readonly<{
+      avatar?: undefined | ArrayBuffer;
+      title?: string;
+    }>
+  ) => Promise<void>;
   onBlockAndDelete: () => void;
   onDelete: () => void;
 };
@@ -39,12 +49,13 @@ const mapStateToProps = (
     conversation && conversation.canEditGroupInfo
       ? conversation.canEditGroupInfo
       : false;
-  const isAdmin =
-    conversation && conversation.areWeAdmin ? conversation.areWeAdmin : false;
+  const isAdmin = Boolean(conversation?.areWeAdmin);
+  const candidateContactsToAdd = getContacts(state);
 
   return {
     ...props,
     canEditGroupInfo,
+    candidateContactsToAdd,
     conversation,
     i18n: getIntl(state),
     isAdmin,

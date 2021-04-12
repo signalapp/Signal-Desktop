@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -38,14 +38,17 @@ const getDefaultProps = () => ({
   conversationAccepted: true,
   id: 'asdf',
   isSelected: false,
+  interactionMode: 'keyboard' as const,
   selectMessage: action('selectMessage'),
   reactToMessage: action('reactToMessage'),
   clearSelectedMessage: action('clearSelectedMessage'),
+  contactSupport: action('contactSupport'),
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   showMessageDetail: action('showMessageDetail'),
   openConversation: action('openConversation'),
   showContactDetail: action('showContactDetail'),
@@ -69,6 +72,7 @@ const getDefaultProps = () => ({
 
   renderContact,
   renderEmojiPicker,
+  renderAudioAttachment: () => <div>*AudioAttachment*</div>,
 });
 
 storiesOf('Components/Conversation/TimelineItem', module)

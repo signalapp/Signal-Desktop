@@ -10,7 +10,13 @@ import { storiesOf } from '@storybook/react';
 import { Colors } from '../../types/Colors';
 import { pngUrl } from '../../storybook/Fixtures';
 import { Message, Props as MessagesProps } from './Message';
-import { AUDIO_MP3, IMAGE_PNG, MIMEType, VIDEO_MP4 } from '../../types/MIME';
+import {
+  AUDIO_MP3,
+  IMAGE_PNG,
+  LONG_MESSAGE,
+  MIMEType,
+  VIDEO_MP4,
+} from '../../types/MIME';
 import { Props, Quote } from './Quote';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -39,11 +45,13 @@ const defaultMessageProps: MessagesProps = {
   isBlocked: false,
   isMessageRequestAccepted: true,
   kickOffAttachmentDownload: () => null,
+  markAttachmentAsCorrupted: () => null,
   openConversation: () => null,
   openLink: () => null,
   previews: [],
   reactToMessage: () => null,
   renderEmojiPicker: () => <div />,
+  renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   replyToMessage: () => null,
   retrySend: () => null,
   scrollToQuotedMessage: () => null,
@@ -60,13 +68,13 @@ const defaultMessageProps: MessagesProps = {
 };
 
 const renderInMessage = ({
-  attachment,
   authorColor,
   authorName,
   authorPhoneNumber,
   authorProfileName,
   authorTitle,
   isFromMe,
+  rawAttachment,
   referencedMessageNotFound,
   text: quoteText,
 }: Props) => {
@@ -74,7 +82,6 @@ const renderInMessage = ({
     ...defaultMessageProps,
     authorColor,
     quote: {
-      attachment,
       authorId: 'an-author',
       authorColor,
       authorName,
@@ -82,6 +89,7 @@ const renderInMessage = ({
       authorProfileName,
       authorTitle,
       isFromMe,
+      rawAttachment,
       referencedMessageNotFound,
       sentAt: Date.now() - 30 * 1000,
       text: quoteText,
@@ -98,7 +106,6 @@ const renderInMessage = ({
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  attachment: overrideProps.attachment || undefined,
   authorColor: overrideProps.authorColor || 'green',
   authorName: text('authorName', overrideProps.authorName || ''),
   authorPhoneNumber: text(
@@ -115,6 +122,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isIncoming: boolean('isIncoming', overrideProps.isIncoming || false),
   onClick: action('onClick'),
   onClose: action('onClose'),
+  rawAttachment: overrideProps.rawAttachment || undefined,
   referencedMessageNotFound: boolean(
     'referencedMessageNotFound',
     overrideProps.referencedMessageNotFound || false
@@ -184,7 +192,7 @@ story.add('Content Above', () => {
 
 story.add('Image Only', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
       isVoiceMessage: false,
@@ -201,7 +209,7 @@ story.add('Image Only', () => {
 });
 story.add('Image Attachment', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
       isVoiceMessage: false,
@@ -217,7 +225,7 @@ story.add('Image Attachment', () => {
 
 story.add('Image Attachment w/o Thumbnail', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
       isVoiceMessage: false,
@@ -229,7 +237,7 @@ story.add('Image Attachment w/o Thumbnail', () => {
 
 story.add('Video Only', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: VIDEO_MP4,
       fileName: 'great-video.mp4',
       isVoiceMessage: false,
@@ -247,7 +255,7 @@ story.add('Video Only', () => {
 
 story.add('Video Attachment', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: VIDEO_MP4,
       fileName: 'great-video.mp4',
       isVoiceMessage: false,
@@ -263,7 +271,7 @@ story.add('Video Attachment', () => {
 
 story.add('Video Attachment w/o Thumbnail', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: VIDEO_MP4,
       fileName: 'great-video.mp4',
       isVoiceMessage: false,
@@ -275,7 +283,7 @@ story.add('Video Attachment w/o Thumbnail', () => {
 
 story.add('Audio Only', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: AUDIO_MP3,
       fileName: 'great-video.mp3',
       isVoiceMessage: false,
@@ -289,7 +297,7 @@ story.add('Audio Only', () => {
 
 story.add('Audio Attachment', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: AUDIO_MP3,
       fileName: 'great-video.mp3',
       isVoiceMessage: false,
@@ -301,7 +309,7 @@ story.add('Audio Attachment', () => {
 
 story.add('Voice Message Only', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: AUDIO_MP3,
       fileName: 'great-video.mp3',
       isVoiceMessage: true,
@@ -315,7 +323,7 @@ story.add('Voice Message Only', () => {
 
 story.add('Voice Message Attachment', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: AUDIO_MP3,
       fileName: 'great-video.mp3',
       isVoiceMessage: true,
@@ -327,7 +335,7 @@ story.add('Voice Message Attachment', () => {
 
 story.add('Other File Only', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: 'application/json' as MIMEType,
       fileName: 'great-data.json',
       isVoiceMessage: false,
@@ -341,9 +349,21 @@ story.add('Other File Only', () => {
 
 story.add('Other File Attachment', () => {
   const props = createProps({
-    attachment: {
+    rawAttachment: {
       contentType: 'application/json' as MIMEType,
       fileName: 'great-data.json',
+      isVoiceMessage: false,
+    },
+  });
+
+  return <Quote {...props} />;
+});
+
+story.add('Long message attachment (should be hidden)', () => {
+  const props = createProps({
+    rawAttachment: {
+      contentType: LONG_MESSAGE,
+      fileName: 'signal-long-message-123.txt',
       isVoiceMessage: false,
     },
   });

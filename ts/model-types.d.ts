@@ -134,6 +134,7 @@ export type MessageAttributesType = {
   groupV2Change?: GroupV2ChangeType;
   // Required. Used to sort messages in the database for the conversation timeline.
   received_at?: number;
+  received_at_ms?: number;
   // More of a legacy feature, needed as we were updating the schema of messages in the
   //   background, when we were still in IndexedDB, before attachments had gone to disk
   // We set this so that the idle message upgrade process doesn't pick this message up
@@ -157,7 +158,7 @@ export type ConversationAttributesType = {
   addedBy?: string;
   capabilities?: CapabilitiesType;
   color?: string;
-  discoveredUnregisteredAt: number;
+  discoveredUnregisteredAt?: number;
   draftAttachments: Array<unknown>;
   draftBodyRanges: Array<BodyRangeType>;
   draftTimestamp: number | null;
@@ -167,13 +168,13 @@ export type ConversationAttributesType = {
   lastMessageStatus: LastMessageStatus | null;
   markedUnread: boolean;
   messageCount: number;
-  messageCountBeforeMessageRequests: number;
+  messageCountBeforeMessageRequests: number | null;
   messageRequestResponseType: number;
-  muteExpiresAt: number;
+  muteExpiresAt: number | undefined;
   profileAvatar: WhatIsThis;
   profileKeyCredential: string | null;
   profileKeyVersion: string | null;
-  quotedMessageId: string;
+  quotedMessageId: string | null;
   sealedSender: unknown;
   sentMessageCount: number;
   sharedGroupNames: Array<string>;
@@ -192,7 +193,7 @@ export type ConversationAttributesType = {
   needsVerification?: boolean;
   profileSharing: boolean;
   storageID?: string;
-  storageUnknownFields: string;
+  storageUnknownFields?: string;
   unreadCount?: number;
   version: number;
 
@@ -206,8 +207,8 @@ export type ConversationAttributesType = {
   profileFamilyName?: string;
   profileKey?: string;
   profileName?: string;
-  storageProfileKey?: string;
   verified?: number;
+  profileLastFetchedAt?: number;
 
   // Group-only
   groupId?: string;

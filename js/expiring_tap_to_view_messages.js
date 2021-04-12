@@ -58,7 +58,9 @@
       return;
     }
 
-    const nextCheck = toAgeOut.get('received_at') + THIRTY_DAYS;
+    const receivedAt =
+      toAgeOut.get('received_at_ms') || toAgeOut.get('received_at');
+    const nextCheck = receivedAt + THIRTY_DAYS;
 
     Whisper.TapToViewMessagesListener.nextCheck = nextCheck;
     window.log.info(

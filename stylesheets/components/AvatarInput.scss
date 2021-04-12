@@ -1,0 +1,92 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-AvatarInput {
+  @include button-reset;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: none;
+
+  $dark-selector: '#{&}--dark';
+
+  &__avatar {
+    @include button-reset;
+
+    margin-top: 4px;
+    display: flex;
+    border-radius: 100%;
+    height: 80px;
+    width: 80px;
+    transition: background-color 100ms ease-out;
+
+    &--nothing {
+      align-items: stretch;
+      background: $color-white;
+
+      @at-root '#{$dark-selector} #{&}' {
+        background: $ultramarine-ui-light;
+      }
+
+      &::before {
+        flex-grow: 1;
+        content: '';
+        display: block;
+        @include color-svg(
+          '../images/icons/v2/camera-outline-24.svg',
+          $ultramarine-ui-light,
+          false
+        );
+        -webkit-mask-size: 24px 24px;
+
+        @at-root '#{$dark-selector} #{&}' {
+          @include color-svg(
+            '../images/icons/v2/camera-outline-24.svg',
+            $color-white,
+            false
+          );
+        }
+      }
+    }
+
+    &--loading {
+      align-items: center;
+      background: $color-black;
+    }
+
+    &--has-image {
+      background-size: cover;
+      background-position: center center;
+    }
+  }
+
+  &__label {
+    @include button-reset;
+    @include font-body-1;
+
+    padding-bottom: 4px;
+    padding-top: 4px;
+
+    @include light-theme {
+      color: $ultramarine-ui-light;
+    }
+
+    @include dark-theme {
+      color: $ultramarine-ui-dark;
+    }
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      .module-AvatarInput__avatar {
+        box-shadow: inset 0 0 0 2px $ultramarine-ui-light;
+      }
+
+      .module-AvatarInput__label {
+        @include font-body-1-bold;
+      }
+    }
+  }
+}

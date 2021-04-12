@@ -14,17 +14,21 @@ import {
 
 import { ScrollDownButton } from './ScrollDownButton';
 
+import { GlobalAudioProvider } from '../GlobalAudioContext';
+
 import { LocalizerType } from '../../types/Util';
+import { ConversationType } from '../../state/ducks/conversations';
 
 import { PropsActions as MessageActionsType } from './Message';
 import { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
+import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const NEAR_BOTTOM_THRESHOLD = 15;
 const AT_TOP_THRESHOLD = 10;
 const LOAD_MORE_THRESHOLD = 30;
 const SCROLL_DOWN_BUTTON_THRESHOLD = 8;
-export const LOAD_COUNTDOWN = 2 * 1000;
+export const LOAD_COUNTDOWN = 1;
 
 export type PropsDataType = {
   haveNewest: boolean;
@@ -48,6 +52,7 @@ type PropsHousekeepingType = {
   isGroupV1AndDisabled?: boolean;
 
   selectedMessageId?: string;
+  invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
 
   i18n: LocalizerType;
 
@@ -68,6 +73,7 @@ type PropsHousekeepingType = {
 
 type PropsActionsType = {
   clearChangedMessages: (conversationId: string) => unknown;
+  clearInvitedConversationsForNewlyCreatedGroup: () => void;
   setLoadCountdownStart: (
     conversationId: string,
     loadCountdownStart?: number
@@ -1063,7 +1069,14 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   };
 
   public render(): JSX.Element | null {
-    const { i18n, id, items, isGroupV1AndDisabled } = this.props;
+    const {
+      clearInvitedConversationsForNewlyCreatedGroup,
+      i18n,
+      id,
+      items,
+      isGroupV1AndDisabled,
+      invitedContactsForNewlyCreatedGroup,
+    } = this.props;
     const {
       shouldShowScrollDownButton,
       areUnreadBelowCurrentPosition,
@@ -1076,61 +1089,77 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return null;
     }
 
+    const autoSizer = (
+      <AutoSizer>
+        {({ height, width }) => {
+          if (this.mostRecentWidth && this.mostRecentWidth !== width) {
+            this.resizeFlag = true;
+
+            setTimeout(this.resize, 0);
+          } else if (
+            this.mostRecentHeight &&
+            this.mostRecentHeight !== height
+          ) {
+            setTimeout(this.onHeightOnlyChange, 0);
+          }
+
+          this.mostRecentWidth = width;
+          this.mostRecentHeight = height;
+
+          return (
+            <List
+              deferredMeasurementCache={this.cellSizeCache}
+              height={height}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onScroll={this.onScroll as any}
+              overscanRowCount={10}
+              ref={this.listRef}
+              rowCount={rowCount}
+              rowHeight={this.cellSizeCache.rowHeight}
+              rowRenderer={this.rowRenderer}
+              scrollToAlignment="start"
+              scrollToIndex={scrollToIndex}
+              tabIndex={-1}
+              width={width}
+            />
+          );
+        }}
+      </AutoSizer>
+    );
+
     return (
-      <div
-        className={classNames(
-          'module-timeline',
-          isGroupV1AndDisabled ? 'module-timeline--disabled' : null
-        )}
-        role="presentation"
-        tabIndex={-1}
-        onBlur={this.handleBlur}
-        onKeyDown={this.handleKeyDown}
-      >
-        <AutoSizer>
-          {({ height, width }) => {
-            if (this.mostRecentWidth && this.mostRecentWidth !== width) {
-              this.resizeFlag = true;
+      <>
+        <div
+          className={classNames(
+            'module-timeline',
+            isGroupV1AndDisabled ? 'module-timeline--disabled' : null
+          )}
+          role="presentation"
+          tabIndex={-1}
+          onBlur={this.handleBlur}
+          onKeyDown={this.handleKeyDown}
+        >
+          <GlobalAudioProvider conversationId={id}>
+            {autoSizer}
+          </GlobalAudioProvider>
+          {shouldShowScrollDownButton ? (
+            <ScrollDownButton
+              conversationId={id}
+              withNewMessages={areUnreadBelowCurrentPosition}
+              scrollDown={this.onClickScrollDownButton}
+              i18n={i18n}
+            />
+          ) : null}
+        </div>
 
-              setTimeout(this.resize, 0);
-            } else if (
-              this.mostRecentHeight &&
-              this.mostRecentHeight !== height
-            ) {
-              setTimeout(this.onHeightOnlyChange, 0);
-            }
-
-            this.mostRecentWidth = width;
-            this.mostRecentHeight = height;
-
-            return (
-              <List
-                deferredMeasurementCache={this.cellSizeCache}
-                height={height}
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                onScroll={this.onScroll as any}
-                overscanRowCount={10}
-                ref={this.listRef}
-                rowCount={rowCount}
-                rowHeight={this.cellSizeCache.rowHeight}
-                rowRenderer={this.rowRenderer}
-                scrollToAlignment="start"
-                scrollToIndex={scrollToIndex}
-                tabIndex={-1}
-                width={width}
-              />
-            );
-          }}
-        </AutoSizer>
-        {shouldShowScrollDownButton ? (
-          <ScrollDownButton
-            conversationId={id}
-            withNewMessages={areUnreadBelowCurrentPosition}
-            scrollDown={this.onClickScrollDownButton}
+        {Boolean(invitedContactsForNewlyCreatedGroup.length) && (
+          <NewlyCreatedGroupInvitedContactsDialog
+            contacts={invitedContactsForNewlyCreatedGroup}
             i18n={i18n}
+            onClose={clearInvitedConversationsForNewlyCreatedGroup}
           />
-        ) : null}
-      </div>
+        )}
+      </>
     );
   }
 }

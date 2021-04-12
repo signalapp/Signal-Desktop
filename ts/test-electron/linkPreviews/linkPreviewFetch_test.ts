@@ -122,6 +122,68 @@ describe('link preview fetching', () => {
       );
     });
 
+    it('handles image href sources in the correct order', async () => {
+      const orderedImageHrefSources = [
+        {
+          tag:
+            '<meta property="og:image" content="https://example.com/og-image.jpg">',
+          expectedHref: 'https://example.com/og-image.jpg',
+        },
+        {
+          tag:
+            '<meta property="og:image:url" content="https://example.com/og-image-url.jpg">',
+          expectedHref: 'https://example.com/og-image-url.jpg',
+        },
+        {
+          tag:
+            '<link rel="apple-touch-icon" href="https://example.com/apple-touch-icon.jpg">',
+          expectedHref: 'https://example.com/apple-touch-icon.jpg',
+        },
+        {
+          tag:
+            '<link rel="apple-touch-icon-precomposed" href="https://example.com/apple-touch-icon-precomposed.jpg">',
+          expectedHref: 'https://example.com/apple-touch-icon-precomposed.jpg',
+        },
+        {
+          tag:
+            '<link rel="shortcut icon" href="https://example.com/shortcut-icon.jpg">',
+          expectedHref: 'https://example.com/shortcut-icon.jpg',
+        },
+        {
+          tag: '<link rel="icon" href="https://example.com/icon.jpg">',
+          expectedHref: 'https://example.com/icon.jpg',
+        },
+      ];
+      for (let i = orderedImageHrefSources.length - 1; i >= 0; i -= 1) {
+        const imageTags = orderedImageHrefSources
+          .slice(i)
+          .map(({ tag }) => tag)
+          // Reverse the array to make sure that we're prioritizing properly,
+          //   instead of just using whichever comes first.
+          .reverse();
+        const fakeFetch = stub().resolves(
+          makeResponse({
+            body: makeHtml([
+              '<meta property="og:title" content="test title">',
+              ...imageTags,
+            ]),
+          })
+        );
+
+        // eslint-disable-next-line no-await-in-loop
+        const val = await fetchLinkPreviewMetadata(
+          fakeFetch,
+          'https://example.com',
+          new AbortController().signal
+        );
+        assert.propertyVal(
+          val,
+          'imageHref',
+          orderedImageHrefSources[i].expectedHref
+        );
+      }
+    });
+
     it('logs no warnings if everything goes smoothly', async () => {
       const fakeFetch = stub().resolves(
         makeResponse({
@@ -425,7 +487,7 @@ describe('link preview fetching', () => {
       );
     });
 
-    it('allows an explitly inline Content-Disposition header', async () => {
+    it('allows an explicitly inline Content-Disposition header', async () => {
       const fakeFetch = stub().resolves(
         makeResponse({
           headers: { 'Content-Disposition': 'inline' },

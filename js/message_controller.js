@@ -6,6 +6,8 @@
   window.Whisper = window.Whisper || {};
 
   const messageLookup = Object.create(null);
+  const msgIDsBySender = new Map();
+  const msgIDsBySentAt = new Map();
 
   const SECOND = 1000;
   const MINUTE = SECOND * 60;
@@ -31,10 +33,18 @@
       timestamp: Date.now(),
     };
 
+    msgIDsBySentAt.set(message.get('sent_at'), id);
+    msgIDsBySender.set(message.getSenderIdentifier(), id);
+
     return message;
   }
 
   function unregister(id) {
+    const { message } = messageLookup[id] || {};
+    if (message) {
+      msgIDsBySender.delete(message.getSenderIdentifier());
+      msgIDsBySentAt.delete(message.get('sent_at'));
+    }
     delete messageLookup[id];
   }
 
@@ -50,7 +60,7 @@
         now - timestamp > FIVE_MINUTES &&
         (!conversation || !conversation.messageCollection.length)
       ) {
-        delete messageLookup[message.id];
+        unregister(message.id);
       }
     }
   }
@@ -58,6 +68,22 @@
   function getById(id) {
     const existing = messageLookup[id];
     return existing && existing.message ? existing.message : null;
+  }
+
+  function findBySentAt(sentAt) {
+    const id = msgIDsBySentAt.get(sentAt);
+    if (!id) {
+      return null;
+    }
+    return getById(id);
+  }
+
+  function findBySender(sender) {
+    const id = msgIDsBySender.get(sender);
+    if (!id) {
+      return null;
+    }
+    return getById(id);
   }
 
   function _get() {
@@ -70,6 +96,8 @@
     register,
     unregister,
     cleanup,
+    findBySender,
+    findBySentAt,
     getById,
     _get,
   };

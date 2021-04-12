@@ -1,10 +1,10 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import moment from 'moment';
 import { LocalizerType } from '../types/Util';
 
-type MuteOption = {
+export type MuteOption = {
   name: string;
   disabled?: boolean;
   value: number;

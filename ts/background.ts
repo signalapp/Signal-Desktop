@@ -1,15 +1,32 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// This allows us to pull in types despite the fact that this is not a module. We can't
-//   use normal import syntax, nor can we use 'import type' syntax, or this will be turned
-//   into a module, and we'll get the dreaded 'exports is not defined' error.
-// see https://github.com/microsoft/TypeScript/issues/41562
-type DataMessageClass = import('./textsecure.d').DataMessageClass;
-type WhatIsThis = import('./window.d').WhatIsThis;
+import { DataMessageClass } from './textsecure.d';
+import { MessageAttributesType } from './model-types.d';
+import { WhatIsThis } from './window.d';
+import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
+import { isWindowDragElement } from './util/isWindowDragElement';
+import { assert } from './util/assert';
+import * as refreshSenderCertificate from './refreshSenderCertificate';
+import { SenderCertificateMode } from './metadata/SecretSessionCipher';
+import { routineProfileRefresh } from './routineProfileRefresh';
+import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 
-// eslint-disable-next-line func-names
-(async function () {
+const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
+
+export async function startApp(): Promise<void> {
+  window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
+  window.attachmentDownloadQueue = [];
+  try {
+    window.log.info('Initializing SQL in renderer');
+    await window.sqlInitializer.initialize();
+    window.log.info('SQL initialized in renderer');
+  } catch (err) {
+    window.log.error(
+      'SQL failed to initialize',
+      err && err.stack ? err.stack : err
+    );
+  }
   const eventHandlerQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -20,10 +37,11 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   });
   window.Whisper.deliveryReceiptQueue.pause();
   window.Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({
+    name: 'Whisper.deliveryReceiptBatcher',
     wait: 500,
     maxSize: 500,
     processBatch: async (items: WhatIsThis) => {
-      const byConversationId = _.groupBy(items, item =>
+      const byConversationId = window._.groupBy(items, item =>
         window.ConversationController.ensureContactIds({
           e164: item.source,
           uuid: item.sourceUuid,
@@ -70,16 +88,14 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     },
   });
 
-  window.addEventListener('dblclick', (event: Event) => {
-    const target = event.target as HTMLElement;
-    const isDoubleClickOnTitleBar = Boolean(
-      target.classList.contains('module-title-bar-drag-area') ||
-        target.closest('module-title-bar-drag-area')
-    );
-    if (isDoubleClickOnTitleBar) {
-      window.titleBarDoubleClick();
-    }
-  });
+  if (getTitleBarVisibility() === TitleBarVisibility.Hidden) {
+    window.addEventListener('dblclick', (event: Event) => {
+      const target = event.target as HTMLElement;
+      if (isWindowDragElement(target)) {
+        window.titleBarDoubleClick();
+      }
+    });
+  }
 
   // Globally disable drag and drop
   document.body.addEventListener(
@@ -205,12 +221,12 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     if (messageReceiver) {
       return messageReceiver.getStatus();
     }
-    if (_.isNumber(preMessageReceiverStatus)) {
+    if (window._.isNumber(preMessageReceiverStatus)) {
       return preMessageReceiverStatus;
     }
     return WebSocket.CLOSED;
   };
-  window.Whisper.events = _.clone(window.Backbone.Events);
+  window.Whisper.events = window._.clone(window.Backbone.Events);
   let accountManager: typeof window.textsecure.AccountManager;
   window.getAccountManager = () => {
     if (!accountManager) {
@@ -545,12 +561,11 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     };
 
     // How long since we were last running?
-    const now = Date.now();
     const lastHeartbeat = window.storage.get('lastHeartbeat');
     await window.storage.put('lastStartup', Date.now());
 
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-    if (lastHeartbeat > 0 && now - lastHeartbeat > THIRTY_DAYS) {
+    if (lastHeartbeat > 0 && isOlderThan(lastHeartbeat, THIRTY_DAYS)) {
       await unlinkAndDisconnect();
     }
 
@@ -626,7 +641,17 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
 
     if (newVersion) {
-      await window.Signal.Data.cleanupOrphanedAttachments();
+      // We've received reports that this update can take longer than two minutes, so we
+      //   allow it to continue and just move on in that timeout case.
+      try {
+        await window.Signal.Data.cleanupOrphanedAttachments();
+      } catch (error) {
+        window.log.error(
+          'background: Failed to cleanup orphaned attachments:',
+          error && error.stack ? error.stack : error
+        );
+      }
+
       // Don't block on the following operation
       window.Signal.Data.ensureFilePermissions();
     }
@@ -730,7 +755,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         ),
         messagesByConversation: {},
         messagesLookup: {},
-        selectedConversation: undefined,
+        selectedConversationId: undefined,
         selectedMessage: undefined,
         selectedMessageCounter: 0,
         selectedConversationPanelDepth: 0,
@@ -866,96 +891,16 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       }
     };
 
-    function getConversationsToSearch() {
-      const state = store.getState();
-      const {
-        archivedConversations,
-        conversations: unpinnedConversations,
-        pinnedConversations,
-      } = window.Signal.State.Selectors.conversations.getLeftPaneLists(state);
-
-      return state.conversations.showArchived
-        ? archivedConversations
-        : [...pinnedConversations, ...unpinnedConversations];
-    }
-
-    function getConversationByIndex(index: WhatIsThis) {
-      const conversationsToSearch = getConversationsToSearch();
-
-      const target = conversationsToSearch[index];
-
-      if (target) {
-        return target.id;
-      }
-
-      return null;
-    }
-
-    function findConversation(
-      conversationId: WhatIsThis,
-      direction: WhatIsThis,
-      unreadOnly: WhatIsThis
-    ) {
-      const conversationsToSearch = getConversationsToSearch();
-
-      const increment = direction === 'up' ? -1 : 1;
-      let startIndex: WhatIsThis;
-
-      if (conversationId) {
-        const index = conversationsToSearch.findIndex(
-          (item: WhatIsThis) => item.id === conversationId
-        );
-        if (index >= 0) {
-          startIndex = index + increment;
-        }
-      } else {
-        startIndex = direction === 'up' ? conversationsToSearch.length - 1 : 0;
-      }
-
-      for (
-        let i = startIndex, max = conversationsToSearch.length;
-        i >= 0 && i < max;
-        i += increment
-      ) {
-        const target = conversationsToSearch[i];
-        if (!unreadOnly) {
-          return target.id;
-        }
-        if ((target.unreadCount || 0) > 0) {
-          return target.id;
-        }
-      }
-
-      return null;
-    }
-
-    const NUMBERS: Record<string, number> = {
-      '1': 1,
-      '2': 2,
-      '3': 3,
-      '4': 4,
-      '5': 5,
-      '6': 6,
-      '7': 7,
-      '8': 8,
-      '9': 9,
-    };
-
     document.addEventListener('keydown', event => {
-      const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
+      const { ctrlKey, key, metaKey, shiftKey } = event;
 
-      const optionOrAlt = altKey;
       const commandKey = window.platform === 'darwin' && metaKey;
       const controlKey = window.platform !== 'darwin' && ctrlKey;
       const commandOrCtrl = commandKey || controlKey;
-      const commandAndCtrl = commandKey && ctrlKey;
 
       const state = store.getState();
-      const selectedId = state.conversations.selectedConversation;
+      const selectedId = state.conversations.selectedConversationId;
       const conversation = window.ConversationController.get(selectedId);
-      const isSearching = window.Signal.State.Selectors.search.isSearching(
-        state
-      );
 
       // NAVIGATION
 
@@ -977,8 +922,14 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
         const targets: Array<HTMLElement | null> = [
           document.querySelector('.module-main-header .module-avatar-button'),
-          document.querySelector('.module-left-pane__to-inbox-button'),
+          document.querySelector(
+            '.module-left-pane__header__contents__back-button'
+          ),
           document.querySelector('.module-main-header__search__input'),
+          document.querySelector('.module-main-header__compose-icon'),
+          document.querySelector(
+            '.module-left-pane__compose-search-form__input'
+          ),
           document.querySelector('.module-left-pane__list'),
           document.querySelector('.module-search-results'),
           document.querySelector('.module-composition-area .ql-editor'),
@@ -1129,94 +1080,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         return;
       }
 
-      // Change currently selected conversation by index
-      if (!isSearching && commandOrCtrl && NUMBERS[key]) {
-        const targetId = getConversationByIndex(
-          (NUMBERS[key] as WhatIsThis) - 1
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-
-      // Change currently selected conversation
-      // up/previous
-      if (
-        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') ||
-        (!isSearching && commandOrCtrl && shiftKey && key === '[') ||
-        (!isSearching && ctrlKey && shiftKey && key === 'Tab')
-      ) {
-        const unreadOnly = false;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'up',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-      // down/next
-      if (
-        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') ||
-        (!isSearching && commandOrCtrl && shiftKey && key === ']') ||
-        (!isSearching && ctrlKey && key === 'Tab')
-      ) {
-        const unreadOnly = false;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'down',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-      // previous unread
-      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowUp') {
-        const unreadOnly = true;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'up',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-      // next unread
-      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowDown') {
-        const unreadOnly = true;
-        const targetId = findConversation(
-          conversation ? conversation.id : null,
-          'down',
-          unreadOnly
-        );
-
-        if (targetId) {
-          window.Whisper.events.trigger('showConversation', targetId);
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-      }
-
       // Preferences - handled by Electron-managed keyboard shortcuts
 
       // Open the top-right menu for current conversation
@@ -1227,7 +1090,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         (key === 'l' || key === 'L')
       ) {
         const button = document.querySelector(
-          '.module-conversation-header__more-button'
+          '.module-ConversationHeader__more-button'
         );
         if (!button) {
           return;
@@ -1259,40 +1122,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         /* eslint-enable @typescript-eslint/no-explicit-any */
 
         button.dispatchEvent(mouseEvent);
-
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Search
-      if (
-        commandOrCtrl &&
-        !commandAndCtrl &&
-        !shiftKey &&
-        (key === 'f' || key === 'F')
-      ) {
-        const { startSearch } = actions.search;
-        startSearch();
-
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Search in conversation
-      if (
-        conversation &&
-        commandOrCtrl &&
-        !commandAndCtrl &&
-        shiftKey &&
-        (key === 'f' || key === 'F')
-      ) {
-        const { searchInConversation } = actions.search;
-        const name = conversation.isMe()
-          ? window.i18n('noteToSelf')
-          : conversation.getTitle();
-        searchInConversation(conversation.id, name);
 
         event.preventDefault();
         event.stopPropagation();
@@ -1358,21 +1187,13 @@ type WhatIsThis = import('./window.d').WhatIsThis;
         );
 
         // It's very likely that the act of archiving a conversation will set focus to
-        //   'none,' or the top-level body element. This resets it to the left pane,
-        //   whether in the normal conversation list or search results.
+        //   'none,' or the top-level body element. This resets it to the left pane.
         if (document.activeElement === document.body) {
           const leftPaneEl: HTMLElement | null = document.querySelector(
             '.module-left-pane__list'
           );
           if (leftPaneEl) {
             leftPaneEl.focus();
-          }
-
-          const searchResultsEl: HTMLElement | null = document.querySelector(
-            '.module-search-results'
-          );
-          if (searchResultsEl) {
-            searchResultsEl.focus();
           }
         }
 
@@ -1814,6 +1635,9 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   let connectCount = 0;
   let connecting = false;
   async function connect(firstRun?: boolean) {
+    window.receivedAtCounter =
+      window.storage.get('lastReceivedAtCounter') || Date.now();
+
     if (connecting) {
       window.log.warn('connect already running', { connectCount });
       return;
@@ -1972,6 +1796,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       addQueuedEventListener('read', onReadReceipt);
       addQueuedEventListener('verified', onVerified);
       addQueuedEventListener('error', onError);
+      addQueuedEventListener('light-session-reset', onLightSessionReset);
       addQueuedEventListener('empty', onEmpty);
       addQueuedEventListener('reconnect', onReconnect);
       addQueuedEventListener('configuration', onConfiguration);
@@ -2098,7 +1923,10 @@ type WhatIsThis = import('./window.d').WhatIsThis;
           !hasThemeSetting &&
           window.textsecure.storage.get('userAgent') === 'OWI'
         ) {
-          window.storage.put('theme-setting', 'ios');
+          window.storage.put(
+            'theme-setting',
+            await window.Events.getThemeSetting()
+          );
           onChangeTheme();
         }
         const syncRequest = new window.textsecure.SyncRequest(
@@ -2150,6 +1978,22 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
       window.storage.onready(async () => {
         idleDetector.start();
+
+        // Kick off a profile refresh if necessary, but don't wait for it, as failure is
+        //   tolerable.
+        const ourConversationId = window.ConversationController.getOurConversationId();
+        if (ourConversationId) {
+          routineProfileRefresh({
+            allConversations: window.ConversationController.getAll(),
+            ourConversationId,
+            storage: window.storage,
+          });
+        } else {
+          assert(
+            false,
+            'Failed to fetch our conversation ID. Skipping routine profile refresh'
+          );
+        }
       });
     } finally {
       connecting = false;
@@ -2215,7 +2059,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
   async function onEmpty() {
     await Promise.all([
       window.waitForAllBatchers(),
-      window.waitForAllWaitBatchers(),
+      window.flushAllWaitBatchers(),
     ]);
     window.log.info('onEmpty: All outstanding database requests complete');
     initialLoadComplete = true;
@@ -2226,26 +2070,80 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       window.Whisper.events,
       newVersion
     );
-    window.Signal.RefreshSenderCertificate.initialize({
-      events: window.Whisper.events,
-      storage: window.storage,
-      navigator,
-      logger: window.log,
-    });
 
-    let interval: NodeJS.Timer | null = setInterval(() => {
-      const view = window.owsDesktopApp.appView;
-      if (view) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        clearInterval(interval!);
-        interval = null;
-        view.onEmpty();
-        window.logAppLoadedEvent();
+    [SenderCertificateMode.WithE164, SenderCertificateMode.WithoutE164].forEach(
+      mode => {
+        refreshSenderCertificate.initialize({
+          events: window.Whisper.events,
+          storage: window.storage,
+          mode,
+          navigator,
+        });
       }
-    }, 500);
+    );
 
     window.Whisper.deliveryReceiptQueue.start();
     window.Whisper.Notifications.enable();
+
+    const view = window.owsDesktopApp.appView;
+    if (!view) {
+      throw new Error('Expected `appView` to be initialized');
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    view.onEmpty();
+
+    window.logAppLoadedEvent();
+    if (messageReceiver) {
+      window.log.info(
+        'App loaded - messages:',
+        messageReceiver.getProcessedCount()
+      );
+    }
+
+    await window.sqlInitializer.goBackToMainProcess();
+    window.Signal.Util.setBatchingStrategy(false);
+
+    const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
+
+    // NOTE: ts/models/messages.ts expects this global to become undefined
+    // once we stop processing the queue.
+    window.attachmentDownloadQueue = undefined;
+
+    const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
+    const attachmentsToDownload = attachmentDownloadQueue.filter(
+      (message, index) =>
+        index <= MAX_ATTACHMENT_MSGS_TO_DOWNLOAD ||
+        isMoreRecentThan(
+          message.getReceivedAt(),
+          MAX_ATTACHMENT_DOWNLOAD_AGE
+        ) ||
+        // Stickers and long text attachments has to be downloaded for UI
+        // to display the message properly.
+        message.hasRequiredAttachmentDownloads()
+    );
+    window.log.info(
+      'Downloading recent attachments of total attachments',
+      attachmentsToDownload.length,
+      attachmentDownloadQueue.length
+    );
+
+    if (window.startupProcessingQueue) {
+      window.startupProcessingQueue.flush();
+      window.startupProcessingQueue = undefined;
+    }
+
+    const messagesWithDownloads = await Promise.all(
+      attachmentsToDownload.map(message => message.queueAttachmentDownloads())
+    );
+    const messagesToSave: Array<MessageAttributesType> = [];
+    messagesWithDownloads.forEach((shouldSave, messageKey) => {
+      if (shouldSave) {
+        const message = attachmentsToDownload[messageKey];
+        messagesToSave.push(message.attributes);
+      }
+    });
+    await window.Signal.Data.saveMessages(messagesToSave, {});
   }
   function onReconnect() {
     // We disable notifications on first connect, but the same applies to reconnect. In
@@ -2469,8 +2367,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
           details.profileKey
         );
         conversation.setProfileKey(profileKey);
-      } else {
-        conversation.dropProfileKey();
       }
 
       if (typeof details.blocked !== 'undefined') {
@@ -2712,7 +2608,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       const reactionModel = window.Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
-        targetAuthorE164: reaction.targetAuthorE164,
         targetAuthorUuid: reaction.targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
@@ -2825,7 +2720,7 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       sentTo = data.unidentifiedStatus.map(
         (item: WhatIsThis) => item.destinationUuid || item.destination
       );
-      const unidentified = _.filter(data.unidentifiedStatus, item =>
+      const unidentified = window._.filter(data.unidentifiedStatus, item =>
         Boolean(item.unidentified)
       );
       // eslint-disable-next-line no-param-reassign
@@ -2841,14 +2736,15 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       sent_at: data.timestamp,
       serverTimestamp: data.serverTimestamp,
       sent_to: sentTo,
-      received_at: now,
+      received_at: data.receivedAtCounter,
+      received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
       type: 'outgoing',
       sent: true,
       unidentifiedDeliveries: data.unidentifiedDeliveries || [],
       expirationStartTimestamp: Math.min(
-        data.expirationStartTimestamp || data.timestamp || Date.now(),
-        Date.now()
+        data.expirationStartTimestamp || data.timestamp || now,
+        now
       ),
     } as WhatIsThis);
   }
@@ -3002,7 +2898,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       const reactionModel = window.Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
-        targetAuthorE164: reaction.targetAuthorE164,
         targetAuthorUuid: reaction.targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
@@ -3051,13 +2946,18 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     data: WhatIsThis,
     descriptor: MessageDescriptor
   ) {
+    assert(
+      Boolean(data.receivedAtCounter),
+      `Did not receive receivedAtCounter for message: ${data.timestamp}`
+    );
     return new window.Whisper.Message({
       source: data.source,
       sourceUuid: data.sourceUuid,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
       serverTimestamp: data.serverTimestamp,
-      received_at: Date.now(),
+      received_at: data.receivedAtCounter,
+      received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
@@ -3156,7 +3056,8 @@ type WhatIsThis = import('./window.d').WhatIsThis;
       error.name === 'HTTPError' &&
       (error.code === 401 || error.code === 403)
     ) {
-      return unlinkAndDisconnect();
+      unlinkAndDisconnect();
+      return;
     }
 
     if (
@@ -3171,101 +3072,40 @@ type WhatIsThis = import('./window.d').WhatIsThis;
 
         window.Whisper.events.trigger('reconnectTimer');
       }
-      return Promise.resolve();
+      return;
     }
 
-    if (ev.proto) {
-      if (error && error.name === 'MessageCounterError') {
-        if (ev.confirm) {
-          ev.confirm();
-        }
-        // Ignore this message. It is likely a duplicate delivery
-        // because the server lost our ack the first time.
-        return Promise.resolve();
-      }
-      const envelope = ev.proto;
-      const id = window.ConversationController.ensureContactIds({
-        e164: envelope.source,
-        uuid: envelope.sourceUuid,
-      });
-      if (!id) {
-        throw new Error('onError: ensureContactIds returned falsey id!');
-      }
-      const message = initIncomingMessage(envelope, {
-        type: Message.PRIVATE,
-        id,
-      });
+    window.log.warn('background onError: Doing nothing with incoming error');
+  }
 
-      const conversationId = message.get('conversationId');
-      const conversation = window.ConversationController.get(conversationId);
+  type LightSessionResetEventType = {
+    senderUuid: string;
+  };
 
-      if (!conversation) {
-        window.log.warn(
-          'onError: No conversation id, cannot save error bubble'
-        );
-        ev.confirm();
-        return Promise.resolve();
-      }
+  function onLightSessionReset(event: LightSessionResetEventType) {
+    const conversationId = window.ConversationController.ensureContactIds({
+      uuid: event.senderUuid,
+    });
 
-      // This matches the queueing behavior used in Message.handleDataMessage
-      conversation.queueJob(async () => {
-        const existingMessage = await window.Signal.Data.getMessageBySender(
-          message.attributes,
-          {
-            Message: window.Whisper.Message,
-          }
-        );
-        if (existingMessage) {
-          ev.confirm();
-          window.log.warn(
-            `Got duplicate error for message ${message.idForLogging()}`
-          );
-          return;
-        }
+    if (!conversationId) {
+      window.log.warn(
+        'onLightSessionReset: No conversation id, cannot add message to timeline'
+      );
+      return;
+    }
+    const conversation = window.ConversationController.get(conversationId);
 
-        const model = new window.Whisper.Message({
-          ...message.attributes,
-          id: window.getGuid(),
-        });
-        await model.saveErrors(error || new Error('Error was null'), {
-          skipSave: true,
-        });
-
-        window.MessageController.register(model.id, model);
-        await window.Signal.Data.saveMessage(model.attributes, {
-          Message: window.Whisper.Message,
-          forceSave: true,
-        });
-
-        conversation.set({
-          active_at: Date.now(),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          unreadCount: conversation.get('unreadCount')! + 1,
-        });
-
-        const conversationTimestamp = conversation.get('timestamp');
-        const messageTimestamp = model.get('timestamp');
-        if (
-          !conversationTimestamp ||
-          messageTimestamp > conversationTimestamp
-        ) {
-          conversation.set({ timestamp: model.get('sent_at') });
-        }
-
-        conversation.trigger('newmessage', model);
-        conversation.notify(model);
-
-        window.Whisper.events.trigger('incrementProgress');
-
-        if (ev.confirm) {
-          ev.confirm();
-        }
-
-        window.Signal.Data.updateConversation(conversation.attributes);
-      });
+    if (!conversation) {
+      window.log.warn(
+        'onLightSessionReset: No conversation, cannot add message to timeline'
+      );
+      return;
     }
 
-    throw error;
+    const receivedAt = Date.now();
+    conversation.queueJob(async () => {
+      conversation.addChatSessionRefreshed(receivedAt);
+    });
   }
 
   async function onViewSync(ev: WhatIsThis) {
@@ -3537,4 +3377,6 @@ type WhatIsThis = import('./window.d').WhatIsThis;
     // Note: We don't wait for completion here
     window.Whisper.DeliveryReceipts.onReceipt(receipt);
   }
-})();
+}
+
+window.startApp = startApp;

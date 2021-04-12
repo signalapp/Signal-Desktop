@@ -5,6 +5,13 @@ import * as React from 'react';
 import { ActionCreatorsMapObject, bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 
+export function usePrevious<T>(initialValue: T, currentValue: T): T {
+  const previousValueRef = React.useRef<T>(initialValue);
+  const result = previousValueRef.current;
+  previousValueRef.current = currentValue;
+  return result;
+}
+
 // Restore focus on teardown
 export const useRestoreFocus = (
   // The ref for the element to receive initial focus

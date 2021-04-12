@@ -26,6 +26,10 @@ import {
   UnregisteredUserError,
 } from './Errors';
 import { isValidNumber } from '../types/PhoneNumber';
+import {
+  SecretSessionCipher,
+  SerializedCertificateType,
+} from '../metadata/SecretSessionCipher';
 
 type OutgoingMessageOptionsType = SendOptionsType & {
   online?: boolean;
@@ -58,7 +62,7 @@ export default class OutgoingMessage {
 
   sendMetadata?: SendMetadataType;
 
-  senderCertificate?: ArrayBuffer;
+  senderCertificate?: SerializedCertificateType;
 
   online?: boolean;
 
@@ -384,8 +388,8 @@ export default class OutgoingMessage {
           options.messageKeysLimit = false;
         }
 
-        if (sealedSender) {
-          const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
+        if (sealedSender && senderCertificate) {
+          const secretSessionCipher = new SecretSessionCipher(
             window.textsecure.storage.protocol
           );
           ciphers[address.getDeviceId()] = secretSessionCipher;
@@ -629,6 +633,11 @@ export default class OutgoingMessage {
               });
               identifier = uuid;
             } else {
+              const c = window.ConversationController.get(identifier);
+              if (c) {
+                c.setUnregistered();
+              }
+
               throw new UnregisteredUserError(
                 identifier,
                 new Error('User is not registered')

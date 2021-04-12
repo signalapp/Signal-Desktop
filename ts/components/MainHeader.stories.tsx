@@ -33,6 +33,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'searchConversationId',
     overrideProps.searchConversationId
   ),
+  selectedConversation: undefined,
   startSearchCounter: 0,
 
   ourConversationId: '',
@@ -46,14 +47,17 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   avatarPath: optionalText('avatarPath', overrideProps.avatarPath),
 
   i18n,
+
   updateSearchTerm: action('updateSearchTerm'),
   searchMessages: action('searchMessages'),
   searchDiscussions: action('searchDiscussions'),
-
+  startSearch: action('startSearch'),
+  searchInConversation: action('searchInConversation'),
   clearConversationSearch: action('clearConversationSearch'),
   clearSearch: action('clearSearch'),
 
   showArchivedConversations: action('showArchivedConversations'),
+  startComposing: action('startComposing'),
 });
 
 story.add('Basic', () => {

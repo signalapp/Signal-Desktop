@@ -79,6 +79,20 @@ export type DirectionType = typeof Directions[number];
 export const ConversationTypes = ['direct', 'group'] as const;
 export type ConversationTypesType = typeof ConversationTypes[number];
 
+export type AudioAttachmentProps = {
+  id: string;
+  i18n: LocalizerType;
+  buttonRef: React.RefObject<HTMLButtonElement>;
+  direction: DirectionType;
+  theme: ThemeType | undefined;
+  attachment: AttachmentType;
+  withContentAbove: boolean;
+  withContentBelow: boolean;
+
+  kickOffAttachmentDownload(): void;
+  onCorrupted(): void;
+};
+
 export type PropsData = {
   id: string;
   conversationId: string;
@@ -87,7 +101,6 @@ export type PropsData = {
   isSticker?: boolean;
   isSelected?: boolean;
   isSelectedCounter?: number;
-  interactionMode: InteractionModeType;
   direction: DirectionType;
   timestamp: number;
   status?: MessageStatusType;
@@ -102,7 +115,7 @@ export type PropsData = {
   attachments?: Array<AttachmentType>;
   quote?: {
     text: string;
-    attachment?: QuotedAttachmentType;
+    rawAttachment?: QuotedAttachmentType;
     isFromMe: boolean;
     sentAt: number;
     authorId: string;
@@ -140,10 +153,12 @@ export type PropsData = {
 
 export type PropsHousekeeping = {
   i18n: LocalizerType;
+  interactionMode: InteractionModeType;
   theme?: ThemeType;
   disableMenu?: boolean;
   disableScroll?: boolean;
   collapseMetadata?: boolean;
+  renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
 };
 
 export type PropsActions = {
@@ -167,6 +182,10 @@ export type PropsActions = {
   showContactModal: (contactId: string) => void;
 
   kickOffAttachmentDownload: (options: {
+    attachment: AttachmentType;
+    messageId: string;
+  }) => void;
+  markAttachmentAsCorrupted: (options: {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
@@ -219,9 +238,9 @@ const EXPIRED_DELAY = 600;
 export class Message extends React.PureComponent<Props, State> {
   public menuTriggerRef: Trigger | undefined;
 
-  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();
-
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();
 
   public reactionsContainerRef: React.RefObject<
     HTMLDivElement
@@ -671,11 +690,14 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       kickOffAttachmentDownload,
+      markAttachmentAsCorrupted,
       quote,
       showVisualAttachment,
       isSticker,
       text,
       theme,
+
+      renderAudioAttachment,
     } = this.props;
 
     const { imageBroken } = this.state;
@@ -739,25 +761,30 @@ export class Message extends React.PureComponent<Props, State> {
         </div>
       );
     }
-    if (!firstAttachment.pending && isAudio(attachments)) {
-      return (
-        <audio
-          ref={this.audioRef}
-          controls
-          className={classNames(
-            'module-message__audio-attachment',
-            withContentBelow
-              ? 'module-message__audio-attachment--with-content-below'
-              : null,
-            withContentAbove
-              ? 'module-message__audio-attachment--with-content-above'
-              : null
-          )}
-          key={firstAttachment.url}
-        >
-          <source src={firstAttachment.url} />
-        </audio>
-      );
+    if (isAudio(attachments)) {
+      return renderAudioAttachment({
+        i18n,
+        buttonRef: this.audioButtonRef,
+        id,
+        direction,
+        theme,
+        attachment: firstAttachment,
+        withContentAbove,
+        withContentBelow,
+
+        kickOffAttachmentDownload() {
+          kickOffAttachmentDownload({
+            attachment: firstAttachment,
+            messageId: id,
+          });
+        },
+        onCorrupted() {
+          markAttachmentAsCorrupted({
+            attachment: firstAttachment,
+            messageId: id,
+          });
+        },
+      });
     }
     const { pending, fileName, fileSize, contentType } = firstAttachment;
     const extension = getExtensionForDisplay({ contentType, fileName });
@@ -780,20 +807,7 @@ export class Message extends React.PureComponent<Props, State> {
         )}
         // There's only ever one of these, so we don't want users to tab into it
         tabIndex={-1}
-        onClick={(event: React.MouseEvent) => {
-          event.stopPropagation();
-          event.preventDefault();
-
-          if (hasNotDownloaded(firstAttachment)) {
-            kickOffAttachmentDownload({
-              attachment: firstAttachment,
-              messageId: id,
-            });
-            return;
-          }
-
-          this.openGenericAttachment();
-        }}
+        onClick={this.openGenericAttachment}
       >
         {pending ? (
           <div className="module-message__generic-attachment__spinner-container">
@@ -839,6 +853,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderPreview(): JSX.Element | null {
     const {
+      id,
       attachments,
       conversationType,
       direction,
@@ -847,6 +862,7 @@ export class Message extends React.PureComponent<Props, State> {
       previews,
       quote,
       theme,
+      kickOffAttachmentDownload,
     } = this.props;
 
     // Attachments take precedence over Link Previews
@@ -882,6 +898,14 @@ export class Message extends React.PureComponent<Props, State> {
         'module-message__link-preview--nonclickable': !isClickable,
       }
     );
+    const onPreviewImageClick = () => {
+      if (first.image && hasNotDownloaded(first.image)) {
+        kickOffAttachmentDownload({
+          attachment: first.image,
+          messageId: id,
+        });
+      }
+    };
     const contents = (
       <>
         {first.image && previewHasImage && isFullSizeImage ? (
@@ -892,6 +916,7 @@ export class Message extends React.PureComponent<Props, State> {
             onError={this.handleImageError}
             i18n={i18n}
             theme={theme}
+            onClick={onPreviewImageClick}
           />
         ) : null}
         <div className="module-message__link-preview__content">
@@ -909,6 +934,7 @@ export class Message extends React.PureComponent<Props, State> {
                 attachment={first.image}
                 onError={this.handleImageError}
                 i18n={i18n}
+                onClick={onPreviewImageClick}
               />
             </div>
           ) : null}
@@ -943,8 +969,9 @@ export class Message extends React.PureComponent<Props, State> {
     );
 
     return isClickable ? (
-      <button
-        type="button"
+      <div
+        role="link"
+        tabIndex={0}
         className={className}
         onKeyDown={(event: React.KeyboardEvent) => {
           if (event.key === 'Enter' || event.key === 'Space') {
@@ -962,7 +989,7 @@ export class Message extends React.PureComponent<Props, State> {
         }}
       >
         {contents}
-      </button>
+      </div>
     ) : (
       <div className={className}>{contents}</div>
     );
@@ -1003,7 +1030,7 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         onClick={clickHandler}
         text={quote.text}
-        attachment={quote.attachment}
+        rawAttachment={quote.rawAttachment}
         isIncoming={direction === 'incoming'}
         authorPhoneNumber={quote.authorPhoneNumber}
         authorProfileName={quote.authorProfileName}
@@ -2043,17 +2070,13 @@ export class Message extends React.PureComponent<Props, State> {
     if (
       !isAttachmentPending &&
       isAudio(attachments) &&
-      this.audioRef &&
-      this.audioRef.current
+      this.audioButtonRef &&
+      this.audioButtonRef.current
     ) {
       event.preventDefault();
       event.stopPropagation();
 
-      if (this.audioRef.current.paused) {
-        this.audioRef.current.play();
-      } else {
-        this.audioRef.current.pause();
-      }
+      this.audioButtonRef.current.click();
     }
 
     if (contact && contact.signalAccount) {
@@ -2072,7 +2095,13 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public openGenericAttachment = (event?: React.MouseEvent): void => {
-    const { attachments, downloadAttachment, timestamp } = this.props;
+    const {
+      id,
+      attachments,
+      downloadAttachment,
+      timestamp,
+      kickOffAttachmentDownload,
+    } = this.props;
 
     if (event) {
       event.preventDefault();
@@ -2084,6 +2113,14 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const attachment = attachments[0];
+    if (hasNotDownloaded(attachment)) {
+      kickOffAttachmentDownload({
+        attachment,
+        messageId: id,
+      });
+      return;
+    }
+
     const { fileName } = attachment;
     const isDangerous = isFileDangerous(fileName || '');
 
@@ -2193,7 +2230,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public render(): JSX.Element | null {
     const {
-      authorPhoneNumber,
+      authorId,
       attachments,
       direction,
       id,
@@ -2204,7 +2241,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
-    const triggerId = String(id || `${authorPhoneNumber}-${timestamp}`);
+    const triggerId = String(id || `${authorId}-${timestamp}`);
 
     if (expired) {
       return null;

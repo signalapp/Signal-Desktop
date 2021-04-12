@@ -76,6 +76,16 @@ function deleteIndexedDB() {
 /* Delete the database before running any tests */
 before(async () => {
   await deleteIndexedDB();
+  try {
+    window.log.info('Initializing SQL in renderer');
+    await window.sqlInitializer.initialize();
+    window.log.info('SQL initialized in renderer');
+  } catch (err) {
+    window.log.error(
+      'SQL failed to initialize',
+      err && err.stack ? err.stack : err
+    );
+  }
   await window.Signal.Data.removeAll();
   await window.storage.fetch();
 });

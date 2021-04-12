@@ -1,11 +1,11 @@
-// Copyright 2016-2020 Signal Messenger, LLC
+// Copyright 2016-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Fonts
 
 @mixin font-title-1 {
   font-family: $inter;
-  font-weight: bolder;
+  font-weight: 700;
   font-size: 28px;
   line-height: 34px;
   letter-spacing: -0.56px;
@@ -13,7 +13,7 @@
 
 @mixin font-title-2 {
   font-family: $inter;
-  font-weight: bolder;
+  font-weight: 700;
   font-size: 20px;
   line-height: 26px;
   letter-spacing: -0.34px;
@@ -21,13 +21,13 @@
 
 @mixin font-body-1 {
   font-family: $inter;
-  font-size: 15px;
-  line-height: 21px;
-  letter-spacing: -0.14px;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.08px;
 }
 @mixin font-body-1-bold {
   @include font-body-1;
-  font-weight: bold;
+  font-weight: 600;
 }
 @mixin font-body-1-italic {
   @include font-body-1;
@@ -35,7 +35,7 @@
 }
 @mixin font-body-1-bold-italic {
   @include font-body-1;
-  font-weight: bold;
+  font-weight: 600;
   font-style: italic;
 }
 
@@ -47,7 +47,7 @@
 }
 @mixin font-body-2-bold {
   @include font-body-2;
-  font-weight: bold;
+  font-weight: 600;
 }
 @mixin font-body-2-italic {
   @include font-body-2;
@@ -55,30 +55,30 @@
 }
 @mixin font-body-2-bold-italic {
   @include font-body-2;
-  font-weight: bold;
+  font-weight: 600;
   font-style: italic;
 }
 
 @mixin font-subtitle {
   font-family: $inter;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 16px;
-  letter-spacing: 0px;
+  letter-spacing: 0;
 }
 
 @mixin font-caption {
   font-family: $inter;
   font-size: 11px;
-  line-height: 16px;
+  line-height: 14px;
   letter-spacing: 0.06px;
 }
 @mixin font-caption-bold {
   @include font-caption;
-  font-weight: bold;
+  font-weight: 600;
 }
 @mixin font-caption-bold-italic {
   @include font-caption;
-  font-weight: bold;
+  font-weight: 600;
   font-style: italic;
 }
 
@@ -104,6 +104,52 @@
   .dark-theme.ios-theme & {
     @content;
   }
+}
+
+// Smooth scrolling
+
+@mixin smooth-scroll() {
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion) {
+    scroll-behavior: auto;
+  }
+}
+
+// Search results loading
+
+@mixin search-results-loading-pulsating-background {
+  animation: search-results-loading-pulsating-background-animation 2s infinite;
+
+  @media (prefers-reduced-motion) {
+    animation: none;
+  }
+
+  @include light-theme {
+    background: $color-gray-05;
+  }
+  @include dark-theme {
+    background: $color-gray-65;
+  }
+}
+
+@keyframes search-results-loading-pulsating-background-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@mixin search-results-loading-box($width) {
+  width: $width;
+  height: 12px;
+  border-radius: 4px;
+  @include search-results-loading-pulsating-background;
 }
 
 // Icons
@@ -428,4 +474,57 @@
 @mixin button-small {
   border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
   padding: 7px 14px;
+}
+
+// Modals
+
+@mixin modal-reset {
+  @include popper-shadow();
+  border-radius: 8px;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 360px;
+  padding: 16px;
+  position: relative;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+
+  @include light-theme() {
+    background: $color-white;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-95;
+    color: $color-gray-05;
+  }
+}
+
+@mixin modal-close-button {
+  @include button-reset;
+
+  position: absolute;
+  right: 12px;
+  top: 12px;
+
+  height: 24px;
+  width: 24px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $ultramarine-ui-light;
+    }
+    @include dark-keyboard-mode {
+      background-color: $ultramarine-ui-dark;
+    }
+  }
 }

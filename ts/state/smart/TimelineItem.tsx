@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -8,7 +8,7 @@ import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem';
-import { getIntl, getTheme } from '../selectors/user';
+import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import {
   getMessageSelector,
   getSelectedMessage,
@@ -47,6 +47,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     isSelected,
     renderContact,
     i18n: getIntl(state),
+    interactionMode: getInteractionMode(state),
     theme: getTheme(state),
   };
 };

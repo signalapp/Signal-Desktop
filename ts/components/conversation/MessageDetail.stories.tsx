@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { Props as MessageProps } from './Message';
+import { PropsData as MessageDataPropsType } from './Message';
 import { MessageDetail, Props } from './MessageDetail';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -16,40 +16,19 @@ const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/MessageDetail', module);
 
-const defaultMessage: MessageProps = {
+const defaultMessage: MessageDataPropsType = {
   authorId: 'some-id',
   authorTitle: 'Max',
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,
-  clearSelectedMessage: () => null,
   conversationId: 'my-convo',
   conversationType: 'direct',
-  deleteMessage: action('deleteMessage'),
-  deleteMessageForEveryone: action('deleteMessageForEveryone'),
   direction: 'incoming',
-  displayTapToViewMessage: () => null,
-  downloadAttachment: () => null,
-  i18n,
   id: 'my-message',
-  interactionMode: 'keyboard',
   isBlocked: false,
   isMessageRequestAccepted: true,
-  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
-  openConversation: () => null,
-  openLink: () => null,
   previews: [],
-  reactToMessage: () => null,
-  renderEmojiPicker: () => <div />,
-  replyToMessage: () => null,
-  retrySend: () => null,
-  scrollToQuotedMessage: () => null,
-  showContactDetail: () => null,
-  showContactModal: () => null,
-  showExpiredIncomingTapToViewToast: () => null,
-  showExpiredOutgoingTapToViewToast: () => null,
-  showMessageDetail: () => null,
-  showVisualAttachment: () => null,
   status: 'sent',
   text: 'A message from Max',
   timestamp: Date.now(),
@@ -68,10 +47,32 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     },
   ],
   errors: overrideProps.errors || [],
-  i18n,
   message: overrideProps.message || defaultMessage,
   receivedAt: number('receivedAt', overrideProps.receivedAt || Date.now()),
   sentAt: number('sentAt', overrideProps.sentAt || Date.now()),
+
+  i18n,
+  interactionMode: 'keyboard',
+
+  clearSelectedMessage: () => null,
+  deleteMessage: action('deleteMessage'),
+  deleteMessageForEveryone: action('deleteMessageForEveryone'),
+  displayTapToViewMessage: () => null,
+  downloadAttachment: () => null,
+  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+  openConversation: () => null,
+  openLink: () => null,
+  reactToMessage: () => null,
+  renderAudioAttachment: () => <div>*AudioAttachment*</div>,
+  renderEmojiPicker: () => <div />,
+  replyToMessage: () => null,
+  retrySend: () => null,
+  showContactDetail: () => null,
+  showContactModal: () => null,
+  showExpiredIncomingTapToViewToast: () => null,
+  showExpiredOutgoingTapToViewToast: () => null,
+  showVisualAttachment: () => null,
 });
 
 story.add('Delivered Incoming', () => {

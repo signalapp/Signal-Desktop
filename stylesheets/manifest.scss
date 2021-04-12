@@ -1,4 +1,4 @@
-// Copyright 2014-2020 Signal Messenger, LLC
+// Copyright 2014-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Global Settings, Variables, and Mixins
@@ -7,7 +7,7 @@
 @import 'mixins';
 @import 'global';
 
-// Components
+// Old style: components
 @import 'progress';
 @import 'modal';
 @import 'debugLog';
@@ -16,12 +16,27 @@
 @import 'emoji';
 @import 'settings';
 
-// Build the main view
+// Old style: main view
 @import 'index';
 @import 'conversation';
 
-// New CSS
+// Old style: modules
 @import 'modules';
 
-// Installer
+// Old style: installer
 @import 'options';
+
+// New style: components
+@import './components/AddGroupMembersModal.scss';
+@import './components/Alert.scss';
+@import './components/AvatarInput.scss';
+@import './components/Button.scss';
+@import './components/ContactPill.scss';
+@import './components/ContactPills.scss';
+@import './components/ConversationHeader.scss';
+@import './components/EditConversationAttributesModal.scss';
+@import './components/GroupDialog.scss';
+@import './components/GroupTitleInput.scss';
+@import './components/MessageAudio.scss';
+@import './components/SearchResultsLoadingFakeHeader.scss';
+@import './components/SearchResultsLoadingFakeRow.scss';

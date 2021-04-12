@@ -1,10 +1,7 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global i18n: false */
-/* global Whisper: false */
-
-/* eslint-disable no-new */
+/* global i18n, Whisper, $ */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -16,7 +13,7 @@
     DELETING: 2,
   };
   window.Whisper.ClearDataView = Whisper.View.extend({
-    templateName: 'clear-data',
+    template: () => $('#clear-data').html(),
     className: 'full-screen-flow overlay',
     events: {
       'click .cancel': 'onCancel',

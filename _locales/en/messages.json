@@ -982,7 +982,7 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+    "message": "This message will be deleted from this device.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
@@ -1076,6 +1076,22 @@
   "sessionEnded": {
     "message": "Secure session reset",
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+  },
+  "ChatRefresh--notification": {
+    "message": "Chat session refreshed",
+    "description": "Shown in timeline when a error happened, and the session was automatically reset."
+  },
+  "ChatRefresh--learnMore": {
+    "message": "Learn More",
+    "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+  },
+  "ChatRefresh--summary": {
+    "message": "Signal uses end-to-end encryption and it may need to refresh your chat session sometimes. This doesn’t affect your chat’s security but you may have missed a message from this contact and you can ask them to resend it.",
+    "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+  },
+  "ChatRefresh--contactSupport": {
+    "message": "Contact Support",
+    "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
@@ -1877,6 +1893,108 @@
     "message": "Start new conversation…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
+  "newConversation": {
+    "message": "New conversation",
+    "description": "Label for header when starting a new conversation"
+  },
+  "contactSearchPlaceholder": {
+    "message": "Search by name or phone number",
+    "description": "Placeholder to use when searching for contacts in the composer"
+  },
+  "noContactsFound": {
+    "message": "No contacts found",
+    "description": "Label shown when there are no contacts to compose to"
+  },
+  "chooseGroupMembers__title": {
+    "message": "Choose members",
+    "description": "The title for the 'choose group members' left pane screen"
+  },
+  "chooseGroupMembers__back-button": {
+    "message": "Back",
+    "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+  },
+  "chooseGroupMembers__skip": {
+    "message": "Skip",
+    "description": "The 'skip' button text in the 'choose group members' left pane screen"
+  },
+  "chooseGroupMembers__next": {
+    "message": "Next",
+    "description": "The 'next' button text in the 'choose group members' left pane screen"
+  },
+  "chooseGroupMembers__maximum-group-size__title": {
+    "message": "Maximum group size reached",
+    "description": "Shown in the alert when you add the maximum number of group members"
+  },
+  "chooseGroupMembers__maximum-group-size__body": {
+    "message": "Signal groups can have a maximum of $max$ members.",
+    "description": "Shown in the alert when you add the maximum number of group members",
+    "placeholders": {
+      "max": {
+        "content": "$1",
+        "example": "1000"
+      }
+    }
+  },
+  "chooseGroupMembers__maximum-recommended-group-size__title": {
+    "message": "Recommended member limit reached",
+    "description": "Shown in the alert when you add the maximum recommended number of group members"
+  },
+  "chooseGroupMembers__maximum-recommended-group-size__body": {
+    "message": "Signal groups perform best with $max$ members or less. Adding more members will cause delays sending and receiving messages.",
+    "description": "Shown in the alert when you add the maximum recommended number of group members",
+    "placeholders": {
+      "max": {
+        "content": "$1",
+        "example": "150"
+      }
+    }
+  },
+  "chooseGroupMembers__cant-add-member__title": {
+    "message": "Can’t add member",
+    "description": "Shown in the alert when you try to add someone who can't be added to a group"
+  },
+  "chooseGroupMembers__cant-add-member__body": {
+    "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
+    "description": "Shown in the alert when you try to add someone who can't be added to a group",
+    "placeholders": {
+      "max": {
+        "content": "$1",
+        "example": "Jane Doe"
+      }
+    }
+  },
+  "setGroupMetadata__title": {
+    "message": "Name this group",
+    "description": "The title for the 'set group metadata' left pane screen"
+  },
+  "setGroupMetadata__back-button": {
+    "message": "Back to member selection",
+    "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+  },
+  "setGroupMetadata__group-name-placeholder": {
+    "message": "Group name (required)",
+    "description": "The placeholder for the group name placeholder"
+  },
+  "setGroupMetadata__create-group": {
+    "message": "Create",
+    "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+  },
+  "setGroupMetadata__members-header": {
+    "message": "Members",
+    "description": "The header for the members list in the 'set group metadata' left pane screen"
+  },
+  "setGroupMetadata__error-message": {
+    "message": "This group couldn’t be created. Check your connection and try again.",
+    "description": "Shown in the modal when we can't create a group"
+  },
+  "updateGroupAttributes__title": {
+    "message": "Edit group name and photo",
+    "description": "Shown in the modal when we want to update a group"
+  },
+  "updateGroupAttributes__error-message": {
+    "message": "Failed to update the group. Check your connection and try again.",
+    "description": "Shown in the modal when we can't update a group"
+  },
   "notSupportedSMS": {
     "message": "SMS/MMS messages are not supported.",
     "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -2308,6 +2426,10 @@
   },
   "Keyboard--open-conversation-menu": {
     "message": "Open conversation menu",
+    "description": "Shown in the shortcuts guide"
+  },
+  "Keyboard--new-conversation": {
+    "message": "Start new conversation",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -3000,6 +3122,10 @@
       }
     }
   },
+  "no-groups-in-common": {
+    "message": "No groups in common.",
+    "description": "Shown to indicate this user is not a member of any groups"
+  },
   "acceptCall": {
     "message": "Answer",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
@@ -3357,6 +3483,10 @@
   "GroupV2--admin": {
     "message": "Admin",
     "description": "Label for a group administrator"
+  },
+  "GroupV2--only-admins": {
+    "message": "Only Admins",
+    "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
   },
   "GroupV2--all-members": {
     "message": "All members",
@@ -4625,6 +4755,10 @@
     "message": "Block group",
     "description": "This is a button to block a group"
   },
+  "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+    "message": "Before you leave, you must choose at least one new admin for this group.",
+    "description": "Shown if, before leaving a group, you need to choose an admin"
+  },
   "ConversationDetailsActions--leave-group-modal-title": {
     "message": "Do you really want to leave?",
     "description": "This is the modal title for confirming leaving a group"
@@ -4682,6 +4816,10 @@
         "example": "10"
       }
     }
+  },
+  "ConversationDetailsMembershipList--add-members": {
+    "message": "Add members",
+    "description": "The button that you can click to add new members"
   },
   "ConversationDetailsMembershipList--show-all": {
     "message": "See all",
@@ -4840,5 +4978,149 @@
   "PendingInvites--info": {
     "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
     "description": "Information shown below the invite list"
+  },
+  "AvatarInput--no-photo-label--group": {
+    "message": "Add a group photo",
+    "description": "The label for the avatar uploader when no group photo is selected"
+  },
+  "AvatarInput--change-photo-label": {
+    "message": "Change photo",
+    "description": "The label for the avatar uploader when a photo is selected"
+  },
+  "AvatarInput--upload-photo-choice": {
+    "message": "Upload photo",
+    "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+  },
+  "AvatarInput--remove-photo-choice": {
+    "message": "Remove photo",
+    "description": "The button text when you click on an uploaded avatar and want to remove it"
+  },
+  "ContactPill--remove": {
+    "message": "Remove contact",
+    "description": "The label for the 'remove' button on the contact pill"
+  },
+  "ComposeErrorDialog--close": {
+    "message": "Okay",
+    "description": "The text on the button when there's an error in the composer"
+  },
+  "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+    "message": "Invitation sent",
+    "description": "When creating a new group and inviting users, this is shown in the dialog"
+  },
+  "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+    "message": "$count$ invitations sent",
+    "description": "When creating a new group and inviting users, this is shown in the dialog",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+    "message": "$name$ can’t be automatically added to this group by you.",
+    "description": "When creating a new group and inviting users, this is shown in the dialog",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Jane Doe"
+      }
+    }
+  },
+  "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+    "message": "These users can’t be automatically added to this group by you.",
+    "description": "When creating a new group and inviting users, this is shown in the dialog"
+  },
+  "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+    "message": "They’ve been invited to join, and won’t see any group messages until they accept.",
+    "description": "When creating a new group and inviting users, this is shown in the dialog"
+  },
+  "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+    "message": "Learn more",
+    "description": "When creating a new group and inviting users, this is shown in the dialog"
+  },
+  "AddGroupMembersModal--title": {
+    "message": "Add members",
+    "description": "When adding new members to an existing group, this is shown in the dialog"
+  },
+  "AddGroupMembersModal--continue-to-confirm": {
+    "message": "Update",
+    "description": "When adding new members to an existing group, this is shown in the dialog"
+  },
+  "AddGroupMembersModal--confirm-title--one": {
+    "message": "Add $person$ to \"$group$\"?",
+    "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+    "placeholders": {
+      "person": {
+        "content": "$1",
+        "example": "Jane Doe"
+      },
+      "group": {
+        "content": "$2",
+        "example": "Tahoe Trip"
+      }
+    }
+  },
+  "AddGroupMembersModal--confirm-title--many": {
+    "message": "Add $count$ members to \"$group$\"?",
+    "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      },
+      "group": {
+        "content": "$2",
+        "example": "Tahoe Trip"
+      }
+    }
+  },
+  "AddGroupMembersModal--confirm-button--one": {
+    "message": "Add member",
+    "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+  },
+  "AddGroupMembersModal--confirm-button--many": {
+    "message": "Add members",
+    "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+  },
+  "createNewGroupButton": {
+    "message": "New group",
+    "description": "The text of the button to create new groups"
+  },
+  "selectContact": {
+    "message": "Select contact",
+    "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+  },
+  "deselectContact": {
+    "message": "De-select contact",
+    "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+  },
+  "cannotSelectContact": {
+    "message": "Cannot select contact",
+    "description": "The label for contact checkboxes that are disabled"
+  },
+  "alreadyAMember": {
+    "message": "Already a member",
+    "description": "The label for contact checkboxes that are disabled because they're already a member"
+  },
+  "MessageAudio--play": {
+    "message": "Play audio attachment",
+    "description": "Aria label for audio attachment's Play button"
+  },
+  "MessageAudio--pause": {
+    "message": "Pause audio attachment",
+    "description": "Aria label for audio attachment's Pause button"
+  },
+  "MessageAudio--download": {
+    "message": "Download audio attachment",
+    "description": "Aria label for audio attachment's Download button"
+  },
+  "MessageAudio--pending": {
+    "message": "Downloading audio attachment...",
+    "description": "Aria label for pending audio attachment spinner"
+  },
+  "MessageAudio--slider": {
+    "message": "Playback time of audio attachment",
+    "description": "Aria label for audio attachment's playback time slider"
   }
 }

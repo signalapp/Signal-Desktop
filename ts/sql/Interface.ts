@@ -129,7 +129,7 @@ export type DataInterface = {
     arrayOfUnprocessed: Array<UnprocessedType>,
     options?: { forceSave?: boolean }
   ) => Promise<void>;
-  removeUnprocessed: (id: string) => Promise<void>;
+  removeUnprocessed: (id: string | Array<string>) => Promise<void>;
   removeAllUnprocessed: () => Promise<void>;
 
   getNextAttachmentDownloadJobs: (
@@ -203,7 +203,7 @@ export type ServerInterface = DataInterface & {
   getAllConversations: () => Promise<Array<ConversationType>>;
   getAllGroupsInvolvingId: (id: string) => Promise<Array<ConversationType>>;
   getAllPrivateConversations: () => Promise<Array<ConversationType>>;
-  getConversationById: (id: string) => Promise<ConversationType>;
+  getConversationById: (id: string) => Promise<ConversationType | null>;
   getExpiredMessages: () => Promise<Array<MessageType>>;
   getMessageById: (id: string) => Promise<MessageType | undefined>;
   getMessageBySender: (options: {
@@ -259,7 +259,12 @@ export type ServerInterface = DataInterface & {
     configDir: string;
     key: string;
     messages: LocaleMessagesType;
-  }) => Promise<boolean>;
+  }) => Promise<void>;
+
+  initializeRenderer: (options: {
+    configDir: string;
+    key: string;
+  }) => Promise<void>;
 
   removeKnownAttachments: (
     allAttachments: Array<string>
@@ -286,7 +291,7 @@ export type ClientInterface = DataInterface & {
   getConversationById: (
     id: string,
     options: { Conversation: typeof ConversationModel }
-  ) => Promise<ConversationModel>;
+  ) => Promise<ConversationModel | undefined>;
   getExpiredMessages: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
@@ -394,6 +399,11 @@ export type ClientInterface = DataInterface & {
 
   _removeConversations: (ids: Array<string>) => Promise<void>;
   _jobs: { [id: string]: ClientJobType };
+
+  // These are defined on the server-only and used in the client to determine
+  // whether we should use IPC to use the database in the main process or
+  // use the db already running in the renderer.
+  goBackToMainProcess: () => void;
 };
 
 export type ClientJobType = {

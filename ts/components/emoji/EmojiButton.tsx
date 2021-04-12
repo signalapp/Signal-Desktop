@@ -121,7 +121,7 @@ export const EmojiButton = React.memo(
         </Reference>
         {open && popperRoot
           ? createPortal(
-              <Popper placement="top-start">
+              <Popper placement="top-start" positionFixed>
                 {({ ref, style }) => (
                   <EmojiPicker
                     ref={ref}

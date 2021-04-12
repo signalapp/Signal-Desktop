@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global libphonenumber, Whisper */
+/* global libphonenumber, Whisper, $ */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -10,7 +10,7 @@
   Whisper.PhoneInputView = Whisper.View.extend({
     tagName: 'div',
     className: 'phone-input',
-    templateName: 'phone-number',
+    template: () => $('#phone-number').html(),
     initialize() {
       this.$('input.number').intlTelInput();
     },

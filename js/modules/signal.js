@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // The idea with this file is to make it webpackable for the style guide
@@ -21,8 +21,6 @@ const Stickers = require('./stickers');
 const Settings = require('./settings');
 const RemoteConfig = require('../../ts/RemoteConfig');
 const Util = require('../../ts/util');
-const Metadata = require('./metadata/SecretSessionCipher');
-const RefreshSenderCertificate = require('./refresh_sender_certificate');
 const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
 
@@ -83,6 +81,9 @@ const {
   createGroupV2JoinModal,
 } = require('../../ts/state/roots/createGroupV2JoinModal');
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
+const {
+  createMessageDetail,
+} = require('../../ts/state/roots/createMessageDetail');
 const {
   createGroupV2Permissions,
 } = require('../../ts/state/roots/createGroupV2Permissions');
@@ -346,6 +347,7 @@ exports.setup = (options = {}) => {
     createGroupV2JoinModal,
     createGroupV2Permissions,
     createLeftPane,
+    createMessageDetail,
     createPendingInvites,
     createSafetyNumberViewer,
     createShortcutGuideModal,
@@ -428,11 +430,9 @@ exports.setup = (options = {}) => {
     GroupChange,
     IndexedDB,
     LinkPreviews,
-    Metadata,
     Migrations,
     Notifications,
     OS,
-    RefreshSenderCertificate,
     RemoteConfig,
     Settings,
     Services,

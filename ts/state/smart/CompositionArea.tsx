@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -78,6 +78,14 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     // Message Requests
     ...conversation,
     conversationType: conversation.type,
+    isMissingMandatoryProfileSharing: Boolean(
+      !conversation.profileSharing &&
+        window.Signal.RemoteConfig.isEnabled(
+          'desktop.mandatoryProfileSharing'
+        ) &&
+        conversation.messageCount &&
+        conversation.messageCount > 0
+    ),
   };
 };
 

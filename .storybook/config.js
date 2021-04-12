@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { addDecorator, configure } from '@storybook/react';
+import { addDecorator, addParameters, configure } from '@storybook/react';
 import { withKnobs, boolean, optionsKnob } from '@storybook/addon-knobs';
 import classnames from 'classnames';
 import * as styles from './styles.scss';
@@ -125,6 +125,12 @@ addDecorator((storyFn /* , context */) => {
 addDecorator(Story => <Story />);
 
 addDecorator(story => <I18n messages={messages}>{story()}</I18n>);
+
+addParameters({
+  axe: {
+    disabledRules: ['html-has-lang'],
+  },
+});
 
 configure(() => {
   // Load main app stories

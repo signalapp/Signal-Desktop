@@ -22,6 +22,8 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
+  window.sqlInitializer = require('./ts/sql/initialize');
+
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
@@ -45,6 +47,7 @@ try {
 
   window.platform = process.platform;
   window.getTitle = () => title;
+  window.getLocale = () => config.locale;
   window.getEnvironment = getEnvironment;
   window.getAppInstance = () => config.appInstance;
   window.getVersion = () => config.version;
@@ -399,7 +402,7 @@ try {
 
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
-  require('./ts/logging/set_up_renderer_logging');
+  require('./ts/logging/set_up_renderer_logging').initialize();
 
   if (config.proxyUrl) {
     window.log.info('Using provided proxy url');
@@ -408,6 +411,7 @@ try {
   window.nodeSetImmediate = setImmediate;
 
   window.textsecure = require('./ts/textsecure').default;
+  window.synchronousCrypto = require('./ts/util/synchronousCrypto');
 
   window.WebAPI = window.textsecure.WebAPI.initialize({
     url: config.serverUrl,
@@ -514,10 +518,22 @@ try {
     getRegionCode: () => window.storage.get('regionCode'),
     logger: window.log,
   });
+  window.CI = config.enableCI
+    ? {
+        setProvisioningURL: url => ipc.send('set-provisioning-url', url),
+        deviceName: title,
+      }
+    : undefined;
 
   // these need access to window.Signal:
   require('./ts/models/messages');
   require('./ts/models/conversations');
+
+  require('./ts/backbone/views/whisper_view');
+  require('./ts/backbone/views/toast_view');
+  require('./ts/views/conversation_view');
+  require('./ts/LibSignalStore');
+  require('./ts/background');
 
   function wrapWithPromise(fn) {
     return (...args) => Promise.resolve(fn(...args));
@@ -625,6 +641,18 @@ try {
   window.libsignal = window.libsignal || {};
   window.libsignal.externalCurve = externalCurve;
   window.libsignal.externalCurveAsync = externalCurveAsync;
+
+  window.libsignal.HKDF = {};
+  window.libsignal.HKDF.deriveSecrets = (input, salt, info) => {
+    const hkdf = client.HKDF.new(3);
+    const output = hkdf.deriveSecrets(
+      3 * 32,
+      Buffer.from(input),
+      Buffer.from(info),
+      Buffer.from(salt)
+    );
+    return [output.slice(0, 32), output.slice(32, 64), output.slice(64, 96)];
+  };
 
   // Pulling these in separately since they access filesystem, electron
   window.Signal.Backup = require('./js/modules/backup');

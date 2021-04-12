@@ -1,8 +1,7 @@
 // Copyright 2015-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global i18n: false */
-/* global Whisper: false */
+/* global i18n, Whisper, $ */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -31,7 +30,7 @@
   });
 
   Whisper.DebugLogLinkView = Whisper.View.extend({
-    templateName: 'debug-log-link',
+    template: () => $('#debug-log-link').html(),
     initialize(options) {
       this.url = options.url;
     },
@@ -66,7 +65,7 @@
    * edit them in their own editor. This is mostly a stopgap solution.
    */
   Whisper.DebugLogView = Whisper.View.extend({
-    templateName: 'debug-log',
+    template: () => $('#debug-log').html(),
     className: 'debug-log modal',
     initialize() {
       this.render();

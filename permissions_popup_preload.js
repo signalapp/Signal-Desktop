@@ -49,7 +49,7 @@ window.subscribeToSystemThemeChange = fn => {
   });
 };
 
-require('./ts/logging/set_up_renderer_logging');
+require('./ts/logging/set_up_renderer_logging').initialize();
 
 window.closePermissionsPopup = () =>
   ipcRenderer.send('close-permissions-popup');

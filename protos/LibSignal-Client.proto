@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+//
+// Copyright 2020-2021 Signal Messenger, LLC.
+// SPDX-License-Identifier: AGPL-3.0-only
+//
+
+package signal.proto.storage;
+
+message SessionStructure {
+  message Chain {
+    bytes sender_ratchet_key         = 1;
+    bytes sender_ratchet_key_private = 2;
+
+    message ChainKey {
+      uint32 index = 1;
+      bytes  key   = 2;
+    }
+
+    ChainKey chain_key = 3;
+
+    message MessageKey {
+      uint32 index      = 1;
+      bytes  cipher_key = 2;
+      bytes  mac_key    = 3;
+      bytes  iv         = 4;
+    }
+
+    repeated MessageKey message_keys = 4;
+  }
+
+  message PendingPreKey {
+    uint32 pre_key_id        = 1;
+    int32  signed_pre_key_id = 3;
+    bytes  base_key          = 2;
+  }
+
+  uint32         session_version            = 1;
+  bytes          local_identity_public      = 2;
+  bytes          remote_identity_public     = 3;
+
+  bytes          root_key                   = 4;
+  uint32         previous_counter           = 5;
+
+  Chain          sender_chain               = 6;
+  // The order is significant; keys at the end are "older" and will get trimmed.
+  repeated Chain receiver_chains            = 7;
+
+  PendingPreKey      pending_pre_key        = 9;
+
+  uint32             remote_registration_id = 10;
+  uint32             local_registration_id  = 11;
+
+  bool               needs_refresh          = 12;
+  bytes              alice_base_key         = 13;
+}
+
+message RecordStructure {
+  SessionStructure          current_session   = 1;
+  // The order is significant; sessions at the end are "older" and will get trimmed.
+  repeated SessionStructure previous_sessions = 2;
+}
+
+message PreKeyRecordStructure {
+  uint32 id          = 1;
+  bytes  public_key  = 2;
+  bytes  private_key = 3;
+}
+
+message SignedPreKeyRecordStructure {
+  uint32  id          = 1;
+  bytes   public_key  = 2;
+  bytes   private_key = 3;
+  bytes   signature   = 4;
+  fixed64 timestamp   = 5;
+}
+
+message IdentityKeyPairStructure {
+  bytes public_key  = 1;
+  bytes private_key = 2;
+}
+
+message SenderKeyStateStructure {
+  message SenderChainKey {
+    uint32 iteration = 1;
+    bytes  seed      = 2;
+  }
+
+  message SenderMessageKey {
+    uint32 iteration = 1;
+    bytes  seed      = 2;
+  }
+
+  message SenderSigningKey {
+    bytes public  = 1;
+    bytes private = 2;
+  }
+
+  uint32                    sender_key_id       = 1;
+  SenderChainKey            sender_chain_key    = 2;
+  SenderSigningKey          sender_signing_key  = 3;
+  repeated SenderMessageKey sender_message_keys = 4;
+}
+
+message SenderKeyRecordStructure {
+  repeated SenderKeyStateStructure sender_key_states = 1;
+}

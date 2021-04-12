@@ -448,7 +448,9 @@ async function _promiseAjax(
         } else if (
           (options.responseType === 'json' ||
             options.responseType === 'jsonwithdetails') &&
-          response.headers.get('Content-Type') === 'application/json'
+          /^application\/json(;.*)?$/.test(
+            response.headers.get('Content-Type') || ''
+          )
         ) {
           resultPromise = response.json();
         } else if (
@@ -2494,7 +2496,8 @@ export function initialize({
               serverKey,
             ] = await window.libsignal.HKDF.deriveSecrets(
               masterSecret,
-              publicKeys
+              publicKeys,
+              new ArrayBuffer(0)
             );
 
             // Decrypt ciphertext into requestId

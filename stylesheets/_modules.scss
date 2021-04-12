@@ -52,7 +52,7 @@
 // Module: Message
 
 // Note: this does the same thing as module-timeline__message-container but
-//   can be used outside tht Timeline contact more easily.
+//   can be used outside the Timeline contact more easily.
 .module-message-container {
   @include button-reset;
 
@@ -310,6 +310,7 @@
   line-height: 0;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .module-message__container {
   position: relative;
@@ -320,6 +321,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 0px;
+  width: 100%;
   overflow: hidden;
 
   @include light-theme {
@@ -378,7 +380,11 @@
   @include dark-theme {
     border: none;
   }
-  padding-bottom: 0px;
+
+  /* Leave some padding to eat the negative margin-bottom from
+   * .module-message__metadata
+   */
+  padding-bottom: 3px;
 }
 
 .module-message__container--outgoing {
@@ -686,18 +692,6 @@
   cursor: pointer;
 }
 
-.module-message__audio-attachment {
-  margin-top: 2px;
-}
-
-.module-message__audio-attachment--with-content-below {
-  margin-bottom: 5px;
-}
-
-.module-message__audio-attachment--with-content-above {
-  margin-top: 6px;
-}
-
 .module-message__generic-attachment {
   @include button-reset;
 
@@ -859,7 +853,7 @@
 }
 
 .module-message__link-preview {
-  @include button-reset;
+  cursor: pointer;
 
   &--nonclickable {
     cursor: inherit;
@@ -962,6 +956,7 @@
 
   > *:not(:first-child) {
     display: flex;
+    flex-grow: 1;
 
     &:before {
       content: '•';
@@ -2853,336 +2848,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-// Module: Conversation Header
-
-.module-conversation-header {
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: var(--title-bar-drag-area-height);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  height: calc(#{$header-height} + var(--title-bar-drag-area-height));
-
-  @include light-theme {
-    color: $color-gray-90;
-    background-color: $color-white;
-  }
-  @include dark-theme {
-    color: $color-gray-02;
-    background-color: $color-gray-95;
-  }
-}
-
-.module-conversation-header__back-icon {
-  $transition: 250ms ease-out;
-
-  display: inline-block;
-  margin-left: -10px;
-  margin-right: -10px;
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
-  vertical-align: text-bottom;
-  border: none;
-  opacity: 0;
-  transition: margin-right $transition, opacity $transition;
-
-  &:disabled {
-    cursor: default;
-  }
-
-  &--show {
-    opacity: 1;
-    margin-right: 6px;
-  }
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-left-24.svg',
-      $color-gray-90
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-left-24.svg',
-      $color-gray-02
-    );
-  }
-}
-
-.module-conversation-header__title-container {
-  flex-grow: 1;
-  flex-shrink: 1;
-  min-width: 0;
-  display: block;
-
-  height: $header-height;
-}
-
-.module-conversation-header__title-flex {
-  margin-left: auto;
-  margin-right: auto;
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  height: $header-height;
-  max-width: 100%;
-}
-
-.module-conversation-header__title-clickable {
-  cursor: pointer;
-
-  &:focus {
-    @include mouse-mode {
-      outline: none;
-    }
-  }
-}
-
-.module-conversation-header__note-to-self {
-  @include dark-theme {
-    color: $color-gray-02;
-  }
-}
-
-.module-conversation-header__avatar {
-  min-width: 32px;
-  margin-right: 4px;
-}
-
-.module-conversation-header__title {
-  margin-left: 6px;
-  min-width: 0;
-
-  @include font-body-1-bold;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  -webkit-user-select: text;
-
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-02;
-  }
-}
-
-.module-conversation-header__contacts-icon {
-  display: inline-block;
-  height: 15px;
-  width: 15px;
-
-  margin-bottom: 3px;
-  vertical-align: middle;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/profile-circle-outline-24.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/profile-circle-outline-24.svg',
-      $color-gray-25
-    );
-  }
-
-  @include keyboard-mode {
-    &:focus {
-      @include color-svg(
-        '../images/icons/v2/profile-circle-outline-24.svg',
-        $ultramarine-ui-light
-      );
-    }
-  }
-}
-
-.module-conversation-header__title__profile-name {
-  @include font-body-1-bold-italic;
-}
-
-.module-conversation-header__title__verified-icon {
-  display: inline-block;
-  width: 1.25em;
-  height: 1.25em;
-  vertical-align: text-bottom;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-90);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-02);
-  }
-}
-
-.module-conversation-header__expiration {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-left: 8px;
-  padding-right: 8px;
-  transition: opacity 250ms ease-out;
-
-  &--hidden {
-    opacity: 0;
-  }
-}
-
-.module-conversation-header__expiration__clock-icon {
-  height: 24px;
-  width: 24px;
-  display: inline-block;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-60);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-25);
-  }
-}
-
-.module-conversation-header__expiration__setting {
-  margin-left: 5px;
-  text-align: center;
-}
-
-.module-conversation-header__more-button {
-  height: 24px;
-  width: 24px;
-  margin-left: 12px;
-  border: none;
-  opacity: 0;
-  transition: opacity 250ms ease-out;
-
-  &:disabled {
-    cursor: default;
-  }
-
-  &--show {
-    opacity: 1;
-  }
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-down-24.svg',
-      $color-gray-75
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-down-24.svg',
-      $color-gray-15
-    );
-  }
-}
-
-.module-conversation-header__search-button {
-  height: 24px;
-  width: 24px;
-  margin-left: 12px;
-  border: none;
-  opacity: 0;
-  transition: opacity 250ms ease-out;
-
-  &:disabled {
-    cursor: default;
-  }
-
-  &--show {
-    opacity: 1;
-  }
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/search-24.svg', $color-gray-75);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/search-24.svg', $color-gray-15);
-  }
-}
-
-.module-conversation-header__calling-button {
-  $icon-size: 24px;
-
-  margin-left: 12px;
-  border: none;
-  opacity: 0;
-  transition: opacity 250ms ease-out;
-
-  &:disabled {
-    cursor: default;
-  }
-
-  &--show {
-    opacity: 1;
-  }
-
-  &--video {
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/video-outline-24.svg',
-        $color-gray-75
-      );
-    }
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/video-solid-24.svg',
-        $color-gray-15
-      );
-    }
-    height: $icon-size;
-    width: $icon-size;
-  }
-
-  &--audio {
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/phone-right-outline-24.svg',
-        $color-gray-75
-      );
-    }
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/phone-right-solid-24.svg',
-        $color-gray-15
-      );
-    }
-    height: $icon-size;
-    width: $icon-size;
-  }
-
-  &--join {
-    @include font-body-1;
-    align-items: center;
-    background-color: $color-accent-green;
-    border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
-    color: $color-white;
-    display: flex;
-    outline: none;
-    padding: 5px 18px;
-
-    @include keyboard-mode {
-      &:focus {
-        box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
-      }
-    }
-
-    &:before {
-      @include color-svg('../images/icons/v2/video-solid-24.svg', $color-white);
-      content: '';
-      display: block;
-      height: $icon-size;
-      margin-right: 5px;
-      width: $icon-size;
-    }
-  }
-}
-
 // Module: Conversation Details
 
 .conversation-details-panel {
@@ -3201,18 +2866,31 @@ button.module-conversation-details__action-button {
 
 .module-conversation-details {
   &-header {
-    &__root {
+    &__root,
+    &__root--editable {
       align-items: center;
+      background: none;
+      border: none;
+      color: inherit;
       display: flex;
       flex-direction: column;
-      padding-bottom: 24px;
+      margin: 0;
+      outline: inherit;
+      padding: 0 0 24px 0;
       text-align: center;
+      width: 100%;
+    }
+
+    &__root--editable {
+      cursor: pointer;
     }
 
     &__title {
       @include font-title-1;
-      padding-top: 12px;
+      align-items: center;
+      display: flex;
       padding-bottom: 8px;
+      padding-top: 12px;
     }
 
     &__subtitle {
@@ -3224,10 +2902,80 @@ button.module-conversation-details__action-button {
         color: $color-gray-25;
       }
     }
+
+    &__root--editable &__title {
+      $icon: '../images/icons/v2/compose-solid-24.svg';
+
+      &::after {
+        $size: 24px;
+
+        content: '';
+        height: $size;
+        left: $size + 13px;
+        margin-left: -$size;
+        opacity: 0;
+        position: relative;
+        transition: opacity 100ms ease-out;
+        width: $size;
+
+        @include light-theme {
+          @include color-svg($icon, $color-gray-60);
+        }
+        @include dark-theme {
+          @include color-svg($icon, $color-gray-25);
+        }
+      }
+    }
+
+    &__root--editable:hover &__title::after {
+      opacity: 1;
+    }
+  }
+
+  &-membership-list {
+    &__add-members-icon {
+      @mixin plus-icon($color) {
+        @include color-svg('../images/icons/v2/plus-24.svg', $color);
+        content: '';
+        display: block;
+        height: 16px;
+        width: 16px;
+      }
+
+      align-items: center;
+      border-radius: 100%;
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      width: 32px;
+
+      @include light-theme {
+        background: $color-gray-02;
+        &::before {
+          @include plus-icon($color-black);
+        }
+      }
+      @include dark-theme {
+        background: $color-gray-90;
+        &::before {
+          @include plus-icon($color-gray-15);
+        }
+      }
+    }
   }
 
   &__leave-group {
     color: $color-accent-red;
+
+    &--disabled {
+      @include light-theme {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+    }
   }
 
   &__block-group {
@@ -3442,6 +3190,16 @@ button.module-conversation-details__action-button {
           -webkit-mask: url(../images/icons/v2/leave-24.svg) no-repeat center;
           background-color: $color-accent-red;
         }
+
+        &--disabled::after {
+          @include light-theme {
+            background-color: $color-gray-60;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-25;
+          }
+        }
       }
 
       &--block {
@@ -3500,6 +3258,8 @@ button.module-conversation-details__action-button {
   &-panel-row {
     &__root {
       align-items: center;
+      border-radius: 5px;
+      border: 2px solid transparent;
       display: flex;
       padding: 16px 24px;
       user-select: none;
@@ -3508,21 +3268,37 @@ button.module-conversation-details__action-button {
       &--button {
         color: inherit;
         background: none;
-        border: none;
+
+        &:hover:not(:disabled) {
+          @include light-theme {
+            background-color: $color-gray-02;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-90;
+          }
+
+          & .module-conversation-details-panel-row__actions {
+            opacity: 1;
+          }
+        }
       }
 
-      &:hover {
-        @include light-theme {
-          background-color: $color-gray-02;
-        }
+      &:focus {
+        outline: none;
+      }
 
-        @include dark-theme {
-          background-color: $color-gray-90;
+      @mixin keyboard-focus-state($color) {
+        &:focus {
+          border-color: $color;
         }
+      }
 
-        & .module-conversation-details-panel-row__actions {
-          opacity: 1;
-        }
+      @include keyboard-mode {
+        @include keyboard-focus-state($ultramarine-ui-light);
+      }
+      @include dark-keyboard-mode {
+        @include keyboard-focus-state($ultramarine-ui-dark);
       }
     }
 
@@ -3539,8 +3315,15 @@ button.module-conversation-details__action-button {
 
     &__info {
       @include font-body-2;
-      color: $color-gray-60;
       margin-top: 4px;
+
+      @include light-theme {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme {
+        color: $color-gray-25;
+      }
     }
 
     &__right {
@@ -4228,300 +4011,6 @@ button.module-conversation-details__action-button {
   }
 }
 
-// Module: Conversation List Item
-
-.module-conversation-list-item {
-  @include button-reset;
-
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  padding-right: 16px;
-  padding-left: 16px;
-  align-items: center;
-
-  &:hover,
-  &:focus {
-    @include light-theme {
-      background-color: $color-gray-05;
-    }
-    @include dark-theme {
-      background-color: $color-gray-75;
-    }
-  }
-}
-
-.module-conversation-list-item__muted {
-  display: inline-block;
-  height: 14px;
-  margin-right: 4px;
-  vertical-align: middle;
-  width: 14px;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/sound-off-outline-24.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/sound-off-outline-24.svg',
-      $color-gray-25
-    );
-  }
-}
-
-.module-conversation-list-item--has-unread {
-  padding-left: 12px;
-
-  @include light-theme {
-    border-left: 4px solid $ultramarine-ui-light;
-  }
-
-  @include dark-theme {
-    border-left: 4px solid $ultramarine-ui-dark;
-  }
-}
-
-.module-conversation-list-item--is-selected {
-  @include light-theme {
-    background-color: $color-gray-15;
-  }
-  @include dark-theme {
-    background-color: $color-gray-65;
-  }
-}
-
-.module-conversation-list-item__avatar-container {
-  position: relative;
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
-.module-conversation-list-item__unread-count {
-  text-align: center;
-
-  padding-left: 3px;
-  padding-right: 3px;
-
-  position: absolute;
-  right: -6px;
-  top: 0px;
-
-  @include font-caption-bold;
-
-  height: 20px;
-  min-width: 20px;
-  line-height: 20px;
-  border-radius: 10px;
-
-  color: $color-white;
-
-  @include light-theme {
-    background-color: $ultramarine-ui-light;
-    box-shadow: 0px 0px 0px 1px $color-gray-02;
-  }
-  @include dark-theme {
-    background-color: $ultramarine-ui-dark;
-    box-shadow: 0px 0px 0px 1px $color-gray-90;
-  }
-}
-
-.module-conversation-list-item__content {
-  flex-grow: 1;
-  margin-left: 12px;
-  // parent - 52px (for avatar) - 12p (margin to avatar)
-  max-width: calc(100% - 64px);
-
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.module-conversation-list-item__header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-conversation-list-item__header__name {
-  flex-grow: 1;
-  flex-shrink: 1;
-
-  @include font-body-1-bold;
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-conversation-list-item__header__timestamp {
-  flex-shrink: 0;
-  margin-left: 6px;
-
-  @include font-caption;
-
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-conversation-list-item__header__timestamp--with-unread {
-  @include font-caption-bold;
-}
-
-.module-conversation-list-item__header__date--has-unread {
-  @include font-caption-bold;
-
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-conversation-list-item__message {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-conversation-list-item__message-request {
-  @include font-body-2-bold;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-conversation-list-item__message__text {
-  flex-grow: 1;
-  flex-shrink: 1;
-
-  @include font-body-2;
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  text-align: left;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-conversation-list-item__message__text--has-unread {
-  @include font-body-2-bold;
-
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-conversation-list-item__message {
-  &__draft-prefix,
-  &__deleted-for-everyone {
-    font-style: italic;
-    margin-right: 3px;
-  }
-}
-
-.module-conversation-list-item__message__status-icon {
-  flex-shrink: 0;
-
-  margin-top: 2px;
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  margin-left: 6px;
-}
-
-.module-conversation-list-item__message__status-icon--sending {
-  animation: module-conversation-list-item__message__status-icon--spinning 4s
-    linear infinite;
-  @include light-theme {
-    @include color-svg('../images/sending.svg', $color-gray-60);
-  }
-  @include dark-theme {
-    @include color-svg('../images/sending.svg', $color-gray-45);
-  }
-}
-
-@keyframes module-conversation-list-item__message__status-icon--spinning {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-.module-conversation-list-item__message__status-icon--sent {
-  @include light-theme {
-    @include color-svg('../images/check-circle-outline.svg', $color-gray-25);
-  }
-  @include dark-theme {
-    @include color-svg('../images/check-circle-outline.svg', $color-gray-45);
-  }
-}
-.module-conversation-list-item__message__status-icon--delivered {
-  @include light-theme {
-    @include color-svg('../images/double-check.svg', $color-gray-25);
-  }
-  @include dark-theme {
-    @include color-svg('../images/double-check.svg', $color-gray-45);
-  }
-  width: 18px;
-}
-.module-conversation-list-item__message__status-icon--read {
-  @include light-theme {
-    @include color-svg('../images/read.svg', $color-gray-25);
-  }
-  @include dark-theme {
-    @include color-svg('../images/read.svg', $color-gray-45);
-  }
-  width: 18px;
-}
-.module-conversation-list-item__message__status-icon--error,
-.module-conversation-list-item__message__status-icon--partial-sent {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/error-outline-12.svg',
-      $color-accent-red
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/error-solid-12.svg',
-      $color-accent-red
-    );
-  }
-}
-
 // Module: Avatar
 
 .module-avatar {
@@ -4601,6 +4090,7 @@ button.module-conversation-details__action-button {
 }
 
 .module-avatar--28 {
+  min-width: 28px;
   height: 28px;
   width: 28px;
 
@@ -4648,6 +4138,7 @@ button.module-conversation-details__action-button {
 .module-avatar--32 {
   height: 32px;
   width: 32px;
+  min-width: 32px;
 
   img {
     height: 32px;
@@ -4693,6 +4184,7 @@ button.module-conversation-details__action-button {
 .module-avatar--52 {
   height: 52px;
   width: 52px;
+  min-width: 52px;
 
   img {
     height: 52px;
@@ -4719,6 +4211,7 @@ button.module-conversation-details__action-button {
 .module-avatar--80 {
   height: 80px;
   width: 80px;
+  min-width: 80px;
 
   img {
     height: 80px;
@@ -4745,6 +4238,7 @@ button.module-conversation-details__action-button {
 .module-avatar--96 {
   height: 96px;
   width: 96px;
+  min-width: 96px;
 
   img {
     height: 96px;
@@ -4766,6 +4260,7 @@ button.module-conversation-details__action-button {
 .module-avatar--112 {
   height: 112px;
   width: 112px;
+  min-width: 112px;
 
   img {
     height: 112px;
@@ -4835,6 +4330,8 @@ button.module-conversation-details__action-button {
 // Module: Main Header
 
 .module-main-header {
+  -webkit-app-region: var(--draggable-app-region);
+
   height: calc(#{$header-height} + var(--title-bar-drag-area-height));
   width: 100%;
 
@@ -4854,14 +4351,19 @@ button.module-conversation-details__action-button {
     }
   }
 
+  &__avatar {
+    -webkit-app-region: no-drag;
+  }
+
   &__search {
     flex-grow: 1;
     position: relative;
     display: flex;
     flex-direction: row;
+    -webkit-app-region: no-drag;
 
     &__input {
-      flex-grow: 1;
+      width: 100%;
       height: 28px;
 
       padding-left: 30px;
@@ -4998,6 +4500,25 @@ button.module-conversation-details__action-button {
       @include dark-theme {
         @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
       }
+    }
+  }
+
+  &__compose-icon {
+    $icon: '../images/icons/v2/compose-outline-24.svg';
+
+    width: 24px;
+    height: 24px;
+    -webkit-app-region: no-drag;
+
+    @include light-theme {
+      @include color-svg($icon, $color-gray-90);
+    }
+    @include dark-theme {
+      @include color-svg($icon, $color-gray-02);
+    }
+
+    &:focus {
+      @include color-svg($icon, $ultramarine-ui-light);
     }
   }
 }
@@ -6066,176 +5587,6 @@ button.module-image__border-overlay:focus {
   }
 }
 
-// Module: Search Results
-
-.module-search-results {
-  outline: none;
-  overflow: hidden;
-  flex-grow: 1;
-}
-
-.module-search-results__conversations-header,
-.module-search-results__contacts-header,
-.module-search-results__messages-header {
-  @include font-body-1-bold;
-
-  height: 52px;
-  margin-left: 16px;
-  padding-bottom: 8px;
-  padding-top: 8px;
-
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-search-results__sms-not-supported {
-  font-size: 14px;
-  padding-top: 12px;
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-search-results__no-results {
-  margin-top: 27px;
-  padding-left: 1em;
-  padding-right: 1em;
-  width: 100%;
-  text-align: center;
-  outline: none;
-}
-
-.module-search-results__spinner-container {
-  width: 100%;
-  padding: 10px;
-
-  text-align: center;
-}
-
-// Module: Message Search Result
-
-.module-message-search-result {
-  @include button-reset;
-
-  width: 100%;
-
-  padding: 8px;
-  padding-left: 16px;
-  padding-right: 16px;
-  min-height: 64px;
-  max-width: $left-pane-width;
-
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-
-  &:hover,
-  &:focus {
-    @include light-theme {
-      background-color: $color-gray-05;
-    }
-    @include dark-theme {
-      background-color: $color-gray-75;
-    }
-  }
-}
-
-.module-message-search-result--is-selected {
-  @include light-theme {
-    background-color: $color-gray-15;
-  }
-  @include dark-theme {
-    background-color: $color-gray-65;
-  }
-}
-
-.module-message-search-result__text {
-  flex-grow: 1;
-  margin-left: 12px;
-  // parent - 48px (for avatar) - 16px (our right margin)
-  max-width: calc(100% - 64px);
-
-  display: inline-flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.module-message-search-result__header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-message-search-result__header__from {
-  @include font-body-1;
-
-  flex-grow: 1;
-  flex-shrink: 1;
-
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-message-search-result__header__timestamp {
-  flex-shrink: 0;
-  margin-left: 6px;
-
-  @include font-caption;
-
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  text-transform: uppercase;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-message-search-result__body {
-  @include font-body-2;
-
-  margin-top: 1px;
-  flex-grow: 1;
-  flex-shrink: 1;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-15;
-  }
-
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-
-  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-  //   ... as the truncation indicator. That's not a solution that works well for
-  //   all languages. More resources:
-  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
-}
-
 // Module: Reaction Viewer
 
 .module-reaction-viewer {
@@ -6991,12 +6342,13 @@ button.module-image__border-overlay:focus {
       &__scroll-marker {
         $scroll-marker-selector: &;
 
+        @include smooth-scroll;
+
         display: flex;
         justify-content: center;
         left: 0;
         opacity: 1;
         position: absolute;
-        scroll-behavior: smooth;
         transition: opacity 200ms ease-out;
         width: 100%;
         z-index: 1;
@@ -7576,6 +6928,498 @@ button.module-image__border-overlay:focus {
   }
 }
 
+// Module: conversation list
+
+.module-conversation-list {
+  &--scroll-behavior {
+    &-default {
+      @include smooth-scroll;
+    }
+  }
+
+  &__item {
+    &--archive-button {
+      @include button-reset;
+
+      @include font-body-1-bold;
+
+      height: 64px;
+      line-height: 64px;
+      text-align: center;
+      width: 100%;
+
+      @include light-theme {
+        color: $color-gray-60;
+
+        &:hover,
+        &:focus {
+          background-color: $color-gray-05;
+        }
+      }
+      @include dark-theme {
+        color: $color-gray-25;
+        &:hover,
+        &:focus {
+          background-color: $color-gray-75;
+        }
+      }
+
+      &__archived-count {
+        @include font-body-2-bold;
+
+        padding: 6px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border-radius: 10px;
+
+        @include light-theme {
+          color: $color-gray-60;
+          background-color: $color-gray-05;
+        }
+        @include dark-theme {
+          color: $color-gray-25;
+          background-color: $color-gray-75;
+        }
+      }
+    }
+
+    &--contact-or-conversation {
+      @include button-reset;
+
+      align-items: center;
+      cursor: inherit;
+      display: flex;
+      flex-direction: row;
+      padding-left: 16px;
+      padding-right: 16px;
+      user-select: none;
+      width: 100%;
+
+      &--is-button {
+        cursor: pointer;
+
+        &:disabled {
+          cursor: inherit;
+        }
+
+        &:hover:not(:disabled),
+        &:focus:not(:disabled) {
+          @include light-theme {
+            background-color: $color-gray-05;
+          }
+          @include dark-theme {
+            background-color: $color-gray-75;
+          }
+        }
+      }
+
+      &--is-checkbox {
+        cursor: pointer;
+
+        &--disabled {
+          cursor: not-allowed;
+        }
+
+        $disabled-selector: '#{&}--disabled';
+        &:hover:not(#{$disabled-selector}),
+        &:focus:not(#{$disabled-selector}) {
+          @include light-theme {
+            background-color: $color-gray-05;
+          }
+          @include dark-theme {
+            background-color: $color-gray-75;
+          }
+        }
+      }
+
+      &--has-unread {
+        padding-left: 12px;
+
+        @include light-theme {
+          border-left: 4px solid $ultramarine-ui-light;
+        }
+
+        @include dark-theme {
+          border-left: 4px solid $ultramarine-ui-dark;
+        }
+      }
+
+      &--is-selected {
+        @include light-theme {
+          background-color: $color-gray-15;
+        }
+        @include dark-theme {
+          background-color: $color-gray-65;
+        }
+      }
+
+      &__avatar-container {
+        position: relative;
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+
+      &__unread-count {
+        text-align: center;
+
+        padding-left: 3px;
+        padding-right: 3px;
+
+        position: absolute;
+        right: -6px;
+        top: 0px;
+
+        @include font-caption-bold;
+
+        height: 20px;
+        min-width: 20px;
+        line-height: 20px;
+        border-radius: 10px;
+
+        color: $color-white;
+
+        @include light-theme {
+          background-color: $ultramarine-ui-light;
+          box-shadow: 0px 0px 0px 1px $color-gray-02;
+        }
+        @include dark-theme {
+          background-color: $ultramarine-ui-dark;
+          box-shadow: 0px 0px 0px 1px $color-gray-90;
+        }
+      }
+
+      &__content {
+        flex-grow: 1;
+        margin-left: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        overflow: hidden;
+
+        &--disabled {
+          opacity: 0.5;
+        }
+
+        &__header {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          &__name {
+            flex-grow: 1;
+            flex-shrink: 1;
+
+            @include font-body-1-bold;
+
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+            @include light-theme {
+              color: $color-gray-90;
+            }
+            @include dark-theme {
+              color: $color-gray-05;
+            }
+          }
+
+          &__date {
+            display: inline-block;
+            flex-shrink: 0;
+
+            &--has-unread {
+              @include font-caption-bold;
+
+              @include light-theme {
+                color: $color-gray-90;
+              }
+              @include dark-theme {
+                color: $color-gray-05;
+              }
+            }
+
+            &__timestamp {
+              flex-shrink: 0;
+              margin-left: 6px;
+
+              @include font-caption;
+
+              overflow-x: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+
+              @include light-theme {
+                color: $color-gray-60;
+              }
+              @include dark-theme {
+                color: $color-gray-25;
+              }
+
+              &--with-unread {
+                @include font-caption-bold;
+              }
+            }
+          }
+        }
+
+        &__message {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          &__text {
+            flex-grow: 1;
+            flex-shrink: 1;
+
+            @include font-body-2;
+
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-align: left;
+
+            @include light-theme {
+              color: $color-gray-60;
+            }
+            @include dark-theme {
+              color: $color-gray-25;
+            }
+
+            &--has-unread {
+              @include font-body-2-bold;
+
+              @include light-theme {
+                color: $color-gray-90;
+              }
+              @include dark-theme {
+                color: $color-gray-05;
+              }
+            }
+
+            &__muted {
+              display: inline-block;
+              height: 14px;
+              margin-right: 4px;
+              vertical-align: middle;
+              width: 14px;
+
+              @include light-theme {
+                @include color-svg(
+                  '../images/icons/v2/sound-off-outline-24.svg',
+                  $color-gray-60
+                );
+              }
+              @include dark-theme {
+                @include color-svg(
+                  '../images/icons/v2/sound-off-outline-24.svg',
+                  $color-gray-25
+                );
+              }
+            }
+
+            &__message-request {
+              @include font-body-2-bold;
+
+              @include light-theme {
+                color: $color-gray-60;
+              }
+              @include dark-theme {
+                color: $color-gray-25;
+              }
+            }
+
+            &__draft-prefix,
+            &__deleted-for-everyone {
+              font-style: italic;
+              margin-right: 3px;
+            }
+
+            &__status-icon {
+              flex-shrink: 0;
+
+              margin-top: 2px;
+              width: 12px;
+              height: 12px;
+              display: inline-block;
+              margin-left: 6px;
+
+              @mixin normal-status-icon($icon) {
+                @include light-theme {
+                  @include color-svg($icon, $color-gray-25);
+                }
+                @include dark-theme {
+                  @include color-svg($icon, $color-gray-45);
+                }
+              }
+
+              &--sending {
+                animation: module-conversation-list__item--contact-or-conversation__contact__message__text__status-icon--spinning
+                  4s linear infinite;
+                @include light-theme {
+                  @include color-svg('../images/sending.svg', $color-gray-60);
+                }
+                @include dark-theme {
+                  @include color-svg('../images/sending.svg', $color-gray-45);
+                }
+              }
+
+              &--sent {
+                @include normal-status-icon(
+                  '../images/check-circle-outline.svg'
+                );
+              }
+
+              &--delivered {
+                @include normal-status-icon('../images/double-check.svg');
+                width: 18px;
+              }
+
+              &--read {
+                @include normal-status-icon('../images/read.svg');
+                width: 18px;
+              }
+
+              &--error,
+              &--partial-sent {
+                @include light-theme {
+                  @include color-svg(
+                    '../images/icons/v2/error-outline-12.svg',
+                    $color-accent-red
+                  );
+                }
+                @include dark-theme {
+                  @include color-svg(
+                    '../images/icons/v2/error-solid-12.svg',
+                    $color-accent-red
+                  );
+                }
+              }
+            }
+
+            &__message-search-result-contents {
+              display: -webkit-box;
+              white-space: initial;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+
+              // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
+              //   ... as the truncation indicator. That's not a solution that works well for
+              //   all languages. More resources:
+              //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+              //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
+            }
+
+            &__start-new-conversation {
+              @include font-body-1-italic;
+            }
+          }
+        }
+      }
+
+      &__checkbox {
+        -webkit-appearance: none;
+        background: $color-white;
+        border-radius: 100%;
+        height: 20px;
+        margin-left: 16px;
+        margin-right: 16px;
+        width: 20px;
+        min-width: 20px;
+        pointer-events: none;
+
+        @include light-theme {
+          border: 1px solid $color-gray-15;
+        }
+        @include dark-theme {
+          border: 1px solid $color-gray-80;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        @include keyboard-mode {
+          &:focus {
+            border-width: 2px;
+            border-color: $ultramarine-ui-light;
+            &:checked {
+              box-shadow: inset 0 0 0px 1px $color-white;
+            }
+          }
+        }
+        @include dark-keyboard-mode {
+          &:focus {
+            border-width: 2px;
+            border-color: $ultramarine-ui-dark;
+
+            &:checked {
+              box-shadow: inset 0 0 0px 1px $color-black;
+            }
+          }
+        }
+
+        &:disabled:not(:checked) {
+          opacity: 0.5;
+        }
+
+        &:checked {
+          $icon: '../images/icons/v2/check-24.svg';
+
+          background: $ultramarine-ui-light;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &::before {
+            content: '';
+            display: block;
+            @include color-svg($icon, $color-white);
+            width: 13px;
+            height: 13px;
+          }
+
+          @include light-theme {
+            &:disabled {
+              background: $color-gray-15;
+            }
+          }
+          @include dark-theme {
+            &:disabled {
+              background: $color-gray-45;
+            }
+          }
+        }
+      }
+    }
+
+    &--header {
+      @include font-body-1-bold;
+
+      display: inline-flex;
+      align-items: center;
+      padding-left: 16px;
+
+      @include dark-theme {
+        color: $color-gray-05;
+      }
+    }
+
+    &--spinner {
+      width: 100%;
+      padding: 10px;
+
+      text-align: center;
+    }
+  }
+}
+
+@keyframes module-conversation-list__item--contact-or-conversation__contact__message__text__status-icon--spinning {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
 // Module: Left Pane
 
 .module-left-pane {
@@ -7584,83 +7428,81 @@ button.module-image__border-overlay:focus {
 
   width: $left-pane-width;
   height: 100%;
+  position: relative;
 }
 
 .module-left-pane__header {
   flex-grow: 0;
   flex-shrink: 0;
-}
 
-.module-left-pane__archive-header {
-  height: calc(#{$header-height} + var(--title-bar-drag-area-height));
-  width: 100%;
+  &__contents {
+    height: calc(#{$header-height} + var(--title-bar-drag-area-height));
+    width: 100%;
 
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  padding-top: var(--title-bar-drag-area-height);
-}
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: var(--title-bar-drag-area-height);
 
-.module-left-pane__header-row {
-  @include font-body-1-bold;
+    &__back-button {
+      @include button-reset;
 
-  display: inline-flex;
-  align-items: center;
-  padding-left: 16px;
+      margin-left: 7px;
+      margin-right: 5px;
 
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
+      width: 24px;
+      height: 24px;
 
-.module-left-pane__to-inbox-button {
-  @include button-reset;
+      &:disabled {
+        cursor: not-allowed;
+      }
 
-  margin-left: 7px;
-  margin-right: 5px;
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $color-gray-60
+        );
+      }
+      @include keyboard-mode {
+        &:focus {
+          @include color-svg(
+            '../images/icons/v2/chevron-left-24.svg',
+            $ultramarine-ui-light
+          );
+        }
+      }
 
-  width: 24px;
-  height: 24px;
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $color-gray-25
+        );
+      }
+      @include dark-keyboard-mode {
+        &:hover {
+          @include color-svg(
+            '../images/icons/v2/chevron-left-24.svg',
+            $ultramarine-ui-dark
+          );
+        }
+      }
+    }
 
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-left-24.svg',
-      $color-gray-60
-    );
-  }
-  @include keyboard-mode {
-    &:focus {
-      @include color-svg(
-        '../images/icons/v2/chevron-left-24.svg',
-        $ultramarine-ui-light
-      );
+    &__text {
+      @include font-body-1-bold;
+
+      @include light-theme {
+        color: $color-gray-90;
+      }
+      @include dark-theme {
+        color: $color-gray-05;
+      }
     }
   }
 
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-left-24.svg',
-      $color-gray-25
-    );
-  }
-  @include dark-keyboard-mode {
-    &:hover {
-      @include color-svg(
-        '../images/icons/v2/chevron-left-24.svg',
-        $ultramarine-ui-dark
-      );
-    }
-  }
-}
-
-.module-left-pane__archive-header-text {
-  @include font-body-1-bold;
-
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
+  &__form {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -7682,6 +7524,54 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-left-pane__no-search-results,
+.module-left-pane__compose-no-contacts {
+  flex-grow: 1;
+  margin-top: 27px;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: 100%;
+  text-align: center;
+  outline: none;
+}
+
+.module-left-pane__compose-search-form {
+  display: flex;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+
+  &__input {
+    flex-grow: 1;
+
+    padding: 5px 12px;
+
+    border-radius: 17px;
+    border: none;
+
+    @include font-body-1;
+
+    @include light-theme {
+      background-color: $color-gray-05;
+      color: $color-gray-90;
+      border: solid 1px $color-gray-02;
+    }
+    @include dark-theme {
+      color: $color-gray-05;
+      background-color: $color-gray-95;
+      border: solid 1px $color-gray-80;
+    }
+
+    &:placeholder {
+      color: $color-gray-45;
+    }
+
+    &:focus {
+      border: solid 1px $ultramarine-ui-light;
+      outline: none;
+    }
+  }
+}
+
 .module-left-pane__list--measure {
   flex-grow: 1;
   flex-shrink: 1;
@@ -7694,105 +7584,25 @@ button.module-image__border-overlay:focus {
 
 .module-left-pane__list {
   position: absolute;
-}
-
-.module-left-pane__virtual-list {
   outline: none;
 }
 
-.module-left-pane__archived-button {
-  @include button-reset;
-
-  @include font-body-1-bold;
-
-  height: 64px;
-  line-height: 64px;
-  text-align: center;
-  width: 100%;
-
-  @include light-theme {
-    color: $color-gray-60;
-
-    &:hover,
-    &:focus {
-      background-color: $color-gray-05;
-    }
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-    &:hover,
-    &:focus {
-      background-color: $color-gray-75;
-    }
-  }
-}
-
-.module-left-pane__archived-button__archived-count {
-  @include font-body-2-bold;
-
-  padding: 6px;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  border-radius: 10px;
-
-  @include light-theme {
-    color: $color-gray-60;
-    background-color: $color-gray-05;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-    background-color: $color-gray-75;
-  }
-}
-
-// Module: Start New Conversation
-
-.module-start-new-conversation {
-  @include button-reset;
-
-  width: 100%;
-
+.module-left-pane__footer {
+  bottom: 0;
   display: flex;
   flex-direction: row;
-  align-items: center;
-
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 16px;
-
-  &:hover,
-  &:focus {
-    @include light-theme {
-      background-color: $color-gray-05;
-    }
-    @include dark-theme {
-      background-color: $color-gray-75;
-    }
-  }
-}
-
-.module-start-new-conversation__content {
-  margin-left: 12px;
-}
-
-.module-start-new-conversation__number {
-  font-weight: bold;
-
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-start-new-conversation__text {
-  margin-top: 3px;
-
-  @include font-body-1-italic;
+  justify-content: flex-end;
+  left: 0;
+  padding: 12px;
+  position: absolute;
+  width: 100%;
 
   @include light-theme {
-    color: $color-gray-60;
+    background: linear-gradient(transparent, $color-gray-02);
   }
+
   @include dark-theme {
-    color: $color-gray-45;
+    background: linear-gradient(transparent, $color-gray-80);
   }
 }
 
@@ -10167,10 +9977,10 @@ button.module-image__border-overlay:focus {
 }
 
 .module-avatar-popup__profile__name {
-  @include font-body-2-bold;
+  @include font-body-1-bold;
 }
 .module-avatar-popup__profile__number {
-  @include font-caption;
+  @include font-subtitle;
 
   @include light-theme {
     color: $color-gray-60;
@@ -10800,143 +10610,6 @@ button.module-image__border-overlay:focus {
   padding: 20px;
 }
 
-// Module: GV1 Migration Dialog
-
-.module-group-v2-migration-dialog {
-  @include font-body-1;
-  border-radius: 8px;
-  width: 360px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-
-  max-height: 100%;
-
-  display: flex;
-  flex-direction: column;
-
-  position: relative;
-
-  @include light-theme {
-    background-color: $color-white;
-  }
-  @include dark-theme {
-    background-color: $color-gray-95;
-  }
-}
-.module-group-v2-migration-dialog__close-button {
-  @include button-reset;
-
-  position: absolute;
-  right: 12px;
-  top: 12px;
-
-  height: 24px;
-  width: 24px;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
-  }
-
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
-  }
-
-  &:focus {
-    @include keyboard-mode {
-      background-color: $ultramarine-ui-light;
-    }
-    @include dark-keyboard-mode {
-      background-color: $ultramarine-ui-dark;
-    }
-  }
-}
-.module-group-v2-migration-dialog__title {
-  @include font-title-2;
-  text-align: center;
-  margin-bottom: 20px;
-
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-.module-group-v2-migration-dialog__scrollable {
-  overflow-x: scroll;
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-.module-group-v2-migration-dialog__item {
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-
-  &:not(:last-of-type) {
-    margin-bottom: 16px;
-  }
-}
-.module-group-v2-migration-dialog__item__bullet {
-  width: 4px;
-  height: 11px;
-  flex-grow: 0;
-  flex-shrink: 0;
-
-  margin-top: 5px;
-
-  @include light-theme {
-    background-color: $color-gray-15;
-  }
-  @include dark-theme {
-    background-color: $color-gray-65;
-  }
-}
-.module-group-v2-migration-dialog__item__content {
-  margin-left: 16px;
-}
-.module-group-v2-migration-dialog__member {
-  margin-top: 16px;
-}
-.module-group-v2-migration-dialog__member__name {
-  margin-left: 6px;
-}
-
-.module-group-v2-migration-dialog__buttons {
-  margin-top: 16px;
-
-  text-align: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-
-  display: flex;
-}
-.module-group-v2-migration-dialog__buttons--narrow {
-  margin-left: auto;
-  margin-right: auto;
-  width: 152px;
-}
-.module-group-v2-migration-dialog__button {
-  @include button-reset;
-  @include font-body-1-bold;
-
-  // Start flex basis at zero so text width doesn't affect layout. We want the buttons
-  //   evenly distributed.
-  flex: 1 1 0px;
-
-  border-radius: 4px;
-
-  padding: 8px;
-  padding-left: 30px;
-  padding-right: 30px;
-
-  @include button-primary;
-
-  &:not(:first-of-type) {
-    margin-left: 16px;
-  }
-}
-
-.module-group-v2-migration-dialog__button--secondary {
-  @include button-secondary;
-}
-
 // Module: GroupV2 Join Dialog
 
 .module-group-v2-join-dialog {
@@ -11006,28 +10679,13 @@ button.module-image__border-overlay:focus {
   display: flex;
 }
 .module-group-v2-join-dialog__button {
-  @include button-reset;
-  @include font-body-1-bold;
-
   // Start flex basis at zero so text width doesn't affect layout. We want the buttons
   //   evenly distributed.
   flex: 1 1 0px;
 
-  border-radius: 4px;
-
-  padding: 8px;
-  padding-left: 15px;
-  padding-right: 15px;
-
-  @include button-primary;
-
   &:not(:first-of-type) {
     margin-left: 16px;
   }
-}
-
-.module-group-v2-join-dialog__button--secondary {
-  @include button-secondary;
 }
 
 // Module: Progress Dialog
@@ -11453,6 +11111,88 @@ $contact-modal-padding: 18px;
   }
 }
 
+// Module: Chat Session Refreshed Notification
+
+.module-chat-session-refreshed-notification {
+  @include font-body-2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.module-chat-session-refreshed-notification__first-line {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+.module-chat-session-refreshed-notification__icon {
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+  margin-right: 8px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/refresh-16.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/refresh-16.svg', $color-gray-25);
+  }
+}
+.module-chat-session-refreshed-notification__button {
+  @include button-reset;
+  @include button-light-blue-text;
+  @include button-small;
+
+  @include font-body-2;
+  padding: 5px 12px;
+}
+
+// Module: Chat Session Refreshed Dialog
+
+.module-chat-session-refreshed-dialog {
+  width: 360px;
+  padding: 16px;
+  padding-top: 28px;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
+}
+.module-chat-session-refreshed-dialog__image {
+  text-align: center;
+}
+.module-chat-session-refreshed-dialog__title {
+  @include font-body-1-bold;
+  margin-top: 10px;
+  margin-bottom: 3px;
+}
+.module-chat-session-refreshed-dialog__buttons {
+  text-align: right;
+  margin-top: 20px;
+}
+.module-chat-session-refreshed-dialog__button {
+  @include font-body-1-bold;
+  @include button-reset;
+  @include button-primary;
+
+  border-radius: 4px;
+  padding: 7px 14px;
+  margin-left: 12px;
+}
+.module-chat-session-refreshed-dialog__button--secondary {
+  @include button-secondary;
+}
+
 /* Third-party module: react-contextmenu*/
 
 .react-contextmenu {
@@ -11601,9 +11341,6 @@ $contact-modal-padding: 18px;
 
 // To limit messages with things forcing them wider, like long attachment names
 .module-message__container {
-  // 2px to allow for 1px border
-  max-width: 302px;
-
   &--incoming {
     align-self: flex-start;
   }
@@ -11738,14 +11475,19 @@ $contact-modal-padding: 18px;
   }
 }
 
+/* Spec: container < 437px */
+@media (min-width: 0px) and (max-width: 799px) {
+  .module-message {
+    // Add 2px for 1px border
+    max-width: 302px;
+  }
+}
+
 /* Spec: container > 438px and container < 593px */
 @media (min-width: 800px) and (max-width: 925px) {
   .module-message {
     // Add 2px for 1px border
     max-width: 376px;
-  }
-  .module-message__container {
-    max-width: 100%;
   }
 
   // Spec: container < 438px
@@ -11780,9 +11522,6 @@ $contact-modal-padding: 18px;
 @media (min-width: 926px) {
   .module-message {
     max-width: 66%;
-  }
-  .module-message__container {
-    max-width: 100%;
   }
 
   .module-message--incoming {

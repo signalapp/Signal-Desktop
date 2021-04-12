@@ -23,22 +23,26 @@ export type Props = {
 
 const renderMembershipRow = ({
   i18n,
-  sharedGroupNames,
+  phoneNumber,
+  sharedGroupNames = [],
   conversationType,
   isMe,
-}: Pick<Props, 'i18n' | 'sharedGroupNames' | 'conversationType' | 'isMe'>) => {
+}: Pick<
+  Props,
+  'i18n' | 'phoneNumber' | 'sharedGroupNames' | 'conversationType' | 'isMe'
+>) => {
   const className = 'module-conversation-hero__membership';
   const nameClassName = `${className}__name`;
+
+  if (conversationType !== 'direct') {
+    return null;
+  }
 
   if (isMe) {
     return <div className={className}>{i18n('noteToSelfHero')}</div>;
   }
 
-  if (
-    conversationType === 'direct' &&
-    sharedGroupNames &&
-    sharedGroupNames.length > 0
-  ) {
+  if (sharedGroupNames.length > 0) {
     const firstThreeGroups = take(sharedGroupNames, 3).map((group, i) => (
       // We cannot guarantee uniqueness of group names
       // eslint-disable-next-line react/no-array-index-key
@@ -106,6 +110,10 @@ const renderMembershipRow = ({
         </div>
       );
     }
+  }
+
+  if (!phoneNumber) {
+    return <div className={className}>{i18n('no-groups-in-common')}</div>;
   }
 
   return null;
@@ -207,7 +215,13 @@ export const ConversationHero = ({
             : phoneNumber}
         </div>
       ) : null}
-      {renderMembershipRow({ isMe, sharedGroupNames, conversationType, i18n })}
+      {renderMembershipRow({
+        conversationType,
+        i18n,
+        isMe,
+        phoneNumber,
+        sharedGroupNames,
+      })}
     </div>
   );
   /* eslint-enable no-nested-ternary */

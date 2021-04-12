@@ -3,6 +3,7 @@
 
 import { combineReducers } from 'redux';
 
+import { reducer as audioPlayer } from './ducks/audioPlayer';
 import { reducer as calling } from './ducks/calling';
 import { reducer as conversations } from './ducks/conversations';
 import { reducer as emojis } from './ducks/emojis';
@@ -16,6 +17,7 @@ import { reducer as updates } from './ducks/updates';
 import { reducer as user } from './ducks/user';
 
 export const reducer = combineReducers({
+  audioPlayer,
   calling,
   conversations,
   emojis,

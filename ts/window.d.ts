@@ -51,6 +51,7 @@ import { createGroupV1MigrationModal } from './state/roots/createGroupV1Migratio
 import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
 import { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
 import { createLeftPane } from './state/roots/createLeftPane';
+import { createMessageDetail } from './state/roots/createMessageDetail';
 import { createPendingInvites } from './state/roots/createPendingInvites';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
@@ -92,6 +93,10 @@ import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { MIMEType } from './types/MIME';
+import { ElectronLocaleType } from './util/mapToSupportLocale';
+import { SignalProtocolStore } from './LibSignalStore';
+import { StartupQueue } from './util/StartupQueue';
+import * as synchronousCrypto from './util/synchronousCrypto';
 
 export { Long } from 'long';
 
@@ -106,7 +111,7 @@ type ConfirmationDialogViewProps = {
   confirmStyle?: 'affirmative' | 'negative';
   message: string;
   okText: string;
-  reject?: () => void;
+  reject?: (error: Error) => void;
   resolve: () => void;
 };
 
@@ -114,6 +119,8 @@ declare global {
   // We want to extend `window`'s properties, so we need an interface.
   // eslint-disable-next-line no-restricted-syntax
   interface Window {
+    startApp: () => void;
+
     _: typeof Underscore;
     $: typeof jQuery;
 
@@ -126,13 +133,20 @@ declare global {
 
     PQueue: typeof PQueue;
     PQueueType: PQueue;
+    Mustache: {
+      render: (template: string, data: any, partials?: any) => string;
+      parse: (template: string) => void;
+    };
 
     WhatIsThis: WhatIsThis;
 
+    attachmentDownloadQueue: Array<MessageModel> | undefined;
+    startupProcessingQueue: StartupQueue | undefined;
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;
     dcodeIO: DCodeIOType;
+    receivedAtCounter: number;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager | undefined;
@@ -148,6 +162,7 @@ declare global {
     getInboxCollection: () => ConversationModelCollectionType;
     getIncomingCallNotification: () => Promise<boolean>;
     getInteractionMode: () => 'mouse' | 'keyboard';
+    getLocale: () => ElectronLocaleType;
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
     getNodeVersion: () => string;
@@ -230,14 +245,26 @@ declare global {
       removeBlockedGroup: (group: string) => void;
       removeBlockedNumber: (number: string) => void;
       removeBlockedUuid: (uuid: string) => void;
+      reset: () => void;
     };
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
+    synchronousCrypto: typeof synchronousCrypto;
     titleBarDoubleClick: () => void;
     unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
+    sqlInitializer: {
+      initialize: () => Promise<void>;
+      goBackToMainProcess: () => void;
+    };
 
     Backbone: typeof Backbone;
+    CI:
+      | {
+          setProvisioningURL: (url: string) => void;
+          deviceName: string;
+        }
+      | undefined;
     Signal: {
       Backbone: any;
       AttachmentDownloads: {
@@ -468,6 +495,7 @@ declare global {
           createGroupV2JoinModal: typeof createGroupV2JoinModal;
           createGroupV2Permissions: typeof createGroupV2Permissions;
           createLeftPane: typeof createLeftPane;
+          createMessageDetail: typeof createMessageDetail;
           createPendingInvites: typeof createPendingInvites;
           createSafetyNumberViewer: typeof createSafetyNumberViewer;
           createShortcutGuideModal: typeof createShortcutGuideModal;
@@ -498,12 +526,12 @@ declare global {
         getInitialState: () => WhatIsThis;
         load: () => void;
       };
-      RefreshSenderCertificate: WhatIsThis;
     };
 
     ConversationController: ConversationController;
     Events: WhatIsThis;
     MessageController: MessageControllerType;
+    SignalProtocolStore: typeof SignalProtocolStore;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
 
@@ -544,12 +572,17 @@ export type DCodeIOType = {
     Long: DCodeIOType['Long'];
   };
   Long: Long & {
+    equals: (other: Long | number | string) => boolean;
     fromBits: (low: number, high: number, unsigned: boolean) => number;
+    fromNumber: (value: number, unsigned?: boolean) => Long;
     fromString: (str: string | null) => Long;
+    isLong: (obj: unknown) => obj is Long;
   };
 };
 
 type MessageControllerType = {
+  findBySender: (sender: string) => MessageModel | null;
+  findBySentAt: (sentAt: number) => MessageModel | null;
   register: (id: string, model: MessageModel) => MessageModel;
   unregister: (id: string) => void;
 };
@@ -653,7 +686,7 @@ export type WhisperType = {
   ClearDataView: WhatIsThis;
   ReactWrapperView: WhatIsThis;
   activeConfirmationView: WhatIsThis;
-  ToastView: typeof Whisper.View & {
+  ToastView: typeof window.Whisper.View & {
     show: (view: typeof Backbone.View, el: Element) => void;
   };
   ConversationArchivedToast: WhatIsThis;
@@ -685,7 +718,7 @@ export type WhisperType = {
   };
 
   DeliveryReceipts: {
-    add: (reciept: WhatIsThis) => void;
+    add: (receipt: WhatIsThis) => void;
     forMessage: (conversation: unknown, message: unknown) => Array<WhatIsThis>;
     onReceipt: (receipt: WhatIsThis) => void;
   };
@@ -729,33 +762,35 @@ export type WhisperType = {
   deliveryReceiptBatcher: BatcherType<WhatIsThis>;
   RotateSignedPreKeyListener: WhatIsThis;
 
-  AlreadyGroupMemberToast: typeof Whisper.ToastView;
-  AlreadyRequestedToJoinToast: typeof Whisper.ToastView;
-  BlockedGroupToast: typeof Whisper.ToastView;
-  BlockedToast: typeof Whisper.ToastView;
-  CannotMixImageAndNonImageAttachmentsToast: typeof Whisper.ToastView;
-  DangerousFileTypeToast: typeof Whisper.ToastView;
-  ExpiredToast: typeof Whisper.ToastView;
-  FileSavedToast: typeof Whisper.ToastView;
+  AlreadyGroupMemberToast: typeof window.Whisper.ToastView;
+  AlreadyRequestedToJoinToast: typeof window.Whisper.ToastView;
+  BlockedGroupToast: typeof window.Whisper.ToastView;
+  BlockedToast: typeof window.Whisper.ToastView;
+  CannotMixImageAndNonImageAttachmentsToast: typeof window.Whisper.ToastView;
+  DangerousFileTypeToast: typeof window.Whisper.ToastView;
+  ExpiredToast: typeof window.Whisper.ToastView;
+  FileSavedToast: typeof window.Whisper.ToastView;
   FileSizeToast: any;
-  FoundButNotLoadedToast: typeof Whisper.ToastView;
-  InvalidConversationToast: typeof Whisper.ToastView;
-  LeftGroupToast: typeof Whisper.ToastView;
-  MaxAttachmentsToast: typeof Whisper.ToastView;
-  MessageBodyTooLongToast: typeof Whisper.ToastView;
-  OneNonImageAtATimeToast: typeof Whisper.ToastView;
-  OriginalNoLongerAvailableToast: typeof Whisper.ToastView;
-  OriginalNotFoundToast: typeof Whisper.ToastView;
-  PinnedConversationsFullToast: typeof Whisper.ToastView;
-  ReactionFailedToast: typeof Whisper.ToastView;
-  TapToViewExpiredIncomingToast: typeof Whisper.ToastView;
-  TapToViewExpiredOutgoingToast: typeof Whisper.ToastView;
-  TimerConflictToast: typeof Whisper.ToastView;
-  UnableToLoadToast: typeof Whisper.ToastView;
-  VoiceNoteLimit: typeof Whisper.ToastView;
-  VoiceNoteMustBeOnlyAttachmentToast: typeof Whisper.ToastView;
+  FoundButNotLoadedToast: typeof window.Whisper.ToastView;
+  InvalidConversationToast: typeof window.Whisper.ToastView;
+  LeftGroupToast: typeof window.Whisper.ToastView;
+  MaxAttachmentsToast: typeof window.Whisper.ToastView;
+  MessageBodyTooLongToast: typeof window.Whisper.ToastView;
+  OneNonImageAtATimeToast: typeof window.Whisper.ToastView;
+  OriginalNoLongerAvailableToast: typeof window.Whisper.ToastView;
+  OriginalNotFoundToast: typeof window.Whisper.ToastView;
+  PinnedConversationsFullToast: typeof window.Whisper.ToastView;
+  ReactionFailedToast: typeof window.Whisper.ToastView;
+  TapToViewExpiredIncomingToast: typeof window.Whisper.ToastView;
+  TapToViewExpiredOutgoingToast: typeof window.Whisper.ToastView;
+  TimerConflictToast: typeof window.Whisper.ToastView;
+  UnableToLoadToast: typeof window.Whisper.ToastView;
+  VoiceNoteLimit: typeof window.Whisper.ToastView;
+  VoiceNoteMustBeOnlyAttachmentToast: typeof window.Whisper.ToastView;
 
-  ConversationLoadingScreen: typeof Whisper.View;
-  ConversationView: typeof Whisper.View;
-  View: typeof Backbone.View;
+  ConversationLoadingScreen: typeof window.Whisper.View;
+  ConversationView: typeof window.Whisper.View;
+  View: typeof Backbone.View & {
+    Templates: Record<string, string>;
+  };
 };

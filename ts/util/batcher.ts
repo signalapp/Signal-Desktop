@@ -22,6 +22,7 @@ window.waitForAllBatchers = async () => {
 };
 
 export type BatcherOptionsType<ItemType> = {
+  name: string;
   wait: number;
   maxSize: number;
   processBatch: (items: Array<ItemType>) => void | Promise<void>;
@@ -54,18 +55,19 @@ export function createBatcher<ItemType>(
   function add(item: ItemType) {
     items.push(item);
 
-    if (timeout) {
-      clearTimeout(timeout);
-      timeout = null;
-    }
-
-    if (items.length >= options.maxSize) {
-      _kickBatchOff();
-    } else {
+    if (items.length === 1) {
+      // Set timeout once when we just pushed the first item so that the wait
+      // time is bounded by `options.wait` and not extended by further pushes.
       timeout = setTimeout(() => {
         timeout = null;
         _kickBatchOff();
       }, options.wait);
+    } else if (items.length >= options.maxSize) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      _kickBatchOff();
     }
   }
 
@@ -92,15 +94,23 @@ export function createBatcher<ItemType>(
   }
 
   async function flushAndWait() {
+    window.log.info(
+      `Flushing ${options.name} batcher items.length=${items.length}`
+    );
     if (timeout) {
       clearTimeout(timeout);
       timeout = null;
     }
-    if (items.length) {
-      _kickBatchOff();
-    }
 
-    return onIdle();
+    while (anyPending()) {
+      _kickBatchOff();
+
+      if (queue.size > 0 || queue.pending > 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await queue.onIdle();
+      }
+    }
+    window.log.info(`Flushing complete ${options.name} for batcher`);
   }
 
   batcher = {

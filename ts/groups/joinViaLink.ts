@@ -58,10 +58,10 @@ export async function joinViaLink(hash: string): Promise<void> {
     window.log.warn(
       `joinViaLink/${logId}: Already a member of group, opening conversation`
     );
-    window.reduxActions.conversations.openConversationInternal(
-      existingConversation.id
-    );
-    window.window.Whisper.ToastView.show(
+    window.reduxActions.conversations.openConversationInternal({
+      conversationId: existingConversation.id,
+    });
+    window.Whisper.ToastView.show(
       window.Whisper.AlreadyGroupMemberToast,
       document.getElementsByClassName('conversation-stack')[0]
     );
@@ -132,9 +132,9 @@ export async function joinViaLink(hash: string): Promise<void> {
     window.log.warn(
       `joinViaLink/${logId}: Already awaiting approval, opening conversation`
     );
-    window.reduxActions.conversations.openConversationInternal(
-      existingConversation.id
-    );
+    window.reduxActions.conversations.openConversationInternal({
+      conversationId: existingConversation.id,
+    });
 
     window.Whisper.ToastView.show(
       window.Whisper.AlreadyRequestedToJoinToast,
@@ -221,9 +221,9 @@ export async function joinViaLink(hash: string): Promise<void> {
             window.log.warn(
               `joinViaLink/${logId}: User is part of group on second check, opening conversation`
             );
-            window.reduxActions.conversations.openConversationInternal(
-              targetConversation.id
-            );
+            window.reduxActions.conversations.openConversationInternal({
+              conversationId: targetConversation.id,
+            });
             return;
           }
 
@@ -302,9 +302,9 @@ export async function joinViaLink(hash: string): Promise<void> {
               );
             }
 
-            window.reduxActions.conversations.openConversationInternal(
-              targetConversation.id
-            );
+            window.reduxActions.conversations.openConversationInternal({
+              conversationId: targetConversation.id,
+            });
           } catch (error) {
             // Delete newly-created conversation if we encountered any errors
             if (tempConversation) {
@@ -333,7 +333,7 @@ export async function joinViaLink(hash: string): Promise<void> {
 
   window.log.info(`joinViaLink/${logId}: Showing modal`);
 
-  let groupV2InfoDialog = new Whisper.ReactWrapperView({
+  let groupV2InfoDialog = new window.Whisper.ReactWrapperView({
     className: 'group-v2-join-dialog-wrapper',
     JSX: window.Signal.State.Roots.createGroupV2JoinModal(window.reduxStore, {
       join,

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -211,6 +211,9 @@ const items: Record<string, TimelineItemType> = {
 
 const actions = () => ({
   clearChangedMessages: action('clearChangedMessages'),
+  clearInvitedConversationsForNewlyCreatedGroup: action(
+    'clearInvitedConversationsForNewlyCreatedGroup'
+  ),
   setLoadCountdownStart: action('setLoadCountdownStart'),
   setIsNearBottom: action('setIsNearBottom'),
   loadAndScroll: action('loadAndScroll'),
@@ -232,6 +235,7 @@ const actions = () => ({
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   showVisualAttachment: action('showVisualAttachment'),
   downloadAttachment: action('downloadAttachment'),
   displayTapToViewMessage: action('displayTapToViewMessage'),
@@ -252,6 +256,8 @@ const actions = () => ({
   messageSizeChanged: action('messageSizeChanged'),
   startCallingLobby: action('startCallingLobby'),
   returnToActiveCall: action('returnToActiveCall'),
+
+  contactSupport: action('contactSupport'),
 });
 
 const renderItem = (id: string) => (
@@ -261,9 +267,11 @@ const renderItem = (id: string) => (
     renderEmojiPicker={() => <div />}
     item={items[id]}
     i18n={i18n}
+    interactionMode="keyboard"
     conversationId=""
     conversationAccepted
     renderContact={() => '*ContactName*'}
+    renderAudioAttachment={() => <div>*AudioAttachment*</div>}
     {...actions()}
   />
 );
@@ -297,6 +305,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   oldestUnreadIndex:
     number('oldestUnreadIndex', overrideProps.oldestUnreadIndex || 0) ||
     undefined,
+  invitedContactsForNewlyCreatedGroup:
+    overrideProps.invitedContactsForNewlyCreatedGroup || [],
 
   id: '',
   renderItem,
@@ -355,6 +365,25 @@ story.add('Without Oldest Message', () => {
   const props = createProps({
     haveOldest: false,
     scrollToIndex: -1,
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('With invited contacts for a newly-created group', () => {
+  const props = createProps({
+    invitedContactsForNewlyCreatedGroup: [
+      {
+        id: 'abc123',
+        title: 'John Bon Bon Jovi',
+        type: 'direct',
+      },
+      {
+        id: 'def456',
+        title: 'Bon John Bon Jovi',
+        type: 'direct',
+      },
+    ],
   });
 
   return <Timeline {...props} />;

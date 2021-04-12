@@ -19,7 +19,7 @@
             img-src 'self' blob: data:;
             media-src 'self' blob:;
             object-src 'none';
-            script-src 'self';
+            script-src 'self' 'sha256-5J9nLKMi84ERvoy7r/3XVwiW1iZ5YaPic9BNaF/0rtI=';
             style-src 'self' 'unsafe-inline';"
   >
   <title>Signal</title>
@@ -329,7 +329,6 @@
   <script type='text/javascript' src='js/reliable_trigger.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
   <script type='text/javascript' src='js/storage.js'></script>
-  <script type='text/javascript' src='js/signal_protocol_store.js'></script>
   <script type='text/javascript' src='js/libtextsecure.js'></script>
 
   <script type='text/javascript' src='js/notifications.js'></script>
@@ -348,14 +347,11 @@
   <script type='text/javascript' src='js/message_controller.js'></script>
 
   <script type='text/javascript' src='js/views/react_wrapper_view.js'></script>
-  <script type='text/javascript' src='js/views/whisper_view.js'></script>
-  <script type='text/javascript' src='js/views/toast_view.js'></script>
   <script type='text/javascript' src='js/views/list_view.js'></script>
   <script type='text/javascript' src='js/views/contact_list_view.js'></script>
   <script type='text/javascript' src='js/views/key_verification_view.js'></script>
   <script type='text/javascript' src='js/views/group_member_list_view.js'></script>
   <script type='text/javascript' src='js/views/recorder_view.js'></script>
-  <script type='text/javascript' src='ts/views/conversation_view.js'></script>
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
   <script type='text/javascript' src='ts/shims/showConfirmationDialog.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
@@ -386,6 +382,12 @@
     </div>
   </div>
 
-  <script type='text/javascript' src='ts/background.js'></script>
+  <!--
+    Note: this inline script cannot be changed without also changing the hash in
+    the CSP at the top of this file
+  -->
+  <script type='text/javascript'>
+    window.startApp();
+  </script>
 </body>
 </html>

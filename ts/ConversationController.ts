@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce, reduce, uniq, without } from 'lodash';
@@ -13,6 +13,7 @@ import {
 import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
 import { ConversationModel } from './models/conversations';
 import { maybeDeriveGroupV2Id } from './groups';
+import { assert } from './util/assert';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -61,15 +62,18 @@ export function start(): void {
     // we can reset the mute state on the model. If the mute has already expired
     // then we reset the state right away.
     initMuteExpirationTimer(model: ConversationModel): void {
-      if (model.isMuted()) {
+      const muteExpiresAt = model.get('muteExpiresAt');
+      // This check for `muteExpiresAt` is likely redundant, but is needed to appease
+      //   TypeScript.
+      if (model.isMuted() && muteExpiresAt) {
         window.Signal.Services.onTimeout(
-          model.get('muteExpiresAt'),
+          muteExpiresAt,
           () => {
             model.set({ muteExpiresAt: undefined });
           },
           model.getMuteTimeoutId()
         );
-      } else if (model.get('muteExpiresAt')) {
+      } else if (muteExpiresAt) {
         model.set({ muteExpiresAt: undefined });
       }
     },
@@ -121,11 +125,11 @@ export function start(): void {
 }
 
 export class ConversationController {
-  _initialFetchComplete: boolean | undefined;
+  private _initialFetchComplete: boolean | undefined;
 
-  _initialPromise: Promise<void> = Promise.resolve();
+  private _initialPromise: Promise<void> = Promise.resolve();
 
-  _conversations: ConversationModelCollectionType;
+  private _conversations: ConversationModelCollectionType;
 
   constructor(conversations?: ConversationModelCollectionType) {
     if (!conversations) {
@@ -144,6 +148,10 @@ export class ConversationController {
 
     // This function takes null just fine. Backbone typings are too restrictive.
     return this._conversations.get(id as string);
+  }
+
+  getAll(): Array<ConversationModel> {
+    return this._conversations.models;
   }
 
   dangerouslyCreateAndAdd(
@@ -442,7 +450,7 @@ export class ConversationController {
       convoUuid.updateE164(e164);
       // `then` is used to trigger async updates, not affecting return value
       // eslint-disable-next-line more/no-then
-      this.combineContacts(convoUuid, convoE164)
+      this.combineConversations(convoUuid, convoE164)
         .then(() => {
           // If the old conversation was currently displayed, we load the new one
           window.Whisper.events.trigger('refreshConversation', {
@@ -465,14 +473,21 @@ export class ConversationController {
     window.log.info('checkForConflicts: starting...');
     const byUuid = Object.create(null);
     const byE164 = Object.create(null);
+    const byGroupV2Id = Object.create(null);
+    // We also want to find duplicate GV1 IDs. You might expect to see a "byGroupV1Id" map
+    //   here. Instead, we check for duplicates on the derived GV2 ID.
+
+    const { models } = this._conversations;
 
     // We iterate from the oldest conversations to the newest. This allows us, in a
     //   conflict case, to keep the one with activity the most recently.
-    const models = [...this._conversations.models.reverse()];
-
-    const max = models.length;
-    for (let i = 0; i < max; i += 1) {
+    for (let i = models.length - 1; i >= 0; i -= 1) {
       const conversation = models[i];
+      assert(
+        conversation,
+        'Expected conversation to be found in array during iteration'
+      );
+
       const uuid = conversation.get('uuid');
       const e164 = conversation.get('e164');
 
@@ -489,12 +504,12 @@ export class ConversationController {
           if (conversation.get('e164')) {
             // Keep new one
             // eslint-disable-next-line no-await-in-loop
-            await this.combineContacts(conversation, existing);
+            await this.combineConversations(conversation, existing);
             byUuid[uuid] = conversation;
           } else {
             // Keep existing - note that this applies if neither had an e164
             // eslint-disable-next-line no-await-in-loop
-            await this.combineContacts(existing, conversation);
+            await this.combineConversations(existing, conversation);
           }
         }
       }
@@ -531,12 +546,49 @@ export class ConversationController {
           if (conversation.get('uuid')) {
             // Keep new one
             // eslint-disable-next-line no-await-in-loop
-            await this.combineContacts(conversation, existing);
+            await this.combineConversations(conversation, existing);
             byE164[e164] = conversation;
           } else {
             // Keep existing - note that this applies if neither had a UUID
             // eslint-disable-next-line no-await-in-loop
-            await this.combineContacts(existing, conversation);
+            await this.combineConversations(existing, conversation);
+          }
+        }
+      }
+
+      let groupV2Id: undefined | string;
+      if (conversation.isGroupV1()) {
+        // eslint-disable-next-line no-await-in-loop
+        await maybeDeriveGroupV2Id(conversation);
+        groupV2Id = conversation.get('derivedGroupV2Id');
+        assert(
+          groupV2Id,
+          'checkForConflicts: expected the group V2 ID to have been derived, but it was falsy'
+        );
+      } else if (conversation.isGroupV2()) {
+        groupV2Id = conversation.get('groupId');
+      }
+
+      if (groupV2Id) {
+        const existing = byGroupV2Id[groupV2Id];
+        if (!existing) {
+          byGroupV2Id[groupV2Id] = conversation;
+        } else {
+          const logParenthetical = conversation.isGroupV1()
+            ? ' (derived from a GV1 group ID)'
+            : '';
+          window.log.warn(
+            `checkForConflicts: Found conflict with group V2 ID ${groupV2Id}${logParenthetical}`
+          );
+
+          // Prefer the GV2 group.
+          if (conversation.isGroupV2() && !existing.isGroupV2()) {
+            // eslint-disable-next-line no-await-in-loop
+            await this.combineConversations(conversation, existing);
+            byGroupV2Id[groupV2Id] = conversation;
+          } else {
+            // eslint-disable-next-line no-await-in-loop
+            await this.combineConversations(existing, conversation);
           }
         }
       }
@@ -545,82 +597,94 @@ export class ConversationController {
     window.log.info('checkForConflicts: complete!');
   }
 
-  async combineContacts(
+  async combineConversations(
     current: ConversationModel,
     obsolete: ConversationModel
   ): Promise<void> {
+    const conversationType = current.get('type');
+
+    if (obsolete.get('type') !== conversationType) {
+      assert(
+        false,
+        'combineConversations cannot combine a private and group conversation. Doing nothing'
+      );
+      return;
+    }
+
     const obsoleteId = obsolete.get('id');
     const currentId = current.get('id');
-    window.log.warn('combineContacts: Combining two conversations', {
+    window.log.warn('combineConversations: Combining two conversations', {
       obsolete: obsoleteId,
       current: currentId,
     });
 
-    if (!current.get('profileKey') && obsolete.get('profileKey')) {
+    if (conversationType === 'private') {
+      if (!current.get('profileKey') && obsolete.get('profileKey')) {
+        window.log.warn(
+          'combineConversations: Copying profile key from old to new contact'
+        );
+
+        const profileKey = obsolete.get('profileKey');
+
+        if (profileKey) {
+          await current.setProfileKey(profileKey);
+        }
+      }
+
       window.log.warn(
-        'combineContacts: Copying profile key from old to new contact'
+        'combineConversations: Delete all sessions tied to old conversationId'
+      );
+      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
+        obsoleteId
+      );
+      await Promise.all(
+        deviceIds.map(async deviceId => {
+          await window.textsecure.storage.protocol.removeSession(
+            `${obsoleteId}.${deviceId}`
+          );
+        })
       );
 
-      const profileKey = obsolete.get('profileKey');
+      window.log.warn(
+        'combineConversations: Delete all identity information tied to old conversationId'
+      );
+      await window.textsecure.storage.protocol.removeIdentityKey(obsoleteId);
 
-      if (profileKey) {
-        await current.setProfileKey(profileKey);
-      }
-    }
+      window.log.warn(
+        'combineConversations: Ensure that all V1 groups have new conversationId instead of old'
+      );
+      const groups = await this.getAllGroupsInvolvingId(obsoleteId);
+      groups.forEach(group => {
+        const members = group.get('members');
+        const withoutObsolete = without(members, obsoleteId);
+        const currentAdded = uniq([...withoutObsolete, currentId]);
 
-    window.log.warn(
-      'combineContacts: Delete all sessions tied to old conversationId'
-    );
-    const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-      obsoleteId
-    );
-    await Promise.all(
-      deviceIds.map(async deviceId => {
-        await window.textsecure.storage.protocol.removeSession(
-          `${obsoleteId}.${deviceId}`
-        );
-      })
-    );
-
-    window.log.warn(
-      'combineContacts: Delete all identity information tied to old conversationId'
-    );
-    await window.textsecure.storage.protocol.removeIdentityKey(obsoleteId);
-
-    window.log.warn(
-      'combineContacts: Ensure that all V1 groups have new conversationId instead of old'
-    );
-    const groups = await this.getAllGroupsInvolvingId(obsoleteId);
-    groups.forEach(group => {
-      const members = group.get('members');
-      const withoutObsolete = without(members, obsoleteId);
-      const currentAdded = uniq([...withoutObsolete, currentId]);
-
-      group.set({
-        members: currentAdded,
+        group.set({
+          members: currentAdded,
+        });
+        updateConversation(group.attributes);
       });
-      updateConversation(group.attributes);
-    });
+    }
 
     // Note: we explicitly don't want to update V2 groups
 
     window.log.warn(
-      'combineContacts: Delete the obsolete conversation from the database'
+      'combineConversations: Delete the obsolete conversation from the database'
     );
     await removeConversation(obsoleteId, {
       Conversation: window.Whisper.Conversation,
     });
 
-    window.log.warn('combineContacts: Update messages table');
+    window.log.warn('combineConversations: Update messages table');
     await migrateConversationMessages(obsoleteId, currentId);
 
     window.log.warn(
-      'combineContacts: Eliminate old conversation from ConversationController lookups'
+      'combineConversations: Eliminate old conversation from ConversationController lookups'
     );
     this._conversations.remove(obsolete);
     this._conversations.resetLookups();
 
-    window.log.warn('combineContacts: Complete!', {
+    window.log.warn('combineConversations: Complete!', {
       obsolete: obsoleteId,
       current: currentId,
     });
@@ -758,6 +822,9 @@ export class ConversationController {
         await Promise.all(
           this._conversations.map(async conversation => {
             try {
+              // Hydrate contactCollection, now that initial fetch is complete
+              conversation.fetchContacts();
+
               const isChanged = await maybeDeriveGroupV2Id(conversation);
               if (isChanged) {
                 updateConversation(conversation.attributes);
