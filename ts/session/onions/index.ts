@@ -312,6 +312,6 @@ export class OnionPaths {
       this.onionPaths.push({ path, bad: false });
     }
 
-    log.info(`Built ${this.onionPaths.length} onion paths`, this.onionPaths);
+    log.info(`Built ${this.onionPaths.length} onion paths`);
   }
 }
