@@ -11475,16 +11475,16 @@ $contact-modal-padding: 18px;
   }
 }
 
-/* Spec: container < 437px */
-@media (min-width: 0px) and (max-width: 799px) {
+/* Spec: container < 515px */
+@media (min-width: 0px) and (max-width: 834px) {
   .module-message {
     // Add 2px for 1px border
     max-width: 302px;
   }
 }
 
-/* Spec: container > 438px and container < 593px */
-@media (min-width: 800px) and (max-width: 925px) {
+/* Spec: container > 514px and container < 606px */
+@media (min-width: 835px) and (max-width: 925px) {
   .module-message {
     // Add 2px for 1px border
     max-width: 376px;
