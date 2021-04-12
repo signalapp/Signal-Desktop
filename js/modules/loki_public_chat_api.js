@@ -154,11 +154,11 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
         );
         return null;
       }
-      if (window.isDev) {
-        log.info(
-          `loki_public_chat::findOrCreateServer - set token ${thisServer.token} for ${serverUrl}`
-        );
-      }
+      // if (window.isDev) {
+      //   log.info(
+      //     `loki_public_chat::findOrCreateServer - set token ${thisServer.token} for ${serverUrl}`
+      //   );
+      // }
 
       this.servers.push(thisServer);
     }
