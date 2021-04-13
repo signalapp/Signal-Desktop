@@ -10,7 +10,7 @@ const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 const SESSION_ID_PATTERN = /\b((05)?[0-9a-f]{64})\b/gi;
 const SNODE_PATTERN = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
-const SERVER_URL_PATTERN = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
+const SERVER_URL_PATTERN = /https?:\/\/[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
 //      _redactPath :: Path -> String -> String
