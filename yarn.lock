@@ -1159,16 +1159,17 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@chanzuckerberg/axe-storybook-testing@3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@chanzuckerberg/axe-storybook-testing/-/axe-storybook-testing-3.0.1.tgz#d94544c100ed501346375b0709ab1ef0bf7b3dda"
-  integrity sha512-CkpsOFfj06JWJKUQTPjNfSV810XdgMHaQe5pebjW4pgw76rWRkZSF9wyAbcp8zTUMtnaqN9FFjzOphDKk6lhAg==
+"@chanzuckerberg/axe-storybook-testing@3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@chanzuckerberg/axe-storybook-testing/-/axe-storybook-testing-3.0.2.tgz#445fdbb134f08d6cce3b1dc4dbc2e5a8f1e030ba"
+  integrity sha512-hxliWKw0C1Dp+Q3DM9/D690yXI+U8dqJEsTQ7toNsIb49ubMycOgJFZi0xlmW/VCugnYja4I31KlIAqS6LKpsg==
   dependencies:
     chalk "^4.1.0"
     indent-string "^4.0.0"
     lodash "^4.17.21"
     p-timeout "^4.1.0"
-    playwright "^1.9.1"
+    playwright "^1.10.0"
+    ts-dedent "^2.1.1"
     yargs "^16.2.0"
 
 "@develar/schema-utils@~2.6.5":
@@ -3916,6 +3917,11 @@ aws4@^1.2.1:
 aws4@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
+
+axe-core@4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.1.4.tgz#f19cd99a84ee32a318b9c5b5bb8ed373ad94f143"
+  integrity sha512-Pdgfv6iP0gNx9ejRGa3zE7Xgkj/iclXqLfe7BnatdZz0QnLZ3jrRHUVH8wNSdN68w05Sk3ShGTb3ydktMTooig==
 
 axe-core@^3.5.4:
   version "3.5.5"
@@ -13125,7 +13131,7 @@ pkg-up@2.0.0:
   dependencies:
     find-up "^2.1.0"
 
-playwright@^1.9.1:
+playwright@^1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.10.0.tgz#a14d295f1ad886caf4cc5e674afe03ac832066bc"
   integrity sha512-b7SGBcCPq4W3pb4ImEDmNXtO0ZkJbZMuWiShsaNJd+rGfY/6fqwgllsAojmxGSgFmijYw7WxCoPiAIEDIH16Kw==
@@ -17011,10 +17017,10 @@ truncate-utf8-bytes@^1.0.0:
   dependencies:
     utf8-byte-length "^1.0.1"
 
-ts-dedent@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-2.0.0.tgz#47c5eb23d9096f3237cc413bc82d387d36dbe690"
-  integrity sha512-DfxKjSFQfw9+uf7N9Cy8Ebx9fv5fquK4hZ6SD3Rzr+1jKP6AVA6H8+B5457ZpUs0JKsGpGqIevbpZ9DMQJDp1A==
+ts-dedent@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-2.1.1.tgz#6dd56870bb5493895171334fa5d7e929107e5bbc"
+  integrity sha512-riHuwnzAUCfdIeTBNUq7+Yj+ANnrMXo/7+Z74dIdudS7ys2k8aSGMzpJRMFDF7CLwUTbtvi1ZZff/Wl+XxmqIA==
 
 ts-loader@4.1.0:
   version "4.1.0"

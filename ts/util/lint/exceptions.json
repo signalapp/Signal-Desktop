@@ -2288,323 +2288,160 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "        return function wrap() {",
-    "lineNumber": 872,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "        return function wrap(arr) {",
-    "lineNumber": 1071,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "            $({",
-    "lineNumber": 2382,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "        $({",
-    "lineNumber": 3567,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "          $({",
-    "lineNumber": 3688,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      return rule.after(ruleResult, options);",
-    "lineNumber": 8674,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      var afterResults = check.after(beforeResults, option);",
-    "lineNumber": 9361,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "          results = audit.after(results, options);",
-    "lineNumber": 10205,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
     "rule": "DOM-outerHTML",
     "path": "node_modules/axe-core/axe.js",
-    "line": "    var source = element.outerHTML;",
-    "lineNumber": 11066,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "Only used by eslint-config-airbnb-typescript-prettier#eslint-plugin-jsx-a11y"
+    "line": "      var source = element.outerHTML;",
+    "lineNumber": 5865,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/axe-core/axe.js",
-    "line": "    style.innerHTML = usePointer ? '* { pointer-events: all }' : '* { visibility: visible }';",
-    "lineNumber": 12432,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "Only used by eslint-config-airbnb-typescript-prettier#eslint-plugin-jsx-a11y"
+    "line": "      style.innerHTML = usePointer ? '* { pointer-events: all }' : '* { visibility: visible }';",
+    "lineNumber": 10926,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 16933,
+    "line": "        var afterResults = check4.after(beforeResults, option);",
+    "lineNumber": 19079,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 17013,
+    "line": "        value: function after(results, options) {",
+    "lineNumber": 19436,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 17037,
+    "line": "            return rule3.after(ruleResult, options);",
+    "lineNumber": 19443,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 17179,
+    "line": "            results = audit3.after(results, options);",
+    "lineNumber": 20005,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
-    "rule": "jQuery-after(",
+    "rule": "jQuery-load(",
     "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 17207,
+    "line": "    function load(audit3) {",
+    "lineNumber": 20062,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 17248,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 17284,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 17320,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 17520,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 18116,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 18150,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 18408,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 18435,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 18462,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/axe-core/axe.js",
-    "line": "      after: function after(results, options) {",
-    "lineNumber": 18489,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/axe-core/axe.min.js",
     "lineNumber": 12,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "Only used by eslint-config-airbnb-typescript-prettier#eslint-plugin-jsx-a11y"
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-13T17:31:15.352Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/axe-core/axe.min.js",
     "lineNumber": 12,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "Only used by eslint-config-airbnb-typescript-prettier#eslint-plugin-jsx-a11y"
-  },
-  {
-    "rule": "React-ref",
-    "path": "node_modules/axe-core/axe.min.js",
-    "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't react"
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-13T17:31:15.352Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "node_modules/axe-core/axe.min.js",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T17:31:15.352Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/axe-core/axe.min.js",
     "lineNumber": 12,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T17:31:15.352Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/axe-core/lib/core/base/audit.js",
-    "line": "\t\treturn rule.after(ruleResult, options);",
-    "lineNumber": 612,
+    "line": "\tafter(results, options) {",
+    "lineNumber": 472,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T00:52:21.453Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/lib/core/base/audit.js",
+    "line": "\t\t\treturn rule.after(ruleResult, options);",
+    "lineNumber": 482,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/axe-core/lib/core/base/rule.js",
     "line": "\t\tvar afterResults = check.after(beforeResults, option);",
-    "lineNumber": 499,
+    "lineNumber": 536,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T00:52:21.453Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/axe-core/lib/core/public/load.js",
+    "line": "function load(audit) {",
+    "lineNumber": 61,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/axe-core/lib/core/public/run-rules.js",
     "line": "\t\t\t\tresults = audit.after(results, options);",
-    "lineNumber": 75,
+    "lineNumber": 77,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/axe-core/lib/core/utils/dq-element.js",
     "line": "\tvar source = element.outerHTML;",
-    "lineNumber": 15,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2020-08-26T19:34:24.581Z",
-    "reasonDetail": "only used by eslint-plugin-jsx-ally"
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "DOM-outerHTML",
     "path": "node_modules/axe-core/lib/core/utils/dq-element.js",
     "line": " * grab the source (outerHTML) and offer an array for storing frame paths",
-    "lineNumber": 24,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T19:34:24.581Z",
-    "reasonDetail": "documentation"
+    "lineNumber": 26,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-13T00:52:21.453Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/axe-core/lib/core/utils/pollyfills.js",
     "line": "\tstyle.innerHTML = usePointer",
     "lineNumber": 71,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2020-08-26T19:34:24.581Z",
-    "reasonDetail": "only used by eslint-plugin-jsx-ally"
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-13T17:31:15.352Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/axe-core/lib/core/utils/valid-langs.js",
+    "line": "const str = document.querySelector('pre').innerHTML;",
+    "lineNumber": 10,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-13T17:31:15.352Z"
   },
   {
     "rule": "jQuery-$(",
@@ -2925,6 +2762,96 @@
     "lineNumber": 236,
     "reasonCategory": "falseMatch",
     "updated": "2021-04-05T20:48:36.065Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/browser-source-map-support.js",
+    "lineNumber": 90,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
+    "line": "  // Most eval() calls are in this format",
+    "lineNumber": 234,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
+    "line": "  // Parse nested eval() calls using recursion",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
+    "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
+    "lineNumber": 344,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
+    "line": "  // Code called using eval() needs special handling",
+    "lineNumber": 373,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/tools/domprops.js",
+    "line": "    \"innerHTML\",",
+    "lineNumber": 3419,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/tools/domprops.js",
+    "line": "    \"outerHTML\",",
+    "lineNumber": 4349,
+    "reasonCategory": "falseMatch",
+    "updated": "2021-04-06T23:11:04.431Z"
   },
   {
     "rule": "eval",
@@ -16135,16 +16062,15 @@
     "path": "ts/backbone/views/toast_view.js",
     "line": "    template: () => $('#toast').html(),",
     "lineNumber": 7,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2021-02-26T19:21:25.912Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "falseMatch",
+    "updated": "2021-02-26T19:21:25.912Z"
   },
   {
     "rule": "jQuery-html(",
     "path": "ts/backbone/views/toast_view.js",
     "line": "    template: () => $('#toast').html(),",
     "lineNumber": 7,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T19:21:25.912Z",
     "reasonDetail": "Static selector, read-only access"
   },
@@ -17193,95 +17119,5 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-08T15:46:32.143Z",
     "reasonDetail": "Doesn't manipulate the DOM. This is just a function."
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/browser-source-map-support.js",
-    "lineNumber": 90,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
-    "line": "  // Most eval() calls are in this format",
-    "lineNumber": 234,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
-    "line": "  // Parse nested eval() calls using recursion",
-    "lineNumber": 246,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
-    "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
-    "lineNumber": 344,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
-    "line": "  // Code called using eval() needs special handling",
-    "lineNumber": 373,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/tools/domprops.js",
-    "line": "    \"innerHTML\",",
-    "lineNumber": 3419,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/tools/domprops.js",
-    "line": "    \"outerHTML\",",
-    "lineNumber": 4349,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
   }
 ]
