@@ -63,20 +63,28 @@ describe('Privacy', () => {
         'This is a log line with sensitive information:\n' +
         `path1 ${APP_ROOT_PATH}/main.js\n` +
         'phone1 0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827 ipsum\n' +
+        'group 31032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827 eeee\n' +
         'group1 group(123456789) doloret\n' +
         `path2 file:///${encodedAppRootPath}/js/background.js.` +
         'phone2 0531033dc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827 lorem\n' +
-        'group2 group(abcdefghij) doloret\n';
+        'group2 group(abcdefghij) doloret\n' +
+        'url1 https://you-have-to-hide.me aaa\n' +
+        'url1 http://you-have-to-hide.me bbb\n' +
+        'url1 127.0.0.1:22021 ccc\n';
 
       const actual = Privacy.redactAll(text);
       const expected =
         'This is a log line with sensitive information:\n' +
         'path1 [REDACTED]/main.js\n' +
         'phone1 [REDACTED] ipsum\n' +
+        'group [REDACTED] eeee\n' +
         'group1 group([REDACTED]789) doloret\n' +
         'path2 file:///[REDACTED]/js/background.js.' +
         'phone2 [REDACTED] lorem\n' +
-        'group2 group([REDACTED]hij) doloret\n';
+        'group2 group([REDACTED]hij) doloret\n' +
+        'url1 [REDACTED] aaa\n' +
+        'url1 [REDACTED] bbb\n' +
+        'url1 [REDACTED]:22021 ccc\n';
       assert.equal(actual, expected);
     });
   });
