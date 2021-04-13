@@ -1663,7 +1663,6 @@ function updateSchema(db: Database): void {
   for (let index = 0; index < maxUserVersion; index += 1) {
     const runSchemaUpdate = SCHEMA_VERSIONS[index];
 
-    // Yes, we really want to do this asynchronously, in order
     runSchemaUpdate(userVersion, db);
   }
 }
