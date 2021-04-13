@@ -16,7 +16,17 @@ jobs:
       with:
         node-version: '14.16.0'
     - run: npm install -g yarn@1.22.10
-    - run: yarn install --frozen-lockfile
+
+    - name: Cache Desktop node_modules
+      id: cache-desktop-modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+    - name: Install Desktop node_modules
+      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
+      run: yarn install --frozen-lockfile
+
     - run: yarn generate
     - run: yarn lint
     - run: yarn lint-deps
@@ -35,7 +45,17 @@ jobs:
       with:
         node-version: '14.16.0'
     - run: npm install -g yarn@1.22.10
-    - run: yarn install --frozen-lockfile
+
+    - name: Cache Desktop node_modules
+      id: cache-desktop-modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+    - name: Install Desktop node_modules
+      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
+      run: yarn install --frozen-lockfile
+
     - run: yarn generate
     - run: yarn prepare-beta-build
     - run: yarn build
@@ -58,7 +78,17 @@ jobs:
         node-version: '14.16.0'
     - run: sudo apt-get install xvfb
     - run: npm install -g yarn@1.22.10
-    - run: yarn install --frozen-lockfile
+
+    - name: Cache Desktop node_modules
+      id: cache-desktop-modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+    - name: Install Desktop node_modules
+      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
+      run: yarn install --frozen-lockfile
+
     - run: yarn generate
     - run: yarn prepare-beta-build
     - run: yarn build
@@ -84,7 +114,17 @@ jobs:
       with:
         node-version: '14.16.0'
     - run: npm install -g yarn@1.22.10
-    - run: yarn install --frozen-lockfile
+
+    - name: Cache Desktop node_modules
+      id: cache-desktop-modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+    - name: Install Desktop node_modules
+      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
+      run: yarn install --frozen-lockfile
+
     - run: yarn generate
     - run: node build\grunt.js
     - run: yarn test-node
