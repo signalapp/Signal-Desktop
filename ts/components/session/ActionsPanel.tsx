@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar, AvatarSize } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
-import { ConversationType } from '../../state/ducks/conversations';
-import { DefaultTheme } from 'styled-components';
 import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
-import { DAYS } from '../../session/utils/Number';
+import { DAYS, MINUTES, SECONDS } from '../../session/utils/Number';
 import {
   getItemById,
   hasSyncedInitialConfigurationItem,
@@ -29,6 +27,8 @@ import { getFocusedSection } from '../../state/selectors/section';
 import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
 import { showLeftPaneSection } from '../../state/ducks/section';
+import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
+import { useTimeoutFn } from 'react-use';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -126,16 +126,20 @@ const showResetSessionIDDialogIfNeeded = async () => {
   window.showResetSessionIdDialog();
 };
 
+const cleanUpMediasInterval = MINUTES * 30;
+
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
  */
 export const ActionsPanel = () => {
   const dispatch = useDispatch();
+  const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
 
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
 
   // this maxi useEffect is called only once: when the component is mounted.
+  // For the action panel, it means this is called only one per app start/with a user loggedin
   useEffect(() => {
     void window.setClockParams();
     if (
@@ -174,9 +178,26 @@ export const ActionsPanel = () => {
     };
 
     // trigger a sync message if needed for our other devices
-
     void syncConfiguration();
   }, []);
+
+  // wait for cleanUpMediasInterval and then start cleaning up medias
+  // this would be way easier to just be able to not trigger a call with the setInterval
+  useEffect(() => {
+    const timeout = global.setTimeout(
+      () => setStartCleanUpMedia(true),
+      cleanUpMediasInterval
+    );
+
+    return () => global.clearTimeout(timeout);
+  }, []);
+
+  useInterval(
+    () => {
+      cleanUpOldDecryptedMedias();
+    },
+    startCleanUpMedia ? cleanUpMediasInterval : null
+  );
 
   if (!ourPrimaryConversation) {
     window.log.warn('ActionsPanel: ourPrimaryConversation is not set');

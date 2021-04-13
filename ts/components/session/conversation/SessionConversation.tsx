@@ -34,7 +34,7 @@ import {
   getPubkeysInPublicConversation,
 } from '../../../data/data';
 import autoBind from 'auto-bind';
-import { getDecryptedAttachmentUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
+import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 
 interface State {
   // Message sending progress
@@ -940,7 +940,7 @@ export class SessionConversation extends React.Component<Props, State> {
     index?: number;
   }) {
     const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-    attachment.url = await getDecryptedAttachmentUrl(
+    attachment.url = await getDecryptedMediaUrl(
       attachment.url,
       attachment.contentType
     );

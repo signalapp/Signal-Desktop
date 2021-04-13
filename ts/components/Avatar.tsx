@@ -83,16 +83,16 @@ const AvatarImage = (props: {
 export const Avatar = (props: Props) => {
   const { avatarPath, size, memberAvatars, name } = props;
   const [imageBroken, setImageBroken] = useState(false);
+  // contentType is not important
 
+  const { urlToLoad } = useEncryptedFileFetch(avatarPath || '', '');
   const handleImageError = () => {
     window.log.warn(
-      'Avatar: Image failed to load; failing over to placeholder'
+      'Avatar: Image failed to load; failing over to placeholder',
+      urlToLoad
     );
     setImageBroken(true);
   };
-
-  // contentType is not important
-  const { urlToLoad } = useEncryptedFileFetch(avatarPath || '', '');
 
   const isClosedGroupAvatar = memberAvatars && memberAvatars.length;
   const hasImage = urlToLoad && !imageBroken && !isClosedGroupAvatar;

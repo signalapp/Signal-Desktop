@@ -30,7 +30,6 @@ describe('Attachments', () => {
         tempRootDirectory,
         'Attachments_createWriterForNew'
       );
-
       const outputPath = await Attachments.createWriterForNew(tempDirectory)(
         input
       );

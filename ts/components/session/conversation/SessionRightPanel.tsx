@@ -21,7 +21,7 @@ import {
   getMessagesWithFileAttachments,
   getMessagesWithVisualMediaAttachments,
 } from '../../../data/data';
-import { getDecryptedAttachmentUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
+import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 
 interface Props {
   id: string;
@@ -196,7 +196,7 @@ class SessionRightPanel extends React.Component<Props, State> {
 
     const saveAttachment = async ({ attachment, message }: any = {}) => {
       const timestamp = message.received_at;
-      attachment.url = await getDecryptedAttachmentUrl(
+      attachment.url = await getDecryptedMediaUrl(
         attachment.url,
         attachment.contentType
       );

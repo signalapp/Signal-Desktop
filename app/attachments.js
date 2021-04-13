@@ -46,7 +46,6 @@ exports.createReader = root => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
-    console.warn(`readFile: ${relativePath}`);
     const absolutePath = path.join(root, relativePath);
     const normalized = path.normalize(absolutePath);
     if (!normalized.startsWith(root)) {

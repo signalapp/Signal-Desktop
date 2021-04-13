@@ -30,7 +30,7 @@ exports.getImageDimensions = ({ objectUrl, logger }) =>
       reject(error);
     });
     //FIXME image/jpeg is hard coded
-    DecryptedAttachmentsManager.getDecryptedAttachmentUrl(
+    DecryptedAttachmentsManager.getDecryptedMediaUrl(
       objectUrl,
       'image/jpg'
     ).then(decryptedUrl => {
@@ -80,7 +80,7 @@ exports.makeImageThumbnail = ({
       reject(error);
     });
 
-    DecryptedAttachmentsManager.getDecryptedAttachmentUrl(
+    DecryptedAttachmentsManager.getDecryptedMediaUrl(
       objectUrl,
       contentType
     ).then(decryptedUrl => {
@@ -117,8 +117,9 @@ exports.makeVideoScreenshot = ({
       logger.error('makeVideoScreenshot error', toLogFormat(error));
       reject(error);
     });
+    //FIXME image/jpeg is hard coded
 
-    DecryptedAttachmentsManager.getDecryptedAttachmentUrl(
+    DecryptedAttachmentsManager.getDecryptedMediaUrl(
       objectUrl,
       'image/jpg'
     ).then(decryptedUrl => {

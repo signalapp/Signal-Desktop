@@ -252,7 +252,13 @@ export const LightboxObject = ({
   });
 
   if (isImageTypeSupported) {
-    return <img style={styles.object} alt={window.i18n('lightboxImageAlt')} src={urlToLoad} />;
+    return (
+      <img
+        style={styles.object}
+        alt={window.i18n('lightboxImageAlt')}
+        src={urlToLoad}
+      />
+    );
   }
 
   const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
