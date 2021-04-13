@@ -105,4 +105,32 @@ describe('Protocol Wrapper', function protocolWrapperDescribe() {
         });
     });
   });
+
+  describe('cleanOldMessageKeys', () => {
+    it('should clean old message keys', () => {
+      const messageKeys = {};
+
+      const LIMIT = 2000;
+
+      for (let i = 0; i < 2 * LIMIT; i += 1) {
+        messageKeys[i] = i;
+      }
+
+      libsignal.SessionCipher.cleanOldMessageKeys(messageKeys);
+
+      for (let i = 0; i < LIMIT; i += 1) {
+        assert(
+          !Object.prototype.hasOwnProperty.call(messageKeys, i),
+          `should delete old key ${i}`
+        );
+      }
+
+      for (let i = LIMIT; i < 2 * LIMIT; i += 1) {
+        assert(
+          Object.prototype.hasOwnProperty.call(messageKeys, i),
+          `should have fresh key ${i}`
+        );
+      }
+    });
+  });
 });

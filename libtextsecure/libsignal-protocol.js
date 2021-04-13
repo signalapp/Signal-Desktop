@@ -24690,6 +24690,25 @@ libsignal.SessionBuilder = function (storage, remoteAddress) {
   this.processV3 = builder.processV3.bind(builder);
 };
 
+function cleanOldMessageKeys(messageKeys) {
+  var limit = 2000;
+  var counters = Object.keys(messageKeys);
+  if (counters.length <= limit) {
+    return;
+  }
+
+  console.log('cleaning old message keys', counters.length);
+
+  // Sort counters in increasing order
+  var intCounters = counters
+    .map(string => parseInt(string, 10))
+    .sort((a, b) => a - b);
+
+  while (intCounters.length > limit) {
+    delete messageKeys[intCounters.shift()];
+  }
+}
+
 function SessionCipher(storage, remoteAddress, options) {
   this.remoteAddress = remoteAddress;
   this.storage = storage;
@@ -25028,8 +25047,13 @@ SessionCipher.prototype = {
         throw error;
     });
   },
-  fillMessageKeys: function(chain, counter) {
+  fillMessageKeys: function(chain, counter, hasChanged = false) {
       if (chain.chainKey.counter >= counter) {
+          // End of recursive iteration. Time to cleanup
+          if (hasChanged) {
+            cleanOldMessageKeys(chain.messageKeys);
+          }
+
           return Promise.resolve(); // Already calculated
       }
 
@@ -25060,7 +25084,7 @@ SessionCipher.prototype = {
               chain.messageKeys[chain.chainKey.counter + 1] = mac;
               chain.chainKey.key = key;
               chain.chainKey.counter += 1;
-              return this.fillMessageKeys(chain, counter);
+              return this.fillMessageKeys(chain, counter, true);
           }.bind(this));
       }.bind(this));
   },
@@ -25208,6 +25232,9 @@ libsignal.SessionCipher = function(storage, remoteAddress) {
     this.closeOpenSessionForDevice = cipher.closeOpenSessionForDevice.bind(cipher);
     this.deleteAllSessionsForDevice = cipher.deleteAllSessionsForDevice.bind(cipher);
 };
+
+// Only for tests
+libsignal.SessionCipher.cleanOldMessageKeys = cleanOldMessageKeys;
 
  /*
   * jobQueue manages multiple queues indexed by device to serialize
