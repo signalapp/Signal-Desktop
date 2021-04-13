@@ -41,6 +41,7 @@ type PropsType = {
   toggleSelectedContact: (conversationId: string) => void;
 };
 
+// TODO: This should use <Modal>. See DESKTOP-1038.
 export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   candidateContacts,
   confirmAdds,

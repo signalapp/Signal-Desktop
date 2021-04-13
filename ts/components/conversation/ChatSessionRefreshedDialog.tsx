@@ -12,6 +12,7 @@ export type PropsType = {
   onClose: () => unknown;
 };
 
+// TODO: This should use <Modal>. See DESKTOP-1038.
 export function ChatSessionRefreshedDialog(
   props: PropsType
 ): React.ReactElement {

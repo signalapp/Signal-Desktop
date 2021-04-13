@@ -16786,7 +16786,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal.js",
     "line": "    const inputRef = react_1.useRef(null);",
-    "lineNumber": 41,
+    "lineNumber": 42,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-11T20:49:17.292Z",
     "reasonDetail": "Used to focus an input."

@@ -5,7 +5,7 @@ import React, { FunctionComponent, ReactNode } from 'react';
 
 import { LocalizerType } from '../types/Util';
 import { Button } from './Button';
-import { ModalHost } from './ModalHost';
+import { Modal } from './Modal';
 
 type PropsType = {
   title?: string;
@@ -20,13 +20,10 @@ export const Alert: FunctionComponent<PropsType> = ({
   onClose,
   title,
 }) => (
-  <ModalHost onClose={onClose}>
-    <div className="module-Alert">
-      {title && <h1 className="module-Alert__title">{title}</h1>}
-      <p className="module-Alert__body">{body}</p>
-      <div className="module-Alert__button-container">
-        <Button onClick={onClose}>{i18n('Confirmation--confirm')}</Button>
-      </div>
-    </div>
-  </ModalHost>
+  <Modal i18n={i18n} onClose={onClose} title={title}>
+    {body}
+    <Modal.Footer>
+      <Button onClick={onClose}>{i18n('Confirmation--confirm')}</Button>
+    </Modal.Footer>
+  </Modal>
 );

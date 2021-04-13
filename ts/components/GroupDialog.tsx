@@ -27,6 +27,7 @@ type PropsType = {
     }
 );
 
+// TODO: This should use <Modal>. See DESKTOP-1038.
 export function GroupDialog(props: Readonly<PropsType>): JSX.Element {
   const {
     children,

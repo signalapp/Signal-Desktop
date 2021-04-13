@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -21,6 +21,7 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
+// TODO: This should use <Modal>. See DESKTOP-1038.
 export const ErrorModal = (props: PropsType): JSX.Element => {
   const { buttonText, description, i18n, onClose, title } = props;
 
