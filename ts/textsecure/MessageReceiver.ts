@@ -332,6 +332,7 @@ class MessageReceiverInner extends EventTarget {
 
   onopen() {
     window.log.info('websocket open');
+    window.logMessageReceiverConnect();
   }
 
   onerror() {

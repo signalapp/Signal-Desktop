@@ -111,9 +111,19 @@ try {
 
   window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
-  window.logAppLoadedEvent = () =>
+  let connectStartTime = 0;
+
+  window.logMessageReceiverConnect = () => {
+    if (connectStartTime === 0) {
+      connectStartTime = Date.now();
+    }
+  };
+
+  window.logAppLoadedEvent = ({ processedCount }) =>
     ipc.send('signal-app-loaded', {
       preloadTime: preloadEndTime - preloadStartTime,
+      connectTime: connectStartTime - preloadEndTime,
+      processedCount,
     });
 
   // We never do these in our code, so we'll prevent it everywhere

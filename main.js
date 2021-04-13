@@ -1036,15 +1036,34 @@ app.on('ready', async () => {
 
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.
-  ipc.once('signal-app-loaded', (event, { preloadTime }) => {
+  ipc.once('signal-app-loaded', (event, info) => {
+    const { preloadTime, connectTime, processedCount } = info;
+
     const loadTime = Date.now() - startTime;
     const sqlInitTime = sqlInitTimeEnd - sqlInitTimeStart;
+
+    const messageTime = loadTime - preloadTime - connectTime;
+    const messagesPerSec = (processedCount * 1000) / messageTime;
+
     console.log('App loaded - time:', loadTime);
     console.log('SQL init - time:', sqlInitTime);
     console.log('Preload - time:', preloadTime);
+    console.log('WebSocket connect - time:', connectTime);
+    console.log('Processed count:', processedCount);
+    console.log('Messages per second:', messagesPerSec);
 
     if (enableCI) {
-      console._log('ci: app_loaded=%j', { loadTime, sqlInitTime, preloadTime });
+      console._log(
+        'ci: app_loaded=%s',
+        JSON.stringify({
+          loadTime,
+          sqlInitTime,
+          preloadTime,
+          connectTime,
+          processedCount,
+          messagesPerSec,
+        })
+      );
     }
   });
 

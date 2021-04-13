@@ -2117,7 +2117,9 @@ export async function startApp(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     view.onEmpty();
 
-    window.logAppLoadedEvent();
+    window.logAppLoadedEvent({
+      processedCount: messageReceiver && messageReceiver.getProcessedCount(),
+    });
     if (messageReceiver) {
       window.log.info(
         'App loaded - messages:',

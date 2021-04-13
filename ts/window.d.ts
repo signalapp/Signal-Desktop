@@ -545,7 +545,8 @@ declare global {
     hasSignalAccount: (number: string) => boolean;
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
-    logAppLoadedEvent: () => void;
+    logAppLoadedEvent: (options: { processedCount?: number }) => void;
+    logMessageReceiverConnect: () => void;
 
     // Runtime Flags
     isShowingModal?: boolean;
