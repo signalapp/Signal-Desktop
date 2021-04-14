@@ -7,9 +7,10 @@ const { compose } = require('lodash/fp');
 const { escapeRegExp } = require('lodash');
 
 const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
-const SESSION_ID_PATTERN = /\b(05[0-9a-f]{64})\b/gi;
-const SNODE_PATTERN = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+const SESSION_ID_PATTERN = /\b((05)?[0-9a-f]{64})\b/gi;
+const SNODE_PATTERN = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
+const SERVER_URL_PATTERN = /https?:\/\/[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
 //      _redactPath :: Path -> String -> String
@@ -73,6 +74,14 @@ exports.redactSnodeIP = text => {
   return text.replace(SNODE_PATTERN, REDACTION_PLACEHOLDER);
 };
 
+exports.redactServerUrl = text => {
+  if (!is.string(text)) {
+    throw new TypeError("'text' must be a string");
+  }
+
+  return text.replace(SERVER_URL_PATTERN, REDACTION_PLACEHOLDER);
+};
+
 //      redactGroupIds :: String -> String
 exports.redactGroupIds = text => {
   if (!is.string(text)) {
@@ -94,7 +103,8 @@ exports.redactAll = compose(
   exports.redactSensitivePaths,
   exports.redactGroupIds,
   exports.redactSessionID,
-  exports.redactSnodeIP
+  exports.redactSnodeIP,
+  exports.redactServerUrl
 );
 
 const removeNewlines = text => text.replace(/\r?\n|\r/g, '');
