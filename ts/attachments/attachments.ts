@@ -154,7 +154,7 @@ export const deleteAll = async ({ userDataPath, attachments }: any) => {
     await deleteFromDisk(file);
   }
 
-  console.log(`deleteAll: deleted ${attachments.length} files`);
+  window?.log?.info(`deleteAll: deleted ${attachments.length} files`);
 };
 
 //      createName :: Unit -> IO String
