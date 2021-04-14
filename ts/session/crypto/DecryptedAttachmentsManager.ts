@@ -9,13 +9,11 @@
 import toArrayBuffer from 'to-arraybuffer';
 import * as fse from 'fs-extra';
 import { decryptAttachmentBuffer } from '../../types/Attachment';
-import { HOURS, MINUTES, SECONDS } from '../utils/Number';
+import { HOURS } from '../utils/Number';
 
 // FIXME.
-// add a way to clean those from time to time (like every hours?)
 // add a way to remove the blob when the attachment file path is removed (message removed?)
 // do not hardcode the password
-// a few FIXME image/jpeg is hard coded
 const urlToDecryptedBlobMap = new Map<
   string,
   { decrypted: string; lastAccessTimestamp: number }

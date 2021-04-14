@@ -426,20 +426,17 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
 
   const uintArrayIn = new Uint8Array(bufferIn);
   const sodium = await getSodium();
-
-  /* Shared secret key required to encrypt/decrypt the stream */
-  // const key = sodium.crypto_secretstream_xchacha20poly1305_keygen();
-
-  const key = fromHexToArray(
-    '0c5f7147b6d3239cbb5a418814cee1bfca2df5c94bffddf22ee37eea3ede972b'
+  const encryptingKey = window.textsecure.storage.get(
+    'local_attachment_encrypted_key'
   );
-  console.warn('key', toHex(key));
 
   /* Set up a new stream: initialize the state and create the header */
   const {
     state,
     header,
-  } = sodium.crypto_secretstream_xchacha20poly1305_init_push(key);
+  } = sodium.crypto_secretstream_xchacha20poly1305_init_push(
+    fromHexToArray(encryptingKey)
+  );
   /* Now, encrypt the buffer. */
   const bufferOut = sodium.crypto_secretstream_xchacha20poly1305_push(
     state,
@@ -454,7 +451,7 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
   encryptedBufferWithHeader.set(header);
   encryptedBufferWithHeader.set(bufferOut, header.length);
 
-  return { encryptedBufferWithHeader, header, key };
+  return { encryptedBufferWithHeader, header };
 };
 
 export const decryptAttachmentBuffer = async (
@@ -465,6 +462,9 @@ export const decryptAttachmentBuffer = async (
     throw new TypeError("'bufferIn' must be an array buffer");
   }
   const sodium = await getSodium();
+  const encryptingKey = window.textsecure.storage.get(
+    'local_attachment_encrypted_key'
+  );
 
   const header = new Uint8Array(
     bufferIn.slice(0, sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
@@ -476,7 +476,7 @@ export const decryptAttachmentBuffer = async (
     /* Decrypt the stream: initializes the state, using the key and a header */
     const state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(
       header,
-      fromHexToArray(key)
+      fromHexToArray(encryptingKey)
     );
     // what if ^ this call fail (? try to load as a unencrypted attachment?)
 

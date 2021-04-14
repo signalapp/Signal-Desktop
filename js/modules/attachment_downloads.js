@@ -11,7 +11,6 @@ const {
   saveMessage,
   setAttachmentDownloadJobPending,
 } = require('../../ts/data/data');
-const { stringFromBytes } = require('./crypto');
 
 module.exports = {
   start,

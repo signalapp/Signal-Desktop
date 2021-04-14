@@ -3,14 +3,10 @@
 
 const loadImage = require('blueimp-load-image');
 const { toLogFormat } = require('./errors');
-const toArrayBuffer = require('to-arraybuffer');
 
 const dataURLToBlobSync = require('blueimp-canvas-to-blob');
-const fse = require('fs-extra');
 
 const { blobToArrayBuffer } = require('blob-util');
-
-const AttachmentTS = require('../../../ts/types/Attachment');
 const DecryptedAttachmentsManager = require('../../../ts/session/crypto/DecryptedAttachmentsManager');
 
 exports.blobToArrayBuffer = blobToArrayBuffer;
@@ -29,7 +25,7 @@ exports.getImageDimensions = ({ objectUrl, logger }) =>
       logger.error('getImageDimensions error', toLogFormat(error));
       reject(error);
     });
-    //FIXME image/jpeg is hard coded
+    // TODO image/jpeg is hard coded, but it does not look to cause any issues
     DecryptedAttachmentsManager.getDecryptedMediaUrl(
       objectUrl,
       'image/jpg'
@@ -117,11 +113,10 @@ exports.makeVideoScreenshot = ({
       logger.error('makeVideoScreenshot error', toLogFormat(error));
       reject(error);
     });
-    //FIXME image/jpeg is hard coded
 
     DecryptedAttachmentsManager.getDecryptedMediaUrl(
       objectUrl,
-      'image/jpg'
+      contentType
     ).then(decryptedUrl => {
       video.src = decryptedUrl;
       video.muted = true;

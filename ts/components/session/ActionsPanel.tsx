@@ -8,6 +8,7 @@ import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS, MINUTES, SECONDS } from '../../session/utils/Number';
 import {
+  generateAttachmentKeyIfEmpty,
   getItemById,
   hasSyncedInitialConfigurationItem,
   removeItemById,
@@ -29,6 +30,7 @@ import { clearSearch } from '../../state/ducks/search';
 import { showLeftPaneSection } from '../../state/ducks/section';
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 import { useTimeoutFn } from 'react-use';
+import { getSodium } from '../../session/crypto';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -176,7 +178,7 @@ export const ActionsPanel = () => {
         await syncConfigurationIfNeeded();
       }
     };
-
+    void generateAttachmentKeyIfEmpty();
     // trigger a sync message if needed for our other devices
     void syncConfiguration();
   }, []);
