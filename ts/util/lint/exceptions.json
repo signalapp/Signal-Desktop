@@ -10543,7 +10543,7 @@
     "rule": "jQuery-$(",
     "path": "node_modules/node-gyp/lib/configure.js",
     "line": "        !gyp.opts.nodedir ? '<(target_arch)' : '$(Configuration)',",
-    "lineNumber": 299,
+    "lineNumber": 300,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-19T17:16:02.404Z"
   },
