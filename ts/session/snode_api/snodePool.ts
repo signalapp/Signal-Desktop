@@ -1,21 +1,17 @@
+import semver from 'semver';
+import _ from 'lodash';
+
 import {
   abortableIterator,
   allowOnlyOneAtATime,
 } from '../../../js/modules/loki_primitives';
 
-import {
-  getSnodesFromSeedUrl,
-  getVersion,
-  requestSnodesForPubkey,
-} from './serviceNodeAPI';
+import { getSnodesFromSeedUrl, requestSnodesForPubkey } from './serviceNodeAPI';
 
 import {
   getSwarmNodesForPubkey,
   updateSwarmNodesForPubkey,
 } from '../../../ts/data/data';
-
-import semver from 'semver';
-import _ from 'lodash';
 
 export type SnodeEdKey = string;
 
@@ -60,6 +56,7 @@ async function tryGetSnodeListFromLokidSeednode(
   let snodes = [];
   try {
     const tryUrl = new URL(seedNode.url);
+
     snodes = await getSnodesFromSeedUrl(tryUrl);
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
