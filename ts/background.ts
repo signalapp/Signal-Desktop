@@ -31,12 +31,14 @@ export async function startApp(): Promise<void> {
   }
 
   window.textsecure.protobuf.onLoad(() => {
-    senderCertificateService.initialize({
-      WebAPI: window.WebAPI,
-      navigator,
-      onlineEventTarget: window,
-      SenderCertificate: window.textsecure.protobuf.SenderCertificate,
-      storage: window.storage,
+    window.storage.onready(() => {
+      senderCertificateService.initialize({
+        WebAPI: window.WebAPI,
+        navigator,
+        onlineEventTarget: window,
+        SenderCertificate: window.textsecure.protobuf.SenderCertificate,
+        storage: window.storage,
+      });
     });
   });
 
