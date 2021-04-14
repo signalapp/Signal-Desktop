@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
-  WhatIsThis,
-  MessageAttributesType,
   CustomError,
+  MessageAttributesType,
+  QuotedMessageType,
+  WhatIsThis,
 } from '../model-types.d';
 import { DataMessageClass } from '../textsecure.d';
 import { ConversationModel } from './conversations';
@@ -44,6 +45,7 @@ import {
 } from '../util/callingNotification';
 import { PropsType as ProfileChangeNotificationPropsType } from '../components/conversation/ProfileChangeNotification';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
+import { MIMEType } from '../types/MIME';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -1114,10 +1116,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           )
         : undefined;
 
-    let reallyNotFound = referencedMessageNotFound;
+    let foundReference = !referencedMessageNotFound;
     // Is the quote really without a reference? Check with our in memory store
     // first to make sure it's not there.
-    if (referencedMessageNotFound) {
+    if (referencedMessageNotFound && contact) {
       const messageId = this.get('sent_at');
       window.log.info(
         `getPropsForQuote: Verifying that ${messageId} referencing ${sentAt} is really not found`
@@ -1125,21 +1127,32 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const inMemoryMessage = window.MessageController.findBySentAt(
         Number(sentAt)
       );
-      reallyNotFound = !inMemoryMessage;
-
-      // We found the quote in memory so update the message in the database
-      // so we don't have to do this check again
-      if (!reallyNotFound) {
-        window.log.info(
-          `getPropsForQuote: Found ${sentAt}, scheduling an update to ${messageId}`
-        );
+      if (
+        this.isQuoteAMatch(inMemoryMessage, this.get('conversationId'), quote)
+      ) {
+        foundReference = true;
         this.set({
           quote: {
             ...quote,
             referencedMessageNotFound: false,
           },
         });
-        window.Signal.Util.queueUpdateMessage(this.attributes);
+
+        const fetchDataAndUpdate = async () => {
+          await this.copyQuoteContentFromOriginal(inMemoryMessage, quote);
+
+          window.log.info(
+            `getPropsForQuote: Found ${sentAt}, scheduling an update to ${messageId}`
+          );
+          this.set({
+            quote: {
+              ...quote,
+              referencedMessageNotFound: false,
+            },
+          });
+          window.Signal.Util.queueUpdateMessage(this.attributes);
+        };
+        fetchDataAndUpdate();
       }
     }
 
@@ -1190,7 +1203,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       rawAttachment: firstAttachment
         ? this.processQuoteAttachment(firstAttachment)
         : undefined,
-      referencedMessageNotFound: reallyNotFound,
+      referencedMessageNotFound: !foundReference,
       sentAt: Number(sentAt),
       text: this.createNonBreakingLastSeparator(text),
     };
@@ -2999,37 +3012,30 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async copyFromQuotedMessage(message: WhatIsThis): Promise<boolean> {
+  async copyFromQuotedMessage(
+    message: DataMessageClass,
+    conversationId: string
+  ): Promise<DataMessageClass> {
     const { quote } = message;
     if (!quote) {
       return message;
     }
 
-    const { attachments, id, author, authorUuid } = quote;
-    const firstAttachment = attachments[0];
-    const authorConversationId = window.ConversationController.ensureContactIds(
-      {
-        e164: author,
-        uuid: authorUuid,
-      }
-    );
-
+    const { id } = quote;
     const inMemoryMessage = window.MessageController.findBySentAt(id);
 
     let queryMessage;
 
-    if (inMemoryMessage) {
+    if (this.isQuoteAMatch(inMemoryMessage, conversationId, quote)) {
       queryMessage = inMemoryMessage;
     } else {
       window.log.info('copyFromQuotedMessage: db lookup needed', id);
       const collection = await window.Signal.Data.getMessagesBySentAt(id, {
         MessageCollection: window.Whisper.MessageCollection,
       });
-      const found = collection.find(item => {
-        const messageAuthorId = item.getContactId();
-
-        return authorConversationId === messageAuthorId;
-      });
+      const found = collection.find(item =>
+        this.isQuoteAMatch(item, conversationId, quote)
+      );
 
       if (!found) {
         quote.referencedMessageNotFound = true;
@@ -3039,39 +3045,82 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       queryMessage = window.MessageController.register(found.id, found);
     }
 
-    if (queryMessage.isTapToView()) {
+    await this.copyQuoteContentFromOriginal(queryMessage, quote);
+
+    return message;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  isQuoteAMatch(
+    message: MessageModel | null | undefined,
+    conversationId: string,
+    quote: QuotedMessageType | DataMessageClass.Quote
+  ): message is MessageModel {
+    const { authorUuid, id } = quote;
+    const authorConversationId = window.ConversationController.ensureContactIds(
+      {
+        e164: 'author' in quote ? quote.author : undefined,
+        uuid: authorUuid,
+      }
+    );
+
+    return Boolean(
+      message &&
+        message.get('sent_at') === id &&
+        message.get('conversationId') === conversationId &&
+        message.getContactId() === authorConversationId
+    );
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async copyQuoteContentFromOriginal(
+    originalMessage: MessageModel,
+    quote: QuotedMessageType | DataMessageClass.Quote
+  ): Promise<void> {
+    const { attachments } = quote;
+    const firstAttachment = attachments ? attachments[0] : undefined;
+
+    if (originalMessage.isTapToView()) {
+      // eslint-disable-next-line no-param-reassign
       quote.text = null;
+      // eslint-disable-next-line no-param-reassign
       quote.attachments = [
         {
           contentType: 'image/jpeg',
         },
       ];
 
-      return message;
+      return;
     }
 
-    quote.text = queryMessage.get('body');
+    // eslint-disable-next-line no-param-reassign
+    quote.text = originalMessage.get('body');
     if (firstAttachment) {
-      firstAttachment.thumbnail = null;
+      firstAttachment.thumbnail = undefined;
     }
 
     if (
       !firstAttachment ||
-      (!GoogleChrome.isImageTypeSupported(firstAttachment.contentType) &&
-        !GoogleChrome.isVideoTypeSupported(firstAttachment.contentType))
+      !firstAttachment.contentType ||
+      (!GoogleChrome.isImageTypeSupported(
+        firstAttachment.contentType as MIMEType
+      ) &&
+        !GoogleChrome.isVideoTypeSupported(
+          firstAttachment.contentType as MIMEType
+        ))
     ) {
-      return message;
+      return;
     }
 
     try {
       if (
-        queryMessage.get('schemaVersion') <
+        originalMessage.get('schemaVersion') <
         TypedMessage.VERSION_NEEDED_FOR_DISPLAY
       ) {
         const upgradedMessage = await upgradeMessageSchema(
-          queryMessage.attributes
+          originalMessage.attributes
         );
-        queryMessage.set(upgradedMessage);
+        originalMessage.set(upgradedMessage);
         await window.Signal.Data.saveMessage(upgradedMessage, {
           Message: window.Whisper.Message,
         });
@@ -3081,10 +3130,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         'Problem upgrading message quoted message from database',
         Errors.toLogFormat(error)
       );
-      return message;
+      return;
     }
 
-    const queryAttachments = queryMessage.get('attachments') || [];
+    const queryAttachments = originalMessage.get('attachments') || [];
     if (queryAttachments.length > 0) {
       const queryFirst = queryAttachments[0];
       const { thumbnail } = queryFirst;
@@ -3097,7 +3146,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
-    const queryPreview = queryMessage.get('preview') || [];
+    const queryPreview = originalMessage.get('preview') || [];
     if (queryPreview.length > 0) {
       const queryFirst = queryPreview[0];
       const { image } = queryFirst;
@@ -3110,15 +3159,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
-    const sticker = queryMessage.get('sticker');
+    const sticker = originalMessage.get('sticker');
     if (sticker && sticker.data && sticker.data.path) {
       firstAttachment.thumbnail = {
         ...sticker.data,
         copied: true,
       };
     }
-
-    return message;
   }
 
   handleDataMessage(
@@ -3366,7 +3413,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       const withQuoteReference = await this.copyFromQuotedMessage(
-        initialMessage
+        initialMessage,
+        conversation.id
       );
       const dataMessage = await upgradeMessageSchema(withQuoteReference);
 

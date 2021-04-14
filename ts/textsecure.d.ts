@@ -725,6 +725,9 @@ export declare namespace DataMessageClass {
     text: string | null;
     attachments?: Array<DataMessageClass.Quote.QuotedAttachment>;
     bodyRanges?: Array<DataMessageClass.BodyRange>;
+
+    // Added later during processing
+    referencedMessageNotFound?: boolean;
   }
 
   class BodyRange {

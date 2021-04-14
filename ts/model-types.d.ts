@@ -52,6 +52,18 @@ export type GroupMigrationType = {
   invitedMembers: Array<GroupV2PendingMemberType>;
 };
 
+export type QuotedMessageType = {
+  attachments: Array<typeof window.WhatIsThis>;
+  // `author` is an old attribute that holds the author's E164. We shouldn't use it for
+  //   new messages, but old messages might have this attribute.
+  author?: string;
+  authorUuid: string;
+  bodyRanges: BodyRangesType;
+  id: string;
+  referencedMessageNotFound: boolean;
+  text: string;
+};
+
 export type MessageAttributesType = {
   bodyPending: boolean;
   bodyRanges: BodyRangesType;
@@ -86,17 +98,7 @@ export type MessageAttributesType = {
   message: unknown;
   messageTimer: unknown;
   profileChange: ProfileNameChangeType;
-  quote?: {
-    attachments: Array<typeof window.WhatIsThis>;
-    // `author` is an old attribute that holds the author's E164. We shouldn't use it for
-    //   new messages, but old messages might have this attribute.
-    author?: string;
-    authorUuid: string;
-    bodyRanges: BodyRangesType;
-    id: string;
-    referencedMessageNotFound: boolean;
-    text: string;
-  };
+  quote?: QuotedMessageType;
   reactions?: Array<{
     emoji: string;
     timestamp: number;
