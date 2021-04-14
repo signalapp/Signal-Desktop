@@ -4,6 +4,8 @@
 import { join } from 'path';
 import { Worker } from 'worker_threads';
 
+const ASAR_PATTERN = /app\.asar$/;
+
 export type InitializeOptions = {
   readonly configDir: string;
   readonly key: string;
@@ -56,12 +58,18 @@ export class MainSQL {
   private onResponse = new Map<number, PromisePair<any>>();
 
   constructor() {
-    const appDir = join(__dirname, '..', '..').replace(
-      /app\.asar$/,
-      'app.asar.unpacked'
-    );
+    let appDir = join(__dirname, '..', '..');
+    let isBundled = false;
 
-    this.worker = new Worker(join(appDir, 'ts', 'sql', 'mainWorker.js'));
+    if (ASAR_PATTERN.test(appDir)) {
+      appDir = appDir.replace(ASAR_PATTERN, 'app.asar.unpacked');
+      isBundled = true;
+    }
+
+    const scriptDir = join(appDir, 'ts', 'sql');
+    this.worker = new Worker(
+      join(scriptDir, isBundled ? 'mainWorker.bundle.js' : 'mainWorker.js')
+    );
 
     this.worker.on('message', (wrappedResponse: WrappedWorkerResponse) => {
       const { seq, error, response } = wrappedResponse;

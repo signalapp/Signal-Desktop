@@ -40,3 +40,4 @@ sticker-creator/dist/*
 /.idea
 /storybook-static/
 preload.bundle.*
+ts/sql/mainWorker.bundle.js.LICENSE.txt

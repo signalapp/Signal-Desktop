@@ -52,7 +52,10 @@
     "build:dev": "run-s --print-label build:grunt build:typed-scss build:webpack",
     "build:grunt": "yarn grunt",
     "build:typed-scss": "tsm sticker-creator",
-    "build:webpack": "cross-env NODE_ENV=production webpack",
+    "build:webpack": "run-p build:webpack:sticker-creator build:webpack:preload build:webpack:sql-worker",
+    "build:webpack:sticker-creator": "cross-env NODE_ENV=production webpack",
+    "build:webpack:preload": "cross-env NODE_ENV=production webpack -c webpack-preload.config.ts",
+    "build:webpack:sql-worker": "cross-env NODE_ENV=production webpack -c webpack-sql-worker.config.ts",
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
     "build:release": "cross-env SIGNAL_ENV=production yarn build:electron -- --config.directories.output=release",
     "build:zip": "node scripts/zip-macos-release.js",
@@ -366,18 +369,8 @@
       ]
     },
     "asarUnpack": [
-      "js/modules/privacy.js",
-      "ts/environment.js",
-      "ts/logging/log.js",
-      "ts/logging/shared.js",
-      "ts/sql/Server.js",
-      "ts/sql/mainWorker.js",
-      "ts/util/assert.js",
-      "ts/util/combineNames.js",
-      "ts/util/enum.js",
-      "ts/util/isNormalNumber.js",
-      "ts/util/missingCaseError.js",
-      "ts/util/reallyJsonStringify.js"
+      "ts/sql/mainWorker.bundle.js",
+      "node_modules/better-sqlite3/build/Release/better_sqlite3.node"
     ],
     "files": [
       "package.json",
@@ -438,7 +431,7 @@
       "!node_modules/sharp/{install,src,vendor/include,vendor/*/include}",
       "!node_modules/better-sqlite3/deps/*",
       "!node_modules/better-sqlite3/src/*",
-      "node_modules/better-sqlite3/build/Release/*.node",
+      "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
       "node_modules/libsignal-client/build/*${platform}*.node",
       "node_modules/ringrtc/build/${platform}/**",
       "!**/node_modules/ffi-napi/deps",
