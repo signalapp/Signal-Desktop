@@ -4,7 +4,7 @@ type Job<ResultType> = (() => PromiseLike<ResultType>) | (() => ResultType);
 
 // TODO: This needs to replace js/modules/job_queue.js
 export class JobQueue {
-  private pending: Promise<any> = Promise.resolve();
+  private pending?: Promise<any> = Promise.resolve();
   private readonly jobs: Map<string, Promise<unknown>> = new Map();
 
   public has(id: string): boolean {

@@ -62,6 +62,7 @@ declare global {
       useFileOnionRequestsV2: boolean;
       onionRequestHops: number;
       useRequestEncryptionKeyPair: boolean;
+      padOutgoingAttachments: boolean;
     };
     lokiFileServerAPI: LokiFileServerInstance;
     lokiMessageAPI: LokiMessageInterface;
