@@ -493,6 +493,11 @@ export async function generateAttachmentKeyIfEmpty() {
       id: 'local_attachment_encrypted_key',
       value: encryptingKey,
     });
+    // be sure to write the new key to the cache. so we can access it straight away
+    window.textsecure.storage.put(
+      'local_attachment_encrypted_key',
+      encryptingKey
+    );
   }
 }
 
