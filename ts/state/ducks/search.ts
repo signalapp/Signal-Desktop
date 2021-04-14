@@ -254,6 +254,9 @@ async function queryMessages(
 ): Promise<Array<ClientSearchResultMessageType>> {
   try {
     const normalized = cleanSearchTerm(query);
+    if (normalized.length === 0) {
+      return [];
+    }
 
     if (searchConversationId) {
       return searchMessagesInConversation(normalized, searchConversationId);
