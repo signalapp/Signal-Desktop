@@ -59,6 +59,7 @@ const preloadConfig: Configuration = {
   resolve: {
     extensions: ['.js'],
     alias: {},
+    mainFields: ['browser', 'main'],
   },
   externals: [
     ({ request = '' }, callback) => {
