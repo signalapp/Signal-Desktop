@@ -1729,7 +1729,7 @@ async function initialize({
     globalInstance = db;
 
     // test database
-    getMessageCount();
+    await getMessageCount();
   } catch (error) {
     console.log('Database startup error:', error.stack);
     if (db) {
@@ -1778,7 +1778,7 @@ async function initializeRenderer({
     globalInstanceRenderer = promisified;
 
     // test database
-    getMessageCount();
+    await getMessageCount();
   } catch (error) {
     window.log.error('Database startup error:', error.stack);
     throw error;
@@ -4300,7 +4300,7 @@ async function removeKnownAttachments(
   );
   const chunkSize = 50;
 
-  const total = getMessageCount();
+  const total = await getMessageCount();
   console.log(
     `removeKnownAttachments: About to iterate through ${total} messages`
   );
@@ -4350,7 +4350,7 @@ async function removeKnownAttachments(
   //   value is still a string but it's smaller than every other string.
   id = 0;
 
-  const conversationTotal = getConversationCount();
+  const conversationTotal = await getConversationCount();
   console.log(
     `removeKnownAttachments: About to iterate through ${conversationTotal} conversations`
   );
@@ -4453,7 +4453,7 @@ async function removeKnownDraftAttachments(
   );
   const chunkSize = 50;
 
-  const total = getConversationCount();
+  const total = await getConversationCount();
   console.log(
     `removeKnownDraftAttachments: About to iterate through ${total} conversations`
   );
