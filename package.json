@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.5.0",
+  "version": "1.5.3",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
@@ -306,6 +306,7 @@
       "debug_log_preload.js",
       "password_preload.js",
       "main.js",
+      "certificates/**",
       "images/**",
       "fonts/*",
       "build/assets",
