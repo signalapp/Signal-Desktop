@@ -3438,7 +3438,7 @@ async function getUnprocessedCount(): Promise<number> {
   const row = db.prepare<EmptyQuery>('SELECT count(*) from unprocessed;').get();
 
   if (!row) {
-    throw new Error('getMessageCount: Unable to get count of unprocessed');
+    throw new Error('getUnprocessedCount: Unable to get count of unprocessed');
   }
 
   return row['count(*)'];

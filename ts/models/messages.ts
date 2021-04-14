@@ -3814,8 +3814,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             Math.min(readSync.get('read_at'), Date.now())
           );
         }
-      }
-      if (readSync || message.isExpirationTimerUpdate()) {
+
         message.unset('unread');
         // This is primarily to allow the conversation to mark all older
         // messages as read, as is done when we receive a read sync for

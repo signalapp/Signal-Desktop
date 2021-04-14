@@ -59,7 +59,7 @@ export const getStartSearchCounter = createSelector(
 
 export const isSearching = createSelector(
   getQuery,
-  (query: string): boolean => query.trim().length > 1
+  (query: string): boolean => query.trim().length > 0
 );
 
 export const getMessageSearchResultLookup = createSelector(
