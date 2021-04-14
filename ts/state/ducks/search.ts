@@ -348,7 +348,7 @@ export function reducer(
     const { payload } = action;
     const { query } = payload;
 
-    const hasQuery = Boolean(query && query.length >= 2);
+    const hasQuery = Boolean(query);
     const isWithinConversation = Boolean(state.searchConversationId);
 
     return {

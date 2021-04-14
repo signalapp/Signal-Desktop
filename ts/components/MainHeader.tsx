@@ -205,7 +205,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       updateSearchTerm(searchTerm);
     }
 
-    if (searchTerm.length < 2) {
+    if (searchTerm.length < 1) {
       return;
     }
 
