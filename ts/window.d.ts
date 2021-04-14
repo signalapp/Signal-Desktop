@@ -563,7 +563,7 @@ declare global {
   // We want to extend `Error`, so we need an interface.
   // eslint-disable-next-line no-restricted-syntax
   interface Error {
-    cause?: Event;
+    originalError?: Event;
   }
 }
 

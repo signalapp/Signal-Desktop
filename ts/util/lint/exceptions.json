@@ -1917,14 +1917,6 @@
     "updated": "2021-04-05T20:48:36.065Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@electron/get/node_modules/@sindresorhus/is/dist/index.js",
-    "line": "        'innerHTML',",
-    "lineNumber": 177,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/@protobufjs/inquire/index.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -3037,63 +3029,6 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-08-26T00:10:28.628Z",
     "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "  // Avoid code execution in load() via toString property",
-    "lineNumber": 1307,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z",
-    "reasonDetail": "This is a comment."
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 2613,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2637,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "  // Avoid code execution in load() via toString property",
-    "lineNumber": 307,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z",
-    "reasonDetail": "This is a comment."
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 1613,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 1637,
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-21T16:16:34.352Z"
   },
   {
     "rule": "jQuery-wrap(",
