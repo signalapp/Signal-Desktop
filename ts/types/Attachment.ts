@@ -10,9 +10,8 @@ import {
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
 import { LocalizerType } from './Util';
-import { fromHexToArray, toHex } from '../session/utils/String';
+import { fromHexToArray } from '../session/utils/String';
 import { getSodium } from '../session/crypto';
-import { fromHex } from 'bytebuffer';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -455,8 +454,7 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
 };
 
 export const decryptAttachmentBuffer = async (
-  bufferIn: ArrayBuffer,
-  key: string = '0c5f7147b6d3239cbb5a418814cee1bfca2df5c94bffddf22ee37eea3ede972b'
+  bufferIn: ArrayBuffer
 ): Promise<Uint8Array> => {
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
@@ -469,6 +467,7 @@ export const decryptAttachmentBuffer = async (
   const header = new Uint8Array(
     bufferIn.slice(0, sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
   );
+
   const encryptedBuffer = new Uint8Array(
     bufferIn.slice(sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
   );
@@ -492,7 +491,7 @@ export const decryptAttachmentBuffer = async (
       return messageTag.message;
     }
   } catch (e) {
-    window.log.warn('Failed to load the file as an encrypted one', e);
+    window?.log?.warn('Failed to load the file as an encrypted one', e);
   }
   return new Uint8Array();
 };

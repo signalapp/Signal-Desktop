@@ -77,7 +77,6 @@ import { ToastUtils, UserUtils } from '../../session/utils';
 import { ConversationController } from '../../session/conversations';
 import { MessageRegularProps } from '../../models/messageType';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import src from 'redux-promise-middleware';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;

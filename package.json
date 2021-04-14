@@ -165,6 +165,7 @@
     "@types/semver": "5.5.0",
     "@types/sinon": "9.0.4",
     "@types/styled-components": "^5.1.4",
+    "@types/tmp": "^0.2.0",
     "@types/uuid": "3.4.4",
     "arraybuffer-loader": "1.0.3",
     "asar": "0.14.0",

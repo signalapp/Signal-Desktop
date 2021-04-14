@@ -8,6 +8,7 @@ import { Lightbox } from './Lightbox';
 import { Message } from './conversation/media-gallery/types/Message';
 
 import { AttachmentType } from '../types/Attachment';
+// tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
 
 export interface MediaItemType {
