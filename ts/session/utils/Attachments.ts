@@ -1,6 +1,5 @@
 import * as crypto from 'crypto';
 import { Attachment } from '../../types/Attachment';
-import { OpenGroup } from '../types';
 
 import { LokiAppDotNetServerInterface } from '../../../js/modules/loki_app_dot_net_api';
 import {
@@ -9,6 +8,7 @@ import {
   Quote,
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
+import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 
 interface UploadParams {
   attachment: Attachment;

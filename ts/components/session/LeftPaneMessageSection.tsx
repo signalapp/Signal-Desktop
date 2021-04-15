@@ -25,11 +25,12 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
-import { OpenGroup, PubKey } from '../../session/types';
+import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
+import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 
 export interface Props {
   searchTerm: string;

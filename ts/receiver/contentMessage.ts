@@ -1,26 +1,20 @@
 import { EnvelopePlus } from './types';
-import { handleDataMessage, updateProfile } from './dataMessage';
+import { handleDataMessage } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
-import { OpenGroup, PubKey } from '../session/types';
+import { PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
-import {
-  getAllEncryptionKeyPairsForGroup,
-  getItemById,
-  hasSyncedInitialConfigurationItem,
-} from '../../ts/data/data';
+import { getAllEncryptionKeyPairsForGroup } from '../../ts/data/data';
 import { ECKeyPair } from './keypairs';
-import { handleNewClosedGroup } from './closedGroups';
 import { KeyPairRequestManager } from './keyPairRequestManager';
 import { requestEncryptionKeyPair } from '../session/group';
-import { configurationMessageReceived, trigger } from '../shims/events';
 import { handleConfigurationMessage } from './configMessage';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {

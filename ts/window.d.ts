@@ -37,8 +37,8 @@ declare global {
     LokiSnodeAPI: any;
     Session: any;
     Signal: SignalInterface;
-    StringView: any;
     StubAppDotNetApi: any;
+    StringView: any;
     StubMessageAPI: any;
     Whisper: any;
     clearLocalData: any;

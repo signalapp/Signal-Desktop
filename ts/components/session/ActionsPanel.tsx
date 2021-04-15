@@ -29,6 +29,10 @@ import { getFocusedSection } from '../../state/selectors/section';
 import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
 import { showLeftPaneSection } from '../../state/ducks/section';
+import {
+  joinOpenGroupV2,
+  parseOpenGroupV2,
+} from '../../opengroup/opengroupV2/JoinOpenGroupV2';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -174,8 +178,16 @@ export const ActionsPanel = () => {
     };
 
     // trigger a sync message if needed for our other devices
+    //       'http://sessionopengroup.com/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231b'
+    //       'https://sog.ibolpap.finance/main?public_key=b464aa186530c97d6bcf663a3a3b7465a5f782beaa67c83bee99468824b4aa10'
 
     void syncConfiguration();
+    const parsedRoom = parseOpenGroupV2(
+      'https://sog.ibolpap.finance/main?public_key=b464aa186530c97d6bcf663a3a3b7465a5f782beaa67c83bee99468824b4aa10'
+    );
+    if (parsedRoom) {
+      setTimeout(() => void joinOpenGroupV2(parsedRoom), 10000);
+    }
   }, []);
 
   if (!ourPrimaryConversation) {

@@ -1,10 +1,10 @@
 import { v4 as uuid } from 'uuid';
-import { OpenGroup } from '../../../session/types';
 import { generateFakePubKey, generateFakePubKeys } from './pubkey';
 import { ClosedGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { ConversationAttributes } from '../../../models/conversation';
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
 import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { OpenGroup } from '../../../opengroup/opengroupV1/OpenGroup';
 
 export function generateVisibleMessage(identifier?: string): VisibleMessage {
   return new VisibleMessage({

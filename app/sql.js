@@ -119,6 +119,13 @@ module.exports = {
   addClosedGroupEncryptionKeyPair,
   isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
+
+  // open group v2
+  getV2OpenGroupRoom,
+  saveV2OpenGroupRoom,
+  getAllV2OpenGroupRooms,
+  getV2OpenGroupRoomByRoomId,
+  removeV2OpenGroupRoom,
 };
 
 function objectToJSON(data) {
@@ -759,7 +766,10 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion9,
   updateToLokiSchemaVersion10,
   updateToLokiSchemaVersion11,
+  updateToLokiSchemaVersion12,
 ];
+
+const SERVERS_TOKEN_TABLE = 'servers';
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
   if (currentVersion >= 1) {
@@ -773,7 +783,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
      ADD COLUMN serverId INTEGER;`
   );
   await instance.run(
-    `CREATE TABLE servers(
+    `CREATE TABLE ${SERVERS_TOKEN_TABLE}(
       serverUrl STRING PRIMARY KEY ASC,
       token TEXT
     );`
@@ -1059,6 +1069,35 @@ async function updateToLokiSchemaVersion11(currentVersion, instance) {
   );
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion11: success!');
+}
+
+const OPEN_GROUP_ROOMS_V2_TABLE = 'openGroupRoomsV2';
+async function updateToLokiSchemaVersion12(currentVersion, instance) {
+  if (currentVersion >= 12) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion12: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `CREATE TABLE ${OPEN_GROUP_ROOMS_V2_TABLE} (
+      serverUrl TEXT NOT NULL,
+      roomId TEXT NOT NULL,
+      conversationId TEXT,
+      json TEXT,
+      PRIMARY KEY (serverUrl, roomId)
+    );`
+  );
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        12
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion12: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -1531,16 +1570,17 @@ async function removeConversation(id) {
   );
 }
 
+// open groups v1 only
 async function savePublicServerToken(data) {
   const { serverUrl, token } = data;
   await db.run(
-    `INSERT OR REPLACE INTO servers (
-    serverUrl,
-    token
-  ) values (
-    $serverUrl,
-    $token
-  )`,
+    `INSERT OR REPLACE INTO ${SERVERS_TOKEN_TABLE} (
+      serverUrl,
+      token
+    ) values (
+      $serverUrl,
+      $token
+    )`,
     {
       $serverUrl: serverUrl,
       $token: token,
@@ -1548,9 +1588,10 @@ async function savePublicServerToken(data) {
   );
 }
 
+// open groups v1 only
 async function getPublicServerTokenByServerUrl(serverUrl) {
   const row = await db.get(
-    'SELECT * FROM servers WHERE serverUrl = $serverUrl;',
+    `SELECT * FROM ${SERVERS_TOKEN_TABLE} WHERE serverUrl = $serverUrl;`,
     {
       $serverUrl: serverUrl,
     }
@@ -2338,7 +2379,7 @@ async function removeAll() {
       db.run('DELETE FROM unprocessed;'),
       db.run('DELETE FROM contactPreKeys;'),
       db.run('DELETE FROM contactSignedPreKeys;'),
-      db.run('DELETE FROM servers;'),
+      db.run(`DELETE FROM ${SERVERS_TOKEN_TABLE};`),
       db.run('DELETE FROM lastHashes;'),
       db.run(`DELETE FROM ${SENDER_KEYS_TABLE};`),
       db.run(`DELETE FROM ${NODES_FOR_PUBKEY_TABLE};`),
@@ -2773,6 +2814,78 @@ async function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey) {
     `DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey`,
     {
       $groupPublicKey: groupPublicKey,
+    }
+  );
+}
+
+/**
+ * Related to Opengroup V2
+ */
+async function getAllV2OpenGroupRooms() {
+  const rows = await db.all(`SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE};`);
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getV2OpenGroupRoom(conversationId) {
+  const row = await db.get(
+    `SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId;`,
+    {
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+
+async function getV2OpenGroupRoomByRoomId(serverUrl, roomId) {
+  const row = await db.get(
+    `SELECT * FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE serverUrl = $serverUrl AND roomId = $roomId;`,
+    {
+      $serverUrl: serverUrl,
+      $roomId: roomId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+
+async function saveV2OpenGroupRoom(opengroupsv2Room) {
+  const { serverUrl, roomId, conversationId } = opengroupsv2Room;
+  await db.run(
+    `INSERT OR REPLACE INTO ${OPEN_GROUP_ROOMS_V2_TABLE} (
+      serverUrl,
+      roomId,
+      conversationId,
+      json
+    ) values (
+      $serverUrl,
+      $roomId,
+      $conversationId,
+      $json
+    )`,
+    {
+      $serverUrl: serverUrl,
+      $roomId: roomId,
+      $conversationId: conversationId,
+      $json: objectToJSON(opengroupsv2Room),
+    }
+  );
+}
+
+async function removeV2OpenGroupRoom(conversationId) {
+  await db.run(
+    `DELETE FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId`,
+    {
+      $conversationId: conversationId,
     }
   );
 }

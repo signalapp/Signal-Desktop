@@ -4,7 +4,7 @@ import { ConversationType } from '../receiver/common';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
-import { OpenGroup, PubKey } from '../session/types';
+import { PubKey } from '../session/types';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { MessageController } from '../session/messages';
@@ -40,6 +40,7 @@ import {
 } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
+import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 
 export interface ConversationAttributes {
   profileName?: string;

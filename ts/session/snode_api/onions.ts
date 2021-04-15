@@ -5,14 +5,20 @@ import { Snode } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { StringUtils } from '../utils';
 import { OnionPaths } from '../onions';
+import { toHex } from '../utils/String';
 
-let onionPayload = 0;
-
-enum RequestError {
+export enum RequestError {
   BAD_PATH,
   OTHER,
 }
 
+/**
+ * When sending a request over onion, we might get two status.
+ * The first one, on the request itself, the other one in the json returned.
+ *
+ * If the request failed to reach the one of the node of the onion path, the one on the request is set.
+ * But if the request reaches the destination node and it fails to process the request (bad node for this pubkey), you will get a 200 on the request itself, but the json you get will contain the real status.
+ */
 export interface SnodeResponse {
   body: string;
   status: number;
@@ -20,7 +26,10 @@ export interface SnodeResponse {
 
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
-async function encryptForPubKey(pubKeyX25519hex: string, reqObj: any) {
+async function encryptForPubKey(
+  pubKeyX25519hex: string,
+  reqObj: any
+): Promise<DestinationContext> {
   const reqStr = JSON.stringify(reqObj);
 
   const textEncoder = new TextEncoder();
@@ -122,11 +131,11 @@ function makeGuardPayloadV2(guardCtx: any): Uint8Array {
 
 async function buildOnionCtxs(
   nodePath: Array<Snode>,
-  destCtx: any,
+  destCtx: DestinationContext,
   targetED25519Hex: string,
   // whether to use the new "semi-binary" protocol
   useV2: boolean,
-  fileServerOptions?: any,
+  finalRelayOptions?: FinalRelayOptions,
   id = ''
 ) {
   const { log } = window;
@@ -136,22 +145,35 @@ async function buildOnionCtxs(
   const firstPos = nodePath.length - 1;
 
   for (let i = firstPos; i > -1; i -= 1) {
-    let dest;
+    let dest: {
+      host?: string;
+      protocol?: string;
+      port?: string;
+      destination?: string;
+      method?: string;
+      target?: string;
+    };
     const relayingToFinalDestination = i === firstPos; // if last position
 
-    if (relayingToFinalDestination && fileServerOptions) {
+    if (relayingToFinalDestination && finalRelayOptions) {
       let target = useV2 ? '/loki/v2/lsrpc' : '/loki/v1/lsrpc';
 
-      const isCallToPn = fileServerOptions?.host === 'live.apns.getsession.org';
+      const isCallToPn = finalRelayOptions?.host === 'live.apns.getsession.org';
       if (!isCallToPn && window.lokiFeatureFlags.useFileOnionRequestsV2) {
         target = '/loki/v3/lsrpc';
       }
 
       dest = {
-        host: fileServerOptions.host,
+        host: finalRelayOptions.host,
         target,
         method: 'POST',
       };
+      // FIXME http open groups v2 are not working
+      // tslint:disable-next-line: no-http-string
+      // if (finalRelayOptions?.protocol === 'http:') {
+      //   dest.protocol = 'http';
+      //   dest.port = '80';
+      // }
     } else {
       // set x25519 if destination snode
       let pubkeyHex = targetED25519Hex; // relayingToFinalDestination
@@ -198,11 +220,11 @@ async function buildOnionCtxs(
 // targetPubKey is ed25519 if snode is the target
 async function makeOnionRequest(
   nodePath: Array<Snode>,
-  destCtx: any,
+  destCtx: DestinationContext,
   targetED25519Hex: string,
   // whether to use the new (v2) protocol
   useV2: boolean,
-  finalRelayOptions?: any,
+  finalRelayOptions?: FinalRelayOptions,
   id = ''
 ) {
   const ctxes = await buildOnionCtxs(
@@ -234,7 +256,7 @@ const processOnionResponse = async (
   useAesGcm: boolean,
   debug: boolean
 ): Promise<SnodeResponse | RequestError> => {
-  const { log, libloki, StringView, dcodeIO } = window;
+  const { log, libloki, dcodeIO, StringView } = window;
 
   // FIXME: 401/500 handling?
 
@@ -257,8 +279,9 @@ const processOnionResponse = async (
   }
 
   if (response.status !== 200) {
+    const rsp = await response.text();
     log.warn(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - fetch unhandled error code: ${response.status}`
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - fetch unhandled error code: ${response.status}: ${rsp}`
     );
     return RequestError.OTHER;
   }
@@ -300,6 +323,10 @@ const processOnionResponse = async (
         useAesGcm
       );
     }
+    window.log.warn(
+      'attempting decrypt with',
+      StringView.arrayBufferToHex(sharedKey)
+    );
 
     const decryptFn = useAesGcm
       ? libloki.crypto.DecryptGCM
@@ -313,13 +340,11 @@ const processOnionResponse = async (
       );
     }
 
-    const textDecoder = new TextDecoder();
-    plaintext = textDecoder.decode(plaintextBuffer);
+    plaintext = new TextDecoder().decode(plaintextBuffer);
   } catch (e) {
     log.error(
       `(${reqIdx}) [path] lokiRpc::processOnionResponse - decode error`,
-      e.code,
-      e.message
+      e
     );
     log.error(
       `(${reqIdx}) [path] lokiRpc::processOnionResponse - symKey`,
@@ -339,7 +364,11 @@ const processOnionResponse = async (
   }
 
   try {
-    const jsonRes = JSON.parse(plaintext);
+    const jsonRes: SnodeResponse = JSON.parse(plaintext);
+    // todo check if this is really useful.
+    // if (!jsonRes.body || !jsonRes.status) {
+    //   throw new Error('Got JSON but with empty fields');
+    // }
     return jsonRes;
   } catch (e) {
     log.error(
@@ -357,14 +386,37 @@ export const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
+export type FinalRelayOptions = {
+  host: string;
+  // FIXME http open groups v2 are not working
+  // protocol?: string; // default to https
+  // port?: string; // default to 443
+};
+
+export type DestinationContext = {
+  ciphertext: Uint8Array;
+  symmetricKey: ArrayBuffer;
+  ephemeralKey: ArrayBuffer;
+};
+
+export type FinalDestinationOptions = {
+  destination_ed25519_hex?: string;
+  headers?: string;
+  body?: string;
+};
+
 // finalDestOptions is an object
 // FIXME: internally track reqIdx, not externally
 const sendOnionRequest = async (
   reqIdx: any,
   nodePath: Array<Snode>,
   destX25519Any: string,
-  finalDestOptions: any,
-  finalRelayOptions?: any,
+  finalDestOptions: {
+    destination_ed25519_hex?: string;
+    headers?: string;
+    body?: string;
+  },
+  finalRelayOptions?: FinalRelayOptions,
   lsrpcIdx?: any
 ): Promise<SnodeResponse | RequestError> => {
   const { log, StringView } = window;
@@ -381,7 +433,7 @@ const sendOnionRequest = async (
   let destX25519hex = destX25519Any;
   if (typeof destX25519hex !== 'string') {
     // convert AB to hex
-    destX25519hex = StringView.arrayBufferToHex(destX25519Any);
+    destX25519hex = StringView.arrayBufferToHex(destX25519Any as any);
   }
 
   // safely build destination
@@ -404,7 +456,7 @@ const sendOnionRequest = async (
 
   const isLsrpc = !!finalRelayOptions;
 
-  let destCtx;
+  let destCtx: DestinationContext;
   try {
     if (useV2 && !isLsrpc) {
       const body = options.body || '';
@@ -439,13 +491,11 @@ const sendOnionRequest = async (
   const payload = await makeOnionRequest(
     nodePath,
     destCtx,
-    targetEd25519hex,
+    targetEd25519hex as string, // FIXME
     useV2,
     finalRelayOptions,
     id
   );
-  onionPayload += payload.length;
-  // log.debug('Onion payload size: ', payload.length, ' total:', onionPayload);
 
   const guardFetchOptions = {
     method: 'POST',
@@ -496,7 +546,7 @@ export async function sendOnionRequestLsrpcDest(
   reqIdx: any,
   nodePath: Array<Snode>,
   destX25519Any: any,
-  host: any,
+  finalRelayOptions: FinalRelayOptions,
   payloadObj: any,
   lsrpcIdx: number
 ): Promise<SnodeResponse | RequestError> {
@@ -505,7 +555,7 @@ export async function sendOnionRequestLsrpcDest(
     nodePath,
     destX25519Any,
     payloadObj,
-    { host },
+    finalRelayOptions,
     lsrpcIdx
   );
 }

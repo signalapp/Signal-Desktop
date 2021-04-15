@@ -5,6 +5,7 @@ import {
 
 export interface LokiPublicChatFactoryInterface {
   ourKey: string;
+  openGroupPubKeys: { [key: string]: string };
   findOrCreateServer(url: string): Promise<LokiAppDotNetServerInterface | null>;
   findOrCreateChannel(
     url: string,

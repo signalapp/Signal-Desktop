@@ -4,9 +4,9 @@ import {
   getItemById,
   hasSyncedInitialConfigurationItem,
 } from '../data/data';
+import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
-import { OpenGroup } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';

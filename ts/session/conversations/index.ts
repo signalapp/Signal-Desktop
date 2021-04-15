@@ -33,6 +33,7 @@ export class ConversationController {
     return ConversationController.instance;
   }
 
+  // FIXME this could return | undefined
   public get(id: string): ConversationModel {
     if (!this._initialFetchComplete) {
       throw new Error(

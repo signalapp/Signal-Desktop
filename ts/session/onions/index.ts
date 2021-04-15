@@ -6,7 +6,7 @@ import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
 import { snodeHttpsAgent } from '../snode_api/onions';
 
-type Snode = SnodePool.Snode;
+export type Snode = SnodePool.Snode;
 
 interface SnodePath {
   path: Array<Snode>;
@@ -175,6 +175,7 @@ export class OnionPaths {
     }
 
     if (!response.ok) {
+      const tg = await response.text();
       log.info('Node failed the guard test:', snode);
     }
 

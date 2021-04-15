@@ -17,6 +17,8 @@ import {
   fromBase64ToArrayBuffer,
 } from '../session/utils/String';
 import { ConversationType } from '../state/ducks/conversations';
+import { channels } from './channels';
+import { channelsToMake as channelstoMakeOpenGroupV2 } from './opengroups';
 
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
@@ -31,8 +33,6 @@ let _jobCounter = 0;
 let _shuttingDown = false;
 let _shutdownCallback: any = null;
 let _shutdownPromise: any = null;
-
-const channels = {} as any;
 
 export type StorageItem = {
   id: string;
@@ -166,6 +166,9 @@ const channelsToMake = {
   addClosedGroupEncryptionKeyPair,
   isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
+
+  // open group v2
+  ...channelstoMakeOpenGroupV2,
 };
 
 export function init() {
@@ -612,10 +615,12 @@ export async function getPubkeysInPublicConversation(
   return channels.getPubkeysInPublicConversation(id);
 }
 
+// open groups v1 only
 export async function savePublicServerToken(data: ServerToken): Promise<void> {
   await channels.savePublicServerToken(data);
 }
 
+// open groups v1 only
 export async function getPublicServerTokenByServerUrl(
   serverUrl: string
 ): Promise<string> {

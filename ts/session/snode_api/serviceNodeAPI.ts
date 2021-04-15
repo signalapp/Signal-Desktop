@@ -199,7 +199,8 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     method: 'get_n_service_nodes',
     params,
   };
-  const sslAgent = getSslAgentForSeedNode(urlObj.hostname);
+  //FIXME audric
+  const sslAgent = undefined; //getSslAgentForSeedNode(urlObj.hostname);
 
   const fetchOptions = {
     method: 'POST',

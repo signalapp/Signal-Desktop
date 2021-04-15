@@ -50,8 +50,10 @@ window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.JobQueue = JobQueue;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
-window.getStoragePubKey = key =>
-  window.isDev() ? key.substring(0, key.length - 2) : key;
+//FIXME audric
+
+window.getStoragePubKey = key => key.substring(0, key.length - 2);
+// window.isDev() ? key.substring(0, key.length - 2) : key;
 window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
 
@@ -88,16 +90,10 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 // eslint-disable-next-line func-names
 window.CONSTANTS = new (function() {
   this.MAX_GROUP_NAME_LENGTH = 64;
-  this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
-  this.MAX_LINKED_DEVICES = 1;
-  this.MAX_CONNECTION_DURATION = 5000;
   this.CLOSED_GROUP_SIZE_LIMIT = 100;
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
-  this.SESSION_ID_LENGTH = 66;
 
-  // Loki Name System (LNS)
-  this.LNS_DEFAULT_LOOKUP_TIMEOUT = 6000;
   // Minimum nodes version for LNS lookup
   this.LNS_CAPABLE_NODES_VERSION = '2.0.3';
   this.LNS_MAX_LENGTH = 64;

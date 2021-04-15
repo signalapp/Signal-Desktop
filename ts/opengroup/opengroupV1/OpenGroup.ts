@@ -1,8 +1,9 @@
 import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
 import { ConversationModel } from '../../models/conversation';
-import { ConversationController } from '../conversations';
-import { PromiseUtils } from '../utils';
-import { forceSyncConfigurationNowIfNeeded } from '../utils/syncUtils';
+import { ConversationController } from '../../session/conversations';
+import { PromiseUtils } from '../../session/utils';
+import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
+import { prefixify } from '../utils/OpenGroupUtils';
 
 interface OpenGroupParams {
   server: string;
@@ -32,7 +33,7 @@ export class OpenGroup {
    * @param params.conversationId The conversation ID for the backbone model
    */
   constructor(params: OpenGroupParams) {
-    this.server = OpenGroup.prefixify(params.server.toLowerCase());
+    this.server = prefixify(params.server.toLowerCase());
 
     // Validate server format
     const isValid = OpenGroup.serverRegex.test(this.server);
@@ -109,8 +110,8 @@ export class OpenGroup {
   public static async join(
     server: string,
     fromSyncMessage: boolean = false
-  ): Promise<OpenGroup | undefined> {
-    const prefixedServer = OpenGroup.prefixify(server);
+  ): Promise<void> {
+    const prefixedServer = prefixify(server);
     if (!OpenGroup.validate(server)) {
       return;
     }
@@ -124,14 +125,7 @@ export class OpenGroup {
     conversation = OpenGroup.getConversation(prefixedServer);
 
     if (conversation) {
-      conversationId = conversation?.cid;
-      if (conversationId) {
-        return new OpenGroup({
-          server: prefixedServer,
-          channel: 1,
-          conversationId,
-        });
-      }
+      return;
     }
 
     // Try to connect to server
@@ -154,13 +148,6 @@ export class OpenGroup {
     } catch (e) {
       throw new Error(e);
     }
-
-    // Do we want to add conversation as a property of OpenGroup?
-    return new OpenGroup({
-      server,
-      channel,
-      conversationId,
-    });
   }
 
   /**
@@ -194,7 +181,7 @@ export class OpenGroup {
       return false;
     }
 
-    const prefixedServer = this.prefixify(server);
+    const prefixedServer = prefixify(server);
     return Boolean(
       await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer)
     );
@@ -209,7 +196,7 @@ export class OpenGroup {
 
     // We don't know for sure if the server is https or http when taken from the groupId. Preifx accordingly.
     return strippedServer
-      ? this.prefixify(strippedServer.toLowerCase(), hasSSL)
+      ? prefixify(strippedServer.toLowerCase(), hasSSL)
       : undefined;
   }
 
@@ -228,16 +215,6 @@ export class OpenGroup {
     const strippedServer = server.replace(prefixRegex, '');
 
     return `publicChat:${channel}@${strippedServer}`;
-  }
-
-  private static prefixify(server: string, hasSSL: boolean = true): string {
-    // Prefix server with https:// if it's not already prefixed with http or https.
-    const hasPrefix = server.match('^https?://');
-    if (hasPrefix) {
-      return server;
-    }
-
-    return `http${hasSSL ? 's' : ''}://${server}`;
   }
 
   /**
@@ -275,7 +252,7 @@ export class OpenGroup {
     }
 
     // Add http or https prefix to server
-    completeServerURL = OpenGroup.prefixify(completeServerURL);
+    completeServerURL = prefixify(completeServerURL);
 
     const rawServerURL = serverURL
       .replace(/^https?:\/\//i, '')

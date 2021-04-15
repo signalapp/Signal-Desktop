@@ -122,14 +122,16 @@
     window.lokiMessageAPI = new window.LokiMessageAPI();
     // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
+    //FIXME audric
+
     // singleton to interface the File server
     // If already exists we registered as a secondary device
-    if (!window.lokiFileServerAPI) {
-      window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
-      window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
-        window.getDefaultFileServer()
-      );
-    }
+    // if (!window.lokiFileServerAPI) {
+    //   window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
+    //   window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
+    //     window.getDefaultFileServer()
+    //   );
+    // }
 
     window.initialisedAPI = true;
   };

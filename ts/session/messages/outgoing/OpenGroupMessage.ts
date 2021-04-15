@@ -1,5 +1,5 @@
 import { Message, MessageParams } from './Message';
-import { OpenGroup } from '../../types/OpenGroup';
+import { OpenGroup } from '../../../opengroup/opengroupV1/OpenGroup';
 import {
   AttachmentPointer,
   Preview,

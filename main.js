@@ -177,7 +177,6 @@ function prepareURL(pathSegments, moreKeys) {
       defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
       // one day explain why we need to do this - neuroscr
       seedNodeList: JSON.stringify(config.get('seedNodeList')),
-      certificateAuthority: config.get('certificateAuthority'),
       environment: config.environment,
       node_version: process.versions.node,
       hostname: os.hostname(),
