@@ -186,8 +186,8 @@ describe('both/state/selectors/search', () => {
       const selector = getMessageSearchResultSelector(state);
 
       const actual = selector(searchId);
-      assert.deepEqual(actual.from, from);
-      assert.deepEqual(action.to, meAsRecipient);
+      assert.deepEqual(actual?.from, from);
+      assert.deepEqual(actual?.to, meAsRecipient);
     });
 
     it('returns outgoing message and caches appropriately', () => {
