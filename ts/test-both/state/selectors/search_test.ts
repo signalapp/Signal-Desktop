@@ -145,7 +145,7 @@ describe('both/state/selectors/search', () => {
       assert.deepEqual(actual, expected);
     });
 
-    it('returns incoming message and has the correct "to" when sent to me', () => {
+    it('returns the correct "from" and "to" when sent to me', () => {
       const searchId = 'search-id';
       const fromId = 'from-id';
       const toId = fromId;
