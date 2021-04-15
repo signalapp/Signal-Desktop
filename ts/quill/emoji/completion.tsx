@@ -103,7 +103,7 @@ export class EmojiCompletion {
     const range = this.quill.getSelection();
     const [blot, index] = this.quill.getLeaf(range ? range.index : -1);
 
-    return getBlotTextPartitions(blot, index);
+    return getBlotTextPartitions(blot.text, index);
   }
 
   onSelectionChange(): void {

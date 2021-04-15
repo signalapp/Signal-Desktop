@@ -93,17 +93,14 @@ export const getTextAndMentionsFromOps = (
 };
 
 export const getBlotTextPartitions = (
-  blot: LeafBlot,
+  blotText: string | undefined,
   index: number
 ): [string, string] => {
-  if (blot !== undefined && blot.text !== undefined) {
-    const leftLeafText = blot.text.substr(0, index);
-    const rightLeafText = blot.text.substr(index);
+  const lowerCaseBlotText = blotText?.toLowerCase();
+  const leftLeafText = lowerCaseBlotText?.substr(0, index);
+  const rightLeafText = lowerCaseBlotText?.substr(index);
 
-    return [leftLeafText, rightLeafText];
-  }
-
-  return ['', ''];
+  return [leftLeafText || '', rightLeafText || ''];
 };
 
 export const matchBlotTextPartitions = (
@@ -112,7 +109,7 @@ export const matchBlotTextPartitions = (
   leftRegExp: RegExp,
   rightRegExp?: RegExp
 ): Array<RegExpMatchArray | null> => {
-  const [leftText, rightText] = getBlotTextPartitions(blot, index);
+  const [leftText, rightText] = getBlotTextPartitions(blot.text, index);
 
   const leftMatch = leftRegExp.exec(leftText);
   let rightMatch = null;
