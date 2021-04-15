@@ -5,10 +5,7 @@ import React, { ReactElement } from 'react';
 import { GlobalAudioContext } from '../../components/GlobalAudioContext';
 import { SmartMessageAudio, Props as MessageAudioProps } from './MessageAudio';
 
-type AudioAttachmentProps = Omit<
-  MessageAudioProps,
-  'audio' | 'audioContext' | 'waveformCache'
->;
+type AudioAttachmentProps = Omit<MessageAudioProps, 'audio' | 'computePeaks'>;
 
 export function renderAudioAttachment(
   props: AudioAttachmentProps

@@ -7,8 +7,9 @@ import { noop } from 'lodash';
 
 import { assert } from '../../util/assert';
 import { LocalizerType } from '../../types/Util';
-import { WaveformCache } from '../../types/Audio';
 import { hasNotDownloaded, AttachmentType } from '../../types/Attachment';
+
+import { ComputePeaksResult } from '../GlobalAudioContext';
 
 export type Props = {
   direction?: 'incoming' | 'outgoing';
@@ -20,13 +21,12 @@ export type Props = {
 
   // See: GlobalAudioContext.tsx
   audio: HTMLAudioElement;
-  audioContext: AudioContext;
-  waveformCache: WaveformCache;
 
   buttonRef: React.RefObject<HTMLButtonElement>;
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
 
+  computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
   activeAudioID: string | undefined;
   setActiveAudioID: (id: string | undefined) => void;
 };
@@ -40,20 +40,10 @@ type ButtonProps = {
   onClick: () => void;
 };
 
-type LoadAudioOptions = {
-  audioContext: AudioContext;
-  waveformCache: WaveformCache;
-  url: string;
-};
-
-type LoadAudioResult = {
-  duration: number;
-  peaks: ReadonlyArray<number>;
-};
-
 enum State {
   NotDownloaded = 'NotDownloaded',
   Pending = 'Pending',
+  Computing = 'Computing',
   Normal = 'Normal',
 }
 
@@ -88,68 +78,6 @@ const timeToText = (time: number): string => {
 
   return hours ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`;
 };
-
-/**
- * Load audio from `url`, decode PCM data, and compute RMS peaks for displaying
- * the waveform.
- *
- * The results are cached in the `waveformCache` which is shared across
- * messages in the conversation and provided by GlobalAudioContext.
- */
-// TODO(indutny): move this to GlobalAudioContext and limit the concurrency.
-//                see DESKTOP-1267
-async function loadAudio(options: LoadAudioOptions): Promise<LoadAudioResult> {
-  const { audioContext, waveformCache, url } = options;
-
-  const existing = waveformCache.get(url);
-  if (existing) {
-    window.log.info('MessageAudio: waveform cache hit', url);
-    return Promise.resolve(existing);
-  }
-
-  window.log.info('MessageAudio: waveform cache miss', url);
-
-  // Load and decode `url` into a raw PCM
-  const response = await fetch(url);
-  const raw = await response.arrayBuffer();
-
-  const data = await audioContext.decodeAudioData(raw);
-
-  // Compute RMS peaks
-  const peaks = new Array(BAR_COUNT).fill(0);
-  const norms = new Array(BAR_COUNT).fill(0);
-
-  const samplesPerPeak = data.length / peaks.length;
-  for (
-    let channelNum = 0;
-    channelNum < data.numberOfChannels;
-    channelNum += 1
-  ) {
-    const channel = data.getChannelData(channelNum);
-
-    for (let sample = 0; sample < channel.length; sample += 1) {
-      const i = Math.floor(sample / samplesPerPeak);
-      peaks[i] += channel[sample] ** 2;
-      norms[i] += 1;
-    }
-  }
-
-  // Average
-  let max = 1e-23;
-  for (let i = 0; i < peaks.length; i += 1) {
-    peaks[i] = Math.sqrt(peaks[i] / Math.max(1, norms[i]));
-    max = Math.max(max, peaks[i]);
-  }
-
-  // Normalize
-  for (let i = 0; i < peaks.length; i += 1) {
-    peaks[i] /= max;
-  }
-
-  const result = { peaks, duration: data.duration };
-  waveformCache.set(url, result);
-  return result;
-}
 
 const Button: React.FC<ButtonProps> = props => {
   const { i18n, buttonRef, mod, label, onClick } = props;
@@ -192,9 +120,6 @@ const Button: React.FC<ButtonProps> = props => {
  * Display message audio attachment along with its waveform, duration, and
  * toggle Play/Pause button.
  *
- * The waveform is computed off the renderer thread by AudioContext, but it is
- * still quite expensive, so we cache it in the `waveformCache` LRU cache.
- *
  * A global audio player is used for playback and access is managed by the
  * `activeAudioID` property. Whenever `activeAudioID` property is equal to `id`
  * the instance of the `MessageAudio` assumes the ownership of the `Audio`
@@ -214,8 +139,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     onCorrupted,
 
     audio,
-    audioContext,
-    waveformCache,
+    computePeaks,
 
     activeAudioID,
     setActiveAudioID,
@@ -234,6 +158,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   // NOTE: Avoid division by zero
   const [duration, setDuration] = useState(1e-23);
 
+  const [hasPeaks, setHasPeaks] = useState(false);
   const [peaks, setPeaks] = useState<ReadonlyArray<number>>(
     new Array(BAR_COUNT).fill(0)
   );
@@ -244,6 +169,8 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     state = State.Pending;
   } else if (hasNotDownloaded(attachment)) {
     state = State.NotDownloaded;
+  } else if (!hasPeaks) {
+    state = State.Computing;
   } else {
     state = State.Normal;
   }
@@ -251,7 +178,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   // This effect loads audio file and computes its RMS peak for dispalying the
   // waveform.
   useEffect(() => {
-    if (state !== State.Normal) {
+    if (state !== State.Computing) {
       return noop;
     }
 
@@ -268,19 +195,19 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
           );
         }
 
-        const { peaks: newPeaks, duration: newDuration } = await loadAudio({
-          audioContext,
-          waveformCache,
-          url: attachment.url,
-        });
+        const { peaks: newPeaks, duration: newDuration } = await computePeaks(
+          attachment.url,
+          BAR_COUNT
+        );
         if (canceled) {
           return;
         }
         setPeaks(newPeaks);
+        setHasPeaks(true);
         setDuration(Math.max(newDuration, 1e-23));
       } catch (err) {
         window.log.error(
-          'MessageAudio: loadAudio error, marking as corrupted',
+          'MessageAudio: computePeaks error, marking as corrupted',
           err
         );
 
@@ -293,12 +220,12 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     };
   }, [
     attachment,
-    audioContext,
+    computePeaks,
     setDuration,
     setPeaks,
+    setHasPeaks,
     onCorrupted,
     state,
-    waveformCache,
   ]);
 
   // This effect attaches/detaches event listeners to the global <audio/>
@@ -510,7 +437,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   );
 
   let button: React.ReactElement;
-  if (state === State.Pending) {
+  if (state === State.Pending || state === State.Computing) {
     // Not really a button, but who cares?
     button = (
       <div

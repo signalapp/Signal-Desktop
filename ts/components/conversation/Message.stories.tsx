@@ -3,14 +3,12 @@
 
 import * as React from 'react';
 import { isBoolean } from 'lodash';
-import LRU from 'lru-cache';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, number, text, select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { Colors } from '../../types/Colors';
-import { WaveformCache } from '../../types/Audio';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import { Message, Props, AudioAttachmentProps } from './Message';
 import {
@@ -22,6 +20,7 @@ import {
   VIDEO_MP4,
 } from '../../types/MIME';
 import { MessageAudio } from './MessageAudio';
+import { computePeaks } from '../GlobalAudioContext';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
@@ -50,16 +49,13 @@ const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
     undefined
   );
   const audio = React.useMemo(() => new Audio(), []);
-  const audioContext = React.useMemo(() => new AudioContext(), []);
-  const waveformCache: WaveformCache = React.useMemo(() => new LRU(), []);
 
   return (
     <MessageAudio
       {...props}
       id="storybook"
       audio={audio}
-      audioContext={audioContext}
-      waveformCache={waveformCache}
+      computePeaks={computePeaks}
       setActiveAudioID={setActiveAudioID}
       activeAudioID={activeAudioID}
     />

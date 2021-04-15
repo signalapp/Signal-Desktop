@@ -4,17 +4,15 @@
 import { connect } from 'react-redux';
 
 import { MessageAudio } from '../../components/conversation/MessageAudio';
+import { ComputePeaksResult } from '../../components/GlobalAudioContext';
 
 import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
-import { WaveformCache } from '../../types/Audio';
 import { LocalizerType } from '../../types/Util';
 import { AttachmentType } from '../../types/Attachment';
 
 export type Props = {
   audio: HTMLAudioElement;
-  audioContext: AudioContext;
-  waveformCache: WaveformCache;
 
   direction?: 'incoming' | 'outgoing';
   id: string;
@@ -24,6 +22,8 @@ export type Props = {
   withContentBelow: boolean;
 
   buttonRef: React.RefObject<HTMLButtonElement>;
+
+  computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
 };
