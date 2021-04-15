@@ -30,6 +30,11 @@ export async function startApp(): Promise<void> {
     );
   }
 
+  let resolveOnAppView: (() => void) | undefined;
+  const onAppView = new Promise<void>(resolve => {
+    resolveOnAppView = resolve;
+  });
+
   window.textsecure.protobuf.onLoad(() => {
     window.storage.onready(() => {
       senderCertificateService.initialize({
@@ -1605,6 +1610,11 @@ export async function startApp(): Promise<void> {
         await window.textsecure.messaging.sendRequestKeySyncMessage();
       }
     );
+
+    if (resolveOnAppView) {
+      resolveOnAppView();
+      resolveOnAppView = undefined;
+    }
   }
 
   window.getSyncRequest = (timeoutMillis?: number) => {
@@ -2111,6 +2121,7 @@ export async function startApp(): Promise<void> {
     window.Whisper.deliveryReceiptQueue.start();
     window.Whisper.Notifications.enable();
 
+    await onAppView;
     const view = window.owsDesktopApp.appView;
     if (!view) {
       throw new Error('Expected `appView` to be initialized');
