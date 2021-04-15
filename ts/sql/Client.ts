@@ -869,8 +869,11 @@ function handleSearchMessageJSON(
 ): Array<ClientSearchResultMessageType> {
   return messages.map(message => ({
     json: message.json,
-    ...JSON.parse(message.json),
+
+    // Empty array is a default value. `message.json` has the real field
     bodyRanges: [],
+
+    ...JSON.parse(message.json),
     snippet: message.snippet,
   }));
 }
