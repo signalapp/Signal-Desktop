@@ -186,22 +186,8 @@ describe('both/state/selectors/search', () => {
       const selector = getMessageSearchResultSelector(state);
 
       const actual = selector(searchId);
-      const expected = {
-        from,
-        to: meAsRecipient,
-
-        id: searchId,
-        conversationId: toId,
-        sentAt: undefined,
-        snippet: 'snippet',
-        body: 'snippet',
-        bodyRanges: [],
-
-        isSelected: false,
-        isSearchingInConversation: false,
-      };
-
-      assert.deepEqual(actual, expected);
+      assert.deepEqual(actual.from, from);
+      assert.deepEqual(action.to, meAsRecipient);
     });
 
     it('returns outgoing message and caches appropriately', () => {
