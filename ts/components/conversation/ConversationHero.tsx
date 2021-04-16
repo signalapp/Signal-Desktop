@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { take } from 'lodash';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { ContactName } from './ContactName';
 import { About } from './About';
-import { Emojify } from './Emojify';
-import { Intl } from '../Intl';
+import { SharedGroupNames } from '../SharedGroupNames';
 import { LocalizerType } from '../../types/Util';
 
 export type Props = {
@@ -32,7 +30,6 @@ const renderMembershipRow = ({
   'i18n' | 'phoneNumber' | 'sharedGroupNames' | 'conversationType' | 'isMe'
 >) => {
   const className = 'module-conversation-hero__membership';
-  const nameClassName = `${className}__name`;
 
   if (conversationType !== 'direct') {
     return null;
@@ -43,73 +40,15 @@ const renderMembershipRow = ({
   }
 
   if (sharedGroupNames.length > 0) {
-    const firstThreeGroups = take(sharedGroupNames, 3).map((group, i) => (
-      // We cannot guarantee uniqueness of group names
-      // eslint-disable-next-line react/no-array-index-key
-      <strong key={i} className={nameClassName}>
-        <Emojify text={group} />
-      </strong>
-    ));
-
-    if (sharedGroupNames.length > 3) {
-      const remainingCount = sharedGroupNames.length - 3;
-      return (
-        <div className={className}>
-          <Intl
-            i18n={i18n}
-            id="ConversationHero--membership-extra"
-            components={{
-              group1: firstThreeGroups[0],
-              group2: firstThreeGroups[1],
-              group3: firstThreeGroups[2],
-              remainingCount: remainingCount.toString(),
-            }}
-          />
-        </div>
-      );
-    }
-    if (firstThreeGroups.length === 3) {
-      return (
-        <div className={className}>
-          <Intl
-            i18n={i18n}
-            id="ConversationHero--membership-3"
-            components={{
-              group1: firstThreeGroups[0],
-              group2: firstThreeGroups[1],
-              group3: firstThreeGroups[2],
-            }}
-          />
-        </div>
-      );
-    }
-    if (firstThreeGroups.length >= 2) {
-      return (
-        <div className={className}>
-          <Intl
-            i18n={i18n}
-            id="ConversationHero--membership-2"
-            components={{
-              group1: firstThreeGroups[0],
-              group2: firstThreeGroups[1],
-            }}
-          />
-        </div>
-      );
-    }
-    if (firstThreeGroups.length >= 1) {
-      return (
-        <div className={className}>
-          <Intl
-            i18n={i18n}
-            id="ConversationHero--membership-1"
-            components={{
-              group: firstThreeGroups[0],
-            }}
-          />
-        </div>
-      );
-    }
+    return (
+      <div className={className}>
+        <SharedGroupNames
+          i18n={i18n}
+          nameClassName={`${className}__name`}
+          sharedGroupNames={sharedGroupNames}
+        />
+      </div>
+    );
   }
 
   if (!phoneNumber) {

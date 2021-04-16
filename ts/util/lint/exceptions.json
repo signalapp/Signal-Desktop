@@ -16492,7 +16492,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
     "line": "    const overlayRef = react_1.default.useRef(null);",
-    "lineNumber": 18,
+    "lineNumber": 19,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-09T17:48:12.173Z"
   },
@@ -16500,7 +16500,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ContactModal.js",
     "line": "    const closeButtonRef = react_1.default.useRef(null);",
-    "lineNumber": 19,
+    "lineNumber": 20,
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-10T21:27:04.909Z"
   },
@@ -16526,7 +16526,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.js",
     "line": "    const firstRenderRef = React.useRef(true);",
-    "lineNumber": 85,
+    "lineNumber": 48,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -16535,7 +16535,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.tsx",
     "line": "  const firstRenderRef = React.useRef(true);",
-    "lineNumber": 138,
+    "lineNumber": 77,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."

@@ -2115,7 +2115,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-about {
   &__container {
-    margin-bottom: 8px;
     margin-left: auto;
     margin-right: auto;
     max-width: 248px;
@@ -10484,9 +10483,14 @@ $contact-modal-padding: 18px;
   margin-top: 6px;
 }
 
-.module-contact-modal__profile-and-number {
-  color: $color-gray-60;
+.module-contact-modal__info {
+  text-align: center;
+  max-width: 248px;
+  margin-top: 8px;
 
+  @include light-theme {
+    color: $color-gray-60;
+  }
   @include dark-theme {
     color: $color-gray-25;
   }

@@ -7,6 +7,7 @@ import { createPortal } from 'react-dom';
 import { ConversationType } from '../../state/ducks/conversations';
 import { About } from './About';
 import { Avatar } from '../Avatar';
+import { SharedGroupNames } from '../SharedGroupNames';
 import { LocalizerType } from '../../types/Util';
 
 export type PropsType = {
@@ -119,10 +120,16 @@ export const ContactModal = ({
               <About text={contact.about} />
             </div>
             {contact.phoneNumber && (
-              <div className="module-contact-modal__profile-and-number">
+              <div className="module-contact-modal__info">
                 {contact.phoneNumber}
               </div>
             )}
+            <div className="module-contact-modal__info">
+              <SharedGroupNames
+                i18n={i18n}
+                sharedGroupNames={contact.sharedGroupNames || []}
+              />
+            </div>
             <div className="module-contact-modal__button-container">
               <button
                 type="button"
