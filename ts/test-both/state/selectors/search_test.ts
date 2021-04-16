@@ -144,6 +144,52 @@ describe('both/state/selectors/search', () => {
 
       assert.deepEqual(actual, expected);
     });
+
+    it('returns the correct "from" and "to" when sent to me', () => {
+      const searchId = 'search-id';
+      const fromId = 'from-id';
+      const toId = fromId;
+      const myId = 'my-id';
+
+      const from = getDefaultConversation(fromId);
+      const meAsRecipient = getDefaultConversation(myId);
+
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyConversationState(),
+          conversationLookup: {
+            [fromId]: from,
+            [myId]: meAsRecipient,
+          },
+        },
+        ourConversationId: myId,
+        search: {
+          ...getEmptySearchState(),
+          messageLookup: {
+            [searchId]: {
+              ...getDefaultMessage(searchId),
+              type: 'incoming' as const,
+              sourceUuid: fromId,
+              conversationId: toId,
+              snippet: 'snippet',
+              body: 'snippet',
+              bodyRanges: [],
+            },
+          },
+        },
+        user: {
+          ...getEmptyUserState(),
+          ourConversationId: myId,
+        },
+      };
+      const selector = getMessageSearchResultSelector(state);
+
+      const actual = selector(searchId);
+      assert.deepEqual(actual?.from, from);
+      assert.deepEqual(actual?.to, meAsRecipient);
+    });
+
     it('returns outgoing message and caches appropriately', () => {
       const searchId = 'search-id';
       const fromId = 'from-id';

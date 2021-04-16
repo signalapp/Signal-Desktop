@@ -200,6 +200,9 @@ export const getMessageSearchResultSelector = createSelector(
       if (type === 'incoming') {
         from = conversationSelector(sourceUuid || source);
         to = conversationSelector(conversationId);
+        if (from === to) {
+          to = conversationSelector(ourConversationId);
+        }
       } else if (type === 'outgoing') {
         from = conversationSelector(ourConversationId);
         to = conversationSelector(conversationId);
