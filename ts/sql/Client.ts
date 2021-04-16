@@ -53,6 +53,7 @@ import {
   StickerPackType,
   StickerType,
   UnprocessedType,
+  UnprocessedUpdateType,
 } from './Interface';
 import Server from './Server';
 import { MessageModel } from '../models/messages';
@@ -1304,11 +1305,14 @@ async function saveUnprocesseds(
 async function updateUnprocessedAttempts(id: string, attempts: number) {
   await channels.updateUnprocessedAttempts(id, attempts);
 }
-async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
+async function updateUnprocessedWithData(
+  id: string,
+  data: UnprocessedUpdateType
+) {
   await channels.updateUnprocessedWithData(id, data);
 }
 async function updateUnprocessedsWithData(
-  array: Array<{ id: string; data: UnprocessedType }>
+  array: Array<{ id: string; data: UnprocessedUpdateType }>
 ) {
   await channels.updateUnprocessedsWithData(array);
 }

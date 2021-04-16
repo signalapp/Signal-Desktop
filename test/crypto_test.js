@@ -1,19 +1,48 @@
 // Copyright 2014-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Signal, textsecure, libsignal */
-
 'use strict';
 
 describe('Crypto', () => {
+  describe('generateRegistrationId', () => {
+    it('generates an integer between 0 and 16383 (inclusive)', () => {
+      for (let i = 0; i < 100; i += 1) {
+        const id = window.Signal.Crypto.generateRegistrationId();
+        assert.isAtLeast(id, 0);
+        assert.isAtMost(id, 16383);
+        assert(Number.isInteger(id));
+      }
+    });
+  });
+
+  describe('deriveSecrets', () => {
+    it('derives key parts via HKDF', () => {
+      const input = window.Signal.Crypto.getRandomBytes(32);
+      const salt = window.Signal.Crypto.getRandomBytes(32);
+      const info = window.Signal.Crypto.bytesFromString('Hello world');
+      const result = window.Signal.Crypto.deriveSecrets(input, salt, info);
+      assert.lengthOf(result, 3);
+      result.forEach(part => {
+        // This is a smoke test; HKDF is tested as part of libsignal-client.
+        assert.instanceOf(part, ArrayBuffer);
+        assert.strictEqual(part.byteLength, 32);
+      });
+    });
+  });
+
   describe('accessKey/profileKey', () => {
     it('verification roundtrips', async () => {
-      const profileKey = await Signal.Crypto.getRandomBytes(32);
-      const accessKey = await Signal.Crypto.deriveAccessKey(profileKey);
+      const profileKey = await window.Signal.Crypto.getRandomBytes(32);
+      const accessKey = await window.Signal.Crypto.deriveAccessKey(profileKey);
 
-      const verifier = await Signal.Crypto.getAccessKeyVerifier(accessKey);
+      const verifier = await window.Signal.Crypto.getAccessKeyVerifier(
+        accessKey
+      );
 
-      const correct = await Signal.Crypto.verifyAccessKey(accessKey, verifier);
+      const correct = await window.Signal.Crypto.verifyAccessKey(
+        accessKey,
+        verifier
+      );
 
       assert.strictEqual(correct, true);
     });
@@ -45,11 +74,13 @@ describe('Crypto', () => {
 
     vectors.forEach((vector, index) => {
       it(`vector ${index}`, async () => {
-        const gv1 = Signal.Crypto.hexToArrayBuffer(vector.gv1);
+        const gv1 = window.Signal.Crypto.hexToArrayBuffer(vector.gv1);
         const expectedHex = vector.masterKey;
 
-        const actual = await Signal.Crypto.deriveMasterKeyFromGroupV1(gv1);
-        const actualHex = Signal.Crypto.arrayBufferToHex(actual);
+        const actual = await window.Signal.Crypto.deriveMasterKeyFromGroupV1(
+          gv1
+        );
+        const actualHex = window.Signal.Crypto.arrayBufferToHex(actual);
 
         assert.strictEqual(actualHex, expectedHex);
       });
@@ -63,12 +94,21 @@ describe('Crypto', () => {
         message,
         'binary'
       ).toArrayBuffer();
-      const key = textsecure.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
-      const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
-      const decrypted = await Signal.Crypto.decryptSymmetric(key, encrypted);
+      const encrypted = await window.Signal.Crypto.encryptSymmetric(
+        key,
+        plaintext
+      );
+      const decrypted = await window.Signal.Crypto.decryptSymmetric(
+        key,
+        encrypted
+      );
 
-      const equal = Signal.Crypto.constantTimeEqual(plaintext, decrypted);
+      const equal = window.Signal.Crypto.constantTimeEqual(
+        plaintext,
+        decrypted
+      );
       if (!equal) {
         throw new Error('The output and input did not match!');
       }
@@ -80,14 +120,20 @@ describe('Crypto', () => {
         message,
         'binary'
       ).toArrayBuffer();
-      const key = textsecure.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
-      const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
+      const encrypted = await window.Signal.Crypto.encryptSymmetric(
+        key,
+        plaintext
+      );
       const uintArray = new Uint8Array(encrypted);
       uintArray[2] += 2;
 
       try {
-        await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
+        await window.Signal.Crypto.decryptSymmetric(
+          key,
+          window.window.Signal.Crypto.typedArrayToArrayBuffer(uintArray)
+        );
       } catch (error) {
         assert.strictEqual(
           error.message,
@@ -105,14 +151,20 @@ describe('Crypto', () => {
         message,
         'binary'
       ).toArrayBuffer();
-      const key = textsecure.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
-      const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
+      const encrypted = await window.Signal.Crypto.encryptSymmetric(
+        key,
+        plaintext
+      );
       const uintArray = new Uint8Array(encrypted);
       uintArray[uintArray.length - 3] += 2;
 
       try {
-        await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
+        await window.Signal.Crypto.decryptSymmetric(
+          key,
+          window.window.Signal.Crypto.typedArrayToArrayBuffer(uintArray)
+        );
       } catch (error) {
         assert.strictEqual(
           error.message,
@@ -130,14 +182,20 @@ describe('Crypto', () => {
         message,
         'binary'
       ).toArrayBuffer();
-      const key = textsecure.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
-      const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
+      const encrypted = await window.Signal.Crypto.encryptSymmetric(
+        key,
+        plaintext
+      );
       const uintArray = new Uint8Array(encrypted);
       uintArray[35] += 9;
 
       try {
-        await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
+        await window.Signal.Crypto.decryptSymmetric(
+          key,
+          window.window.Signal.Crypto.typedArrayToArrayBuffer(uintArray)
+        );
       } catch (error) {
         assert.strictEqual(
           error.message,
@@ -153,13 +211,13 @@ describe('Crypto', () => {
   describe('encrypted device name', () => {
     it('roundtrips', async () => {
       const deviceName = 'v1.19.0 on Windows 10';
-      const identityKey = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const identityKey = window.Signal.Curve.generateKeyPair();
 
-      const encrypted = await Signal.Crypto.encryptDeviceName(
+      const encrypted = await window.Signal.Crypto.encryptDeviceName(
         deviceName,
         identityKey.pubKey
       );
-      const decrypted = await Signal.Crypto.decryptDeviceName(
+      const decrypted = await window.Signal.Crypto.decryptDeviceName(
         encrypted,
         identityKey.privKey
       );
@@ -169,15 +227,18 @@ describe('Crypto', () => {
 
     it('fails if iv is changed', async () => {
       const deviceName = 'v1.19.0 on Windows 10';
-      const identityKey = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const identityKey = window.Signal.Curve.generateKeyPair();
 
-      const encrypted = await Signal.Crypto.encryptDeviceName(
+      const encrypted = await window.Signal.Crypto.encryptDeviceName(
         deviceName,
         identityKey.pubKey
       );
-      encrypted.syntheticIv = Signal.Crypto.getRandomBytes(16);
+      encrypted.syntheticIv = window.Signal.Crypto.getRandomBytes(16);
       try {
-        await Signal.Crypto.decryptDeviceName(encrypted, identityKey.privKey);
+        await window.Signal.Crypto.decryptDeviceName(
+          encrypted,
+          identityKey.privKey
+        );
       } catch (error) {
         assert.strictEqual(
           error.message,
@@ -189,52 +250,174 @@ describe('Crypto', () => {
 
   describe('attachment encryption', () => {
     it('roundtrips', async () => {
-      const staticKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const staticKeyPair = window.Signal.Curve.generateKeyPair();
       const message = 'this is my message';
-      const plaintext = Signal.Crypto.bytesFromString(message);
+      const plaintext = window.Signal.Crypto.bytesFromString(message);
       const path =
         'fa/facdf99c22945b1c9393345599a276f4b36ad7ccdc8c2467f5441b742c2d11fa';
 
-      const encrypted = await Signal.Crypto.encryptAttachment(
+      const encrypted = await window.Signal.Crypto.encryptAttachment(
         staticKeyPair.pubKey.slice(1),
         path,
         plaintext
       );
-      const decrypted = await Signal.Crypto.decryptAttachment(
+      const decrypted = await window.Signal.Crypto.decryptAttachment(
         staticKeyPair.privKey,
         path,
         encrypted
       );
 
-      const equal = Signal.Crypto.constantTimeEqual(plaintext, decrypted);
+      const equal = window.Signal.Crypto.constantTimeEqual(
+        plaintext,
+        decrypted
+      );
       if (!equal) {
         throw new Error('The output and input did not match!');
       }
     });
   });
 
+  describe('verifyHmacSha256', () => {
+    it('rejects if their MAC is too short', async () => {
+      const key = window.Signal.Crypto.getRandomBytes(32);
+      const plaintext = window.Signal.Crypto.bytesFromString('Hello world');
+      const ourMac = await window.Signal.Crypto.hmacSha256(key, plaintext);
+      const theirMac = ourMac.slice(0, -1);
+      let error;
+      try {
+        await window.Signal.Crypto.verifyHmacSha256(
+          plaintext,
+          key,
+          theirMac,
+          ourMac.byteLength
+        );
+      } catch (err) {
+        error = err;
+      }
+      assert.instanceOf(error, Error);
+      assert.strictEqual(error.message, 'Bad MAC length');
+    });
+
+    it('rejects if their MAC is too long', async () => {
+      const key = window.Signal.Crypto.getRandomBytes(32);
+      const plaintext = window.Signal.Crypto.bytesFromString('Hello world');
+      const ourMac = await window.Signal.Crypto.hmacSha256(key, plaintext);
+      const theirMac = window.Signal.Crypto.concatenateBytes(
+        ourMac,
+        new Uint8Array([0xff])
+      );
+      let error;
+      try {
+        await window.Signal.Crypto.verifyHmacSha256(
+          plaintext,
+          key,
+          theirMac,
+          ourMac.byteLength
+        );
+      } catch (err) {
+        error = err;
+      }
+      assert.instanceOf(error, Error);
+      assert.strictEqual(error.message, 'Bad MAC length');
+    });
+
+    it('rejects if our MAC is shorter than the specified length', async () => {
+      const key = window.Signal.Crypto.getRandomBytes(32);
+      const plaintext = window.Signal.Crypto.bytesFromString('Hello world');
+      const ourMac = await window.Signal.Crypto.hmacSha256(key, plaintext);
+      const theirMac = ourMac;
+      let error;
+      try {
+        await window.Signal.Crypto.verifyHmacSha256(
+          plaintext,
+          key,
+          theirMac,
+          ourMac.byteLength + 1
+        );
+      } catch (err) {
+        error = err;
+      }
+      assert.instanceOf(error, Error);
+      assert.strictEqual(error.message, 'Bad MAC length');
+    });
+
+    it("rejects if the MACs don't match", async () => {
+      const plaintext = window.Signal.Crypto.bytesFromString('Hello world');
+      const ourKey = window.Signal.Crypto.getRandomBytes(32);
+      const ourMac = await window.Signal.Crypto.hmacSha256(ourKey, plaintext);
+      const theirKey = window.Signal.Crypto.getRandomBytes(32);
+      const theirMac = await window.Signal.Crypto.hmacSha256(
+        theirKey,
+        plaintext
+      );
+      let error;
+      try {
+        await window.Signal.Crypto.verifyHmacSha256(
+          plaintext,
+          ourKey,
+          theirMac,
+          ourMac.byteLength
+        );
+      } catch (err) {
+        error = err;
+      }
+      assert.instanceOf(error, Error);
+      assert.strictEqual(error.message, 'Bad MAC');
+    });
+
+    it('resolves with undefined if the MACs match exactly', async () => {
+      const key = window.Signal.Crypto.getRandomBytes(32);
+      const plaintext = window.Signal.Crypto.bytesFromString('Hello world');
+      const theirMac = await window.Signal.Crypto.hmacSha256(key, plaintext);
+      const result = await window.Signal.Crypto.verifyHmacSha256(
+        plaintext,
+        key,
+        theirMac,
+        theirMac.byteLength
+      );
+      assert.isUndefined(result);
+    });
+
+    it('resolves with undefined if the first `length` bytes of the MACs match', async () => {
+      const key = window.Signal.Crypto.getRandomBytes(32);
+      const plaintext = window.Signal.Crypto.bytesFromString('Hello world');
+      const theirMac = (
+        await window.Signal.Crypto.hmacSha256(key, plaintext)
+      ).slice(0, -5);
+      const result = await window.Signal.Crypto.verifyHmacSha256(
+        plaintext,
+        key,
+        theirMac,
+        theirMac.byteLength
+      );
+      assert.isUndefined(result);
+    });
+  });
+
   describe('uuidToArrayBuffer', () => {
-    const { uuidToArrayBuffer } = Signal.Crypto;
+    const { uuidToArrayBuffer } = window.Signal.Crypto;
 
     it('converts valid UUIDs to ArrayBuffers', () => {
-      const expectedResult = new Uint8Array([
-        0x22,
-        0x6e,
-        0x44,
-        0x02,
-        0x7f,
-        0xfc,
-        0x45,
-        0x43,
-        0x85,
-        0xc9,
-        0x46,
-        0x22,
-        0xc5,
-        0x0a,
-        0x5b,
-        0x14,
-      ]).buffer;
+      const expectedResult = window.window.Signal.Crypto.typedArrayToArrayBuffer(
+        new Uint8Array([
+          0x22,
+          0x6e,
+          0x44,
+          0x02,
+          0x7f,
+          0xfc,
+          0x45,
+          0x43,
+          0x85,
+          0xc9,
+          0x46,
+          0x22,
+          0xc5,
+          0x0a,
+          0x5b,
+          0x14,
+        ])
+      );
 
       assert.deepEqual(
         uuidToArrayBuffer('226e4402-7ffc-4543-85c9-4622c50a5b14'),
@@ -261,27 +444,29 @@ describe('Crypto', () => {
   });
 
   describe('arrayBufferToUuid', () => {
-    const { arrayBufferToUuid } = Signal.Crypto;
+    const { arrayBufferToUuid } = window.Signal.Crypto;
 
     it('converts valid ArrayBuffers to UUID strings', () => {
-      const buf = new Uint8Array([
-        0x22,
-        0x6e,
-        0x44,
-        0x02,
-        0x7f,
-        0xfc,
-        0x45,
-        0x43,
-        0x85,
-        0xc9,
-        0x46,
-        0x22,
-        0xc5,
-        0x0a,
-        0x5b,
-        0x14,
-      ]).buffer;
+      const buf = window.window.Signal.Crypto.typedArrayToArrayBuffer(
+        new Uint8Array([
+          0x22,
+          0x6e,
+          0x44,
+          0x02,
+          0x7f,
+          0xfc,
+          0x45,
+          0x43,
+          0x85,
+          0xc9,
+          0x46,
+          0x22,
+          0xc5,
+          0x0a,
+          0x5b,
+          0x14,
+        ])
+      );
 
       assert.deepEqual(
         arrayBufferToUuid(buf),
@@ -295,9 +480,19 @@ describe('Crypto', () => {
 
     it('returns undefined if passed the wrong number of bytes', () => {
       assert.isUndefined(arrayBufferToUuid(new ArrayBuffer(0)));
-      assert.isUndefined(arrayBufferToUuid(new Uint8Array([0x22]).buffer));
       assert.isUndefined(
-        arrayBufferToUuid(new Uint8Array(Array(17).fill(0x22)).buffer)
+        arrayBufferToUuid(
+          window.window.Signal.Crypto.typedArrayToArrayBuffer(
+            new Uint8Array([0x22])
+          )
+        )
+      );
+      assert.isUndefined(
+        arrayBufferToUuid(
+          window.window.Signal.Crypto.typedArrayToArrayBuffer(
+            new Uint8Array(Array(17).fill(0x22))
+          )
+        )
       );
     });
   });

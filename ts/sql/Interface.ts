@@ -70,6 +70,7 @@ export type SessionType = {
   conversationId: string;
   deviceId: number;
   record: string;
+  version?: number;
 };
 export type SignedPreKeyType = {
   confirmed: boolean;
@@ -121,6 +122,14 @@ export type UnprocessedType = {
   attempts: number;
   envelope: string;
 
+  source?: string;
+  sourceUuid?: string;
+  sourceDevice?: string;
+  serverTimestamp?: number;
+  decrypted?: string;
+};
+
+export type UnprocessedUpdateType = {
   source?: string;
   sourceUuid?: string;
   sourceDevice?: string;
@@ -210,10 +219,10 @@ export type DataInterface = {
   updateUnprocessedAttempts: (id: string, attempts: number) => Promise<void>;
   updateUnprocessedWithData: (
     id: string,
-    data: UnprocessedType
+    data: UnprocessedUpdateType
   ) => Promise<void>;
   updateUnprocessedsWithData: (
-    array: Array<{ id: string; data: UnprocessedType }>
+    array: Array<{ id: string; data: UnprocessedUpdateType }>
   ) => Promise<void>;
   getUnprocessedById: (id: string) => Promise<UnprocessedType | undefined>;
   saveUnprocesseds: (

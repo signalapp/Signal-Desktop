@@ -5,7 +5,7 @@ import {
   SenderCertificateMode,
   serializedCertificateSchema,
   SerializedCertificateType,
-} from '../metadata/SecretSessionCipher';
+} from '../textsecure/OutgoingMessage';
 import { SenderCertificateClass } from '../textsecure';
 import { base64ToArrayBuffer } from '../Crypto';
 import { assert } from '../util/assert';

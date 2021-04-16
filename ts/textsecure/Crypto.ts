@@ -5,6 +5,14 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable more/no-then */
 import { ByteBufferClass } from '../window.d';
+import {
+  decryptAes256CbcPkcsPadding,
+  encryptAes256CbcPkcsPadding,
+  getRandomBytes as outerGetRandomBytes,
+  hmacSha256,
+  sha256,
+  verifyHmacSha256,
+} from '../Crypto';
 
 declare global {
   // this is fixed in already, and won't be necessary when the new definitions
@@ -134,10 +142,6 @@ async function verifyDigest(
     });
 }
 
-function calculateDigest(data: ArrayBuffer) {
-  return window.crypto.subtle.digest({ name: 'SHA-256' }, data);
-}
-
 const Crypto = {
   // Decrypts message into a raw string
   async decryptWebsocketMessage(
@@ -175,11 +179,9 @@ const Crypto = {
       decodedMessage.byteLength
     );
 
-    return window.libsignal.crypto
-      .verifyMAC(ivAndCiphertext, macKey, mac, 10)
-      .then(async () =>
-        window.libsignal.crypto.decrypt(aesKey, ciphertext, iv)
-      );
+    await verifyHmacSha256(ivAndCiphertext, macKey, mac, 10);
+
+    return decryptAes256CbcPkcsPadding(aesKey, ciphertext, iv);
   },
 
   async decryptAttachment(
@@ -205,18 +207,13 @@ const Crypto = {
       encryptedBin.byteLength
     );
 
-    return window.libsignal.crypto
-      .verifyMAC(ivAndCiphertext, macKey, mac, 32)
-      .then(async () => {
-        if (theirDigest) {
-          return verifyDigest(encryptedBin, theirDigest);
-        }
+    await verifyHmacSha256(ivAndCiphertext, macKey, mac, 32);
 
-        return null;
-      })
-      .then(async () =>
-        window.libsignal.crypto.decrypt(aesKey, ciphertext, iv)
-      );
+    if (theirDigest) {
+      await verifyDigest(encryptedBin, theirDigest);
+    }
+
+    return decryptAes256CbcPkcsPadding(aesKey, ciphertext, iv);
   },
 
   async encryptAttachment(
@@ -239,36 +236,30 @@ const Crypto = {
     const aesKey = keys.slice(0, 32);
     const macKey = keys.slice(32, 64);
 
-    return window.libsignal.crypto
-      .encrypt(aesKey, plaintext, iv)
-      .then(async ciphertext => {
-        const ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
-        ivAndCiphertext.set(new Uint8Array(iv));
-        ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
+    const ciphertext = await encryptAes256CbcPkcsPadding(aesKey, plaintext, iv);
 
-        return window.libsignal.crypto
-          .calculateMAC(macKey, ivAndCiphertext.buffer as ArrayBuffer)
-          .then(async mac => {
-            const encryptedBin = new Uint8Array(
-              16 + ciphertext.byteLength + 32
-            );
-            encryptedBin.set(ivAndCiphertext);
-            encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
-            return calculateDigest(encryptedBin.buffer as ArrayBuffer).then(
-              digest => ({
-                ciphertext: encryptedBin.buffer,
-                digest,
-              })
-            );
-          });
-      });
+    const ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
+    ivAndCiphertext.set(new Uint8Array(iv));
+    ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
+
+    const mac = await hmacSha256(macKey, ivAndCiphertext.buffer as ArrayBuffer);
+
+    const encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
+    encryptedBin.set(ivAndCiphertext);
+    encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
+    const digest = await sha256(encryptedBin.buffer as ArrayBuffer);
+
+    return {
+      ciphertext: encryptedBin.buffer,
+      digest,
+    };
   },
 
   async encryptProfile(
     data: ArrayBuffer,
     key: ArrayBuffer
   ): Promise<ArrayBuffer> {
-    const iv = window.libsignal.crypto.getRandomBytes(PROFILE_IV_LENGTH);
+    const iv = outerGetRandomBytes(PROFILE_IV_LENGTH);
     if (key.byteLength !== PROFILE_KEY_LENGTH) {
       throw new Error('Got invalid length profile key');
     }
@@ -389,7 +380,7 @@ const Crypto = {
   },
 
   getRandomBytes(size: number): ArrayBuffer {
-    return window.libsignal.crypto.getRandomBytes(size);
+    return outerGetRandomBytes(size);
   },
 };
 

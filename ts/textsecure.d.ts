@@ -1,12 +1,6 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  KeyPairType,
-  SessionRecordType,
-  SignedPreKeyType,
-  StorageType,
-} from './libsignal.d';
 import Crypto from './textsecure/Crypto';
 import MessageReceiver from './textsecure/MessageReceiver';
 import MessageSender from './textsecure/SendMessage';
@@ -18,6 +12,7 @@ import { WebAPIType } from './textsecure/WebAPI';
 import utils from './textsecure/Helpers';
 import { CallingMessage as CallingMessageClass } from 'ringrtc';
 import { WhatIsThis } from './window.d';
+import { SignalProtocolStore } from './SignalProtocolStore';
 
 export type UnprocessedType = {
   attempts: number;
@@ -79,7 +74,7 @@ export type TextSecureType = {
     get: (key: string, defaultValue?: any) => any;
     put: (key: string, value: any) => Promise<void>;
     remove: (key: string | Array<string>) => Promise<void>;
-    protocol: StorageProtocolType;
+    protocol: SignalProtocolStore;
   };
   messageReceiver: MessageReceiver;
   messageSender: MessageSender;
@@ -92,67 +87,6 @@ export type TextSecureType = {
   AccountManager: WhatIsThis;
   MessageSender: WhatIsThis;
   SyncRequest: typeof SyncRequest;
-};
-
-type StoredSignedPreKeyType = SignedPreKeyType & {
-  confirmed?: boolean;
-  created_at: number;
-};
-
-type IdentityKeyRecord = {
-  publicKey: ArrayBuffer;
-  firstUse: boolean;
-  timestamp: number;
-  verified: number;
-  nonblockingApproval: boolean;
-};
-
-export type StorageProtocolType = StorageType & {
-  VerifiedStatus: {
-    DEFAULT: number;
-    VERIFIED: number;
-    UNVERIFIED: number;
-  };
-  archiveSiblingSessions: (identifier: string) => Promise<void>;
-  removeSession: (identifier: string) => Promise<void>;
-  getDeviceIds: (identifier: string) => Promise<Array<number>>;
-  getIdentityRecord: (identifier: string) => IdentityKeyRecord | undefined;
-  getVerified: (id: string) => Promise<number>;
-  hydrateCaches: () => Promise<void>;
-  clearPreKeyStore: () => Promise<void>;
-  clearSignedPreKeysStore: () => Promise<void>;
-  clearSessionStore: () => Promise<void>;
-  isTrustedIdentity: () => void;
-  isUntrusted: (id: string) => boolean;
-  storePreKey: (keyId: number, keyPair: KeyPairType) => Promise<void>;
-  storeSignedPreKey: (
-    keyId: number,
-    keyPair: KeyPairType,
-    confirmed?: boolean
-  ) => Promise<void>;
-  loadIdentityKey: (identifier: string) => Promise<ArrayBuffer | undefined>;
-  loadSignedPreKeys: () => Promise<Array<StoredSignedPreKeyType>>;
-  processVerifiedMessage: (
-    identifier: string,
-    verifiedStatus: number,
-    publicKey: ArrayBuffer
-  ) => Promise<boolean>;
-  removeIdentityKey: (identifier: string) => Promise<void>;
-  saveIdentityWithAttributes: (
-    number: string,
-    options: IdentityKeyRecord
-  ) => Promise<void>;
-  setApproval: (id: string, something: boolean) => void;
-  setVerified: (
-    encodedAddress: string,
-    verifiedStatus: number,
-    publicKey?: ArrayBuffer
-  ) => Promise<void>;
-  removeSignedPreKey: (keyId: number) => Promise<void>;
-  removeAllSessions: (identifier: string) => Promise<void>;
-  removeAllData: () => Promise<void>;
-  on: (key: string, callback: () => void) => WhatIsThis;
-  removeAllConfiguration: () => Promise<void>;
 };
 
 // Protobufs

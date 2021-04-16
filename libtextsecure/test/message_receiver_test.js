@@ -1,14 +1,14 @@
 // Copyright 2015-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global libsignal, textsecure */
+/* global textsecure */
 
 describe('MessageReceiver', () => {
   const { WebSocket } = window;
   const number = '+19999999999';
   const uuid = 'AAAAAAAA-BBBB-4CCC-9DDD-EEEEEEEEEEEE';
   const deviceId = 1;
-  const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
+  const signalingKey = window.Signal.Crypto.getRandomBytes(32 + 20);
 
   before(() => {
     localStorage.clear();
@@ -34,7 +34,7 @@ describe('MessageReceiver', () => {
         sourceUuid: uuid,
         sourceDevice: deviceId,
         timestamp: Date.now(),
-        content: libsignal.crypto.getRandomBytes(200),
+        content: window.Signal.Crypto.getRandomBytes(200),
       };
       const body = new textsecure.protobuf.Envelope(attrs).toArrayBuffer();
 
@@ -54,8 +54,8 @@ describe('MessageReceiver', () => {
       });
 
       const messageReceiver = new textsecure.MessageReceiver(
-        'oldUsername',
-        'username',
+        'oldUsername.2',
+        'username.2',
         'password',
         'signalingKey',
         {
@@ -77,8 +77,8 @@ describe('MessageReceiver', () => {
       mockServer = new MockServer('ws://localhost:8081');
 
       messageReceiver = new textsecure.MessageReceiver(
-        'oldUsername',
-        'username',
+        'oldUsername.3',
+        'username.3',
         'password',
         'signalingKey',
         {

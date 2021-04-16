@@ -1,23 +1,20 @@
 // Copyright 2017-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global ConversationController, libsignal, SignalProtocolStore, Whisper */
+/* global ConversationController, SignalProtocolStore, Whisper */
 
 describe('KeyChangeListener', () => {
   const phoneNumberWithKeyChange = '+13016886524'; // nsa
-  const address = new libsignal.SignalProtocolAddress(
-    phoneNumberWithKeyChange,
-    1
-  );
-  const oldKey = libsignal.crypto.getRandomBytes(33);
-  const newKey = libsignal.crypto.getRandomBytes(33);
+  const addressString = `${phoneNumberWithKeyChange}.1`;
+  const oldKey = window.Signal.Crypto.getRandomBytes(33);
+  const newKey = window.Signal.Crypto.getRandomBytes(33);
   let store;
 
   beforeEach(async () => {
     store = new SignalProtocolStore();
     await store.hydrateCaches();
     Whisper.KeyChangeListener.init(store);
-    return store.saveIdentity(address.toString(), oldKey);
+    return store.saveIdentity(addressString, oldKey);
   });
 
   afterEach(() => {
@@ -31,9 +28,7 @@ describe('KeyChangeListener', () => {
         id: phoneNumberWithKeyChange,
         type: 'private',
       });
-      await window.Signal.Data.saveConversation(convo.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await window.Signal.Data.saveConversation(convo.attributes);
     });
 
     after(async () => {
@@ -49,11 +44,11 @@ describe('KeyChangeListener', () => {
     it('generates a key change notice in the private conversation with this contact', done => {
       const original = convo.addKeyChange;
       convo.addKeyChange = keyChangedId => {
-        assert.equal(address.getName(), keyChangedId);
+        assert.equal(phoneNumberWithKeyChange, keyChangedId);
         convo.addKeyChange = original;
         done();
       };
-      store.saveIdentity(address.toString(), newKey);
+      store.saveIdentity(addressString, newKey);
     });
   });
 
@@ -70,12 +65,8 @@ describe('KeyChangeListener', () => {
         type: 'group',
         members: [convo.id],
       });
-      await window.Signal.Data.saveConversation(convo.attributes, {
-        Conversation: Whisper.Conversation,
-      });
-      await window.Signal.Data.saveConversation(groupConvo.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await window.Signal.Data.saveConversation(convo.attributes);
+      await window.Signal.Data.saveConversation(groupConvo.attributes);
     });
     after(async () => {
       await window.Signal.Data.removeAllMessagesInConversation(groupConvo.id, {
@@ -93,12 +84,12 @@ describe('KeyChangeListener', () => {
     it('generates a key change notice in the group conversation with this contact', done => {
       const original = groupConvo.addKeyChange;
       groupConvo.addKeyChange = keyChangedId => {
-        assert.equal(address.getName(), keyChangedId);
+        assert.equal(phoneNumberWithKeyChange, keyChangedId);
         groupConvo.addKeyChange = original;
         done();
       };
 
-      store.saveIdentity(address.toString(), newKey);
+      store.saveIdentity(addressString, newKey);
     });
   });
 });

@@ -740,7 +740,12 @@ export async function mergeContactRecord(
   const verified = await conversation.safeGetVerified();
   const storageServiceVerified = contactRecord.identityState || 0;
   if (verified !== storageServiceVerified) {
-    const verifiedOptions = { viaStorageServiceSync: true };
+    const verifiedOptions = {
+      key: contactRecord.identityKey
+        ? contactRecord.identityKey.toArrayBuffer()
+        : undefined,
+      viaStorageServiceSync: true,
+    };
     const STATE_ENUM = window.textsecure.protobuf.ContactRecord.IdentityState;
 
     switch (storageServiceVerified) {

@@ -64,7 +64,9 @@ describe('GroupBuffer', () => {
     avatarBuffer.limit = avatarBuffer.offset;
     avatarBuffer.offset = 0;
     const groupInfo = new window.textsecure.protobuf.GroupDetails({
-      id: new Uint8Array([1, 3, 3, 7]).buffer,
+      id: window.Signal.Crypto.typedArrayToArrayBuffer(
+        new Uint8Array([1, 3, 3, 7])
+      ),
       name: 'Hackers',
       membersE164: ['cereal', 'burn', 'phreak', 'joey'],
       avatar: { contentType: 'image/jpeg', length: avatarLen },
@@ -92,7 +94,9 @@ describe('GroupBuffer', () => {
       assert.strictEqual(group.name, 'Hackers');
       assertEqualArrayBuffers(
         group.id.toArrayBuffer(),
-        new Uint8Array([1, 3, 3, 7]).buffer
+        window.Signal.Crypto.typedArrayToArrayBuffer(
+          new Uint8Array([1, 3, 3, 7])
+        )
       );
       assert.sameMembers(group.membersE164, [
         'cereal',

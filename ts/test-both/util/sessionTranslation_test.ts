@@ -83,17 +83,17 @@ describe('sessionTranslation', () => {
 
     const expected = {
       currentSession: {
-        sessionVersion: 1,
+        sessionVersion: 3,
         localIdentityPublic: 'Baioqfzc/5JD6b+GNqapPouf6eHK7xr9ynLJHnvl+444',
         remoteIdentityPublic: 'BaioqfzP5JD6b+GNqepPouf6eHK7xr9ynLJHnvlpgVRA',
         rootKey: 'ywM1L/yc2ppnA1hl+/oQlwD8Ara7bzUcg5etpQTQ/6s=',
-        previousCounter: 2,
+        previousCounter: 3,
         senderChain: {
           senderRatchetKey: 'BSsTNJarMQATbCAq40vnbrrW87PtVFOfJox7+SDNgj4x',
           senderRatchetKeyPrivate:
             '5JfjxauqiuD47SmI4QXBIoxzSk0uqKEScp0oTgw51Ag=',
           chainKey: {
-            index: -1,
+            index: 0,
             key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
           },
         },
@@ -101,18 +101,18 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'BQo3HG1UhWIh6A7NBxZtNGezBZH8nElZjOqNCBHPzlBz',
             chainKey: {
-              index: 5,
+              index: 6,
               key: 'Wnvy2TjYs0HdZFNahmsKw5cc9KEbW1nSwraDFmGwBDw=',
             },
             messageKeys: [
               {
-                index: 0,
+                index: 1,
                 cipherKey: 'xVreEbT7Vtrxs85JyGBj6Y+UWftQz4H72F5kWV4cxqM=',
                 iv: 'TcRanSxZVWbuIq0xDRGnEw==',
                 macKey: '5fW9aIKXhtwWp/5alNJUIXInZbztf2ywzQSpYrXoQ3A=',
               },
               {
-                index: 4,
+                index: 5,
                 cipherKey: 'A99HjM4pUugsQ5+2v48FGTGEhZPoW6wzW9MqSc11QQ4=',
                 iv: 'bE8Ei2Rkaoz4SKRwdG4+tQ==',
                 macKey: 'TOTdbAf0bCHOzcQ3lBaIm3yqmpEqvvldD0qTuDFmkAI=',
@@ -320,17 +320,17 @@ describe('sessionTranslation', () => {
 
     const expected = {
       currentSession: {
-        sessionVersion: 1,
+        sessionVersion: 3,
         localIdentityPublic: 'Baioqfzc/5JD6b+GNqapPouf6eHK7xr9ynLJHnvl+444',
         remoteIdentityPublic: 'BaioqfzP5JD6b+GNqepPouf6eHK7xr9ynLJHnvlpgVRA',
         rootKey: 'ywM1L/yc2ppnA1hl+/oQlwD8Ara7bzUcg5etpQTQ/6s=',
-        previousCounter: 2,
+        previousCounter: 3,
         senderChain: {
           senderRatchetKey: 'BSsTNJarMQATbCAq40vnbrrW87PtVFOfJox7+SDNgj4x',
           senderRatchetKeyPrivate:
             '5JfjxauqiuD47SmI4QXBIoxzSk0uqKEScp0oTgw51Ag=',
           chainKey: {
-            index: -1,
+            index: 0,
             key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
           },
         },
@@ -338,18 +338,18 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'BQo3HG1UhWIh6A7NBxZtNGezBZH8nElZjOqNCBHPzlBz',
             chainKey: {
-              index: 5,
+              index: 6,
               key: 'Wnvy2TjYs0HdZFNahmsKw5cc9KEbW1nSwraDFmGwBDw=',
             },
             messageKeys: [
               {
-                index: 0,
+                index: 1,
                 cipherKey: 'xVreEbT7Vtrxs85JyGBj6Y+UWftQz4H72F5kWV4cxqM=',
                 iv: 'TcRanSxZVWbuIq0xDRGnEw==',
                 macKey: '5fW9aIKXhtwWp/5alNJUIXInZbztf2ywzQSpYrXoQ3A=',
               },
               {
-                index: 4,
+                index: 5,
                 cipherKey: 'A99HjM4pUugsQ5+2v48FGTGEhZPoW6wzW9MqSc11QQ4=',
                 iv: 'bE8Ei2Rkaoz4SKRwdG4+tQ==',
                 macKey: 'TOTdbAf0bCHOzcQ3lBaIm3yqmpEqvvldD0qTuDFmkAI=',
@@ -359,11 +359,11 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'BTpb20+IlnBkryDC2ecQT96Hd3t9/Qh3ljnA3509kxRa',
             chainKey: {
-              index: 1,
+              index: 2,
             },
             messageKeys: [
               {
-                index: 0,
+                index: 1,
                 cipherKey: 'aAbSz5jOagUTgQKo3aqExcl8hyZANrY+HvrLc/OgoQI=',
                 iv: 'JcyLzw0fL67Kd4tfGJ2OUQ==',
                 macKey: 'dt+RXeaeIx+ASrKSk7D4guwTE1IUYl3LiLG9aI4sZm8=',
@@ -373,29 +373,29 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'Bd5nlMVr6YMBE5eh//tOWMgoOQakkneYri/YuVJpi0pJ',
             chainKey: {
-              index: 11,
+              index: 12,
             },
             messageKeys: [
               {
-                index: 0,
+                index: 1,
                 cipherKey: 'pjcY/7MoRGtGHwNN/E8KqoKCx/5mdKp0VCmrmkBAj+M=',
                 iv: 'eBpAEoDj94NsI0vsf+4Hrw==',
                 macKey: 'P7Jz2KkOXC7B0mLkz7JaU/d0vdaYZjAfuKJ86xXB19U=',
               },
               {
-                index: 2,
+                index: 3,
                 cipherKey: 'EGDj0sc/1TMtSycYDCrpZdl6UCzCzDuMwlAvVVAs2OQ=',
                 iv: 'A+1OA9M2Z8gGlARtA231RA==',
                 macKey: 'oQ/PQxJDD52qrkShSy6hD3fASEfhWnlmY3qsSPuOY/o=',
               },
               {
-                index: 3,
+                index: 4,
                 cipherKey: 'WM3UUILGdECXjO8jZbBVYrPAnzRM8RdiU+PSAyHUT5U=',
                 iv: 'CWuQIuIyGqApA6MQgnDR5Q==',
                 macKey: 'hg+/xrOKFzn2eK1BnJ5C+ERsFgaWAOaBxQTc4q3b/g8=',
               },
               {
-                index: 9,
+                index: 10,
                 cipherKey: 'T0cBaGAseFz+s2njVr4sqbFf1pUH5PoPvdMBoizIT+Y=',
                 iv: 'hkT2kqgqhlORAjBI7ZDsig==',
                 macKey: 'uE/Dd4WSQWkYNRgolcQtOd+HpaHP5wGogMzErkZj+AQ=',
@@ -405,29 +405,29 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'BYSxQO1OIs0ZSFN7JI/vF5Rb0VwaKjs+UAAfDkhOYfkp',
             chainKey: {
-              index: 5,
+              index: 6,
             },
             messageKeys: [
               {
-                index: 0,
+                index: 1,
                 cipherKey: 'ni6XhRCoLFud2Zk1zoel4he8znDG/t+TWVBASO35GlQ=',
                 iv: 'rKy/sxLmQ4j2DSxbDZTO5A==',
                 macKey: 'MKxs29AmNOnp6zZOsIbrmSqcVXYJL01kuvIaqwjRNvQ=',
               },
               {
-                index: 2,
+                index: 3,
                 cipherKey: 'Pp7GOD72vfjvb3qx7qm1YVoZKPqnyXC2uqCt89ZA/yc=',
                 iv: 'NuDf5iM0lD/o0YzjHZo4mA==',
                 macKey: 'JkBZiaxmwFr1xh/zzTQE6mlUIVJmSIrqSIQVlaoTz7M=',
               },
               {
-                index: 3,
+                index: 4,
                 cipherKey: 'zORWRvJEUe2F4UnBwe2YRqPS4GzUFE1lWptcqMzWf2U=',
                 iv: 'Og7jF9JJhiLtPD8W2OgTnw==',
                 macKey: 'Lxbcl9fL9x5Javtdz7tOV7Bbr8ar3rWxSIsi1Focv9w=',
               },
               {
-                index: 5,
+                index: 6,
                 cipherKey: 'T/TZNw04+ZfB0s2ltOT9qbzRPnCFn7VvxqHHAvORFx0=',
                 iv: 'DpOAK77ErIr2QFTsRnfOew==',
                 macKey: 'k/fxafepBiA0dQOTpohL+EKm2+1jpFwRigVWt02U/Jg=',
@@ -437,23 +437,23 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'BbXSFD/IoivRUvfnPzOaRLqDXEAwi4YEristfwiOj3IJ',
             chainKey: {
-              index: 2,
+              index: 3,
             },
           },
           {
             senderRatchetKey: 'BRRAnr1NhizgCPPzmYV9qGBpvwCpSQH0Rx+UOtl78wUg',
             chainKey: {
-              index: 0,
+              index: 1,
             },
           },
           {
             senderRatchetKey: 'BZvOKPA+kXiCg8TIP/52fu1reCDirC7wb5nyRGce3y4N',
             chainKey: {
-              index: 6,
+              index: 7,
             },
             messageKeys: [
               {
-                index: 4,
+                index: 5,
                 cipherKey: 'PB44plPzHam/o2LZnyjo8HLRuAvp3uE6ixO5+GUCUsA=',
                 iv: 'JBbgRb10X/dDsn0GKg69dA==',
                 macKey: 'jKV1Rmlb0HATZHndLDIMONPgOXqT3kwE1QEstxXVe+o=',
@@ -463,23 +463,23 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'Ba9q9bHjMHfbUNDCU8+0O7cmEcIluq+wk3/d2f7q+ThG',
             chainKey: {
-              index: 3,
+              index: 4,
             },
             messageKeys: [
               {
-                index: 0,
+                index: 1,
                 cipherKey: '4buOJSqRFIpWwo4pXYwQTCTxas4+amBLpZ/CuEWXbPg=',
                 iv: '9uD8ECO/fxtK28OvlCFXuQ==',
                 macKey: 'LI0ZSdX7k+cd5bTgs6XEYYIWY+2cxhWI97vAGFpoZIc=',
               },
               {
-                index: 1,
+                index: 2,
                 cipherKey: 'oNbFxcy2eebUQhoD+NLf12fgkXzhn4EU0Pgqn1bVKOs=',
                 iv: 'o1mm4rCN6Q0J1hA7I5jjgA==',
                 macKey: 'dfHB14sCIdun+RaKnAoyaQPC6qRDMewjqOIDZGmn3Es=',
               },
               {
-                index: 2,
+                index: 3,
                 cipherKey: '/aU3zX2IdA91GAcB+7H57yzRe+6CgZ61tlW4M/rkCJI=',
                 iv: 'v8VJF467QDD1ZCr1JD8pbQ==',
                 macKey: 'MjK5iYjhZtQTJ4Eu3+qGOdYxn0G23EGRtTcusbzy9OA=',
@@ -489,19 +489,19 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'BTwX5SmcUeBG7mwyOZ3YgxyXIN0ktzuEdWTfBUmPfGYG',
             chainKey: {
-              index: 1,
+              index: 2,
             },
           },
           {
             senderRatchetKey: 'BV7ECvKbwKIAD61BXDYr0xr3JtckuKzR1Hw8cVPWGtlo',
             chainKey: {
-              index: 2,
+              index: 3,
             },
           },
           {
             senderRatchetKey: 'BTC7rQqoykGR5Aaix7RkAhI5fSXufc6pVGN9OIC8EW5c',
             chainKey: {
-              index: 0,
+              index: 1,
             },
           },
         ],
@@ -576,17 +576,17 @@ describe('sessionTranslation', () => {
 
     const expected = {
       currentSession: {
-        sessionVersion: 1,
+        sessionVersion: 3,
         localIdentityPublic: 'Baioqfzc/5JD6b+GNqapPouf6eHK7xr9ynLJHnvl+444',
         remoteIdentityPublic: 'BaioqfzP5JD6b+GNqepPouf6eHK7xr9ynLJHnvlpgVRA',
         rootKey: 'ywM1L/yc2ppnA1hl+/oQlwD8Ara7bzUcg5etpQTQ/6s=',
-        previousCounter: 2,
+        previousCounter: 3,
         senderChain: {
           senderRatchetKey: 'BSsTNJarMQATbCAq40vnbrrW87PtVFOfJox7+SDNgj4x',
           senderRatchetKeyPrivate:
             '5JfjxauqiuD47SmI4QXBIoxzSk0uqKEScp0oTgw51Ag=',
           chainKey: {
-            index: -1,
+            index: 0,
             key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
           },
         },
@@ -594,18 +594,18 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'BQo3HG1UhWIh6A7NBxZtNGezBZH8nElZjOqNCBHPzlBz',
             chainKey: {
-              index: 5,
+              index: 6,
               key: 'Wnvy2TjYs0HdZFNahmsKw5cc9KEbW1nSwraDFmGwBDw=',
             },
             messageKeys: [
               {
-                index: 0,
+                index: 1,
                 cipherKey: 'xVreEbT7Vtrxs85JyGBj6Y+UWftQz4H72F5kWV4cxqM=',
                 iv: 'TcRanSxZVWbuIq0xDRGnEw==',
                 macKey: '5fW9aIKXhtwWp/5alNJUIXInZbztf2ywzQSpYrXoQ3A=',
               },
               {
-                index: 4,
+                index: 5,
                 cipherKey: 'A99HjM4pUugsQ5+2v48FGTGEhZPoW6wzW9MqSc11QQ4=',
                 iv: 'bE8Ei2Rkaoz4SKRwdG4+tQ==',
                 macKey: 'TOTdbAf0bCHOzcQ3lBaIm3yqmpEqvvldD0qTuDFmkAI=',
@@ -766,17 +766,17 @@ describe('sessionTranslation', () => {
 
     const expected = {
       currentSession: {
-        sessionVersion: 1,
+        sessionVersion: 3,
         localIdentityPublic: 'Baioqfzc/5JD6b+GNqapPouf6eHK7xr9ynLJHnvl+444',
         remoteIdentityPublic: 'BaioqfzP5JD6b+GNqepPouf6eHK7xr9ynLJHnvlpgVRA',
         rootKey: 'ywM1L/yc2ppnA1hl+/oQlwD8Ara7bzUcg5etpQTQ/6s=',
-        previousCounter: 2,
+        previousCounter: 3,
         senderChain: {
           senderRatchetKey: 'BSsTNJarMQATbCAq40vnbrrW87PtVFOfJox7+SDNgj4x',
           senderRatchetKeyPrivate:
             '5JfjxauqiuD47SmI4QXBIoxzSk0uqKEScp0oTgw51Ag=',
           chainKey: {
-            index: -1,
+            index: 0,
             key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
           },
         },
@@ -784,18 +784,18 @@ describe('sessionTranslation', () => {
           {
             senderRatchetKey: 'BQo3HG1UhWIh6A7NBxZtNGezBZH8nElZjOqNCBHPzlBz',
             chainKey: {
-              index: 5,
+              index: 6,
               key: 'Wnvy2TjYs0HdZFNahmsKw5cc9KEbW1nSwraDFmGwBDw=',
             },
             messageKeys: [
               {
-                index: 0,
+                index: 1,
                 cipherKey: 'xVreEbT7Vtrxs85JyGBj6Y+UWftQz4H72F5kWV4cxqM=',
                 iv: 'TcRanSxZVWbuIq0xDRGnEw==',
                 macKey: '5fW9aIKXhtwWp/5alNJUIXInZbztf2ywzQSpYrXoQ3A=',
               },
               {
-                index: 4,
+                index: 5,
                 cipherKey: 'A99HjM4pUugsQ5+2v48FGTGEhZPoW6wzW9MqSc11QQ4=',
                 iv: 'bE8Ei2Rkaoz4SKRwdG4+tQ==',
                 macKey: 'TOTdbAf0bCHOzcQ3lBaIm3yqmpEqvvldD0qTuDFmkAI=',
@@ -809,17 +809,17 @@ describe('sessionTranslation', () => {
       },
       previousSessions: [
         {
-          sessionVersion: 1,
+          sessionVersion: 3,
           localIdentityPublic: 'Baioqfzc/5JD6b+GNqapPouf6eHK7xr9ynLJHnvl+444',
           remoteIdentityPublic: 'BaioqfzP5JD6b+GNqepPouf6eHK7xr9ynLJHnvlpgVRA',
           rootKey: 'ywM1L/yc2ppnA1hl+/oQlwD8Ara7bzUcg5etpQTQ/6s=',
-          previousCounter: 2,
+          previousCounter: 3,
           senderChain: {
             senderRatchetKey: 'BSsTNJarMQATbCAq40vnbrrW87PtVFOfJox7+SDNgj4x',
             senderRatchetKeyPrivate:
               '5JfjxauqiuD47SmI4QXBIoxzSk0uqKEScp0oTgw51Ag=',
             chainKey: {
-              index: -1,
+              index: 0,
               key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
             },
           },
@@ -827,18 +827,18 @@ describe('sessionTranslation', () => {
             {
               senderRatchetKey: 'BQo3HG1UhWIh6A7NBxZtNGezBZH8nElZjOqNCBHPzlBz',
               chainKey: {
-                index: 5,
+                index: 6,
                 key: 'Wnvy2TjYs0HdZFNahmsKw5cc9KEbW1nSwraDFmGwBDw=',
               },
               messageKeys: [
                 {
-                  index: 1,
+                  index: 2,
                   cipherKey: 'xVreEbT7Vtrxs85JyGBj6Y+UWftQz4H72F5kWV4cxqM=',
                   iv: 'TcRanSxZVWbuIq0xDRGnEw==',
                   macKey: '5fW9aIKXhtwWp/5alNJUIXInZbztf2ywzQSpYrXoQ3A=',
                 },
                 {
-                  index: 5,
+                  index: 6,
                   cipherKey: 'A99HjM4pUugsQ5+2v48FGTGEhZPoW6wzW9MqSc11QQ4=',
                   iv: 'bE8Ei2Rkaoz4SKRwdG4+tQ==',
                   macKey: 'TOTdbAf0bCHOzcQ3lBaIm3yqmpEqvvldD0qTuDFmkAI=',
@@ -851,17 +851,17 @@ describe('sessionTranslation', () => {
           aliceBaseKey: 'BUFOv0MAbMgKeaoO/G1CMBdqhC7bo7Mtc4EWxI0oT19N',
         },
         {
-          sessionVersion: 1,
+          sessionVersion: 3,
           localIdentityPublic: 'Baioqfzc/5JD6b+GNqapPouf6eHK7xr9ynLJHnvl+444',
           remoteIdentityPublic: 'BaioqfzP5JD6b+GNqepPouf6eHK7xr9ynLJHnvlpgVRA',
           rootKey: 'ywM1L/yc2ppnA1hl+/oQlwD8Ara7bzUcg5etpQTQ/6s=',
-          previousCounter: 2,
+          previousCounter: 3,
           senderChain: {
             senderRatchetKey: 'BSsTNJarMQATbCAq40vnbrrW87PtVFOfJox7+SDNgj4x',
             senderRatchetKeyPrivate:
               '5JfjxauqiuD47SmI4QXBIoxzSk0uqKEScp0oTgw51Ag=',
             chainKey: {
-              index: -1,
+              index: 0,
               key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
             },
           },
@@ -869,18 +869,18 @@ describe('sessionTranslation', () => {
             {
               senderRatchetKey: 'BQo3HG1UhWIh6A7NBxZtNGezBZH8nElZjOqNCBHPzlBz',
               chainKey: {
-                index: 5,
+                index: 6,
                 key: 'Wnvy2TjYs0HdZFNahmsKw5cc9KEbW1nSwraDFmGwBDw=',
               },
               messageKeys: [
                 {
-                  index: 2,
+                  index: 3,
                   cipherKey: 'xVreEbT7Vtrxs85JyGBj6Y+UWftQz4H72F5kWV4cxqM=',
                   iv: 'TcRanSxZVWbuIq0xDRGnEw==',
                   macKey: '5fW9aIKXhtwWp/5alNJUIXInZbztf2ywzQSpYrXoQ3A=',
                 },
                 {
-                  index: 3,
+                  index: 4,
                   cipherKey: 'A99HjM4pUugsQ5+2v48FGTGEhZPoW6wzW9MqSc11QQ4=',
                   iv: 'bE8Ei2Rkaoz4SKRwdG4+tQ==',
                   macKey: 'TOTdbAf0bCHOzcQ3lBaIm3yqmpEqvvldD0qTuDFmkAI=',
@@ -956,20 +956,20 @@ describe('sessionTranslation', () => {
           preKeyId: 386,
           signedPreKeyId: 2995,
         },
-        previousCounter: 0,
+        previousCounter: 1,
         remoteIdentityPublic: 'BRmB2uSNpwbXZJjisIh1p/VgRctUZSVIoiEm2ThjiHoq',
         remoteRegistrationId: 3188,
         rootKey: 'GzGfNozK5vDKqL4+fdqpiMRIuHNOndM6iMhGubNR1mk=',
         senderChain: {
           chainKey: {
-            index: 0,
+            index: 1,
             key: 'tl5Eby9q7n8PVeiriKoRjHhu9Y0RxvJ90PMq5MfKwgA=',
           },
           senderRatchetKey: 'BRSm55wC8hrG5Rp7l9gxtOhugp5ulcco20upOFCPyyJo',
           senderRatchetKeyPrivate:
             'IC0mCV0kFVAf+Q4cHid5hR7vy+5F0SvpYYaqsSA6d00=',
         },
-        sessionVersion: 1,
+        sessionVersion: 3,
       },
     };
 

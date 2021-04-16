@@ -17,17 +17,13 @@ import {
   MessageModelCollectionType,
   MessageAttributesType,
 } from './model-types.d';
-import {
-  LibSignalType,
-  SignalProtocolAddressClass,
-  StorageType,
-} from './libsignal.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
 import { uploadDebugLogs } from './logging/debuglogs';
 import { CallingClass } from './services/calling';
 import * as Groups from './groups';
 import * as Crypto from './Crypto';
+import * as Curve from './Curve';
 import * as RemoteConfig from './RemoteConfig';
 import * as OS from './OS';
 import { getEnvironment } from './environment';
@@ -96,7 +92,7 @@ import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { MIMEType } from './types/MIME';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
-import { SignalProtocolStore } from './LibSignalStore';
+import { SignalProtocolStore } from './SignalProtocolStore';
 import { StartupQueue } from './util/StartupQueue';
 import * as synchronousCrypto from './util/synchronousCrypto';
 import SyncRequest from './textsecure/SyncRequest';
@@ -196,7 +192,6 @@ declare global {
       getRegionCodeForNumber: (number: string) => string;
       format: (number: string, format: PhoneNumberFormat) => string;
     };
-    libsignal: LibSignalType;
     log: {
       fatal: LoggerType;
       info: LoggerType;
@@ -279,14 +274,9 @@ declare global {
         stop: () => void;
       };
       Crypto: typeof Crypto;
+      Curve: typeof Curve;
       Data: typeof Data;
       Groups: typeof Groups;
-      Metadata: {
-        SecretSessionCipher: typeof SecretSessionCipherClass;
-        createCertificateValidator: (
-          trustRoot: ArrayBuffer
-        ) => CertificateValidatorType;
-      };
       RemoteConfig: typeof RemoteConfig;
       Services: {
         calling: CallingClass;
@@ -597,35 +587,6 @@ type MessageControllerType = {
 
 export class CertificateValidatorType {
   validate: (cerficate: any, certificateTime: number) => Promise<void>;
-}
-
-export class SecretSessionCipherClass {
-  constructor(
-    storage: StorageType,
-    options?: { messageKeysLimit?: number | boolean }
-  );
-  decrypt: (
-    validator: CertificateValidatorType,
-    ciphertext: ArrayBuffer,
-    serverTimestamp: number,
-    me: any
-  ) => Promise<{
-    isMe: boolean;
-    sender: SignalProtocolAddressClass;
-    senderUuid: SignalProtocolAddressClass;
-    content: ArrayBuffer;
-  }>;
-  getRemoteRegistrationId: (
-    address: SignalProtocolAddressClass
-  ) => Promise<number>;
-  closeOpenSessionForDevice: (
-    address: SignalProtocolAddressClass
-  ) => Promise<void>;
-  encrypt: (
-    address: SignalProtocolAddressClass,
-    senderCertificate: any,
-    plaintext: ArrayBuffer | Uint8Array
-  ) => Promise<ArrayBuffer>;
 }
 
 export class ByteBufferClass {

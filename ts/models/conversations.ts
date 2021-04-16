@@ -57,7 +57,7 @@ import {
 import {
   SenderCertificateMode,
   SerializedCertificateType,
-} from '../metadata/SecretSessionCipher';
+} from '../textsecure/OutgoingMessage';
 import { senderCertificateService } from '../services/senderCertificate';
 
 /* eslint-disable more/no-then */
@@ -2056,8 +2056,7 @@ export class ConversationModel extends window.Backbone.Model<
       keyChange = await window.textsecure.storage.protocol.processVerifiedMessage(
         this.id,
         verified,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        options.key!
+        options.key || undefined
       );
     } else {
       keyChange = await window.textsecure.storage.protocol.setVerified(
@@ -2201,7 +2200,7 @@ export class ConversationModel extends window.Backbone.Model<
     );
   }
 
-  setApproved(): boolean | void {
+  async setApproved(): Promise<void> {
     if (!this.isPrivate()) {
       throw new Error(
         'You cannot set a group conversation as trusted. ' +
@@ -4523,16 +4522,9 @@ export class ConversationModel extends window.Backbone.Model<
       if (changed) {
         // save identity will close all sessions except for .1, so we
         // must close that one manually.
-        const address = new window.libsignal.SignalProtocolAddress(
-          identifier,
-          1
+        await window.textsecure.storage.protocol.archiveSession(
+          `${identifier}.1`
         );
-        window.log.info('closing session for', address.toString());
-        const sessionCipher = new window.libsignal.SessionCipher(
-          window.textsecure.storage.protocol,
-          address
-        );
-        await sessionCipher.closeOpenSessionForDevice();
       }
 
       const accessKey = c.get('accessKey');

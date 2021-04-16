@@ -36,25 +36,6 @@ export class ReplayableError extends Error {
   }
 }
 
-export class IncomingIdentityKeyError extends ReplayableError {
-  identifier: string;
-
-  identityKey: ArrayBuffer;
-
-  // Note: Data to resend message is no longer captured
-  constructor(incomingIdentifier: string, _m: ArrayBuffer, key: ArrayBuffer) {
-    const identifer = incomingIdentifier.split('.')[0];
-
-    super({
-      name: 'IncomingIdentityKeyError',
-      message: `The identity of ${identifer} has changed.`,
-    });
-
-    this.identifier = identifer;
-    this.identityKey = key;
-  }
-}
-
 export class OutgoingIdentityKeyError extends ReplayableError {
   identifier: string;
 

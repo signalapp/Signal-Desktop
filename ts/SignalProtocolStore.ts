@@ -3,22 +3,42 @@
 
 /* eslint-disable class-methods-use-this */
 
-import { fromEncodedBinaryToArrayBuffer, constantTimeEqual } from './Crypto';
+import PQueue from 'p-queue';
+import { isNumber } from 'lodash';
+import * as z from 'zod';
+
+import {
+  SessionRecord,
+  PreKeyRecord,
+  PrivateKey,
+  PublicKey,
+  SignedPreKeyRecord,
+  Direction,
+} from 'libsignal-client';
+
+import {
+  constantTimeEqual,
+  fromEncodedBinaryToArrayBuffer,
+  typedArrayToArrayBuffer,
+} from './Crypto';
 import { isNotNil } from './util/isNotNil';
 import { isMoreRecentThan } from './util/timestamp';
 import {
+  sessionRecordToProtobuf,
+  sessionStructureToArrayBuffer,
+} from './util/sessionTranslation';
+import {
+  KeyPairType,
   IdentityKeyType,
+  SessionType,
   SignedPreKeyType,
+  OuterSignedPrekeyType,
   PreKeyType,
   UnprocessedType,
-  SessionType,
-} from './sql/Interface';
+  UnprocessedUpdateType,
+} from './textsecure/Types.d';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
-const Direction = {
-  SENDING: 1,
-  RECEIVING: 2,
-};
 
 const VerifiedStatus = {
   DEFAULT: 0,
@@ -37,54 +57,20 @@ function validateVerifiedStatus(status: number): boolean {
   return false;
 }
 
-const IdentityRecord = window.Backbone.Model.extend({
-  storeName: 'identityKeys',
-  validAttributes: [
-    'id',
-    'publicKey',
-    'firstUse',
-    'timestamp',
-    'verified',
-    'nonblockingApproval',
-  ],
-  validate(attrs: IdentityKeyType) {
-    const attributeNames = window._.keys(attrs);
-    const { validAttributes } = this;
-    const allValid = window._.all(attributeNames, attributeName =>
-      window._.contains(validAttributes, attributeName)
-    );
-    if (!allValid) {
-      return new Error('Invalid identity key attribute names');
-    }
-    const allPresent = window._.all(validAttributes, attributeName =>
-      window._.contains(attributeNames, attributeName)
-    );
-    if (!allPresent) {
-      return new Error('Missing identity key attributes');
-    }
-
-    if (typeof attrs.id !== 'string') {
-      return new Error('Invalid identity key id');
-    }
-    if (!(attrs.publicKey instanceof ArrayBuffer)) {
-      return new Error('Invalid identity key publicKey');
-    }
-    if (typeof attrs.firstUse !== 'boolean') {
-      return new Error('Invalid identity key firstUse');
-    }
-    if (typeof attrs.timestamp !== 'number' || !(attrs.timestamp >= 0)) {
-      return new Error('Invalid identity key timestamp');
-    }
-    if (!validateVerifiedStatus(attrs.verified)) {
-      return new Error('Invalid identity key verified');
-    }
-    if (typeof attrs.nonblockingApproval !== 'boolean') {
-      return new Error('Invalid identity key nonblockingApproval');
-    }
-
-    return null;
-  },
+const identityKeySchema = z.object({
+  id: z.string(),
+  publicKey: z.instanceof(ArrayBuffer),
+  firstUse: z.boolean(),
+  timestamp: z.number().refine((value: number) => value % 1 === 0 && value > 0),
+  verified: z.number().refine(validateVerifiedStatus),
+  nonblockingApproval: z.boolean(),
 });
+
+function validateIdentityKey(attrs: unknown): attrs is IdentityKeyType {
+  // We'll throw if this doesn't match
+  identityKeySchema.parse(attrs);
+  return true;
+}
 
 async function normalizeEncodedAddress(
   encodedAddress: string
@@ -107,20 +93,31 @@ async function normalizeEncodedAddress(
 type HasIdType = {
   id: string | number;
 };
+type CacheEntryType<DBType, HydratedType> =
+  | {
+      hydrated: false;
+      fromDB: DBType;
+    }
+  | { hydrated: true; fromDB: DBType; item: HydratedType };
 
-async function _hydrateCache<T extends HasIdType>(
+async function _fillCaches<T extends HasIdType, HydratedType>(
   object: SignalProtocolStore,
   field: keyof SignalProtocolStore,
   itemsPromise: Promise<Array<T>>
 ): Promise<void> {
   const items = await itemsPromise;
 
-  const cache: Record<string, T> = Object.create(null);
+  const cache: Record<string, CacheEntryType<T, HydratedType>> = Object.create(
+    null
+  );
   for (let i = 0, max = items.length; i < max; i += 1) {
-    const item = items[i];
-    const { id } = item;
+    const fromDB = items[i];
+    const { id } = fromDB;
 
-    cache[id] = item;
+    cache[id] = {
+      fromDB,
+      hydrated: false,
+    };
   }
 
   window.log.info(`SignalProtocolStore: Finished caching ${field} data`);
@@ -128,19 +125,56 @@ async function _hydrateCache<T extends HasIdType>(
   object[field] = cache as any;
 }
 
-type KeyPairType = {
-  privKey: ArrayBuffer;
-  pubKey: ArrayBuffer;
-};
+export function hydrateSession(session: SessionType): SessionRecord {
+  return SessionRecord.deserialize(Buffer.from(session.record, 'base64'));
+}
+export function hydratePublicKey(identityKey: IdentityKeyType): PublicKey {
+  return PublicKey.deserialize(Buffer.from(identityKey.publicKey));
+}
+export function hydratePreKey(preKey: PreKeyType): PreKeyRecord {
+  const publicKey = PublicKey.deserialize(Buffer.from(preKey.publicKey));
+  const privateKey = PrivateKey.deserialize(Buffer.from(preKey.privateKey));
+  return PreKeyRecord.new(preKey.id, publicKey, privateKey);
+}
+export function hydrateSignedPreKey(
+  signedPreKey: SignedPreKeyType
+): SignedPreKeyRecord {
+  const createdAt = signedPreKey.created_at;
+  const pubKey = PublicKey.deserialize(Buffer.from(signedPreKey.publicKey));
+  const privKey = PrivateKey.deserialize(Buffer.from(signedPreKey.privateKey));
+  const signature = Buffer.from([]);
 
-type OuterSignedPrekeyType = {
-  confirmed: boolean;
-  // eslint-disable-next-line camelcase
-  created_at: number;
-  keyId: number;
-  privKey: ArrayBuffer;
-  pubKey: ArrayBuffer;
-};
+  return SignedPreKeyRecord.new(
+    signedPreKey.id,
+    createdAt,
+    pubKey,
+    privKey,
+    signature
+  );
+}
+
+export function freezeSession(session: SessionRecord): string {
+  return session.serialize().toString('base64');
+}
+export function freezePublicKey(publicKey: PublicKey): ArrayBuffer {
+  return typedArrayToArrayBuffer(publicKey.serialize());
+}
+export function freezePreKey(preKey: PreKeyRecord): KeyPairType {
+  const keyPair = {
+    pubKey: typedArrayToArrayBuffer(preKey.publicKey().serialize()),
+    privKey: typedArrayToArrayBuffer(preKey.privateKey().serialize()),
+  };
+  return keyPair;
+}
+export function freezeSignedPreKey(
+  signedPreKey: SignedPreKeyRecord
+): KeyPairType {
+  const keyPair = {
+    pubKey: typedArrayToArrayBuffer(signedPreKey.publicKey().serialize()),
+    privKey: typedArrayToArrayBuffer(signedPreKey.privateKey().serialize()),
+  };
+  return keyPair;
+}
 
 // We add a this parameter to avoid an 'implicit any' error on the next line
 const EventsMixin = (function EventsMixin(this: unknown) {
@@ -151,8 +185,6 @@ const EventsMixin = (function EventsMixin(this: unknown) {
 export class SignalProtocolStore extends EventsMixin {
   // Enums used across the app
 
-  Direction = Direction;
-
   VerifiedStatus = VerifiedStatus;
 
   // Cached values
@@ -161,13 +193,18 @@ export class SignalProtocolStore extends EventsMixin {
 
   ourRegistrationId?: number;
 
-  identityKeys?: Record<string, IdentityKeyType>;
+  identityKeys?: Record<string, CacheEntryType<IdentityKeyType, PublicKey>>;
 
-  sessions?: Record<string, SessionType>;
+  sessions?: Record<string, CacheEntryType<SessionType, SessionRecord>>;
 
-  signedPreKeys?: Record<string, SignedPreKeyType>;
+  preKeys?: Record<string, CacheEntryType<PreKeyType, PreKeyRecord>>;
 
-  preKeys?: Record<string, PreKeyType>;
+  signedPreKeys?: Record<
+    string,
+    CacheEntryType<SignedPreKeyType, SignedPreKeyRecord>
+  >;
+
+  sessionQueues: Map<string, PQueue> = new Map<string, PQueue>();
 
   async hydrateCaches(): Promise<void> {
     await Promise.all([
@@ -179,22 +216,22 @@ export class SignalProtocolStore extends EventsMixin {
         const item = await window.Signal.Data.getItemById('registrationId');
         this.ourRegistrationId = item ? item.value : undefined;
       })(),
-      _hydrateCache<IdentityKeyType>(
+      _fillCaches<IdentityKeyType, PublicKey>(
         this,
         'identityKeys',
         window.Signal.Data.getAllIdentityKeys()
       ),
-      _hydrateCache<SessionType>(
+      _fillCaches<SessionType, SessionRecord>(
         this,
         'sessions',
         window.Signal.Data.getAllSessions()
       ),
-      _hydrateCache<PreKeyType>(
+      _fillCaches<PreKeyType, PreKeyRecord>(
         this,
         'preKeys',
         window.Signal.Data.getAllPreKeys()
       ),
-      _hydrateCache<SignedPreKeyType>(
+      _fillCaches<SignedPreKeyType, SignedPreKeyRecord>(
         this,
         'signedPreKeys',
         window.Signal.Data.getAllSignedPreKeys()
@@ -212,37 +249,51 @@ export class SignalProtocolStore extends EventsMixin {
 
   // PreKeys
 
-  async loadPreKey(keyId: string | number): Promise<KeyPairType | undefined> {
+  async loadPreKey(keyId: string | number): Promise<PreKeyRecord | undefined> {
     if (!this.preKeys) {
       throw new Error('loadPreKey: this.preKeys not yet cached!');
     }
 
-    const key = this.preKeys[keyId];
-    if (key) {
-      window.log.info('Successfully fetched prekey:', keyId);
-      return {
-        pubKey: key.publicKey,
-        privKey: key.privateKey,
-      };
+    const entry = this.preKeys[keyId];
+    if (!entry) {
+      window.log.error('Failed to fetch prekey:', keyId);
+      return undefined;
     }
 
-    window.log.error('Failed to fetch prekey:', keyId);
-    return undefined;
+    if (entry.hydrated) {
+      window.log.info('Successfully fetched prekey (cache hit):', keyId);
+      return entry.item;
+    }
+
+    const item = hydratePreKey(entry.fromDB);
+    this.preKeys[keyId] = {
+      hydrated: true,
+      fromDB: entry.fromDB,
+      item,
+    };
+    window.log.info('Successfully fetched prekey (cache miss):', keyId);
+    return item;
   }
 
   async storePreKey(keyId: number, keyPair: KeyPairType): Promise<void> {
     if (!this.preKeys) {
       throw new Error('storePreKey: this.preKeys not yet cached!');
     }
+    if (this.preKeys[keyId]) {
+      throw new Error(`storePreKey: prekey ${keyId} already exists!`);
+    }
 
-    const data = {
+    const fromDB = {
       id: keyId,
       publicKey: keyPair.pubKey,
       privateKey: keyPair.privKey,
     };
 
-    this.preKeys[keyId] = data;
-    await window.Signal.Data.createOrUpdatePreKey(data);
+    await window.Signal.Data.createOrUpdatePreKey(fromDB);
+    this.preKeys[keyId] = {
+      hydrated: false,
+      fromDB,
+    };
   }
 
   async removePreKey(keyId: number): Promise<void> {
@@ -272,25 +323,30 @@ export class SignalProtocolStore extends EventsMixin {
 
   async loadSignedPreKey(
     keyId: number
-  ): Promise<OuterSignedPrekeyType | undefined> {
+  ): Promise<SignedPreKeyRecord | undefined> {
     if (!this.signedPreKeys) {
       throw new Error('loadSignedPreKey: this.signedPreKeys not yet cached!');
     }
 
-    const key = this.signedPreKeys[keyId];
-    if (key) {
-      window.log.info('Successfully fetched signed prekey:', key.id);
-      return {
-        pubKey: key.publicKey,
-        privKey: key.privateKey,
-        created_at: key.created_at,
-        keyId: key.id,
-        confirmed: key.confirmed,
-      };
+    const entry = this.signedPreKeys[keyId];
+    if (!entry) {
+      window.log.error('Failed to fetch signed prekey:', keyId);
+      return undefined;
     }
 
-    window.log.error('Failed to fetch signed prekey:', keyId);
-    return undefined;
+    if (entry.hydrated) {
+      window.log.info('Successfully fetched signed prekey (cache hit):', keyId);
+      return entry.item;
+    }
+
+    const item = hydrateSignedPreKey(entry.fromDB);
+    this.signedPreKeys[keyId] = {
+      hydrated: true,
+      item,
+      fromDB: entry.fromDB,
+    };
+    window.log.info('Successfully fetched signed prekey (cache miss):', keyId);
+    return item;
   }
 
   async loadSignedPreKeys(): Promise<Array<OuterSignedPrekeyType>> {
@@ -302,16 +358,21 @@ export class SignalProtocolStore extends EventsMixin {
       throw new Error('loadSignedPreKeys takes no arguments');
     }
 
-    const keys = Object.values(this.signedPreKeys);
-    return keys.map(prekey => ({
-      pubKey: prekey.publicKey,
-      privKey: prekey.privateKey,
-      created_at: prekey.created_at,
-      keyId: prekey.id,
-      confirmed: prekey.confirmed,
-    }));
+    const entries = Object.values(this.signedPreKeys);
+    return entries.map(entry => {
+      const preKey = entry.fromDB;
+      return {
+        pubKey: preKey.publicKey,
+        privKey: preKey.privateKey,
+        created_at: preKey.created_at,
+        keyId: preKey.id,
+        confirmed: preKey.confirmed,
+      };
+    });
   }
 
+  // Note that this is also called in update scenarios, for confirming that signed prekeys
+  //   have indeed been accepted by the server.
   async storeSignedPreKey(
     keyId: number,
     keyPair: KeyPairType,
@@ -321,7 +382,7 @@ export class SignalProtocolStore extends EventsMixin {
       throw new Error('storeSignedPreKey: this.signedPreKeys not yet cached!');
     }
 
-    const data = {
+    const fromDB = {
       id: keyId,
       publicKey: keyPair.pubKey,
       privateKey: keyPair.privKey,
@@ -329,8 +390,11 @@ export class SignalProtocolStore extends EventsMixin {
       confirmed: Boolean(confirmed),
     };
 
-    this.signedPreKeys[keyId] = data;
-    await window.Signal.Data.createOrUpdateSignedPreKey(data);
+    await window.Signal.Data.createOrUpdateSignedPreKey(fromDB);
+    this.signedPreKeys[keyId] = {
+      hydrated: false,
+      fromDB,
+    };
   }
 
   async removeSignedPreKey(keyId: number): Promise<void> {
@@ -347,72 +411,150 @@ export class SignalProtocolStore extends EventsMixin {
     await window.Signal.Data.removeAllSignedPreKeys();
   }
 
+  // Session Queue
+
+  async enqueueSessionJob<T>(
+    encodedAddress: string,
+    task: () => Promise<T>
+  ): Promise<T> {
+    const id = await normalizeEncodedAddress(encodedAddress);
+    const queue = this._getSessionQueue(id);
+
+    return queue.add<T>(task);
+  }
+
+  private _createSessionQueue(): PQueue {
+    return new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+  }
+
+  private _getSessionQueue(id: string): PQueue {
+    const cachedQueue = this.sessionQueues.get(id);
+    if (cachedQueue) {
+      return cachedQueue;
+    }
+
+    const freshQueue = this._createSessionQueue();
+    this.sessionQueues.set(id, freshQueue);
+    return freshQueue;
+  }
+
   // Sessions
 
-  async loadSession(encodedAddress: string): Promise<string | undefined> {
+  async loadSession(
+    encodedAddress: string
+  ): Promise<SessionRecord | undefined> {
     if (!this.sessions) {
       throw new Error('loadSession: this.sessions not yet cached!');
     }
 
     if (encodedAddress === null || encodedAddress === undefined) {
-      throw new Error('Tried to get session for undefined/null number');
+      throw new Error('loadSession: encodedAddress was undefined/null');
     }
 
     try {
       const id = await normalizeEncodedAddress(encodedAddress);
-      const session = this.sessions[id];
+      const entry = this.sessions[id];
 
-      if (session) {
-        return session.record;
+      if (!entry) {
+        return undefined;
       }
+
+      if (entry.hydrated) {
+        return entry.item;
+      }
+
+      const item = await this._maybeMigrateSession(entry.fromDB);
+      this.sessions[id] = {
+        hydrated: true,
+        item,
+        fromDB: entry.fromDB,
+      };
+      return item;
     } catch (error) {
       const errorString = error && error.stack ? error.stack : error;
       window.log.error(
-        `could not load session ${encodedAddress}: ${errorString}`
+        `loadSession: failed to load session ${encodedAddress}: ${errorString}`
       );
+      return undefined;
     }
-
-    return undefined;
   }
 
-  async storeSession(encodedAddress: string, record: string): Promise<void> {
+  private async _maybeMigrateSession(
+    session: SessionType
+  ): Promise<SessionRecord> {
+    // Already migrated, return record directly
+    if (session.version === 2) {
+      return hydrateSession(session);
+    }
+
+    // Not yet converted, need to translate to new format
+    if (session.version !== undefined) {
+      throw new Error('_maybeMigrateSession: Unknown session version type!');
+    }
+
+    const keyPair = await this.getIdentityKeyPair();
+    if (!keyPair) {
+      throw new Error('_maybeMigrateSession: No identity key for ourself!');
+    }
+
+    const localRegistrationId = await this.getLocalRegistrationId();
+    if (!isNumber(localRegistrationId)) {
+      throw new Error('_maybeMigrateSession: No registration id for ourself!');
+    }
+
+    const localUserData = {
+      identityKeyPublic: keyPair.pubKey,
+      registrationId: localRegistrationId,
+    };
+
+    window.log.info(
+      `_maybeMigrateSession: Migrating session with id ${session.id}`
+    );
+    const sessionProto = sessionRecordToProtobuf(
+      JSON.parse(session.record),
+      localUserData
+    );
+    return SessionRecord.deserialize(
+      Buffer.from(sessionStructureToArrayBuffer(sessionProto))
+    );
+  }
+
+  async storeSession(
+    encodedAddress: string,
+    record: SessionRecord
+  ): Promise<void> {
     if (!this.sessions) {
       throw new Error('storeSession: this.sessions not yet cached!');
     }
 
     if (encodedAddress === null || encodedAddress === undefined) {
-      throw new Error('Tried to put session for undefined/null number');
+      throw new Error('storeSession: encodedAddress was undefined/null');
     }
     const unencoded = window.textsecure.utils.unencodeNumber(encodedAddress);
     const deviceId = parseInt(unencoded[1], 10);
 
     try {
       const id = await normalizeEncodedAddress(encodedAddress);
-      const previousData = this.sessions[id];
-
-      const data = {
+      const fromDB = {
         id,
+        version: 2,
         conversationId: window.textsecure.utils.unencodeNumber(id)[0],
         deviceId,
-        record,
+        record: record.serialize().toString('base64'),
       };
 
-      // Optimistically update in-memory cache; will revert if save fails.
-      this.sessions[id] = data;
-
-      try {
-        await window.Signal.Data.createOrUpdateSession(data);
-      } catch (e) {
-        if (previousData) {
-          this.sessions[id] = previousData;
-        }
-        throw e;
-      }
+      await window.Signal.Data.createOrUpdateSession(fromDB);
+      this.sessions[id] = {
+        hydrated: true,
+        fromDB,
+        item: record,
+      };
     } catch (error) {
       const errorString = error && error.stack ? error.stack : error;
       window.log.error(
-        `could not store session for ${encodedAddress}: ${errorString}`
+        `storeSession: Save failed fo ${encodedAddress}: ${errorString}`
       );
+      throw error;
     }
   }
 
@@ -421,35 +563,45 @@ export class SignalProtocolStore extends EventsMixin {
       throw new Error('getDeviceIds: this.sessions not yet cached!');
     }
     if (identifier === null || identifier === undefined) {
-      throw new Error('Tried to get device ids for undefined/null number');
+      throw new Error('getDeviceIds: identifier was undefined/null');
     }
 
     try {
       const id = window.ConversationController.getConversationId(identifier);
-      const allSessions = Object.values(this.sessions);
-      const sessions = allSessions.filter(
-        session => session.conversationId === id
-      );
-      const openSessions = await Promise.all(
-        sessions.map(async session => {
-          const sessionCipher = new window.libsignal.SessionCipher(
-            window.textsecure.storage.protocol,
-            session.id
-          );
+      if (!id) {
+        throw new Error(
+          `getDeviceIds: No conversationId found for identifier ${identifier}`
+        );
+      }
 
-          const hasOpenSession = await sessionCipher.hasOpenSession();
-          if (hasOpenSession) {
-            return session;
+      const allSessions = Object.values(this.sessions);
+      const entries = allSessions.filter(
+        session => session.fromDB.conversationId === id
+      );
+      const openIds = await Promise.all(
+        entries.map(async entry => {
+          if (entry.hydrated) {
+            const record = entry.item;
+            if (record.hasCurrentState()) {
+              return entry.fromDB.deviceId;
+            }
+
+            return undefined;
+          }
+
+          const record = await this._maybeMigrateSession(entry.fromDB);
+          if (record.hasCurrentState()) {
+            return entry.fromDB.deviceId;
           }
 
           return undefined;
         })
       );
 
-      return openSessions.filter(isNotNil).map(item => item.deviceId);
+      return openIds.filter(isNotNil);
     } catch (error) {
       window.log.error(
-        `could not get device ids for identifier ${identifier}`,
+        `getDeviceIds: Failed to get device ids for identifier ${identifier}`,
         error && error.stack ? error.stack : error
       );
     }
@@ -465,10 +617,12 @@ export class SignalProtocolStore extends EventsMixin {
     window.log.info('removeSession: deleting session for', encodedAddress);
     try {
       const id = await normalizeEncodedAddress(encodedAddress);
-      delete this.sessions[id];
       await window.Signal.Data.removeSessionById(id);
+      delete this.sessions[id];
     } catch (e) {
-      window.log.error(`could not delete session for ${encodedAddress}`);
+      window.log.error(
+        `removeSession: Failed to delete session for ${encodedAddress}`
+      );
     }
   }
 
@@ -478,57 +632,84 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     if (identifier === null || identifier === undefined) {
-      throw new Error('Tried to remove sessions for undefined/null number');
+      throw new Error('removeAllSessions: identifier was undefined/null');
     }
 
     window.log.info('removeAllSessions: deleting sessions for', identifier);
 
     const id = window.ConversationController.getConversationId(identifier);
 
-    const allSessions = Object.values(this.sessions);
+    const entries = Object.values(this.sessions);
 
-    for (let i = 0, max = allSessions.length; i < max; i += 1) {
-      const session = allSessions[i];
-      if (session.conversationId === id) {
-        delete this.sessions[session.id];
+    for (let i = 0, max = entries.length; i < max; i += 1) {
+      const entry = entries[i];
+      if (entry.fromDB.conversationId === id) {
+        delete this.sessions[entry.fromDB.id];
       }
     }
 
     await window.Signal.Data.removeSessionsByConversation(identifier);
   }
 
-  async archiveSiblingSessions(identifier: string): Promise<void> {
+  private async _archiveSession(
+    entry?: CacheEntryType<SessionType, SessionRecord>
+  ) {
+    if (!entry) {
+      return;
+    }
+
+    await this.enqueueSessionJob(entry.fromDB.id, async () => {
+      const item = entry.hydrated
+        ? entry.item
+        : await this._maybeMigrateSession(entry.fromDB);
+
+      if (!item.hasCurrentState()) {
+        return;
+      }
+
+      item.archiveCurrentState();
+
+      await this.storeSession(entry.fromDB.id, item);
+    });
+  }
+
+  async archiveSession(encodedAddress: string): Promise<void> {
+    if (!this.sessions) {
+      throw new Error('archiveSession: this.sessions not yet cached!');
+    }
+
+    window.log.info(`archiveSession: session for ${encodedAddress}`);
+
+    const id = await normalizeEncodedAddress(encodedAddress);
+    const entry = this.sessions[id];
+
+    await this._archiveSession(entry);
+  }
+
+  async archiveSiblingSessions(encodedAddress: string): Promise<void> {
     if (!this.sessions) {
       throw new Error('archiveSiblingSessions: this.sessions not yet cached!');
     }
 
     window.log.info(
       'archiveSiblingSessions: archiving sibling sessions for',
-      identifier
+      encodedAddress
     );
 
-    const address = window.libsignal.SignalProtocolAddress.fromString(
-      identifier
-    );
+    const id = await normalizeEncodedAddress(encodedAddress);
+    const [identifier, deviceId] = window.textsecure.utils.unencodeNumber(id);
+    const deviceIdNumber = parseInt(deviceId, 10);
 
-    const deviceIds = await this.getDeviceIds(address.getName());
-    const siblings = window._.without(deviceIds, address.getDeviceId());
+    const allEntries = Object.values(this.sessions);
+    const entries = allEntries.filter(
+      entry =>
+        entry.fromDB.conversationId === identifier &&
+        entry.fromDB.deviceId !== deviceIdNumber
+    );
 
     await Promise.all(
-      siblings.map(async deviceId => {
-        const sibling = new window.libsignal.SignalProtocolAddress(
-          address.getName(),
-          deviceId
-        );
-        window.log.info(
-          'archiveSiblingSessions: closing session for',
-          sibling.toString()
-        );
-        const sessionCipher = new window.libsignal.SessionCipher(
-          window.textsecure.storage.protocol,
-          sibling
-        );
-        await sessionCipher.closeOpenSessionForDevice();
+      entries.map(async entry => {
+        await this._archiveSession(entry);
       })
     );
   }
@@ -543,23 +724,15 @@ export class SignalProtocolStore extends EventsMixin {
       identifier
     );
 
-    const deviceIds = await this.getDeviceIds(identifier);
+    const id = window.ConversationController.getConversationId(identifier);
+    const allEntries = Object.values(this.sessions);
+    const entries = allEntries.filter(
+      entry => entry.fromDB.conversationId === id
+    );
 
     await Promise.all(
-      deviceIds.map(async deviceId => {
-        const address = new window.libsignal.SignalProtocolAddress(
-          identifier,
-          deviceId
-        );
-        window.log.info(
-          'archiveAllSessions: closing session for',
-          address.toString()
-        );
-        const sessionCipher = new window.libsignal.SessionCipher(
-          window.textsecure.storage.protocol,
-          address
-        );
-        await sessionCipher.closeOpenSessionForDevice();
+      entries.map(async entry => {
+        await this._archiveSession(entry);
       })
     );
   }
@@ -584,18 +757,18 @@ export class SignalProtocolStore extends EventsMixin {
         );
       }
 
-      const record = this.identityKeys[id];
-
-      if (record) {
-        return record;
+      const entry = this.identityKeys[id];
+      if (!entry) {
+        return undefined;
       }
+
+      return entry.fromDB;
     } catch (e) {
       window.log.error(
-        `could not get identity record for identifier ${identifier}`
+        `getIdentityRecord: Failed to get identity record for identifier ${identifier}`
       );
+      return undefined;
     }
-
-    return undefined;
   }
 
   async isTrustedIdentity(
@@ -608,7 +781,7 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     if (encodedAddress === null || encodedAddress === undefined) {
-      throw new Error('Tried to get identity key for undefined/null key');
+      throw new Error('isTrustedIdentity: encodedAddress was undefined/null');
     }
     const identifier = window.textsecure.utils.unencodeNumber(
       encodedAddress
@@ -632,12 +805,12 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     switch (direction) {
-      case Direction.SENDING:
+      case Direction.Sending:
         return this.isTrustedForSending(publicKey, identityRecord);
-      case Direction.RECEIVING:
+      case Direction.Receiving:
         return true;
       default:
-        throw new Error(`Unknown direction: ${direction}`);
+        throw new Error(`isTrustedIdentity: Unknown direction: ${direction}`);
     }
   }
 
@@ -663,7 +836,7 @@ export class SignalProtocolStore extends EventsMixin {
       return false;
     }
     if (identityRecord.verified === VerifiedStatus.UNVERIFIED) {
-      window.log.error('Needs unverified approval!');
+      window.log.error('isTrustedIdentity: Needs unverified approval!');
       return false;
     }
     if (this.isNonBlockingApprovalRequired(identityRecord)) {
@@ -676,7 +849,7 @@ export class SignalProtocolStore extends EventsMixin {
 
   async loadIdentityKey(identifier: string): Promise<ArrayBuffer | undefined> {
     if (identifier === null || identifier === undefined) {
-      throw new Error('Tried to get identity key for undefined/null key');
+      throw new Error('loadIdentityKey: identifier was undefined/null');
     }
     const id = window.textsecure.utils.unencodeNumber(identifier)[0];
     const identityRecord = this.getIdentityRecord(id);
@@ -695,33 +868,24 @@ export class SignalProtocolStore extends EventsMixin {
 
     const { id } = data;
 
-    const previousData = this.identityKeys[id];
-
-    // Optimistically update in-memory cache; will revert if save fails.
-    this.identityKeys[id] = data;
-
-    try {
-      await window.Signal.Data.createOrUpdateIdentityKey(data);
-    } catch (error) {
-      if (previousData) {
-        this.identityKeys[id] = previousData;
-      }
-
-      throw error;
-    }
+    await window.Signal.Data.createOrUpdateIdentityKey(data);
+    this.identityKeys[id] = {
+      hydrated: false,
+      fromDB: data,
+    };
   }
 
   async saveIdentity(
     encodedAddress: string,
     publicKey: ArrayBuffer,
-    nonblockingApproval: boolean
+    nonblockingApproval = false
   ): Promise<boolean> {
     if (!this.identityKeys) {
       throw new Error('saveIdentity: this.identityKeys not yet cached!');
     }
 
     if (encodedAddress === null || encodedAddress === undefined) {
-      throw new Error('Tried to put identity key for undefined/null key');
+      throw new Error('saveIdentity: encodedAddress was undefined/null');
     }
     if (!(publicKey instanceof ArrayBuffer)) {
       // eslint-disable-next-line no-param-reassign
@@ -743,7 +907,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     if (!identityRecord || !identityRecord.publicKey) {
       // Lookup failed, or the current key was removed, so save this one.
-      window.log.info('Saving new identity...');
+      window.log.info('saveIdentity: Saving new identity...');
       await this._saveIdentityKey({
         id,
         publicKey,
@@ -758,7 +922,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     const oldpublicKey = identityRecord.publicKey;
     if (!constantTimeEqual(oldpublicKey, publicKey)) {
-      window.log.info('Replacing existing identity...');
+      window.log.info('saveIdentity: Replacing existing identity...');
       const previousStatus = identityRecord.verified;
       let verifiedStatus;
       if (
@@ -783,7 +947,7 @@ export class SignalProtocolStore extends EventsMixin {
         this.trigger('keychange', identifier);
       } catch (error) {
         window.log.error(
-          'saveIdentity error triggering keychange:',
+          'saveIdentity: error triggering keychange:',
           error && error.stack ? error.stack : error
         );
       }
@@ -792,7 +956,7 @@ export class SignalProtocolStore extends EventsMixin {
       return true;
     }
     if (this.isNonBlockingApprovalRequired(identityRecord)) {
-      window.log.info('Setting approval status...');
+      window.log.info('saveIdentity: Setting approval status...');
 
       identityRecord.nonblockingApproval = nonblockingApproval;
       await this._saveIdentityKey(identityRecord);
@@ -813,10 +977,12 @@ export class SignalProtocolStore extends EventsMixin {
 
   async saveIdentityWithAttributes(
     encodedAddress: string,
-    attributes: IdentityKeyType
+    attributes: Partial<IdentityKeyType>
   ): Promise<void> {
     if (encodedAddress === null || encodedAddress === undefined) {
-      throw new Error('Tried to put identity key for undefined/null key');
+      throw new Error(
+        'saveIdentityWithAttributes: encodedAddress was undefined/null'
+      );
     }
 
     const identifier = window.textsecure.utils.unencodeNumber(
@@ -829,17 +995,14 @@ export class SignalProtocolStore extends EventsMixin {
     );
     const id = conv.get('id');
 
-    const updates = {
+    const updates: Partial<IdentityKeyType> = {
       ...identityRecord,
       ...attributes,
       id,
     };
 
-    const model = new IdentityRecord(updates);
-    if (model.isValid()) {
+    if (validateIdentityKey(updates)) {
       await this._saveIdentityKey(updates);
-    } else {
-      throw model.validationError;
     }
   }
 
@@ -848,10 +1011,10 @@ export class SignalProtocolStore extends EventsMixin {
     nonblockingApproval: boolean
   ): Promise<void> {
     if (encodedAddress === null || encodedAddress === undefined) {
-      throw new Error('Tried to set approval for undefined/null identifier');
+      throw new Error('setApproval: encodedAddress was undefined/null');
     }
     if (typeof nonblockingApproval !== 'boolean') {
-      throw new Error('Invalid approval status');
+      throw new Error('setApproval: Invalid approval status');
     }
 
     const identifier = window.textsecure.utils.unencodeNumber(
@@ -860,7 +1023,7 @@ export class SignalProtocolStore extends EventsMixin {
     const identityRecord = this.getIdentityRecord(identifier);
 
     if (!identityRecord) {
-      throw new Error(`No identity record for ${identifier}`);
+      throw new Error(`setApproval: No identity record for ${identifier}`);
     }
 
     identityRecord.nonblockingApproval = nonblockingApproval;
@@ -870,48 +1033,45 @@ export class SignalProtocolStore extends EventsMixin {
   async setVerified(
     encodedAddress: string,
     verifiedStatus: number,
-    publicKey: ArrayBuffer
+    publicKey?: ArrayBuffer
   ): Promise<void> {
     if (encodedAddress === null || encodedAddress === undefined) {
-      throw new Error('Tried to set verified for undefined/null key');
+      throw new Error('setVerified: encodedAddress was undefined/null');
     }
     if (!validateVerifiedStatus(verifiedStatus)) {
-      throw new Error('Invalid verified status');
+      throw new Error('setVerified: Invalid verified status');
     }
     if (arguments.length > 2 && !(publicKey instanceof ArrayBuffer)) {
-      throw new Error('Invalid public key');
+      throw new Error('setVerified: Invalid public key');
     }
 
     const identityRecord = this.getIdentityRecord(encodedAddress);
 
     if (!identityRecord) {
-      throw new Error(`No identity record for ${encodedAddress}`);
+      throw new Error(`setVerified: No identity record for ${encodedAddress}`);
     }
 
     if (!publicKey || constantTimeEqual(identityRecord.publicKey, publicKey)) {
       identityRecord.verified = verifiedStatus;
 
-      const model = new IdentityRecord(identityRecord);
-      if (model.isValid()) {
+      if (validateIdentityKey(identityRecord)) {
         await this._saveIdentityKey(identityRecord);
-      } else if (model.validationError) {
-        throw model.validationError;
-      } else {
-        throw new Error('setVerified: identity record data was invalid');
       }
     } else {
-      window.log.info('No identity record for specified publicKey');
+      window.log.info(
+        'setVerified: No identity record for specified publicKey'
+      );
     }
   }
 
   async getVerified(identifier: string): Promise<number> {
     if (identifier === null || identifier === undefined) {
-      throw new Error('Tried to set verified for undefined/null key');
+      throw new Error('getVerified: identifier was undefined/null');
     }
 
     const identityRecord = this.getIdentityRecord(identifier);
     if (!identityRecord) {
-      throw new Error(`No identity record for ${identifier}`);
+      throw new Error(`getVerified: No identity record for ${identifier}`);
     }
 
     const verifiedStatus = identityRecord.verified;
@@ -947,10 +1107,12 @@ export class SignalProtocolStore extends EventsMixin {
     publicKey?: ArrayBuffer
   ): Promise<boolean> {
     if (identifier === null || identifier === undefined) {
-      throw new Error('Tried to set verified for undefined/null key');
+      throw new Error(
+        'processUnverifiedMessage: identifier was undefined/null'
+      );
     }
     if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
-      throw new Error('Invalid public key');
+      throw new Error('processUnverifiedMessage: Invalid public key');
     }
 
     const identityRecord = this.getIdentityRecord(identifier);
@@ -966,32 +1128,25 @@ export class SignalProtocolStore extends EventsMixin {
       isEqual &&
       identityRecord.verified !== VerifiedStatus.UNVERIFIED
     ) {
-      await window.textsecure.storage.protocol.setVerified(
-        identifier,
-        verifiedStatus,
-        publicKey
-      );
+      await this.setVerified(identifier, verifiedStatus, publicKey);
       return false;
     }
 
-    if (publicKey && (!identityRecord || !isEqual)) {
-      await window.textsecure.storage.protocol.saveIdentityWithAttributes(
-        identifier,
-        {
-          publicKey,
-          verified: verifiedStatus,
-          firstUse: false,
-          timestamp: Date.now(),
-          nonblockingApproval: true,
-        }
-      );
+    if (!identityRecord || !isEqual) {
+      await this.saveIdentityWithAttributes(identifier, {
+        publicKey,
+        verified: verifiedStatus,
+        firstUse: false,
+        timestamp: Date.now(),
+        nonblockingApproval: true,
+      });
 
       if (identityRecord && !isEqual) {
         try {
           this.trigger('keychange', identifier);
         } catch (error) {
           window.log.error(
-            'processUnverifiedMessage error triggering keychange:',
+            'processUnverifiedMessage: error triggering keychange:',
             error && error.stack ? error.stack : error
           );
         }
@@ -1006,7 +1161,6 @@ export class SignalProtocolStore extends EventsMixin {
     //   1. had a previous key
     //   2. new key is the same
     //   3. desired new status is same as what we had before
-    //   4. no publicKey was passed into this function
     return false;
   }
 
@@ -1015,16 +1169,16 @@ export class SignalProtocolStore extends EventsMixin {
   async processVerifiedMessage(
     identifier: string,
     verifiedStatus: number,
-    publicKey: ArrayBuffer
+    publicKey?: ArrayBuffer
   ): Promise<boolean> {
     if (identifier === null || identifier === undefined) {
-      throw new Error('Tried to set verified for undefined/null key');
+      throw new Error('processVerifiedMessage: identifier was undefined/null');
     }
     if (!validateVerifiedStatus(verifiedStatus)) {
-      throw new Error('Invalid verified status');
+      throw new Error('processVerifiedMessage: Invalid verified status');
     }
     if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
-      throw new Error('Invalid public key');
+      throw new Error('processVerifiedMessage: Invalid public key');
     }
 
     const identityRecord = this.getIdentityRecord(identifier);
@@ -1036,7 +1190,9 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     if (!identityRecord && verifiedStatus === VerifiedStatus.DEFAULT) {
-      window.log.info('No existing record for default status');
+      window.log.info(
+        'processVerifiedMessage: No existing record for default status'
+      );
       return false;
     }
 
@@ -1046,11 +1202,7 @@ export class SignalProtocolStore extends EventsMixin {
       identityRecord.verified !== VerifiedStatus.DEFAULT &&
       verifiedStatus === VerifiedStatus.DEFAULT
     ) {
-      await window.textsecure.storage.protocol.setVerified(
-        identifier,
-        verifiedStatus,
-        publicKey
-      );
+      await this.setVerified(identifier, verifiedStatus, publicKey);
       return false;
     }
 
@@ -1060,16 +1212,13 @@ export class SignalProtocolStore extends EventsMixin {
         (identityRecord && !isEqual) ||
         (identityRecord && identityRecord.verified !== VerifiedStatus.VERIFIED))
     ) {
-      await window.textsecure.storage.protocol.saveIdentityWithAttributes(
-        identifier,
-        {
-          publicKey,
-          verified: verifiedStatus,
-          firstUse: false,
-          timestamp: Date.now(),
-          nonblockingApproval: true,
-        }
-      );
+      await this.saveIdentityWithAttributes(identifier, {
+        publicKey,
+        verified: verifiedStatus,
+        firstUse: false,
+        timestamp: Date.now(),
+        nonblockingApproval: true,
+      });
 
       if (identityRecord && !isEqual) {
         try {
@@ -1096,12 +1245,12 @@ export class SignalProtocolStore extends EventsMixin {
 
   isUntrusted(identifier: string): boolean {
     if (identifier === null || identifier === undefined) {
-      throw new Error('Tried to set verified for undefined/null key');
+      throw new Error('isUntrusted: identifier was undefined/null');
     }
 
     const identityRecord = this.getIdentityRecord(identifier);
     if (!identityRecord) {
-      throw new Error(`No identity record for ${identifier}`);
+      throw new Error(`isUntrusted: No identity record for ${identifier}`);
     }
 
     if (
@@ -1124,7 +1273,7 @@ export class SignalProtocolStore extends EventsMixin {
     if (id) {
       delete this.identityKeys[id];
       await window.Signal.Data.removeIdentityKeyById(id);
-      await window.textsecure.storage.protocol.removeAllSessions(id);
+      await this.removeAllSessions(id);
     }
   }
 
@@ -1161,12 +1310,15 @@ export class SignalProtocolStore extends EventsMixin {
     return window.Signal.Data.updateUnprocessedAttempts(id, attempts);
   }
 
-  updateUnprocessedWithData(id: string, data: UnprocessedType): Promise<void> {
+  updateUnprocessedWithData(
+    id: string,
+    data: UnprocessedUpdateType
+  ): Promise<void> {
     return window.Signal.Data.updateUnprocessedWithData(id, data);
   }
 
   updateUnprocessedsWithData(
-    items: Array<{ id: string; data: UnprocessedType }>
+    items: Array<{ id: string; data: UnprocessedUpdateType }>
   ): Promise<void> {
     return window.Signal.Data.updateUnprocessedsWithData(items);
   }

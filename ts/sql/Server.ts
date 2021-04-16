@@ -53,6 +53,7 @@ import {
   StickerPackType,
   StickerType,
   UnprocessedType,
+  UnprocessedUpdateType,
 } from './Interface';
 
 declare global {
@@ -3517,7 +3518,7 @@ async function updateUnprocessedAttempts(
 }
 async function updateUnprocessedWithData(
   id: string,
-  data: UnprocessedType
+  data: UnprocessedUpdateType
 ): Promise<void> {
   const db = getInstance();
   const { source, sourceUuid, sourceDevice, serverTimestamp, decrypted } = data;
@@ -3543,7 +3544,7 @@ async function updateUnprocessedWithData(
   });
 }
 async function updateUnprocessedsWithData(
-  arrayOfUnprocessed: Array<{ id: string; data: UnprocessedType }>
+  arrayOfUnprocessed: Array<{ id: string; data: UnprocessedUpdateType }>
 ): Promise<void> {
   const db = getInstance();
 

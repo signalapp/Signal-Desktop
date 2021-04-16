@@ -1,34 +1,92 @@
-// Copyright 2015-2020 Signal Messenger, LLC
+// Copyright 2015-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global _, textsecure, libsignal, storage, ConversationController */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-'use strict';
+import { assert } from 'chai';
+import { Direction, SessionRecord } from 'libsignal-client';
+
+import { signal } from '../protobuf/compiled';
+import { sessionStructureToArrayBuffer } from '../util/sessionTranslation';
+
+import { getRandomBytes, constantTimeEqual } from '../Crypto';
+import { clampPrivateKey, setPublicKeyTypeByte } from '../Curve';
+import { SignalProtocolStore } from '../SignalProtocolStore';
+import { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
+
+const { RecordStructure, SessionStructure } = signal.proto.storage;
 
 describe('SignalProtocolStore', () => {
   const number = '+5558675309';
-  let store;
-  let identityKey;
-  let testKey;
+  let store: SignalProtocolStore;
+  let identityKey: KeyPairType;
+  let testKey: KeyPairType;
+
+  function getSessionRecord(isOpen?: boolean): SessionRecord {
+    const proto = new RecordStructure();
+
+    proto.previousSessions = [];
+
+    if (isOpen) {
+      proto.currentSession = new SessionStructure();
+
+      proto.currentSession.aliceBaseKey = toUint8Array(getPublicKey());
+      proto.currentSession.localIdentityPublic = toUint8Array(getPublicKey());
+      proto.currentSession.localRegistrationId = 435;
+
+      proto.currentSession.previousCounter = 1;
+      proto.currentSession.remoteIdentityPublic = toUint8Array(getPublicKey());
+      proto.currentSession.remoteRegistrationId = 243;
+
+      proto.currentSession.rootKey = toUint8Array(getPrivateKey());
+      proto.currentSession.sessionVersion = 3;
+    }
+
+    return SessionRecord.deserialize(
+      Buffer.from(sessionStructureToArrayBuffer(proto))
+    );
+  }
+
+  function toUint8Array(buffer: ArrayBuffer): Uint8Array {
+    return new Uint8Array(buffer);
+  }
+
+  function getPrivateKey() {
+    const key = getRandomBytes(32);
+    clampPrivateKey(key);
+    return key;
+  }
+  function getPublicKey() {
+    const key = getRandomBytes(33);
+    setPublicKeyTypeByte(key);
+    return key;
+  }
 
   before(async () => {
-    store = textsecure.storage.protocol;
+    store = window.textsecure.storage.protocol;
     store.hydrateCaches();
     identityKey = {
-      pubKey: libsignal.crypto.getRandomBytes(33),
-      privKey: libsignal.crypto.getRandomBytes(32),
+      pubKey: getPublicKey(),
+      privKey: getPrivateKey(),
     };
     testKey = {
-      pubKey: libsignal.crypto.getRandomBytes(33),
-      privKey: libsignal.crypto.getRandomBytes(32),
+      pubKey: getPublicKey(),
+      privKey: getPrivateKey(),
     };
 
-    storage.put('registrationId', 1337);
-    storage.put('identityKey', identityKey);
-    await storage.fetch();
-    ConversationController.reset();
-    await ConversationController.load();
-    await ConversationController.getOrCreateAndWait(number, 'private');
+    setPublicKeyTypeByte(identityKey.pubKey);
+    setPublicKeyTypeByte(testKey.pubKey);
+
+    clampPrivateKey(identityKey.privKey);
+    clampPrivateKey(testKey.privKey);
+
+    window.storage.put('registrationId', 1337);
+    window.storage.put('identityKey', identityKey);
+    await window.storage.fetch();
+
+    window.ConversationController.reset();
+    await window.ConversationController.load();
+    await window.ConversationController.getOrCreateAndWait(number, 'private');
   });
 
   describe('getLocalRegistrationId', () => {
@@ -42,23 +100,29 @@ describe('SignalProtocolStore', () => {
     it('retrieves my identity key', async () => {
       await store.hydrateCaches();
       const key = await store.getIdentityKeyPair();
-      assertEqualArrayBuffers(key.pubKey, identityKey.pubKey);
-      assertEqualArrayBuffers(key.privKey, identityKey.privKey);
+      if (!key) {
+        throw new Error('Missing key!');
+      }
+
+      assert.isTrue(constantTimeEqual(key.pubKey, identityKey.pubKey));
+      assert.isTrue(constantTimeEqual(key.privKey, identityKey.privKey));
     });
   });
 
   describe('saveIdentity', () => {
-    const address = new libsignal.SignalProtocolAddress(number, 1);
-    const identifier = address.toString();
+    const identifier = `${number}.1`;
 
     it('stores identity keys', async () => {
       await store.saveIdentity(identifier, testKey.pubKey);
       const key = await store.loadIdentityKey(number);
+      if (!key) {
+        throw new Error('Missing key!');
+      }
 
-      assertEqualArrayBuffers(key, testKey.pubKey);
+      assert.isTrue(constantTimeEqual(key, testKey.pubKey));
     });
     it('allows key changes', async () => {
-      const newIdentity = libsignal.crypto.getRandomBytes(33);
+      const newIdentity = getPublicKey();
       await store.saveIdentity(identifier, testKey.pubKey);
       await store.saveIdentity(identifier, newIdentity);
     });
@@ -70,19 +134,28 @@ describe('SignalProtocolStore', () => {
       });
       it('marks the key firstUse', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
         assert(identity.firstUse);
       });
       it('sets the timestamp', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
         assert(identity.timestamp);
       });
       it('sets the verified status to DEFAULT', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
         assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
       });
     });
     describe('When there is a different existing key (non first use)', () => {
-      const newIdentity = libsignal.crypto.getRandomBytes(33);
+      const newIdentity = getPublicKey();
       const oldTimestamp = Date.now();
 
       before(async () => {
@@ -100,10 +173,16 @@ describe('SignalProtocolStore', () => {
       });
       it('marks the key not firstUse', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
         assert(!identity.firstUse);
       });
       it('updates the timestamp', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
         assert.notEqual(identity.timestamp, oldTimestamp);
       });
 
@@ -123,6 +202,9 @@ describe('SignalProtocolStore', () => {
         });
         it('sets the new key to default', async () => {
           const identity = await window.Signal.Data.getIdentityKeyById(number);
+          if (!identity) {
+            throw new Error('Missing identity!');
+          }
           assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
         });
       });
@@ -142,7 +224,9 @@ describe('SignalProtocolStore', () => {
         });
         it('sets the new key to unverified', async () => {
           const identity = await window.Signal.Data.getIdentityKeyById(number);
-
+          if (!identity) {
+            throw new Error('Missing identity!');
+          }
           assert.strictEqual(
             identity.verified,
             store.VerifiedStatus.UNVERIFIED
@@ -165,6 +249,9 @@ describe('SignalProtocolStore', () => {
         });
         it('sets the new key to unverified', async () => {
           const identity = await window.Signal.Data.getIdentityKeyById(number);
+          if (!identity) {
+            throw new Error('Missing identity!');
+          }
           assert.strictEqual(
             identity.verified,
             store.VerifiedStatus.UNVERIFIED
@@ -180,6 +267,7 @@ describe('SignalProtocolStore', () => {
           publicKey: testKey.pubKey,
           timestamp: oldTimestamp,
           nonblockingApproval: false,
+          firstUse: false,
           verified: store.VerifiedStatus.DEFAULT,
         });
         await store.hydrateCaches();
@@ -187,6 +275,9 @@ describe('SignalProtocolStore', () => {
       describe('If it is marked firstUse', () => {
         before(async () => {
           const identity = await window.Signal.Data.getIdentityKeyById(number);
+          if (!identity) {
+            throw new Error('Missing identity!');
+          }
           identity.firstUse = true;
           await window.Signal.Data.createOrUpdateIdentityKey(identity);
           await store.hydrateCaches();
@@ -195,6 +286,9 @@ describe('SignalProtocolStore', () => {
           await store.saveIdentity(identifier, testKey.pubKey, true);
 
           const identity = await window.Signal.Data.getIdentityKeyById(number);
+          if (!identity) {
+            throw new Error('Missing identity!');
+          }
           assert(!identity.nonblockingApproval);
           assert.strictEqual(identity.timestamp, oldTimestamp);
         });
@@ -202,17 +296,23 @@ describe('SignalProtocolStore', () => {
       describe('If it is not marked firstUse', () => {
         before(async () => {
           const identity = await window.Signal.Data.getIdentityKeyById(number);
+          if (!identity) {
+            throw new Error('Missing identity!');
+          }
           identity.firstUse = false;
           await window.Signal.Data.createOrUpdateIdentityKey(identity);
           await store.hydrateCaches();
         });
         describe('If nonblocking approval is required', () => {
-          let now;
+          let now: number;
           before(async () => {
             now = Date.now();
             const identity = await window.Signal.Data.getIdentityKeyById(
               number
             );
+            if (!identity) {
+              throw new Error('Missing identity!');
+            }
             identity.timestamp = now;
             await window.Signal.Data.createOrUpdateIdentityKey(identity);
             await store.hydrateCaches();
@@ -223,6 +323,9 @@ describe('SignalProtocolStore', () => {
             const identity = await window.Signal.Data.getIdentityKeyById(
               number
             );
+            if (!identity) {
+              throw new Error('Missing identity!');
+            }
 
             assert.strictEqual(identity.nonblockingApproval, true);
             assert.strictEqual(identity.timestamp, now);
@@ -233,12 +336,13 @@ describe('SignalProtocolStore', () => {
     });
   });
   describe('saveIdentityWithAttributes', () => {
-    let now;
-    let validAttributes;
+    let now: number;
+    let validAttributes: IdentityKeyType;
 
     before(async () => {
       now = Date.now();
       validAttributes = {
+        id: number,
         publicKey: testKey.pubKey,
         firstUse: true,
         timestamp: now,
@@ -255,29 +359,44 @@ describe('SignalProtocolStore', () => {
 
       it('publicKey is saved', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
-        assertEqualArrayBuffers(identity.publicKey, testKey.pubKey);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
+        assert.isTrue(constantTimeEqual(identity.publicKey, testKey.pubKey));
       });
       it('firstUse is saved', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
         assert.strictEqual(identity.firstUse, true);
       });
       it('timestamp is saved', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
         assert.strictEqual(identity.timestamp, now);
       });
       it('verified is saved', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
         assert.strictEqual(identity.verified, store.VerifiedStatus.VERIFIED);
       });
       it('nonblockingApproval is saved', async () => {
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
         assert.strictEqual(identity.nonblockingApproval, false);
       });
     });
     describe('with invalid attributes', () => {
-      let attributes;
+      let attributes: IdentityKeyType;
       beforeEach(() => {
-        attributes = _.clone(validAttributes);
+        attributes = window._.clone(validAttributes);
       });
 
       async function testInvalidAttributes() {
@@ -290,23 +409,23 @@ describe('SignalProtocolStore', () => {
       }
 
       it('rejects an invalid publicKey', async () => {
-        attributes.publicKey = 'a string';
+        attributes.publicKey = 'a string' as any;
         await testInvalidAttributes();
       });
       it('rejects invalid firstUse', async () => {
-        attributes.firstUse = 0;
+        attributes.firstUse = 0 as any;
         await testInvalidAttributes();
       });
       it('rejects invalid timestamp', async () => {
-        attributes.timestamp = NaN;
+        attributes.timestamp = NaN as any;
         await testInvalidAttributes();
       });
       it('rejects invalid verified', async () => {
-        attributes.verified = null;
+        attributes.verified = null as any;
         await testInvalidAttributes();
       });
       it('rejects invalid nonblockingApproval', async () => {
-        attributes.nonblockingApproval = 0;
+        attributes.nonblockingApproval = 0 as any;
         await testInvalidAttributes();
       });
     });
@@ -315,6 +434,9 @@ describe('SignalProtocolStore', () => {
     it('sets nonblockingApproval', async () => {
       await store.setApproval(number, true);
       const identity = await window.Signal.Data.getIdentityKeyById(number);
+      if (!identity) {
+        throw new Error('Missing identity!');
+      }
 
       assert.strictEqual(identity.nonblockingApproval, true);
     });
@@ -337,8 +459,12 @@ describe('SignalProtocolStore', () => {
         await store.setVerified(number, store.VerifiedStatus.VERIFIED);
 
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
+
         assert.strictEqual(identity.verified, store.VerifiedStatus.VERIFIED);
-        assertEqualArrayBuffers(identity.publicKey, testKey.pubKey);
+        assert.isTrue(constantTimeEqual(identity.publicKey, testKey.pubKey));
       });
     });
     describe('with the current public key', () => {
@@ -351,12 +477,16 @@ describe('SignalProtocolStore', () => {
         );
 
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
+
         assert.strictEqual(identity.verified, store.VerifiedStatus.VERIFIED);
-        assertEqualArrayBuffers(identity.publicKey, testKey.pubKey);
+        assert.isTrue(constantTimeEqual(identity.publicKey, testKey.pubKey));
       });
     });
     describe('with a mismatching public key', () => {
-      const newIdentity = libsignal.crypto.getRandomBytes(33);
+      const newIdentity = getPublicKey();
       before(saveRecordDefault);
       it('does not change the record.', async () => {
         await store.setVerified(
@@ -366,14 +496,18 @@ describe('SignalProtocolStore', () => {
         );
 
         const identity = await window.Signal.Data.getIdentityKeyById(number);
+        if (!identity) {
+          throw new Error('Missing identity!');
+        }
+
         assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
-        assertEqualArrayBuffers(identity.publicKey, testKey.pubKey);
+        assert.isTrue(constantTimeEqual(identity.publicKey, testKey.pubKey));
       });
     });
   });
   describe('processContactSyncVerificationState', () => {
-    const newIdentity = libsignal.crypto.getRandomBytes(33);
-    let keychangeTriggered;
+    const newIdentity = getPublicKey();
+    let keychangeTriggered: number;
 
     beforeEach(() => {
       keychangeTriggered = 0;
@@ -436,12 +570,17 @@ describe('SignalProtocolStore', () => {
             const identity = await window.Signal.Data.getIdentityKeyById(
               number
             );
+            if (!identity) {
+              throw new Error('Missing identity!');
+            }
 
             assert.strictEqual(
               identity.verified,
               store.VerifiedStatus.VERIFIED
             );
-            assertEqualArrayBuffers(identity.publicKey, testKey.pubKey);
+            assert.isTrue(
+              constantTimeEqual(identity.publicKey, testKey.pubKey)
+            );
             assert.strictEqual(keychangeTriggered, 0);
           });
         });
@@ -468,9 +607,14 @@ describe('SignalProtocolStore', () => {
             const identity = await window.Signal.Data.getIdentityKeyById(
               number
             );
+            if (!identity) {
+              throw new Error('Missing identity!');
+            }
 
             assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
-            assertEqualArrayBuffers(identity.publicKey, testKey.pubKey);
+            assert.isTrue(
+              constantTimeEqual(identity.publicKey, testKey.pubKey)
+            );
             assert.strictEqual(keychangeTriggered, 0);
           });
         });
@@ -514,12 +658,15 @@ describe('SignalProtocolStore', () => {
           );
 
           const identity = await window.Signal.Data.getIdentityKeyById(number);
+          if (!identity) {
+            throw new Error('Missing identity!');
+          }
 
           assert.strictEqual(
             identity.verified,
             store.VerifiedStatus.UNVERIFIED
           );
-          assertEqualArrayBuffers(identity.publicKey, newIdentity);
+          assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
           assert.strictEqual(keychangeTriggered, 0);
         });
       });
@@ -547,12 +694,15 @@ describe('SignalProtocolStore', () => {
             const identity = await window.Signal.Data.getIdentityKeyById(
               number
             );
+            if (!identity) {
+              throw new Error('Missing identity!');
+            }
 
             assert.strictEqual(
               identity.verified,
               store.VerifiedStatus.UNVERIFIED
             );
-            assertEqualArrayBuffers(identity.publicKey, newIdentity);
+            assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
             assert.strictEqual(keychangeTriggered, 1);
           });
         });
@@ -578,12 +728,17 @@ describe('SignalProtocolStore', () => {
             const identity = await window.Signal.Data.getIdentityKeyById(
               number
             );
+            if (!identity) {
+              throw new Error('Missing identity!');
+            }
 
             assert.strictEqual(
               identity.verified,
               store.VerifiedStatus.UNVERIFIED
             );
-            assertEqualArrayBuffers(identity.publicKey, testKey.pubKey);
+            assert.isTrue(
+              constantTimeEqual(identity.publicKey, testKey.pubKey)
+            );
             assert.strictEqual(keychangeTriggered, 0);
           });
         });
@@ -626,9 +781,12 @@ describe('SignalProtocolStore', () => {
             newIdentity
           );
           const identity = await window.Signal.Data.getIdentityKeyById(number);
+          if (!identity) {
+            throw new Error('Missing identity!');
+          }
 
           assert.strictEqual(identity.verified, store.VerifiedStatus.VERIFIED);
-          assertEqualArrayBuffers(identity.publicKey, newIdentity);
+          assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
           assert.strictEqual(keychangeTriggered, 0);
         });
       });
@@ -656,12 +814,15 @@ describe('SignalProtocolStore', () => {
             const identity = await window.Signal.Data.getIdentityKeyById(
               number
             );
+            if (!identity) {
+              throw new Error('Missing identity!');
+            }
 
             assert.strictEqual(
               identity.verified,
               store.VerifiedStatus.VERIFIED
             );
-            assertEqualArrayBuffers(identity.publicKey, newIdentity);
+            assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
             assert.strictEqual(keychangeTriggered, 1);
           });
         });
@@ -687,12 +848,17 @@ describe('SignalProtocolStore', () => {
             const identity = await window.Signal.Data.getIdentityKeyById(
               number
             );
+            if (!identity) {
+              throw new Error('Missing identity!');
+            }
 
             assert.strictEqual(
               identity.verified,
               store.VerifiedStatus.VERIFIED
             );
-            assertEqualArrayBuffers(identity.publicKey, testKey.pubKey);
+            assert.isTrue(
+              constantTimeEqual(identity.publicKey, testKey.pubKey)
+            );
             assert.strictEqual(keychangeTriggered, 0);
           });
         });
@@ -795,13 +961,12 @@ describe('SignalProtocolStore', () => {
     });
   });
   describe('isTrustedIdentity', () => {
-    const address = new libsignal.SignalProtocolAddress(number, 1);
-    const identifier = address.toString();
+    const identifier = `${number}.1`;
 
     describe('When invalid direction is given', () => {
       it('should fail', async () => {
         try {
-          await store.isTrustedIdentity(number, testKey.pubKey);
+          await store.isTrustedIdentity(number, testKey.pubKey, 'dir' as any);
           throw new Error('isTrustedIdentity should have failed');
         } catch (error) {
           // good
@@ -810,13 +975,13 @@ describe('SignalProtocolStore', () => {
     });
     describe('When direction is RECEIVING', () => {
       it('always returns true', async () => {
-        const newIdentity = libsignal.crypto.getRandomBytes(33);
+        const newIdentity = getPublicKey();
         await store.saveIdentity(identifier, testKey.pubKey);
 
         const trusted = await store.isTrustedIdentity(
           identifier,
           newIdentity,
-          store.Direction.RECEIVING
+          Direction.Receiving
         );
 
         if (!trusted) {
@@ -830,11 +995,11 @@ describe('SignalProtocolStore', () => {
           await store.removeIdentityKey(number);
         });
         it('returns true', async () => {
-          const newIdentity = libsignal.crypto.getRandomBytes(33);
+          const newIdentity = getPublicKey();
           const trusted = await store.isTrustedIdentity(
             identifier,
             newIdentity,
-            store.Direction.SENDING
+            Direction.Sending
           );
           if (!trusted) {
             throw new Error('isTrusted returned false on first use');
@@ -847,11 +1012,11 @@ describe('SignalProtocolStore', () => {
         });
         describe('When the existing key is different', () => {
           it('returns false', async () => {
-            const newIdentity = libsignal.crypto.getRandomBytes(33);
+            const newIdentity = getPublicKey();
             const trusted = await store.isTrustedIdentity(
               identifier,
               newIdentity,
-              store.Direction.SENDING
+              Direction.Sending
             );
             if (trusted) {
               throw new Error('isTrusted returned true on untrusted key');
@@ -859,7 +1024,7 @@ describe('SignalProtocolStore', () => {
           });
         });
         describe('When the existing key matches the new key', () => {
-          const newIdentity = libsignal.crypto.getRandomBytes(33);
+          const newIdentity = getPublicKey();
           before(async () => {
             await store.saveIdentity(identifier, newIdentity);
           });
@@ -867,7 +1032,7 @@ describe('SignalProtocolStore', () => {
             const trusted = await store.isTrustedIdentity(
               identifier,
               newIdentity,
-              store.Direction.SENDING
+              Direction.Sending
             );
 
             if (trusted) {
@@ -880,7 +1045,7 @@ describe('SignalProtocolStore', () => {
             const trusted = await store.isTrustedIdentity(
               identifier,
               newIdentity,
-              store.Direction.SENDING
+              Direction.Sending
             );
             if (!trusted) {
               throw new Error('isTrusted returned false on an approved key');
@@ -894,8 +1059,21 @@ describe('SignalProtocolStore', () => {
     it('stores prekeys', async () => {
       await store.storePreKey(1, testKey);
       const key = await store.loadPreKey(1);
-      assertEqualArrayBuffers(key.pubKey, testKey.pubKey);
-      assertEqualArrayBuffers(key.privKey, testKey.privKey);
+      if (!key) {
+        throw new Error('Missing key!');
+      }
+
+      const keyPair = {
+        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(
+          key.publicKey().serialize()
+        ),
+        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(
+          key.privateKey().serialize()
+        ),
+      };
+
+      assert.isTrue(constantTimeEqual(keyPair.pubKey, testKey.pubKey));
+      assert.isTrue(constantTimeEqual(keyPair.privKey, testKey.privKey));
     });
   });
   describe('removePreKey', () => {
@@ -903,7 +1081,7 @@ describe('SignalProtocolStore', () => {
       await store.storePreKey(2, testKey);
     });
     it('deletes prekeys', async () => {
-      await store.removePreKey(2, testKey);
+      await store.removePreKey(2);
 
       const key = await store.loadPreKey(2);
       assert.isUndefined(key);
@@ -912,10 +1090,22 @@ describe('SignalProtocolStore', () => {
   describe('storeSignedPreKey', () => {
     it('stores signed prekeys', async () => {
       await store.storeSignedPreKey(3, testKey);
-
       const key = await store.loadSignedPreKey(3);
-      assertEqualArrayBuffers(key.pubKey, testKey.pubKey);
-      assertEqualArrayBuffers(key.privKey, testKey.privKey);
+      if (!key) {
+        throw new Error('Missing key!');
+      }
+
+      const keyPair = {
+        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(
+          key.publicKey().serialize()
+        ),
+        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(
+          key.privateKey().serialize()
+        ),
+      };
+
+      assert.isTrue(constantTimeEqual(keyPair.pubKey, testKey.pubKey));
+      assert.isTrue(constantTimeEqual(keyPair.privKey, testKey.privKey));
     });
   });
   describe('removeSignedPreKey', () => {
@@ -923,7 +1113,7 @@ describe('SignalProtocolStore', () => {
       await store.storeSignedPreKey(4, testKey);
     });
     it('deletes signed prekeys', async () => {
-      await store.removeSignedPreKey(4, testKey);
+      await store.removeSignedPreKey(4);
 
       const key = await store.loadSignedPreKey(4);
       assert.isUndefined(key);
@@ -931,24 +1121,25 @@ describe('SignalProtocolStore', () => {
   });
   describe('storeSession', () => {
     it('stores sessions', async () => {
-      const testRecord = 'an opaque string';
-
+      const testRecord = getSessionRecord();
       await store.storeSession(`${number}.1`, testRecord);
       const record = await store.loadSession(`${number}.1`);
+      if (!record) {
+        throw new Error('Missing record!');
+      }
 
-      assert.deepEqual(record, testRecord);
+      assert.equal(record, testRecord);
     });
   });
   describe('removeAllSessions', () => {
     it('removes all sessions for a number', async () => {
-      const testRecord = 'an opaque string';
       const devices = [1, 2, 3].map(deviceId => {
         return [number, deviceId].join('.');
       });
 
       await Promise.all(
         devices.map(async encodedNumber => {
-          await store.storeSession(encodedNumber, testRecord + encodedNumber);
+          await store.storeSession(encodedNumber, getSessionRecord());
         })
       );
 
@@ -965,7 +1156,7 @@ describe('SignalProtocolStore', () => {
   });
   describe('clearSessionStore', () => {
     it('clears the session store', async () => {
-      const testRecord = 'an opaque string';
+      const testRecord = getSessionRecord();
       await store.storeSession(`${number}.1`, testRecord);
       await store.clearSessionStore();
 
@@ -975,17 +1166,7 @@ describe('SignalProtocolStore', () => {
   });
   describe('getDeviceIds', () => {
     it('returns deviceIds for a number', async () => {
-      const openRecord = JSON.stringify({
-        version: 'v1',
-        sessions: {
-          ephemeralKey: {
-            registrationId: 25,
-            indexInfo: {
-              closed: -1,
-            },
-          },
-        },
-      });
+      const openRecord = getSessionRecord(true);
       const openDevices = [1, 2, 3, 10].map(deviceId => {
         return [number, deviceId].join('.');
       });
@@ -995,22 +1176,13 @@ describe('SignalProtocolStore', () => {
         })
       );
 
-      const closedRecord = JSON.stringify({
-        version: 'v1',
-        sessions: {
-          ephemeralKey: {
-            registrationId: 24,
-            indexInfo: {
-              closed: Date.now(),
-            },
-          },
-        },
-      });
+      const closedRecord = getSessionRecord(false);
       await store.storeSession([number, 11].join('.'), closedRecord);
 
       const deviceIds = await store.getDeviceIds(number);
       assert.sameMembers(deviceIds, [1, 2, 3, 10]);
     });
+
     it('returns empty array for a number with no device ids', async () => {
       const deviceIds = await store.getDeviceIds('foo');
       assert.sameMembers(deviceIds, []);
@@ -1026,9 +1198,27 @@ describe('SignalProtocolStore', () => {
 
     it('adds three and gets them back', async () => {
       await Promise.all([
-        store.addUnprocessed({ id: 2, envelope: 'second', timestamp: 2 }),
-        store.addUnprocessed({ id: 3, envelope: 'third', timestamp: 3 }),
-        store.addUnprocessed({ id: 1, envelope: 'first', timestamp: 1 }),
+        store.addUnprocessed({
+          id: '2-two',
+          envelope: 'second',
+          timestamp: 2,
+          version: 2,
+          attempts: 0,
+        }),
+        store.addUnprocessed({
+          id: '3-three',
+          envelope: 'third',
+          timestamp: 3,
+          version: 2,
+          attempts: 0,
+        }),
+        store.addUnprocessed({
+          id: '1-one',
+          envelope: 'first',
+          timestamp: 1,
+          version: 2,
+          attempts: 0,
+        }),
       ]);
 
       const items = await store.getAllUnprocessed();
@@ -1041,8 +1231,14 @@ describe('SignalProtocolStore', () => {
     });
 
     it('saveUnprocessed successfully updates item', async () => {
-      const id = 1;
-      await store.addUnprocessed({ id, envelope: 'first', timestamp: 1 });
+      const id = '1-one';
+      await store.addUnprocessed({
+        id,
+        envelope: 'first',
+        timestamp: 1,
+        version: 2,
+        attempts: 0,
+      });
       await store.updateUnprocessedWithData(id, { decrypted: 'updated' });
 
       const items = await store.getAllUnprocessed();
@@ -1052,8 +1248,14 @@ describe('SignalProtocolStore', () => {
     });
 
     it('removeUnprocessed successfully deletes item', async () => {
-      const id = 1;
-      await store.addUnprocessed({ id, envelope: 'first', timestamp: 1 });
+      const id = '1-one';
+      await store.addUnprocessed({
+        id,
+        envelope: 'first',
+        timestamp: 1,
+        version: 2,
+        attempts: 0,
+      });
       await store.removeUnprocessed(id);
 
       const items = await store.getAllUnprocessed();

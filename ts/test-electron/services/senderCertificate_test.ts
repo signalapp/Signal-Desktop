@@ -11,7 +11,7 @@ import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { arrayBufferToBase64 } from '../../Crypto';
 import { SenderCertificateClass } from '../../textsecure';
-import { SenderCertificateMode } from '../../metadata/SecretSessionCipher';
+import { SenderCertificateMode } from '../../textsecure/OutgoingMessage';
 
 import { SenderCertificateService } from '../../services/senderCertificate';
 

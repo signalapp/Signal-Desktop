@@ -65,20 +65,20 @@ const excludedFilesRegexps = [
   '^ts/textsecure/MessageReceiver.ts',
   '^ts/ConversationController.js',
   '^ts/ConversationController.ts',
+  '^ts/SignalProtocolStore.ts',
+  '^ts/SignalProtocolStore.js',
+  '^ts/textsecure/[^./]+.ts',
+  '^ts/textsecure/[^./]+.js',
 
   // Generated files
   '^js/components.js',
   '^js/curve/',
-  '^js/libtextsecure.js',
   '^js/util_worker.js',
   '^libtextsecure/components.js',
   '^libtextsecure/test/test.js',
   '^sticker-creator/dist/bundle.js',
   '^test/test.js',
   '^ts/test[^/]*/.+',
-
-  // From libsignal-protocol-javascript project
-  '^libtextsecure/libsignal-protocol.js',
 
   // Copied from dependency
   '^js/Mp3LameEncoder.min.js',
