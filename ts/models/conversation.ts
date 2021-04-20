@@ -1,6 +1,5 @@
 import Backbone from 'backbone';
 import _ from 'lodash';
-import { ConversationType } from '../receiver/common';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
@@ -41,6 +40,12 @@ import {
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
+
+export enum ConversationType {
+  GROUP = 'group',
+  OPEN_GROUP = 'opengroup',
+  PRIVATE = 'private',
+}
 
 export interface ConversationAttributes {
   profileName?: string;
@@ -1239,7 +1244,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async getProfile(id: string) {
     const c = await ConversationController.getInstance().getOrCreateAndWait(
       id,
-      'private'
+      ConversationType.PRIVATE
     );
 
     // We only need to update the profile as they are all stored inside the conversation
@@ -1553,7 +1558,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isPrivate() {
-    return this.get('type') === 'private';
+    return this.get('type') === ConversationType.PRIVATE;
   }
 
   public getAvatarPath() {
@@ -1595,7 +1600,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const convo = await ConversationController.getInstance().getOrCreateAndWait(
       message.get('source'),
-      'private'
+      ConversationType.PRIVATE
     );
 
     const iconUrl = await convo.getNotificationIcon();

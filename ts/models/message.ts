@@ -22,7 +22,7 @@ import {
 
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
-import { ConversationModel } from './conversation';
+import { ConversationModel, ConversationType } from './conversation';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
@@ -974,7 +974,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    return ConversationController.getInstance().getOrCreate(source, 'private');
+    return ConversationController.getInstance().getOrCreate(
+      source,
+      ConversationType.PRIVATE
+    );
   }
 
   public isOutgoing() {

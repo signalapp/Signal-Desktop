@@ -29,6 +29,7 @@ import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
 import { removeUnprocessed } from '../data/data';
+import { ConversationType } from '../models/conversation';
 
 // TODO: check if some of these exports no longer needed
 
@@ -290,7 +291,7 @@ export async function handlePublicMessage(messageData: any) {
   if (!isMe && profile) {
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       source,
-      'private'
+      ConversationType.PRIVATE
     );
     await updateProfile(conversation, profile, profileKey);
   }

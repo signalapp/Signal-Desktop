@@ -18,6 +18,7 @@ import {
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
+import { ConversationType } from '../models/conversation';
 
 /**
  * Might throw
@@ -238,7 +239,7 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   // Ensure that we always have a conversation for ourself
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     ourPubkey,
-    'private'
+    ConversationType.PRIVATE
   );
   await conversation.setLokiProfile({ displayName });
   const user = {

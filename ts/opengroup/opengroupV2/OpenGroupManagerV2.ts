@@ -4,7 +4,7 @@ import {
   removeV2OpenGroupRoom,
   saveV2OpenGroupRoom,
 } from '../../data/opengroups';
-import { ConversationModel } from '../../models/conversation';
+import { ConversationModel, ConversationType } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
@@ -47,7 +47,7 @@ async function attemptConnectionV2(
     });
   }
 
-  // the convo does not exist. Make sure the db is clean too
+  // here, the convo does not exist. Make sure the db is clean too
   await removeV2OpenGroupRoom(conversationId);
 
   const room: OpenGroupV2Room = {
@@ -58,9 +58,15 @@ async function attemptConnectionV2(
   };
 
   try {
-    // save the pubkey to the db.
+    // save the pubkey to the db, the request for room Info will need it and access it from the db
     await saveV2OpenGroupRoom(room);
     const info = await openGroupV2GetRoomInfo(roomId, serverUrl);
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      conversationId,
+      ConversationType.OPEN_GROUP
+    );
+    conversation.isPublic();
+
     console.warn('openGroupRoom info', info);
   } catch (e) {
     window.log.warn('Failed to join open group v2', e);

@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { SignalService } from '../protobuf';
 import { StringUtils, UserUtils } from '../session/utils';
 import { ConversationController } from '../session/conversations';
-import { ConversationModel } from '../models/conversation';
+import { ConversationModel, ConversationType } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
@@ -401,7 +401,7 @@ async function handleRegularMessage(
 
   const sendingDeviceConversation = await ConversationController.getInstance().getOrCreateAndWait(
     source,
-    'private'
+    ConversationType.PRIVATE
   );
 
   if (dataMessage.profileKey) {

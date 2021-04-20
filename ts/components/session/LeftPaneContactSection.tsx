@@ -8,7 +8,7 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { AutoSizer, List } from 'react-virtualized';
-import { ConversationType } from '../../state/ducks/conversations';
+import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
 import {
   SessionClosableOverlay,
   SessionClosableOverlayType,
@@ -18,9 +18,10 @@ import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
+import { ConversationType } from '../../models/conversation';
 
 export interface Props {
-  directContacts: Array<ConversationType>;
+  directContacts: Array<ReduxConversationType>;
   theme: DefaultTheme;
   openConversationExternal: (id: string, messageId?: string) => void;
 }
@@ -128,7 +129,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       ToastUtils.pushToastError('addContact', error);
     } else {
       void ConversationController.getInstance()
-        .getOrCreateAndWait(sessionID, 'private')
+        .getOrCreateAndWait(sessionID, ConversationType.PRIVATE)
         .then(() => {
           this.props.openConversationExternal(sessionID);
         });

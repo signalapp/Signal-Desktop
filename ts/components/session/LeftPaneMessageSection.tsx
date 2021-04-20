@@ -7,7 +7,7 @@ import {
   ConversationListItemProps,
   ConversationListItemWithDetails,
 } from '../ConversationListItem';
-import { ConversationType } from '../../state/ducks/conversations';
+import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../SearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
 import { debounce } from 'lodash';
@@ -31,11 +31,12 @@ import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
 import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
+import { ConversationType } from '../../models/conversation';
 
 export interface Props {
   searchTerm: string;
 
-  contacts: Array<ConversationType>;
+  contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
 
@@ -395,7 +396,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     if (!error) {
       await ConversationController.getInstance().getOrCreateAndWait(
         pubkey,
-        'private'
+        ConversationType.PRIVATE
       );
       openConversationExternal(pubkey);
     } else {

@@ -1,7 +1,10 @@
 import { v4 as uuid } from 'uuid';
 import { generateFakePubKey, generateFakePubKeys } from './pubkey';
 import { ClosedGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
-import { ConversationAttributes } from '../../../models/conversation';
+import {
+  ConversationAttributes,
+  ConversationType,
+} from '../../../models/conversation';
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
 import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { OpenGroup } from '../../../opengroup/opengroupV1/OpenGroup';
@@ -49,13 +52,13 @@ export function generateClosedGroupMessage(
 interface MockConversationParams {
   id?: string;
   members?: Array<string>;
-  type: 'private' | 'group' | 'public';
+  type: ConversationType;
   isMediumGroup?: boolean;
 }
 
 export class MockConversation {
   public id: string;
-  public type: 'private' | 'group' | 'public';
+  public type: ConversationType;
   public attributes: ConversationAttributes;
 
   constructor(params: MockConversationParams) {
@@ -71,7 +74,7 @@ export class MockConversation {
       id: this.id,
       name: '',
       profileName: undefined,
-      type: params.type === 'public' ? 'group' : params.type,
+      type: params.type === ConversationType.OPEN_GROUP ? 'group' : params.type,
       members,
       left: false,
       expireTimer: 0,
@@ -86,7 +89,7 @@ export class MockConversation {
   }
 
   public isPrivate() {
-    return this.type === 'private';
+    return this.type === ConversationType.PRIVATE;
   }
 
   public isBlocked() {

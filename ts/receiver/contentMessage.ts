@@ -16,6 +16,7 @@ import { ECKeyPair } from './keypairs';
 import { KeyPairRequestManager } from './keyPairRequestManager';
 import { requestEncryptionKeyPair } from '../session/group';
 import { handleConfigurationMessage } from './configMessage';
+import { ConversationType } from '../models/conversation';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -383,7 +384,7 @@ export async function innerHandleContentMessage(
 
     await ConversationController.getInstance().getOrCreateAndWait(
       envelope.source,
-      'private'
+      ConversationType.PRIVATE
     );
 
     if (content.dataMessage) {

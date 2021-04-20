@@ -1,7 +1,7 @@
 import { SignalService } from './../protobuf';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
-import { ConversationType, getEnvelopeId } from './common';
+import { getEnvelopeId } from './common';
 
 import { PubKey } from '../session/types';
 import { handleMessageJob } from './queuedJob';
@@ -14,7 +14,7 @@ import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
 import { getMessageBySender } from '../../ts/data/data';
-import { ConversationModel } from '../models/conversation';
+import { ConversationModel, ConversationType } from '../models/conversation';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
 
 export async function updateProfile(
@@ -75,7 +75,7 @@ export async function updateProfile(
 
   const conv = await ConversationController.getInstance().getOrCreateAndWait(
     conversation.id,
-    'private'
+    ConversationType.PRIVATE
   );
   await conv.setLokiProfile(newProfile);
 }
@@ -293,7 +293,7 @@ export async function handleDataMessage(
 
   const senderConversation = await ConversationController.getInstance().getOrCreateAndWait(
     senderPubKey,
-    'private'
+    ConversationType.PRIVATE
   );
 
   // Check if we need to update any profile names
@@ -405,7 +405,7 @@ async function handleProfileUpdate(
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const me = await ConversationController.getInstance().getOrCreate(
       ourNumber,
-      'private'
+      ConversationType.PRIVATE
     );
 
     // Will do the save for us if needed
@@ -413,7 +413,7 @@ async function handleProfileUpdate(
   } else {
     const sender = await ConversationController.getInstance().getOrCreateAndWait(
       convoId,
-      'private'
+      ConversationType.PRIVATE
     );
 
     // Will do the save for us
@@ -632,7 +632,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     conversationId,
-    isGroupMessage ? 'group' : 'private'
+    type
   );
 
   if (!conversation) {

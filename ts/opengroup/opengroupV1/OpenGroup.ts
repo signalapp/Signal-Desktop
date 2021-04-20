@@ -1,5 +1,5 @@
 import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
-import { ConversationModel } from '../../models/conversation';
+import { ConversationModel, ConversationType } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { PromiseUtils } from '../../session/utils';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
@@ -286,7 +286,7 @@ export class OpenGroup {
     // Create conversation
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       conversationId,
-      'group'
+      ConversationType.GROUP // keep a group for this one as this is an old open group
     );
 
     // Convert conversation to a public one

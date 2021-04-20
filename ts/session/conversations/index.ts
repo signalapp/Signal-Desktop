@@ -8,11 +8,11 @@ import {
   ConversationAttributes,
   ConversationCollection,
   ConversationModel,
+  ConversationType,
 } from '../../models/conversation';
 import { BlockedNumberController } from '../../util';
 import { getSnodesFor } from '../snode_api/snodePool';
 import { PubKey } from '../types';
-import { UserUtils } from '../utils';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 
 export class ConversationController {
@@ -69,14 +69,18 @@ export class ConversationController {
     return this.conversations.add(attributes);
   }
 
-  public getOrCreate(id: string, type: string) {
+  public getOrCreate(id: string, type: ConversationType) {
     if (typeof id !== 'string') {
       throw new TypeError("'id' must be a string");
     }
 
-    if (type !== 'private' && type !== 'group') {
+    if (
+      type !== ConversationType.PRIVATE &&
+      type !== ConversationType.GROUP &&
+      type !== ConversationType.OPEN_GROUP
+    ) {
       throw new TypeError(
-        `'type' must be 'private' or 'group'; got: '${type}'`
+        `'type' must be 'private' or 'group' or 'opengroup; got: '${type}'`
       );
     }
 
@@ -98,17 +102,6 @@ export class ConversationController {
     } as any);
 
     const create = async () => {
-      if (!conversation.isValid()) {
-        const validationError = conversation.validationError || {};
-        window.log.error(
-          'Contact is not valid. Not saving, but adding to collection:',
-          conversation.idForLogging(),
-          validationError.stack
-        );
-
-        return conversation;
-      }
-
       try {
         await saveConversation(conversation.attributes);
       } catch (error) {
@@ -173,7 +166,7 @@ export class ConversationController {
 
   public async getOrCreateAndWait(
     id: string | PubKey,
-    type: 'private' | 'group'
+    type: ConversationType
   ): Promise<ConversationModel> {
     const initialPromise =
       this._initialPromise !== undefined

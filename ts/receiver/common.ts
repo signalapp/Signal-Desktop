@@ -10,8 +10,3 @@ export function getEnvelopeId(envelope: EnvelopePlus) {
 
   return envelope.id;
 }
-
-export enum ConversationType {
-  GROUP = 'group',
-  PRIVATE = 'private',
-}

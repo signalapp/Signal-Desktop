@@ -4,6 +4,7 @@ import {
   getItemById,
   hasSyncedInitialConfigurationItem,
 } from '../data/data';
+import { ConversationType } from '../models/conversation';
 import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
@@ -123,7 +124,7 @@ async function handleGroupsAndContactsFromConfigMessage(
           }
           const contactConvo = await ConversationController.getInstance().getOrCreateAndWait(
             toHex(c.publicKey),
-            'private'
+            ConversationType.PRIVATE
           );
           const profile = {
             displayName: c.name,
