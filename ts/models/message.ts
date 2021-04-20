@@ -552,9 +552,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       !path && !objectUrl
         ? null
         : // tslint:disable: prefer-object-spread
-        Object.assign({}, attachment.thumbnail || {}, {
-          objectUrl: path || objectUrl,
-        });
+          Object.assign({}, attachment.thumbnail || {}, {
+            objectUrl: path || objectUrl,
+          });
 
     return Object.assign({}, attachment, {
       isVoiceMessage: window.Signal.Types.Attachment.isVoiceMessage(attachment),
@@ -607,13 +607,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const onClick = noClick
       ? null
       : (event: any) => {
-        event.stopPropagation();
-        this.trigger('scroll-to-message', {
-          author,
-          id,
-          referencedMessageNotFound,
-        });
-      };
+          event.stopPropagation();
+          this.trigger('scroll-to-message', {
+            author,
+            id,
+            referencedMessageNotFound,
+          });
+        };
 
     const firstAttachment = quote.attachments && quote.attachments[0];
 
@@ -652,19 +652,19 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         : null,
       screenshot: screenshot
         ? {
-          ...screenshot,
-          url: window.Signal.Migrations.getAbsoluteAttachmentPath(
-            screenshot.path
-          ),
-        }
+            ...screenshot,
+            url: window.Signal.Migrations.getAbsoluteAttachmentPath(
+              screenshot.path
+            ),
+          }
         : null,
       thumbnail: thumbnail
         ? {
-          ...thumbnail,
-          url: window.Signal.Migrations.getAbsoluteAttachmentPath(
-            thumbnail.path
-          ),
-        }
+            ...thumbnail,
+            url: window.Signal.Migrations.getAbsoluteAttachmentPath(
+              thumbnail.path
+            ),
+          }
         : null,
     };
   }
@@ -676,11 +676,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const phoneNumbers = this.isIncoming()
       ? [this.get('source')]
       : _.union(
-        this.get('sent_to') || [],
-        this.get('recipients') ||
-        this.getConversation()?.getRecipients() ||
-        []
-      );
+          this.get('sent_to') || [],
+          this.get('recipients') ||
+            this.getConversation()?.getRecipients() ||
+            []
+        );
 
     // This will make the error message for outgoing key errors a bit nicer
     const allErrors = (this.get('errors') || []).map((error: any) => {
@@ -1030,7 +1030,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       (dataMessage.body && dataMessage.body.length) ||
       dataMessage.attachments.length ||
       dataMessage.flags ===
-      SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+        SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
       const conversation = this.getConversation();
       if (!conversation) {
@@ -1169,6 +1169,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
   }
 }
-export class MessageCollection extends Backbone.Collection<MessageModel> { }
+export class MessageCollection extends Backbone.Collection<MessageModel> {}
 
 MessageCollection.prototype.model = MessageModel;
