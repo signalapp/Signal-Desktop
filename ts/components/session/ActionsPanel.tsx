@@ -102,11 +102,14 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
       iconType = SessionIconType.Moon;
   }
 
+  const unreadToShow =
+    type === SectionType.Message ? unreadMessageCount : undefined;
+
   return (
     <SessionIconButton
       iconSize={SessionIconSize.Medium}
       iconType={iconType}
-      notificationCount={unreadMessageCount}
+      notificationCount={unreadToShow}
       onClick={handleClick}
       isSelected={isSelected}
       theme={theme}

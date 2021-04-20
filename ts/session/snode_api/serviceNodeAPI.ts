@@ -1,10 +1,21 @@
 // we don't throw or catch here
-
+import { default as insecureNodeFetch } from 'node-fetch';
 import https from 'https';
-import fetch from 'node-fetch';
+import crypto from 'crypto';
+
+import fs from 'fs';
+import path from 'path';
+import tls from 'tls';
+import Electron from 'electron';
+
+const { remote } = Electron;
 
 import { snodeRpc } from './lokiRpc';
-import { sendOnionRequestLsrpcDest, SnodeResponse } from './onions';
+import {
+  sendOnionRequestLsrpcDest,
+  snodeHttpsAgent,
+  SnodeResponse,
+} from './onions';
 
 import { sleepFor } from '../../../js/modules/loki_primitives';
 
@@ -17,10 +28,10 @@ import {
   updateSnodesFor,
 } from './snodePool';
 
-const snodeHttpsAgent = new https.Agent({
-  rejectUnauthorized: false,
-});
-
+/**
+ * Currently unused. If we need it again, be sure to update it to onion routing rather
+ * than using a plain nodeFetch
+ */
 export async function getVersion(
   node: Snode,
   retries: number = 0
@@ -30,11 +41,13 @@ export async function getVersion(
   const { log } = window;
 
   try {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-    const result = await fetch(`https://${node.ip}:${node.port}/get_stats/v1`, {
-      agent: snodeHttpsAgent,
-    });
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+    window.log.warn('insecureNodeFetch => plaintext for getVersion');
+    const result = await insecureNodeFetch(
+      `https://${node.ip}:${node.port}/get_stats/v1`,
+      {
+        agent: snodeHttpsAgent,
+      }
+    );
     const data = await result.json();
     if (data.version) {
       return data.version;
@@ -74,6 +87,93 @@ export async function getVersion(
   }
 }
 
+const sha256 = (s: string) => {
+  return crypto
+    .createHash('sha256')
+    .update(s)
+    .digest('base64');
+};
+
+const getSslAgentForSeedNode = (seedNodeHost: string) => {
+  let filePrefix = '';
+  let pubkey256 = '';
+  let cert256 = '';
+
+  switch (seedNodeHost) {
+    case 'storage.seed1.loki.network':
+      filePrefix = 'storage-seed-1';
+      pubkey256 = 'JOsnIcAanVbgECNA8lHtC8f/cqN9m8EP7jKT6XCjeL8=';
+      cert256 =
+        '6E:2B:AC:F3:6E:C1:FF:FF:24:F3:CA:92:C6:94:81:B4:82:43:DF:C7:C6:03:98:B8:F5:6B:7D:30:7B:16:C1:CB';
+      break;
+    case 'storage.seed3.loki.network':
+      filePrefix = 'storage-seed-3';
+      pubkey256 = 'mMmZD3lG4Fi7nTC/EWzRVaU3bbCLsH6Ds2FHSTpo0Rk=';
+      cert256 =
+        '24:13:4C:0A:03:D8:42:A6:09:DE:35:76:F4:BD:FB:11:60:DB:F9:88:9F:98:46:B7:60:A6:60:0C:4C:CF:60:72';
+
+      break;
+    case 'public.loki.foundation':
+      filePrefix = 'public-loki-foundation';
+      pubkey256 = 'W+Zv52qlcm1BbdpJzFwxZrE7kfmEboq7h3Dp/+Q3RPg=';
+      cert256 =
+        '40:E4:67:7D:18:6B:4D:08:8D:E9:D5:47:52:25:B8:28:E0:D3:63:99:9B:38:46:7D:92:19:5B:61:B9:AE:0E:EA';
+
+      break;
+
+    default:
+      throw new Error(`Unknown seed node: ${seedNodeHost}`);
+  }
+  // tslint:disable: non-literal-fs-path
+  // read the cert each time. We only run this request once for each seed node nevertheless.
+  const appPath = remote.app.getAppPath();
+  const crt = fs.readFileSync(
+    path.join(appPath, `/certificates/${filePrefix}.crt`),
+    'utf-8'
+  );
+  // debugger;
+  const sslOptions = {
+    // as the seed nodes are using a self signed certificate, we have to provide it here.
+    ca: crt,
+    // we might need to selectively disable that for tests on swarm-testing or so.
+    // we have to reject them, otherwise our errors returned in the checkServerIdentity are simply not making the call fail.
+    // so in production, rejectUnauthorized must be true.
+    rejectUnauthorized: true,
+    keepAlive: false,
+    checkServerIdentity: (host: string, cert: any) => {
+      // Make sure the certificate is issued to the host we are connected to
+      const err = tls.checkServerIdentity(host, cert);
+      if (err) {
+        return err;
+      }
+
+      // we might need to selectively disable that for tests on swarm-testing or so.
+
+      // Pin the public key, similar to HPKP pin-sha25 pinning
+      if (sha256(cert.pubkey) !== pubkey256) {
+        const msg =
+          'Certificate verification error: ' +
+          `The public key of '${cert.subject.CN}' ` +
+          'does not match our pinned fingerprint';
+        return new Error(msg);
+      }
+
+      // Pin the exact certificate, rather than the pub key
+      if (cert.fingerprint256 !== cert256) {
+        const msg =
+          'Certificate verification error: ' +
+          `The certificate of '${cert.subject.CN}' ` +
+          'does not match our pinned fingerprint';
+        return new Error(msg);
+      }
+      return undefined;
+    },
+  };
+
+  // we're creating a new Agent that will now use the certs we have configured
+  return new https.Agent(sslOptions);
+};
+
 export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
   const { log } = window;
 
@@ -99,14 +199,18 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     method: 'get_n_service_nodes',
     params,
   };
+  const sslAgent = getSslAgentForSeedNode(urlObj.hostname);
 
   const fetchOptions = {
     method: 'POST',
     timeout: 10000,
     body: JSON.stringify(body),
-  };
 
-  const response = await fetch(url, fetchOptions);
+    agent: sslAgent,
+  };
+  window.log.info('insecureNodeFetch => plaintext for getSnodesFromSeedUrl');
+
+  const response = await insecureNodeFetch(url, fetchOptions);
 
   if (response.status !== 200) {
     log.error(

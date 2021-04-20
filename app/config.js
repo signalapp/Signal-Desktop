@@ -23,7 +23,6 @@ if (environment === 'production') {
   process.env.HOSTNAME = '';
   process.env.ALLOW_CONFIG_MUTATIONS = '';
   process.env.SUPPRESS_NO_CONFIG_WARNING = '';
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
 
   // We could be running againt production but still be in dev mode, we need to handle that
   if (!isDevelopment) {

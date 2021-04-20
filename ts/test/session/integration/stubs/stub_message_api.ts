@@ -1,6 +1,6 @@
 import { StringUtils } from '../../../../session/utils';
 
-import fetch from 'node-fetch';
+import { default as insecureNodeFetch } from 'node-fetch';
 
 class StubMessageAPI {
   public ourKey: string;
@@ -23,7 +23,9 @@ class StubMessageAPI {
     };
 
     const data64 = StringUtils.decode(data, 'base64');
-    await fetch(
+    // insecureNodeFetch but this is a stub
+
+    await insecureNodeFetch(
       `${
         this.baseUrl
       }/messages?pubkey=${pubKey}&timestamp=${messageTimeStamp}&data=${encodeURIComponent(

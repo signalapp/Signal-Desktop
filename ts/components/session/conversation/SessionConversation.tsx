@@ -434,6 +434,10 @@ export class SessionConversation extends React.Component<Props, State> {
         window.Whisper.events.trigger('inviteContacts', conversation);
       },
 
+      onMarkAllRead: () => {
+        void conversation.markReadBouncy(Date.now());
+      },
+
       onAddModerators: () => {
         window.Whisper.events.trigger('addModerators', conversation);
       },

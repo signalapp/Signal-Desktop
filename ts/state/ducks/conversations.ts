@@ -87,15 +87,16 @@ export interface ConversationType {
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
 
-  onClick?: () => any;
-  onBlockContact?: () => any;
-  onUnblockContact?: () => any;
-  onCopyPublicKey?: () => any;
-  onDeleteContact?: () => any;
-  onLeaveGroup?: () => any;
-  onDeleteMessages?: () => any;
-  onInviteContacts?: () => any;
-  onClearNickname?: () => any;
+  onClick?: () => void;
+  onBlockContact?: () => void;
+  onUnblockContact?: () => void;
+  onCopyPublicKey?: () => void;
+  onDeleteContact?: () => void;
+  onLeaveGroup?: () => void;
+  onDeleteMessages?: () => void;
+  onInviteContacts?: () => void;
+  onMarkAllRead?: () => void;
+  onClearNickname?: () => void;
 }
 
 export type ConversationLookupType = {

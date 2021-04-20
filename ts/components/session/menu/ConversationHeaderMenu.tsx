@@ -9,6 +9,7 @@ import {
   getDisappearingMenuItem,
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
+  getMarkAllReadMenuItem,
   getRemoveModeratorsMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';
@@ -31,6 +32,7 @@ export type PropsConversationHeaderMenu = {
   onInviteContacts?: () => void;
 
   onLeaveGroup: () => void;
+  onMarkAllRead: () => void;
   onAddModerators: () => void;
   onRemoveModerators: () => void;
   onUpdateGroupName: () => void;
@@ -55,6 +57,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     onDeleteMessages,
     onDeleteContact,
     onCopyPublicKey,
+    onMarkAllRead,
     onLeaveGroup,
     onAddModerators,
     onRemoveModerators,
@@ -86,6 +89,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
       )}
 
       {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey, window.i18n)}
+      {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
       {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
       {getAddModeratorsMenuItem(
         isAdmin,

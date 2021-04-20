@@ -492,20 +492,16 @@ setTimeout(readyForUpdates, TEN_MINUTES);
 
 function openReleaseNotes() {
   shell.openExternal(
-    `https://github.com/loki-project/session-desktop/releases/tag/v${app.getVersion()}`
+    `https://github.com/oxen-io/session-desktop/releases/tag/v${app.getVersion()}`
   );
 }
 
 function openNewBugForm() {
-  shell.openExternal(
-    'https://github.com/loki-project/session-desktop/issues/new'
-  );
+  shell.openExternal('https://github.com/oxen-io/session-desktop/issues/new');
 }
 
 function openSupportPage() {
-  shell.openExternal(
-    'https://docs.loki.network/LokiServices/Messenger/Session/'
-  );
+  shell.openExternal('https://docs.oxen.io/products-built-on-oxen/session');
 }
 
 function setupWithImport() {

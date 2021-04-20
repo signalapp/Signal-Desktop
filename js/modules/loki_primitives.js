@@ -41,9 +41,14 @@ async function allowOnlyOneAtATime(name, process, timeout) {
       try {
         innerRetVal = await process();
       } catch (e) {
-        log.error(
-          `loki_primitives:::allowOnlyOneAtATime - error ${e.code} ${e.message}`
-        );
+        if (typeof e === 'string') {
+          log.error(`loki_primitives:::allowOnlyOneAtATime - error ${e}`);
+        } else {
+          log.error(
+            `loki_primitives:::allowOnlyOneAtATime - error ${e.code} ${e.message}`
+          );
+        }
+
         // clear timeout timer
         if (timeout) {
           if (timeoutTimer !== null) {

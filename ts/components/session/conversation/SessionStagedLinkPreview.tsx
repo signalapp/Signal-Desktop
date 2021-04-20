@@ -2,7 +2,7 @@ import React from 'react';
 import { arrayBufferFromFile } from '../../../types/Attachment';
 import { AttachmentUtil, LinkPreviewUtil } from '../../../util';
 import { StagedLinkPreviewData } from './SessionCompositionBox';
-import fetch from 'node-fetch';
+import { default as insecureNodeFetch } from 'node-fetch';
 import { fetchLinkPreviewImage } from '../../../util/linkPreviewFetch';
 import { AbortSignal } from 'abort-controller';
 import { StagedLinkPreview } from '../../conversation/StagedLinkPreview';
@@ -37,8 +37,10 @@ export const getPreview = async (
     throw new Error('Link not safe for preview');
   }
 
+  window.log.info('insecureNodeFetch => plaintext for getPreview()');
+
   const linkPreviewMetadata = await LinkPreviewUtil.fetchLinkPreviewMetadata(
-    fetch,
+    insecureNodeFetch,
     url,
     abortSignal
   );
@@ -51,8 +53,10 @@ export const getPreview = async (
   if (imageHref && window.Signal.LinkPreviews.isLinkSafeToPreview(imageHref)) {
     let objectUrl: void | string;
     try {
+      window.log.info('insecureNodeFetch => plaintext for getPreview()');
+
       const fullSizeImage = await fetchLinkPreviewImage(
-        fetch,
+        insecureNodeFetch,
         imageHref,
         abortSignal
       );
