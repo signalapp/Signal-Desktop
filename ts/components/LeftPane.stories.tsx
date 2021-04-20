@@ -35,6 +35,25 @@ const defaultConversations: Array<ConversationListItemPropsType> = [
   },
 ];
 
+const defaultGroups: Array<ConversationListItemPropsType> = [
+  {
+    id: 'biking-group',
+    isSelected: false,
+    lastUpdated: Date.now(),
+    markedUnread: false,
+    title: 'Mtn Biking Arizona 🚵☀️⛰',
+    type: 'group',
+  },
+  {
+    id: 'dance-group',
+    isSelected: false,
+    lastUpdated: Date.now(),
+    markedUnread: false,
+    title: 'Are we dancers? 💃',
+    type: 'group',
+  },
+];
+
 const defaultArchivedConversations: Array<ConversationListItemPropsType> = [
   {
     id: 'michelle-archive-convo',
@@ -352,12 +371,13 @@ story.add('Archive: archived conversations', () => (
 
 // Compose stories
 
-story.add('Compose: no contacts', () => (
+story.add('Compose: no contacts or groups', () => (
   <LeftPane
     {...createProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: [],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
       },
@@ -365,12 +385,13 @@ story.add('Compose: no contacts', () => (
   />
 ));
 
-story.add('Compose: some contacts, no search term', () => (
+story.add('Compose: some contacts, no groups, no search term', () => (
   <LeftPane
     {...createProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
       },
@@ -378,14 +399,71 @@ story.add('Compose: some contacts, no search term', () => (
   />
 ));
 
-story.add('Compose: some contacts with a search term', () => (
+story.add('Compose: some contacts, no groups, with a search term', () => (
   <LeftPane
     {...createProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
+        composeGroups: [],
         regionCode: 'US',
-        searchTerm: 'foo bar',
+        searchTerm: 'ar',
+      },
+    })}
+  />
+));
+
+story.add('Compose: some groups, no contacts, no search term', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Compose,
+        composeContacts: [],
+        composeGroups: defaultGroups,
+        regionCode: 'US',
+        searchTerm: '',
+      },
+    })}
+  />
+));
+
+story.add('Compose: some groups, no contacts, with search term', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Compose,
+        composeContacts: [],
+        composeGroups: defaultGroups,
+        regionCode: 'US',
+        searchTerm: 'ar',
+      },
+    })}
+  />
+));
+
+story.add('Compose: some contacts, some groups, no search term', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Compose,
+        composeContacts: defaultConversations,
+        composeGroups: defaultGroups,
+        regionCode: 'US',
+        searchTerm: '',
+      },
+    })}
+  />
+));
+
+story.add('Compose: some contacts, some groups, with a search term', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Compose,
+        composeContacts: defaultConversations,
+        composeGroups: defaultGroups,
+        regionCode: 'US',
+        searchTerm: 'ar',
       },
     })}
   />

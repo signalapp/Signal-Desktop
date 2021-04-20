@@ -685,10 +685,13 @@ export async function mergeGroupV2Record(
 
     // We don't await this because this could take a very long time, waiting for queues to
     //   empty, etc.
-    waitThenMaybeUpdateGroup({
-      conversation,
-      dropInitialJoinMessage,
-    });
+    waitThenMaybeUpdateGroup(
+      {
+        conversation,
+        dropInitialJoinMessage,
+      },
+      { viaSync: true }
+    );
   }
 
   return hasPendingChanges;

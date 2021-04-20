@@ -28,7 +28,7 @@ import { PropsDataType as TimelinePropsType } from '../../components/conversatio
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
 import { assert } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import { filterAndSortContacts } from '../../util/filterAndSortContacts';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
 
 import {
   getInteractionMode,
@@ -323,23 +323,32 @@ export const getMe = createSelector(
   }
 );
 
-export const getComposerContactSearchTerm = createSelector(
+export const getComposerConversationSearchTerm = createSelector(
   getComposerState,
   (composer): string => {
     if (!composer) {
-      assert(false, 'getComposerContactSearchTerm: composer is not open');
+      assert(false, 'getComposerConversationSearchTerm: composer is not open');
       return '';
     }
     if (composer.step === ComposerStep.SetGroupMetadata) {
       assert(
         false,
-        'getComposerContactSearchTerm: composer does not have a search term'
+        'getComposerConversationSearchTerm: composer does not have a search term'
       );
       return '';
     }
-    return composer.contactSearchTerm;
+    return composer.searchTerm;
   }
 );
+
+function canComposeConversation(conversation: ConversationType): boolean {
+  return Boolean(
+    !conversation.isMe &&
+      !conversation.isBlocked &&
+      !isConversationUnregistered(conversation) &&
+      (isString(conversation.name) || conversation.profileSharing)
+  );
+}
 
 /**
  * This returns contacts for the composer and group members, which isn't just your primary
@@ -349,21 +358,26 @@ export const getComposerContactSearchTerm = createSelector(
  * current time, it's possible for this to return stale contacts that have unregistered
  * if no other conversations change. This should be a rare false positive.
  */
-export const getContacts = createSelector(
+export const getComposableContacts = createSelector(
   getConversationLookup,
   (conversationLookup: ConversationLookupType): Array<ConversationType> =>
     Object.values(conversationLookup).filter(
-      contact =>
-        contact.type === 'direct' &&
-        !contact.isMe &&
-        !contact.isBlocked &&
-        !isConversationUnregistered(contact) &&
-        (isString(contact.name) || contact.profileSharing)
+      conversation =>
+        conversation.type === 'direct' && canComposeConversation(conversation)
     )
 );
 
-const getNormalizedComposerContactSearchTerm = createSelector(
-  getComposerContactSearchTerm,
+export const getComposableGroups = createSelector(
+  getConversationLookup,
+  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
+    Object.values(conversationLookup).filter(
+      conversation =>
+        conversation.type === 'group' && canComposeConversation(conversation)
+    )
+);
+
+const getNormalizedComposerConversationSearchTerm = createSelector(
+  getComposerConversationSearchTerm,
   (searchTerm: string): string => searchTerm.trim()
 );
 
@@ -372,8 +386,8 @@ const getNoteToSelfTitle = createSelector(getIntl, (i18n: LocalizerType) =>
 );
 
 export const getComposeContacts = createSelector(
-  getNormalizedComposerContactSearchTerm,
-  getContacts,
+  getNormalizedComposerConversationSearchTerm,
+  getComposableContacts,
   getMe,
   getNoteToSelfTitle,
   (
@@ -382,7 +396,7 @@ export const getComposeContacts = createSelector(
     noteToSelf: ConversationType,
     noteToSelfTitle: string
   ): Array<ConversationType> => {
-    const result: Array<ConversationType> = filterAndSortContacts(
+    const result: Array<ConversationType> = filterAndSortConversations(
       contacts,
       searchTerm
     );
@@ -393,10 +407,21 @@ export const getComposeContacts = createSelector(
   }
 );
 
+export const getComposeGroups = createSelector(
+  getNormalizedComposerConversationSearchTerm,
+  getComposableGroups,
+  (
+    searchTerm: string,
+    groups: Array<ConversationType>
+  ): Array<ConversationType> => {
+    return filterAndSortConversations(groups, searchTerm);
+  }
+);
+
 export const getCandidateContactsForNewGroup = createSelector(
-  getContacts,
-  getNormalizedComposerContactSearchTerm,
-  filterAndSortContacts
+  getComposableContacts,
+  getNormalizedComposerConversationSearchTerm,
+  filterAndSortConversations
 );
 
 export const getCantAddContactForModal = createSelector(

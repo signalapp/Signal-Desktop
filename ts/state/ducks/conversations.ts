@@ -259,11 +259,11 @@ type ComposerGroupCreationState = {
 type ComposerStateType =
   | {
       step: ComposerStep.StartDirectConversation;
-      contactSearchTerm: string;
+      searchTerm: string;
     }
   | ({
       step: ComposerStep.ChooseGroupMembers;
-      contactSearchTerm: string;
+      searchTerm: string;
       cantAddContactIdForModal: undefined | string;
     } & ComposerGroupCreationState)
   | ({
@@ -529,7 +529,7 @@ type SetComposeGroupNameActionType = {
 };
 type SetComposeSearchTermActionType = {
   type: 'SET_COMPOSE_SEARCH_TERM';
-  payload: { contactSearchTerm: string };
+  payload: { searchTerm: string };
 };
 type SetRecentMediaItemsActionType = {
   type: 'SET_RECENT_MEDIA_ITEMS';
@@ -1012,11 +1012,11 @@ function setComposeGroupName(groupName: string): SetComposeGroupNameActionType {
 }
 
 function setComposeSearchTerm(
-  contactSearchTerm: string
+  searchTerm: string
 ): SetComposeSearchTermActionType {
   return {
     type: 'SET_COMPOSE_SEARCH_TERM',
-    payload: { contactSearchTerm },
+    payload: { searchTerm },
   };
 }
 
@@ -2117,7 +2117,7 @@ export function reducer(
       showArchived: false,
       composer: {
         step: ComposerStep.StartDirectConversation,
-        contactSearchTerm: '',
+        searchTerm: '',
       },
     };
   }
@@ -2154,7 +2154,7 @@ export function reducer(
       showArchived: false,
       composer: {
         step: ComposerStep.ChooseGroupMembers,
-        contactSearchTerm: '',
+        searchTerm: '',
         selectedConversationIds,
         cantAddContactIdForModal: undefined,
         recommendedGroupSizeModalState,
@@ -2253,7 +2253,7 @@ export function reducer(
       ...state,
       composer: {
         ...composer,
-        contactSearchTerm: action.payload.contactSearchTerm,
+        searchTerm: action.payload.searchTerm,
       },
     };
   }

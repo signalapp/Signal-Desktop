@@ -111,7 +111,8 @@
     },
     render_attributes: {
       welcomeToSignal: i18n('welcomeToSignal'),
-      selectAContact: i18n('selectAContact'),
+      // TODO DESKTOP-1451: add back the selectAContact message
+      selectAContact: '',
     },
     events: {
       click: 'onClick',

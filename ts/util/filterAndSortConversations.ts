@@ -28,17 +28,17 @@ const FUSE_OPTIONS: FuseOptions<ConversationType> = {
 
 const collator = new Intl.Collator();
 
-export function filterAndSortContacts(
-  contacts: ReadonlyArray<ConversationType>,
+export function filterAndSortConversations(
+  conversations: ReadonlyArray<ConversationType>,
   searchTerm: string
 ): Array<ConversationType> {
   if (searchTerm.length) {
-    return new Fuse<ConversationType>(contacts, FUSE_OPTIONS).search(
+    return new Fuse<ConversationType>(conversations, FUSE_OPTIONS).search(
       searchTerm
     );
   }
 
-  return contacts.concat().sort((a, b) => {
+  return conversations.concat().sort((a, b) => {
     const aHasName = hasName(a);
     const bHasName = hasName(b);
 

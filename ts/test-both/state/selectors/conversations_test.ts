@@ -16,10 +16,11 @@ import {
   getCandidateContactsForNewGroup,
   getCantAddContactForModal,
   getComposeContacts,
+  getComposeGroups,
   getComposeGroupAvatar,
   getComposeGroupName,
   getComposeSelectedContacts,
-  getComposerContactSearchTerm,
+  getComposerConversationSearchTerm,
   getComposerStep,
   getConversationSelector,
   getInvitedContactsForNewlyCreatedGroup,
@@ -271,7 +272,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.StartDirectConversation as const,
-            contactSearchTerm: 'foo',
+            searchTerm: 'foo',
           },
         },
       };
@@ -287,7 +288,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: 'foo',
+            searchTerm: 'foo',
             selectedConversationIds: ['abc'],
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -337,7 +338,7 @@ describe('both/state/selectors/conversations', () => {
             ...getEmptyState(),
             composer: {
               step: ComposerStep.StartDirectConversation,
-              contactSearchTerm: '',
+              searchTerm: '',
             },
           },
         })
@@ -398,7 +399,7 @@ describe('both/state/selectors/conversations', () => {
             ...getEmptyState(),
             composer: {
               step: ComposerStep.StartDirectConversation,
-              contactSearchTerm: '',
+              searchTerm: '',
             },
           },
         })
@@ -449,7 +450,7 @@ describe('both/state/selectors/conversations', () => {
   });
 
   describe('#getComposeContacts', () => {
-    const getRootState = (contactSearchTerm = ''): StateType => {
+    const getRootState = (searchTerm = ''): StateType => {
       const rootState = getEmptyRootState();
       return {
         ...rootState,
@@ -463,7 +464,7 @@ describe('both/state/selectors/conversations', () => {
           },
           composer: {
             step: ComposerStep.StartDirectConversation,
-            contactSearchTerm,
+            searchTerm,
           },
         },
         user: {
@@ -474,10 +475,8 @@ describe('both/state/selectors/conversations', () => {
       };
     };
 
-    const getRootStateWithConverastions = (
-      contactSearchTerm = ''
-    ): StateType => {
-      const result = getRootState(contactSearchTerm);
+    const getRootStateWithConversations = (searchTerm = ''): StateType => {
+      const result = getRootState(searchTerm);
       Object.assign(result.conversations.conversationLookup, {
         'convo-1': {
           ...getDefaultConversation('convo-1'),
@@ -534,7 +533,7 @@ describe('both/state/selectors/conversations', () => {
     });
 
     it('returns contacts with Note to Self at the end when there is no search term', () => {
-      const state = getRootStateWithConverastions();
+      const state = getRootStateWithConversations();
       const result = getComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
@@ -547,7 +546,7 @@ describe('both/state/selectors/conversations', () => {
     });
 
     it('can search for contacts', () => {
-      const state = getRootStateWithConverastions('in system');
+      const state = getRootStateWithConversations('in system');
       const result = getComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
@@ -556,8 +555,90 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
+  describe('#getComposeGroups', () => {
+    const getState = (searchTerm = ''): StateType => {
+      const rootState = getEmptyRootState();
+      return {
+        ...rootState,
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'our-conversation-id': {
+              ...getDefaultConversation('our-conversation-id'),
+              isMe: true,
+            },
+            'convo-1': {
+              ...getDefaultConversation('convo-1'),
+              name: 'In System Contacts',
+              title: 'Should be dropped (contact)',
+            },
+            'convo-2': {
+              ...getDefaultConversation('convo-2'),
+              title: 'Should be dropped (contact)',
+            },
+            'convo-3': {
+              ...getDefaultConversation('convo-3'),
+              type: 'group',
+              name: 'Hello World',
+              title: 'Hello World',
+            },
+            'convo-4': {
+              ...getDefaultConversation('convo-4'),
+              type: 'group',
+              isBlocked: true,
+              title: 'Should be dropped (blocked)',
+            },
+            'convo-5': {
+              ...getDefaultConversation('convo-5'),
+              type: 'group',
+              title: 'Unknown Group',
+            },
+            'convo-6': {
+              ...getDefaultConversation('convo-6'),
+              type: 'group',
+              name: 'Signal',
+              title: 'Signal',
+            },
+            'convo-7': {
+              ...getDefaultConversation('convo-7'),
+              profileSharing: false,
+              type: 'group',
+              name: 'Signal Fake',
+              title: 'Signal Fake',
+            },
+          },
+          composer: {
+            step: ComposerStep.StartDirectConversation,
+            searchTerm,
+          },
+        },
+        user: {
+          ...rootState.user,
+          ourConversationId: 'our-conversation-id',
+          i18n,
+        },
+      };
+    };
+
+    it('can search for groups', () => {
+      const state = getState('hello');
+      const result = getComposeGroups(state);
+
+      const ids = result.map(group => group.id);
+      assert.deepEqual(ids, ['convo-3']);
+    });
+
+    it('does not return unknown groups when getting all groups (no search term)', () => {
+      const state = getState();
+      const result = getComposeGroups(state);
+
+      const ids = result.map(group => group.id);
+      assert.deepEqual(ids, ['convo-3', 'convo-6', 'convo-7']);
+    });
+  });
+
   describe('#getCandidateContactsForNewGroup', () => {
-    const getRootState = (contactSearchTerm = ''): StateType => {
+    const getRootState = (searchTerm = ''): StateType => {
       const rootState = getEmptyRootState();
       return {
         ...rootState,
@@ -603,7 +684,7 @@ describe('both/state/selectors/conversations', () => {
           },
           composer: {
             step: ComposerStep.ChooseGroupMembers,
-            contactSearchTerm,
+            searchTerm,
             selectedConversationIds: ['abc'],
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -648,7 +729,7 @@ describe('both/state/selectors/conversations', () => {
             ...getEmptyState(),
             composer: {
               step: ComposerStep.StartDirectConversation,
-              contactSearchTerm: '',
+              searchTerm: '',
             },
           },
         })
@@ -663,7 +744,7 @@ describe('both/state/selectors/conversations', () => {
             ...getEmptyState(),
             composer: {
               cantAddContactIdForModal: undefined,
-              contactSearchTerm: '',
+              searchTerm: '',
               groupAvatar: undefined,
               groupName: '',
               maximumGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -687,7 +768,7 @@ describe('both/state/selectors/conversations', () => {
             conversationLookup: { abc123: conversation },
             composer: {
               cantAddContactIdForModal: 'abc123',
-              contactSearchTerm: '',
+              searchTerm: '',
               groupAvatar: undefined,
               groupName: '',
               maximumGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -702,16 +783,16 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
-  describe('#getComposerContactSearchTerm', () => {
+  describe('#getComposerConversationSearchTerm', () => {
     it("returns the composer's contact search term", () => {
       assert.strictEqual(
-        getComposerContactSearchTerm({
+        getComposerConversationSearchTerm({
           ...getEmptyRootState(),
           conversations: {
             ...getEmptyState(),
             composer: {
               step: ComposerStep.StartDirectConversation,
-              contactSearchTerm: 'foo bar',
+              searchTerm: 'foo bar',
             },
           },
         }),
@@ -966,7 +1047,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: undefined,
-            contactSearchTerm: 'to be cleared',
+            searchTerm: 'to be cleared',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.Showing,
@@ -991,7 +1072,7 @@ describe('both/state/selectors/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: undefined,
-            contactSearchTerm: 'to be cleared',
+            searchTerm: 'to be cleared',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,

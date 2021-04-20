@@ -2398,13 +2398,6 @@ export async function startApp(): Promise<void> {
       });
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const conversation = window.ConversationController.get(detailsId)!;
-      let activeAt = conversation.get('active_at');
-
-      // The idea is to make any new contact show up in the left pane. If
-      //   activeAt is null, then this contact has been purposefully hidden.
-      if (activeAt !== null) {
-        activeAt = activeAt || Date.now();
-      }
 
       if (details.profileKey) {
         const profileKey = window.Signal.Crypto.arrayBufferToBase64(
@@ -2424,7 +2417,6 @@ export async function startApp(): Promise<void> {
       conversation.set({
         name: details.name,
         color: details.color,
-        active_at: activeAt,
         inbox_position: details.inboxPosition,
       });
 
@@ -2480,8 +2472,7 @@ export async function startApp(): Promise<void> {
         await onVerified(verifiedEvent);
       }
 
-      const { appView } = window.owsDesktopApp;
-      if (appView && appView.installView && appView.installView.didLink) {
+      if (window.Signal.Util.postLinkExperience.isActive()) {
         window.log.info(
           'onContactReceived: Adding the message history disclaimer on link'
         );
@@ -2538,13 +2529,6 @@ export async function startApp(): Promise<void> {
     } as WhatIsThis;
 
     if (details.active) {
-      const activeAt = conversation.get('active_at');
-
-      // The idea is to make any new group show up in the left pane. If
-      //   activeAt is null, then this group has been purposefully hidden.
-      if (activeAt !== null) {
-        updates.active_at = activeAt || Date.now();
-      }
       updates.left = false;
     } else {
       updates.left = true;
@@ -2575,8 +2559,7 @@ export async function startApp(): Promise<void> {
 
     window.Signal.Data.updateConversation(conversation.attributes);
 
-    const { appView } = window.owsDesktopApp;
-    if (appView && appView.installView && appView.installView.didLink) {
+    if (window.Signal.Util.postLinkExperience.isActive()) {
       window.log.info(
         'onGroupReceived: Adding the message history disclaimer on link'
       );
@@ -2846,9 +2829,6 @@ export async function startApp(): Promise<void> {
 
       // Finally create the V2 group normally
       const conversationId = window.ConversationController.ensureGroup(id, {
-        // Note: We don't set active_at, because we don't want the group to show until
-        //   we have information about it beyond these initial details.
-        //   see maybeUpdateGroup().
         groupVersion: 2,
         masterKey: message.groupV2.masterKey,
         secretParams: message.groupV2.secretParams,

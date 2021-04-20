@@ -4,9 +4,9 @@
 import { assert } from 'chai';
 import { getDefaultConversation } from '../helpers/getDefaultConversation';
 
-import { filterAndSortContacts } from '../../util/filterAndSortContacts';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
 
-describe('filterAndSortContacts', () => {
+describe('filterAndSortConversations', () => {
   const conversations = [
     getDefaultConversation({
       title: '+16505551234',
@@ -34,7 +34,7 @@ describe('filterAndSortContacts', () => {
   ];
 
   it('without a search term, sorts conversations by title (but puts no-name contacts at the bottom)', () => {
-    const titles = filterAndSortContacts(conversations, '').map(
+    const titles = filterAndSortConversations(conversations, '').map(
       contact => contact.title
     );
     assert.deepEqual(titles, [
@@ -47,14 +47,14 @@ describe('filterAndSortContacts', () => {
   });
 
   it('can search for contacts by title', () => {
-    const titles = filterAndSortContacts(conversations, 'belind').map(
+    const titles = filterAndSortConversations(conversations, 'belind').map(
       contact => contact.title
     );
     assert.sameMembers(titles, ['Belinda Beetle', 'Belinda Zephyr']);
   });
 
   it('can search for contacts by phone number (and puts no-name contacts at the bottom)', () => {
-    const titles = filterAndSortContacts(conversations, '650555').map(
+    const titles = filterAndSortConversations(conversations, '650555').map(
       contact => contact.title
     );
     assert.sameMembers(titles, ['Carlos Santana', '+16505551234']);

@@ -467,7 +467,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: undefined,
-            contactSearchTerm: '',
+            searchTerm: '',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -530,7 +530,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: 'abc123',
-            contactSearchTerm: '',
+            searchTerm: '',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -556,7 +556,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: 'abc123',
-            contactSearchTerm: '',
+            searchTerm: '',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.Showing,
@@ -581,7 +581,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: 'abc123',
-            contactSearchTerm: '',
+            searchTerm: '',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -601,7 +601,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: 'abc123',
-            contactSearchTerm: '',
+            searchTerm: '',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.Shown,
@@ -623,7 +623,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: 'abc123',
-            contactSearchTerm: '',
+            searchTerm: '',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -648,7 +648,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: 'abc123',
-            contactSearchTerm: '',
+            searchTerm: '',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -668,7 +668,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: 'abc123',
-            contactSearchTerm: '',
+            searchTerm: '',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1232,7 +1232,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.StartDirectConversation as const,
-            contactSearchTerm: '',
+            searchTerm: '',
           },
         };
         const action = setComposeSearchTerm('foo bar');
@@ -1240,7 +1240,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepEqual(result.composer, {
           step: ComposerStep.StartDirectConversation,
-          contactSearchTerm: 'foo bar',
+          searchTerm: 'foo bar',
         });
       });
     });
@@ -1306,7 +1306,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.StartDirectConversation as const,
-            contactSearchTerm: '',
+            searchTerm: '',
           },
         };
         const action = showArchivedConversations();
@@ -1344,7 +1344,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.StartDirectConversation as const,
-            contactSearchTerm: '',
+            searchTerm: '',
           },
         };
         const action = showInbox();
@@ -1361,7 +1361,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.StartDirectConversation as const,
-            contactSearchTerm: 'foo bar',
+            searchTerm: 'foo bar',
           },
         };
         const action = startComposing();
@@ -1370,7 +1370,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
           step: ComposerStep.StartDirectConversation,
-          contactSearchTerm: 'foo bar',
+          searchTerm: 'foo bar',
         });
       });
 
@@ -1379,7 +1379,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             cantAddContactIdForModal: undefined,
-            contactSearchTerm: 'to be cleared',
+            searchTerm: 'to be cleared',
             groupAvatar: undefined,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1394,7 +1394,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
           step: ComposerStep.StartDirectConversation,
-          contactSearchTerm: '',
+          searchTerm: '',
         });
       });
 
@@ -1418,7 +1418,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
           step: ComposerStep.StartDirectConversation,
-          contactSearchTerm: '',
+          searchTerm: '',
         });
       });
 
@@ -1430,7 +1430,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
           step: ComposerStep.StartDirectConversation,
-          contactSearchTerm: '',
+          searchTerm: '',
         });
       });
 
@@ -1445,7 +1445,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
           step: ComposerStep.StartDirectConversation,
-          contactSearchTerm: '',
+          searchTerm: '',
         });
       });
     });
@@ -1456,7 +1456,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.StartDirectConversation as const,
-            contactSearchTerm: 'to be cleared',
+            searchTerm: 'to be cleared',
           },
         };
         const action = showChooseGroupMembers();
@@ -1465,7 +1465,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: [],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1480,7 +1480,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: 'foo bar',
+            searchTerm: 'foo bar',
             selectedConversationIds: [],
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1516,7 +1516,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: [],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1534,7 +1534,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: [],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1555,7 +1555,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isFalse(result.showArchived);
         assert.deepEqual(result.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: [],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1572,7 +1572,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: 'foo bar',
+            searchTerm: 'foo bar',
             selectedConversationIds: ['abc', 'def'],
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1601,7 +1601,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: 'foo bar',
+            searchTerm: 'foo bar',
             selectedConversationIds: ['abc', 'def'],
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1681,7 +1681,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: '',
+            searchTerm: '',
             selectedConversationIds: [],
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1695,7 +1695,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepEqual(two.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: ['abc', 'def'],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1710,7 +1710,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: '',
+            searchTerm: '',
             selectedConversationIds: ['abc', 'def'],
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1724,7 +1724,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepEqual(result.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: ['def'],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1742,7 +1742,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: '',
+            searchTerm: '',
             selectedConversationIds: oldSelectedConversationIds,
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1756,7 +1756,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepEqual(result.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.Showing,
@@ -1774,7 +1774,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: '',
+            searchTerm: '',
             selectedConversationIds: oldSelectedConversationIds,
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.Shown,
@@ -1788,7 +1788,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepEqual(result.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.Shown,
@@ -1808,7 +1808,7 @@ describe('both/state/ducks/conversations', () => {
             ...getEmptyState(),
             composer: {
               step: ComposerStep.ChooseGroupMembers as const,
-              contactSearchTerm: '',
+              searchTerm: '',
               selectedConversationIds: [],
               cantAddContactIdForModal: undefined,
               recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1831,7 +1831,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: '',
+            searchTerm: '',
             selectedConversationIds: oldSelectedConversationIds,
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.Shown,
@@ -1845,7 +1845,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepEqual(result.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.Shown,
@@ -1863,7 +1863,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: '',
+            searchTerm: '',
             selectedConversationIds: oldSelectedConversationIds,
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.Shown,
@@ -1877,7 +1877,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepEqual(result.composer, {
           step: ComposerStep.ChooseGroupMembers,
-          contactSearchTerm: '',
+          searchTerm: '',
           selectedConversationIds: [...oldSelectedConversationIds, newUuid],
           cantAddContactIdForModal: undefined,
           recommendedGroupSizeModalState: OneTimeModalState.Shown,
@@ -1892,7 +1892,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: '',
+            searchTerm: '',
             selectedConversationIds: times(1000, () => uuid()),
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1919,7 +1919,7 @@ describe('both/state/ducks/conversations', () => {
             ...getEmptyState(),
             composer: {
               step: ComposerStep.ChooseGroupMembers as const,
-              contactSearchTerm: '',
+              searchTerm: '',
               selectedConversationIds: [],
               cantAddContactIdForModal: undefined,
               recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1945,7 +1945,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             step: ComposerStep.ChooseGroupMembers as const,
-            contactSearchTerm: '',
+            searchTerm: '',
             selectedConversationIds: [],
             cantAddContactIdForModal: undefined,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,

@@ -35,7 +35,6 @@
     initialize(options = {}) {
       window.readyForUpdates();
 
-      this.didLink = false;
       this.selectStep(Steps.SCAN_QR_CODE);
       this.connect();
       this.on('disconnected', this.reconnect);
@@ -197,7 +196,7 @@
           this.selectStep(Steps.PROGRESS_BAR);
 
           const finish = () => {
-            this.didLink = true;
+            window.Signal.Util.postLinkExperience.start();
             return resolve(name);
           };
 

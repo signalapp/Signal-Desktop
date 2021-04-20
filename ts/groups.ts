@@ -2598,7 +2598,8 @@ type MaybeUpdatePropsType = {
 };
 
 export async function waitThenMaybeUpdateGroup(
-  options: MaybeUpdatePropsType
+  options: MaybeUpdatePropsType,
+  { viaSync = false } = {}
 ): Promise<void> {
   // First wait to process all incoming messages on the websocket
   await window.waitForEmptyEventQueue();
@@ -2609,7 +2610,7 @@ export async function waitThenMaybeUpdateGroup(
   await conversation.queueJob(async () => {
     try {
       // And finally try to update the group
-      await maybeUpdateGroup(options);
+      await maybeUpdateGroup(options, { viaSync });
     } catch (error) {
       window.log.error(
         `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: maybeUpdateGroup failure:`,
@@ -2619,14 +2620,17 @@ export async function waitThenMaybeUpdateGroup(
   });
 }
 
-export async function maybeUpdateGroup({
-  conversation,
-  dropInitialJoinMessage,
-  groupChangeBase64,
-  newRevision,
-  receivedAt,
-  sentAt,
-}: MaybeUpdatePropsType): Promise<void> {
+export async function maybeUpdateGroup(
+  {
+    conversation,
+    dropInitialJoinMessage,
+    groupChangeBase64,
+    newRevision,
+    receivedAt,
+    sentAt,
+  }: MaybeUpdatePropsType,
+  { viaSync = false } = {}
+): Promise<void> {
   const logId = conversation.idForLogging();
 
   try {
@@ -2641,7 +2645,10 @@ export async function maybeUpdateGroup({
       dropInitialJoinMessage,
     });
 
-    await updateGroup({ conversation, receivedAt, sentAt, updates });
+    await updateGroup(
+      { conversation, receivedAt, sentAt, updates },
+      { viaSync }
+    );
   } catch (error) {
     window.log.error(
       `maybeUpdateGroup/${logId}: Failed to update group:`,
@@ -2651,17 +2658,20 @@ export async function maybeUpdateGroup({
   }
 }
 
-async function updateGroup({
-  conversation,
-  receivedAt,
-  sentAt,
-  updates,
-}: {
-  conversation: ConversationModel;
-  receivedAt?: number;
-  sentAt?: number;
-  updates: UpdatesResultType;
-}): Promise<void> {
+async function updateGroup(
+  {
+    conversation,
+    receivedAt,
+    sentAt,
+    updates,
+  }: {
+    conversation: ConversationModel;
+    receivedAt?: number;
+    sentAt?: number;
+    updates: UpdatesResultType;
+  },
+  { viaSync = false } = {}
+): Promise<void> {
   const { newAttributes, groupChangeMessages, members } = updates;
 
   const startingRevision = conversation.get('revision');
@@ -2684,15 +2694,21 @@ async function updateGroup({
   const previousId = conversation.get('groupId');
   const idChanged = previousId && previousId !== newAttributes.groupId;
 
+  // We force this conversation into the left pane if this is the first time we've
+  //   fetched data about it, and we were able to fetch its name. Nobody likes to see
+  //   Unknown Group in the left pane.
+  let activeAt = null;
+  if (viaSync) {
+    activeAt = null;
+  } else if ((isInitialDataFetch || justJoinedGroup) && newAttributes.name) {
+    activeAt = initialSentAt;
+  } else {
+    activeAt = newAttributes.active_at;
+  }
+
   conversation.set({
     ...newAttributes,
-    // We force this conversation into the left pane if this is the first time we've
-    //   fetched data about it, and we were able to fetch its name. Nobody likes to see
-    //   Unknown Group in the left pane.
-    active_at:
-      (isInitialDataFetch || justJoinedGroup) && newAttributes.name
-        ? initialSentAt
-        : newAttributes.active_at,
+    active_at: activeAt,
     temporaryMemberCount: isInGroup
       ? undefined
       : newAttributes.temporaryMemberCount,

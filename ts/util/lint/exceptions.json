@@ -645,7 +645,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
-    "lineNumber": 127,
+    "lineNumber": 128,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Adding sub-view to DOM"
@@ -654,7 +654,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
-    "lineNumber": 127,
+    "lineNumber": 128,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Adding sub-view to DOM"
@@ -663,7 +663,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 138,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Adding sub-view to DOM"
@@ -672,7 +672,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 138,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Adding sub-view to DOM"
@@ -681,7 +681,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 191,
+    "lineNumber": 192,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, read-only access"
@@ -690,15 +690,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 195,
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, adding or removing classes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "      this.$('.conversation-stack').removeClass('inactive');",
     "lineNumber": 196,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
@@ -707,8 +698,8 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 199,
+    "line": "      this.$('.conversation-stack').removeClass('inactive');",
+    "lineNumber": 197,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, adding or removing classes"
@@ -716,7 +707,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      this.$('#header, .gutter').removeClass('inactive');",
+    "line": "      this.$('.conversation-stack').addClass('inactive');",
     "lineNumber": 200,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
@@ -725,8 +716,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      this.$('.conversation:first .menu').trigger('close');",
+    "line": "      this.$('#header, .gutter').removeClass('inactive');",
     "lineNumber": 201,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-02-26T18:44:56.450Z",
+    "reasonDetail": "Static selector, adding or removing classes"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.conversation:first .menu').trigger('close');",
+    "lineNumber": 202,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, trigging DOM event"
@@ -735,7 +735,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 223,
+    "lineNumber": 224,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, read-only access"
@@ -744,7 +744,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 226,
+    "lineNumber": 227,
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, triggering DOM event"
@@ -771,7 +771,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr img').remove();",
-    "lineNumber": 161,
+    "lineNumber": 160,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -780,7 +780,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr canvas').remove();",
-    "lineNumber": 162,
+    "lineNumber": 161,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -789,7 +789,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr .container').show();",
-    "lineNumber": 163,
+    "lineNumber": 162,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -798,7 +798,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr').removeClass('ready');",
-    "lineNumber": 164,
+    "lineNumber": 163,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -807,7 +807,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      if ($('#qr').length === 0) {",
-    "lineNumber": 167,
+    "lineNumber": 166,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -816,7 +816,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr .container').hide();",
-    "lineNumber": 173,
+    "lineNumber": 172,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -825,7 +825,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.qr = new QRCode(this.$('#qr')[0]).makeCode(url);",
-    "lineNumber": 174,
+    "lineNumber": 173,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -834,7 +834,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr').removeAttr('title');",
-    "lineNumber": 175,
+    "lineNumber": 174,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -843,7 +843,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr').addClass('ready');",
-    "lineNumber": 176,
+    "lineNumber": 175,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -852,7 +852,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());",
-    "lineNumber": 181,
+    "lineNumber": 180,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -861,7 +861,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$(DEVICE_NAME_SELECTOR).focus();",
-    "lineNumber": 182,
+    "lineNumber": 181,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Static selector argument"
@@ -870,7 +870,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#link-phone').submit();",
-    "lineNumber": 186,
+    "lineNumber": 185,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -879,7 +879,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "        this.$('#link-phone').submit(e => {",
-    "lineNumber": 228,
+    "lineNumber": 227,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -888,7 +888,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "          let name = this.$(DEVICE_NAME_SELECTOR).val();",
-    "lineNumber": 232,
+    "lineNumber": 231,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -897,7 +897,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "            this.$(DEVICE_NAME_SELECTOR).focus();",
-    "lineNumber": 235,
+    "lineNumber": 234,
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"

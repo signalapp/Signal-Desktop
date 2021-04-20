@@ -34,6 +34,7 @@ import {
 } from './sessionTranslation';
 import * as zkgroup from './zkgroup';
 import { StartupQueue } from './StartupQueue';
+import { postLinkExperience } from './postLinkExperience';
 
 export {
   GoogleChrome,
@@ -58,6 +59,7 @@ export {
   mapToSupportLocale,
   missingCaseError,
   parseRemoteClientExpiration,
+  postLinkExperience,
   queueUpdateMessage,
   saveNewMessageBatcher,
   setBatchingStrategy,

@@ -9,7 +9,7 @@ import {
   StateProps,
 } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
-  getContacts,
+  getComposableContacts,
   getConversationSelector,
 } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
@@ -50,7 +50,7 @@ const mapStateToProps = (
       ? conversation.canEditGroupInfo
       : false;
   const isAdmin = Boolean(conversation?.areWeAdmin);
-  const candidateContactsToAdd = getContacts(state);
+  const candidateContactsToAdd = getComposableContacts(state);
 
   return {
     ...props,

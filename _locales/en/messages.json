@@ -761,6 +761,10 @@
     "message": "Contacts",
     "description": "Shown to separate the types of search results"
   },
+  "groupsHeader": {
+    "message": "Groups",
+    "description": "Shown to separate the types of search results"
+  },
   "messagesHeader": {
     "message": "Messages",
     "description": "Shown to separate the types of search results"
@@ -1904,6 +1908,10 @@
   "noContactsFound": {
     "message": "No contacts found",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noConversationsFound": {
+    "message": "No conversations found",
+    "description": "Label shown when there are no conversations to compose to"
   },
   "chooseGroupMembers__title": {
     "message": "Choose members",
@@ -5130,5 +5138,19 @@
   "MessageAudio--slider": {
     "message": "Playback time of audio attachment",
     "description": "Aria label for audio attachment's playback time slider"
+  },
+  "emptyInboxMessage": {
+    "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+    "description": "Shown in the left-pane when the inbox is empty",
+    "placeholders": {
+      "composeIcon": {
+        "content": "$1",
+        "example": "compose button"
+      }
+    }
+  },
+  "composeIcon": {
+    "message": "compose button",
+    "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   }
 }

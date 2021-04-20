@@ -19,10 +19,11 @@ import {
   getCandidateContactsForNewGroup,
   getCantAddContactForModal,
   getComposeContacts,
+  getComposeGroups,
   getComposeGroupAvatar,
   getComposeGroupName,
   getComposeSelectedContacts,
-  getComposerContactSearchTerm,
+  getComposerConversationSearchTerm,
   getComposerStep,
   getLeftPaneLists,
   getMaximumGroupSizeModalState,
@@ -96,8 +97,9 @@ const getModeSpecificProps = (
       return {
         mode: LeftPaneMode.Compose,
         composeContacts: getComposeContacts(state),
+        composeGroups: getComposeGroups(state),
         regionCode: getRegionCode(state),
-        searchTerm: getComposerContactSearchTerm(state),
+        searchTerm: getComposerConversationSearchTerm(state),
       };
     case ComposerStep.ChooseGroupMembers:
       return {
@@ -109,7 +111,7 @@ const getModeSpecificProps = (
           OneTimeModalState.Showing,
         isShowingMaximumGroupSizeModal:
           getMaximumGroupSizeModalState(state) === OneTimeModalState.Showing,
-        searchTerm: getComposerContactSearchTerm(state),
+        searchTerm: getComposerConversationSearchTerm(state),
         selectedContacts: getComposeSelectedContacts(state),
       };
     case ComposerStep.SetGroupMetadata:

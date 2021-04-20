@@ -1035,6 +1035,7 @@ async function sync(): Promise<ManifestRecordClass | undefined> {
     );
   }
 
+  window.Signal.Util.postLinkExperience.stop();
   window.log.info('storageService.sync: complete');
   return manifest;
 }

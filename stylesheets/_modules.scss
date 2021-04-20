@@ -7401,6 +7401,36 @@ button.module-image__border-overlay:focus {
   position: relative;
 }
 
+.module-left-pane__empty {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  padding: 0 32px;
+  text-align: center;
+
+  &--composer_icon {
+    align-items: center;
+    background-color: $color-gray-05;
+    border-radius: 100%;
+    display: inline-flex;
+    height: 28px;
+    justify-content: center;
+    margin-bottom: -2px;
+    margin-left: 4px;
+    vertical-align: bottom;
+    width: 28px;
+
+    &--icon {
+      $icon: '../images/icons/v2/compose-outline-24.svg';
+      @include color-svg($icon, $color-gray-90);
+      display: inline-block;
+      height: 16px;
+      width: 16px;
+    }
+  }
+}
+
 .module-left-pane__header {
   flex-grow: 0;
   flex-shrink: 0;

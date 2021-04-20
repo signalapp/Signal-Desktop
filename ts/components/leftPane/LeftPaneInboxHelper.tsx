@@ -2,11 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { last } from 'lodash';
+import React, { ReactChild } from 'react';
 
+import { Intl } from '../Intl';
 import { LeftPaneHelper, ToFindType } from './LeftPaneHelper';
 import { getConversationInDirection } from './getConversationInDirection';
 import { Row, RowType } from '../ConversationList';
 import { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
+import { LocalizerType } from '../../types/Util';
 
 export type LeftPaneInboxPropsType = {
   conversations: ReadonlyArray<ConversationListItemPropsType>;
@@ -54,6 +57,33 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<
       this.conversations.length +
       buttonCount
     );
+  }
+
+  getPreRowsNode({
+    i18n,
+  }: Readonly<{ i18n: LocalizerType }>): null | ReactChild {
+    if (this.getRowCount() === 0) {
+      return (
+        <div className="module-left-pane__empty">
+          <div>
+            <Intl
+              i18n={i18n}
+              id="emptyInboxMessage"
+              components={[
+                <span>
+                  <strong>{i18n('composeIcon')}</strong>
+                  <span className="module-left-pane__empty--composer_icon">
+                    <i className="module-left-pane__empty--composer_icon--icon" />
+                  </span>
+                </span>,
+              ]}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    return null;
   }
 
   getRow(rowIndex: number): undefined | Row {

@@ -11,7 +11,7 @@ import * as remoteConfig from '../../../RemoteConfig';
 import { LeftPaneComposeHelper } from '../../../components/leftPane/LeftPaneComposeHelper';
 
 describe('LeftPaneComposeHelper', () => {
-  const fakeContact = () => ({
+  const fakeConvo = () => ({
     id: uuid(),
     title: uuid(),
     type: 'direct' as const,
@@ -40,6 +40,7 @@ describe('LeftPaneComposeHelper', () => {
       const showInbox = sinon.fake();
       const helper = new LeftPaneComposeHelper({
         composeContacts: [],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
       });
@@ -53,6 +54,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
         }).getRowCount(),
@@ -63,7 +65,8 @@ describe('LeftPaneComposeHelper', () => {
     it('returns the number of contacts + 2 (for the "new group" button and header) if not searching', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
-          composeContacts: [fakeContact(), fakeContact()],
+          composeContacts: [fakeConvo(), fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
         }).getRowCount(),
@@ -71,10 +74,23 @@ describe('LeftPaneComposeHelper', () => {
       );
     });
 
-    it('returns the number of contacts if searching, but not for a phone number', () => {
+    it('returns the number of contacts + number of groups + 3 (for the "new group" button and the headers) if not searching', () => {
+      assert.strictEqual(
+        new LeftPaneComposeHelper({
+          composeContacts: [fakeConvo(), fakeConvo()],
+          composeGroups: [fakeConvo(), fakeConvo()],
+          regionCode: 'US',
+          searchTerm: '',
+        }).getRowCount(),
+        7
+      );
+    });
+
+    it('returns the number of conversations + the headers, but not for a phone number', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
         }).getRowCount(),
@@ -82,11 +98,21 @@ describe('LeftPaneComposeHelper', () => {
       );
       assert.strictEqual(
         new LeftPaneComposeHelper({
-          composeContacts: [fakeContact(), fakeContact()],
+          composeContacts: [fakeConvo(), fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
         }).getRowCount(),
-        2
+        3
+      );
+      assert.strictEqual(
+        new LeftPaneComposeHelper({
+          composeContacts: [fakeConvo(), fakeConvo()],
+          composeGroups: [fakeConvo()],
+          regionCode: 'US',
+          searchTerm: 'foo bar',
+        }).getRowCount(),
+        5
       );
     });
 
@@ -94,6 +120,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505551234',
         }).getRowCount(),
@@ -104,7 +131,8 @@ describe('LeftPaneComposeHelper', () => {
     it('returns the number of contacts + 2 (for the "Start new conversation" button and header) if searching for a phone number', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
-          composeContacts: [fakeContact(), fakeContact()],
+          composeContacts: [fakeConvo(), fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505551234',
         }).getRowCount(),
@@ -117,6 +145,7 @@ describe('LeftPaneComposeHelper', () => {
     it('returns a "new group" button if not searching and there are no contacts', () => {
       const helper = new LeftPaneComposeHelper({
         composeContacts: [],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
       });
@@ -128,9 +157,10 @@ describe('LeftPaneComposeHelper', () => {
     });
 
     it('returns a "new group" button, a header, and contacts if not searching', () => {
-      const composeContacts = [fakeContact(), fakeContact()];
+      const composeContacts = [fakeConvo(), fakeConvo()];
       const helper = new LeftPaneComposeHelper({
         composeContacts,
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
       });
@@ -152,6 +182,45 @@ describe('LeftPaneComposeHelper', () => {
       });
     });
 
+    it('returns a "new group" button, a header, contacts, groups header, and groups -- if not searching', () => {
+      const composeContacts = [fakeConvo(), fakeConvo()];
+      const composeGroups = [fakeConvo(), fakeConvo()];
+      const helper = new LeftPaneComposeHelper({
+        composeContacts,
+        composeGroups,
+        regionCode: 'US',
+        searchTerm: '',
+      });
+
+      assert.deepEqual(helper.getRow(0), {
+        type: RowType.CreateNewGroup,
+      });
+      assert.deepEqual(helper.getRow(1), {
+        type: RowType.Header,
+        i18nKey: 'contactsHeader',
+      });
+      assert.deepEqual(helper.getRow(2), {
+        type: RowType.Contact,
+        contact: composeContacts[0],
+      });
+      assert.deepEqual(helper.getRow(3), {
+        type: RowType.Contact,
+        contact: composeContacts[1],
+      });
+      assert.deepEqual(helper.getRow(4), {
+        type: RowType.Header,
+        i18nKey: 'groupsHeader',
+      });
+      assert.deepEqual(helper.getRow(5), {
+        type: RowType.Conversation,
+        conversation: composeGroups[0],
+      });
+      assert.deepEqual(helper.getRow(6), {
+        type: RowType.Conversation,
+        conversation: composeGroups[1],
+      });
+    });
+
     it("doesn't let you create new groups if storage service write is disabled", () => {
       remoteConfigStub
         .withArgs('desktop.storage')
@@ -162,6 +231,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.isUndefined(
         new LeftPaneComposeHelper({
           composeContacts: [],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
         }).getRow(0)
@@ -176,6 +246,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.isUndefined(
         new LeftPaneComposeHelper({
           composeContacts: [],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
         }).getRow(0)
@@ -185,6 +256,7 @@ describe('LeftPaneComposeHelper', () => {
     it('returns no rows if searching and there are no results', () => {
       const helper = new LeftPaneComposeHelper({
         composeContacts: [],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
       });
@@ -194,18 +266,19 @@ describe('LeftPaneComposeHelper', () => {
     });
 
     it('returns one row per contact if searching', () => {
-      const composeContacts = [fakeContact(), fakeContact()];
+      const composeContacts = [fakeConvo(), fakeConvo()];
       const helper = new LeftPaneComposeHelper({
         composeContacts,
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
       });
 
-      assert.deepEqual(helper.getRow(0), {
+      assert.deepEqual(helper.getRow(1), {
         type: RowType.Contact,
         contact: composeContacts[0],
       });
-      assert.deepEqual(helper.getRow(1), {
+      assert.deepEqual(helper.getRow(2), {
         type: RowType.Contact,
         contact: composeContacts[1],
       });
@@ -214,6 +287,7 @@ describe('LeftPaneComposeHelper', () => {
     it('returns a "start new conversation" row if searching for a phone number and there are no results', () => {
       const helper = new LeftPaneComposeHelper({
         composeContacts: [],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: '+16505551234',
       });
@@ -226,9 +300,10 @@ describe('LeftPaneComposeHelper', () => {
     });
 
     it('returns a "start new conversation" row, a header, and contacts if searching for a phone number', () => {
-      const composeContacts = [fakeContact(), fakeContact()];
+      const composeContacts = [fakeConvo(), fakeConvo()];
       const helper = new LeftPaneComposeHelper({
         composeContacts,
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: '+16505551234',
       });
@@ -255,7 +330,8 @@ describe('LeftPaneComposeHelper', () => {
   describe('getConversationAndMessageAtIndex', () => {
     it('returns undefined because keyboard shortcuts are not supported', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeContact(), fakeContact()],
+        composeContacts: [fakeConvo(), fakeConvo()],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
       });
@@ -267,7 +343,8 @@ describe('LeftPaneComposeHelper', () => {
   describe('getConversationAndMessageInDirection', () => {
     it('returns undefined because keyboard shortcuts are not supported', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeContact(), fakeContact()],
+        composeContacts: [fakeConvo(), fakeConvo()],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
       });
@@ -285,21 +362,24 @@ describe('LeftPaneComposeHelper', () => {
   describe('shouldRecomputeRowHeights', () => {
     it('returns false if going from "no header" to "no header"', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeContact(), fakeContact()],
+        composeContacts: [fakeConvo(), fakeConvo()],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
       });
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeContact()],
+          composeContacts: [fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
         })
       );
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeContact(), fakeContact(), fakeContact()],
+          composeContacts: [fakeConvo(), fakeConvo(), fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: 'bing bong',
         })
@@ -308,21 +388,24 @@ describe('LeftPaneComposeHelper', () => {
 
     it('returns false if going from "has header" to "has header"', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeContact(), fakeContact()],
+        composeContacts: [fakeConvo(), fakeConvo()],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
       });
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeContact()],
+          composeContacts: [fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
         })
       );
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeContact()],
+          composeContacts: [fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505559876',
         })
@@ -331,21 +414,24 @@ describe('LeftPaneComposeHelper', () => {
 
     it('returns true if going from "no header" to "has header"', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeContact(), fakeContact()],
+        composeContacts: [fakeConvo(), fakeConvo()],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
       });
 
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeContact(), fakeContact()],
+          composeContacts: [fakeConvo(), fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
         })
       );
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeContact(), fakeContact()],
+          composeContacts: [fakeConvo(), fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505551234',
         })
@@ -354,16 +440,70 @@ describe('LeftPaneComposeHelper', () => {
 
     it('returns true if going from "has header" to "no header"', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeContact(), fakeContact()],
+        composeContacts: [fakeConvo(), fakeConvo()],
+        composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
       });
 
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeContact(), fakeContact()],
+          composeContacts: [fakeConvo(), fakeConvo()],
+          composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
+        })
+      );
+    });
+
+    it('should be true if going from contact to group or vice versa', () => {
+      const helperContacts = new LeftPaneComposeHelper({
+        composeContacts: [fakeConvo(), fakeConvo()],
+        composeGroups: [],
+        regionCode: 'US',
+        searchTerm: 'foo bar',
+      });
+
+      assert.isTrue(
+        helperContacts.shouldRecomputeRowHeights({
+          composeContacts: [],
+          composeGroups: [fakeConvo(), fakeConvo()],
+          regionCode: 'US',
+          searchTerm: 'foo bar',
+        })
+      );
+
+      const helperGroups = new LeftPaneComposeHelper({
+        composeContacts: [],
+        composeGroups: [fakeConvo(), fakeConvo()],
+        regionCode: 'US',
+        searchTerm: 'foo bar',
+      });
+
+      assert.isTrue(
+        helperGroups.shouldRecomputeRowHeights({
+          composeContacts: [fakeConvo(), fakeConvo()],
+          composeGroups: [],
+          regionCode: 'US',
+          searchTerm: 'foo bar',
+        })
+      );
+    });
+
+    it('should be true if the headers are in different row indices as before', () => {
+      const helperContacts = new LeftPaneComposeHelper({
+        composeContacts: [fakeConvo(), fakeConvo()],
+        composeGroups: [fakeConvo()],
+        regionCode: 'US',
+        searchTerm: 'soup',
+      });
+
+      assert.isTrue(
+        helperContacts.shouldRecomputeRowHeights({
+          composeContacts: [fakeConvo()],
+          composeGroups: [fakeConvo(), fakeConvo()],
+          regionCode: 'US',
+          searchTerm: 'sandwich',
         })
       );
     });
