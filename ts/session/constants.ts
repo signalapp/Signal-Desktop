@@ -8,6 +8,12 @@ export const TTL_DEFAULT = {
   CONFIGURATION_MESSAGE: 4 * DAYS,
 };
 
+export const PROTOCOLS = {
+  // tslint:disable-next-line: no-http-string
+  HTTP: 'http:',
+  HTTPS: 'https:',
+};
+
 // User Interface
 export const CONVERSATION = {
   DEFAULT_MEDIA_FETCH_COUNT: 50,

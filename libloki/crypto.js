@@ -32,10 +32,10 @@
     return ivAndCiphertext;
   }
 
-  async function deriveSymmetricKey(pubkey, seckey) {
+  async function deriveSymmetricKey(x25519PublicKey, x25519PrivateKey) {
     const ephemeralSecret = await libsignal.Curve.async.calculateAgreement(
-      pubkey,
-      seckey
+      x25519PublicKey,
+      x25519PrivateKey
     );
 
     const salt = window.Signal.Crypto.bytesFromString('LOKI');
@@ -63,12 +63,12 @@
 
     const symmetricKey = await deriveSymmetricKey(snPubkey, ephemeral.privKey);
 
-    const ciphertext = await EncryptGCM(symmetricKey, payloadBytes);
+    const ciphertext = await EncryptAESGCM(symmetricKey, payloadBytes);
 
     return { ciphertext, symmetricKey, ephemeralKey: ephemeral.pubKey };
   }
 
-  async function EncryptGCM(symmetricKey, plaintext) {
+  async function EncryptAESGCM(symmetricKey, plaintext) {
     const nonce = crypto.getRandomValues(new Uint8Array(NONCE_LENGTH));
 
     const key = await crypto.subtle.importKey(
@@ -95,7 +95,7 @@
     return ivAndCiphertext;
   }
 
-  async function DecryptGCM(symmetricKey, ivAndCiphertext) {
+  async function DecryptAESGCM(symmetricKey, ivAndCiphertext) {
     const nonce = ivAndCiphertext.slice(0, NONCE_LENGTH);
     const ciphertext = ivAndCiphertext.slice(NONCE_LENGTH);
 
@@ -165,18 +165,13 @@
 
   const sha512 = data => crypto.subtle.digest('SHA-512', data);
 
-  const PairingType = Object.freeze({
-    REQUEST: 1,
-    GRANT: 2,
-  });
-
   window.libloki.crypto = {
     DHEncrypt,
-    EncryptGCM, // AES-GCM
+    EncryptAESGCM, // AES-GCM
     DHDecrypt,
-    DecryptGCM, // AES-GCM
+    DecryptAESGCM, // AES-GCM
     decryptToken,
-    PairingType,
+    deriveSymmetricKey,
     generateEphemeralKeyPair,
     encryptForPubkey,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,

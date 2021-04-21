@@ -1,10 +1,10 @@
-import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
 import { getGuardNodes } from '../../../ts/data/data';
 import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
 import { snodeHttpsAgent } from '../snode_api/onions';
+import { allowOnlyOneAtATime } from '../utils/Promise';
 
 export type Snode = SnodePool.Snode;
 

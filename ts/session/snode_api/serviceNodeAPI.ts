@@ -27,6 +27,7 @@ import {
   Snode,
   updateSnodesFor,
 } from './snodePool';
+import { Constants } from '..';
 
 /**
  * Currently unused. If we need it again, be sure to update it to onion routing rather
@@ -94,10 +95,13 @@ const sha256 = (s: string) => {
     .digest('base64');
 };
 
-const getSslAgentForSeedNode = (seedNodeHost: string) => {
+const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   let filePrefix = '';
   let pubkey256 = '';
   let cert256 = '';
+  if (!isSsl) {
+    return undefined;
+  }
 
   switch (seedNodeHost) {
     case 'storage.seed1.loki.network':
@@ -199,8 +203,11 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     method: 'get_n_service_nodes',
     params,
   };
-  //FIXME audric
-  const sslAgent = undefined; //getSslAgentForSeedNode(urlObj.hostname);
+
+  const sslAgent = getSslAgentForSeedNode(
+    urlObj.hostname,
+    urlObj.protocol !== Constants.PROTOCOLS.HTTP
+  );
 
   const fetchOptions = {
     method: 'POST',

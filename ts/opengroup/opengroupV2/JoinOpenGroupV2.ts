@@ -1,13 +1,15 @@
-import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
 import {
   getV2OpenGroupRoomByRoomId,
   OpenGroupV2Room,
+  removeV2OpenGroupRoom,
 } from '../../data/opengroups';
-import { ConversationModel } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { PromiseUtils } from '../../session/utils';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
-import { prefixify } from '../utils/OpenGroupUtils';
+import {
+  getOpenGroupV2ConversationId,
+  prefixify,
+} from '../utils/OpenGroupUtils';
 import { attemptConnectionV2OneAtATime } from './OpenGroupManagerV2';
 
 const protocolRegex = '(https?://)?';
@@ -89,13 +91,19 @@ export async function joinOpenGroupV2(
   const publicKey = room.serverPublicKey.toLowerCase();
   const prefixedServer = prefixify(serverUrl);
 
-  const alreadyExist = await getV2OpenGroupRoomByRoomId(serverUrl, roomId);
+  const alreadyExist = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
+  const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
+  const existingConvo = ConversationController.getInstance().get(
+    conversationId
+  );
 
-  //FIXME audric
-  // if (alreadyExist) {
-  //   window.log.warn('Skipping join opengroupv2: already exists');
-  //   return;
-  // }
+  if (alreadyExist && existingConvo) {
+    window.log.warn('Skipping join opengroupv2: already exists');
+    return;
+  } else if (alreadyExist) {
+    // we don't have a convo associated with it. Remove the room in db
+    await removeV2OpenGroupRoom(conversationId);
+  }
 
   // Try to connect to server
   try {

@@ -1,10 +1,7 @@
 import semver from 'semver';
 import _ from 'lodash';
 
-import {
-  abortableIterator,
-  allowOnlyOneAtATime,
-} from '../../../js/modules/loki_primitives';
+import { abortableIterator } from '../../../js/modules/loki_primitives';
 
 import { getSnodesFromSeedUrl, requestSnodesForPubkey } from './serviceNodeAPI';
 
@@ -14,6 +11,7 @@ import {
 } from '../../../ts/data/data';
 
 export type SnodeEdKey = string;
+import { allowOnlyOneAtATime } from '../utils/Promise';
 
 const MIN_NODES = 3;
 

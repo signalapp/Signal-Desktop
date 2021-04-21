@@ -25,7 +25,7 @@ const MAX_SEND_ONION_RETRIES = 3;
 type OnionFetchOptions = {
   method: string;
   body?: string;
-  headers?: Object;
+  headers?: Record<string, string>;
 };
 
 type OnionFetchBasicOptions = {
@@ -55,13 +55,14 @@ export const sendViaOnion = async (
     options.requestNumber = OnionPaths.getInstance().assignOnionRequestNumber();
   }
 
+  let tempHeaders = fetchOptions.headers || {};
   const payloadObj = {
     method: fetchOptions.method || 'GET',
     body: fetchOptions.body || ('' as any),
     // safety issue with file server, just safer to have this
-    headers: fetchOptions.headers || {},
     // no initial /
     endpoint: url.pathname.replace(/^\//, ''),
+    headers: {},
   };
   if (url.search) {
     payloadObj.endpoint += url.search;
@@ -75,8 +76,8 @@ export const sendViaOnion = async (
   ) {
     const fData = payloadObj.body.getBuffer();
     const fHeaders = payloadObj.body.getHeaders();
+    tempHeaders = { ...tempHeaders, fHeaders };
     // update headers for boundary
-    payloadObj.headers = { ...payloadObj.headers, ...fHeaders };
     // update body with base64 chunk
     payloadObj.body = {
       fileUpload: fData.toString('base64'),
@@ -108,6 +109,8 @@ export const sendViaOnion = async (
       // protocol: url.protocol,
       // port: url.port,
     };
+    payloadObj.headers = tempHeaders;
+    console.warn('sendViaOnion payloadObj ==> ', payloadObj);
 
     result = await sendOnionRequestLsrpcDest(
       0,

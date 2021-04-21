@@ -33,6 +33,10 @@ import {
   joinOpenGroupV2,
   parseOpenGroupV2,
 } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
+import {
+  getAuthToken,
+  getModerators,
+} from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -180,13 +184,20 @@ export const ActionsPanel = () => {
     // trigger a sync message if needed for our other devices
     //       'http://sessionopengroup.com/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231b'
     //       'https://sog.ibolpap.finance/main?public_key=b464aa186530c97d6bcf663a3a3b7465a5f782beaa67c83bee99468824b4aa10'
+    // 'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d'
 
     void syncConfiguration();
     const parsedRoom = parseOpenGroupV2(
-      'https://sog.ibolpap.finance/main?public_key=b464aa186530c97d6bcf663a3a3b7465a5f782beaa67c83bee99468824b4aa10'
+      'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d'
     );
     if (parsedRoom) {
-      setTimeout(() => void joinOpenGroupV2(parsedRoom), 10000);
+      setTimeout(async () => {
+        await joinOpenGroupV2(parsedRoom);
+        await getModerators({
+          serverUrl: parsedRoom.serverUrl,
+          roomId: parsedRoom.roomId,
+        });
+      }, 6000);
     }
   }, []);
 

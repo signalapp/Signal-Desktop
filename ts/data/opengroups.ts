@@ -47,11 +47,15 @@ export async function getV2OpenGroupRoom(
   return opengroupv2Rooms;
 }
 
-export async function getV2OpenGroupRoomByRoomId(
-  serverUrl: string,
-  roomId: string
-): Promise<OpenGroupV2Room | undefined> {
-  const room = await channels.getV2OpenGroupRoomByRoomId(serverUrl, roomId);
+export async function getV2OpenGroupRoomByRoomId(roomInfos: {
+  serverUrl: string;
+  roomId: string;
+}): Promise<OpenGroupV2Room | undefined> {
+  console.warn('getting roomInfo', roomInfos);
+  const room = await channels.getV2OpenGroupRoomByRoomId(
+    roomInfos.serverUrl,
+    roomInfos.roomId
+  );
 
   if (!room) {
     return undefined;
@@ -71,6 +75,7 @@ export async function saveV2OpenGroupRoom(
   ) {
     throw new Error('Cannot save v2 room, invalid data');
   }
+  console.warn('saving roomInfo', opengroupsv2Room);
 
   await channels.saveV2OpenGroupRoom(opengroupsv2Room);
 }
@@ -78,7 +83,8 @@ export async function saveV2OpenGroupRoom(
 export async function removeV2OpenGroupRoom(
   conversationId: string
 ): Promise<void> {
-  // TODO sql
+  console.warn('removing roomInfo', conversationId);
+
   await channels.removeV2OpenGroupRoom(conversationId);
 }
 

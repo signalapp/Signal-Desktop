@@ -11,7 +11,6 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     this.allMembers = [];
     this.openGroupPubKeys = {};
     // Multidevice states
-    this.primaryUserProfileName = {};
   }
 
   // MessageReceiver.connect calls this

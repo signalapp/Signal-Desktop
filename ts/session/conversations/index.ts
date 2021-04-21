@@ -17,7 +17,7 @@ import { actions as conversationActions } from '../../state/ducks/conversations'
 
 export class ConversationController {
   private static instance: ConversationController | null;
-  private readonly conversations: any;
+  private readonly conversations: ConversationCollection;
   private _initialFetchComplete: boolean = false;
   private _initialPromise?: Promise<any>;
 
@@ -159,7 +159,7 @@ export class ConversationController {
   public isMediumGroup(hexEncodedGroupPublicKey: string): boolean {
     const convo = this.conversations.get(hexEncodedGroupPublicKey);
     if (convo) {
-      return convo.isMediumGroup();
+      return !!convo.isMediumGroup();
     }
     return false;
   }
@@ -215,13 +215,15 @@ export class ConversationController {
     // Close group leaving
     if (conversation.isClosedGroup()) {
       await conversation.leaveGroup();
-    } else if (conversation.isPublic()) {
+    } else if (conversation.isPublic() && !conversation.isOpenGroupV2()) {
       const channelAPI = await conversation.getPublicSendData();
       if (channelAPI === null) {
         window.log.warn(`Could not get API for public conversation ${id}`);
       } else {
-        channelAPI.serverAPI.partChannel(channelAPI.channelId);
+        channelAPI.serverAPI.partChannel((channelAPI as any).channelId);
       }
+    } else if (conversation.isOpenGroupV2()) {
+      window.log.warn('leave open group v2 todo');
     }
 
     await conversation.destroyMessages();

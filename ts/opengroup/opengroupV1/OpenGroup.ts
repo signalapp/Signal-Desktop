@@ -1,7 +1,7 @@
-import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
 import { ConversationModel, ConversationType } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { PromiseUtils } from '../../session/utils';
+import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import { prefixify } from '../utils/OpenGroupUtils';
 
@@ -226,24 +226,24 @@ export class OpenGroup {
    * To avoid this issue, we allow only a single join of a specific opengroup at a time.
    */
   private static async attemptConnectionOneAtATime(
-    serverURL: string,
+    serverUrl: string,
     channelId: number = 1
   ): Promise<ConversationModel> {
-    if (!serverURL) {
+    if (!serverUrl) {
       throw new Error('Cannot join open group with empty URL');
     }
-    const oneAtaTimeStr = `oneAtaTimeOpenGroupJoin:${serverURL}${channelId}`;
+    const oneAtaTimeStr = `oneAtaTimeOpenGroupJoin:${serverUrl}${channelId}`;
     return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
-      return OpenGroup.attemptConnection(serverURL, channelId);
+      return OpenGroup.attemptConnection(serverUrl, channelId);
     });
   }
 
   // Attempts a connection to an open group server
   private static async attemptConnection(
-    serverURL: string,
+    serverUrl: string,
     channelId: number
   ): Promise<ConversationModel> {
-    let completeServerURL = serverURL.toLowerCase();
+    let completeServerURL = serverUrl.toLowerCase();
     const valid = OpenGroup.validate(completeServerURL);
     if (!valid) {
       return new Promise((_resolve, reject) => {
@@ -254,7 +254,7 @@ export class OpenGroup {
     // Add http or https prefix to server
     completeServerURL = prefixify(completeServerURL);
 
-    const rawServerURL = serverURL
+    const rawServerURL = serverUrl
       .replace(/^https?:\/\//i, '')
       .replace(/[/\\]+$/i, '');
 

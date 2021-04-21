@@ -18,7 +18,6 @@ chai.should();
 chai.use(chaiAsPromised as any);
 chai.config.includeStack = true;
 
-// FIXME audric
 // From https://github.com/chaijs/chai/issues/200
 chai.use((_chai, _) => {
   _chai.Assertion.addMethod('withMessage', (msg: string) => {
@@ -148,9 +147,6 @@ export class Common {
         )}`,
       ],
     });
-    // FIXME audric
-    // chaiAsPromised.transferPromiseness = app1.transferPromiseness;
-
     await app1.start();
     await app1.client.waitUntilWindowLoaded();
 

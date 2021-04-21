@@ -200,6 +200,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isPublic() {
     return !!(this.id && this.id.match(/^publicChat:/));
   }
+  public isOpenGroupV2() {
+    return this.get('type') === ConversationType.OPEN_GROUP;
+  }
   public isClosedGroup() {
     return this.get('type') === ConversationType.GROUP && !this.isPublic();
   }

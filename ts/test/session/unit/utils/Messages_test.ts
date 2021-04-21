@@ -9,7 +9,10 @@ import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing
 import { MockConversation } from '../../../test-utils/utils';
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 
-import { ConversationModel } from '../../../../models/conversation';
+import {
+  ConversationModel,
+  ConversationType,
+} from '../../../../models/conversation';
 
 import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised as any);
@@ -227,17 +230,17 @@ describe('Message Utils', () => {
 
     let convos: Array<ConversationModel>;
     const mockValidOpenGroup = new MockConversation({
-      type: 'public',
+      type: ConversationType.OPEN_GROUP,
       id: 'publicChat:1@chat-dev.lokinet.org',
     });
 
     const mockValidOpenGroup2 = new MockConversation({
-      type: 'public',
+      type: ConversationType.OPEN_GROUP,
       id: 'publicChat:1@chat-dev2.lokinet.org',
     });
 
     const mockValidClosedGroup = new MockConversation({
-      type: 'group',
+      type: ConversationType.OPEN_GROUP,
     });
 
     const mockValidPrivate = {

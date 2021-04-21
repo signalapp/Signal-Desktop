@@ -102,14 +102,14 @@ export function prefixify(server: string, hasSSL: boolean = true): string {
 
 /**
  * No sql access. Just how our open groupv2 url looks like
- * @returns `publicChat:${roomId}@${serverURL}`
+ * @returns `publicChat:${roomId}@${serverUrl}`
  */
 export function getOpenGroupV2ConversationId(
-  serverURL: string,
+  serverUrl: string,
   roomId: string
 ) {
   if (roomId.length < 2) {
     throw new Error('Invalid roomId: too short');
   }
-  return `publicChat:${roomId}@${serverURL}`;
+  return `publicChat:${roomId}@${serverUrl}`;
 }

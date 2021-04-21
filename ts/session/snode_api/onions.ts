@@ -250,10 +250,9 @@ async function makeOnionRequest(
 // http errors and attempting to decrypt the body with `sharedKey`
 // May return false BAD_PATH, indicating that we should try a new path.
 const processOnionResponse = async (
-  reqIdx: any,
+  reqIdx: number,
   response: any,
-  sharedKey: any,
-  useAesGcm: boolean,
+  sharedKey: ArrayBuffer,
   debug: boolean
 ): Promise<SnodeResponse | RequestError> => {
   const { log, libloki, dcodeIO, StringView } = window;
@@ -318,21 +317,14 @@ const processOnionResponse = async (
     if (debug) {
       log.debug(
         `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertextBuffer`,
-        StringView.arrayBufferToHex(ciphertextBuffer),
-        'useAesGcm',
-        useAesGcm
+        StringView.arrayBufferToHex(ciphertextBuffer)
       );
     }
-    window.log.warn(
-      'attempting decrypt with',
-      StringView.arrayBufferToHex(sharedKey)
+
+    const plaintextBuffer = await libloki.crypto.DecryptAESGCM(
+      sharedKey,
+      ciphertextBuffer
     );
-
-    const decryptFn = useAesGcm
-      ? libloki.crypto.DecryptGCM
-      : libloki.crypto.DHDecrypt;
-
-    const plaintextBuffer = await decryptFn(sharedKey, ciphertextBuffer, debug);
     if (debug) {
       log.debug(
         'lokiRpc::processOnionResponse - plaintextBuffer',
@@ -401,19 +393,32 @@ export type DestinationContext = {
 
 export type FinalDestinationOptions = {
   destination_ed25519_hex?: string;
-  headers?: string;
+  headers?: Record<string, string>;
   body?: string;
 };
 
-// finalDestOptions is an object
-// FIXME: internally track reqIdx, not externally
+/**
+ *
+ * Onion request looks like this
+ * Sender -> 1 -> 2 -> 3 -> Receiver
+ * 1, 2, 3 = onion Snodes
+ *
+ *
+ * @param reqIdx
+ * @param nodePath the onion path to use to send the request
+ * @param destX25519Any
+ * @param finalDestOptions those are the options for the request from 3 to R. It contains for instance the payload and headers.
+ * @param finalRelayOptions  those are the options 3 will use to make a request to R. It contains for instance the host to make the request to
+ * @param lsrpcIdx
+ * @returns
+ */
 const sendOnionRequest = async (
-  reqIdx: any,
+  reqIdx: number,
   nodePath: Array<Snode>,
   destX25519Any: string,
   finalDestOptions: {
     destination_ed25519_hex?: string;
-    headers?: string;
+    headers?: Record<string, string>;
     body?: string;
   },
   finalRelayOptions?: FinalRelayOptions,
@@ -449,7 +454,7 @@ const sendOnionRequest = async (
   const options = finalDestOptions; // lint
   // do we need this?
   if (options.headers === undefined) {
-    options.headers = '';
+    options.headers = {};
   }
 
   const useV2 = window.lokiFeatureFlags.useOnionRequestsV2;
@@ -512,13 +517,7 @@ const sendOnionRequest = async (
 
   const response = await insecureNodeFetch(guardUrl, guardFetchOptions);
 
-  return processOnionResponse(
-    reqIdx,
-    response,
-    destCtx.symmetricKey,
-    true,
-    false
-  );
+  return processOnionResponse(reqIdx, response, destCtx.symmetricKey, false);
 };
 
 async function sendOnionRequestSnodeDest(
@@ -543,11 +542,11 @@ async function sendOnionRequestSnodeDest(
 // need relay node's pubkey_x25519_hex
 // always the same target: /loki/v1/lsrpc
 export async function sendOnionRequestLsrpcDest(
-  reqIdx: any,
+  reqIdx: number,
   nodePath: Array<Snode>,
-  destX25519Any: any,
+  destX25519Any: string,
   finalRelayOptions: FinalRelayOptions,
-  payloadObj: any,
+  payloadObj: FinalDestinationOptions,
   lsrpcIdx: number
 ): Promise<SnodeResponse | RequestError> {
   return sendOnionRequest(

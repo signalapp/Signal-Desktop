@@ -1,14 +1,15 @@
-declare enum PairingTypeEnum {
-  REQUEST = 1,
-  GRANT,
-}
-
 export interface CryptoInterface {
   DHDecrypt: any;
   DHEncrypt: any;
-  DecryptGCM: any; // AES-GCM
-  EncryptGCM: any; // AES-GCM
-  PairingType: PairingTypeEnum;
+  DecryptAESGCM: (
+    symmetricKey: ArrayBuffer,
+    ivAndCiphertext: ArrayBuffer
+  ) => Promise<ArrayBuffer>; // AES-GCM
+  deriveSymmetricKey: (
+    pubkey: ArrayBuffer,
+    seckey: ArrayBuffer
+  ) => Promise<ArrayBuffer>;
+  EncryptAESGCM: any; // AES-GCM
   _decodeSnodeAddressToPubKey: any;
   decryptToken: any;
   encryptForPubkey: any;

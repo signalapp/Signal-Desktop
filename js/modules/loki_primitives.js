@@ -18,62 +18,6 @@ const firstTrue = ps => {
   return Promise.race(newPs);
 };
 
-// one action resolves all
-const snodeGlobalLocks = {};
-async function allowOnlyOneAtATime(name, process, timeout) {
-  // if currently not in progress
-  if (snodeGlobalLocks[name] === undefined) {
-    // set lock
-    snodeGlobalLocks[name] = new Promise(async (resolve, reject) => {
-      // set up timeout feature
-      let timeoutTimer = null;
-      if (timeout) {
-        timeoutTimer = setTimeout(() => {
-          log.warn(
-            `loki_primitives:::allowOnlyOneAtATime - TIMEDOUT after ${timeout}s`
-          );
-          delete snodeGlobalLocks[name]; // clear lock
-          reject();
-        }, timeout);
-      }
-      // do actual work
-      let innerRetVal;
-      try {
-        innerRetVal = await process();
-      } catch (e) {
-        if (typeof e === 'string') {
-          log.error(`loki_primitives:::allowOnlyOneAtATime - error ${e}`);
-        } else {
-          log.error(
-            `loki_primitives:::allowOnlyOneAtATime - error ${e.code} ${e.message}`
-          );
-        }
-
-        // clear timeout timer
-        if (timeout) {
-          if (timeoutTimer !== null) {
-            clearTimeout(timeoutTimer);
-            timeoutTimer = null;
-          }
-        }
-        delete snodeGlobalLocks[name]; // clear lock
-        throw e;
-      }
-      // clear timeout timer
-      if (timeout) {
-        if (timeoutTimer !== null) {
-          clearTimeout(timeoutTimer);
-          timeoutTimer = null;
-        }
-      }
-      delete snodeGlobalLocks[name]; // clear lock
-      // release the kraken
-      resolve(innerRetVal);
-    });
-  }
-  return snodeGlobalLocks[name];
-}
-
 function abortableIterator(array, iterator) {
   let abortIteration = false;
 
@@ -114,7 +58,6 @@ function abortableIterator(array, iterator) {
 
 module.exports = {
   sleepFor,
-  allowOnlyOneAtATime,
   abortableIterator,
   firstTrue,
 };

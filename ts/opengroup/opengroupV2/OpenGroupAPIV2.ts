@@ -1,71 +1,21 @@
-import { Headers } from 'node-fetch';
-import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
-import { getV2OpenGroupRoomByRoomId } from '../../data/opengroups';
+import {
+  getV2OpenGroupRoomByRoomId,
+  saveV2OpenGroupRoom,
+} from '../../data/opengroups';
 import { sendViaOnion } from '../../session/onions/onionSend';
-import { fromBase64ToArray } from '../../session/utils/String';
+import { allowOnlyOneAtATime } from '../../session/utils/Promise';
+import { fromBase64ToArrayBuffer, toHex } from '../../session/utils/String';
 import {
   getIdentityKeyPair,
   getOurPubKeyStrFromCache,
 } from '../../session/utils/User';
-
-// HTTP HEADER FOR OPEN GROUP V2
-const HEADER_ROOM = 'Room';
-const HEADER_AUTHORIZATION = 'Authorization';
-
-const PARAMETER_PUBLIC_KEY = 'public_key';
-
-export const openGroupV2PubKeys: Record<string, string> = {};
-
-export const defaultServer = 'https://sessionopengroup.com';
-export const defaultServerPublicKey =
-  '658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231b';
-
-type OpenGroupV2Request = {
-  method: 'GET' | 'POST' | 'DELETE' | 'PUT';
-  room: string;
-  server: string;
-  endpoint: string;
-  // queryParams are used for post or get, but not the same way
-  queryParams?: Map<string, string>;
-  headers?: Headers;
-  isAuthRequired: boolean;
-  // Always `true` under normal circumstances. You might want to disable this when running over Lokinet.
-  useOnionRouting?: boolean;
-};
-
-type OpenGroupV2Info = {
-  id: string;
-  name: string;
-  imageId?: string;
-};
-
-/**
- * Try to build an full url and check it for validity.
- * @returns null if the check failed. the built URL otherwise
- */
-const buildUrl = (request: OpenGroupV2Request): URL | null => {
-  let rawURL = `${request.server}/${request.endpoint}`;
-  if (request.method === 'GET') {
-    if (!!request.queryParams?.size) {
-      const entries = [...request.queryParams.entries()];
-      const queryString = entries
-        .map(([key, value]) => `${key}=${value}`)
-        .join('&');
-      rawURL += `/?${queryString}`;
-    }
-  }
-  // this just check that the URL is valid
-  try {
-    return new URL(`${rawURL}`);
-  } catch (error) {
-    return null;
-  }
-};
-
-/**
- * Map of serverUrl to roomId to list of moderators as a Set
- */
-export const moderators: Map<string, Map<string, Set<string>>> = new Map();
+import {
+  buildUrl,
+  cachedModerators,
+  OpenGroupV2Info,
+  OpenGroupV2Request,
+  setCachedModerators,
+} from './ApiUtil';
 
 // This function might throw
 async function sendOpenGroupV2Request(
@@ -78,33 +28,51 @@ async function sendOpenGroupV2Request(
   }
 
   // set the headers sent by the caller, and the roomId.
-  const headersWithRoom = request.headers || new Headers();
-  headersWithRoom.append(HEADER_ROOM, request.room);
-  console.warn(`request: ${builtUrl}`);
+  const headers = request.headers || {};
+  headers.Room = request.room;
+  console.warn(`sending request: ${builtUrl}`);
+  let body = '';
+  if (request.method !== 'GET') {
+    body = JSON.stringify(request.queryParams);
+  }
 
   // request.useOnionRouting === undefined defaults to true
   if (request.useOnionRouting || request.useOnionRouting === undefined) {
-    const roomDetails = await getV2OpenGroupRoomByRoomId(
-      request.server,
-      request.room
-    );
+    const roomDetails = await getV2OpenGroupRoomByRoomId({
+      serverUrl: request.server,
+      roomId: request.room,
+    });
     if (!roomDetails?.serverPublicKey) {
       throw new Error('PublicKey not found for this server.');
     }
     // Because auth happens on a per-room basis, we need both to make an authenticated request
     if (request.isAuthRequired && request.room) {
-      const token = await getAuthToken(request.room, request.server);
+      // this call will either return the token on the db,
+      // or the promise currently fetching a new token for that same room
+      // or fetch a new token for that room if no other request are currently being made.
+      const token = await getAuthToken({
+        roomId: request.room,
+        serverUrl: request.server,
+      });
       if (!token) {
         throw new Error('Failed to get token for open group v2');
       }
-      headersWithRoom.append(HEADER_AUTHORIZATION, token);
-
-      // FIXME use headersWithRoom
+      headers.Authorization = token;
+      const res = await sendViaOnion(roomDetails.serverPublicKey, builtUrl, {
+        method: request.method,
+        headers,
+        body,
+      });
+      // A 401 means that we didn't provide a (valid) auth token for a route that required one. We use this as an
+      // indication that the token we're using has expired. Note that a 403 has a different meaning; it means that
+      // we provided a valid token but it doesn't have a high enough permission level for the route in question.
+      return res;
     } else {
       // no need for auth, just do the onion request
       const res = await sendViaOnion(roomDetails.serverPublicKey, builtUrl, {
         method: request.method,
-        headers: { ...headersWithRoom.entries() },
+        headers,
+        body,
       });
       return res;
     }
@@ -118,53 +86,78 @@ async function sendOpenGroupV2Request(
 }
 
 // tslint:disable: member-ordering
-export async function requestNewAuthToken(
-  serverUrl: string,
-  roomid: string
-): Promise<void> {
+export async function requestNewAuthToken({
+  serverUrl,
+  roomId,
+}: {
+  serverUrl: string;
+  roomId: string;
+}): Promise<string> {
   const userKeyPair = await getIdentityKeyPair();
   if (!userKeyPair) {
     throw new Error('Failed to fetch user keypair');
   }
 
   const ourPubkey = getOurPubKeyStrFromCache();
-  const parameters = [PARAMETER_PUBLIC_KEY, ourPubkey] as [string, string];
+  const parameters = {} as Record<string, string>;
+  parameters.public_key = ourPubkey;
   const request: OpenGroupV2Request = {
     method: 'GET',
-    room: roomid,
+    room: roomId,
     server: serverUrl,
-    queryParams: new Map([parameters]),
+    queryParams: parameters,
     isAuthRequired: false,
     endpoint: 'auth_token_challenge',
   };
   const json = (await sendOpenGroupV2Request(request)) as any;
   // parse the json
-  const { challenge } = json;
-  if (!challenge) {
+  if (!json || !json?.result?.challenge) {
     throw new Error('Parsing failed');
   }
   const {
     ciphertext: base64EncodedCiphertext,
     ephemeral_public_key: base64EncodedEphemeralPublicKey,
-  } = challenge;
+  } = json?.result?.challenge;
 
   if (!base64EncodedCiphertext || !base64EncodedEphemeralPublicKey) {
     throw new Error('Parsing failed');
   }
-  const ciphertext = fromBase64ToArray(base64EncodedCiphertext);
-  const ephemeralPublicKey = fromBase64ToArray(base64EncodedEphemeralPublicKey);
-  console.warn('ciphertext', ciphertext);
-  console.warn('ephemeralPublicKey', ephemeralPublicKey);
+  const ciphertext = fromBase64ToArrayBuffer(base64EncodedCiphertext);
+  const ephemeralPublicKey = fromBase64ToArrayBuffer(
+    base64EncodedEphemeralPublicKey
+  );
+  try {
+    const symmetricKey = await window.libloki.crypto.deriveSymmetricKey(
+      ephemeralPublicKey,
+      userKeyPair.privKey
+    );
+
+    const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(
+      symmetricKey,
+      ciphertext
+    );
+
+    const token = toHex(plaintextBuffer);
+
+    console.warn('token', token);
+    return token;
+  } catch (e) {
+    window.log.error('Failed to decrypt token open group v2');
+    throw e;
+  }
 }
 
 /**
  * This function might throw
  *
  */
-export async function openGroupV2GetRoomInfo(
-  roomId: string,
-  serverUrl: string
-): Promise<OpenGroupV2Info> {
+export async function openGroupV2GetRoomInfo({
+  serverUrl,
+  roomId,
+}: {
+  roomId: string;
+  serverUrl: string;
+}): Promise<OpenGroupV2Info> {
   const request: OpenGroupV2Request = {
     method: 'GET',
     server: serverUrl,
@@ -193,40 +186,133 @@ export async function openGroupV2GetRoomInfo(
 async function claimAuthToken(
   authToken: string,
   serverUrl: string,
-  roomid: string
-): Promise<void> {
-  const ourPubkey = getOurPubKeyStrFromCache();
-  const parameters = [PARAMETER_PUBLIC_KEY, ourPubkey] as [string, string];
+  roomId: string
+): Promise<string> {
   // Set explicitly here because is isn't in the database yet at this point
-  const headers = new Headers({ HEADER_AUTHORIZATION: authToken });
+  const headers = { Authorization: authToken };
   const request: OpenGroupV2Request = {
     method: 'POST',
     headers,
-    room: roomid,
+    room: roomId,
     server: serverUrl,
-    queryParams: new Map([parameters]),
+    queryParams: { public_key: getOurPubKeyStrFromCache() },
     isAuthRequired: false,
     endpoint: 'claim_auth_token',
   };
-  await sendOpenGroupV2Request(request);
+  const result = (await sendOpenGroupV2Request(request)) as any;
+  if (result?.result?.status_code !== 200) {
+    throw new Error(
+      `Could not claim token, status code: ${result?.result?.status_code}`
+    );
+  }
+  return authToken;
 }
 
-async function getAuthToken(
-  serverUrl: string,
-  roomId: string
-): Promise<string> {
+export async function getAuthToken({
+  serverUrl,
+  roomId,
+}: {
+  serverUrl: string;
+  roomId: string;
+}): Promise<string> {
   // first try to fetch from db a saved token.
-  const roomDetails = await getV2OpenGroupRoomByRoomId(serverUrl, roomId);
+  const roomDetails = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
+  if (!roomDetails) {
+    throw new Error('getAuthToken Room does not exist.');
+  }
   if (roomDetails?.token) {
     return roomDetails?.token;
   }
 
-  // const token = await allowOnlyOneAtATime(
-  //   `getAuthTokenV2${serverUrl}:${roomId}`,
-  //   async () => {
-  //     requestNewAuthToken
-  //   }
-  // );
+  await allowOnlyOneAtATime(
+    `getAuthTokenV2${serverUrl}:${roomId}`,
+    async () => {
+      try {
+        const token = await requestNewAuthToken({ serverUrl, roomId });
+        // claimAuthToken throws if the status code is not valid
+        const claimedToken = await claimAuthToken(token, serverUrl, roomId);
+        roomDetails.token = token;
+        await saveV2OpenGroupRoom(roomDetails);
+      } catch (e) {
+        window.log.error('Failed to getAuthToken', e);
+        throw e;
+      }
+    }
+  );
 
   return 'token';
 }
+
+export const getModerators = async ({
+  serverUrl,
+  roomId,
+}: {
+  serverUrl: string;
+  roomId: string;
+}): Promise<Array<string>> => {
+  const request: OpenGroupV2Request = {
+    method: 'GET',
+    room: roomId,
+    server: serverUrl,
+    isAuthRequired: true,
+    endpoint: 'moderators',
+  };
+  const result = (await sendOpenGroupV2Request(request)) as any;
+  if (result?.result?.status_code !== 200) {
+    throw new Error(
+      `Could not getModerators, status code: ${result?.result?.status_code}`
+    );
+  }
+  const moderatorsGot = result?.result?.moderators;
+  if (moderatorsGot === undefined) {
+    throw new Error(
+      'Could not getModerators, got no moderatorsGot at all in json.'
+    );
+  }
+  setCachedModerators(serverUrl, roomId, moderatorsGot || []);
+  return moderatorsGot || [];
+};
+
+export const deleteAuthToken = async ({
+  serverUrl,
+  roomId,
+}: {
+  serverUrl: string;
+  roomId: string;
+}) => {
+  const request: OpenGroupV2Request = {
+    method: 'DELETE',
+    room: roomId,
+    server: serverUrl,
+    isAuthRequired: false,
+    endpoint: 'auth_token',
+  };
+  const result = (await sendOpenGroupV2Request(request)) as any;
+  if (result?.result?.status_code !== 200) {
+    throw new Error(
+      `Could not deleteAuthToken, status code: ${result?.result?.status_code}`
+    );
+  }
+};
+
+export const getMessages = async ({
+  serverUrl,
+  roomId,
+}: {
+  serverUrl: string;
+  roomId: string;
+}) => {
+  const request: OpenGroupV2Request = {
+    method: 'GET',
+    room: roomId,
+    server: serverUrl,
+    isAuthRequired: false,
+    endpoint: 'auth_token',
+  };
+  const result = (await sendOpenGroupV2Request(request)) as any;
+  if (result?.result?.status_code !== 200) {
+    throw new Error(
+      `Could not deleteAuthToken, status code: ${result?.result?.status_code}`
+    );
+  }
+};

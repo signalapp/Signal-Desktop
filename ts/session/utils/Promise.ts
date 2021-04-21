@@ -13,6 +13,71 @@ export class TaskTimedOutError extends Error {
   }
 }
 
+// one action resolves all
+const snodeGlobalLocks: any = {};
+export async function allowOnlyOneAtATime(
+  name: string,
+  process: any,
+  timeoutMs?: number
+) {
+  // if currently not in progress
+  if (snodeGlobalLocks[name] === undefined) {
+    // set lock
+    snodeGlobalLocks[name] = new Promise(async (resolve, reject) => {
+      // set up timeout feature
+      let timeoutTimer = null;
+      if (timeoutMs) {
+        timeoutTimer = setTimeout(() => {
+          window.log.warn(
+            `loki_primitives:::allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}s`
+          );
+          // tslint:disable-next-line: no-dynamic-delete
+          delete snodeGlobalLocks[name]; // clear lock
+          reject();
+        }, timeoutMs);
+      }
+      // do actual work
+      let innerRetVal;
+      try {
+        innerRetVal = await process();
+      } catch (e) {
+        if (typeof e === 'string') {
+          window.log.error(
+            `loki_primitives:::allowOnlyOneAtATime - error ${e}`
+          );
+        } else {
+          window.log.error(
+            `loki_primitives:::allowOnlyOneAtATime - error ${e.code} ${e.message}`
+          );
+        }
+
+        // clear timeout timer
+        if (timeoutMs) {
+          if (timeoutTimer !== null) {
+            clearTimeout(timeoutTimer);
+            timeoutTimer = null;
+          }
+        }
+        // tslint:disable-next-line: no-dynamic-delete
+        delete snodeGlobalLocks[name]; // clear lock
+        throw e;
+      }
+      // clear timeout timer
+      if (timeoutMs) {
+        if (timeoutTimer !== null) {
+          clearTimeout(timeoutTimer);
+          timeoutTimer = null;
+        }
+      }
+      // tslint:disable-next-line: no-dynamic-delete
+      delete snodeGlobalLocks[name]; // clear lock
+      // release the kraken
+      resolve(innerRetVal);
+    });
+  }
+  return snodeGlobalLocks[name];
+}
+
 /**
  * Create a promise which waits until `done` is called or until `timeout` period is reached.
  * If `timeout` is reached then this will throw an Error.
