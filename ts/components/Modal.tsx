@@ -13,6 +13,7 @@ type PropsType = {
   children: ReactNode;
   hasXButton?: boolean;
   i18n: LocalizerType;
+  moduleClassName?: string;
   onClose?: () => void;
   title?: ReactNode;
   theme?: Theme;
@@ -22,6 +23,7 @@ export function Modal({
   children,
   hasXButton,
   i18n,
+  moduleClassName,
   onClose = noop,
   title,
   theme,
@@ -35,7 +37,8 @@ export function Modal({
       <div
         className={classNames(
           'module-Modal',
-          hasHeader ? 'module-Modal--has-header' : 'module-Modal--no-header'
+          hasHeader ? 'module-Modal--has-header' : 'module-Modal--no-header',
+          moduleClassName
         )}
       >
         {hasHeader && (

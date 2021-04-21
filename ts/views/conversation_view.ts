@@ -779,6 +779,9 @@ Whisper.ConversationView = Whisper.View.extend({
   setupTimeline() {
     const { id } = this.model;
 
+    const messageRequestEnum =
+      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+
     const contactSupport = () => {
       const baseUrl =
         'https://support.signal.org/hc/LOCALE/requests/new?desktop&chat_refreshed';
@@ -950,6 +953,28 @@ Whisper.ConversationView = Whisper.View.extend({
         loadAndScroll: this.loadAndScroll.bind(this),
         loadOlderMessages,
         markMessageRead,
+        onBlock: () => {
+          this.syncMessageRequestResponse('onBlock', messageRequestEnum.BLOCK);
+        },
+        onBlockAndDelete: () => {
+          this.syncMessageRequestResponse(
+            'onBlockAndDelete',
+            messageRequestEnum.BLOCK_AND_DELETE
+          );
+        },
+        onDelete: () => {
+          this.syncMessageRequestResponse(
+            'onDelete',
+            messageRequestEnum.DELETE
+          );
+        },
+        onUnblock: () => {
+          this.syncMessageRequestResponse(
+            'onUnblock',
+            messageRequestEnum.ACCEPT
+          );
+        },
+        onShowContactModal: this.showContactModal.bind(this),
         scrollToQuotedMessage,
         updateSharedGroups: this.model.throttledUpdateSharedGroups,
       }),

@@ -31,6 +31,7 @@ const {
   clearGroupCreationError,
   clearInvitedConversationsForNewlyCreatedGroup,
   closeCantAddContactToGroupModal,
+  closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
   createGroup,
@@ -47,6 +48,7 @@ const {
   startComposing,
   showChooseGroupMembers,
   startSettingGroupMetadata,
+  reviewMessageRequestNameCollision,
   toggleConversationInChooseMembers,
 } = actions;
 
@@ -547,6 +549,29 @@ describe('both/state/ducks/conversations', () => {
             result.composer.cantAddContactIdForModal === undefined,
           'Expected the contact ID to be cleared'
         );
+      });
+    });
+
+    describe('CLOSE_CONTACT_SPOOFING_REVIEW', () => {
+      it('closes the contact spoofing review modal if it was open', () => {
+        const state = {
+          ...getEmptyState(),
+          contactSpoofingReview: {
+            safeConversationId: 'abc123',
+          },
+        };
+        const action = closeContactSpoofingReview();
+        const actual = reducer(state, action);
+
+        assert.isUndefined(actual.contactSpoofingReview);
+      });
+
+      it("does nothing if the modal wasn't already open", () => {
+        const state = getEmptyState();
+        const action = closeContactSpoofingReview();
+        const actual = reducer(state, action);
+
+        assert.deepEqual(actual, state);
       });
     });
 
@@ -1148,6 +1173,20 @@ describe('both/state/ducks/conversations', () => {
         const actual = reducer(state, action);
 
         assert.equal(actual, state);
+      });
+    });
+
+    describe('REVIEW_MESSAGE_REQUEST_NAME_COLLISION', () => {
+      it('starts reviewing a message request name collision', () => {
+        const state = getEmptyState();
+        const action = reviewMessageRequestNameCollision({
+          safeConversationId: 'def',
+        });
+        const actual = reducer(state, action);
+
+        assert.deepEqual(actual.contactSpoofingReview, {
+          safeConversationId: 'def',
+        });
       });
     });
 

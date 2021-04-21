@@ -5164,5 +5164,35 @@
   "ForwardMessageModal--continue": {
     "message": "Continue",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "ContactSpoofing__same-name": {
+    "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+    "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+    "placeholders": {
+      "link": {
+        "content": "$1",
+        "example": "Review request"
+      }
+    }
+  },
+  "ContactSpoofing__same-name__link": {
+    "message": "Review request",
+    "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+  },
+  "ContactSpoofingReviewDialog__title": {
+    "message": "Review request",
+    "description": "Title for the contact name spoofing review dialog"
+  },
+  "ContactSpoofingReviewDialog__description": {
+    "message": "If you're not sure who the request is from, review the contacts below and take action.",
+    "description": "Description for the contact spoofing review dialog"
+  },
+  "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+    "message": "Request",
+    "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+  },
+  "ContactSpoofingReviewDialog__safe-title": {
+    "message": "Your contact",
+    "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
   }
 }

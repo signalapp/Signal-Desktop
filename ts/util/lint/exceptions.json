@@ -16654,7 +16654,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 33,
+    "lineNumber": 39,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"

@@ -89,6 +89,18 @@ export const getConversationsByGroupId = createSelector(
   }
 );
 
+const getAllConversations = createSelector(
+  getConversationLookup,
+  (lookup): Array<ConversationType> => Object.values(lookup)
+);
+
+export const getConversationsByTitleSelector = createSelector(
+  getAllConversations,
+  (conversations): ((title: string) => Array<ConversationType>) => (
+    title: string
+  ) => conversations.filter(conversation => conversation.title === title)
+);
+
 export const getSelectedConversationId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {

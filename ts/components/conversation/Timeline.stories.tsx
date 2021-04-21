@@ -11,6 +11,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import { PropsType, Timeline } from './Timeline';
 import { TimelineItem, TimelineItemType } from './TimelineItem';
 import { ConversationHero } from './ConversationHero';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { TimelineLoadingRow } from './TimelineLoadingRow';
 import { TypingBubble } from './TypingBubble';
@@ -260,6 +261,16 @@ const actions = () => ({
   returnToActiveCall: action('returnToActiveCall'),
 
   contactSupport: action('contactSupport'),
+
+  closeContactSpoofingReview: action('closeContactSpoofingReview'),
+  reviewMessageRequestNameCollision: action(
+    'reviewMessageRequestNameCollision'
+  ),
+
+  onBlock: action('onBlock'),
+  onBlockAndDelete: action('onBlockAndDelete'),
+  onDelete: action('onDelete'),
+  onUnblock: action('onUnblock'),
 });
 
 const renderItem = (id: string) => (
@@ -330,6 +341,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     undefined,
   invitedContactsForNewlyCreatedGroup:
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
+  warning: overrideProps.warning,
 
   id: '',
   renderItem,
@@ -415,6 +427,17 @@ story.add('With invited contacts for a newly-created group', () => {
         type: 'direct',
       },
     ],
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('With "same name" warning', () => {
+  const props = createProps({
+    warning: {
+      safeConversation: getDefaultConversation(),
+    },
+    items: [],
   });
 
   return <Timeline {...props} />;

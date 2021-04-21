@@ -28,6 +28,7 @@ import {
   getMaximumGroupSizeModalState,
   getPlaceholderContact,
   getRecommendedGroupSizeModalState,
+  getConversationsByTitleSelector,
   getSelectedConversation,
   getSelectedConversationId,
   hasGroupCreationError,
@@ -1285,6 +1286,35 @@ describe('both/state/selectors/conversations', () => {
         contact => contact.title
       );
       assert.deepEqual(titles, ['Person Two', 'Person One']);
+    });
+  });
+
+  describe('#getConversationsByTitleSelector', () => {
+    it('returns a selector that finds conversations by title', () => {
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            abc: { ...getDefaultConversation('abc'), title: 'Janet' },
+            def: { ...getDefaultConversation('def'), title: 'Janet' },
+            geh: { ...getDefaultConversation('geh'), title: 'Rick' },
+          },
+        },
+      };
+
+      const selector = getConversationsByTitleSelector(state);
+
+      assert.sameMembers(
+        selector('Janet').map(c => c.id),
+        ['abc', 'def']
+      );
+      assert.sameMembers(
+        selector('Rick').map(c => c.id),
+        ['geh']
+      );
+      assert.isEmpty(selector('abc'));
+      assert.isEmpty(selector('xyz'));
     });
   });
 
