@@ -3,6 +3,7 @@ import {
   getV2OpenGroupRoomByRoomId,
   saveV2OpenGroupRoom,
 } from '../../data/opengroups';
+import { ConversationController } from '../../session/conversations';
 import { getSodium } from '../../session/crypto';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { PubKey } from '../../session/types';
@@ -17,6 +18,7 @@ import {
   getIdentityKeyPair,
   getOurPubKeyStrFromCache,
 } from '../../session/utils/User';
+import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import {
   buildUrl,
   cachedModerators,
@@ -60,7 +62,7 @@ async function sendOpenGroupV2Request(
     if (request.isAuthRequired && request.room) {
       // this call will either return the token on the db,
       // or the promise currently fetching a new token for that same room
-      // or fetch a new token for that room if no other request are currently being made.
+      // or fetch from the open group a new token for that room.
       const token = await getAuthToken({
         roomId: request.room,
         serverUrl: request.server,
@@ -74,9 +76,24 @@ async function sendOpenGroupV2Request(
         headers,
         body,
       });
+
+      const statusCode = res?.result?.status_code;
+      if (!statusCode) {
+        window.log.warn(
+          'sendOpenGroupV2Request Got unknown status code; res:',
+          res
+        );
+        return res;
+      }
       // A 401 means that we didn't provide a (valid) auth token for a route that required one. We use this as an
-      // indication that the token we're using has expired. Note that a 403 has a different meaning; it means that
+      // indication that the token we're using has expired.
+      // Note that a 403 has a different meaning; it means that
       // we provided a valid token but it doesn't have a high enough permission level for the route in question.
+      if (statusCode === 401) {
+        roomDetails.token = undefined;
+        // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
+        await saveV2OpenGroupRoom(roomDetails);
+      }
       return res;
     } else {
       // no need for auth, just do the onion request
@@ -248,33 +265,6 @@ export async function getAuthToken({
   return 'token';
 }
 
-export const getModerators = async ({
-  serverUrl,
-  roomId,
-}: OpenGroupRequestCommonType): Promise<Array<string>> => {
-  const request: OpenGroupV2Request = {
-    method: 'GET',
-    room: roomId,
-    server: serverUrl,
-    isAuthRequired: true,
-    endpoint: 'moderators',
-  };
-  const result = (await sendOpenGroupV2Request(request)) as any;
-  if (result?.result?.status_code !== 200) {
-    throw new Error(
-      `Could not getModerators, status code: ${result?.result?.status_code}`
-    );
-  }
-  const moderatorsGot = result?.result?.moderators;
-  if (moderatorsGot === undefined) {
-    throw new Error(
-      'Could not getModerators, got no moderatorsGot at all in json.'
-    );
-  }
-  setCachedModerators(serverUrl, roomId, moderatorsGot || []);
-  return moderatorsGot || [];
-};
-
 export const deleteAuthToken = async ({
   serverUrl,
   roomId,
@@ -366,5 +356,151 @@ export const postMessage = async (
   } catch (e) {
     window.log.error('Failed to post message to open group v2', e);
     throw e;
+  }
+};
+
+/** Those functions are related to moderators management */
+export const getModerators = async ({
+  serverUrl,
+  roomId,
+}: OpenGroupRequestCommonType): Promise<Array<string>> => {
+  const request: OpenGroupV2Request = {
+    method: 'GET',
+    room: roomId,
+    server: serverUrl,
+    isAuthRequired: true,
+    endpoint: 'moderators',
+  };
+  const result = (await sendOpenGroupV2Request(request)) as any;
+  if (result?.result?.status_code !== 200) {
+    throw new Error(
+      `Could not getModerators, status code: ${result?.result?.status_code}`
+    );
+  }
+  const moderatorsGot = result?.result?.moderators;
+  if (moderatorsGot === undefined) {
+    throw new Error(
+      'Could not getModerators, got no moderatorsGot at all in json.'
+    );
+  }
+  setCachedModerators(serverUrl, roomId, moderatorsGot || []);
+  return moderatorsGot || [];
+};
+
+export const isUserModerator = (
+  publicKey: string,
+  roomInfos: OpenGroupRequestCommonType
+): boolean => {
+  return (
+    cachedModerators
+      ?.get(roomInfos.serverUrl)
+      ?.get(roomInfos.roomId)
+      ?.has(publicKey) || false
+  );
+};
+
+export const banUser = async (
+  publicKey: string,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<void> => {
+  const queryParams = { public_key: publicKey };
+  const request: OpenGroupV2Request = {
+    method: 'POST',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: true,
+    queryParams,
+    endpoint: 'block_list',
+  };
+  await sendOpenGroupV2Request(request);
+};
+
+export const unbanUser = async (
+  publicKey: string,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<void> => {
+  const request: OpenGroupV2Request = {
+    method: 'DELETE',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: true,
+    endpoint: `block_list/${publicKey}`,
+  };
+  await sendOpenGroupV2Request(request);
+};
+
+export const getAllRoomInfos = async (
+  roomInfos: OpenGroupRequestCommonType
+) => {
+  // room should not be required here
+  const request: OpenGroupV2Request = {
+    method: 'GET',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: false,
+    endpoint: 'rooms',
+  };
+  const result = (await sendOpenGroupV2Request(request)) as any;
+  if (result?.result?.status_code !== 200) {
+    window.log.warn('getAllRoomInfos failed invalid status code');
+    return;
+  }
+
+  const rooms = result?.result?.rooms as Array<any>;
+  if (!rooms || !rooms.length) {
+    window.log.warn('getAllRoomInfos failed invalid infos');
+    return;
+  }
+  return _.compact(
+    rooms.map(room => {
+      // check that the room is correctly filled
+      const { id, name, image_id: imageId } = room;
+      if (!id || !name) {
+        window.log.info('getAllRoomInfos: Got invalid room details, skipping');
+        return null;
+      }
+
+      return { id, name, imageId } as OpenGroupV2Info;
+    })
+  );
+};
+
+export const getMemberCount = async (
+  roomInfos: OpenGroupRequestCommonType
+): Promise<void> => {
+  const request: OpenGroupV2Request = {
+    method: 'GET',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: true,
+    endpoint: 'member_count',
+  };
+  const result = (await sendOpenGroupV2Request(request)) as any;
+  if (result?.result?.status_code !== 200) {
+    window.log.warn('getMemberCount failed invalid status code');
+    return;
+  }
+  const count = result?.result?.member_count as number;
+  if (count === undefined) {
+    window.log.warn('getMemberCount failed invalid count');
+    return;
+  }
+
+  const conversationId = getOpenGroupV2ConversationId(
+    roomInfos.serverUrl,
+    roomInfos.roomId
+  );
+
+  const convo = ConversationController.getInstance().get(conversationId);
+  if (!convo) {
+    window.log.warn(
+      'cannot update conversation memberCount as it does not exist'
+    );
+    return;
+  }
+  if (convo.get('subscriberCount') !== count) {
+    convo.set({ subscriberCount: count });
+    // triggers the save to db and the refresh of the UI
+    await convo.commit();
   }
 };
