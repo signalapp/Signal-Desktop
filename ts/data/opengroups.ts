@@ -1,3 +1,4 @@
+import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { channels } from './channels';
 
 export type OpenGroupV2Room = {
@@ -47,10 +48,9 @@ export async function getV2OpenGroupRoom(
   return opengroupv2Rooms;
 }
 
-export async function getV2OpenGroupRoomByRoomId(roomInfos: {
-  serverUrl: string;
-  roomId: string;
-}): Promise<OpenGroupV2Room | undefined> {
+export async function getV2OpenGroupRoomByRoomId(
+  roomInfos: OpenGroupRequestCommonType
+): Promise<OpenGroupV2Room | undefined> {
   console.warn('getting roomInfo', roomInfos);
   const room = await channels.getV2OpenGroupRoomByRoomId(
     roomInfos.serverUrl,

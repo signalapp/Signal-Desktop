@@ -1,6 +1,7 @@
 import { getSodium } from '../../session/crypto';
 import { UserUtils } from '../../session/utils';
 import {
+  fromArrayBufferToBase64,
   fromBase64ToArray,
   fromHex,
   fromHexToArray,
@@ -36,17 +37,39 @@ export class OpenGroupMessageV2 {
     this.serverId = serverId;
   }
 
-  public async sign() {
-    const ourKeyPair = await UserUtils.getUserED25519KeyPair();
+  public static fromJson(json: Record<string, any>) {
+    const {
+      data: base64EncodedData,
+      timestamp: sentTimestamp,
+      server_id: serverId,
+      public_key: sender,
+      signature: base64EncodedSignature,
+    } = json;
+
+    if (!base64EncodedData || !sentTimestamp) {
+      window.log.info('invalid json to build OpenGroupMessageV2');
+      throw new Error('OpengroupV2Message fromJson() failed');
+    }
+    return new OpenGroupMessageV2({
+      base64EncodedData,
+      base64EncodedSignature,
+      sentTimestamp,
+      serverId,
+      sender,
+    });
+  }
+
+  public async sign(): Promise<OpenGroupMessageV2> {
+    const ourKeyPair = await UserUtils.getIdentityKeyPair();
     if (!ourKeyPair) {
       window.log.warn("Couldn't find user X25519 key pair.");
-      return null;
+      throw new Error("Couldn't sign message");
     }
+
     const data = fromBase64ToArray(this.base64EncodedData);
-    const sodium = await getSodium();
-    const signature = sodium.crypto_sign_detached(
-      data,
-      fromHexToArray(ourKeyPair.privKey)
+    const signature = await window.libsignal.Curve.async.calculateSignature(
+      ourKeyPair.privKey,
+      data.buffer
     );
     if (!signature || signature.length === 0) {
       throw new Error("Couldn't sign message");
@@ -54,7 +77,7 @@ export class OpenGroupMessageV2 {
     return new OpenGroupMessageV2({
       base64EncodedData: this.base64EncodedData,
       sentTimestamp: this.sentTimestamp,
-      base64EncodedSignature: toHex(signature),
+      base64EncodedSignature: fromArrayBufferToBase64(signature),
       sender: this.sender,
       serverId: this.serverId,
     });
@@ -74,27 +97,6 @@ export class OpenGroupMessageV2 {
     if (this.base64EncodedSignature) {
       json.signature = this.base64EncodedSignature;
     }
-  }
-
-  public fromJson(json: Record<string, any>) {
-    const {
-      data: base64EncodedData,
-      timestamp: sentTimestamp,
-      server_id: serverId,
-      public_key: sender,
-      signature: base64EncodedSignature,
-    } = json;
-
-    if (!base64EncodedData || !sentTimestamp) {
-      window.log.info('invalid json to build OpenGroupMessageV2');
-      return null;
-    }
-    return new OpenGroupMessageV2({
-      base64EncodedData,
-      base64EncodedSignature,
-      sentTimestamp,
-      serverId,
-      sender,
-    });
+    return json;
   }
 }

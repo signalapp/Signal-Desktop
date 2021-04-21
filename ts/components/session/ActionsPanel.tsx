@@ -3,8 +3,6 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
-import { ConversationType } from '../../state/ducks/conversations';
-import { DefaultTheme } from 'styled-components';
 import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
@@ -35,8 +33,11 @@ import {
 } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
 import {
   getAuthToken,
+  getMessages,
   getModerators,
+  postMessage,
 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
+import { OpenGroupMessageV2 } from '../../opengroup/opengroupV2/OpenGroupMessageV2';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -193,7 +194,19 @@ export const ActionsPanel = () => {
     if (parsedRoom) {
       setTimeout(async () => {
         await joinOpenGroupV2(parsedRoom);
-        await getModerators({
+        const oldMessages = await getMessages({
+          serverUrl: parsedRoom.serverUrl,
+          roomId: parsedRoom.roomId,
+        });
+        const msg = new OpenGroupMessageV2({
+          base64EncodedData: 'dffdldfkldf',
+          sentTimestamp: Date.now(),
+        });
+        const postedMessage = await postMessage(msg, {
+          serverUrl: parsedRoom.serverUrl,
+          roomId: parsedRoom.roomId,
+        });
+        const newMessages = await getMessages({
           serverUrl: parsedRoom.serverUrl,
           roomId: parsedRoom.roomId,
         });

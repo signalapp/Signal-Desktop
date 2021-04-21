@@ -1,10 +1,18 @@
+import _ from 'lodash';
 import {
   getV2OpenGroupRoomByRoomId,
   saveV2OpenGroupRoom,
 } from '../../data/opengroups';
+import { getSodium } from '../../session/crypto';
 import { sendViaOnion } from '../../session/onions/onionSend';
+import { PubKey } from '../../session/types';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
-import { fromBase64ToArrayBuffer, toHex } from '../../session/utils/String';
+import {
+  fromBase64ToArray,
+  fromBase64ToArrayBuffer,
+  fromHexToArray,
+  toHex,
+} from '../../session/utils/String';
 import {
   getIdentityKeyPair,
   getOurPubKeyStrFromCache,
@@ -12,10 +20,13 @@ import {
 import {
   buildUrl,
   cachedModerators,
+  OpenGroupRequestCommonType,
   OpenGroupV2Info,
   OpenGroupV2Request,
+  parseMessages,
   setCachedModerators,
 } from './ApiUtil';
+import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
 // This function might throw
 async function sendOpenGroupV2Request(
@@ -89,10 +100,7 @@ async function sendOpenGroupV2Request(
 export async function requestNewAuthToken({
   serverUrl,
   roomId,
-}: {
-  serverUrl: string;
-  roomId: string;
-}): Promise<string> {
+}: OpenGroupRequestCommonType): Promise<string> {
   const userKeyPair = await getIdentityKeyPair();
   if (!userKeyPair) {
     throw new Error('Failed to fetch user keypair');
@@ -211,10 +219,7 @@ async function claimAuthToken(
 export async function getAuthToken({
   serverUrl,
   roomId,
-}: {
-  serverUrl: string;
-  roomId: string;
-}): Promise<string> {
+}: OpenGroupRequestCommonType): Promise<string> {
   // first try to fetch from db a saved token.
   const roomDetails = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
   if (!roomDetails) {
@@ -246,10 +251,7 @@ export async function getAuthToken({
 export const getModerators = async ({
   serverUrl,
   roomId,
-}: {
-  serverUrl: string;
-  roomId: string;
-}): Promise<Array<string>> => {
+}: OpenGroupRequestCommonType): Promise<Array<string>> => {
   const request: OpenGroupV2Request = {
     method: 'GET',
     room: roomId,
@@ -276,10 +278,7 @@ export const getModerators = async ({
 export const deleteAuthToken = async ({
   serverUrl,
   roomId,
-}: {
-  serverUrl: string;
-  roomId: string;
-}) => {
+}: OpenGroupRequestCommonType) => {
   const request: OpenGroupV2Request = {
     method: 'DELETE',
     room: roomId,
@@ -298,21 +297,74 @@ export const deleteAuthToken = async ({
 export const getMessages = async ({
   serverUrl,
   roomId,
-}: {
-  serverUrl: string;
-  roomId: string;
-}) => {
+}: OpenGroupRequestCommonType): Promise<Array<OpenGroupMessageV2>> => {
+  const roomInfos = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
+  if (!roomInfos) {
+    throw new Error('Could not find this room getMessages');
+  }
+  const { lastMessageFetchedServerID } = roomInfos;
+
+  const queryParams = {} as Record<string, any>;
+  if (lastMessageFetchedServerID) {
+    queryParams.from_server_id = lastMessageFetchedServerID;
+  }
+
   const request: OpenGroupV2Request = {
     method: 'GET',
     room: roomId,
     server: serverUrl,
-    isAuthRequired: false,
-    endpoint: 'auth_token',
+    isAuthRequired: true,
+    endpoint: 'messages',
   };
   const result = (await sendOpenGroupV2Request(request)) as any;
   if (result?.result?.status_code !== 200) {
     throw new Error(
-      `Could not deleteAuthToken, status code: ${result?.result?.status_code}`
+      `Could not getMessages, status code: ${result?.result?.status_code}`
     );
+  }
+
+  // we have a 200
+  const rawMessages = result?.result?.messages as Array<Record<string, any>>;
+  if (!rawMessages) {
+    window.log.info('no new messages');
+    return [];
+  }
+  const validMessages = await parseMessages(rawMessages);
+  console.warn('validMessages', validMessages);
+  return validMessages;
+};
+
+export const postMessage = async (
+  message: OpenGroupMessageV2,
+  room: OpenGroupRequestCommonType
+) => {
+  try {
+    const signedMessage = await message.sign();
+    const json = signedMessage.toJson();
+    console.warn('posting message json', json);
+
+    const request: OpenGroupV2Request = {
+      method: 'POST',
+      room: room.roomId,
+      server: room.serverUrl,
+      queryParams: json,
+      isAuthRequired: true,
+      endpoint: 'messages',
+    };
+    const result = (await sendOpenGroupV2Request(request)) as any;
+    if (result?.result?.status_code !== 200) {
+      throw new Error(
+        `Could not postMessage, status code: ${result?.result?.status_code}`
+      );
+    }
+    const rawMessage = result?.result?.message;
+    if (!rawMessage) {
+      throw new Error('postMessage parsing failed');
+    }
+    // this will throw if the json is not valid
+    return OpenGroupMessageV2.fromJson(rawMessage);
+  } catch (e) {
+    window.log.error('Failed to post message to open group v2', e);
+    throw e;
   }
 };

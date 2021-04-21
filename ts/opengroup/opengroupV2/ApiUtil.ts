@@ -1,6 +1,22 @@
+import _ from 'underscore';
+import { getSodium } from '../../session/crypto';
+import { PubKey } from '../../session/types';
+import {
+  fromBase64ToArray,
+  fromBase64ToArrayBuffer,
+  fromHex,
+  fromHexToArray,
+} from '../../session/utils/String';
+import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
+
 export const defaultServer = 'https://sessionopengroup.com';
 export const defaultServerPublicKey =
   '658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231b';
+
+export type OpenGroupRequestCommonType = {
+  serverUrl: string;
+  roomId: string;
+};
 
 export type OpenGroupV2Request = {
   method: 'GET' | 'POST' | 'DELETE' | 'PUT';
@@ -69,4 +85,50 @@ export const setCachedModerators = (
   newModerators.forEach(m => {
     allRoomsMods!.get(roomId)?.add(m);
   });
+};
+
+export const parseMessages = async (
+  rawMessages: Array<Record<string, any>>
+): Promise<Array<OpenGroupMessageV2>> => {
+  const messages = await Promise.all(
+    rawMessages.map(async r => {
+      try {
+        const opengroupMessage = OpenGroupMessageV2.fromJson(r);
+        console.warn('opengroupMessage', opengroupMessage);
+        if (
+          !opengroupMessage?.serverId ||
+          !opengroupMessage.sentTimestamp ||
+          !opengroupMessage.base64EncodedData ||
+          !opengroupMessage.base64EncodedSignature
+        ) {
+          window.log.warn('invalid open group message received');
+          return null;
+        }
+        // Validate the message signature
+        const senderPubKey = PubKey.cast(
+          opengroupMessage.sender
+        ).withoutPrefix();
+        const signature = fromBase64ToArrayBuffer(
+          opengroupMessage.base64EncodedSignature
+        );
+        const messageData = fromBase64ToArrayBuffer(
+          opengroupMessage.base64EncodedData
+        );
+        // throws if signature failed
+        await window.libsignal.Curve.async.verifySignature(
+          fromHex(senderPubKey),
+          messageData,
+          signature
+        );
+        return opengroupMessage;
+      } catch (e) {
+        window.log.error(
+          'An error happened while fetching getMessages output:',
+          e
+        );
+        return null;
+      }
+    })
+  );
+  return _.compact(messages);
 };
