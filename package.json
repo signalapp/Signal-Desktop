@@ -344,7 +344,8 @@
         "node_modules/libsignal-client/build/*.node"
       ],
       "target": [
-        "deb"
+        "deb",
+        "AppImage"
       ],
       "icon": "build/icons/png"
     },
