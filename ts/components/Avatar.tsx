@@ -1,7 +1,12 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, {
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 
 import { Spinner } from './Spinner';
@@ -9,6 +14,7 @@ import { Spinner } from './Spinner';
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
+import * as log from '../logging/log';
 
 export enum AvatarSize {
   TWENTY_EIGHT = 28,
@@ -40,111 +46,35 @@ export type Props = {
   i18n: LocalizerType;
 } & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
 
-type State = {
-  readonly imageBroken: boolean;
-  readonly lastAvatarPath?: string;
-};
+export const Avatar: FunctionComponent<Props> = ({
+  avatarPath,
+  className,
+  color,
+  conversationType,
+  i18n,
+  innerRef,
+  loading,
+  noteToSelf,
+  onClick,
+  size,
+  title,
+}) => {
+  const [imageBroken, setImageBroken] = useState(false);
 
-export class Avatar extends React.Component<Props, State> {
-  public handleImageErrorBound: () => void;
+  useEffect(() => {
+    setImageBroken(false);
+  }, [avatarPath]);
 
-  public constructor(props: Props) {
-    super(props);
+  const initials = getInitials(title);
+  const hasImage = !noteToSelf && avatarPath && !imageBroken;
+  const shouldUseInitials =
+    !hasImage && conversationType === 'direct' && Boolean(initials);
 
-    this.handleImageErrorBound = this.handleImageError.bind(this);
-
-    this.state = {
-      lastAvatarPath: props.avatarPath,
-      imageBroken: false,
-    };
-  }
-
-  public static getDerivedStateFromProps(props: Props, state: State): State {
-    if (props.avatarPath !== state.lastAvatarPath) {
-      return {
-        ...state,
-        lastAvatarPath: props.avatarPath,
-        imageBroken: false,
-      };
-    }
-
-    return state;
-  }
-
-  public handleImageError(): void {
-    window.log.info(
-      'Avatar: Image failed to load; failing over to placeholder'
-    );
-    this.setState({
-      imageBroken: true,
-    });
-  }
-
-  public renderImage(): JSX.Element | null {
-    const { avatarPath, i18n, title } = this.props;
-    const { imageBroken } = this.state;
-
-    if (!avatarPath || imageBroken) {
-      return null;
-    }
-
-    return (
-      <img
-        onError={this.handleImageErrorBound}
-        alt={i18n('contactAvatarAlt', [title])}
-        src={avatarPath}
-      />
-    );
-  }
-
-  public renderNoImage(): JSX.Element {
-    const { conversationType, noteToSelf, size, title } = this.props;
-
-    const initials = getInitials(title);
-    const isGroup = conversationType === 'group';
-
-    if (noteToSelf) {
-      return (
-        <div
-          className={classNames(
-            'module-avatar__icon',
-            'module-avatar__icon--note-to-self',
-            `module-avatar__icon--${size}`
-          )}
-        />
-      );
-    }
-
-    if (!isGroup && initials) {
-      return (
-        <div
-          className={classNames(
-            'module-avatar__label',
-            `module-avatar__label--${size}`
-          )}
-        >
-          {initials}
-        </div>
-      );
-    }
-
-    return (
-      <div
-        className={classNames(
-          'module-avatar__icon',
-          `module-avatar__icon--${conversationType}`,
-          `module-avatar__icon--${size}`
-        )}
-      />
-    );
-  }
-
-  public renderLoading(): JSX.Element {
-    const { size } = this.props;
+  let contents: ReactNode;
+  if (loading) {
     const svgSize = size < 40 ? 'small' : 'normal';
-
-    return (
-      <div className="module-avatar__spinner-container">
+    contents = (
+      <div className="module-Avatar__spinner-container">
         <Spinner
           size={`${size - 8}px`}
           svgSize={svgSize}
@@ -152,58 +82,72 @@ export class Avatar extends React.Component<Props, State> {
         />
       </div>
     );
-  }
-
-  public render(): JSX.Element {
-    const {
-      avatarPath,
-      color,
-      innerRef,
-      loading,
-      noteToSelf,
-      onClick,
-      size,
-      className,
-    } = this.props;
-    const { imageBroken } = this.state;
-
-    const hasImage = !noteToSelf && avatarPath && !imageBroken;
-
-    if (![28, 32, 52, 80, 96, 112].includes(size)) {
-      throw new Error(`Size ${size} is not supported!`);
-    }
-
-    let contents;
-
-    if (loading) {
-      contents = this.renderLoading();
-    } else if (onClick) {
-      contents = (
-        <button
-          type="button"
-          className="module-avatar-button"
-          onClick={onClick}
-        >
-          {hasImage ? this.renderImage() : this.renderNoImage()}
-        </button>
-      );
-    } else {
-      contents = hasImage ? this.renderImage() : this.renderNoImage();
-    }
-
-    return (
+  } else if (hasImage) {
+    contents = (
+      <img
+        onError={() => {
+          log.warn('Avatar: Image failed to load; failing over to placeholder');
+          setImageBroken(true);
+        }}
+        alt={i18n('contactAvatarAlt', [title])}
+        src={avatarPath}
+      />
+    );
+  } else if (noteToSelf) {
+    contents = (
       <div
         className={classNames(
-          'module-avatar',
-          `module-avatar--${size}`,
-          hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
-          !hasImage ? `module-avatar--${color}` : null,
-          className
+          'module-Avatar__icon',
+          'module-Avatar__icon--note-to-self'
         )}
-        ref={innerRef}
+      />
+    );
+  } else if (shouldUseInitials) {
+    contents = (
+      <div
+        className="module-Avatar__label"
+        style={{ fontSize: Math.ceil(size * 0.5) }}
       >
-        {contents}
+        {initials}
       </div>
     );
+  } else {
+    contents = (
+      <div
+        className={classNames(
+          'module-Avatar__icon',
+          `module-Avatar__icon--${conversationType}`
+        )}
+      />
+    );
   }
-}
+
+  if (onClick) {
+    contents = (
+      <button className="module-Avatar__button" type="button" onClick={onClick}>
+        {contents}
+      </button>
+    );
+  }
+
+  return (
+    <div
+      className={classNames(
+        'module-Avatar',
+        hasImage ? 'module-Avatar--with-image' : 'module-Avatar--no-image',
+        {
+          [`module-Avatar--${color}`]: !hasImage,
+        },
+        className
+      )}
+      style={{
+        minWidth: size,
+        width: size,
+        height: size,
+      }}
+      ref={innerRef}
+    >
+      {contents}
+    </div>
+  );
+};

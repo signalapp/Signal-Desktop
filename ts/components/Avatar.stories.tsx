@@ -44,7 +44,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onClick: action('onClick'),
   phoneNumber: text('phoneNumber', overrideProps.phoneNumber || ''),
   size: 80,
-  title: '',
+  title: overrideProps.title || '',
 });
 
 const sizes: Array<Props['size']> = [112, 96, 80, 52, 32, 28];
@@ -59,15 +59,31 @@ story.add('Avatar', () => {
 
 story.add('One-word Name', () => {
   const props = createProps({
-    name: 'John',
+    title: 'John',
   });
 
   return sizes.map(size => <Avatar key={size} {...props} size={size} />);
 });
 
-story.add('Multi-word Name', () => {
+story.add('Two-word Name', () => {
   const props = createProps({
-    name: 'John Smith',
+    title: 'John Smith',
+  });
+
+  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+});
+
+story.add('Wide initials', () => {
+  const props = createProps({
+    title: 'Walter White',
+  });
+
+  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+});
+
+story.add('Three-word name', () => {
+  const props = createProps({
+    title: 'Walter H. White',
   });
 
   return sizes.map(size => <Avatar key={size} {...props} size={size} />);
