@@ -28,15 +28,8 @@ import { getFocusedSection } from '../../state/selectors/section';
 import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
 import { showLeftPaneSection } from '../../state/ducks/section';
-import { joinOpenGroupV2, parseOpenGroupV2 } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
-import {
-  downloadPreviewOpenGroupV2,
-  getMessages,
-} from '../../opengroup/opengroupV2/OpenGroupAPIV2';
-import { compactFetchEverything } from '../../opengroup/opengroupV2/OpenGroupAPIV2CompactPoll';
+
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
-import { useTimeoutFn } from 'react-use';
-import { getSodium } from '../../session/crypto';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
