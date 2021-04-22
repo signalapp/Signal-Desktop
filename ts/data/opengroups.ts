@@ -51,7 +51,6 @@ export async function getV2OpenGroupRoom(
 export async function getV2OpenGroupRoomByRoomId(
   roomInfos: OpenGroupRequestCommonType
 ): Promise<OpenGroupV2Room | undefined> {
-  console.warn('getting roomInfo', roomInfos);
   const room = await channels.getV2OpenGroupRoomByRoomId(
     roomInfos.serverUrl,
     roomInfos.roomId

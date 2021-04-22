@@ -60,6 +60,9 @@ async function attemptConnectionV2(
     // will need it and access it from the db
     await saveV2OpenGroupRoom(room);
     const roomInfos = await openGroupV2GetRoomInfo({ roomId, serverUrl });
+    if (!roomInfos) {
+      throw new Error('Invalid open group roomInfo result');
+    }
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       conversationId,
       ConversationType.OPEN_GROUP

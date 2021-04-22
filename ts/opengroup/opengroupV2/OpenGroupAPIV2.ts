@@ -4,16 +4,9 @@ import {
   saveV2OpenGroupRoom,
 } from '../../data/opengroups';
 import { ConversationController } from '../../session/conversations';
-import { getSodium } from '../../session/crypto';
 import { sendViaOnion } from '../../session/onions/onionSend';
-import { PubKey } from '../../session/types';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
-import {
-  fromBase64ToArray,
-  fromBase64ToArrayBuffer,
-  fromHexToArray,
-  toHex,
-} from '../../session/utils/String';
+import { fromBase64ToArrayBuffer, toHex } from '../../session/utils/String';
 import {
   getIdentityKeyPair,
   getOurPubKeyStrFromCache,
@@ -28,12 +21,18 @@ import {
   parseMessages,
   setCachedModerators,
 } from './ApiUtil';
+import {
+  parseMemberCount,
+  parseModerators,
+  parseRooms,
+  parseStatusCodeFromOnionRequest,
+} from './OpenGroupAPIV2Parser';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
 // This function might throw
 async function sendOpenGroupV2Request(
   request: OpenGroupV2Request
-): Promise<Object> {
+): Promise<Object | null> {
   const builtUrl = buildUrl(request);
 
   if (!builtUrl) {
@@ -68,7 +67,8 @@ async function sendOpenGroupV2Request(
         serverUrl: request.server,
       });
       if (!token) {
-        throw new Error('Failed to get token for open group v2');
+        window.log.error('Failed to get token for open group v2');
+        return null;
       }
       headers.Authorization = token;
       const res = await sendViaOnion(roomDetails.serverPublicKey, builtUrl, {
@@ -77,13 +77,13 @@ async function sendOpenGroupV2Request(
         body,
       });
 
-      const statusCode = res?.result?.status_code;
+      const statusCode = parseStatusCodeFromOnionRequest(res);
       if (!statusCode) {
         window.log.warn(
           'sendOpenGroupV2Request Got unknown status code; res:',
           res
         );
-        return res;
+        return res as object;
       }
       // A 401 means that we didn't provide a (valid) auth token for a route that required one. We use this as an
       // indication that the token we're using has expired.
@@ -94,7 +94,7 @@ async function sendOpenGroupV2Request(
         // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
         await saveV2OpenGroupRoom(roomDetails);
       }
-      return res;
+      return res as object;
     } else {
       // no need for auth, just do the onion request
       const res = await sendViaOnion(roomDetails.serverPublicKey, builtUrl, {
@@ -102,10 +102,8 @@ async function sendOpenGroupV2Request(
         headers,
         body,
       });
-      return res;
+      return res as object;
     }
-
-    return {};
   } else {
     throw new Error(
       "It's currently not allowed to send non onion routed requests."
@@ -117,7 +115,7 @@ async function sendOpenGroupV2Request(
 export async function requestNewAuthToken({
   serverUrl,
   roomId,
-}: OpenGroupRequestCommonType): Promise<string> {
+}: OpenGroupRequestCommonType): Promise<string | null> {
   const userKeyPair = await getIdentityKeyPair();
   if (!userKeyPair) {
     throw new Error('Failed to fetch user keypair');
@@ -137,7 +135,8 @@ export async function requestNewAuthToken({
   const json = (await sendOpenGroupV2Request(request)) as any;
   // parse the json
   if (!json || !json?.result?.challenge) {
-    throw new Error('Parsing failed');
+    window.log.warn('Parsing failed');
+    return null;
   }
   const {
     ciphertext: base64EncodedCiphertext,
@@ -145,7 +144,8 @@ export async function requestNewAuthToken({
   } = json?.result?.challenge;
 
   if (!base64EncodedCiphertext || !base64EncodedEphemeralPublicKey) {
-    throw new Error('Parsing failed');
+    window.log.warn('Parsing failed');
+    return null;
   }
   const ciphertext = fromBase64ToArrayBuffer(base64EncodedCiphertext);
   const ephemeralPublicKey = fromBase64ToArrayBuffer(
@@ -168,12 +168,11 @@ export async function requestNewAuthToken({
     return token;
   } catch (e) {
     window.log.error('Failed to decrypt token open group v2');
-    throw e;
+    return null;
   }
 }
 
 /**
- * This function might throw
  *
  */
 export async function openGroupV2GetRoomInfo({
@@ -182,7 +181,7 @@ export async function openGroupV2GetRoomInfo({
 }: {
   roomId: string;
   serverUrl: string;
-}): Promise<OpenGroupV2Info> {
+}): Promise<OpenGroupV2Info | null> {
   const request: OpenGroupV2Request = {
     method: 'GET',
     server: serverUrl,
@@ -195,7 +194,8 @@ export async function openGroupV2GetRoomInfo({
     const { id, name, image_id: imageId } = result?.result?.room;
 
     if (!id || !name) {
-      throw new Error('Parsing failed');
+      window.log.warn('getRoominfo Parsing failed');
+      return null;
     }
     const info: OpenGroupV2Info = {
       id,
@@ -205,14 +205,15 @@ export async function openGroupV2GetRoomInfo({
 
     return info;
   }
-  throw new Error('getInfo failed');
+  window.log.warn('getInfo failed');
+  return null;
 }
 
 async function claimAuthToken(
   authToken: string,
   serverUrl: string,
   roomId: string
-): Promise<string> {
+): Promise<string | null> {
   // Set explicitly here because is isn't in the database yet at this point
   const headers = { Authorization: authToken };
   const request: OpenGroupV2Request = {
@@ -224,11 +225,11 @@ async function claimAuthToken(
     isAuthRequired: false,
     endpoint: 'claim_auth_token',
   };
-  const result = (await sendOpenGroupV2Request(request)) as any;
-  if (result?.result?.status_code !== 200) {
-    throw new Error(
-      `Could not claim token, status code: ${result?.result?.status_code}`
-    );
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+  if (statusCode !== 200) {
+    window.log.warn(`Could not claim token, status code: ${statusCode}`);
+    return null;
   }
   return authToken;
 }
@@ -236,11 +237,12 @@ async function claimAuthToken(
 export async function getAuthToken({
   serverUrl,
   roomId,
-}: OpenGroupRequestCommonType): Promise<string> {
+}: OpenGroupRequestCommonType): Promise<string | null> {
   // first try to fetch from db a saved token.
   const roomDetails = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
   if (!roomDetails) {
-    throw new Error('getAuthToken Room does not exist.');
+    window.log.warn('getAuthToken Room does not exist.');
+    return null;
   }
   if (roomDetails?.token) {
     return roomDetails?.token;
@@ -251,9 +253,16 @@ export async function getAuthToken({
     async () => {
       try {
         const token = await requestNewAuthToken({ serverUrl, roomId });
-        // claimAuthToken throws if the status code is not valid
+        if (!token) {
+          window.log.warn('invalid new auth token', token);
+          return;
+        }
         const claimedToken = await claimAuthToken(token, serverUrl, roomId);
-        roomDetails.token = token;
+        if (!claimedToken) {
+          window.log.warn('invalid claimed token', claimedToken);
+        }
+        // still save it to the db. just to mark it as to be refreshed later
+        roomDetails.token = claimedToken || '';
         await saveV2OpenGroupRoom(roomDetails);
       } catch (e) {
         window.log.error('Failed to getAuthToken', e);
@@ -262,7 +271,18 @@ export async function getAuthToken({
     }
   );
 
-  return 'token';
+  const refreshedRoomDetails = await getV2OpenGroupRoomByRoomId({
+    serverUrl,
+    roomId,
+  });
+  if (!refreshedRoomDetails) {
+    window.log.warn('getAuthToken Room does not exist.');
+    return null;
+  }
+  if (refreshedRoomDetails?.token) {
+    return refreshedRoomDetails?.token;
+  }
+  return null;
 }
 
 export const deleteAuthToken = async ({
@@ -276,21 +296,21 @@ export const deleteAuthToken = async ({
     isAuthRequired: false,
     endpoint: 'auth_token',
   };
-  const result = (await sendOpenGroupV2Request(request)) as any;
-  if (result?.result?.status_code !== 200) {
-    throw new Error(
-      `Could not deleteAuthToken, status code: ${result?.result?.status_code}`
-    );
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+  if (statusCode !== 200) {
+    window.log.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
   }
 };
 
 export const getMessages = async ({
   serverUrl,
   roomId,
-}: OpenGroupRequestCommonType): Promise<Array<OpenGroupMessageV2>> => {
+}: OpenGroupRequestCommonType): Promise<Array<OpenGroupMessageV2> | null> => {
   const roomInfos = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
   if (!roomInfos) {
-    throw new Error('Could not find this room getMessages');
+    window.log.warn('Could not find this room getMessages');
+    return [];
   }
   const { lastMessageFetchedServerID } = roomInfos;
 
@@ -306,20 +326,14 @@ export const getMessages = async ({
     isAuthRequired: true,
     endpoint: 'messages',
   };
-  const result = (await sendOpenGroupV2Request(request)) as any;
-  if (result?.result?.status_code !== 200) {
-    throw new Error(
-      `Could not getMessages, status code: ${result?.result?.status_code}`
-    );
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+  if (statusCode !== 200) {
+    return [];
   }
 
   // we have a 200
-  const rawMessages = result?.result?.messages as Array<Record<string, any>>;
-  if (!rawMessages) {
-    window.log.info('no new messages');
-    return [];
-  }
-  const validMessages = await parseMessages(rawMessages);
+  const validMessages = await parseMessages(result);
   console.warn('validMessages', validMessages);
   return validMessages;
 };
@@ -341,21 +355,23 @@ export const postMessage = async (
       isAuthRequired: true,
       endpoint: 'messages',
     };
-    const result = (await sendOpenGroupV2Request(request)) as any;
-    if (result?.result?.status_code !== 200) {
-      throw new Error(
-        `Could not postMessage, status code: ${result?.result?.status_code}`
-      );
+    const result = await sendOpenGroupV2Request(request);
+    const statusCode = parseStatusCodeFromOnionRequest(result);
+
+    if (statusCode !== 200) {
+      window.log.warn(`Could not postMessage, status code: ${statusCode}`);
+      return null;
     }
-    const rawMessage = result?.result?.message;
+    const rawMessage = (result as any)?.result?.message;
     if (!rawMessage) {
-      throw new Error('postMessage parsing failed');
+      window.log.warn('postMessage parsing failed');
+      return null;
     }
     // this will throw if the json is not valid
     return OpenGroupMessageV2.fromJson(rawMessage);
   } catch (e) {
     window.log.error('Failed to post message to open group v2', e);
-    throw e;
+    return null;
   }
 };
 
@@ -371,20 +387,23 @@ export const getModerators = async ({
     isAuthRequired: true,
     endpoint: 'moderators',
   };
-  const result = (await sendOpenGroupV2Request(request)) as any;
-  if (result?.result?.status_code !== 200) {
-    throw new Error(
-      `Could not getModerators, status code: ${result?.result?.status_code}`
-    );
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+
+  if (statusCode !== 200) {
+    window.log.error(`Could not getModerators, status code: ${statusCode}`);
+    return [];
   }
-  const moderatorsGot = result?.result?.moderators;
-  if (moderatorsGot === undefined) {
-    throw new Error(
+  const moderators = parseModerators(result);
+  if (moderators === undefined) {
+    // if moderators is undefined, do not update the cached moderator list
+    window.log.warn(
       'Could not getModerators, got no moderatorsGot at all in json.'
     );
+    return [];
   }
-  setCachedModerators(serverUrl, roomId, moderatorsGot || []);
-  return moderatorsGot || [];
+  setCachedModerators(serverUrl, roomId, moderators || []);
+  return moderators || [];
 };
 
 export const isUserModerator = (
@@ -440,29 +459,15 @@ export const getAllRoomInfos = async (
     isAuthRequired: false,
     endpoint: 'rooms',
   };
-  const result = (await sendOpenGroupV2Request(request)) as any;
-  if (result?.result?.status_code !== 200) {
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+
+  if (statusCode !== 200) {
     window.log.warn('getAllRoomInfos failed invalid status code');
     return;
   }
 
-  const rooms = result?.result?.rooms as Array<any>;
-  if (!rooms || !rooms.length) {
-    window.log.warn('getAllRoomInfos failed invalid infos');
-    return;
-  }
-  return _.compact(
-    rooms.map(room => {
-      // check that the room is correctly filled
-      const { id, name, image_id: imageId } = room;
-      if (!id || !name) {
-        window.log.info('getAllRoomInfos: Got invalid room details, skipping');
-        return null;
-      }
-
-      return { id, name, imageId } as OpenGroupV2Info;
-    })
-  );
+  return parseRooms(result);
 };
 
 export const getMemberCount = async (
@@ -475,12 +480,12 @@ export const getMemberCount = async (
     isAuthRequired: true,
     endpoint: 'member_count',
   };
-  const result = (await sendOpenGroupV2Request(request)) as any;
-  if (result?.result?.status_code !== 200) {
+  const result = await sendOpenGroupV2Request(request);
+  if (parseStatusCodeFromOnionRequest(result) !== 200) {
     window.log.warn('getMemberCount failed invalid status code');
     return;
   }
-  const count = result?.result?.member_count as number;
+  const count = parseMemberCount(result);
   if (count === undefined) {
     window.log.warn('getMemberCount failed invalid count');
     return;
@@ -503,4 +508,23 @@ export const getMemberCount = async (
     // triggers the save to db and the refresh of the UI
     await convo.commit();
   }
+};
+
+/**
+ * File upload and download
+ */
+
+export const downloadFile = async (
+  fileId: number,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<void> => {
+  const request: OpenGroupV2Request = {
+    method: 'GET',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: true,
+    endpoint: `files${fileId}`,
+  };
+
+  const result = await sendOpenGroupV2Request(request);
 };

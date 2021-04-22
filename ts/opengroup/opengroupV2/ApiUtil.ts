@@ -88,8 +88,15 @@ export const setCachedModerators = (
 };
 
 export const parseMessages = async (
-  rawMessages: Array<Record<string, any>>
+  onionResult: any
 ): Promise<Array<OpenGroupMessageV2>> => {
+  const rawMessages = onionResult?.result?.messages as Array<
+    Record<string, any>
+  >;
+  if (!rawMessages) {
+    window.log.info('no new messages');
+    return [];
+  }
   const messages = await Promise.all(
     rawMessages.map(async r => {
       try {

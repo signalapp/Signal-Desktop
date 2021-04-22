@@ -357,10 +357,6 @@ const processOnionResponse = async (
 
   try {
     const jsonRes: SnodeResponse = JSON.parse(plaintext);
-    // todo check if this is really useful.
-    // if (!jsonRes.body || !jsonRes.status) {
-    //   throw new Error('Got JSON but with empty fields');
-    // }
     return jsonRes;
   } catch (e) {
     log.error(

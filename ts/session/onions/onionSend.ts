@@ -31,30 +31,45 @@ type OnionFetchOptions = {
 type OnionFetchBasicOptions = {
   retry?: number;
   requestNumber?: number;
-  // tslint:disable-next-line: max-func-body-length
   noJson?: boolean;
   counter?: number;
 };
 
-export const sendViaOnion = async (
+const handleSendViaOnionRetry = async (
+  result: number,
+  options: OnionFetchBasicOptions,
   srvPubKey: string,
   url: URL,
-  fetchOptions: OnionFetchOptions,
-  options: OnionFetchBasicOptions = {}
-): Promise<any> => {
-  if (!srvPubKey) {
-    window.log.error('sendViaOnion - called without a server public key');
-    return {};
-  }
+  fetchOptions: OnionFetchOptions
+) => {
+  window.log.error(
+    'sendOnionRequestLsrpcDest() returned a number indicating an error: ',
+    result === RequestError.BAD_PATH ? 'BAD_PATH' : 'OTHER'
+  );
 
-  if (options.retry === undefined) {
-    // set retry count
-    options.retry = 0;
+  if (options.retry && options.retry >= MAX_SEND_ONION_RETRIES) {
+    window.log.error(
+      `sendViaOnion too many retries: ${options.retry}. Stopping retries.`
+    );
+    return null;
+  } else {
+    // handle error/retries, this is a RequestError
+    window.log.error(
+      `sendViaOnion #${options.requestNumber} - Retry #${options.retry} Couldnt handle onion request, retrying`
+    );
   }
-  if (options.requestNumber === undefined) {
-    options.requestNumber = OnionPaths.getInstance().assignOnionRequestNumber();
-  }
+  // retry the same request, and increment the counter
+  return sendViaOnion(srvPubKey, url, fetchOptions, {
+    ...options,
+    retry: (options.retry as number) + 1,
+    counter: options.requestNumber,
+  });
+};
 
+const buildSendViaOnionPayload = (
+  url: URL,
+  fetchOptions: OnionFetchOptions
+) => {
   let tempHeaders = fetchOptions.headers || {};
   const payloadObj = {
     method: fetchOptions.method || 'GET',
@@ -83,21 +98,64 @@ export const sendViaOnion = async (
       fileUpload: fData.toString('base64'),
     };
   }
+  payloadObj.headers = tempHeaders;
+  return payloadObj;
+};
 
+export const getOnionPathForSending = async (requestNumber: number) => {
   let pathNodes: Array<Snode> = [];
   try {
     pathNodes = await OnionPaths.getInstance().getOnionPath();
   } catch (e) {
     window.log.error(
-      `sendViaOnion #${options.requestNumber} - getOnionPath Error ${e.code} ${e.message}`
+      `sendViaOnion #${requestNumber} - getOnionPath Error ${e.code} ${e.message}`
     );
   }
   if (!pathNodes || !pathNodes.length) {
     window.log.warn(
-      `sendViaOnion #${options.requestNumber} - failing, no path available`
+      `sendViaOnion #${requestNumber} - failing, no path available`
     );
     // should we retry?
-    return {};
+    return null;
+  }
+  return pathNodes;
+};
+
+const initOptionsWithDefaults = (options: OnionFetchBasicOptions) => {
+  const defaultFetchBasicOptions = {
+    retry: 0,
+    requestNumber: OnionPaths.getInstance().assignOnionRequestNumber(),
+  };
+  return _.defaults(options, defaultFetchBasicOptions);
+};
+
+/**
+ * FIXME the type for this is not correct for open group api v2 returned values
+ * result is status_code and whatever the body should be
+ */
+export const sendViaOnion = async (
+  srvPubKey: string,
+  url: URL,
+  fetchOptions: OnionFetchOptions,
+  options: OnionFetchBasicOptions = {}
+): Promise<{
+  result: SnodeResponse;
+  txtResponse: string;
+  response: string;
+} | null> => {
+  if (!srvPubKey) {
+    window.log.error('sendViaOnion - called without a server public key');
+    return null;
+  }
+
+  const defaultedOptions = initOptionsWithDefaults(options);
+
+  const payloadObj = buildSendViaOnionPayload(url, fetchOptions);
+  const pathNodes = await getOnionPathForSending(
+    defaultedOptions.requestNumber
+  );
+  if (!pathNodes) {
+    return null;
   }
 
   // do the request
@@ -109,7 +167,7 @@ export const sendViaOnion = async (
       // protocol: url.protocol,
       // port: url.port,
     };
-    payloadObj.headers = tempHeaders;
+
     console.warn('sendViaOnion payloadObj ==> ', payloadObj);
 
     result = await sendOnionRequestLsrpcDest(
@@ -118,39 +176,28 @@ export const sendViaOnion = async (
       srvPubKey,
       finalRelayOptions,
       payloadObj,
-      options.requestNumber
+      defaultedOptions.requestNumber
     );
   } catch (e) {
     window.log.error('sendViaOnion - lokiRpcUtils error', e.code, e.message);
-    return {};
+    return null;
   }
 
   // RequestError return type is seen as number (as it is an enum)
   if (typeof result === 'number') {
-    window.log.error(
-      'sendOnionRequestLsrpcDest() returned a number indicating an error: ',
-      result === RequestError.BAD_PATH ? 'BAD_PATH' : 'OTHER'
+    const retriedResult = await handleSendViaOnionRetry(
+      result,
+      defaultedOptions,
+      srvPubKey,
+      url,
+      fetchOptions
     );
-    // handle error/retries, this is a RequestError
-    window.log.error(
-      `sendViaOnion #${options.requestNumber} - Retry #${options.retry} Couldnt handle onion request, retrying`,
-      payloadObj
-    );
-    if (options.retry && options.retry >= MAX_SEND_ONION_RETRIES) {
-      window.log.error(
-        `sendViaOnion too many retries: ${options.retry}. Stopping retries.`
-      );
-      return {};
-    }
-    return sendViaOnion(srvPubKey, url, fetchOptions, {
-      ...options,
-      retry: options.retry + 1,
-      counter: options.requestNumber,
-    });
+    // keep the await separate so we can log it easily
+    return retriedResult;
   }
 
   // If we expect something which is not json, just return the body we got.
-  if (options.noJson) {
+  if (defaultedOptions.noJson) {
     return {
       result,
       txtResponse: result.body,
@@ -170,7 +217,7 @@ export const sendViaOnion = async (
       body = JSON.parse(result.body);
     } catch (e) {
       window.log.error(
-        `sendViaOnion #${options.requestNumber} - Can't decode JSON body`,
+        `sendViaOnion #${defaultedOptions.requestNumber} - Can't decode JSON body`,
         typeof result.body,
         result.body
       );
@@ -269,12 +316,15 @@ export const serverRequest = async (
           'useFileOnionRequests=true but we do not have a server pubkey set.'
         );
       }
-      ({ response, txtResponse, result } = await sendViaOnion(
+      const onionResponse = await sendViaOnion(
         srvPubKey,
         url,
         fetchOptions,
         options
-      ));
+      );
+      if (onionResponse) {
+        ({ response, txtResponse, result } = onionResponse);
+      }
     } else if (window.lokiFeatureFlags.useFileOnionRequests) {
       if (!srvPubKey) {
         throw new Error(
@@ -282,12 +332,15 @@ export const serverRequest = async (
         );
       }
       mode = 'sendViaOnionOG';
-      ({ response, txtResponse, result } = await sendViaOnion(
+      const onionResponse = await sendViaOnion(
         srvPubKey,
         url,
         fetchOptions,
         options
-      ));
+      );
+      if (onionResponse) {
+        ({ response, txtResponse, result } = onionResponse);
+      }
     } else {
       // we end up here only if window.lokiFeatureFlags.useFileOnionRequests is false
       window.log.info(`insecureNodeFetch => plaintext for ${url}`);
