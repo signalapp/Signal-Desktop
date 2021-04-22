@@ -190,11 +190,11 @@ export const ActionsPanel = () => {
     );
     if (parsedRoom) {
       setTimeout(async () => {
-        await joinOpenGroupV2(parsedRoom);
-        const oldMessages = await getMessages({
-          serverUrl: parsedRoom.serverUrl,
-          roomId: parsedRoom.roomId,
-        });
+        // await joinOpenGroupV2(parsedRoom);
+        // const oldMessages = await getMessages({
+        //   serverUrl: parsedRoom.serverUrl,
+        //   roomId: parsedRoom.roomId,
+        // });
         // const msg = new OpenGroupMessageV2({
         //   base64EncodedData: 'dffdldfkldf',
         //   sentTimestamp: Date.now(),
@@ -207,11 +207,10 @@ export const ActionsPanel = () => {
         //   serverUrl: parsedRoom.serverUrl,
         //   roomId: parsedRoom.roomId,
         // });
-
-        const rooms = [
-          { serverUrl: 'https://opengroup.bilb.us', roomId: 'main' },
-        ];
-        await compactFetchEverything(rooms);
+        // const rooms = [
+        //   { serverUrl: 'https://opengroup.bilb.us', roomId: 'main' },
+        // ];
+        // await compactFetchEverything(rooms);
       }, 6000);
     }
   }, []);

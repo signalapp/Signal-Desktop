@@ -5,11 +5,11 @@ import { Snode } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { StringUtils } from '../utils';
 import { OnionPaths } from '../onions';
-import { toHex } from '../utils/String';
 
 export enum RequestError {
-  BAD_PATH,
-  OTHER,
+  BAD_PATH = 'BAD_PATH',
+  OTHER = 'OTHER',
+  ABORTED = 'ABORTED',
 }
 
 /**
@@ -253,9 +253,15 @@ const processOnionResponse = async (
   reqIdx: number,
   response: any,
   sharedKey: ArrayBuffer,
-  debug: boolean
+  debug: boolean,
+  abortSignal?: AbortSignal
 ): Promise<SnodeResponse | RequestError> => {
   const { log, libloki, dcodeIO, StringView } = window;
+
+  if (abortSignal?.aborted) {
+    log.warn(`(${reqIdx}) [path] Call aborted`);
+    return RequestError.ABORTED;
+  }
 
   // FIXME: 401/500 handling?
 
@@ -400,13 +406,9 @@ export type FinalDestinationOptions = {
  * 1, 2, 3 = onion Snodes
  *
  *
- * @param reqIdx
  * @param nodePath the onion path to use to send the request
- * @param destX25519Any
  * @param finalDestOptions those are the options for the request from 3 to R. It contains for instance the payload and headers.
  * @param finalRelayOptions  those are the options 3 will use to make a request to R. It contains for instance the host to make the request to
- * @param lsrpcIdx
- * @returns
  */
 const sendOnionRequest = async (
   reqIdx: number,
@@ -418,7 +420,8 @@ const sendOnionRequest = async (
     body?: string;
   },
   finalRelayOptions?: FinalRelayOptions,
-  lsrpcIdx?: any
+  lsrpcIdx?: any,
+  abortSignal?: AbortSignal
 ): Promise<SnodeResponse | RequestError> => {
   const { log, StringView } = window;
 
@@ -503,6 +506,7 @@ const sendOnionRequest = async (
     body: payload,
     // we are talking to a snode...
     agent: snodeHttpsAgent,
+    abortSignal,
   };
 
   const target = useV2 ? '/onion_req/v2' : '/onion_req';
@@ -513,7 +517,13 @@ const sendOnionRequest = async (
 
   const response = await insecureNodeFetch(guardUrl, guardFetchOptions);
 
-  return processOnionResponse(reqIdx, response, destCtx.symmetricKey, false);
+  return processOnionResponse(
+    reqIdx,
+    response,
+    destCtx.symmetricKey,
+    false,
+    abortSignal
+  );
 };
 
 async function sendOnionRequestSnodeDest(
@@ -543,7 +553,8 @@ export async function sendOnionRequestLsrpcDest(
   destX25519Any: string,
   finalRelayOptions: FinalRelayOptions,
   payloadObj: FinalDestinationOptions,
-  lsrpcIdx: number
+  lsrpcIdx: number,
+  abortSignal?: AbortSignal
 ): Promise<SnodeResponse | RequestError> {
   return sendOnionRequest(
     reqIdx,
@@ -551,7 +562,8 @@ export async function sendOnionRequestLsrpcDest(
     destX25519Any,
     payloadObj,
     finalRelayOptions,
-    lsrpcIdx
+    lsrpcIdx,
+    abortSignal
   );
 }
 
@@ -598,6 +610,17 @@ export async function lokiOnionFetch(
       // it's not a bad_path, so we don't need to mark the path as bad
       log.error(
         `[path] sendOnionRequest gave false for path: ${getPathString(
+          path
+        )} to ${targetNode.ip}:${targetNode.port}`
+      );
+      return false;
+    } else if (result === RequestError.ABORTED) {
+      // could mean, fail to parse results
+      // or status code wasn't 200
+      // or can't decrypt
+      // it's not a bad_path, so we don't need to mark the path as bad
+      log.error(
+        `[path] sendOnionRequest gave aborted for path: ${getPathString(
           path
         )} to ${targetNode.ip}:${targetNode.port}`
       );

@@ -36,11 +36,12 @@ type OnionFetchBasicOptions = {
 };
 
 const handleSendViaOnionRetry = async (
-  result: number,
+  result: RequestError,
   options: OnionFetchBasicOptions,
   srvPubKey: string,
   url: URL,
-  fetchOptions: OnionFetchOptions
+  fetchOptions: OnionFetchOptions,
+  abortSignal?: AbortSignal
 ) => {
   window.log.error(
     'sendOnionRequestLsrpcDest() returned a number indicating an error: ',
@@ -59,11 +60,17 @@ const handleSendViaOnionRetry = async (
     );
   }
   // retry the same request, and increment the counter
-  return sendViaOnion(srvPubKey, url, fetchOptions, {
-    ...options,
-    retry: (options.retry as number) + 1,
-    counter: options.requestNumber,
-  });
+  return sendViaOnion(
+    srvPubKey,
+    url,
+    fetchOptions,
+    {
+      ...options,
+      retry: (options.retry as number) + 1,
+      counter: options.requestNumber,
+    },
+    abortSignal
+  );
 };
 
 const buildSendViaOnionPayload = (
@@ -137,7 +144,8 @@ export const sendViaOnion = async (
   srvPubKey: string,
   url: URL,
   fetchOptions: OnionFetchOptions,
-  options: OnionFetchBasicOptions = {}
+  options: OnionFetchBasicOptions = {},
+  abortSignal?: AbortSignal
 ): Promise<{
   result: SnodeResponse;
   txtResponse: string;
@@ -176,7 +184,8 @@ export const sendViaOnion = async (
       srvPubKey,
       finalRelayOptions,
       payloadObj,
-      defaultedOptions.requestNumber
+      defaultedOptions.requestNumber,
+      abortSignal
     );
   } catch (e) {
     window.log.error('sendViaOnion - lokiRpcUtils error', e.code, e.message);
@@ -184,13 +193,18 @@ export const sendViaOnion = async (
   }
 
   // RequestError return type is seen as number (as it is an enum)
-  if (typeof result === 'number') {
+  if (typeof result === 'string') {
+    if (result === RequestError.ABORTED) {
+      window.log.info('sendViaOnion aborted. not retrying');
+      return null;
+    }
     const retriedResult = await handleSendViaOnionRetry(
       result,
       defaultedOptions,
       srvPubKey,
       url,
-      fetchOptions
+      fetchOptions,
+      abortSignal
     );
     // keep the await separate so we can log it easily
     return retriedResult;

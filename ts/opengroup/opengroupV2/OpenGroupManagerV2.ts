@@ -8,7 +8,6 @@ import { ConversationController } from '../../session/conversations';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
-import { OpenGroupPollerV2 } from './OpenGroupPollerV2';
 
 /**
  * When we get our configuration from the network, we might get a few times the same open group on two different messages.

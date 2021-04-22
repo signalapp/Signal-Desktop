@@ -1,4 +1,7 @@
-import { getV2OpenGroupRoomByRoomId } from '../../data/opengroups';
+import {
+  getV2OpenGroupRoomByRoomId,
+  saveV2OpenGroupRoom,
+} from '../../data/opengroups';
 import {
   OpenGroupRequestCommonType,
   OpenGroupV2CompactPollRequest,
@@ -7,22 +10,27 @@ import {
 import { parseStatusCodeFromOnionRequest } from './OpenGroupAPIV2Parser';
 import _ from 'lodash';
 import { sendViaOnion } from '../../session/onions/onionSend';
-import { OpenGroupManagerV2 } from './OpenGroupManagerV2';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
+import { getAuthToken } from './OpenGroupAPIV2';
 
 const COMPACT_POLL_ENDPOINT = 'compact_poll';
 
 export const compactFetchEverything = async (
-  rooms: Array<OpenGroupRequestCommonType>
-): Promise<null | any> => {
+  serverUrl: string,
+  rooms: Set<string>,
+  abortSignal: AbortSignal
+): Promise<Array<ParsedRoomCompactPollResults> | null> => {
   // fetch all we need
-  const compactPollRequest = await getCompactPollRequest(rooms);
+  const compactPollRequest = await getCompactPollRequest(serverUrl, rooms);
   if (!compactPollRequest) {
     window.log.info('Nothing found to be fetched. returning');
     return null;
   }
 
-  const result = await sendOpenGroupV2RequestCompactPoll(compactPollRequest);
+  const result = await sendOpenGroupV2RequestCompactPoll(
+    compactPollRequest,
+    abortSignal
+  );
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -34,26 +42,14 @@ export const compactFetchEverything = async (
  * This return body to be used to do the compactPoll
  */
 const getCompactPollRequest = async (
-  rooms: Array<OpenGroupRequestCommonType>
+  serverUrl: string,
+  rooms: Set<string>
 ): Promise<null | OpenGroupV2CompactPollRequest> => {
-  // first verify the rooms we got are all from on the same server
-  let firstUrl: string;
-  if (rooms) {
-    firstUrl = rooms[0].serverUrl;
-    const anotherUrl = rooms.some(r => r.serverUrl !== firstUrl);
-    if (anotherUrl) {
-      throw new Error('CompactPoll is designed for a single server');
-    }
-  } else {
-    window.log.warn('CompactPoll: No room given. nothing to do');
-    return null;
-  }
-
   const allServerPubKeys: Array<string> = [];
 
   const roomsRequestInfos = _.compact(
     await Promise.all(
-      rooms.map(async ({ roomId, serverUrl }) => {
+      [...rooms].map(async roomId => {
         try {
           const fetchedInfo = await getV2OpenGroupRoomByRoomId({
             serverUrl,
@@ -112,7 +108,7 @@ const getCompactPollRequest = async (
   });
   return {
     body,
-    server: firstUrl,
+    server: serverUrl,
     serverPubKey: firstPubkey,
     endpoint: COMPACT_POLL_ENDPOINT,
   };
@@ -122,18 +118,25 @@ const getCompactPollRequest = async (
  * This call is separate as a lot of the logic is custom (statusCode handled separately, etc)
  */
 async function sendOpenGroupV2RequestCompactPoll(
-  request: OpenGroupV2CompactPollRequest
-): Promise<Object | null> {
-  const { server, endpoint, body, serverPubKey } = request;
+  request: OpenGroupV2CompactPollRequest,
+  abortSignal: AbortSignal
+): Promise<Array<ParsedRoomCompactPollResults> | null> {
+  const { server: serverUrl, endpoint, body, serverPubKey } = request;
   // this will throw if the url is not valid
-  const builtUrl = new URL(`${server}/${endpoint}`);
+  const builtUrl = new URL(`${serverUrl}/${endpoint}`);
 
   console.warn(`sending compactPoll request: ${request.body}`);
 
-  const res = await sendViaOnion(serverPubKey, builtUrl, {
-    method: 'POST',
-    body,
-  });
+  const res = await sendViaOnion(
+    serverPubKey,
+    builtUrl,
+    {
+      method: 'POST',
+      body,
+    },
+    {},
+    abortSignal
+  );
 
   const statusCode = parseStatusCodeFromOnionRequest(res);
   if (!statusCode) {
@@ -141,16 +144,43 @@ async function sendOpenGroupV2RequestCompactPoll(
       'sendOpenGroupV2Request Got unknown status code; res:',
       res
     );
-    return res as object;
+    return null;
   }
 
   const results = await parseCompactPollResults(res);
+  if (!results) {
+    window.log.info('got empty compactPollResults');
+    return null;
+  }
+  // get all roomIds which needs a refreshed token
+  const roomTokensToRefresh = results
+    .filter(ret => ret.statusCode === 401)
+    .map(r => r.roomId);
+
+  if (roomTokensToRefresh) {
+    await Promise.all(
+      roomTokensToRefresh.map(async roomId => {
+        const roomDetails = await getV2OpenGroupRoomByRoomId({
+          serverUrl,
+          roomId,
+        });
+        if (!roomDetails) {
+          return;
+        }
+        roomDetails.token = undefined;
+        // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
+        await saveV2OpenGroupRoom(roomDetails);
+        // do not await for that. We have a only one at a time logic on a per room basis
+        void getAuthToken({ serverUrl, roomId });
+      })
+    );
+  }
 
   throw new Error(
     'See how we handle needs of new tokens, and save stuff to db (last deleted, ... conversation commit, etc'
   );
 
-  return res as object;
+  return results;
 }
 
 type ParsedRoomCompactPollResults = {
@@ -158,6 +188,7 @@ type ParsedRoomCompactPollResults = {
   deletions: Array<number>;
   messages: Array<OpenGroupMessageV2>;
   moderators: Array<string>;
+  statusCode: number;
 };
 
 const parseCompactPollResult = async (
@@ -168,13 +199,15 @@ const parseCompactPollResult = async (
     deletions: rawDeletions,
     messages: rawMessages,
     moderators: rawMods,
+    status_code: rawStatusCode,
   } = singleRoomResult;
 
   if (
     !room_id ||
     rawDeletions === undefined ||
     rawMessages === undefined ||
-    rawMods === undefined
+    rawMods === undefined ||
+    !rawStatusCode
   ) {
     window.log.warn('Invalid compactPoll result', singleRoomResult);
     return null;
@@ -183,8 +216,15 @@ const parseCompactPollResult = async (
   const validMessages = await parseMessages(rawMessages);
   const moderators = rawMods as Array<string>;
   const deletions = rawDeletions as Array<number>;
+  const statusCode = rawStatusCode as number;
 
-  return { roomId: room_id, deletions, messages: validMessages, moderators };
+  return {
+    roomId: room_id,
+    deletions,
+    messages: validMessages,
+    moderators,
+    statusCode,
+  };
 };
 
 const parseCompactPollResults = async (
