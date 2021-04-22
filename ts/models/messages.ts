@@ -50,6 +50,74 @@ import { MIMEType } from '../types/MIME';
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
 
+type PropsForMessageDetail = Pick<
+  SmartMessageDetailPropsType,
+  'sentAt' | 'receivedAt' | 'message' | 'errors' | 'contacts'
+>;
+type PropsForMessage = Omit<PropsData, 'interactionMode'>;
+
+type FormattedContact = Partial<ConversationType> &
+  Pick<ConversationType, 'title' | 'id' | 'type'>;
+
+type PropsForUnsupportedMessage = {
+  canProcessNow: boolean;
+  contact: FormattedContact;
+};
+
+type MessageBubbleProps =
+  | {
+      type: 'unsupportedMessage';
+      data: PropsForUnsupportedMessage;
+    }
+  | {
+      type: 'groupV2Change';
+      data: GroupsV2Props;
+    }
+  | {
+      type: 'groupV1Migration';
+      data: GroupV1MigrationPropsType;
+    }
+  | {
+      type: 'linkNotification';
+      data: null;
+    }
+  | {
+      type: 'timerNotification';
+      data?: TimerNotificationProps;
+    }
+  | {
+      type: 'safetyNumberNotification';
+      data: SafetyNumberNotificationProps;
+    }
+  | {
+      type: 'verificationNotification';
+      data: VerificationNotificationProps;
+    }
+  | {
+      type: 'groupNotification';
+      data: GroupNotificationProps;
+    }
+  | {
+      type: 'resetSessionNotification';
+      data: ResetSessionNotificationProps;
+    }
+  | {
+      type: 'callHistory';
+      data?: CallingNotificationType;
+    }
+  | {
+      type: 'profileChange';
+      data: ProfileChangeNotificationPropsType;
+    }
+  | {
+      type: 'chatSessionRefreshed';
+      data: null;
+    }
+  | {
+      type: 'message';
+      data: PropsForMessage;
+    };
+
 declare const _: typeof window._;
 
 window.Whisper = window.Whisper || {};
@@ -244,7 +312,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // Top-level prop generation for the message bubble
-  getPropsForBubble(): WhatIsThis {
+  getPropsForBubble(): MessageBubbleProps {
     if (this.isUnsupportedMessage()) {
       return {
         type: 'unsupportedMessage',
@@ -324,10 +392,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     };
   }
 
-  getPropsForMessageDetail(): Pick<
-    SmartMessageDetailPropsType,
-    'sentAt' | 'receivedAt' | 'message' | 'errors' | 'contacts'
-  > {
+  getPropsForMessageDetail(): PropsForMessageDetail {
     const newIdentity = window.i18n('newIdentity');
     const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
@@ -481,7 +546,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // Props for each message type
-  getPropsForUnsupportedMessage(): WhatIsThis {
+  getPropsForUnsupportedMessage(): PropsForUnsupportedMessage {
     const requiredVersion = this.get('requiredProtocolVersion');
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const canProcessNow = this.CURRENT_PROTOCOL_VERSION! >= requiredVersion!;
@@ -815,7 +880,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // Note: interactionMode is mixed in via selectors/conversations._messageSelector
-  getPropsForMessage(): Omit<PropsData, 'interactionMode'> {
+  getPropsForMessage(): PropsForMessage {
     const sourceId = this.getContactId();
     const contact = this.findAndFormatContact(sourceId);
     const contactModel = this.findContact(sourceId);
@@ -925,10 +990,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // Dependencies of prop-generation functions
-  findAndFormatContact(
-    identifier?: string
-  ): Partial<ConversationType> &
-    Pick<ConversationType, 'title' | 'id' | 'type'> {
+  findAndFormatContact(identifier?: string): FormattedContact {
     if (!identifier) {
       return PLACEHOLDER_CONTACT;
     }
