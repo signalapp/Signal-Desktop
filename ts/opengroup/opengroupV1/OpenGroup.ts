@@ -12,12 +12,22 @@ interface OpenGroupParams {
 }
 
 export class OpenGroup {
+  /**
+   * Just a constant to have less `publicChat:` everywhere
+   * Note: It does already have the ':' included
+   */
+  public static readonly openGroupPrefix = 'publicChat:';
+  /**
+   * Just a regex to match a public chat (i.e. a string starting with publicChat:)
+   */
+  public static readonly openGroupPrefixRegex = new RegExp(`/^${OpenGroup.openGroupPrefix}/`);
   private static readonly serverRegex = new RegExp(
     '^((https?:\\/\\/){0,1})([\\w-]{2,}\\.){1,2}[\\w-]{2,}$'
   );
   private static readonly groupIdRegex = new RegExp(
-    '^publicChat:[0-9]*@([\\w-]{2,}.){1,2}[\\w-]{2,}$'
+    `^${OpenGroup.openGroupPrefix}:[0-9]*@([\\w-]{2,}.){1,2}[\\w-]{2,}$`
   );
+
   public readonly server: string;
   public readonly channel: number;
   public readonly groupId?: string;
@@ -29,7 +39,7 @@ export class OpenGroup {
    *
    * @param params.server The server URL. `https` will be prepended if `http` or `https` is not explicitly set
    * @param params.channel The server channel
-   * @param params.groupId The string corresponding to the server. Eg. `publicChat:1@chat.getsession.org`
+   * @param params.groupId The string corresponding to the server. Eg. `${OpenGroup.openGroupPrefix}1@chat.getsession.org`
    * @param params.conversationId The conversation ID for the backbone model
    */
   constructor(params: OpenGroupParams) {
@@ -66,7 +76,7 @@ export class OpenGroup {
    * Try to make a new instance of `OpenGroup`.
    * This does NOT respect `ConversationController` and does not guarentee the conversation's existence.
    *
-   * @param groupId The string corresponding to the server. Eg. `publicChat:1@chat.getsession.org`
+   * @param groupId The string corresponding to the server. Eg. `${OpenGroup.openGroupPrefix}1@chat.getsession.org`
    * @param conversationId The conversation ID for the backbone model
    * @returns `OpenGroup` if valid otherwise returns `undefined`.
    */
@@ -157,7 +167,7 @@ export class OpenGroup {
     }
     const rawServerURL = server.replace(/^https?:\/\//i, '').replace(/[/\\]+$/i, '');
     const channelId = 1;
-    const conversationId = `publicChat:${channelId}@${rawServerURL}`;
+    const conversationId = `${OpenGroup.openGroupPrefix}${channelId}@${rawServerURL}`;
 
     // Quickly peak to make sure we don't already have it
     return ConversationController.getInstance().get(conversationId);
@@ -200,7 +210,7 @@ export class OpenGroup {
     const prefixRegex = new RegExp('https?:\\/\\/');
     const strippedServer = server.replace(prefixRegex, '');
 
-    return `publicChat:${channel}@${strippedServer}`;
+    return `${OpenGroup.openGroupPrefix}${channel}@${strippedServer}`;
   }
 
   /**
@@ -242,7 +252,7 @@ export class OpenGroup {
 
     const rawServerURL = serverUrl.replace(/^https?:\/\//i, '').replace(/[/\\]+$/i, '');
 
-    const conversationId = `publicChat:${channelId}@${rawServerURL}`;
+    const conversationId = `${OpenGroup.openGroupPrefix}${channelId}@${rawServerURL}`;
 
     // Quickly peak to make sure we don't already have it
     const conversationExists = ConversationController.getInstance().get(conversationId);

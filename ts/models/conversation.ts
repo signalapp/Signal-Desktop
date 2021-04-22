@@ -188,7 +188,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return UserUtils.isUsFromCache(this.id);
   }
   public isPublic() {
-    return !!(this.id && this.id.match(/^publicChat:/));
+    return !!(this.id && this.id.match(OpenGroup.openGroupPrefixRegex));
   }
   public isOpenGroupV2() {
     return this.get('type') === ConversationType.OPEN_GROUP;

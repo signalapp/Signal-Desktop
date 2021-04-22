@@ -20,6 +20,7 @@ import { ClosedGroupEncryptionPairMessage } from '../../../../session/messages/o
 import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
+import { OpenGroup } from '../../../../opengroup/opengroupV1/OpenGroup';
 
 const { expect } = chai;
 
@@ -226,12 +227,12 @@ describe('Message Utils', () => {
     let convos: Array<ConversationModel>;
     const mockValidOpenGroup = new MockConversation({
       type: ConversationType.OPEN_GROUP,
-      id: 'publicChat:1@chat-dev.lokinet.org',
+      id: `${OpenGroup.openGroupPrefix}1@chat-dev.lokinet.org`,
     });
 
     const mockValidOpenGroup2 = new MockConversation({
       type: ConversationType.OPEN_GROUP,
-      id: 'publicChat:1@chat-dev2.lokinet.org',
+      id: `${OpenGroup.openGroupPrefix}1@chat-dev2.lokinet.org`,
     });
 
     const mockValidClosedGroup = new MockConversation({

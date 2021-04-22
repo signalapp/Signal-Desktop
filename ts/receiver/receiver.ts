@@ -22,6 +22,7 @@ import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
 import { removeUnprocessed } from '../data/data';
 import { ConversationType } from '../models/conversation';
+import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 
 // TODO: check if some of these exports no longer needed
 
@@ -272,7 +273,8 @@ export async function handlePublicMessage(messageData: any) {
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const isPublicVisibleMessage = group && group.id && !!group.id.match(/^publicChat:/);
+  const isPublicVisibleMessage =
+    group && group.id && !!group.id.match(OpenGroup.openGroupPrefixRegex);
 
   if (!isPublicVisibleMessage) {
     throw new Error('handlePublicMessage Should only be called with public message groups');

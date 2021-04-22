@@ -1,5 +1,6 @@
 import { default as insecureNodeFetch } from 'node-fetch';
 import { sendViaOnion } from '../../session/onions/onionSend';
+import { OpenGroup } from '../opengroupV1/OpenGroup';
 
 /**
  * Tries to establish a connection with the specified open group url.
@@ -94,11 +95,13 @@ export function prefixify(server: string, hasSSL: boolean = true): string {
 
 /**
  * No sql access. Just how our open groupv2 url looks like
- * @returns `publicChat:${roomId}@${serverUrl}`
+ * @returns `${OpenGroup.openGroupPrefix}${roomId}@${serverUrl}`
  */
 export function getOpenGroupV2ConversationId(serverUrl: string, roomId: string) {
   if (roomId.length < 2) {
     throw new Error('Invalid roomId: too short');
   }
-  return `publicChat:${roomId}@${serverUrl}`;
+  return `${OpenGroup.openGroupPrefix}${roomId}@${serverUrl}`;
 }
+
+export function isOpenGroupV2(conversationId: string) {}

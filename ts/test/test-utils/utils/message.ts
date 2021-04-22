@@ -92,7 +92,7 @@ export class MockConversation {
   }
 
   public isPublic() {
-    return this.id.match(/^publicChat:/);
+    return this.id.match(OpenGroup.openGroupPrefixRegex);
   }
 
   public isMediumGroup() {
