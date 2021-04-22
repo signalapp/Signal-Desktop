@@ -33,7 +33,11 @@ import {
 } from './OpenGroupAPIV2Parser';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
-// This function might throw
+/**
+ * This send function is to be used for all non polling stuff
+ * download and upload of attachments for instance, but most of the logic happens in
+ * the compact_poll endpoint
+ */
 async function sendOpenGroupV2Request(
   request: OpenGroupV2Request
 ): Promise<Object | null> {
@@ -46,77 +50,71 @@ async function sendOpenGroupV2Request(
   // set the headers sent by the caller, and the roomId.
   const headers = request.headers || {};
   headers.Room = request.room;
+
   console.warn(`sending request: ${builtUrl}`);
   let body = '';
   if (request.method !== 'GET') {
     body = JSON.stringify(request.queryParams);
   }
 
-  // request.useOnionRouting === undefined defaults to true
-  if (request.useOnionRouting || request.useOnionRouting === undefined) {
-    const roomDetails = await getV2OpenGroupRoomByRoomId({
-      serverUrl: request.server,
+  const roomDetails = await getV2OpenGroupRoomByRoomId({
+    serverUrl: request.server,
+    roomId: request.room,
+  });
+  if (!roomDetails?.serverPublicKey) {
+    throw new Error('PublicKey not found for this server.');
+  }
+  // Because auth happens on a per-room basis, we need both to make an authenticated request
+  if (request.isAuthRequired && request.room) {
+    // this call will either return the token on the db,
+    // or the promise currently fetching a new token for that same room
+    // or fetch from the open group a new token for that room.
+    const token = await getAuthToken({
       roomId: request.room,
+      serverUrl: request.server,
     });
-    if (!roomDetails?.serverPublicKey) {
-      throw new Error('PublicKey not found for this server.');
+    if (!token) {
+      window.log.error('Failed to get token for open group v2');
+      return null;
     }
-    // Because auth happens on a per-room basis, we need both to make an authenticated request
-    if (request.isAuthRequired && request.room) {
-      // this call will either return the token on the db,
-      // or the promise currently fetching a new token for that same room
-      // or fetch from the open group a new token for that room.
-      const token = await getAuthToken({
-        roomId: request.room,
-        serverUrl: request.server,
-      });
-      if (!token) {
-        window.log.error('Failed to get token for open group v2');
-        return null;
-      }
-      headers.Authorization = token;
-      const res = await sendViaOnion(
-        roomDetails.serverPublicKey,
-        builtUrl,
-        {
-          method: request.method,
-          headers,
-          body,
-        },
-        { noJson: true }
-      );
-
-      const statusCode = parseStatusCodeFromOnionRequest(res);
-      if (!statusCode) {
-        window.log.warn(
-          'sendOpenGroupV2Request Got unknown status code; res:',
-          res
-        );
-        return res as object;
-      }
-      // A 401 means that we didn't provide a (valid) auth token for a route that required one. We use this as an
-      // indication that the token we're using has expired.
-      // Note that a 403 has a different meaning; it means that
-      // we provided a valid token but it doesn't have a high enough permission level for the route in question.
-      if (statusCode === 401) {
-        roomDetails.token = undefined;
-        // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
-        await saveV2OpenGroupRoom(roomDetails);
-      }
-      return res as object;
-    } else {
-      // no need for auth, just do the onion request
-      const res = await sendViaOnion(roomDetails.serverPublicKey, builtUrl, {
+    headers.Authorization = token;
+    const res = await sendViaOnion(
+      roomDetails.serverPublicKey,
+      builtUrl,
+      {
         method: request.method,
         headers,
         body,
-      });
+      },
+      { noJson: true }
+    );
+
+    const statusCode = parseStatusCodeFromOnionRequest(res);
+    if (!statusCode) {
+      window.log.warn(
+        'sendOpenGroupV2Request Got unknown status code; res:',
+        res
+      );
       return res as object;
     }
+    // A 401 means that we didn't provide a (valid) auth token for a route that required one. We use this as an
+    // indication that the token we're using has expired.
+    // Note that a 403 has a different meaning; it means that
+    // we provided a valid token but it doesn't have a high enough permission level for the route in question.
+    if (statusCode === 401) {
+      roomDetails.token = undefined;
+      // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
+      await saveV2OpenGroupRoom(roomDetails);
+    }
+    return res as object;
   } else {
-    throw new Error(
-      "It's currently not allowed to send non onion routed requests."
-    );
+    // no need for auth, just do the onion request
+    const res = await sendViaOnion(roomDetails.serverPublicKey, builtUrl, {
+      method: request.method,
+      headers,
+      body,
+    });
+    return res as object;
   }
 }
 
@@ -342,7 +340,10 @@ export const getMessages = async ({
   }
 
   // we have a 200
-  const validMessages = await parseMessages(result);
+  const rawMessages = (result as any)?.result?.messages as Array<
+    Record<string, any>
+  >;
+  const validMessages = await parseMessages(rawMessages);
   console.warn('validMessages', validMessages);
   return validMessages;
 };
@@ -354,7 +355,6 @@ export const postMessage = async (
   try {
     const signedMessage = await message.sign();
     const json = signedMessage.toJson();
-    console.warn('posting message json', json);
 
     const request: OpenGroupV2Request = {
       method: 'POST',

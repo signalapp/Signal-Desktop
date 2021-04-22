@@ -45,7 +45,7 @@ export class OpenGroupPollerV2 {
       return;
     }
     this.isPolling = true;
-    window.log.warn('pollForNewMessages TODO');
+    window.log.warn('compactPoll TODO');
     // use abortController and do not trigger new messages if it was canceled
     this.isPolling = false;
   }

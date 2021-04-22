@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import { getV2OpenGroupRoomByRoomId } from '../../data/opengroups';
 import { getSodium } from '../../session/crypto';
 import { PubKey } from '../../session/types';
 import {
@@ -27,8 +28,13 @@ export type OpenGroupV2Request = {
   queryParams?: Record<string, string>;
   headers?: Record<string, string>;
   isAuthRequired: boolean;
-  // Always `true` under normal circumstances. You might want to disable this when running over Lokinet.
-  useOnionRouting?: boolean;
+};
+
+export type OpenGroupV2CompactPollRequest = {
+  server: string;
+  endpoint: string;
+  body: string;
+  serverPubKey: string;
 };
 
 export type OpenGroupV2Info = {
@@ -88,11 +94,8 @@ export const setCachedModerators = (
 };
 
 export const parseMessages = async (
-  onionResult: any
+  rawMessages: Array<Record<string, any>>
 ): Promise<Array<OpenGroupMessageV2>> => {
-  const rawMessages = onionResult?.result?.messages as Array<
-    Record<string, any>
-  >;
   if (!rawMessages) {
     window.log.info('no new messages');
     return [];
