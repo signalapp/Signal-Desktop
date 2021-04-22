@@ -3,7 +3,9 @@ import { ConversationModel, ConversationType } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
+import { OpenGroupRequestCommonType } from './ApiUtil';
 import { openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
+import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 /**
  * When we get our configuration from the network, we might get a few times the same open group on two different messages.
@@ -86,8 +88,9 @@ export class OpenGroupManagerV2 {
 
   private static instance: OpenGroupManagerV2;
 
-  // private pollers: OpenGroupPollerV2 = [];
+  private readonly pollers: Map<string, OpenGroupServerPoller> = new Map();
   private isPolling = false;
+  private wasStopped = false;
 
   private constructor() {}
 
@@ -102,6 +105,45 @@ export class OpenGroupManagerV2 {
     if (this.isPolling) {
       return;
     }
+    if (this.wasStopped) {
+      throw new Error('OpengroupManager is not supposed to be starting again after being stopped.');
+    }
     this.isPolling = true;
+  }
+
+  /**
+   * This is not designed to be restarted for now. If you stop polling
+   */
+  public stopPolling() {
+    if (!this.isPolling) {
+      return;
+    }
+    this.wasStopped = true;
+    this.isPolling = false;
+  }
+
+  public addRoomToPolledRooms(roomInfos: OpenGroupRequestCommonType) {
+    const poller = this.pollers.get(roomInfos.serverUrl);
+    if (!poller) {
+      this.pollers.set(roomInfos.serverUrl, new OpenGroupServerPoller([roomInfos]));
+      return;
+    }
+    // this won't do a thing if the room is already polled for
+    poller.addRoomToPoll(roomInfos);
+  }
+
+  public removeRoomFromPolledRooms(roomInfos: OpenGroupRequestCommonType) {
+    const poller = this.pollers.get(roomInfos.serverUrl);
+    if (!poller) {
+      console.warn('No such poller');
+      return;
+    }
+    // this won't do a thing if the room is already polled for
+    poller.removeRoomFromPoll(roomInfos);
+    if (poller.getPolledRoomsCount() === 0) {
+      this.pollers.delete(roomInfos.serverUrl);
+      // this poller is not needed anymore, kill it
+      poller.stop();
+    }
   }
 }

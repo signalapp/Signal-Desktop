@@ -1,4 +1,3 @@
-/* global clearTimeout, log */
 // was timeoutDelay
 const sleepFor = ms => new Promise(resolve => setTimeout(resolve, ms));
 

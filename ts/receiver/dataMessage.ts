@@ -377,7 +377,7 @@ async function handleProfileUpdate(
   if (!isIncoming) {
     // We update our own profileKey if it's different from what we have
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-    const me = await ConversationController.getInstance().getOrCreate(
+    const me = ConversationController.getInstance().getOrCreate(
       ourNumber,
       ConversationType.PRIVATE
     );

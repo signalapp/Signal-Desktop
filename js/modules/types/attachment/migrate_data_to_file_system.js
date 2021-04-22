@@ -22,7 +22,7 @@ exports.migrateDataToFileSystem = async (attachment, { writeNewAttachmentData } 
   const isValidData = isArrayBuffer(data);
   if (!isValidData) {
     throw new TypeError(
-      'Expected `attachment.data` to be an array buffer;' + ` got: ${typeof attachment.data}`
+      `Expected ${attachment.data} to be an array buffer got: ${typeof attachment.data}`
     );
   }
 

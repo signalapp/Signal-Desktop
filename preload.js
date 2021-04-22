@@ -15,7 +15,6 @@ const { clipboard } = electron;
 
 window.PROTO_ROOT = 'protos';
 
-const appConfig = require('./app/config');
 const config = require('url').parse(window.location.toString(), true).query;
 
 let title = config.name;
@@ -50,7 +49,7 @@ window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.JobQueue = JobQueue;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
-//FIXME audric
+// FIXME audric
 
 window.getStoragePubKey = key => key.substring(0, key.length - 2);
 // window.isDev() ? key.substring(0, key.length - 2) : key;

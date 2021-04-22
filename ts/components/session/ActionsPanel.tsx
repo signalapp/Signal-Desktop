@@ -187,34 +187,14 @@ export const ActionsPanel = () => {
     // 'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d'
 
     void syncConfiguration();
-    const parsedRoom = parseOpenGroupV2(
-      'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d'
-    );
-    if (parsedRoom) {
-      setTimeout(async () => {
-        // await joinOpenGroupV2(parsedRoom);
-        // const oldMessages = await getMessages({
-        //   serverUrl: parsedRoom.serverUrl,
-        //   roomId: parsedRoom.roomId,
-        // });
-        // const msg = new OpenGroupMessageV2({
-        //   base64EncodedData: 'dffdldfkldf',
-        //   sentTimestamp: Date.now(),
-        // });
-        // const postedMessage = await postMessage(msg, {
-        //   serverUrl: parsedRoom.serverUrl,
-        //   roomId: parsedRoom.roomId,
-        // });
-        // const fileID = await downloadPreviewOpenGroupV2({
-        //   serverUrl: parsedRoom.serverUrl,
-        //   roomId: parsedRoom.roomId,
-        // });
-        // const rooms = [
-        //   { serverUrl: 'https://opengroup.bilb.us', roomId: 'main' },
-        // ];
-        // await compactFetchEverything(rooms);
-      }, 6000);
-    }
+    // const parsedRoom = parseOpenGroupV2(
+    //   'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d'
+    // );
+    // if (parsedRoom) {
+    //   setTimeout(async () => {
+
+    //   }, 6000);
+    // }
   }, []);
 
   // wait for cleanUpMediasInterval and then start cleaning up medias

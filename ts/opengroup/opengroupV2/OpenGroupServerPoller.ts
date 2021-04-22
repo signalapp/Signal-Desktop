@@ -14,7 +14,7 @@ export class OpenGroupServerPoller {
   private readonly serverUrl: string;
   private readonly roomIdsToPoll: Set<string> = new Set();
   private pollForEverythingTimer?: NodeJS.Timeout;
-  private abortController?: AbortController;
+  private readonly abortController: AbortController;
 
   /**
    * isPolling is set to true when we have a request going for this serverUrl.
@@ -35,6 +35,8 @@ export class OpenGroupServerPoller {
     if (!every) {
       throw new Error('All rooms must be for the same serverUrl');
     }
+    // first verify the rooms we got are all from on the same server
+
     this.serverUrl = firstUrl;
     roomInfos.forEach(r => {
       this.roomIdsToPoll.add(r.roomId);
@@ -42,8 +44,6 @@ export class OpenGroupServerPoller {
 
     this.abortController = new AbortController();
     this.pollForEverythingTimer = global.setInterval(this.compactPoll, pollForEverythingInterval);
-
-    // first verify the rooms we got are all from on the same server
   }
 
   /**
@@ -77,6 +77,10 @@ export class OpenGroupServerPoller {
     }
   }
 
+  public getPolledRoomsCount() {
+    return this.roomIdsToPoll.size;
+  }
+
   /**
    * Stop polling.
    * Requests currently being made will we canceled.
@@ -92,23 +96,32 @@ export class OpenGroupServerPoller {
     }
   }
 
-  private async compactPoll() {
+  private shouldPoll() {
     if (this.wasStopped) {
-      window.log.error('serverpoller was stopped. CompactPoll should not happen');
-      return;
+      window.log.error('Serverpoller was stopped. CompactPoll should not happen');
+      return false;
     }
     if (!this.roomIdsToPoll.size) {
-      return;
+      return false;
     }
     // return early if a poll is already in progress
     if (this.isPolling) {
+      return false;
+    }
+    return true;
+  }
+
+  private async compactPoll() {
+    if (!this.shouldPoll()) {
       return;
     }
+
     // do everything with throwing so we can check only at one place
     // what we have to clean
     try {
       this.isPolling = true;
-      if (!this.abortController || this.abortController.signal.aborted) {
+      // don't try to make the request if we are aborted
+      if (this.abortController.signal.aborted) {
         throw new Error('Poller aborted');
       }
 
@@ -118,16 +131,14 @@ export class OpenGroupServerPoller {
         this.abortController.signal
       );
 
-      if (this.abortController && this.abortController.signal.aborted) {
-        this.abortController = undefined;
-        window.log.warn('Abort controller was canceled. dropping request');
-        return;
+      // check that we are still not aborted
+      if (this.abortController.signal.aborted) {
+        throw new Error('Abort controller was canceled. dropping request');
       }
       if (!compactFetchResults) {
-        window.log.info('compactFetch: no results');
-        return;
+        throw new Error('compactFetch: no results');
       }
-      // we were not aborted, just make sure to filter out roomIds we are not polling for anymore
+      // we were not aborted, make sure to filter out roomIds we are not polling for anymore
       compactFetchResults = compactFetchResults.filter(result =>
         this.roomIdsToPoll.has(result.roomId)
       );
@@ -135,10 +146,6 @@ export class OpenGroupServerPoller {
     } catch (e) {
       window.log.warn('Got error while compact fetch:', e);
     } finally {
-      if (this.abortController && this.abortController.signal.aborted) {
-        this.abortController = undefined;
-        window.log.warn('Abort controller was canceled. dropping request');
-      }
       this.isPolling = false;
     }
   }
