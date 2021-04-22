@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { LocalizerType } from '../../types/Util';
 import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 
@@ -10,19 +10,19 @@ interface Props {
 }
 
 export class ClosedGroupAvatar extends React.PureComponent<Props> {
-  public getClosedGroupAvatarsSize(size: number) {
+  public getClosedGroupAvatarsSize(size: AvatarSize): AvatarSize {
     // Always use the size directly under the one requested
     switch (size) {
-      case 36:
-        return 28;
-      case 48:
-        return 36;
-      case 64:
-        return 48;
-      case 80:
-        return 64;
-      case 300:
-        return 80;
+      case AvatarSize.S:
+        return AvatarSize.XS;
+      case AvatarSize.M:
+        return AvatarSize.S;
+      case AvatarSize.L:
+        return AvatarSize.M;
+      case AvatarSize.XL:
+        return AvatarSize.L;
+      case AvatarSize.HUGE:
+        return AvatarSize.XL;
       default:
         throw new Error(
           `Invalid size request for closed group avatar: ${size}`

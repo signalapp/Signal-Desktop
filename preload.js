@@ -332,7 +332,7 @@ window.nodeSetImmediate = setImmediate;
 
 const Signal = require('./js/modules/signal');
 const i18n = require('./js/modules/i18n');
-const Attachments = require('./app/attachments');
+const Attachments = require('./ts/attachments/attachments');
 
 window.Signal = Signal.setup({
   Attachments,

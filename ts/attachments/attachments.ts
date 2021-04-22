@@ -1,15 +1,19 @@
-const crypto = require('crypto');
-const path = require('path');
+import crypto from 'crypto';
+import path from 'path';
 
-const pify = require('pify');
-const glob = require('glob');
-const fse = require('fs-extra');
-const toArrayBuffer = require('to-arraybuffer');
-const { map, isArrayBuffer, isString } = require('lodash');
+import pify from 'pify';
+import { default as glob } from 'glob';
+import fse from 'fs-extra';
+import toArrayBuffer from 'to-arraybuffer';
+import { isArrayBuffer, isString, map } from 'lodash';
+import {
+  decryptAttachmentBuffer,
+  encryptAttachmentBuffer,
+} from '../../ts/types/Attachment';
 
 const PATH = 'attachments.noindex';
 
-exports.getAllAttachments = async userDataPath => {
+export const getAllAttachments = async (userDataPath: string) => {
   const dir = exports.getPath(userDataPath);
   const pattern = path.join(dir, '**', '*');
 
@@ -18,7 +22,7 @@ exports.getAllAttachments = async userDataPath => {
 };
 
 //      getPath :: AbsolutePath -> AbsolutePath
-exports.getPath = userDataPath => {
+export const getPath = (userDataPath: string) => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
@@ -26,7 +30,7 @@ exports.getPath = userDataPath => {
 };
 
 //      ensureDirectory :: AbsolutePath -> IO Unit
-exports.ensureDirectory = async userDataPath => {
+export const ensureDirectory = async (userDataPath: string) => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
@@ -36,35 +40,37 @@ exports.ensureDirectory = async userDataPath => {
 //      createReader :: AttachmentsPath ->
 //                      RelativePath ->
 //                      IO (Promise ArrayBuffer)
-exports.createReader = root => {
+export const createReader = (root: string) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async relativePath => {
+  return async (relativePath: string) => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
-
     const absolutePath = path.join(root, relativePath);
     const normalized = path.normalize(absolutePath);
     if (!normalized.startsWith(root)) {
       throw new Error('Invalid relative path');
     }
     const buffer = await fse.readFile(normalized);
-    return toArrayBuffer(buffer);
+
+    const decryptedData = await decryptAttachmentBuffer(toArrayBuffer(buffer));
+
+    return decryptedData.buffer;
   };
 };
 
 //      createWriterForNew :: AttachmentsPath ->
 //                            ArrayBuffer ->
 //                            IO (Promise RelativePath)
-exports.createWriterForNew = root => {
+export const createWriterForNew = (root: string) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async arrayBuffer => {
+  return async (arrayBuffer: ArrayBuffer) => {
     if (!isArrayBuffer(arrayBuffer)) {
       throw new TypeError("'arrayBuffer' must be an array buffer");
     }
@@ -81,12 +87,15 @@ exports.createWriterForNew = root => {
 //      createWriter :: AttachmentsPath ->
 //                      { data: ArrayBuffer, path: RelativePath } ->
 //                      IO (Promise RelativePath)
-exports.createWriterForExisting = root => {
+export const createWriterForExisting = (root: any) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async ({ data: arrayBuffer, path: relativePath } = {}) => {
+  return async ({
+    data: arrayBuffer,
+    path: relativePath,
+  }: { data?: ArrayBuffer; path?: string } = {}) => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a path");
     }
@@ -95,7 +104,6 @@ exports.createWriterForExisting = root => {
       throw new TypeError("'arrayBuffer' must be an array buffer");
     }
 
-    const buffer = Buffer.from(arrayBuffer);
     const absolutePath = path.join(root, relativePath);
     const normalized = path.normalize(absolutePath);
     if (!normalized.startsWith(root)) {
@@ -103,7 +111,13 @@ exports.createWriterForExisting = root => {
     }
 
     await fse.ensureFile(normalized);
+    const { encryptedBufferWithHeader } = await encryptAttachmentBuffer(
+      arrayBuffer
+    );
+    const buffer = Buffer.from(encryptedBufferWithHeader.buffer);
+
     await fse.writeFile(normalized, buffer);
+
     return relativePath;
   };
 };
@@ -111,12 +125,12 @@ exports.createWriterForExisting = root => {
 //      createDeleter :: AttachmentsPath ->
 //                       RelativePath ->
 //                       IO Unit
-exports.createDeleter = root => {
+export const createDeleter = (root: any) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async relativePath => {
+  return async (relativePath: any) => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
@@ -130,26 +144,28 @@ exports.createDeleter = root => {
   };
 };
 
-exports.deleteAll = async ({ userDataPath, attachments }) => {
+export const deleteAll = async ({ userDataPath, attachments }: any) => {
   const deleteFromDisk = exports.createDeleter(exports.getPath(userDataPath));
 
+  // tslint:disable-next-line: one-variable-per-declaration
   for (let index = 0, max = attachments.length; index < max; index += 1) {
     const file = attachments[index];
     // eslint-disable-next-line no-await-in-loop
     await deleteFromDisk(file);
   }
 
+  // tslint:disable-next-line: no-console
   console.log(`deleteAll: deleted ${attachments.length} files`);
 };
 
 //      createName :: Unit -> IO String
-exports.createName = () => {
+export const createName = () => {
   const buffer = crypto.randomBytes(32);
   return buffer.toString('hex');
 };
 
 //      getRelativePath :: String -> Path
-exports.getRelativePath = name => {
+export const getRelativePath = (name: any) => {
   if (!isString(name)) {
     throw new TypeError("'name' must be a string");
   }
@@ -159,7 +175,9 @@ exports.getRelativePath = name => {
 };
 
 //      createAbsolutePathGetter :: RootPath -> RelativePath -> AbsolutePath
-exports.createAbsolutePathGetter = rootPath => relativePath => {
+export const createAbsolutePathGetter = (rootPath: string) => (
+  relativePath: string
+) => {
   const absolutePath = path.join(rootPath, relativePath);
   const normalized = path.normalize(absolutePath);
   if (!normalized.startsWith(rootPath)) {

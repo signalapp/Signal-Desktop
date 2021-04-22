@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
@@ -178,7 +178,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
         <div className="avatar-center-inner">
           <Avatar
             avatarPath={avatarPath}
-            size={80}
+            size={AvatarSize.XL}
             pubkey={this.props.pubkey}
           />
           <div

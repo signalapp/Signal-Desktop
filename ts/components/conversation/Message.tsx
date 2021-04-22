@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
 import { ImageGrid } from './ImageGrid';
@@ -12,6 +12,42 @@ import { Quote } from './Quote';
 // Audio Player
 import H5AudioPlayer from 'react-h5-audio-player';
 // import 'react-h5-audio-player/lib/styles.css';
+
+const AudioPlayerWithEncryptedFile = (props: {
+  src: string;
+  contentType: string;
+}) => {
+  const theme = useTheme();
+  const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
+  return (
+    <H5AudioPlayer
+      src={urlToLoad}
+      layout="horizontal-reverse"
+      showSkipControls={false}
+      showJumpControls={false}
+      showDownloadProgress={false}
+      listenInterval={100}
+      customIcons={{
+        play: (
+          <SessionIcon
+            iconType={SessionIconType.Play}
+            iconSize={SessionIconSize.Small}
+            iconColor={theme.colors.textColorSubtle}
+            theme={theme}
+          />
+        ),
+        pause: (
+          <SessionIcon
+            iconType={SessionIconType.Pause}
+            iconSize={SessionIconSize.Small}
+            iconColor={theme.colors.textColorSubtle}
+            theme={theme}
+          />
+        ),
+      }}
+    />
+  );
+};
 
 import {
   canDisplayImage,
@@ -34,12 +70,13 @@ import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
-import { withTheme } from 'styled-components';
+import { useTheme, withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { ConversationController } from '../../session/conversations';
 import { MessageRegularProps } from '../../models/messageType';
+import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -208,31 +245,9 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             e.stopPropagation();
           }}
         >
-          <H5AudioPlayer
+          <AudioPlayerWithEncryptedFile
             src={firstAttachment.url}
-            layout="horizontal-reverse"
-            showSkipControls={false}
-            showJumpControls={false}
-            showDownloadProgress={false}
-            listenInterval={100}
-            customIcons={{
-              play: (
-                <SessionIcon
-                  iconType={SessionIconType.Play}
-                  iconSize={SessionIconSize.Small}
-                  iconColor={this.props.theme.colors.textColorSubtle}
-                  theme={this.props.theme}
-                />
-              ),
-              pause: (
-                <SessionIcon
-                  iconType={SessionIconType.Pause}
-                  iconSize={SessionIconSize.Small}
-                  iconColor={this.props.theme.colors.textColorSubtle}
-                  theme={this.props.theme}
-                />
-              ),
-            }}
+            contentType={firstAttachment.contentType}
           />
         </div>
       );
@@ -499,7 +514,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         <Avatar
           avatarPath={authorAvatarPath}
           name={userName}
-          size={36}
+          size={AvatarSize.S}
           onAvatarClick={() => {
             onShowUserDetails(authorPhoneNumber);
           }}

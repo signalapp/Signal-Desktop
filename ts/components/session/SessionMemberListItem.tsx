@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { Constants } from '../../session';
 import { DefaultTheme } from 'styled-components';
@@ -92,7 +92,7 @@ class SessionMemberListItemInner extends React.Component<Props> {
       <Avatar
         avatarPath={authorAvatarPath}
         name={userName}
-        size={28}
+        size={AvatarSize.XS}
         pubkey={authorPhoneNumber}
       />
     );

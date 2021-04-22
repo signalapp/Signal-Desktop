@@ -2,8 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import { getTimestamp } from './SessionConversationManager';
-
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import {
   SessionButton,
@@ -34,6 +32,11 @@ interface State {
   nowTimestamp: number;
 
   updateTimerInterval: NodeJS.Timeout;
+}
+
+function getTimestamp(asInt = false) {
+  const timestamp = Date.now() / 1000;
+  return asInt ? Math.floor(timestamp) : timestamp;
 }
 
 class SessionRecordingInner extends React.Component<Props, State> {

@@ -64,7 +64,7 @@ const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 
 // We generally want to pull in our own modules after this point, after the user
 //   data directory has been set.
-const attachments = require('./app/attachments');
+const attachments = require('./ts/attachments/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 
 const updater = require('./ts/updater/index');

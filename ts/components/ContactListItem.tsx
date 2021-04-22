@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { Emojify } from './conversation/Emojify';
 
 import { LocalizerType } from '../types/Util';
@@ -26,7 +26,7 @@ export class ContactListItem extends React.Component<Props> {
       <Avatar
         avatarPath={avatarPath}
         name={userName}
-        size={36}
+        size={AvatarSize.S}
         pubkey={phoneNumber}
       />
     );

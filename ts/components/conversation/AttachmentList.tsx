@@ -70,7 +70,7 @@ export class AttachmentList extends React.Component<Props> {
                 <Image
                   key={imageKey}
                   alt={window.i18n('stagedImageAttachment', [
-                    getUrl(attachment) || attachment.fileName,
+                    attachment.fileName,
                   ])}
                   i18n={window.i18n}
                   attachment={attachment}
