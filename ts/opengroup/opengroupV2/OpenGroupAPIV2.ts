@@ -550,6 +550,32 @@ export const downloadFileOpenGroupV2 = async (
   return new Uint8Array(fromBase64ToArrayBuffer(base64Data));
 };
 
+export const downloadPreviewOpenGroupV2 = async (
+  roomInfos: OpenGroupRequestCommonType
+): Promise<Uint8Array | null> => {
+  const request: OpenGroupV2Request = {
+    method: 'GET',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: false,
+    endpoint: `rooms/${roomInfos.roomId}/image`,
+  };
+
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+  if (statusCode !== 200) {
+    return null;
+  }
+
+  // we should probably change the logic of sendOnionRequest to not have all those levels
+  const base64Data = (result as any)?.result?.result as string | undefined;
+
+  if (!base64Data) {
+    return null;
+  }
+  return new Uint8Array(fromBase64ToArrayBuffer(base64Data));
+};
+
 /**
  * Returns the id on which the file is saved, or null
  */

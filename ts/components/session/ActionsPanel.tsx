@@ -31,15 +31,7 @@ import {
   joinOpenGroupV2,
   parseOpenGroupV2,
 } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
-import {
-  getAuthToken,
-  getMessages,
-  getModerators,
-  postMessage,
-  uploadFileOpenGroupV2,
-} from '../../opengroup/opengroupV2/OpenGroupAPIV2';
-import { OpenGroupMessageV2 } from '../../opengroup/opengroupV2/OpenGroupMessageV2';
-// tslint:disable-next-line: no-import-side-effect no-submodule-imports
+import { downloadPreviewOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 
 export enum SectionType {
   Profile,
@@ -207,13 +199,10 @@ export const ActionsPanel = () => {
         //   serverUrl: parsedRoom.serverUrl,
         //   roomId: parsedRoom.roomId,
         // });
-        const fileID = await uploadFileOpenGroupV2(
-          new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9]),
-          {
-            serverUrl: parsedRoom.serverUrl,
-            roomId: parsedRoom.roomId,
-          }
-        );
+        // const fileID = await downloadPreviewOpenGroupV2({
+        //   serverUrl: parsedRoom.serverUrl,
+        //   roomId: parsedRoom.roomId,
+        // });
       }, 6000);
     }
   }, []);
