@@ -62,6 +62,7 @@ window.lokiFeatureFlags = {
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
   useRequestEncryptionKeyPair: false,
+  padOutgoingAttachments: false,
 };
 
 if (
