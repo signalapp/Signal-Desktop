@@ -36,6 +36,7 @@ import {
   getMessages,
   getModerators,
   postMessage,
+  uploadFileOpenGroupV2,
 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import { OpenGroupMessageV2 } from '../../opengroup/opengroupV2/OpenGroupMessageV2';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
@@ -194,22 +195,25 @@ export const ActionsPanel = () => {
     if (parsedRoom) {
       setTimeout(async () => {
         await joinOpenGroupV2(parsedRoom);
-        const oldMessages = await getMessages({
-          serverUrl: parsedRoom.serverUrl,
-          roomId: parsedRoom.roomId,
-        });
-        const msg = new OpenGroupMessageV2({
-          base64EncodedData: 'dffdldfkldf',
-          sentTimestamp: Date.now(),
-        });
-        const postedMessage = await postMessage(msg, {
-          serverUrl: parsedRoom.serverUrl,
-          roomId: parsedRoom.roomId,
-        });
-        const newMessages = await getMessages({
-          serverUrl: parsedRoom.serverUrl,
-          roomId: parsedRoom.roomId,
-        });
+        // const oldMessages = await getMessages({
+        //   serverUrl: parsedRoom.serverUrl,
+        //   roomId: parsedRoom.roomId,
+        // });
+        // const msg = new OpenGroupMessageV2({
+        //   base64EncodedData: 'dffdldfkldf',
+        //   sentTimestamp: Date.now(),
+        // });
+        // const postedMessage = await postMessage(msg, {
+        //   serverUrl: parsedRoom.serverUrl,
+        //   roomId: parsedRoom.roomId,
+        // });
+        const fileID = await uploadFileOpenGroupV2(
+          new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9]),
+          {
+            serverUrl: parsedRoom.serverUrl,
+            roomId: parsedRoom.roomId,
+          }
+        );
       }, 6000);
     }
   }, []);

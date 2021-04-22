@@ -6,7 +6,11 @@ import {
 import { ConversationController } from '../../session/conversations';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
-import { fromBase64ToArrayBuffer, toHex } from '../../session/utils/String';
+import {
+  fromArrayBufferToBase64,
+  fromBase64ToArrayBuffer,
+  toHex,
+} from '../../session/utils/String';
 import {
   getIdentityKeyPair,
   getOurPubKeyStrFromCache,
@@ -71,11 +75,16 @@ async function sendOpenGroupV2Request(
         return null;
       }
       headers.Authorization = token;
-      const res = await sendViaOnion(roomDetails.serverPublicKey, builtUrl, {
-        method: request.method,
-        headers,
-        body,
-      });
+      const res = await sendViaOnion(
+        roomDetails.serverPublicKey,
+        builtUrl,
+        {
+          method: request.method,
+          headers,
+          body,
+        },
+        { noJson: true }
+      );
 
       const statusCode = parseStatusCodeFromOnionRequest(res);
       if (!statusCode) {
@@ -514,17 +523,62 @@ export const getMemberCount = async (
  * File upload and download
  */
 
-export const downloadFile = async (
+export const downloadFileOpenGroupV2 = async (
   fileId: number,
   roomInfos: OpenGroupRequestCommonType
-): Promise<void> => {
+): Promise<Uint8Array | null> => {
   const request: OpenGroupV2Request = {
     method: 'GET',
     room: roomInfos.roomId,
     server: roomInfos.serverUrl,
     isAuthRequired: true,
-    endpoint: `files${fileId}`,
+    endpoint: `files/${fileId}`,
   };
 
   const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+  if (statusCode !== 200) {
+    return null;
+  }
+
+  // we should probably change the logic of sendOnionRequest to not have all those levels
+  const base64Data = (result as any)?.result?.result as string | undefined;
+
+  if (!base64Data) {
+    return null;
+  }
+  return new Uint8Array(fromBase64ToArrayBuffer(base64Data));
+};
+
+/**
+ * Returns the id on which the file is saved, or null
+ */
+export const uploadFileOpenGroupV2 = async (
+  fileContent: Uint8Array,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<number | null> => {
+  if (!fileContent || !fileContent.length) {
+    return null;
+  }
+  const queryParams = {
+    file: fromArrayBufferToBase64(fileContent),
+  };
+  const request: OpenGroupV2Request = {
+    method: 'POST',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: true,
+    endpoint: 'files',
+    queryParams,
+  };
+
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+  if (statusCode !== 200) {
+    return null;
+  }
+
+  // we should probably change the logic of sendOnionRequest to not have all those levels
+  const fileId = (result as any)?.result?.result as number | undefined;
+  return fileId || null;
 };
