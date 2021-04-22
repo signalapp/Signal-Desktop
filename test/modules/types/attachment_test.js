@@ -216,10 +216,7 @@ describe('Attachment', () => {
           },
         });
       } catch (error) {
-        assert.strictEqual(
-          error.message,
-          'Expected `attachment.data` to be an array buffer; got: number'
-        );
+        assert.strictEqual(error.message, 'Expected 42 to be an array buffer got: number');
         return;
       }
 
