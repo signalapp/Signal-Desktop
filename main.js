@@ -497,15 +497,11 @@ function openReleaseNotes() {
 }
 
 function openNewBugForm() {
-  shell.openExternal(
-    'https://github.com/oxen-io/session-desktop/issues/new'
-  );
+  shell.openExternal('https://github.com/oxen-io/session-desktop/issues/new');
 }
 
 function openSupportPage() {
-  shell.openExternal(
-    'https://docs.oxen.io/products-built-on-oxen/session'
-  );
+  shell.openExternal('https://docs.oxen.io/products-built-on-oxen/session');
 }
 
 function setupWithImport() {
