@@ -94,9 +94,10 @@ export class AttachmentUtils {
       pointer.key = new Uint8Array(crypto.randomBytes(64));
       const iv = new Uint8Array(crypto.randomBytes(16));
 
-      const dataToEncrypt = !shouldPad
-        ? attachment.data
-        : AttachmentUtils.addAttachmentPadding(attachment.data);
+      const dataToEncrypt =
+        !shouldPad || !window.lokiFeatureFlags.padOutgoingAttachments
+          ? attachment.data
+          : AttachmentUtils.addAttachmentPadding(attachment.data);
       const data = await window.textsecure.crypto.encryptAttachment(
         dataToEncrypt,
         pointer.key.buffer,

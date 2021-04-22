@@ -34,6 +34,7 @@ import {
   getPubkeysInPublicConversation,
 } from '../../../data/data';
 import autoBind from 'auto-bind';
+import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 
 interface State {
   // Message sending progress
@@ -478,7 +479,7 @@ export class SessionConversation extends React.Component<Props, State> {
       replyToMessage: this.replyToMessage,
       showMessageDetails: this.showMessageDetails,
       onClickAttachment: this.onClickAttachment,
-      onDownloadAttachment: this.downloadAttachment,
+      onDownloadAttachment: this.saveAttachment,
       messageContainerRef: this.messageContainerRef,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
     };
@@ -923,13 +924,13 @@ export class SessionConversation extends React.Component<Props, State> {
           this.setState({ lightBoxOptions: undefined });
         }}
         selectedIndex={selectedIndex}
-        onSave={this.downloadAttachment}
+        onSave={this.saveAttachment}
       />
     );
   }
 
   // THIS DOES NOT DOWNLOAD ANYTHING! it just saves it where the user wants
-  private downloadAttachment({
+  private async saveAttachment({
     attachment,
     message,
     index,
@@ -939,7 +940,10 @@ export class SessionConversation extends React.Component<Props, State> {
     index?: number;
   }) {
     const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-
+    attachment.url = await getDecryptedMediaUrl(
+      attachment.url,
+      attachment.contentType
+    );
     save({
       attachment,
       document,

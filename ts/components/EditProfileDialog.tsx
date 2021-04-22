@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 
 import {
   SessionButton,
@@ -262,7 +262,12 @@ export class EditProfileDialog extends React.Component<Props, State> {
     const userName = profileName || pubkey;
 
     return (
-      <Avatar avatarPath={avatar} name={userName} size={80} pubkey={pubkey} />
+      <Avatar
+        avatarPath={avatar}
+        name={userName}
+        size={AvatarSize.XL}
+        pubkey={pubkey}
+      />
     );
   }
 

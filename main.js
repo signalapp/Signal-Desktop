@@ -64,7 +64,7 @@ const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 
 // We generally want to pull in our own modules after this point, after the user
 //   data directory has been set.
-const attachments = require('./app/attachments');
+const attachments = require('./ts/attachments/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 
 const updater = require('./ts/updater/index');
@@ -491,20 +491,16 @@ setTimeout(readyForUpdates, TEN_MINUTES);
 
 function openReleaseNotes() {
   shell.openExternal(
-    `https://github.com/loki-project/session-desktop/releases/tag/v${app.getVersion()}`
+    `https://github.com/oxen-io/session-desktop/releases/tag/v${app.getVersion()}`
   );
 }
 
 function openNewBugForm() {
-  shell.openExternal(
-    'https://github.com/loki-project/session-desktop/issues/new'
-  );
+  shell.openExternal('https://github.com/oxen-io/session-desktop/issues/new');
 }
 
 function openSupportPage() {
-  shell.openExternal(
-    'https://docs.loki.network/LokiServices/Messenger/Session/'
-  );
+  shell.openExternal('https://docs.oxen.io/products-built-on-oxen/session');
 }
 
 function setupWithImport() {

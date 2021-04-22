@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { contextMenu } from 'react-contexify';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
@@ -69,7 +69,6 @@ class ConversationListItem extends React.PureComponent<Props> {
       memberAvatars,
     } = this.props;
 
-    const iconSize = 36;
     const userName = name || profileName || phoneNumber;
 
     return (
@@ -77,7 +76,7 @@ class ConversationListItem extends React.PureComponent<Props> {
         <Avatar
           avatarPath={avatarPath}
           name={userName}
-          size={iconSize}
+          size={AvatarSize.S}
           memberAvatars={memberAvatars}
           pubkey={phoneNumber}
         />

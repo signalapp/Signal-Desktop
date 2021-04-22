@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
-import { DAYS } from '../../session/utils/Number';
+import { DAYS, MINUTES, SECONDS } from '../../session/utils/Number';
 import {
+  generateAttachmentKeyIfEmpty,
   getItemById,
   hasSyncedInitialConfigurationItem,
   removeItemById,
@@ -36,6 +37,10 @@ import {
   getMessages,
 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import { compactFetchEverything } from '../../opengroup/opengroupV2/OpenGroupAPIV2CompactPoll';
+import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
+import { useTimeoutFn } from 'react-use';
+import { getSodium } from '../../session/crypto';
+// tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
   Profile,
@@ -81,7 +86,7 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     return (
       <Avatar
         avatarPath={avatarPath}
-        size={28}
+        size={AvatarSize.XS}
         onAvatarClick={handleClick}
         name={userName}
         pubkey={ourNumber}
@@ -132,16 +137,20 @@ const showResetSessionIDDialogIfNeeded = async () => {
   window.showResetSessionIdDialog();
 };
 
+const cleanUpMediasInterval = MINUTES * 30;
+
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
  */
 export const ActionsPanel = () => {
   const dispatch = useDispatch();
+  const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
 
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
 
   // this maxi useEffect is called only once: when the component is mounted.
+  // For the action panel, it means this is called only one per app start/with a user loggedin
   useEffect(() => {
     void window.setClockParams();
     if (
@@ -178,7 +187,7 @@ export const ActionsPanel = () => {
         await syncConfigurationIfNeeded();
       }
     };
-
+    void generateAttachmentKeyIfEmpty();
     // trigger a sync message if needed for our other devices
     //       'http://sessionopengroup.com/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231b'
     //       'https://sog.ibolpap.finance/main?public_key=b464aa186530c97d6bcf663a3a3b7465a5f782beaa67c83bee99468824b4aa10'
@@ -214,6 +223,24 @@ export const ActionsPanel = () => {
       }, 6000);
     }
   }, []);
+
+  // wait for cleanUpMediasInterval and then start cleaning up medias
+  // this would be way easier to just be able to not trigger a call with the setInterval
+  useEffect(() => {
+    const timeout = global.setTimeout(
+      () => setStartCleanUpMedia(true),
+      cleanUpMediasInterval
+    );
+
+    return () => global.clearTimeout(timeout);
+  }, []);
+
+  useInterval(
+    () => {
+      cleanUpOldDecryptedMedias();
+    },
+    startCleanUpMedia ? cleanUpMediasInterval : null
+  );
 
   if (!ourPrimaryConversation) {
     window.log.warn('ActionsPanel: ourPrimaryConversation is not set');

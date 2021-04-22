@@ -40,3 +40,12 @@ export const fromBase64ToArray = (d: string) =>
   new Uint8Array(encode(d, 'base64'));
 
 export const fromArrayBufferToBase64 = (d: BufferType) => decode(d, 'base64');
+export const fromUInt8ArrayToBase64 = (d: Uint8Array) => decode(d, 'base64');
+
+export const stringToArrayBuffer = (str: string): ArrayBuffer => {
+  if (typeof str !== 'string') {
+    throw new TypeError("'string' must be a string");
+  }
+
+  return encode(str, 'binary');
+};

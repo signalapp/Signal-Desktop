@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
@@ -87,6 +87,7 @@
     "linkify-it": "2.0.3",
     "lodash": "4.17.11",
     "long": "^4.0.0",
+    "mic-recorder-to-mp3": "^2.2.2",
     "mkdirp": "0.5.1",
     "moment": "2.21.0",
     "mustache": "2.3.0",
@@ -109,6 +110,7 @@
     "react-qr-svg": "^2.2.1",
     "react-redux": "7.2.1",
     "react-toastify": "^6.0.9",
+    "react-use": "^17.2.1",
     "react-virtualized": "9.21.0",
     "read-last-lines": "1.3.0",
     "redux": "4.0.1",
@@ -164,6 +166,7 @@
     "@types/semver": "5.5.0",
     "@types/sinon": "9.0.4",
     "@types/styled-components": "^5.1.4",
+    "@types/tmp": "^0.2.0",
     "@types/uuid": "3.4.4",
     "arraybuffer-loader": "1.0.3",
     "asar": "0.14.0",
@@ -212,7 +215,7 @@
     "tslint": "5.19.0",
     "tslint-microsoft-contrib": "6.0.0",
     "tslint-react": "3.6.0",
-    "typescript": "3.7.4",
+    "typescript": "^4.2.3",
     "webpack": "4.4.1"
   },
   "engines": {

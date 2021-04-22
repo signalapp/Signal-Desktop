@@ -5,6 +5,7 @@ export const APPLICATION_JSON = 'application/json' as MIMEType;
 export const AUDIO_AAC = 'audio/aac' as MIMEType;
 export const AUDIO_WEBM = 'audio/webm' as MIMEType;
 export const AUDIO_MP3 = 'audio/mp3' as MIMEType;
+export const AUDIO_OPUS = 'audio/ogg' as MIMEType;
 export const IMAGE_GIF = 'image/gif' as MIMEType;
 export const IMAGE_JPEG = 'image/jpeg' as MIMEType;
 export const IMAGE_BMP = 'image/bmp' as MIMEType;

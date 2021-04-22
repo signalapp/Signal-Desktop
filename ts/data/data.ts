@@ -11,6 +11,7 @@ import {
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
+import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
 import {
   fromArrayBufferToBase64,
@@ -485,6 +486,24 @@ export async function getItemById(
 
   return Array.isArray(keys) ? keysToArrayBuffer(keys, data) : data;
 }
+
+export async function generateAttachmentKeyIfEmpty() {
+  const existingKey = await getItemById('local_attachment_encrypted_key');
+  if (!existingKey) {
+    const sodium = await getSodium();
+    const encryptingKey = sodium.to_hex(sodium.randombytes_buf(32));
+    await createOrUpdateItem({
+      id: 'local_attachment_encrypted_key',
+      value: encryptingKey,
+    });
+    // be sure to write the new key to the cache. so we can access it straight away
+    window.textsecure.storage.put(
+      'local_attachment_encrypted_key',
+      encryptingKey
+    );
+  }
+}
+
 export async function getAllItems(): Promise<Array<StorageItem>> {
   const items = await channels.getAllItems();
   return _.map(items, item => {

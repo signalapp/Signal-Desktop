@@ -265,6 +265,13 @@ const processOnionResponse = async (
 
   // FIXME: 401/500 handling?
 
+  // detect SNode is deregisted?
+  if (response.status === 502) {
+    log.warn(`(${reqIdx}) [path] Got 502: snode not found`);
+
+    return RequestError.BAD_PATH;
+  }
+  
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
     log.warn(`(${reqIdx}) [path] Got 503: snode not ready`);

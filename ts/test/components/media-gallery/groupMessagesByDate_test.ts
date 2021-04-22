@@ -21,8 +21,10 @@ const toMediaItem = (date: Date): MediaItemType => ({
     contentType: IMAGE_JPEG,
     url: 'url',
   },
+  contentType: IMAGE_JPEG,
 });
 
+// tslint:disable: max-func-body-length
 describe('groupMediaItemsByDate', () => {
   it('should group mediaItems', () => {
     const referenceTime = new Date('2018-04-12T18:00Z').getTime(); // Thu
@@ -51,6 +53,8 @@ describe('groupMediaItemsByDate', () => {
           {
             objectURL: 'Thu, 12 Apr 2018 12:00:00 GMT',
             index: 0,
+            contentType: IMAGE_JPEG,
+
             message: {
               id: 'id',
               received_at: 1523534400000,
@@ -65,6 +69,7 @@ describe('groupMediaItemsByDate', () => {
           {
             objectURL: 'Thu, 12 Apr 2018 00:01:00 GMT',
             index: 0,
+            contentType: IMAGE_JPEG,
             message: {
               id: 'id',
               received_at: 1523491260000,
@@ -84,6 +89,7 @@ describe('groupMediaItemsByDate', () => {
           {
             objectURL: 'Wed, 11 Apr 2018 23:59:00 GMT',
             index: 0,
+            contentType: IMAGE_JPEG,
             message: {
               id: 'id',
               received_at: 1523491140000,
@@ -103,6 +109,7 @@ describe('groupMediaItemsByDate', () => {
           {
             objectURL: 'Mon, 09 Apr 2018 00:01:00 GMT',
             index: 0,
+            contentType: IMAGE_JPEG,
             message: {
               id: 'id',
               received_at: 1523232060000,
@@ -122,6 +129,7 @@ describe('groupMediaItemsByDate', () => {
           {
             objectURL: 'Sun, 08 Apr 2018 23:59:00 GMT',
             index: 0,
+            contentType: IMAGE_JPEG,
             message: {
               id: 'id',
               received_at: 1523231940000,
@@ -141,6 +149,7 @@ describe('groupMediaItemsByDate', () => {
               received_at: 1522540860000,
               attachments: [],
             },
+            contentType: IMAGE_JPEG,
             attachment: {
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
@@ -157,6 +166,7 @@ describe('groupMediaItemsByDate', () => {
           {
             objectURL: 'Sat, 31 Mar 2018 23:59:00 GMT',
             index: 0,
+            contentType: IMAGE_JPEG,
             message: {
               id: 'id',
               received_at: 1522540740000,
@@ -171,6 +181,7 @@ describe('groupMediaItemsByDate', () => {
           {
             objectURL: 'Thu, 01 Mar 2018 14:00:00 GMT',
             index: 0,
+            contentType: IMAGE_JPEG,
             message: {
               id: 'id',
               received_at: 1519912800000,
@@ -202,10 +213,12 @@ describe('groupMediaItemsByDate', () => {
               contentType: IMAGE_JPEG,
               url: 'url',
             },
+            contentType: IMAGE_JPEG,
           },
           {
             objectURL: 'Tue, 01 Feb 2011 10:00:00 GMT',
             index: 0,
+            contentType: IMAGE_JPEG,
             message: {
               id: 'id',
               received_at: 1296554400000,

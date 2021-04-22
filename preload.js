@@ -64,6 +64,7 @@ window.lokiFeatureFlags = {
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
   useRequestEncryptionKeyPair: false,
+  padOutgoingAttachments: false,
 };
 
 if (
@@ -328,7 +329,7 @@ window.nodeSetImmediate = setImmediate;
 
 const Signal = require('./js/modules/signal');
 const i18n = require('./js/modules/i18n');
-const Attachments = require('./app/attachments');
+const Attachments = require('./ts/attachments/attachments');
 
 window.Signal = Signal.setup({
   Attachments,

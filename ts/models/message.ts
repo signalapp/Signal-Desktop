@@ -7,7 +7,6 @@ import { getMessageQueue, Types, Utils } from '../../ts/session';
 import { ConversationController } from '../../ts/session/conversations';
 import { MessageController } from '../../ts/session/messages';
 import {
-  ContentMessage,
   DataMessage,
   OpenGroupMessage,
 } from '../../ts/session/messages/outgoing';
@@ -23,11 +22,10 @@ import {
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel, ConversationType } from './conversation';
+import { getSuggestedFilenameSending } from '../types/Attachment';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
-import { getSuggestedFilenameSending } from '../types/Attachment';
-
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;

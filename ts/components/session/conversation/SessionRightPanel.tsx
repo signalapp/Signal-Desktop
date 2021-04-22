@@ -1,6 +1,6 @@
 import React from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
-import { Avatar } from '../../Avatar';
+import { Avatar, AvatarSize } from '../../Avatar';
 import {
   SessionButton,
   SessionButtonColor,
@@ -21,6 +21,7 @@ import {
   getMessagesWithFileAttachments,
   getMessagesWithVisualMediaAttachments,
 } from '../../../data/data';
+import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 
 interface Props {
   id: string;
@@ -193,8 +194,12 @@ class SessionRightPanel extends React.Component<Props, State> {
       }
     );
 
-    const saveAttachment = ({ attachment, message }: any = {}) => {
+    const saveAttachment = async ({ attachment, message }: any = {}) => {
       const timestamp = message.received_at;
+      attachment.url = await getDecryptedMediaUrl(
+        attachment.url,
+        attachment.contentType
+      );
       save({
         attachment,
         document,
@@ -206,7 +211,7 @@ class SessionRightPanel extends React.Component<Props, State> {
     const onItemClick = ({ message, attachment, type }: any) => {
       switch (type) {
         case 'documents': {
-          saveAttachment({ message, attachment });
+          void saveAttachment({ message, attachment });
           break;
         }
 
@@ -390,7 +395,7 @@ class SessionRightPanel extends React.Component<Props, State> {
         <Avatar
           avatarPath={avatarPath}
           name={userName}
-          size={80}
+          size={AvatarSize.XL}
           memberAvatars={memberAvatars}
           pubkey={id}
         />

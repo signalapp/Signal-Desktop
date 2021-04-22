@@ -1353,8 +1353,8 @@ async function updateGuardNodes(nodes) {
 // irrespective of their Primary or Secondary status.
 
 const ITEMS_TABLE = 'items';
-async function createOrUpdateItem(data) {
-  return createOrUpdate(ITEMS_TABLE, data);
+async function createOrUpdateItem(data, instance) {
+  return createOrUpdate(ITEMS_TABLE, data, instance);
 }
 async function getItemById(id) {
   return getById(ITEMS_TABLE, id);
@@ -1367,13 +1367,13 @@ async function removeItemById(id) {
   return removeById(ITEMS_TABLE, id);
 }
 
-async function createOrUpdate(table, data) {
+async function createOrUpdate(table, data, instance) {
   const { id } = data;
   if (!id) {
     throw new Error('createOrUpdate: Provided data did not have a truthy id');
   }
 
-  await db.run(
+  await (db || instance).run(
     `INSERT OR REPLACE INTO ${table} (
       id,
       json
