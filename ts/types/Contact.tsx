@@ -50,8 +50,7 @@ export function getName(contact: Contact): string | undefined {
   const displayName = (name && name.displayName) || undefined;
   const givenName = (name && name.givenName) || undefined;
   const familyName = (name && name.familyName) || undefined;
-  const backupName =
-    (givenName && familyName && `${givenName} ${familyName}`) || undefined;
+  const backupName = (givenName && familyName && `${givenName} ${familyName}`) || undefined;
 
   return displayName || organization || backupName || givenName || familyName;
 }

@@ -40,17 +40,9 @@ describe('JobQueue', () => {
         });
 
       const start = Date.now();
-      await assert.eventually.deepEqual(Promise.all(input.map(mapper)), [
-        10,
-        20,
-        30,
-      ]);
+      await assert.eventually.deepEqual(Promise.all(input.map(mapper)), [10, 20, 30]);
       const timeTaken = Date.now() - start;
-      assert.isAtLeast(
-        timeTaken,
-        20,
-        'Queue should take atleast 100ms to run.'
-      );
+      assert.isAtLeast(timeTaken, 20, 'Queue should take atleast 100ms to run.');
     });
 
     it('should return the result of the job', async () => {
@@ -105,9 +97,7 @@ describe('JobQueue', () => {
       const queue = new JobQueue();
       const id = uuid();
 
-      const successfullJob = queue.addWithId(id, async () =>
-        TestUtils.timeout(10)
-      );
+      const successfullJob = queue.addWithId(id, async () => TestUtils.timeout(10));
       assert.isTrue(queue.has(id));
       await successfullJob;
       assert.isFalse(queue.has(id));

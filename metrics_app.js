@@ -31,9 +31,7 @@ http
     // Avoid https://en.wikipedia.org/wiki/Directory_traversal_attack
     // e.g curl --path-as-is http://localhost:9000/../fileInDanger.txt
     // by limiting the path to current directory only
-    const sanitizePath = path
-      .normalize(parsedUrl.pathname)
-      .replace(/^(\.\.[/\\])+/, '');
+    const sanitizePath = path.normalize(parsedUrl.pathname).replace(/^(\.\.[/\\])+/, '');
     let pathname = path.join(__dirname, sanitizePath);
     fs.exists(pathname, exist => {
       if (!exist) {

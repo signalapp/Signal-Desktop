@@ -28,10 +28,7 @@ import { getFocusedSection } from '../../state/selectors/section';
 import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
 import { showLeftPaneSection } from '../../state/ducks/section';
-import {
-  joinOpenGroupV2,
-  parseOpenGroupV2,
-} from '../../opengroup/opengroupV2/JoinOpenGroupV2';
+import { joinOpenGroupV2, parseOpenGroupV2 } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
 import {
   downloadPreviewOpenGroupV2,
   getMessages,
@@ -113,8 +110,7 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
       iconType = SessionIconType.Moon;
   }
 
-  const unreadToShow =
-    type === SectionType.Message ? unreadMessageCount : undefined;
+  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
 
   return (
     <SessionIconButton
@@ -153,10 +149,7 @@ export const ActionsPanel = () => {
   // For the action panel, it means this is called only one per app start/with a user loggedin
   useEffect(() => {
     void window.setClockParams();
-    if (
-      window.lokiFeatureFlags.useOnionRequests ||
-      window.lokiFeatureFlags.useFileOnionRequests
-    ) {
+    if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
       // Initialize paths for onion requests
       void OnionPaths.getInstance().buildNewOnionPaths();
     }
@@ -227,10 +220,7 @@ export const ActionsPanel = () => {
   // wait for cleanUpMediasInterval and then start cleaning up medias
   // this would be way easier to just be able to not trigger a call with the setInterval
   useEffect(() => {
-    const timeout = global.setTimeout(
-      () => setStartCleanUpMedia(true),
-      cleanUpMediasInterval
-    );
+    const timeout = global.setTimeout(() => setStartCleanUpMedia(true), cleanUpMediasInterval);
 
     return () => global.clearTimeout(timeout);
   }, []);
@@ -253,10 +243,7 @@ export const ActionsPanel = () => {
 
   return (
     <div className="module-left-pane__sections-container">
-      <Section
-        type={SectionType.Profile}
-        avatarPath={ourPrimaryConversation.avatarPath}
-      />
+      <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
       <Section type={SectionType.Message} />
       <Section type={SectionType.Contact} />
       <Section type={SectionType.Settings} />

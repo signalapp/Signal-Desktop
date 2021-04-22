@@ -28,9 +28,7 @@ class StubMessageAPI {
     await insecureNodeFetch(
       `${
         this.baseUrl
-      }/messages?pubkey=${pubKey}&timestamp=${messageTimeStamp}&data=${encodeURIComponent(
-        data64
-      )}`,
+      }/messages?pubkey=${pubKey}&timestamp=${messageTimeStamp}&data=${encodeURIComponent(data64)}`,
       post
     );
   }

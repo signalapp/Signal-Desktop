@@ -15,9 +15,7 @@ export class MessageSentHandler {
   ) {
     const { serverId, serverTimestamp } = result;
     try {
-      const foundMessage = await MessageSentHandler.fetchHandleMessageSentData(
-        sentMessage
-      );
+      const foundMessage = await MessageSentHandler.fetchHandleMessageSentData(sentMessage);
 
       if (!foundMessage) {
         throw new Error(
@@ -47,9 +45,7 @@ export class MessageSentHandler {
     wrappedEnvelope?: Uint8Array
   ) {
     // The wrappedEnvelope will be set only if the message is not one of OpenGroupMessage type.
-    const fetchedMessage = await MessageSentHandler.fetchHandleMessageSentData(
-      sentMessage
-    );
+    const fetchedMessage = await MessageSentHandler.fetchHandleMessageSentData(sentMessage);
     if (!fetchedMessage) {
       return;
     }
@@ -63,8 +59,7 @@ export class MessageSentHandler {
     // FIXME this is not correct and will cause issues with syncing
     // At this point the only way to check for medium
     // group is by comparing the encryption type
-    const isClosedGroupMessage =
-      sentMessage.encryption === EncryptionType.ClosedGroup;
+    const isClosedGroupMessage = sentMessage.encryption === EncryptionType.ClosedGroup;
 
     // We trigger a sync message only when the message is not to one of our devices, AND
     // the message is not for an open group (there is no sync for opengroups, each device pulls all messages), AND
@@ -77,12 +72,9 @@ export class MessageSentHandler {
 
     // A message is synced if we triggered a sync message (sentSync)
     // and the current message was sent to our device (so a sync message)
-    const shouldMarkMessageAsSynced =
-      isOurDevice && fetchedMessage.get('sentSync');
+    const shouldMarkMessageAsSynced = isOurDevice && fetchedMessage.get('sentSync');
 
-    const contentDecoded = SignalService.Content.decode(
-      sentMessage.plainTextBuffer
-    );
+    const contentDecoded = SignalService.Content.decode(sentMessage.plainTextBuffer);
     const { dataMessage } = contentDecoded;
 
     /**
@@ -92,8 +84,7 @@ export class MessageSentHandler {
      */
     const hasBodyOrAttachments = Boolean(
       dataMessage &&
-        (dataMessage.body ||
-          (dataMessage.attachments && dataMessage.attachments.length))
+        (dataMessage.body || (dataMessage.attachments && dataMessage.attachments.length))
     );
     const shouldNotifyPushServer = hasBodyOrAttachments && !isOurDevice;
 
@@ -106,10 +97,7 @@ export class MessageSentHandler {
           window.LokiPushNotificationServer = new window.LokiPushNotificationServerApi();
         }
 
-        window.LokiPushNotificationServer.notify(
-          wrappedEnvelope,
-          sentMessage.device
-        );
+        window.LokiPushNotificationServer.notify(wrappedEnvelope, sentMessage.device);
       }
     }
 
@@ -146,9 +134,7 @@ export class MessageSentHandler {
     sentMessage: RawMessage | OpenGroupMessage,
     error: any
   ) {
-    const fetchedMessage = await MessageSentHandler.fetchHandleMessageSentData(
-      sentMessage
-    );
+    const fetchedMessage = await MessageSentHandler.fetchHandleMessageSentData(sentMessage);
     if (!fetchedMessage) {
       return;
     }
@@ -190,9 +176,7 @@ export class MessageSentHandler {
    * In this case, this function will look for it in the database and return it.
    * If the message is found on the db, it will also register it to the MessageController so our subsequent calls are quicker.
    */
-  private static async fetchHandleMessageSentData(
-    m: RawMessage | OpenGroupMessage
-  ) {
+  private static async fetchHandleMessageSentData(m: RawMessage | OpenGroupMessage) {
     // if a message was sent and this message was sent after the last app restart,
     // this message is still in memory in the MessageController
     const msg = MessageController.getInstance().get(m.identifier);

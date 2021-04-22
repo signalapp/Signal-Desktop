@@ -2,10 +2,7 @@ import React from 'react';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import {
-  ContactType,
-  SessionMemberListItem,
-} from '../session/SessionMemberListItem';
+import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
@@ -33,9 +30,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
 
     contacts = contacts.map(d => {
       const lokiProfile = d.getLokiProfile();
-      const name = lokiProfile
-        ? lokiProfile.displayName
-        : window.i18n('anonymous');
+      const name = lokiProfile ? lokiProfile.displayName : window.i18n('anonymous');
 
       // TODO: should take existing members into account
       const existingMember = false;
@@ -67,11 +62,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
     const hasContacts = this.state.contactList.length !== 0;
 
     return (
-      <SessionModal
-        title={titleText}
-        onClose={this.closeDialog}
-        theme={this.props.theme}
-      >
+      <SessionModal title={titleText} onClose={this.closeDialog} theme={this.props.theme}>
         <div className="spacer-lg" />
 
         <div className="contact-selection-list">{this.renderMemberList()}</div>
@@ -99,9 +90,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
   }
 
   private onClickOK() {
-    const selectedContacts = this.state.contactList
-      .filter(d => d.checkmarked)
-      .map(d => d.id);
+    const selectedContacts = this.state.contactList.filter(d => d.checkmarked).map(d => d.id);
 
     if (selectedContacts.length > 0) {
       this.props.onSubmit(selectedContacts);
@@ -112,9 +101,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
 
   private renderMemberList() {
     const members = this.state.contactList;
-    const selectedContacts = this.state.contactList
-      .filter(d => d.checkmarked)
-      .map(d => d.id);
+    const selectedContacts = this.state.contactList.filter(d => d.checkmarked).map(d => d.id);
 
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem

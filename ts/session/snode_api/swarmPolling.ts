@@ -72,10 +72,7 @@ export class SwarmPolling {
 
   public removePubkey(pk: PubKey | string) {
     const pubkey = PubKey.cast(pk);
-    window.log.info(
-      'Swarm removePubkey: removing pubkey from polling',
-      pubkey.key
-    );
+    window.log.info('Swarm removePubkey: removing pubkey from polling', pubkey.key);
 
     this.pubkeys = this.pubkeys.filter(key => !pubkey.isEqual(key));
     this.groupPubkeys = this.groupPubkeys.filter(key => !pubkey.isEqual(key));
@@ -89,9 +86,7 @@ export class SwarmPolling {
     const snodes = await getSnodesFor(pkStr);
 
     // Select nodes for which we already have lastHashes
-    const alreadyPolled = snodes.filter(
-      (n: Snode) => this.lastHashes[n.pubkey_ed25519]
-    );
+    const alreadyPolled = snodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
 
     // If we need more nodes, select randomly from the remaining nodes:
 
@@ -129,10 +124,7 @@ export class SwarmPolling {
 
   // Fetches messages for `pubkey` from `node` potentially updating
   // the lash hash record
-  protected async pollNodeForKey(
-    node: Snode,
-    pubkey: PubKey
-  ): Promise<Array<any>> {
+  protected async pollNodeForKey(node: Snode, pubkey: PubKey): Promise<Array<any>> {
     const edkey = node.pubkey_ed25519;
 
     const pkStr = pubkey.key;
@@ -147,12 +139,7 @@ export class SwarmPolling {
 
     const lastMessage = _.last(messages);
 
-    await this.updateLastHash(
-      edkey,
-      pubkey,
-      lastMessage.hash,
-      lastMessage.expiration
-    );
+    await this.updateLastHash(edkey, pubkey, lastMessage.hash, lastMessage.expiration);
 
     return messages;
   }
@@ -163,10 +150,7 @@ export class SwarmPolling {
 
     const mediumGroupsOnly = convos.filter(
       (c: ConversationModel) =>
-        c.isMediumGroup() &&
-        !c.isBlocked() &&
-        !c.get('isKickedFromGroup') &&
-        !c.get('left')
+        c.isMediumGroup() && !c.isBlocked() && !c.get('isKickedFromGroup') && !c.get('left')
     );
 
     mediumGroupsOnly.forEach((c: any) => {
@@ -175,9 +159,7 @@ export class SwarmPolling {
     });
   }
 
-  private async handleSeenMessages(
-    messages: Array<Message>
-  ): Promise<Array<Message>> {
+  private async handleSeenMessages(messages: Array<Message>): Promise<Array<Message>> {
     if (!messages.length) {
       return [];
     }
@@ -185,9 +167,7 @@ export class SwarmPolling {
     const incomingHashes = messages.map((m: Message) => m.hash);
 
     const dupHashes = await getSeenMessagesByHashList(incomingHashes);
-    const newMessages = messages.filter(
-      (m: Message) => !dupHashes.includes(m.hash)
-    );
+    const newMessages = messages.filter((m: Message) => !dupHashes.includes(m.hash));
 
     if (newMessages.length) {
       const newHashes = newMessages.map((m: Message) => ({
@@ -242,10 +222,7 @@ export class SwarmPolling {
     this.lastHashes[edkey][pkStr] = hash;
   }
 
-  private async getLastHash(
-    nodeEdKey: string,
-    pubkey: string
-  ): Promise<string> {
+  private async getLastHash(nodeEdKey: string, pubkey: string): Promise<string> {
     // TODO: always retrieve from the database?
 
     const nodeRecords = this.lastHashes[nodeEdKey];

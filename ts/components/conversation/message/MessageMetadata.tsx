@@ -1,10 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import {
-  MessageSendingErrorText,
-  MetadataSpacer,
-} from './MetadataUtilComponent';
+import { MessageSendingErrorText, MetadataSpacer } from './MetadataUtilComponent';
 import { OutgoingMessageStatus } from './OutgoingMessageStatus';
 import { Spinner } from '../../Spinner';
 import { MetadataBadges } from './MetadataBadge';
@@ -85,16 +82,11 @@ export const MessageMetadata = (props: Props) => {
   const showError = status === 'error' && isOutgoing;
 
   const showStatus = Boolean(status?.length && isOutgoing);
-  const messageStatusColor = withImageNoCaption
-    ? 'white'
-    : props.theme.colors.sentMessageText;
+  const messageStatusColor = withImageNoCaption ? 'white' : props.theme.colors.sentMessageText;
   return (
     <MetadatasContainer withImageNoCaption={withImageNoCaption} {...props}>
       {showError ? (
-        <MessageSendingErrorText
-          withImageNoCaption={withImageNoCaption}
-          theme={theme}
-        />
+        <MessageSendingErrorText withImageNoCaption={withImageNoCaption} theme={theme} />
       ) : (
         <Timestamp
           timestamp={serverTimestamp || timestamp}

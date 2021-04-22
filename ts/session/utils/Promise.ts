@@ -15,11 +15,7 @@ export class TaskTimedOutError extends Error {
 
 // one action resolves all
 const snodeGlobalLocks: any = {};
-export async function allowOnlyOneAtATime(
-  name: string,
-  process: any,
-  timeoutMs?: number
-) {
+export async function allowOnlyOneAtATime(name: string, process: any, timeoutMs?: number) {
   // if currently not in progress
   if (snodeGlobalLocks[name] === undefined) {
     // set lock
@@ -28,9 +24,7 @@ export async function allowOnlyOneAtATime(
       let timeoutTimer = null;
       if (timeoutMs) {
         timeoutTimer = setTimeout(() => {
-          window.log.warn(
-            `loki_primitives:::allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}s`
-          );
+          window.log.warn(`loki_primitives:::allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}s`);
           // tslint:disable-next-line: no-dynamic-delete
           delete snodeGlobalLocks[name]; // clear lock
           reject();
@@ -42,13 +36,9 @@ export async function allowOnlyOneAtATime(
         innerRetVal = await process();
       } catch (e) {
         if (typeof e === 'string') {
-          window.log.error(
-            `loki_primitives:::allowOnlyOneAtATime - error ${e}`
-          );
+          window.log.error(`loki_primitives:::allowOnlyOneAtATime - error ${e}`);
         } else {
-          window.log.error(
-            `loki_primitives:::allowOnlyOneAtATime - error ${e.code} ${e.message}`
-          );
+          window.log.error(`loki_primitives:::allowOnlyOneAtATime - error ${e.code} ${e.message}`);
         }
 
         // clear timeout timer
@@ -172,10 +162,7 @@ export async function poll(
  * @param check The boolean check.
  * @param timeout The time before an error is thrown.
  */
-export async function waitUntil(
-  check: () => Return<boolean>,
-  timeoutMs: number = 2000
-) {
+export async function waitUntil(check: () => Return<boolean>, timeoutMs: number = 2000) {
   // This is causing unhandled promise rejection somewhere in MessageQueue tests
   return poll(
     async done => {
@@ -191,10 +178,7 @@ export async function waitUntil(
   );
 }
 
-export async function timeout<T>(
-  promise: Promise<T>,
-  timeoutMs: number = 2000
-): Promise<T> {
+export async function timeout<T>(promise: Promise<T>, timeoutMs: number = 2000): Promise<T> {
   const timeoutPromise = new Promise<T>((_, rej) => {
     const wait = setTimeout(() => {
       clearTimeout(wait);

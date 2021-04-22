@@ -18,9 +18,7 @@ export async function downloadAttachment(attachment: any) {
 
   // TODO: we need attachments to remember which API should be used to retrieve them
   if (!defaultFileserver) {
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-      serverUrl
-    );
+    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(serverUrl);
 
     if (serverAPI) {
       res = await serverAPI.downloadAttachment(attachment.url);
@@ -34,9 +32,7 @@ export async function downloadAttachment(attachment: any) {
 
   if (res.byteLength === 0) {
     window.log.error('Failed to download attachment. Length is 0');
-    throw new Error(
-      `Failed to download attachment. Length is 0 for ${attachment.url}`
-    );
+    throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
   }
 
   // FIXME "178" test to remove once this is fixed server side.
@@ -45,9 +41,7 @@ export async function downloadAttachment(attachment: any) {
       window.log.error(
         'Data of 178 length corresponds of a 404 returned as 200 by file.getsession.org.'
       );
-      throw new Error(
-        `downloadAttachment: invalid response for ${attachment.url}`
-      );
+      throw new Error(`downloadAttachment: invalid response for ${attachment.url}`);
     }
   } else {
     // if useFileOnionRequestsV2 is true, we expect an ArrayBuffer not empty
@@ -59,9 +53,7 @@ export async function downloadAttachment(attachment: any) {
     const { key, digest, size } = attachment;
 
     if (!key || !digest) {
-      throw new Error(
-        'Attachment is not raw but we do not have a key to decode it'
-      );
+      throw new Error('Attachment is not raw but we do not have a key to decode it');
     }
 
     data = await window.textsecure.crypto.decryptAttachment(
@@ -147,14 +139,11 @@ async function processAvatars(message: MessageModel): Promise<number> {
 
       addedCount += 1;
 
-      const avatarJob = await window.Signal.AttachmentDownloads.addJob(
-        item.avatar.avatar,
-        {
-          messaeId: message.id,
-          type: 'contact',
-          index,
-        }
-      );
+      const avatarJob = await window.Signal.AttachmentDownloads.addJob(item.avatar.avatar, {
+        messaeId: message.id,
+        type: 'contact',
+        index,
+      });
 
       return {
         ...item,
@@ -190,14 +179,11 @@ async function processQuoteAttachments(message: MessageModel): Promise<number> {
 
       addedCount += 1;
 
-      const thumbnail = await window.Signal.AttachmentDownloads.addJob(
-        item.thumbnail,
-        {
-          messageId: message.id,
-          type: 'quote',
-          index,
-        }
-      );
+      const thumbnail = await window.Signal.AttachmentDownloads.addJob(item.thumbnail, {
+        messageId: message.id,
+        type: 'quote',
+        index,
+      });
 
       return { ...item, thumbnail };
     })
@@ -229,15 +215,10 @@ async function processGroupAvatar(message: MessageModel): Promise<boolean> {
   return true;
 }
 
-export async function queueAttachmentDownloads(
-  message: MessageModel
-): Promise<void> {
+export async function queueAttachmentDownloads(message: MessageModel): Promise<void> {
   let count = 0;
 
-  count += await processNormalAttachments(
-    message,
-    message.get('attachments') || []
-  );
+  count += await processNormalAttachments(message, message.get('attachments') || []);
 
   count += await processPreviews(message);
 

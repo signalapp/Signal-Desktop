@@ -1,10 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { reducer as search, SearchStateType } from './ducks/search';
-import {
-  ConversationsStateType,
-  reducer as conversations,
-} from './ducks/conversations';
+import { ConversationsStateType, reducer as conversations } from './ducks/conversations';
 import { reducer as user, UserStateType } from './ducks/user';
 import { reducer as theme, ThemeStateType } from './ducks/theme';
 import { reducer as section, SectionStateType } from './ducks/section';

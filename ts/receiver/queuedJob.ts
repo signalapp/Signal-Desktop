@@ -34,8 +34,7 @@ async function handleGroups(
     attributes.name = group.name;
     attributes.members = group.members;
 
-    groupUpdate =
-      conversation.changedAttributes(_.pick(group, 'name', 'avatar')) || {};
+    groupUpdate = conversation.changedAttributes(_.pick(group, 'name', 'avatar')) || {};
 
     const addedMembers = _.difference(attributes.members, oldMembers);
     if (addedMembers.length > 0) {
@@ -55,9 +54,7 @@ async function handleGroups(
 
     // Check if anyone got kicked:
     const removedMembers = _.difference(oldMembers, attributes.members);
-    const ourDeviceWasRemoved = removedMembers.some(member =>
-      UserUtils.isUsFromCache(member)
-    );
+    const ourDeviceWasRemoved = removedMembers.some(member => UserUtils.isUsFromCache(member));
 
     if (ourDeviceWasRemoved) {
       groupUpdate.kicked = 'You';
@@ -111,15 +108,11 @@ async function copyFromQuotedMessage(
     // Exponential backoff, giving up after 5 attempts:
     if (attemptCount < 5) {
       setTimeout(() => {
-        window.log.info(
-          `Looking for the message id : ${id}, attempt: ${attemptCount + 1}`
-        );
+        window.log.info(`Looking for the message id : ${id}, attempt: ${attemptCount + 1}`);
         void copyFromQuotedMessage(msg, quote, attemptCount + 1);
       }, attemptCount * attemptCount * 500);
     } else {
-      window.log.warn(
-        `We did not found quoted message ${id} after ${attemptCount} attempts.`
-      );
+      window.log.warn(`We did not found quoted message ${id} after ${attemptCount} attempts.`);
     }
 
     quote.referencedMessageNotFound = true;
@@ -129,10 +122,7 @@ async function copyFromQuotedMessage(
   window.log.info(`Found quoted message id: ${id}`);
   quote.referencedMessageNotFound = false;
 
-  const queryMessage = MessageController.getInstance().register(
-    found.id,
-    found
-  );
+  const queryMessage = MessageController.getInstance().register(found.id, found);
   quote.text = queryMessage.get('body') || '';
 
   if (attemptCount > 1) {
@@ -150,13 +140,8 @@ async function copyFromQuotedMessage(
   firstAttachment.thumbnail = null;
 
   try {
-    if (
-      (queryMessage.get('schemaVersion') || 0) <
-      TypedMessage.VERSION_NEEDED_FOR_DISPLAY
-    ) {
-      const upgradedMessage = await upgradeMessageSchema(
-        queryMessage.attributes
-      );
+    if ((queryMessage.get('schemaVersion') || 0) < TypedMessage.VERSION_NEEDED_FOR_DISPLAY) {
+      const upgradedMessage = await upgradeMessageSchema(queryMessage.attributes);
       queryMessage.set(upgradedMessage);
       await upgradedMessage.commit();
     }
@@ -196,11 +181,7 @@ async function copyFromQuotedMessage(
   }
 }
 
-function handleLinkPreviews(
-  messageBody: string,
-  messagePreview: any,
-  message: MessageModel
-) {
+function handleLinkPreviews(messageBody: string, messagePreview: any, message: MessageModel) {
   const urls = window.Signal.LinkPreviews.findLinks(messageBody);
   const incomingPreview = messagePreview || [];
   const preview = incomingPreview.filter(
@@ -241,10 +222,7 @@ function handleMentions(
   }
 }
 
-function updateReadStatus(
-  message: MessageModel,
-  conversation: ConversationModel
-) {
+function updateReadStatus(message: MessageModel, conversation: ConversationModel) {
   const readSync = window.Whisper.ReadSyncs.forMessage(message);
   if (readSync) {
     const shouldExpire = message.get('expireTimer');
@@ -265,14 +243,8 @@ function updateReadStatus(
   }
 }
 
-function handleSyncedReceipts(
-  message: MessageModel,
-  conversation: ConversationModel
-) {
-  const readReceipts = window.Whisper.ReadReceipts.forMessage(
-    conversation,
-    message
-  );
+function handleSyncedReceipts(message: MessageModel, conversation: ConversationModel) {
+  const readReceipts = window.Whisper.ReadReceipts.forMessage(conversation, message);
   if (readReceipts.length) {
     const readBy = readReceipts.map((receipt: any) => receipt.get('reader'));
     message.set({
@@ -280,10 +252,7 @@ function handleSyncedReceipts(
     });
   }
 
-  const deliveryReceipts = window.Whisper.DeliveryReceipts.forMessage(
-    conversation,
-    message
-  );
+  const deliveryReceipts = window.Whisper.DeliveryReceipts.forMessage(conversation, message);
 
   if (deliveryReceipts.length) {
     handleSyncDeliveryReceipts(message, deliveryReceipts);
@@ -335,11 +304,7 @@ async function handleRegularMessage(
   // Medium groups might have `group` set even if with group chat messages...
   if (dataMessage.group && !conversation.isMediumGroup()) {
     // This is not necessarily a group update message, it could also be a regular group message
-    const groupUpdate = await handleGroups(
-      conversation,
-      dataMessage.group,
-      source
-    );
+    const groupUpdate = await handleGroups(conversation, dataMessage.group, source);
     if (groupUpdate !== null) {
       message.set({ group_update: groupUpdate });
     }
@@ -389,10 +354,7 @@ async function handleRegularMessage(
   }
 
   const conversationActiveAt = conversation.get('active_at');
-  if (
-    !conversationActiveAt ||
-    (message.get('sent_at') || 0) > conversationActiveAt
-  ) {
+  if (!conversationActiveAt || (message.get('sent_at') || 0) > conversationActiveAt) {
     conversation.set({
       active_at: message.get('sent_at'),
       lastMessage: message.getNotificationText(),
@@ -442,11 +404,7 @@ async function handleExpirationTimerUpdate(
     source: 'handleDataMessage',
   });
 
-  await conversation.updateExpirationTimer(
-    expireTimer,
-    source,
-    message.get('received_at')
-  );
+  await conversation.updateExpirationTimer(expireTimer, source, message.get('received_at'));
 }
 
 export async function handleMessageJob(
@@ -470,25 +428,12 @@ export async function handleMessageJob(
         if (confirm) {
           confirm();
         }
-        window.log.info(
-          'Dropping ExpireTimerUpdate message as we already have the same one set.'
-        );
+        window.log.info('Dropping ExpireTimerUpdate message as we already have the same one set.');
         return;
       }
-      await handleExpirationTimerUpdate(
-        conversation,
-        message,
-        source,
-        expireTimer
-      );
+      await handleExpirationTimerUpdate(conversation, message, source, expireTimer);
     } else {
-      await handleRegularMessage(
-        conversation,
-        message,
-        initialMessage,
-        source,
-        ourNumber
-      );
+      await handleRegularMessage(conversation, message, initialMessage, source, ourNumber);
     }
 
     const id = await message.commit();
@@ -530,8 +475,7 @@ export async function handleMessageJob(
 
       if (previousUnread !== message.get('unread')) {
         window.log.warn(
-          'Caught race condition on new message read state! ' +
-            'Manually starting timers.'
+          'Caught race condition on new message read state! ' + 'Manually starting timers.'
         );
         // We call markRead() even though the message is already
         // marked read because we need to start expiration
@@ -539,11 +483,7 @@ export async function handleMessageJob(
         await message.markRead(Date.now());
       }
     } catch (error) {
-      window.log.warn(
-        'handleDataMessage: Message',
-        message.idForLogging(),
-        'was deleted'
-      );
+      window.log.warn('handleDataMessage: Message', message.idForLogging(), 'was deleted');
     }
 
     if (message.get('unread')) {
@@ -555,12 +495,7 @@ export async function handleMessageJob(
     }
   } catch (error) {
     const errorForLog = error && error.stack ? error.stack : error;
-    window.log.error(
-      'handleDataMessage',
-      message.idForLogging(),
-      'error:',
-      errorForLog
-    );
+    window.log.error('handleDataMessage', message.idForLogging(), 'error:', errorForLog);
 
     throw error;
   }

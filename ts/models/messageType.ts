@@ -6,12 +6,7 @@ import { AttachmentType } from '../types/Attachment';
 import { Contact } from '../types/Contact';
 
 export type MessageModelType = 'incoming' | 'outgoing';
-export type MessageDeliveryStatus =
-  | 'sending'
-  | 'sent'
-  | 'delivered'
-  | 'read'
-  | 'error';
+export type MessageDeliveryStatus = 'sending' | 'sent' | 'delivered' | 'read' | 'error';
 
 export interface MessageAttributes {
   // the id of the message

@@ -67,10 +67,7 @@ window.lokiFeatureFlags = {
   padOutgoingAttachments: false,
 };
 
-if (
-  typeof process.env.NODE_ENV === 'string' &&
-  process.env.NODE_ENV.includes('test-integration')
-) {
+if (typeof process.env.NODE_ENV === 'string' && process.env.NODE_ENV.includes('test-integration')) {
   window.electronRequire = require;
   // during test-integration, file server is started on localhost
   window.getDefaultFileServer = () => 'http://127.0.0.1:7070';
@@ -100,8 +97,7 @@ window.CONSTANTS = new (function() {
   this.LNS_MAX_LENGTH = 64;
   // Conforms to naming rules here
   // https://loki.network/2020/03/25/loki-name-system-the-facts/
-  this.LNS_REGEX = `^[a-zA-Z0-9_]([a-zA-Z0-9_-]{0,${this.LNS_MAX_LENGTH -
-    2}}[a-zA-Z0-9_]){0,1}$`;
+  this.LNS_REGEX = `^[a-zA-Z0-9_]([a-zA-Z0-9_-]{0,${this.LNS_MAX_LENGTH - 2}}[a-zA-Z0-9_]){0,1}$`;
   this.MIN_GUARD_COUNT = 2;
   this.DESIRED_GUARD_COUNT = 3;
 })();
@@ -185,11 +181,9 @@ window.showWindow = () => {
   ipc.send('show-window');
 };
 
-window.setAutoHideMenuBar = autoHide =>
-  ipc.send('set-auto-hide-menu-bar', autoHide);
+window.setAutoHideMenuBar = autoHide => ipc.send('set-auto-hide-menu-bar', autoHide);
 
-window.setMenuBarVisibility = visibility =>
-  ipc.send('set-menu-bar-visibility', visibility);
+window.setMenuBarVisibility = visibility => ipc.send('set-menu-bar-visibility', visibility);
 
 window.restart = () => {
   window.log.info('restart');
@@ -213,10 +207,7 @@ window.onUnblockNumber = async number => {
       const conversation = window.getConversationController().get(number);
       await conversation.unblock();
     } catch (e) {
-      window.log.info(
-        'IPC on unblock: failed to fetch conversation for number: ',
-        number
-      );
+      window.log.info('IPC on unblock: failed to fetch conversation for number: ', number);
     }
   }
 };
@@ -228,8 +219,7 @@ ipc.on('mediaPermissionsChanged', () => {
 window.closeAbout = () => ipc.send('close-about');
 window.readyForUpdates = () => ipc.send('ready-for-updates');
 
-window.updateTrayIcon = unreadCount =>
-  ipc.send('update-tray-icon', unreadCount);
+window.updateTrayIcon = unreadCount => ipc.send('update-tray-icon', unreadCount);
 
 ipc.on('set-up-with-import', () => {
   Whisper.events.trigger('setupWithImport');
@@ -288,13 +278,11 @@ window.setSettingValue = (settingID, value) => {
 };
 
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
-window.setMediaPermissions = value =>
-  ipc.send('set-media-permissions', !!value);
+window.setMediaPermissions = value => ipc.send('set-media-permissions', !!value);
 
 // Auto update setting
 window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-setting');
-window.setAutoUpdateEnabled = value =>
-  ipc.send('set-auto-update-setting', !!value);
+window.setAutoUpdateEnabled = value => ipc.send('set-auto-update-setting', !!value);
 
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};
@@ -308,10 +296,7 @@ ipc.on('get-ready-for-shutdown', async () => {
     await shutdown();
     ipc.send('now-ready-for-shutdown');
   } catch (error) {
-    ipc.send(
-      'now-ready-for-shutdown',
-      error && error.stack ? error.stack : error
-    );
+    ipc.send('now-ready-for-shutdown', error && error.stack ? error.stack : error);
   }
 });
 
@@ -411,8 +396,7 @@ window.models = require('./ts/models');
 window.Signal = window.Signal || {};
 window.Signal.Data = require('./ts/data/data');
 
-window.getMessageController = () =>
-  window.libsession.Messages.MessageController.getInstance();
+window.getMessageController = () => window.libsession.Messages.MessageController.getInstance();
 
 window.getConversationController = () =>
   window.libsession.Conversations.ConversationController.getInstance();
@@ -422,9 +406,7 @@ window.Signal.Backup = require('./js/modules/backup');
 window.Signal.Logs = require('./js/modules/logs');
 
 window.addEventListener('contextmenu', e => {
-  const editable = e.target.closest(
-    'textarea, input, [contenteditable="true"]'
-  );
+  const editable = e.target.closest('textarea, input, [contenteditable="true"]');
   const link = e.target.closest('a');
   const selection = Boolean(window.getSelection().toString());
   if (!editable && !selection && !link) {
@@ -438,9 +420,7 @@ window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
 if (process.env.USE_STUBBED_NETWORK) {
-  const {
-    SwarmPollingStub,
-  } = require('./ts/session/snode_api/swarmPollingStub');
+  const { SwarmPollingStub } = require('./ts/session/snode_api/swarmPollingStub');
   window.SwarmPolling = new SwarmPollingStub();
 } else {
   const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
@@ -486,8 +466,6 @@ if (config.environment.includes('test-integration')) {
 
 // Blocking
 
-const {
-  BlockedNumberController,
-} = require('./ts/util/blockedNumberController');
+const { BlockedNumberController } = require('./ts/util/blockedNumberController');
 
 window.BlockedNumberController = BlockedNumberController;

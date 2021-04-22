@@ -14,11 +14,9 @@ export = {
   inputWithId: (id: string) => `//input[contains(@id, '${id}')]`,
   textAreaWithPlaceholder: (placeholder: string) =>
     `//textarea[contains(@placeholder, "${placeholder}")]`,
-  textAreaWithClass: (classname: string) =>
-    `//textarea[contains(@class, "${classname}")]`,
+  textAreaWithClass: (classname: string) => `//textarea[contains(@class, "${classname}")]`,
   byId: (id: string) => `//*[@id="${id}"]`,
-  divWithClass: (classname: string) =>
-    `//div[contains(@class, "${classname}")]`,
+  divWithClass: (classname: string) => `//div[contains(@class, "${classname}")]`,
   divWithClassAndText: (classname: string, text: string) =>
     module.exports.objWithClassAndText('div', classname, text),
   spanWithClassAndText: (classname: string, text: string) =>

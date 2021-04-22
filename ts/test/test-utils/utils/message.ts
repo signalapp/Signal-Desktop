@@ -1,10 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { generateFakePubKey, generateFakePubKeys } from './pubkey';
 import { ClosedGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
-import {
-  ConversationAttributes,
-  ConversationType,
-} from '../../../models/conversation';
+import { ConversationAttributes, ConversationType } from '../../../models/conversation';
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
 import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { OpenGroup } from '../../../opengroup/opengroupV1/OpenGroup';
@@ -39,9 +36,7 @@ export function generateOpenGroupMessage(): OpenGroupMessage {
   });
 }
 
-export function generateClosedGroupMessage(
-  groupId?: string
-): ClosedGroupVisibleMessage {
+export function generateClosedGroupMessage(groupId?: string): ClosedGroupVisibleMessage {
   return new ClosedGroupVisibleMessage({
     identifier: uuid(),
     groupId: groupId ?? generateFakePubKey().key,

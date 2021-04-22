@@ -63,9 +63,7 @@ class LokiFileServerFactoryAPI {
   }
 
   establishHomeConnection(serverUrl) {
-    let thisServer = this.servers.find(
-      server => server._server.baseServerUrl === serverUrl
-    );
+    let thisServer = this.servers.find(server => server._server.baseServerUrl === serverUrl);
     if (!thisServer) {
       thisServer = new LokiHomeServerInstance(this.ourKey);
       log.info(`Registering HomeServer ${serverUrl}`);
@@ -77,9 +75,7 @@ class LokiFileServerFactoryAPI {
   }
 
   async establishConnection(serverUrl) {
-    let thisServer = this.servers.find(
-      server => server._server.baseServerUrl === serverUrl
-    );
+    let thisServer = this.servers.find(server => server._server.baseServerUrl === serverUrl);
     if (!thisServer) {
       thisServer = new LokiFileServerInstance(this.ourKey);
       log.info(`Registering FileServer ${serverUrl}`);

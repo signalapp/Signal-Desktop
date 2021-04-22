@@ -33,28 +33,13 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
     }
 
     public render() {
-      return (
-        <WrappedComponent
-          memberAvatars={this.state.memberAvatars}
-          {...this.props}
-        />
-      );
+      return <WrappedComponent memberAvatars={this.state.memberAvatars} {...this.props} />;
     }
 
     private async fetchClosedConversationDetails() {
-      const {
-        isPublic,
-        type,
-        conversationType,
-        isGroup,
-        phoneNumber,
-        id,
-      } = this.props;
+      const { isPublic, type, conversationType, isGroup, phoneNumber, id } = this.props;
 
-      if (
-        !isPublic &&
-        (conversationType === 'group' || type === 'group' || isGroup)
-      ) {
+      if (!isPublic && (conversationType === 'group' || type === 'group' || isGroup)) {
         const groupId = id || phoneNumber;
         const ourPrimary = UserUtils.getOurPubKeyFromCache();
         let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
@@ -70,10 +55,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         members = members.slice(0, 2);
         const memberConvos = await Promise.all(
           members.map(async m =>
-            ConversationController.getInstance().getOrCreateAndWait(
-              m.key,
-              ConversationType.PRIVATE
-            )
+            ConversationController.getInstance().getOrCreateAndWait(m.key, ConversationType.PRIVATE)
           )
         );
         const memberAvatars = memberConvos.map(m => {

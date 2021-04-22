@@ -62,15 +62,7 @@ const pow = {
   },
 
   // Return nonce that hashes together with payload lower than the target
-  async calcPoW(
-    timestamp,
-    ttl,
-    pubKey,
-    data,
-    _difficulty = null,
-    increment = 1,
-    startNonce = 0
-  ) {
+  async calcPoW(timestamp, ttl, pubKey, data, _difficulty = null, increment = 1, startNonce = 0) {
     const payload = new Uint8Array(
       dcodeIO.ByteBuffer.wrap(
         timestamp.toString() + ttl.toString() + pubKey + data,
@@ -84,9 +76,7 @@ const pow = {
     let nonce = new Uint8Array(NONCE_LEN);
     nonce = pow.incrementNonce(nonce, startNonce); // initial value
     let trialValue = new Uint8Array([255, 255, 255, 255, 255, 255, 255, 255]);
-    const initialHash = new Uint8Array(
-      await crypto.subtle.digest('SHA-512', payload)
-    );
+    const initialHash = new Uint8Array(await crypto.subtle.digest('SHA-512', payload));
     const innerPayload = new Uint8Array(initialHash.length + NONCE_LEN);
     innerPayload.set(initialHash, NONCE_LEN);
     let resultHash;
@@ -97,9 +87,10 @@ const pow = {
       innerPayload.set(nonce);
       // eslint-disable-next-line no-await-in-loop
       resultHash = await crypto.subtle.digest('SHA-512', innerPayload);
-      trialValue = new Uint8Array(
-        dcodeIO.ByteBuffer.wrap(resultHash, 'hex').toArrayBuffer()
-      ).slice(0, NONCE_LEN);
+      trialValue = new Uint8Array(dcodeIO.ByteBuffer.wrap(resultHash, 'hex').toArrayBuffer()).slice(
+        0,
+        NONCE_LEN
+      );
     }
     return pow.bufferToBase64(nonce);
   },
@@ -121,10 +112,7 @@ const pow = {
     // totalLen + innerFrac
     const lenPlusInnerFrac = JSBI.add(totalLen, innerFrac);
     // difficulty * lenPlusInnerFrac
-    const denominator = JSBI.multiply(
-      JSBI.BigInt(difficulty),
-      lenPlusInnerFrac
-    );
+    const denominator = JSBI.multiply(JSBI.BigInt(difficulty), lenPlusInnerFrac);
     // 2^64 - 1
     const two64 = JSBI.subtract(
       JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(64)), // 2^64

@@ -5,10 +5,7 @@ const { SignalService } = require('../../../ts/protobuf');
 
 const DEFAULT_PHONE_TYPE = SignalService.DataMessage.Contact.Phone.Type.HOME;
 
-exports.parseAndWriteAvatar = upgradeAttachment => async (
-  contact,
-  context = {}
-) => {
+exports.parseAndWriteAvatar = upgradeAttachment => async (contact, context = {}) => {
   const { message, logger } = context;
   const { avatar } = contact;
 
@@ -31,10 +28,7 @@ exports.parseAndWriteAvatar = upgradeAttachment => async (
     messageId: idForLogging(message),
   });
   if (error) {
-    logger.error(
-      'Contact.parseAndWriteAvatar: contact was malformed.',
-      toLogFormat(error)
-    );
+    logger.error('Contact.parseAndWriteAvatar: contact was malformed.', toLogFormat(error));
   }
 
   return parsedContact;
@@ -60,9 +54,7 @@ exports._validate = (contact, options = {}) => {
   const { name, number, organization } = contact;
 
   if ((!name || !name.displayName) && !organization) {
-    return new Error(
-      `Message ${messageId}: Contact had neither 'displayName' nor 'organization'`
-    );
+    return new Error(`Message ${messageId}: Contact had neither 'displayName' nor 'organization'`);
   }
 
   if (!number || !number.length) {

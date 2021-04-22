@@ -1,8 +1,4 @@
-import {
-  Quote,
-  AttachmentPointer,
-  Preview,
-} from '../../ts/session/messages/outgoing';
+import { Quote, AttachmentPointer, Preview } from '../../ts/session/messages/outgoing';
 
 interface UploadResponse {
   url: string;

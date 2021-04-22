@@ -47,13 +47,7 @@ const NoImage = (props: {
   const { memberAvatars, size } = props;
   // if no image but we have conversations set for the group, renders group members avatars
   if (memberAvatars) {
-    return (
-      <ClosedGroupAvatar
-        size={size}
-        memberAvatars={memberAvatars}
-        i18n={window.i18n}
-      />
-    );
+    return <ClosedGroupAvatar size={size} memberAvatars={memberAvatars} i18n={window.i18n} />;
   }
 
   return <Identicon {...props} />;
@@ -87,10 +81,7 @@ export const Avatar = (props: Props) => {
 
   const { urlToLoad } = useEncryptedFileFetch(avatarPath || '', '');
   const handleImageError = () => {
-    window.log.warn(
-      'Avatar: Image failed to load; failing over to placeholder',
-      urlToLoad
-    );
+    window.log.warn('Avatar: Image failed to load; failing over to placeholder', urlToLoad);
     setImageBroken(true);
   };
 

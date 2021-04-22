@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../session/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { SessionModal } from '../session/SessionModal';
@@ -49,10 +45,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     // if we don't have valid data entered by the user
     const pubkey = PubKey.from(this.state.inputBoxValue);
     if (!pubkey) {
-      window.log.info(
-        'invalid pubkey for adding as moderator:',
-        this.state.inputBoxValue
-      );
+      window.log.info('invalid pubkey for adding as moderator:', this.state.inputBoxValue);
       ToastUtils.pushInvalidPubKey();
       return;
     }
@@ -96,11 +89,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     const renderContent = !firstLoading;
 
     return (
-      <SessionModal
-        title={title}
-        onClose={() => this.props.onClose()}
-        theme={this.props.theme}
-      >
+      <SessionModal title={title} onClose={() => this.props.onClose()} theme={this.props.theme}>
         <Flex container={true} flexDirection="column" alignItems="center">
           {renderContent && (
             <>

@@ -4,15 +4,8 @@ import { ConversationModel } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { ToastUtils } from '../../session/utils';
 import { Flex } from '../session/Flex';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../session/SessionButton';
-import {
-  ContactType,
-  SessionMemberListItem,
-} from '../session/SessionMemberListItem';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
+import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { SessionModal } from '../session/SessionModal';
 import { SessionSpinner } from '../session/SessionSpinner';
 interface Props {
@@ -62,18 +55,12 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     const renderContent = !firstLoading;
 
     return (
-      <SessionModal
-        title={title}
-        onClose={this.closeDialog}
-        theme={this.props.theme}
-      >
+      <SessionModal title={title} onClose={this.closeDialog} theme={this.props.theme}>
         <Flex container={true} flexDirection="column" alignItems="center">
           {renderContent && (
             <>
               <p>Existing moderators:</p>
-              <div className="contact-selection-list">
-                {this.renderMemberList()}
-              </div>
+              <div className="contact-selection-list">{this.renderMemberList()}</div>
 
               {hasMods ? null : <p>{i18n('noModeratorsToRemove')}</p>}
               <SessionSpinner loading={removingInProgress} />
@@ -187,9 +174,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
   }
 
   private async removeThem() {
-    const removedMods = this.state.modList
-      .filter(d => !d.checkmarked)
-      .map(d => d.id);
+    const removedMods = this.state.modList.filter(d => !d.checkmarked).map(d => d.id);
 
     if (removedMods.length === 0) {
       window.log.info('No moderators removed. Nothing todo');

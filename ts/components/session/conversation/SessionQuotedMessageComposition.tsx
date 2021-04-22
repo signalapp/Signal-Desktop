@@ -61,9 +61,7 @@ export const SessionQuotedMessageComposition = (props: Props) => {
         />
       </Flex>
       <QuotedMessageCompositionReply>
-        <Subtle>
-          {(hasAttachments && window.i18n('mediaMessage')) || body}
-        </Subtle>
+        <Subtle>{(hasAttachments && window.i18n('mediaMessage')) || body}</Subtle>
       </QuotedMessageCompositionReply>
     </QuotedMessageComposition>
   );

@@ -19,15 +19,8 @@ module.exports = async function(context) {
 
   const executableName = context.packager.executableName;
   const sourceExecutable = path.join(context.appOutDir, executableName);
-  const targetExecutable = path.join(
-    context.appOutDir,
-    `${executableName}-bin`
-  );
-  const launcherScript = path.join(
-    context.appOutDir,
-    'resources',
-    'launcher-script.sh'
-  );
+  const targetExecutable = path.join(context.appOutDir, `${executableName}-bin`);
+  const launcherScript = path.join(context.appOutDir, 'resources', 'launcher-script.sh');
   const chromeSandbox = path.join(context.appOutDir, 'chrome-sandbox');
 
   return Promise.all([

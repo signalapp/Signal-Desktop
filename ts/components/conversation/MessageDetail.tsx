@@ -36,12 +36,7 @@ export class MessageDetail extends React.Component<Props> {
     const userName = name || profileName || phoneNumber;
 
     return (
-      <Avatar
-        avatarPath={avatarPath}
-        name={userName}
-        size={AvatarSize.S}
-        pubkey={phoneNumber}
-      />
+      <Avatar avatarPath={avatarPath} name={userName} size={AvatarSize.S} pubkey={phoneNumber} />
     );
   }
 
@@ -130,9 +125,7 @@ export class MessageDetail extends React.Component<Props> {
             <tbody>
               {(errors || []).map((error, index) => (
                 <tr key={index}>
-                  <td className="module-message-detail__label">
-                    {i18n('error')}
-                  </td>
+                  <td className="module-message-detail__label">{i18n('error')}</td>
                   <td>
                     {' '}
                     <span className="error-message">{error.message}</span>{' '}
@@ -143,21 +136,15 @@ export class MessageDetail extends React.Component<Props> {
                 <td className="module-message-detail__label">{i18n('sent')}</td>
                 <td>
                   {moment(sentAt).format('LLLL')}{' '}
-                  <span className="module-message-detail__unix-timestamp">
-                    ({sentAt})
-                  </span>
+                  <span className="module-message-detail__unix-timestamp">({sentAt})</span>
                 </td>
               </tr>
               {receivedAt ? (
                 <tr>
-                  <td className="module-message-detail__label">
-                    {i18n('received')}
-                  </td>
+                  <td className="module-message-detail__label">{i18n('received')}</td>
                   <td>
                     {moment(receivedAt).format('LLLL')}{' '}
-                    <span className="module-message-detail__unix-timestamp">
-                      ({receivedAt})
-                    </span>
+                    <span className="module-message-detail__unix-timestamp">({receivedAt})</span>
                   </td>
                 </tr>
               ) : null}

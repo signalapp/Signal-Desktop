@@ -31,10 +31,7 @@ exports.autoOrientImage = (fileOrBlobOrURL, options = {}) => {
         }
 
         const canvas = canvasOrError;
-        const dataURL = canvas.toDataURL(
-          optionsWithDefaults.type,
-          optionsWithDefaults.quality
-        );
+        const dataURL = canvas.toDataURL(optionsWithDefaults.type, optionsWithDefaults.quality);
 
         resolve(dataURL);
       },

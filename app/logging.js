@@ -120,10 +120,7 @@ async function cleanupLogs(logPath) {
 
     await eliminateOldEntries(files, earliestDate);
   } catch (error) {
-    console.error(
-      'Error cleaning logs; deleting and starting over from scratch.',
-      error.stack
-    );
+    console.error('Error cleaning logs; deleting and starting over from scratch.', error.stack);
 
     // delete and re-create the log directory
     await deleteAllLogs(logPath);
@@ -151,26 +148,24 @@ function eliminateOutOfDateFiles(logPath, date) {
 
   return Promise.all(
     _.map(paths, target =>
-      Promise.all([readFirstLine(target), readLastLines(target, 2)]).then(
-        results => {
-          const start = results[0];
-          const end = results[1].split('\n');
+      Promise.all([readFirstLine(target), readLastLines(target, 2)]).then(results => {
+        const start = results[0];
+        const end = results[1].split('\n');
 
-          const file = {
-            path: target,
-            start: isLineAfterDate(start, date),
-            end:
-              isLineAfterDate(end[end.length - 1], date) ||
-              isLineAfterDate(end[end.length - 2], date),
-          };
+        const file = {
+          path: target,
+          start: isLineAfterDate(start, date),
+          end:
+            isLineAfterDate(end[end.length - 1], date) ||
+            isLineAfterDate(end[end.length - 2], date),
+        };
 
-          if (!file.start && !file.end) {
-            fs.unlinkSync(file.path);
-          }
-
-          return file;
+        if (!file.start && !file.end) {
+          fs.unlinkSync(file.path);
         }
-      )
+
+        return file;
+      })
     )
   );
 }
@@ -181,10 +176,7 @@ function eliminateOldEntries(files, date) {
   return Promise.all(
     _.map(files, file =>
       fetchLog(file.path).then(lines => {
-        const recent = _.filter(
-          lines,
-          line => new Date(line.time).getTime() >= earliest
-        );
+        const recent = _.filter(lines, line => new Date(line.time).getTime() >= earliest);
         const text = _.map(recent, line => JSON.stringify(line)).join('\n');
 
         return fs.writeFileSync(file.path, `${text}\n`);

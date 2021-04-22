@@ -26,20 +26,14 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
 
   // server getter/factory
   async findOrCreateServer(serverUrl) {
-    let thisServer = this.servers.find(
-      server => server.baseServerUrl === serverUrl
-    );
+    let thisServer = this.servers.find(server => server.baseServerUrl === serverUrl);
     if (!thisServer) {
       log.info(`loki_public_chat::findOrCreateServer - creating ${serverUrl}`);
 
-      const serverIsValid = await OpenGroupUtils.validOpenGroupServer(
-        serverUrl
-      );
+      const serverIsValid = await OpenGroupUtils.validOpenGroupServer(serverUrl);
       if (!serverIsValid) {
         // FIXME: add toast?
-        log.error(
-          `loki_public_chat::findOrCreateServer - error: ${serverUrl} is not valid`
-        );
+        log.error(`loki_public_chat::findOrCreateServer - error: ${serverUrl} is not valid`);
         return null;
       }
 
@@ -53,18 +47,14 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
         if (this.openGroupPubKeys[serverUrl]) {
           thisServer.getPubKeyForUrl();
           if (!thisServer.pubKeyHex) {
-            log.warn(
-              `loki_public_chat::findOrCreateServer - failed to set public key`
-            );
+            log.warn(`loki_public_chat::findOrCreateServer - failed to set public key`);
           }
         }
       }
 
       const gotToken = await thisServer.getOrRefreshServerToken();
       if (!gotToken) {
-        log.warn(
-          `loki_public_chat::findOrCreateServer - Invalid server ${serverUrl}`
-        );
+        log.warn(`loki_public_chat::findOrCreateServer - Invalid server ${serverUrl}`);
         return null;
       }
 
@@ -85,9 +75,7 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
 
   // deallocate resources server uses
   unregisterChannel(serverUrl, channelId) {
-    const i = this.servers.findIndex(
-      server => server.baseServerUrl === serverUrl
-    );
+    const i = this.servers.findIndex(server => server.baseServerUrl === serverUrl);
     if (i === -1) {
       log.warn(`Tried to unregister from nonexistent server ${serverUrl}`);
       return;

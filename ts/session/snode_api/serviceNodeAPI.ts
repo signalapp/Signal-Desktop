@@ -11,44 +11,29 @@ import Electron from 'electron';
 const { remote } = Electron;
 
 import { snodeRpc } from './lokiRpc';
-import {
-  sendOnionRequestLsrpcDest,
-  snodeHttpsAgent,
-  SnodeResponse,
-} from './onions';
+import { sendOnionRequestLsrpcDest, snodeHttpsAgent, SnodeResponse } from './onions';
 
 import { sleepFor } from '../../../js/modules/loki_primitives';
 
 export { sendOnionRequestLsrpcDest };
 
-import {
-  getRandomSnodeAddress,
-  markNodeUnreachable,
-  Snode,
-  updateSnodesFor,
-} from './snodePool';
+import { getRandomSnodeAddress, markNodeUnreachable, Snode, updateSnodesFor } from './snodePool';
 import { Constants } from '..';
 
 /**
  * Currently unused. If we need it again, be sure to update it to onion routing rather
  * than using a plain nodeFetch
  */
-export async function getVersion(
-  node: Snode,
-  retries: number = 0
-): Promise<string | boolean> {
+export async function getVersion(node: Snode, retries: number = 0): Promise<string | boolean> {
   const SNODE_VERSION_RETRIES = 3;
 
   const { log } = window;
 
   try {
     window.log.warn('insecureNodeFetch => plaintext for getVersion');
-    const result = await insecureNodeFetch(
-      `https://${node.ip}:${node.port}/get_stats/v1`,
-      {
-        agent: snodeHttpsAgent,
-      }
-    );
+    const result = await insecureNodeFetch(`https://${node.ip}:${node.port}/get_stats/v1`, {
+      agent: snodeHttpsAgent,
+    });
     const data = await result.json();
     if (data.version) {
       return data.version;
@@ -63,9 +48,7 @@ export async function getVersion(
     if (e.code === 'ECONNREFUSED') {
       markNodeUnreachable(node);
       // clean up these error messages to be a little neater
-      log.warn(
-        `LokiSnodeAPI::_getVersion - ${node.ip}:${node.port} is offline, removing`
-      );
+      log.warn(`LokiSnodeAPI::_getVersion - ${node.ip}:${node.port} is offline, removing`);
       // if not ECONNREFUSED, it's mostly ECONNRESETs
       // ENOTFOUND could mean no internet or hiccup
     } else if (retries < SNODE_VERSION_RETRIES) {
@@ -79,9 +62,7 @@ export async function getVersion(
       return getVersion(node, retries + 1);
     } else {
       markNodeUnreachable(node);
-      log.warn(
-        `LokiSnodeAPI::_getVersion - failing to get version for ${node.ip}:${node.port}`
-      );
+      log.warn(`LokiSnodeAPI::_getVersion - failing to get version for ${node.ip}:${node.port}`);
     }
     // maybe throw?
     return false;
@@ -131,10 +112,7 @@ const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   // tslint:disable: non-literal-fs-path
   // read the cert each time. We only run this request once for each seed node nevertheless.
   const appPath = remote.app.getAppPath();
-  const crt = fs.readFileSync(
-    path.join(appPath, `/certificates/${filePrefix}.crt`),
-    'utf-8'
-  );
+  const crt = fs.readFileSync(path.join(appPath, `/certificates/${filePrefix}.crt`), 'utf-8');
   // debugger;
   const sslOptions = {
     // as the seed nodes are using a self signed certificate, we have to provide it here.
@@ -247,9 +225,7 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
       return [];
     }
     // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
-    return result.service_node_states.filter(
-      (snode: any) => snode.public_ip !== '0.0.0.0'
-    );
+    return result.service_node_states.filter((snode: any) => snode.public_ip !== '0.0.0.0');
   } catch (e) {
     log.error('Invalid json response');
     return [];
@@ -265,9 +241,7 @@ interface SendParams {
 }
 
 // get snodes for pubkey from random snode. Uses an existing snode
-export async function requestSnodesForPubkey(
-  pubKey: string
-): Promise<Array<Snode>> {
+export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snode>> {
   const { log } = window;
 
   let snode;
@@ -308,20 +282,14 @@ export async function requestSnodesForPubkey(
         return [];
       }
 
-      const snodes = json.snodes.filter(
-        (tSnode: any) => tSnode.ip !== '0.0.0.0'
-      );
+      const snodes = json.snodes.filter((tSnode: any) => tSnode.ip !== '0.0.0.0');
       return snodes;
     } catch (e) {
       log.warn('Invalid json');
       return [];
     }
   } catch (e) {
-    log.error(
-      'LokiSnodeAPI::requestSnodesForPubkey - error',
-      e.code,
-      e.message
-    );
+    log.error('LokiSnodeAPI::requestSnodesForPubkey - error', e.code, e.message);
 
     if (snode) {
       markNodeUnreachable(snode);
@@ -374,10 +342,7 @@ function checkResponse(response: SnodeResponse): void {
   }
 }
 
-export async function storeOnNode(
-  targetNode: Snode,
-  params: SendParams
-): Promise<boolean> {
+export async function storeOnNode(targetNode: Snode, params: SendParams): Promise<boolean> {
   const { log, textsecure } = window;
 
   let successiveFailures = 0;
@@ -418,11 +383,7 @@ export async function storeOnNode(
       const json = JSON.parse(snodeRes.body);
       // Make sure we aren't doing too much PoW
       const currentDifficulty = window.storage.get('PoWDifficulty', null);
-      if (
-        json &&
-        json.difficulty &&
-        json.difficulty !== parseInt(currentDifficulty, 10)
-      ) {
+      if (json && json.difficulty && json.difficulty !== parseInt(currentDifficulty, 10)) {
         window.storage.put('PoWDifficulty', json.difficulty);
       }
       return true;
@@ -441,9 +402,7 @@ export async function storeOnNode(
         const { newDifficulty } = e;
         // difficulty of 100 happens when a snode restarts. We have to exit the loop and markNodeUnreachable()
         if (newDifficulty === 100) {
-          log.warn(
-            'loki_message:::storeOnNode - invalid new difficulty:100. Marking node as bad.'
-          );
+          log.warn('loki_message:::storeOnNode - invalid new difficulty:100. Marking node as bad.');
           successiveFailures = MAX_ACCEPTABLE_FAILURES;
           continue;
         }
@@ -499,11 +458,7 @@ export async function retrieveNextMessages(
   try {
     checkResponse(res);
   } catch (e) {
-    window.log.warn(
-      'loki_message:::retrieveNextMessages - send error:',
-      e.code,
-      e.message
-    );
+    window.log.warn('loki_message:::retrieveNextMessages - send error:', e.code, e.message);
     if (e instanceof window.textsecure.WrongSwarmError) {
       const { newSwarm } = e;
       await updateSnodesFor(params.pubKey, newSwarm);

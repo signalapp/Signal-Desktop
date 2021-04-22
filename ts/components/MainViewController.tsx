@@ -41,17 +41,11 @@ async function createClosedGroup(
 ): Promise<boolean> {
   // Validate groupName and groupMembers length
   if (groupName.length === 0) {
-    ToastUtils.pushToastError(
-      'invalidGroupName',
-      window.i18n('invalidGroupNameTooShort')
-    );
+    ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooShort'));
 
     return false;
   } else if (groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH) {
-    ToastUtils.pushToastError(
-      'invalidGroupName',
-      window.i18n('invalidGroupNameTooLong')
-    );
+    ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooLong'));
     return false;
   }
 
@@ -59,16 +53,10 @@ async function createClosedGroup(
   // the same is valid with groups count < 1
 
   if (groupMembers.length < 1) {
-    ToastUtils.pushToastError(
-      'pickClosedGroupMember',
-      window.i18n('pickClosedGroupMember')
-    );
+    ToastUtils.pushToastError('pickClosedGroupMember', window.i18n('pickClosedGroupMember'));
     return false;
   } else if (groupMembers.length >= window.CONSTANTS.CLOSED_GROUP_SIZE_LIMIT) {
-    ToastUtils.pushToastError(
-      'closedGroupMaxSize',
-      window.i18n('closedGroupMaxSize')
-    );
+    ToastUtils.pushToastError('closedGroupMaxSize', window.i18n('closedGroupMaxSize'));
     return false;
   }
 

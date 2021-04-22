@@ -33,9 +33,7 @@ export type PropsContextConversationItem = {
   onClearNickname?: () => void;
 };
 
-export const ConversationListItemContextMenu = (
-  props: PropsContextConversationItem
-) => {
+export const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
   const {
     triggerId,
     isBlocked,
@@ -71,28 +69,12 @@ export const ConversationListItemContextMenu = (
           {i18n('changeNickname')}
         </Item>
       ) : null} */}
-      {getClearNicknameMenuItem(
-        isPublic,
-        isMe,
-        hasNickname,
-        onClearNickname,
-        window.i18n
-      )}
-      {getCopyMenuItem(
-        isPublic,
-        type === 'group',
-        onCopyPublicKey,
-        window.i18n
-      )}
+      {getClearNicknameMenuItem(isPublic, isMe, hasNickname, onClearNickname, window.i18n)}
+      {getCopyMenuItem(isPublic, type === 'group', onCopyPublicKey, window.i18n)}
       {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
 
       {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
-      {getInviteContactMenuItem(
-        type === 'group',
-        isPublic,
-        onInviteContacts,
-        window.i18n
-      )}
+      {getInviteContactMenuItem(type === 'group', isPublic, onInviteContacts, window.i18n)}
       {getDeleteContactMenuItem(
         isMe,
         type === 'group',

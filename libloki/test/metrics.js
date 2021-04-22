@@ -5,13 +5,9 @@ let plotlyDiv;
 const workers = [];
 async function run(messageLength, numWorkers = 1, difficulty = 100, ttl = 72) {
   const timestamp = Math.floor(Date.now() / 1000);
-  const pubKey =
-    '05ec8635a07a13743516c7c9b3412f3e8252efb7fcaf67eb1615ffba62bebc6802';
+  const pubKey = '05ec8635a07a13743516c7c9b3412f3e8252efb7fcaf67eb1615ffba62bebc6802';
   const message = randomString(messageLength);
-  const messageBuffer = dcodeIO.ByteBuffer.wrap(
-    message,
-    'utf8'
-  ).toArrayBuffer();
+  const messageBuffer = dcodeIO.ByteBuffer.wrap(message, 'utf8').toArrayBuffer();
   const data = dcodeIO.ByteBuffer.wrap(messageBuffer).toString('base64');
   const promises = [];
   const t0 = performance.now();
@@ -48,13 +44,7 @@ async function run(messageLength, numWorkers = 1, difficulty = 100, ttl = 72) {
   workers.forEach(worker => worker.terminate());
 }
 
-async function runPoW({
-  iteration,
-  difficulty,
-  numWorkers,
-  messageLength = 50,
-  ttl = 72,
-}) {
+async function runPoW({ iteration, difficulty, numWorkers, messageLength = 50, ttl = 72 }) {
   const name = `W:${numWorkers} - NT: ${difficulty} - L:${messageLength} - TTL:${ttl}`;
   Plotly.addTraces(plotlyDiv, {
     y: [],
@@ -74,8 +64,7 @@ async function runPoW({
 
 function randomString(length) {
   let text = '';
-  const possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   for (let i = 0; i < length; i += 1) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
@@ -89,21 +78,11 @@ async function startMessageLengthRun() {
   const iteration0 = parseFloat(document.getElementById('iteration0').value);
   const difficulty0 = parseFloat(document.getElementById('difficulty0').value);
   const numWorkers0 = parseFloat(document.getElementById('numWorkers0').value);
-  const messageLengthStart0 = parseFloat(
-    document.getElementById('messageLengthStart0').value
-  );
-  const messageLengthStop0 = parseFloat(
-    document.getElementById('messageLengthStop0').value
-  );
-  const messageLengthStep0 = parseFloat(
-    document.getElementById('messageLengthStep0').value
-  );
+  const messageLengthStart0 = parseFloat(document.getElementById('messageLengthStart0').value);
+  const messageLengthStop0 = parseFloat(document.getElementById('messageLengthStop0').value);
+  const messageLengthStep0 = parseFloat(document.getElementById('messageLengthStep0').value);
   const TTL0 = parseFloat(document.getElementById('TTL0').value);
-  for (
-    let l = messageLengthStart0;
-    l < messageLengthStop0;
-    l += messageLengthStep0
-  ) {
+  for (let l = messageLengthStart0; l < messageLengthStop0; l += messageLengthStep0) {
     // eslint-disable-next-line no-await-in-loop
     await runPoW({
       iteration: iteration0,
@@ -117,21 +96,11 @@ async function startMessageLengthRun() {
 async function startNumWorkerRun() {
   const iteration1 = parseFloat(document.getElementById('iteration1').value);
   const difficulty1 = parseFloat(document.getElementById('difficulty1').value);
-  const numWorkersStart1 = parseFloat(
-    document.getElementById('numWorkersStart1').value
-  );
-  const numWorkersEnd1 = parseFloat(
-    document.getElementById('numWorkersEnd1').value
-  );
-  const messageLength1 = parseFloat(
-    document.getElementById('messageLength1').value
-  );
+  const numWorkersStart1 = parseFloat(document.getElementById('numWorkersStart1').value);
+  const numWorkersEnd1 = parseFloat(document.getElementById('numWorkersEnd1').value);
+  const messageLength1 = parseFloat(document.getElementById('messageLength1').value);
   const TTL1 = parseFloat(document.getElementById('TTL1').value);
-  for (
-    let numWorkers = numWorkersStart1;
-    numWorkers <= numWorkersEnd1;
-    numWorkers += 1
-  ) {
+  for (let numWorkers = numWorkersStart1; numWorkers <= numWorkersEnd1; numWorkers += 1) {
     // eslint-disable-next-line no-await-in-loop
     await runPoW({
       iteration: iteration1,
@@ -144,19 +113,11 @@ async function startNumWorkerRun() {
 }
 async function startDifficultyRun() {
   const iteration2 = parseFloat(document.getElementById('iteration2').value);
-  const messageLength2 = parseFloat(
-    document.getElementById('messageLength2').value
-  );
+  const messageLength2 = parseFloat(document.getElementById('messageLength2').value);
   const numWorkers2 = parseFloat(document.getElementById('numWorkers2').value);
-  const difficultyStart2 = parseFloat(
-    document.getElementById('difficultyStart2').value
-  );
-  const difficultyStop2 = parseFloat(
-    document.getElementById('difficultyStop2').value
-  );
-  const difficultyStep2 = parseFloat(
-    document.getElementById('difficultyStep2').value
-  );
+  const difficultyStart2 = parseFloat(document.getElementById('difficultyStart2').value);
+  const difficultyStop2 = parseFloat(document.getElementById('difficultyStop2').value);
+  const difficultyStep2 = parseFloat(document.getElementById('difficultyStep2').value);
   const TTL2 = parseFloat(document.getElementById('TTL2').value);
   for (let n = difficultyStart2; n < difficultyStop2; n += difficultyStep2) {
     // eslint-disable-next-line no-await-in-loop
@@ -172,9 +133,7 @@ async function startDifficultyRun() {
 async function starTTLRun() {
   const iteration3 = parseFloat(document.getElementById('iteration3').value);
   const difficulty3 = parseFloat(document.getElementById('difficulty3').value);
-  const messageLength3 = parseFloat(
-    document.getElementById('messageLength3').value
-  );
+  const messageLength3 = parseFloat(document.getElementById('messageLength3').value);
   const numWorkers3 = parseFloat(document.getElementById('numWorkers3').value);
   const TTLStart3 = parseFloat(document.getElementById('TTLStart3').value);
   const TTLStop3 = parseFloat(document.getElementById('TTLStop3').value);

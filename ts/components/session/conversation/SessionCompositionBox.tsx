@@ -161,15 +161,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
   public componentDidUpdate(prevProps: Props, _prevState: State) {
     // reset the state on new conversation key
-    if (
-      prevProps.selectedConversationKey !== this.props.selectedConversationKey
-    ) {
+    if (prevProps.selectedConversationKey !== this.props.selectedConversationKey) {
       this.setState(getDefaultState(), this.focusCompositionBox);
       this.lastBumpTypingMessageLength = 0;
-    } else if (
-      this.props.stagedAttachments?.length !==
-      prevProps.stagedAttachments?.length
-    ) {
+    } else if (this.props.stagedAttachments?.length !== prevProps.stagedAttachments?.length) {
       // if number of staged attachment changed, focus the composition box for a more natural UI
       this.focusCompositionBox();
     }
@@ -184,9 +179,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         {this.renderStagedLinkPreview()}
         {this.renderAttachmentsStaged()}
         <div className="composition-container">
-          {showRecordingView
-            ? this.renderRecordingView()
-            : this.renderCompositionView()}
+          {showRecordingView ? this.renderRecordingView() : this.renderCompositionView()}
         </div>
       </Flex>
     );
@@ -304,16 +297,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         </div>
 
         {typingEnabled && (
-          <div
-            ref={ref => (this.emojiPanel = ref)}
-            onKeyDown={this.onKeyDown}
-            role="button"
-          >
+          <div ref={ref => (this.emojiPanel = ref)} onKeyDown={this.onKeyDown} role="button">
             {showEmojiPanel && (
-              <SessionEmojiPanel
-                onEmojiClicked={this.onEmojiClick}
-                show={showEmojiPanel}
-              />
+              <SessionEmojiPanel onEmojiClicked={this.onEmojiClick} show={showEmojiPanel} />
             )}
           </div>
         )}
@@ -360,13 +346,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           // this is only for the composition box visible content. The real stuff on the backend box is the @markup
           displayTransform={(_id, display) => `@${display}`}
           data={this.fetchUsersForGroup}
-          renderSuggestion={(
-            suggestion,
-            _search,
-            _highlightedDisplay,
-            _index,
-            focused
-          ) => (
+          renderSuggestion={(suggestion, _search, _highlightedDisplay, _index, focused) => (
             <SessionMemberListItem
               theme={theme}
               isSelected={focused}
@@ -410,9 +390,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         members
           .filter(d => !!d)
           .filter(d => d.authorProfileName !== 'Anonymous')
-          .filter(d =>
-            d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase())
-          )
+          .filter(d => d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase()))
       )
       // Transform the users to what react-mentions expects
       .then(members => {
@@ -452,8 +430,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       .filter(d => !!d)
       .filter(
         d =>
-          d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase()) ||
-          !d.authorProfileName
+          d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase()) || !d.authorProfileName
       );
 
     // Transform the users to what react-mentions expects
@@ -478,10 +455,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return <></>;
     }
     // we try to match the first link found in the current message
-    const links = window.Signal.LinkPreviews.findLinks(
-      this.state.message,
-      undefined
-    );
+    const links = window.Signal.LinkPreviews.findLinks(this.state.message, undefined);
     if (!links || links.length === 0 || ignoredLink === links[0]) {
       return <></>;
     }
@@ -500,13 +474,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return <></>;
     }
 
-    const {
-      isLoaded,
-      title,
-      description,
-      domain,
-      image,
-    } = this.state.stagedLinkPreview;
+    const { isLoaded, title, description, domain, image } = this.state.stagedLinkPreview;
 
     return (
       <SessionStagedLinkPreview
@@ -564,19 +532,14 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         }
         // we finished loading the preview, and checking the abortConrtoller, we are still not aborted.
         // => update the staged preview
-        if (
-          this.linkPreviewAbortController &&
-          !this.linkPreviewAbortController.signal.aborted
-        ) {
+        if (this.linkPreviewAbortController && !this.linkPreviewAbortController.signal.aborted) {
           this.setState({
             stagedLinkPreview: {
               isLoaded: true,
               title: ret?.title || null,
               description: ret?.description || '',
               url: ret?.url || null,
-              domain:
-                (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) ||
-                '',
+              domain: (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) || '',
               image,
             },
           });
@@ -764,27 +727,19 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       let replacedMentions = text;
       (matches || []).forEach(match => {
         const replacedMention = match.substring(2, match.indexOf(':'));
-        replacedMentions = replacedMentions.replace(
-          match,
-          `@${replacedMention}`
-        );
+        replacedMentions = replacedMentions.replace(match, `@${replacedMention}`);
       });
 
       return replacedMentions;
     };
 
-    const messagePlaintext = cleanMentions(
-      this.parseEmojis(this.state.message)
-    );
+    const messagePlaintext = cleanMentions(this.parseEmojis(this.state.message));
 
     const { isBlocked, isPrivate, left, isKickedFromGroup } = this.props;
 
     // deny sending of message if our app version is expired
     if (window.extension.expiredStatus() === true) {
-      ToastUtils.pushToastError(
-        'expiredWarning',
-        window.i18n('expiredWarning')
-      );
+      ToastUtils.pushToastError('expiredWarning', window.i18n('expiredWarning'));
       return;
     }
 
@@ -842,9 +797,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const linkPreviews =
       (stagedLinkPreview &&
         stagedLinkPreview.isLoaded &&
-        stagedLinkPreview.title?.length && [
-          _.pick(stagedLinkPreview, 'url', 'image', 'title'),
-        ]) ||
+        stagedLinkPreview.title?.length && [_.pick(stagedLinkPreview, 'url', 'image', 'title')]) ||
       [];
 
     try {

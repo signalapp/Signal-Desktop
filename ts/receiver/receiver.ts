@@ -4,20 +4,12 @@ import { EnvelopePlus } from './types';
 export { downloadAttachment } from './attachments';
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-  addToCache,
-  getAllFromCache,
-  getAllFromCacheForSource,
-  removeFromCache,
-} from './cache';
+import { addToCache, getAllFromCache, getAllFromCacheForSource, removeFromCache } from './cache';
 import { processMessage } from '../session/snode_api/swarmPolling';
 import { onError } from './errors';
 
 // innerHandleContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
-import {
-  handleContentMessage,
-  innerHandleContentMessage,
-} from './contentMessage';
+import { handleContentMessage, innerHandleContentMessage } from './contentMessage';
 import _ from 'lodash';
 
 export { processMessage };
@@ -65,10 +57,7 @@ class EnvelopeQueue {
     const promise = this.pending.then(task, task);
     this.pending = promise;
 
-    this.pending.then(
-      this.cleanup.bind(this, promise),
-      this.cleanup.bind(this, promise)
-    );
+    this.pending.then(this.cleanup.bind(this, promise), this.cleanup.bind(this, promise));
   }
 
   private cleanup(promise: Promise<any>) {
@@ -88,10 +77,7 @@ function queueEnvelope(envelope: EnvelopePlus) {
   window.log.info('queueing envelope', id);
 
   const task = handleEnvelope.bind(null, envelope);
-  const taskWithTimeout = window.textsecure.createTaskWithTimeout(
-    task,
-    `queueEnvelope ${id}`
-  );
+  const taskWithTimeout = window.textsecure.createTaskWithTimeout(task, `queueEnvelope ${id}`);
 
   try {
     envelopeQueue.add(taskWithTimeout);
@@ -134,9 +120,7 @@ async function handleRequestDetail(
   }
 
   envelope.id = envelope.serverGuid || uuidv4();
-  envelope.serverTimestamp = envelope.serverTimestamp
-    ? envelope.serverTimestamp.toNumber()
-    : null;
+  envelope.serverTimestamp = envelope.serverTimestamp ? envelope.serverTimestamp.toNumber() : null;
 
   try {
     // NOTE: Annoyngly we add plaintext to the cache
@@ -167,16 +151,11 @@ export function handleRequest(body: any, options: ReqOptions): void {
 
   const plaintext = body;
 
-  const promise = handleRequestDetail(plaintext, options, lastPromise).catch(
-    e => {
-      window.log.error(
-        'Error handling incoming message:',
-        e && e.stack ? e.stack : e
-      );
+  const promise = handleRequestDetail(plaintext, options, lastPromise).catch(e => {
+    window.log.error('Error handling incoming message:', e && e.stack ? e.stack : e);
 
-      void onError(e);
-    }
-  );
+    void onError(e);
+  });
 
   incomingMessagePromises.push(promise);
 }
@@ -267,10 +246,7 @@ function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
   }
 }
 
-async function handleDecryptedEnvelope(
-  envelope: EnvelopePlus,
-  plaintext: ArrayBuffer
-) {
+async function handleDecryptedEnvelope(envelope: EnvelopePlus, plaintext: ArrayBuffer) {
   // if (this.stoppingProcessing) {
   //   return Promise.resolve();
   // }
@@ -296,13 +272,10 @@ export async function handlePublicMessage(messageData: any) {
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const isPublicVisibleMessage =
-    group && group.id && !!group.id.match(/^publicChat:/);
+  const isPublicVisibleMessage = group && group.id && !!group.id.match(/^publicChat:/);
 
   if (!isPublicVisibleMessage) {
-    throw new Error(
-      'handlePublicMessage Should only be called with public message groups'
-    );
+    throw new Error('handlePublicMessage Should only be called with public message groups');
   }
 
   const ev = {

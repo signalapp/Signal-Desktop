@@ -36,9 +36,7 @@ export class ConversationController {
   // FIXME this could return | undefined
   public get(id: string): ConversationModel {
     if (!this._initialFetchComplete) {
-      throw new Error(
-        'ConversationController.get() needs complete initial fetch'
-      );
+      throw new Error('ConversationController.get() needs complete initial fetch');
     }
 
     return this.conversations.get(id);
@@ -46,9 +44,7 @@ export class ConversationController {
 
   public getOrThrow(id: string): ConversationModel {
     if (!this._initialFetchComplete) {
-      throw new Error(
-        'ConversationController.get() needs complete initial fetch'
-      );
+      throw new Error('ConversationController.get() needs complete initial fetch');
     }
 
     const convo = this.conversations.get(id);
@@ -56,9 +52,7 @@ export class ConversationController {
     if (convo) {
       return convo;
     }
-    throw new Error(
-      `Conversation ${id} does not exist on ConversationController.get()`
-    );
+    throw new Error(`Conversation ${id} does not exist on ConversationController.get()`);
   }
   // Needed for some model setup which happens during the initial fetch() call below
   public getUnsafe(id: string): ConversationModel | undefined {
@@ -79,15 +73,11 @@ export class ConversationController {
       type !== ConversationType.GROUP &&
       type !== ConversationType.OPEN_GROUP
     ) {
-      throw new TypeError(
-        `'type' must be 'private' or 'group' or 'opengroup; got: '${type}'`
-      );
+      throw new TypeError(`'type' must be 'private' or 'group' or 'opengroup; got: '${type}'`);
     }
 
     if (!this._initialFetchComplete) {
-      throw new Error(
-        'ConversationController.get() needs complete initial fetch'
-      );
+      throw new Error('ConversationController.get() needs complete initial fetch');
     }
 
     let conversation = this.conversations.get(id);
@@ -122,10 +112,7 @@ export class ConversationController {
     conversation.initialPromise.then(async () => {
       if (window.inboxStore) {
         window.inboxStore?.dispatch(
-          conversationActions.conversationAdded(
-            conversation.id,
-            conversation.getProps()
-          )
+          conversationActions.conversationAdded(conversation.id, conversation.getProps())
         );
       }
       if (!conversation.isPublic()) {
@@ -169,14 +156,10 @@ export class ConversationController {
     type: ConversationType
   ): Promise<ConversationModel> {
     const initialPromise =
-      this._initialPromise !== undefined
-        ? this._initialPromise
-        : Promise.resolve();
+      this._initialPromise !== undefined ? this._initialPromise : Promise.resolve();
     return initialPromise.then(() => {
       if (!id) {
-        return Promise.reject(
-          new Error('getOrCreateAndWait: invalid id passed.')
-        );
+        return Promise.reject(new Error('getOrCreateAndWait: invalid id passed.'));
       }
       const pubkey = id && (id as any).key ? (id as any).key : id;
       const conversation = this.getOrCreate(pubkey, type);
@@ -185,9 +168,7 @@ export class ConversationController {
         return conversation.initialPromise.then(() => conversation);
       }
 
-      return Promise.reject(
-        new Error('getOrCreateAndWait: did not get conversation')
-      );
+      return Promise.reject(new Error('getOrCreateAndWait: did not get conversation'));
     });
   }
 
@@ -202,9 +183,7 @@ export class ConversationController {
     }
 
     if (!this._initialFetchComplete) {
-      throw new Error(
-        'ConversationController.get() needs complete initial fetch'
-      );
+      throw new Error('ConversationController.get() needs complete initial fetch');
     }
 
     const conversation = this.conversations.get(id);
@@ -231,9 +210,7 @@ export class ConversationController {
     await removeConversation(id);
     this.conversations.remove(conversation);
     if (window.inboxStore) {
-      window.inboxStore?.dispatch(
-        conversationActions.conversationRemoved(conversation.id)
-      );
+      window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
     }
   }
 
@@ -262,18 +239,13 @@ export class ConversationController {
             promises.push(conversation.updateLastMessage());
           }
 
-          promises.concat([
-            conversation.updateProfileName(),
-            conversation.updateProfileAvatar(),
-          ]);
+          promises.concat([conversation.updateProfileName(), conversation.updateProfileAvatar()]);
         });
 
         await Promise.all(promises);
 
         // Remove any unused images
-        window.profileImages.removeImagesNotInArray(
-          this.conversations.map((c: any) => c.id)
-        );
+        window.profileImages.removeImagesNotInArray(this.conversations.map((c: any) => c.id));
         window.log.info('ConversationController: done with initial fetch');
       } catch (error) {
         window.log.error(

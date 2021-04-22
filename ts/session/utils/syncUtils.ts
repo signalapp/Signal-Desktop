@@ -15,11 +15,7 @@ import {
   ConfigurationMessageContact,
 } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ConversationModel } from '../../models/conversation';
-import {
-  fromBase64ToArray,
-  fromBase64ToArrayBuffer,
-  fromHexToArray,
-} from './String';
+import { fromBase64ToArray, fromBase64ToArrayBuffer, fromHexToArray } from './String';
 import { fromBase64 } from 'bytebuffer';
 import { SignalService } from '../../protobuf';
 import _ from 'lodash';
@@ -55,10 +51,7 @@ export const syncConfigurationIfNeeded = async () => {
 
     await getMessageQueue().sendSyncMessage(configMessage);
   } catch (e) {
-    window.log.warn(
-      'Caught an error while sending our ConfigurationMessage:',
-      e
-    );
+    window.log.warn('Caught an error while sending our ConfigurationMessage:', e);
     // we do return early so that next time we use the old timestamp again
     // and so try again to trigger a sync
     return;
@@ -66,9 +59,7 @@ export const syncConfigurationIfNeeded = async () => {
   await writeLastSyncTimestampToDb(now);
 };
 
-export const forceSyncConfigurationNowIfNeeded = async (
-  waitForMessageSent = false
-) =>
+export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) =>
   new Promise(resolve => {
     const allConvos = ConversationController.getInstance().getConversations();
 
@@ -92,26 +83,19 @@ export const forceSyncConfigurationNowIfNeeded = async (
         }
       })
       .catch(e => {
-        window.log.warn(
-          'Caught an error while building our ConfigurationMessage:',
-          e
-        );
+        window.log.warn('Caught an error while building our ConfigurationMessage:', e);
         resolve(false);
       });
   });
 
-export const getCurrentConfigurationMessage = async (
-  convos: Array<ConversationModel>
-) => {
+export const getCurrentConfigurationMessage = async (convos: Array<ConversationModel>) => {
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   const ourConvo = convos.find(convo => convo.id === ourPubKey);
 
   // Filter open groups
   const openGroupsIds = convos
     .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
-    .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
-    string
-  >;
+    .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<string>;
 
   // Filter Closed/Medium groups
   const closedGroupModels = convos.filter(
@@ -128,9 +112,7 @@ export const getCurrentConfigurationMessage = async (
   const closedGroups = await Promise.all(
     closedGroupModels.map(async c => {
       const groupPubKey = c.get('id');
-      const fetchEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(
-        groupPubKey
-      );
+      const fetchEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(groupPubKey);
       if (!fetchEncryptionKeyPair) {
         return null;
       }
@@ -151,11 +133,7 @@ export const getCurrentConfigurationMessage = async (
 
   // Filter contacts
   const contactsModels = convos.filter(
-    c =>
-      !!c.get('active_at') &&
-      c.getLokiProfile()?.displayName &&
-      c.isPrivate() &&
-      !c.isBlocked()
+    c => !!c.get('active_at') && c.getLokiProfile()?.displayName && c.isPrivate() && !c.isBlocked()
   );
 
   const contacts = contactsModels.map(c => {
@@ -172,14 +150,10 @@ export const getCurrentConfigurationMessage = async (
   });
 
   if (!ourConvo) {
-    window.log.error(
-      'Could not find our convo while building a configuration message.'
-    );
+    window.log.error('Could not find our convo while building a configuration message.');
   }
   const profileKeyFromStorage = window.storage.get('profileKey');
-  const profileKey = profileKeyFromStorage
-    ? new Uint8Array(profileKeyFromStorage)
-    : undefined;
+  const profileKey = profileKeyFromStorage ? new Uint8Array(profileKeyFromStorage) : undefined;
 
   const profilePicture = ourConvo?.get('avatarPointer') || undefined;
   const displayName = ourConvo?.getLokiProfile()?.displayName || undefined;
@@ -256,10 +230,7 @@ const buildSyncExpireTimerMessage = (
   });
 };
 
-export type SyncMessageType =
-  | VisibleMessage
-  | ExpirationTimerUpdateMessage
-  | ConfigurationMessage;
+export type SyncMessageType = VisibleMessage | ExpirationTimerUpdateMessage | ConfigurationMessage;
 
 export const buildSyncMessage = (
   identifier: string,
@@ -279,21 +250,8 @@ export const buildSyncMessage = (
   }
   // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
   const timestamp = _.toNumber(sentTimestamp);
-  if (
-    dataMessage.flags ===
-    SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
-  ) {
-    return buildSyncExpireTimerMessage(
-      identifier,
-      dataMessage,
-      timestamp,
-      syncTarget
-    );
+  if (dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
+    return buildSyncExpireTimerMessage(identifier, dataMessage, timestamp, syncTarget);
   }
-  return buildSyncVisibleMessage(
-    identifier,
-    dataMessage,
-    timestamp,
-    syncTarget
-  );
+  return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);
 };

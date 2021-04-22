@@ -40,12 +40,7 @@ export async function send(
     plainTextBuffer,
     encryption
   );
-  const envelope = await buildEnvelope(
-    envelopeType,
-    device.key,
-    timestamp,
-    cipherText
-  );
+  const envelope = await buildEnvelope(envelopeType, device.key, timestamp, cipherText);
   window?.log?.debug('Sending envelope', envelope, ' to ', device.key);
   const data = wrapEnvelope(envelope);
 

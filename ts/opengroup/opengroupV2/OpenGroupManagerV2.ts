@@ -1,8 +1,4 @@
-import {
-  OpenGroupV2Room,
-  removeV2OpenGroupRoom,
-  saveV2OpenGroupRoom,
-} from '../../data/opengroups';
+import { OpenGroupV2Room, removeV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { ConversationModel, ConversationType } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';

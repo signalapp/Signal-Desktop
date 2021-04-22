@@ -4,9 +4,7 @@ import { ClosedGroupMessage } from './ClosedGroupMessage';
 
 export class ClosedGroupEncryptionPairRequestMessage extends ClosedGroupMessage {
   public dataProto(): SignalService.DataMessage {
-    throw new Error(
-      'ClosedGroupEncryptionPairRequestMessage: This is unused for now '
-    );
+    throw new Error('ClosedGroupEncryptionPairRequestMessage: This is unused for now ');
     const dataMessage = super.dataProto();
 
     // tslint:disable: no-non-null-assertion

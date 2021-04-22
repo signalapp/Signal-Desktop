@@ -53,9 +53,7 @@ export const buildUrl = (request: OpenGroupV2Request): URL | null => {
     const entries = Object.entries(request.queryParams || {});
 
     if (entries.length) {
-      const queryString = entries
-        .map(([key, value]) => `${key}=${value}`)
-        .join('&');
+      const queryString = entries.map(([key, value]) => `${key}=${value}`).join('&');
       rawURL += `?${queryString}`;
     }
   }
@@ -70,10 +68,7 @@ export const buildUrl = (request: OpenGroupV2Request): URL | null => {
 /**
  * Map of serverUrl to roomId to list of moderators as a Set
  */
-export const cachedModerators: Map<
-  string,
-  Map<string, Set<string>>
-> = new Map();
+export const cachedModerators: Map<string, Map<string, Set<string>>> = new Map();
 
 export const setCachedModerators = (
   serverUrl: string,
@@ -115,15 +110,9 @@ export const parseMessages = async (
           return null;
         }
         // Validate the message signature
-        const senderPubKey = PubKey.cast(
-          opengroupMessage.sender
-        ).withoutPrefix();
-        const signature = fromBase64ToArrayBuffer(
-          opengroupMessage.base64EncodedSignature
-        );
-        const messageData = fromBase64ToArrayBuffer(
-          opengroupMessage.base64EncodedData
-        );
+        const senderPubKey = PubKey.cast(opengroupMessage.sender).withoutPrefix();
+        const signature = fromBase64ToArrayBuffer(opengroupMessage.base64EncodedSignature);
+        const messageData = fromBase64ToArrayBuffer(opengroupMessage.base64EncodedData);
         // throws if signature failed
         await window.libsignal.Curve.async.verifySignature(
           fromHex(senderPubKey),
@@ -132,10 +121,7 @@ export const parseMessages = async (
         );
         return opengroupMessage;
       } catch (e) {
-        window.log.error(
-          'An error happened while fetching getMessages output:',
-          e
-        );
+        window.log.error('An error happened while fetching getMessages output:', e);
         return null;
       }
     })

@@ -55,11 +55,7 @@ export const getPreview = async (
     try {
       window.log.info('insecureNodeFetch => plaintext for getPreview()');
 
-      const fullSizeImage = await fetchLinkPreviewImage(
-        insecureNodeFetch,
-        imageHref,
-        abortSignal
-      );
+      const fullSizeImage = await fetchLinkPreviewImage(insecureNodeFetch, imageHref, abortSignal);
       if (!fullSizeImage) {
         throw new Error('Failed to fetch link preview image');
       }
@@ -79,12 +75,10 @@ export const getPreview = async (
       const data = await arrayBufferFromFile(withBlob.file);
       objectUrl = URL.createObjectURL(withBlob.file);
 
-      const dimensions = await window.Signal.Types.VisualAttachment.getImageDimensions(
-        {
-          objectUrl,
-          logger: window.log,
-        }
-      );
+      const dimensions = await window.Signal.Types.VisualAttachment.getImageDimensions({
+        objectUrl,
+        logger: window.log,
+      });
 
       image = {
         data,
@@ -94,10 +88,7 @@ export const getPreview = async (
       };
     } catch (error) {
       // We still want to show the preview if we failed to get an image
-      window.log.error(
-        'getPreview failed to get image for link preview:',
-        error.message
-      );
+      window.log.error('getPreview failed to get image for link preview:', error.message);
     } finally {
       if (objectUrl) {
         URL.revokeObjectURL(objectUrl);

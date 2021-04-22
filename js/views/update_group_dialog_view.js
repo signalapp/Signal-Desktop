@@ -31,9 +31,7 @@
         this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // I'd much prefer to integrate mods with groupAdmins
         // but lets discuss first...
-        this.isAdmin = groupConvo.isAdmin(
-          window.storage.get('primaryDevicePubKey')
-        );
+        this.isAdmin = groupConvo.isAdmin(window.storage.get('primaryDevicePubKey'));
       }
 
       this.$el.focus();
@@ -92,9 +90,7 @@
         this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // I'd much prefer to integrate mods with groupAdmins
         // but lets discuss first...
-        this.isAdmin = groupConvo.isAdmin(
-          window.storage.get('primaryDevicePubKey')
-        );
+        this.isAdmin = groupConvo.isAdmin(window.storage.get('primaryDevicePubKey'));
         // zero out contactList for now
         this.contactsAndMembers = [];
         this.existingMembers = [];
@@ -116,11 +112,7 @@
         this.contactsAndMembers = convos.filter(
           d => this.existingMembers.includes(d.id) && d.isPrivate() && !d.isMe()
         );
-        this.contactsAndMembers = _.uniq(
-          this.contactsAndMembers,
-          true,
-          d => d.id
-        );
+        this.contactsAndMembers = _.uniq(this.contactsAndMembers, true, d => d.id);
 
         // at least make sure it's an array
         if (!Array.isArray(this.existingMembers)) {
@@ -160,24 +152,16 @@
       const allMembers = window.Lodash.concat(newMembers, [ourPK]);
 
       // We need to NOT trigger an group update if the list of member is the same.
-      const notPresentInOld = allMembers.filter(
-        m => !this.existingMembers.includes(m)
-      );
+      const notPresentInOld = allMembers.filter(m => !this.existingMembers.includes(m));
 
-      const membersToRemove = this.existingMembers.filter(
-        m => !allMembers.includes(m)
-      );
+      const membersToRemove = this.existingMembers.filter(m => !allMembers.includes(m));
 
       // If any extra devices of removed exist in newMembers, ensure that you filter them
-      const filteredMemberes = allMembers.filter(
-        member => !_.includes(membersToRemove, member)
-      );
+      const filteredMemberes = allMembers.filter(member => !_.includes(membersToRemove, member));
 
       const xor = _.xor(membersToRemove, notPresentInOld);
       if (xor.length === 0) {
-        window.log.info(
-          'skipping group update: no detected changes in group member list'
-        );
+        window.log.info('skipping group update: no detected changes in group member list');
 
         return;
       }

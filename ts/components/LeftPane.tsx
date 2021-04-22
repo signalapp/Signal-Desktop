@@ -12,11 +12,7 @@ import { SessionExpiredWarning } from './session/network/SessionExpiredWarning';
 import { getFocusedSection } from '../state/selectors/section';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLeftPaneLists } from '../state/selectors/conversations';
-import {
-  getQuery,
-  getSearchResults,
-  isSearching,
-} from '../state/selectors/search';
+import { getQuery, getSearchResults, isSearching } from '../state/selectors/search';
 import { clearSearch, search, updateSearchTerm } from '../state/ducks/search';
 import { getTheme } from '../state/selectors/theme';
 

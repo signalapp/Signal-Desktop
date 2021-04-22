@@ -3,10 +3,7 @@ import classNames from 'classnames';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import {
-  ContactType,
-  SessionMemberListItem,
-} from '../session/SessionMemberListItem';
+import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { DefaultTheme } from 'styled-components';
 import { ToastUtils } from '../../session/utils';
 
@@ -71,9 +68,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   public onClickOK() {
-    const members = this.getWouldBeMembers(this.state.contactList).map(
-      d => d.id
-    );
+    const members = this.getWouldBeMembers(this.state.contactList).map(d => d.id);
 
     this.props.onSubmit(members);
 
@@ -103,9 +98,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         <p className={errorMessageClasses}>{errorMsg}</p>
         <div className="spacer-md" />
 
-        <div className="group-member-list__selection">
-          {this.renderMemberList()}
-        </div>
+        <div className="group-member-list__selection">{this.renderMemberList()}</div>
         {showNoMembersMessage && <p>{window.i18n('noMembersInThisGroup')}</p>}
 
         <div className="spacer-lg" />
@@ -155,10 +148,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   // current state in `users`
   private getWouldBeMembers(users: Array<ContactType>) {
     return users.filter(d => {
-      return (
-        (d.existingMember && !d.checkmarked) ||
-        (!d.existingMember && d.checkmarked)
-      );
+      return (d.existingMember && !d.checkmarked) || (!d.existingMember && d.checkmarked);
     });
   }
 

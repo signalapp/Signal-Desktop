@@ -14,17 +14,10 @@ import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
 import { RowRendererParamsType } from '../LeftPane';
-import {
-  SessionClosableOverlay,
-  SessionClosableOverlayType,
-} from './SessionClosableOverlay';
+import { SessionClosableOverlay, SessionClosableOverlayType } from './SessionClosableOverlay';
 import { SessionIconType } from './icon';
 import { ContactType } from './SessionMemberListItem';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
@@ -84,12 +77,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
 
-    this.handleNewSessionButtonClick = this.handleNewSessionButtonClick.bind(
-      this
-    );
-    this.handleJoinChannelButtonClick = this.handleJoinChannelButtonClick.bind(
-      this
-    );
+    this.handleNewSessionButtonClick = this.handleNewSessionButtonClick.bind(this);
+    this.handleJoinChannelButtonClick = this.handleJoinChannelButtonClick.bind(this);
     this.onCreateClosedGroup = this.onCreateClosedGroup.bind(this);
 
     this.renderClosableOverlay = this.renderClosableOverlay.bind(this);
@@ -106,11 +95,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     window.Whisper.events.off('calculatingPoW', this.closeOverlay);
   }
 
-  public renderRow = ({
-    index,
-    key,
-    style,
-  }: RowRendererParamsType): JSX.Element => {
+  public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element => {
     const { conversations, openConversationExternal } = this.props;
 
     if (!conversations) {
@@ -131,11 +116,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   };
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
-    const {
-      conversations,
-      openConversationExternal,
-      searchResults,
-    } = this.props;
+    const { conversations, openConversationExternal, searchResults } = this.props;
     const contacts = searchResults?.contacts || [];
 
     if (searchResults) {
@@ -150,9 +131,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
 
     if (!conversations) {
-      throw new Error(
-        'render: must provided conversations if no search results are provided'
-      );
+      throw new Error('render: must provided conversations if no search results are provided');
     }
 
     const length = conversations.length;
@@ -205,9 +184,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
-        {overlay
-          ? this.renderClosableOverlay(overlay)
-          : this.renderConversations()}
+        {overlay ? this.renderClosableOverlay(overlay) : this.renderConversations()}
       </div>
     );
   }
@@ -298,10 +275,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         onCloseClick={() => {
           this.handleToggleOverlay(undefined);
         }}
-        onButtonClick={async (
-          groupName: string,
-          groupMembers: Array<ContactType>
-        ) => this.onCreateClosedGroup(groupName, groupMembers)}
+        onButtonClick={async (groupName: string, groupMembers: Array<ContactType>) =>
+          this.onCreateClosedGroup(groupName, groupMembers)
+        }
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
@@ -382,10 +358,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const { openConversationExternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
-      ToastUtils.pushToastError(
-        'invalidPubKey',
-        window.i18n('invalidNumberError')
-      );
+      ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError'));
       return;
     }
     let pubkey: string;
@@ -413,28 +386,19 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Server URL valid?
     if (serverUrl.length === 0 || !OpenGroup.validate(serverUrl)) {
-      ToastUtils.pushToastError(
-        'connectToServer',
-        window.i18n('invalidOpenGroupUrl')
-      );
+      ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
       return;
     }
 
     // Already connected?
     if (OpenGroup.getConversation(serverUrl)) {
-      ToastUtils.pushToastError(
-        'publicChatExists',
-        window.i18n('publicChatExists')
-      );
+      ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
       return;
     }
 
     // Connect to server
     try {
-      ToastUtils.pushToastInfo(
-        'connectingToServer',
-        window.i18n('connectingToServer')
-      );
+      ToastUtils.pushToastInfo('connectingToServer', window.i18n('connectingToServer'));
 
       this.setState({ loading: true });
       await OpenGroup.join(serverUrl);
@@ -444,42 +408,29 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           window.i18n('connectToServerSuccess')
         );
       } else {
-        throw new Error(
-          'Open group joined but the corresponding server does not exist'
-        );
+        throw new Error('Open group joined but the corresponding server does not exist');
       }
       this.setState({ loading: false });
       const openGroupConversation = OpenGroup.getConversation(serverUrl);
 
       if (!openGroupConversation) {
-        window.log.error(
-          'Joined an opengroup but did not find ther corresponding conversation'
-        );
+        window.log.error('Joined an opengroup but did not find ther corresponding conversation');
       }
       this.handleToggleOverlay(undefined);
     } catch (e) {
       window.log.error('Failed to connect to server:', e);
-      ToastUtils.pushToastError(
-        'connectToServerFail',
-        window.i18n('connectToServerFail')
-      );
+      ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
       this.setState({ loading: false });
     }
   }
 
-  private async onCreateClosedGroup(
-    groupName: string,
-    groupMembers: Array<ContactType>
-  ) {
+  private async onCreateClosedGroup(groupName: string, groupMembers: Array<ContactType>) {
     if (this.state.loading) {
       window.log.warn('Closed group creation already in progress');
       return;
     }
     this.setState({ loading: true }, async () => {
-      const groupCreated = await MainViewController.createClosedGroup(
-        groupName,
-        groupMembers
-      );
+      const groupCreated = await MainViewController.createClosedGroup(groupName, groupMembers);
 
       if (groupCreated) {
         this.handleToggleOverlay(undefined);

@@ -5,10 +5,7 @@ import { isArrayBuffer, padStart } from 'lodash';
 import * as MIME from './MIME';
 import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
-import {
-  isImageTypeSupported,
-  isVideoTypeSupported,
-} from '../util/GoogleChrome';
+import { isImageTypeSupported, isVideoTypeSupported } from '../util/GoogleChrome';
 import { LocalizerType } from './Util';
 import { fromHexToArray } from '../session/utils/String';
 import { getSodium } from '../session/crypto';
@@ -90,14 +87,7 @@ export function canDisplayImage(attachments?: Array<AttachmentType>) {
   const { height, width } =
     attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
 
-  return (
-    height &&
-    height > 0 &&
-    height <= 4096 &&
-    width &&
-    width > 0 &&
-    width <= 4096
-  );
+  return height && height > 0 && height <= 4096 && width && width > 0 && width <= 4096;
 }
 
 export function getThumbnailUrl(attachment: AttachmentType) {
@@ -127,17 +117,11 @@ export function isImage(attachments?: Array<AttachmentType>) {
 
 export function isImageAttachment(attachment: AttachmentType): boolean {
   return Boolean(
-    attachment &&
-      attachment.contentType &&
-      isImageTypeSupported(attachment.contentType)
+    attachment && attachment.contentType && isImageTypeSupported(attachment.contentType)
   );
 }
 export function hasImage(attachments?: Array<AttachmentType>): boolean {
-  return Boolean(
-    attachments &&
-      attachments[0] &&
-      (attachments[0].url || attachments[0].pending)
-  );
+  return Boolean(attachments && attachments[0] && (attachments[0].url || attachments[0].pending));
 }
 
 export function isVideo(attachments?: Array<AttachmentType>): boolean {
@@ -146,20 +130,14 @@ export function isVideo(attachments?: Array<AttachmentType>): boolean {
 
 export function isVideoAttachment(attachment?: AttachmentType): boolean {
   return Boolean(
-    !!attachment &&
-      !!attachment.contentType &&
-      isVideoTypeSupported(attachment.contentType)
+    !!attachment && !!attachment.contentType && isVideoTypeSupported(attachment.contentType)
   );
 }
 
 export function hasVideoScreenshot(attachments?: Array<AttachmentType>) {
   const firstAttachment = attachments ? attachments[0] : null;
 
-  return (
-    firstAttachment &&
-    firstAttachment.screenshot &&
-    firstAttachment.screenshot.url
-  );
+  return firstAttachment && firstAttachment.screenshot && firstAttachment.screenshot.url;
 }
 
 type DimensionsType = {
@@ -198,9 +176,7 @@ export function getImageDimensions(attachment: AttachmentType): DimensionsType {
   };
 }
 
-export function areAllAttachmentsVisual(
-  attachments?: Array<AttachmentType>
-): boolean {
+export function areAllAttachmentsVisual(attachments?: Array<AttachmentType>): boolean {
   if (!attachments) {
     return false;
   }
@@ -216,9 +192,7 @@ export function areAllAttachmentsVisual(
   return true;
 }
 
-export function getGridDimensions(
-  attachments?: Array<AttachmentType>
-): null | DimensionsType {
+export function getGridDimensions(attachments?: Array<AttachmentType>): null | DimensionsType {
   if (!attachments || !attachments.length) {
     return null;
   }
@@ -251,13 +225,8 @@ export function getGridDimensions(
   };
 }
 
-export function getAlt(
-  attachment: AttachmentType,
-  i18n: LocalizerType
-): string {
-  return isVideoAttachment(attachment)
-    ? i18n('videoAttachmentAlt')
-    : i18n('imageAttachmentAlt');
+export function getAlt(attachment: AttachmentType, i18n: LocalizerType): string {
+  return isVideoAttachment(attachment) ? i18n('videoAttachmentAlt') : i18n('imageAttachmentAlt');
 }
 
 // Migration-related attachment stuff
@@ -366,9 +335,7 @@ export const getSuggestedFilename = ({
   index?: number;
 }): string => {
   const prefix = 'session-attachment';
-  const suffix = timestamp
-    ? moment(timestamp).format('-YYYY-MM-DD-HHmmss')
-    : '';
+  const suffix = timestamp ? moment(timestamp).format('-YYYY-MM-DD-HHmmss') : '';
   const fileType = getFileExtension(attachment);
   const extension = fileType ? `.${fileType}` : '';
   const indexSuffix = index ? `_${padStart(index.toString(), 3, '0')}` : '';
@@ -385,18 +352,14 @@ export const getSuggestedFilenameSending = ({
   timestamp?: number | Date;
 }): string => {
   const prefix = 'session-attachment';
-  const suffix = timestamp
-    ? moment(timestamp).format('-YYYY-MM-DD-HHmmss')
-    : '';
+  const suffix = timestamp ? moment(timestamp).format('-YYYY-MM-DD-HHmmss') : '';
   const fileType = getFileExtension(attachment);
   const extension = fileType ? `.${fileType}` : '';
 
   return `${prefix}${suffix}${extension}`;
 };
 
-export const getFileExtension = (
-  attachment: AttachmentType
-): string | undefined => {
+export const getFileExtension = (attachment: AttachmentType): string | undefined => {
   // we override textplain to the extension of the file
   if (!attachment.contentType || attachment.contentType === 'text/plain') {
     if (attachment.fileName?.length) {
@@ -425,15 +388,10 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
 
   const uintArrayIn = new Uint8Array(bufferIn);
   const sodium = await getSodium();
-  const encryptingKey = window.textsecure.storage.get(
-    'local_attachment_encrypted_key'
-  );
+  const encryptingKey = window.textsecure.storage.get('local_attachment_encrypted_key');
 
   /* Set up a new stream: initialize the state and create the header */
-  const {
-    state,
-    header,
-  } = sodium.crypto_secretstream_xchacha20poly1305_init_push(
+  const { state, header } = sodium.crypto_secretstream_xchacha20poly1305_init_push(
     fromHexToArray(encryptingKey)
   );
   /* Now, encrypt the buffer. */
@@ -444,25 +402,19 @@ export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
     sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
   );
 
-  const encryptedBufferWithHeader = new Uint8Array(
-    bufferOut.length + header.length
-  );
+  const encryptedBufferWithHeader = new Uint8Array(bufferOut.length + header.length);
   encryptedBufferWithHeader.set(header);
   encryptedBufferWithHeader.set(bufferOut, header.length);
 
   return { encryptedBufferWithHeader, header };
 };
 
-export const decryptAttachmentBuffer = async (
-  bufferIn: ArrayBuffer
-): Promise<Uint8Array> => {
+export const decryptAttachmentBuffer = async (bufferIn: ArrayBuffer): Promise<Uint8Array> => {
   if (!isArrayBuffer(bufferIn)) {
     throw new TypeError("'bufferIn' must be an array buffer");
   }
   const sodium = await getSodium();
-  const encryptingKey = window.textsecure.storage.get(
-    'local_attachment_encrypted_key'
-  );
+  const encryptingKey = window.textsecure.storage.get('local_attachment_encrypted_key');
 
   const header = new Uint8Array(
     bufferIn.slice(0, sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
@@ -479,15 +431,10 @@ export const decryptAttachmentBuffer = async (
     );
     // what if ^ this call fail (? try to load as a unencrypted attachment?)
 
-    const messageTag = sodium.crypto_secretstream_xchacha20poly1305_pull(
-      state,
-      encryptedBuffer
-    );
+    const messageTag = sodium.crypto_secretstream_xchacha20poly1305_pull(state, encryptedBuffer);
     // we expect the final tag to be there. If not, we might have an issue with this file
     // maybe not encrypted locally?
-    if (
-      messageTag.tag === sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
-    ) {
+    if (messageTag.tag === sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL) {
       return messageTag.message;
     }
   } catch (e) {

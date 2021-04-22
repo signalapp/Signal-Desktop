@@ -44,10 +44,7 @@ export class MessageQueue {
     message: ContentMessage,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
-    if (
-      message instanceof ConfigurationMessage ||
-      !!(message as any).syncTarget
-    ) {
+    if (message instanceof ConfigurationMessage || !!(message as any).syncTarget) {
       throw new Error('SyncMessage needs to be sent with sendSyncMessage');
     }
     await this.process(user, message, sentCb);
@@ -77,10 +74,7 @@ export class MessageQueue {
         void MessageSentHandler.handlePublicMessageSentSuccess(message, result);
       }
     } catch (e) {
-      window?.log?.warn(
-        `Failed to send message to open group: ${message.group.server}`,
-        e
-      );
+      window?.log?.warn(`Failed to send message to open group: ${message.group.server}`, e);
       void MessageSentHandler.handleMessageSentFailure(message, error);
     }
   }
@@ -94,10 +88,7 @@ export class MessageQueue {
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     let groupId: PubKey | undefined;
-    if (
-      message instanceof ExpirationTimerUpdateMessage ||
-      message instanceof ClosedGroupMessage
-    ) {
+    if (message instanceof ExpirationTimerUpdateMessage || message instanceof ClosedGroupMessage) {
       groupId = message.groupId;
     }
 
@@ -115,10 +106,7 @@ export class MessageQueue {
     if (!message) {
       return;
     }
-    if (
-      !(message instanceof ConfigurationMessage) &&
-      !(message as any)?.syncTarget
-    ) {
+    if (!(message instanceof ConfigurationMessage) && !(message as any)?.syncTarget) {
       throw new Error('Invalid message given to sendSyncMessage');
     }
 
@@ -139,14 +127,9 @@ export class MessageQueue {
         const job = async () => {
           try {
             const wrappedEnvelope = await MessageSender.send(message);
-            await MessageSentHandler.handleMessageSentSuccess(
-              message,
-              wrappedEnvelope
-            );
+            await MessageSentHandler.handleMessageSentSuccess(message, wrappedEnvelope);
 
-            const cb = this.pendingMessageCache.callbacks.get(
-              message.identifier
-            );
+            const cb = this.pendingMessageCache.callbacks.get(message.identifier);
 
             if (cb) {
               await cb(message);

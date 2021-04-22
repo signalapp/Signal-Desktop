@@ -82,14 +82,9 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   public componentDidUpdate(prevProps: Props, _prevState: State) {
-    const isSameConvo =
-      prevProps.conversationKey === this.props.conversationKey;
-    const messageLengthChanged =
-      prevProps.messages.length !== this.props.messages.length;
-    if (
-      !isSameConvo ||
-      (prevProps.messages.length === 0 && this.props.messages.length !== 0)
-    ) {
+    const isSameConvo = prevProps.conversationKey === this.props.conversationKey;
+    const messageLengthChanged = prevProps.messages.length !== this.props.messages.length;
+    if (!isSameConvo || (prevProps.messages.length === 0 && this.props.messages.length !== 0)) {
       // displayed conversation changed. We have a bit of cleaning to do here
       this.scrollOffsetBottomPx = Number.MAX_VALUE;
       this.ignoreScrollEvents = true;
@@ -114,8 +109,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
             const scrollHeight = messageContainer.scrollHeight;
             const clientHeight = messageContainer.clientHeight;
             this.ignoreScrollEvents = true;
-            messageContainer.scrollTop =
-              scrollHeight - clientHeight - this.scrollOffsetBottomPx;
+            messageContainer.scrollTop = scrollHeight - clientHeight - this.scrollOffsetBottomPx;
             this.ignoreScrollEvents = false;
           }
         }
@@ -149,10 +143,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
         {this.renderMessages(messages)}
 
-        <SessionScrollButton
-          show={showScrollButton}
-          onClick={this.scrollToBottom}
-        />
+        <SessionScrollButton show={showScrollButton} onClick={this.scrollToBottom} />
       </div>
     );
   }
@@ -178,10 +169,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       if (message.attributes.type === 'incoming') {
         incomingMessagesSoFar++;
         // message.attributes.unread is !== undefined if the message is unread.
-        if (
-          message.attributes.unread !== undefined &&
-          incomingMessagesSoFar >= unreadCount
-        ) {
+        if (message.attributes.unread !== undefined && incomingMessagesSoFar >= unreadCount) {
           findFirstUnreadIndex = index;
           break;
         }
@@ -232,10 +220,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
           if (groupNotificationProps) {
             return (
               <>
-                <GroupNotification
-                  {...groupNotificationProps}
-                  key={message.id}
-                />
+                <GroupNotification {...groupNotificationProps} key={message.id} />
                 {unreadIndicator}
               </>
             );
@@ -244,10 +229,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
           if (propsForGroupInvitation) {
             return (
               <>
-                <GroupInvitation
-                  {...propsForGroupInvitation}
-                  key={message.id}
-                />
+                <GroupInvitation {...propsForGroupInvitation} key={message.id} />
                 {unreadIndicator}
               </>
             );
@@ -266,9 +248,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
           }
 
           if (messageProps.conversationType === 'group') {
-            messageProps.weAreAdmin = conversation.groupAdmins?.includes(
-              ourPrimary
-            );
+            messageProps.weAreAdmin = conversation.groupAdmins?.includes(ourPrimary);
           }
           // a message is deletable if
           // either we sent it,
@@ -280,9 +260,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
             (conversation.isPublic && !!messageProps.weAreAdmin);
 
           messageProps.isDeletable = isDeletable;
-          messageProps.isAdmin = conversation.groupAdmins?.includes(
-            messageProps.authorPhoneNumber
-          );
+          messageProps.isAdmin = conversation.groupAdmins?.includes(messageProps.authorPhoneNumber);
 
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
@@ -308,9 +286,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     multiSelectMode: boolean,
     message: MessageModel
   ) {
-    const selected =
-      !!messageProps?.id &&
-      this.props.selectedMessages.includes(messageProps.id);
+    const selected = !!messageProps?.id && this.props.selectedMessages.includes(messageProps.id);
 
     messageProps.selected = selected;
     messageProps.firstMessageOfSeries = firstMessageOfSeries;
@@ -331,8 +307,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       this.props.onDownloadAttachment({ attachment });
     };
 
-    messageProps.isQuotedMessageToAnimate =
-      messageProps.id === this.state.animateQuotedMessageId;
+    messageProps.isQuotedMessageToAnimate = messageProps.id === this.state.animateQuotedMessageId;
 
     if (messageProps.quote) {
       messageProps.quote.onClick = (options: {
@@ -357,9 +332,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       return;
     }
 
-    const conversation = ConversationController.getInstance().getOrThrow(
-      conversationKey
-    );
+    const conversation = ConversationController.getInstance().getOrThrow(conversationKey);
 
     if (conversation.isBlocked()) {
       return;
@@ -400,17 +373,11 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const scrollOffsetPc = this.scrollOffsetBottomPx / clientHeight;
 
     // Scroll button appears if you're more than 75% scrolled up
-    if (
-      scrollOffsetPc > scrollButtonViewShowLimit &&
-      !this.state.showScrollButton
-    ) {
+    if (scrollOffsetPc > scrollButtonViewShowLimit && !this.state.showScrollButton) {
       this.setState({ showScrollButton: true });
     }
     // Scroll button disappears if you're more less than 40% scrolled up
-    if (
-      scrollOffsetPc < scrollButtonViewHideLimit &&
-      this.state.showScrollButton
-    ) {
+    if (scrollOffsetPc < scrollButtonViewHideLimit && this.state.showScrollButton) {
       this.setState({ showScrollButton: false });
     }
 
@@ -422,14 +389,12 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
 
     // Fetch more messages when nearing the top of the message list
-    const shouldFetchMoreMessages =
-      scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
+    const shouldFetchMoreMessages = scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
 
     if (shouldFetchMoreMessages) {
       const { messages } = this.props;
       const numMessages =
-        this.props.messages.length +
-        Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
+        this.props.messages.length + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
       const oldLen = messages.length;
       const previousTopMessage = messages[oldLen - 1]?.id;
 
@@ -519,8 +484,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     if (!messageContainer) {
       return;
     }
-    messageContainer.scrollTop =
-      messageContainer.scrollHeight - messageContainer.clientHeight;
+    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
     this.updateReadMessages();
   }
 

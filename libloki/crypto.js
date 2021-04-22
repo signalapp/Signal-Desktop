@@ -19,14 +19,8 @@
 
   async function DHEncrypt(symmetricKey, plainText) {
     const iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
-    const ciphertext = await libsignal.crypto.encrypt(
-      symmetricKey,
-      plainText,
-      iv
-    );
-    const ivAndCiphertext = new Uint8Array(
-      iv.byteLength + ciphertext.byteLength
-    );
+    const ciphertext = await libsignal.crypto.encrypt(symmetricKey, plainText, iv);
+    const ivAndCiphertext = new Uint8Array(iv.byteLength + ciphertext.byteLength);
     ivAndCiphertext.set(new Uint8Array(iv));
     ivAndCiphertext.set(new Uint8Array(ciphertext), iv.byteLength);
     return ivAndCiphertext;
@@ -71,13 +65,9 @@
   async function EncryptAESGCM(symmetricKey, plaintext) {
     const nonce = crypto.getRandomValues(new Uint8Array(NONCE_LENGTH));
 
-    const key = await crypto.subtle.importKey(
-      'raw',
-      symmetricKey,
-      { name: 'AES-GCM' },
-      false,
-      ['encrypt']
-    );
+    const key = await crypto.subtle.importKey('raw', symmetricKey, { name: 'AES-GCM' }, false, [
+      'encrypt',
+    ]);
 
     const ciphertext = await crypto.subtle.encrypt(
       { name: 'AES-GCM', iv: nonce, tagLength: 128 },
@@ -85,9 +75,7 @@
       plaintext
     );
 
-    const ivAndCiphertext = new Uint8Array(
-      NONCE_LENGTH + ciphertext.byteLength
-    );
+    const ivAndCiphertext = new Uint8Array(NONCE_LENGTH + ciphertext.byteLength);
 
     ivAndCiphertext.set(nonce);
     ivAndCiphertext.set(new Uint8Array(ciphertext), nonce.byteLength);
@@ -99,19 +87,11 @@
     const nonce = ivAndCiphertext.slice(0, NONCE_LENGTH);
     const ciphertext = ivAndCiphertext.slice(NONCE_LENGTH);
 
-    const key = await crypto.subtle.importKey(
-      'raw',
-      symmetricKey,
-      { name: 'AES-GCM' },
-      false,
-      ['decrypt']
-    );
+    const key = await crypto.subtle.importKey('raw', symmetricKey, { name: 'AES-GCM' }, false, [
+      'decrypt',
+    ]);
 
-    return crypto.subtle.decrypt(
-      { name: 'AES-GCM', iv: nonce },
-      key,
-      ciphertext
-    );
+    return crypto.subtle.decrypt({ name: 'AES-GCM', iv: nonce }, key, ciphertext);
   }
 
   async function DHDecrypt(symmetricKey, ivAndCiphertext) {
@@ -152,10 +132,7 @@
       throw new Error('Failed to get keypair for token decryption');
     }
     const { privKey } = keyPair;
-    const symmetricKey = await libsignal.Curve.async.calculateAgreement(
-      serverPubKey,
-      privKey
-    );
+    const symmetricKey = await libsignal.Curve.async.calculateAgreement(serverPubKey, privKey);
 
     const token = await DHDecrypt(symmetricKey, ivAndCiphertext);
 

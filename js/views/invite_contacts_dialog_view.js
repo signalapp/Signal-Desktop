@@ -15,12 +15,7 @@
       const convos = window.getConversationController().getConversations();
 
       this.contacts = convos.filter(
-        d =>
-          !!d &&
-          !d.isBlocked() &&
-          d.isPrivate() &&
-          !d.isMe() &&
-          !!d.get('active_at')
+        d => !!d && !d.isBlocked() && d.isPrivate() && !d.isMe() && !!d.get('active_at')
       );
       if (!convo.isPublic()) {
         const members = convo.get('members') || [];
@@ -93,19 +88,13 @@
             return;
           }
 
-          const allMembers = window.Lodash.concat(existingMembers, newMembers, [
-            ourPK,
-          ]);
+          const allMembers = window.Lodash.concat(existingMembers, newMembers, [ourPK]);
           const uniqMembers = _.uniq(allMembers, true, d => d);
 
           const groupId = this.convo.get('id');
           const groupName = this.convo.get('name');
 
-          window.libsession.ClosedGroup.initiateGroupUpdate(
-            groupId,
-            groupName,
-            uniqMembers
-          );
+          window.libsession.ClosedGroup.initiateGroupUpdate(groupId, groupName, uniqMembers);
         }
       }
     },

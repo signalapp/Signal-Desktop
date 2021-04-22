@@ -1,9 +1,6 @@
 import { Constants } from '../../../..';
 import { SignalService } from '../../../../../protobuf';
-import {
-  ClosedGroupMessage,
-  ClosedGroupMessageParams,
-} from './ClosedGroupMessage';
+import { ClosedGroupMessage, ClosedGroupMessageParams } from './ClosedGroupMessage';
 
 interface ClosedGroupNameChangeMessageParams extends ClosedGroupMessageParams {
   name: string;

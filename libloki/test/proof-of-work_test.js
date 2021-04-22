@@ -1,12 +1,6 @@
 /* global assert, JSBI, pow */
 
-const {
-  calcTarget,
-  incrementNonce,
-  bufferToBase64,
-  bigIntToUint8Array,
-  greaterThan,
-} = pow;
+const { calcTarget, incrementNonce, bufferToBase64, bigIntToUint8Array, greaterThan } = pow;
 
 describe('Proof of Work', () => {
   describe('#incrementNonce', () => {
@@ -25,20 +19,14 @@ describe('Proof of Work', () => {
 
     it('should increment a Uint8Array nonce correctly in a loop', () => {
       let arr = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
-      assert.deepEqual(
-        incrementNonce(arr),
-        new Uint8Array([0, 0, 0, 0, 0, 0, 0, 1])
-      );
+      assert.deepEqual(incrementNonce(arr), new Uint8Array([0, 0, 0, 0, 0, 0, 0, 1]));
       arr = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
       for (let i = 0; i <= 255; i += 1) {
         arr = incrementNonce(arr);
       }
       assert.deepEqual(arr, new Uint8Array([0, 0, 0, 0, 0, 0, 1, 0]));
       arr = new Uint8Array([255, 255, 255, 255, 255, 255, 255, 255]);
-      assert.deepEqual(
-        incrementNonce(arr),
-        new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0])
-      );
+      assert.deepEqual(incrementNonce(arr), new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
     });
   });
 

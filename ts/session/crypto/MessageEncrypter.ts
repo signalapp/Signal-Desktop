@@ -12,9 +12,7 @@ import { UserUtils } from '../utils';
  * @param messageBuffer The buffer to add padding to.
  */
 export function padPlainTextBuffer(messageBuffer: Uint8Array): Uint8Array {
-  const plaintext = new Uint8Array(
-    getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
-  );
+  const plaintext = new Uint8Array(getPaddedMessageLength(messageBuffer.byteLength + 1) - 1);
   plaintext.set(new Uint8Array(messageBuffer));
   plaintext[messageBuffer.byteLength] = 0x80;
 
@@ -50,14 +48,8 @@ export async function encrypt(
   plainTextBuffer: Uint8Array,
   encryptionType: EncryptionType
 ): Promise<EncryptResult> {
-  const {
-    CLOSED_GROUP_CIPHERTEXT,
-    UNIDENTIFIED_SENDER,
-  } = SignalService.Envelope.Type;
-  if (
-    encryptionType !== EncryptionType.ClosedGroup &&
-    encryptionType !== EncryptionType.Fallback
-  ) {
+  const { CLOSED_GROUP_CIPHERTEXT, UNIDENTIFIED_SENDER } = SignalService.Envelope.Type;
+  if (encryptionType !== EncryptionType.ClosedGroup && encryptionType !== EncryptionType.Fallback) {
     throw new Error(`Invalid encryption type:${encryptionType}`);
   }
   const encryptForClosedGroup = encryptionType === EncryptionType.ClosedGroup;
@@ -67,13 +59,9 @@ export async function encrypt(
     window?.log?.info(
       'Encrypting message with SessionProtocol and envelope type is CLOSED_GROUP_CIPHERTEXT'
     );
-    const hexEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(
-      device.key
-    );
+    const hexEncryptionKeyPair = await getLatestClosedGroupEncryptionKeyPair(device.key);
     if (!hexEncryptionKeyPair) {
-      window?.log?.warn(
-        "Couldn't get key pair for closed group during encryption"
-      );
+      window?.log?.warn("Couldn't get key pair for closed group during encryption");
       throw new Error("Couldn't get key pair for closed group");
     }
     const hexPubFromECKeyPair = PubKey.cast(hexEncryptionKeyPair.publicHex);
@@ -91,10 +79,7 @@ export async function encrypt(
     };
   }
 
-  const cipherText = await exports.encryptUsingSessionProtocol(
-    device,
-    plainText
-  );
+  const cipherText = await exports.encryptUsingSessionProtocol(device, plainText);
   return { envelopeType: UNIDENTIFIED_SENDER, cipherText };
 }
 
@@ -112,16 +97,11 @@ export async function encryptUsingSessionProtocol(
   }
   const sodium = await getSodium();
 
-  window?.log?.info(
-    'encryptUsingSessionProtocol for ',
-    recipientHexEncodedX25519PublicKey.key
-  );
+  window?.log?.info('encryptUsingSessionProtocol for ', recipientHexEncodedX25519PublicKey.key);
 
   const recipientX25519PublicKey = recipientHexEncodedX25519PublicKey.withoutPrefixToArray();
   const userED25519PubKeyBytes = fromHexToArray(userED25519KeyPairHex.pubKey);
-  const userED25519SecretKeyBytes = fromHexToArray(
-    userED25519KeyPairHex.privKey
-  );
+  const userED25519SecretKeyBytes = fromHexToArray(userED25519KeyPairHex.privKey);
 
   // merge all arrays into one
   const verificationData = concatUInt8Array(
@@ -130,24 +110,14 @@ export async function encryptUsingSessionProtocol(
     recipientX25519PublicKey
   );
 
-  const signature = sodium.crypto_sign_detached(
-    verificationData,
-    userED25519SecretKeyBytes
-  );
+  const signature = sodium.crypto_sign_detached(verificationData, userED25519SecretKeyBytes);
   if (!signature || signature.length === 0) {
     throw new Error("Couldn't sign message");
   }
 
-  const plaintextWithMetadata = concatUInt8Array(
-    plaintext,
-    userED25519PubKeyBytes,
-    signature
-  );
+  const plaintextWithMetadata = concatUInt8Array(plaintext, userED25519PubKeyBytes, signature);
 
-  const ciphertext = sodium.crypto_box_seal(
-    plaintextWithMetadata,
-    recipientX25519PublicKey
-  );
+  const ciphertext = sodium.crypto_box_seal(plaintextWithMetadata, recipientX25519PublicKey);
   if (!ciphertext) {
     throw new Error("Couldn't encrypt message.");
   }

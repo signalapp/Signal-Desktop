@@ -6,10 +6,7 @@ import {
 import { ConversationController } from '../../session/conversations';
 import { PromiseUtils } from '../../session/utils';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
-import {
-  getOpenGroupV2ConversationId,
-  prefixify,
-} from '../utils/OpenGroupUtils';
+import { getOpenGroupV2ConversationId, prefixify } from '../utils/OpenGroupUtils';
 import { attemptConnectionV2OneAtATime } from './OpenGroupManagerV2';
 
 const protocolRegex = '(https?://)?';
@@ -34,9 +31,7 @@ const openGroupV2CompleteURLRegex = new RegExp(
 // https://143.198.213.225:443/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231c
 // 143.198.213.255:80/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231c
 
-export function parseOpenGroupV2(
-  urlWithPubkey: string
-): OpenGroupV2Room | undefined {
+export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undefined {
   const lowerCased = urlWithPubkey.toLowerCase();
   try {
     if (!openGroupV2CompleteURLRegex.test(lowerCased)) {
@@ -77,12 +72,7 @@ export async function joinOpenGroupV2(
   room: OpenGroupV2Room,
   fromSyncMessage: boolean = false
 ): Promise<void> {
-  if (
-    !room.serverUrl ||
-    !room.roomId ||
-    room.roomId.length < 2 ||
-    !room.serverPublicKey
-  ) {
+  if (!room.serverUrl || !room.roomId || room.roomId.length < 2 || !room.serverPublicKey) {
     return;
   }
 
@@ -93,9 +83,7 @@ export async function joinOpenGroupV2(
 
   const alreadyExist = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
   const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
-  const existingConvo = ConversationController.getInstance().get(
-    conversationId
-  );
+  const existingConvo = ConversationController.getInstance().get(conversationId);
 
   if (alreadyExist && existingConvo) {
     window.log.warn('Skipping join opengroupv2: already exists');

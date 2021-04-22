@@ -32,8 +32,7 @@ export async function updateProfile(
   // TODO: may need to allow users to reset their avatars to null
   if (profile.profilePicture) {
     const prevPointer = conversation.get('avatarPointer');
-    const needsUpdate =
-      !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
+    const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
 
     if (needsUpdate) {
       const downloaded = await downloadAttachment({
@@ -221,16 +220,7 @@ export async function processDecrypted(
 }
 
 export function isMessageEmpty(message: SignalService.DataMessage) {
-  const {
-    flags,
-    body,
-    attachments,
-    group,
-    quote,
-    contact,
-    preview,
-    groupInvitation,
-  } = message;
+  const { flags, body, attachments, group, quote, contact, preview, groupInvitation } = message;
 
   return (
     !flags &&
@@ -282,9 +272,7 @@ export async function handleDataMessage(
   window.log.info(`Handle dataMessage from ${source} `);
 
   if (isSyncMessage && !isMe) {
-    window.log.warn(
-      'Got a sync message from someone else than me. Dropping it.'
-    );
+    window.log.warn('Got a sync message from someone else than me. Dropping it.');
     return removeFromCache(envelope);
   } else if (isSyncMessage && dataMessage.syncTarget) {
     // override the envelope source
@@ -298,11 +286,7 @@ export async function handleDataMessage(
 
   // Check if we need to update any profile names
   if (!isMe && senderConversation && message.profile) {
-    await updateProfile(
-      senderConversation,
-      message.profile,
-      message.profileKey
-    );
+    await updateProfile(senderConversation, message.profile, message.profileKey);
   }
   if (isMessageEmpty(message)) {
     window.log.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
@@ -346,12 +330,7 @@ interface MessageId {
 }
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
-async function isMessageDuplicate({
-  source,
-  sourceDevice,
-  timestamp,
-  message,
-}: MessageId) {
+async function isMessageDuplicate({ source, sourceDevice, timestamp, message }: MessageId) {
   const { Errors } = window.Signal.Types;
 
   try {
@@ -364,12 +343,8 @@ async function isMessageDuplicate({
     if (!result) {
       return false;
     }
-    const filteredResult = [result].filter(
-      (m: any) => m.attributes.body === message.body
-    );
-    const isSimilar = filteredResult.some((m: any) =>
-      isDuplicate(m, message, source)
-    );
+    const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
+    const isSimilar = filteredResult.some((m: any) => isDuplicate(m, message, source));
     return isSimilar;
   } catch (error) {
     window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
@@ -381,8 +356,7 @@ export const isDuplicate = (m: any, testedMessage: any, source: string) => {
   // The username in this case is the users pubKey
   const sameUsername = m.attributes.source === source;
   const sameServerId =
-    m.attributes.serverId !== undefined &&
-    testedMessage.id === m.attributes.serverId;
+    m.attributes.serverId !== undefined && testedMessage.id === m.attributes.serverId;
   const sameText = m.attributes.body === testedMessage.body;
   // Don't filter out messages that are too far apart from each other
   const timestampsSimilar =
@@ -450,8 +424,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
   } = data;
 
   const messageGroupId = message?.group?.id;
-  let groupId =
-    messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+  let groupId = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
 
   if (groupId) {
     groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
@@ -492,15 +465,11 @@ function createSentMessage(data: MessageCreationData): MessageModel {
   const sentSpecificFields = {
     sent_to: [],
     sent: true,
-    expirationStartTimestamp: Math.min(
-      expirationStartTimestamp || data.timestamp || now,
-      now
-    ),
+    expirationStartTimestamp: Math.min(expirationStartTimestamp || data.timestamp || now, now),
   };
 
   const messageGroupId = message?.group?.id;
-  let groupId =
-    messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+  let groupId = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
 
   if (groupId) {
     groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
@@ -522,10 +491,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
   return new MessageModel(messageData);
 }
 
-function createMessage(
-  data: MessageCreationData,
-  isIncoming: boolean
-): MessageModel {
+function createMessage(data: MessageCreationData, isIncoming: boolean): MessageModel {
   if (isIncoming) {
     return initIncomingMessage(data);
   } else {
@@ -566,9 +532,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   const isGroupMessage = Boolean(message.group);
 
-  const type = isGroupMessage
-    ? ConversationType.GROUP
-    : ConversationType.PRIVATE;
+  const type = isGroupMessage ? ConversationType.GROUP : ConversationType.PRIVATE;
 
   let conversationId = isIncoming ? source : destination || source; // for synced message
   if (!conversationId) {
@@ -577,12 +541,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     return;
   }
   if (message.profileKey?.length) {
-    await handleProfileUpdate(
-      message.profileKey,
-      conversationId,
-      type,
-      isIncoming
-    );
+    await handleProfileUpdate(message.profileKey, conversationId, type, isIncoming);
   }
 
   const msg = createMessage(data, isIncoming);
@@ -616,10 +575,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   if (!conversationId) {
-    window.log.warn(
-      'Invalid conversation id for incoming message',
-      conversationId
-    );
+    window.log.warn('Invalid conversation id for incoming message', conversationId);
   }
   const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
@@ -641,13 +597,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   conversation.queueJob(async () => {
-    await handleMessageJob(
-      msg,
-      conversation,
-      message,
-      ourNumber,
-      confirm,
-      source
-    );
+    await handleMessageJob(msg, conversation, message, ourNumber, confirm, source);
   });
 }

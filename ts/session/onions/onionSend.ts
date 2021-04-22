@@ -49,9 +49,7 @@ const handleSendViaOnionRetry = async (
   );
 
   if (options.retry && options.retry >= MAX_SEND_ONION_RETRIES) {
-    window.log.error(
-      `sendViaOnion too many retries: ${options.retry}. Stopping retries.`
-    );
+    window.log.error(`sendViaOnion too many retries: ${options.retry}. Stopping retries.`);
     return null;
   } else {
     // handle error/retries, this is a RequestError
@@ -73,10 +71,7 @@ const handleSendViaOnionRetry = async (
   );
 };
 
-const buildSendViaOnionPayload = (
-  url: URL,
-  fetchOptions: OnionFetchOptions
-) => {
+const buildSendViaOnionPayload = (url: URL, fetchOptions: OnionFetchOptions) => {
   let tempHeaders = fetchOptions.headers || {};
   const payloadObj = {
     method: fetchOptions.method || 'GET',
@@ -114,14 +109,10 @@ export const getOnionPathForSending = async (requestNumber: number) => {
   try {
     pathNodes = await OnionPaths.getInstance().getOnionPath();
   } catch (e) {
-    window.log.error(
-      `sendViaOnion #${requestNumber} - getOnionPath Error ${e.code} ${e.message}`
-    );
+    window.log.error(`sendViaOnion #${requestNumber} - getOnionPath Error ${e.code} ${e.message}`);
   }
   if (!pathNodes || !pathNodes.length) {
-    window.log.warn(
-      `sendViaOnion #${requestNumber} - failing, no path available`
-    );
+    window.log.warn(`sendViaOnion #${requestNumber} - failing, no path available`);
     // should we retry?
     return null;
   }
@@ -159,9 +150,7 @@ export const sendViaOnion = async (
   const defaultedOptions = initOptionsWithDefaults(options);
 
   const payloadObj = buildSendViaOnionPayload(url, fetchOptions);
-  const pathNodes = await getOnionPathForSending(
-    defaultedOptions.requestNumber
-  );
+  const pathNodes = await getOnionPathForSending(defaultedOptions.requestNumber);
   if (!pathNodes) {
     return null;
   }
@@ -302,11 +291,7 @@ export const serverRequest = async (
       fetchOptions.agent = snodeHttpsAgent;
     }
   } catch (e) {
-    window.log.error(
-      'loki_app_dot_net:::serverRequest - set up error:',
-      e.code,
-      e.message
-    );
+    window.log.error('loki_app_dot_net:::serverRequest - set up error:', e.code, e.message);
     return {
       err: e,
       ok: false,
@@ -320,38 +305,21 @@ export const serverRequest = async (
   try {
     const host = url.host.toLowerCase();
     // log.info('host', host, FILESERVER_HOSTS);
-    if (
-      window.lokiFeatureFlags.useFileOnionRequests &&
-      FILESERVER_HOSTS.includes(host)
-    ) {
+    if (window.lokiFeatureFlags.useFileOnionRequests && FILESERVER_HOSTS.includes(host)) {
       mode = 'sendViaOnion';
       if (!srvPubKey) {
-        throw new Error(
-          'useFileOnionRequests=true but we do not have a server pubkey set.'
-        );
+        throw new Error('useFileOnionRequests=true but we do not have a server pubkey set.');
       }
-      const onionResponse = await sendViaOnion(
-        srvPubKey,
-        url,
-        fetchOptions,
-        options
-      );
+      const onionResponse = await sendViaOnion(srvPubKey, url, fetchOptions, options);
       if (onionResponse) {
         ({ response, txtResponse, result } = onionResponse);
       }
     } else if (window.lokiFeatureFlags.useFileOnionRequests) {
       if (!srvPubKey) {
-        throw new Error(
-          'useFileOnionRequests=true but we do not have a server pubkey set.'
-        );
+        throw new Error('useFileOnionRequests=true but we do not have a server pubkey set.');
       }
       mode = 'sendViaOnionOG';
-      const onionResponse = await sendViaOnion(
-        srvPubKey,
-        url,
-        fetchOptions,
-        options
-      );
+      const onionResponse = await sendViaOnion(srvPubKey, url, fetchOptions, options);
       if (onionResponse) {
         ({ response, txtResponse, result } = onionResponse);
       }

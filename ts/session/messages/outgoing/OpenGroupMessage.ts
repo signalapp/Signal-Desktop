@@ -1,10 +1,6 @@
 import { Message, MessageParams } from './Message';
 import { OpenGroup } from '../../../opengroup/opengroupV1/OpenGroup';
-import {
-  AttachmentPointer,
-  Preview,
-  Quote,
-} from './visibleMessage/VisibleMessage';
+import { AttachmentPointer, Preview, Quote } from './visibleMessage/VisibleMessage';
 
 interface OpenGroupMessageParams extends MessageParams {
   group: OpenGroup;

@@ -1,7 +1,4 @@
-import {
-  getV2OpenGroupRoomByRoomId,
-  saveV2OpenGroupRoom,
-} from '../../data/opengroups';
+import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../data/opengroups';
 import {
   OpenGroupRequestCommonType,
   OpenGroupV2CompactPollRequest,
@@ -27,10 +24,7 @@ export const compactFetchEverything = async (
     return null;
   }
 
-  const result = await sendOpenGroupV2RequestCompactPoll(
-    compactPollRequest,
-    abortSignal
-  );
+  const result = await sendOpenGroupV2RequestCompactPoll(compactPollRequest, abortSignal);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -140,10 +134,7 @@ async function sendOpenGroupV2RequestCompactPoll(
 
   const statusCode = parseStatusCodeFromOnionRequest(res);
   if (!statusCode) {
-    window.log.warn(
-      'sendOpenGroupV2Request Got unknown status code; res:',
-      res
-    );
+    window.log.warn('sendOpenGroupV2Request Got unknown status code; res:', res);
     return null;
   }
 
@@ -153,9 +144,7 @@ async function sendOpenGroupV2RequestCompactPoll(
     return null;
   }
   // get all roomIds which needs a refreshed token
-  const roomTokensToRefresh = results
-    .filter(ret => ret.statusCode === 401)
-    .map(r => r.roomId);
+  const roomTokensToRefresh = results.filter(ret => ret.statusCode === 401).map(r => r.roomId);
 
   if (roomTokensToRefresh) {
     await Promise.all(
@@ -230,12 +219,7 @@ const parseCompactPollResult = async (
 const parseCompactPollResults = async (
   res: any
 ): Promise<Array<ParsedRoomCompactPollResults> | null> => {
-  if (
-    !res ||
-    !res.result ||
-    !res.result.results ||
-    !res.result.results.length
-  ) {
+  if (!res || !res.result || !res.result.results || !res.result.results.length) {
     return null;
   }
   const arrayOfResults = res.result.results as Array<any>;

@@ -14,9 +14,9 @@ type Props = {
   theme: DefaultTheme;
 };
 
-const ExpireTimerCount = styled(props => (
-  <OpacityMetadataComponent {...props} />
-))<{ color: string }>`
+const ExpireTimerCount = styled(props => <OpacityMetadataComponent {...props} />)<{
+  color: string;
+}>`
   margin-inline-start: 6px;
   font-size: 11px;
   line-height: 16px;
@@ -26,9 +26,9 @@ const ExpireTimerCount = styled(props => (
   color: ${props => props.color};
 `;
 
-const ExpireTimerBucket = styled(props => (
-  <OpacityMetadataComponent {...props} />
-))<{ color: string }>`
+const ExpireTimerBucket = styled(props => <OpacityMetadataComponent {...props} />)<{
+  color: string;
+}>`
   margin-inline-start: 6px;
   font-size: 11px;
   line-height: 16px;
@@ -41,17 +41,11 @@ const ExpireTimerBucket = styled(props => (
 export const ExpireTimer = (props: Props) => {
   const { expirationLength, expirationTimestamp, withImageNoCaption } = props;
 
-  const initialTimeLeft = Math.max(
-    Math.round((expirationTimestamp - Date.now()) / 1000),
-    0
-  );
+  const initialTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
 
   const update = () => {
-    const newTimeLeft = Math.max(
-      Math.round((expirationTimestamp - Date.now()) / 1000),
-      0
-    );
+    const newTimeLeft = Math.max(Math.round((expirationTimestamp - Date.now()) / 1000), 0);
     if (newTimeLeft !== timeLeft) {
       setTimeLeft(newTimeLeft);
     }
@@ -61,14 +55,10 @@ export const ExpireTimer = (props: Props) => {
 
   useInterval(update, updateFrequency);
 
-  const expireTimerColor = withImageNoCaption
-    ? 'white'
-    : props.theme.colors.textColor;
+  const expireTimerColor = withImageNoCaption ? 'white' : props.theme.colors.textColor;
 
   if (timeLeft <= 60) {
-    return (
-      <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>
-    );
+    return <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>;
   }
   const bucket = getTimerBucketIcon(expirationTimestamp, expirationLength);
 

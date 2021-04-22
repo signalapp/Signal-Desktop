@@ -122,10 +122,7 @@ export class ConfigurationMessageContact {
       throw new Error('displayName must be set or undefined');
     }
 
-    if (
-      this.profilePictureURL !== undefined &&
-      this.profilePictureURL?.length === 0
-    ) {
+    if (this.profilePictureURL !== undefined && this.profilePictureURL?.length === 0) {
       throw new Error('profilePictureURL must either undefined or not empty');
     }
     if (this.profileKey !== undefined && this.profileKey?.length === 0) {

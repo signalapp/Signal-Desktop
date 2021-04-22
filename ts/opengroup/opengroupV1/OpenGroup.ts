@@ -59,9 +59,7 @@ export class OpenGroup {
     const convos = ConversationController.getInstance().getConversations();
     return convos
       .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
-      .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
-      string
-    >;
+      .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<string>;
   }
 
   /**
@@ -107,10 +105,7 @@ export class OpenGroup {
    * @param onLoading Callback function to be called once server begins connecting
    * @returns `OpenGroup` if connection success or if already connected
    */
-  public static async join(
-    server: string,
-    fromSyncMessage: boolean = false
-  ): Promise<void> {
+  public static async join(server: string, fromSyncMessage: boolean = false): Promise<void> {
     const prefixedServer = prefixify(server);
     if (!OpenGroup.validate(server)) {
       return;
@@ -160,9 +155,7 @@ export class OpenGroup {
     if (!OpenGroup.validate(server)) {
       return;
     }
-    const rawServerURL = server
-      .replace(/^https?:\/\//i, '')
-      .replace(/[/\\]+$/i, '');
+    const rawServerURL = server.replace(/^https?:\/\//i, '').replace(/[/\\]+$/i, '');
     const channelId = 1;
     const conversationId = `publicChat:${channelId}@${rawServerURL}`;
 
@@ -182,22 +175,15 @@ export class OpenGroup {
     }
 
     const prefixedServer = prefixify(server);
-    return Boolean(
-      await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer)
-    );
+    return Boolean(await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer));
   }
 
-  private static getServer(
-    groupId: string,
-    hasSSL: boolean
-  ): string | undefined {
+  private static getServer(groupId: string, hasSSL: boolean): string | undefined {
     const isValid = this.groupIdRegex.test(groupId);
     const strippedServer = isValid ? groupId.split('@')[1] : undefined;
 
     // We don't know for sure if the server is https or http when taken from the groupId. Preifx accordingly.
-    return strippedServer
-      ? prefixify(strippedServer.toLowerCase(), hasSSL)
-      : undefined;
+    return strippedServer ? prefixify(strippedServer.toLowerCase(), hasSSL) : undefined;
   }
 
   private static getChannel(groupId: string): number | undefined {
@@ -254,16 +240,12 @@ export class OpenGroup {
     // Add http or https prefix to server
     completeServerURL = prefixify(completeServerURL);
 
-    const rawServerURL = serverUrl
-      .replace(/^https?:\/\//i, '')
-      .replace(/[/\\]+$/i, '');
+    const rawServerURL = serverUrl.replace(/^https?:\/\//i, '').replace(/[/\\]+$/i, '');
 
     const conversationId = `publicChat:${channelId}@${rawServerURL}`;
 
     // Quickly peak to make sure we don't already have it
-    const conversationExists = ConversationController.getInstance().get(
-      conversationId
-    );
+    const conversationExists = ConversationController.getInstance().get(conversationId);
     if (conversationExists) {
       // We are already a member of this public chat
       return new Promise((_resolve, reject) => {
@@ -272,9 +254,7 @@ export class OpenGroup {
     }
 
     // Get server
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-      completeServerURL
-    );
+    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(completeServerURL);
     // SSL certificate failure or offline
     if (!serverAPI) {
       // Url incorrect or server not compatible

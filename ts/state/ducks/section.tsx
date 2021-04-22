@@ -14,18 +14,14 @@ type FocusSettingsSectionActionType = {
   payload: SessionSettingCategory;
 };
 
-export function showLeftPaneSection(
-  section: SectionType
-): FocusSectionActionType {
+export function showLeftPaneSection(section: SectionType): FocusSectionActionType {
   return {
     type: FOCUS_SECTION,
     payload: section,
   };
 }
 
-type SectionActionTypes =
-  | FocusSectionActionType
-  | FocusSettingsSectionActionType;
+type SectionActionTypes = FocusSectionActionType | FocusSettingsSectionActionType;
 
 export function showSettingsSection(
   category: SessionSettingCategory

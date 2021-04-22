@@ -4,19 +4,13 @@ const { ipcRenderer } = Electron;
 // tslint:disable: function-name no-require-imports no-var-requires one-variable-per-declaration no-void-expression
 
 import _ from 'lodash';
-import {
-  ConversationCollection,
-  ConversationModel,
-} from '../models/conversation';
+import { ConversationCollection, ConversationModel } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
-import {
-  fromArrayBufferToBase64,
-  fromBase64ToArrayBuffer,
-} from '../session/utils/String';
+import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import { ConversationType } from '../state/ducks/conversations';
 import { channels } from './channels';
 import { channelsToMake as channelstoMakeOpenGroupV2 } from './opengroups';
@@ -65,8 +59,7 @@ export type ServerToken = {
   token: string;
 };
 
-export const hasSyncedInitialConfigurationItem =
-  'hasSyncedInitialConfigurationItem';
+export const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
 
 const channelsToMake = {
   shutdown,
@@ -183,29 +176,24 @@ export function init() {
     }
   });
 
-  ipcRenderer.on(
-    `${SQL_CHANNEL_KEY}-done`,
-    (event, jobId, errorForDisplay, result) => {
-      const job = _getJob(jobId);
-      if (!job) {
-        throw new Error(
-          `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
-        );
-      }
-
-      const { resolve, reject, fnName } = job;
-
-      if (errorForDisplay) {
-        return reject(
-          new Error(
-            `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
-          )
-        );
-      }
-
-      return resolve(result);
+  ipcRenderer.on(`${SQL_CHANNEL_KEY}-done`, (event, jobId, errorForDisplay, result) => {
+    const job = _getJob(jobId);
+    if (!job) {
+      throw new Error(
+        `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
+      );
     }
-  );
+
+    const { resolve, reject, fnName } = job;
+
+    if (errorForDisplay) {
+      return reject(
+        new Error(`Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`)
+      );
+    }
+
+    return resolve(result);
+  });
 }
 
 // When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
@@ -249,9 +237,7 @@ async function _shutdown() {
   _shuttingDown = true;
 
   const jobKeys = Object.keys(_jobs);
-  window.log.info(
-    `data.shutdown: starting process. ${jobKeys.length} jobs outstanding`
-  );
+  window.log.info(`data.shutdown: starting process. ${jobKeys.length} jobs outstanding`);
 
   // No outstanding jobs, return immediately
   if (jobKeys.length === 0) {
@@ -275,9 +261,7 @@ async function _shutdown() {
 
 function _makeJob(fnName: string) {
   if (_shuttingDown && fnName !== 'close') {
-    throw new Error(
-      `Rejecting SQL channel job (${fnName}); application is shutting down`
-    );
+    throw new Error(`Rejecting SQL channel job (${fnName}); application is shutting down`);
   }
 
   _jobCounter += 1;
@@ -315,9 +299,7 @@ function _updateJob(id: number, data: any) {
     reject: (error: any) => {
       _removeJob(id);
       const end = Date.now();
-      window.log.warn(
-        `SQL channel job ${id} (${fnName}) failed in ${end - start}ms`
-      );
+      window.log.warn(`SQL channel job ${id} (${fnName}) failed in ${end - start}ms`);
       return reject(error);
     },
   };
@@ -363,8 +345,7 @@ function makeChannel(fnName: string) {
       });
 
       _jobs[jobId].timer = setTimeout(
-        () =>
-          reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
+        () => reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
         DATABASE_UPDATE_TIMEOUT
       );
     });
@@ -429,9 +410,7 @@ const IDENTITY_KEY_KEYS = ['publicKey'];
 // TODO: identity key has different shape depending on how it is called,
 // so we need to come up with a way to make TS work with all of them
 
-export async function getIdentityKeyById(
-  id: string
-): Promise<IdentityKey | null> {
+export async function getIdentityKeyById(id: string): Promise<IdentityKey | null> {
   const data = await channels.getIdentityKeyById(id);
   return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
 }
@@ -468,9 +447,7 @@ const ITEM_KEYS: Object = {
 export async function createOrUpdateItem(data: StorageItem): Promise<void> {
   const { id } = data;
   if (!id) {
-    throw new Error(
-      'createOrUpdateItem: Provided data did not have a truthy id'
-    );
+    throw new Error('createOrUpdateItem: Provided data did not have a truthy id');
   }
 
   const keys = (ITEM_KEYS as any)[id];
@@ -478,9 +455,7 @@ export async function createOrUpdateItem(data: StorageItem): Promise<void> {
 
   await channels.createOrUpdateItem(updated);
 }
-export async function getItemById(
-  id: string
-): Promise<StorageItem | undefined> {
+export async function getItemById(id: string): Promise<StorageItem | undefined> {
   const keys = (ITEM_KEYS as any)[id];
   const data = await channels.getItemById(id);
 
@@ -497,10 +472,7 @@ export async function generateAttachmentKeyIfEmpty() {
       value: encryptingKey,
     });
     // be sure to write the new key to the cache. so we can access it straight away
-    window.textsecure.storage.put(
-      'local_attachment_encrypted_key',
-      encryptingKey
-    );
+    window.textsecure.storage.put('local_attachment_encrypted_key', encryptingKey);
   }
 }
 
@@ -521,9 +493,7 @@ export async function removeAllSessions(): Promise<void> {
 }
 
 // Swarm nodes
-export async function getSwarmNodesForPubkey(
-  pubkey: string
-): Promise<Array<string>> {
+export async function getSwarmNodesForPubkey(pubkey: string): Promise<Array<string>> {
   return channels.getSwarmNodesForPubkey(pubkey);
 }
 
@@ -578,9 +548,7 @@ export async function saveConversation(data: ConversationType): Promise<void> {
   await channels.saveConversation(cleaned);
 }
 
-export async function getConversationById(
-  id: string
-): Promise<ConversationModel | undefined> {
+export async function getConversationById(id: string): Promise<ConversationModel | undefined> {
   const data = await channels.getConversationById(id);
   if (data) {
     return new ConversationModel(data);
@@ -588,9 +556,7 @@ export async function getConversationById(
   return undefined;
 }
 
-export async function updateConversation(
-  data: ConversationType
-): Promise<void> {
+export async function updateConversation(data: ConversationType): Promise<void> {
   await channels.updateConversation(data);
 }
 
@@ -618,9 +584,7 @@ export async function getAllConversationIds(): Promise<Array<string>> {
   return ids;
 }
 
-export async function getAllPublicConversations(): Promise<
-  ConversationCollection
-> {
+export async function getAllPublicConversations(): Promise<ConversationCollection> {
   const conversations = await channels.getAllPublicConversations();
 
   const collection = new ConversationCollection();
@@ -628,9 +592,7 @@ export async function getAllPublicConversations(): Promise<
   return collection;
 }
 
-export async function getPubkeysInPublicConversation(
-  id: string
-): Promise<Array<string>> {
+export async function getPubkeysInPublicConversation(id: string): Promise<Array<string>> {
   return channels.getPubkeysInPublicConversation(id);
 }
 
@@ -640,15 +602,11 @@ export async function savePublicServerToken(data: ServerToken): Promise<void> {
 }
 
 // open groups v1 only
-export async function getPublicServerTokenByServerUrl(
-  serverUrl: string
-): Promise<string> {
+export async function getPublicServerTokenByServerUrl(serverUrl: string): Promise<string> {
   const token = await channels.getPublicServerTokenByServerUrl(serverUrl);
   return token;
 }
-export async function getAllGroupsInvolvingId(
-  id: string
-): Promise<ConversationCollection> {
+export async function getAllGroupsInvolvingId(id: string): Promise<ConversationCollection> {
   const conversations = await channels.getAllGroupsInvolvingId(id);
 
   const collection = new ConversationCollection();
@@ -661,10 +619,7 @@ export async function searchConversations(query: string): Promise<Array<any>> {
   return conversations;
 }
 
-export async function searchMessages(
-  query: string,
-  { limit }: any = {}
-): Promise<Array<any>> {
+export async function searchMessages(query: string, { limit }: any = {}): Promise<Array<any>> {
   const messages = await channels.searchMessages(query, { limit });
   return messages;
 }
@@ -677,11 +632,9 @@ export async function searchMessagesInConversation(
   conversationId: string,
   options: { limit: number } | undefined
 ): Promise<Object> {
-  const messages = await channels.searchMessagesInConversation(
-    query,
-    conversationId,
-    { limit: options?.limit }
-  );
+  const messages = await channels.searchMessagesInConversation(query, conversationId, {
+    limit: options?.limit,
+  });
   return messages;
 }
 
@@ -720,9 +673,7 @@ export async function saveMessage(data: MessageAttributes): Promise<string> {
   return id;
 }
 
-export async function saveMessages(
-  arrayOfMessages: Array<MessageAttributes>
-): Promise<void> {
+export async function saveMessages(arrayOfMessages: Array<MessageAttributes>): Promise<void> {
   await channels.saveMessages(_cleanData(arrayOfMessages));
 }
 
@@ -742,10 +693,7 @@ export async function _removeMessages(ids: Array<string>): Promise<void> {
   await channels.removeMessage(ids);
 }
 
-export async function getMessageIdsFromServerIds(
-  serverIds: Array<string>,
-  conversationId: string
-) {
+export async function getMessageIdsFromServerIds(serverIds: Array<string>, conversationId: string) {
   return channels.getMessageIdsFromServerIds(serverIds, conversationId);
 }
 
@@ -771,11 +719,7 @@ export async function getAllMessageIds(): Promise<Array<string>> {
 
 export async function getMessageBySender(
   // eslint-disable-next-line camelcase
-  {
-    source,
-    sourceDevice,
-    sent_at,
-  }: { source: string; sourceDevice: number; sent_at: number }
+  { source, sourceDevice, sent_at }: { source: string; sourceDevice: number; sent_at: number }
 ): Promise<MessageModel | null> {
   const messages = await channels.getMessageBySender({
     source,
@@ -789,17 +733,13 @@ export async function getMessageBySender(
   return new MessageModel(messages[0]);
 }
 
-export async function getUnreadByConversation(
-  conversationId: string
-): Promise<MessageCollection> {
+export async function getUnreadByConversation(conversationId: string): Promise<MessageCollection> {
   const messages = await channels.getUnreadByConversation(conversationId);
   return new MessageCollection(messages);
 }
 
 // might throw
-export async function getUnreadCountByConversation(
-  conversationId: string
-): Promise<number> {
+export async function getUnreadCountByConversation(conversationId: string): Promise<number> {
   return channels.getUnreadCountByConversation(conversationId);
 }
 
@@ -815,22 +755,15 @@ export async function getMessagesByConversation(
   return new MessageCollection(messages);
 }
 
-export async function getLastHashBySnode(
-  convoId: string,
-  snode: string
-): Promise<string> {
+export async function getLastHashBySnode(convoId: string, snode: string): Promise<string> {
   return channels.getLastHashBySnode(convoId, snode);
 }
 
-export async function getSeenMessagesByHashList(
-  hashes: Array<string>
-): Promise<any> {
+export async function getSeenMessagesByHashList(hashes: Array<string>): Promise<any> {
   return channels.getSeenMessagesByHashList(hashes);
 }
 
-export async function removeAllMessagesInConversation(
-  conversationId: string
-): Promise<void> {
+export async function removeAllMessagesInConversation(conversationId: string): Promise<void> {
   let messages;
   do {
     // Yes, we really want the await in the loop. We're deleting 100 at a
@@ -856,9 +789,7 @@ export async function removeAllMessagesInConversation(
   } while (messages.length > 0);
 }
 
-export async function getMessagesBySentAt(
-  sentAt: number
-): Promise<MessageCollection> {
+export async function getMessagesBySentAt(sentAt: number): Promise<MessageCollection> {
   const messages = await channels.getMessagesBySentAt(sentAt);
   return new MessageCollection(messages);
 }
@@ -868,9 +799,7 @@ export async function getExpiredMessages(): Promise<MessageCollection> {
   return new MessageCollection(messages);
 }
 
-export async function getOutgoingWithoutExpiresAt(): Promise<
-  MessageCollection
-> {
+export async function getOutgoingWithoutExpiresAt(): Promise<MessageCollection> {
   const messages = await channels.getOutgoingWithoutExpiresAt();
   return new MessageCollection(messages);
 }
@@ -903,23 +832,15 @@ export type UnprocessedParameter = {
   senderIdentity?: string;
 };
 
-export async function saveUnprocessed(
-  data: UnprocessedParameter
-): Promise<string> {
+export async function saveUnprocessed(data: UnprocessedParameter): Promise<string> {
   const id = await channels.saveUnprocessed(_cleanData(data));
   return id;
 }
 
-export async function updateUnprocessedAttempts(
-  id: string,
-  attempts: number
-): Promise<void> {
+export async function updateUnprocessedAttempts(id: string, attempts: number): Promise<void> {
   await channels.updateUnprocessedAttempts(id, attempts);
 }
-export async function updateUnprocessedWithData(
-  id: string,
-  data: any
-): Promise<void> {
+export async function updateUnprocessedWithData(id: string, data: any): Promise<void> {
   await channels.updateUnprocessedWithData(id, data);
 }
 
@@ -933,18 +854,13 @@ export async function removeAllUnprocessed(): Promise<void> {
 
 // Attachment downloads
 
-export async function getNextAttachmentDownloadJobs(
-  limit: number
-): Promise<any> {
+export async function getNextAttachmentDownloadJobs(limit: number): Promise<any> {
   return channels.getNextAttachmentDownloadJobs(limit);
 }
 export async function saveAttachmentDownloadJob(job: any): Promise<void> {
   await channels.saveAttachmentDownloadJob(job);
 }
-export async function setAttachmentDownloadJobPending(
-  id: string,
-  pending: boolean
-): Promise<void> {
+export async function setAttachmentDownloadJobPending(id: string, pending: boolean): Promise<void> {
   await channels.setAttachmentDownloadJobPending(id, pending);
 }
 export async function resetAttachmentDownloadPending(): Promise<void> {
@@ -973,10 +889,7 @@ export async function cleanupOrphanedAttachments(): Promise<void> {
 
 // Note: will need to restart the app after calling this, to set up afresh
 export async function removeOtherData(): Promise<void> {
-  await Promise.all([
-    callChannel(ERASE_SQL_KEY),
-    callChannel(ERASE_ATTACHMENTS_KEY),
-  ]);
+  await Promise.all([callChannel(ERASE_SQL_KEY), callChannel(ERASE_ATTACHMENTS_KEY)]);
 }
 
 async function callChannel(name: string): Promise<any> {

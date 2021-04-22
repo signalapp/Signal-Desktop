@@ -7,15 +7,7 @@ const { redactAll } = require('../js/modules/privacy');
 const { remove: removeUserConfig } = require('./user_config');
 
 const pify = require('pify');
-const {
-  map,
-  isString,
-  fromPairs,
-  forEach,
-  last,
-  isEmpty,
-  isObject,
-} = require('lodash');
+const { map, isString, fromPairs, forEach, last, isEmpty, isObject } = require('lodash');
 
 // To get long stack traces
 //   https://github.com/mapbox/node-sqlite3/wiki/API#sqlite3verbose
@@ -1113,11 +1105,7 @@ async function updateLokiSchema(instance) {
     `Current loki schema version: ${lokiSchemaVersion};`,
     `Most recent schema version: ${LOKI_SCHEMA_VERSIONS.length};`
   );
-  for (
-    let index = 0, max = LOKI_SCHEMA_VERSIONS.length;
-    index < max;
-    index += 1
-  ) {
+  for (let index = 0, max = LOKI_SCHEMA_VERSIONS.length; index < max; index += 1) {
     const runSchemaUpdate = LOKI_SCHEMA_VERSIONS[index];
 
     // Yes, we really want to do this asynchronously, in order
@@ -1127,9 +1115,7 @@ async function updateLokiSchema(instance) {
 }
 
 async function getLokiSchemaVersion(instance) {
-  const result = await instance.get(
-    'SELECT MAX(version) as version FROM loki_schema;'
-  );
+  const result = await instance.get('SELECT MAX(version) as version FROM loki_schema;');
   if (!result || !result.version) {
     return 0;
   }
@@ -1219,10 +1205,7 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
     }
     console.log('Database startup error:', error.stack);
     const buttonIndex = dialog.showMessageBox({
-      buttons: [
-        messages.copyErrorAndQuit.message,
-        messages.clearAllData.message,
-      ],
+      buttons: [messages.copyErrorAndQuit.message, messages.clearAllData.message],
       defaultId: 0,
       detail: redactAll(error.stack),
       message: messages.databaseError.message,
@@ -1231,9 +1214,7 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
     });
 
     if (buttonIndex === 0) {
-      clipboard.writeText(
-        `Database startup error:\n\n${redactAll(error.stack)}`
-      );
+      clipboard.writeText(`Database startup error:\n\n${redactAll(error.stack)}`);
     } else {
       await close();
       await removeDB();
@@ -1389,12 +1370,9 @@ async function createOrUpdate(table, data, instance) {
 }
 
 async function getById(table, id, instance) {
-  const row = await (db || instance).get(
-    `SELECT * FROM ${table} WHERE id = $id;`,
-    {
-      $id: id,
-    }
-  );
+  const row = await (db || instance).get(`SELECT * FROM ${table} WHERE id = $id;`, {
+    $id: id,
+  });
 
   if (!row) {
     return null;
@@ -1414,10 +1392,7 @@ async function removeById(table, id) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await db.run(
-    `DELETE FROM ${table} WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
-    id
-  );
+  await db.run(`DELETE FROM ${table} WHERE id IN ( ${id.map(() => '?').join(', ')} );`, id);
 }
 
 async function removeAllFromTable(table) {
@@ -1427,12 +1402,9 @@ async function removeAllFromTable(table) {
 // Conversations
 
 async function getSwarmNodesForPubkey(pubkey) {
-  const row = await db.get(
-    `SELECT * FROM ${NODES_FOR_PUBKEY_TABLE} WHERE pubkey = $pubkey;`,
-    {
-      $pubkey: pubkey,
-    }
-  );
+  const row = await db.get(`SELECT * FROM ${NODES_FOR_PUBKEY_TABLE} WHERE pubkey = $pubkey;`, {
+    $pubkey: pubkey,
+  });
 
   if (!row) {
     return [];
@@ -1463,9 +1435,7 @@ async function getConversationCount() {
   const row = await db.get(`SELECT count(*) from ${CONVERSATIONS_TABLE};`);
 
   if (!row) {
-    throw new Error(
-      `getConversationCount: Unable to get count of ${CONVERSATIONS_TABLE}`
-    );
+    throw new Error(`getConversationCount: Unable to get count of ${CONVERSATIONS_TABLE}`);
   }
 
   return row['count(*)'];
@@ -1563,9 +1533,7 @@ async function removeConversation(id) {
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
   await db.run(
-    `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN ( ${id
-      .map(() => '?')
-      .join(', ')} );`,
+    `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
     id
   );
 }
@@ -1590,12 +1558,9 @@ async function savePublicServerToken(data) {
 
 // open groups v1 only
 async function getPublicServerTokenByServerUrl(serverUrl) {
-  const row = await db.get(
-    `SELECT * FROM ${SERVERS_TOKEN_TABLE} WHERE serverUrl = $serverUrl;`,
-    {
-      $serverUrl: serverUrl,
-    }
-  );
+  const row = await db.get(`SELECT * FROM ${SERVERS_TOKEN_TABLE} WHERE serverUrl = $serverUrl;`, {
+    $serverUrl: serverUrl,
+  });
 
   if (!row) {
     return null;
@@ -1605,12 +1570,9 @@ async function getPublicServerTokenByServerUrl(serverUrl) {
 }
 
 async function getConversationById(id) {
-  const row = await db.get(
-    `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
-    {
-      $id: id,
-    }
-  );
+  const row = await db.get(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
+    $id: id,
+  });
 
   if (!row) {
     return null;
@@ -1620,16 +1582,12 @@ async function getConversationById(id) {
 }
 
 async function getAllConversations() {
-  const rows = await db.all(
-    `SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
-  );
+  const rows = await db.all(`SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`);
   return map(rows, row => jsonToObject(row.json));
 }
 
 async function getAllConversationIds() {
-  const rows = await db.all(
-    `SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
-  );
+  const rows = await db.all(`SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`);
   return map(rows, row => row.id);
 }
 
@@ -1715,11 +1673,7 @@ async function searchMessages(query, { limit } = {}) {
   }));
 }
 
-async function searchMessagesInConversation(
-  query,
-  conversationId,
-  { limit } = {}
-) {
+async function searchMessagesInConversation(query, conversationId, { limit } = {}) {
   const rows = await db.all(
     `SELECT
       messages.json,
@@ -1748,9 +1702,7 @@ async function getMessageCount() {
   const row = await db.get(`SELECT count(*) from ${MESSAGES_TABLE};`);
 
   if (!row) {
-    throw new Error(
-      `getMessageCount: Unable to get count of ${MESSAGES_TABLE}`
-    );
+    throw new Error(`getMessageCount: Unable to get count of ${MESSAGES_TABLE}`);
   }
 
   return row['count(*)'];
@@ -1962,9 +1914,7 @@ async function removeMessage(id) {
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
   await db.run(
-    `DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${id
-      .map(() => '?')
-      .join(', ')} );`,
+    `DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
     id
   );
 }
@@ -1975,9 +1925,7 @@ async function getMessageIdsFromServerIds(serverIds, conversationId) {
   }
 
   // Sanitize the input as we're going to use it directly in the query
-  const validIds = serverIds
-    .map(id => Number(id))
-    .filter(n => !Number.isNaN(n));
+  const validIds = serverIds.map(id => Number(id)).filter(n => !Number.isNaN(n));
 
   /*
     Sqlite3 doesn't have a good way to have `IN` query with another query.
@@ -2009,16 +1957,12 @@ async function getMessageById(id) {
 }
 
 async function getAllMessages() {
-  const rows = await db.all(
-    `SELECT json FROM ${MESSAGES_TABLE} ORDER BY id ASC;`
-  );
+  const rows = await db.all(`SELECT json FROM ${MESSAGES_TABLE} ORDER BY id ASC;`);
   return map(rows, row => jsonToObject(row.json));
 }
 
 async function getAllMessageIds() {
-  const rows = await db.all(
-    `SELECT id FROM ${MESSAGES_TABLE} ORDER BY id ASC;`
-  );
+  const rows = await db.all(`SELECT id FROM ${MESSAGES_TABLE} ORDER BY id ASC;`);
   return map(rows, row => row.id);
 }
 
@@ -2115,13 +2059,10 @@ async function getMessagesBySentAt(sentAt) {
 }
 
 async function getLastHashBySnode(convoId, snode) {
-  const row = await db.get(
-    'SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;',
-    {
-      $snode: snode,
-      $id: convoId,
-    }
-  );
+  const row = await db.get('SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;', {
+    $snode: snode,
+    $id: convoId,
+  });
 
   if (!row) {
     return null;
@@ -2132,9 +2073,7 @@ async function getLastHashBySnode(convoId, snode) {
 
 async function getSeenMessagesByHashList(hashes) {
   const rows = await db.all(
-    `SELECT * FROM seenMessages WHERE hash IN ( ${hashes
-      .map(() => '?')
-      .join(', ')} );`,
+    `SELECT * FROM seenMessages WHERE hash IN ( ${hashes.map(() => '?').join(', ')} );`,
     hashes
   );
 
@@ -2224,13 +2163,7 @@ async function updateUnprocessedAttempts(id, attempts) {
   });
 }
 async function updateUnprocessedWithData(id, data = {}) {
-  const {
-    source,
-    sourceDevice,
-    serverTimestamp,
-    decrypted,
-    senderIdentity,
-  } = data;
+  const { source, sourceDevice, serverTimestamp, decrypted, senderIdentity } = data;
 
   await db.run(
     `UPDATE unprocessed SET
@@ -2270,9 +2203,7 @@ async function getUnprocessedCount() {
 }
 
 async function getAllUnprocessed() {
-  const rows = await db.all(
-    'SELECT * FROM unprocessed ORDER BY timestamp ASC;'
-  );
+  const rows = await db.all('SELECT * FROM unprocessed ORDER BY timestamp ASC;');
 
   return rows;
 }
@@ -2288,10 +2219,7 @@ async function removeUnprocessed(id) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await db.run(
-    `DELETE FROM unprocessed WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
-    id
-  );
+  await db.run(`DELETE FROM unprocessed WHERE id IN ( ${id.map(() => '?').join(', ')} );`, id);
 }
 
 async function removeAllUnprocessed() {
@@ -2318,9 +2246,7 @@ async function getNextAttachmentDownloadJobs(limit, options = {}) {
 async function saveAttachmentDownloadJob(job) {
   const { id, pending, timestamp } = job;
   if (!id) {
-    throw new Error(
-      'saveAttachmentDownloadJob: Provided job did not have a truthy id'
-    );
+    throw new Error('saveAttachmentDownloadJob: Provided job did not have a truthy id');
   }
 
   await db.run(
@@ -2344,18 +2270,13 @@ async function saveAttachmentDownloadJob(job) {
   );
 }
 async function setAttachmentDownloadJobPending(id, pending) {
-  await db.run(
-    'UPDATE attachment_downloads SET pending = $pending WHERE id = $id;',
-    {
-      $id: id,
-      $pending: pending,
-    }
-  );
+  await db.run('UPDATE attachment_downloads SET pending = $pending WHERE id = $id;', {
+    $id: id,
+    $pending: pending,
+  });
 }
 async function resetAttachmentDownloadPending() {
-  await db.run(
-    'UPDATE attachment_downloads SET pending = 0 WHERE pending != 0;'
-  );
+  await db.run('UPDATE attachment_downloads SET pending = 0 WHERE pending != 0;');
 }
 async function removeAttachmentDownloadJob(id) {
   return removeById(ATTACHMENT_DOWNLOADS_TABLE, id);
@@ -2400,10 +2321,7 @@ async function removeAllConversations() {
   await removeAllFromTable(CONVERSATIONS_TABLE);
 }
 
-async function getMessagesWithVisualMediaAttachments(
-  conversationId,
-  { limit }
-) {
+async function getMessagesWithVisualMediaAttachments(conversationId, { limit }) {
   const rows = await db.all(
     `SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
@@ -2507,9 +2425,7 @@ async function removeKnownAttachments(allAttachments) {
   const chunkSize = 50;
 
   const total = await getMessageCount();
-  console.log(
-    `removeKnownAttachments: About to iterate through ${total} messages`
-  );
+  console.log(`removeKnownAttachments: About to iterate through ${total} messages`);
 
   let count = 0;
   let complete = false;
@@ -2626,28 +2542,19 @@ async function removePrefixFromGroupConversations(instance) {
         );
         // We have another conversation with the same future name.
         // We decided to keep only the conversation with the higher number of messages
-        const countMessagesOld = await getMessagesCountByConversation(
-          instance,
-          oldId,
-          { limit: Number.MAX_VALUE }
-        );
-        const countMessagesNew = await getMessagesCountByConversation(
-          instance,
-          newId,
-          { limit: Number.MAX_VALUE }
-        );
+        const countMessagesOld = await getMessagesCountByConversation(instance, oldId, {
+          limit: Number.MAX_VALUE,
+        });
+        const countMessagesNew = await getMessagesCountByConversation(instance, newId, {
+          limit: Number.MAX_VALUE,
+        });
 
-        console.log(
-          `countMessagesOld: ${countMessagesOld}, countMessagesNew: ${countMessagesNew}`
-        );
+        console.log(`countMessagesOld: ${countMessagesOld}, countMessagesNew: ${countMessagesNew}`);
 
         const deleteId = countMessagesOld > countMessagesNew ? newId : oldId;
-        await instance.run(
-          `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
-          {
-            $id: deleteId,
-          }
-        );
+        await instance.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
+          $id: deleteId,
+        });
       }
 
       const morphedObject = {
@@ -2703,8 +2610,7 @@ function remove05PrefixFromStringIfNeeded(str) {
 
 async function updateExistingClosedGroupToClosedGroup(instance) {
   // the migration is called only once, so all current groups not being open groups are v1 closed group.
-  const allClosedGroupV1 =
-    (await getAllClosedGroupConversations(instance)) || [];
+  const allClosedGroupV1 = (await getAllClosedGroupConversations(instance)) || [];
 
   await Promise.all(
     allClosedGroupV1.map(async groupV1 => {
@@ -2751,9 +2657,7 @@ async function getAllEncryptionKeyPairsForGroup(groupPublicKey) {
 }
 
 async function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey) {
-  const pubkeyAsString = groupPublicKey.key
-    ? groupPublicKey.key
-    : groupPublicKey;
+  const pubkeyAsString = groupPublicKey.key ? groupPublicKey.key : groupPublicKey;
   const rows = await db.all(
     `SELECT * FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey ORDER BY timestamp ASC;`,
     {
@@ -2772,11 +2676,7 @@ async function getLatestClosedGroupEncryptionKeyPair(groupPublicKey) {
   return rows[rows.length - 1];
 }
 
-async function addClosedGroupEncryptionKeyPair(
-  groupPublicKey,
-  keypair,
-  instance
-) {
+async function addClosedGroupEncryptionKeyPair(groupPublicKey, keypair, instance) {
   const timestamp = Date.now();
 
   await (db || instance).run(
@@ -2803,9 +2703,7 @@ async function isKeyPairAlreadySaved(
 ) {
   const allKeyPairs = await getAllEncryptionKeyPairsForGroup(groupPublicKey);
   return (allKeyPairs || []).some(
-    k =>
-      newKeyPairInHex.publicHex === k.publicHex &&
-      newKeyPairInHex.privateHex === k.privateHex
+    k => newKeyPairInHex.publicHex === k.publicHex && newKeyPairInHex.privateHex === k.privateHex
   );
 }
 
@@ -2882,10 +2780,7 @@ async function saveV2OpenGroupRoom(opengroupsv2Room) {
 }
 
 async function removeV2OpenGroupRoom(conversationId) {
-  await db.run(
-    `DELETE FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId`,
-    {
-      $conversationId: conversationId,
-    }
-  );
+  await db.run(`DELETE FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId`, {
+    $conversationId: conversationId,
+  });
 }

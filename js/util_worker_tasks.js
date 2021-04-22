@@ -46,13 +46,5 @@ function calcPoW(
   increment = 1,
   startNonce = 0
 ) {
-  return pow.calcPoW(
-    timestamp,
-    ttl,
-    pubKey,
-    data,
-    difficulty,
-    increment,
-    startNonce
-  );
+  return pow.calcPoW(timestamp, ttl, pubKey, data, difficulty, increment, startNonce);
 }

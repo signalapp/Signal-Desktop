@@ -136,9 +136,7 @@ async function _runJob(job) {
 
   try {
     if (!job || !attachment || !messageId) {
-      throw new Error(
-        `_runJob: Key information required for job was missing. Job id: ${id}`
-      );
+      throw new Error(`_runJob: Key information required for job was missing. Job id: ${id}`);
     }
 
     const found = await getMessageById(messageId);
@@ -166,20 +164,14 @@ async function _runJob(job) {
         );
 
         await _finishJob(message, id);
-        await _addAttachmentToMessage(
-          message,
-          _markAttachmentAsError(attachment),
-          { type, index }
-        );
+        await _addAttachmentToMessage(message, _markAttachmentAsError(attachment), { type, index });
 
         return;
       }
       throw error;
     }
 
-    const upgradedAttachment = await Signal.Migrations.processNewAttachment(
-      downloaded
-    );
+    const upgradedAttachment = await Signal.Migrations.processNewAttachment(downloaded);
 
     await _addAttachmentToMessage(message, upgradedAttachment, { type, index });
 
@@ -194,11 +186,7 @@ async function _runJob(job) {
       );
 
       await _finishJob(message, id);
-      await _addAttachmentToMessage(
-        message,
-        _markAttachmentAsError(attachment),
-        { type, index }
-      );
+      await _addAttachmentToMessage(message, _markAttachmentAsError(attachment), { type, index });
 
       return;
     }
@@ -267,9 +255,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
   if (type === 'preview') {
     const preview = message.get('preview');
     if (!preview || preview.length <= index) {
-      throw new Error(
-        `_addAttachmentToMessage: preview didn't exist or ${index} was too large`
-      );
+      throw new Error(`_addAttachmentToMessage: preview didn't exist or ${index} was too large`);
     }
     const item = preview[index];
     if (!item) {
@@ -282,9 +268,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
   if (type === 'contact') {
     const contact = message.get('contact');
     if (!contact || contact.length <= index) {
-      throw new Error(
-        `_addAttachmentToMessage: contact didn't exist or ${index} was too large`
-      );
+      throw new Error(`_addAttachmentToMessage: contact didn't exist or ${index} was too large`);
     }
     const item = contact[index];
     if (item && item.avatar && item.avatar.avatar) {
@@ -312,9 +296,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
 
     const item = attachments[index];
     if (!item) {
-      throw new Error(
-        `_addAttachmentToMessage: attachment ${index} was falsey`
-      );
+      throw new Error(`_addAttachmentToMessage: attachment ${index} was falsey`);
     }
     _replaceAttachment(item, 'thumbnail', attachment, logPrefix);
     return;

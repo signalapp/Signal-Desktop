@@ -48,13 +48,7 @@ export class AttachmentUtils {
   }
 
   public static async upload(params: UploadParams): Promise<AttachmentPointer> {
-    const {
-      attachment,
-      openGroup,
-      isAvatar = false,
-      isRaw = false,
-      shouldPad = false,
-    } = params;
+    const { attachment, openGroup, isAvatar = false, isRaw = false, shouldPad = false } = params;
     if (typeof attachment !== 'object' || attachment == null) {
       throw new Error('Invalid attachment passed.');
     }
@@ -67,13 +61,9 @@ export class AttachmentUtils {
 
     let server = this.getDefaultServer();
     if (openGroup) {
-      const openGroupServer = await window.lokiPublicChatAPI.findOrCreateServer(
-        openGroup.server
-      );
+      const openGroupServer = await window.lokiPublicChatAPI.findOrCreateServer(openGroup.server);
       if (!openGroupServer) {
-        throw new Error(
-          `Failed to get open group server: ${openGroup.server}.`
-        );
+        throw new Error(`Failed to get open group server: ${openGroup.server}.`);
       }
       server = openGroupServer;
     }
@@ -221,12 +211,7 @@ export class AttachmentUtils {
 
     const paddedSize = Math.max(
       541,
-      Math.floor(
-        Math.pow(
-          1.05,
-          Math.ceil(Math.log(originalUInt.length) / Math.log(1.05))
-        )
-      )
+      Math.floor(Math.pow(1.05, Math.ceil(Math.log(originalUInt.length) / Math.log(1.05))))
     );
     const paddedData = new ArrayBuffer(paddedSize);
     const paddedUInt = new Uint8Array(paddedData);

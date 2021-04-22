@@ -4,12 +4,8 @@ import { ConversationController } from '../conversations';
 import { fromHexToArray } from './String';
 
 export async function getGroupMembers(groupId: PubKey): Promise<Array<PubKey>> {
-  const groupConversation = ConversationController.getInstance().get(
-    groupId.key
-  );
-  const groupMembers = groupConversation
-    ? groupConversation.get('members')
-    : undefined;
+  const groupConversation = ConversationController.getInstance().get(groupId.key);
+  const groupMembers = groupConversation ? groupConversation.get('members') : undefined;
 
   if (!groupMembers) {
     return [];

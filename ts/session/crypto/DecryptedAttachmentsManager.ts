@@ -14,10 +14,7 @@ import { HOURS } from '../utils/Number';
 // FIXME.
 // add a way to remove the blob when the attachment file path is removed (message removed?)
 // do not hardcode the password
-const urlToDecryptedBlobMap = new Map<
-  string,
-  { decrypted: string; lastAccessTimestamp: number }
->();
+const urlToDecryptedBlobMap = new Map<string, { decrypted: string; lastAccessTimestamp: number }>();
 
 export const cleanUpOldDecryptedMedias = () => {
   const currentTimestamp = Date.now();
@@ -34,15 +31,10 @@ export const cleanUpOldDecryptedMedias = () => {
       countKept++;
     }
   }
-  window.log.info(
-    `Clean medias blobs: cleaned/kept: ${countCleaned}:${countKept}`
-  );
+  window.log.info(`Clean medias blobs: cleaned/kept: ${countCleaned}:${countKept}`);
 };
 
-export const getDecryptedMediaUrl = async (
-  url: string,
-  contentType: string
-): Promise<string> => {
+export const getDecryptedMediaUrl = async (url: string, contentType: string): Promise<string> => {
   if (!url) {
     return url;
   }
@@ -57,8 +49,7 @@ export const getDecryptedMediaUrl = async (
     // if it's not, the hook caller has to fallback to setting the img src as an url to the file instead and load it
     if (urlToDecryptedBlobMap.has(url)) {
       // refresh the last access timestamp so we keep the one being currently in use
-      const existingObjUrl = urlToDecryptedBlobMap.get(url)
-        ?.decrypted as string;
+      const existingObjUrl = urlToDecryptedBlobMap.get(url)?.decrypted as string;
 
       urlToDecryptedBlobMap.set(url, {
         decrypted: existingObjUrl,
@@ -69,9 +60,7 @@ export const getDecryptedMediaUrl = async (
       return existingObjUrl;
     } else {
       const encryptedFileContent = await fse.readFile(url);
-      const decryptedContent = await decryptAttachmentBuffer(
-        toArrayBuffer(encryptedFileContent)
-      );
+      const decryptedContent = await decryptAttachmentBuffer(toArrayBuffer(encryptedFileContent));
       if (decryptedContent?.length) {
         const arrayBuffer = decryptedContent.buffer;
         const { makeObjectUrl } = window.Signal.Types.VisualAttachment;

@@ -6,11 +6,7 @@ import { SessionIdEditable } from './SessionIdEditable';
 import { UserSearchDropdown } from './UserSearchDropdown';
 import { ContactType, SessionMemberListItem } from './SessionMemberListItem';
 import { ConversationType } from '../../state/ducks/conversations';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
 import { PillDivider } from './PillDivider';
 import { DefaultTheme } from 'styled-components';
@@ -70,12 +66,9 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const contactsList = this.props.contacts ?? [];
     // Depending on the rendered overlay type we have to filter the contact list.
     let filteredContactsList = contactsList;
-    const isClosedGroupView =
-      overlayMode === SessionClosableOverlayType.ClosedGroup;
+    const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
     if (isClosedGroupView) {
-      filteredContactsList = filteredContactsList.filter(
-        c => c.type === 'direct' && !c.isMe
-      );
+      filteredContactsList = filteredContactsList.filter(c => c.type === 'direct' && !c.isMe);
     }
 
     return filteredContactsList.map((d: any) => {
@@ -118,10 +111,8 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
 
     const isAddContactView = overlayMode === SessionClosableOverlayType.Contact;
     const isMessageView = overlayMode === SessionClosableOverlayType.Message;
-    const isOpenGroupView =
-      overlayMode === SessionClosableOverlayType.OpenGroup;
-    const isClosedGroupView =
-      overlayMode === SessionClosableOverlayType.ClosedGroup;
+    const isOpenGroupView = overlayMode === SessionClosableOverlayType.OpenGroup;
+    const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
 
     let title;
     let buttonText;
@@ -165,8 +156,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const contacts = this.getContacts();
 
     const noContactsForClosedGroup =
-      overlayMode === SessionClosableOverlayType.ClosedGroup &&
-      contacts.length === 0;
+      overlayMode === SessionClosableOverlayType.ClosedGroup && contacts.length === 0;
 
     const showLoadingSpinner = showSpinner === undefined ? false : showSpinner;
 
@@ -234,9 +224,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           </>
         )}
 
-        {descriptionLong && (
-          <div className="session-description-long">{descriptionLong}</div>
-        )}
+        {descriptionLong && <div className="session-description-long">{descriptionLong}</div>}
         {isMessageView && false && <h4>{window.i18n('or')}</h4>}
         {/* FIXME enable back those two items when they are working */}
         {isMessageView && false && (
@@ -249,16 +237,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           />
         )}
 
-        {isAddContactView && (
-          <PillDivider text={window.i18n('yourSessionID')} />
-        )}
+        {isAddContactView && <PillDivider text={window.i18n('yourSessionID')} />}
 
         {isAddContactView && (
-          <SessionIdEditable
-            editable={false}
-            placeholder=""
-            text={ourSessionID}
-          />
+          <SessionIdEditable editable={false} placeholder="" text={ourSessionID} />
         )}
 
         <SessionButton

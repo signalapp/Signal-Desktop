@@ -15,8 +15,7 @@ describe('Privacy', () => {
 
       const actual = Privacy.redactSessionID(text);
       const expected =
-        'This is a log line with a session ID [REDACTED]\n' +
-        'and another one [REDACTED]';
+        'This is a log line with a session ID [REDACTED]\n' + 'and another one [REDACTED]';
       assert.equal(actual, expected);
     });
 
@@ -33,8 +32,7 @@ describe('Privacy', () => {
   describe('redactGroupIds', () => {
     it('should redact all group IDs', () => {
       const text =
-        'This is a log line with two group IDs: group(123456789)\n' +
-        'and group(abcdefghij)';
+        'This is a log line with two group IDs: group(123456789)\n' + 'and group(abcdefghij)';
 
       const actual = Privacy.redactGroupIds(text);
       const expected =
@@ -45,8 +43,7 @@ describe('Privacy', () => {
 
     it('should remove newlines from redacted group IDs', () => {
       const text =
-        'This is a log line with two group IDs: group(12345678\n9)\n' +
-        'and group(abc\ndefghij)';
+        'This is a log line with two group IDs: group(12345678\n9)\n' + 'and group(abc\ndefghij)';
 
       const actual = Privacy.redactGroupIds(text);
       const expected =
@@ -126,10 +123,8 @@ describe('Privacy', () => {
     });
 
     it('should redact stack traces with both forward and backslashes', () => {
-      const testPath =
-        'C:/Users/Meow/AppData/Local/Programs/loki-messenger-beta';
-      const modifiedTestPath =
-        'C:\\Users\\Meow\\AppData\\Local\\Programs\\loki-messenger-beta';
+      const testPath = 'C:/Users/Meow/AppData/Local/Programs/loki-messenger-beta';
+      const modifiedTestPath = 'C:\\Users\\Meow\\AppData\\Local\\Programs\\loki-messenger-beta';
       const text =
         'This is a log line with sensitive information:\n' +
         `path1 ${testPath}\\main.js\n` +
@@ -148,8 +143,7 @@ describe('Privacy', () => {
     });
 
     it('should redact stack traces with escaped backslashes', () => {
-      const testPath =
-        'C:\\Users\\Meow\\AppData\\Local\\Programs\\loki-messenger-beta';
+      const testPath = 'C:\\Users\\Meow\\AppData\\Local\\Programs\\loki-messenger-beta';
       const modifiedTestPath =
         'C:\\\\Users\\\\Meow\\\\AppData\\\\Local\\\\Programs\\\\loki-messenger-beta';
       const text =

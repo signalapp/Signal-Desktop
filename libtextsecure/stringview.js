@@ -38,20 +38,11 @@
 
       let nMod3;
       let nMod4;
-      for (
-        let nUint24 = 0, nOutIdx = 0, nInIdx = 0;
-        nInIdx < nInLen;
-        nInIdx += 1
-      ) {
+      for (let nUint24 = 0, nOutIdx = 0, nInIdx = 0; nInIdx < nInLen; nInIdx += 1) {
         nMod4 = nInIdx & 3;
-        nUint24 |=
-          StringView.b64ToUint6(sB64Enc.charCodeAt(nInIdx)) << (18 - 6 * nMod4);
+        nUint24 |= StringView.b64ToUint6(sB64Enc.charCodeAt(nInIdx)) << (18 - 6 * nMod4);
         if (nMod4 === 3 || nInLen - nInIdx === 1) {
-          for (
-            nMod3 = 0;
-            nMod3 < 3 && nOutIdx < nOutLen;
-            nMod3 += 1, nOutIdx += 1
-          ) {
+          for (nMod3 = 0; nMod3 < 3 && nOutIdx < nOutLen; nMod3 += 1, nOutIdx += 1) {
             taBytes[nOutIdx] = (nUint24 >>> ((16 >>> nMod3) & 24)) & 255;
           }
           nUint24 = 0;
@@ -77,11 +68,7 @@
     bytesToBase64(aBytes) {
       let nMod3;
       let sB64Enc = '';
-      for (
-        let nLen = aBytes.length, nUint24 = 0, nIdx = 0;
-        nIdx < nLen;
-        nIdx += 1
-      ) {
+      for (let nLen = aBytes.length, nUint24 = 0, nIdx = 0; nIdx < nLen; nIdx += 1) {
         nMod3 = nIdx % 3;
         if (nIdx > 0 && ((nIdx * 4) / 3) % 76 === 0) {
           sB64Enc += '\r\n';
@@ -102,16 +89,12 @@
 
     arrayBufferToHex(aArrayBuffer) {
       return Array.prototype.map
-        .call(new Uint8Array(aArrayBuffer), x =>
-          `00${x.toString(16)}`.slice(-2)
-        )
+        .call(new Uint8Array(aArrayBuffer), x => `00${x.toString(16)}`.slice(-2))
         .join('');
     },
 
     hexToArrayBuffer(aString) {
-      return new Uint8Array(
-        aString.match(/[\da-f]{2}/gi).map(h => parseInt(h, 16))
-      ).buffer;
+      return new Uint8Array(aString.match(/[\da-f]{2}/gi).map(h => parseInt(h, 16))).buffer;
     },
   };
 })();

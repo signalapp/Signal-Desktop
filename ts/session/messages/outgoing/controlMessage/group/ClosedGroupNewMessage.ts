@@ -1,8 +1,5 @@
 import { SignalService } from '../../../../../protobuf';
-import {
-  ClosedGroupMessage,
-  ClosedGroupMessageParams,
-} from './ClosedGroupMessage';
+import { ClosedGroupMessage, ClosedGroupMessageParams } from './ClosedGroupMessage';
 import { fromHexToArray } from '../../../../utils/String';
 import { ECKeyPair } from '../../../../../receiver/keypairs';
 
@@ -61,17 +58,11 @@ export class ClosedGroupNewMessage extends ClosedGroupMessage {
 
     dataMessage.closedGroupControlMessage.type =
       SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW;
-    dataMessage.closedGroupControlMessage.publicKey = fromHexToArray(
-      this.groupId.key
-    );
+    dataMessage.closedGroupControlMessage.publicKey = fromHexToArray(this.groupId.key);
     dataMessage.closedGroupControlMessage.name = this.name;
 
-    dataMessage.closedGroupControlMessage.admins = this.admins.map(
-      fromHexToArray
-    );
-    dataMessage.closedGroupControlMessage.members = this.members.map(
-      fromHexToArray
-    );
+    dataMessage.closedGroupControlMessage.admins = this.admins.map(fromHexToArray);
+    dataMessage.closedGroupControlMessage.members = this.members.map(fromHexToArray);
     try {
       dataMessage.closedGroupControlMessage.encryptionKeyPair = new SignalService.KeyPair();
       dataMessage.closedGroupControlMessage.encryptionKeyPair.privateKey = new Uint8Array(

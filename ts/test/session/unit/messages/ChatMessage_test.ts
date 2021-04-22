@@ -79,10 +79,7 @@ describe('VisibleMessage', () => {
     const decoded = SignalService.Content.decode(plainText);
     const decodedID = toNumber(decoded.dataMessage?.quote?.id);
     expect(decodedID).to.be.equal(1234);
-    expect(decoded.dataMessage?.quote).to.have.deep.property(
-      'author',
-      'author'
-    );
+    expect(decoded.dataMessage?.quote).to.have.deep.property('author', 'author');
     expect(decoded.dataMessage?.quote).to.have.deep.property('text', 'text');
   });
 
@@ -141,9 +138,6 @@ describe('VisibleMessage', () => {
       timestamp: Date.now(),
     });
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
-    expect(message.identifier).to.not.equal(
-      undefined,
-      'identifier cannot be undefined'
-    );
+    expect(message.identifier).to.not.equal(undefined, 'identifier cannot be undefined');
   });
 });

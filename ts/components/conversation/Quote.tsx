@@ -129,11 +129,7 @@ export class Quote extends React.Component<Props, State> {
 
     return (
       <div className="module-quote__icon-container">
-        <img
-          src={url}
-          alt={i18n('quoteThumbnailAlt')}
-          onError={this.handleImageErrorBound}
-        />
+        <img src={url} alt={i18n('quoteThumbnailAlt')} onError={this.handleImageErrorBound} />
         {iconElement}
       </div>
     );
@@ -217,14 +213,7 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderText() {
-    const {
-      i18n,
-      text,
-      attachment,
-      isIncoming,
-      conversationType,
-      convoId,
-    } = this.props;
+    const { i18n, text, attachment, isIncoming, conversationType, convoId } = this.props;
 
     if (text) {
       return (
@@ -286,11 +275,7 @@ export class Quote extends React.Component<Props, State> {
     // We need the container to give us the flexibility to implement the iOS design.
     return (
       <div className="module-quote__close-container">
-        <div
-          className="module-quote__close-button"
-          role="button"
-          onClick={onClick}
-        />
+        <div className="module-quote__close-button" role="button" onClick={onClick} />
       </div>
     );
   }
@@ -346,17 +331,13 @@ export class Quote extends React.Component<Props, State> {
         <div
           className={classNames(
             'module-quote__reference-warning__icon',
-            isIncoming
-              ? 'module-quote__reference-warning__icon--incoming'
-              : null
+            isIncoming ? 'module-quote__reference-warning__icon--incoming' : null
           )}
         />
         <div
           className={classNames(
             'module-quote__reference-warning__text',
-            isIncoming
-              ? 'module-quote__reference-warning__text--incoming'
-              : null
+            isIncoming ? 'module-quote__reference-warning__text--incoming' : null
           )}
         >
           {i18n('originalMessageNotFound')}
@@ -366,12 +347,7 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public render() {
-    const {
-      isIncoming,
-      onClick,
-      referencedMessageNotFound,
-      withContentAbove,
-    } = this.props;
+    const { isIncoming, onClick, referencedMessageNotFound, withContentAbove } = this.props;
 
     if (!validateQuote(this.props)) {
       return null;
@@ -392,9 +368,7 @@ export class Quote extends React.Component<Props, State> {
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
             !onClick ? 'module-quote--no-click' : null,
             withContentAbove ? 'module-quote--with-content-above' : null,
-            referencedMessageNotFound
-              ? 'module-quote--with-reference-warning'
-              : null
+            referencedMessageNotFound ? 'module-quote--with-reference-warning' : null
           )}
         >
           <div className="module-quote__primary">

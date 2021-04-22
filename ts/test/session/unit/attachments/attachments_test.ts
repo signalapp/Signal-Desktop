@@ -5,10 +5,7 @@ import { assert } from 'chai';
 
 import * as Attachments from '../../../../attachments/attachments';
 import { stringToArrayBuffer } from '../../../../session/utils/String';
-import {
-  decryptAttachmentBuffer,
-  encryptAttachmentBuffer,
-} from '../../../../types/Attachment';
+import { decryptAttachmentBuffer, encryptAttachmentBuffer } from '../../../../types/Attachment';
 import { TestUtils } from '../../../test-utils';
 
 const PREFIX_LENGTH = 2;
@@ -24,8 +21,7 @@ describe('Attachments', () => {
       tempRootDirectory = tmp.dirSync().name;
       TestUtils.stubWindow('textsecure', {
         storage: {
-          get: () =>
-            '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
+          get: () => '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
         },
       });
     });
@@ -37,20 +33,13 @@ describe('Attachments', () => {
 
     it('should write file to disk and return path', async () => {
       const input = stringToArrayBuffer('test string');
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createWriterForNew'
-      );
-      const outputPath = await Attachments.createWriterForNew(tempDirectory)(
-        input
-      );
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createWriterForNew');
+      const outputPath = await Attachments.createWriterForNew(tempDirectory)(input);
       const output = await fse.readFile(path.join(tempDirectory, outputPath));
 
       assert.lengthOf(outputPath, PATH_LENGTH);
 
-      const outputDecrypted = Buffer.from(
-        await decryptAttachmentBuffer(output.buffer)
-      );
+      const outputDecrypted = Buffer.from(await decryptAttachmentBuffer(output.buffer));
 
       const inputBuffer = Buffer.from(input);
       assert.deepEqual(inputBuffer, outputDecrypted);
@@ -63,8 +52,7 @@ describe('Attachments', () => {
       tempRootDirectory = tmp.dirSync().name;
       TestUtils.stubWindow('textsecure', {
         storage: {
-          get: () =>
-            '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
+          get: () => '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
         },
       });
     });
@@ -76,37 +64,25 @@ describe('Attachments', () => {
 
     it('should write file to disk on given path and return path', async () => {
       const input = stringToArrayBuffer('test string');
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createWriterForExisting'
-      );
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createWriterForExisting');
 
-      const relativePath = Attachments.getRelativePath(
-        Attachments.createName()
-      );
+      const relativePath = Attachments.getRelativePath(Attachments.createName());
       const attachment = {
         path: relativePath,
         data: input,
       };
-      const outputPath = await Attachments.createWriterForExisting(
-        tempDirectory
-      )(attachment);
+      const outputPath = await Attachments.createWriterForExisting(tempDirectory)(attachment);
       const output = await fse.readFile(path.join(tempDirectory, outputPath));
 
       assert.equal(outputPath, relativePath);
-      const outputDecrypted = Buffer.from(
-        await decryptAttachmentBuffer(output.buffer)
-      );
+      const outputDecrypted = Buffer.from(await decryptAttachmentBuffer(output.buffer));
       const inputBuffer = Buffer.from(input);
       assert.deepEqual(inputBuffer, outputDecrypted);
     });
 
     it('throws if relative path goes higher than root', async () => {
       const input = stringToArrayBuffer('test string');
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createWriterForExisting'
-      );
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createWriterForExisting');
 
       const relativePath = '../../parent';
       const attachment = {
@@ -130,8 +106,7 @@ describe('Attachments', () => {
       tempRootDirectory = tmp.dirSync().name;
       TestUtils.stubWindow('textsecure', {
         storage: {
-          get: () =>
-            '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
+          get: () => '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
         },
       });
     });
@@ -142,14 +117,9 @@ describe('Attachments', () => {
     });
 
     it('should read file from disk', async () => {
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createReader'
-      );
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createReader');
 
-      const relativePath = Attachments.getRelativePath(
-        Attachments.createName()
-      );
+      const relativePath = Attachments.getRelativePath(Attachments.createName());
       const fullPath = path.join(tempDirectory, relativePath);
       const input = stringToArrayBuffer('test string');
 
@@ -158,17 +128,12 @@ describe('Attachments', () => {
       const inputBuffer = Buffer.from(encryptedInput.encryptedBufferWithHeader);
       await fse.ensureFile(fullPath);
       await fse.writeFile(fullPath, inputBuffer);
-      const outputDecrypted = await Attachments.createReader(tempDirectory)(
-        relativePath
-      );
+      const outputDecrypted = await Attachments.createReader(tempDirectory)(relativePath);
       assert.deepEqual(new Uint8Array(input), new Uint8Array(outputDecrypted));
     });
 
     it('throws if relative path goes higher than root', async () => {
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createReader'
-      );
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createReader');
 
       const relativePath = '../../parent';
 
@@ -194,14 +159,9 @@ describe('Attachments', () => {
     });
 
     it('should delete file from disk', async () => {
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createDeleter'
-      );
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createDeleter');
 
-      const relativePath = Attachments.getRelativePath(
-        Attachments.createName()
-      );
+      const relativePath = Attachments.getRelativePath(Attachments.createName());
       const fullPath = path.join(tempDirectory, relativePath);
       const input = stringToArrayBuffer('test string');
 
@@ -215,10 +175,7 @@ describe('Attachments', () => {
     });
 
     it('throws if relative path goes higher than root', async () => {
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createDeleter'
-      );
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createDeleter');
 
       const relativePath = '../../parent';
 
@@ -241,8 +198,7 @@ describe('Attachments', () => {
 
   describe('getRelativePath', () => {
     it('should return correct path', () => {
-      const name =
-        '608ce3bc536edbf7637a6aeb6040bdfec49349140c0dd43e97c7ce263b15ff7e';
+      const name = '608ce3bc536edbf7637a6aeb6040bdfec49349140c0dd43e97c7ce263b15ff7e';
       assert.lengthOf(Attachments.getRelativePath(name), PATH_LENGTH);
     });
   });
@@ -256,10 +212,7 @@ describe('Attachments', () => {
       const pathGetter = Attachments.createAbsolutePathGetter(root);
       const absolutePath = pathGetter(relative);
 
-      assert.strictEqual(
-        absolutePath,
-        isWindows ? 'C:\\temp\\ab\\abcdef' : '/tmp/ab/abcdef'
-      );
+      assert.strictEqual(absolutePath, isWindows ? 'C:\\temp\\ab\\abcdef' : '/tmp/ab/abcdef');
     });
 
     it('throws if relative path goes higher than root', () => {

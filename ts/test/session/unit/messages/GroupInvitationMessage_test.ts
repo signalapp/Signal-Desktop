@@ -25,18 +25,9 @@ describe('GroupInvitationMessage', () => {
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
 
-    expect(decoded.dataMessage?.groupInvitation).to.have.property(
-      'serverAddress',
-      serverAddress
-    );
-    expect(decoded.dataMessage?.groupInvitation).to.have.property(
-      'channelId',
-      channelId
-    );
-    expect(decoded.dataMessage?.groupInvitation).to.have.property(
-      'serverName',
-      serverName
-    );
+    expect(decoded.dataMessage?.groupInvitation).to.have.property('serverAddress', serverAddress);
+    expect(decoded.dataMessage?.groupInvitation).to.have.property('channelId', channelId);
+    expect(decoded.dataMessage?.groupInvitation).to.have.property('serverName', serverName);
   });
 
   it('correct ttl', () => {
@@ -45,9 +36,6 @@ describe('GroupInvitationMessage', () => {
 
   it('has an identifier', () => {
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
-    expect(message.identifier).to.not.equal(
-      undefined,
-      'identifier cannot be undefined'
-    );
+    expect(message.identifier).to.not.equal(undefined, 'identifier cannot be undefined');
   });
 });

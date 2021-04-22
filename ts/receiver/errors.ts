@@ -7,10 +7,7 @@ import { ConversationType } from '../models/conversation';
 
 export async function onError(ev: any) {
   const { error } = ev;
-  window.log.error(
-    'background onError:',
-    window.Signal.Errors.toLogFormat(error)
-  );
+  window.log.error('background onError:', window.Signal.Errors.toLogFormat(error));
 
   if (ev.proto) {
     const envelope = ev.proto;

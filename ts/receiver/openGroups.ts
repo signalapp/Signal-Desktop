@@ -1,8 +1,4 @@
-export async function updateOpenGroup(
-  convo: any,
-  groupName: string,
-  avatar: any
-) {
+export async function updateOpenGroup(convo: any, groupName: string, avatar: any) {
   const API = await convo.getPublicSendData();
 
   if (avatar) {
@@ -37,9 +33,7 @@ export async function updateOpenGroup(
         maxSize: 1000 * 1024,
       }
     );
-    const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
-      withBlob.file
-    );
+    const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(withBlob.file);
     // const tempUrl = window.URL.createObjectURL(avatar);
 
     // Get file onto public chat server

@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  ConversationListItemProps,
-  ConversationListItemWithDetails,
-} from './ConversationListItem';
-import {
-  MessageSearchResult,
-  MessageSearchResultProps,
-} from './MessageSearchResult';
+import { ConversationListItemProps, ConversationListItemWithDetails } from './ConversationListItem';
+import { MessageSearchResult, MessageSearchResultProps } from './MessageSearchResult';
 
 import { LocalizerType } from '../types/Util';
 
@@ -64,16 +58,12 @@ export class SearchResults extends React.Component<Props> {
             ))}
           </div>
         ) : null}
-        {haveContacts
-          ? this.renderContacts(i18n('contactsHeader'), contacts)
-          : null}
+        {haveContacts ? this.renderContacts(i18n('contactsHeader'), contacts) : null}
 
         {haveMessages ? (
           <div className="module-search-results__messages">
             {hideMessagesHeader ? null : (
-              <div className="module-search-results__messages-header">
-                {i18n('messagesHeader')}
-              </div>
+              <div className="module-search-results__messages-header">{i18n('messagesHeader')}</div>
             )}
             {messages.map(message => (
               <MessageSearchResult
@@ -88,10 +78,7 @@ export class SearchResults extends React.Component<Props> {
       </div>
     );
   }
-  private renderContacts(
-    header: string,
-    items: Array<ConversationListItemProps>
-  ) {
+  private renderContacts(header: string, items: Array<ConversationListItemProps>) {
     const { i18n, openConversationExternal } = this.props;
 
     return (

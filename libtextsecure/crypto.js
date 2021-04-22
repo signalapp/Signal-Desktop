@@ -43,14 +43,8 @@
 
       const iv = encryptedBin.slice(0, 16);
       const ciphertext = encryptedBin.slice(16, encryptedBin.byteLength - 32);
-      const ivAndCiphertext = encryptedBin.slice(
-        0,
-        encryptedBin.byteLength - 32
-      );
-      const mac = encryptedBin.slice(
-        encryptedBin.byteLength - 32,
-        encryptedBin.byteLength
-      );
+      const ivAndCiphertext = encryptedBin.slice(0, encryptedBin.byteLength - 32);
+      const mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 
       return verifyMAC(ivAndCiphertext, macKey, mac, 32)
         .then(() => {
@@ -63,10 +57,7 @@
     },
 
     encryptAttachment(plaintext, keys, iv) {
-      if (
-        !(plaintext instanceof ArrayBuffer) &&
-        !ArrayBuffer.isView(plaintext)
-      ) {
+      if (!(plaintext instanceof ArrayBuffer) && !ArrayBuffer.isView(plaintext)) {
         throw new TypeError(
           `\`plaintext\` must be an \`ArrayBuffer\` or \`ArrayBufferView\`; got: ${typeof plaintext}`
         );
@@ -109,20 +100,11 @@
         .importKey('raw', key, { name: 'AES-GCM' }, false, ['encrypt'])
         .then(keyForEncryption =>
           crypto.subtle
-            .encrypt(
-              { name: 'AES-GCM', iv, tagLength: PROFILE_TAG_LENGTH },
-              keyForEncryption,
-              data
-            )
+            .encrypt({ name: 'AES-GCM', iv, tagLength: PROFILE_TAG_LENGTH }, keyForEncryption, data)
             .then(ciphertext => {
-              const ivAndCiphertext = new Uint8Array(
-                PROFILE_IV_LENGTH + ciphertext.byteLength
-              );
+              const ivAndCiphertext = new Uint8Array(PROFILE_IV_LENGTH + ciphertext.byteLength);
               ivAndCiphertext.set(new Uint8Array(iv));
-              ivAndCiphertext.set(
-                new Uint8Array(ciphertext),
-                PROFILE_IV_LENGTH
-              );
+              ivAndCiphertext.set(new Uint8Array(ciphertext), PROFILE_IV_LENGTH);
               return ivAndCiphertext.buffer;
             })
         );
@@ -166,10 +148,7 @@
       return textsecure.crypto.encryptProfile(padded.buffer, key);
     },
     decryptProfileName(encryptedProfileName, key) {
-      const data = dcodeIO.ByteBuffer.wrap(
-        encryptedProfileName,
-        'base64'
-      ).toArrayBuffer();
+      const data = dcodeIO.ByteBuffer.wrap(encryptedProfileName, 'base64').toArrayBuffer();
       return textsecure.crypto.decryptProfile(data, key).then(decrypted => {
         // unpad
         const padded = new Uint8Array(decrypted);

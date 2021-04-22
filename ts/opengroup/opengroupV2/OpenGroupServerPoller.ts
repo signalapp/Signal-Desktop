@@ -41,10 +41,7 @@ export class OpenGroupServerPoller {
     });
 
     this.abortController = new AbortController();
-    this.pollForEverythingTimer = global.setInterval(
-      this.compactPoll,
-      pollForEverythingInterval
-    );
+    this.pollForEverythingTimer = global.setInterval(this.compactPoll, pollForEverythingInterval);
 
     // first verify the rooms we got are all from on the same server
   }
@@ -71,9 +68,7 @@ export class OpenGroupServerPoller {
       return;
     }
     if (this.roomIdsToPoll.has(room.roomId)) {
-      window.log.info(
-        `Removing ${room.roomId} from polling for ${this.serverUrl}`
-      );
+      window.log.info(`Removing ${room.roomId} from polling for ${this.serverUrl}`);
       this.roomIdsToPoll.delete(room.roomId);
     } else {
       window.log.info(
@@ -99,9 +94,7 @@ export class OpenGroupServerPoller {
 
   private async compactPoll() {
     if (this.wasStopped) {
-      window.log.error(
-        'serverpoller was stopped. CompactPoll should not happen'
-      );
+      window.log.error('serverpoller was stopped. CompactPoll should not happen');
       return;
     }
     if (!this.roomIdsToPoll.size) {
@@ -138,10 +131,7 @@ export class OpenGroupServerPoller {
       compactFetchResults = compactFetchResults.filter(result =>
         this.roomIdsToPoll.has(result.roomId)
       );
-      window.log.warn(
-        `compactFetchResults for ${this.serverUrl}:`,
-        compactFetchResults
-      );
+      window.log.warn(`compactFetchResults for ${this.serverUrl}:`, compactFetchResults);
     } catch (e) {
       window.log.warn('Got error while compact fetch:', e);
     } finally {

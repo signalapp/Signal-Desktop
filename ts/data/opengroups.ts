@@ -13,13 +13,9 @@ export type OpenGroupV2Room = {
   token?: string; // currently, the token is on a per room basis
 };
 
-export async function getAllV2OpenGroupRooms(): Promise<
-  Map<string, OpenGroupV2Room> | undefined
-> {
+export async function getAllV2OpenGroupRooms(): Promise<Map<string, OpenGroupV2Room> | undefined> {
   // TODO sql
-  const opengroupsv2Rooms = (await channels.getAllV2OpenGroupRooms()) as Array<
-    OpenGroupV2Room
-  >;
+  const opengroupsv2Rooms = (await channels.getAllV2OpenGroupRooms()) as Array<OpenGroupV2Room>;
 
   if (!opengroupsv2Rooms) {
     return undefined;
@@ -51,10 +47,7 @@ export async function getV2OpenGroupRoom(
 export async function getV2OpenGroupRoomByRoomId(
   roomInfos: OpenGroupRequestCommonType
 ): Promise<OpenGroupV2Room | undefined> {
-  const room = await channels.getV2OpenGroupRoomByRoomId(
-    roomInfos.serverUrl,
-    roomInfos.roomId
-  );
+  const room = await channels.getV2OpenGroupRoomByRoomId(roomInfos.serverUrl, roomInfos.roomId);
 
   if (!room) {
     return undefined;
@@ -63,9 +56,7 @@ export async function getV2OpenGroupRoomByRoomId(
   return room;
 }
 
-export async function saveV2OpenGroupRoom(
-  opengroupsv2Room: OpenGroupV2Room
-): Promise<void> {
+export async function saveV2OpenGroupRoom(opengroupsv2Room: OpenGroupV2Room): Promise<void> {
   if (
     !opengroupsv2Room.conversationId ||
     !opengroupsv2Room.roomId ||
@@ -79,9 +70,7 @@ export async function saveV2OpenGroupRoom(
   await channels.saveV2OpenGroupRoom(opengroupsv2Room);
 }
 
-export async function removeV2OpenGroupRoom(
-  conversationId: string
-): Promise<void> {
+export async function removeV2OpenGroupRoom(conversationId: string): Promise<void> {
   console.warn('removing roomInfo', conversationId);
 
   await channels.removeV2OpenGroupRoom(conversationId);

@@ -145,8 +145,7 @@
     },
     getThemeObject() {
       const themeSettings = storage.get('theme-setting') || 'light';
-      const theme =
-        themeSettings === 'light' ? window.lightTheme : window.darkTheme;
+      const theme = themeSettings === 'light' ? window.lightTheme : window.darkTheme;
       return theme;
     },
     showUpdateGroupNameDialog(groupConvo) {
@@ -165,9 +164,7 @@
     },
     showLeaveGroupDialog(groupConvo) {
       if (!groupConvo.isGroup()) {
-        throw new Error(
-          'showLeaveGroupDialog() called with a non group convo.'
-        );
+        throw new Error('showLeaveGroupDialog() called with a non group convo.');
       }
 
       const title = i18n('leaveGroup');

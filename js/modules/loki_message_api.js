@@ -45,9 +45,7 @@ class LokiMessageAPI {
     };
 
     if (isPublic) {
-      window.log.warn(
-        'this sendMessage() should not be called anymore with an open group message'
-      );
+      window.log.warn('this sendMessage() should not be called anymore with an open group message');
       return;
     }
 
@@ -98,10 +96,7 @@ class LokiMessageAPI {
       throw e;
     }
     if (!snode) {
-      throw new window.textsecure.EmptySwarmError(
-        pubKey,
-        'Ran out of swarm nodes to query'
-      );
+      throw new window.textsecure.EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
     } else {
       log.info(
         `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${snode.ip}:${snode.port}`

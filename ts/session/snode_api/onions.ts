@@ -26,10 +26,7 @@ export interface SnodeResponse {
 
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
-async function encryptForPubKey(
-  pubKeyX25519hex: string,
-  reqObj: any
-): Promise<DestinationContext> {
+async function encryptForPubKey(pubKeyX25519hex: string, reqObj: any): Promise<DestinationContext> {
   const reqStr = JSON.stringify(reqObj);
 
   const textEncoder = new TextEncoder();
@@ -39,11 +36,7 @@ async function encryptForPubKey(
 }
 
 // `ctx` holds info used by `node` to relay further
-async function encryptForRelay(
-  relayX25519hex: string,
-  destination: any,
-  ctx: any
-) {
+async function encryptForRelay(relayX25519hex: string, destination: any, ctx: any) {
   const { log, StringView } = window;
 
   // ctx contains: ciphertext, symmetricKey, ephemeralKey
@@ -63,11 +56,7 @@ async function encryptForRelay(
 }
 
 // `ctx` holds info used by `node` to relay further
-async function encryptForRelayV2(
-  relayX25519hex: string,
-  destination: any,
-  ctx: any
-) {
+async function encryptForRelayV2(relayX25519hex: string, destination: any, ctx: any) {
   const { log, StringView } = window;
 
   if (!destination.host && !destination.destination) {
@@ -100,10 +89,7 @@ function makeGuardPayload(guardCtx: any): Uint8Array {
 }
 
 /// Encode ciphertext as (len || binary) and append payloadJson as utf8
-function encodeCiphertextPlusJson(
-  ciphertext: any,
-  payloadJson: any
-): Uint8Array {
+function encodeCiphertextPlusJson(ciphertext: any, payloadJson: any): Uint8Array {
   const payloadStr = JSON.stringify(payloadJson);
 
   const bufferJson = ByteBuffer.wrap(payloadStr, 'utf8');
@@ -197,18 +183,10 @@ async function buildOnionCtxs(
     try {
       const encryptFn = useV2 ? encryptForRelayV2 : encryptForRelay;
       // eslint-disable-next-line no-await-in-loop
-      const ctx = await encryptFn(
-        nodePath[i].pubkey_x25519,
-        dest,
-        ctxes[ctxes.length - 1]
-      );
+      const ctx = await encryptFn(nodePath[i].pubkey_x25519, dest, ctxes[ctxes.length - 1]);
       ctxes.push(ctx);
     } catch (e) {
-      log.error(
-        `loki_rpc:::makeOnionRequest ${id} - encryptForRelay failure`,
-        e.code,
-        e.message
-      );
+      log.error(`loki_rpc:::makeOnionRequest ${id} - encryptForRelay failure`, e.code, e.message);
       throw e;
     }
   }
@@ -238,9 +216,7 @@ async function makeOnionRequest(
 
   const guardCtx = ctxes[ctxes.length - 1]; // last ctx
 
-  const payload = useV2
-    ? makeGuardPayloadV2(guardCtx)
-    : makeGuardPayload(guardCtx);
+  const payload = useV2 ? makeGuardPayloadV2(guardCtx) : makeGuardPayload(guardCtx);
 
   // all these requests should use AesGcm
   return payload;
@@ -271,7 +247,7 @@ const processOnionResponse = async (
 
     return RequestError.BAD_PATH;
   }
-  
+
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
     log.warn(`(${reqIdx}) [path] Got 503: snode not ready`);
@@ -306,10 +282,7 @@ const processOnionResponse = async (
     return RequestError.OTHER;
   }
   if (debug) {
-    log.debug(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertext`,
-      ciphertext
-    );
+    log.debug(`(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertext`, ciphertext);
   }
 
   let plaintext;
@@ -322,10 +295,7 @@ const processOnionResponse = async (
     // just try to get a json object from what is inside (for PN requests), if it fails, continue ()
   }
   try {
-    ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
-      ciphertext,
-      'base64'
-    ).toArrayBuffer();
+    ciphertextBuffer = dcodeIO.ByteBuffer.wrap(ciphertext, 'base64').toArrayBuffer();
 
     if (debug) {
       log.debug(
@@ -334,23 +304,14 @@ const processOnionResponse = async (
       );
     }
 
-    const plaintextBuffer = await libloki.crypto.DecryptAESGCM(
-      sharedKey,
-      ciphertextBuffer
-    );
+    const plaintextBuffer = await libloki.crypto.DecryptAESGCM(sharedKey, ciphertextBuffer);
     if (debug) {
-      log.debug(
-        'lokiRpc::processOnionResponse - plaintextBuffer',
-        plaintextBuffer.toString()
-      );
+      log.debug('lokiRpc::processOnionResponse - plaintextBuffer', plaintextBuffer.toString());
     }
 
     plaintext = new TextDecoder().decode(plaintextBuffer);
   } catch (e) {
-    log.error(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - decode error`,
-      e
-    );
+    log.error(`(${reqIdx}) [path] lokiRpc::processOnionResponse - decode error`, e);
     log.error(
       `(${reqIdx}) [path] lokiRpc::processOnionResponse - symKey`,
       StringView.arrayBufferToHex(sharedKey)
@@ -477,10 +438,7 @@ const sendOnionRequest = async (
       const bodyEncoded = textEncoder.encode(body);
 
       const plaintext = encodeCiphertextPlusJson(bodyEncoded, options);
-      destCtx = await window.libloki.crypto.encryptForPubkey(
-        destX25519hex,
-        plaintext
-      );
+      destCtx = await window.libloki.crypto.encryptForPubkey(destX25519hex, plaintext);
     } else {
       destCtx = await encryptForPubKey(destX25519hex, options);
     }
@@ -524,13 +482,7 @@ const sendOnionRequest = async (
 
   const response = await insecureNodeFetch(guardUrl, guardFetchOptions);
 
-  return processOnionResponse(
-    reqIdx,
-    response,
-    destCtx.symmetricKey,
-    false,
-    abortSignal
-  );
+  return processOnionResponse(reqIdx, response, destCtx.symmetricKey, false, abortSignal);
 };
 
 async function sendOnionRequestSnodeDest(
@@ -595,18 +547,11 @@ export async function lokiOnionFetch(
     // At this point I only care about BAD_PATH
 
     // eslint-disable-next-line no-await-in-loop
-    const result = await sendOnionRequestSnodeDest(
-      thisIdx,
-      path,
-      targetNode,
-      body
-    );
+    const result = await sendOnionRequestSnodeDest(thisIdx, path, targetNode, body);
 
     if (result === RequestError.BAD_PATH) {
       log.error(
-        `[path] Error on the path: ${getPathString(path)} to ${targetNode.ip}:${
-          targetNode.port
-        }`
+        `[path] Error on the path: ${getPathString(path)} to ${targetNode.ip}:${targetNode.port}`
       );
       OnionPaths.getInstance().markPathAsBad(path);
       return false;
@@ -616,9 +561,9 @@ export async function lokiOnionFetch(
       // or can't decrypt
       // it's not a bad_path, so we don't need to mark the path as bad
       log.error(
-        `[path] sendOnionRequest gave false for path: ${getPathString(
-          path
-        )} to ${targetNode.ip}:${targetNode.port}`
+        `[path] sendOnionRequest gave false for path: ${getPathString(path)} to ${targetNode.ip}:${
+          targetNode.port
+        }`
       );
       return false;
     } else if (result === RequestError.ABORTED) {
@@ -627,9 +572,9 @@ export async function lokiOnionFetch(
       // or can't decrypt
       // it's not a bad_path, so we don't need to mark the path as bad
       log.error(
-        `[path] sendOnionRequest gave aborted for path: ${getPathString(
-          path
-        )} to ${targetNode.ip}:${targetNode.port}`
+        `[path] sendOnionRequest gave aborted for path: ${getPathString(path)} to ${
+          targetNode.ip
+        }:${targetNode.port}`
       );
       return false;
     } else {

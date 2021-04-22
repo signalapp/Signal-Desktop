@@ -9,10 +9,7 @@ import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing
 import { MockConversation } from '../../../test-utils/utils';
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 
-import {
-  ConversationModel,
-  ConversationType,
-} from '../../../../models/conversation';
+import { ConversationModel, ConversationType } from '../../../../models/conversation';
 
 import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised as any);
@@ -51,9 +48,7 @@ describe('Message Utils', () => {
 
       expect(rawMessage.identifier).to.equal(message.identifier);
       expect(rawMessage.device).to.equal(device.key);
-      expect(rawMessage.plainTextBuffer).to.deep.equal(
-        message.plainTextBuffer()
-      );
+      expect(rawMessage.plainTextBuffer).to.deep.equal(message.plainTextBuffer());
       expect(rawMessage.timestamp).to.equal(message.timestamp);
       expect(rawMessage.ttl).to.equal(message.ttl());
     });
@@ -252,9 +247,7 @@ describe('Message Utils', () => {
     beforeEach(() => {
       convos = [];
       sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
-      sandbox
-        .stub(UserUtils, 'getOurPubKeyFromCache')
-        .resolves(PubKey.cast(ourNumber));
+      sandbox.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
     });
 
     beforeEach(() => {

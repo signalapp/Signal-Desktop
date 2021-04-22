@@ -2,17 +2,10 @@ import React from 'react';
 
 import { ConversationListItemWithDetails } from '../ConversationListItem';
 import { RowRendererParamsType } from '../LeftPane';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { AutoSizer, List } from 'react-virtualized';
 import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
-import {
-  SessionClosableOverlay,
-  SessionClosableOverlayType,
-} from './SessionClosableOverlay';
+import { SessionClosableOverlay, SessionClosableOverlayType } from './SessionClosableOverlay';
 import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
@@ -43,9 +36,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleOnAddContact = this.handleOnAddContact.bind(this);
-    this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(
-      this
-    );
+    this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(this);
     this.closeOverlay = this.closeOverlay.bind(this);
   }
 
@@ -59,30 +50,19 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   public renderHeader(): JSX.Element | undefined {
-    return (
-      <LeftPaneSectionHeader
-        label={window.i18n('contactsHeader')}
-        theme={this.props.theme}
-      />
-    );
+    return <LeftPaneSectionHeader label={window.i18n('contactsHeader')} theme={this.props.theme} />;
   }
 
   public render(): JSX.Element {
     return (
       <div className="left-pane-contact-section">
         {this.renderHeader()}
-        {this.state.showAddContactView
-          ? this.renderClosableOverlay()
-          : this.renderContacts()}
+        {this.state.showAddContactView ? this.renderClosableOverlay() : this.renderContacts()}
       </div>
     );
   }
 
-  public renderRow = ({
-    index,
-    key,
-    style,
-  }: RowRendererParamsType): JSX.Element | undefined => {
+  public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | undefined => {
     const { directContacts } = this.props;
     const item = directContacts[index];
 

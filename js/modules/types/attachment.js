@@ -4,15 +4,9 @@ const AttachmentTS = require('../../../ts/types/Attachment');
 const GoogleChrome = require('../../../ts/util/GoogleChrome');
 const MIME = require('../../../ts/types/MIME');
 const { toLogFormat } = require('./errors');
-const {
-  arrayBufferToBlob,
-  blobToArrayBuffer,
-  dataURLToBlob,
-} = require('blob-util');
+const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
-const {
-  migrateDataToFileSystem,
-} = require('./attachment/migrate_data_to_file_system');
+const { migrateDataToFileSystem } = require('./attachment/migrate_data_to_file_system');
 
 // // Incoming message attachment fields
 // {
@@ -61,10 +55,7 @@ exports.autoOrientJPEG = async attachment => {
     return attachment;
   }
 
-  const dataBlob = await arrayBufferToBlob(
-    attachment.data,
-    attachment.contentType
-  );
+  const dataBlob = await arrayBufferToBlob(attachment.data, attachment.contentType);
   const newDataBlob = await dataURLToBlob(await autoOrientImage(dataBlob));
   const newDataArrayBuffer = await blobToArrayBuffer(newDataBlob);
 
@@ -125,10 +116,7 @@ exports.replaceUnicodeV2 = async attachment => {
     return attachment;
   }
 
-  const fileName = attachment.fileName.replace(
-    V2_UNWANTED_UNICODE,
-    UNICODE_REPLACEMENT_CHARACTER
-  );
+  const fileName = attachment.fileName.replace(V2_UNWANTED_UNICODE, UNICODE_REPLACEMENT_CHARACTER);
 
   return {
     ...attachment,
@@ -138,10 +126,7 @@ exports.replaceUnicodeV2 = async attachment => {
 
 exports.removeSchemaVersion = ({ attachment, logger }) => {
   if (!exports.isValid(attachment)) {
-    logger.error(
-      'Attachment.removeSchemaVersion: Invalid input attachment:',
-      attachment
-    );
+    logger.error('Attachment.removeSchemaVersion: Invalid input attachment:', attachment);
     return attachment;
   }
 
@@ -294,10 +279,7 @@ exports.captureDimensionsAndScreenshot = async (
         logger,
       })
     );
-    screenshotObjectUrl = makeObjectUrl(
-      screenshotBuffer,
-      THUMBNAIL_CONTENT_TYPE
-    );
+    screenshotObjectUrl = makeObjectUrl(screenshotBuffer, THUMBNAIL_CONTENT_TYPE);
     const { width, height } = await getImageDimensions({
       objectUrl: screenshotObjectUrl,
       logger,

@@ -47,18 +47,10 @@ export const validOpenGroupServer = async (serverUrl: string) => {
       // we got the public key of the server we are trying to add.
       // decode it.
       const obj = JSON.parse(result.response.data);
-      const pubKey = window.dcodeIO.ByteBuffer.wrap(
-        obj.data,
-        'base64'
-      ).toArrayBuffer();
+      const pubKey = window.dcodeIO.ByteBuffer.wrap(obj.data, 'base64').toArrayBuffer();
       // verify we can make an onion routed call to that open group with the decoded public key
       // get around the FILESERVER_HOSTS filter by not using serverRequest
-      const res = await sendViaOnion(
-        pubKey,
-        url,
-        { method: 'GET' },
-        { noJson: true }
-      );
+      const res = await sendViaOnion(pubKey, url, { method: 'GET' }, { noJson: true });
       if (res && res.result && res.result.status === 200) {
         window.log.info(
           `loki_public_chat::validOpenGroupServer - onion routing enabled on ${url.toString()}`
@@ -104,10 +96,7 @@ export function prefixify(server: string, hasSSL: boolean = true): string {
  * No sql access. Just how our open groupv2 url looks like
  * @returns `publicChat:${roomId}@${serverUrl}`
  */
-export function getOpenGroupV2ConversationId(
-  serverUrl: string,
-  roomId: string
-) {
+export function getOpenGroupV2ConversationId(serverUrl: string, roomId: string) {
   if (roomId.length < 2) {
     throw new Error('Invalid roomId: too short');
   }

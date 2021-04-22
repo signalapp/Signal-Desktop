@@ -16,12 +16,7 @@ interface Status {
 
 type UserSetting = 'off' | 'count' | 'name' | 'message';
 
-type Type =
-  | 'ok'
-  | 'disabled'
-  | 'appIsFocused'
-  | 'noNotifications'
-  | 'userSetting';
+type Type = 'ok' | 'disabled' | 'appIsFocused' | 'noNotifications' | 'userSetting';
 
 export const getStatus = ({
   isAppFocused,
@@ -52,8 +47,7 @@ export const getStatus = ({
     return 'ok';
   })();
 
-  const shouldPlayNotificationSound =
-    isAudioNotificationSupported && isAudioNotificationEnabled;
+  const shouldPlayNotificationSound = isAudioNotificationSupported && isAudioNotificationEnabled;
   const shouldShowNotifications = type === 'ok';
   const shouldClearNotifications = type === 'appIsFocused';
 

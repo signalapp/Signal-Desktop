@@ -24,9 +24,7 @@ export class ClosedGroupAvatar extends React.PureComponent<Props> {
       case AvatarSize.HUGE:
         return AvatarSize.XL;
       default:
-        throw new Error(
-          `Invalid size request for closed group avatar: ${size}`
-        );
+        throw new Error(`Invalid size request for closed group avatar: ${size}`);
     }
   }
 

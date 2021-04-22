@@ -95,10 +95,7 @@ async function checkForUpdates(
       }
 
       logger.info('auto-update: showing download dialog...');
-      const shouldDownload = await showDownloadUpdateDialog(
-        getMainWindow(),
-        messages
-      );
+      const shouldDownload = await showDownloadUpdateDialog(getMainWindow(), messages);
       if (!shouldDownload) {
         downloadIgnored = true;
 
@@ -152,10 +149,7 @@ async function canAutoUpdate(): Promise<boolean> {
 
   // Taken from: https://github.com/electron-userland/electron-builder/blob/d4feb6d3c8b008f8b455c761d654c8088f90d8fa/packages/electron-updater/src/ElectronAppAdapter.ts#L25
   const updateFile = isPackaged ? 'app-update.yml' : 'dev-app-update.yml';
-  const basePath =
-    isPackaged && process.resourcesPath
-      ? process.resourcesPath
-      : app.getAppPath();
+  const basePath = isPackaged && process.resourcesPath ? process.resourcesPath : app.getAppPath();
   const appUpdateConfigPath = path.join(basePath, updateFile);
 
   return new Promise(resolve => {

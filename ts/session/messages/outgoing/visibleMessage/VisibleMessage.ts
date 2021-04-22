@@ -179,9 +179,6 @@ export class VisibleMessage extends DataMessage {
   }
 
   public isEqual(comparator: VisibleMessage): boolean {
-    return (
-      this.identifier === comparator.identifier &&
-      this.timestamp === comparator.timestamp
-    );
+    return this.identifier === comparator.identifier && this.timestamp === comparator.timestamp;
   }
 }

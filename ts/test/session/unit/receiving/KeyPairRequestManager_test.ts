@@ -68,8 +68,7 @@ describe('KeyPairRequestManager', () => {
 
     it('should return true if there is a timestamp set for this pubkey and it is more than DELAY_BETWEEN_TWO_REQUEST_MS', () => {
       const groupPubkey = TestUtils.generateFakePubKey();
-      const timestamp1 =
-        Date.now() - KeyPairRequestManager.DELAY_BETWEEN_TWO_REQUEST_MS;
+      const timestamp1 = Date.now() - KeyPairRequestManager.DELAY_BETWEEN_TWO_REQUEST_MS;
 
       inst.markRequestSendFor(groupPubkey, timestamp1);
       const can = inst.canTriggerRequestWith(groupPubkey);

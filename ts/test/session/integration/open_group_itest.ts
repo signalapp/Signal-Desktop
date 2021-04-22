@@ -29,65 +29,37 @@ describe('Open groups', function() {
   });
 
   it('openGroup: works with valid open group url', async () => {
-    await Common.joinOpenGroup(
-      app,
-      Common.VALID_GROUP_URL,
-      Common.VALID_GROUP_NAME
-    );
+    await Common.joinOpenGroup(app, Common.VALID_GROUP_URL, Common.VALID_GROUP_NAME);
   });
 
   it('openGroup: cannot join two times the same open group', async () => {
-    await Common.joinOpenGroup(
-      app,
-      Common.VALID_GROUP_URL2,
-      Common.VALID_GROUP_NAME2
-    );
+    await Common.joinOpenGroup(app, Common.VALID_GROUP_URL2, Common.VALID_GROUP_NAME2);
 
     // adding a second time the same open group
-    await app.client
-      .element(ConversationPage.conversationButtonSection)
-      .click();
+    await app.client.element(ConversationPage.conversationButtonSection).click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
-    await Common.setValueWrapper(
-      app,
-      ConversationPage.openGroupInputUrl,
-      Common.VALID_GROUP_URL2
-    );
+    await Common.setValueWrapper(app, ConversationPage.openGroupInputUrl, Common.VALID_GROUP_URL2);
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
     // validate session loader is not shown
-    await app.client.isExisting(ConversationPage.sessionLoader).should
-      .eventually.be.false;
+    await app.client.isExisting(ConversationPage.sessionLoader).should.eventually.be.false;
 
-    await app.client.waitForExist(
-      ConversationPage.sessionToastJoinOpenGroupAlreadyExist,
-      1 * 1000
-    );
+    await app.client.waitForExist(ConversationPage.sessionToastJoinOpenGroupAlreadyExist, 1 * 1000);
 
     // validate overlay is still opened as connection failed
-    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
-      .eventually.be.true;
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should.eventually.be.true;
   });
 
   it('openGroup: can send message to open group', async () => {
     // join dev-chat group
-    await app.client
-      .element(ConversationPage.conversationButtonSection)
-      .click();
+    await app.client.element(ConversationPage.conversationButtonSection).click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
-    await Common.setValueWrapper(
-      app,
-      ConversationPage.openGroupInputUrl,
-      Common.VALID_GROUP_URL2
-    );
+    await Common.setValueWrapper(app, ConversationPage.openGroupInputUrl, Common.VALID_GROUP_URL2);
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
     // wait for toast to appear
-    await app.client.waitForExist(
-      ConversationPage.sessionToastJoinOpenGroupSuccess,
-      30 * 1000
-    );
+    await app.client.waitForExist(ConversationPage.sessionToastJoinOpenGroupSuccess, 30 * 1000);
     await Common.timeout(5 * 1000); // wait for toast to clear
 
     await app.client.waitForExist(
@@ -96,25 +68,17 @@ describe('Open groups', function() {
     );
     // generate a message containing the current timestamp so we can find it in the list of messages
     const textMessage = Common.generateSendMessageText();
-    await app.client
-      .element(ConversationPage.conversationButtonSection)
-      .click();
+    await app.client.element(ConversationPage.conversationButtonSection).click();
 
     await app.client.isExisting(
       ConversationPage.rowOpenGroupConversationName(Common.VALID_GROUP_NAME2)
     );
 
     await app.client
-      .element(
-        ConversationPage.rowOpenGroupConversationName(Common.VALID_GROUP_NAME2)
-      )
+      .element(ConversationPage.rowOpenGroupConversationName(Common.VALID_GROUP_NAME2))
       .click();
 
-    await Common.setValueWrapper(
-      app,
-      ConversationPage.sendMessageTextarea,
-      textMessage
-    );
+    await Common.setValueWrapper(app, ConversationPage.sendMessageTextarea, textMessage);
     await app.client
       .element(ConversationPage.sendMessageTextarea)
       .getValue()
@@ -126,10 +90,7 @@ describe('Open groups', function() {
     await app.client.keys('Enter');
     await Common.timeout(5000);
     // validate that the message has been added to the message list view
-    await app.client.waitForExist(
-      ConversationPage.existingSendMessageText(textMessage),
-      3 * 1000
-    );
+    await app.client.waitForExist(ConversationPage.existingSendMessageText(textMessage), 3 * 1000);
     // we should validate that the message has been added effectively sent
     // (checking the check icon on the metadata part of the message?)
   });

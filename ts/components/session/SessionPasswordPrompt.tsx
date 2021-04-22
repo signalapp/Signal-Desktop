@@ -2,11 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { SessionIcon, SessionIconType } from './icon';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { Constants } from '../../session';
 import { DefaultTheme, withTheme } from 'styled-components';
 
@@ -18,10 +14,7 @@ interface State {
 
 export const MAX_LOGIN_TRIES = 3;
 
-class SessionPasswordPromptInner extends React.PureComponent<
-  { theme: DefaultTheme },
-  State
-> {
+class SessionPasswordPromptInner extends React.PureComponent<{ theme: DefaultTheme }, State> {
   private readonly inputRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: any) {
@@ -54,9 +47,7 @@ class SessionPasswordPromptInner extends React.PureComponent<
     const containerClass = this.state.clearDataView
       ? 'clear-data-container'
       : 'password-prompt-container';
-    const infoAreaClass = this.state.clearDataView
-      ? 'warning-info-area'
-      : 'password-info-area';
+    const infoAreaClass = this.state.clearDataView ? 'warning-info-area' : 'password-info-area';
     const infoTitle = this.state.clearDataView
       ? window.i18n('clearAllData')
       : window.i18n('passwordViewTitle');
@@ -95,9 +86,7 @@ class SessionPasswordPromptInner extends React.PureComponent<
         {this.state.error && (
           <>
             {showResetElements ? (
-              <div className="session-label warning">
-                {window.i18n('maxPasswordAttempts')}
-              </div>
+              <div className="session-label warning">{window.i18n('maxPasswordAttempts')}</div>
             ) : (
               <div className="session-label primary">{this.state.error}</div>
             )}
@@ -149,9 +138,7 @@ class SessionPasswordPromptInner extends React.PureComponent<
   }
 
   private async initLogin() {
-    const passPhrase = String(
-      (this.inputRef.current as HTMLInputElement).value
-    );
+    const passPhrase = String((this.inputRef.current as HTMLInputElement).value);
     await this.onLogin(passPhrase);
   }
 

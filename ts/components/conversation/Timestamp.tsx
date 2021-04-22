@@ -18,9 +18,9 @@ type Props = {
 
 const UPDATE_FREQUENCY = 60 * 1000;
 
-const TimestampContainerListItem = styled(props => (
-  <OpacityMetadataComponent {...props} />
-))<{ color: string }>`
+const TimestampContainerListItem = styled(props => <OpacityMetadataComponent {...props} />)<{
+  color: string;
+}>`
   flex-shrink: 0;
   margin-inline-start: 6px;
   font-size: 11px;
@@ -33,9 +33,9 @@ const TimestampContainerListItem = styled(props => (
   color: ${props => props.theme.colors.textColor};
 `;
 
-const TimestampContainerNotListItem = styled(props => (
-  <OpacityMetadataComponent {...props} />
-))<{ color: string }>`
+const TimestampContainerNotListItem = styled(props => <OpacityMetadataComponent {...props} />)<{
+  color: string;
+}>`
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
@@ -63,8 +63,7 @@ export const Timestamp = (props: Props) => {
 
   // Use relative time for under 24hrs ago.
   const now = Math.floor(Date.now());
-  const messageAgeInDays =
-    (now - timestamp) / (window.CONSTANTS.SECS_IN_DAY * 1000);
+  const messageAgeInDays = (now - timestamp) / (window.CONSTANTS.SECS_IN_DAY * 1000);
   const daysBeforeRelativeTiming = 1;
 
   let dateString;
@@ -80,9 +79,7 @@ export const Timestamp = (props: Props) => {
     dateString = dateString.replace('minutes', 'mins').replace('minute', 'min');
   }
 
-  const timestampColor = withImageNoCaption
-    ? 'white'
-    : props.theme.colors.textColor;
+  const timestampColor = withImageNoCaption ? 'white' : props.theme.colors.textColor;
   const title = moment(timestamp).format('llll');
   if (props.isConversationListItem) {
     return (
@@ -92,10 +89,7 @@ export const Timestamp = (props: Props) => {
     );
   }
   return (
-    <TimestampContainerNotListItem
-      timestampColor={timestampColor}
-      title={title}
-    >
+    <TimestampContainerNotListItem timestampColor={timestampColor} title={title}>
       {dateString}
     </TimestampContainerNotListItem>
   );

@@ -27,11 +27,7 @@ interface CurveSync {
   generateKeyPair(): KeyPair;
   createKeyPair(privKey: ArrayBuffer): KeyPair;
   calculateAgreement(pubKey: ArrayBuffer, privKey: ArrayBuffer): ArrayBuffer;
-  verifySignature(
-    pubKey: ArrayBuffer,
-    msg: ArrayBuffer,
-    sig: ArrayBuffer
-  ): void;
+  verifySignature(pubKey: ArrayBuffer, msg: ArrayBuffer, sig: ArrayBuffer): void;
   calculateSignature(privKey: ArrayBuffer, message: ArrayBuffer): ArrayBuffer;
   validatePubKeyFormat(pubKey: ArrayBuffer): ArrayBuffer;
 }
@@ -39,19 +35,9 @@ interface CurveSync {
 interface CurveAsync {
   generateKeyPair(): Promise<KeyPair>;
   createKeyPair(privKey: ArrayBuffer): Promise<KeyPair>;
-  calculateAgreement(
-    pubKey: ArrayBuffer,
-    privKey: ArrayBuffer
-  ): Promise<ArrayBuffer>;
-  verifySignature(
-    pubKey: ArrayBuffer,
-    msg: ArrayBuffer,
-    sig: ArrayBuffer
-  ): Promise<void>;
-  calculateSignature(
-    privKey: ArrayBuffer,
-    message: ArrayBuffer
-  ): Promise<ArrayBuffer>;
+  calculateAgreement(pubKey: ArrayBuffer, privKey: ArrayBuffer): Promise<ArrayBuffer>;
+  verifySignature(pubKey: ArrayBuffer, msg: ArrayBuffer, sig: ArrayBuffer): Promise<void>;
+  calculateSignature(privKey: ArrayBuffer, message: ArrayBuffer): Promise<ArrayBuffer>;
   validatePubKeyFormat(pubKey: ArrayBuffer): Promise<ArrayBuffer>;
 }
 
@@ -60,23 +46,10 @@ export interface CurveInterface extends CurveSync {
 }
 
 export interface CryptoInterface {
-  encrypt(
-    key: ArrayBuffer,
-    data: ArrayBuffer,
-    iv: ArrayBuffer
-  ): Promise<ArrayBuffer>;
-  decrypt(
-    key: ArrayBuffer,
-    data: ArrayBuffer,
-    iv: ArrayBuffer
-  ): Promise<ArrayBuffer>;
+  encrypt(key: ArrayBuffer, data: ArrayBuffer, iv: ArrayBuffer): Promise<ArrayBuffer>;
+  decrypt(key: ArrayBuffer, data: ArrayBuffer, iv: ArrayBuffer): Promise<ArrayBuffer>;
   calculateMAC(key: ArrayBuffer, data: ArrayBuffer): Promise<ArrayBuffer>;
-  verifyMAC(
-    data: ArrayBuffer,
-    key: ArrayBuffer,
-    mac: ArrayBuffer,
-    length: number
-  ): Promise<void>;
+  verifyMAC(data: ArrayBuffer, key: ArrayBuffer, mac: ArrayBuffer, length: number): Promise<void>;
   getRandomBytes(size: number): ArrayBuffer;
 }
 

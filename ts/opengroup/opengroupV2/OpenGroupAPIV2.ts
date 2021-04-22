@@ -1,8 +1,5 @@
 import _ from 'lodash';
-import {
-  getV2OpenGroupRoomByRoomId,
-  saveV2OpenGroupRoom,
-} from '../../data/opengroups';
+import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { ConversationController } from '../../session/conversations';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
@@ -11,10 +8,7 @@ import {
   fromBase64ToArrayBuffer,
   toHex,
 } from '../../session/utils/String';
-import {
-  getIdentityKeyPair,
-  getOurPubKeyStrFromCache,
-} from '../../session/utils/User';
+import { getIdentityKeyPair, getOurPubKeyStrFromCache } from '../../session/utils/User';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import {
   buildUrl,
@@ -38,9 +32,7 @@ import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
  * download and upload of attachments for instance, but most of the logic happens in
  * the compact_poll endpoint
  */
-async function sendOpenGroupV2Request(
-  request: OpenGroupV2Request
-): Promise<Object | null> {
+async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Object | null> {
   const builtUrl = buildUrl(request);
 
   if (!builtUrl) {
@@ -91,10 +83,7 @@ async function sendOpenGroupV2Request(
 
     const statusCode = parseStatusCodeFromOnionRequest(res);
     if (!statusCode) {
-      window.log.warn(
-        'sendOpenGroupV2Request Got unknown status code; res:',
-        res
-      );
+      window.log.warn('sendOpenGroupV2Request Got unknown status code; res:', res);
       return res as object;
     }
     // A 401 means that we didn't provide a (valid) auth token for a route that required one. We use this as an
@@ -155,19 +144,14 @@ export async function requestNewAuthToken({
     return null;
   }
   const ciphertext = fromBase64ToArrayBuffer(base64EncodedCiphertext);
-  const ephemeralPublicKey = fromBase64ToArrayBuffer(
-    base64EncodedEphemeralPublicKey
-  );
+  const ephemeralPublicKey = fromBase64ToArrayBuffer(base64EncodedEphemeralPublicKey);
   try {
     const symmetricKey = await window.libloki.crypto.deriveSymmetricKey(
       ephemeralPublicKey,
       userKeyPair.privKey
     );
 
-    const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(
-      symmetricKey,
-      ciphertext
-    );
+    const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(symmetricKey, ciphertext);
 
     const token = toHex(plaintextBuffer);
 
@@ -255,28 +239,25 @@ export async function getAuthToken({
     return roomDetails?.token;
   }
 
-  await allowOnlyOneAtATime(
-    `getAuthTokenV2${serverUrl}:${roomId}`,
-    async () => {
-      try {
-        const token = await requestNewAuthToken({ serverUrl, roomId });
-        if (!token) {
-          window.log.warn('invalid new auth token', token);
-          return;
-        }
-        const claimedToken = await claimAuthToken(token, serverUrl, roomId);
-        if (!claimedToken) {
-          window.log.warn('invalid claimed token', claimedToken);
-        }
-        // still save it to the db. just to mark it as to be refreshed later
-        roomDetails.token = claimedToken || '';
-        await saveV2OpenGroupRoom(roomDetails);
-      } catch (e) {
-        window.log.error('Failed to getAuthToken', e);
-        throw e;
+  await allowOnlyOneAtATime(`getAuthTokenV2${serverUrl}:${roomId}`, async () => {
+    try {
+      const token = await requestNewAuthToken({ serverUrl, roomId });
+      if (!token) {
+        window.log.warn('invalid new auth token', token);
+        return;
       }
+      const claimedToken = await claimAuthToken(token, serverUrl, roomId);
+      if (!claimedToken) {
+        window.log.warn('invalid claimed token', claimedToken);
+      }
+      // still save it to the db. just to mark it as to be refreshed later
+      roomDetails.token = claimedToken || '';
+      await saveV2OpenGroupRoom(roomDetails);
+    } catch (e) {
+      window.log.error('Failed to getAuthToken', e);
+      throw e;
     }
-  );
+  });
 
   const refreshedRoomDetails = await getV2OpenGroupRoomByRoomId({
     serverUrl,
@@ -292,10 +273,7 @@ export async function getAuthToken({
   return null;
 }
 
-export const deleteAuthToken = async ({
-  serverUrl,
-  roomId,
-}: OpenGroupRequestCommonType) => {
+export const deleteAuthToken = async ({ serverUrl, roomId }: OpenGroupRequestCommonType) => {
   const request: OpenGroupV2Request = {
     method: 'DELETE',
     room: roomId,
@@ -340,9 +318,7 @@ export const getMessages = async ({
   }
 
   // we have a 200
-  const rawMessages = (result as any)?.result?.messages as Array<
-    Record<string, any>
-  >;
+  const rawMessages = (result as any)?.result?.messages as Array<Record<string, any>>;
   const validMessages = await parseMessages(rawMessages);
   console.warn('validMessages', validMessages);
   return validMessages;
@@ -406,9 +382,7 @@ export const getModerators = async ({
   const moderators = parseModerators(result);
   if (moderators === undefined) {
     // if moderators is undefined, do not update the cached moderator list
-    window.log.warn(
-      'Could not getModerators, got no moderatorsGot at all in json.'
-    );
+    window.log.warn('Could not getModerators, got no moderatorsGot at all in json.');
     return [];
   }
   setCachedModerators(serverUrl, roomId, moderators || []);
@@ -457,9 +431,7 @@ export const unbanUser = async (
   await sendOpenGroupV2Request(request);
 };
 
-export const getAllRoomInfos = async (
-  roomInfos: OpenGroupRequestCommonType
-) => {
+export const getAllRoomInfos = async (roomInfos: OpenGroupRequestCommonType) => {
   // room should not be required here
   const request: OpenGroupV2Request = {
     method: 'GET',
@@ -479,9 +451,7 @@ export const getAllRoomInfos = async (
   return parseRooms(result);
 };
 
-export const getMemberCount = async (
-  roomInfos: OpenGroupRequestCommonType
-): Promise<void> => {
+export const getMemberCount = async (roomInfos: OpenGroupRequestCommonType): Promise<void> => {
   const request: OpenGroupV2Request = {
     method: 'GET',
     room: roomInfos.roomId,
@@ -500,16 +470,11 @@ export const getMemberCount = async (
     return;
   }
 
-  const conversationId = getOpenGroupV2ConversationId(
-    roomInfos.serverUrl,
-    roomInfos.roomId
-  );
+  const conversationId = getOpenGroupV2ConversationId(roomInfos.serverUrl, roomInfos.roomId);
 
   const convo = ConversationController.getInstance().get(conversationId);
   if (!convo) {
-    window.log.warn(
-      'cannot update conversation memberCount as it does not exist'
-    );
+    window.log.warn('cannot update conversation memberCount as it does not exist');
     return;
   }
   if (convo.get('subscriberCount') !== count) {

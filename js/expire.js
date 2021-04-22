@@ -21,9 +21,7 @@
       window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
     } catch (e) {
       // give it a minute
-      log.warn(
-        'Could not check to see if newer version is available cause our pubkey is not set'
-      );
+      log.warn('Could not check to see if newer version is available cause our pubkey is not set');
       nextWaitSeconds = 60;
       setTimeout(async () => {
         await checkForUpgrades();
@@ -81,9 +79,7 @@
       if (expiredVersion !== null) {
         return res(expiredVersion);
       }
-      log.info(
-        `Delaying sending checks for ${nextWaitSeconds}s, no version yet`
-      );
+      log.info(`Delaying sending checks for ${nextWaitSeconds}s, no version yet`);
       setTimeout(waitForVersion, nextWaitSeconds * 1000);
       return true;
     }
@@ -112,9 +108,7 @@
     let timestamp = NaN;
 
     try {
-      const res = await window.tokenlessFileServerAdnAPI.serverRequest(
-        'loki/v1/time'
-      );
+      const res = await window.tokenlessFileServerAdnAPI.serverRequest('loki/v1/time');
       if (res.ok) {
         timestamp = res.response;
       }

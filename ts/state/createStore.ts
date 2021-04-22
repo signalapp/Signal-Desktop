@@ -30,6 +30,5 @@ export const createStore = (initialState: any) =>
   configureStore({
     reducer: allReducers,
     preloadedState: initialState,
-    middleware: (getDefaultMiddleware: any) =>
-      getDefaultMiddleware().concat(middlewareList),
+    middleware: (getDefaultMiddleware: any) => getDefaultMiddleware().concat(middlewareList),
   });

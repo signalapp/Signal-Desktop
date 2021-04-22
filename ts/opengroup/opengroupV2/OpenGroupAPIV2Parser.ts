@@ -8,9 +8,7 @@ import _ from 'lodash';
  * This utility function just extract the status code and returns it.
  * If the status code is not found, this function returns undefined;
  */
-export const parseStatusCodeFromOnionRequest = (
-  onionResult: any
-): number | undefined => {
+export const parseStatusCodeFromOnionRequest = (onionResult: any): number | undefined => {
   if (!onionResult) {
     return undefined;
   }
@@ -32,9 +30,7 @@ export const parseMemberCount = (onionResult: any): number | undefined => {
   return undefined;
 };
 
-export const parseRooms = (
-  onionResult: any
-): undefined | Array<OpenGroupV2Info> => {
+export const parseRooms = (onionResult: any): undefined | Array<OpenGroupV2Info> => {
   if (!onionResult) {
     return undefined;
   }
@@ -57,11 +53,7 @@ export const parseRooms = (
   );
 };
 
-export const parseModerators = (
-  onionResult: any
-): Array<string> | undefined => {
-  const moderatorsGot = onionResult?.result?.moderators as
-    | Array<string>
-    | undefined;
+export const parseModerators = (onionResult: any): Array<string> | undefined => {
+  const moderatorsGot = onionResult?.result?.moderators as Array<string> | undefined;
   return moderatorsGot;
 };

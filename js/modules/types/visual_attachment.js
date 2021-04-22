@@ -26,20 +26,12 @@ exports.getImageDimensions = ({ objectUrl, logger }) =>
       reject(error);
     });
     // TODO image/jpeg is hard coded, but it does not look to cause any issues
-    DecryptedAttachmentsManager.getDecryptedMediaUrl(
-      objectUrl,
-      'image/jpg'
-    ).then(decryptedUrl => {
+    DecryptedAttachmentsManager.getDecryptedMediaUrl(objectUrl, 'image/jpg').then(decryptedUrl => {
       image.src = decryptedUrl;
     });
   });
 
-exports.makeImageThumbnail = ({
-  size,
-  objectUrl,
-  contentType = 'image/png',
-  logger,
-}) =>
+exports.makeImageThumbnail = ({ size, objectUrl, contentType = 'image/png', logger }) =>
   new Promise((resolve, reject) => {
     const image = document.createElement('img');
 
@@ -76,19 +68,12 @@ exports.makeImageThumbnail = ({
       reject(error);
     });
 
-    DecryptedAttachmentsManager.getDecryptedMediaUrl(
-      objectUrl,
-      contentType
-    ).then(decryptedUrl => {
+    DecryptedAttachmentsManager.getDecryptedMediaUrl(objectUrl, contentType).then(decryptedUrl => {
       image.src = decryptedUrl;
     });
   });
 
-exports.makeVideoScreenshot = ({
-  objectUrl,
-  contentType = 'image/png',
-  logger,
-}) =>
+exports.makeVideoScreenshot = ({ objectUrl, contentType = 'image/png', logger }) =>
   new Promise((resolve, reject) => {
     const video = document.createElement('video');
 
@@ -96,9 +81,7 @@ exports.makeVideoScreenshot = ({
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-      canvas
-        .getContext('2d')
-        .drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
       const image = dataURLToBlobSync(canvas.toDataURL(contentType));
 
@@ -114,10 +97,7 @@ exports.makeVideoScreenshot = ({
       reject(error);
     });
 
-    DecryptedAttachmentsManager.getDecryptedMediaUrl(
-      objectUrl,
-      contentType
-    ).then(decryptedUrl => {
+    DecryptedAttachmentsManager.getDecryptedMediaUrl(objectUrl, contentType).then(decryptedUrl => {
       video.src = decryptedUrl;
       video.muted = true;
       // for some reason, this is to be started, otherwise the generated thumbnail will be empty

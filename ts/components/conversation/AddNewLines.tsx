@@ -36,9 +36,7 @@ export class AddNewLines extends React.Component<Props> {
     while (match) {
       if (last < match.index) {
         const textWithNoNewline = text.slice(last, match.index);
-        results.push(
-          renderNonNewLine({ text: textWithNoNewline, key: count++, convoId })
-        );
+        results.push(renderNonNewLine({ text: textWithNoNewline, key: count++, convoId }));
       }
 
       results.push(<br key={count++} />);
@@ -49,9 +47,7 @@ export class AddNewLines extends React.Component<Props> {
     }
 
     if (last < text.length) {
-      results.push(
-        renderNonNewLine({ text: text.slice(last), key: count++, convoId })
-      );
+      results.push(renderNonNewLine({ text: text.slice(last), key: count++, convoId }));
     }
 
     return results;
