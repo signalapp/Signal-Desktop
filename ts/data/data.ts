@@ -693,7 +693,10 @@ export async function _removeMessages(ids: Array<string>): Promise<void> {
   await channels.removeMessage(ids);
 }
 
-export async function getMessageIdsFromServerIds(serverIds: Array<string>, conversationId: string) {
+export async function getMessageIdsFromServerIds(
+  serverIds: Array<string> | Array<number>,
+  conversationId: string
+): Promise<Array<string> | undefined> {
   return channels.getMessageIdsFromServerIds(serverIds, conversationId);
 }
 

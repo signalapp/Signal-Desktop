@@ -3,6 +3,7 @@ import {
   OpenGroupRequestCommonType,
   OpenGroupV2CompactPollRequest,
   parseMessages,
+  setCachedModerators,
 } from './ApiUtil';
 import { parseStatusCodeFromOnionRequest } from './OpenGroupAPIV2Parser';
 import _ from 'lodash';
@@ -132,7 +133,7 @@ async function sendOpenGroupV2RequestCompactPoll(
     return null;
   }
 
-  const results = await parseCompactPollResults(res);
+  const results = await parseCompactPollResults(res, serverUrl);
   if (!results) {
     window.log.info('got empty compactPollResults');
     return null;
@@ -144,6 +145,7 @@ async function sendOpenGroupV2RequestCompactPoll(
   const roomPollValidResults = results.filter(ret => ret.statusCode === 200);
 
   if (roomWithTokensToRefresh) {
+    console.warn('roomWithTokensToRefresh', roomWithTokensToRefresh);
     await Promise.all(
       roomWithTokensToRefresh.map(async roomId => {
         const roomDetails = await getV2OpenGroupRoomByRoomId({
@@ -157,7 +159,7 @@ async function sendOpenGroupV2RequestCompactPoll(
         // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
         await saveV2OpenGroupRoom(roomDetails);
         // do not await for that. We have a only one at a time logic on a per room basis
-        void getAuthToken({ serverUrl, roomId });
+        await getAuthToken({ serverUrl, roomId });
       })
     );
   }
@@ -165,7 +167,7 @@ async function sendOpenGroupV2RequestCompactPoll(
   return roomPollValidResults;
 }
 
-type ParsedRoomCompactPollResults = {
+export type ParsedRoomCompactPollResults = {
   roomId: string;
   deletions: Array<number>;
   messages: Array<OpenGroupMessageV2>;
@@ -174,7 +176,8 @@ type ParsedRoomCompactPollResults = {
 };
 
 const parseCompactPollResult = async (
-  singleRoomResult: any
+  singleRoomResult: any,
+  serverUrl: string
 ): Promise<ParsedRoomCompactPollResults | null> => {
   const {
     room_id,
@@ -196,9 +199,10 @@ const parseCompactPollResult = async (
   }
 
   const validMessages = await parseMessages(rawMessages);
-  const moderators = rawMods as Array<string>;
+  const moderators = rawMods.sort() as Array<string>;
   const deletions = rawDeletions as Array<number>;
   const statusCode = rawStatusCode as number;
+  setCachedModerators(serverUrl, room_id, moderators || []);
 
   return {
     roomId: room_id,
@@ -210,7 +214,8 @@ const parseCompactPollResult = async (
 };
 
 const parseCompactPollResults = async (
-  res: any
+  res: any,
+  serverUrl: string
 ): Promise<Array<ParsedRoomCompactPollResults> | null> => {
   if (!res || !res.result || !res.result.results || !res.result.results.length) {
     return null;
@@ -218,7 +223,11 @@ const parseCompactPollResults = async (
   const arrayOfResults = res.result.results as Array<any>;
 
   const parsedResults: Array<ParsedRoomCompactPollResults> = _.compact(
-    await Promise.all(arrayOfResults.map(parseCompactPollResult))
+    await Promise.all(
+      arrayOfResults.map(async m => {
+        return parseCompactPollResult(m, serverUrl);
+      })
+    )
   );
 
   if (!parsedResults || !parsedResults.length) {

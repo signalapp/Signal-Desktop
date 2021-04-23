@@ -1,6 +1,18 @@
 import { AbortController } from 'abort-controller';
+import { ConversationController } from '../../session/conversations';
+import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
-import { compactFetchEverything } from './OpenGroupAPIV2CompactPoll';
+import { compactFetchEverything, ParsedRoomCompactPollResults } from './OpenGroupAPIV2CompactPoll';
+import _ from 'lodash';
+import { ConversationModel } from '../../models/conversation';
+import { getMessageIdsFromServerIds, removeMessage } from '../../data/data';
+import {
+  getV2OpenGroupRoom,
+  getV2OpenGroupRoomByRoomId,
+  saveV2OpenGroupRoom,
+} from '../../data/opengroups';
+import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
+import { handleOpenGroupV2Message } from '../../receiver/receiver';
 const pollForEverythingInterval = 4 * 1000;
 
 /**
@@ -146,6 +158,7 @@ export class OpenGroupServerPoller {
       window.log.warn(`compactFetchResults for ${this.serverUrl}:`, compactFetchResults);
 
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
+      await handleCompactPollResults(this.serverUrl, compactFetchResults);
     } catch (e) {
       window.log.warn('Got error while compact fetch:', e);
     } finally {
@@ -153,3 +166,99 @@ export class OpenGroupServerPoller {
     }
   }
 }
+
+const handleDeletions = async (
+  deletedIds: Array<number>,
+  conversationId: string,
+  convo?: ConversationModel
+) => {
+  try {
+    const maxDeletedId = Math.max(...deletedIds);
+    const messageIds = await getMessageIdsFromServerIds(deletedIds, conversationId);
+    if (!messageIds?.length) {
+      return;
+    }
+    const roomInfos = await getV2OpenGroupRoom(conversationId);
+    if (roomInfos && roomInfos.lastMessageDeletedServerID !== maxDeletedId) {
+      roomInfos.lastMessageDeletedServerID = maxDeletedId;
+      await saveV2OpenGroupRoom(roomInfos);
+    }
+
+    await Promise.all(
+      messageIds.map(async id => {
+        if (convo) {
+          await convo.removeMessage(id);
+        }
+        await removeMessage(id);
+      })
+    );
+    // we want to try to update our lastDeletedId
+  } catch (e) {
+    window.log.warn('handleDeletions failed:', e);
+  }
+};
+
+const handleNewMessages = async (
+  newMessages: Array<OpenGroupMessageV2>,
+  conversationId: string,
+  convo?: ConversationModel
+) => {
+  try {
+    const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
+    const maxNewMessageId = Math.max(...incomingMessageIds);
+    // TODO filter out duplicates ?
+
+    // tslint:disable-next-line: prefer-for-of
+    for (let index = 0; index < newMessages.length; index++) {
+      const newMessage = newMessages[index];
+      await handleOpenGroupV2Message(newMessage);
+    }
+
+    const roomInfos = await getV2OpenGroupRoom(conversationId);
+    if (roomInfos && roomInfos.lastMessageFetchedServerID !== maxNewMessageId) {
+      roomInfos.lastMessageFetchedServerID = maxNewMessageId;
+      await saveV2OpenGroupRoom(roomInfos);
+    }
+  } catch (e) {
+    // window.log.warn('handleNewMessages failed:', e);
+  }
+};
+
+const handleCompactPollResults = async (
+  serverUrl: string,
+  results: Array<ParsedRoomCompactPollResults>
+) => {
+  await Promise.all(
+    results.map(async res => {
+      const convoId = getOpenGroupV2ConversationId(serverUrl, res.roomId);
+      const convo = ConversationController.getInstance().get(convoId);
+
+      // we want to do deletions even if we somehow lost the convo.
+      if (res.deletions.length) {
+        // new deletions
+        await handleDeletions(res.deletions, convoId, convo);
+      }
+
+      if (res.messages.length) {
+        // new deletions
+        await handleNewMessages(res.messages, convoId, convo);
+      }
+
+      if (!convo) {
+        window.log.warn('Could not find convo for compactPoll', convoId);
+        return;
+      }
+      const existingModerators = convo.get('moderators') || [];
+      let changeOnConvo = false;
+      // res.moderators is already sorted
+      if (!_.isEqual(existingModerators.sort(), res.moderators)) {
+        convo.set({ moderators: res.moderators });
+        changeOnConvo = true;
+      }
+
+      if (changeOnConvo) {
+        await convo.commit();
+      }
+    })
+  );
+};

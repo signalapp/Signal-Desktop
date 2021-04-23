@@ -75,11 +75,11 @@ export const setCachedModerators = (
   roomId: string,
   newModerators: Array<string>
 ) => {
-  const allRoomsMods = cachedModerators.get(serverUrl);
+  let allRoomsMods = cachedModerators.get(serverUrl);
   if (!allRoomsMods) {
     cachedModerators.set(serverUrl, new Map());
+    allRoomsMods = cachedModerators.get(serverUrl);
   }
-  // tslint:disable: no-non-null-assertion
   if (!allRoomsMods!.get(roomId)) {
     allRoomsMods!.set(roomId, new Set());
   }

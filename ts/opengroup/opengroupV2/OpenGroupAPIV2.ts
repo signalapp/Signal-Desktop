@@ -236,11 +236,12 @@ export async function getAuthToken({
     return null;
   }
   if (roomDetails?.token) {
-    return roomDetails?.token;
+    return roomDetails.token;
   }
 
   await allowOnlyOneAtATime(`getAuthTokenV2${serverUrl}:${roomId}`, async () => {
     try {
+      console.warn('TRIGGERING NEW AUTH TOKEN WITH', { serverUrl, roomId });
       const token = await requestNewAuthToken({ serverUrl, roomId });
       if (!token) {
         window.log.warn('invalid new auth token', token);
@@ -371,33 +372,33 @@ export const postMessage = async (
 };
 
 /** Those functions are related to moderators management */
-export const getModerators = async ({
-  serverUrl,
-  roomId,
-}: OpenGroupRequestCommonType): Promise<Array<string>> => {
-  const request: OpenGroupV2Request = {
-    method: 'GET',
-    room: roomId,
-    server: serverUrl,
-    isAuthRequired: true,
-    endpoint: 'moderators',
-  };
-  const result = await sendOpenGroupV2Request(request);
-  const statusCode = parseStatusCodeFromOnionRequest(result);
+// export const getModerators = async ({
+//   serverUrl,
+//   roomId,
+// }: OpenGroupRequestCommonType): Promise<Array<string>> => {
+//   const request: OpenGroupV2Request = {
+//     method: 'GET',
+//     room: roomId,
+//     server: serverUrl,
+//     isAuthRequired: true,
+//     endpoint: 'moderators',
+//   };
+//   const result = await sendOpenGroupV2Request(request);
+//   const statusCode = parseStatusCodeFromOnionRequest(result);
 
-  if (statusCode !== 200) {
-    window.log.error(`Could not getModerators, status code: ${statusCode}`);
-    return [];
-  }
-  const moderators = parseModerators(result);
-  if (moderators === undefined) {
-    // if moderators is undefined, do not update the cached moderator list
-    window.log.warn('Could not getModerators, got no moderatorsGot at all in json.');
-    return [];
-  }
-  setCachedModerators(serverUrl, roomId, moderators || []);
-  return moderators || [];
-};
+//   if (statusCode !== 200) {
+//     window.log.error(`Could not getModerators, status code: ${statusCode}`);
+//     return [];
+//   }
+//   const moderators = parseModerators(result);
+//   if (moderators === undefined) {
+//     // if moderators is undefined, do not update t+++++++++++++++++++++++++he cached moderator list
+//     window.log.warn('Could not getModerators, got no moderatorsGot at all in json.');
+//     return [];
+//   }
+//   setCachedModerators(serverUrl, roomId, moderators || []);
+//   return moderators || [];
+// };
 
 export const isUserModerator = (
   publicKey: string,

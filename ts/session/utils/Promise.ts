@@ -14,8 +14,12 @@ export class TaskTimedOutError extends Error {
 }
 
 // one action resolves all
-const snodeGlobalLocks: any = {};
-export async function allowOnlyOneAtATime(name: string, process: any, timeoutMs?: number) {
+const snodeGlobalLocks: Record<string, Promise<any>> = {};
+export async function allowOnlyOneAtATime(
+  name: string,
+  process: () => Promise<any>,
+  timeoutMs?: number
+) {
   // if currently not in progress
   if (snodeGlobalLocks[name] === undefined) {
     // set lock
@@ -64,6 +68,7 @@ export async function allowOnlyOneAtATime(name: string, process: any, timeoutMs?
       // release the kraken
       resolve(innerRetVal);
     });
+  } else {
   }
   return snodeGlobalLocks[name];
 }

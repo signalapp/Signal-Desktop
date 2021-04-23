@@ -291,3 +291,35 @@ export async function handlePublicMessage(messageData: any) {
 
   await handleMessageEvent(ev); // open groups
 }
+
+export async function handleOpenGroupV2Message(messageData: any) {
+  const { source } = messageData;
+  const { group, profile, profileKey } = messageData.message;
+
+  const isMe = UserUtils.isUsFromCache(source);
+
+  if (!isMe && profile) {
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      source,
+      ConversationType.PRIVATE
+    );
+    await updateProfile(conversation, profile, profileKey);
+  }
+
+  const isPublicVisibleMessage = group && group.id && !!group.id.match(openGroupPrefixRegex);
+
+  if (!isPublicVisibleMessage) {
+    throw new Error('handlePublicMessage Should only be called with public message groups');
+  }
+
+  const ev = {
+    // Public chat messages from ourselves should be outgoing
+    type: isMe ? 'sent' : 'message',
+    data: messageData,
+    confirm: () => {
+      /* do nothing */
+    },
+  };
+
+  await handleMessageEvent(ev); // open groups
+}

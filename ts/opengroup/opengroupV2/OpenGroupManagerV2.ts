@@ -88,7 +88,6 @@ export class OpenGroupManagerV2 {
   public removeRoomFromPolledRooms(roomInfos: OpenGroupRequestCommonType) {
     const poller = this.pollers.get(roomInfos.serverUrl);
     if (!poller) {
-      console.warn('No such poller');
       return;
     }
     // this won't do a thing if the room is already polled for
