@@ -384,6 +384,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return;
     }
 
+    // guess if this is an open
+
     // Server URL valid?
     if (serverUrl.length === 0 || !OpenGroup.validate(serverUrl)) {
       ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));

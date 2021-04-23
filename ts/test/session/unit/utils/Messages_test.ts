@@ -227,17 +227,17 @@ describe('Message Utils', () => {
 
     let convos: Array<ConversationModel>;
     const mockValidOpenGroup = new MockConversation({
-      type: ConversationType.OPEN_GROUP,
+      type: ConversationType.GROUP,
       id: `${openGroupPrefix}1@chat-dev.lokinet.org`,
     });
 
     const mockValidOpenGroup2 = new MockConversation({
-      type: ConversationType.OPEN_GROUP,
+      type: ConversationType.GROUP,
       id: `${openGroupPrefix}1@chat-dev2.lokinet.org`,
     });
 
     const mockValidClosedGroup = new MockConversation({
-      type: ConversationType.OPEN_GROUP,
+      type: ConversationType.GROUP,
     });
 
     const mockValidPrivate = {

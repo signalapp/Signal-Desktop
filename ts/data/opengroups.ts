@@ -1,4 +1,5 @@
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
+import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
 import { channels } from './channels';
 
 export type OpenGroupV2Room = {
@@ -35,7 +36,10 @@ export async function getAllV2OpenGroupRooms(): Promise<Map<string, OpenGroupV2R
 export async function getV2OpenGroupRoom(
   conversationId: string
 ): Promise<OpenGroupV2Room | undefined> {
-  const opengroupv2Rooms = await channels.getV2OpenGroupRoom(conversationId);
+  if (!isOpenGroupV2(conversationId)) {
+    throw new Error(`getV2OpenGroupRoom: this is not a valid v2 id: ${conversationId}`);
+  }
+  const opengroupv2Rooms = channels.getV2OpenGroupRoom(conversationId);
 
   if (!opengroupv2Rooms) {
     return undefined;

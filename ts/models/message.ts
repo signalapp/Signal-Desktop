@@ -25,6 +25,8 @@ import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/Visi
 import { buildSyncMessage } from '../session/utils/syncUtils';
 import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
 import { banUser } from '../opengroup/opengroupV2/OpenGroupAPIV2';
+import { getV2OpenGroupRoom } from '../data/opengroups';
+import { MessageInteraction } from '../interactions';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -456,8 +458,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expirationTimestamp =
       expirationLength && expireTimerStart ? expireTimerStart + expirationLength : null;
 
-    // TODO: investigate why conversation is undefined
-    // for the public group chat
     const conversation = this.getConversation();
 
     const convoId = conversation ? conversation.id : undefined;
@@ -697,50 +697,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public copyPubKey() {
-    if (this.isIncoming()) {
-      window.clipboard.writeText(this.get('source'));
-    } else {
-      window.clipboard.writeText(UserUtils.getOurPubKeyStrFromCache());
-    }
-
-    ToastUtils.pushCopiedToClipBoard();
+    // this.getSource return out pubkey if this is an outgoing message, or the sender pubkey
+    MessageInteraction.copyPubKey(this.getSource());
   }
 
   public banUser() {
-    window.confirmationDialog({
-      title: window.i18n('banUser'),
-      message: window.i18n('banUserConfirm'),
-      resolve: async () => {
-        const source = this.get('source');
-        const conversation = this.getConversation();
-        if (!conversation) {
-          window.log.info('cannot ban user, the corresponding conversation was not found.');
-          return;
-        }
-        let success = false;
-        if (isOpenGroupV2(conversation.id)) {
-          await banUser();
-        } else {
-          const channelAPI = await conversation.getPublicSendData();
-          if (!channelAPI) {
-            window.log.info('cannot ban user, the corresponding channelAPI was not found.');
-            return;
-          }
-          success = await channelAPI.banUser(source);
-        }
-        if (success) {
-          ToastUtils.pushUserBanSuccess();
-        } else {
-          ToastUtils.pushUserBanFailure();
-        }
-      },
-    });
+    MessageInteraction.banUser(this.get('source'), this.getConversation());
   }
 
   public copyText() {
-    window.clipboard.writeText(this.get('body'));
-
-    ToastUtils.pushCopiedToClipBoard();
+    MessageInteraction.copyBodyToClipboard(this.get('body'));
   }
 
   /**

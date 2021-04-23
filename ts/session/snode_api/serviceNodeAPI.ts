@@ -113,7 +113,6 @@ const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   // read the cert each time. We only run this request once for each seed node nevertheless.
   const appPath = remote.app.getAppPath();
   const crt = fs.readFileSync(path.join(appPath, `/certificates/${filePrefix}.crt`), 'utf-8');
-  // debugger;
   const sslOptions = {
     // as the seed nodes are using a self signed certificate, we have to provide it here.
     ca: crt,

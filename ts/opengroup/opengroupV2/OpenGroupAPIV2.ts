@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { ConversationController } from '../../session/conversations';
 import { sendViaOnion } from '../../session/onions/onionSend';
+import { PubKey } from '../../session/types';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import {
   fromArrayBufferToBase64,
@@ -273,7 +274,10 @@ export async function getAuthToken({
   return null;
 }
 
-export const deleteAuthToken = async ({ serverUrl, roomId }: OpenGroupRequestCommonType) => {
+export const deleteAuthToken = async ({
+  serverUrl,
+  roomId,
+}: OpenGroupRequestCommonType): Promise<boolean> => {
   const request: OpenGroupV2Request = {
     method: 'DELETE',
     room: roomId,
@@ -281,10 +285,17 @@ export const deleteAuthToken = async ({ serverUrl, roomId }: OpenGroupRequestCom
     isAuthRequired: false,
     endpoint: 'auth_token',
   };
-  const result = await sendOpenGroupV2Request(request);
-  const statusCode = parseStatusCodeFromOnionRequest(result);
-  if (statusCode !== 200) {
-    window.log.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
+  try {
+    const result = await sendOpenGroupV2Request(request);
+    const statusCode = parseStatusCodeFromOnionRequest(result);
+    if (statusCode !== 200) {
+      window.log.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    window.log.error('deleteAuthToken failed:', e);
+    return false;
   }
 };
 
@@ -402,10 +413,10 @@ export const isUserModerator = (
 };
 
 export const banUser = async (
-  publicKey: string,
+  userToBan: PubKey,
   roomInfos: OpenGroupRequestCommonType
 ): Promise<void> => {
-  const queryParams = { public_key: publicKey };
+  const queryParams = { public_key: userToBan.key };
   const request: OpenGroupV2Request = {
     method: 'POST',
     room: roomInfos.roomId,
@@ -414,11 +425,12 @@ export const banUser = async (
     queryParams,
     endpoint: 'block_list',
   };
-  await sendOpenGroupV2Request(request);
+  const banResult = await sendOpenGroupV2Request(request);
+  console.warn('banResult', banResult);
 };
 
 export const unbanUser = async (
-  publicKey: string,
+  userToBan: PubKey,
   roomInfos: OpenGroupRequestCommonType
 ): Promise<void> => {
   const request: OpenGroupV2Request = {
@@ -426,7 +438,7 @@ export const unbanUser = async (
     room: roomInfos.roomId,
     server: roomInfos.serverUrl,
     isAuthRequired: true,
-    endpoint: `block_list/${publicKey}`,
+    endpoint: `block_list/${userToBan.key}`,
   };
   await sendOpenGroupV2Request(request);
 };

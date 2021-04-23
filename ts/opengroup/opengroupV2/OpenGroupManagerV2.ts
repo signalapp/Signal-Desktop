@@ -62,16 +62,19 @@ async function attemptConnectionV2(
     }
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       conversationId,
-      ConversationType.OPEN_GROUP
+      ConversationType.GROUP
     );
     room.imageID = roomInfos.imageId || undefined;
     room.roomName = roomInfos.name || undefined;
     await saveV2OpenGroupRoom(room);
+
     console.warn('openGroupRoom info', roomInfos);
 
     // mark active so it's not in the contacts list but in the conversation list
     conversation.set({
       active_at: Date.now(),
+      name: room.roomName,
+      avatarPath: room.roomName,
     });
     await conversation.commit();
 

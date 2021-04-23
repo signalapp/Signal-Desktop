@@ -14,6 +14,9 @@ import { BlockedNumberController } from '../../util';
 import { getSnodesFor } from '../snode_api/snodePool';
 import { PubKey } from '../types';
 import { actions as conversationActions } from '../../state/ducks/conversations';
+import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
+import { deleteAuthToken } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
+import _ from 'lodash';
 
 export class ConversationController {
   private static instance: ConversationController | null;
@@ -68,12 +71,8 @@ export class ConversationController {
       throw new TypeError("'id' must be a string");
     }
 
-    if (
-      type !== ConversationType.PRIVATE &&
-      type !== ConversationType.GROUP &&
-      type !== ConversationType.OPEN_GROUP
-    ) {
-      throw new TypeError(`'type' must be 'private' or 'group' or 'opengroup; got: '${type}'`);
+    if (type !== ConversationType.PRIVATE && type !== ConversationType.GROUP) {
+      throw new TypeError(`'type' must be 'private' or 'group' got: '${type}'`);
     }
 
     if (!this._initialFetchComplete) {
@@ -178,10 +177,6 @@ export class ConversationController {
   }
 
   public async deleteContact(id: string) {
-    if (typeof id !== 'string') {
-      throw new TypeError("'id' must be a string");
-    }
-
     if (!this._initialFetchComplete) {
       throw new Error('ConversationController.get() needs complete initial fetch');
     }
@@ -202,9 +197,17 @@ export class ConversationController {
         channelAPI.serverAPI.partChannel((channelAPI as any).channelId);
       }
     } else if (conversation.isOpenGroupV2()) {
-      window.log.warn('leave open group v2 todo');
+      window.log.info('leaving open group v2', conversation.id);
+      const roomInfos = await getV2OpenGroupRoom(conversation.id);
+      if (roomInfos) {
+        // leave the group on the remote server
+        await deleteAuthToken(_.pick(roomInfos, 'serverUrl', 'roomId'));
+        // remove the roomInfos locally for this open group room
+        await removeV2OpenGroupRoom(conversation.id);
+      }
     }
 
+    // those are the stuff to do for all contact types
     await conversation.destroyMessages();
 
     await removeConversation(id);

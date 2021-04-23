@@ -70,7 +70,7 @@ export class MockConversation {
       id: this.id,
       name: '',
       profileName: undefined,
-      type: params.type === ConversationType.OPEN_GROUP ? 'group' : params.type,
+      type: params.type === ConversationType.GROUP ? 'group' : params.type,
       members,
       left: false,
       expireTimer: 0,

@@ -37,11 +37,14 @@ import {
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
-import { openGroupPrefixRegex } from '../opengroup/utils/OpenGroupUtils';
+import {
+  openGroupPrefixRegex,
+  openGroupV1ConversationIdRegex,
+  openGroupV2ConversationIdRegex,
+} from '../opengroup/utils/OpenGroupUtils';
 
 export enum ConversationType {
   GROUP = 'group',
-  OPEN_GROUP = 'opengroup',
   PRIVATE = 'private',
 }
 
@@ -188,11 +191,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isMe() {
     return UserUtils.isUsFromCache(this.id);
   }
-  public isPublic() {
-    return !!(this.id && this.id.match(openGroupPrefixRegex));
+  public isPublic(): boolean {
+    return Boolean(this.id && this.id.match(openGroupPrefixRegex));
   }
-  public isOpenGroupV2() {
-    return this.get('type') === ConversationType.OPEN_GROUP;
+  public isOpenGroupV2(): boolean {
+    return Boolean(this.id && this.id.match(openGroupV2ConversationIdRegex));
   }
   public isClosedGroup() {
     return this.get('type') === ConversationType.GROUP && !this.isPublic();
@@ -374,7 +377,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const groupAdmins = this.getGroupAdmins();
 
     const members = this.isGroup() && !this.isPublic() ? this.get('members') : undefined;
-
     // isSelected is overriden by redux
     return {
       isSelected: false,
@@ -1309,6 +1311,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async deletePublicMessages(messages: Array<MessageModel>) {
+    if (this.isOpenGroupV2()) {
+      console.warn('FIXME deletePublicMessages');
+      throw new Error('deletePublicMessages todo');
+    }
     const channelAPI = await this.getPublicSendData();
 
     if (!channelAPI) {

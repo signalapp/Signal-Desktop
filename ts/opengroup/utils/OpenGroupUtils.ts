@@ -28,7 +28,7 @@ export const openGroupPrefix = 'publicChat:';
 /**
  * Just a regex to match a public chat (i.e. a string starting with publicChat:)
  */
-export const openGroupPrefixRegex = new RegExp(`/^${openGroupPrefix}/`);
+export const openGroupPrefixRegex = new RegExp(`^${openGroupPrefix}`);
 
 /**
  * An open group v1 conversation id can only have the char '1' as roomId

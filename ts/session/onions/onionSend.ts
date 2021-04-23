@@ -165,7 +165,7 @@ export const sendViaOnion = async (
       // port: url.port,
     };
 
-    console.warn('sendViaOnion payloadObj ==> ', payloadObj);
+    window.log.debug('sendViaOnion payloadObj ==> ', payloadObj);
 
     result = await sendOnionRequestLsrpcDest(
       0,
