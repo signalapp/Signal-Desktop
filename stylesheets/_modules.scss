@@ -3256,6 +3256,7 @@ button.module-conversation-details__action-button {
   }
 
   &-panel-row {
+    $row-root-selector: '#{&}__root';
     &__root {
       align-items: center;
       border-radius: 5px;
@@ -3335,7 +3336,8 @@ button.module-conversation-details__action-button {
       overflow: hidden;
       opacity: 0;
 
-      &:focus-within {
+      #{$row-root-selector}:hover &,
+      #{$row-root-selector}:focus-within & {
         opacity: 1;
       }
     }
