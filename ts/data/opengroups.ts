@@ -1,3 +1,4 @@
+import { ConversationCollection } from '../models/conversation';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
 import { channels } from './channels';
@@ -15,7 +16,6 @@ export type OpenGroupV2Room = {
 };
 
 export async function getAllV2OpenGroupRooms(): Promise<Map<string, OpenGroupV2Room> | undefined> {
-  // TODO sql
   const opengroupsv2Rooms = (await channels.getAllV2OpenGroupRooms()) as Array<OpenGroupV2Room>;
 
   if (!opengroupsv2Rooms) {
@@ -86,4 +86,13 @@ export const channelsToMake = {
   getV2OpenGroupRoomByRoomId,
   saveV2OpenGroupRoom,
   removeV2OpenGroupRoom,
+  getAllOpenGroupV2Conversations,
 };
+
+export async function getAllOpenGroupV2Conversations(): Promise<ConversationCollection> {
+  const conversations = await channels.getAllOpenGroupV2Conversations();
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}

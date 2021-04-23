@@ -106,7 +106,7 @@
     if (specialConvInited) {
       return;
     }
-    const publicConversations = await window.Signal.Data.getAllPublicConversations();
+    const publicConversations = await window.Signal.Data.getAllOpenGroupV1Conversations();
     publicConversations.forEach(conversation => {
       // weird but create the object and does everything we need
       conversation.getPublicSendData();

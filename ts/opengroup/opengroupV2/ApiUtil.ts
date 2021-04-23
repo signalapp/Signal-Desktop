@@ -99,7 +99,6 @@ export const parseMessages = async (
     rawMessages.map(async r => {
       try {
         const opengroupMessage = OpenGroupMessageV2.fromJson(r);
-        console.warn('opengroupMessage', opengroupMessage);
         if (
           !opengroupMessage?.serverId ||
           !opengroupMessage.sentTimestamp ||

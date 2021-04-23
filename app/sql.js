@@ -49,7 +49,8 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
-  getAllPublicConversations,
+  getAllOpenGroupV1Conversations,
+  getAllOpenGroupV2Conversations,
   getPubkeysInPublicConversation,
   getAllConversationIds,
   getAllGroupsInvolvingId,
@@ -1591,11 +1592,25 @@ async function getAllConversationIds() {
   return map(rows, row => row.id);
 }
 
-async function getAllPublicConversations() {
+async function getAllOpenGroupV1Conversations() {
   const rows = await db.all(
     `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
-      id LIKE 'publicChat:%'
+      id LIKE 'publicChat:1@%'
+     ORDER BY id ASC;`
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllOpenGroupV2Conversations() {
+  // first _ matches all opengroupv1,
+  // second _ force a second char to be there, so it can only be opengroupv2 convos
+
+  const rows = await db.all(
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+      type = 'group' AND
+      id LIKE 'publicChat:__%@%'
      ORDER BY id ASC;`
   );
 

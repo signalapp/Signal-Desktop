@@ -25,6 +25,11 @@ import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
 import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 import { ConversationType } from '../../models/conversation';
+import {
+  getOpenGroupV2ConversationId,
+  openGroupV2CompleteURLRegex,
+} from '../../opengroup/utils/OpenGroupUtils';
+import { joinOpenGroupV2, parseOpenGroupV2 } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
 
 export interface Props {
   searchTerm: string;
@@ -377,34 +382,25 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
   }
 
-  private async handleJoinChannelButtonClick(serverUrl: string) {
-    const { loading } = this.state;
-
-    if (loading) {
-      return;
-    }
-
-    // guess if this is an open
-
+  private async handleOpenGroupJoinV1(serverUrlV1: string) {
     // Server URL valid?
-    if (serverUrl.length === 0 || !OpenGroup.validate(serverUrl)) {
+    if (serverUrlV1.length === 0 || !OpenGroup.validate(serverUrlV1)) {
       ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
       return;
     }
 
     // Already connected?
-    if (OpenGroup.getConversation(serverUrl)) {
+    if (OpenGroup.getConversation(serverUrlV1)) {
       ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
       return;
     }
-
     // Connect to server
     try {
       ToastUtils.pushToastInfo('connectingToServer', window.i18n('connectingToServer'));
 
       this.setState({ loading: true });
-      await OpenGroup.join(serverUrl);
-      if (await OpenGroup.serverExists(serverUrl)) {
+      await OpenGroup.join(serverUrlV1);
+      if (await OpenGroup.serverExists(serverUrlV1)) {
         ToastUtils.pushToastSuccess(
           'connectToServerSuccess',
           window.i18n('connectToServerSuccess')
@@ -413,7 +409,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         throw new Error('Open group joined but the corresponding server does not exist');
       }
       this.setState({ loading: false });
-      const openGroupConversation = OpenGroup.getConversation(serverUrl);
+      const openGroupConversation = OpenGroup.getConversation(serverUrlV1);
 
       if (!openGroupConversation) {
         window.log.error('Joined an opengroup but did not find ther corresponding conversation');
@@ -423,6 +419,51 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       window.log.error('Failed to connect to server:', e);
       ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
       this.setState({ loading: false });
+    }
+  }
+
+  private async handleOpenGroupJoinV2(serverUrlV2: string) {
+    const parsedRoom = parseOpenGroupV2(serverUrlV2);
+    if (!parsedRoom) {
+      ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
+      return;
+    }
+    try {
+      const conversationID = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
+      ToastUtils.pushToastInfo('connectingToServer', window.i18n('connectingToServer'));
+      this.setState({ loading: true });
+      await joinOpenGroupV2(parsedRoom, false);
+
+      const isConvoCreated = ConversationController.getInstance().get(conversationID);
+      if (isConvoCreated) {
+        ToastUtils.pushToastSuccess(
+          'connectToServerSuccess',
+          window.i18n('connectToServerSuccess')
+        );
+      } else {
+        ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
+      }
+    } catch (error) {
+      window.log.warn('got error while joining open group:', error);
+      ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
+
+  private async handleJoinChannelButtonClick(serverUrl: string) {
+    const { loading } = this.state;
+
+    if (loading) {
+      return;
+    }
+
+    // guess if this is an open
+    if (serverUrl.match(openGroupV2CompleteURLRegex)) {
+      await this.handleOpenGroupJoinV2(serverUrl);
+    } else {
+      // this is an open group v1
+      await this.handleOpenGroupJoinV1(serverUrl);
     }
   }
 

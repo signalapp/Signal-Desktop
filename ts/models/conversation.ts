@@ -42,6 +42,8 @@ import {
   openGroupV1ConversationIdRegex,
   openGroupV2ConversationIdRegex,
 } from '../opengroup/utils/OpenGroupUtils';
+import { getV2OpenGroupRoom } from '../data/opengroups';
+import { ConversationInteraction } from '../interactions';
 
 export enum ConversationType {
   GROUP = 'group',
@@ -1275,17 +1277,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public copyPublicKey() {
-    if (this.isPublic()) {
-      const atIndex = this.id.indexOf('@') as number;
-      const openGroupUrl = this.id.substr(atIndex + 1);
-      window.clipboard.writeText(openGroupUrl);
-
-      ToastUtils.pushCopiedToClipBoard();
-      return;
-    }
-    window.clipboard.writeText(this.id);
-
-    ToastUtils.pushCopiedToClipBoard();
+    void ConversationInteraction.copyPublicKey(this.id);
   }
 
   public changeNickname() {

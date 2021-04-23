@@ -25,11 +25,7 @@ export const compactFetchEverything = async (
   }
 
   const result = await sendOpenGroupV2RequestCompactPoll(compactPollRequest, abortSignal);
-  const statusCode = parseStatusCodeFromOnionRequest(result);
-  if (statusCode !== 200) {
-    return null;
-  }
-  return result;
+  return result ? result : null;
 };
 
 /**
@@ -119,8 +115,6 @@ async function sendOpenGroupV2RequestCompactPoll(
   // this will throw if the url is not valid
   const builtUrl = new URL(`${serverUrl}/${endpoint}`);
 
-  console.warn(`sending compactPoll request: ${request.body}`);
-
   const res = await sendViaOnion(
     serverPubKey,
     builtUrl,
@@ -144,11 +138,14 @@ async function sendOpenGroupV2RequestCompactPoll(
     return null;
   }
   // get all roomIds which needs a refreshed token
-  const roomTokensToRefresh = results.filter(ret => ret.statusCode === 401).map(r => r.roomId);
+  const roomWithTokensToRefresh = results.filter(ret => ret.statusCode === 401).map(r => r.roomId);
 
-  if (roomTokensToRefresh) {
+  // this holds only the poll results which are valid
+  const roomPollValidResults = results.filter(ret => ret.statusCode === 200);
+
+  if (roomWithTokensToRefresh) {
     await Promise.all(
-      roomTokensToRefresh.map(async roomId => {
+      roomWithTokensToRefresh.map(async roomId => {
         const roomDetails = await getV2OpenGroupRoomByRoomId({
           serverUrl,
           roomId,
@@ -165,11 +162,7 @@ async function sendOpenGroupV2RequestCompactPoll(
     );
   }
 
-  throw new Error(
-    'See how we handle needs of new tokens, and save stuff to db (last deleted, ... conversation commit, etc'
-  );
-
-  return results;
+  return roomPollValidResults;
 }
 
 type ParsedRoomCompactPollResults = {

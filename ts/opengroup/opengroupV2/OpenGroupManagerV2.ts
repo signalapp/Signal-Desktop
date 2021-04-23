@@ -1,11 +1,19 @@
-import { OpenGroupV2Room, removeV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
+import {
+  getAllOpenGroupV2Conversations,
+  getAllV2OpenGroupRooms,
+  OpenGroupV2Room,
+  removeV2OpenGroupRoom,
+  saveV2OpenGroupRoom,
+} from '../../data/opengroups';
 import { ConversationModel, ConversationType } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
-import { openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
+import { deleteAuthToken, openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
+
+import _ from 'lodash';
 
 /**
  * When we get our configuration from the network, we might get a few times the same open group on two different messages.
@@ -93,9 +101,10 @@ export class OpenGroupManagerV2 {
 
   private readonly pollers: Map<string, OpenGroupServerPoller> = new Map();
   private isPolling = false;
-  private wasStopped = false;
 
-  private constructor() {}
+  private constructor() {
+    this.startPollingBouncy = this.startPollingBouncy.bind(this);
+  }
 
   public static getInstance() {
     if (!OpenGroupManagerV2.instance) {
@@ -104,14 +113,8 @@ export class OpenGroupManagerV2 {
     return OpenGroupManagerV2.instance;
   }
 
-  public startPolling() {
-    if (this.isPolling) {
-      return;
-    }
-    if (this.wasStopped) {
-      throw new Error('OpengroupManager is not supposed to be starting again after being stopped.');
-    }
-    this.isPolling = true;
+  public async startPolling() {
+    await allowOnlyOneAtATime('V2ManagerStartPolling', this.startPollingBouncy);
   }
 
   /**
@@ -121,7 +124,13 @@ export class OpenGroupManagerV2 {
     if (!this.isPolling) {
       return;
     }
-    this.wasStopped = true;
+    // the stop call calls the abortController, which will effectively cancel the request right away,
+    // or drop the result from it.
+    this.pollers.forEach(poller => {
+      poller.stop();
+    });
+    this.pollers.clear();
+
     this.isPolling = false;
   }
 
@@ -148,5 +157,48 @@ export class OpenGroupManagerV2 {
       // this poller is not needed anymore, kill it
       poller.stop();
     }
+  }
+
+  /**
+   * This function is private because we want to make sure it only runs once at a time.
+   */
+  private async startPollingBouncy() {
+    if (this.isPolling) {
+      return;
+    }
+    const allConvos = await getAllOpenGroupV2Conversations();
+    let allRoomInfos = await getAllV2OpenGroupRooms();
+
+    // this is time for some cleanup!
+    // We consider the conversations are our source-of-truth,
+    // so if there is a roomInfo without an associated convo, we remove it
+    if (allRoomInfos) {
+      await Promise.all(
+        [...allRoomInfos.values()].map(async infos => {
+          try {
+            const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
+            if (!allConvos.get(roomConvoId)) {
+              // leave the group on the remote server
+              // this request doesn't throw
+              await deleteAuthToken(_.pick(infos, 'serverUrl', 'roomId'));
+              // remove the roomInfos locally for this open group room
+              await removeV2OpenGroupRoom(roomConvoId);
+              // no need to remove it from the ConversationController, the convo is already not there
+            }
+          } catch (e) {
+            window.log.warn('cleanup roomInfos error', e);
+          }
+        })
+      );
+    }
+    // refresh our roomInfos list
+    allRoomInfos = await getAllV2OpenGroupRooms();
+    if (allRoomInfos) {
+      allRoomInfos.forEach(infos => {
+        this.addRoomToPolledRooms(infos);
+      });
+    }
+
+    this.isPolling = true;
   }
 }

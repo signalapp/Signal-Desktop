@@ -1,22 +1,38 @@
 import { default as insecureNodeFetch } from 'node-fetch';
+import { OpenGroupV2Room } from '../../data/opengroups';
 import { sendViaOnion } from '../../session/onions/onionSend';
-import { OpenGroup } from '../opengroupV1/OpenGroup';
 
-export const protocolRegex = '(https?://)?';
-export const hostnameRegex =
-  '(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]).)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])';
-export const portRegex = '(:[0-9]+)?';
+const protocolRegex = new RegExp('(https?://)?');
+
+const dot = '\\.';
+const qMark = '\\?';
+const hostnameRegex = new RegExp(
+  `(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])${dot})*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])`
+);
+const portRegex = '(:[0-9]+)?';
 
 // roomIds allows between 2 and 64 of '0-9' or 'a-z' or '_' chars
 export const roomIdV2Regex = '[0-9a-z_]{2,64}';
 export const publicKeyRegex = '[0-9a-z]{64}';
 export const publicKeyParam = 'public_key=';
-export const openGroupV2ServerUrlRegex = new RegExp(`${protocolRegex}${hostnameRegex}${portRegex}`);
+export const openGroupV2ServerUrlRegex = new RegExp(
+  `${protocolRegex.source}${hostnameRegex.source}${portRegex}`
+);
 
 export const openGroupV2CompleteURLRegex = new RegExp(
-  `^${openGroupV2ServerUrlRegex}/${roomIdV2Regex}\\?${publicKeyParam}${publicKeyRegex}$`,
+  `^${openGroupV2ServerUrlRegex.source}\/${roomIdV2Regex}${qMark}${publicKeyParam}${publicKeyRegex}$`,
   'gm'
 );
+
+/**
+ * This function returns a full url on an open group v2 room used for sync messages for instance.
+ * This is basically what the QRcode encodes
+ *
+ */
+export function getCompleteUrlFromRoom(roomInfos: OpenGroupV2Room) {
+  // serverUrl has the port and protocol already
+  return `${roomInfos.serverUrl}/${roomInfos.roomId}?${publicKeyParam}${roomInfos.serverPublicKey}`;
+}
 
 /**
  * Just a constant to have less `publicChat:` everywhere.

@@ -43,6 +43,7 @@ export class OpenGroupServerPoller {
     });
 
     this.abortController = new AbortController();
+    this.compactPoll = this.compactPoll.bind(this);
     this.pollForEverythingTimer = global.setInterval(this.compactPoll, pollForEverythingInterval);
   }
 
@@ -143,6 +144,8 @@ export class OpenGroupServerPoller {
         this.roomIdsToPoll.has(result.roomId)
       );
       window.log.warn(`compactFetchResults for ${this.serverUrl}:`, compactFetchResults);
+
+      // ==> At this point all those results need to trigger conversation updates, so update what we have to update
     } catch (e) {
       window.log.warn('Got error while compact fetch:', e);
     } finally {

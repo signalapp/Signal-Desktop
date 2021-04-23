@@ -17,6 +17,7 @@ import { actions as conversationActions } from '../../state/ducks/conversations'
 import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
 import { deleteAuthToken } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import _ from 'lodash';
+import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 
 export class ConversationController {
   private static instance: ConversationController | null;
@@ -200,6 +201,7 @@ export class ConversationController {
       window.log.info('leaving open group v2', conversation.id);
       const roomInfos = await getV2OpenGroupRoom(conversation.id);
       if (roomInfos) {
+        OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(roomInfos);
         // leave the group on the remote server
         await deleteAuthToken(_.pick(roomInfos, 'serverUrl', 'roomId'));
         // remove the roomInfos locally for this open group room

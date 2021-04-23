@@ -93,7 +93,7 @@ const channelsToMake = {
 
   getAllConversations,
   getAllConversationIds,
-  getAllPublicConversations,
+  getAllOpenGroupV1Conversations,
   getPubkeysInPublicConversation,
   savePublicServerToken,
   getPublicServerTokenByServerUrl,
@@ -584,8 +584,8 @@ export async function getAllConversationIds(): Promise<Array<string>> {
   return ids;
 }
 
-export async function getAllPublicConversations(): Promise<ConversationCollection> {
-  const conversations = await channels.getAllPublicConversations();
+export async function getAllOpenGroupV1Conversations(): Promise<ConversationCollection> {
+  const conversations = await channels.getAllOpenGroupV1Conversations();
 
   const collection = new ConversationCollection();
   collection.add(conversations);

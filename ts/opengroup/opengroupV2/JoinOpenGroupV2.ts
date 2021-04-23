@@ -60,7 +60,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
  */
 export async function joinOpenGroupV2(
   room: OpenGroupV2Room,
-  fromSyncMessage: boolean = false
+  fromSyncMessage: boolean
 ): Promise<void> {
   if (!room.serverUrl || !room.roomId || room.roomId.length < 2 || !room.serverPublicKey) {
     return;
@@ -79,8 +79,9 @@ export async function joinOpenGroupV2(
     window.log.warn('Skipping join opengroupv2: already exists');
     return;
   } else if (alreadyExist) {
-    // we don't have a convo associated with it. Remove the room in db
-    await removeV2OpenGroupRoom(conversationId);
+    // we don't have a convo associated with it. Remove everything related to it so we start fresh
+    window.log.warn('leaving before rejoining open group v2 room', conversationId);
+    await ConversationController.getInstance().deleteContact(conversationId);
   }
 
   // Try to connect to server
