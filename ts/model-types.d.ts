@@ -203,7 +203,10 @@ export type ConversationAttributesType = {
   messageCountBeforeMessageRequests?: number | null;
   messageRequestResponseType?: number;
   muteExpiresAt?: number;
-  profileAvatar?: WhatIsThis;
+  profileAvatar?: null | {
+    hash: string;
+    path: string;
+  };
   profileKeyCredential?: string | null;
   profileKeyVersion?: string | null;
   quotedMessageId?: string | null;
