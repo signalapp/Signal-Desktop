@@ -69,14 +69,11 @@ export async function saveV2OpenGroupRoom(opengroupsv2Room: OpenGroupV2Room): Pr
   ) {
     throw new Error('Cannot save v2 room, invalid data');
   }
-  console.warn('saving roomInfo', opengroupsv2Room);
 
   await channels.saveV2OpenGroupRoom(opengroupsv2Room);
 }
 
 export async function removeV2OpenGroupRoom(conversationId: string): Promise<void> {
-  console.warn('removing roomInfo', conversationId);
-
   await channels.removeV2OpenGroupRoom(conversationId);
 }
 

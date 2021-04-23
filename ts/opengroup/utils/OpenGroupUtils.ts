@@ -25,16 +25,6 @@ export const openGroupV2CompleteURLRegex = new RegExp(
 );
 
 /**
- * This function returns a full url on an open group v2 room used for sync messages for instance.
- * This is basically what the QRcode encodes
- *
- */
-export function getCompleteUrlFromRoom(roomInfos: OpenGroupV2Room) {
-  // serverUrl has the port and protocol already
-  return `${roomInfos.serverUrl}/${roomInfos.roomId}?${publicKeyParam}${roomInfos.serverPublicKey}`;
-}
-
-/**
  * Just a constant to have less `publicChat:` everywhere.
  * This is the prefix used to identify our open groups in the conversation database (v1 or v2)
  * Note: It does already have the ':' included
@@ -50,12 +40,22 @@ export const openGroupPrefixRegex = new RegExp(`^${openGroupPrefix}`);
  * An open group v1 conversation id can only have the char '1' as roomId
  */
 export const openGroupV1ConversationIdRegex = new RegExp(
-  `${openGroupPrefix}1@${protocolRegex}${hostnameRegex}`
+  `${openGroupPrefix}1@${protocolRegex.source}${hostnameRegex.source}`
 );
 
 export const openGroupV2ConversationIdRegex = new RegExp(
-  `${openGroupPrefix}${roomIdV2Regex}@${protocolRegex}${hostnameRegex}${portRegex}`
+  `${openGroupPrefix}${roomIdV2Regex}@${protocolRegex.source}${hostnameRegex.source}${portRegex}`
 );
+
+/**
+ * This function returns a full url on an open group v2 room used for sync messages for instance.
+ * This is basically what the QRcode encodes
+ *
+ */
+export function getCompleteUrlFromRoom(roomInfos: OpenGroupV2Room) {
+  // serverUrl has the port and protocol already
+  return `${roomInfos.serverUrl}/${roomInfos.roomId}?${publicKeyParam}${roomInfos.serverPublicKey}`;
+}
 
 /**
  * Tries to establish a connection with the specified open group url.
@@ -164,22 +164,26 @@ export function getOpenGroupV2ConversationId(serverUrl: string, roomId: string) 
 }
 
 /**
+ * Check if this conversation id corresponds to an OpenGroupV1 conversation.
+ * No access to database are made. Only regex matches
+ * @param conversationId the convo id to evaluate
+ * @returns true if this conversation id matches the Opengroupv1 conversation id regex
+ */
+export function isOpenGroupV1(conversationId: string) {
+  return openGroupV1ConversationIdRegex.test(conversationId);
+}
+
+/**
  * Check if this conversation id corresponds to an OpenGroupV2 conversation.
  * No access to database are made. Only regex matches
  * @param conversationId the convo id to evaluate
  * @returns true if this conversation id matches the Opengroupv2 conversation id regex
  */
 export function isOpenGroupV2(conversationId: string) {
-  if (!conversationId?.match(openGroupPrefixRegex)) {
-    // this is not even an open group
-    return false;
-  }
-
-  if (!conversationId?.match(openGroupV1ConversationIdRegex)) {
+  if (openGroupV1ConversationIdRegex.test(conversationId)) {
     // this is an open group v1
-    console.warn('this is an open group v1:', conversationId);
     return false;
   }
 
-  return conversationId.match(openGroupV2ConversationIdRegex);
+  return openGroupV2ConversationIdRegex.test(conversationId);
 }

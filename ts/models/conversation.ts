@@ -4,7 +4,7 @@ import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
-import { ToastUtils, UserUtils } from '../session/utils';
+import { UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { MessageController } from '../session/messages';
 import { leaveClosedGroup } from '../session/group';
@@ -37,12 +37,7 @@ import {
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
-import {
-  openGroupPrefixRegex,
-  openGroupV1ConversationIdRegex,
-  openGroupV2ConversationIdRegex,
-} from '../opengroup/utils/OpenGroupUtils';
-import { getV2OpenGroupRoom } from '../data/opengroups';
+import { OpenGroupUtils } from '../opengroup/utils';
 import { ConversationInteraction } from '../interactions';
 
 export enum ConversationType {
@@ -194,10 +189,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return UserUtils.isUsFromCache(this.id);
   }
   public isPublic(): boolean {
-    return Boolean(this.id && this.id.match(openGroupPrefixRegex));
+    return Boolean(this.id && this.id.match(OpenGroupUtils.openGroupPrefixRegex));
   }
   public isOpenGroupV2(): boolean {
-    return Boolean(this.id && this.id.match(openGroupV2ConversationIdRegex));
+    return OpenGroupUtils.isOpenGroupV2(this.id);
+  }
+  public isOpenGroupV1(): boolean {
+    return OpenGroupUtils.isOpenGroupV1(this.id);
   }
   public isClosedGroup() {
     return this.get('type') === ConversationType.GROUP && !this.isPublic();

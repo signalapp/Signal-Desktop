@@ -26,6 +26,8 @@ import {
   VisibleMessage,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { getV2OpenGroupRoom } from '../../data/opengroups';
+import { getCompleteUrlFromRoom } from '../../opengroup/utils/OpenGroupUtils';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -88,14 +90,29 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
       });
   });
 
-export const getCurrentConfigurationMessage = async (convos: Array<ConversationModel>) => {
-  const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
-  const ourConvo = convos.find(convo => convo.id === ourPubKey);
+const getActiveOpenGroupV2CompleteUrls = async (
+  convos: Array<ConversationModel>
+): Promise<Array<string>> => {
+  // Filter open groups v2
+  const openGroupsV2ConvoIds = convos
+    .filter(c => !!c.get('active_at') && c.isOpenGroupV2() && !c.get('left'))
+    .map(c => c.id) as Array<string>;
 
-  // Filter open groups
-  const openGroupsIds = convos
-    .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
-    .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<string>;
+  const urls = await Promise.all(
+    openGroupsV2ConvoIds.map(async opengroup => {
+      const roomInfos = await getV2OpenGroupRoom(opengroup);
+      if (roomInfos) {
+        return getCompleteUrlFromRoom(roomInfos);
+      }
+      return null;
+    })
+  );
+
+  return _.compact(urls) || [];
+};
+
+const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
+  const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
 
   // Filter Closed/Medium groups
   const closedGroupModels = convos.filter(
@@ -130,7 +147,10 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
   const onlyValidClosedGroup = closedGroups.filter(m => m !== null) as Array<
     ConfigurationMessageClosedGroup
   >;
+  return onlyValidClosedGroup;
+};
 
+const getValidContacts = (convos: Array<ConversationModel>) => {
   // Filter contacts
   const contactsModels = convos.filter(
     c => !!c.get('active_at') && c.getLokiProfile()?.displayName && c.isPrivate() && !c.isBlocked()
@@ -148,6 +168,21 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
       profileKey: profileKeyForContact,
     });
   });
+  return contacts;
+};
+
+export const getCurrentConfigurationMessage = async (convos: Array<ConversationModel>) => {
+  const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
+  const ourConvo = convos.find(convo => convo.id === ourPubKey);
+
+  // Filter open groups v1
+  const openGroupsV1Ids = convos
+    .filter(c => !!c.get('active_at') && c.isOpenGroupV1() && !c.get('left'))
+    .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<string>;
+
+  const opengroupV2CompleteUrls = await getActiveOpenGroupV2CompleteUrls(convos);
+  const onlyValidClosedGroup = await getValidClosedGroups(convos);
+  const validContacts = getValidContacts(convos);
 
   if (!ourConvo) {
     window.log.error('Could not find our convo while building a configuration message.');
@@ -158,15 +193,19 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
   const profilePicture = ourConvo?.get('avatarPointer') || undefined;
   const displayName = ourConvo?.getLokiProfile()?.displayName || undefined;
 
+  const activeOpenGroups = [...openGroupsV1Ids, ...opengroupV2CompleteUrls];
+
+  console.warn('SyncConfiguration', activeOpenGroups);
+
   return new ConfigurationMessage({
     identifier: uuid(),
     timestamp: Date.now(),
-    activeOpenGroups: openGroupsIds,
+    activeOpenGroups,
     activeClosedGroups: onlyValidClosedGroup,
     displayName,
     profilePicture,
     profileKey,
-    contacts,
+    contacts: validContacts,
   });
 };
 

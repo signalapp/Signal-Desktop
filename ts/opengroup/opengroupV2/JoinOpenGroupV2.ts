@@ -12,7 +12,7 @@ import {
   prefixify,
   publicKeyParam,
 } from '../utils/OpenGroupUtils';
-import { attemptConnectionV2OneAtATime } from './OpenGroupManagerV2';
+import { OpenGroupManagerV2 } from './OpenGroupManagerV2';
 
 // Inputs that should work:
 // https://sessionopengroup.co/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231c
@@ -78,8 +78,8 @@ export async function joinOpenGroupV2(
   if (alreadyExist && existingConvo) {
     window.log.warn('Skipping join opengroupv2: already exists');
     return;
-  } else if (alreadyExist) {
-    // we don't have a convo associated with it. Remove everything related to it so we start fresh
+  } else if (existingConvo) {
+    // we already have a convo associated with it. Remove everything related to it so we start fresh
     window.log.warn('leaving before rejoining open group v2 room', conversationId);
     await ConversationController.getInstance().deleteContact(conversationId);
   }
@@ -87,7 +87,11 @@ export async function joinOpenGroupV2(
   // Try to connect to server
   try {
     const conversation = await PromiseUtils.timeout(
-      attemptConnectionV2OneAtATime(prefixedServer, roomId, publicKey),
+      OpenGroupManagerV2.getInstance().attemptConnectionV2OneAtATime(
+        prefixedServer,
+        roomId,
+        publicKey
+      ),
       20000
     );
 

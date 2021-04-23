@@ -44,7 +44,6 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
   const headers = request.headers || {};
   headers.Room = request.room;
 
-  console.warn(`sending request: ${builtUrl}`);
   let body = '';
   if (request.method !== 'GET') {
     body = JSON.stringify(request.queryParams);

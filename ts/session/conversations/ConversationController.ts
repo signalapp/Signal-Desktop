@@ -203,9 +203,17 @@ export class ConversationController {
       if (roomInfos) {
         OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(roomInfos);
         // leave the group on the remote server
-        await deleteAuthToken(_.pick(roomInfos, 'serverUrl', 'roomId'));
+        try {
+          await deleteAuthToken(_.pick(roomInfos, 'serverUrl', 'roomId'));
+        } catch (e) {
+          window.log.info('deleteAuthToken failed:', e);
+        }
         // remove the roomInfos locally for this open group room
-        await removeV2OpenGroupRoom(conversation.id);
+        try {
+          await removeV2OpenGroupRoom(conversation.id);
+        } catch (e) {
+          window.log.info('removeV2OpenGroupRoom failed:', e);
+        }
       }
     }
 
