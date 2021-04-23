@@ -5,6 +5,7 @@ import { ConversationAttributes, ConversationType } from '../../../models/conver
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
 import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { OpenGroup } from '../../../opengroup/opengroupV1/OpenGroup';
+import { openGroupPrefixRegex } from '../../../opengroup/utils/OpenGroupUtils';
 
 export function generateVisibleMessage(identifier?: string): VisibleMessage {
   return new VisibleMessage({
@@ -92,7 +93,7 @@ export class MockConversation {
   }
 
   public isPublic() {
-    return this.id.match(OpenGroup.openGroupPrefixRegex);
+    return this.id.match(openGroupPrefixRegex);
   }
 
   public isMediumGroup() {

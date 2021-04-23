@@ -21,6 +21,7 @@ import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgo
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { OpenGroup } from '../../../../opengroup/opengroupV1/OpenGroup';
+import { openGroupPrefix } from '../../../../opengroup/utils/OpenGroupUtils';
 
 const { expect } = chai;
 
@@ -227,12 +228,12 @@ describe('Message Utils', () => {
     let convos: Array<ConversationModel>;
     const mockValidOpenGroup = new MockConversation({
       type: ConversationType.OPEN_GROUP,
-      id: `${OpenGroup.openGroupPrefix}1@chat-dev.lokinet.org`,
+      id: `${openGroupPrefix}1@chat-dev.lokinet.org`,
     });
 
     const mockValidOpenGroup2 = new MockConversation({
       type: ConversationType.OPEN_GROUP,
-      id: `${OpenGroup.openGroupPrefix}1@chat-dev2.lokinet.org`,
+      id: `${openGroupPrefix}1@chat-dev2.lokinet.org`,
     });
 
     const mockValidClosedGroup = new MockConversation({

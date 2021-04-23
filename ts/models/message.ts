@@ -23,6 +23,8 @@ import { getSuggestedFilenameSending } from '../types/Attachment';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
+import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
+import { banUser } from '../opengroup/opengroupV2/OpenGroupAPIV2';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -715,14 +717,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           window.log.info('cannot ban user, the corresponding conversation was not found.');
           return;
         }
-
-        const channelAPI = await conversation.getPublicSendData();
-        if (!channelAPI) {
-          window.log.info('cannot ban user, the corresponding channelAPI was not found.');
-          return;
+        let success = false;
+        if (isOpenGroupV2(conversation.id)) {
+          await banUser();
+        } else {
+          const channelAPI = await conversation.getPublicSendData();
+          if (!channelAPI) {
+            window.log.info('cannot ban user, the corresponding channelAPI was not found.');
+            return;
+          }
+          success = await channelAPI.banUser(source);
         }
-        const success = await channelAPI.banUser(source);
-
         if (success) {
           ToastUtils.pushUserBanSuccess();
         } else {

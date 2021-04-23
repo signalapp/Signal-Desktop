@@ -6,23 +6,13 @@ import {
 import { ConversationController } from '../../session/conversations';
 import { PromiseUtils } from '../../session/utils';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
-import { getOpenGroupV2ConversationId, prefixify } from '../utils/OpenGroupUtils';
+import {
+  getOpenGroupV2ConversationId,
+  openGroupV2CompleteURLRegex,
+  prefixify,
+  publicKeyParam,
+} from '../utils/OpenGroupUtils';
 import { attemptConnectionV2OneAtATime } from './OpenGroupManagerV2';
-
-const protocolRegex = '(https?://)?';
-const hostnameRegex =
-  '(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]).)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])';
-const portRegex = '(:[0-9]+)?';
-
-// roomIds allows between 2 and 64 of '0-9' or 'a-z' or '_' chars
-const roomIdRegex = '[0-9a-z_]{2,64}';
-const publicKeyRegex = '[0-9a-z]{64}';
-const publicKeyParam = 'public_key=';
-
-const openGroupV2CompleteURLRegex = new RegExp(
-  `^${protocolRegex}${hostnameRegex}${portRegex}/${roomIdRegex}\\?${publicKeyParam}${publicKeyRegex}$`,
-  'gm'
-);
 
 // Inputs that should work:
 // https://sessionopengroup.co/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231c

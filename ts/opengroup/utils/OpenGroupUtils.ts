@@ -2,6 +2,45 @@ import { default as insecureNodeFetch } from 'node-fetch';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { OpenGroup } from '../opengroupV1/OpenGroup';
 
+export const protocolRegex = '(https?://)?';
+export const hostnameRegex =
+  '(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]).)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])';
+export const portRegex = '(:[0-9]+)?';
+
+// roomIds allows between 2 and 64 of '0-9' or 'a-z' or '_' chars
+export const roomIdV2Regex = '[0-9a-z_]{2,64}';
+export const publicKeyRegex = '[0-9a-z]{64}';
+export const publicKeyParam = 'public_key=';
+export const openGroupV2ServerUrlRegex = new RegExp(`${protocolRegex}${hostnameRegex}${portRegex}`);
+
+export const openGroupV2CompleteURLRegex = new RegExp(
+  `^${openGroupV2ServerUrlRegex}/${roomIdV2Regex}\\?${publicKeyParam}${publicKeyRegex}$`,
+  'gm'
+);
+
+/**
+ * Just a constant to have less `publicChat:` everywhere.
+ * This is the prefix used to identify our open groups in the conversation database (v1 or v2)
+ * Note: It does already have the ':' included
+ */
+export const openGroupPrefix = 'publicChat:';
+
+/**
+ * Just a regex to match a public chat (i.e. a string starting with publicChat:)
+ */
+export const openGroupPrefixRegex = new RegExp(`/^${openGroupPrefix}/`);
+
+/**
+ * An open group v1 conversation id can only have the char '1' as roomId
+ */
+export const openGroupV1ConversationIdRegex = new RegExp(
+  `${openGroupPrefix}1@${protocolRegex}${hostnameRegex}`
+);
+
+export const openGroupV2ConversationIdRegex = new RegExp(
+  `${openGroupPrefix}${roomIdV2Regex}@${protocolRegex}${hostnameRegex}${portRegex}`
+);
+
 /**
  * Tries to establish a connection with the specified open group url.
  *
@@ -94,14 +133,37 @@ export function prefixify(server: string, hasSSL: boolean = true): string {
 }
 
 /**
- * No sql access. Just how our open groupv2 url looks like
- * @returns `${OpenGroup.openGroupPrefix}${roomId}@${serverUrl}`
+ * No sql access. Just how our open groupv2 url looks like.
+ * ServerUrl can have the protocol and port included, or not
+ * @returns `${openGroupPrefix}${roomId}@${serverUrl}`
  */
 export function getOpenGroupV2ConversationId(serverUrl: string, roomId: string) {
-  if (roomId.length < 2) {
-    throw new Error('Invalid roomId: too short');
+  if (!roomId.match(roomIdV2Regex)) {
+    throw new Error('getOpenGroupV2ConversationId: Invalid roomId');
   }
-  return `${OpenGroup.openGroupPrefix}${roomId}@${serverUrl}`;
+  if (!serverUrl.match(openGroupV2ServerUrlRegex)) {
+    throw new Error('getOpenGroupV2ConversationId: Invalid serverUrl');
+  }
+  return `${openGroupPrefix}${roomId}@${serverUrl}`;
 }
 
-export function isOpenGroupV2(conversationId: string) {}
+/**
+ * Check if this conversation id corresponds to an OpenGroupV2 conversation.
+ * No access to database are made. Only regex matches
+ * @param conversationId the convo id to evaluate
+ * @returns true if this conversation id matches the Opengroupv2 conversation id regex
+ */
+export function isOpenGroupV2(conversationId: string) {
+  if (!conversationId?.match(openGroupPrefixRegex)) {
+    // this is not even an open group
+    return false;
+  }
+
+  if (!conversationId?.match(openGroupV1ConversationIdRegex)) {
+    // this is an open group v1
+    console.warn('this is an open group v1:', conversationId);
+    return false;
+  }
+
+  return conversationId.match(openGroupV2ConversationIdRegex);
+}

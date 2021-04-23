@@ -37,6 +37,7 @@ import {
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
+import { openGroupPrefixRegex } from '../opengroup/utils/OpenGroupUtils';
 
 export enum ConversationType {
   GROUP = 'group',
@@ -188,7 +189,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return UserUtils.isUsFromCache(this.id);
   }
   public isPublic() {
-    return !!(this.id && this.id.match(OpenGroup.openGroupPrefixRegex));
+    return !!(this.id && this.id.match(openGroupPrefixRegex));
   }
   public isOpenGroupV2() {
     return this.get('type') === ConversationType.OPEN_GROUP;
