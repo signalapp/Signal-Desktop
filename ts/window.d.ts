@@ -608,6 +608,7 @@ export class ByteBufferClass {
   readLong: (offset: number) => Long;
   readShort: (offset: number) => number;
   readVarint32: () => number;
+  reset: () => void;
   writeLong: (l: Long) => void;
   skip: (length: number) => void;
 }

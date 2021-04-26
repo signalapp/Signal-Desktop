@@ -669,10 +669,15 @@ export async function encryptCdsDiscoveryRequest(
     // Long.fromString handles numbers with or without a leading '+'
     numbersArray.writeLong(window.dcodeIO.ByteBuffer.Long.fromString(number));
   });
+
+  // We've written to the array, so offset === byteLength; we need to reset it. Then we'll
+  //   have access to everything in the array when we generate an ArrayBuffer from it.
+  numbersArray.reset();
   const queryDataPlaintext = concatenateBytes(
     nonce,
     numbersArray.toArrayBuffer()
   );
+
   const queryDataKey = getRandomBytes(32);
   const commitment = sha256(queryDataPlaintext);
   const iv = getRandomBytes(12);
