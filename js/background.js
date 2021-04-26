@@ -464,7 +464,7 @@
                   profileKey
                 );
 
-                const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatar({
+                const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatarV1({
                   ...dataResized,
                   data: encryptedData,
                   size: encryptedData.byteLength,

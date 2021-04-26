@@ -131,7 +131,7 @@ async function _maybeStartJob() {
 }
 
 async function _runJob(job) {
-  const { id, messageId, attachment, type, index, attempts } = job || {};
+  const { id, messageId, attachment, type, index, attempts, isOpenGroupV2 } = job || {};
   let message;
 
   try {
@@ -155,7 +155,7 @@ async function _runJob(job) {
     try {
       downloaded = await NewReceiver.downloadAttachment(attachment);
     } catch (error) {
-      // Attachments on the server expire after 30 days, then start returning 404
+      // Attachments on the server expire after 60 days, then start returning 404
       if (error && error.code === 404) {
         logger.warn(
           `_runJob: Got 404 from server, marking attachment ${

@@ -9,12 +9,18 @@ import { processMessage } from '../session/snode_api/swarmPolling';
 import { onError } from './errors';
 
 // innerHandleContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
-import { handleContentMessage, innerHandleContentMessage } from './contentMessage';
-import _ from 'lodash';
+import { handleContentMessage, innerHandleContentMessage, unpad } from './contentMessage';
+import _, { noop } from 'lodash';
 
 export { processMessage };
 
-import { handleMessageEvent, updateProfile } from './dataMessage';
+import {
+  createMessage,
+  handleMessageEvent,
+  isMessageDuplicate,
+  MessageCreationData,
+  updateProfile,
+} from './dataMessage';
 
 import { getEnvelopeId } from './common';
 import { StringUtils, UserUtils } from '../session/utils';
@@ -22,8 +28,14 @@ import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
 import { removeUnprocessed } from '../data/data';
 import { ConversationType } from '../models/conversation';
-import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
-import { openGroupPrefixRegex } from '../opengroup/utils/OpenGroupUtils';
+import {
+  getOpenGroupV2ConversationId,
+  openGroupPrefixRegex,
+} from '../opengroup/utils/OpenGroupUtils';
+import { OpenGroupMessageV2 } from '../opengroup/opengroupV2/OpenGroupMessageV2';
+import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
+import { handleMessageJob } from './queuedJob';
+import { fromBase64ToArray } from '../session/utils/String';
 
 // TODO: check if some of these exports no longer needed
 
@@ -292,34 +304,75 @@ export async function handlePublicMessage(messageData: any) {
   await handleMessageEvent(ev); // open groups
 }
 
-export async function handleOpenGroupV2Message(messageData: any) {
-  const { source } = messageData;
-  const { group, profile, profileKey } = messageData.message;
-
-  const isMe = UserUtils.isUsFromCache(source);
-
-  if (!isMe && profile) {
-    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
-      source,
-      ConversationType.PRIVATE
-    );
-    await updateProfile(conversation, profile, profileKey);
+export async function handleOpenGroupV2Message(
+  message: OpenGroupMessageV2,
+  roomInfos: OpenGroupRequestCommonType
+) {
+  const { base64EncodedData, sentTimestamp, sender, serverId } = message;
+  const { serverUrl, roomId } = roomInfos;
+  if (!base64EncodedData || !sentTimestamp || !sender || !serverId) {
+    window.log.warn('Invalid data passed to handleMessageEvent.', message);
+    return;
   }
 
-  const isPublicVisibleMessage = group && group.id && !!group.id.match(openGroupPrefixRegex);
+  const dataUint = new Uint8Array(unpad(fromBase64ToArray(base64EncodedData)));
 
-  if (!isPublicVisibleMessage) {
-    throw new Error('handlePublicMessage Should only be called with public message groups');
+  const decoded = SignalService.Content.decode(dataUint);
+
+  const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
+  if (!conversationId) {
+    window.log.error('We cannot handle a message without a conversationId');
+    return;
+  }
+  const dataMessage = decoded?.dataMessage;
+  if (!dataMessage) {
+    window.log.error('Invalid decoded opengroup message: no dataMessage');
+    return;
   }
 
-  const ev = {
-    // Public chat messages from ourselves should be outgoing
-    type: isMe ? 'sent' : 'message',
-    data: messageData,
-    confirm: () => {
-      /* do nothing */
-    },
+  if (!ConversationController.getInstance().get(conversationId)) {
+    window.log.error('Received a message for an unknown convo. Skipping');
+    return;
+  }
+  const isMe = UserUtils.isUsFromCache(sender);
+  const messageCreationData: MessageCreationData = {
+    isPublic: true,
+    sourceDevice: 1,
+    serverId,
+    serverTimestamp: sentTimestamp,
+    receivedAt: Date.now(),
+    destination: conversationId,
+    timestamp: sentTimestamp,
+    unidentifiedStatus: undefined,
+    expirationStartTimestamp: undefined,
+    source: sender,
+    message: dataMessage,
   };
 
-  await handleMessageEvent(ev); // open groups
+  if (await isMessageDuplicate(messageCreationData)) {
+    window.log.info('Received duplicate message. Dropping it.');
+    return;
+  }
+
+  // this line just create an empty message with some basic stuff set.
+  // the whole decoding of data is happening in handleMessageJob()
+  const msg = createMessage(messageCreationData, !isMe);
+
+  // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
+  // source = source || msg.get('source');
+
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+    conversationId,
+    ConversationType.GROUP
+  );
+
+  if (!conversation) {
+    window.log.warn('Skipping handleJob for unknown convo: ', conversationId);
+    return;
+  }
+
+  conversation.queueJob(async () => {
+    await handleMessageJob(msg, conversation, decoded?.dataMessage, ourNumber, noop, sender);
+  });
 }

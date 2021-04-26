@@ -6,13 +6,10 @@ import { compactFetchEverything, ParsedRoomCompactPollResults } from './OpenGrou
 import _ from 'lodash';
 import { ConversationModel } from '../../models/conversation';
 import { getMessageIdsFromServerIds, removeMessage } from '../../data/data';
-import {
-  getV2OpenGroupRoom,
-  getV2OpenGroupRoomByRoomId,
-  saveV2OpenGroupRoom,
-} from '../../data/opengroups';
+import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
+
 const pollForEverythingInterval = 4 * 1000;
 
 /**
@@ -207,20 +204,29 @@ const handleNewMessages = async (
     const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
     const maxNewMessageId = Math.max(...incomingMessageIds);
     // TODO filter out duplicates ?
+    const roomInfos = await getV2OpenGroupRoom(conversationId);
+    if (!roomInfos || !roomInfos.serverUrl || !roomInfos.roomId) {
+      throw new Error(`No room for convo ${conversationId}`);
+    }
+
+    const roomDetails: OpenGroupRequestCommonType = _.pick(roomInfos, 'serverUrl', 'roomId');
 
     // tslint:disable-next-line: prefer-for-of
     for (let index = 0; index < newMessages.length; index++) {
       const newMessage = newMessages[index];
-      await handleOpenGroupV2Message(newMessage);
+      try {
+        await handleOpenGroupV2Message(newMessage, roomDetails);
+      } catch (e) {
+        window.log.warn('handleOpenGroupV2Message', e);
+      }
     }
 
-    const roomInfos = await getV2OpenGroupRoom(conversationId);
     if (roomInfos && roomInfos.lastMessageFetchedServerID !== maxNewMessageId) {
       roomInfos.lastMessageFetchedServerID = maxNewMessageId;
       await saveV2OpenGroupRoom(roomInfos);
     }
   } catch (e) {
-    // window.log.warn('handleNewMessages failed:', e);
+    window.log.warn('handleNewMessages failed:', e);
   }
 };
 
@@ -240,7 +246,7 @@ const handleCompactPollResults = async (
       }
 
       if (res.messages.length) {
-        // new deletions
+        // new messages
         await handleNewMessages(res.messages, convoId, convo);
       }
 

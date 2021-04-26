@@ -156,7 +156,7 @@ export async function sendToOpenGroupV2(
     // the signature is added in the postMessage())
   });
 
-  // postMessage throws
+  // Warning: postMessage throws
   const sentMessage = await postMessage(v2Message, roomInfos);
   return sentMessage;
 }

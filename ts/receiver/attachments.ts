@@ -4,6 +4,7 @@ import { MessageModel } from '../models/message';
 import { saveMessage } from '../../ts/data/data';
 import { fromBase64ToArrayBuffer } from '../session/utils/String';
 import { AttachmentUtils } from '../session/utils';
+import { ConversationModel } from '../models/conversation';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -82,16 +83,96 @@ export async function downloadAttachment(attachment: any) {
   };
 }
 
+export async function downloadAttachmentOpenGrouPV2(attachment: any) {
+  const serverUrl = new URL(attachment.url).origin;
+
+  // The fileserver adds the `-static` part for some reason
+  const defaultFileserver = _.includes(
+    ['https://file-static.lokinet.org', 'https://file.getsession.org'],
+    serverUrl
+  );
+
+  let res: ArrayBuffer | null = null;
+
+  // TODO: we need attachments to remember which API should be used to retrieve them
+  if (!defaultFileserver) {
+    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(serverUrl);
+
+    if (serverAPI) {
+      res = await serverAPI.downloadAttachment(attachment.url);
+    }
+  }
+
+  // Fallback to using the default fileserver
+  if (defaultFileserver || !res || res.byteLength === 0) {
+    res = await window.lokiFileServerAPI.downloadAttachment(attachment.url);
+  }
+
+  if (res.byteLength === 0) {
+    window.log.error('Failed to download attachment. Length is 0');
+    throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
+  }
+
+  // FIXME "178" test to remove once this is fixed server side.
+  if (!window.lokiFeatureFlags.useFileOnionRequestsV2) {
+    if (res.byteLength === 178) {
+      window.log.error(
+        'Data of 178 length corresponds of a 404 returned as 200 by file.getsession.org.'
+      );
+      throw new Error(`downloadAttachment: invalid response for ${attachment.url}`);
+    }
+  } else {
+    // if useFileOnionRequestsV2 is true, we expect an ArrayBuffer not empty
+  }
+
+  // The attachment id is actually just the absolute url of the attachment
+  let data = res;
+  if (!attachment.isRaw) {
+    const { key, digest, size } = attachment;
+
+    if (!key || !digest) {
+      throw new Error('Attachment is not raw but we do not have a key to decode it');
+    }
+
+    data = await window.textsecure.crypto.decryptAttachment(
+      data,
+      fromBase64ToArrayBuffer(key),
+      fromBase64ToArrayBuffer(digest)
+    );
+
+    if (!size || size !== data.byteLength) {
+      // we might have padding, check that all the remaining bytes are padding bytes
+      // otherwise we have an error.
+      if (AttachmentUtils.isLeftOfBufferPaddingOnly(data, size)) {
+        // we can safely remove the padding
+        data = data.slice(0, size);
+      } else {
+        throw new Error(
+          `downloadAttachment: Size ${size} did not match downloaded attachment size ${data.byteLength}`
+        );
+      }
+    }
+  }
+
+  return {
+    ..._.omit(attachment, 'digest', 'key'),
+    data,
+  };
+}
+
 async function processNormalAttachments(
   message: MessageModel,
-  normalAttachments: Array<any>
+  normalAttachments: Array<any>,
+  convo: ConversationModel
 ): Promise<number> {
+  const isOpenGroupV2 = convo.isOpenGroupV2();
   const attachments = await Promise.all(
     normalAttachments.map((attachment: any, index: any) => {
       return window.Signal.AttachmentDownloads.addJob(attachment, {
         messageId: message.id,
         type: 'attachment',
         index,
+        isOpenGroupV2,
       });
     })
   );
@@ -101,8 +182,9 @@ async function processNormalAttachments(
   return attachments.length;
 }
 
-async function processPreviews(message: MessageModel): Promise<number> {
+async function processPreviews(message: MessageModel, convo: ConversationModel): Promise<number> {
   let addedCount = 0;
+  const isOpenGroupV2 = convo.isOpenGroupV2();
 
   const preview = await Promise.all(
     (message.get('preview') || []).map(async (item: any, index: any) => {
@@ -115,6 +197,7 @@ async function processPreviews(message: MessageModel): Promise<number> {
         messageId: message.id,
         type: 'preview',
         index,
+        isOpenGroupV2,
       });
 
       return { ...item, image };
@@ -126,8 +209,9 @@ async function processPreviews(message: MessageModel): Promise<number> {
   return addedCount;
 }
 
-async function processAvatars(message: MessageModel): Promise<number> {
+async function processAvatars(message: MessageModel, convo: ConversationModel): Promise<number> {
   let addedCount = 0;
+  const isOpenGroupV2 = convo.isOpenGroupV2();
 
   const contacts = message.get('contact') || [];
 
@@ -143,6 +227,7 @@ async function processAvatars(message: MessageModel): Promise<number> {
         messaeId: message.id,
         type: 'contact',
         index,
+        isOpenGroupV2,
       });
 
       return {
@@ -160,7 +245,10 @@ async function processAvatars(message: MessageModel): Promise<number> {
   return addedCount;
 }
 
-async function processQuoteAttachments(message: MessageModel): Promise<number> {
+async function processQuoteAttachments(
+  message: MessageModel,
+  convo: ConversationModel
+): Promise<number> {
   let addedCount = 0;
 
   const quote = message.get('quote');
@@ -168,6 +256,7 @@ async function processQuoteAttachments(message: MessageModel): Promise<number> {
   if (!quote || !quote.attachments || !quote.attachments.length) {
     return 0;
   }
+  const isOpenGroupV2 = convo.isOpenGroupV2();
 
   quote.attachments = await Promise.all(
     quote.attachments.map(async (item: any, index: any) => {
@@ -183,6 +272,7 @@ async function processQuoteAttachments(message: MessageModel): Promise<number> {
         messageId: message.id,
         type: 'quote',
         index,
+        isOpenGroupV2,
       });
 
       return { ...item, thumbnail };
@@ -194,12 +284,16 @@ async function processQuoteAttachments(message: MessageModel): Promise<number> {
   return addedCount;
 }
 
-async function processGroupAvatar(message: MessageModel): Promise<boolean> {
+async function processGroupAvatar(
+  message: MessageModel,
+  convo: ConversationModel
+): Promise<boolean> {
   let group = message.get('group');
 
   if (!group || !group.avatar) {
     return false;
   }
+  const isOpenGroupV2 = convo.isOpenGroupV2();
 
   group = {
     ...group,
@@ -207,6 +301,7 @@ async function processGroupAvatar(message: MessageModel): Promise<boolean> {
       messageId: message.id,
       type: 'group-avatar',
       index: 0,
+      isOpenGroupV2,
     }),
   };
 
@@ -215,18 +310,21 @@ async function processGroupAvatar(message: MessageModel): Promise<boolean> {
   return true;
 }
 
-export async function queueAttachmentDownloads(message: MessageModel): Promise<void> {
+export async function queueAttachmentDownloads(
+  message: MessageModel,
+  conversation: ConversationModel
+): Promise<void> {
   let count = 0;
 
-  count += await processNormalAttachments(message, message.get('attachments') || []);
+  count += await processNormalAttachments(message, message.get('attachments') || [], conversation);
 
-  count += await processPreviews(message);
+  count += await processPreviews(message, conversation);
 
-  count += await processAvatars(message);
+  count += await processAvatars(message, conversation);
 
-  count += await processQuoteAttachments(message);
+  count += await processQuoteAttachments(message, conversation);
 
-  if (await processGroupAvatar(message)) {
+  if (await processGroupAvatar(message, conversation)) {
     count += 1;
   }
 

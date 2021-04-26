@@ -59,6 +59,15 @@ export function getCompleteUrlFromRoom(roomInfos: OpenGroupV2Room) {
 }
 
 /**
+ * This function returns a base url to this room
+ * This is basically used for building url after posting an attachment
+ */
+export function getCompleteEndpointUrl(roomInfos: OpenGroupRequestCommonType, endpoint: string) {
+  // serverUrl has the port and protocol already
+  return `${roomInfos.serverUrl}/${roomInfos.roomId}/${endpoint}`;
+}
+
+/**
  * Tries to establish a connection with the specified open group url.
  *
  * This will try to do an onion routing call if the `useFileOnionRequests` feature flag is set,

@@ -53,7 +53,8 @@ export class SwarmPolling {
 
   public start(): void {
     this.loadGroupIds();
-    void this.pollForAllKeys();
+    //FIXME audric
+    // void this.pollForAllKeys();
   }
 
   public addGroupId(pubkey: PubKey) {
@@ -105,9 +106,11 @@ export class SwarmPolling {
       nodesToPoll = _.concat(nodesToPoll, newNodes);
     }
 
+    // FXIME audric
     const results = await Promise.all(
       nodesToPoll.map(async (n: Snode) => {
-        return this.pollNodeForKey(n, pubkey);
+        return [];
+        // return this.pollNodeForKey(n, pubkey);
       })
     );
 

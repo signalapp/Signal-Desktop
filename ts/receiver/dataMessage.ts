@@ -322,17 +322,31 @@ export async function handleDataMessage(
   await handleMessageEvent(ev);
 }
 
-interface MessageId {
-  source: any;
-  sourceDevice: any;
-  timestamp: any;
-  message: any;
-}
+type MessageDuplicateSearchType = {
+  body: string;
+  id: string;
+  timestamp: number;
+  serverId?: number;
+};
+
+export type MessageId = {
+  source: string;
+  serverId: number;
+  sourceDevice: number;
+  timestamp: number;
+  message: MessageDuplicateSearchType;
+};
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
-async function isMessageDuplicate({ source, sourceDevice, timestamp, message }: MessageId) {
+export async function isMessageDuplicate({
+  source,
+  sourceDevice,
+  timestamp,
+  message,
+  serverId,
+}: MessageId) {
   const { Errors } = window.Signal.Types;
-
+  // serverId is only used for opengroupv2
   try {
     const result = await getMessageBySender({
       source,
@@ -344,19 +358,27 @@ async function isMessageDuplicate({ source, sourceDevice, timestamp, message }: 
       return false;
     }
     const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
-    const isSimilar = filteredResult.some((m: any) => isDuplicate(m, message, source));
-    return isSimilar;
+    if (serverId) {
+      return filteredResult.some(m => isDuplicate(m, { ...message, serverId }, source));
+    }
+    return filteredResult.some(m => isDuplicate(m, message, source));
   } catch (error) {
     window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
     return false;
   }
 }
 
-export const isDuplicate = (m: any, testedMessage: any, source: string) => {
+export const isDuplicate = (
+  m: MessageModel,
+  testedMessage: MessageDuplicateSearchType,
+  source: string
+) => {
   // The username in this case is the users pubKey
   const sameUsername = m.attributes.source === source;
+  // testedMessage.id is needed as long as we support opengroupv1
   const sameServerId =
-    m.attributes.serverId !== undefined && testedMessage.id === m.attributes.serverId;
+    m.attributes.serverId !== undefined &&
+    (testedMessage.serverId || testedMessage.id) === m.attributes.serverId;
   const sameText = m.attributes.body === testedMessage.body;
   // Don't filter out messages that are too far apart from each other
   const timestampsSimilar =
@@ -395,12 +417,12 @@ async function handleProfileUpdate(
   }
 }
 
-interface MessageCreationData {
+export interface MessageCreationData {
   timestamp: number;
   isPublic: boolean;
   receivedAt: number;
   sourceDevice: number; // always 1 isn't it?
-  source: boolean;
+  source: string;
   serverId: number;
   message: any;
   serverTimestamp: any;
@@ -491,7 +513,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
   return new MessageModel(messageData);
 }
 
-function createMessage(data: MessageCreationData, isIncoming: boolean): MessageModel {
+export function createMessage(data: MessageCreationData, isIncoming: boolean): MessageModel {
   if (isIncoming) {
     return initIncomingMessage(data);
   } else {

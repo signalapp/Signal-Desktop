@@ -11,6 +11,7 @@ import { MessageCollection, MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 import { actions as conversationActions } from '../state/ducks/conversations';
+import { updateProfile } from './dataMessage';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -84,7 +85,7 @@ function contentTypeSupported(type: any): boolean {
 
 async function copyFromQuotedMessage(
   msg: MessageModel,
-  quote: Quote,
+  quote?: Quote,
   attemptCount: number = 1
 ): Promise<void> {
   const { upgradeMessageSchema } = window.Signal.Migrations;
@@ -365,6 +366,16 @@ async function handleRegularMessage(
     source,
     ConversationType.PRIVATE
   );
+  // Check if we need to update any profile names
+  // the only profile we don't update with what is coming here is ours,
+  // as our profile is shared accross our devices with a ConfigurationMessage
+  if (type === 'incoming' && dataMessage.profile) {
+    await updateProfile(
+      sendingDeviceConversation,
+      dataMessage.profile,
+      dataMessage.profile?.profileKey
+    );
+  }
 
   if (dataMessage.profileKey) {
     await processProfileKey(
@@ -454,7 +465,7 @@ export async function handleMessageJob(
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
 
-    await queueAttachmentDownloads(message);
+    await queueAttachmentDownloads(message, conversation);
 
     const unreadCount = await conversation.getUnreadCount();
     conversation.set({ unreadCount });

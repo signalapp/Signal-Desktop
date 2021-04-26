@@ -62,10 +62,10 @@ export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointe
       AttachmentUtils.addAttachmentPadding(attachment.data)) ||
     attachment.data;
 
-  const fileId = await uploadFileOpenGroupV2(new Uint8Array(paddedAttachment), openGroup);
+  const fileDetails = await uploadFileOpenGroupV2(new Uint8Array(paddedAttachment), openGroup);
 
-  pointer.id = fileId || undefined;
-  console.warn('should we set the URL too here for that v2?');
+  pointer.id = fileDetails?.fileId || undefined;
+  pointer.url = fileDetails?.fileUrl || undefined;
 
   return pointer;
 }

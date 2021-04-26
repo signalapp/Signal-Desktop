@@ -191,7 +191,7 @@ export async function decryptWithSessionProtocol(
   return plaintext;
 }
 
-function unpad(paddedData: ArrayBuffer): ArrayBuffer {
+export function unpad(paddedData: ArrayBuffer): ArrayBuffer {
   const paddedPlaintext = new Uint8Array(paddedData);
 
   for (let i = paddedPlaintext.length - 1; i >= 0; i -= 1) {

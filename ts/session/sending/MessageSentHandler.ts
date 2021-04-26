@@ -28,7 +28,7 @@ export class MessageSentHandler {
         serverId,
         isPublic: true,
         sent: true,
-        sent_at: sentMessage.timestamp,
+        sent_at: serverTimestamp,
         sync: true,
         synced: true,
         sentSync: true,

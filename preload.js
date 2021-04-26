@@ -53,7 +53,10 @@ window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 window.getStoragePubKey = key => key.substring(0, key.length - 2);
 // window.isDev() ? key.substring(0, key.length - 2) : key;
-window.getDefaultFileServer = () => config.defaultFileServer;
+
+// FIXME audric
+// config.defaultFileServer
+window.getDefaultFileServer = () => 'https://file-dev.getsession.org';
 window.initialisedAPI = false;
 
 window.lokiFeatureFlags = {

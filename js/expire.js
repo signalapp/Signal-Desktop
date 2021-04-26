@@ -66,7 +66,8 @@
   };
 
   // don't wait for this to finish
-  checkForUpgrades();
+  // FIXME audric
+  // checkForUpgrades();
 
   window.extension = window.extension || {};
 
