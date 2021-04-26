@@ -888,7 +888,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const authorColor = contactModel ? contactModel.getColor() : undefined;
     const authorAvatarPath = contactModel
-      ? contactModel.getAvatarPath()
+      ? contactModel.getAbsoluteAvatarPath()
       : undefined;
 
     const expirationLength = this.get('expireTimer') * 1000;

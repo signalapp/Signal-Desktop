@@ -1345,7 +1345,7 @@ export class ConversationModel extends window.Backbone.Model<
       areWeAdmin: this.areWeAdmin(),
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
-      avatarPath: this.getAvatarPath()!,
+      avatarPath: this.getAbsoluteAvatarPath(),
       color,
       discoveredUnregisteredAt: this.get('discoveredUnregisteredAt'),
       draftBodyRanges,
@@ -4929,7 +4929,7 @@ export class ConversationModel extends window.Backbone.Model<
     return migrateColor(this.get('color'));
   }
 
-  getAvatarPath(): string | undefined {
+  getAbsoluteAvatarPath(): string | undefined {
     const avatar = this.isMe()
       ? this.get('profileAvatar') || this.get('avatar')
       : this.get('avatar') || this.get('profileAvatar');
