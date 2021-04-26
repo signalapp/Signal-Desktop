@@ -1755,40 +1755,38 @@ export async function startApp(): Promise<void> {
         }
 
         try {
-          if (window.Signal.RemoteConfig.isEnabled('desktop.cds')) {
-            const lonelyE164s = window
-              .getConversations()
-              .filter(c =>
-                Boolean(
-                  c.isPrivate() &&
-                    c.get('e164') &&
-                    !c.get('uuid') &&
-                    !c.isEverUnregistered()
-                )
+          const lonelyE164s = window
+            .getConversations()
+            .filter(c =>
+              Boolean(
+                c.isPrivate() &&
+                  c.get('e164') &&
+                  !c.get('uuid') &&
+                  !c.isEverUnregistered()
               )
-              .map(c => c.get('e164'))
-              .filter(Boolean) as Array<string>;
+            )
+            .map(c => c.get('e164'))
+            .filter(Boolean) as Array<string>;
 
-            if (lonelyE164s.length > 0) {
-              const lookup = await window.textsecure.messaging.getUuidsForE164s(
-                lonelyE164s
-              );
-              const e164s = Object.keys(lookup);
-              e164s.forEach(e164 => {
-                const uuid = lookup[e164];
-                if (!uuid) {
-                  const byE164 = window.ConversationController.get(e164);
-                  if (byE164) {
-                    byE164.setUnregistered();
-                  }
+          if (lonelyE164s.length > 0) {
+            const lookup = await window.textsecure.messaging.getUuidsForE164s(
+              lonelyE164s
+            );
+            const e164s = Object.keys(lookup);
+            e164s.forEach(e164 => {
+              const uuid = lookup[e164];
+              if (!uuid) {
+                const byE164 = window.ConversationController.get(e164);
+                if (byE164) {
+                  byE164.setUnregistered();
                 }
-                window.ConversationController.ensureContactIds({
-                  e164,
-                  uuid,
-                  highTrust: true,
-                });
+              }
+              window.ConversationController.ensureContactIds({
+                e164,
+                uuid,
+                highTrust: true,
               });
-            }
+            });
           }
         } catch (error) {
           window.log.error(

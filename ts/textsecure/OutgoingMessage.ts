@@ -23,7 +23,6 @@ import {
 } from 'libsignal-client';
 
 import { ServerKeysType, WebAPIType } from './WebAPI';
-import { isEnabled as isRemoteFlagEnabled } from '../RemoteConfig';
 import { ContentClass, DataMessageClass } from '../textsecure.d';
 import {
   CallbackResultType,
@@ -645,49 +644,47 @@ export default class OutgoingMessage {
   async sendToIdentifier(providedIdentifier: string): Promise<void> {
     let identifier = providedIdentifier;
     try {
-      if (isRemoteFlagEnabled('desktop.cds')) {
-        if (window.isValidGuid(identifier)) {
-          // We're good!
-        } else if (isValidNumber(identifier)) {
-          if (!window.textsecure.messaging) {
-            throw new Error(
-              'sendToIdentifier: window.textsecure.messaging is not available!'
-            );
-          }
-          try {
-            const lookup = await window.textsecure.messaging.getUuidsForE164s([
-              identifier,
-            ]);
-            const uuid = lookup[identifier];
-            if (uuid) {
-              window.ConversationController.ensureContactIds({
-                uuid,
-                e164: identifier,
-                highTrust: true,
-              });
-              identifier = uuid;
-            } else {
-              const c = window.ConversationController.get(identifier);
-              if (c) {
-                c.setUnregistered();
-              }
-
-              throw new UnregisteredUserError(
-                identifier,
-                new Error('User is not registered')
-              );
-            }
-          } catch (error) {
-            window.log.error(
-              `sentToIdentifier: Failed to fetch UUID for identifier ${identifier}`,
-              error && error.stack ? error.stack : error
-            );
-          }
-        } else {
+      if (window.isValidGuid(identifier)) {
+        // We're good!
+      } else if (isValidNumber(identifier)) {
+        if (!window.textsecure.messaging) {
           throw new Error(
-            `sendToIdentifier: identifier ${identifier} was neither a UUID or E164`
+            'sendToIdentifier: window.textsecure.messaging is not available!'
           );
         }
+        try {
+          const lookup = await window.textsecure.messaging.getUuidsForE164s([
+            identifier,
+          ]);
+          const uuid = lookup[identifier];
+          if (uuid) {
+            window.ConversationController.ensureContactIds({
+              uuid,
+              e164: identifier,
+              highTrust: true,
+            });
+            identifier = uuid;
+          } else {
+            const c = window.ConversationController.get(identifier);
+            if (c) {
+              c.setUnregistered();
+            }
+
+            throw new UnregisteredUserError(
+              identifier,
+              new Error('User is not registered')
+            );
+          }
+        } catch (error) {
+          window.log.error(
+            `sentToIdentifier: Failed to fetch UUID for identifier ${identifier}`,
+            error && error.stack ? error.stack : error
+          );
+        }
+      } else {
+        throw new Error(
+          `sendToIdentifier: identifier ${identifier} was neither a UUID or E164`
+        );
       }
 
       const updateDevices = await this.getStaleDeviceIdsForIdentifier(

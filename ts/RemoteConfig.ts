@@ -1,11 +1,10 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { get, throttle } from 'lodash';
 import { WebAPIType } from './textsecure/WebAPI';
 
 export type ConfigKeyType =
-  | 'desktop.cds'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
   | 'desktop.groupCalling'
