@@ -879,10 +879,10 @@ export async function startApp(): Promise<void> {
     const changedConvoBatcher = createBatcher<ConversationModel>({
       name: 'changedConvoBatcher',
       processBatch(batch) {
-        const deduped = Array.from(new Set(batch));
+        const deduped = new Set(batch);
         window.log.info(
           'changedConvoBatcher: deduped ' +
-            `${batch.length} into ${deduped.length}`
+            `${batch.length} into ${deduped.size}`
         );
 
         deduped.forEach(conversation => {
