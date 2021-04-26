@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { MessageModel } from '../models/message';
 import { saveMessage } from '../../ts/data/data';
 import { fromBase64ToArrayBuffer } from '../session/utils/String';
-import { AttachmentUtils } from '../session/utils';
+import { AttachmentDownloads, AttachmentUtils } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
 
 export async function downloadAttachment(attachment: any) {
@@ -168,7 +168,7 @@ async function processNormalAttachments(
   const isOpenGroupV2 = convo.isOpenGroupV2();
   const attachments = await Promise.all(
     normalAttachments.map((attachment: any, index: any) => {
-      return window.Signal.AttachmentDownloads.addJob(attachment, {
+      return AttachmentDownloads.addJob(attachment, {
         messageId: message.id,
         type: 'attachment',
         index,
@@ -193,7 +193,7 @@ async function processPreviews(message: MessageModel, convo: ConversationModel):
       }
       addedCount += 1;
 
-      const image = await window.Signal.AttachmentDownloads.addJob(item.image, {
+      const image = await AttachmentDownloads.addJob(item.image, {
         messageId: message.id,
         type: 'preview',
         index,
@@ -223,7 +223,7 @@ async function processAvatars(message: MessageModel, convo: ConversationModel): 
 
       addedCount += 1;
 
-      const avatarJob = await window.Signal.AttachmentDownloads.addJob(item.avatar.avatar, {
+      const avatarJob = await AttachmentDownloads.addJob(item.avatar.avatar, {
         messaeId: message.id,
         type: 'contact',
         index,
@@ -268,7 +268,7 @@ async function processQuoteAttachments(
 
       addedCount += 1;
 
-      const thumbnail = await window.Signal.AttachmentDownloads.addJob(item.thumbnail, {
+      const thumbnail = await AttachmentDownloads.addJob(item.thumbnail, {
         messageId: message.id,
         type: 'quote',
         index,
@@ -297,7 +297,7 @@ async function processGroupAvatar(
 
   group = {
     ...group,
-    avatar: await window.Signal.AttachmentDownloads.addJob(group.avatar, {
+    avatar: await AttachmentDownloads.addJob(group.avatar, {
       messageId: message.id,
       type: 'group-avatar',
       index: 0,

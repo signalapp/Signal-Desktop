@@ -9,7 +9,6 @@ const OS = require('../../ts/OS');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
 const LinkPreviews = require('./link_previews');
-const AttachmentDownloads = require('./attachment_downloads');
 const { Message } = require('../../ts/components/conversation/Message');
 
 // Components
@@ -173,7 +172,6 @@ exports.setup = (options = {}) => {
   };
 
   return {
-    AttachmentDownloads,
     Components,
     Crypto,
     Data,

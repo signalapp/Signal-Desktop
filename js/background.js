@@ -204,7 +204,7 @@
 
       shutdown: async () => {
         // Stop background processing
-        window.Signal.AttachmentDownloads.stop();
+        window.libsession.Utils.AttachmentDownloads.stop();
 
         // Stop processing incoming messages
         if (messageReceiver) {
@@ -746,7 +746,7 @@
     if (messageReceiver) {
       await messageReceiver.close();
     }
-    window.Signal.AttachmentDownloads.stop();
+    window.libsession.Utils.AttachmentDownloads.stop();
   }
 
   let connectCount = 0;
@@ -801,7 +801,7 @@
     messageReceiver.addEventListener('configuration', onConfiguration);
     // messageReceiver.addEventListener('typing', onTyping);
 
-    window.Signal.AttachmentDownloads.start({
+    window.libsession.Utils.AttachmentDownloads.start({
       logger: window.log,
     });
 
