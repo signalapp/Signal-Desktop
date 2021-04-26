@@ -111,9 +111,8 @@ type CachedIdenticon = {
   readonly color: ColorType;
 };
 
-export class ConversationModel extends window.Backbone.Model<
-  ConversationAttributesType
-> {
+export class ConversationModel extends window.Backbone
+  .Model<ConversationAttributesType> {
   static COLORS: string;
 
   cachedProps?: ConversationType | null;
@@ -4398,9 +4397,7 @@ export class ConversationModel extends window.Backbone.Model<
 
   getProfiles(): Promise<Array<void>> {
     // request all conversation members' keys
-    const conversations = (this.getMembers() as unknown) as Array<
-      ConversationModel
-    >;
+    const conversations = (this.getMembers() as unknown) as Array<ConversationModel>;
     return Promise.all(
       window._.map(conversations, conversation => {
         this.getProfile(conversation.get('uuid'), conversation.get('e164'));

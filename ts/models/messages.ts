@@ -3553,7 +3553,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           // GroupV1
           if (!isGroupV2 && dataMessage.group) {
             const pendingGroupUpdate = [];
-            const memberConversations: Array<typeof window.WhatIsThis> = await Promise.all(
+            const memberConversations: Array<
+              typeof window.WhatIsThis
+            > = await Promise.all(
               dataMessage.group.membersE164.map((e164: string) =>
                 window.ConversationController.getOrCreateAndWait(
                   e164,

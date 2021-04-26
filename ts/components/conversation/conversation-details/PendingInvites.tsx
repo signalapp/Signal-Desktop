@@ -65,9 +65,10 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
   }
 
   const [selectedTab, setSelectedTab] = React.useState(Tab.Requests);
-  const [stagedMemberships, setStagedMemberships] = React.useState<Array<
-    StagedMembershipType
-  > | null>(null);
+  const [
+    stagedMemberships,
+    setStagedMemberships,
+  ] = React.useState<Array<StagedMembershipType> | null>(null);
 
   const allPendingMemberships = conversation.pendingMemberships || [];
   const allRequestingMemberships =

@@ -243,9 +243,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();
 
-  public reactionsContainerRef: React.RefObject<
-    HTMLDivElement
-  > = React.createRef();
+  public reactionsContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   public reactionsContainerRefMerger = createRefMerger();
 

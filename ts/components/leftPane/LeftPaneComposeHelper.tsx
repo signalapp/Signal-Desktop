@@ -32,9 +32,7 @@ enum TopButton {
 
 /* eslint-disable class-methods-use-this */
 
-export class LeftPaneComposeHelper extends LeftPaneHelper<
-  LeftPaneComposePropsType
-> {
+export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsType> {
   private readonly composeContacts: ReadonlyArray<ContactListItemPropsType>;
 
   private readonly composeGroups: ReadonlyArray<ConversationListItemPropsType>;

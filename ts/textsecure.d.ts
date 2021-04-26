@@ -309,33 +309,19 @@ export declare namespace GroupChangeClass {
     addMembers?: Array<GroupChangeClass.Actions.AddMemberAction>;
     deleteMembers?: Array<GroupChangeClass.Actions.DeleteMemberAction>;
     modifyMemberRoles?: Array<GroupChangeClass.Actions.ModifyMemberRoleAction>;
-    modifyMemberProfileKeys?: Array<
-      GroupChangeClass.Actions.ModifyMemberProfileKeyAction
-    >;
-    addPendingMembers?: Array<
-      GroupChangeClass.Actions.AddMemberPendingProfileKeyAction
-    >;
-    deletePendingMembers?: Array<
-      GroupChangeClass.Actions.DeleteMemberPendingProfileKeyAction
-    >;
-    promotePendingMembers?: Array<
-      GroupChangeClass.Actions.PromoteMemberPendingProfileKeyAction
-    >;
+    modifyMemberProfileKeys?: Array<GroupChangeClass.Actions.ModifyMemberProfileKeyAction>;
+    addPendingMembers?: Array<GroupChangeClass.Actions.AddMemberPendingProfileKeyAction>;
+    deletePendingMembers?: Array<GroupChangeClass.Actions.DeleteMemberPendingProfileKeyAction>;
+    promotePendingMembers?: Array<GroupChangeClass.Actions.PromoteMemberPendingProfileKeyAction>;
     modifyTitle?: GroupChangeClass.Actions.ModifyTitleAction;
     modifyAvatar?: GroupChangeClass.Actions.ModifyAvatarAction;
     modifyDisappearingMessagesTimer?: GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
     modifyAttributesAccess?: GroupChangeClass.Actions.ModifyAttributesAccessControlAction;
     modifyMemberAccess?: GroupChangeClass.Actions.ModifyMembersAccessControlAction;
     modifyAddFromInviteLinkAccess?: GroupChangeClass.Actions.ModifyAddFromInviteLinkAccessControlAction;
-    addMemberPendingAdminApprovals?: Array<
-      GroupChangeClass.Actions.AddMemberPendingAdminApprovalAction
-    >;
-    deleteMemberPendingAdminApprovals?: Array<
-      GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction
-    >;
-    promoteMemberPendingAdminApprovals?: Array<
-      GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction
-    >;
+    addMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.AddMemberPendingAdminApprovalAction>;
+    deleteMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction>;
+    promoteMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction>;
     modifyInviteLinkPassword?: GroupChangeClass.Actions.ModifyInviteLinkPasswordAction;
   }
 }
@@ -1160,9 +1146,7 @@ export declare namespace SyncMessageClass {
     timestamp?: ProtoBigNumberType;
     message?: DataMessageClass;
     expirationStartTimestamp?: ProtoBigNumberType;
-    unidentifiedStatus?: Array<
-      SyncMessageClass.Sent.UnidentifiedDeliveryStatus
-    >;
+    unidentifiedStatus?: Array<SyncMessageClass.Sent.UnidentifiedDeliveryStatus>;
     isRecipientUpdate?: boolean;
   }
   class StickerPackOperation {

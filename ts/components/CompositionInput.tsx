@@ -108,9 +108,10 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     sortedGroupMembers,
   } = props;
 
-  const [emojiCompletionElement, setEmojiCompletionElement] = React.useState<
-    JSX.Element
-  >();
+  const [
+    emojiCompletionElement,
+    setEmojiCompletionElement,
+  ] = React.useState<JSX.Element>();
   const [
     lastSelectionRange,
     setLastSelectionRange,

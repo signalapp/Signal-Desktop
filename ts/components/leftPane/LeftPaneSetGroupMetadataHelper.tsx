@@ -23,9 +23,7 @@ export type LeftPaneSetGroupMetadataPropsType = {
 
 /* eslint-disable class-methods-use-this */
 
-export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<
-  LeftPaneSetGroupMetadataPropsType
-> {
+export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGroupMetadataPropsType> {
   private readonly groupAvatar: undefined | ArrayBuffer;
 
   private readonly groupName: string;

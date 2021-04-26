@@ -32,9 +32,7 @@ type DeletesAttributesType = {
   targetSentTimestamp: number;
 };
 
-export declare class DeletesModelType extends Backbone.Model<
-  DeletesAttributesType
-> {
+export declare class DeletesModelType extends Backbone.Model<DeletesAttributesType> {
   forMessage(message: MessageModel): Array<DeletesModelType>;
   onDelete(doe: DeletesAttributesType): Promise<void>;
 }
@@ -318,12 +316,8 @@ export type VerificationOptions = {
   viaSyncMessage?: boolean;
 };
 
-export declare class ConversationModelCollectionType extends Backbone.Collection<
-  ConversationModel
-> {
+export declare class ConversationModelCollectionType extends Backbone.Collection<ConversationModel> {
   resetLookups(): void;
 }
 
-export declare class MessageModelCollectionType extends Backbone.Collection<
-  MessageModel
-> {}
+export declare class MessageModelCollectionType extends Backbone.Collection<MessageModel> {}

@@ -16284,7 +16284,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.tsx",
     "line": "  const callbacksRef = React.useRef(unstaleCallbacks);",
-    "lineNumber": 500,
+    "lineNumber": 501,
     "reasonCategory": "usageTrusted",
     "updated": "2021-04-21T21:35:38.757Z"
   },
@@ -16590,8 +16590,8 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
-    "line": "  > = React.createRef();",
-    "lineNumber": 248,
+    "line": "  public reactionsContainerRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 246,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"

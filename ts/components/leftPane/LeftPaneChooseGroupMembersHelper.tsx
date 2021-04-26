@@ -31,9 +31,7 @@ export type LeftPaneChooseGroupMembersPropsType = {
 
 /* eslint-disable class-methods-use-this */
 
-export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<
-  LeftPaneChooseGroupMembersPropsType
-> {
+export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneChooseGroupMembersPropsType> {
   private readonly candidateContacts: ReadonlyArray<ConversationType>;
 
   private readonly cantAddContactForModal:
