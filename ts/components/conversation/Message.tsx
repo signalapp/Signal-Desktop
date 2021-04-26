@@ -236,7 +236,7 @@ type State = {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-export class Message extends React.PureComponent<Props, State> {
+export class Message extends React.Component<Props, State> {
   public menuTriggerRef: Trigger | undefined;
 
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
