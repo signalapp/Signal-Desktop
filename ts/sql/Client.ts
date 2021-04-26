@@ -68,6 +68,8 @@ if (ipcRenderer && ipcRenderer.setMaxListeners) {
 
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
+const MIN_TRACE_DURATION = 10;
+
 const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
@@ -90,6 +92,7 @@ let _shuttingDown = false;
 let _shutdownCallback: Function | null = null;
 let _shutdownPromise: Promise<any> | null = null;
 let shouldUseRendererProcess = true;
+const startupQueries = new Map<string, number>();
 
 // Because we can't force this module to conform to an interface, we narrow our exports
 //   to this one default export, which does conform to the interface.
@@ -255,6 +258,18 @@ async function goBackToMainProcess(): Promise<void> {
   window.log.info('data.goBackToMainProcess: switching to main process');
 
   shouldUseRendererProcess = false;
+
+  // Print query statistics for whole startup
+  const entries = Array.from(startupQueries.entries());
+  startupQueries.clear();
+
+  // Sort by decreasing duration
+  entries
+    .sort((a, b) => b[1] - a[1])
+    .filter(([_, duration]) => duration > MIN_TRACE_DURATION)
+    .forEach(([query, duration]) => {
+      window.log.info(`startup query: ${query} ${duration}ms`);
+    });
 }
 
 const channelsAsUnknown = fromPairs(
@@ -361,8 +376,7 @@ function _updateJob(id: number, data: ClientJobUpdateType) {
     resolve: (value: any) => {
       _removeJob(id);
       const end = Date.now();
-      const delta = end - start;
-      if (delta > 10 || _DEBUG) {
+      if (_DEBUG) {
         window.log.info(
           `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
         );
@@ -452,10 +466,27 @@ function makeChannel(fnName: string) {
     // UI from locking up whenever we do costly db operations.
     if (shouldUseRendererProcess) {
       const serverFnName = fnName as keyof ServerInterface;
+      const start = Date.now();
+
       // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      return Server[serverFnName](...args);
+      const result = Server[serverFnName](...args);
+
+      const duration = Date.now() - start;
+
+      startupQueries.set(
+        serverFnName,
+        (startupQueries.get(serverFnName) || 0) + duration
+      );
+
+      if (duration > MIN_TRACE_DURATION || _DEBUG) {
+        window.log.info(
+          `Renderer SQL channel job (${fnName}) succeeded in ${duration}ms`
+        );
+      }
+
+      return result;
     }
 
     const jobId = _makeJob(fnName);

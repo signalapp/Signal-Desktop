@@ -2467,18 +2467,31 @@ async function searchMessages(
   { limit }: { limit?: number } = {}
 ): Promise<Array<SearchResultMessageType>> {
   const db = getInstance();
+
+  // sqlite queries with a join on a virtual table (like FTS5) are de-optimized
+  // and can't use indices for ordering results. Instead an in-memory index of
+  // the join rows is sorted on the fly. The sorting becomes substantially
+  // slower when there are large columns in the in-memory index (like
+  // `messages.json`) so we do a query without them and then fetch large columns
+  // separately without using `ORDER BY` and `LIMIT`.
   const rows: Array<SearchResultMessageType> = db
     .prepare<Query>(
       `
       SELECT
         messages.json,
         snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
-      FROM messages_fts
-      INNER JOIN messages on messages_fts.rowid = messages.rowid
-      WHERE
-        messages_fts match $query
-      ORDER BY messages.received_at DESC, messages.sent_at DESC
-      LIMIT $limit;
+      FROM
+        (SELECT
+          messages.rowid
+        FROM messages_fts
+        INNER JOIN messages ON messages_fts.rowid = messages.rowid
+        WHERE
+          messages_fts MATCH $query
+        ORDER BY messages.received_at DESC, messages.sent_at DESC
+        LIMIT $limit) AS results
+      INNER JOIN messages ON messages.rowid = results.rowid
+      INNER JOIN messages_fts ON messages_fts.rowid = results.rowid
+      WHERE messages_fts MATCH $query;
       `
     )
     .all({
@@ -2495,19 +2508,28 @@ async function searchMessagesInConversation(
   { limit }: { limit?: number } = {}
 ): Promise<Array<SearchResultMessageType>> {
   const db = getInstance();
+
+  // See `searchMessages` for the explanation of the query
   const rows = db
     .prepare<Query>(
       `
       SELECT
         messages.json,
         snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
-      FROM messages_fts
-      INNER JOIN messages on messages_fts.rowid = messages.rowid
+      FROM
+        (SELECT
+          messages.rowid
+        FROM messages_fts
+        INNER JOIN messages ON messages_fts.rowid = messages.rowid
+        WHERE
+          messages_fts MATCH $query
+        ORDER BY messages.received_at DESC, messages.sent_at DESC
+        LIMIT $limit) AS results
+      INNER JOIN messages ON messages.rowid = results.rowid
+      INNER JOIN messages_fts ON messages_fts.rowid = results.rowid
       WHERE
-        messages_fts match $query AND
-        messages.conversationId = $conversationId
-      ORDER BY messages.received_at DESC, messages.sent_at DESC
-      LIMIT $limit;
+        messages_fts MATCH $query AND
+        messages.conversationId = $conversationId;
       `
     )
     .all({

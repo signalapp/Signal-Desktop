@@ -1,10 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+/* eslint-disable no-console */
+
 import { join } from 'path';
 import { Worker } from 'worker_threads';
 
 const ASAR_PATTERN = /app\.asar$/;
+const MIN_TRACE_DURATION = 10;
 
 export type InitializeOptions = {
   readonly configDir: string;
@@ -124,7 +127,17 @@ export class MainSQL {
       throw new Error('Not initialized');
     }
 
-    return this.send({ type: 'sqlCall', method, args });
+    const { result, duration } = await this.send({
+      type: 'sqlCall',
+      method,
+      args,
+    });
+
+    if (duration > MIN_TRACE_DURATION) {
+      console.log(`ts/sql/main: slow query ${method} duration=${duration}ms`);
+    }
+
+    return result;
   }
 
   private async send<Response>(request: WorkerRequest): Promise<Response> {
