@@ -8,6 +8,7 @@ import * as MenuUtils from '../../components/session/menu/Menu';
 import * as ToastUtils from './Toast';
 import * as UserUtils from './User';
 import * as SyncUtils from './syncUtils';
+import * as AttachmentsV2Utils from './AttachmentsV2';
 
 export * from './Attachments';
 export * from './TypedEmitter';
@@ -24,4 +25,5 @@ export {
   ToastUtils,
   UserUtils,
   SyncUtils,
+  AttachmentsV2Utils,
 };

@@ -39,6 +39,10 @@ import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/
 import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 import { OpenGroupUtils } from '../opengroup/utils';
 import { ConversationInteraction } from '../interactions';
+import { getV2OpenGroupRoom } from '../data/opengroups';
+import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
+import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
 
 export enum ConversationType {
   GROUP = 'group',
@@ -573,9 +577,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     };
   }
 
-  public toOpenGroup() {
-    if (!this.isPublic()) {
-      throw new Error('tried to run toOpenGroup for not public group');
+  public toOpenGroupV2(): OpenGroupRequestCommonType {
+    if (!this.isOpenGroupV2()) {
+      throw new Error('tried to run toOpenGroup for not public group v2');
+    }
+    return getOpenGroupV2FromConversationId(this.id);
+  }
+
+  public toOpenGroupV1(): OpenGroup {
+    if (!this.isOpenGroupV1()) {
+      throw new Error('tried to run toOpenGroup for not public group v1');
     }
 
     return new OpenGroup({
@@ -596,8 +607,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         throw new Error('sendMessageJob() sent_at must be set.');
       }
 
-      if (this.isPublic()) {
-        const openGroup = this.toOpenGroup();
+      if (this.isPublic() && !this.isOpenGroupV2()) {
+        const openGroup = this.toOpenGroupV1();
 
         const openGroupParams = {
           body: uploads.body,
@@ -611,8 +622,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const openGroupMessage = new OpenGroupMessage(openGroupParams);
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToOpenGroup(openGroupMessage);
+
         return;
       }
+      // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
         body: uploads.body,
         identifier: id,
@@ -623,6 +636,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         quote: uploads.quote,
         lokiProfile: UserUtils.getOurProfile(),
       };
+
+      if (this.isOpenGroupV2()) {
+        const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
+        const roomInfos = this.toOpenGroupV2();
+        if (!roomInfos) {
+          throw new Error('Could not find this room in db');
+        }
+
+        // we need the return await so that errors are caught in the catch {}
+        await getMessageQueue().sendToOpenGroupV2(chatMessageOpenGroupV2, roomInfos);
+        return;
+      }
 
       const destinationPubkey = new PubKey(destination);
       if (this.isPrivate()) {

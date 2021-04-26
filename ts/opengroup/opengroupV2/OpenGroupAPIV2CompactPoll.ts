@@ -145,7 +145,6 @@ async function sendOpenGroupV2RequestCompactPoll(
   const roomPollValidResults = results.filter(ret => ret.statusCode === 200);
 
   if (roomWithTokensToRefresh) {
-    console.warn('roomWithTokensToRefresh', roomWithTokensToRefresh);
     await Promise.all(
       roomWithTokensToRefresh.map(async roomId => {
         const roomDetails = await getV2OpenGroupRoomByRoomId({

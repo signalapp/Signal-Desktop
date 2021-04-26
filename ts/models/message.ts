@@ -27,6 +27,11 @@ import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
 import { banUser } from '../opengroup/opengroupV2/OpenGroupAPIV2';
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { MessageInteraction } from '../interactions';
+import {
+  uploadAttachmentsV2,
+  uploadLinkPreviewsV2,
+  uploadQuoteThumbnailsV2,
+} from '../session/utils/AttachmentsV2';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -736,14 +741,35 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const previewWithData = await window.Signal.Migrations.loadPreviewData(this.get('preview'));
 
     const conversation = this.getConversation();
-    const openGroup =
-      (conversation && conversation.isPublic() && conversation.toOpenGroup()) || undefined;
 
+    let attachmentPromise;
+    let linkPreviewPromise;
+    let quotePromise;
     const { AttachmentUtils } = Utils;
+
+    // we want to go for the v1, if this is an OpenGroupV1 or not an open group at all
+    if (conversation?.isOpenGroupV2()) {
+      const openGroupV2 = conversation.toOpenGroupV2();
+      attachmentPromise = uploadAttachmentsV2(filenameOverridenAttachments, openGroupV2);
+      linkPreviewPromise = uploadLinkPreviewsV2(previewWithData, openGroupV2);
+      quotePromise = uploadQuoteThumbnailsV2(openGroupV2, quoteWithData);
+    } else {
+      // NOTE: we want to go for the v1 if this is an OpenGroupV1 or not an open group at all
+      // because there is a fallback invoked on uploadV1() for attachments for not open groups attachments
+
+      const openGroupV1 = conversation?.toOpenGroupV1();
+      attachmentPromise = AttachmentUtils.uploadAttachmentsV1(
+        filenameOverridenAttachments,
+        openGroupV1
+      );
+      linkPreviewPromise = AttachmentUtils.uploadLinkPreviewsV1(previewWithData, openGroupV1);
+      quotePromise = AttachmentUtils.uploadQuoteThumbnailsV1(quoteWithData, openGroupV1);
+    }
+
     const [attachments, preview, quote] = await Promise.all([
-      AttachmentUtils.uploadAttachments(filenameOverridenAttachments, openGroup),
-      AttachmentUtils.uploadLinkPreviews(previewWithData, openGroup),
-      AttachmentUtils.uploadQuoteThumbnails(quoteWithData, openGroup),
+      attachmentPromise,
+      linkPreviewPromise,
+      quotePromise,
     ]);
 
     return {

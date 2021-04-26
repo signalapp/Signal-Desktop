@@ -7,6 +7,13 @@ import { MessageEncrypter } from '../crypto';
 import pRetry from 'p-retry';
 import { PubKey } from '../types';
 import { UserUtils } from '../utils';
+import { VisibleMessage } from '../messages/outgoing/visibleMessage/VisibleMessage';
+import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
+import { postMessage } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
+import { OpenGroupMessageV2 } from '../../opengroup/opengroupV2/OpenGroupMessageV2';
+import { padPlainTextBuffer } from '../crypto/MessageEncrypter';
+import { fromUInt8ArrayToBase64 } from '../utils/String';
+import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 
 // ================ Regular ================
 
@@ -99,7 +106,7 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
 // ================ Open Group ================
 
 /**
- * Send a message to an open group.
+ * Deprecated Send a message to an open group v2.
  * @param message The open group message.
  */
 export async function sendToOpenGroup(
@@ -131,4 +138,25 @@ export async function sendToOpenGroup(
     },
     timestamp
   );
+}
+
+/**
+ * Deprecated Send a message to an open group v2.
+ * @param message The open group message.
+ */
+export async function sendToOpenGroupV2(
+  rawMessage: OpenGroupVisibleMessage,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<OpenGroupMessageV2> {
+  const paddedBody = padPlainTextBuffer(rawMessage.plainTextBuffer());
+  const v2Message = new OpenGroupMessageV2({
+    sentTimestamp: Date.now(),
+    sender: UserUtils.getOurPubKeyStrFromCache(),
+    base64EncodedData: fromUInt8ArrayToBase64(paddedBody),
+    // the signature is added in the postMessage())
+  });
+
+  // postMessage throws
+  const sentMessage = await postMessage(v2Message, roomInfos);
+  return sentMessage;
 }

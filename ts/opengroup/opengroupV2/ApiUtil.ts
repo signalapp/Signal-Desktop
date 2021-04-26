@@ -1,13 +1,6 @@
 import _ from 'underscore';
-import { getV2OpenGroupRoomByRoomId } from '../../data/opengroups';
-import { getSodium } from '../../session/crypto';
 import { PubKey } from '../../session/types';
-import {
-  fromBase64ToArray,
-  fromBase64ToArrayBuffer,
-  fromHex,
-  fromHexToArray,
-} from '../../session/utils/String';
+import { fromBase64ToArrayBuffer, fromHex } from '../../session/utils/String';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
 export const defaultServer = 'https://sessionopengroup.com';
@@ -80,6 +73,7 @@ export const setCachedModerators = (
     cachedModerators.set(serverUrl, new Map());
     allRoomsMods = cachedModerators.get(serverUrl);
   }
+  // tslint:disable: no-non-null-assertion
   if (!allRoomsMods!.get(roomId)) {
     allRoomsMods!.set(roomId, new Set());
   }

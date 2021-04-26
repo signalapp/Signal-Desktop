@@ -335,40 +335,38 @@ export const getMessages = async ({
   return validMessages;
 };
 
+/**
+ * Send the specified message to the specified room.
+ * If an error happens, this function throws it
+ *
+ */
 export const postMessage = async (
   message: OpenGroupMessageV2,
   room: OpenGroupRequestCommonType
 ) => {
-  try {
-    const signedMessage = await message.sign();
-    const json = signedMessage.toJson();
+  const signedMessage = await message.sign();
+  const json = signedMessage.toJson();
 
-    const request: OpenGroupV2Request = {
-      method: 'POST',
-      room: room.roomId,
-      server: room.serverUrl,
-      queryParams: json,
-      isAuthRequired: true,
-      endpoint: 'messages',
-    };
-    const result = await sendOpenGroupV2Request(request);
-    const statusCode = parseStatusCodeFromOnionRequest(result);
+  const request: OpenGroupV2Request = {
+    method: 'POST',
+    room: room.roomId,
+    server: room.serverUrl,
+    queryParams: json,
+    isAuthRequired: true,
+    endpoint: 'messages',
+  };
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
 
-    if (statusCode !== 200) {
-      window.log.warn(`Could not postMessage, status code: ${statusCode}`);
-      return null;
-    }
-    const rawMessage = (result as any)?.result?.message;
-    if (!rawMessage) {
-      window.log.warn('postMessage parsing failed');
-      return null;
-    }
-    // this will throw if the json is not valid
-    return OpenGroupMessageV2.fromJson(rawMessage);
-  } catch (e) {
-    window.log.error('Failed to post message to open group v2', e);
-    return null;
+  if (statusCode !== 200) {
+    throw new Error(`Could not postMessage, status code: ${statusCode}`);
   }
+  const rawMessage = (result as any)?.result?.message;
+  if (!rawMessage) {
+    throw new Error('postMessage parsing failed');
+  }
+  // this will throw if the json is not valid
+  return OpenGroupMessageV2.fromJson(rawMessage);
 };
 
 /** Those functions are related to moderators management */

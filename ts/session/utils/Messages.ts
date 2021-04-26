@@ -32,7 +32,6 @@ function getEncryptionTypeFromMessageType(message: ContentMessage): EncryptionTy
 export async function toRawMessage(device: PubKey, message: ContentMessage): Promise<RawMessage> {
   const timestamp = message.timestamp;
   const ttl = message.ttl();
-  // window?.log?.debug('toRawMessage proto:', message.contentProto());
   const plainTextBuffer = message.plainTextBuffer();
 
   const encryption = getEncryptionTypeFromMessageType(message);

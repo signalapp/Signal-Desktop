@@ -18,6 +18,9 @@ import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMe
 import { ClosedGroupVisibleMessage } from '../messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { SyncMessageType } from '../utils/syncUtils';
 
+import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
+import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
   | ClosedGroupAddedMembersMessage
@@ -51,7 +54,7 @@ export class MessageQueue {
   }
 
   /**
-   * This function is synced. It will wait for the message to be delivered to the open
+   * DEPRECATED This function is synced. It will wait for the message to be delivered to the open
    * group to return.
    * So there is no need for a sendCb callback
    *
@@ -75,6 +78,34 @@ export class MessageQueue {
       }
     } catch (e) {
       window?.log?.warn(`Failed to send message to open group: ${message.group.server}`, e);
+      void MessageSentHandler.handleMessageSentFailure(message, error);
+    }
+  }
+
+  /**
+   * This function is synced. It will wait for the message to be delivered to the open
+   * group to return.
+   * So there is no need for a sendCb callback
+   *
+   */
+  public async sendToOpenGroupV2(
+    message: OpenGroupVisibleMessage,
+    roomInfos: OpenGroupRequestCommonType
+  ) {
+    // No queue needed for Open Groups v2; send directly
+    const error = new Error('Failed to send message to open group.');
+
+    try {
+      const { sentTimestamp, serverId } = await MessageSender.sendToOpenGroupV2(message, roomInfos);
+      if (!serverId) {
+        throw new Error(`Invalid serverId returned by server: ${serverId}`);
+      }
+      void MessageSentHandler.handlePublicMessageSentSuccess(message, {
+        serverId: serverId,
+        serverTimestamp: sentTimestamp,
+      });
+    } catch (e) {
+      window?.log?.warn(`Failed to send message to open group: ${roomInfos}`, e);
       void MessageSentHandler.handleMessageSentFailure(message, error);
     }
   }

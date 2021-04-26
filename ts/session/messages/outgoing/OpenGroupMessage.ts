@@ -10,6 +10,9 @@ interface OpenGroupMessageParams extends MessageParams {
   quote?: Quote;
 }
 
+/**
+ * This class is only used for OpenGroup v1 (deprecated)
+ */
 export class OpenGroupMessage extends Message {
   public readonly group: OpenGroup;
   public readonly body?: string;

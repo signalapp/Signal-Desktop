@@ -1,6 +1,7 @@
 import { default as insecureNodeFetch } from 'node-fetch';
 import { OpenGroupV2Room } from '../../data/opengroups';
 import { sendViaOnion } from '../../session/onions/onionSend';
+import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 
 const protocolRegex = new RegExp('(https?://)?');
 
@@ -161,6 +162,24 @@ export function getOpenGroupV2ConversationId(serverUrl: string, roomId: string) 
     throw new Error('getOpenGroupV2ConversationId: Invalid serverUrl');
   }
   return `${openGroupPrefix}${roomId}@${serverUrl}`;
+}
+
+/**
+ * No sql access. Just plain string logic
+ */
+export function getOpenGroupV2FromConversationId(
+  conversationId: string
+): OpenGroupRequestCommonType {
+  if (isOpenGroupV2(conversationId)) {
+    const atIndex = conversationId.indexOf('@');
+    const roomId = conversationId.slice(openGroupPrefix.length, atIndex);
+    const serverUrl = conversationId.slice(atIndex + 1);
+    return {
+      serverUrl,
+      roomId,
+    };
+  }
+  throw new Error('Not a v2 open group convo id');
 }
 
 /**
