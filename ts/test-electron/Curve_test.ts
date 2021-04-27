@@ -15,6 +15,7 @@ import {
   clampPrivateKey,
   createKeyPair,
   copyArrayBuffer,
+  calculateAgreement,
   generateKeyPair,
   generatePreKey,
   generateSignedPreKey,
@@ -30,6 +31,16 @@ describe('Curve', () => {
     const verified = verifySignature(pubKey, message, signature);
 
     assert.isTrue(verified);
+  });
+
+  it('calculateAgreement roundtrip', () => {
+    const alice = generateKeyPair();
+    const bob = generateKeyPair();
+
+    const sharedSecretAlice = calculateAgreement(bob.pubKey, alice.privKey);
+    const sharedSecretBob = calculateAgreement(alice.pubKey, bob.privKey);
+
+    assert.isTrue(constantTimeEqual(sharedSecretAlice, sharedSecretBob));
   });
 
   describe('#isNonNegativeInteger', () => {
