@@ -74,7 +74,7 @@
     "array-move": "2.1.0",
     "axe-core": "4.1.4",
     "backbone": "1.3.3",
-    "better-sqlite3": "https://github.com/indutny/better-sqlite3#a78376d86b5856c14ab4e2f3995f41e1f80df846",
+    "better-sqlite3": "https://github.com/signalapp/better-sqlite3#2fa02d2484e9f9a10df5ac7ea4617fb2dff30006",
     "blob-util": "1.3.0",
     "blueimp-canvas-to-blob": "3.14.0",
     "blueimp-load-image": "5.14.0",
