@@ -8,6 +8,7 @@ import { drop, groupBy, orderBy, take } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
 
+import { ConversationType } from '../../state/ducks/conversations';
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
@@ -105,12 +106,16 @@ export type PropsData = {
   timestamp: number;
   status?: MessageStatusType;
   contact?: ContactType;
-  authorId: string;
-  authorTitle: string;
-  authorName?: string;
-  authorProfileName?: string;
-  authorPhoneNumber?: string;
-  authorColor?: ColorType;
+  author: Pick<
+    ConversationType,
+    | 'avatarPath'
+    | 'color'
+    | 'id'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'title'
+  >;
   conversationType: ConversationTypesType;
   attachments?: Array<AttachmentType>;
   quote?: {
@@ -128,7 +133,6 @@ export type PropsData = {
     referencedMessageNotFound: boolean;
   };
   previews: Array<LinkPreviewType>;
-  authorAvatarPath?: string;
   isExpired?: boolean;
 
   isTapToView?: boolean;
@@ -633,10 +637,7 @@ export class Message extends React.Component<Props, State> {
 
   public renderAuthor(): JSX.Element | null {
     const {
-      authorTitle,
-      authorName,
-      authorPhoneNumber,
-      authorProfileName,
+      author,
       collapseMetadata,
       conversationType,
       direction,
@@ -653,7 +654,7 @@ export class Message extends React.Component<Props, State> {
     if (
       direction !== 'incoming' ||
       conversationType !== 'group' ||
-      !authorTitle
+      !author.title
     ) {
       return null;
     }
@@ -669,10 +670,10 @@ export class Message extends React.Component<Props, State> {
     return (
       <div className={moduleName}>
         <ContactName
-          title={authorTitle}
-          phoneNumber={authorPhoneNumber}
-          name={authorName}
-          profileName={authorProfileName}
+          title={author.title}
+          phoneNumber={author.phoneNumber}
+          name={author.name}
+          profileName={author.profileName}
           module={moduleName}
           i18n={i18n}
         />
@@ -996,8 +997,8 @@ export class Message extends React.Component<Props, State> {
 
   public renderQuote(): JSX.Element | null {
     const {
+      author,
       conversationType,
-      authorColor,
       direction,
       disableScroll,
       i18n,
@@ -1012,7 +1013,7 @@ export class Message extends React.Component<Props, State> {
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
     const quoteColor =
-      direction === 'incoming' ? authorColor : quote.authorColor;
+      direction === 'incoming' ? author.color : quote.authorColor;
     const { referencedMessageNotFound } = quote;
 
     const clickHandler = disableScroll
@@ -1104,14 +1105,8 @@ export class Message extends React.Component<Props, State> {
 
   public renderAvatar(): JSX.Element | undefined {
     const {
-      authorAvatarPath,
-      authorId,
-      authorName,
-      authorPhoneNumber,
-      authorProfileName,
-      authorTitle,
+      author,
       collapseMetadata,
-      authorColor,
       conversationType,
       direction,
       i18n,
@@ -1135,18 +1130,18 @@ export class Message extends React.Component<Props, State> {
         <button
           type="button"
           className="module-message__author-avatar"
-          onClick={() => showContactModal(authorId)}
+          onClick={() => showContactModal(author.id)}
           tabIndex={0}
         >
           <Avatar
-            avatarPath={authorAvatarPath}
-            color={authorColor}
+            avatarPath={author.avatarPath}
+            color={author.color}
             conversationType="direct"
             i18n={i18n}
-            name={authorName}
-            phoneNumber={authorPhoneNumber}
-            profileName={authorProfileName}
-            title={authorTitle}
+            name={author.name}
+            phoneNumber={author.phoneNumber}
+            profileName={author.profileName}
+            title={author.title}
             size={28}
           />
         </button>
@@ -2191,7 +2186,7 @@ export class Message extends React.Component<Props, State> {
 
   public renderContainer(): JSX.Element {
     const {
-      authorColor,
+      author,
       deletedForEveryone,
       direction,
       isSticker,
@@ -2216,13 +2211,13 @@ export class Message extends React.Component<Props, State> {
         ? 'module-message__container--with-tap-to-view-expired'
         : null,
       !isSticker && direction === 'incoming'
-        ? `module-message__container--incoming-${authorColor}`
+        ? `module-message__container--incoming-${author.color}`
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
         ? 'module-message__container--with-tap-to-view-pending'
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
-        ? `module-message__container--${direction}-${authorColor}-tap-to-view-pending`
+        ? `module-message__container--${direction}-${author.color}-tap-to-view-pending`
         : null,
       isTapToViewError
         ? 'module-message__container--with-tap-to-view-error'
@@ -2249,7 +2244,7 @@ export class Message extends React.Component<Props, State> {
 
   public render(): JSX.Element | null {
     const {
-      authorId,
+      author,
       attachments,
       direction,
       id,
@@ -2260,7 +2255,7 @@ export class Message extends React.Component<Props, State> {
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
-    const triggerId = String(id || `${authorId}-${timestamp}`);
+    const triggerId = String(id || `${author.id}-${timestamp}`);
 
     if (expired) {
       return null;

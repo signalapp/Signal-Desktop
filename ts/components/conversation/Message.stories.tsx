@@ -66,12 +66,18 @@ const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
   <MessageAudioContainer {...props} />
 );
 
+const createAuthorProp = (
+  overrides: Partial<Props['author']> = {}
+): Props['author'] => ({
+  id: 'some-id',
+  color: select('authorColor', Colors, Colors[0]),
+  ...overrides,
+  title: text('authorTitle', overrides.title || ''),
+});
+
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
-  authorId: overrideProps.authorId || 'some-id',
-  authorColor: select('authorColor', Colors, Colors[0]),
-  authorAvatarPath: overrideProps.authorAvatarPath,
-  authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
+  author: overrideProps.author || createAuthorProp(),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,
   canDownload: true,
@@ -212,7 +218,7 @@ story.add('Pending', () => {
 
 story.add('Collapsed Metadata', () => {
   const props = createProps({
-    authorTitle: 'Fred Willard',
+    author: createAuthorProp({ title: 'Fred Willard' }),
     collapseMetadata: true,
     conversationType: 'group',
     text: 'Hello there from a pal!',
@@ -425,7 +431,7 @@ story.add('Reactions (short message)', () => {
 
 story.add('Avatar in Group', () => {
   const props = createProps({
-    authorAvatarPath: pngUrl,
+    author: createAuthorProp({ avatarPath: pngUrl }),
     conversationType: 'group',
     status: 'sent',
     text: 'Hello it is me, the saxophone.',
@@ -921,15 +927,16 @@ story.add('Dangerous File Type', () => {
 });
 
 story.add('Colors', () => {
-  const defaultProps = createProps({
-    text:
-      'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
-  });
-
   return (
     <>
       {Colors.map(color => (
-        <Message {...defaultProps} authorColor={color} />
+        <Message
+          {...createProps({
+            author: createAuthorProp({ color }),
+            text:
+              'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+          })}
+        />
       ))}
     </>
   );
