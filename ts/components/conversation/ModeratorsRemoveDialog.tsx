@@ -38,7 +38,9 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    this.channelAPI = await this.props.convo.getPublicSendData();
+    if (this.props.convo.isOpenGroupV1()) {
+      this.channelAPI = await this.props.convo.getPublicSendData();
+    }
 
     void this.refreshModList();
   }
@@ -133,8 +135,13 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
   }
 
   private async refreshModList() {
-    // get current list of moderators
-    const modPubKeys = (await this.channelAPI.getModerators()) as Array<string>;
+    let modPubKeys: Array<string> = [];
+    if (this.props.convo.isOpenGroupV1()) {
+      // get current list of moderators
+      modPubKeys = (await this.channelAPI.getModerators()) as Array<string>;
+    } else if (this.props.convo.isOpenGroupV2()) {
+      modPubKeys = this.props.convo.getGroupAdmins() || [];
+    }
     const convos = ConversationController.getInstance().getConversations();
     const moderatorsConvos = modPubKeys
       .map(
@@ -186,7 +193,13 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
       this.setState({
         removingInProgress: true,
       });
-      const res = await this.channelAPI.serverAPI.removeModerators(removedMods);
+      let res;
+      if (this.props.convo.isOpenGroupV1()) {
+        res = await this.channelAPI.serverAPI.removeModerators(removedMods);
+      } else if (this.props.convo.isOpenGroupV2()) {
+        // FIXME audric removeModerators opengroupv2
+        throw new Error('removeModerators opengroupv2 TODO');
+      }
       if (!res) {
         window.log.warn('failed to remove moderators:', res);
 

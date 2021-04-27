@@ -761,7 +761,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // NOTE: we want to go for the v1 if this is an OpenGroupV1 or not an open group at all
       // because there is a fallback invoked on uploadV1() for attachments for not open groups attachments
 
-      const openGroupV1 = conversation?.toOpenGroupV1();
+      const openGroupV1 = conversation?.isOpenGroupV1() ? conversation?.toOpenGroupV1() : undefined;
       attachmentPromise = AttachmentUtils.uploadAttachmentsV1(
         filenameOverridenAttachments,
         openGroupV1

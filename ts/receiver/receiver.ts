@@ -335,6 +335,7 @@ export async function handleOpenGroupV2Message(
     return;
   }
   const isMe = UserUtils.isUsFromCache(sender);
+  // for an opengroupv2 incoming message the serverTimestamp and the timestamp
   const messageCreationData: MessageCreationData = {
     isPublic: true,
     sourceDevice: 1,

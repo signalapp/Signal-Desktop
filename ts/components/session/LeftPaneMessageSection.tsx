@@ -440,6 +440,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           'connectToServerSuccess',
           window.i18n('connectToServerSuccess')
         );
+        return true;
       } else {
         ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
       }
@@ -449,6 +450,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     } finally {
       this.setState({ loading: false });
     }
+    return false;
   }
 
   private async handleJoinChannelButtonClick(serverUrl: string) {
@@ -460,7 +462,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // guess if this is an open
     if (serverUrl.match(openGroupV2CompleteURLRegex)) {
-      await this.handleOpenGroupJoinV2(serverUrl);
+      const groupCreated = await this.handleOpenGroupJoinV2(serverUrl);
+      if (groupCreated) {
+        this.handleToggleOverlay(undefined);
+      }
     } else {
       // this is an open group v1
       await this.handleOpenGroupJoinV1(serverUrl);

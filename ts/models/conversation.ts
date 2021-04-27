@@ -562,21 +562,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return [];
   }
 
-  public async makeQuote(quotedMessage: any) {
-    const { getName } = window.Signal.Types.Contact;
-    const contact = quotedMessage.getContact();
+  public async makeQuote(quotedMessage: MessageModel) {
     const attachments = quotedMessage.get('attachments');
     const preview = quotedMessage.get('preview');
 
     const body = quotedMessage.get('body');
-    const embeddedContact = quotedMessage.get('contact');
-    const embeddedContactName =
-      embeddedContact && embeddedContact.length > 0 ? getName(embeddedContact[0]) : '';
     const quotedAttachments = await this.getQuoteAttachment(attachments, preview);
     return {
-      author: contact.id,
+      author: quotedMessage.getSource(),
       id: quotedMessage.get('sent_at'),
-      text: body || embeddedContactName,
+      text: body,
       attachments: quotedAttachments,
     };
   }
@@ -756,10 +751,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       serverTimestamp: this.isPublic() ? new Date().getTime() : undefined,
     };
 
-    const model = await this.addSingleMessage(attributes);
+    const messageModel = await this.addSingleMessage(attributes);
 
     this.set({
-      lastMessage: model.getNotificationText(),
+      lastMessage: messageModel.getNotificationText(),
       lastMessageStatus: 'sending',
       active_at: now,
     });
@@ -770,11 +765,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const error = new Error('Network is not available');
       error.name = 'SendMessageNetworkError';
       (error as any).number = this.id;
-      await model.saveErrors([error]);
+      await messageModel.saveErrors([error]);
       return null;
     }
     this.queueJob(async () => {
-      await this.sendMessageJob(model, expireTimer);
+      await this.sendMessageJob(messageModel, expireTimer);
     });
     return null;
   }
@@ -1220,13 +1215,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     // Not sure if we care about updating the database
   }
-  public async setGroupNameAndAvatar(name: any, avatarPath: any) {
+  public async setGroupNameAndAvatar(name: string, avatarPath: string) {
     const currentName = this.get('name');
-    const profileAvatar = this.get('profileAvatar');
+    const profileAvatar = this.get('avatar');
     if (profileAvatar !== avatarPath || currentName !== name) {
       // only update changed items
       if (profileAvatar !== avatarPath) {
-        this.set({ profileAvatar: avatarPath });
+        this.set({ avatar: avatarPath });
       }
       if (currentName !== name) {
         this.set({ name });
@@ -1236,9 +1231,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
   public async setProfileAvatar(avatar: any) {
-    const profileAvatar = this.get('profileAvatar');
+    const profileAvatar = this.get('avatar');
     if (profileAvatar !== avatar) {
-      this.set({ profileAvatar: avatar });
+      this.set({ avatar });
       await this.commit();
     }
   }

@@ -1,8 +1,8 @@
 import { SignalService } from '../protobuf';
 
 export interface Quote {
-  id: any;
-  author: any;
+  id: number; // this is in fact a uint64 so we will have an issue
+  author: string;
   attachments: Array<any>;
   text: string;
   referencedMessageNotFound: boolean;

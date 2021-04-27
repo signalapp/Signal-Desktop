@@ -588,7 +588,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private renderQuotedMessage() {
     const { quotedMessageProps, removeQuotedMessage } = this.props;
-    if (quotedMessageProps && quotedMessageProps.id) {
+    if (quotedMessageProps?.id) {
       return (
         <SessionQuotedMessageComposition
           quotedMessageProps={quotedMessageProps}

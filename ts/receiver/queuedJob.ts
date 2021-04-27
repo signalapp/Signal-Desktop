@@ -2,7 +2,7 @@ import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
 import { PubKey } from '../session/types';
-import _ from 'lodash';
+import _, { toNumber } from 'lodash';
 import { SignalService } from '../protobuf';
 import { StringUtils, UserUtils } from '../session/utils';
 import { ConversationController } from '../session/conversations';
@@ -12,6 +12,7 @@ import { MessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { updateProfile } from './dataMessage';
+import Long from 'long';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -95,14 +96,18 @@ async function copyFromQuotedMessage(
     return;
   }
 
-  const { attachments, id, author } = quote;
+  const { attachments, id: longId, author } = quote;
   const firstAttachment = attachments[0];
 
-  const collection = await getMessagesBySentAt(id);
-  const found = collection.find((item: any) => {
-    const messageAuthor = item.getContact();
+  const id: number = Long.isLong(longId) ? longId.toNumber() : longId;
 
-    return messageAuthor && author === messageAuthor.id;
+  // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
+  // this will return an array of sent message by id we have locally.
+
+  const collection = await getMessagesBySentAt(id);
+  // we now must make sure this is the sender we expect
+  const found = collection.find(message => {
+    return Boolean(author === message.getSource());
   });
 
   if (!found) {

@@ -28,7 +28,7 @@ export class MessageSentHandler {
         serverId,
         isPublic: true,
         sent: true,
-        sent_at: serverTimestamp,
+        sent_at: serverTimestamp, // we quote by sent_at, so we MUST sent_at: serverTimestamp
         sync: true,
         synced: true,
         sentSync: true,

@@ -49,14 +49,10 @@ window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.JobQueue = JobQueue;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
-// FIXME audric
 
-window.getStoragePubKey = key => key.substring(0, key.length - 2);
-// window.isDev() ? key.substring(0, key.length - 2) : key;
+window.getStoragePubKey = key => (window.isDev() ? key.substring(0, key.length - 2) : key);
 
-// FIXME audric
-// config.defaultFileServer
-window.getDefaultFileServer = () => 'https://file-dev.getsession.org';
+window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
 
 window.lokiFeatureFlags = {

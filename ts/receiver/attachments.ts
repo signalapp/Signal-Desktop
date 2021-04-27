@@ -5,7 +5,10 @@ import { saveMessage } from '../../ts/data/data';
 import { fromBase64ToArrayBuffer } from '../session/utils/String';
 import { AttachmentDownloads, AttachmentUtils } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
-import { downloadFileOpenGroupV2 } from '../opengroup/opengroupV2/OpenGroupAPIV2';
+import {
+  downloadFileOpenGroupV2,
+  downloadFileOpenGroupV2ByUrl,
+} from '../opengroup/opengroupV2/OpenGroupAPIV2';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 
 export async function downloadAttachment(attachment: any) {
@@ -85,10 +88,29 @@ export async function downloadAttachment(attachment: any) {
   };
 }
 
+/**
+ *
+ * @param attachment Either the details of the attachment to download (on a per room basis), or the pathName to the file you want to get
+ */
 export async function downloadAttachmentOpenGroupV2(
-  attachment: any,
+  attachment:
+    | {
+        id: number;
+        url: string;
+        size: number;
+      }
+    | string,
   roomInfos: OpenGroupRequestCommonType
 ) {
+  if (typeof attachment === 'string') {
+    const dataUintFromUrl = await downloadFileOpenGroupV2ByUrl(attachment, roomInfos);
+
+    if (!dataUintFromUrl?.length) {
+      window.log.error('Failed to download attachment. Length is 0');
+      throw new Error(`Failed to download attachment. Length is 0 for ${attachment}`);
+    }
+    return dataUintFromUrl;
+  }
   const dataUint = await downloadFileOpenGroupV2(attachment.id, roomInfos);
 
   if (!dataUint?.length) {
@@ -115,7 +137,7 @@ export async function downloadAttachmentOpenGroupV2(
 
   return {
     ..._.omit(attachment, 'digest', 'key'),
-    data,
+    data: data.buffer,
   };
 }
 

@@ -29,7 +29,6 @@ export async function updateProfile(
 
   newProfile.displayName = profile.displayName;
 
-  // TODO: may need to allow users to reset their avatars to null
   if (profile.profilePicture) {
     const prevPointer = conversation.get('avatarPointer');
     const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
@@ -319,7 +318,7 @@ export async function handleDataMessage(
     message,
   };
 
-  await handleMessageEvent(ev);
+  await handleMessageEvent(ev); // dataMessage
 }
 
 type MessageDuplicateSearchType = {

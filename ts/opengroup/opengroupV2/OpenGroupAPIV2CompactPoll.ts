@@ -1,10 +1,5 @@
 import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../data/opengroups';
-import {
-  OpenGroupRequestCommonType,
-  OpenGroupV2CompactPollRequest,
-  parseMessages,
-  setCachedModerators,
-} from './ApiUtil';
+import { OpenGroupV2CompactPollRequest, parseMessages } from './ApiUtil';
 import { parseStatusCodeFromOnionRequest } from './OpenGroupAPIV2Parser';
 import _ from 'lodash';
 import { sendViaOnion } from '../../session/onions/onionSend';
@@ -201,7 +196,6 @@ const parseCompactPollResult = async (
   const moderators = rawMods.sort() as Array<string>;
   const deletions = rawDeletions as Array<number>;
   const statusCode = rawStatusCode as number;
-  setCachedModerators(serverUrl, room_id, moderators || []);
 
   return {
     roomId: room_id,

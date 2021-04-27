@@ -10,7 +10,7 @@ import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
 
-const pollForEverythingInterval = 6 * 1000;
+const pollForEverythingInterval = 4 * 1000;
 
 /**
  * An OpenGroupServerPollerV2 polls for everything for a particular server. We should
@@ -152,7 +152,7 @@ export class OpenGroupServerPoller {
       compactFetchResults = compactFetchResults.filter(result =>
         this.roomIdsToPoll.has(result.roomId)
       );
-      window.log.warn(`compactFetchResults for ${this.serverUrl}:`, compactFetchResults);
+      // window.log.debug(`compactFetchResults for ${this.serverUrl}:`, compactFetchResults);
 
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleCompactPollResults(this.serverUrl, compactFetchResults);

@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { fromHex, fromHexToArray, toHex } from '../utils/String';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { ConversationController } from '../conversations';
-import { updateOpenGroup } from '../../receiver/openGroups';
 import {
   addClosedGroupEncryptionKeyPair,
   getIdentityKeyById,
@@ -31,6 +30,8 @@ import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/co
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
+import { updateOpenGroupV1 } from '../../opengroup/opengroupV1/OpenGroup';
+import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
 
 export interface GroupInfo {
   id: string;
@@ -89,7 +90,12 @@ export async function initiateGroupUpdate(
   );
 
   if (convo.isPublic()) {
-    await updateOpenGroup(convo, groupName, avatar);
+    if (convo.isOpenGroupV1()) {
+      await updateOpenGroupV1(convo, groupName, avatar);
+    } else {
+      await updateOpenGroupV2(convo, groupName, avatar);
+    }
+
     return;
   }
   const isMediumGroup = convo.isMediumGroup();

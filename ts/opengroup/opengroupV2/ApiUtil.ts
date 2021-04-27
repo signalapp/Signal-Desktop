@@ -58,30 +58,6 @@ export const buildUrl = (request: OpenGroupV2Request): URL | null => {
   }
 };
 
-/**
- * Map of serverUrl to roomId to list of moderators as a Set
- */
-export const cachedModerators: Map<string, Map<string, Set<string>>> = new Map();
-
-export const setCachedModerators = (
-  serverUrl: string,
-  roomId: string,
-  newModerators: Array<string>
-) => {
-  let allRoomsMods = cachedModerators.get(serverUrl);
-  if (!allRoomsMods) {
-    cachedModerators.set(serverUrl, new Map());
-    allRoomsMods = cachedModerators.get(serverUrl);
-  }
-  // tslint:disable: no-non-null-assertion
-  if (!allRoomsMods!.get(roomId)) {
-    allRoomsMods!.set(roomId, new Set());
-  }
-  newModerators.forEach(m => {
-    allRoomsMods!.get(roomId)?.add(m);
-  });
-};
-
 export const parseMessages = async (
   rawMessages: Array<Record<string, any>>
 ): Promise<Array<OpenGroupMessageV2>> => {

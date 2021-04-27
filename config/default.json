@@ -6,8 +6,16 @@
   "defaultPoWDifficulty": "1",
   "seedNodeList": [
     {
-      "url": "http://public.loki.foundation:38157/",
-      "ip_url": "http://144.76.164.202:38157/"
+      "ip_url": "http://116.203.53.213:4433/",
+      "url": "https://storage.seed1.loki.network:4433/"
+    },
+    {
+      "ip_url": "http://212.199.114.66:4433/",
+      "url": "https://storage.seed3.loki.network:4433/"
+    },
+    {
+      "ip_url": "http://144.76.164.202:4433/",
+      "url": "https://public.loki.foundation:4433/"
     }
   ],
   "updatesEnabled": false,

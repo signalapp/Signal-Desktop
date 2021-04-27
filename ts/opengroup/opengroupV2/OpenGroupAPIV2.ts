@@ -10,23 +10,16 @@ import {
   toHex,
 } from '../../session/utils/String';
 import { getIdentityKeyPair, getOurPubKeyStrFromCache } from '../../session/utils/User';
-import {
-  getCompleteEndpointUrl,
-  getCompleteUrlFromRoom,
-  getOpenGroupV2ConversationId,
-} from '../utils/OpenGroupUtils';
+import { getCompleteEndpointUrl, getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import {
   buildUrl,
-  cachedModerators,
   OpenGroupRequestCommonType,
   OpenGroupV2Info,
   OpenGroupV2Request,
   parseMessages,
-  setCachedModerators,
 } from './ApiUtil';
 import {
   parseMemberCount,
-  parseModerators,
   parseRooms,
   parseStatusCodeFromOnionRequest,
 } from './OpenGroupAPIV2Parser';
@@ -373,47 +366,6 @@ export const postMessage = async (
   return OpenGroupMessageV2.fromJson(rawMessage);
 };
 
-/** Those functions are related to moderators management */
-// export const getModerators = async ({
-//   serverUrl,
-//   roomId,
-// }: OpenGroupRequestCommonType): Promise<Array<string>> => {
-//   const request: OpenGroupV2Request = {
-//     method: 'GET',
-//     room: roomId,
-//     server: serverUrl,
-//     isAuthRequired: true,
-//     endpoint: 'moderators',
-//   };
-//   const result = await sendOpenGroupV2Request(request);
-//   const statusCode = parseStatusCodeFromOnionRequest(result);
-
-//   if (statusCode !== 200) {
-//     window.log.error(`Could not getModerators, status code: ${statusCode}`);
-//     return [];
-//   }
-//   const moderators = parseModerators(result);
-//   if (moderators === undefined) {
-//     // if moderators is undefined, do not update t+++++++++++++++++++++++++he cached moderator list
-//     window.log.warn('Could not getModerators, got no moderatorsGot at all in json.');
-//     return [];
-//   }
-//   setCachedModerators(serverUrl, roomId, moderators || []);
-//   return moderators || [];
-// };
-
-export const isUserModerator = (
-  publicKey: string,
-  roomInfos: OpenGroupRequestCommonType
-): boolean => {
-  return (
-    cachedModerators
-      ?.get(roomInfos.serverUrl)
-      ?.get(roomInfos.roomId)
-      ?.has(publicKey) || false
-  );
-};
-
 export const banUser = async (
   userToBan: PubKey,
   roomInfos: OpenGroupRequestCommonType
@@ -534,6 +486,33 @@ export const downloadFileOpenGroupV2 = async (
   return new Uint8Array(fromBase64ToArrayBuffer(base64Data));
 };
 
+export const downloadFileOpenGroupV2ByUrl = async (
+  pathName: string,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<Uint8Array | null> => {
+  const request: OpenGroupV2Request = {
+    method: 'GET',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: false,
+    endpoint: pathName,
+  };
+
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+  if (statusCode !== 200) {
+    return null;
+  }
+
+  // we should probably change the logic of sendOnionRequest to not have all those levels
+  const base64Data = (result as any)?.result?.result as string | undefined;
+
+  if (!base64Data) {
+    return null;
+  }
+  return new Uint8Array(fromBase64ToArrayBuffer(base64Data));
+};
+
 export const downloadPreviewOpenGroupV2 = async (
   roomInfos: OpenGroupRequestCommonType
 ): Promise<Uint8Array | null> => {
@@ -595,9 +574,42 @@ export const uploadFileOpenGroupV2 = async (
   if (!fileId) {
     return null;
   }
-  const fileUrl = getCompleteEndpointUrl(roomInfos, `${filesEndpoint}/${fileId}`);
+  const fileUrl = getCompleteEndpointUrl(roomInfos, `${filesEndpoint}/${fileId}`, false);
   return {
     fileId: fileId,
+    fileUrl,
+  };
+};
+
+export const uploadImageForRoomOpenGroupV2 = async (
+  fileContent: Uint8Array,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<{ fileUrl: string } | null> => {
+  if (!fileContent || !fileContent.length) {
+    return null;
+  }
+
+  const queryParams = {
+    file: fromArrayBufferToBase64(fileContent),
+  };
+
+  const imageEndpoint = `rooms/${roomInfos.roomId}/image`;
+  const request: OpenGroupV2Request = {
+    method: 'POST',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: true,
+    endpoint: imageEndpoint,
+    queryParams,
+  };
+
+  const result = await sendOpenGroupV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+  if (statusCode !== 200) {
+    return null;
+  }
+  const fileUrl = getCompleteEndpointUrl(roomInfos, `${imageEndpoint}`, true);
+  return {
     fileUrl,
   };
 };

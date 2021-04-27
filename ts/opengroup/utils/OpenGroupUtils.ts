@@ -61,10 +61,21 @@ export function getCompleteUrlFromRoom(roomInfos: OpenGroupV2Room) {
 /**
  * This function returns a base url to this room
  * This is basically used for building url after posting an attachment
+ * hasRoomInEndpoint = true means the roomId is already in the endpoint.
+ * so we don't add the room after the serverUrl.
+ *
  */
-export function getCompleteEndpointUrl(roomInfos: OpenGroupRequestCommonType, endpoint: string) {
+export function getCompleteEndpointUrl(
+  roomInfos: OpenGroupRequestCommonType,
+  endpoint: string,
+  hasRoomInEndpoint: boolean
+) {
   // serverUrl has the port and protocol already
-  return `${roomInfos.serverUrl}/${roomInfos.roomId}/${endpoint}`;
+  if (!hasRoomInEndpoint) {
+    return `${roomInfos.serverUrl}/${roomInfos.roomId}/${endpoint}`;
+  }
+  // not room based, the endpoint already has the room in it
+  return `${roomInfos.serverUrl}/${endpoint}`;
 }
 
 /**
