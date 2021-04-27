@@ -1398,8 +1398,8 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
-    "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages. This will not delete the data you have on other devices, such as your phone.",
+    "description": "Text describing what exactly will happen if the user clicks the button to delete all locally stored data"
   },
   "deleteAllDataButton": {
     "message": "Delete all data",
