@@ -8,6 +8,7 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 
 import { Spinner } from './Spinner';
 
@@ -15,6 +16,13 @@ import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 import * as log from '../logging/log';
+import { assert } from '../util/assert';
+
+export enum AvatarBlur {
+  NoBlur,
+  BlurPicture,
+  BlurPictureWithClickToView,
+}
 
 export enum AvatarSize {
   TWENTY_EIGHT = 28,
@@ -27,6 +35,7 @@ export enum AvatarSize {
 
 export type Props = {
   avatarPath?: string;
+  blur?: AvatarBlur;
   color?: ColorType;
   loading?: boolean;
 
@@ -58,11 +67,29 @@ export const Avatar: FunctionComponent<Props> = ({
   onClick,
   size,
   title,
+  blur = AvatarBlur.NoBlur,
 }) => {
   const [imageBroken, setImageBroken] = useState(false);
 
   useEffect(() => {
     setImageBroken(false);
+  }, [avatarPath]);
+
+  useEffect(() => {
+    if (!avatarPath) {
+      return noop;
+    }
+
+    const image = new Image();
+    image.src = avatarPath;
+    image.onerror = () => {
+      log.warn('Avatar: Image failed to load; failing over to placeholder');
+      setImageBroken(true);
+    };
+
+    return () => {
+      image.onerror = noop;
+    };
   }, [avatarPath]);
 
   const initials = getInitials(title);
@@ -83,15 +110,28 @@ export const Avatar: FunctionComponent<Props> = ({
       </div>
     );
   } else if (hasImage) {
+    assert(avatarPath, 'avatarPath should be defined here');
+    assert(
+      blur !== AvatarBlur.BlurPictureWithClickToView || size >= 100,
+      'Rendering "click to view" for a small avatar. This may not render correctly'
+    );
+
+    const isBlurred =
+      blur === AvatarBlur.BlurPicture ||
+      blur === AvatarBlur.BlurPictureWithClickToView;
     contents = (
-      <img
-        onError={() => {
-          log.warn('Avatar: Image failed to load; failing over to placeholder');
-          setImageBroken(true);
-        }}
-        alt={i18n('contactAvatarAlt', [title])}
-        src={avatarPath}
-      />
+      <>
+        <div
+          className="module-Avatar__image"
+          style={{
+            backgroundImage: `url('${encodeURI(avatarPath)}')`,
+            ...(isBlurred ? { filter: `blur(${Math.ceil(size / 2)}px)` } : {}),
+          }}
+        />
+        {blur === AvatarBlur.BlurPictureWithClickToView && (
+          <div className="module-Avatar__click-to-view">{i18n('view')}</div>
+        )}
+      </>
     );
   } else if (noteToSelf) {
     contents = (
@@ -105,6 +145,7 @@ export const Avatar: FunctionComponent<Props> = ({
   } else if (shouldUseInitials) {
     contents = (
       <div
+        aria-hidden="true"
         className="module-Avatar__label"
         style={{ fontSize: Math.ceil(size * 0.5) }}
       >
@@ -132,6 +173,7 @@ export const Avatar: FunctionComponent<Props> = ({
 
   return (
     <div
+      aria-label={i18n('contactAvatarAlt', [title])}
       className={classNames(
         'module-Avatar',
         hasImage ? 'module-Avatar--with-image' : 'module-Avatar--no-image',

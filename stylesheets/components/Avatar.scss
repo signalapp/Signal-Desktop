@@ -8,6 +8,7 @@
   justify-content: center;
   line-height: 0;
   overflow: hidden;
+  position: relative;
   user-select: none;
   vertical-align: middle;
 
@@ -27,10 +28,43 @@
     }
   }
 
-  img {
-    object-fit: cover;
+  &__image {
+    background-size: cover;
+    display: flex;
     height: 100%;
+    transition: filter 100ms ease-out;
     width: 100%;
+  }
+
+  &__click-to-view {
+    @include font-body-2;
+    align-items: center;
+    background: $color-black-alpha-20;
+    color: $color-white;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    &::before {
+      @include color-svg(
+        '../images/icons/v2/click-outline-24.svg',
+        $color-white
+      );
+      content: '';
+      display: block;
+      height: 24px;
+      margin-bottom: 8px;
+      width: 24px;
+    }
+
+    &:hover {
+      background: $color-black-alpha-40;
+    }
   }
 
   &__label {
