@@ -11,7 +11,7 @@ import {
   setAttachmentDownloadJobPending,
 } from '../../../ts/data/data';
 import { MessageModel } from '../../models/message';
-import { downloadAttachment } from '../../receiver/attachments';
+import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
 import { MessageController } from '../messages';
 
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
@@ -128,8 +128,10 @@ async function _maybeStartJob() {
   }
 }
 
+// tslint:disable-next-line: cyclomatic-complexity
 async function _runJob(job: any) {
-  const { id, messageId, attachment, type, index, attempts, isOpenGroupV2 } = job || {};
+  const { id, messageId, attachment, type, index, attempts, isOpenGroupV2, openGroupV2Details } =
+    job || {};
   let message;
 
   try {
@@ -143,6 +145,16 @@ async function _runJob(job: any) {
       await _finishJob(null, id);
       return;
     }
+
+    if (isOpenGroupV2 && (!openGroupV2Details?.serverUrl || !openGroupV2Details.roomId)) {
+      window.log.warn(
+        'isOpenGroupV2 download attachment, but no valid openGroupV2Details given:',
+        openGroupV2Details
+      );
+      await _finishJob(null, id);
+      return;
+    }
+
     message = MessageController.getInstance().register(found.id, found);
 
     const pending = true;
@@ -151,7 +163,11 @@ async function _runJob(job: any) {
     let downloaded;
 
     try {
-      downloaded = await downloadAttachment(attachment);
+      if (isOpenGroupV2) {
+        downloaded = await downloadAttachmentOpenGroupV2(attachment, openGroupV2Details);
+      } else {
+        downloaded = await downloadAttachment(attachment);
+      }
     } catch (error) {
       // Attachments on the server expire after 60 days, then start returning 404
       if (error && error.code === 404) {

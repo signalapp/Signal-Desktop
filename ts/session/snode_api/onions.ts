@@ -5,6 +5,7 @@ import { Snode } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { StringUtils } from '../utils';
 import { OnionPaths } from '../onions';
+import Long from 'long';
 
 export enum RequestError {
   BAD_PATH = 'BAD_PATH',
@@ -330,7 +331,13 @@ const processOnionResponse = async (
   }
 
   try {
-    const jsonRes: SnodeResponse = JSON.parse(plaintext);
+    const jsonRes: SnodeResponse = JSON.parse(plaintext, (key, value) => {
+      if (typeof value === 'number' && value > Number.MAX_SAFE_INTEGER) {
+        window.log.warn('Received an out of bounds js number');
+      }
+      return value;
+    });
+
     return jsonRes;
   } catch (e) {
     log.error(

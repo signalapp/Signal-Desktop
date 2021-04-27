@@ -57,10 +57,9 @@ export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointe
     caption: attachment.caption,
   };
 
-  const paddedAttachment: ArrayBuffer =
-    (window.lokiFeatureFlags.padOutgoingAttachments &&
-      AttachmentUtils.addAttachmentPadding(attachment.data)) ||
-    attachment.data;
+  const paddedAttachment: ArrayBuffer = window.lokiFeatureFlags.padOutgoingAttachments
+    ? AttachmentUtils.addAttachmentPadding(attachment.data)
+    : attachment.data;
 
   const fileDetails = await uploadFileOpenGroupV2(new Uint8Array(paddedAttachment), openGroup);
 

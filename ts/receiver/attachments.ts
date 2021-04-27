@@ -5,6 +5,8 @@ import { saveMessage } from '../../ts/data/data';
 import { fromBase64ToArrayBuffer } from '../session/utils/String';
 import { AttachmentDownloads, AttachmentUtils } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
+import { downloadFileOpenGroupV2 } from '../opengroup/opengroupV2/OpenGroupAPIV2';
+import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -83,75 +85,32 @@ export async function downloadAttachment(attachment: any) {
   };
 }
 
-export async function downloadAttachmentOpenGrouPV2(attachment: any) {
-  const serverUrl = new URL(attachment.url).origin;
+export async function downloadAttachmentOpenGroupV2(
+  attachment: any,
+  roomInfos: OpenGroupRequestCommonType
+) {
+  const dataUint = await downloadFileOpenGroupV2(attachment.id, roomInfos);
 
-  // The fileserver adds the `-static` part for some reason
-  const defaultFileserver = _.includes(
-    ['https://file-static.lokinet.org', 'https://file.getsession.org'],
-    serverUrl
-  );
-
-  let res: ArrayBuffer | null = null;
-
-  // TODO: we need attachments to remember which API should be used to retrieve them
-  if (!defaultFileserver) {
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(serverUrl);
-
-    if (serverAPI) {
-      res = await serverAPI.downloadAttachment(attachment.url);
-    }
-  }
-
-  // Fallback to using the default fileserver
-  if (defaultFileserver || !res || res.byteLength === 0) {
-    res = await window.lokiFileServerAPI.downloadAttachment(attachment.url);
-  }
-
-  if (res.byteLength === 0) {
+  if (!dataUint?.length) {
     window.log.error('Failed to download attachment. Length is 0');
     throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
   }
 
-  // FIXME "178" test to remove once this is fixed server side.
-  if (!window.lokiFeatureFlags.useFileOnionRequestsV2) {
-    if (res.byteLength === 178) {
-      window.log.error(
-        'Data of 178 length corresponds of a 404 returned as 200 by file.getsession.org.'
+  let data = dataUint;
+  if (attachment.size !== dataUint.length) {
+    // we might have padding, check that all the remaining bytes are padding bytes
+    // otherwise we have an error.
+    if (AttachmentUtils.isLeftOfBufferPaddingOnly(dataUint.buffer, attachment.size)) {
+      // we can safely remove the padding
+      data = data.slice(0, attachment.size);
+    } else {
+      throw new Error(
+        `downloadAttachment: Size ${attachment.size} did not match downloaded attachment size ${data.byteLength}`
       );
-      throw new Error(`downloadAttachment: invalid response for ${attachment.url}`);
     }
   } else {
-    // if useFileOnionRequestsV2 is true, we expect an ArrayBuffer not empty
-  }
-
-  // The attachment id is actually just the absolute url of the attachment
-  let data = res;
-  if (!attachment.isRaw) {
-    const { key, digest, size } = attachment;
-
-    if (!key || !digest) {
-      throw new Error('Attachment is not raw but we do not have a key to decode it');
-    }
-
-    data = await window.textsecure.crypto.decryptAttachment(
-      data,
-      fromBase64ToArrayBuffer(key),
-      fromBase64ToArrayBuffer(digest)
-    );
-
-    if (!size || size !== data.byteLength) {
-      // we might have padding, check that all the remaining bytes are padding bytes
-      // otherwise we have an error.
-      if (AttachmentUtils.isLeftOfBufferPaddingOnly(data, size)) {
-        // we can safely remove the padding
-        data = data.slice(0, size);
-      } else {
-        throw new Error(
-          `downloadAttachment: Size ${size} did not match downloaded attachment size ${data.byteLength}`
-        );
-      }
-    }
+    // nothing to do, the attachment has already the correct size. There is just no padding included, which is bas
+    window.log.warn('Received opengroupv2 unpadded attachment');
   }
 
   return {
@@ -166,13 +125,15 @@ async function processNormalAttachments(
   convo: ConversationModel
 ): Promise<number> {
   const isOpenGroupV2 = convo.isOpenGroupV2();
+  const openGroupV2Details = (isOpenGroupV2 && convo.toOpenGroupV2()) || undefined;
   const attachments = await Promise.all(
-    normalAttachments.map((attachment: any, index: any) => {
+    normalAttachments.map(async (attachment: any, index: any) => {
       return AttachmentDownloads.addJob(attachment, {
         messageId: message.id,
         type: 'attachment',
         index,
         isOpenGroupV2,
+        openGroupV2Details,
       });
     })
   );

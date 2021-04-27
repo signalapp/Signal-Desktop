@@ -359,7 +359,7 @@ export async function isMessageDuplicate({
     }
     const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
     if (serverId) {
-      return filteredResult.some(m => isDuplicate(m, { ...message, serverId }, source));
+      return filteredResult.some(m => isDuplicateServerId(m, { ...message, serverId }, source));
     }
     return filteredResult.some(m => isDuplicate(m, message, source));
   } catch (error) {
@@ -367,6 +367,25 @@ export async function isMessageDuplicate({
     return false;
   }
 }
+
+/**
+ * This function is to be used to check for duplicates for open group v2 messages.
+ * It just check that the sender and the serverId of a received and an already saved messages are the same
+ */
+export const isDuplicateServerId = (
+  m: MessageModel,
+  testedMessage: MessageDuplicateSearchType,
+  source: string
+) => {
+  // The username in this case is the users pubKey
+  const sameUsername = m.attributes.source === source;
+  // testedMessage.id is needed as long as we support opengroupv1
+  const sameServerId =
+    m.attributes.serverId !== undefined &&
+    (testedMessage.serverId || testedMessage.id) === m.attributes.serverId;
+
+  return sameUsername && sameServerId;
+};
 
 export const isDuplicate = (
   m: MessageModel,
