@@ -1563,7 +1563,9 @@ async function updateToSchemaVersion25(currentVersion: number, db: Database) {
 
       CREATE VIRTUAL TABLE messages_fts USING fts5(body);
 
-      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages BEGIN
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+      WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
+      BEGIN
         INSERT INTO messages_fts
         (rowid, body)
         VALUES
@@ -1574,7 +1576,9 @@ async function updateToSchemaVersion25(currentVersion: number, db: Database) {
         DELETE FROM messages_fts WHERE rowid = old.rowid;
       END;
 
-      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages BEGIN
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
+      BEGIN
         DELETE FROM messages_fts WHERE rowid = old.rowid;
         INSERT INTO messages_fts
         (rowid, body)
@@ -1610,6 +1614,41 @@ async function updateToSchemaVersion25(currentVersion: number, db: Database) {
   })();
 }
 
+async function updateToSchemaVersion26(currentVersion: number, db: Database) {
+  if (currentVersion >= 26) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      DROP TRIGGER messages_on_insert;
+      DROP TRIGGER messages_on_update;
+
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+      WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
+      BEGIN
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN new.body != old.body AND
+        (new.isViewOnce IS NULL OR new.isViewOnce != 1)
+      BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+    `);
+
+    db.pragma('user_version = 26');
+  })();
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1636,6 +1675,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion23,
   updateToSchemaVersion24,
   updateToSchemaVersion25,
+  updateToSchemaVersion26,
 ];
 
 function updateSchema(db: Database): void {
