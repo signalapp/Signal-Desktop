@@ -2504,81 +2504,115 @@ async function searchConversations(
 
 async function searchMessages(
   query: string,
-  { limit }: { limit?: number } = {}
+  params: { limit?: number; conversationId?: string } = {}
 ): Promise<Array<SearchResultMessageType>> {
+  const { limit = 500, conversationId } = params;
+
   const db = getInstance();
 
   // sqlite queries with a join on a virtual table (like FTS5) are de-optimized
   // and can't use indices for ordering results. Instead an in-memory index of
-  // the join rows is sorted on the fly. The sorting becomes substantially
-  // slower when there are large columns in the in-memory index (like
-  // `messages.json`) so we do a query without them and then fetch large columns
-  // separately without using `ORDER BY` and `LIMIT`.
-  const rows: Array<SearchResultMessageType> = db
-    .prepare<Query>(
+  // the join rows is sorted on the fly, and this becomes substantially
+  // slower when there are large columns in it (like `messages.json`).
+  //
+  // Thus here we take an indirect approach and store `rowid`s in a temporary
+  // table for all messages that match the FTS query. Then we create another
+  // table to sort and limit the results, and finally join on it when fetch
+  // the snippets and json. The benefit of this is that the `ORDER BY` and
+  // `LIMIT` happen without virtual table and are thus covered by
+  // `messages_searchOrder` index.
+  return db.transaction(() => {
+    db.exec(
       `
-      SELECT
-        messages.json,
-        snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
-      FROM
-        (SELECT
-          messages.rowid
-        FROM messages_fts
-        INNER JOIN messages ON messages_fts.rowid = messages.rowid
-        WHERE
-          messages_fts MATCH $query
-        ORDER BY messages.received_at DESC, messages.sent_at DESC
-        LIMIT $limit) AS results
-      INNER JOIN messages ON messages.rowid = results.rowid
-      INNER JOIN messages_fts ON messages_fts.rowid = results.rowid
-      WHERE messages_fts MATCH $query;
+      CREATE TEMP TABLE tmp_results(rowid INTEGER PRIMARY KEY ASC);
+      CREATE TEMP TABLE tmp_filtered_results(rowid INTEGER PRIMARY KEY ASC);
       `
-    )
-    .all({
-      query,
-      limit: limit || 500,
-    });
+    );
 
-  return rows;
+    db.prepare<Query>(
+      `
+        INSERT INTO tmp_results (rowid)
+        SELECT
+          rowid
+        FROM
+          messages_fts
+        WHERE
+          messages_fts.body MATCH $query;
+      `
+    ).run({ query });
+
+    if (conversationId === undefined) {
+      db.prepare<Query>(
+        `
+          INSERT INTO tmp_filtered_results (rowid)
+          SELECT
+            tmp_results.rowid
+          FROM
+            tmp_results
+          INNER JOIN
+            messages ON messages.rowid = tmp_results.rowid
+          ORDER BY messages.received_at DESC, messages.sent_at DESC
+          LIMIT $limit;
+        `
+      ).run({ limit });
+    } else {
+      db.prepare<Query>(
+        `
+          INSERT INTO tmp_filtered_results (rowid)
+          SELECT
+            tmp_results.rowid
+          FROM
+            tmp_results
+          INNER JOIN
+            messages ON messages.rowid = tmp_results.rowid
+          WHERE
+            messages.conversationId = $conversationId
+          ORDER BY messages.received_at DESC, messages.sent_at DESC
+          LIMIT $limit;
+        `
+      ).run({ conversationId, limit });
+    }
+
+    // The `MATCH` is necessary in order to for `snippet()` helper function to
+    // give us the right results. We can't call `snippet()` in the query above
+    // because it would bloat the temporary table with text data and we want
+    // to keep its size minimal for `ORDER BY` + `LIMIT` to be fast.
+    const result = db
+      .prepare<Query>(
+        `
+        SELECT
+          messages.json,
+          snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10)
+            AS snippet
+        FROM tmp_filtered_results
+        INNER JOIN messages_fts
+          ON messages_fts.rowid = tmp_filtered_results.rowid
+        INNER JOIN messages
+          ON messages.rowid = tmp_filtered_results.rowid
+        WHERE
+          messages_fts.body MATCH $query
+        ORDER BY messages.received_at DESC, messages.sent_at DESC;
+        `
+      )
+      .all({ query });
+
+    db.exec(
+      `
+      DROP TABLE tmp_results;
+      DROP TABLE tmp_filtered_results;
+      `
+    );
+
+    return result;
+  })();
 }
 
 async function searchMessagesInConversation(
   query: string,
   conversationId: string,
-  { limit }: { limit?: number } = {}
+  { limit = 100 }: { limit?: number } = {}
 ): Promise<Array<SearchResultMessageType>> {
-  const db = getInstance();
-
-  // See `searchMessages` for the explanation of the query
-  const rows = db
-    .prepare<Query>(
-      `
-      SELECT
-        messages.json,
-        snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10) as snippet
-      FROM
-        (SELECT
-          messages.rowid
-        FROM messages_fts
-        INNER JOIN messages ON messages_fts.rowid = messages.rowid
-        WHERE
-          messages_fts MATCH $query
-        ORDER BY messages.received_at DESC, messages.sent_at DESC
-        LIMIT $limit) AS results
-      INNER JOIN messages ON messages.rowid = results.rowid
-      INNER JOIN messages_fts ON messages_fts.rowid = results.rowid
-      WHERE
-        messages_fts MATCH $query AND
-        messages.conversationId = $conversationId;
-      `
-    )
-    .all({
-      query,
-      conversationId,
-      limit: limit || 100,
-    });
-
-  return rows;
+  return searchMessages(query, { conversationId, limit });
 }
 
 async function getMessageCount(conversationId?: string): Promise<number> {
