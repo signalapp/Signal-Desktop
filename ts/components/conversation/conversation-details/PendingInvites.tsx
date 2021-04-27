@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { LocalizerType } from '../../../types/Util';
 import { Avatar } from '../../Avatar';
-import { ConfirmationModal } from '../../ConfirmationModal';
+import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
@@ -206,7 +206,7 @@ function MembershipActionConfirmation({
   }
 
   return (
-    <ConfirmationModal
+    <ConfirmationDialog
       actions={[
         {
           action: modalAction,
@@ -223,7 +223,7 @@ function MembershipActionConfirmation({
         ourConversationId,
         stagedMemberships,
       })}
-    </ConfirmationModal>
+    </ConfirmationDialog>
   );
 }
 

@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { ContactName, PropsType as ContactNameProps } from './ContactName';
-import { ConfirmationModal } from '../ConfirmationModal';
+import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
@@ -42,7 +42,7 @@ export const MessageRequestActionsConfirmation = ({
 }: Props): JSX.Element | null => {
   if (state === MessageRequestState.blocking) {
     return (
-      <ConfirmationModal
+      <ConfirmationDialog
         i18n={i18n}
         onClose={() => {
           onChangeState(MessageRequestState.default);
@@ -77,13 +77,13 @@ export const MessageRequestActionsConfirmation = ({
         ]}
       >
         {i18n(`MessageRequests--block-${conversationType}-confirm-body`)}
-      </ConfirmationModal>
+      </ConfirmationDialog>
     );
   }
 
   if (state === MessageRequestState.unblocking) {
     return (
-      <ConfirmationModal
+      <ConfirmationDialog
         i18n={i18n}
         onClose={() => {
           onChangeState(MessageRequestState.default);
@@ -113,13 +113,13 @@ export const MessageRequestActionsConfirmation = ({
         ]}
       >
         {i18n(`MessageRequests--unblock-${conversationType}-confirm-body`)}
-      </ConfirmationModal>
+      </ConfirmationDialog>
     );
   }
 
   if (state === MessageRequestState.deleting) {
     return (
-      <ConfirmationModal
+      <ConfirmationDialog
         i18n={i18n}
         onClose={() => {
           onChangeState(MessageRequestState.default);
@@ -149,7 +149,7 @@ export const MessageRequestActionsConfirmation = ({
         ]}
       >
         {i18n(`MessageRequests--delete-${conversationType}-confirm-body`)}
-      </ConfirmationModal>
+      </ConfirmationDialog>
     );
   }
 

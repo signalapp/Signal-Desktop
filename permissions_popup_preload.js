@@ -9,7 +9,7 @@ window.ReactDOM = require('react-dom');
 const { ipcRenderer, remote } = require('electron');
 const url = require('url');
 const i18n = require('./js/modules/i18n');
-const { ConfirmationModal } = require('./ts/components/ConfirmationModal');
+const { ConfirmationDialog } = require('./ts/components/ConfirmationDialog');
 const { makeGetter, makeSetter } = require('./preload_utils');
 const {
   getEnvironment,
@@ -32,7 +32,7 @@ window.forCalling = config.forCalling === 'true';
 window.forCamera = config.forCamera === 'true';
 window.Signal = {
   Components: {
-    ConfirmationModal,
+    ConfirmationDialog,
   },
 };
 

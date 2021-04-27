@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { StickerPackInstallButton } from './StickerPackInstallButton';
-import { ConfirmationModal } from '../ConfirmationModal';
+import { ConfirmationDialog } from '../ConfirmationDialog';
 import { LocalizerType } from '../../types/Util';
 import { StickerPackType } from '../../state/ducks/stickers';
 
@@ -91,7 +91,7 @@ export const StickerManagerPackRow = React.memo(
     return (
       <>
         {uninstalling ? (
-          <ConfirmationModal
+          <ConfirmationDialog
             i18n={i18n}
             onClose={clearUninstalling}
             actions={[
@@ -103,7 +103,7 @@ export const StickerManagerPackRow = React.memo(
             ]}
           >
             {i18n('stickers--StickerManager--UninstallWarning')}
-          </ConfirmationModal>
+          </ConfirmationDialog>
         ) : null}
         <div
           tabIndex={0}

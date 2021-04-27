@@ -140,7 +140,7 @@ export const StickerPreviewModal = React.memo((props: Props) => {
     }
     uninstallStickerPack(pack.id, pack.key);
     setConfirmingUninstall(false);
-    // onClose is called by the confirmation modal
+    // onClose is called by <ConfirmationDialog />
   }, [uninstallStickerPack, setConfirmingUninstall, pack]);
 
   React.useEffect(() => {

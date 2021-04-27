@@ -88,5 +88,9 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 16px;
+
+    .module-Button {
+      margin-left: 8px;
+    }
   }
 }

@@ -41,8 +41,8 @@ export const SafetyNumberViewer = ({
 
   if (!contact.phoneNumber) {
     return (
-      <div className="module-safety-number">
-        <div className="module-safety-number__verify-container">
+      <div className="module-SafetyNumberViewer">
+        <div className="module-SafetyNumberViewer__verify-container">
           {i18n('cannotGenerateSafetyNumber')}
         </div>
       </div>
@@ -54,7 +54,7 @@ export const SafetyNumberViewer = ({
     showNumber && contact.phoneNumber ? ` · ${contact.phoneNumber}` : '';
   const name = `${contact.title}${numberFragment}`;
   const boldName = (
-    <span className="module-safety-number__bold-name">{name}</span>
+    <span className="module-SafetyNumberViewer__bold-name">{name}</span>
   );
 
   const { isVerified } = contact;
@@ -65,15 +65,15 @@ export const SafetyNumberViewer = ({
   const verifyButtonText = isVerified ? i18n('unverify') : i18n('verify');
 
   return (
-    <div className="module-safety-number">
+    <div className="module-SafetyNumberViewer">
       {onClose && (
-        <div className="module-safety-number__close-button">
+        <div className="module-SafetyNumberViewer__close-button">
           <button onClick={onClose} tabIndex={0} type="button">
             <span />
           </button>
         </div>
       )}
-      <div className="module-safety-number__verification-label">
+      <div className="module-SafetyNumberViewer__verification-label">
         <Intl
           i18n={i18n}
           id={safetyNumberChangedKey}
@@ -83,21 +83,21 @@ export const SafetyNumberViewer = ({
           }}
         />
       </div>
-      <div className="module-safety-number__number">
+      <div className="module-SafetyNumberViewer__number">
         {safetyNumber || getPlaceholder()}
       </div>
       <Intl i18n={i18n} id="verifyHelp" components={[boldName]} />
-      <div className="module-safety-number__verification-status">
+      <div className="module-SafetyNumberViewer__verification-status">
         {isVerified ? (
-          <span className="module-safety-number__icon--verified" />
+          <span className="module-SafetyNumberViewer__icon--verified" />
         ) : (
-          <span className="module-safety-number__icon--shield" />
+          <span className="module-SafetyNumberViewer__icon--shield" />
         )}
         <Intl i18n={i18n} id={verifiedStatusKey} components={[boldName]} />
       </div>
-      <div className="module-safety-number__verify-container">
+      <div className="module-SafetyNumberViewer__verify-container">
         <button
-          className="module-safety-number__button--verify"
+          className="module-SafetyNumberViewer__button--verify"
           disabled={verificationDisabled}
           onClick={() => {
             toggleVerified(contact);

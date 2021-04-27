@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 
-import { ConfirmationModal } from './ConfirmationModal';
+import { Modal } from './Modal';
 import { LocalizerType } from '../types/Util';
 import {
   AudioDevice,
@@ -135,12 +135,7 @@ export const CallingDeviceSelection = ({
     : undefined;
 
   return (
-    <ConfirmationModal
-      actions={[]}
-      i18n={i18n}
-      theme={Theme.Dark}
-      onClose={toggleSettings}
-    >
+    <Modal i18n={i18n} theme={Theme.Dark} onClose={toggleSettings}>
       <div className="module-calling-device-selection">
         <button
           type="button"
@@ -210,6 +205,6 @@ export const CallingDeviceSelection = ({
           {renderAudioOptions(availableSpeakers, i18n, selectedSpeaker)}
         </select>
       </div>
-    </ConfirmationModal>
+    </Modal>
   );
 };

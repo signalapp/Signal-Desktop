@@ -4,7 +4,8 @@
 import * as React from 'react';
 
 import { LocalizerType } from '../types/Util';
-import { ConfirmationModal } from './ConfirmationModal';
+import { Modal } from './Modal';
+import { Button, ButtonVariant } from './Button';
 
 export type PropsType = {
   buttonText?: string;
@@ -21,30 +22,29 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-// TODO: This should use <Modal>. See DESKTOP-1038.
 export const ErrorModal = (props: PropsType): JSX.Element => {
   const { buttonText, description, i18n, onClose, title } = props;
 
   return (
-    <ConfirmationModal
-      actions={[]}
-      title={title || i18n('ErrorModal--title')}
+    <Modal
       i18n={i18n}
       onClose={onClose}
+      title={title || i18n('ErrorModal--title')}
     >
-      <div className="module-error-modal__description">
-        {description || i18n('ErrorModal--description')}
-      </div>
-      <div className="module-error-modal__button-container">
-        <button
-          type="button"
-          className="module-confirmation-dialog__container__buttons__button"
-          onClick={onClose}
-          ref={focusRef}
-        >
-          {buttonText || i18n('Confirmation--confirm')}
-        </button>
-      </div>
-    </ConfirmationModal>
+      <>
+        <div className="module-error-modal__description">
+          {description || i18n('ErrorModal--description')}
+        </div>
+        <Modal.Footer>
+          <Button
+            onClick={onClose}
+            ref={focusRef}
+            variant={ButtonVariant.Secondary}
+          >
+            {buttonText || i18n('Confirmation--confirm')}
+          </Button>
+        </Modal.Footer>
+      </>
+    </Modal>
   );
 };

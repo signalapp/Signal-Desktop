@@ -29,7 +29,9 @@ const {
   AttachmentList,
 } = require('../../ts/components/conversation/AttachmentList');
 const { CaptionEditor } = require('../../ts/components/CaptionEditor');
-const { ConfirmationModal } = require('../../ts/components/ConfirmationModal');
+const {
+  ConfirmationDialog,
+} = require('../../ts/components/ConfirmationDialog');
 const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
@@ -317,7 +319,7 @@ exports.setup = (options = {}) => {
   const Components = {
     AttachmentList,
     CaptionEditor,
-    ConfirmationModal,
+    ConfirmationDialog,
     ContactDetail,
     ContactListItem,
     ContactModal,

@@ -13,6 +13,7 @@ import enMessages from '../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 const contactWithAllData = {
+  id: 'abc',
   avatarPath: undefined,
   color: 'signal-blue',
   profileName: '-*Smartest Dude*-',
@@ -22,6 +23,7 @@ const contactWithAllData = {
 } as ConversationType;
 
 const contactWithJustProfile = {
+  id: 'def',
   avatarPath: undefined,
   color: 'signal-blue',
   title: '-*Smartest Dude*-',
@@ -31,6 +33,7 @@ const contactWithJustProfile = {
 } as ConversationType;
 
 const contactWithJustNumber = {
+  id: 'xyz',
   avatarPath: undefined,
   color: 'signal-blue',
   profileName: undefined,

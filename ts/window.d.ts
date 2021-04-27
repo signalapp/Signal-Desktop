@@ -81,7 +81,7 @@ import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
 import { AttachmentList } from './components/conversation/AttachmentList';
 import { CaptionEditor } from './components/CaptionEditor';
-import { ConfirmationModal } from './components/ConfirmationModal';
+import { ConfirmationDialog } from './components/ConfirmationDialog';
 import { ContactDetail } from './components/conversation/ContactDetail';
 import { ContactModal } from './components/conversation/ContactModal';
 import { ErrorModal } from './components/ErrorModal';
@@ -460,7 +460,7 @@ declare global {
       Components: {
         AttachmentList: typeof AttachmentList;
         CaptionEditor: typeof CaptionEditor;
-        ConfirmationModal: typeof ConfirmationModal;
+        ConfirmationDialog: typeof ConfirmationDialog;
         ContactDetail: typeof ContactDetail;
         ContactModal: typeof ContactModal;
         ErrorModal: typeof ErrorModal;

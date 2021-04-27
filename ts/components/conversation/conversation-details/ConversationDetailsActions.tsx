@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { LocalizerType } from '../../../types/Util';
-import { ConfirmationModal } from '../../ConfirmationModal';
+import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { Tooltip, TooltipPlacement } from '../../Tooltip';
 
 import { PanelRow } from './PanelRow';
@@ -88,7 +88,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
       </PanelSection>
 
       {confirmingLeave && (
-        <ConfirmationModal
+        <ConfirmationDialog
           actions={[
             {
               text: i18n(
@@ -103,11 +103,11 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
           title={i18n('ConversationDetailsActions--leave-group-modal-title')}
         >
           {i18n('ConversationDetailsActions--leave-group-modal-content')}
-        </ConfirmationModal>
+        </ConfirmationDialog>
       )}
 
       {confirmingBlock && (
-        <ConfirmationModal
+        <ConfirmationDialog
           actions={[
             {
               text: i18n(
@@ -124,7 +124,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
           ])}
         >
           {i18n('ConversationDetailsActions--block-group-modal-content')}
-        </ConfirmationModal>
+        </ConfirmationDialog>
       )}
     </>
   );

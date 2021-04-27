@@ -16433,7 +16433,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SafetyNumberChangeDialog.js",
     "line": "    const cancelButtonRef = React.createRef();",
-    "lineNumber": 30,
+    "lineNumber": 33,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-23T06:48:06.829Z",
     "reasonDetail": "Used to focus cancel button when dialog opens"

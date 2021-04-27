@@ -7,6 +7,7 @@ import { noop } from 'lodash';
 
 import { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
+import { Theme } from '../util/theme';
 
 type PropsType = {
   children: ReactNode;
@@ -14,6 +15,7 @@ type PropsType = {
   i18n: LocalizerType;
   onClose?: () => void;
   title?: ReactNode;
+  theme?: Theme;
 };
 
 export function Modal({
@@ -22,13 +24,14 @@ export function Modal({
   i18n,
   onClose = noop,
   title,
+  theme,
 }: Readonly<PropsType>): ReactElement {
   const [scrolled, setScrolled] = useState(false);
 
   const hasHeader = Boolean(hasXButton || title);
 
   return (
-    <ModalHost onClose={onClose}>
+    <ModalHost onClose={onClose} theme={theme}>
       <div
         className={classNames(
           'module-Modal',

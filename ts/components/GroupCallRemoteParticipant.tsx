@@ -18,7 +18,7 @@ import {
 import { LocalizerType } from '../types/Util';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { Avatar, AvatarSize } from './Avatar';
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationDialog } from './ConfirmationDialog';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
 import { useIntersectionObserver } from '../util/hooks';
@@ -200,7 +200,8 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     return (
       <>
         {showBlockInfo && (
-          <ConfirmationModal
+          <ConfirmationDialog
+            cancelText={i18n('ok')}
             i18n={i18n}
             onClose={() => {
               setShowBlockInfo(false);
@@ -221,18 +222,9 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 />
               </div>
             }
-            actions={[
-              {
-                text: i18n('ok'),
-                action: () => {
-                  setShowBlockInfo(false);
-                },
-                style: 'affirmative',
-              },
-            ]}
           >
             {i18n('calling__block-info')}
-          </ConfirmationModal>
+          </ConfirmationDialog>
         )}
 
         <div
