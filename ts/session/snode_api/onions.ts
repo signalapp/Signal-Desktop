@@ -341,11 +341,7 @@ const processOnionResponse = async (
     return jsonRes;
   } catch (e) {
     log.error(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - parse error outer json`,
-      e.code,
-      e.message,
-      'json:',
-      plaintext
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - parse error outer json ${e.code} ${e.message} json: '${plaintext}'`
     );
     return RequestError.OTHER;
   }

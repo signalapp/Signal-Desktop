@@ -417,7 +417,7 @@ export const isUserModerator = (
 export const banUser = async (
   userToBan: PubKey,
   roomInfos: OpenGroupRequestCommonType
-): Promise<void> => {
+): Promise<boolean> => {
   const queryParams = { public_key: userToBan.key };
   const request: OpenGroupV2Request = {
     method: 'POST',
@@ -428,13 +428,15 @@ export const banUser = async (
     endpoint: 'block_list',
   };
   const banResult = await sendOpenGroupV2Request(request);
+  const isOk = parseStatusCodeFromOnionRequest(banResult) === 200;
   console.warn('banResult', banResult);
+  return isOk;
 };
 
 export const unbanUser = async (
   userToBan: PubKey,
   roomInfos: OpenGroupRequestCommonType
-): Promise<void> => {
+): Promise<boolean> => {
   const request: OpenGroupV2Request = {
     method: 'DELETE',
     room: roomInfos.roomId,
@@ -442,7 +444,10 @@ export const unbanUser = async (
     isAuthRequired: true,
     endpoint: `block_list/${userToBan.key}`,
   };
-  await sendOpenGroupV2Request(request);
+  const unbanResult = await sendOpenGroupV2Request(request);
+  const isOk = parseStatusCodeFromOnionRequest(unbanResult) === 200;
+  console.warn('unbanResult', unbanResult);
+  return isOk;
 };
 
 export const getAllRoomInfos = async (roomInfos: OpenGroupRequestCommonType) => {

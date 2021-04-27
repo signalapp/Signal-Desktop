@@ -207,6 +207,7 @@ export interface MessageRegularProps {
   expirationTimestamp?: number;
   convoId: string;
   isPublic?: boolean;
+  isOpenGroupV2?: boolean;
   selected: boolean;
   isKickedFromGroup: boolean;
   // whether or not to show check boxes
@@ -225,6 +226,8 @@ export interface MessageRegularProps {
   onDeleteMessage: (messageId: string) => void;
   onCopyPubKey?: () => void;
   onBanUser?: () => void;
+  onUnbanUser?: () => void;
+
   onShowDetail: () => void;
   onShowUserDetails: (userPubKey: string) => void;
   markRead: (readAt: number) => Promise<void>;

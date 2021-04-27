@@ -10,7 +10,7 @@ import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
 
-const pollForEverythingInterval = 4 * 1000;
+const pollForEverythingInterval = 6 * 1000;
 
 /**
  * An OpenGroupServerPollerV2 polls for everything for a particular server. We should
@@ -256,8 +256,7 @@ const handleCompactPollResults = async (
       }
       const existingModerators = convo.get('moderators') || [];
       let changeOnConvo = false;
-      // res.moderators is already sorted
-      if (!_.isEqual(existingModerators.sort(), res.moderators)) {
+      if (!_.isEqual(existingModerators.sort(), res.moderators.sort())) {
         convo.set({ moderators: res.moderators });
         changeOnConvo = true;
       }

@@ -3,13 +3,13 @@ import Backbone from 'backbone';
 import filesize from 'filesize';
 import _ from 'lodash';
 import { SignalService } from '../../ts/protobuf';
-import { getMessageQueue, Types, Utils } from '../../ts/session';
+import { getMessageQueue, Utils } from '../../ts/session';
 import { ConversationController } from '../../ts/session/conversations';
 import { MessageController } from '../../ts/session/messages';
 import { DataMessage, OpenGroupMessage } from '../../ts/session/messages/outgoing';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../ts/session/types';
-import { ToastUtils, UserUtils } from '../../ts/session/utils';
+import { UserUtils } from '../../ts/session/utils';
 import {
   fillMessageAttributesWithDefaults,
   MessageAttributes,
@@ -24,8 +24,6 @@ import { actions as conversationActions } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
 import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
-import { banUser } from '../opengroup/opengroupV2/OpenGroupAPIV2';
-import { getV2OpenGroupRoom } from '../data/opengroups';
 import { MessageInteraction } from '../interactions';
 import {
   uploadAttachmentsV2,
@@ -468,6 +466,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const convoId = conversation ? conversation.id : undefined;
     const isGroup = !!conversation && !conversation.isPrivate();
     const isPublic = !!this.get('isPublic');
+    const isPublicOpenGroupV2 = isOpenGroupV2(this.getConversation()?.id || '');
 
     const attachments = this.get('attachments') || [];
 
@@ -493,11 +492,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       expirationLength,
       expirationTimestamp,
       isPublic,
+      isOpenGroupV2: isPublicOpenGroupV2,
       isKickedFromGroup: conversation && conversation.get('isKickedFromGroup'),
 
       onCopyText: this.copyText,
       onCopyPubKey: this.copyPubKey,
       onBanUser: this.banUser,
+      onUnbanUser: this.unbanUser,
       onRetrySend: this.retrySend,
       markRead: this.markRead,
 
@@ -708,6 +709,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public banUser() {
     MessageInteraction.banUser(this.get('source'), this.getConversation());
+  }
+  public unbanUser() {
+    MessageInteraction.unbanUser(this.get('source'), this.getConversation());
   }
 
   public copyText() {

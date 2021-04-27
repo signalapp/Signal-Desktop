@@ -118,6 +118,14 @@ export function pushUserBanFailure() {
   pushToastError('userBanFailed', window.i18n('userBanFailed'));
 }
 
+export function pushUserUnbanSuccess() {
+  pushToastSuccess('userUnbanned', window.i18n('userUnbanned'));
+}
+
+export function pushUserUnbanFailure() {
+  pushToastError('userUnbanFailed', window.i18n('userUnbanFailed'));
+}
+
 export function pushMessageDeleteForbidden() {
   pushToastError('messageDeletionForbidden', window.i18n('messageDeletionForbidden'));
 }

@@ -559,9 +559,11 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       onRetrySend,
       onShowDetail,
       isPublic,
+      isOpenGroupV2,
       weAreAdmin,
       isAdmin,
       onBanUser,
+      onUnbanUser,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
@@ -625,6 +627,9 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           </>
         ) : null}
         {weAreAdmin && isPublic ? <Item onClick={onBanUser}>{window.i18n('banUser')}</Item> : null}
+        {weAreAdmin && isOpenGroupV2 ? (
+          <Item onClick={onUnbanUser}>{window.i18n('unbanUser')}</Item>
+        ) : null}
         {weAreAdmin && isPublic && !isAdmin ? (
           <Item onClick={this.onAddModerator}>{window.i18n('addAsModerator')}</Item>
         ) : null}

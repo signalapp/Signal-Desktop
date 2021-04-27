@@ -29,7 +29,7 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
         if (!roomInfos) {
           window.log.warn('banUser room not found');
         } else {
-          await ApiV2.banUser(pubKeyToBan, _.pick(roomInfos, 'serverUrl', 'roomId'));
+          success = await ApiV2.banUser(pubKeyToBan, _.pick(roomInfos, 'serverUrl', 'roomId'));
         }
       } else {
         const channelAPI = await conversation.getPublicSendData();
@@ -43,6 +43,51 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
         ToastUtils.pushUserBanSuccess();
       } else {
         ToastUtils.pushUserBanFailure();
+      }
+    },
+  });
+}
+
+/**
+ * There is no way to unban on an opengroupv1 server.
+ * This function only works for opengroupv2 server
+ */
+export function unbanUser(userToUnBan: string, conversation?: ConversationModel) {
+  let pubKeyToUnban: PubKey;
+  try {
+    pubKeyToUnban = PubKey.cast(userToUnBan);
+  } catch (e) {
+    window.log.warn(e);
+    ToastUtils.pushUserBanFailure();
+    return;
+  }
+  if (!isOpenGroupV2(conversation?.id || '')) {
+    window.log.warn('no way to unban on a opengroupv1');
+    ToastUtils.pushUserBanFailure();
+    return;
+  }
+  window.confirmationDialog({
+    title: window.i18n('unbanUser'),
+    message: window.i18n('unbanUserConfirm'),
+    resolve: async () => {
+      if (!conversation) {
+        // double check here. the convo might have been removed since the dialog was opened
+        window.log.info('cannot unban user, the corresponding conversation was not found.');
+        return;
+      }
+      let success = false;
+      if (isOpenGroupV2(conversation.id)) {
+        const roomInfos = await getV2OpenGroupRoom(conversation.id);
+        if (!roomInfos) {
+          window.log.warn('unbanUser room not found');
+        } else {
+          success = await ApiV2.unbanUser(pubKeyToUnban, _.pick(roomInfos, 'serverUrl', 'roomId'));
+        }
+      }
+      if (success) {
+        ToastUtils.pushUserUnbanSuccess();
+      } else {
+        ToastUtils.pushUserUnbanFailure();
       }
     },
   });

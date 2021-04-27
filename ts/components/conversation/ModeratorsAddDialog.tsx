@@ -36,7 +36,9 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    this.channelAPI = await this.props.convo.getPublicSendData();
+    if (this.props.convo.isOpenGroupV1()) {
+      this.channelAPI = await this.props.convo.getPublicSendData();
+    }
 
     this.setState({ firstLoading: false });
   }
@@ -56,9 +58,16 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
       this.setState({
         addingInProgress: true,
       });
-      const res = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
-      if (!res) {
-        window.log.warn('failed to add moderators:', res);
+      let isAdded: any;
+      if (this.props.convo.isOpenGroupV1()) {
+        isAdded = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
+      } else {
+        // this is a v2 opengroup
+        // FIXME audric addModerators
+        throw new Error('TODO');
+      }
+      if (!isAdded) {
+        window.log.warn('failed to add moderators:', isAdded);
 
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {

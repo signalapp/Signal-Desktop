@@ -375,7 +375,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public getGroupAdmins() {
-    return this.get('groupAdmins') || this.get('moderators');
+    const groupAdmins = this.get('groupAdmins');
+    if (groupAdmins?.length) {
+      return groupAdmins;
+    }
+    return this.get('moderators');
   }
   public getProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
