@@ -12,6 +12,10 @@ const FUSE_OPTIONS: FuseOptions<ConversationType> = {
   tokenize: true,
   keys: [
     {
+      name: 'searchableTitle',
+      weight: 1,
+    },
+    {
       name: 'title',
       weight: 1,
     },

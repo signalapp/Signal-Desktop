@@ -65,6 +65,7 @@ export type Props = {
   | 'showContactModal'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
+  | 'showForwardMessageModal'
   | 'showVisualAttachment'
 >;
 
@@ -235,6 +236,7 @@ export class MessageDetail extends React.Component<Props> {
       showContactModal,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
+      showForwardMessageModal,
       showVisualAttachment,
     } = this.props;
 
@@ -263,6 +265,7 @@ export class MessageDetail extends React.Component<Props> {
               renderEmojiPicker={renderEmojiPicker}
               replyToMessage={replyToMessage}
               retrySend={retrySend}
+              showForwardMessageModal={showForwardMessageModal}
               scrollToQuotedMessage={() => {
                 assert(
                   false,

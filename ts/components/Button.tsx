@@ -15,7 +15,6 @@ export enum ButtonVariant {
 }
 
 type PropsType = {
-  children: ReactNode;
   className?: string;
   disabled?: boolean;
   variant?: ButtonVariant;
@@ -26,7 +25,21 @@ type PropsType = {
   | {
       type: 'submit';
     }
-);
+) &
+  (
+    | {
+        'aria-label': string;
+        children: ReactNode;
+      }
+    | {
+        'aria-label'?: string;
+        children: ReactNode;
+      }
+    | {
+        'aria-label': string;
+        children?: ReactNode;
+      }
+  );
 
 const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
   [ButtonVariant.Primary, 'module-Button--primary'],
@@ -50,6 +63,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
       disabled = false,
       variant = ButtonVariant.Primary,
     } = props;
+    const ariaLabel = props['aria-label'];
 
     let onClick: undefined | MouseEventHandler<HTMLButtonElement>;
     let type: 'button' | 'submit';
@@ -66,6 +80,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
 
     return (
       <button
+        aria-label={ariaLabel}
         className={classNames('module-Button', variantClassName, className)}
         disabled={disabled}
         onClick={onClick}

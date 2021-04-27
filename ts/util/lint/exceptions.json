@@ -16238,7 +16238,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const emojiCompletionRef = React.useRef();",
-    "lineNumber": 56,
+    "lineNumber": 62,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -16247,7 +16247,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const mentionCompletionRef = React.useRef();",
-    "lineNumber": 57,
+    "lineNumber": 63,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:54:34.273Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -16256,7 +16256,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const quillRef = React.useRef();",
-    "lineNumber": 58,
+    "lineNumber": 64,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -16265,7 +16265,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const scrollerRef = React.useRef(null);",
-    "lineNumber": 59,
+    "lineNumber": 65,
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used with Quill for scrolling."
@@ -16274,7 +16274,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const propsRef = React.useRef(props);",
-    "lineNumber": 60,
+    "lineNumber": 66,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -16283,10 +16283,26 @@
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.js",
     "line": "    const memberRepositoryRef = React.useRef(new memberRepository_1.MemberRepository());",
-    "lineNumber": 61,
+    "lineNumber": 67,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T23:56:13.482Z",
     "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.js",
+    "line": "    const callbacksRef = React.useRef(unstaleCallbacks);",
+    "lineNumber": 338,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-21T21:35:38.757Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const callbacksRef = React.useRef(unstaleCallbacks);",
+    "lineNumber": 500,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-21T21:35:38.757Z"
   },
   {
     "rule": "React-useRef",
@@ -16314,6 +16330,22 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-11T21:56:04.179Z",
     "reasonDetail": "Needed to render the remote video element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/ForwardMessageModal.js",
+    "line": "    const inputRef = react_1.useRef(null);",
+    "lineNumber": 44,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-19T18:13:21.664Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/ForwardMessageModal.js",
+    "line": "    const inputApiRef = react_1.default.useRef();",
+    "lineNumber": 45,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-19T18:13:21.664Z"
   },
   {
     "rule": "React-useRef",
@@ -16557,7 +16589,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 241,
+    "lineNumber": 242,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for managing focus only"
@@ -16566,7 +16598,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();",
-    "lineNumber": 243,
+    "lineNumber": 244,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
@@ -16575,7 +16607,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 247,
+    "lineNumber": 248,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"

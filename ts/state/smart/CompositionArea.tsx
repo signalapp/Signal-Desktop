@@ -2,13 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import { CompositionArea } from '../../components/CompositionArea';
 import { StateType } from '../reducer';
 
-import { isShortName } from '../../components/emoji/lib';
+import { selectRecentEmojis } from '../selectors/emojis';
 import { getIntl } from '../selectors/user';
 import { getConversationSelector } from '../selectors/conversations';
 import {
@@ -23,11 +22,6 @@ import {
 type ExternalProps = {
   id: string;
 };
-
-const selectRecentEmojis = createSelector(
-  ({ emojis }: StateType) => emojis.recents,
-  recents => recents.filter(isShortName)
-);
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id } = props;

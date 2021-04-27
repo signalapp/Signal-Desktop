@@ -42,6 +42,7 @@ export type OwnProps = {
   | 'showContactModal'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
+  | 'showForwardMessageModal'
   | 'showVisualAttachment'
 >;
 
@@ -72,6 +73,7 @@ const mapStateToProps = (
     showContactModal,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
+    showForwardMessageModal,
     showVisualAttachment,
   } = props;
 
@@ -103,6 +105,7 @@ const mapStateToProps = (
     showContactModal,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
+    showForwardMessageModal,
     showVisualAttachment,
   };
 };

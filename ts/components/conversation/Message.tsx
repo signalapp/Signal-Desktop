@@ -170,6 +170,7 @@ export type PropsActions = {
   ) => void;
   replyToMessage: (id: string) => void;
   retrySend: (id: string) => void;
+  showForwardMessageModal: (id: string) => void;
   deleteMessage: (id: string) => void;
   deleteMessageForEveryone: (id: string) => void;
   showMessageDetail: (id: string) => void;
@@ -1401,6 +1402,7 @@ export class Message extends React.PureComponent<Props, State> {
       canReply,
       deleteMessage,
       deleteMessageForEveryone,
+      deletedForEveryone,
       direction,
       i18n,
       id,
@@ -1408,9 +1410,12 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       replyToMessage,
       retrySend,
+      showForwardMessageModal,
       showMessageDetail,
       status,
     } = this.props;
+
+    const canForward = !isTapToView && !deletedForEveryone;
 
     const { canDeleteForEveryone } = this.state;
 
@@ -1497,6 +1502,22 @@ export class Message extends React.PureComponent<Props, State> {
             }}
           >
             {i18n('retrySend')}
+          </MenuItem>
+        ) : null}
+        {canForward ? (
+          <MenuItem
+            attributes={{
+              className:
+                'module-message__context--icon module-message__context__forward-message',
+            }}
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
+              showForwardMessageModal(id);
+            }}
+          >
+            {i18n('forwardMessage')}
           </MenuItem>
         ) : null}
         <MenuItem

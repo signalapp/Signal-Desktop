@@ -74,6 +74,9 @@ const {
 } = require('../../ts/state/roots/createConversationHeader');
 const { createCallManager } = require('../../ts/state/roots/createCallManager');
 const {
+  createForwardMessageModal,
+} = require('../../ts/state/roots/createForwardMessageModal');
+const {
   createGroupLinkManagement,
 } = require('../../ts/state/roots/createGroupLinkManagement');
 const {
@@ -111,6 +114,7 @@ const conversationsDuck = require('../../ts/state/ducks/conversations');
 const emojisDuck = require('../../ts/state/ducks/emojis');
 const expirationDuck = require('../../ts/state/ducks/expiration');
 const itemsDuck = require('../../ts/state/ducks/items');
+const linkPreviewsDuck = require('../../ts/state/ducks/linkPreviews');
 const networkDuck = require('../../ts/state/ducks/network');
 const searchDuck = require('../../ts/state/ducks/search');
 const stickersDuck = require('../../ts/state/ducks/stickers');
@@ -344,6 +348,7 @@ exports.setup = (options = {}) => {
     createContactModal,
     createConversationDetails,
     createConversationHeader,
+    createForwardMessageModal,
     createGroupLinkManagement,
     createGroupV1MigrationModal,
     createGroupV2JoinModal,
@@ -364,6 +369,7 @@ exports.setup = (options = {}) => {
     emojis: emojisDuck,
     expiration: expirationDuck,
     items: itemsDuck,
+    linkPreviews: linkPreviewsDuck,
     network: networkDuck,
     updates: updatesDuck,
     user: userDuck,

@@ -72,6 +72,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showContactModal: () => null,
   showExpiredIncomingTapToViewToast: () => null,
   showExpiredOutgoingTapToViewToast: () => null,
+  showForwardMessageModal: () => null,
   showVisualAttachment: () => null,
 });
 

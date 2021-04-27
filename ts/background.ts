@@ -831,6 +831,10 @@ export async function startApp(): Promise<void> {
       window.Signal.State.Ducks.items.actions,
       store.dispatch
     );
+    actions.linkPreviews = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.linkPreviews.actions,
+      store.dispatch
+    );
     actions.network = window.Signal.State.bindActionCreators(
       window.Signal.State.Ducks.network.actions,
       store.dispatch

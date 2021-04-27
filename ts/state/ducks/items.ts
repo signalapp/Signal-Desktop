@@ -2,11 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
-import { createSelector } from 'reselect';
-import { useSelector } from 'react-redux';
-import { StateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
-import { isShortName } from '../../components/emoji/lib';
 import { useBoundActions } from '../../util/hooks';
 
 // State
@@ -54,6 +50,7 @@ export type ItemsActionType =
 // Action Creators
 
 export const actions = {
+  onSetSkinTone,
   putItem,
   putItemExternal,
   removeItem,
@@ -70,6 +67,10 @@ function putItem(key: string, value: unknown): ItemPutAction {
     type: 'items/PUT',
     payload: null,
   };
+}
+
+function onSetSkinTone(tone: number): ItemPutAction {
+  return putItem('skinTone', tone);
 }
 
 function putItemExternal(key: string, value: unknown): ItemPutExternalAction {
@@ -133,13 +134,3 @@ export function reducer(
 
   return state;
 }
-
-// Selectors
-
-const selectRecentEmojis = createSelector(
-  ({ emojis }: StateType) => emojis.recents,
-  recents => recents.filter(isShortName)
-);
-
-export const useRecentEmojis = (): Array<string> =>
-  useSelector(selectRecentEmojis);

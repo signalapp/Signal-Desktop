@@ -61,6 +61,7 @@ const defaultMessageProps: MessagesProps = {
   showContactModal: () => null,
   showExpiredIncomingTapToViewToast: () => null,
   showExpiredOutgoingTapToViewToast: () => null,
+  showForwardMessageModal: () => null,
   showMessageDetail: () => null,
   showVisualAttachment: () => null,
   status: 'sent',

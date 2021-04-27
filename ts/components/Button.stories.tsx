@@ -33,3 +33,11 @@ story.add('Kitchen sink', () => (
     ))}
   </>
 ));
+
+story.add('aria-label', () => (
+  <Button
+    aria-label="hello"
+    className="module-ForwardMessageModal__header--back"
+    onClick={action('onClick')}
+  />
+));

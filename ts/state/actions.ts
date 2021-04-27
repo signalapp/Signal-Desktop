@@ -7,6 +7,7 @@ import { actions as conversations } from './ducks/conversations';
 import { actions as emojis } from './ducks/emojis';
 import { actions as expiration } from './ducks/expiration';
 import { actions as items } from './ducks/items';
+import { actions as linkPreviews } from './ducks/linkPreviews';
 import { actions as network } from './ducks/network';
 import { actions as safetyNumber } from './ducks/safetyNumber';
 import { actions as search } from './ducks/search';
@@ -21,6 +22,7 @@ export const mapDispatchToProps = {
   ...emojis,
   ...expiration,
   ...items,
+  ...linkPreviews,
   ...network,
   ...safetyNumber,
   ...search,

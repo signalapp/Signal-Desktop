@@ -46,6 +46,7 @@ describe('both/state/selectors/conversations', () => {
     return {
       id,
       type: 'direct',
+      searchableTitle: `${id} title`,
       title: `${id} title`,
     };
   }
@@ -478,6 +479,13 @@ describe('both/state/selectors/conversations', () => {
     const getRootStateWithConversations = (searchTerm = ''): StateType => {
       const result = getRootState(searchTerm);
       Object.assign(result.conversations.conversationLookup, {
+        'convo-0': {
+          ...getDefaultConversation('convo-0'),
+          name: 'Me, Myself, and I',
+          title: 'Me, Myself, and I',
+          searchableTitle: 'Note to Self',
+          isMe: true,
+        },
         'convo-1': {
           ...getDefaultConversation('convo-1'),
           name: 'In System Contacts',
@@ -517,32 +525,20 @@ describe('both/state/selectors/conversations', () => {
       return result;
     };
 
-    it('only returns Note to Self when there are no other contacts', () => {
-      const state = getRootState();
-      const result = getComposeContacts(state);
-
-      assert.lengthOf(result, 1);
-      assert.strictEqual(result[0]?.id, 'our-conversation-id');
-    });
-
-    it("returns no results when search doesn't match Note to Self and there are no other contacts", () => {
+    it('returns no results when there are no contacts', () => {
       const state = getRootState('foo bar baz');
       const result = getComposeContacts(state);
 
       assert.isEmpty(result);
     });
 
-    it('returns contacts with Note to Self at the end when there is no search term', () => {
+    it('includes Note to Self', () => {
       const state = getRootStateWithConversations();
       const result = getComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
-      assert.deepEqual(ids, [
-        'convo-1',
-        'convo-5',
-        'convo-6',
-        'our-conversation-id',
-      ]);
+      // convo-6 is sorted last because it doesn't have a name
+      assert.deepEqual(ids, ['convo-1', 'convo-5', 'convo-0', 'convo-6']);
     });
 
     it('can search for contacts', () => {
@@ -552,6 +548,22 @@ describe('both/state/selectors/conversations', () => {
       const ids = result.map(contact => contact.id);
       // NOTE: convo-6 matches because you can't write "Sharing" without "in"
       assert.deepEqual(ids, ['convo-1', 'convo-5', 'convo-6']);
+    });
+
+    it('can search for note to self', () => {
+      const state = getRootStateWithConversations('note');
+      const result = getComposeContacts(state);
+
+      const ids = result.map(contact => contact.id);
+      assert.deepEqual(ids, ['convo-0']);
+    });
+
+    it('returns not to self when searching for your own name', () => {
+      const state = getRootStateWithConversations('Myself');
+      const result = getComposeContacts(state);
+
+      const ids = result.map(contact => contact.id);
+      assert.deepEqual(ids, ['convo-0']);
     });
   });
 

@@ -63,6 +63,7 @@ export type Props = {
   readonly skinTone?: EmojiPickDataType['skinTone'];
   readonly draftText?: string;
   readonly draftBodyRanges?: Array<BodyRangeType>;
+  readonly moduleClassName?: string;
   sortedGroupMembers?: Array<ConversationType>;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
@@ -79,12 +80,24 @@ export type Props = {
 
 const MAX_LENGTH = 64 * 1024;
 
+function getClassName(
+  moduleClassName?: string,
+  modifier?: string | null
+): string | undefined {
+  if (!moduleClassName || !modifier) {
+    return undefined;
+  }
+
+  return `${moduleClassName}${modifier}`;
+}
+
 export const CompositionInput: React.ComponentType<Props> = props => {
   const {
     i18n,
     disabled,
     large,
     inputApi,
+    moduleClassName,
     onPickEmoji,
     onSubmit,
     skinTone,
@@ -240,12 +253,12 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     propsRef.current = props;
   }, [props]);
 
-  const onShortKeyEnter = () => {
+  const onShortKeyEnter = (): boolean => {
     submit();
     return false;
   };
 
-  const onEnter = () => {
+  const onEnter = (): boolean => {
     const quill = quillRef.current;
     const emojiCompletion = emojiCompletionRef.current;
     const mentionCompletion = mentionCompletionRef.current;
@@ -277,7 +290,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     return false;
   };
 
-  const onTab = () => {
+  const onTab = (): boolean => {
     const quill = quillRef.current;
     const emojiCompletion = emojiCompletionRef.current;
     const mentionCompletion = mentionCompletionRef.current;
@@ -303,7 +316,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     return true;
   };
 
-  const onEscape = () => {
+  const onEscape = (): boolean => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -335,7 +348,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     return true;
   };
 
-  const onBackspace = () => {
+  const onBackspace = (): boolean => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -361,7 +374,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     return false;
   };
 
-  const onChange = () => {
+  const onChange = (): void => {
     const quill = quillRef.current;
 
     const [text, mentions] = getTextAndMentions();
@@ -471,6 +484,22 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(memberIds)]);
 
+  // Placing all of these callbacks inside of a ref since Quill is not able
+  // to re-render. We want to make sure that all these callbacks are fresh
+  // so that the consumers of this component won't deal with stale props or
+  // stale state as the result of calling them.
+  const unstaleCallbacks = {
+    onBackspace,
+    onChange,
+    onEnter,
+    onEscape,
+    onPickEmoji,
+    onShortKeyEnter,
+    onTab,
+  };
+  const callbacksRef = React.useRef(unstaleCallbacks);
+  callbacksRef.current = unstaleCallbacks;
+
   const reactQuill = React.useMemo(
     () => {
       const delta = generateDelta(draftText || '', draftBodyRanges || []);
@@ -478,7 +507,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
       return (
         <ReactQuill
           className="module-composition-input__quill"
-          onChange={onChange}
+          onChange={() => callbacksRef.current.onChange()}
           defaultValue={delta}
           modules={{
             toolbar: false,
@@ -494,19 +523,29 @@ export const CompositionInput: React.ComponentType<Props> = props => {
             },
             keyboard: {
               bindings: {
-                onEnter: { key: 13, handler: onEnter }, // 13 = Enter
+                onEnter: {
+                  key: 13,
+                  handler: () => callbacksRef.current.onEnter(),
+                }, // 13 = Enter
                 onShortKeyEnter: {
                   key: 13, // 13 = Enter
                   shortKey: true,
-                  handler: onShortKeyEnter,
+                  handler: () => callbacksRef.current.onShortKeyEnter(),
                 },
-                onEscape: { key: 27, handler: onEscape }, // 27 = Escape
-                onBackspace: { key: 8, handler: onBackspace }, // 8 = Backspace
+                onEscape: {
+                  key: 27,
+                  handler: () => callbacksRef.current.onEscape(),
+                }, // 27 = Escape
+                onBackspace: {
+                  key: 8,
+                  handler: () => callbacksRef.current.onBackspace(),
+                }, // 8 = Backspace
               },
             },
             emojiCompletion: {
               setEmojiPickerElement: setEmojiCompletionElement,
-              onPickEmoji,
+              onPickEmoji: (emoji: EmojiPickDataType) =>
+                callbacksRef.current.onPickEmoji(emoji),
               skinTone,
             },
             mentionCompletion: {
@@ -528,7 +567,10 @@ export const CompositionInput: React.ComponentType<Props> = props => {
 
               // force the tab handler to be prepended, otherwise it won't be
               // executed: https://github.com/quilljs/quill/issues/1967
-              keyboard.bindings[9].unshift({ key: 9, handler: onTab }); // 9 = Tab
+              keyboard.bindings[9].unshift({
+                key: 9,
+                handler: () => callbacksRef.current.onTab(),
+              }); // 9 = Tab
               // also, remove the default \t insertion binding
               keyboard.bindings[9].pop();
 
@@ -583,7 +625,13 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     <Manager>
       <Reference>
         {({ ref }) => (
-          <div className="module-composition-input__input" ref={ref}>
+          <div
+            className={classNames(
+              'module-composition-input__input',
+              getClassName(moduleClassName, '__input')
+            )}
+            ref={ref}
+          >
             <div
               ref={scrollerRef}
               onClick={focus}
@@ -591,6 +639,10 @@ export const CompositionInput: React.ComponentType<Props> = props => {
                 'module-composition-input__input__scroller',
                 large
                   ? 'module-composition-input__input__scroller--large'
+                  : null,
+                getClassName(moduleClassName, '__scroller'),
+                large
+                  ? getClassName(moduleClassName, '__scroller--large')
                   : null
               )}
             >

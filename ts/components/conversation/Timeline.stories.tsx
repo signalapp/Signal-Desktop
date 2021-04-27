@@ -249,6 +249,7 @@ const actions = () => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
+  showForwardMessageModal: action('showForwardMessageModal'),
 
   showIdentity: action('showIdentity'),
 

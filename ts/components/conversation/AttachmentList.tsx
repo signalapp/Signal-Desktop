@@ -18,10 +18,10 @@ import {
 export type Props = {
   attachments: Array<AttachmentType>;
   i18n: LocalizerType;
-  onClickAttachment: (attachment: AttachmentType) => void;
+  onAddAttachment?: () => void;
+  onClickAttachment?: (attachment: AttachmentType) => void;
+  onClose?: () => void;
   onCloseAttachment: (attachment: AttachmentType) => void;
-  onAddAttachment: () => void;
-  onClose: () => void;
 };
 
 const IMAGE_WIDTH = 120;
@@ -47,7 +47,7 @@ export const AttachmentList = ({
 
   return (
     <div className="module-attachments">
-      {attachments.length > 1 ? (
+      {onClose && attachments.length > 1 ? (
         <div className="module-attachments__header">
           <button
             type="button"
@@ -105,7 +105,7 @@ export const AttachmentList = ({
             />
           );
         })}
-        {allVisualAttachments ? (
+        {allVisualAttachments && onAddAttachment ? (
           <StagedPlaceholderAttachment onClick={onAddAttachment} i18n={i18n} />
         ) : null}
       </div>

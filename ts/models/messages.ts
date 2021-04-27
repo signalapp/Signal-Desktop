@@ -46,6 +46,7 @@ import {
 import { PropsType as ProfileChangeNotificationPropsType } from '../components/conversation/ProfileChangeNotification';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { MIMEType } from '../types/MIME';
+import { LinkPreviewType } from '../types/message/LinkPreviews';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -1139,7 +1140,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     };
   }
 
-  getPropsForPreview(): WhatIsThis {
+  getPropsForPreview(): Array<LinkPreviewType> {
     const previews = this.get('preview') || [];
 
     return previews.map(preview => ({
@@ -1590,6 +1591,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     return { text: '' };
+  }
+
+  getRawText(): string {
+    const body = (this.get('body') || '').trim();
+
+    const bodyRanges = this.processBodyRanges();
+    if (bodyRanges) {
+      return getTextWithMentions(bodyRanges, body);
+    }
+
+    return body;
   }
 
   getNotificationText(): string {

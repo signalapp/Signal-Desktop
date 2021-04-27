@@ -22,6 +22,7 @@ export type PropsDataType = {
   color?: ColorType;
   disabledReason?: ContactCheckboxDisabledReason;
   id: string;
+  isMe?: boolean;
   isChecked: boolean;
   name?: string;
   phoneNumber?: string;
@@ -49,6 +50,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     i18n,
     id,
     isChecked,
+    isMe,
     name,
     onClick,
     phoneNumber,
@@ -58,7 +60,9 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
   }) => {
     const disabled = Boolean(disabledReason);
 
-    const headerName = (
+    const headerName = isMe ? (
+      i18n('noteToSelf')
+    ) : (
       <ContactName
         phoneNumber={phoneNumber}
         name={name}
@@ -91,6 +95,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
         headerName={headerName}
         i18n={i18n}
         id={id}
+        isMe={isMe}
         isSelected={false}
         messageText={messageText}
         name={name}

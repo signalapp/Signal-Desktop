@@ -18,7 +18,6 @@ import {
   OneTimeModalState,
   PreJoinConversationType,
 } from '../ducks/conversations';
-import { LocalizerType } from '../../types/Util';
 import { getOwn } from '../../util/getOwn';
 import { deconstructLookup } from '../../util/deconstructLookup';
 import type { CallsByConversationType } from '../ducks/calling';
@@ -350,6 +349,29 @@ function canComposeConversation(conversation: ConversationType): boolean {
   );
 }
 
+export const getAllComposableConversations = createSelector(
+  getConversationLookup,
+  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
+    Object.values(conversationLookup).filter(
+      contact =>
+        !contact.isBlocked &&
+        !isConversationUnregistered(contact) &&
+        (isString(contact.name) || contact.profileSharing)
+    )
+);
+
+const getContactsAndMe = createSelector(
+  getConversationLookup,
+  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
+    Object.values(conversationLookup).filter(
+      contact =>
+        contact.type === 'direct' &&
+        !contact.isBlocked &&
+        !isConversationUnregistered(contact) &&
+        (isString(contact.name) || contact.profileSharing)
+    )
+);
+
 /**
  * This returns contacts for the composer and group members, which isn't just your primary
  * system contacts. It may include false positives, which is better than missing contacts.
@@ -381,29 +403,14 @@ const getNormalizedComposerConversationSearchTerm = createSelector(
   (searchTerm: string): string => searchTerm.trim()
 );
 
-const getNoteToSelfTitle = createSelector(getIntl, (i18n: LocalizerType) =>
-  i18n('noteToSelf').toLowerCase()
-);
-
 export const getComposeContacts = createSelector(
   getNormalizedComposerConversationSearchTerm,
-  getComposableContacts,
-  getMe,
-  getNoteToSelfTitle,
+  getContactsAndMe,
   (
     searchTerm: string,
-    contacts: Array<ConversationType>,
-    noteToSelf: ConversationType,
-    noteToSelfTitle: string
+    contacts: Array<ConversationType>
   ): Array<ConversationType> => {
-    const result: Array<ConversationType> = filterAndSortConversations(
-      contacts,
-      searchTerm
-    );
-    if (!searchTerm || noteToSelfTitle.includes(searchTerm)) {
-      result.push(noteToSelf);
-    }
-    return result;
+    return filterAndSortConversations(contacts, searchTerm);
   }
 );
 

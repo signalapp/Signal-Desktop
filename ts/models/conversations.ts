@@ -1397,6 +1397,9 @@ export class ConversationModel extends window.Backbone.Model<
       sortedGroupMembers,
       timestamp,
       title: this.getTitle()!,
+      searchableTitle: this.isMe()
+        ? window.i18n('noteToSelf')
+        : this.getTitle(),
       type: (this.isPrivate() ? 'direct' : 'group') as ConversationTypeType,
       unreadCount: this.get('unreadCount')! || 0,
     };
@@ -2235,7 +2238,7 @@ export class ConversationModel extends window.Backbone.Model<
     });
   }
 
-  getUntrusted(): Backbone.Collection {
+  getUntrusted(): Backbone.Collection<ConversationModel> {
     if (this.isPrivate()) {
       if (this.isUntrusted()) {
         return new window.Backbone.Collection([this]);
@@ -2243,16 +2246,14 @@ export class ConversationModel extends window.Backbone.Model<
       return new window.Backbone.Collection();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const results = this.contactCollection!.map(contact => {
-      if (contact.isMe()) {
-        return [false, contact];
-      }
-      return [contact.isUntrusted(), contact];
-    });
-
     return new window.Backbone.Collection(
-      results.filter(result => result[0]).map(result => result[1])
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.contactCollection!.filter(contact => {
+        if (contact.isMe()) {
+          return false;
+        }
+        return contact.isUntrusted();
+      })
     );
   }
 
@@ -3320,12 +3321,20 @@ export class ConversationModel extends window.Backbone.Model<
     quote: WhatIsThis,
     preview: WhatIsThis,
     sticker?: WhatIsThis,
-    mentions?: BodyRangesType
+    mentions?: BodyRangesType,
+    { dontClearDraft = false } = {}
   ): void {
     this.clearTypingTimers();
 
     const { clearUnreadMetrics } = window.reduxActions.conversations;
     clearUnreadMetrics(this.id);
+
+    const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
+      'desktop.mandatoryProfileSharing'
+    );
+    if (mandatoryProfileSharingEnabled && !this.get('profileSharing')) {
+      this.set({ profileSharing: true });
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
@@ -3382,15 +3391,22 @@ export class ConversationModel extends window.Backbone.Model<
         Message: window.Whisper.Message,
       });
 
+      const draftProperties = dontClearDraft
+        ? {}
+        : {
+            draft: null,
+            draftTimestamp: null,
+            lastMessage: model.getNotificationText(),
+            lastMessageStatus: 'sending' as const,
+          };
+
       this.set({
-        lastMessage: model.getNotificationText(),
-        lastMessageStatus: 'sending',
+        ...draftProperties,
         active_at: now,
         timestamp: now,
         isArchived: false,
-        draft: null,
-        draftTimestamp: null,
       });
+
       this.incrementSentMessageCount();
       window.Signal.Data.updateConversation(this.attributes);
 
