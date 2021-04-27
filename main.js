@@ -42,6 +42,8 @@ const {
   systemPreferences,
 } = electron;
 
+const animationSettings = systemPreferences.getAnimationSettings();
+
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
 console.log('Set Windows Application User Model ID (AUMID)', {
   appUserModelId,
@@ -245,6 +247,9 @@ function prepareURL(pathSegments, moreKeys) {
       contentProxyUrl: config.contentProxyUrl,
       sfuUrl: config.get('sfuUrl'),
       importMode: importMode ? true : undefined, // for stringify()
+      reducedMotionSetting: animationSettings.prefersReducedMotion
+        ? true
+        : undefined,
       serverPublicParams: config.get('serverPublicParams'),
       serverTrustRoot: config.get('serverTrustRoot'),
       appStartInitialSpellcheckSetting,

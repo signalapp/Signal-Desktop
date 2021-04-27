@@ -16525,6 +16525,15 @@
     "reasonDetail": "Doesn't refer to a DOM element."
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/GIF.js",
+    "line": "    const videoRef = react_1.useRef(null);",
+    "lineNumber": 39,
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-04-17T01:47:31.419Z",
+    "reasonDetail": "Used for managing playback of GIF video"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/InlineNotificationWrapper.js",
     "line": "        this.focusRef = react_1.default.createRef();",
@@ -16546,7 +16555,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 73,
+    "lineNumber": 75,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T20:05:07.474Z",
     "reasonDetail": "Used for managing focus only"
@@ -16555,7 +16564,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.audioButtonRef = react_1.default.createRef();",
-    "lineNumber": 74,
+    "lineNumber": 76,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T20:05:07.474Z",
     "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
@@ -16564,7 +16573,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.reactionsContainerRef = react_1.default.createRef();",
-    "lineNumber": 75,
+    "lineNumber": 77,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"
@@ -16573,7 +16582,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 246,
+    "lineNumber": 250,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for managing focus only"
@@ -16582,7 +16591,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();",
-    "lineNumber": 248,
+    "lineNumber": 252,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
@@ -16591,7 +16600,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public reactionsContainerRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 250,
+    "lineNumber": 254,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"

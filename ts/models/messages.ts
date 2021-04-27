@@ -1477,7 +1477,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const attachment = attachments[0] || {};
       const { contentType } = attachment;
 
-      if (contentType === MIME.IMAGE_GIF) {
+      if (contentType === MIME.IMAGE_GIF || Attachment.isGIF(attachments)) {
         return {
           text: body || window.i18n('message--getNotificationText--gif'),
           emoji: '🎡',

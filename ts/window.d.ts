@@ -263,6 +263,9 @@ declare global {
           deviceName: string;
         }
       | undefined;
+    Accessibility: {
+      reducedMotionSetting: boolean;
+    };
     Signal: {
       Backbone: any;
       AttachmentDownloads: {
@@ -376,6 +379,7 @@ declare global {
 
           isVoiceMessage: (attachments: unknown) => boolean;
           isImage: typeof Attachment.isImage;
+          isGIF: typeof Attachment.isGIF;
           isVideo: typeof Attachment.isVideo;
           isAudio: typeof Attachment.isAudio;
 

@@ -11,7 +11,7 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
-import { LocalizerType } from './Util';
+import { LocalizerType, ThemeType } from './Util';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -30,7 +30,7 @@ export type AttachmentType = {
   /** For messages not already on disk, this will be a data url */
   url?: string;
   size?: number;
-  fileSize?: string;
+  fileSize?: number;
   pending?: boolean;
   width?: number;
   height?: number;
@@ -157,20 +157,33 @@ export function hasImage(
   );
 }
 
-export function isVideo(
-  attachments?: Array<AttachmentType>
-): boolean | undefined {
-  return attachments && isVideoAttachment(attachments[0]);
+export function isVideo(attachments?: Array<AttachmentType>): boolean {
+  if (!attachments || attachments.length === 0) {
+    return false;
+  }
+  return isVideoAttachment(attachments[0]);
 }
 
-export function isVideoAttachment(
-  attachment?: AttachmentType
-): boolean | undefined {
-  return (
-    attachment &&
-    attachment.contentType &&
-    isVideoTypeSupported(attachment.contentType)
-  );
+export function isVideoAttachment(attachment?: AttachmentType): boolean {
+  if (!attachment || !attachment.contentType) {
+    return false;
+  }
+  return isVideoTypeSupported(attachment.contentType);
+}
+
+export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
+  if (!attachments || attachments.length !== 1) {
+    return false;
+  }
+
+  const [attachment] = attachments;
+
+  const flag = SignalService.AttachmentPointer.Flags.GIF;
+  const hasFlag =
+    // eslint-disable-next-line no-bitwise
+    !is.undefined(attachment.flags) && (attachment.flags & flag) === flag;
+
+  return hasFlag && isVideoAttachment(attachment);
 }
 
 export function hasNotDownloaded(attachment?: AttachmentType): boolean {
@@ -280,9 +293,10 @@ export function getAlt(
   attachment: AttachmentType,
   i18n: LocalizerType
 ): string {
-  return isVideoAttachment(attachment)
-    ? i18n('videoAttachmentAlt')
-    : i18n('imageAttachmentAlt');
+  if (isVideoAttachment(attachment)) {
+    return i18n('videoAttachmentAlt');
+  }
+  return i18n('imageAttachmentAlt');
 }
 
 // Migration-related attachment stuff
@@ -444,4 +458,11 @@ export const getUploadSizeLimitKb = (contentType: MIME.MIMEType): number => {
     return 6000;
   }
   return 100000;
+};
+
+export const defaultBlurHash = (theme: ThemeType = ThemeType.light): string => {
+  if (theme === ThemeType.dark) {
+    return 'L05OQnoffQofoffQfQfQfQfQfQfQ';
+  }
+  return 'L1Q]+w-;fQ-;~qfQfQfQfQfQfQfQ';
 };

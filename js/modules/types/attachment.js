@@ -215,6 +215,7 @@ exports.deleteData = deleteOnDisk => {
 
 exports.isImage = AttachmentTS.isImage;
 exports.isVideo = AttachmentTS.isVideo;
+exports.isGIF = AttachmentTS.isGIF;
 exports.isAudio = AttachmentTS.isAudio;
 exports.isVoiceMessage = AttachmentTS.isVoiceMessage;
 exports.getUploadSizeLimitKb = AttachmentTS.getUploadSizeLimitKb;

@@ -8,6 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { boolean, number, text, select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
+import { SignalService } from '../../protobuf';
 import { Colors } from '../../types/Colors';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import { Message, Props, AudioAttachmentProps } from './Message';
@@ -78,6 +79,7 @@ const createAuthorProp = (
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
   author: overrideProps.author || createAuthorProp(),
+  reducedMotion: boolean('reducedMotion', false),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,
   canDownload: true,
@@ -724,6 +726,63 @@ story.add('Image with Caption', () => {
     ],
     status: 'sent',
     text: 'This is my home.',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('GIF', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        url: '/fixtures/cat-gif.mp4',
+        width: 400,
+        height: 332,
+      },
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Not Downloaded GIF', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        fileSize: 188610,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 400,
+        height: 332,
+      },
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Pending GIF', () => {
+  const props = createProps({
+    attachments: [
+      {
+        pending: true,
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        fileSize: 188610,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 400,
+        height: 332,
+      },
+    ],
+    status: 'sent',
   });
 
   return renderBothDirections(props);
