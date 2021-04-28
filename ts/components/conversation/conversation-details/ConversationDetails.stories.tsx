@@ -68,8 +68,8 @@ const createProps = (hasGroupLink = false): Props => ({
   updateGroupAttributes: async () => {
     action('updateGroupAttributes')();
   },
-  onBlockAndDelete: action('onBlockAndDelete'),
-  onDelete: action('onDelete'),
+  onBlock: action('onBlock'),
+  onLeave: action('onLeave'),
 });
 
 story.add('Basic', () => {

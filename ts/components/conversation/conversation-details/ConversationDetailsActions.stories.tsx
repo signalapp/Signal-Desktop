@@ -28,8 +28,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     ? overrideProps.cannotLeaveBecauseYouAreLastAdmin
     : false,
   conversationTitle: overrideProps.conversationTitle || '',
-  onBlockAndDelete: action('onBlockAndDelete'),
-  onDelete: action('onDelete'),
+  onBlock: action('onBlock'),
+  onLeave: action('onLeave'),
   i18n,
 });
 

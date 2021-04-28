@@ -3067,22 +3067,19 @@ Whisper.ConversationView = Whisper.View.extend({
     // these methods are used in more than one place and should probably be
     // dried up and hoisted to methods on ConversationView
 
-    const onDelete = () => {
+    const onLeave = () => {
       this.longRunningTaskWrapper({
-        name: 'onDelete',
-        task: this.model.syncMessageRequestResponse.bind(
-          this.model,
-          messageRequestEnum.DELETE
-        ),
+        name: 'onLeave',
+        task: () => this.model.leaveGroupV2(),
       });
     };
 
-    const onBlockAndDelete = () => {
+    const onBlock = () => {
       this.longRunningTaskWrapper({
-        name: 'onBlockAndDelete',
+        name: 'onBlock',
         task: this.model.syncMessageRequestResponse.bind(
           this.model,
-          messageRequestEnum.BLOCK_AND_DELETE
+          messageRequestEnum.BLOCK
         ),
       });
     };
@@ -3110,8 +3107,8 @@ Whisper.ConversationView = Whisper.View.extend({
       updateGroupAttributes: conversation.updateGroupAttributesV2.bind(
         conversation
       ),
-      onDelete,
-      onBlockAndDelete,
+      onLeave,
+      onBlock,
     };
 
     const view = new Whisper.ReactWrapperView({

@@ -36,8 +36,8 @@ export type SmartConversationDetailsProps = {
       title?: string;
     }>
   ) => Promise<void>;
-  onBlockAndDelete: () => void;
-  onDelete: () => void;
+  onBlock: () => void;
+  onLeave: () => void;
 };
 
 const mapStateToProps = (

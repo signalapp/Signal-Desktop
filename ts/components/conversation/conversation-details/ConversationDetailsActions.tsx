@@ -15,16 +15,16 @@ import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 export type Props = {
   cannotLeaveBecauseYouAreLastAdmin: boolean;
   conversationTitle: string;
-  onBlockAndDelete: () => void;
-  onDelete: () => void;
+  onBlock: () => void;
+  onLeave: () => void;
   i18n: LocalizerType;
 };
 
 export const ConversationDetailsActions: React.ComponentType<Props> = ({
   cannotLeaveBecauseYouAreLastAdmin,
   conversationTitle,
-  onBlockAndDelete,
-  onDelete,
+  onBlock,
+  onLeave,
   i18n,
 }) => {
   const [confirmingLeave, setConfirmingLeave] = React.useState<boolean>(false);
@@ -94,7 +94,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
               text: i18n(
                 'ConversationDetailsActions--leave-group-modal-confirm'
               ),
-              action: onDelete,
+              action: onLeave,
               style: 'affirmative',
             },
           ]}
@@ -113,7 +113,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
               text: i18n(
                 'ConversationDetailsActions--block-group-modal-confirm'
               ),
-              action: onBlockAndDelete,
+              action: onBlock,
               style: 'affirmative',
             },
           ]}

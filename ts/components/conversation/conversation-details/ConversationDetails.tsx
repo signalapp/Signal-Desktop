@@ -55,8 +55,8 @@ export type StateProps = {
       title?: string;
     }>
   ) => Promise<void>;
-  onBlockAndDelete: () => void;
-  onDelete: () => void;
+  onBlock: () => void;
+  onLeave: () => void;
 };
 
 export type Props = StateProps;
@@ -78,8 +78,8 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   showPendingInvites,
   showLightboxForMedia,
   updateGroupAttributes,
-  onBlockAndDelete,
-  onDelete,
+  onBlock,
+  onLeave,
 }) => {
   const [modalState, setModalState] = useState<ModalState>(
     ModalState.NothingOpen
@@ -301,8 +301,8 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         i18n={i18n}
         cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
         conversationTitle={conversation.title}
-        onDelete={onDelete}
-        onBlockAndDelete={onBlockAndDelete}
+        onLeave={onLeave}
+        onBlock={onBlock}
       />
 
       {modalNode}
