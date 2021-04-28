@@ -388,7 +388,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                     <AvatarPopup
                       innerRef={ref}
                       i18n={i18n}
-                      style={style}
+                      style={{ ...style, zIndex: 1 }}
                       color={color}
                       conversationType="direct"
                       name={name}

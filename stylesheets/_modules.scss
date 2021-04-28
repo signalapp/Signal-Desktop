@@ -9568,6 +9568,7 @@ button.module-image__border-overlay:focus {
 
 .module-avatar-popup {
   min-width: 240px;
+  max-width: $left-pane-width;
 
   border-radius: 4px;
   padding-bottom: 4px;
@@ -9596,6 +9597,7 @@ button.module-image__border-overlay:focus {
 
 .module-avatar-popup__profile__text {
   margin-left: 10px;
+  overflow: hidden;
 }
 
 .module-avatar-popup__profile__name {
@@ -9610,6 +9612,13 @@ button.module-image__border-overlay:focus {
   @include dark-theme {
     color: $color-gray-25;
   }
+}
+
+.module-avatar-popup__profile__name,
+.module-avatar-popup__profile__number {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .module-avatar-popup__divider {
