@@ -1649,6 +1649,43 @@ async function updateToSchemaVersion26(currentVersion: number, db: Database) {
   })();
 }
 
+async function updateToSchemaVersion27(currentVersion: number, db: Database) {
+  if (currentVersion >= 27) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      DELETE FROM messages_fts WHERE rowid IN
+        (SELECT rowid FROM messages WHERE body IS NULL);
+
+      DROP TRIGGER messages_on_update;
+
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN
+        new.body IS NULL OR
+        ((old.body IS NULL OR new.body != old.body) AND
+         (new.isViewOnce IS NULL OR new.isViewOnce != 1))
+      BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        INSERT INTO messages_fts
+        (rowid, body)
+        VALUES
+        (new.rowid, new.body);
+      END;
+
+      CREATE TRIGGER messages_on_view_once_update AFTER UPDATE ON messages
+      WHEN
+        new.body IS NOT NULL AND new.isViewOnce = 1
+      BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+      END;
+    `);
+
+    db.pragma('user_version = 27');
+  })();
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1676,6 +1713,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion24,
   updateToSchemaVersion25,
   updateToSchemaVersion26,
+  updateToSchemaVersion27,
 ];
 
 function updateSchema(db: Database): void {
