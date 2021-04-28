@@ -364,7 +364,7 @@ async function generateManifest(
 
     const localKeys: Set<string> = new Set();
     manifestRecordKeys.forEach((identifier: ManifestRecordIdentifierClass) => {
-      const storageID = arrayBufferToBase64(identifier.raw.toArrayBuffer());
+      const storageID = arrayBufferToBase64(identifier.raw);
       localKeys.add(storageID);
 
       if (!remoteKeys.has(storageID)) {
