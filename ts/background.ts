@@ -13,6 +13,7 @@ import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import { ConversationModel } from './models/conversations';
 import { createBatcher } from './util/batcher';
+import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1755,7 +1756,7 @@ export async function startApp(): Promise<void> {
         }
 
         try {
-          const lonelyE164s = window
+          const lonelyE164Conversations = window
             .getConversations()
             .filter(c =>
               Boolean(
@@ -1764,30 +1765,12 @@ export async function startApp(): Promise<void> {
                   !c.get('uuid') &&
                   !c.isEverUnregistered()
               )
-            )
-            .map(c => c.get('e164'))
-            .filter(Boolean) as Array<string>;
-
-          if (lonelyE164s.length > 0) {
-            const lookup = await window.textsecure.messaging.getUuidsForE164s(
-              lonelyE164s
             );
-            const e164s = Object.keys(lookup);
-            e164s.forEach(e164 => {
-              const uuid = lookup[e164];
-              if (!uuid) {
-                const byE164 = window.ConversationController.get(e164);
-                if (byE164) {
-                  byE164.setUnregistered();
-                }
-              }
-              window.ConversationController.ensureContactIds({
-                e164,
-                uuid,
-                highTrust: true,
-              });
-            });
-          }
+          await updateConversationsWithUuidLookup({
+            conversationController: window.ConversationController,
+            conversations: lonelyE164Conversations,
+            messaging: window.textsecure.messaging,
+          });
         } catch (error) {
           window.log.error(
             'connect: Error fetching UUIDs for lonely e164s:',

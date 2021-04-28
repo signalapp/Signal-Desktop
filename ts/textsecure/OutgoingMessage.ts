@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable guard-for-in */
@@ -38,6 +38,7 @@ import {
 } from './Errors';
 import { isValidNumber } from '../types/PhoneNumber';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
+import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 
 export const enum SenderCertificateMode {
   WithE164,
@@ -652,29 +653,26 @@ export default class OutgoingMessage {
             'sendToIdentifier: window.textsecure.messaging is not available!'
           );
         }
-        try {
-          const lookup = await window.textsecure.messaging.getUuidsForE164s([
-            identifier,
-          ]);
-          const uuid = lookup[identifier];
-          if (uuid) {
-            window.ConversationController.ensureContactIds({
-              uuid,
-              e164: identifier,
-              highTrust: true,
-            });
-            identifier = uuid;
-          } else {
-            const c = window.ConversationController.get(identifier);
-            if (c) {
-              c.setUnregistered();
-            }
 
+        try {
+          await updateConversationsWithUuidLookup({
+            conversationController: window.ConversationController,
+            conversations: [
+              window.ConversationController.getOrCreate(identifier, 'private'),
+            ],
+            messaging: window.textsecure.messaging,
+          });
+
+          const uuid = window.ConversationController.get(identifier)?.get(
+            'uuid'
+          );
+          if (!uuid) {
             throw new UnregisteredUserError(
               identifier,
               new Error('User is not registered')
             );
           }
+          identifier = uuid;
         } catch (error) {
           window.log.error(
             `sentToIdentifier: Failed to fetch UUID for identifier ${identifier}`,
