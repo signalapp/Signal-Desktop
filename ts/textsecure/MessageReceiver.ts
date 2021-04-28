@@ -611,8 +611,9 @@ class MessageReceiverInner extends EventTarget {
       envelope.source = envelope.source || item.source;
       envelope.sourceUuid = envelope.sourceUuid || item.sourceUuid;
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
-      envelope.serverTimestamp =
-        envelope.serverTimestamp || item.serverTimestamp;
+      envelope.serverTimestamp = envelope.serverTimestamp
+        ? envelope.serverTimestamp.toNumber()
+        : item.serverTimestamp;
 
       const { decrypted } = item;
       if (decrypted) {
