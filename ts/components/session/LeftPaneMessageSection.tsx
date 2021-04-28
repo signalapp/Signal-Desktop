@@ -29,7 +29,7 @@ import {
   getOpenGroupV2ConversationId,
   openGroupV2CompleteURLRegex,
 } from '../../opengroup/utils/OpenGroupUtils';
-import { joinOpenGroupV2, parseOpenGroupV2 } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
+import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
 
 export interface Props {
   searchTerm: string;
@@ -423,34 +423,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private async handleOpenGroupJoinV2(serverUrlV2: string) {
-    const parsedRoom = parseOpenGroupV2(serverUrlV2);
-    if (!parsedRoom) {
-      ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
-      return;
-    }
-    try {
-      const conversationID = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
-      ToastUtils.pushToastInfo('connectingToServer', window.i18n('connectingToServer'));
-      this.setState({ loading: true });
-      await joinOpenGroupV2(parsedRoom, false);
+    const loadingCallback = (loading: boolean) => {
+      this.setState({ loading });
+    };
+    const joinSuccess = await joinOpenGroupV2WithUIEvents(serverUrlV2, true, loadingCallback);
 
-      const isConvoCreated = ConversationController.getInstance().get(conversationID);
-      if (isConvoCreated) {
-        ToastUtils.pushToastSuccess(
-          'connectToServerSuccess',
-          window.i18n('connectToServerSuccess')
-        );
-        return true;
-      } else {
-        ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
-      }
-    } catch (error) {
-      window.log.warn('got error while joining open group:', error);
-      ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
-    } finally {
-      this.setState({ loading: false });
-    }
-    return false;
+    return joinSuccess;
   }
 
   private async handleJoinChannelButtonClick(serverUrl: string) {

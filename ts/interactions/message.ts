@@ -1,11 +1,17 @@
 import _ from 'lodash';
 import { getV2OpenGroupRoom } from '../data/opengroups';
-import { ConversationModel } from '../models/conversation';
+import { ConversationModel, ConversationType } from '../models/conversation';
+import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 import { ApiV2 } from '../opengroup/opengroupV2';
-import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
+import {
+  joinOpenGroupV2WithUIEvents,
+  parseOpenGroupV2,
+} from '../opengroup/opengroupV2/JoinOpenGroupV2';
+import { isOpenGroupV2, openGroupV2CompleteURLRegex } from '../opengroup/utils/OpenGroupUtils';
 import { ConversationController } from '../session/conversations';
 import { PubKey } from '../session/types';
 import { ToastUtils } from '../session/utils';
+import { openConversationExternal } from '../state/ducks/conversations';
 
 export function banUser(userToBan: string, conversation?: ConversationModel) {
   let pubKeyToBan: PubKey;
@@ -190,3 +196,66 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
     window.log.error('Got error while adding moderator:', e);
   }
 }
+
+async function acceptOpenGroupInvitationV1(serverAddress: string) {
+  try {
+    if (serverAddress.length === 0 || !OpenGroup.validate(serverAddress)) {
+      ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
+      return;
+    }
+
+    // Already connected?
+    if (OpenGroup.getConversation(serverAddress)) {
+      ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
+      return;
+    }
+    // To some degree this has been copy-pasted from LeftPaneMessageSection
+    const rawServerUrl = serverAddress.replace(/^https?:\/\//i, '').replace(/[/\\]+$/i, '');
+    const sslServerUrl = `https://${rawServerUrl}`;
+    const conversationId = `publicChat:1@${rawServerUrl}`;
+
+    const conversationExists = ConversationController.getInstance().get(conversationId);
+    if (conversationExists) {
+      window.log.warn('We are already a member of this public chat');
+      ToastUtils.pushAlreadyMemberOpenGroup();
+
+      return;
+    }
+
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      conversationId,
+      ConversationType.GROUP
+    );
+    await conversation.setPublicSource(sslServerUrl, 1);
+
+    const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
+      sslServerUrl,
+      1,
+      conversationId
+    );
+    if (!channelAPI) {
+      window.log.warn(`Could not connect to ${serverAddress}`);
+      return;
+    }
+    openConversationExternal(conversationId);
+  } catch (e) {
+    window.log.warn('failed to join opengroupv1 from invitation', e);
+    ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
+  }
+}
+
+const acceptOpenGroupInvitationV2 = async (completeUrl: string) => {
+  // this function does not throw, and will showToasts if anything happens
+  await joinOpenGroupV2WithUIEvents(completeUrl, true);
+};
+
+/**
+ * Accepts a v1 (channelid defaults to 1) url or a v2 url (with pubkey)
+ */
+export const acceptOpenGroupInvitation = async (completeUrl: string) => {
+  if (completeUrl.match(openGroupV2CompleteURLRegex)) {
+    await acceptOpenGroupInvitationV2(completeUrl);
+  } else {
+    await acceptOpenGroupInvitationV1(completeUrl);
+  }
+};

@@ -3,14 +3,19 @@ import React from 'react';
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
-import { DefaultTheme, withTheme } from 'styled-components';
-
+import { DefaultTheme } from 'styled-components';
+import { ConversationController } from '../../session/conversations';
+import { ToastUtils, UserUtils } from '../../session/utils';
+import { initiateGroupUpdate } from '../../session/group';
+import { ConversationModel, ConversationType } from '../../models/conversation';
+import { getCompleteUrlForV2ConvoId } from '../../interactions/conversation';
+import _ from 'lodash';
 interface Props {
   contactList: Array<any>;
   chatName: string;
-  onSubmit: any;
   onClose: any;
   theme: DefaultTheme;
+  convo: ConversationModel;
 }
 
 interface State {
@@ -25,6 +30,8 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
     this.closeDialog = this.closeDialog.bind(this);
     this.onClickOK = this.onClickOK.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
+    this.submitForOpenGroup = this.submitForOpenGroup.bind(this);
+    this.submitForClosedGroup = this.submitForClosedGroup.bind(this);
 
     let contacts = this.props.contactList;
 
@@ -89,11 +96,91 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
     );
   }
 
+  private async submitForOpenGroup(pubkeys: Array<string>) {
+    const { convo } = this.props;
+    if (convo.isOpenGroupV1()) {
+      const v1 = convo.toOpenGroupV1();
+      const groupInvitation = {
+        serverAddress: v1.server,
+        serverName: convo.getName(),
+        channelId: 1, // always 1
+      };
+      pubkeys.forEach(async pubkeyStr => {
+        const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
+          pubkeyStr,
+          ConversationType.PRIVATE
+        );
+
+        if (privateConvo) {
+          void privateConvo.sendMessage('', null, null, null, groupInvitation);
+        }
+      });
+    } else if (convo.isOpenGroupV2()) {
+      const v2 = convo.toOpenGroupV2();
+      const completeUrl = await getCompleteUrlForV2ConvoId(convo.id);
+      const groupInvitation = {
+        serverAddress: completeUrl,
+        serverName: convo.getName(),
+      };
+      pubkeys.forEach(async pubkeyStr => {
+        const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
+          pubkeyStr,
+          ConversationType.PRIVATE
+        );
+
+        if (privateConvo) {
+          void privateConvo.sendMessage('', null, null, null, groupInvitation);
+        }
+      });
+    }
+  }
+
+  private async submitForClosedGroup(pubkeys: Array<string>) {
+    const { convo } = this.props;
+    // FIXME audric is this dialog still used for closed groups? I think
+    // public group chats
+
+    // private group chats
+    const ourPK = UserUtils.getOurPubKeyStrFromCache();
+    let existingMembers = convo.get('members') || [];
+    // at least make sure it's an array
+    if (!Array.isArray(existingMembers)) {
+      existingMembers = [];
+    }
+    existingMembers = _.compact(existingMembers);
+    const newMembers = pubkeys.filter(d => !existingMembers.includes(d));
+
+    if (newMembers.length > 0) {
+      // Do not trigger an update if there is too many members
+      if (newMembers.length + existingMembers.length > window.CONSTANTS.CLOSED_GROUP_SIZE_LIMIT) {
+        ToastUtils.pushTooManyMembers();
+        return;
+      }
+
+      const allMembers = _.concat(existingMembers, newMembers, [ourPK]);
+      const uniqMembers = _.uniq(allMembers);
+
+      const groupId = convo.get('id');
+      const groupName = convo.get('name');
+
+      await initiateGroupUpdate(
+        groupId,
+        groupName || window.i18n('unknown'),
+        uniqMembers,
+        undefined
+      );
+    }
+  }
+
   private onClickOK() {
     const selectedContacts = this.state.contactList.filter(d => d.checkmarked).map(d => d.id);
 
     if (selectedContacts.length > 0) {
-      this.props.onSubmit(selectedContacts);
+      if (this.props.convo.isPublic()) {
+        void this.submitForOpenGroup(selectedContacts);
+      } else {
+        void this.submitForClosedGroup(selectedContacts);
+      }
     }
 
     this.closeDialog();

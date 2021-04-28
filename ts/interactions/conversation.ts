@@ -11,15 +11,27 @@ import { ApiV2 } from '../opengroup/opengroupV2';
 
 import _ from 'lodash';
 
+export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
+  if (convoId.match(openGroupV2ConversationIdRegex)) {
+    // this is a v2 group, just build the url
+    const roomInfos = await getV2OpenGroupRoom(convoId);
+    if (roomInfos) {
+      const fullUrl = getCompleteUrlFromRoom(roomInfos);
+
+      return fullUrl;
+    }
+  }
+  return undefined;
+};
+
 export async function copyPublicKey(convoId: string) {
   if (convoId.match(openGroupPrefixRegex)) {
     // open group v1 or v2
     if (convoId.match(openGroupV2ConversationIdRegex)) {
       // this is a v2 group, just build the url
-      const roomInfos = await getV2OpenGroupRoom(convoId);
-      if (roomInfos) {
-        const fullUrl = getCompleteUrlFromRoom(roomInfos);
-        window.clipboard.writeText(fullUrl);
+      const completeUrl = await getCompleteUrlForV2ConvoId(convoId);
+      if (completeUrl) {
+        window.clipboard.writeText(completeUrl);
 
         ToastUtils.pushCopiedToClipBoard();
         return;

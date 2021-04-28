@@ -664,9 +664,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           const groupInvitMessage = new GroupInvitationMessage({
             identifier: id,
             timestamp: sentAt,
-            serverName: groupInvitation.name,
-            channelId: groupInvitation.channelId,
-            serverAddress: groupInvitation.address,
+            serverName: groupInvitation.serverName,
+            channelId: 1,
+            serverAddress: groupInvitation.serverAddress,
             expireTimer: this.get('expireTimer'),
           });
           // we need the return await so that errors are caught in the catch {}
@@ -706,7 +706,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     attachments: any,
     quote: any,
     preview: any,
-    groupInvitation = null
+    groupInvitation: any = null
   ) {
     this.clearTypingTimers();
 
@@ -770,6 +770,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return null;
     }
     this.queueJob(async () => {
+      console.warn('sending groupinvi', messageModel);
       await this.sendMessageJob(messageModel, expireTimer);
     });
     return null;

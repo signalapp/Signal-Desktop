@@ -30,6 +30,7 @@ import {
   uploadLinkPreviewsV2,
   uploadQuoteThumbnailsV2,
 } from '../session/utils/AttachmentsV2';
+import { acceptOpenGroupInvitation } from '../interactions/message';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -280,17 +281,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (!direction) {
       direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
     }
+    const serverAddress = invitation.serverAddress?.length
+      ? `${invitation.serverAddress.slice(0, 30)}...`
+      : '';
 
     return {
       serverName: invitation.serverName,
-      serverAddress: invitation.serverAddress,
+      serverAddress,
       direction,
       onClick: () => {
-        window.Whisper.events.trigger(
-          'publicChatInvitationAccepted',
-          invitation.serverAddress,
-          invitation.channelId
-        );
+        void acceptOpenGroupInvitation(invitation.serverAddress);
       },
     };
   }

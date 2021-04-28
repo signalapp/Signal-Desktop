@@ -4,7 +4,7 @@ import {
   removeV2OpenGroupRoom,
 } from '../../data/opengroups';
 import { ConversationController } from '../../session/conversations';
-import { PromiseUtils } from '../../session/utils';
+import { PromiseUtils, ToastUtils } from '../../session/utils';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import {
   getOpenGroupV2ConversationId,
@@ -58,10 +58,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
  * @param room The room id to join
  * @param publicKey The server publicKey. It comes from the joining link. (or is already here for the default open group server)
  */
-export async function joinOpenGroupV2(
-  room: OpenGroupV2Room,
-  fromSyncMessage: boolean
-): Promise<void> {
+async function joinOpenGroupV2(room: OpenGroupV2Room, fromSyncMessage: boolean): Promise<void> {
   if (!room.serverUrl || !room.roomId || room.roomId.length < 2 || !room.serverPublicKey) {
     return;
   }
@@ -109,4 +106,73 @@ export async function joinOpenGroupV2(
     window.log.error('Could not join open group v2', e);
     throw new Error(e);
   }
+}
+
+/**
+ * This function does not throw
+ * This function can be used to join an opengroupv2 server, from a user initiated click or from a syncMessage.
+ * If the user made the request, the UI callback needs to be set.
+ * the callback will be called on loading events (start and stop joining). Also, this callback being set defines if we will trigger a sync message or not.
+ *
+ * Basically,
+ *  - user invitation click => uicallback set
+ *  - user join manually from the join open group field => uicallback set
+ *  - joining from a sync message => no uicallback
+ *
+ *
+ * return true if the room did not exist before, and we join it correctly
+ */
+export async function joinOpenGroupV2WithUIEvents(
+  completeUrl: string,
+  showToasts: boolean,
+  uiCallback?: (loading: boolean) => void
+): Promise<boolean> {
+  const parsedRoom = parseOpenGroupV2(completeUrl);
+  if (!parsedRoom) {
+    if (showToasts) {
+      ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
+    }
+    return false;
+  }
+  try {
+    const conversationID = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
+    if (ConversationController.getInstance().get(conversationID)) {
+      if (showToasts) {
+        ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
+      }
+      return false;
+    }
+    if (showToasts) {
+      ToastUtils.pushToastInfo('connectingToServer', window.i18n('connectingToServer'));
+    }
+    if (uiCallback) {
+      uiCallback(true);
+    }
+    await joinOpenGroupV2(parsedRoom, showToasts);
+
+    const isConvoCreated = ConversationController.getInstance().get(conversationID);
+    if (isConvoCreated) {
+      if (showToasts) {
+        ToastUtils.pushToastSuccess(
+          'connectToServerSuccess',
+          window.i18n('connectToServerSuccess')
+        );
+      }
+      return true;
+    } else {
+      if (showToasts) {
+        ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
+      }
+    }
+  } catch (error) {
+    window.log.warn('got error while joining open group:', error);
+    if (showToasts) {
+      ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
+    }
+  } finally {
+    if (uiCallback) {
+      uiCallback(false);
+    }
+  }
+  return false;
 }
