@@ -13,7 +13,8 @@ function createTrayIcon(getMainWindow, messages) {
     __dirname,
     '..',
     'images',
-    `icon_${iconSize}.png`
+    'session',
+    `session_icon_${iconSize}.png`
   );
 
   tray = new Tray(iconNoNewMessages);
