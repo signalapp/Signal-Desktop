@@ -13,7 +13,6 @@ import { DefaultTheme } from 'styled-components';
 import { UserUtils } from '../../session/utils';
 
 export enum SessionClosableOverlayType {
-  Contact = 'contact',
   Message = 'message',
   OpenGroup = 'open-group',
   ClosedGroup = 'closed-group',
@@ -109,7 +108,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       onButtonClick,
     } = this.props;
 
-    const isAddContactView = overlayMode === SessionClosableOverlayType.Contact;
     const isMessageView = overlayMode === SessionClosableOverlayType.Message;
     const isOpenGroupView = overlayMode === SessionClosableOverlayType.OpenGroup;
     const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
@@ -122,13 +120,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     switch (overlayMode) {
       case 'message':
         title = window.i18n('newSession');
-        buttonText = window.i18n('next');
-        descriptionLong = window.i18n('usersCanShareTheir...');
-        subtitle = window.i18n('enterSessionID');
-        placeholder = window.i18n('enterSessionIDOfRecipient');
-        break;
-      case 'contact':
-        title = window.i18n('addContact');
         buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
         subtitle = window.i18n('enterSessionID');
@@ -235,12 +226,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
             searchResults={searchResults}
             theme={this.props.theme}
           />
-        )}
-
-        {isAddContactView && <PillDivider text={window.i18n('yourSessionID')} />}
-
-        {isAddContactView && (
-          <SessionIdEditable editable={false} placeholder="" text={ourSessionID} />
         )}
 
         <SessionButton
