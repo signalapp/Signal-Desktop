@@ -117,6 +117,7 @@ const channelsToMake = {
   removeAllMessagesInConversation,
 
   getMessageBySender,
+  getMessageBySenderAndServerId,
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
@@ -720,14 +721,37 @@ export async function getAllMessageIds(): Promise<Array<string>> {
   return ids;
 }
 
-export async function getMessageBySender(
-  // eslint-disable-next-line camelcase
-  { source, sourceDevice, sent_at }: { source: string; sourceDevice: number; sent_at: number }
-): Promise<MessageModel | null> {
+export async function getMessageBySender({
+  source,
+  sourceDevice,
+  sentAt,
+}: {
+  source: string;
+  sourceDevice: number;
+  sentAt: number;
+}): Promise<MessageModel | null> {
   const messages = await channels.getMessageBySender({
     source,
     sourceDevice,
-    sent_at,
+    sentAt,
+  });
+  if (!messages || !messages.length) {
+    return null;
+  }
+
+  return new MessageModel(messages[0]);
+}
+
+export async function getMessageBySenderAndServerId({
+  source,
+  serverId,
+}: {
+  source: string;
+  serverId: number;
+}): Promise<MessageModel | null> {
+  const messages = await channels.getMessageBySenderAndServerId({
+    source,
+    serverId,
   });
   if (!messages || !messages.length) {
     return null;

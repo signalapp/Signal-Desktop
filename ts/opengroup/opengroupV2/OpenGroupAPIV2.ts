@@ -415,7 +415,6 @@ export const deleteSingleMessage = async (
   };
   const messageDeletedResult = await sendOpenGroupV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(messageDeletedResult) === 200;
-  console.warn('messageDeletedResult', messageDeletedResult);
   return isOk;
 };
 

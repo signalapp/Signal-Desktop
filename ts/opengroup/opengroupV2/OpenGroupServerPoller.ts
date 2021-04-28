@@ -177,8 +177,6 @@ const handleDeletions = async (
   const allRowIds = (deleted || []).map(d => d.id);
   const maxDeletedId = Math.max(...allRowIds);
   try {
-    console.warn('We got deletion to do:', deleted, maxDeletedId);
-
     const messageIds = await getMessageIdsFromServerIds(allIdsRemoved, conversationId);
 
     await Promise.all(
@@ -253,7 +251,6 @@ const handleCompactPollResults = async (
 
       // we want to do deletions even if we somehow lost the convo.
       if (res.deletions.length) {
-        console.warn('res.deletions', res.deletions);
         // new deletions
         await handleDeletions(res.deletions, convoId, convo);
       }

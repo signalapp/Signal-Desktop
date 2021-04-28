@@ -72,6 +72,7 @@ module.exports = {
   getUnreadByConversation,
   getUnreadCountByConversation,
   getMessageBySender,
+  getMessageBySenderAndServerId,
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
@@ -1982,7 +1983,7 @@ async function getAllMessageIds() {
 }
 
 // eslint-disable-next-line camelcase
-async function getMessageBySender({ source, sourceDevice, sent_at }) {
+async function getMessageBySender({ source, sourceDevice, sentAt }) {
   const rows = await db.all(
     `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
@@ -1991,7 +1992,21 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
     {
       $source: source,
       $sourceDevice: sourceDevice,
-      $sent_at: sent_at,
+      $sent_at: sentAt,
+    }
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getMessageBySenderAndServerId({ source, serverId }) {
+  const rows = await db.all(
+    `SELECT json FROM ${MESSAGES_TABLE} WHERE
+      source = $source AND
+      serverId = $serverId;`,
+    {
+      $source: source,
+      $serverId: serverId,
     }
   );
 

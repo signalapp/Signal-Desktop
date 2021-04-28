@@ -13,7 +13,7 @@ import { ConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
-import { getMessageBySender } from '../../ts/data/data';
+import { getMessageBySender, getMessageBySenderAndServerId } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
 
@@ -347,12 +347,19 @@ export async function isMessageDuplicate({
   const { Errors } = window.Signal.Types;
   // serverId is only used for opengroupv2
   try {
-    const result = await getMessageBySender({
-      source,
-      sourceDevice,
-      sent_at: timestamp,
-    });
-
+    let result;
+    if (serverId) {
+      result = await getMessageBySenderAndServerId({
+        source,
+        serverId,
+      });
+    } else {
+      result = await getMessageBySender({
+        source,
+        sourceDevice,
+        sentAt: timestamp,
+      });
+    }
     if (!result) {
       return false;
     }

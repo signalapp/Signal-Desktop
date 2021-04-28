@@ -768,7 +768,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return null;
     }
     this.queueJob(async () => {
-      console.warn('sending groupinvi', messageModel);
       await this.sendMessageJob(messageModel, expireTimer);
     });
     return null;
