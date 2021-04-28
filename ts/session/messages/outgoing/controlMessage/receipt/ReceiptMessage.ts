@@ -14,10 +14,6 @@ export abstract class ReceiptMessage extends ContentMessage {
     this.timestamps = timestamps;
   }
 
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
-  }
-
   public abstract getReceiptType(): SignalService.ReceiptMessage.Type;
 
   public contentProto(): SignalService.Content {

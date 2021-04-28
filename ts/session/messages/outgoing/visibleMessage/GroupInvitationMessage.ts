@@ -26,10 +26,6 @@ export class GroupInvitationMessage extends DataMessage {
     this.expireTimer = params.expireTimer;
   }
 
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
-  }
-
   public dataProto(): SignalService.DataMessage {
     const groupInvitation = new SignalService.DataMessage.GroupInvitation({
       serverAddress: this.serverAddress,

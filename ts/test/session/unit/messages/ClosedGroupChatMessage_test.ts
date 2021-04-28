@@ -50,7 +50,7 @@ describe('ClosedGroupVisibleMessage', () => {
       groupId,
       chatMessage,
     });
-    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
   });
 
   it('has an identifier', () => {

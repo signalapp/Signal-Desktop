@@ -38,8 +38,8 @@ describe('ReceiptMessage', () => {
   });
 
   it('correct ttl', () => {
-    expect(readMessage.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
-    expect(deliveryMessage.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
+    expect(readMessage.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
+    expect(deliveryMessage.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
   });
 
   it('has an identifier', () => {

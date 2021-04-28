@@ -130,7 +130,7 @@ describe('VisibleMessage', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
     });
-    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
   });
 
   it('has an identifier', () => {

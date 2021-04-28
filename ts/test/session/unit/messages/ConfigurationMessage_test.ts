@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { ECKeyPair } from '../../../../receiver/keypairs';
+import { TTL_DEFAULT } from '../../../../session/constants';
 
 import {
   ConfigurationMessage,
@@ -65,7 +66,7 @@ describe('ConfigurationMessage', () => {
       contacts: [],
     };
     const configMessage = new ConfigurationMessage(params);
-    expect(configMessage.ttl()).to.be.equal(4 * 24 * 60 * 60 * 1000);
+    expect(configMessage.ttl()).to.be.equal(TTL_DEFAULT.TTL_MAX);
   });
 
   describe('ConfigurationMessageClosedGroup', () => {

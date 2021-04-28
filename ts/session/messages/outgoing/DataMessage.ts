@@ -10,8 +10,4 @@ export abstract class DataMessage extends ContentMessage {
       dataMessage: this.dataProto(),
     });
   }
-
-  public ttl(): number {
-    return TTL_DEFAULT.REGULAR_MESSAGE;
-  }
 }

@@ -25,10 +25,6 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
     this.syncTarget = syncTarget ? PubKey.cast(syncTarget).key : undefined;
   }
 
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
-  }
-
   public dataProto(): SignalService.DataMessage {
     const data = new SignalService.DataMessage();
 

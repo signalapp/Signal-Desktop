@@ -33,8 +33,4 @@ export class ClosedGroupRemovedMembersMessage extends ClosedGroupMessage {
 
     return dataMessage;
   }
-
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
-  }
 }

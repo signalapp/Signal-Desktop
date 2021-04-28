@@ -59,10 +59,6 @@ export class ConfigurationMessage extends ContentMessage {
     }
   }
 
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.CONFIGURATION_MESSAGE;
-  }
-
   public contentProto(): SignalService.Content {
     return new SignalService.Content({
       configurationMessage: this.configurationProto(),

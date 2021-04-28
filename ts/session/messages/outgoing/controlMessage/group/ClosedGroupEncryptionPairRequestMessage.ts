@@ -13,8 +13,4 @@ export class ClosedGroupEncryptionPairRequestMessage extends ClosedGroupMessage 
 
     return dataMessage;
   }
-
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.ENCRYPTION_PAIR_GROUP;
-  }
 }

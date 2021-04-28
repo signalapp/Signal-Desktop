@@ -23,11 +23,6 @@ export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
     });
     this.chatMessage = params.chatMessage;
   }
-
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
-  }
-
   public dataProto(): SignalService.DataMessage {
     const dataProto = this.chatMessage.dataProto();
 
