@@ -8,7 +8,7 @@ import {
   ConversationAttributes,
   ConversationCollection,
   ConversationModel,
-  ConversationType,
+  ConversationTypeEnum,
 } from '../../models/conversation';
 import { BlockedNumberController } from '../../util';
 import { getSnodesFor } from '../snode_api/snodePool';
@@ -67,12 +67,12 @@ export class ConversationController {
     return this.conversations.add(attributes);
   }
 
-  public getOrCreate(id: string, type: ConversationType) {
+  public getOrCreate(id: string, type: ConversationTypeEnum) {
     if (typeof id !== 'string') {
       throw new TypeError("'id' must be a string");
     }
 
-    if (type !== ConversationType.PRIVATE && type !== ConversationType.GROUP) {
+    if (type !== ConversationTypeEnum.PRIVATE && type !== ConversationTypeEnum.GROUP) {
       throw new TypeError(`'type' must be 'private' or 'group' got: '${type}'`);
     }
 
@@ -153,7 +153,7 @@ export class ConversationController {
 
   public async getOrCreateAndWait(
     id: string | PubKey,
-    type: ConversationType
+    type: ConversationTypeEnum
   ): Promise<ConversationModel> {
     const initialPromise =
       this._initialPromise !== undefined ? this._initialPromise : Promise.resolve();

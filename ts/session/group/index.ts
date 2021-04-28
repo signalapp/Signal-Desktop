@@ -18,7 +18,7 @@ import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
 import { ECKeyPair } from '../../receiver/keypairs';
 import { UserUtils } from '../utils';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
-import { ConversationModel, ConversationType } from '../../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
 import { MessageController } from '../messages';
@@ -86,7 +86,7 @@ export async function initiateGroupUpdate(
 ) {
   const convo = await ConversationController.getInstance().getOrCreateAndWait(
     groupId,
-    ConversationType.GROUP
+    ConversationTypeEnum.GROUP
   );
 
   if (convo.isPublic()) {
@@ -223,7 +223,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     id,
-    ConversationType.GROUP
+    ConversationTypeEnum.GROUP
   );
 
   const updates: any = {
@@ -409,7 +409,7 @@ async function sendAddedMembers(
   });
 
   const promises = addedMembers.map(async m => {
-    await ConversationController.getInstance().getOrCreateAndWait(m, ConversationType.PRIVATE);
+    await ConversationController.getInstance().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE);
     const memberPubKey = PubKey.cast(m);
     await getMessageQueue().sendToPubKey(memberPubKey, newClosedGroupUpdate);
   });

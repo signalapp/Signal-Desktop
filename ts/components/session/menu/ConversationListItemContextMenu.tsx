@@ -1,5 +1,6 @@
 import React from 'react';
 import { animation, Menu } from 'react-contexify';
+import { ConversationTypeEnum } from '../../../models/conversation';
 
 import {
   getBlockMenuItem,
@@ -14,7 +15,7 @@ import {
 
 export type PropsContextConversationItem = {
   triggerId: string;
-  type: 'group' | 'direct';
+  type: ConversationTypeEnum;
   isMe: boolean;
   isPublic?: boolean;
   isBlocked?: boolean;
@@ -58,7 +59,7 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     <Menu id={triggerId} animation={animation.fade}>
       {getBlockMenuItem(
         isMe,
-        type === 'direct',
+        type === ConversationTypeEnum.PRIVATE,
         isBlocked,
         onBlockContact,
         onUnblockContact,

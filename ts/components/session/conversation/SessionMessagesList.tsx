@@ -19,6 +19,7 @@ import { MessageModel } from '../../../models/message';
 import { MessageRegularProps } from '../../../models/messageType';
 import { getMessagesBySentAt } from '../../../data/data';
 import autoBind from 'auto-bind';
+import { ConversationTypeEnum } from '../../../models/conversation';
 
 interface State {
   showScrollButton: boolean;
@@ -122,7 +123,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const { showScrollButton } = this.state;
 
     let displayedName = null;
-    if (conversation.type === 'direct') {
+    if (conversation.type === ConversationTypeEnum.PRIVATE) {
       displayedName = ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
         conversationKey
       );
@@ -247,7 +248,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
             return;
           }
 
-          if (messageProps.conversationType === 'group') {
+          if (messageProps.conversationType === ConversationTypeEnum.GROUP) {
             messageProps.weAreAdmin = conversation.groupAdmins?.includes(ourPrimary);
           }
           // a message is deletable if

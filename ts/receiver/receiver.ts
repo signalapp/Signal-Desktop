@@ -27,7 +27,7 @@ import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
 import { removeUnprocessed } from '../data/data';
-import { ConversationType } from '../models/conversation';
+import { ConversationTypeEnum } from '../models/conversation';
 import {
   getOpenGroupV2ConversationId,
   openGroupPrefixRegex,
@@ -281,7 +281,7 @@ export async function handlePublicMessage(messageData: any) {
   if (!isMe && profile) {
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       source,
-      ConversationType.PRIVATE
+      ConversationTypeEnum.PRIVATE
     );
     await updateProfile(conversation, profile, profileKey);
   }
@@ -365,7 +365,7 @@ export async function handleOpenGroupV2Message(
   const ourNumber = UserUtils.getOurPubKeyStrFromCache();
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     conversationId,
-    ConversationType.GROUP
+    ConversationTypeEnum.GROUP
   );
 
   if (!conversation) {

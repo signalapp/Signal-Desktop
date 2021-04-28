@@ -3,8 +3,9 @@ import _, { omit } from 'lodash';
 import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ConversationController } from '../../session/conversations';
-import { MessageCollection, MessageModel } from '../../models/message';
+import { MessageModel } from '../../models/message';
 import { getMessagesByConversation } from '../../data/data';
+import { ConversationTypeEnum } from '../../models/conversation';
 
 // State
 
@@ -66,7 +67,7 @@ export interface ConversationType {
   activeAt?: number;
   lastMessage?: LastMessageType;
   phoneNumber: string;
-  type: 'direct' | 'group';
+  type: ConversationTypeEnum;
   isMe: boolean;
   isPublic?: boolean;
   unreadCount: number;

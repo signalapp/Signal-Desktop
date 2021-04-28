@@ -15,6 +15,7 @@ import {
 import { PubKey } from '../../session/types';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
+import { ConversationTypeEnum } from '../../models/conversation';
 
 // State
 
@@ -257,9 +258,9 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
       } else {
         conversations.push(primaryDevice);
       }
-    } else if (conversation.type === 'direct') {
+    } else if (conversation.type === ConversationTypeEnum.PRIVATE) {
       contacts.push(conversation.id);
-    } else if (conversation.type !== 'group') {
+    } else if (conversation.type !== ConversationTypeEnum.GROUP) {
       contacts.push(conversation.id);
     } else {
       conversations.push(conversation.id);

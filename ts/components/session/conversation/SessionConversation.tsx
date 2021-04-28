@@ -30,6 +30,7 @@ import { getMessageById, getPubkeysInPublicConversation } from '../../../data/da
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 import { deleteOpenGroupMessages } from '../../../interactions/conversation';
+import { ConversationTypeEnum } from '../../../models/conversation';
 
 interface State {
   // Message sending progress
@@ -223,7 +224,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const isPublic = selectedConversation.isPublic || false;
 
-    const isPrivate = selectedConversation.type === 'direct';
+    const isPrivate = selectedConversation.type === ConversationTypeEnum.PRIVATE;
     return (
       <SessionTheme theme={this.props.theme}>
         <div className="conversation-header">{this.renderHeader()}</div>

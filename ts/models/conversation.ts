@@ -4,7 +4,7 @@ import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
-import { ToastUtils, UserUtils } from '../session/utils';
+import { UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { MessageController } from '../session/messages';
 import { leaveClosedGroup } from '../session/group';
@@ -39,13 +39,11 @@ import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/
 import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 import { OpenGroupUtils } from '../opengroup/utils';
 import { ConversationInteraction } from '../interactions';
-import { getV2OpenGroupRoom } from '../data/opengroups';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
-import { ApiV2 } from '../opengroup/opengroupV2';
 
-export enum ConversationType {
+export enum ConversationTypeEnum {
   GROUP = 'group',
   PRIVATE = 'private',
 }
@@ -203,7 +201,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return OpenGroupUtils.isOpenGroupV1(this.id);
   }
   public isClosedGroup() {
-    return this.get('type') === ConversationType.GROUP && !this.isPublic();
+    return this.get('type') === ConversationTypeEnum.GROUP && !this.isPublic();
   }
 
   public isBlocked() {
@@ -392,7 +390,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       id: this.id as string,
       activeAt: this.get('active_at'),
       avatarPath: this.getAvatarPath() || undefined,
-      type: this.isPrivate() ? 'direct' : 'group',
+      type: this.isPrivate() ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
       isMe: this.isMe(),
       isPublic: this.isPublic(),
       isTyping: !!this.typingTimer,
@@ -1190,7 +1188,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async getProfile(id: string) {
     const c = await ConversationController.getInstance().getOrCreateAndWait(
       id,
-      ConversationType.PRIVATE
+      ConversationTypeEnum.PRIVATE
     );
 
     // We only need to update the profile as they are all stored inside the conversation
@@ -1445,7 +1443,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isPrivate() {
-    return this.get('type') === ConversationType.PRIVATE;
+    return this.get('type') === ConversationTypeEnum.PRIVATE;
   }
 
   public getAvatarPath() {
@@ -1487,7 +1485,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const convo = await ConversationController.getInstance().getOrCreateAndWait(
       message.get('source'),
-      ConversationType.PRIVATE
+      ConversationTypeEnum.PRIVATE
     );
 
     const iconUrl = await convo.getNotificationIcon();

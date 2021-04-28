@@ -7,7 +7,7 @@ import { DefaultTheme } from 'styled-components';
 import { ConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { initiateGroupUpdate } from '../../session/group';
-import { ConversationModel, ConversationType } from '../../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { getCompleteUrlForV2ConvoId } from '../../interactions/conversation';
 import _ from 'lodash';
 interface Props {
@@ -108,7 +108,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
       pubkeys.forEach(async pubkeyStr => {
         const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
           pubkeyStr,
-          ConversationType.PRIVATE
+          ConversationTypeEnum.PRIVATE
         );
 
         if (privateConvo) {
@@ -125,7 +125,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
       pubkeys.forEach(async pubkeyStr => {
         const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
           pubkeyStr,
-          ConversationType.PRIVATE
+          ConversationTypeEnum.PRIVATE
         );
 
         if (privateConvo) {

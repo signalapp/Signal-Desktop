@@ -26,7 +26,7 @@ import {
 
 import { ECKeyPair, HexKeyPair } from './keypairs';
 import { UserUtils } from '../session/utils';
-import { ConversationModel, ConversationType } from '../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import _ from 'lodash';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { MessageController } from '../session/messages';
@@ -196,7 +196,7 @@ export async function handleNewClosedGroup(
     maybeConvo ||
     (await ConversationController.getInstance().getOrCreateAndWait(
       groupId,
-      ConversationType.GROUP
+      ConversationTypeEnum.GROUP
     ));
   // ***** Creating a new group *****
   log.info('Received a new ClosedGroup of id:', groupId);
@@ -744,7 +744,7 @@ async function sendLatestKeyPairToUsers(
       window.log.info(`Sending latest closed group encryption key pair to: ${member}`);
       await ConversationController.getInstance().getOrCreateAndWait(
         member,
-        ConversationType.PRIVATE
+        ConversationTypeEnum.PRIVATE
       );
 
       const wrappers = await ClosedGroup.buildEncryptionKeyPairWrappers([member], keyPairToUse);
@@ -801,7 +801,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
   // Create the group
   const convo = await ConversationController.getInstance().getOrCreateAndWait(
     groupPublicKey,
-    ConversationType.GROUP
+    ConversationTypeEnum.GROUP
   );
 
   const admins = [ourNumber.key];

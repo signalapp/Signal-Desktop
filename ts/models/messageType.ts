@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { QuotedAttachmentType } from '../components/conversation/Quote';
 import { AttachmentType } from '../types/Attachment';
 import { Contact } from '../types/Contact';
+import { ConversationTypeEnum } from './conversation';
 
 export type MessageModelType = 'incoming' | 'outgoing';
 export type MessageDeliveryStatus = 'sending' | 'sent' | 'delivered' | 'read' | 'error';
@@ -187,7 +188,7 @@ export interface MessageRegularProps {
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
-  conversationType: 'group' | 'direct';
+  conversationType: ConversationTypeEnum;
   attachments?: Array<AttachmentType>;
   quote?: {
     text: string;

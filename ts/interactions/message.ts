@@ -1,12 +1,9 @@
 import _ from 'lodash';
 import { getV2OpenGroupRoom } from '../data/opengroups';
-import { ConversationModel, ConversationType } from '../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 import { ApiV2 } from '../opengroup/opengroupV2';
-import {
-  joinOpenGroupV2WithUIEvents,
-  parseOpenGroupV2,
-} from '../opengroup/opengroupV2/JoinOpenGroupV2';
+import { joinOpenGroupV2WithUIEvents } from '../opengroup/opengroupV2/JoinOpenGroupV2';
 import { isOpenGroupV2, openGroupV2CompleteURLRegex } from '../opengroup/utils/OpenGroupUtils';
 import { ConversationController } from '../session/conversations';
 import { PubKey } from '../session/types';
@@ -224,7 +221,7 @@ async function acceptOpenGroupInvitationV1(serverAddress: string) {
 
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       conversationId,
-      ConversationType.GROUP
+      ConversationTypeEnum.GROUP
     );
     await conversation.setPublicSource(sslServerUrl, 1);
 

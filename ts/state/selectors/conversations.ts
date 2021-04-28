@@ -11,6 +11,7 @@ import {
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
 import { LocalizerType } from '../../types/Util';
+import { ConversationTypeEnum } from '../../models/conversation';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -140,7 +141,7 @@ export const _getLeftPaneLists = (
       continue;
     }
 
-    if (conversation.activeAt !== undefined && conversation.type === 'direct') {
+    if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
       directConversations.push(conversation);
     }
 

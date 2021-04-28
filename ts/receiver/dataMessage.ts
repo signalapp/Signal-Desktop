@@ -14,7 +14,7 @@ import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
 import { getMessageBySender } from '../../ts/data/data';
-import { ConversationModel, ConversationType } from '../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
 
 export async function updateProfile(
@@ -73,7 +73,7 @@ export async function updateProfile(
 
   const conv = await ConversationController.getInstance().getOrCreateAndWait(
     conversation.id,
-    ConversationType.PRIVATE
+    ConversationTypeEnum.PRIVATE
   );
   await conv.setLokiProfile(newProfile);
 }
@@ -280,7 +280,7 @@ export async function handleDataMessage(
 
   const senderConversation = await ConversationController.getInstance().getOrCreateAndWait(
     senderPubKey,
-    ConversationType.PRIVATE
+    ConversationTypeEnum.PRIVATE
   );
 
   // Check if we need to update any profile names
@@ -409,7 +409,7 @@ export const isDuplicate = (
 async function handleProfileUpdate(
   profileKeyBuffer: Uint8Array,
   convoId: string,
-  convoType: ConversationType,
+  convoType: ConversationTypeEnum,
   isIncoming: boolean
 ) {
   const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
@@ -419,7 +419,7 @@ async function handleProfileUpdate(
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const me = ConversationController.getInstance().getOrCreate(
       ourNumber,
-      ConversationType.PRIVATE
+      ConversationTypeEnum.PRIVATE
     );
 
     // Will do the save for us if needed
@@ -427,7 +427,7 @@ async function handleProfileUpdate(
   } else {
     const sender = await ConversationController.getInstance().getOrCreateAndWait(
       convoId,
-      ConversationType.PRIVATE
+      ConversationTypeEnum.PRIVATE
     );
 
     // Will do the save for us
@@ -572,7 +572,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   const isGroupMessage = Boolean(message.group);
 
-  const type = isGroupMessage ? ConversationType.GROUP : ConversationType.PRIVATE;
+  const type = isGroupMessage ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE;
 
   let conversationId = isIncoming ? source : destination || source; // for synced message
   if (!conversationId) {

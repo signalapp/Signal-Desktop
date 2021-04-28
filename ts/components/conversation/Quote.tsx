@@ -10,6 +10,7 @@ import { MessageBody } from './MessageBody';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContactName } from './ContactName';
 import { PubKey } from '../../session/types';
+import { ConversationTypeEnum } from '../../models/conversation';
 
 interface Props {
   attachment?: QuotedAttachmentType;
@@ -19,7 +20,7 @@ interface Props {
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
-  conversationType: 'group' | 'direct';
+  conversationType: ConversationTypeEnum;
   convoId: string;
   isPublic?: boolean;
   withContentAbove: boolean;

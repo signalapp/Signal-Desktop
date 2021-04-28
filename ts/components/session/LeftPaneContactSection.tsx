@@ -2,16 +2,10 @@ import React from 'react';
 
 import { ConversationListItemWithDetails } from '../ConversationListItem';
 import { RowRendererParamsType } from '../LeftPane';
-import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { AutoSizer, List } from 'react-virtualized';
 import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
-import { SessionClosableOverlay, SessionClosableOverlayType } from './SessionClosableOverlay';
-import { ToastUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import { ConversationController } from '../../session/conversations';
-import { PubKey } from '../../session/types';
-import { ConversationType } from '../../models/conversation';
 import autoBind from 'auto-bind';
 
 export interface Props {

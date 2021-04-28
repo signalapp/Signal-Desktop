@@ -1,4 +1,4 @@
-import { ConversationModel, ConversationType } from '../../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { PromiseUtils } from '../../session/utils';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
@@ -332,7 +332,7 @@ export class OpenGroup {
     // Create conversation
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       conversationId,
-      ConversationType.GROUP // keep a group for this one as this is an old open group
+      ConversationTypeEnum.GROUP // keep a group for this one as this is an old open group
     );
 
     // Convert conversation to a public one

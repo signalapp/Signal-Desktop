@@ -24,11 +24,8 @@ import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
 import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
-import { ConversationType } from '../../models/conversation';
-import {
-  getOpenGroupV2ConversationId,
-  openGroupV2CompleteURLRegex,
-} from '../../opengroup/utils/OpenGroupUtils';
+import { ConversationTypeEnum } from '../../models/conversation';
+import { openGroupV2CompleteURLRegex } from '../../opengroup/utils/OpenGroupUtils';
 import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
 
 export interface Props {
@@ -374,7 +371,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     if (!error) {
       await ConversationController.getInstance().getOrCreateAndWait(
         pubkey,
-        ConversationType.PRIVATE
+        ConversationTypeEnum.PRIVATE
       );
       openConversationExternal(pubkey);
     } else {

@@ -2,12 +2,12 @@ import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
 import { PubKey } from '../session/types';
-import _, { toNumber } from 'lodash';
+import _ from 'lodash';
 import { SignalService } from '../protobuf';
 import { StringUtils, UserUtils } from '../session/utils';
 import { ConversationController } from '../session/conversations';
-import { ConversationModel, ConversationType } from '../models/conversation';
-import { MessageCollection, MessageModel } from '../models/message';
+import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
+import { MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 import { actions as conversationActions } from '../state/ducks/conversations';
@@ -369,7 +369,7 @@ async function handleRegularMessage(
 
   const sendingDeviceConversation = await ConversationController.getInstance().getOrCreateAndWait(
     source,
-    ConversationType.PRIVATE
+    ConversationTypeEnum.PRIVATE
   );
   // Check if we need to update any profile names
   // the only profile we don't update with what is coming here is ours,

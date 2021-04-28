@@ -18,7 +18,7 @@ import {
 
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
-import { ConversationModel, ConversationType } from './conversation';
+import { ConversationModel, ConversationTypeEnum } from './conversation';
 import { getSuggestedFilenameSending } from '../types/Attachment';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
@@ -480,7 +480,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       authorName: contact.name,
       authorProfileName: contact.profileName,
       authorPhoneNumber: contact.phoneNumber,
-      conversationType: isGroup ? 'group' : 'direct',
+      conversationType: isGroup ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE,
       convoId,
       attachments: attachments
         .filter((attachment: any) => !attachment.error)
@@ -695,7 +695,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         ...this.propsForMessage,
         disableMenu: true,
         // To ensure that group avatar doesn't show up
-        conversationType: 'direct',
+        conversationType: ConversationTypeEnum.PRIVATE,
       },
       errors,
       contacts: sortedContacts,
@@ -911,7 +911,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    return ConversationController.getInstance().getOrCreate(source, ConversationType.PRIVATE);
+    return ConversationController.getInstance().getOrCreate(source, ConversationTypeEnum.PRIVATE);
   }
 
   public isOutgoing() {

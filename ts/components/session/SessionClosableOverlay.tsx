@@ -11,6 +11,7 @@ import { SessionSpinner } from './SessionSpinner';
 import { PillDivider } from './PillDivider';
 import { DefaultTheme } from 'styled-components';
 import { UserUtils } from '../../session/utils';
+import { ConversationTypeEnum } from '../../models/conversation';
 
 export enum SessionClosableOverlayType {
   Message = 'message',
@@ -67,7 +68,9 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     let filteredContactsList = contactsList;
     const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
     if (isClosedGroupView) {
-      filteredContactsList = filteredContactsList.filter(c => c.type === 'direct' && !c.isMe);
+      filteredContactsList = filteredContactsList.filter(
+        c => c.type === ConversationTypeEnum.PRIVATE && !c.isMe
+      );
     }
 
     return filteredContactsList.map((d: any) => {
@@ -108,6 +111,8 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       onButtonClick,
     } = this.props;
 
+    const { groupName, selectedMembers } = this.state;
+
     const isMessageView = overlayMode === SessionClosableOverlayType.Message;
     const isOpenGroupView = overlayMode === SessionClosableOverlayType.OpenGroup;
     const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
@@ -140,9 +145,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         break;
       default:
     }
-
-    const { groupName, selectedMembers } = this.state;
-    const ourSessionID = UserUtils.getOurPubKeyStrFromCache();
 
     const contacts = this.getContacts();
 

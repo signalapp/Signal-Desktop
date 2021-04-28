@@ -5,7 +5,7 @@ import {
   removeV2OpenGroupRoom,
   saveV2OpenGroupRoom,
 } from '../../data/opengroups';
-import { ConversationModel, ConversationType } from '../../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { ConversationController } from '../../session/conversations';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
@@ -178,7 +178,7 @@ export class OpenGroupManagerV2 {
       }
       const conversation = await ConversationController.getInstance().getOrCreateAndWait(
         conversationId,
-        ConversationType.GROUP
+        ConversationTypeEnum.GROUP
       );
       room.imageID = roomInfos.imageId || undefined;
       room.roomName = roomInfos.name || undefined;
