@@ -92,6 +92,10 @@ function getFilteredBodyRanges(
   body: string,
   bodyRanges: BodyRangesType
 ): BodyRangesType {
+  if (!bodyRanges.length) {
+    return [];
+  }
+
   // Find where the snippet starts in the full text
   const stripped = snippet
     .replace(/<<left>>/g, '')
