@@ -402,6 +402,23 @@ export const unbanUser = async (
   return isOk;
 };
 
+export const deleteSingleMessage = async (
+  messageServerId: number,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<boolean> => {
+  const request: OpenGroupV2Request = {
+    method: 'DELETE',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: true,
+    endpoint: `messages/${messageServerId}`,
+  };
+  const messageDeletedResult = await sendOpenGroupV2Request(request);
+  const isOk = parseStatusCodeFromOnionRequest(messageDeletedResult) === 200;
+  console.warn('messageDeletedResult', messageDeletedResult);
+  return isOk;
+};
+
 export const getAllRoomInfos = async (roomInfos: OpenGroupRequestCommonType) => {
   // room should not be required here
   const request: OpenGroupV2Request = {

@@ -2,7 +2,11 @@ import { AbortController } from 'abort-controller';
 import { ConversationController } from '../../session/conversations';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
-import { compactFetchEverything, ParsedRoomCompactPollResults } from './OpenGroupAPIV2CompactPoll';
+import {
+  compactFetchEverything,
+  ParsedDeletions,
+  ParsedRoomCompactPollResults,
+} from './OpenGroupAPIV2CompactPoll';
 import _ from 'lodash';
 import { ConversationModel } from '../../models/conversation';
 import { getMessageIdsFromServerIds, removeMessage } from '../../data/data';
@@ -10,7 +14,7 @@ import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
 
-const pollForEverythingInterval = 4 * 1000;
+const pollForEverythingInterval = 8 * 1000;
 
 /**
  * An OpenGroupServerPollerV2 polls for everything for a particular server. We should
@@ -165,33 +169,40 @@ export class OpenGroupServerPoller {
 }
 
 const handleDeletions = async (
-  deletedIds: Array<number>,
+  deleted: ParsedDeletions,
   conversationId: string,
   convo?: ConversationModel
 ) => {
+  const allIdsRemoved = (deleted || []).map(d => d.deleted_message_id);
+  const allRowIds = (deleted || []).map(d => d.id);
+  const maxDeletedId = Math.max(...allRowIds);
   try {
-    const maxDeletedId = Math.max(...deletedIds);
-    const messageIds = await getMessageIdsFromServerIds(deletedIds, conversationId);
-    if (!messageIds?.length) {
-      return;
-    }
-    const roomInfos = await getV2OpenGroupRoom(conversationId);
-    if (roomInfos && roomInfos.lastMessageDeletedServerID !== maxDeletedId) {
-      roomInfos.lastMessageDeletedServerID = maxDeletedId;
-      await saveV2OpenGroupRoom(roomInfos);
-    }
+    console.warn('We got deletion to do:', deleted, maxDeletedId);
+
+    const messageIds = await getMessageIdsFromServerIds(allIdsRemoved, conversationId);
 
     await Promise.all(
-      messageIds.map(async id => {
+      (messageIds || []).map(async id => {
         if (convo) {
           await convo.removeMessage(id);
         }
         await removeMessage(id);
       })
     );
-    // we want to try to update our lastDeletedId
+    //
   } catch (e) {
     window.log.warn('handleDeletions failed:', e);
+  } finally {
+    try {
+      const roomInfos = await getV2OpenGroupRoom(conversationId);
+
+      if (roomInfos && roomInfos.lastMessageDeletedServerID !== maxDeletedId) {
+        roomInfos.lastMessageDeletedServerID = maxDeletedId;
+        await saveV2OpenGroupRoom(roomInfos);
+      }
+    } catch (e) {
+      window.log.warn('handleDeletions updating roomInfos failed:', e);
+    }
   }
 };
 
@@ -234,6 +245,7 @@ const handleCompactPollResults = async (
   serverUrl: string,
   results: Array<ParsedRoomCompactPollResults>
 ) => {
+  console.warn('compoll res', results);
   await Promise.all(
     results.map(async res => {
       const convoId = getOpenGroupV2ConversationId(serverUrl, res.roomId);
@@ -241,6 +253,7 @@ const handleCompactPollResults = async (
 
       // we want to do deletions even if we somehow lost the convo.
       if (res.deletions.length) {
+        console.warn('res.deletions', res.deletions);
         // new deletions
         await handleDeletions(res.deletions, convoId, convo);
       }

@@ -4,7 +4,7 @@ import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
-import { UserUtils } from '../session/utils';
+import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { MessageController } from '../session/messages';
 import { leaveClosedGroup } from '../session/group';
@@ -43,6 +43,7 @@ import { getV2OpenGroupRoom } from '../data/opengroups';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
+import { ApiV2 } from '../opengroup/opengroupV2';
 
 export enum ConversationType {
   GROUP = 'group',
@@ -1322,48 +1323,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         void ConversationController.getInstance().deleteContact(this.id);
       },
     });
-  }
-
-  public async deletePublicMessages(messages: Array<MessageModel>) {
-    if (this.isOpenGroupV2()) {
-      console.warn('FIXME deletePublicMessages');
-      throw new Error('deletePublicMessages todo');
-    }
-    const channelAPI = await this.getPublicSendData();
-
-    if (!channelAPI) {
-      throw new Error('Unable to get public channel API');
-    }
-
-    const invalidMessages = messages.filter(m => !m.attributes.serverId);
-    const pendingMessages = messages.filter(m => m.attributes.serverId);
-
-    let deletedServerIds = [];
-    let ignoredServerIds = [];
-
-    if (pendingMessages.length > 0) {
-      const result = await channelAPI.deleteMessages(
-        pendingMessages.map(m => m.attributes.serverId)
-      );
-      deletedServerIds = result.deletedIds;
-      ignoredServerIds = result.ignoredIds;
-    }
-
-    const toDeleteLocallyServerIds = _.union(deletedServerIds, ignoredServerIds);
-    let toDeleteLocally = messages.filter(m =>
-      toDeleteLocallyServerIds.includes(m.attributes.serverId)
-    );
-    toDeleteLocally = _.union(toDeleteLocally, invalidMessages);
-
-    await Promise.all(
-      toDeleteLocally.map(async m => {
-        await this.removeMessage(m.id);
-      })
-    );
-
-    await this.updateLastMessage();
-
-    return toDeleteLocally;
   }
 
   public async removeMessage(messageId: any) {

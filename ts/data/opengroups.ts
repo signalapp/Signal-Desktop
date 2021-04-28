@@ -11,6 +11,9 @@ export type OpenGroupV2Room = {
   imageID?: string; // the url to the group's image
   conversationId?: string; // the linked ConversationModel.id
   lastMessageFetchedServerID?: number;
+  /**
+   * This value represents the rowId of the last message deleted. Not the id of the last message ID
+   */
   lastMessageDeletedServerID?: number;
   token?: string; // currently, the token is on a per room basis
 };

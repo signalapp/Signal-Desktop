@@ -57,13 +57,13 @@ const getCompactPollRequest = async (
             room_id: roomId,
             auth_token: token || '',
           };
-          if (lastMessageDeletedServerID) {
-            roomRequestContent.from_deletion_server_id = lastMessageDeletedServerID;
-          }
-
-          if (lastMessageFetchedServerID) {
-            roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
-          }
+          // if (lastMessageDeletedServerID) {
+          roomRequestContent.from_deletion_server_id = lastMessageDeletedServerID;
+          // }
+          // if (lastMessageFetchedServerID) {
+          roomRequestContent.from_message_server_id = lastMessageFetchedServerID || 1;
+          // }
+          console.warn('compactPoll, ', roomRequestContent);
 
           return roomRequestContent;
         } catch (e) {
@@ -161,9 +161,11 @@ async function sendOpenGroupV2RequestCompactPoll(
   return roomPollValidResults;
 }
 
+export type ParsedDeletions = Array<{ id: number; deleted_message_id: number }>;
+
 export type ParsedRoomCompactPollResults = {
   roomId: string;
-  deletions: Array<number>;
+  deletions: ParsedDeletions;
   messages: Array<OpenGroupMessageV2>;
   moderators: Array<string>;
   statusCode: number;
@@ -194,7 +196,7 @@ const parseCompactPollResult = async (
 
   const validMessages = await parseMessages(rawMessages);
   const moderators = rawMods.sort() as Array<string>;
-  const deletions = rawDeletions as Array<number>;
+  const deletions = rawDeletions as ParsedDeletions;
   const statusCode = rawStatusCode as number;
 
   return {

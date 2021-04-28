@@ -29,6 +29,7 @@ import { ConversationController } from '../../../session/conversations';
 import { getMessageById, getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
+import { deleteOpenGroupMessages } from '../../../interactions/conversation';
 
 interface State {
   // Message sending progress
@@ -587,8 +588,6 @@ export class SessionConversation extends React.Component<Props, State> {
     const doDelete = async () => {
       let toDeleteLocally;
 
-      // VINCE TODO: MARK TO-DELETE MESSAGES AS READ
-
       if (selectedConversation.isPublic) {
         // Get our Moderator status
         const ourDevicePubkey = UserUtils.getOurPubKeyStrFromCache();
@@ -608,7 +607,7 @@ export class SessionConversation extends React.Component<Props, State> {
           return;
         }
 
-        toDeleteLocally = await conversationModel.deletePublicMessages(selectedMessages);
+        toDeleteLocally = await deleteOpenGroupMessages(selectedMessages, conversationModel);
         if (toDeleteLocally.length === 0) {
           // Message failed to delete from server, show error?
           return;
@@ -618,7 +617,7 @@ export class SessionConversation extends React.Component<Props, State> {
       }
 
       await Promise.all(
-        toDeleteLocally.map(async (message: any) => {
+        toDeleteLocally.map(async message => {
           await conversationModel.removeMessage(message.id);
         })
       );
