@@ -118,8 +118,16 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     [inputApiRef, onPickEmoji]
   );
 
+  const hasContactsSelected = Boolean(selectedContacts.length);
+
+  const canForwardMessage =
+    hasContactsSelected &&
+    (Boolean(messageBodyText) ||
+      isSticker ||
+      (attachmentsToForward && attachmentsToForward.length));
+
   const forwardMessage = React.useCallback(() => {
-    if (!messageBodyText) {
+    if (!canForwardMessage) {
       return;
     }
 
@@ -131,19 +139,12 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     );
   }, [
     attachmentsToForward,
+    canForwardMessage,
     doForwardMessage,
     linkPreview,
     messageBodyText,
     selectedContacts,
   ]);
-
-  const hasContactsSelected = Boolean(selectedContacts.length);
-
-  const canForwardMessage =
-    hasContactsSelected &&
-    (Boolean(messageBodyText) ||
-      isSticker ||
-      (attachmentsToForward && attachmentsToForward.length));
 
   const normalizedSearchTerm = searchTerm.trim();
   useEffect(() => {
