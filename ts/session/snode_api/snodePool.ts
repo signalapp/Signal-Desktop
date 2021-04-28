@@ -1,8 +1,6 @@
 import semver from 'semver';
 import _ from 'lodash';
 
-import { abortableIterator } from '../../../js/modules/loki_primitives';
-
 import { getSnodesFromSeedUrl, requestSnodesForPubkey } from './serviceNodeAPI';
 
 import { getSwarmNodesForPubkey, updateSwarmNodesForPubkey } from '../../../ts/data/data';
@@ -22,7 +20,6 @@ export interface Snode {
 
 // This should be renamed to `allNodes` or something
 let randomSnodePool: Array<Snode> = [];
-let stopGetAllVersionPromiseControl: any = false;
 
 // We only store nodes' identifiers here,
 const nodesForPubkey: Map<string, Array<SnodeEdKey>> = new Map();
@@ -164,45 +161,6 @@ export function getNodesMinVersion(minVersion: string): Array<Snode> {
   return randomSnodePool.filter((node: any) => node.version && semver.gt(node.version, minVersion));
 }
 
-/**
- * Currently unused as it makes call over insecure node fetch and we don't need
- * to filter out nodes by versions anymore.
- *
- * now get version for all snodes
- * also acts an early online test/purge of bad nodes
- */
-export async function getAllVersionsForRandomSnodePool(): Promise<void> {
-  const { log } = window;
-
-  // let count = 0;
-  // const verionStart = Date.now();
-  // const total = this.randomSnodePool.length;
-  // const noticeEvery = parseInt(total / 10, 10);
-  const loop = abortableIterator(randomSnodePool, async (node: any) => {
-    try {
-      await requestVersion(node);
-    } catch (e) {
-      log.error('LokiSnodeAPI::_getAllVersionsForRandomSnodePool - error', e.code, e.message);
-      throw e;
-    }
-  });
-  // make abortable accessible outside this scope
-  stopGetAllVersionPromiseControl = loop.stop;
-  await loop.start(true);
-  stopGetAllVersionPromiseControl = false; // clear lock
-  // an array of objects
-  const versions = randomSnodePool.reduce((curVal: any, node: any) => {
-    if (curVal.indexOf(node.version) === -1) {
-      curVal.push(node.version);
-    }
-    return curVal;
-  }, []);
-  log.debug(
-    `LokiSnodeAPI::_getAllVersionsForRandomSnodePool - ${versions.length} versions retrieved from network!:`,
-    versions.join(',')
-  );
-}
-
 async function getSnodeListFromLokidSeednode(
   seedNodes = window.seedNodeList,
   retries = 0
@@ -242,11 +200,6 @@ async function getSnodeListFromLokidSeednode(
 async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
   const { log } = window;
 
-  // are we running any _getAllVersionsForRandomSnodePool
-  if (stopGetAllVersionPromiseControl !== false) {
-    // we are, stop them
-    stopGetAllVersionPromiseControl();
-  }
   let snodes = [];
   try {
     snodes = await getSnodeListFromLokidSeednode(seedNodes);
@@ -266,9 +219,6 @@ async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
       randomSnodePool.length,
       'snodes'
     );
-    // Warning: the call below will call getVersions to all existing nodes.
-    // And not with onion routing
-    // void getAllVersionsForRandomSnodePool();
   } catch (e) {
     log.warn('LokiSnodeAPI::refreshRandomPool - error', e.code, e.message);
     /*

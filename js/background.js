@@ -119,7 +119,6 @@
       return;
     }
     const ourKey = libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
-    window.lokiMessageAPI = new window.LokiMessageAPI();
     // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
 
@@ -160,11 +159,6 @@
 
     // Update zoom
     window.updateZoomFactor();
-
-    const currentPoWDifficulty = storage.get('PoWDifficulty', null);
-    if (!currentPoWDifficulty) {
-      storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());
-    }
 
     // Ensure accounts created prior to 1.0.0-beta8 do have their
     // 'primaryDevicePubKey' defined.

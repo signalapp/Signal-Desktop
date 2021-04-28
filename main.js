@@ -169,7 +169,6 @@ function prepareURL(pathSegments, moreKeys) {
       serverUrl: config.get('serverUrl'),
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
-      defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
       // one day explain why we need to do this - neuroscr
       seedNodeList: JSON.stringify(config.get('seedNodeList')),
       environment: config.environment,
@@ -354,8 +353,6 @@ async function createWindow() {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
   } else if (config.environment === 'test-lib') {
     mainWindow.loadURL(prepareURL([__dirname, 'libtextsecure', 'test', 'index.html']));
-  } else if (config.environment === 'test-loki') {
-    mainWindow.loadURL(prepareURL([__dirname, 'libloki', 'test', 'index.html']));
   } else if (config.environment.includes('test-integration')) {
     mainWindow.loadURL(prepareURL([__dirname, 'background_test.html']));
   } else {
@@ -381,7 +378,6 @@ async function createWindow() {
     if (
       config.environment === 'test' ||
       config.environment === 'test-lib' ||
-      config.environment === 'test-loki' ||
       config.environment.includes('test-integration') ||
       (mainWindow.readyForShutdown && windowState.shouldQuit())
     ) {
@@ -639,7 +635,6 @@ app.on('ready', async () => {
   if (
     process.env.NODE_ENV !== 'test' &&
     process.env.NODE_ENV !== 'test-lib' &&
-    process.env.NODE_ENV !== 'test-loki' &&
     !process.env.NODE_ENV.includes('test-integration')
   ) {
     installFileHandler({
@@ -811,7 +806,6 @@ app.on('window-all-closed', () => {
     process.platform !== 'darwin' ||
     config.environment === 'test' ||
     config.environment === 'test-lib' ||
-    config.environment === 'test-loki' ||
     config.environment.includes('test-integration')
   ) {
     app.quit();

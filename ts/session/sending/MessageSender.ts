@@ -7,23 +7,15 @@ import { MessageEncrypter } from '../crypto';
 import pRetry from 'p-retry';
 import { PubKey } from '../types';
 import { UserUtils } from '../utils';
-import { VisibleMessage } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
 import { postMessage } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import { OpenGroupMessageV2 } from '../../opengroup/opengroupV2/OpenGroupMessageV2';
 import { padPlainTextBuffer } from '../crypto/MessageEncrypter';
 import { fromUInt8ArrayToBase64 } from '../utils/String';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import * as LokiMessageApi from './LokiMessageApi';
 
 // ================ Regular ================
-
-/**
- * Check if we can send to service nodes.
- */
-export function canSendToSnode(): boolean {
-  // Seems like lokiMessageAPI is not always guaranteed to be initialized
-  return Boolean(window.lokiMessageAPI);
-}
 
 /**
  * Send a message via service nodes.
@@ -36,10 +28,6 @@ export async function send(
   attempts: number = 3,
   retryMinTimeout?: number // in ms
 ): Promise<Uint8Array> {
-  if (!canSendToSnode()) {
-    throw new Error('lokiMessageAPI is not initialized.');
-  }
-
   const device = PubKey.cast(message.device);
   const { plainTextBuffer, encryption, timestamp, ttl } = message;
   const { envelopeType, cipherText } = await MessageEncrypter.encrypt(
@@ -53,7 +41,7 @@ export async function send(
 
   return pRetry(
     async () => {
-      await window.lokiMessageAPI.sendMessage(device.key, data, timestamp, ttl);
+      await LokiMessageApi.sendMessage(device.key, data, timestamp, ttl);
       return data;
     },
     {

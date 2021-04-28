@@ -44,7 +44,6 @@ module.exports = grunt => {
         src: [
           'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
-          'libloki/proof-of-work.js',
           'node_modules/long/dist/long.js',
           'js/util_worker_tasks.js',
         ],
@@ -124,7 +123,6 @@ module.exports = grunt => {
         files: [
           'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
-          'libloki/proof-of-work.js',
           'node_modules/long/dist/long.js',
           'js/util_worker_tasks.js',
         ],
@@ -359,13 +357,6 @@ module.exports = grunt => {
     }
   );
 
-  grunt.registerTask('loki-unit-tests', 'Run loki unit tests w/Electron', function thisNeeded() {
-    const environment = grunt.option('env') || 'test-loki';
-    const done = this.async();
-
-    runTests(environment, done);
-  });
-
   grunt.registerMultiTask('test-release', 'Test packaged releases', function thisNeeded() {
     const dir = grunt.option('dir') || 'release';
     const environment = grunt.option('env') || 'production';
@@ -449,7 +440,7 @@ module.exports = grunt => {
 
   grunt.registerTask('tx', ['exec:tx-pull-new', 'exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('test', ['unit-tests', 'lib-unit-tests', 'loki-unit-tests']);
+  grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', [
     'exec:build-protobuf',

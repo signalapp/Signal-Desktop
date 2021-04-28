@@ -142,7 +142,6 @@ export const ActionsPanel = () => {
   // this maxi useEffect is called only once: when the component is mounted.
   // For the action panel, it means this is called only one per app start/with a user loggedin
   useEffect(() => {
-    void window.setClockParams();
     if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
       // Initialize paths for onion requests
       void OnionPaths.getInstance().buildNewOnionPaths();

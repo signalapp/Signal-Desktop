@@ -32,10 +32,9 @@
     "test": "yarn test-node && yarn test-electron",
     "test-view": "NODE_ENV=test yarn run start",
     "test-lib-view": "NODE_ENV=test-lib yarn run start",
-    "test-loki-view": "NODE_ENV=test-loki yarn run start",
     "test-electron": "yarn grunt test",
     "test-integration": "ELECTRON_DISABLE_SANDBOX=1 mocha --exit --full-trace --timeout 10000 ts/test/session/integration/integration_itest.js",
-    "test-node": "mocha --recursive --exit --timeout 10000  test/app test/modules \"./ts/test/**/*_test.js\" libloki/test/node ",
+    "test-node": "mocha --recursive --exit --timeout 10000  test/app test/modules \"./ts/test/**/*_test.js\" ",
     "eslint-full": "eslint . --cache",
     "lint-full": "yarn format-full && yarn lint-files-full",
     "lint-files-full": "yarn eslint-full && yarn tslint",
@@ -44,7 +43,6 @@
     "transpile": "tsc --incremental",
     "transpile:watch": "tsc -w",
     "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js && rimraf tsconfig.tsbuildinfo;",
-    "pow-metrics": "node metrics_app.js localhost 9000",
     "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test"
   },
   "dependencies": {

@@ -88,15 +88,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     this.closeOverlay = this.closeOverlay.bind(this);
   }
 
-  public componentDidMount() {
-    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
-  }
-
-  public componentWillUnmount() {
-    this.updateSearch('');
-    window.Whisper.events.off('calculatingPoW', this.closeOverlay);
-  }
-
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element => {
     const { conversations, openConversationExternal } = this.props;
 

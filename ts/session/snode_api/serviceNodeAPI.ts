@@ -13,12 +13,11 @@ const { remote } = Electron;
 import { snodeRpc } from './lokiRpc';
 import { sendOnionRequestLsrpcDest, snodeHttpsAgent, SnodeResponse } from './onions';
 
-import { sleepFor } from '../../../js/modules/loki_primitives';
-
 export { sendOnionRequestLsrpcDest };
 
 import { getRandomSnodeAddress, markNodeUnreachable, Snode, updateSnodesFor } from './snodePool';
 import { Constants } from '..';
+import { sleepFor } from '../utils/Promise';
 
 /**
  * Currently unused. If we need it again, be sure to update it to onion routing rather
@@ -231,13 +230,12 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
   }
 }
 
-interface SendParams {
+export type SendParams = {
   pubKey: string;
   ttl: string;
-  nonce: string;
   timestamp: string;
   data: string;
-}
+};
 
 // get snodes for pubkey from random snode. Uses an existing snode
 export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snode>> {
@@ -333,12 +331,6 @@ function checkResponse(response: SnodeResponse): void {
     const newSwarm = json.snodes ? json.snodes : [];
     throw new textsecure.WrongSwarmError(newSwarm);
   }
-
-  // Wrong PoW difficulty
-  if (response.status === 432) {
-    log.error('Wrong POW', json);
-    throw new textsecure.WrongDifficultyError(json.difficulty);
-  }
 }
 
 export async function storeOnNode(targetNode: Snode, params: SendParams): Promise<boolean> {
@@ -355,10 +347,7 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
     await sleepFor(successiveFailures * 500);
     try {
       const result = await snodeRpc('store', params, targetNode);
-
-      // succcessful messages should look like
-      // `{\"difficulty\":1}`
-      // but so does invalid pow, so be careful!
+      console.warn('snode storeOnNode result', result);
 
       // do not return true if we get false here...
       if (result === false) {
@@ -379,12 +368,6 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
         return false;
       }
 
-      const json = JSON.parse(snodeRes.body);
-      // Make sure we aren't doing too much PoW
-      const currentDifficulty = window.storage.get('PoWDifficulty', null);
-      if (json && json.difficulty && json.difficulty !== parseInt(currentDifficulty, 10)) {
-        window.storage.put('PoWDifficulty', json.difficulty);
-      }
       return true;
     } catch (e) {
       log.warn(
@@ -397,19 +380,6 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
         const { newSwarm } = e;
         await updateSnodesFor(params.pubKey, newSwarm);
         return false;
-      } else if (e instanceof textsecure.WrongDifficultyError) {
-        const { newDifficulty } = e;
-        // difficulty of 100 happens when a snode restarts. We have to exit the loop and markNodeUnreachable()
-        if (newDifficulty === 100) {
-          log.warn('loki_message:::storeOnNode - invalid new difficulty:100. Marking node as bad.');
-          successiveFailures = MAX_ACCEPTABLE_FAILURES;
-          continue;
-        }
-
-        if (!Number.isNaN(newDifficulty)) {
-          window.storage.put('PoWDifficulty', newDifficulty);
-        }
-        throw e;
       } else if (e instanceof textsecure.NotFoundError) {
         // TODO: Handle resolution error
       } else if (e instanceof textsecure.TimestampError) {
@@ -452,8 +422,7 @@ export async function retrieveNextMessages(
 
   const res = result as SnodeResponse;
 
-  // NOTE: Retrieve cannot result in "wrong POW", but we call
-  // `checkResponse` to check for "wrong swarm"
+  // NOTE: we call `checkResponse` to check for "wrong swarm"
   try {
     checkResponse(res);
   } catch (e) {

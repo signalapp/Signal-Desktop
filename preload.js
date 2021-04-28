@@ -35,7 +35,6 @@ window.displayNameRegex = /[^\u0041-\u005A\u0061-\u007A\u00AA\u00B5\u00BA\u00C0-
 
 window.semver = semver;
 window.platform = process.platform;
-window.getDefaultPoWDifficulty = () => config.defaultPoWDifficulty;
 window.getTitle = () => title;
 window.getEnvironment = () => config.environment;
 window.isDev = () => config.environment === 'development';
@@ -321,14 +320,9 @@ window.Signal = Signal.setup({
 });
 
 if (process.env.USE_STUBBED_NETWORK) {
-  const StubMessageAPI = require('./ts/test/session/integration/stubs/stub_message_api');
-  window.LokiMessageAPI = StubMessageAPI;
-
   const StubAppDotNetAPI = require('./ts/test/session/integration/stubs/stub_app_dot_net_api');
   window.LokiAppDotNetServerAPI = StubAppDotNetAPI;
 } else {
-  window.LokiMessageAPI = require('./js/modules/loki_message_api');
-
   window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
 }
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');

@@ -1,9 +1,8 @@
-/* global dcodeIO, pow */
+/* global dcodeIO */
 /* eslint-disable strict */
 
 const functions = {
   arrayBufferToStringBase64,
-  calcPoW,
 };
 
 onmessage = async e => {
@@ -36,15 +35,4 @@ function prepareErrorForPostMessage(error) {
 
 function arrayBufferToStringBase64(arrayBuffer) {
   return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
-}
-function calcPoW(
-  timestamp,
-  ttl,
-  pubKey,
-  data,
-  difficulty = undefined,
-  increment = 1,
-  startNonce = 0
-) {
-  return pow.calcPoW(timestamp, ttl, pubKey, data, difficulty, increment, startNonce);
 }

@@ -36,7 +36,7 @@ export async function copyPublicKey(convoId: string) {
         ToastUtils.pushCopiedToClipBoard();
         return;
       }
-      window.log.warn('coy to pubkey no roomInfo');
+      window.log.warn('copy to pubkey no roomInfo');
       return;
     }
 

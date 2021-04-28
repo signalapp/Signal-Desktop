@@ -1,3 +1,5 @@
+import { Snode } from '../onions';
+
 type SimpleFunction<T> = (arg: T) => void;
 type Return<T> = Promise<T> | T;
 
@@ -15,6 +17,7 @@ export class TaskTimedOutError extends Error {
 
 // one action resolves all
 const snodeGlobalLocks: Record<string, Promise<any>> = {};
+
 export async function allowOnlyOneAtATime(
   name: string,
   process: () => Promise<any>,
@@ -28,7 +31,7 @@ export async function allowOnlyOneAtATime(
       let timeoutTimer = null;
       if (timeoutMs) {
         timeoutTimer = setTimeout(() => {
-          window.log.warn(`loki_primitives:::allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}s`);
+          window.log.warn(`allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}s`);
           // tslint:disable-next-line: no-dynamic-delete
           delete snodeGlobalLocks[name]; // clear lock
           reject();
@@ -40,9 +43,9 @@ export async function allowOnlyOneAtATime(
         innerRetVal = await process();
       } catch (e) {
         if (typeof e === 'string') {
-          window.log.error(`loki_primitives:::allowOnlyOneAtATime - error ${e}`);
+          window.log.error(`allowOnlyOneAtATime - error ${e}`);
         } else {
-          window.log.error(`loki_primitives:::allowOnlyOneAtATime - error ${e.code} ${e.message}`);
+          window.log.error(`allowOnlyOneAtATime - error ${e.code} ${e.message}`);
         }
 
         // clear timeout timer
@@ -68,7 +71,6 @@ export async function allowOnlyOneAtATime(
       // release the kraken
       resolve(innerRetVal);
     });
-  } else {
   }
   return snodeGlobalLocks[name];
 }
@@ -201,3 +203,26 @@ export async function delay(timeoutMs: number = 2000): Promise<Boolean> {
     }, timeoutMs);
   });
 }
+
+// tslint:disable: no-string-based-set-timeout
+export const sleepFor = async (ms: number) =>
+  new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+
+// Taken from https://stackoverflow.com/questions/51160260/clean-way-to-wait-for-first-true-returned-by-promise
+// The promise returned by this function will resolve true when the first promise
+// in ps resolves true *or* it will resolve false when all of ps resolve false
+export const firstTrue = async (ps: Array<Promise<any>>) => {
+  const newPs = ps.map(
+    async p =>
+      new Promise(
+        // eslint-disable more/no-then
+        // tslint:disable: no-void-expression
+        (resolve, reject) => p.then(v => v && resolve(v), reject)
+      )
+  );
+  // eslint-disable-next-line more/no-then
+  newPs.push(Promise.all(ps).then(() => false));
+  return Promise.race(newPs) as Promise<Snode>;
+};

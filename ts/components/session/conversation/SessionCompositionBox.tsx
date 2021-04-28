@@ -757,19 +757,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       ToastUtils.pushMessageBodyMissing();
       return;
     }
-    if (!window.clientClockSynced) {
-      let clockSynced = false;
-      if (window.setClockParams) {
-        // Check to see if user has updated their clock to current time
-        clockSynced = await window.setClockParams();
-      } else {
-        window.log.info('setClockParams not loaded yet');
-      }
-      if (clockSynced) {
-        ToastUtils.pushClockOutOfSync();
-        return;
-      }
-    }
 
     if (!isPrivate && left) {
       ToastUtils.pushYouLeftTheGroup();

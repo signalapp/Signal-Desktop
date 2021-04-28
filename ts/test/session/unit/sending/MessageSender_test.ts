@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import * as crypto from 'crypto';
 import * as sinon from 'sinon';
 import { toNumber } from 'lodash';
-import { MessageSender } from '../../../../session/sending';
-import LokiMessageAPI from '../../../../../js/modules/loki_message_api';
+import { LokiMessageApi, MessageSender } from '../../../../session/sending';
 import { TestUtils } from '../../../test-utils';
 import { MessageEncrypter } from '../../../../session/crypto';
 import { SignalService } from '../../../../protobuf';
@@ -20,33 +19,14 @@ describe('MessageSender', () => {
     TestUtils.restoreStubs();
   });
 
-  describe('canSendToSnode', () => {
-    it('should return the correct value', () => {
-      const stub = TestUtils.stubWindow('lokiMessageAPI', undefined);
-      expect(MessageSender.canSendToSnode()).to.equal(
-        false,
-        'We cannot send if lokiMessageAPI is not set'
-      );
-      stub.set(sandbox.createStubInstance(LokiMessageAPI));
-      expect(MessageSender.canSendToSnode()).to.equal(true, 'We can send if lokiMessageAPI is set');
-    });
-  });
-
   // tslint:disable-next-line: max-func-body-length
   describe('send', () => {
     const ourNumber = '0123456789abcdef';
-    let lokiMessageAPISendStub: sinon.SinonStub<
-      [string, Uint8Array, number, number],
-      Promise<void>
-    >;
+    let lokiMessageAPISendStub: sinon.SinonStub<any>;
     let encryptStub: sinon.SinonStub<[PubKey, Uint8Array, EncryptionType]>;
 
     beforeEach(() => {
-      // We can do this because LokiMessageAPI has a module export in it
-      lokiMessageAPISendStub = sandbox.stub<[string, Uint8Array, number, number], Promise<void>>();
-      TestUtils.stubWindow('lokiMessageAPI', {
-        sendMessage: lokiMessageAPISendStub,
-      });
+      lokiMessageAPISendStub = sandbox.stub(LokiMessageApi, 'sendMessage').resolves();
 
       encryptStub = sandbox.stub(MessageEncrypter, 'encrypt').resolves({
         envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
