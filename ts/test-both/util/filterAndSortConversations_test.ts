@@ -4,9 +4,12 @@
 import { assert } from 'chai';
 import { getDefaultConversation } from '../helpers/getDefaultConversation';
 
-import { filterAndSortConversations } from '../../util/filterAndSortConversations';
+import {
+  filterAndSortConversationsByTitle,
+  filterAndSortConversationsByRecent,
+} from '../../util/filterAndSortConversations';
 
-describe('filterAndSortConversations', () => {
+describe('filterAndSortConversationsByTitle', () => {
   const conversations = [
     getDefaultConversation({
       title: '+16505551234',
@@ -34,7 +37,7 @@ describe('filterAndSortConversations', () => {
   ];
 
   it('without a search term, sorts conversations by title (but puts no-name contacts at the bottom)', () => {
-    const titles = filterAndSortConversations(conversations, '').map(
+    const titles = filterAndSortConversationsByTitle(conversations, '').map(
       contact => contact.title
     );
     assert.deepEqual(titles, [
@@ -47,16 +50,56 @@ describe('filterAndSortConversations', () => {
   });
 
   it('can search for contacts by title', () => {
-    const titles = filterAndSortConversations(conversations, 'belind').map(
-      contact => contact.title
-    );
+    const titles = filterAndSortConversationsByTitle(
+      conversations,
+      'belind'
+    ).map(contact => contact.title);
     assert.sameMembers(titles, ['Belinda Beetle', 'Belinda Zephyr']);
   });
 
   it('can search for contacts by phone number (and puts no-name contacts at the bottom)', () => {
-    const titles = filterAndSortConversations(conversations, '650555').map(
+    const titles = filterAndSortConversationsByTitle(
+      conversations,
+      '650555'
+    ).map(contact => contact.title);
+    assert.sameMembers(titles, ['Carlos Santana', '+16505551234']);
+  });
+});
+
+describe('filterAndSortConversationsByRecent', () => {
+  const conversations = [
+    getDefaultConversation({
+      title: '+16505551234',
+      activeAt: 1,
+    }),
+    getDefaultConversation({
+      title: 'Abraham Lincoln',
+      activeAt: 4,
+    }),
+    getDefaultConversation({
+      title: 'Boxing Club',
+      activeAt: 3,
+    }),
+    getDefaultConversation({
+      title: 'Not recent',
+    }),
+    getDefaultConversation({
+      title: 'George Washington',
+      e164: '+16505559876',
+      activeAt: 2,
+    }),
+  ];
+
+  it('sorts by recency when no search term is provided', () => {
+    const titles = filterAndSortConversationsByRecent(conversations, '').map(
       contact => contact.title
     );
-    assert.sameMembers(titles, ['Carlos Santana', '+16505551234']);
+    assert.sameMembers(titles, [
+      '+16505551234',
+      'George Washington',
+      'Boxing Club',
+      'Abraham Lincoln',
+      'Not recent',
+    ]);
   });
 });

@@ -27,7 +27,7 @@ import { PropsDataType as TimelinePropsType } from '../../components/conversatio
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
 import { assert } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations';
+import { filterAndSortConversationsByTitle } from '../../util/filterAndSortConversations';
 
 import {
   getInteractionMode,
@@ -353,10 +353,13 @@ export const getAllComposableConversations = createSelector(
   getConversationLookup,
   (conversationLookup: ConversationLookupType): Array<ConversationType> =>
     Object.values(conversationLookup).filter(
-      contact =>
-        !contact.isBlocked &&
-        !isConversationUnregistered(contact) &&
-        (isString(contact.name) || contact.profileSharing)
+      conversation =>
+        !conversation.isBlocked &&
+        !conversation.isGroupV1AndDisabled &&
+        !isConversationUnregistered(conversation) &&
+        // All conversation should have a title except in weird cases where
+        // they don't, in that case we don't want to show these for Forwarding.
+        conversation.title
     )
 );
 
@@ -410,7 +413,7 @@ export const getComposeContacts = createSelector(
     searchTerm: string,
     contacts: Array<ConversationType>
   ): Array<ConversationType> => {
-    return filterAndSortConversations(contacts, searchTerm);
+    return filterAndSortConversationsByTitle(contacts, searchTerm);
   }
 );
 
@@ -421,14 +424,14 @@ export const getComposeGroups = createSelector(
     searchTerm: string,
     groups: Array<ConversationType>
   ): Array<ConversationType> => {
-    return filterAndSortConversations(groups, searchTerm);
+    return filterAndSortConversationsByTitle(groups, searchTerm);
   }
 );
 
 export const getCandidateContactsForNewGroup = createSelector(
   getComposableContacts,
   getNormalizedComposerConversationSearchTerm,
-  filterAndSortConversations
+  filterAndSortConversationsByTitle
 );
 
 export const getCantAddContactForModal = createSelector(

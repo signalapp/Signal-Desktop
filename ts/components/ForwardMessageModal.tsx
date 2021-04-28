@@ -27,7 +27,7 @@ import { BodyRangeType, LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { assert } from '../util/assert';
-import { filterAndSortConversations } from '../util/filterAndSortConversations';
+import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
 
 export type DataPropsType = {
   attachments?: Array<AttachmentType>;
@@ -85,8 +85,8 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     Array<ConversationType>
   >([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredContacts, setFilteredContacts] = useState(
-    filterAndSortConversations(candidateConversations, '')
+  const [filteredConversations, setFilteredConversations] = useState(
+    filterAndSortConversationsByRecent(candidateConversations, '')
   );
   const [attachmentsToForward, setAttachmentsToForward] = useState(attachments);
   const [isEditingMessage, setIsEditingMessage] = useState(false);
@@ -148,14 +148,17 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   const normalizedSearchTerm = searchTerm.trim();
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setFilteredContacts(
-        filterAndSortConversations(candidateConversations, normalizedSearchTerm)
+      setFilteredConversations(
+        filterAndSortConversationsByRecent(
+          candidateConversations,
+          normalizedSearchTerm
+        )
       );
     }, 200);
     return () => {
       clearTimeout(timeout);
     };
-  }, [candidateConversations, normalizedSearchTerm, setFilteredContacts]);
+  }, [candidateConversations, normalizedSearchTerm, setFilteredConversations]);
 
   const contactLookup = useMemo(() => {
     const map = new Map();
@@ -165,7 +168,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     return map;
   }, [candidateConversations]);
 
-  const toggleSelectedContact = useCallback(
+  const toggleSelectedConversation = useCallback(
     (conversationId: string) => {
       let removeContact = false;
       const nextSelectedContacts = selectedContacts.filter(contact => {
@@ -187,9 +190,17 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     [contactLookup, selectedContacts, setSelectedContacts]
   );
 
-  const rowCount = filteredContacts.length;
+  const handleBackOrClose = useCallback(() => {
+    if (isEditingMessage) {
+      setIsEditingMessage(false);
+    } else {
+      onClose();
+    }
+  }, [isEditingMessage, onClose, setIsEditingMessage]);
+
+  const rowCount = filteredConversations.length;
   const getRow = (index: number): undefined | Row => {
-    const contact = filteredContacts[index];
+    const contact = filteredConversations[index];
     if (!contact) {
       return undefined;
     }
@@ -209,8 +220,18 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     };
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+
   return (
-    <ModalHost onClose={onClose}>
+    <ModalHost onEscape={handleBackOrClose} onClose={onClose}>
       <div className="module-ForwardMessageModal">
         <div
           className={classNames('module-ForwardMessageModal__header', {
@@ -328,11 +349,6 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                     <div
                       className="module-ForwardMessageModal__list-wrapper"
                       ref={measureRef}
-                      onKeyDown={event => {
-                        if (event.key === 'Enter') {
-                          inputRef.current?.focus();
-                        }
-                      }}
                     >
                       <ConversationList
                         dimensions={contentRect.bounds}
@@ -349,7 +365,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                             disabledReason !==
                             ContactCheckboxDisabledReason.MaximumContactsSelected
                           ) {
-                            toggleSelectedContact(conversationId);
+                            toggleSelectedConversation(conversationId);
                           }
                         }}
                         onSelectConversation={shouldNeverBeCalled}

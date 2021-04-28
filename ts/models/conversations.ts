@@ -3324,6 +3324,10 @@ export class ConversationModel extends window.Backbone.Model<
     mentions?: BodyRangesType,
     { dontClearDraft = false } = {}
   ): void {
+    if (this.isGroupV1AndDisabled()) {
+      return;
+    }
+
     this.clearTypingTimers();
 
     const { clearUnreadMetrics } = window.reduxActions.conversations;

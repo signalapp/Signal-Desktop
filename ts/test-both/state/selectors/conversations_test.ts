@@ -13,6 +13,7 @@ import {
 import {
   _getConversationComparator,
   _getLeftPaneLists,
+  getAllComposableConversations,
   getCandidateContactsForNewGroup,
   getCantAddContactForModal,
   getComposeContacts,
@@ -450,6 +451,85 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
+  describe('#getAllComposableConversations', () => {
+    const getRootState = (): StateType => {
+      const rootState = getEmptyRootState();
+      return {
+        ...rootState,
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'our-conversation-id': {
+              ...getDefaultConversation('our-conversation-id'),
+              isMe: true,
+            },
+          },
+        },
+        user: {
+          ...rootState.user,
+          ourConversationId: 'our-conversation-id',
+          i18n,
+        },
+      };
+    };
+
+    const getRootStateWithConversations = (): StateType => {
+      const result = getRootState();
+      Object.assign(result.conversations.conversationLookup, {
+        'convo-1': {
+          ...getDefaultConversation('convo-1'),
+          title: 'A',
+        },
+        'convo-2': {
+          ...getDefaultConversation('convo-2'),
+          type: 'group',
+          isGroupV1AndDisabled: true,
+          title: 'Should Be Dropped (GV1)',
+        },
+        'convo-3': {
+          ...getDefaultConversation('convo-3'),
+          type: 'group',
+          title: 'B',
+        },
+        'convo-4': {
+          ...getDefaultConversation('convo-4'),
+          isBlocked: true,
+          title: 'Should Be Dropped (blocked)',
+        },
+        'convo-5': {
+          ...getDefaultConversation('convo-5'),
+          discoveredUnregisteredAt: new Date(1999, 3, 20).getTime(),
+          title: 'C',
+        },
+        'convo-6': {
+          ...getDefaultConversation('convo-6'),
+          profileSharing: true,
+          name: 'Should Be Droped (no title)',
+          title: null,
+        },
+        'convo-7': {
+          ...getDefaultConversation('convo-7'),
+          discoveredUnregisteredAt: Date.now(),
+          title: 'Should Be Dropped (unregistered)',
+        },
+      });
+      return result;
+    };
+
+    it('returns no gv1, no blocked, no missing titles', () => {
+      const state = getRootStateWithConversations();
+      const result = getAllComposableConversations(state);
+
+      const ids = result.map(contact => contact.id);
+      assert.deepEqual(ids, [
+        'our-conversation-id',
+        'convo-1',
+        'convo-3',
+        'convo-5',
+      ]);
+    });
+  });
+
   describe('#getComposeContacts', () => {
     const getRootState = (searchTerm = ''): StateType => {
       const rootState = getEmptyRootState();
@@ -558,7 +638,7 @@ describe('both/state/selectors/conversations', () => {
       assert.deepEqual(ids, ['convo-0']);
     });
 
-    it('returns not to self when searching for your own name', () => {
+    it('returns note to self when searching for your own name', () => {
       const state = getRootStateWithConversations('Myself');
       const result = getComposeContacts(state);
 

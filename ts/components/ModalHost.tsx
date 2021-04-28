@@ -7,13 +7,14 @@ import { createPortal } from 'react-dom';
 import { Theme, themeClassName } from '../util/theme';
 
 export type PropsType = {
+  readonly onEscape?: () => unknown;
   readonly onClose: () => unknown;
   readonly children: React.ReactElement;
   readonly theme?: Theme;
 };
 
 export const ModalHost = React.memo(
-  ({ onClose, children, theme }: PropsType) => {
+  ({ onEscape, onClose, children, theme }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
     useEffect(() => {
@@ -30,7 +31,11 @@ export const ModalHost = React.memo(
     useEffect(() => {
       const handler = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
-          onClose();
+          if (onEscape) {
+            onEscape();
+          } else {
+            onClose();
+          }
 
           event.preventDefault();
           event.stopPropagation();
@@ -41,7 +46,7 @@ export const ModalHost = React.memo(
       return () => {
         document.removeEventListener('keydown', handler);
       };
-    }, [onClose]);
+    }, [onEscape, onClose]);
 
     // This makes it easier to write dialogs to be hosted here; they won't have to worry
     //   as much about preventing propagation of mouse events.

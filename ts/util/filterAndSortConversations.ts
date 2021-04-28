@@ -32,14 +32,38 @@ const FUSE_OPTIONS: FuseOptions<ConversationType> = {
 
 const collator = new Intl.Collator();
 
-export function filterAndSortConversations(
+function searchConversations(
+  conversations: ReadonlyArray<ConversationType>,
+  searchTerm: string
+): Array<ConversationType> {
+  return new Fuse<ConversationType>(conversations, FUSE_OPTIONS).search(
+    searchTerm
+  );
+}
+
+export function filterAndSortConversationsByRecent(
   conversations: ReadonlyArray<ConversationType>,
   searchTerm: string
 ): Array<ConversationType> {
   if (searchTerm.length) {
-    return new Fuse<ConversationType>(conversations, FUSE_OPTIONS).search(
-      searchTerm
-    );
+    return searchConversations(conversations, searchTerm);
+  }
+
+  return conversations.concat().sort((a, b) => {
+    if (a.activeAt && b.activeAt) {
+      return a.activeAt > b.activeAt ? -1 : 1;
+    }
+
+    return a.activeAt && !b.activeAt ? -1 : 1;
+  });
+}
+
+export function filterAndSortConversationsByTitle(
+  conversations: ReadonlyArray<ConversationType>,
+  searchTerm: string
+): Array<ConversationType> {
+  if (searchTerm.length) {
+    return searchConversations(conversations, searchTerm);
   }
 
   return conversations.concat().sort((a, b) => {

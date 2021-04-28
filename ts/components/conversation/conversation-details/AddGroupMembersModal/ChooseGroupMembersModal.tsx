@@ -14,7 +14,7 @@ import { LocalizerType } from '../../../../types/Util';
 import { assert } from '../../../../util/assert';
 import { getOwn } from '../../../../util/getOwn';
 import { missingCaseError } from '../../../../util/missingCaseError';
-import { filterAndSortConversations } from '../../../../util/filterAndSortConversations';
+import { filterAndSortConversationsByTitle } from '../../../../util/filterAndSortConversations';
 import { ConversationType } from '../../../../state/ducks/conversations';
 import { ModalHost } from '../../../ModalHost';
 import { ContactPills } from '../../../ContactPills';
@@ -72,13 +72,16 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   const canContinue = Boolean(selectedContacts.length);
 
   const [filteredContacts, setFilteredContacts] = useState(
-    filterAndSortConversations(candidateContacts, '')
+    filterAndSortConversationsByTitle(candidateContacts, '')
   );
   const normalizedSearchTerm = searchTerm.trim();
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredContacts(
-        filterAndSortConversations(candidateContacts, normalizedSearchTerm)
+        filterAndSortConversationsByTitle(
+          candidateContacts,
+          normalizedSearchTerm
+        )
       );
     }, 200);
     return () => {
