@@ -607,38 +607,6 @@
       }
     });
 
-    Whisper.events.on('publicChatInvitationAccepted', async (serverAddress, channelId) => {
-      // To some degree this has been copy-pasted
-      // form connection_to_server_dialog_view.js:
-      const rawServerUrl = serverAddress.replace(/^https?:\/\//i, '').replace(/[/\\]+$/i, '');
-      const sslServerUrl = `https://${rawServerUrl}`;
-      const conversationId = `publicChat:${channelId}@${rawServerUrl}`;
-
-      const conversationExists = window.getConversationController().get(conversationId);
-      if (conversationExists) {
-        window.log.warn('We are already a member of this public chat');
-        window.libsession.Utils.ToastUtils.pushAlreadyMemberOpenGroup();
-
-        return;
-      }
-
-      const conversation = await window
-        .getConversationController()
-        .getOrCreateAndWait(conversationId, 'group');
-      await conversation.setPublicSource(sslServerUrl, channelId);
-
-      const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
-        sslServerUrl,
-        channelId,
-        conversationId
-      );
-      if (!channelAPI) {
-        window.log.warn(`Could not connect to ${serverAddress}`);
-        return;
-      }
-      window.inboxStore.dispatch(window.actionsCreators.openConversationExternal(conversationId));
-    });
-
     Whisper.events.on('leaveGroup', async groupConvo => {
       if (appView) {
         appView.showLeaveGroupDialog(groupConvo);

@@ -74,6 +74,7 @@ import { ToastUtils, UserUtils } from '../../session/utils';
 import { ConversationController } from '../../session/conversations';
 import { MessageRegularProps } from '../../models/messageType';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
+import { addSenderAsModerator, removeSenderFromModerator } from '../../interactions/message';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -899,58 +900,11 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   }
 
   private async onAddModerator() {
-    const { authorPhoneNumber: pubkey, convoId } = this.props;
-    try {
-      const convo = ConversationController.getInstance().getOrThrow(convoId);
-      const channelAPI = await convo.getPublicSendData();
-      if (!channelAPI) {
-        throw new Error('No channelAPI');
-      }
-      if (!channelAPI.serverAPI) {
-        throw new Error('No serverAPI');
-      }
-      const res = await channelAPI.serverAPI.addModerator([pubkey]);
-      if (!res) {
-        window.log.warn('failed to add moderators:', res);
-
-        ToastUtils.pushUserNeedsToHaveJoined();
-      } else {
-        window.log.info(`${pubkey} added as moderator...`);
-        // refresh the moderator list. Will trigger a refresh
-        const modPubKeys = await channelAPI.getModerators();
-        await convo.updateGroupAdmins(modPubKeys);
-
-        ToastUtils.pushUserAddedToModerators();
-      }
-    } catch (e) {
-      window.log.error('Got error while adding moderator:', e);
-    }
+    await addSenderAsModerator(this.props.authorPhoneNumber, this.props.convoId);
   }
 
   private async onRemoveFromModerator() {
-    const { authorPhoneNumber: pubkey, convoId } = this.props;
-    try {
-      const convo = ConversationController.getInstance().getOrThrow(convoId);
-      const channelAPI = await convo.getPublicSendData();
-      if (!channelAPI) {
-        throw new Error('No channelAPI');
-      }
-      const res = await channelAPI.serverAPI.removeModerators([pubkey]);
-      if (!res) {
-        window.log.warn('failed to remove moderators:', res);
-
-        ToastUtils.pushErrorHappenedWhileRemovingModerator();
-      } else {
-        // refresh the moderator list. Will trigger a refresh
-        const modPubKeys = await channelAPI.getModerators();
-        await convo.updateGroupAdmins(modPubKeys);
-
-        window.log.info(`${pubkey} removed from moderators...`);
-        ToastUtils.pushUserRemovedToModerators();
-      }
-    } catch (e) {
-      window.log.error('Got error while removing moderator:', e);
-    }
+    await removeSenderFromModerator(this.props.authorPhoneNumber, this.props.convoId);
   }
 }
 

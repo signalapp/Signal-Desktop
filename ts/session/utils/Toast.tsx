@@ -195,7 +195,7 @@ export function pushUserAddedToModerators() {
   pushToastSuccess('userAddedToModerators', window.i18n('userAddedToModerators'));
 }
 
-export function pushUserRemovedToModerators() {
+export function pushUserRemovedFromModerators() {
   pushToastSuccess('userRemovedFromModerators', window.i18n('userRemovedFromModerators'));
 }
 

@@ -630,3 +630,40 @@ export const uploadImageForRoomOpenGroupV2 = async (
     fileUrl,
   };
 };
+
+/** MODERATORS ADD/REMOVE */
+
+export const addModerator = async (
+  userToAddAsMods: PubKey,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<boolean> => {
+  const request: OpenGroupV2Request = {
+    method: 'POST',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: true,
+    queryParams: { public_key: userToAddAsMods.key },
+    endpoint: 'moderators',
+  };
+  const addModResult = await sendOpenGroupV2Request(request);
+  const isOk = parseStatusCodeFromOnionRequest(addModResult) === 200;
+  console.warn('addModResult', addModResult);
+  return isOk;
+};
+
+export const removeModerator = async (
+  userToAddAsMods: PubKey,
+  roomInfos: OpenGroupRequestCommonType
+): Promise<boolean> => {
+  const request: OpenGroupV2Request = {
+    method: 'DELETE',
+    room: roomInfos.roomId,
+    server: roomInfos.serverUrl,
+    isAuthRequired: true,
+    endpoint: `moderators/${userToAddAsMods.key}`,
+  };
+  const removeModResult = await sendOpenGroupV2Request(request);
+  const isOk = parseStatusCodeFromOnionRequest(removeModResult) === 200;
+  console.warn('removeModResult', removeModResult);
+  return isOk;
+};

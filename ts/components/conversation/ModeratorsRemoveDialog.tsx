@@ -1,13 +1,16 @@
 import React from 'react';
 import { DefaultTheme } from 'styled-components';
 import { ConversationModel } from '../../models/conversation';
+import { ApiV2 } from '../../opengroup/opengroupV2';
 import { ConversationController } from '../../session/conversations';
+import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { Flex } from '../session/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { SessionModal } from '../session/SessionModal';
 import { SessionSpinner } from '../session/SessionSpinner';
+import _ from 'lodash';
 interface Props {
   convo: ConversationModel;
   onClose: any;
@@ -197,8 +200,15 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
       if (this.props.convo.isOpenGroupV1()) {
         res = await this.channelAPI.serverAPI.removeModerators(removedMods);
       } else if (this.props.convo.isOpenGroupV2()) {
-        // FIXME audric removeModerators opengroupv2
-        throw new Error('removeModerators opengroupv2 TODO');
+        const roomInfos = this.props.convo.toOpenGroupV2();
+        const modsToRemove = _.compact(removedMods.map(m => PubKey.from(m)));
+        res = await Promise.all(
+          modsToRemove.map(async m => {
+            return ApiV2.removeModerator(m, roomInfos);
+          })
+        );
+        // all moderators are removed means all promise resolved with bool= true
+        res = res.every(r => !!r);
       }
       if (!res) {
         window.log.warn('failed to remove moderators:', res);
@@ -206,7 +216,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {
         window.log.info(`${removedMods} removed from moderators...`);
-        ToastUtils.pushUserRemovedToModerators();
+        ToastUtils.pushUserRemovedFromModerators();
       }
     } catch (e) {
       window.log.error('Got error while adding moderator:', e);
