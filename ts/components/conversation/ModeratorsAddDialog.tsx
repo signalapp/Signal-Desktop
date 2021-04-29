@@ -7,6 +7,7 @@ import { DefaultTheme } from 'styled-components';
 import { SessionSpinner } from '../session/SessionSpinner';
 import { Flex } from '../basic/Flex';
 import { ConversationModel } from '../../models/conversation';
+import { ApiV2 } from '../../opengroup/opengroupV2';
 interface Props {
   convo: ConversationModel;
   onClose: any;
@@ -63,8 +64,8 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
         isAdded = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
       } else {
         // this is a v2 opengroup
-        // FIXME audric addModerators
-        throw new Error('TODO');
+        const roomInfos = this.props.convo.toOpenGroupV2();
+        isAdded = await ApiV2.addModerator(pubkey, roomInfos);
       }
       if (!isAdded) {
         window.log.warn('failed to add moderators:', isAdded);

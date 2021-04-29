@@ -631,7 +631,7 @@ export const addModerator = async (
     room: roomInfos.roomId,
     server: roomInfos.serverUrl,
     isAuthRequired: true,
-    queryParams: { public_key: userToAddAsMods.key },
+    queryParams: { public_key: userToAddAsMods.key, room_id: roomInfos.roomId },
     endpoint: 'moderators',
   };
   const addModResult = await sendOpenGroupV2Request(request);
