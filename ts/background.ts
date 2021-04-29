@@ -14,6 +14,8 @@ import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import { ConversationModel } from './models/conversations';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
+import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
+import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -30,6 +32,8 @@ export async function startApp(): Promise<void> {
       err && err.stack ? err.stack : err
     );
   }
+
+  initializeAllJobQueues();
 
   let resolveOnAppView: (() => void) | undefined;
   const onAppView = new Promise<void>(resolve => {
@@ -652,6 +656,13 @@ export async function startApp(): Promise<void> {
         window.isAfterVersion(lastVersion, 'v1.40.0-beta.1')
       ) {
         await window.Signal.Data.clearAllErrorStickerPackAttempts();
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v5.2.0')) {
+        const legacySenderCertificateStorageKey = 'senderCertificateWithUuid';
+        await removeStorageKeyJobQueue.add({
+          key: legacySenderCertificateStorageKey,
+        });
       }
 
       // This one should always be last - it could restart the app

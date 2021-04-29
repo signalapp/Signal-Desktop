@@ -31,8 +31,10 @@ import {
 import { assert } from '../util/assert';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { combineNames } from '../util/combineNames';
+import { isNotNil } from '../util/isNotNil';
 
 import { GroupV2MemberType } from '../model-types.d';
+import { StoredJob } from '../jobs/types';
 
 import {
   AttachmentDownloadJobType,
@@ -213,6 +215,10 @@ const dataInterface: ServerInterface = {
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
+
+  getJobsInQueue,
+  insertJob,
+  deleteJob,
 
   // Server-only
 
@@ -1687,6 +1693,27 @@ async function updateToSchemaVersion27(currentVersion: number, db: Database) {
   })();
 }
 
+function updateToSchemaVersion28(currentVersion: number, db: Database) {
+  if (currentVersion >= 28) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE jobs(
+        id TEXT PRIMARY KEY,
+        queueType TEXT STRING NOT NULL,
+        timestamp INTEGER NOT NULL,
+        data STRING TEXT
+      );
+
+      CREATE INDEX jobs_timestamp ON jobs (timestamp);
+    `);
+
+    db.pragma('user_version = 28');
+  })();
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1715,6 +1742,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion25,
   updateToSchemaVersion26,
   updateToSchemaVersion27,
+  updateToSchemaVersion28,
 ];
 
 function updateSchema(db: Database): void {
@@ -4241,6 +4269,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM stickers;
       DELETE FROM sticker_packs;
       DELETE FROM sticker_references;
+      DELETE FROM jobs;
     `);
   })();
 }
@@ -4257,6 +4286,7 @@ async function removeAllConfiguration(): Promise<void> {
       DELETE FROM sessions;
       DELETE FROM signedPreKeys;
       DELETE FROM unprocessed;
+      DELETE FROM jobs;
     `);
   })();
 }
@@ -4637,4 +4667,49 @@ async function removeKnownDraftAttachments(
   );
 
   return Object.keys(lookup);
+}
+
+async function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
+  const db = getInstance();
+
+  return db
+    .prepare<Query>(
+      `
+      SELECT id, timestamp, data
+      FROM jobs
+      WHERE queueType = $queueType
+      ORDER BY timestamp;
+      `
+    )
+    .all({ queueType })
+    .map(row => ({
+      id: row.id,
+      queueType,
+      timestamp: row.timestamp,
+      data: isNotNil(row.data) ? JSON.parse(row.data) : undefined,
+    }));
+}
+
+async function insertJob(job: Readonly<StoredJob>): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    `
+      INSERT INTO jobs
+      (id, queueType, timestamp, data)
+      VALUES
+      ($id, $queueType, $timestamp, $data);
+    `
+  ).run({
+    id: job.id,
+    queueType: job.queueType,
+    timestamp: job.timestamp,
+    data: isNotNil(job.data) ? JSON.stringify(job.data) : null,
+  });
+}
+
+async function deleteJob(id: string): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>('DELETE FROM jobs WHERE id = $id').run({ id });
 }

@@ -93,24 +93,6 @@ describe('SenderCertificateService', () => {
     fakeStorage.get.withArgs('password').returns('abc123');
   });
 
-  describe('initialize', () => {
-    it('removes an old storage service key if it was present', () => {
-      fakeStorage.get
-        .withArgs('senderCertificateWithUuid')
-        .returns('some value');
-
-      initializeTestService();
-
-      sinon.assert.calledWith(fakeStorage.remove, 'senderCertificateWithUuid');
-    });
-
-    it("doesn't remove anything from storage if it wasn't there", () => {
-      initializeTestService();
-
-      sinon.assert.notCalled(fakeStorage.put);
-    });
-  });
-
   describe('get', () => {
     it('returns valid yes-E164 certificates from storage if they exist', async () => {
       const cert = {

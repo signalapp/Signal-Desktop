@@ -13,6 +13,7 @@ import {
 } from '../model-types.d';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
+import { StoredJob } from '../jobs/types';
 
 export type AttachmentDownloadJobType = {
   id: string;
@@ -289,6 +290,10 @@ export type DataInterface = {
     conversationId: string,
     options: { limit: number }
   ) => Promise<Array<MessageType>>;
+
+  getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
+  insertJob(job: Readonly<StoredJob>): Promise<void>;
+  deleteJob(id: string): Promise<void>;
 };
 
 // The reason for client/server divergence is the need to inject Backbone models and

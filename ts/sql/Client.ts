@@ -33,6 +33,7 @@ import {
   ConversationModelCollectionType,
   MessageModelCollectionType,
 } from '../model-types.d';
+import { StoredJob } from '../jobs/types';
 
 import {
   AttachmentDownloadJobType,
@@ -224,6 +225,10 @@ const dataInterface: ClientInterface = {
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
+
+  getJobsInQueue,
+  insertJob,
+  deleteJob,
 
   // Test-only
 
@@ -1490,4 +1495,16 @@ async function getMessagesWithFileAttachments(
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit,
   });
+}
+
+function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
+  return channels.getJobsInQueue(queueType);
+}
+
+function insertJob(job: Readonly<StoredJob>): Promise<void> {
+  return channels.insertJob(job);
+}
+
+function deleteJob(id: string): Promise<void> {
+  return channels.deleteJob(id);
 }
