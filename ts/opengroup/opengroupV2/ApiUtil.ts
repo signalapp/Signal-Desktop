@@ -26,6 +26,7 @@ export type OpenGroupV2Request = {
   queryParams?: Record<string, string>;
   headers?: Record<string, string>;
   isAuthRequired: boolean;
+  serverPublicKey?: string; // if not provided, a db called will be made to try to get it.
 };
 
 export type OpenGroupV2CompactPollRequest = {

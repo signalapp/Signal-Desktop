@@ -1,5 +1,9 @@
 import _ from 'lodash';
-import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../data/opengroups';
+import {
+  getV2OpenGroupRoomByRoomId,
+  OpenGroupV2Room,
+  saveV2OpenGroupRoom,
+} from '../../data/opengroups';
 import { ConversationController } from '../../session/conversations';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { PubKey } from '../../session/types';
@@ -46,12 +50,18 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
     body = JSON.stringify(request.queryParams);
   }
 
-  const roomDetails = await getV2OpenGroupRoomByRoomId({
-    serverUrl: request.server,
-    roomId: request.room,
-  });
-  if (!roomDetails?.serverPublicKey) {
-    throw new Error('PublicKey not found for this server.');
+  let serverPubKey: string;
+  if (!request.serverPublicKey) {
+    const roomDetails = await getV2OpenGroupRoomByRoomId({
+      serverUrl: request.server,
+      roomId: request.room,
+    });
+    if (!roomDetails?.serverPublicKey) {
+      throw new Error('PublicKey not found for this server.');
+    }
+    serverPubKey = roomDetails.serverPublicKey;
+  } else {
+    serverPubKey = request.serverPublicKey;
   }
   // Because auth happens on a per-room basis, we need both to make an authenticated request
   if (request.isAuthRequired && request.room) {
@@ -68,7 +78,7 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
     }
     headers.Authorization = token;
     const res = await sendViaOnion(
-      roomDetails.serverPublicKey,
+      serverPubKey,
       builtUrl,
       {
         method: request.method,
@@ -88,6 +98,14 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
     // Note that a 403 has a different meaning; it means that
     // we provided a valid token but it doesn't have a high enough permission level for the route in question.
     if (statusCode === 401) {
+      const roomDetails = await getV2OpenGroupRoomByRoomId({
+        serverUrl: request.server,
+        roomId: request.room,
+      });
+      if (!roomDetails) {
+        window.log.warn('Got 401, but this room does not exist');
+        return null;
+      }
       roomDetails.token = undefined;
       // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
       await saveV2OpenGroupRoom(roomDetails);
@@ -95,7 +113,7 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
     return res as object;
   } else {
     // no need for auth, just do the onion request
-    const res = await sendViaOnion(roomDetails.serverPublicKey, builtUrl, {
+    const res = await sendViaOnion(serverPubKey, builtUrl, {
       method: request.method,
       headers,
       body,
@@ -418,7 +436,7 @@ export const deleteSingleMessage = async (
   return isOk;
 };
 
-export const getAllRoomInfos = async (roomInfos: OpenGroupRequestCommonType) => {
+export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
   // room should not be required here
   const request: OpenGroupV2Request = {
     method: 'GET',
@@ -426,6 +444,7 @@ export const getAllRoomInfos = async (roomInfos: OpenGroupRequestCommonType) => 
     server: roomInfos.serverUrl,
     isAuthRequired: false,
     endpoint: 'rooms',
+    serverPublicKey: roomInfos.serverPublicKey,
   };
   const result = await sendOpenGroupV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
@@ -535,7 +554,7 @@ export const downloadFileOpenGroupV2ByUrl = async (
  * It can be used directly, or saved on the attachments directory if needed, but this function does not handle it
  */
 export const downloadPreviewOpenGroupV2 = async (
-  roomInfos: OpenGroupRequestCommonType
+  roomInfos: OpenGroupV2Room
 ): Promise<string | null> => {
   const request: OpenGroupV2Request = {
     method: 'GET',
@@ -543,6 +562,7 @@ export const downloadPreviewOpenGroupV2 = async (
     server: roomInfos.serverUrl,
     isAuthRequired: false,
     endpoint: `rooms/${roomInfos.roomId}/image`,
+    serverPublicKey: roomInfos.serverPublicKey,
   };
 
   const result = await sendOpenGroupV2Request(request);
