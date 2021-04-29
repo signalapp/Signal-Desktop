@@ -3262,6 +3262,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const conversationId = message.get('conversationId');
     const GROUP_TYPES = window.textsecure.protobuf.GroupContext.Type;
 
+    const fromContact = this.getContact();
+    if (fromContact) {
+      fromContact.setRegistered();
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = window.ConversationController.get(conversationId)!;
     return conversation.queueJob(async () => {
