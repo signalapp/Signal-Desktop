@@ -54,7 +54,6 @@ declare global {
     log: any;
     lokiFeatureFlags: {
       useOnionRequests: boolean;
-      useOnionRequestsV2: boolean;
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
       onionRequestHops: number;

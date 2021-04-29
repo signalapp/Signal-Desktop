@@ -56,7 +56,6 @@ window.initialisedAPI = false;
 
 window.lokiFeatureFlags = {
   useOnionRequests: true,
-  useOnionRequestsV2: true,
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   onionRequestHops: 3,
@@ -448,7 +447,6 @@ if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
     useOnionRequests: false,
     useFileOnionRequests: false,
-    useOnionRequestsV2: false,
     useRequestEncryptionKeyPair: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
