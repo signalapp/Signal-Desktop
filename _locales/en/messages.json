@@ -2239,5 +2239,8 @@
   },
   "errorHappenedWhileRemovingModeratorDesc": {
     "message": "An error happened while removing this user from the moderator list."
+  },
+  "orJoinOneOfThese": {
+    "message": "Or join one of these..."
   }
 }

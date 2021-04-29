@@ -49,7 +49,7 @@ export const Flex = styled.div<FlexProps>`
   align-items: ${props => props.alignItems || 'stretch'};
   margin: ${props => props.margin || '0'};
   padding: ${props => props.padding || '0'};
-  width: ${props => props.justifyContent || 'auto'};
+  width: ${props => props.width || 'auto'};
   height: ${props => props.height || 'auto'};
   max-width: ${props => props.maxWidth || 'none'};
 `;

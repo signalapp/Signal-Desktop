@@ -5,6 +5,7 @@ import { StateType } from '../../state/reducer';
 import { Avatar, AvatarSize } from '../Avatar';
 import { Flex } from '../basic/Flex';
 import { PillContainer } from '../basic/PillContainer';
+import { H3 } from '../basic/Text';
 // tslint:disable: no-void-expression
 
 export type JoinableRoomProps = {
@@ -52,19 +53,22 @@ export const SessionJoinableRooms = () => {
   }
 
   return (
-    <Flex container={true} flexGrow={1} flexWrap="wrap">
-      {joinableRooms.map(r => {
-        return (
-          <SessionJoinableRoomRow
-            key={r.id}
-            completeUrl={r.completeUrl}
-            name={r.name}
-            onClick={completeUrl => {
-              void joinOpenGroupV2WithUIEvents(completeUrl, true);
-            }}
-          />
-        );
-      })}
+    <Flex container={true} flexGrow={1} flexDirection="column" width="93%">
+      <H3 text={window.i18n('orJoinOneOfThese')} />
+      <Flex container={true} flexGrow={1} flexWrap="wrap">
+        {joinableRooms.map(r => {
+          return (
+            <SessionJoinableRoomRow
+              key={r.id}
+              completeUrl={r.completeUrl}
+              name={r.name}
+              onClick={completeUrl => {
+                void joinOpenGroupV2WithUIEvents(completeUrl, true);
+              }}
+            />
+          );
+        })}
+      </Flex>
     </Flex>
   );
 };
