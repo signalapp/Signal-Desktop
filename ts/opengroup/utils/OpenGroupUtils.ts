@@ -20,9 +20,15 @@ export const openGroupV2ServerUrlRegex = new RegExp(
   `${protocolRegex.source}${hostnameRegex.source}${portRegex}`
 );
 
+/**
+ * Regex to use to check if a string is a v2open completeURL with pubkey.
+ * Be aware that the /g flag is not set as .test() will otherwise return alternating result
+ *
+ * @see https://stackoverflow.com/a/9275499/1680951
+ */
 export const openGroupV2CompleteURLRegex = new RegExp(
-  `^${openGroupV2ServerUrlRegex.source}\/${roomIdV2Regex}${qMark}${publicKeyParam}${publicKeyRegex}$`,
-  'gm'
+  `${openGroupV2ServerUrlRegex.source}\/${roomIdV2Regex}${qMark}${publicKeyParam}${publicKeyRegex}`,
+  'm'
 );
 
 /**

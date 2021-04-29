@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
-import { Flex } from './Flex';
+import { Flex } from '../basic/Flex';
 import styled, { ThemeContext } from 'styled-components';
 import { noop } from 'lodash';
 

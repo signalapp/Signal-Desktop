@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Spinner } from '../Spinner';
+import { Spinner } from '../basic/Spinner';
 import { LocalizerType } from '../../types/Util';
 import { AttachmentType } from '../../types/Attachment';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';

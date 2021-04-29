@@ -5,7 +5,7 @@ import { ApiV2 } from '../../opengroup/opengroupV2';
 import { ConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
-import { Flex } from '../session/Flex';
+import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { SessionModal } from '../session/SessionModal';

@@ -31,6 +31,7 @@ import { showLeftPaneSection } from '../../state/ducks/section';
 
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
+import { loadDefaultRoomsIfNeeded } from '../../opengroup/opengroupV2/ApiUtil';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -175,11 +176,10 @@ export const ActionsPanel = () => {
     };
     void generateAttachmentKeyIfEmpty();
     // trigger a sync message if needed for our other devices
-    //       'http://sessionopengroup.com/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231b'
-    //       'https://sog.ibolpap.finance/main?public_key=b464aa186530c97d6bcf663a3a3b7465a5f782beaa67c83bee99468824b4aa10'
-    // 'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d'
     void OpenGroupManagerV2.getInstance().startPolling();
     void syncConfiguration();
+
+    void loadDefaultRoomsIfNeeded();
   }, []);
 
   // wait for cleanUpMediasInterval and then start cleaning up medias

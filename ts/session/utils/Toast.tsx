@@ -6,13 +6,15 @@ import { SessionToast, SessionToastType } from '../../components/session/Session
 // if you push a toast manually with toast...() be sure to set the type attribute of the SessionToast component
 export function pushToastError(id: string, title: string, description?: string) {
   toast.error(
-    <SessionToast title={title} description={description} type={SessionToastType.Error} />
+    <SessionToast title={title} description={description} type={SessionToastType.Error} />,
+    { toastId: id, updateId: id }
   );
 }
 
 export function pushToastWarning(id: string, title: string, description?: string) {
   toast.warning(
-    <SessionToast title={title} description={description} type={SessionToastType.Warning} />
+    <SessionToast title={title} description={description} type={SessionToastType.Warning} />,
+    { toastId: id, updateId: id }
   );
 }
 
@@ -28,7 +30,8 @@ export function pushToastInfo(
       description={description}
       type={SessionToastType.Info}
       onToastClick={onToastClick}
-    />
+    />,
+    { toastId: id, updateId: id }
   );
 }
 
@@ -44,7 +47,8 @@ export function pushToastSuccess(
       description={description}
       type={SessionToastType.Success}
       icon={icon}
-    />
+    />,
+    { toastId: id, updateId: id }
   );
 }
 

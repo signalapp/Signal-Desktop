@@ -1,6 +1,11 @@
 import _ from 'underscore';
 import { PubKey } from '../../session/types';
+import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { fromBase64ToArrayBuffer, fromHex } from '../../session/utils/String';
+import { updateDefaultRooms } from '../../state/ducks/defaultRooms';
+import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
+import { parseOpenGroupV2 } from './JoinOpenGroupV2';
+import { getAllRoomInfos } from './OpenGroupAPIV2';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
 export const defaultServer = 'https://sessionopengroup.com';
@@ -33,6 +38,13 @@ export type OpenGroupV2CompactPollRequest = {
 export type OpenGroupV2Info = {
   id: string;
   name: string;
+  imageId?: string;
+};
+
+export type OpenGroupV2InfoJoinable = {
+  id: string;
+  name: string;
+  completeUrl: string;
   imageId?: string;
 };
 
@@ -96,4 +108,54 @@ export const parseMessages = async (
     })
   );
   return _.compact(messages);
+};
+
+//       'http://sessionopengroup.com/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231b'
+
+// FIXME audric change this to sessionopengroup.com once http is fixed
+const defaultRoom =
+  'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d';
+
+const loadDefaultRoomsSingle = () =>
+  allowOnlyOneAtATime(
+    'loadDefaultRoomsSingle',
+    async (): Promise<Array<OpenGroupV2InfoJoinable>> => {
+      const roomInfos = parseOpenGroupV2(defaultRoom);
+      if (roomInfos) {
+        try {
+          const roomsGot = await getAllRoomInfos(roomInfos);
+
+          if (!roomsGot) {
+            return [];
+          }
+
+          return roomsGot.map(room => {
+            return {
+              ...room,
+              completeUrl: getCompleteUrlFromRoom({
+                serverUrl: roomInfos.serverUrl,
+                serverPublicKey: roomInfos.serverPublicKey,
+                roomId: room.id,
+              }),
+            };
+          });
+        } catch (e) {
+          window.log.warn('loadDefaultRoomsIfNeeded failed', e);
+        }
+        return [];
+      }
+      return [];
+    }
+  );
+
+/**
+ * Load to the cache all the details of the room of the default opengroupv2 server
+ * This call will only run once at a time.
+ */
+export const loadDefaultRoomsIfNeeded = async () => {
+  // FIXME audric do the UI and refresh this list from time to time
+  const allRooms: Array<OpenGroupV2InfoJoinable> = await loadDefaultRoomsSingle();
+  if (allRooms !== undefined) {
+    window.inboxStore?.dispatch(updateDefaultRooms(allRooms));
+  }
 };

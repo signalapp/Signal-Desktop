@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flex } from '../Flex';
+import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionSpinner } from '../SessionSpinner';
 import { signInWithLinking, signInWithRecovery, validatePassword } from './RegistrationTabs';

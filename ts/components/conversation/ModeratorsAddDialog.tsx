@@ -5,7 +5,7 @@ import { ToastUtils } from '../../session/utils';
 import { SessionModal } from '../session/SessionModal';
 import { DefaultTheme } from 'styled-components';
 import { SessionSpinner } from '../session/SessionSpinner';
-import { Flex } from '../session/Flex';
+import { Flex } from '../basic/Flex';
 import { ConversationModel } from '../../models/conversation';
 interface Props {
   convo: ConversationModel;

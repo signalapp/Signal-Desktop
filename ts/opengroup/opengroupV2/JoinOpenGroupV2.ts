@@ -27,6 +27,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
     if (!openGroupV2CompleteURLRegex.test(lowerCased)) {
       throw new Error('regex fail');
     }
+
     // prefix the URL if it does not have a prefix
     const prefixedUrl = prefixify(lowerCased);
     // new URL fails if the protocol is not explicit
@@ -44,7 +45,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
     };
     return room;
   } catch (e) {
-    window.log.error('Invalid Opengroup v2 join URL:', lowerCased);
+    window.log.error('Invalid Opengroup v2 join URL:', lowerCased, e);
   }
   return undefined;
 }
@@ -127,14 +128,14 @@ export async function joinOpenGroupV2WithUIEvents(
   showToasts: boolean,
   uiCallback?: (loading: boolean) => void
 ): Promise<boolean> {
-  const parsedRoom = parseOpenGroupV2(completeUrl);
-  if (!parsedRoom) {
-    if (showToasts) {
-      ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
-    }
-    return false;
-  }
   try {
+    const parsedRoom = parseOpenGroupV2(completeUrl);
+    if (!parsedRoom) {
+      if (showToasts) {
+        ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
+      }
+      return false;
+    }
     const conversationID = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
     if (ConversationController.getInstance().get(conversationID)) {
       if (showToasts) {

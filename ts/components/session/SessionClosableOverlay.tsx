@@ -12,6 +12,7 @@ import { PillDivider } from './PillDivider';
 import { DefaultTheme } from 'styled-components';
 import { UserUtils } from '../../session/utils';
 import { ConversationTypeEnum } from '../../models/conversation';
+import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 
 export enum SessionClosableOverlayType {
   Message = 'message',
@@ -220,6 +221,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         {descriptionLong && <div className="session-description-long">{descriptionLong}</div>}
         {isMessageView && false && <h4>{window.i18n('or')}</h4>}
         {/* FIXME enable back those two items when they are working */}
+        {isOpenGroupView && <SessionJoinableRooms />}
         {isMessageView && false && (
           <UserSearchDropdown
             searchTerm={searchTerm || ''}

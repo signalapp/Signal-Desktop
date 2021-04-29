@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Avatar, AvatarSize } from '../Avatar';
-import { Spinner } from '../Spinner';
+import { Spinner } from '../basic/Spinner';
 import { MessageBody } from './MessageBody';
 import { ImageGrid } from './ImageGrid';
 import { Image } from './Image';

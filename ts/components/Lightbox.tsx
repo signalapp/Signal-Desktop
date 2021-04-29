@@ -7,7 +7,7 @@ import is from '@sindresorhus/is';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
-import { Flex } from './session/Flex';
+import { Flex } from './basic/Flex';
 import { DefaultTheme } from 'styled-components';
 // useCss has some issues on our setup. so import it directly
 // tslint:disable-next-line: no-submodule-imports

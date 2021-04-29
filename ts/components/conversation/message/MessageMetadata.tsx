@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { MessageSendingErrorText, MetadataSpacer } from './MetadataUtilComponent';
 import { OutgoingMessageStatus } from './OutgoingMessageStatus';
-import { Spinner } from '../../Spinner';
+import { Spinner } from '../../basic/Spinner';
 import { MetadataBadges } from './MetadataBadge';
 import { Timestamp } from '../Timestamp';
 import { ExpireTimer } from '../ExpireTimer';

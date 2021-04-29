@@ -13,7 +13,7 @@ import { SignalService } from '../../../protobuf';
 import { Constants } from '../../../session';
 
 import { toArray } from 'react-emoji-render';
-import { Flex } from '../Flex';
+import { Flex } from '../../basic/Flex';
 import { AttachmentList } from '../../conversation/AttachmentList';
 import { ToastUtils } from '../../../session/utils';
 import { AttachmentUtil } from '../../../util';
