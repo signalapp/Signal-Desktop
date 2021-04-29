@@ -33,10 +33,8 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
     // new URL fails if the protocol is not explicit
     const url = new URL(prefixedUrl);
 
-    let serverUrl = `${url.protocol}//${url.host}`;
-    if (url.port) {
-      serverUrl += `:${url.port}`;
-    }
+    // the port (if any is set) is already in the url.host so no need to += url.port
+    const serverUrl = `${url.protocol}//${url.host}`;
 
     const room: OpenGroupV2Room = {
       serverUrl,

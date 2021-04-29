@@ -1,4 +1,4 @@
-import { getGuardNodes } from '../../../ts/data/data';
+import { getGuardNodes, updateGuardNodes } from '../../../ts/data/data';
 import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
@@ -217,7 +217,7 @@ export class OnionPaths {
 
     const edKeys = guardNodes.map(n => n.pubkey_ed25519);
 
-    await window.libloki.storage.updateGuardNodes(edKeys);
+    await updateGuardNodes(edKeys);
 
     return guardNodes;
   }

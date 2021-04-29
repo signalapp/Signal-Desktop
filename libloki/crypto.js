@@ -50,13 +50,11 @@
     return symmetricKey;
   }
 
+  // encryptForPubkey: string, payloadBytes: Uint8Array
   async function encryptForPubkey(pubkeyX25519, payloadBytes) {
     const ephemeral = await libloki.crypto.generateEphemeralKeyPair();
-
     const snPubkey = StringView.hexToArrayBuffer(pubkeyX25519);
-
     const symmetricKey = await deriveSymmetricKey(snPubkey, ephemeral.privKey);
-
     const ciphertext = await EncryptAESGCM(symmetricKey, payloadBytes);
 
     return { ciphertext, symmetricKey, ephemeralKey: ephemeral.pubKey };
@@ -86,7 +84,6 @@
   async function DecryptAESGCM(symmetricKey, ivAndCiphertext) {
     const nonce = ivAndCiphertext.slice(0, NONCE_LENGTH);
     const ciphertext = ivAndCiphertext.slice(NONCE_LENGTH);
-
     const key = await crypto.subtle.importKey('raw', symmetricKey, { name: 'AES-GCM' }, false, [
       'decrypt',
     ]);

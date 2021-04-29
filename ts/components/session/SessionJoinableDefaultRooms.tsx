@@ -36,7 +36,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
           });
       }
     } catch (e) {
-      console.warn(e);
+      window.log.warn(e);
     }
   }, [props.imageId, props.completeUrl]);
   return (
@@ -72,7 +72,7 @@ export const SessionJoinableRooms = () => {
   const joinableRooms = useSelector((state: StateType) => state.defaultRooms);
 
   if (!joinableRooms?.length) {
-    console.warn('no default joinable rooms yet');
+    window.log.info('no default joinable rooms yet');
     return <></>;
   }
 

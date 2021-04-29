@@ -126,9 +126,10 @@
     // If already exists we registered as a secondary device
     if (!window.lokiFileServerAPI) {
       window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
-      window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
-        window.getDefaultFileServer()
-      );
+      // FIXME audric
+      // window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
+      //   window.getDefaultFileServer()
+      // );
     }
 
     window.initialisedAPI = true;

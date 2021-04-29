@@ -347,7 +347,6 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
     await sleepFor(successiveFailures * 500);
     try {
       const result = await snodeRpc('store', params, targetNode);
-      console.warn('snode storeOnNode result', result);
 
       // do not return true if we get false here...
       if (result === false) {

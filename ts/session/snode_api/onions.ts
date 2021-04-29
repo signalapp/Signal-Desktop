@@ -5,7 +5,7 @@ import { Snode } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { StringUtils } from '../utils';
 import { OnionPaths } from '../onions';
-import Long from 'long';
+import { fromBase64ToArrayBuffer, toHex } from '../utils/String';
 
 export enum RequestError {
   BAD_PATH = 'BAD_PATH',
@@ -36,9 +36,22 @@ async function encryptForPubKey(pubKeyX25519hex: string, reqObj: any): Promise<D
   return window.libloki.crypto.encryptForPubkey(pubKeyX25519hex, plaintext);
 }
 
+export type DestinationRelayV2 = {
+  host?: string;
+  protocol?: string;
+  port?: number;
+  destination?: string;
+  method?: string;
+  target?: string;
+};
+
 // `ctx` holds info used by `node` to relay further
-async function encryptForRelayV2(relayX25519hex: string, destination: any, ctx: any) {
-  const { log, StringView } = window;
+async function encryptForRelayV2(
+  relayX25519hex: string,
+  destination: DestinationRelayV2,
+  ctx: DestinationContext
+) {
+  const { log } = window;
 
   if (!destination.host && !destination.destination) {
     log.warn('loki_rpc::encryptForRelayV2 - no destination', destination);
@@ -46,7 +59,7 @@ async function encryptForRelayV2(relayX25519hex: string, destination: any, ctx: 
 
   const reqObj = {
     ...destination,
-    ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeralKey),
+    ephemeral_key: toHex(ctx.ephemeralKey),
   };
 
   const plaintext = encodeCiphertextPlusJson(ctx.ciphertext, reqObj);
@@ -55,12 +68,15 @@ async function encryptForRelayV2(relayX25519hex: string, destination: any, ctx: 
 }
 
 /// Encode ciphertext as (len || binary) and append payloadJson as utf8
-function encodeCiphertextPlusJson(ciphertext: any, payloadJson: any): Uint8Array {
+function encodeCiphertextPlusJson(
+  ciphertext: Uint8Array,
+  payloadJson: Record<string, any>
+): Uint8Array {
   const payloadStr = JSON.stringify(payloadJson);
 
   const bufferJson = ByteBuffer.wrap(payloadStr, 'utf8');
 
-  const len = ciphertext.length as number;
+  const len = ciphertext.length;
   const arrayLen = bufferJson.buffer.length + 4 + len;
   const littleEndian = true;
   const buffer = new ByteBuffer(arrayLen, littleEndian);
@@ -72,19 +88,10 @@ function encodeCiphertextPlusJson(ciphertext: any, payloadJson: any): Uint8Array
   return new Uint8Array(buffer.buffer);
 }
 
-// New "semi-binary" encoding
-function makeGuardPayloadV2(guardCtx: any): Uint8Array {
-  const guardPayloadObj = {
-    ephemeral_key: StringUtils.decode(guardCtx.ephemeralKey, 'hex'),
-  };
-
-  return encodeCiphertextPlusJson(guardCtx.ciphertext, guardPayloadObj);
-}
-
 async function buildOnionCtxs(
   nodePath: Array<Snode>,
   destCtx: DestinationContext,
-  targetED25519Hex: string,
+  targetED25519Hex?: string,
   finalRelayOptions?: FinalRelayOptions,
   id = ''
 ) {
@@ -95,14 +102,7 @@ async function buildOnionCtxs(
   const firstPos = nodePath.length - 1;
 
   for (let i = firstPos; i > -1; i -= 1) {
-    let dest: {
-      host?: string;
-      protocol?: string;
-      port?: string;
-      destination?: string;
-      method?: string;
-      target?: string;
-    };
+    let dest: DestinationRelayV2;
     const relayingToFinalDestination = i === firstPos; // if last position
 
     if (relayingToFinalDestination && finalRelayOptions) {
@@ -120,10 +120,10 @@ async function buildOnionCtxs(
       };
       // FIXME http open groups v2 are not working
       // tslint:disable-next-line: no-http-string
-      // if (finalRelayOptions?.protocol === 'http:') {
-      //   dest.protocol = 'http';
-      //   dest.port = '80';
-      // }
+      if (finalRelayOptions?.protocol === 'http') {
+        dest.protocol = finalRelayOptions.protocol;
+        dest.port = finalRelayOptions.port || 80;
+      }
     } else {
       // set x25519 if destination snode
       let pubkeyHex = targetED25519Hex; // relayingToFinalDestination
@@ -132,7 +132,7 @@ async function buildOnionCtxs(
         pubkeyHex = nodePath[i + 1].pubkey_ed25519;
         if (!pubkeyHex) {
           log.error(
-            `loki_rpc:::buildOnionRequest ${id} - no ed25519 for`,
+            `loki_rpc:::buildOnionGuardNodePayload ${id} - no ed25519 for`,
             nodePath[i + 1],
             'path node',
             i + 1
@@ -150,7 +150,7 @@ async function buildOnionCtxs(
       ctxes.push(ctx);
     } catch (e) {
       log.error(
-        `loki_rpc:::buildOnionRequest ${id} - encryptForRelayV2 failure`,
+        `loki_rpc:::buildOnionGuardNodePayload ${id} - encryptForRelayV2 failure`,
         e.code,
         e.message
       );
@@ -163,19 +163,26 @@ async function buildOnionCtxs(
 
 // we just need the targetNode.pubkey_ed25519 for the encryption
 // targetPubKey is ed25519 if snode is the target
-async function buildOnionRequest(
+async function buildOnionGuardNodePayload(
   nodePath: Array<Snode>,
   destCtx: DestinationContext,
-  targetED25519Hex: string,
+  targetED25519Hex?: string,
   finalRelayOptions?: FinalRelayOptions,
   id = ''
 ) {
   const ctxes = await buildOnionCtxs(nodePath, destCtx, targetED25519Hex, finalRelayOptions, id);
 
+  // this is the OUTER side of the onion, the one encoded with multiple layer
+  // So the one we will send to the first guard node.
   const guardCtx = ctxes[ctxes.length - 1]; // last ctx
 
-  // all these requests should use AesGcm
-  return makeGuardPayloadV2(guardCtx);
+  // New "semi-binary" encoding
+
+  const guardPayloadObj = {
+    ephemeral_key: toHex(guardCtx.ephemeralKey),
+  };
+
+  return encodeCiphertextPlusJson(guardCtx.ciphertext, guardPayloadObj);
 }
 
 // Process a response as it arrives from `fetch`, handling
@@ -184,11 +191,11 @@ async function buildOnionRequest(
 const processOnionResponse = async (
   reqIdx: number,
   response: any,
-  sharedKey: ArrayBuffer,
+  symmetricKey: ArrayBuffer,
   debug: boolean,
   abortSignal?: AbortSignal
 ): Promise<SnodeResponse | RequestError> => {
-  const { log, libloki, dcodeIO, StringView } = window;
+  const { log, libloki } = window;
 
   if (abortSignal?.aborted) {
     log.warn(`(${reqIdx}) [path] Call aborted`);
@@ -230,7 +237,7 @@ const processOnionResponse = async (
     return RequestError.OTHER;
   }
 
-  let ciphertext = await response.text();
+  let ciphertext = (await response.text()) as string;
   if (!ciphertext) {
     log.warn(
       `(${reqIdx}) [path] lokiRpc::processOnionResponse - Target node return empty ciphertext`
@@ -251,16 +258,16 @@ const processOnionResponse = async (
     // just try to get a json object from what is inside (for PN requests), if it fails, continue ()
   }
   try {
-    ciphertextBuffer = dcodeIO.ByteBuffer.wrap(ciphertext, 'base64').toArrayBuffer();
+    ciphertextBuffer = fromBase64ToArrayBuffer(ciphertext);
 
     if (debug) {
       log.debug(
         `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertextBuffer`,
-        StringView.arrayBufferToHex(ciphertextBuffer)
+        toHex(ciphertextBuffer)
       );
     }
 
-    const plaintextBuffer = await libloki.crypto.DecryptAESGCM(sharedKey, ciphertextBuffer);
+    const plaintextBuffer = await libloki.crypto.DecryptAESGCM(symmetricKey, ciphertextBuffer);
     if (debug) {
       log.debug('lokiRpc::processOnionResponse - plaintextBuffer', plaintextBuffer.toString());
     }
@@ -269,13 +276,13 @@ const processOnionResponse = async (
   } catch (e) {
     log.error(`(${reqIdx}) [path] lokiRpc::processOnionResponse - decode error`, e);
     log.error(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - symKey`,
-      StringView.arrayBufferToHex(sharedKey)
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - symmetricKey`,
+      toHex(symmetricKey)
     );
     if (ciphertextBuffer) {
       log.error(
         `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertextBuffer`,
-        StringView.arrayBufferToHex(ciphertextBuffer)
+        toHex(ciphertextBuffer)
       );
     }
     return RequestError.OTHER;
@@ -308,9 +315,8 @@ export const snodeHttpsAgent = new https.Agent({
 
 export type FinalRelayOptions = {
   host: string;
-  // FIXME http open groups v2 are not working
-  // protocol?: string; // default to https
-  // port?: string; // default to 443
+  protocol?: 'http' | 'https'; // default to https
+  port?: number; // default to 443
 };
 
 export type DestinationContext = {
@@ -346,10 +352,10 @@ const sendOnionRequest = async (
     body?: string;
   },
   finalRelayOptions?: FinalRelayOptions,
-  lsrpcIdx?: any,
+  lsrpcIdx?: number,
   abortSignal?: AbortSignal
 ): Promise<SnodeResponse | RequestError> => {
-  const { log, StringView } = window;
+  const { log } = window;
 
   let id = '';
   if (lsrpcIdx !== undefined) {
@@ -363,7 +369,8 @@ const sendOnionRequest = async (
   let destX25519hex = destX25519Any;
   if (typeof destX25519hex !== 'string') {
     // convert AB to hex
-    destX25519hex = StringView.arrayBufferToHex(destX25519Any as any);
+    window.log.warn('destX25519hex was not a string');
+    destX25519hex = toHex(destX25519Any as any);
   }
 
   // safely build destination
@@ -378,9 +385,7 @@ const sendOnionRequest = async (
 
   const options = finalDestOptions; // lint
   // do we need this?
-  if (options.headers === undefined) {
-    options.headers = {};
-  }
+  options.headers = options.headers || {};
 
   const isLsrpc = !!finalRelayOptions;
 
@@ -413,10 +418,10 @@ const sendOnionRequest = async (
     throw e;
   }
 
-  const payload = await buildOnionRequest(
+  const payload = await buildOnionGuardNodePayload(
     nodePath,
     destCtx,
-    targetEd25519hex as string, // FIXME
+    targetEd25519hex,
     finalRelayOptions,
     id
   );
@@ -436,7 +441,6 @@ const sendOnionRequest = async (
   // window.log.info('insecureNodeFetch => plaintext for sendOnionRequest');
 
   const response = await insecureNodeFetch(guardUrl, guardFetchOptions);
-
   return processOnionResponse(reqIdx, response, destCtx.symmetricKey, false, abortSignal);
 };
 
@@ -460,7 +464,6 @@ async function sendOnionRequestSnodeDest(
 }
 
 // need relay node's pubkey_x25519_hex
-// always the same target: /loki/v1/lsrpc
 export async function sendOnionRequestLsrpcDest(
   reqIdx: number,
   nodePath: Array<Snode>,

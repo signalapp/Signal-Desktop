@@ -57,13 +57,8 @@ const getCompactPollRequest = async (
             room_id: roomId,
             auth_token: token || '',
           };
-          // if (lastMessageDeletedServerID) {
           roomRequestContent.from_deletion_server_id = lastMessageDeletedServerID;
-          // }
-          // if (lastMessageFetchedServerID) {
           roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
-          // }
-          console.warn('compactPoll, ', roomRequestContent);
 
           return roomRequestContent;
         } catch (e) {

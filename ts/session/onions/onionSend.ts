@@ -9,8 +9,10 @@ import {
   SnodeResponse,
 } from '../snode_api/onions';
 import { Snode } from '../snode_api/snodePool';
-import _ from 'lodash';
+import _, { toNumber } from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
+import { PROTOCOLS } from '../constants';
+import { toHex } from '../utils/String';
 
 // FIXME: replace with something on urlPubkeyMap...
 const FILESERVER_HOSTS = [
@@ -111,7 +113,7 @@ export const getOnionPathForSending = async (requestNumber: number) => {
   } catch (e) {
     window.log.error(`sendViaOnion #${requestNumber} - getOnionPath Error ${e.code} ${e.message}`);
   }
-  if (!pathNodes || !pathNodes.length) {
+  if (!pathNodes?.length) {
     window.log.warn(`sendViaOnion #${requestNumber} - failing, no path available`);
     // should we retry?
     return null;
@@ -132,7 +134,7 @@ const initOptionsWithDefaults = (options: OnionFetchBasicOptions) => {
  * result is status_code and whatever the body should be
  */
 export const sendViaOnion = async (
-  srvPubKey: string,
+  destinationX25519Key: string,
   url: URL,
   fetchOptions: OnionFetchOptions,
   options: OnionFetchBasicOptions = {},
@@ -142,9 +144,11 @@ export const sendViaOnion = async (
   txtResponse: string;
   response: string;
 } | null> => {
-  if (!srvPubKey) {
-    window.log.error('sendViaOnion - called without a server public key');
-    return null;
+  const castedDestinationX25519Key =
+    typeof destinationX25519Key !== 'string' ? toHex(destinationX25519Key) : destinationX25519Key;
+  // FIXME audric looks like this might happen for opengroupv1
+  if (!destinationX25519Key || typeof destinationX25519Key !== 'string') {
+    window.log.error('sendViaOnion - called without a server public key or not a string key');
   }
 
   const defaultedOptions = initOptionsWithDefaults(options);
@@ -158,19 +162,24 @@ export const sendViaOnion = async (
   // do the request
   let result: SnodeResponse | RequestError;
   try {
+    // if protocol is forced to 'http:' => just use http (without the ':').
+    // otherwise use https as protocol (this is the default)
+    const forcedHttp = url.protocol === PROTOCOLS.HTTP;
     const finalRelayOptions: FinalRelayOptions = {
-      host: url.host,
-      // FIXME http open groups v2 are not working
-      // protocol: url.protocol,
-      // port: url.port,
+      host: url.hostname,
     };
 
-    // window.log.debug('sendViaOnion payloadObj ==> ', payloadObj);
+    if (forcedHttp) {
+      finalRelayOptions.protocol = 'http';
+    }
+    if (forcedHttp) {
+      finalRelayOptions.port = url.port ? toNumber(url.port) : 80;
+    }
 
     result = await sendOnionRequestLsrpcDest(
       0,
       pathNodes,
-      srvPubKey,
+      castedDestinationX25519Key,
       finalRelayOptions,
       payloadObj,
       defaultedOptions.requestNumber,
@@ -190,7 +199,7 @@ export const sendViaOnion = async (
     const retriedResult = await handleSendViaOnionRetry(
       result,
       defaultedOptions,
-      srvPubKey,
+      castedDestinationX25519Key,
       url,
       fetchOptions,
       abortSignal

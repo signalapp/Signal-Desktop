@@ -1046,7 +1046,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     read = read.filter(item => !item.hasErrors);
 
     if (this.isPublic()) {
-      window.log.debug('public conversation... No need to send read receipt');
       return;
     }
     if (this.isPrivate() && read.length && options.sendReadReceipts) {

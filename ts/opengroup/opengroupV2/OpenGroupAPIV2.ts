@@ -50,7 +50,7 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
     body = JSON.stringify(request.queryParams);
   }
 
-  let serverPubKey: string;
+  let destinationX25519Key: string;
   if (!request.serverPublicKey) {
     const roomDetails = await getV2OpenGroupRoomByRoomId({
       serverUrl: request.server,
@@ -59,9 +59,9 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
     if (!roomDetails?.serverPublicKey) {
       throw new Error('PublicKey not found for this server.');
     }
-    serverPubKey = roomDetails.serverPublicKey;
+    destinationX25519Key = roomDetails.serverPublicKey;
   } else {
-    serverPubKey = request.serverPublicKey;
+    destinationX25519Key = request.serverPublicKey;
   }
   // Because auth happens on a per-room basis, we need both to make an authenticated request
   if (request.isAuthRequired && request.room) {
@@ -78,7 +78,7 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
     }
     headers.Authorization = token;
     const res = await sendViaOnion(
-      serverPubKey,
+      destinationX25519Key,
       builtUrl,
       {
         method: request.method,
@@ -113,7 +113,7 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
     return res as object;
   } else {
     // no need for auth, just do the onion request
-    const res = await sendViaOnion(serverPubKey, builtUrl, {
+    const res = await sendViaOnion(destinationX25519Key, builtUrl, {
       method: request.method,
       headers,
       body,
@@ -170,7 +170,6 @@ export async function requestNewAuthToken({
 
     const token = toHex(plaintextBuffer);
 
-    console.warn('token', token);
     return token;
   } catch (e) {
     window.log.error('Failed to decrypt token open group v2');
@@ -256,7 +255,7 @@ export async function getAuthToken({
 
   await allowOnlyOneAtATime(`getAuthTokenV2${serverUrl}:${roomId}`, async () => {
     try {
-      console.warn('TRIGGERING NEW AUTH TOKEN WITH', { serverUrl, roomId });
+      window.log.info('TRIGGERING NEW AUTH TOKEN WITH', { serverUrl, roomId });
       const token = await requestNewAuthToken({ serverUrl, roomId });
       if (!token) {
         window.log.warn('invalid new auth token', token);
@@ -363,7 +362,6 @@ export const banUser = async (
   };
   const banResult = await sendOpenGroupV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(banResult) === 200;
-  console.warn('banResult', banResult);
   return isOk;
 };
 
@@ -380,7 +378,6 @@ export const unbanUser = async (
   };
   const unbanResult = await sendOpenGroupV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(unbanResult) === 200;
-  console.warn('unbanResult', unbanResult);
   return isOk;
 };
 
@@ -636,7 +633,6 @@ export const addModerator = async (
   };
   const addModResult = await sendOpenGroupV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(addModResult) === 200;
-  console.warn('addModResult', addModResult);
   return isOk;
 };
 
@@ -653,6 +649,5 @@ export const removeModerator = async (
   };
   const removeModResult = await sendOpenGroupV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(removeModResult) === 200;
-  console.warn('removeModResult', removeModResult);
   return isOk;
 };

@@ -8,10 +8,6 @@ import { parseOpenGroupV2 } from './JoinOpenGroupV2';
 import { getAllRoomInfos } from './OpenGroupAPIV2';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
-export const defaultServer = 'https://sessionopengroup.com';
-export const defaultServerPublicKey =
-  '658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231b';
-
 export type OpenGroupRequestCommonType = {
   serverUrl: string;
   roomId: string;
@@ -107,12 +103,21 @@ export const parseMessages = async (
   );
   return _.compact(messages);
 };
+// tslint:disable: no-http-string
 
-//       'http://sessionopengroup.com/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231b'
+// FIXME audric change this to
+// const defaultRoom =
+//   'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d';
 
-// FIXME audric change this to sessionopengroup.com once http is fixed
-const defaultRoom =
-  'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d';
+// const defaultRoom =
+//   'http://opengroup.bilb.us:9861/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d';
+
+// const defaultRoom =
+//   'https://sog.ibolpap.finance/main?public_key=b464aa186530c97d6bcf663a3a3b7465a5f782beaa67c83bee99468824b4aa10';
+
+const defaultServerUrl = 'http://116.203.70.33';
+const defaultServerPublicKey = 'a03c383cf63c3c4efe67acc52112a6dd734b3a946b9545f488aaa93da7991238';
+const defaultRoom = `${defaultServerUrl}/main?public_key=${defaultServerPublicKey}`;
 
 const loadDefaultRoomsSingle = () =>
   allowOnlyOneAtATime(

@@ -184,8 +184,6 @@ export class OpenGroupManagerV2 {
       room.roomName = roomInfos.name || undefined;
       await saveV2OpenGroupRoom(room);
 
-      console.warn('openGroupRoom info', roomInfos);
-
       // mark active so it's not in the contacts list but in the conversation list
       conversation.set({
         active_at: Date.now(),

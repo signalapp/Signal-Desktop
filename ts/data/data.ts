@@ -288,13 +288,13 @@ function _updateJob(id: number, data: any) {
     ...data,
     resolve: (value: any) => {
       _removeJob(id);
-      // const end = Date.now();
-      // const delta = end - start;
-      // if (delta > 10) {
-      //   window.log.debug(
-      //     `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
-      //   );
-      // }
+      if (_DEBUG) {
+        const end = Date.now();
+        const delta = end - start;
+        if (delta > 10) {
+          window.log.debug(`SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`);
+        }
+      }
       return resolve(value);
     },
     reject: (error: any) => {
