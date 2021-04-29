@@ -33,8 +33,6 @@ const createMemberships = (
   ).map(
     (_, i): GroupV2Membership => ({
       isAdmin: i % 3 === 0,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      metadata: {} as any,
       member: getDefaultConversation({
         isMe: i === 2,
       }),

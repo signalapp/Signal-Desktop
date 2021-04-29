@@ -23,12 +23,13 @@ import {
   getComposeSelectedContacts,
   getComposerConversationSearchTerm,
   getComposerStep,
+  getConversationByIdSelector,
   getConversationSelector,
+  getConversationsByTitleSelector,
   getInvitedContactsForNewlyCreatedGroup,
   getMaximumGroupSizeModalState,
   getPlaceholderContact,
   getRecommendedGroupSizeModalState,
-  getConversationsByTitleSelector,
   getSelectedConversation,
   getSelectedConversationId,
   hasGroupCreationError,
@@ -54,6 +55,28 @@ describe('both/state/selectors/conversations', () => {
   }
 
   const i18n = setupI18n('en', enMessages);
+
+  describe('#getConversationByIdSelector', () => {
+    const state = {
+      ...getEmptyRootState(),
+      conversations: {
+        ...getEmptyState(),
+        conversationLookup: { abc123: getDefaultConversation('abc123') },
+      },
+    };
+
+    it('returns undefined if the conversation is not in the lookup', () => {
+      const selector = getConversationByIdSelector(state);
+      const actual = selector('xyz');
+      assert.isUndefined(actual);
+    });
+
+    it('returns the conversation in the lookup if it exists', () => {
+      const selector = getConversationByIdSelector(state);
+      const actual = selector('abc123');
+      assert.strictEqual(actual?.title, 'abc123 title');
+    });
+  });
 
   describe('#getConversationSelector', () => {
     it('returns empty placeholder if falsey id provided', () => {

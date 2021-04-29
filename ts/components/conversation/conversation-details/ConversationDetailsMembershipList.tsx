@@ -8,13 +8,11 @@ import { Avatar } from '../../Avatar';
 
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 import { ConversationType } from '../../../state/ducks/conversations';
-import { GroupV2MemberType } from '../../../model-types.d';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 
 export type GroupV2Membership = {
   isAdmin: boolean;
-  metadata: GroupV2MemberType;
   member: ConversationType;
 };
 
