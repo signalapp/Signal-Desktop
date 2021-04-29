@@ -23,7 +23,7 @@ export type OpenGroupV2Request = {
   server: string;
   endpoint: string;
   // queryParams are used for post or get, but not the same way
-  queryParams?: Record<string, string>;
+  queryParams?: Record<string, any>;
   headers?: Record<string, string>;
   isAuthRequired: boolean;
   serverPublicKey?: string; // if not provided, a db called will be made to try to get it.

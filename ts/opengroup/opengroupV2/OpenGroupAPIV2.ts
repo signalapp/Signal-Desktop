@@ -314,42 +314,6 @@ export const deleteAuthToken = async ({
   }
 };
 
-export const getMessages = async ({
-  serverUrl,
-  roomId,
-}: OpenGroupRequestCommonType): Promise<Array<OpenGroupMessageV2> | null> => {
-  const roomInfos = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
-  if (!roomInfos) {
-    window.log.warn('Could not find this room getMessages');
-    return [];
-  }
-  const { lastMessageFetchedServerID } = roomInfos;
-
-  const queryParams = {} as Record<string, any>;
-  if (lastMessageFetchedServerID) {
-    queryParams.from_server_id = lastMessageFetchedServerID;
-  }
-
-  const request: OpenGroupV2Request = {
-    method: 'GET',
-    room: roomId,
-    server: serverUrl,
-    isAuthRequired: true,
-    endpoint: 'messages',
-  };
-  const result = await sendOpenGroupV2Request(request);
-  const statusCode = parseStatusCodeFromOnionRequest(result);
-  if (statusCode !== 200) {
-    return [];
-  }
-
-  // we have a 200
-  const rawMessages = (result as any)?.result?.messages as Array<Record<string, any>>;
-  const validMessages = await parseMessages(rawMessages);
-  console.warn('validMessages', validMessages);
-  return validMessages;
-};
-
 /**
  * Send the specified message to the specified room.
  * If an error happens, this function throws it
@@ -420,16 +384,17 @@ export const unbanUser = async (
   return isOk;
 };
 
-export const deleteSingleMessage = async (
-  messageServerId: number,
+export const deleteMessageByServerIds = async (
+  idsToRemove: Array<number>,
   roomInfos: OpenGroupRequestCommonType
 ): Promise<boolean> => {
   const request: OpenGroupV2Request = {
-    method: 'DELETE',
+    method: 'POST',
     room: roomInfos.roomId,
     server: roomInfos.serverUrl,
     isAuthRequired: true,
-    endpoint: `messages/${messageServerId}`,
+    endpoint: 'delete_messages',
+    queryParams: { ids: idsToRemove },
   };
   const messageDeletedResult = await sendOpenGroupV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(messageDeletedResult) === 200;

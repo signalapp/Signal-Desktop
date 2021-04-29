@@ -65,32 +65,40 @@ export async function deleteOpenGroupMessages(
     const roomInfos = convo.toOpenGroupV2();
     // on v2 servers we can only remove a single message per request..
     // so logic here is to delete each messages and get which one where not removed
-    const allDeletedResults = await Promise.all(
-      messages.map(async msg => {
-        const msgId = msg.get('serverId');
-        if (msgId) {
-          const isRemovedOnServer = await ApiV2.deleteSingleMessage(msgId, roomInfos);
-          return { message: msg, isRemovedOnServer };
-        } else {
-          window.log.warn('serverId not valid for deletePublicMessage');
-          return { message: msg, isRemovedOnServer: false };
-        }
+    const validServerIdsToRemove = _.compact(
+      messages.map(msg => {
+        const serverId = msg.get('serverId');
+        return serverId;
       })
     );
-    if (allDeletedResults.every(m => m.isRemovedOnServer)) {
-      window.log.info('all those serverIds where removed');
-    } else {
-      if (allDeletedResults.some(m => m.isRemovedOnServer)) {
-        window.log.info('some of those serverIds where not removed');
-      } else {
-        window.log.info('failed to remove all those serverIds message');
-      }
+
+    const validMessageModelsToRemove = _.compact(
+      messages.map(msg => {
+        const serverId = msg.get('serverId');
+        if (serverId) {
+          return msg;
+        }
+        return undefined;
+      })
+    );
+
+    let allMessagesAreDeleted: boolean = false;
+    if (validServerIdsToRemove.length) {
+      allMessagesAreDeleted = await ApiV2.deleteMessageByServerIds(
+        validServerIdsToRemove,
+        roomInfos
+      );
     }
-    // remove only the messag we managed to remove on the server
-    const msgToDeleteLocally = allDeletedResults
-      .filter(m => m.isRemovedOnServer)
-      .map(m => m.message);
-    return msgToDeleteLocally;
+    // remove only the messages we managed to remove on the server
+    if (allMessagesAreDeleted) {
+      window.log.info('Removed all those serverIds messages successfully');
+      return validMessageModelsToRemove;
+    } else {
+      window.log.info(
+        'failed to remove all those serverIds message. not removing them locally neither'
+      );
+      return [];
+    }
   } else if (convo.isOpenGroupV1()) {
     const channelAPI = await convo.getPublicSendData();
 
