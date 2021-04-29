@@ -17,6 +17,7 @@ const StyledPillContainer = styled.div<PillContainerProps>`
   padding: ${props => props.padding || ''};
   margin: ${props => props.margin || ''};
   border-radius: 300px;
+  cursor: pointer;
   border: 1px solid ${props => props.theme.colors.pillDividerColor};
   transition: ${props => props.theme.common.animations.defaultDuration};
   &:hover {

@@ -529,9 +529,14 @@ export const downloadFileOpenGroupV2ByUrl = async (
   return new Uint8Array(fromBase64ToArrayBuffer(base64Data));
 };
 
+/**
+ * Download the preview image for that opengroup room.
+ * The returned value is a base64 string.
+ * It can be used directly, or saved on the attachments directory if needed, but this function does not handle it
+ */
 export const downloadPreviewOpenGroupV2 = async (
   roomInfos: OpenGroupRequestCommonType
-): Promise<Uint8Array | null> => {
+): Promise<string | null> => {
   const request: OpenGroupV2Request = {
     method: 'GET',
     room: roomInfos.roomId,
@@ -552,7 +557,7 @@ export const downloadPreviewOpenGroupV2 = async (
   if (!base64Data) {
     return null;
   }
-  return new Uint8Array(fromBase64ToArrayBuffer(base64Data));
+  return base64Data;
 };
 
 /**

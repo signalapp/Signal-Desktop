@@ -41,11 +41,8 @@ export type OpenGroupV2Info = {
   imageId?: string;
 };
 
-export type OpenGroupV2InfoJoinable = {
-  id: string;
-  name: string;
+export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
   completeUrl: string;
-  imageId?: string;
 };
 
 /**

@@ -1,6 +1,10 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
+import {
+  joinOpenGroupV2WithUIEvents,
+  parseOpenGroupV2,
+} from '../../opengroup/opengroupV2/JoinOpenGroupV2';
+import { downloadPreviewOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import { StateType } from '../../state/reducer';
 import { Avatar, AvatarSize } from '../Avatar';
 import { Flex } from '../basic/Flex';
@@ -16,9 +20,29 @@ export type JoinableRoomProps = {
 };
 
 const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
+  const [base64Data, setBase64Data] = useState('');
+
+  useEffect(() => {
+    try {
+      const parsedInfos = parseOpenGroupV2(props.completeUrl);
+      if (parsedInfos) {
+        void downloadPreviewOpenGroupV2(parsedInfos)
+          .then(base64 => {
+            setBase64Data(base64 || '');
+          })
+          .catch(e => {
+            window.log.warn('downloadPreviewOpenGroupV2 failed', e);
+            setBase64Data('');
+          });
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+  }, [props.imageId, props.completeUrl]);
   return (
     <Avatar
       size={AvatarSize.XS}
+      base64Data={base64Data}
       {...props}
       onAvatarClick={() => props.onClick(props.completeUrl)}
     />
