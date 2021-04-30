@@ -14,7 +14,7 @@ import { getTheme } from '../../state/selectors/theme';
 import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
-import { DAYS } from '../../session/utils/Number';
+import { DAYS, MINUTES } from '../../session/utils/Number';
 import {
   getItemById,
   hasSyncedInitialConfigurationItem,
@@ -23,6 +23,7 @@ import {
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
 import { clearSessionsAndPreKeys } from '../../util/accountManager';
+import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -50,6 +51,7 @@ interface Props {
  */
 class ActionsPanelPrivate extends React.Component<Props> {
   private syncInterval: NodeJS.Timeout | null = null;
+  private snodeForceRefreshInterval: NodeJS.Timeout | null = null;
 
   constructor(props: Props) {
     super(props);
@@ -109,12 +111,20 @@ class ActionsPanelPrivate extends React.Component<Props> {
     this.syncInterval = global.setInterval(() => {
       void syncConfigurationIfNeeded();
     }, DAYS * 2);
+    this.snodeForceRefreshInterval = global.setInterval(async () => {
+      await forceRefreshRandomSnodePool();
+    }, DAYS * 1);
   }
 
   public componentWillUnmount() {
     if (this.syncInterval) {
       clearInterval(this.syncInterval);
       this.syncInterval = null;
+    }
+
+    if (this.snodeForceRefreshInterval) {
+      clearInterval(this.snodeForceRefreshInterval);
+      this.snodeForceRefreshInterval = null;
     }
   }
 
