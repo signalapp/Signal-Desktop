@@ -95,7 +95,7 @@ const buildSendViaOnionPayload = (url: URL, fetchOptions: OnionFetchOptions) => 
   ) {
     const fData = payloadObj.body.getBuffer();
     const fHeaders = payloadObj.body.getHeaders();
-    tempHeaders = { ...tempHeaders, fHeaders };
+    tempHeaders = { ...tempHeaders, ...fHeaders };
     // update headers for boundary
     // update body with base64 chunk
     payloadObj.body = {

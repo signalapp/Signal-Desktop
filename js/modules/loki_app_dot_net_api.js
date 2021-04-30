@@ -381,7 +381,7 @@ class LokiAppDotNetServerAPI {
     return OnionSend.serverRequest(`${this.baseServerUrl}/${endpoint}`, {
       ...options,
       token: this.token,
-      srvPubKey: this.pubKey,
+      srvPubKey: this.pubKeyHex,
     });
   }
 

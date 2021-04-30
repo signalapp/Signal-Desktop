@@ -1,6 +1,7 @@
 import { default as insecureNodeFetch } from 'node-fetch';
 import { OpenGroupV2Room } from '../../data/opengroups';
 import { sendViaOnion } from '../../session/onions/onionSend';
+import { toHex } from '../../session/utils/String';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 
 const protocolRegex = new RegExp('(https?://)?');
@@ -131,9 +132,10 @@ export const validOpenGroupServer = async (serverUrl: string) => {
       // decode it.
       const obj = JSON.parse(result.response.data);
       const pubKey = window.dcodeIO.ByteBuffer.wrap(obj.data, 'base64').toArrayBuffer();
+      const pubKeyHex = toHex(pubKey);
       // verify we can make an onion routed call to that open group with the decoded public key
       // get around the FILESERVER_HOSTS filter by not using serverRequest
-      const res = await sendViaOnion(pubKey, url, { method: 'GET' }, { noJson: true });
+      const res = await sendViaOnion(pubKeyHex, url, { method: 'GET' }, { noJson: true });
       if (res && res.result && res.result.status === 200) {
         window.log.info(
           `loki_public_chat::validOpenGroupServer - onion routing enabled on ${url.toString()}`

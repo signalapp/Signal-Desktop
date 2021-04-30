@@ -53,8 +53,7 @@ export class SwarmPolling {
 
   public start(): void {
     this.loadGroupIds();
-    // FIXME audric
-    // void this.pollForAllKeys();
+    void this.pollForAllKeys();
   }
 
   public addGroupId(pubkey: PubKey) {

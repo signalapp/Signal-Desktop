@@ -104,17 +104,6 @@ export const parseMessages = async (
   return _.compact(messages);
 };
 // tslint:disable: no-http-string
-
-// FIXME audric change this to
-// const defaultRoom =
-//   'https://opengroup.bilb.us/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d';
-
-// const defaultRoom =
-//   'http://opengroup.bilb.us:9861/main?public_key=1352534ba73d4265973280431dbc72e097a3e43275d1ada984f9805b4943047d';
-
-// const defaultRoom =
-//   'https://sog.ibolpap.finance/main?public_key=b464aa186530c97d6bcf663a3a3b7465a5f782beaa67c83bee99468824b4aa10';
-
 const defaultServerUrl = 'http://116.203.70.33';
 const defaultServerPublicKey = 'a03c383cf63c3c4efe67acc52112a6dd734b3a946b9545f488aaa93da7991238';
 const defaultRoom = `${defaultServerUrl}/main?public_key=${defaultServerPublicKey}`;
