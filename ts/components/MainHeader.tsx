@@ -371,6 +371,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                 color={color}
                 conversationType="direct"
                 i18n={i18n}
+                isMe
                 name={name}
                 phoneNumber={phoneNumber}
                 profileName={profileName}
