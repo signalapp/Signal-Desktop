@@ -130,6 +130,23 @@ const showResetSessionIDDialogIfNeeded = async () => {
 
 const cleanUpMediasInterval = MINUTES * 30;
 
+const setupTheme = (dispatch: Dispatch<any>) => {
+  const theme = window.Events.getThemeSetting();
+  window.setTheme(theme);
+
+  const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
+  dispatch(applyTheme(newThemeObject));
+};
+
+// Do this only if we created a new Session ID, or if we already received the initial configuration message
+const triggerSyncIfIfNeeded = async () => {
+  const didWeHandleAConfigurationMessageAlready =
+    (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+  if (didWeHandleAConfigurationMessageAlready) {
+    await syncConfigurationIfNeeded();
+  }
+};
+
 /**
  * This function is called only once: on app startup with a logged in user
  */
@@ -139,36 +156,23 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
     void OnionPaths.getInstance().buildNewOnionPaths();
   }
 
-  // init the messageQueue. In the constructor, we had all not send messages
+  // init the messageQueue. In the constructor, we add all not send messages
   // this call does nothing except calling the constructor, which will continue sending message in the pipeline
   void getMessageQueue().processAllPending();
+  void setupTheme(dispatch);
 
-  const theme = window.Events.getThemeSetting();
-  window.setTheme(theme);
-
-  const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
-  dispatch(applyTheme(newThemeObject));
-
+  // keep that one to make sure our users upgrade to new sessionIDS
   void showResetSessionIDDialogIfNeeded();
   // remove existing prekeys, sign prekeys and sessions
+  // FIXME audric, make this in a migration so we can remove this line
   void clearSessionsAndPreKeys();
-  // we consider people had the time to upgrade, so remove this id from the db
-  // it was used to display a dialog when we added the light mode auto-enabled
-  void removeItemById('hasSeenLightModeDialog');
 
-  // Do this only if we created a new Session ID, or if we already received the initial configuration message
-
-  const syncConfiguration = async () => {
-    const didWeHandleAConfigurationMessageAlready =
-      (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
-    if (didWeHandleAConfigurationMessageAlready) {
-      await syncConfigurationIfNeeded();
-    }
-  };
+  // this generates the key to encrypt attachments locally
   void generateAttachmentKeyIfEmpty();
-  // trigger a sync message if needed for our other devices
   void OpenGroupManagerV2.getInstance().startPolling();
-  void syncConfiguration();
+  // trigger a sync message if needed for our other devices
+
+  void triggerSyncIfIfNeeded();
 
   void loadDefaultRooms();
 };

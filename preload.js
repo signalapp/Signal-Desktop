@@ -49,9 +49,7 @@ window.getServerTrustRoot = () => config.serverTrustRoot;
 window.JobQueue = JobQueue;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
 
-// FIXME audric
-window.getStoragePubKey = key =>
-  window.isDev() ? key.substring(0, key.length - 2) : key.substring(0, key.length - 2);
+window.getStoragePubKey = key => (window.isDev() ? key.substring(0, key.length - 2) : key);
 
 window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;

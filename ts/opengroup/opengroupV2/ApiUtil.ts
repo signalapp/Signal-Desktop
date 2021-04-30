@@ -146,7 +146,6 @@ const loadDefaultRoomsSingle = () =>
  * This call will only run once at a time.
  */
 export const loadDefaultRooms = async () => {
-  // FIXME audric do the UI and refresh this list from time to time
   const allRooms: Array<OpenGroupV2InfoJoinable> = await loadDefaultRoomsSingle();
   if (allRooms !== undefined) {
     window.inboxStore?.dispatch(updateDefaultRooms(allRooms));
