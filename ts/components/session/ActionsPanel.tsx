@@ -113,7 +113,6 @@ class ActionsPanelPrivate extends React.Component<Props> {
     }, DAYS * 2);
     this.snodeForceRefreshInterval = global.setInterval(async () => {
       await forceRefreshRandomSnodePool();
-      await OnionPaths.getInstance().buildNewOnionPaths();
     }, DAYS * 1);
   }
 
