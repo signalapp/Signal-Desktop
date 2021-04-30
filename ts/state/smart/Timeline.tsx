@@ -157,6 +157,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       'typingContact',
       'isGroupV1AndDisabled',
     ]),
+    isIncomingMessageRequest: Boolean(
+      conversation.messageRequestsEnabled &&
+        !conversation.acceptedMessageRequest
+    ),
     ...conversationMessages,
     invitedContactsForNewlyCreatedGroup: getInvitedContactsForNewlyCreatedGroup(
       state

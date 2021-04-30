@@ -57,9 +57,10 @@ export type PropsDataType = {
 
 type PropsHousekeepingType = {
   id: string;
-  unreadCount?: number;
-  typingContact?: unknown;
   isGroupV1AndDisabled?: boolean;
+  isIncomingMessageRequest: boolean;
+  typingContact?: unknown;
+  unreadCount?: number;
 
   selectedMessageId?: string;
   invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
@@ -198,11 +199,16 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
 
-    const { scrollToIndex } = this.props;
-    const oneTimeScrollRow = this.getLastSeenIndicatorRow();
+    const { scrollToIndex, isIncomingMessageRequest } = this.props;
+    const oneTimeScrollRow = isIncomingMessageRequest
+      ? undefined
+      : this.getLastSeenIndicatorRow();
+
+    // We only stick to the bottom if this is not an incoming message request.
+    const atBottom = !isIncomingMessageRequest;
 
     this.state = {
-      atBottom: true,
+      atBottom,
       atTop: false,
       oneTimeScrollRow,
       propScrollToIndex: scrollToIndex,
@@ -364,6 +370,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         haveNewest,
         haveOldest,
         id,
+        isIncomingMessageRequest,
         setIsNearBottom,
         setLoadCountdownStart,
       } = this.props;
@@ -386,8 +393,12 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         scrollHeight - clientHeight - scrollTop
       );
 
-      const atBottom =
-        haveNewest && this.offsetFromBottom <= AT_BOTTOM_THRESHOLD;
+      // If there's an active message request, we won't stick to the bottom of the
+      //   conversation as new messages come in.
+      const atBottom = isIncomingMessageRequest
+        ? false
+        : haveNewest && this.offsetFromBottom <= AT_BOTTOM_THRESHOLD;
+
       const isNearBottom =
         haveNewest && this.offsetFromBottom <= NEAR_BOTTOM_THRESHOLD;
       const atTop = scrollTop <= AT_TOP_THRESHOLD;
@@ -773,10 +784,12 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       selectMessage(lastMessageId, id);
     }
 
+    const oneTimeScrollRow =
+      items && items.length > 0 ? items.length - 1 : undefined;
+
     this.setState({
       propScrollToIndex: undefined,
-      oneTimeScrollRow: undefined,
-      atBottom: true,
+      oneTimeScrollRow,
     });
   };
 
@@ -850,8 +863,9 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     prevState: Readonly<StateType>
   ): void {
     const {
-      id,
       clearChangedMessages,
+      id,
+      isIncomingMessageRequest,
       items,
       messageHeightChangeIndex,
       oldestUnreadIndex,
@@ -885,12 +899,17 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         this.resize();
       }
 
-      const oneTimeScrollRow = this.getLastSeenIndicatorRow();
+      // We want to come in at the top of the conversation if it's a message request
+      const oneTimeScrollRow = isIncomingMessageRequest
+        ? undefined
+        : this.getLastSeenIndicatorRow();
+      const atBottom = !isIncomingMessageRequest;
+
       // TODO: DESKTOP-688
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         oneTimeScrollRow,
-        atBottom: true,
+        atBottom,
         propScrollToIndex: scrollToIndex,
         prevPropScrollToIndex: scrollToIndex,
       });
@@ -1009,13 +1028,13 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const { oneTimeScrollRow, atBottom, propScrollToIndex } = this.state;
 
     const rowCount = this.getRowCount();
-    const targetMessage = isNumber(propScrollToIndex)
+    const targetMessageRow = isNumber(propScrollToIndex)
       ? this.fromItemIndexToRow(propScrollToIndex)
       : undefined;
     const scrollToBottom = atBottom ? rowCount - 1 : undefined;
 
-    if (isNumber(targetMessage)) {
-      return targetMessage;
+    if (isNumber(targetMessageRow)) {
+      return targetMessageRow;
     }
 
     if (isNumber(oneTimeScrollRow)) {

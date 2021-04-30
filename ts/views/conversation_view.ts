@@ -1068,8 +1068,10 @@ Whisper.ConversationView = Whisper.View.extend({
     return finish;
   },
 
-  async loadAndScroll(messageId: any, options: any) {
-    const { disableScroll } = options || {};
+  async loadAndScroll(
+    messageId: string,
+    options?: { disableScroll?: boolean }
+  ) {
     const {
       messagesReset,
       setMessagesLoading,
@@ -1110,7 +1112,8 @@ Whisper.ConversationView = Whisper.View.extend({
 
       const cleaned = await this.cleanModels(all);
       this.model.messageCollection.reset(cleaned);
-      const scrollToMessageId = disableScroll ? undefined : messageId;
+      const scrollToMessageId =
+        options && options.disableScroll ? undefined : messageId;
 
       messagesReset(
         conversationId,
@@ -1126,12 +1129,17 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  async loadNewestMessages(newestMessageId: any, setFocus: any) {
+  async loadNewestMessages(
+    newestMessageId: string | undefined,
+    setFocus: boolean | undefined
+  ): Promise<void> {
     const {
       messagesReset,
       setMessagesLoading,
     } = window.reduxActions.conversations;
-    const conversationId = this.model.id;
+    const { model }: { model: ConversationModel } = this;
+
+    const conversationId = model.id;
 
     setMessagesLoading(conversationId, true);
     const finish = this.setInProgressFetch();
@@ -1158,6 +1166,15 @@ Whisper.ConversationView = Whisper.View.extend({
 
       const metrics = await getMessageMetricsForConversation(conversationId);
 
+      // If this is a message request that has not yet been accepted, we always show the
+      //   oldest messages, to ensure that the ConversationHero is shown. We don't want to
+      //   scroll directly to the oldest message, because that could scroll the hero off
+      //   the screen.
+      if (!newestMessageId && !model.getAccepted() && metrics.oldest) {
+        this.loadAndScroll(metrics.oldest.id, { disableScroll: true });
+        return;
+      }
+
       if (scrollToLatestUnread && metrics.oldestUnread) {
         this.loadAndScroll(metrics.oldestUnread.id, {
           disableScroll: !setFocus,
@@ -1171,7 +1188,12 @@ Whisper.ConversationView = Whisper.View.extend({
       });
 
       const cleaned = await this.cleanModels(messages);
-      this.model.messageCollection.reset(cleaned);
+      assert(
+        model.messageCollection,
+        'loadNewestMessages: model must have messageCollection'
+      );
+
+      model.messageCollection.reset(cleaned);
       const scrollToMessageId =
         setFocus && metrics.newest ? metrics.newest.id : undefined;
 
@@ -1183,7 +1205,7 @@ Whisper.ConversationView = Whisper.View.extend({
       const unboundedFetch = true;
       messagesReset(
         conversationId,
-        cleaned.map((model: any) => model.getReduxData()),
+        cleaned.map((messageModel: any) => messageModel.getReduxData()),
         metrics,
         scrollToMessageId,
         unboundedFetch
