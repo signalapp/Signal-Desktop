@@ -16509,8 +16509,8 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.js",
-    "line": "    const firstRenderRef = React.useRef(true);",
-    "lineNumber": 49,
+    "line": "    const firstRenderRef = react_1.useRef(true);",
+    "lineNumber": 61,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -16518,8 +16518,8 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.tsx",
-    "line": "  const firstRenderRef = React.useRef(true);",
-    "lineNumber": 84,
+    "line": "  const firstRenderRef = useRef(true);",
+    "lineNumber": 112,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."

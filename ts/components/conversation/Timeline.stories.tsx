@@ -315,6 +315,7 @@ const renderHeroRow = () => (
     conversationType="direct"
     sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
     unblurAvatar={action('unblurAvatar')}
+    updateSharedGroups={noop}
   />
 );
 const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;

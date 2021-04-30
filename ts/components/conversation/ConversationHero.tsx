@@ -1,12 +1,16 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import Measure from 'react-measure';
 import { Avatar, AvatarBlur, Props as AvatarProps } from '../Avatar';
 import { ContactName } from './ContactName';
 import { About } from './About';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { LocalizerType } from '../../types/Util';
+import { ConfirmationDialog } from '../ConfirmationDialog';
+import { Button, ButtonSize, ButtonVariant } from '../Button';
+import { assert } from '../../util/assert';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
 
 export type Props = {
@@ -14,25 +18,34 @@ export type Props = {
   acceptedMessageRequest?: boolean;
   i18n: LocalizerType;
   isMe?: boolean;
-  sharedGroupNames?: Array<string>;
   membersCount?: number;
-  phoneNumber?: string;
   onHeightChange?: () => unknown;
+  phoneNumber?: string;
+  sharedGroupNames?: Array<string>;
   unblurAvatar: () => void;
   unblurredAvatarPath?: string;
-  updateSharedGroups?: () => unknown;
+  updateSharedGroups: () => unknown;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
 const renderMembershipRow = ({
-  i18n,
-  phoneNumber,
-  sharedGroupNames = [],
+  acceptedMessageRequest,
   conversationType,
+  i18n,
   isMe,
+  onClickMessageRequestWarning,
+  phoneNumber,
+  sharedGroupNames,
 }: Pick<
   Props,
-  'i18n' | 'phoneNumber' | 'sharedGroupNames' | 'conversationType' | 'isMe'
->) => {
+  | 'acceptedMessageRequest'
+  | 'conversationType'
+  | 'i18n'
+  | 'isMe'
+  | 'phoneNumber'
+> &
+  Required<Pick<Props, 'sharedGroupNames'>> & {
+    onClickMessageRequestWarning: () => void;
+  }) => {
   const className = 'module-conversation-hero__membership';
 
   if (conversationType !== 'direct') {
@@ -54,12 +67,27 @@ const renderMembershipRow = ({
       </div>
     );
   }
-
-  if (!phoneNumber) {
+  if (acceptedMessageRequest) {
+    if (phoneNumber) {
+      return null;
+    }
     return <div className={className}>{i18n('no-groups-in-common')}</div>;
   }
 
-  return null;
+  return (
+    <div className="module-conversation-hero__message-request-warning">
+      <div className="module-conversation-hero__message-request-warning__message">
+        {i18n('no-groups-in-common-warning')}
+      </div>
+      <Button
+        onClick={onClickMessageRequestWarning}
+        size={ButtonSize.Small}
+        variant={ButtonVariant.SecondaryAffirmative}
+      >
+        {i18n('MessageRequestWarning__learn-more')}
+      </Button>
+    </div>
+  );
 };
 
 export const ConversationHero = ({
@@ -81,37 +109,31 @@ export const ConversationHero = ({
   unblurredAvatarPath,
   updateSharedGroups,
 }: Props): JSX.Element => {
-  const firstRenderRef = React.useRef(true);
+  const firstRenderRef = useRef(true);
 
-  // TODO: DESKTOP-686
-  /* eslint-disable react-hooks/exhaustive-deps */
-  React.useEffect(() => {
-    // If any of the depenencies for this hook change then the height of this
-    // component may have changed. The cleanup function notifies listeners of
-    // any potential height changes.
-    return () => {
-      // Kick off the expensive hydration of the current sharedGroupNames
-      if (updateSharedGroups) {
-        updateSharedGroups();
-      }
+  const [height, setHeight] = useState<undefined | number>();
+  const [
+    isShowingMessageRequestWarning,
+    setIsShowingMessageRequestWarning,
+  ] = useState(false);
+  const closeMessageRequestWarning = () => {
+    setIsShowingMessageRequestWarning(false);
+  };
 
-      if (onHeightChange && !firstRenderRef.current) {
-        onHeightChange();
-      } else {
-        firstRenderRef.current = false;
-      }
-    };
-  }, [
-    firstRenderRef,
-    onHeightChange,
-    // Avoid collisions in these dependencies by prefixing them
-    // These dependencies may be dynamic, and therefore may cause height changes
-    `mc-${membersCount}`,
-    `n-${name}`,
-    `pn-${profileName}`,
-    sharedGroupNames.map(g => `g-${g}`).join(' '),
-  ]);
-  /* eslint-enable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    // Kick off the expensive hydration of the current sharedGroupNames
+    updateSharedGroups();
+  }, [updateSharedGroups]);
+
+  useEffect(() => {
+    firstRenderRef.current = false;
+  }, []);
+
+  useEffect(() => {
+    if (!firstRenderRef.current && onHeightChange) {
+      onHeightChange();
+    }
+  }, [height, onHeightChange]);
 
   let avatarBlur: AvatarBlur;
   let avatarOnClick: undefined | (() => void);
@@ -136,58 +158,92 @@ export const ConversationHero = ({
 
   /* eslint-disable no-nested-ternary */
   return (
-    <div className="module-conversation-hero">
-      <Avatar
-        i18n={i18n}
-        blur={avatarBlur}
-        color={color}
-        noteToSelf={isMe}
-        avatarPath={avatarPath}
-        conversationType={conversationType}
-        name={name}
-        onClick={avatarOnClick}
-        profileName={profileName}
-        title={title}
-        size={112}
-        className="module-conversation-hero__avatar"
-      />
-      <h1 className="module-conversation-hero__profile-name">
-        {isMe ? (
-          i18n('noteToSelf')
-        ) : (
-          <ContactName
-            title={title}
-            name={name}
-            profileName={profileName}
-            phoneNumber={phoneNumber}
-            i18n={i18n}
-          />
+    <>
+      <Measure
+        bounds
+        onResize={({ bounds }) => {
+          assert(bounds, 'We should be measuring the bounds');
+          setHeight(bounds.height);
+        }}
+      >
+        {({ measureRef }) => (
+          <div className="module-conversation-hero" ref={measureRef}>
+            <Avatar
+              i18n={i18n}
+              blur={avatarBlur}
+              color={color}
+              noteToSelf={isMe}
+              avatarPath={avatarPath}
+              conversationType={conversationType}
+              name={name}
+              onClick={avatarOnClick}
+              profileName={profileName}
+              title={title}
+              size={112}
+              className="module-conversation-hero__avatar"
+            />
+            <h1 className="module-conversation-hero__profile-name">
+              {isMe ? (
+                i18n('noteToSelf')
+              ) : (
+                <ContactName
+                  title={title}
+                  name={name}
+                  profileName={profileName}
+                  phoneNumber={phoneNumber}
+                  i18n={i18n}
+                />
+              )}
+            </h1>
+            {about && !isMe && (
+              <div className="module-about__container">
+                <About text={about} />
+              </div>
+            )}
+            {!isMe ? (
+              <div className="module-conversation-hero__with">
+                {membersCount === 1
+                  ? i18n('ConversationHero--members-1')
+                  : membersCount !== undefined
+                  ? i18n('ConversationHero--members', [`${membersCount}`])
+                  : phoneNumberOnly
+                  ? null
+                  : phoneNumber}
+              </div>
+            ) : null}
+            {renderMembershipRow({
+              acceptedMessageRequest,
+              conversationType,
+              i18n,
+              isMe,
+              onClickMessageRequestWarning() {
+                setIsShowingMessageRequestWarning(true);
+              },
+              phoneNumber,
+              sharedGroupNames,
+            })}
+          </div>
         )}
-      </h1>
-      {about && !isMe && (
-        <div className="module-about__container">
-          <About text={about} />
-        </div>
+      </Measure>
+      {isShowingMessageRequestWarning && (
+        <ConfirmationDialog
+          i18n={i18n}
+          onClose={closeMessageRequestWarning}
+          actions={[
+            {
+              text: i18n('MessageRequestWarning__dialog__learn-even-more'),
+              action: () => {
+                window.location.href =
+                  'https://support.signal.org/hc/articles/360007459591';
+                closeMessageRequestWarning();
+              },
+            },
+          ]}
+        >
+          {i18n('MessageRequestWarning__dialog__details')}
+        </ConfirmationDialog>
       )}
-      {!isMe ? (
-        <div className="module-conversation-hero__with">
-          {membersCount === 1
-            ? i18n('ConversationHero--members-1')
-            : membersCount !== undefined
-            ? i18n('ConversationHero--members', [`${membersCount}`])
-            : phoneNumberOnly
-            ? null
-            : phoneNumber}
-        </div>
-      ) : null}
-      {renderMembershipRow({
-        conversationType,
-        i18n,
-        isMe,
-        phoneNumber,
-        sharedGroupNames,
-      })}
-    </div>
+    </>
   );
   /* eslint-enable no-nested-ternary */
 };

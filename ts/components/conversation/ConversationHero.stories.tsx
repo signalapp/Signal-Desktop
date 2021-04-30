@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -20,12 +20,15 @@ const getAvatarPath = () =>
   text('avatarPath', '/fixtures/kitten-4-112-112.jpg');
 const getPhoneNumber = () => text('phoneNumber', '+1 (646) 327-2700');
 
+const updateSharedGroups = action('updateSharedGroups');
+
 storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (Three Other Groups)', () => {
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
           title={getTitle()}
           avatarPath={getAvatarPath()}
@@ -33,6 +36,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={['NYC Rock Climbers', 'Dinner Party', 'Friends 🌿']}
           unblurAvatar={action('unblurAvatar')}
         />
@@ -44,6 +48,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
           title={getTitle()}
           avatarPath={getAvatarPath()}
@@ -51,6 +56,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
           unblurAvatar={action('unblurAvatar')}
         />
@@ -62,6 +68,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
           title={getTitle()}
           avatarPath={getAvatarPath()}
@@ -69,6 +76,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={['NYC Rock Climbers']}
           unblurAvatar={action('unblurAvatar')}
         />
@@ -80,6 +88,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
           title={getTitle()}
           avatarPath={getAvatarPath()}
@@ -87,6 +96,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={text('profileName', '')}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
         />
@@ -98,6 +108,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
           title={text('title', 'Cayce Bollard (profile)')}
           avatarPath={getAvatarPath()}
@@ -105,6 +116,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
         />
@@ -116,6 +128,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
           title={text('title', '+1 (646) 327-2700')}
           avatarPath={getAvatarPath()}
@@ -123,6 +136,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={text('profileName', '')}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
         />
@@ -135,6 +149,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <ConversationHero
           i18n={i18n}
           title={text('title', 'Unknown contact')}
+          acceptedMessageRequest
           avatarPath={getAvatarPath()}
           name={text('name', '')}
           profileName={text('profileName', '')}
@@ -142,6 +157,26 @@ storiesOf('Components/Conversation/ConversationHero', module)
           conversationType="direct"
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
+        />
+      </div>
+    );
+  })
+  .add('Direct (No Groups, No Data, Not Accepted)', () => {
+    return (
+      <div style={{ width: '480px' }}>
+        <ConversationHero
+          i18n={i18n}
+          title={text('title', 'Unknown contact')}
+          acceptedMessageRequest={false}
+          avatarPath={getAvatarPath()}
+          name={text('name', '')}
+          profileName={text('profileName', '')}
+          phoneNumber={text('phoneNumber', '')}
+          conversationType="direct"
+          sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -150,12 +185,14 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={numberKnob('membersCount', 22)}
           unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -164,12 +201,14 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={1}
           unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -178,12 +217,14 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={0}
           unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -192,12 +233,14 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
           title={text('title', 'Unknown group')}
           name={text('groupName', '')}
           conversationType="group"
           membersCount={0}
           unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -212,6 +255,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           conversationType="direct"
           phoneNumber={getPhoneNumber()}
           unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );

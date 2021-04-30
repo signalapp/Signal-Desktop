@@ -5,30 +5,39 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { Button, ButtonVariant } from './Button';
+import { Button, ButtonSize, ButtonVariant } from './Button';
 
 const story = storiesOf('Components/Button', module);
 
 story.add('Kitchen sink', () => (
   <>
-    {[
-      ButtonVariant.Primary,
-      ButtonVariant.Secondary,
-      ButtonVariant.SecondaryAffirmative,
-      ButtonVariant.SecondaryDestructive,
-      ButtonVariant.Destructive,
-    ].map(variant => (
-      <React.Fragment key={variant}>
-        <p>
-          <Button onClick={action('onClick')} variant={variant}>
-            Hello world
-          </Button>
-        </p>
-        <p>
-          <Button disabled onClick={action('onClick')} variant={variant}>
-            Hello world
-          </Button>
-        </p>
+    {[ButtonSize.Medium, ButtonSize.Small].map(size => (
+      <React.Fragment key={size}>
+        {[
+          ButtonVariant.Primary,
+          ButtonVariant.Secondary,
+          ButtonVariant.SecondaryAffirmative,
+          ButtonVariant.SecondaryDestructive,
+          ButtonVariant.Destructive,
+        ].map(variant => (
+          <React.Fragment key={variant}>
+            <p>
+              <Button onClick={action('onClick')} size={size} variant={variant}>
+                Hello world
+              </Button>
+            </p>
+            <p>
+              <Button
+                disabled
+                onClick={action('onClick')}
+                size={size}
+                variant={variant}
+              >
+                Hello world
+              </Button>
+            </p>
+          </React.Fragment>
+        ))}
       </React.Fragment>
     ))}
   </>

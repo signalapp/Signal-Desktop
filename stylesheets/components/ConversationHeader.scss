@@ -279,9 +279,9 @@
 
     &--join-call {
       @include font-body-1;
+      @include rounded-corners;
       align-items: center;
       background-color: $color-accent-green;
-      border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
       color: $color-white;
       display: flex;
       outline: none;

@@ -3142,6 +3142,10 @@
     "message": "No groups in common",
     "description": "Shown to indicate this user is not a member of any groups"
   },
+  "no-groups-in-common-warning": {
+    "message": "No groups in common. Review requests carefully.",
+    "description": "When a user has no common groups, show this warning"
+  },
   "acceptCall": {
     "message": "Answer",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
@@ -5164,6 +5168,18 @@
   "ForwardMessageModal--continue": {
     "message": "Continue",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "MessageRequestWarning__learn-more": {
+    "message": "Learn more",
+    "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+  },
+  "MessageRequestWarning__dialog__details": {
+    "message": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
+    "description": "Shown in the message request warning dialog. Gives more information about message requests"
+  },
+  "MessageRequestWarning__dialog__learn-even-more": {
+    "message": "About Message Requests",
+    "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
   },
   "ContactSpoofing__same-name": {
     "message": "Review requests carefully. Signal found another contact with the same name. $link$",

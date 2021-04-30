@@ -106,7 +106,12 @@
   }
 }
 
-// Smooth scrolling
+// Utilities
+
+@mixin rounded-corners() {
+  // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
+  border-radius: 9999px;
+}
 
 @mixin smooth-scroll() {
   scroll-behavior: smooth;
@@ -472,7 +477,7 @@
 }
 
 @mixin button-small {
-  border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
+  @include rounded-corners;
   padding: 7px 14px;
 }
 
