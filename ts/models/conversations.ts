@@ -1340,6 +1340,7 @@ export class ConversationModel extends window.Backbone
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
       avatarPath: this.getAbsoluteAvatarPath(),
+      unblurredAvatarPath: this.getAbsoluteUnblurredAvatarPath(),
       color,
       discoveredUnregisteredAt: this.get('discoveredUnregisteredAt'),
       draftBodyRanges,
@@ -4883,16 +4884,32 @@ export class ConversationModel extends window.Backbone
     return migrateColor(this.get('color'));
   }
 
-  getAbsoluteAvatarPath(): string | undefined {
+  private getAvatarPath(): undefined | string {
     const avatar = this.isMe()
       ? this.get('profileAvatar') || this.get('avatar')
       : this.get('avatar') || this.get('profileAvatar');
+    return avatar?.path || undefined;
+  }
 
-    if (!avatar || !avatar.path) {
-      return undefined;
+  getAbsoluteAvatarPath(): string | undefined {
+    const avatarPath = this.getAvatarPath();
+    return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
+  }
+
+  getAbsoluteUnblurredAvatarPath(): string | undefined {
+    const unblurredAvatarPath = this.get('unblurredAvatarPath');
+    return unblurredAvatarPath
+      ? getAbsoluteAttachmentPath(unblurredAvatarPath)
+      : undefined;
+  }
+
+  unblurAvatar(): void {
+    const avatarPath = this.getAvatarPath();
+    if (avatarPath) {
+      this.set('unblurredAvatarPath', avatarPath);
+    } else {
+      this.unset('unblurredAvatarPath');
     }
-
-    return getAbsoluteAttachmentPath(avatar.path);
   }
 
   private canChangeTimer(): boolean {

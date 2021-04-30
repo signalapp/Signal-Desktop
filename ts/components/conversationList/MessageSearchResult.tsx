@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, {
@@ -14,8 +14,8 @@ import { ContactName } from '../conversation/ContactName';
 
 import { assert } from '../../util/assert';
 import { BodyRangesType, LocalizerType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
 import { BaseConversationListItem } from './BaseConversationListItem';
+import { ConversationType } from '../../state/ducks/conversations';
 
 export type PropsDataType = {
   isSelected?: boolean;
@@ -29,15 +29,19 @@ export type PropsDataType = {
   body: string;
   bodyRanges: BodyRangesType;
 
-  from: {
-    phoneNumber?: string;
-    title: string;
-    isMe?: boolean;
-    name?: string;
-    color?: ColorType;
-    profileName?: string;
-    avatarPath?: string;
-  };
+  from: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+    | 'unblurredAvatarPath'
+  >;
 
   to: {
     groupName?: string;
@@ -192,6 +196,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
 
     return (
       <BaseConversationListItem
+        acceptedMessageRequest={from.acceptedMessageRequest}
         avatarPath={from.avatarPath}
         color={from.color}
         conversationType="direct"
@@ -207,8 +212,10 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         onClick={onClickItem}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
+        sharedGroupNames={from.sharedGroupNames}
         style={style}
         title={from.title}
+        unblurredAvatarPath={from.unblurredAvatarPath}
       />
     );
   }

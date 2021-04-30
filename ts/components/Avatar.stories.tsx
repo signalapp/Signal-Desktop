@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { isBoolean } from 'lodash';
 
 import { storiesOf } from '@storybook/react';
 import { boolean, select, text } from '@storybook/addon-knobs';
@@ -30,6 +31,9 @@ const conversationTypeMap: Record<string, Props['conversationType']> = {
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  acceptedMessageRequest: isBoolean(overrideProps.acceptedMessageRequest)
+    ? overrideProps.acceptedMessageRequest
+    : true,
   avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
   blur: overrideProps.blur,
   color: select('color', colorMap, overrideProps.color || 'blue'),
@@ -151,7 +155,16 @@ story.add('Loading', () => {
   return sizes.map(size => <Avatar key={size} {...props} size={size} />);
 });
 
-story.add('Blurred', () => {
+story.add('Blurred based on props', () => {
+  const props = createProps({
+    acceptedMessageRequest: false,
+    avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  });
+
+  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+});
+
+story.add('Force-blurred', () => {
   const props = createProps({
     avatarPath: '/fixtures/kitten-3-64-64.jpg',
     blur: AvatarBlur.BlurPicture,

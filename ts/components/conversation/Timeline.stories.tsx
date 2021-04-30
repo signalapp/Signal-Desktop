@@ -271,6 +271,8 @@ const actions = () => ({
   onBlockAndDelete: action('onBlockAndDelete'),
   onDelete: action('onDelete'),
   onUnblock: action('onUnblock'),
+
+  unblurAvatar: action('unblurAvatar'),
 });
 
 const renderItem = (id: string) => (
@@ -312,6 +314,7 @@ const renderHeroRow = () => (
     phoneNumber={getPhoneNumber()}
     conversationType="direct"
     sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
+    unblurAvatar={action('unblurAvatar')}
   />
 );
 const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;

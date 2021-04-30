@@ -86,6 +86,7 @@ export const SafetyNumberChangeDialog = ({
               key={contact.id}
             >
               <Avatar
+                acceptedMessageRequest={contact.acceptedMessageRequest}
                 avatarPath={contact.avatarPath}
                 color={contact.color}
                 conversationType="direct"
@@ -94,7 +95,9 @@ export const SafetyNumberChangeDialog = ({
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
                 title={contact.title}
+                sharedGroupNames={contact.sharedGroupNames}
                 size={52}
+                unblurredAvatarPath={contact.unblurredAvatarPath}
               />
               <div className="module-SafetyNumberChangeDialog__contact--wrapper">
                 <div className="module-SafetyNumberChangeDialog__contact--name">

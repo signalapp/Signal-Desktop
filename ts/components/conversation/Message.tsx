@@ -111,13 +111,17 @@ export type PropsData = {
   contact?: ContactType;
   author: Pick<
     ConversationType,
+    | 'acceptedMessageRequest'
     | 'avatarPath'
     | 'color'
     | 'id'
+    | 'isMe'
     | 'name'
     | 'phoneNumber'
     | 'profileName'
+    | 'sharedGroupNames'
     | 'title'
+    | 'unblurredAvatarPath'
   >;
   reducedMotion?: boolean;
   conversationType: ConversationTypesType;
@@ -1159,15 +1163,19 @@ export class Message extends React.Component<Props, State> {
           tabIndex={0}
         >
           <Avatar
+            acceptedMessageRequest={author.acceptedMessageRequest}
             avatarPath={author.avatarPath}
             color={author.color}
             conversationType="direct"
             i18n={i18n}
+            isMe={author.isMe}
             name={author.name}
             phoneNumber={author.phoneNumber}
             profileName={author.profileName}
-            title={author.title}
+            sharedGroupNames={author.sharedGroupNames}
             size={28}
+            title={author.title}
+            unblurredAvatarPath={author.unblurredAvatarPath}
           />
         </button>
       </div>

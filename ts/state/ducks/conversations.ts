@@ -60,6 +60,7 @@ export type ConversationType = {
   profileName?: string;
   about?: string;
   avatarPath?: string;
+  unblurredAvatarPath?: string;
   areWeAdmin?: boolean;
   areWePending?: boolean;
   areWePendingApproval?: boolean;

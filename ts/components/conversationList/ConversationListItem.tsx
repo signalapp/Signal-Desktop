@@ -44,6 +44,8 @@ export type PropsData = {
   avatarPath?: string;
   isMe?: boolean;
   muteExpiresAt?: number;
+  sharedGroupNames?: Array<string>;
+  unblurredAvatarPath?: string;
 
   lastUpdated?: number;
   unreadCount?: number;
@@ -89,11 +91,13 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     onClick,
     phoneNumber,
     profileName,
+    sharedGroupNames,
     shouldShowDraft,
     style,
     title,
     type,
     typingContact,
+    unblurredAvatarPath,
     unreadCount,
   }) => {
     const headerName = isMe ? (
@@ -180,6 +184,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
 
     return (
       <BaseConversationListItem
+        acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         color={color}
         conversationType={type}
@@ -196,9 +201,11 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         onClick={onClickItem}
         phoneNumber={phoneNumber}
         profileName={profileName}
+        sharedGroupNames={sharedGroupNames}
         style={style}
         title={title}
         unreadCount={unreadCount}
+        unblurredAvatarPath={unblurredAvatarPath}
       />
     );
   }

@@ -1,21 +1,25 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { Avatar, Props as AvatarProps } from '../Avatar';
+import { Avatar, AvatarBlur, Props as AvatarProps } from '../Avatar';
 import { ContactName } from './ContactName';
 import { About } from './About';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { LocalizerType } from '../../types/Util';
+import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
 
 export type Props = {
   about?: string;
+  acceptedMessageRequest?: boolean;
   i18n: LocalizerType;
   isMe?: boolean;
   sharedGroupNames?: Array<string>;
   membersCount?: number;
   phoneNumber?: string;
   onHeightChange?: () => unknown;
+  unblurAvatar: () => void;
+  unblurredAvatarPath?: string;
   updateSharedGroups?: () => unknown;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
@@ -61,6 +65,7 @@ const renderMembershipRow = ({
 export const ConversationHero = ({
   i18n,
   about,
+  acceptedMessageRequest,
   avatarPath,
   color,
   conversationType,
@@ -72,6 +77,8 @@ export const ConversationHero = ({
   profileName,
   title,
   onHeightChange,
+  unblurAvatar,
+  unblurredAvatarPath,
   updateSharedGroups,
 }: Props): JSX.Element => {
   const firstRenderRef = React.useRef(true);
@@ -106,6 +113,23 @@ export const ConversationHero = ({
   ]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
+  let avatarBlur: AvatarBlur;
+  let avatarOnClick: undefined | (() => void);
+  if (
+    shouldBlurAvatar({
+      acceptedMessageRequest,
+      avatarPath,
+      isMe,
+      sharedGroupNames,
+      unblurredAvatarPath,
+    })
+  ) {
+    avatarBlur = AvatarBlur.BlurPictureWithClickToView;
+    avatarOnClick = unblurAvatar;
+  } else {
+    avatarBlur = AvatarBlur.NoBlur;
+  }
+
   const phoneNumberOnly = Boolean(
     !name && !profileName && conversationType === 'direct'
   );
@@ -115,11 +139,13 @@ export const ConversationHero = ({
     <div className="module-conversation-hero">
       <Avatar
         i18n={i18n}
+        blur={avatarBlur}
         color={color}
         noteToSelf={isMe}
         avatarPath={avatarPath}
         conversationType={conversationType}
         name={name}
+        onClick={avatarOnClick}
         profileName={profileName}
         title={title}
         size={112}

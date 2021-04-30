@@ -81,6 +81,7 @@ type PropsHousekeepingType = {
   renderHeroRow: (
     id: string,
     resizeHeroRow: () => unknown,
+    unblurAvatar: () => void,
     updateSharedGroups: () => unknown
   ) => JSX.Element;
   renderLoadingRow: (id: string) => JSX.Element;
@@ -113,6 +114,7 @@ type PropsActionsType = {
   onUnblock: () => unknown;
   selectMessage: (messageId: string, conversationId: string) => unknown;
   clearSelectedMessage: () => unknown;
+  unblurAvatar: () => void;
   updateSharedGroups: () => unknown;
 } & MessageActionsType &
   SafetyNumberActionsType;
@@ -583,6 +585,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       renderLoadingRow,
       renderLastSeenIndicator,
       renderTypingBubble,
+      unblurAvatar,
       updateSharedGroups,
     } = this.props;
     const { lastMeasuredWarningHeight } = this.state;
@@ -602,7 +605,12 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           {this.getWarning() ? (
             <div style={{ height: lastMeasuredWarningHeight }} />
           ) : null}
-          {renderHeroRow(id, this.resizeHeroRow, updateSharedGroups)}
+          {renderHeroRow(
+            id,
+            this.resizeHeroRow,
+            unblurAvatar,
+            updateSharedGroups
+          )}
         </div>
       );
     } else if (!haveOldest && row === 0) {

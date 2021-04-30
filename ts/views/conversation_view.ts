@@ -976,6 +976,9 @@ Whisper.ConversationView = Whisper.View.extend({
         },
         onShowContactModal: this.showContactModal.bind(this),
         scrollToQuotedMessage,
+        unblurAvatar: () => {
+          this.model.unblurAvatar();
+        },
         updateSharedGroups: this.model.throttledUpdateSharedGroups,
       }),
     });

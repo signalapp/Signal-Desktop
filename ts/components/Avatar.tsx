@@ -17,6 +17,7 @@ import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 import * as log from '../logging/log';
 import { assert } from '../util/assert';
+import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
 
 export enum AvatarBlur {
   NoBlur,
@@ -39,13 +40,17 @@ export type Props = {
   color?: ColorType;
   loading?: boolean;
 
+  acceptedMessageRequest?: boolean;
   conversationType: 'group' | 'direct';
-  noteToSelf?: boolean;
-  title: string;
+  isMe?: boolean;
   name?: string;
+  noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
+  sharedGroupNames?: Array<string>;
   size: AvatarSize;
+  title: string;
+  unblurredAvatarPath?: string;
 
   onClick?: () => unknown;
 
@@ -55,19 +60,34 @@ export type Props = {
   i18n: LocalizerType;
 } & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
 
+const getDefaultBlur = (
+  ...args: Parameters<typeof shouldBlurAvatar>
+): AvatarBlur =>
+  shouldBlurAvatar(...args) ? AvatarBlur.BlurPicture : AvatarBlur.NoBlur;
+
 export const Avatar: FunctionComponent<Props> = ({
+  acceptedMessageRequest,
   avatarPath,
   className,
   color,
   conversationType,
   i18n,
+  isMe,
   innerRef,
   loading,
   noteToSelf,
   onClick,
+  sharedGroupNames,
   size,
   title,
-  blur = AvatarBlur.NoBlur,
+  unblurredAvatarPath,
+  blur = getDefaultBlur({
+    acceptedMessageRequest,
+    avatarPath,
+    isMe,
+    sharedGroupNames,
+    unblurredAvatarPath,
+  }),
 }) => {
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -111,6 +131,7 @@ export const Avatar: FunctionComponent<Props> = ({
     );
   } else if (hasImage) {
     assert(avatarPath, 'avatarPath should be defined here');
+
     assert(
       blur !== AvatarBlur.BlurPictureWithClickToView || size >= 100,
       'Rendering "click to view" for a small avatar. This may not render correctly'
