@@ -18,6 +18,7 @@ export { sendOnionRequestLsrpcDest };
 import { getRandomSnodeAddress, markNodeUnreachable, Snode, updateSnodesFor } from './snodePool';
 import { Constants } from '..';
 import { sleepFor } from '../utils/Promise';
+import { sha256 } from '../crypto';
 
 /**
  * Currently unused. If we need it again, be sure to update it to onion routing rather
@@ -67,13 +68,6 @@ export async function getVersion(node: Snode, retries: number = 0): Promise<stri
     return false;
   }
 }
-
-const sha256 = (s: string) => {
-  return crypto
-    .createHash('sha256')
-    .update(s)
-    .digest('base64');
-};
 
 const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   let filePrefix = '';

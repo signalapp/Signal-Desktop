@@ -2,6 +2,7 @@ import * as MessageEncrypter from './MessageEncrypter';
 import * as DecryptedAttachmentsManager from './DecryptedAttachmentsManager';
 
 export { MessageEncrypter, DecryptedAttachmentsManager };
+import crypto from 'crypto';
 
 // libsodium-wrappers requires the `require` call to work
 // tslint:disable-next-line: no-require-imports
@@ -13,6 +14,13 @@ export async function getSodium(): Promise<typeof libsodiumwrappers> {
   await libsodiumwrappers.ready;
   return libsodiumwrappers;
 }
+
+export const sha256 = (s: string) => {
+  return crypto
+    .createHash('sha256')
+    .update(s)
+    .digest('base64');
+};
 
 export const concatUInt8Array = (...args: Array<Uint8Array>): Uint8Array => {
   const totalLength = args.reduce((acc, current) => acc + current.length, 0);

@@ -73,6 +73,8 @@ export interface ConversationAttributes {
   type: string;
   avatarPointer?: any;
   avatar?: any;
+  /* Avatar hash is currently used for opengroupv2. it's sha256 hash of the base64 avatar data. */
+  avatarHash?: string;
   server?: any;
   channelId?: any;
   nickname?: string;
@@ -108,6 +110,7 @@ export interface ConversationAttributesOptionals {
   type: string;
   avatarPointer?: any;
   avatar?: any;
+  avatarHash?: string;
   server?: any;
   channelId?: any;
   nickname?: string;

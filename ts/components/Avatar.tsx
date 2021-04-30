@@ -81,7 +81,6 @@ export const Avatar = (props: Props) => {
   const { avatarPath, base64Data, size, memberAvatars, name } = props;
   const [imageBroken, setImageBroken] = useState(false);
   // contentType is not important
-
   const { urlToLoad } = useEncryptedFileFetch(avatarPath || '', '');
   const handleImageError = () => {
     window.log.warn('Avatar: Image failed to load; failing over to placeholder', urlToLoad);

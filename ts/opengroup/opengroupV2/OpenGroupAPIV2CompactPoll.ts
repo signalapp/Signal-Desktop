@@ -1,10 +1,14 @@
-import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../data/opengroups';
-import { OpenGroupV2CompactPollRequest, parseMessages } from './ApiUtil';
+import {
+  getV2OpenGroupRoomByRoomId,
+  OpenGroupV2Room,
+  saveV2OpenGroupRoom,
+} from '../../data/opengroups';
+import { OpenGroupV2CompactPollRequest, OpenGroupV2Info, parseMessages } from './ApiUtil';
 import { parseStatusCodeFromOnionRequest } from './OpenGroupAPIV2Parser';
 import _ from 'lodash';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
-import { getAuthToken } from './OpenGroupAPIV2';
+import { downloadPreviewOpenGroupV2, getAuthToken } from './OpenGroupAPIV2';
 
 const COMPACT_POLL_ENDPOINT = 'compact_poll';
 
@@ -24,16 +28,63 @@ export const compactFetchEverything = async (
   return result ? result : null;
 };
 
+export const getAllBase64AvatarForRooms = async (
+  serverUrl: string,
+  rooms: Set<string>,
+  abortSignal: AbortSignal
+): Promise<Array<ParsedBase64Avatar> | null> => {
+  // fetch all we need
+  const allValidRoomInfos = await getAllValidRoomInfos(serverUrl, rooms);
+  if (!allValidRoomInfos?.length) {
+    window.log.info('getAllBase64AvatarForRooms: no valid roominfos got.');
+    return null;
+  }
+  if (abortSignal.aborted) {
+    window.log.info('preview download aborted, returning null');
+    return null;
+  }
+  // Currently this call will not abort if AbortSignal is aborted,
+  // but the call will return null.
+  const validPreviewBase64 = _.compact(
+    await Promise.all(
+      allValidRoomInfos.map(async room => {
+        try {
+          const base64 = await downloadPreviewOpenGroupV2(room);
+          if (base64) {
+            return {
+              roomId: room.roomId,
+              base64,
+            };
+          }
+        } catch (e) {
+          window.log.warn('getPreview failed for room', room);
+        }
+        return null;
+      })
+    )
+  );
+
+  if (abortSignal.aborted) {
+    window.log.info('preview download aborted, returning null');
+    return null;
+  }
+
+  return validPreviewBase64 ? validPreviewBase64 : null;
+};
+
 /**
- * This return body to be used to do the compactPoll
+ * This function fetches the valid roomInfos from the database.
+ * It also makes sure that the pubkey for all those rooms are the same, or returns null.
  */
-const getCompactPollRequest = async (
+const getAllValidRoomInfos = async (
   serverUrl: string,
   rooms: Set<string>
-): Promise<null | OpenGroupV2CompactPollRequest> => {
+): Promise<Array<OpenGroupV2Room> | null> => {
   const allServerPubKeys: Array<string> = [];
 
-  const roomsRequestInfos = _.compact(
+  // fetch all the roomInfos for the specified rooms.
+  // those invalid (like, not found in db) are excluded (with lodash compact)
+  const validRoomInfos = _.compact(
     await Promise.all(
       [...rooms].map(async roomId => {
         try {
@@ -45,22 +96,9 @@ const getCompactPollRequest = async (
             window.log.warn('Could not find this room getMessages');
             return null;
           }
+          allServerPubKeys.push(fetchedInfo.serverPublicKey);
 
-          const {
-            lastMessageFetchedServerID,
-            lastMessageDeletedServerID,
-            token,
-            serverPublicKey,
-          } = fetchedInfo;
-          allServerPubKeys.push(serverPublicKey);
-          const roomRequestContent: Record<string, any> = {
-            room_id: roomId,
-            auth_token: token || '',
-          };
-          roomRequestContent.from_deletion_server_id = lastMessageDeletedServerID;
-          roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
-
-          return roomRequestContent;
+          return fetchedInfo;
         } catch (e) {
           window.log.warn('failed to fetch roominfos for room', roomId);
           return null;
@@ -68,7 +106,7 @@ const getCompactPollRequest = async (
       })
     )
   );
-  if (!roomsRequestInfos?.length) {
+  if (!validRoomInfos?.length) {
     return null;
   }
   // double check that all those server pubkeys are the same
@@ -84,13 +122,59 @@ const getCompactPollRequest = async (
     window.log.warn('No pubkeys found:', allServerPubKeys);
     return null;
   }
+  return validRoomInfos;
+};
+
+/**
+ * This return body to be used to do the compactPoll
+ */
+const getCompactPollRequest = async (
+  serverUrl: string,
+  rooms: Set<string>
+): Promise<null | OpenGroupV2CompactPollRequest> => {
+  const allValidRoomInfos = await getAllValidRoomInfos(serverUrl, rooms);
+  if (!allValidRoomInfos?.length) {
+    window.log.info('compactPoll: no valid roominfos got.');
+    return null;
+  }
+
+  const roomsRequestInfos = _.compact(
+    allValidRoomInfos.map(validRoomInfos => {
+      try {
+        const {
+          lastMessageFetchedServerID,
+          lastMessageDeletedServerID,
+          token,
+          roomId,
+        } = validRoomInfos;
+        const roomRequestContent: Record<string, any> = {
+          room_id: roomId,
+          auth_token: token || '',
+        };
+        roomRequestContent.from_deletion_server_id = lastMessageDeletedServerID;
+        roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
+
+        return roomRequestContent;
+      } catch (e) {
+        window.log.warn('failed to fetch roominfos for room', validRoomInfos.roomId);
+        return null;
+      }
+    })
+  );
+  if (!roomsRequestInfos?.length) {
+    return null;
+  }
+
   const body = JSON.stringify({
     requests: roomsRequestInfos,
   });
+
+  // getAllValidRoomInfos return null if the room have not all the same serverPublicKey.
+  // so being here, we know this is the case
   return {
     body,
     server: serverUrl,
-    serverPubKey: firstPubkey,
+    serverPubKey: allValidRoomInfos[0].serverPublicKey,
     endpoint: COMPACT_POLL_ENDPOINT,
   };
 };
@@ -158,12 +242,20 @@ async function sendOpenGroupV2RequestCompactPoll(
 
 export type ParsedDeletions = Array<{ id: number; deleted_message_id: number }>;
 
-export type ParsedRoomCompactPollResults = {
+type StatusCodeType = {
+  statusCode: number;
+};
+
+export type ParsedRoomCompactPollResults = StatusCodeType & {
   roomId: string;
   deletions: ParsedDeletions;
   messages: Array<OpenGroupMessageV2>;
   moderators: Array<string>;
-  statusCode: number;
+};
+
+export type ParsedBase64Avatar = {
+  roomId: string;
+  base64: string;
 };
 
 const parseCompactPollResult = async (

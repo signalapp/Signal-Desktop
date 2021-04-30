@@ -4,6 +4,8 @@ import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
 import {
   compactFetchEverything,
+  getAllBase64AvatarForRooms,
+  ParsedBase64Avatar,
   ParsedDeletions,
   ParsedRoomCompactPollResults,
 } from './OpenGroupAPIV2CompactPoll';
@@ -13,8 +15,13 @@ import { getMessageIdsFromServerIds, removeMessage } from '../../data/data';
 import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
+import { DAYS, SECONDS } from '../../session/utils/Number';
+import autoBind from 'auto-bind';
+import { sha256 } from '../../session/crypto';
+import { fromBase64ToArrayBuffer } from '../../session/utils/String';
 
-const pollForEverythingInterval = 8 * 1000;
+const pollForEverythingInterval = SECONDS * 6;
+const pollForRoomAvatarInterval = DAYS * 1;
 
 /**
  * An OpenGroupServerPollerV2 polls for everything for a particular server. We should
@@ -27,6 +34,7 @@ export class OpenGroupServerPoller {
   private readonly serverUrl: string;
   private readonly roomIdsToPoll: Set<string> = new Set();
   private pollForEverythingTimer?: NodeJS.Timeout;
+  private pollForRoomAvatarTimer?: NodeJS.Timeout;
   private readonly abortController: AbortController;
 
   /**
@@ -36,9 +44,11 @@ export class OpenGroupServerPoller {
    * This is to ensure that we don't trigger too many request at the same time
    */
   private isPolling = false;
+  private isPreviewPolling = false;
   private wasStopped = false;
 
   constructor(roomInfos: Array<OpenGroupRequestCommonType>) {
+    autoBind(this);
     if (!roomInfos?.length) {
       throw new Error('Empty roomInfos list');
     }
@@ -56,8 +66,14 @@ export class OpenGroupServerPoller {
     });
 
     this.abortController = new AbortController();
-    this.compactPoll = this.compactPoll.bind(this);
     this.pollForEverythingTimer = global.setInterval(this.compactPoll, pollForEverythingInterval);
+    this.pollForRoomAvatarTimer = global.setInterval(
+      this.previewPerRoomPoll,
+      pollForRoomAvatarInterval
+    );
+
+    // first refresh of avatar rooms is in a day, force it now just in case
+    global.setTimeout(this.previewPerRoomPoll, SECONDS * 30);
   }
 
   /**
@@ -94,7 +110,6 @@ export class OpenGroupServerPoller {
   public getPolledRoomsCount() {
     return this.roomIdsToPoll.size;
   }
-
   /**
    * Stop polling.
    * Requests currently being made will we canceled.
@@ -102,10 +117,17 @@ export class OpenGroupServerPoller {
    * This has to be used only for quiting the app.
    */
   public stop() {
+    if (this.pollForRoomAvatarTimer) {
+      global.clearInterval(this.pollForRoomAvatarTimer);
+    }
     if (this.pollForEverythingTimer) {
+      // cancel next ticks for each timer
       global.clearInterval(this.pollForEverythingTimer);
+
+      // abort current requests
       this.abortController?.abort();
       this.pollForEverythingTimer = undefined;
+      this.pollForRoomAvatarTimer = undefined;
       this.wasStopped = true;
     }
   }
@@ -123,6 +145,60 @@ export class OpenGroupServerPoller {
       return false;
     }
     return true;
+  }
+
+  private shouldPollPreview() {
+    if (this.wasStopped) {
+      window.log.error('Serverpoller was stopped. PollPreview should not happen');
+      return false;
+    }
+    if (!this.roomIdsToPoll.size) {
+      return false;
+    }
+    // return early if a poll is already in progress
+    if (this.isPreviewPolling) {
+      return false;
+    }
+    return true;
+  }
+
+  private async previewPerRoomPoll() {
+    if (!this.shouldPollPreview()) {
+      return;
+    }
+
+    // do everything with throwing so we can check only at one place
+    // what we have to clean
+    try {
+      this.isPreviewPolling = true;
+      // don't try to make the request if we are aborted
+      if (this.abortController.signal.aborted) {
+        throw new Error('Poller aborted');
+      }
+
+      let previewGotResults = await getAllBase64AvatarForRooms(
+        this.serverUrl,
+        this.roomIdsToPoll,
+        this.abortController.signal
+      );
+
+      // check that we are still not aborted
+      if (this.abortController.signal.aborted) {
+        throw new Error('Abort controller was canceled. Dropping preview request');
+      }
+      if (!previewGotResults) {
+        throw new Error('getPreview: no results');
+      }
+      // we were not aborted, make sure to filter out roomIds we are not polling for anymore
+      previewGotResults = previewGotResults.filter(result => this.roomIdsToPoll.has(result.roomId));
+
+      // ==> At this point all those results need to trigger conversation updates, so update what we have to update
+      await handleBase64AvatarUpdate(this.serverUrl, previewGotResults);
+    } catch (e) {
+      window.log.warn('Got error while preview fetch:', e);
+    } finally {
+      this.isPreviewPolling = false;
+    }
   }
 
   private async compactPoll() {
@@ -271,6 +347,47 @@ const handleCompactPollResults = async (
       }
 
       if (changeOnConvo) {
+        await convo.commit();
+      }
+    })
+  );
+};
+
+const handleBase64AvatarUpdate = async (
+  serverUrl: string,
+  avatarResults: Array<ParsedBase64Avatar>
+) => {
+  await Promise.all(
+    avatarResults.map(async res => {
+      const convoId = getOpenGroupV2ConversationId(serverUrl, res.roomId);
+      const convo = ConversationController.getInstance().get(convoId);
+      if (!convo) {
+        window.log.warn('Could not find convo for compactPoll', convoId);
+        return;
+      }
+      if (!res.base64) {
+        window.log.info('getPreview: no base64 data. skipping');
+        return;
+      }
+      const existingHash = convo.get('avatarHash');
+      const newHash = sha256(res.base64);
+      if (newHash !== existingHash) {
+        // write the file to the disk (automatically encrypted),
+        // ArrayBuffer
+        const { getAbsoluteAttachmentPath, processNewAttachment } = window.Signal.Migrations;
+
+        const upgradedAttachment = await processNewAttachment({
+          isRaw: true,
+          data: fromBase64ToArrayBuffer(res.base64),
+          url: `${serverUrl}/${res.roomId}`,
+        });
+        // update the hash on the conversationModel
+        convo.set({
+          avatar: await getAbsoluteAttachmentPath(upgradedAttachment.path),
+          avatarHash: newHash,
+        });
+
+        // trigger the write to db and refresh the UI
         await convo.commit();
       }
     })
