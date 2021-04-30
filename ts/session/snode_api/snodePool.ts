@@ -165,6 +165,16 @@ async function requestVersion(node: any): Promise<void> {
   }
 }
 
+/**
+ * This function force the snode poll to be refreshed from a random seed node again.
+ * This should be called once in a day or so for when the app it kept on.
+ */
+export async function forceRefreshRandomSnodePool(): Promise<Array<Snode>> {
+  await refreshRandomPool([]);
+
+  return randomSnodePool;
+}
+
 export async function getRandomSnodePool(): Promise<Array<Snode>> {
   if (randomSnodePool.length === 0) {
     await refreshRandomPool([]);

@@ -244,7 +244,7 @@ const processOnionResponse = async (
 
     return RequestError.BAD_PATH;
   }
-  
+
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
     log.warn(`(${reqIdx}) [path] Got 503: snode not ready`);
@@ -267,7 +267,11 @@ const processOnionResponse = async (
     log.warn(
       `(${reqIdx}) [path] lokiRpc::processOnionResponse - fetch unhandled error code: ${response.status}`
     );
-    return RequestError.OTHER;
+    // FIXME audric
+    // this is pretty strong but on the current setup.
+    // we have to increase a snode invididually and only mark later the path as bad
+    // the way it works on mobile is that we treat a node as bad in that case, and if it then reaches a failure count of 3 or so we kick it out and rebuild the path
+    return RequestError.BAD_PATH;
   }
 
   let ciphertext = await response.text();
