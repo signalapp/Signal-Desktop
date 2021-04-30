@@ -133,7 +133,7 @@ const loadDefaultRoomsSingle = () =>
             };
           });
         } catch (e) {
-          window.log.warn('loadDefaultRoomsIfNeeded failed', e);
+          window.log.warn('loadDefaultRoomloadDefaultRoomssIfNeeded failed', e);
         }
         return [];
       }
@@ -145,7 +145,7 @@ const loadDefaultRoomsSingle = () =>
  * Load to the cache all the details of the room of the default opengroupv2 server
  * This call will only run once at a time.
  */
-export const loadDefaultRoomsIfNeeded = async () => {
+export const loadDefaultRooms = async () => {
   // FIXME audric do the UI and refresh this list from time to time
   const allRooms: Array<OpenGroupV2InfoJoinable> = await loadDefaultRoomsSingle();
   if (allRooms !== undefined) {

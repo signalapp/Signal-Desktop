@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar, AvatarSize } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
@@ -31,7 +31,7 @@ import { showLeftPaneSection } from '../../state/ducks/section';
 
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
-import { loadDefaultRoomsIfNeeded } from '../../opengroup/opengroupV2/ApiUtil';
+import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -131,6 +131,49 @@ const showResetSessionIDDialogIfNeeded = async () => {
 const cleanUpMediasInterval = MINUTES * 30;
 
 /**
+ * This function is called only once: on app startup with a logged in user
+ */
+const doAppStartUp = (dispatch: Dispatch<any>) => {
+  if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
+    // Initialize paths for onion requests
+    void OnionPaths.getInstance().buildNewOnionPaths();
+  }
+
+  // init the messageQueue. In the constructor, we had all not send messages
+  // this call does nothing except calling the constructor, which will continue sending message in the pipeline
+  void getMessageQueue().processAllPending();
+
+  const theme = window.Events.getThemeSetting();
+  window.setTheme(theme);
+
+  const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
+  dispatch(applyTheme(newThemeObject));
+
+  void showResetSessionIDDialogIfNeeded();
+  // remove existing prekeys, sign prekeys and sessions
+  void clearSessionsAndPreKeys();
+  // we consider people had the time to upgrade, so remove this id from the db
+  // it was used to display a dialog when we added the light mode auto-enabled
+  void removeItemById('hasSeenLightModeDialog');
+
+  // Do this only if we created a new Session ID, or if we already received the initial configuration message
+
+  const syncConfiguration = async () => {
+    const didWeHandleAConfigurationMessageAlready =
+      (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+    if (didWeHandleAConfigurationMessageAlready) {
+      await syncConfigurationIfNeeded();
+    }
+  };
+  void generateAttachmentKeyIfEmpty();
+  // trigger a sync message if needed for our other devices
+  void OpenGroupManagerV2.getInstance().startPolling();
+  void syncConfiguration();
+
+  void loadDefaultRooms();
+};
+
+/**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
  */
@@ -143,43 +186,7 @@ export const ActionsPanel = () => {
   // this maxi useEffect is called only once: when the component is mounted.
   // For the action panel, it means this is called only one per app start/with a user loggedin
   useEffect(() => {
-    if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
-      // Initialize paths for onion requests
-      void OnionPaths.getInstance().buildNewOnionPaths();
-    }
-
-    // init the messageQueue. In the constructor, we had all not send messages
-    // this call does nothing except calling the constructor, which will continue sending message in the pipeline
-    void getMessageQueue().processAllPending();
-
-    const theme = window.Events.getThemeSetting();
-    window.setTheme(theme);
-
-    const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
-    dispatch(applyTheme(newThemeObject));
-
-    void showResetSessionIDDialogIfNeeded();
-    // remove existing prekeys, sign prekeys and sessions
-    void clearSessionsAndPreKeys();
-    // we consider people had the time to upgrade, so remove this id from the db
-    // it was used to display a dialog when we added the light mode auto-enabled
-    void removeItemById('hasSeenLightModeDialog');
-
-    // Do this only if we created a new Session ID, or if we already received the initial configuration message
-
-    const syncConfiguration = async () => {
-      const didWeHandleAConfigurationMessageAlready =
-        (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
-      if (didWeHandleAConfigurationMessageAlready) {
-        await syncConfigurationIfNeeded();
-      }
-    };
-    void generateAttachmentKeyIfEmpty();
-    // trigger a sync message if needed for our other devices
-    void OpenGroupManagerV2.getInstance().startPolling();
-    void syncConfiguration();
-
-    void loadDefaultRoomsIfNeeded();
+    void doAppStartUp(dispatch);
   }, []);
 
   // wait for cleanUpMediasInterval and then start cleaning up medias
