@@ -40,6 +40,7 @@ export type OpenGroupV2Info = {
 
 export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
   completeUrl: string;
+  base64Data?: string;
 };
 
 /**

@@ -1,10 +1,11 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   joinOpenGroupV2WithUIEvents,
   parseOpenGroupV2,
 } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
 import { downloadPreviewOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
+import { updateDefaultBase64RoomData } from '../../state/ducks/defaultRooms';
 import { StateType } from '../../state/reducer';
 import { Avatar, AvatarSize } from '../Avatar';
 import { Flex } from '../basic/Flex';
@@ -15,24 +16,35 @@ import { H3 } from '../basic/Text';
 export type JoinableRoomProps = {
   completeUrl: string;
   name: string;
+  roomId: string;
   imageId?: string;
   onClick: (completeUrl: string) => void;
+  base64Data?: string;
 };
 
 const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
-  const [base64Data, setBase64Data] = useState('');
-
   useEffect(() => {
     try {
       const parsedInfos = parseOpenGroupV2(props.completeUrl);
       if (parsedInfos) {
+        if (props.base64Data) {
+          return;
+        }
         void downloadPreviewOpenGroupV2(parsedInfos)
           .then(base64 => {
-            setBase64Data(base64 || '');
+            const payload = {
+              roomId: props.roomId,
+              base64Data: base64 || '',
+            };
+            window.inboxStore?.dispatch(updateDefaultBase64RoomData(payload));
           })
           .catch(e => {
             window.log.warn('downloadPreviewOpenGroupV2 failed', e);
-            setBase64Data('');
+            const payload = {
+              roomId: props.roomId,
+              base64Data: '',
+            };
+            window.inboxStore?.dispatch(updateDefaultBase64RoomData(payload));
           });
       }
     } catch (e) {
@@ -42,7 +54,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
   return (
     <Avatar
       size={AvatarSize.XS}
-      base64Data={base64Data}
+      base64Data={props.base64Data}
       {...props}
       onAvatarClick={() => props.onClick(props.completeUrl)}
     />
@@ -86,6 +98,8 @@ export const SessionJoinableRooms = () => {
               key={r.id}
               completeUrl={r.completeUrl}
               name={r.name}
+              roomId={r.id}
+              base64Data={r.base64Data}
               onClick={completeUrl => {
                 void joinOpenGroupV2WithUIEvents(completeUrl, true);
               }}
