@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -12,26 +12,27 @@ import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
-import {
-  GroupV2PendingAdminApprovalType,
-  GroupV2PendingMemberType,
-} from '../../../model-types.d';
 
 export type PropsType = {
-  conversation?: ConversationType;
+  readonly conversation?: ConversationType;
   readonly i18n: LocalizerType;
-  ourConversationId?: string;
+  readonly ourConversationId?: string;
+  readonly pendingApprovalMemberships: ReadonlyArray<
+    GroupV2RequestingMembership
+  >;
+  readonly pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   readonly approvePendingMembership: (conversationId: string) => void;
   readonly revokePendingMemberships: (conversationIds: Array<string>) => void;
 };
 
 export type GroupV2PendingMembership = {
-  metadata: GroupV2PendingMemberType;
+  metadata: {
+    addedByUserId?: string;
+  };
   member: ConversationType;
 };
 
 export type GroupV2RequestingMembership = {
-  metadata: GroupV2PendingAdminApprovalType;
   member: ConversationType;
 };
 
@@ -56,6 +57,8 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
   conversation,
   i18n,
   ourConversationId,
+  pendingMemberships,
+  pendingApprovalMemberships,
   revokePendingMemberships,
 }) => {
   if (!conversation || !ourConversationId) {
@@ -68,10 +71,6 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
   const [stagedMemberships, setStagedMemberships] = React.useState<Array<
     StagedMembershipType
   > | null>(null);
-
-  const allPendingMemberships = conversation.pendingMemberships || [];
-  const allRequestingMemberships =
-    conversation.pendingApprovalMemberships || [];
 
   return (
     <div className="conversation-details-panel">
@@ -94,7 +93,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
           tabIndex={0}
         >
           {i18n('PendingInvites--tab-requests', {
-            count: String(allRequestingMemberships.length),
+            count: String(pendingApprovalMemberships.length),
           })}
         </div>
 
@@ -116,7 +115,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
           tabIndex={0}
         >
           {i18n('PendingInvites--tab-invites', {
-            count: String(allPendingMemberships.length),
+            count: String(pendingMemberships.length),
           })}
         </div>
       </div>
@@ -125,7 +124,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
         <MembersPendingAdminApproval
           conversation={conversation}
           i18n={i18n}
-          memberships={allRequestingMemberships}
+          memberships={pendingApprovalMemberships}
           setStagedMemberships={setStagedMemberships}
         />
       ) : null}
@@ -134,7 +133,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
           conversation={conversation}
           i18n={i18n}
           members={conversation.sortedGroupMembers || []}
-          memberships={allPendingMemberships}
+          memberships={pendingMemberships}
           ourConversationId={ourConversationId}
           setStagedMemberships={setStagedMemberships}
         />
@@ -232,12 +231,12 @@ function getConfirmationMessage({
   members,
   ourConversationId,
   stagedMemberships,
-}: {
+}: Readonly<{
   i18n: LocalizerType;
-  members: Array<ConversationType>;
+  members: ReadonlyArray<ConversationType>;
   ourConversationId: string;
-  stagedMemberships: Array<StagedMembershipType>;
-}): string {
+  stagedMemberships: ReadonlyArray<StagedMembershipType>;
+}>): string {
   if (!stagedMemberships || !stagedMemberships.length) {
     return '';
   }
@@ -299,12 +298,12 @@ function MembersPendingAdminApproval({
   i18n,
   memberships,
   setStagedMemberships,
-}: {
+}: Readonly<{
   conversation: ConversationType;
   i18n: LocalizerType;
-  memberships: Array<GroupV2RequestingMembership>;
+  memberships: ReadonlyArray<GroupV2RequestingMembership>;
   setStagedMemberships: (stagedMembership: Array<StagedMembershipType>) => void;
-}) {
+}>) {
   return (
     <PanelSection>
       {memberships.map(membership => (
@@ -370,14 +369,14 @@ function MembersPendingProfileKey({
   memberships,
   ourConversationId,
   setStagedMemberships,
-}: {
+}: Readonly<{
   conversation: ConversationType;
   i18n: LocalizerType;
   members: Array<ConversationType>;
-  memberships: Array<GroupV2PendingMembership>;
+  memberships: ReadonlyArray<GroupV2PendingMembership>;
   ourConversationId: string;
   setStagedMemberships: (stagedMembership: Array<StagedMembershipType>) => void;
-}) {
+}>) {
   const groupedPendingMemberships = _.groupBy(
     memberships,
     membership => membership.metadata.addedByUserId

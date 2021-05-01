@@ -4,6 +4,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { number as numberKnob, text } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 
 import { ConversationHero } from './ConversationHero';
 import { setup as setupI18n } from '../../../js/modules/i18n';
@@ -33,6 +34,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
           sharedGroupNames={['NYC Rock Climbers', 'Dinner Party', 'Friends 🌿']}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -50,6 +52,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
           sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -67,6 +70,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
           sharedGroupNames={['NYC Rock Climbers']}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -84,6 +88,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
           sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -101,6 +106,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
           sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -118,6 +124,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
           sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -134,6 +141,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           phoneNumber={text('phoneNumber', '')}
           conversationType="direct"
           sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -147,6 +155,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={numberKnob('membersCount', 22)}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -160,6 +169,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={1}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -173,6 +183,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={0}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -186,6 +197,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           name={text('groupName', '')}
           conversationType="group"
           membersCount={0}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -199,6 +211,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           title={getTitle()}
           conversationType="direct"
           phoneNumber={getPhoneNumber()}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );

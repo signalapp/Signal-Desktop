@@ -2297,7 +2297,9 @@ async function saveConversation(
     `
   ).run({
     id,
-    json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
+    json: objectToJSON(
+      omit(data, ['profileLastFetchedAt', 'unblurredAvatarPath'])
+    ),
 
     e164: e164 || null,
     uuid: uuid || null,
@@ -2370,7 +2372,9 @@ async function updateConversation(data: ConversationType): Promise<void> {
     `
   ).run({
     id,
-    json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
+    json: objectToJSON(
+      omit(data, ['profileLastFetchedAt', 'unblurredAvatarPath'])
+    ),
 
     e164: e164 || null,
     uuid: uuid || null,

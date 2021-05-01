@@ -84,8 +84,10 @@ storiesOf('Components/Conversation/TimelineItem', module)
         id: 'id-1',
         direction: 'incoming',
         timestamp: Date.now(),
-        authorPhoneNumber: '(202) 555-2001',
-        authorColor: 'green',
+        author: {
+          phoneNumber: '(202) 555-2001',
+          color: 'green',
+        },
         text: '🔥',
       },
     } as TimelineItemProps['item'];

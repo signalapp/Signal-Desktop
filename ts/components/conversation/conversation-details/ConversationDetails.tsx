@@ -20,7 +20,10 @@ import { ConversationDetailsActions } from './ConversationDetailsActions';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 import { ConversationDetailsMediaList } from './ConversationDetailsMediaList';
-import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
+import {
+  ConversationDetailsMembershipList,
+  GroupV2Membership,
+} from './ConversationDetailsMembershipList';
 import { EditConversationAttributesModal } from './EditConversationAttributesModal';
 import { RequestState } from './util';
 
@@ -39,6 +42,7 @@ export type StateProps = {
   i18n: LocalizerType;
   isAdmin: boolean;
   loadRecentMediaItems: (limit: number) => void;
+  memberships: Array<GroupV2Membership>;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
   showContactModal: (conversationId: string) => void;
@@ -70,6 +74,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   i18n,
   isAdmin,
   loadRecentMediaItems,
+  memberships,
   setDisappearingMessages,
   showAllMedia,
   showContactModal,
@@ -101,7 +106,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     throw new Error('ConversationDetails rendered without a conversation');
   }
 
-  const memberships = conversation.memberships || [];
   const pendingMemberships = conversation.pendingMemberships || [];
   const pendingApprovalMemberships =
     conversation.pendingApprovalMemberships || [];

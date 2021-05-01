@@ -884,12 +884,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   getPropsForMessage(): PropsForMessage {
     const sourceId = this.getContactId();
     const contact = this.findAndFormatContact(sourceId);
-    const contactModel = this.findContact(sourceId);
-
-    const authorColor = contactModel ? contactModel.getColor() : undefined;
-    const authorAvatarPath = contactModel
-      ? contactModel.getAvatarPath()
-      : undefined;
 
     const expirationLength = this.get('expireTimer') * 1000;
     const expireTimerStart = this.get('expirationStartTimestamp');
@@ -921,6 +915,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     ).emoji;
 
     return {
+      author: contact,
       text: this.createNonBreakingLastSeparator(this.get('body')),
       textPending: this.get('bodyPending'),
       id: this.id,
@@ -933,17 +928,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       canReply: this.canReply(),
       canDeleteForEveryone: this.canDeleteForEveryone(),
       canDownload: this.canDownload(),
-      authorId: contact.id,
-      authorTitle: contact.title,
-      authorColor,
-      authorName: contact.name,
-      authorProfileName: contact.profileName,
-      authorPhoneNumber: contact.phoneNumber,
       conversationType: isGroup ? 'group' : 'direct',
       attachments: this.getAttachmentsForMessage(),
       previews: this.getPropsForPreview(),
       quote: this.getPropsForQuote(),
-      authorAvatarPath,
       isExpired: this.hasExpired,
       expirationLength,
       expirationTimestamp,

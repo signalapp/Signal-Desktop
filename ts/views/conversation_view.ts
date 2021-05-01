@@ -978,6 +978,9 @@ Whisper.ConversationView = Whisper.View.extend({
         loadOlderMessages,
         markMessageRead,
         scrollToQuotedMessage,
+        unblurAvatar: () => {
+          this.model.unblurAvatar();
+        },
         updateSharedGroups: this.model.throttledUpdateSharedGroups,
       }),
     });

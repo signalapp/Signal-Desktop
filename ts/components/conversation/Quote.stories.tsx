@@ -27,8 +27,10 @@ const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/Conversation/Quote', module);
 
 const defaultMessageProps: MessagesProps = {
-  authorId: 'some-id',
-  authorTitle: 'Person X',
+  author: {
+    id: 'some-id',
+    title: 'Person X',
+  },
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,

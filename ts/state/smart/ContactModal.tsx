@@ -42,7 +42,7 @@ const mapStateToProps = (
   let isAdmin = false;
   if (contact && currentConversation && currentConversation.memberships) {
     currentConversation.memberships.forEach(membership => {
-      if (membership.member.id === contact.id) {
+      if (membership.conversationId === contact.id) {
         isMember = true;
         isAdmin = membership.isAdmin;
       }

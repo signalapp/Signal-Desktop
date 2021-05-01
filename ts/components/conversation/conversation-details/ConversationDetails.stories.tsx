@@ -24,25 +24,6 @@ const conversation: ConversationType = {
   id: '',
   lastUpdated: 0,
   markedUnread: false,
-  memberships: Array.from(Array(32)).map((_, i) => ({
-    isAdmin: i === 1,
-    member: getDefaultConversation({
-      isMe: i === 2,
-    }),
-    metadata: {
-      conversationId: '',
-      joinedAtVersion: 0,
-      role: 2,
-    },
-  })),
-  pendingMemberships: Array.from(Array(16)).map(() => ({
-    member: getDefaultConversation({}),
-    metadata: {
-      conversationId: '',
-      role: 2,
-      timestamp: Date.now(),
-    },
-  })),
   title: 'Some Conversation',
   type: 'group',
 };
@@ -58,6 +39,12 @@ const createProps = (hasGroupLink = false): Props => ({
   i18n,
   isAdmin: false,
   loadRecentMediaItems: action('loadRecentMediaItems'),
+  memberships: times(32, i => ({
+    isAdmin: i === 1,
+    member: getDefaultConversation({
+      isMe: i === 2,
+    }),
+  })),
   setDisappearingMessages: action('setDisappearingMessages'),
   showAllMedia: action('showAllMedia'),
   showContactModal: action('showContactModal'),
@@ -91,13 +78,12 @@ story.add('as last admin', () => {
     <ConversationDetails
       {...props}
       isAdmin
-      conversation={{
-        ...conversation,
-        memberships: conversation.memberships?.map(membership => ({
-          ...membership,
-          isAdmin: Boolean(membership.member.isMe),
-        })),
-      }}
+      memberships={times(32, i => ({
+        isAdmin: i === 2,
+        member: getDefaultConversation({
+          isMe: i === 2,
+        }),
+      }))}
     />
   );
 });
@@ -109,15 +95,14 @@ story.add('as only admin', () => {
     <ConversationDetails
       {...props}
       isAdmin
-      conversation={{
-        ...conversation,
-        memberships: conversation.memberships
-          ?.filter(membership => membership.member.isMe)
-          .map(membership => ({
-            ...membership,
-            isAdmin: true,
-          })),
-      }}
+      memberships={[
+        {
+          isAdmin: true,
+          member: getDefaultConversation({
+            isMe: true,
+          }),
+        },
+      ]}
     />
   );
 });

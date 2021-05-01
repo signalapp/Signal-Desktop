@@ -16526,7 +16526,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.js",
     "line": "    const firstRenderRef = React.useRef(true);",
-    "lineNumber": 85,
+    "lineNumber": 86,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -16535,7 +16535,7 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.tsx",
     "line": "  const firstRenderRef = React.useRef(true);",
-    "lineNumber": 138,
+    "lineNumber": 145,
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
@@ -16589,7 +16589,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 242,
+    "lineNumber": 250,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for managing focus only"
@@ -16598,7 +16598,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();",
-    "lineNumber": 244,
+    "lineNumber": 252,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
@@ -16607,7 +16607,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 248,
+    "lineNumber": 256,
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"

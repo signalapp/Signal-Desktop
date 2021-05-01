@@ -583,6 +583,12 @@ export const getConversationSelector = createSelector(
   }
 );
 
+export const getConversationByIdSelector = createSelector(
+  getConversationLookup,
+  conversationLookup => (id: string): undefined | ConversationType =>
+    getOwn(conversationLookup, id)
+);
+
 // For now we use a shim, as selector logic is still happening in the Backbone Model.
 // What needs to happen to pull that selector logic here?
 //   1) translate ~500 lines of selector logic into TypeScript

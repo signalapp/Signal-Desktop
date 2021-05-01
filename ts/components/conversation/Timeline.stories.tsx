@@ -260,6 +260,8 @@ const actions = () => ({
   returnToActiveCall: action('returnToActiveCall'),
 
   contactSupport: action('contactSupport'),
+
+  unblurAvatar: action('unblurAvatar'),
 });
 
 const renderItem = (id: string) => (
@@ -301,6 +303,7 @@ const renderHeroRow = () => (
     phoneNumber={getPhoneNumber()}
     conversationType="direct"
     sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
+    unblurAvatar={action('unblurAvatar')}
   />
 );
 const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;

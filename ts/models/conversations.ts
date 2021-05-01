@@ -11,11 +11,6 @@ import {
   ConversationAttributesType,
   VerificationOptions,
 } from '../model-types.d';
-import {
-  GroupV2PendingMembership,
-  GroupV2RequestingMembership,
-} from '../components/conversation/conversation-details/PendingInvites';
-import { GroupV2Membership } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import {
   CallbackResultType,
@@ -1345,7 +1340,8 @@ export class ConversationModel extends window.Backbone.Model<
       areWeAdmin: this.areWeAdmin(),
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
-      avatarPath: this.getAvatarPath()!,
+      avatarPath: this.getAbsoluteAvatarPath(),
+      unblurredAvatarPath: this.getAbsoluteUnblurredAvatarPath(),
       color,
       discoveredUnregisteredAt: this.get('discoveredUnregisteredAt'),
       draftBodyRanges,
@@ -2733,32 +2729,20 @@ export class ConversationModel extends window.Backbone.Model<
     return member.role === MEMBER_ROLES.ADMINISTRATOR;
   }
 
-  getMemberships(): Array<GroupV2Membership> {
+  private getMemberships(): Array<{
+    conversationId: string;
+    isAdmin: boolean;
+  }> {
     if (!this.isGroupV2()) {
       return [];
     }
 
     const members = this.get('membersV2') || [];
-    return members
-      .map(member => {
-        const conversationModel = window.ConversationController.get(
-          member.conversationId
-        );
-        if (!conversationModel || conversationModel.isUnregistered()) {
-          return null;
-        }
-
-        return {
-          isAdmin:
-            member.role ===
-            window.textsecure.protobuf.Member.Role.ADMINISTRATOR,
-          metadata: member,
-          member: conversationModel.format(),
-        };
-      })
-      .filter(
-        (membership): membership is GroupV2Membership => membership !== null
-      );
+    return members.map(member => ({
+      isAdmin:
+        member.role === window.textsecure.protobuf.Member.Role.ADMINISTRATOR,
+      conversationId: member.conversationId,
+    }));
   }
 
   getGroupLink(): string | undefined {
@@ -2773,56 +2757,30 @@ export class ConversationModel extends window.Backbone.Model<
     return window.Signal.Groups.buildGroupLink(this);
   }
 
-  getPendingMemberships(): Array<GroupV2PendingMembership> {
+  private getPendingMemberships(): Array<{
+    addedByUserId?: string;
+    conversationId: string;
+  }> {
     if (!this.isGroupV2()) {
       return [];
     }
 
     const members = this.get('pendingMembersV2') || [];
-    return members
-      .map(member => {
-        const conversationModel = window.ConversationController.get(
-          member.conversationId
-        );
-        if (!conversationModel || conversationModel.isUnregistered()) {
-          return null;
-        }
-
-        return {
-          metadata: member,
-          member: conversationModel.format(),
-        };
-      })
-      .filter(
-        (membership): membership is GroupV2PendingMembership =>
-          membership !== null
-      );
+    return members.map(member => ({
+      addedByUserId: member.addedByUserId,
+      conversationId: member.conversationId,
+    }));
   }
 
-  getPendingApprovalMemberships(): Array<GroupV2RequestingMembership> {
+  private getPendingApprovalMemberships(): Array<{ conversationId: string }> {
     if (!this.isGroupV2()) {
       return [];
     }
 
     const members = this.get('pendingAdminApprovalV2') || [];
-    return members
-      .map(member => {
-        const conversationModel = window.ConversationController.get(
-          member.conversationId
-        );
-        if (!conversationModel || conversationModel.isUnregistered()) {
-          return null;
-        }
-
-        return {
-          metadata: member,
-          member: conversationModel.format(),
-        };
-      })
-      .filter(
-        (membership): membership is GroupV2RequestingMembership =>
-          membership !== null
-      );
+    return members.map(member => ({
+      conversationId: member.conversationId,
+    }));
   }
 
   getMembers(
@@ -4937,16 +4895,32 @@ export class ConversationModel extends window.Backbone.Model<
     return migrateColor(this.get('color'));
   }
 
-  getAvatarPath(): string | undefined {
+  private getAvatarPath(): undefined | string {
     const avatar = this.isMe()
       ? this.get('profileAvatar') || this.get('avatar')
       : this.get('avatar') || this.get('profileAvatar');
+    return avatar?.path || undefined;
+  }
 
-    if (!avatar || !avatar.path) {
-      return undefined;
+  getAbsoluteAvatarPath(): string | undefined {
+    const avatarPath = this.getAvatarPath();
+    return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
+  }
+
+  getAbsoluteUnblurredAvatarPath(): string | undefined {
+    const unblurredAvatarPath = this.get('unblurredAvatarPath');
+    return unblurredAvatarPath
+      ? getAbsoluteAttachmentPath(unblurredAvatarPath)
+      : undefined;
+  }
+
+  unblurAvatar(): void {
+    const avatarPath = this.getAvatarPath();
+    if (avatarPath) {
+      this.set('unblurredAvatarPath', avatarPath);
+    } else {
+      this.unset('unblurredAvatarPath');
     }
-
-    return getAbsoluteAttachmentPath(avatar.path);
   }
 
   private canChangeTimer(): boolean {

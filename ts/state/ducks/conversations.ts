@@ -25,11 +25,6 @@ import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
 import { BodyRangeType } from '../../types/Util';
 import { CallMode, CallHistoryDetailsFromDiskType } from '../../types/Calling';
-import {
-  GroupV2PendingMembership,
-  GroupV2RequestingMembership,
-} from '../../components/conversation/conversation-details/PendingInvites';
-import { GroupV2Membership } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { MediaItemType } from '../../components/LightboxGallery';
 import {
   getGroupSizeRecommendedLimit,
@@ -65,6 +60,7 @@ export type ConversationType = {
   profileName?: string;
   about?: string;
   avatarPath?: string;
+  unblurredAvatarPath?: string;
   areWeAdmin?: boolean;
   areWePending?: boolean;
   areWePendingApproval?: boolean;
@@ -96,11 +92,17 @@ export type ConversationType = {
   accessControlAttributes?: number;
   accessControlMembers?: number;
   expireTimer?: number;
-  // This is used by the ConversationDetails set of components, it includes the
-  // membersV2 data and also has some extra metadata attached to the object
-  memberships?: Array<GroupV2Membership>;
-  pendingMemberships?: Array<GroupV2PendingMembership>;
-  pendingApprovalMemberships?: Array<GroupV2RequestingMembership>;
+  memberships?: Array<{
+    conversationId: string;
+    isAdmin: boolean;
+  }>;
+  pendingMemberships?: Array<{
+    conversationId: string;
+    addedByUserId?: string;
+  }>;
+  pendingApprovalMemberships?: Array<{
+    conversationId: string;
+  }>;
   muteExpiresAt?: number;
   type: ConversationTypeType;
   isMe?: boolean;
