@@ -5,14 +5,16 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
+import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
 
 import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper';
 
 describe('LeftPaneSearchHelper', () => {
-  const fakeConversation = () => ({
+  const fakeConversation = (markedUnread = false) => ({
     id: uuid(),
     title: uuid(),
     type: 'direct' as const,
+    markedUnread,
   });
 
   const fakeMessage = () => ({
@@ -444,6 +446,357 @@ describe('LeftPaneSearchHelper', () => {
           searchTerm: 'bar',
         })
       );
+    });
+  });
+
+  describe('getConversationAndMessageInDirection', () => {
+    it('returns undefined when loading', () => {
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: {
+          isLoading: true,
+        },
+        contactResults: { isLoading: true },
+        messageResults: {
+          isLoading: true,
+        },
+        searchTerm: 'foo',
+      });
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Down, unreadOnly: false },
+          undefined,
+          undefined
+        ),
+        undefined
+      );
+    });
+
+    it('skips messages if looking for unreads', () => {
+      const conversations = [fakeConversation(true), fakeConversation()];
+      const messages = [fakeMessage(), fakeMessage(), fakeMessage()];
+
+      const helper = new LeftPaneSearchHelper({
+        conversationResults: {
+          isLoading: false,
+          results: conversations,
+        },
+        contactResults: { isLoading: false, results: [] },
+        messageResults: {
+          isLoading: false,
+          results: messages,
+        },
+        searchTerm: 'foo',
+      });
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Up, unreadOnly: true },
+          undefined,
+          messages[2].id
+        ),
+        {
+          conversationId: conversations[0].id,
+        }
+      );
+    });
+
+    describe('when searching for messages', () => {
+      it('returns the first message going from last conversation down to messages', () => {
+        const conversations = [fakeConversation()];
+        const messages = [fakeMessage(), fakeMessage(), fakeMessage()];
+
+        const helper = new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: conversations,
+          },
+          contactResults: { isLoading: false, results: [] },
+          messageResults: {
+            isLoading: false,
+            results: messages,
+          },
+          searchTerm: 'foo',
+        });
+
+        assert.deepEqual(
+          helper.getConversationAndMessageInDirection(
+            { direction: FindDirection.Down, unreadOnly: false },
+            conversations[0].id,
+            undefined
+          ),
+          {
+            conversationId: messages[0].conversationId,
+            messageId: messages[0].id,
+          }
+        );
+      });
+
+      it('returns the first message going from last contact down to messages', () => {
+        const conversations = [fakeConversation()];
+        const contacts = [fakeConversation(), fakeConversation()];
+        const messages = [fakeMessage(), fakeMessage(), fakeMessage()];
+
+        const helper = new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: conversations,
+          },
+          contactResults: {
+            isLoading: false,
+            results: contacts,
+          },
+          messageResults: {
+            isLoading: false,
+            results: messages,
+          },
+          searchTerm: 'oh hi mark',
+        });
+
+        assert.deepEqual(
+          helper.getConversationAndMessageInDirection(
+            { direction: FindDirection.Down, unreadOnly: false },
+            contacts[1].id,
+            undefined
+          ),
+          {
+            conversationId: messages[0].conversationId,
+            messageId: messages[0].id,
+          }
+        );
+      });
+
+      it('returns first message when going down and there are no conversation results', () => {
+        const messages = [fakeMessage(), fakeMessage(), fakeMessage()];
+
+        const helper = new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: [],
+          },
+          contactResults: {
+            isLoading: false,
+            results: [],
+          },
+          messageResults: {
+            isLoading: false,
+            results: messages,
+          },
+          searchTerm: 'foo',
+        });
+
+        assert.deepEqual(
+          helper.getConversationAndMessageInDirection(
+            { direction: FindDirection.Down, unreadOnly: false },
+            uuid(),
+            undefined
+          ),
+          {
+            conversationId: messages[0].conversationId,
+            messageId: messages[0].id,
+          }
+        );
+      });
+
+      it('returns the last message going from first conversation up to messages', () => {
+        const conversations = [fakeConversation()];
+        const contacts = [fakeConversation()];
+        const messages = [fakeMessage(), fakeMessage(), fakeMessage()];
+
+        const helper = new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: conversations,
+          },
+          contactResults: { isLoading: false, results: contacts },
+          messageResults: {
+            isLoading: false,
+            results: messages,
+          },
+          searchTerm: 'foo',
+        });
+
+        assert.deepEqual(
+          helper.getConversationAndMessageInDirection(
+            { direction: FindDirection.Up, unreadOnly: false },
+            conversations[0].id,
+            undefined
+          ),
+          {
+            conversationId: messages[2].conversationId,
+            messageId: messages[2].id,
+          }
+        );
+      });
+
+      it('returns the last message going from first contact up to messages', () => {
+        const contacts = [fakeConversation(), fakeConversation()];
+        const messages = [fakeMessage(), fakeMessage()];
+
+        const helper = new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: [],
+          },
+          contactResults: {
+            isLoading: false,
+            results: contacts,
+          },
+          messageResults: {
+            isLoading: false,
+            results: messages,
+          },
+          searchTerm: 'foo',
+        });
+
+        assert.deepEqual(
+          helper.getConversationAndMessageInDirection(
+            { direction: FindDirection.Up, unreadOnly: false },
+            contacts[0].id,
+            undefined
+          ),
+          {
+            conversationId: messages[1].conversationId,
+            messageId: messages[1].id,
+          }
+        );
+      });
+
+      it('returns last message when going up and no result is selected', () => {
+        const conversations = [fakeConversation(), fakeConversation()];
+        const contacts = [fakeConversation(), fakeConversation()];
+        const messages = [fakeMessage(), fakeMessage()];
+
+        const helper = new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: conversations,
+          },
+          contactResults: {
+            isLoading: false,
+            results: contacts,
+          },
+          messageResults: {
+            isLoading: false,
+            results: messages,
+          },
+          searchTerm: 'foo',
+        });
+
+        assert.deepEqual(
+          helper.getConversationAndMessageInDirection(
+            { direction: FindDirection.Up, unreadOnly: false },
+            uuid(),
+            undefined
+          ),
+          {
+            conversationId: messages[1].conversationId,
+            messageId: messages[1].id,
+          }
+        );
+      });
+
+      it('returns next message when going trough message list', () => {
+        const conversations = [fakeConversation(), fakeConversation()];
+        const messages = [fakeMessage(), fakeMessage(), fakeMessage()];
+
+        const helper = new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: conversations,
+          },
+          contactResults: {
+            isLoading: false,
+            results: [],
+          },
+          messageResults: {
+            isLoading: false,
+            results: messages,
+          },
+          searchTerm: 'foo',
+        });
+
+        assert.deepEqual(
+          helper.getConversationAndMessageInDirection(
+            { direction: FindDirection.Down, unreadOnly: false },
+            undefined,
+            messages[0].id
+          ),
+          {
+            conversationId: messages[1].conversationId,
+            messageId: messages[1].id,
+          }
+        );
+      });
+
+      it('returns previous message when going trough message list', () => {
+        const contacts = [fakeConversation(), fakeConversation()];
+        const messages = [fakeMessage(), fakeMessage()];
+
+        const helper = new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: [],
+          },
+          contactResults: {
+            isLoading: false,
+            results: contacts,
+          },
+          messageResults: {
+            isLoading: false,
+            results: messages,
+          },
+          searchTerm: 'foo',
+        });
+
+        assert.deepEqual(
+          helper.getConversationAndMessageInDirection(
+            { direction: FindDirection.Up, unreadOnly: false },
+            undefined,
+            messages[1].id
+          ),
+          {
+            conversationId: messages[0].conversationId,
+            messageId: messages[0].id,
+          }
+        );
+      });
+    });
+
+    describe('when searching for conversations', () => {
+      it('returns the next conversation when searching downward', () => {
+        const conversations = [
+          fakeConversation(),
+          fakeConversation(),
+          fakeConversation(),
+        ];
+
+        const messages = [fakeMessage(), fakeMessage(), fakeMessage()];
+
+        const helper = new LeftPaneSearchHelper({
+          conversationResults: {
+            isLoading: false,
+            results: conversations,
+          },
+          contactResults: { isLoading: false, results: [] },
+          messageResults: {
+            isLoading: false,
+            results: messages,
+          },
+          searchTerm: 'foo',
+        });
+
+        assert.deepEqual(
+          helper.getConversationAndMessageInDirection(
+            { direction: FindDirection.Down, unreadOnly: false },
+            conversations[1].id,
+            undefined
+          ),
+          { conversationId: conversations[2].id }
+        );
+      });
+
+      // Additional tests are found with `getConversationInDirection`.
     });
   });
 });

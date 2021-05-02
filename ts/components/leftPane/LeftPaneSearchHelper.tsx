@@ -3,7 +3,9 @@
 
 import React, { ReactChild } from 'react';
 
-import { LeftPaneHelper, ToFindType } from './LeftPaneHelper';
+import { first, last, flatten, isEmpty } from 'lodash';
+
+import { LeftPaneHelper, ToFindType, FindDirection } from './LeftPaneHelper';
 import { LocalizerType } from '../../types/Util';
 import { Row, RowType } from '../ConversationList';
 import { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
@@ -11,6 +13,7 @@ import { PropsData as ConversationListItemPropsType } from '../conversationList/
 import { Intl } from '../Intl';
 import { Emojify } from '../conversation/Emojify';
 import { assert } from '../../util/assert';
+import { getConversationInDirection } from './getConversationInDirection';
 
 // The "correct" thing to do is to measure the size of the left pane and render enough
 //   search results for the container height. But (1) that's slow (2) the list is
@@ -23,15 +26,17 @@ type MaybeLoadedSearchResultsType<T> =
   | { isLoading: true }
   | { isLoading: false; results: Array<T> };
 
+type MessageResultsType = {
+  id: string;
+  conversationId: string;
+};
+
 export type LeftPaneSearchPropsType = {
   conversationResults: MaybeLoadedSearchResultsType<
     ConversationListItemPropsType
   >;
   contactResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
-  messageResults: MaybeLoadedSearchResultsType<{
-    id: string;
-    conversationId: string;
-  }>;
+  messageResults: MaybeLoadedSearchResultsType<MessageResultsType>;
   searchConversationName?: string;
   searchTerm: string;
 };
@@ -51,10 +56,9 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<
     ConversationListItemPropsType
   >;
 
-  private readonly messageResults: MaybeLoadedSearchResultsType<{
-    id: string;
-    conversationId: string;
-  }>;
+  private readonly messageResults: MaybeLoadedSearchResultsType<
+    MessageResultsType
+  >;
 
   private readonly searchConversationName?: string;
 
@@ -246,13 +250,80 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<
     return undefined;
   }
 
-  // This is currently unimplemented. See DESKTOP-1170.
-  // eslint-disable-next-line class-methods-use-this
   getConversationAndMessageInDirection(
-    _toFind: Readonly<ToFindType>,
-    _selectedConversationId: undefined | string,
-    _selectedMessageId: unknown
-  ): undefined | { conversationId: string } {
+    toFind: Readonly<ToFindType>,
+    selectedConversationId: undefined | string,
+    selectedMessageId: undefined | string
+  ): undefined | { conversationId: string; messageId?: string } {
+    if (this.isLoading()) {
+      return undefined;
+    }
+
+    return (
+      this.getMessageInDirectionIfNeeded(
+        toFind,
+        selectedMessageId,
+        selectedConversationId
+      ) ??
+      getConversationInDirection(
+        this.loadedConversationResults(),
+        toFind,
+        selectedMessageId ? undefined : selectedConversationId
+      )
+    );
+  }
+
+  private shouldLookupMessages(
+    toFind: Readonly<ToFindType>,
+    selectedConversationId: undefined | string,
+    selectedMessageId: undefined | string
+  ): boolean {
+    const messageResults = this.loadedMessageResults();
+    const conversationResults = this.loadedConversationResults();
+    const firstConversation = first(conversationResults);
+    const lastConversation = last(conversationResults);
+
+    if (toFind.unreadOnly || isEmpty(messageResults)) {
+      return false;
+    }
+
+    const goingUpToMessages =
+      toFind.direction === FindDirection.Up &&
+      (!selectedConversationId ||
+        firstConversation?.id === selectedConversationId ||
+        conversationResults.every(({ id }) => id !== selectedConversationId));
+
+    const goingDownToMessages =
+      toFind.direction === FindDirection.Down &&
+      (isEmpty(conversationResults) ||
+        lastConversation?.id === selectedConversationId);
+
+    const browsingMessages = messageResults.some(
+      ({ id }) => id === selectedMessageId
+    );
+
+    return goingUpToMessages || goingDownToMessages || browsingMessages;
+  }
+
+  private getMessageInDirectionIfNeeded(
+    toFind: Readonly<ToFindType>,
+    selectedMessageId: undefined | string,
+    selectedConversationId: undefined | string
+  ): { conversationId: string; messageId: string } | undefined {
+    const shouldLookupMessages = this.shouldLookupMessages(
+      toFind,
+      selectedConversationId,
+      selectedMessageId
+    );
+
+    if (shouldLookupMessages) {
+      return getMessageInDirection(
+        this.loadedMessageResults(),
+        toFind,
+        selectedMessageId
+      );
+    }
+
     return undefined;
   }
 
@@ -262,6 +333,27 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<
 
   private isLoading(): boolean {
     return this.allResults().some(results => results.isLoading);
+  }
+
+  private loadedConversationResults(): Array<ConversationListItemPropsType> {
+    // can't use `this.isLoading` because typescript does not follow along
+    if (this.conversationResults.isLoading || this.contactResults.isLoading) {
+      return [];
+    }
+
+    return flatten(
+      [this.conversationResults, this.contactResults].map(
+        ({ results }) => results
+      )
+    );
+  }
+
+  private loadedMessageResults(): Array<MessageResultsType> {
+    if (this.messageResults.isLoading) {
+      return [];
+    }
+
+    return this.messageResults.results;
   }
 }
 
@@ -282,4 +374,40 @@ function getRowCountForLoadedSearchResults(
   const resultRows = searchResults.results.length;
   const hasHeader = Boolean(resultRows);
   return (hasHeader ? 1 : 0) + resultRows;
+}
+
+function formatMessageResult(
+  message: MessageResultsType
+): { conversationId: string; messageId: string } {
+  return {
+    conversationId: message.conversationId,
+    messageId: message.id,
+  };
+}
+
+function getMessageInDirection(
+  messages: ReadonlyArray<MessageResultsType>,
+  toFind: Readonly<ToFindType>,
+  selectedMessageId: undefined | string
+): { conversationId: string; messageId: string } | undefined {
+  if (messages.length === 0) {
+    return undefined;
+  }
+
+  if (selectedMessageId === undefined) {
+    return formatMessageResult(
+      toFind.direction === FindDirection.Down
+        ? messages[0]
+        : messages[messages.length - 1]
+    );
+  }
+
+  const currentIdx = messages.findIndex(({ id }) => id === selectedMessageId);
+
+  const resultIdx =
+    toFind.direction === FindDirection.Down ? currentIdx + 1 : currentIdx - 1;
+
+  const result = messages[resultIdx];
+
+  return result ? formatMessageResult(result) : undefined;
 }
