@@ -20,6 +20,10 @@ export class OpenGroupManagerV2 {
 
   private static instance: OpenGroupManagerV2;
 
+  /**
+   * The map of opengroup pollers, by serverUrl.
+   * A single poller polls for every room on the specified serverUrl
+   */
   private readonly pollers: Map<string, OpenGroupServerPoller> = new Map();
   private isPolling = false;
 

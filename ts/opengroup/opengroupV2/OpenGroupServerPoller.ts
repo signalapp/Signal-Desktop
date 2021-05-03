@@ -71,15 +71,11 @@ export class OpenGroupServerPoller {
       this.previewPerRoomPoll,
       pollForRoomAvatarInterval
     );
-
-    // first refresh of avatar rooms is in a day, force it now just in case
-    global.setTimeout(this.previewPerRoomPoll, SECONDS * 30);
   }
 
   /**
    * Add a room to the polled room for this server.
    * If a request is already in progress, it will be added only on the next run.
-   * The interval is always ticking, even doing nothing except realizing it has nothing to do
    */
   public addRoomToPoll(room: OpenGroupRequestCommonType) {
     if (room.serverUrl !== this.serverUrl) {
@@ -90,6 +86,10 @@ export class OpenGroupServerPoller {
       return;
     }
     this.roomIdsToPoll.add(room.roomId);
+
+    // if we are not already polling right now, trigger a polling
+    void this.compactPoll();
+    void this.previewPerRoomPoll();
   }
 
   public removeRoomFromPoll(room: OpenGroupRequestCommonType) {
@@ -374,7 +374,7 @@ const handleBase64AvatarUpdate = async (
       if (newHash !== existingHash) {
         // write the file to the disk (automatically encrypted),
         // ArrayBuffer
-        const { getAbsoluteAttachmentPath, processNewAttachment } = window.Signal.Migrations;
+        const { processNewAttachment } = window.Signal.Migrations;
 
         const upgradedAttachment = await processNewAttachment({
           isRaw: true,
@@ -382,11 +382,14 @@ const handleBase64AvatarUpdate = async (
           url: `${serverUrl}/${res.roomId}`,
         });
         // update the hash on the conversationModel
-        convo.set({
-          avatar: await getAbsoluteAttachmentPath(upgradedAttachment.path),
+        await convo.setLokiProfile({
+          displayName: convo.getName() || window.i18n('unknown'),
+          avatar: upgradedAttachment.path,
           avatarHash: newHash,
         });
-
+        convo.set({
+          avatarHash: newHash,
+        });
         // trigger the write to db and refresh the UI
         await convo.commit();
       }

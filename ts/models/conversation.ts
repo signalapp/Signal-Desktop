@@ -1082,7 +1082,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     await this.updateProfileName();
   }
-  public async setLokiProfile(newProfile: { displayName?: string | null; avatar?: string }) {
+  public async setLokiProfile(newProfile: {
+    displayName?: string | null;
+    avatar?: string;
+    avatarHash?: string;
+  }) {
     if (!_.isEqual(this.get('profile'), newProfile)) {
       this.set({ profile: newProfile });
       await this.commit();
@@ -1091,7 +1095,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // a user cannot remove an avatar. Only change it
     // if you change this behavior, double check all setLokiProfile calls (especially the one in EditProfileDialog)
     if (newProfile.avatar) {
-      await this.setProfileAvatar({ path: newProfile.avatar });
+      await this.setProfileAvatar({ path: newProfile.avatar }, newProfile.avatarHash);
     }
 
     await this.updateProfileName();
@@ -1216,25 +1220,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     // Not sure if we care about updating the database
   }
-  public async setGroupNameAndAvatar(name: string, avatarPath: string) {
-    const currentName = this.get('name');
+
+  public async setProfileAvatar(avatar: any, avatarHash?: string) {
     const profileAvatar = this.get('avatar');
-    if (profileAvatar !== avatarPath || currentName !== name) {
-      // only update changed items
-      if (profileAvatar !== avatarPath) {
-        this.set({ avatar: avatarPath });
-      }
-      if (currentName !== name) {
-        this.set({ name });
-      }
-      // save
-      await this.commit();
-    }
-  }
-  public async setProfileAvatar(avatar: any) {
-    const profileAvatar = this.get('avatar');
+    const existingHash = this.get('avatarHash');
+    let shouldCommit = false;
     if (profileAvatar !== avatar) {
       this.set({ avatar });
+      shouldCommit = true;
+    }
+
+    if (existingHash !== avatarHash) {
+      this.set({ avatarHash });
+      shouldCommit = true;
+    }
+
+    if (shouldCommit) {
       await this.commit();
     }
   }
@@ -1453,7 +1454,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return avatar;
     }
 
-    if (avatar && avatar.path && typeof avatar.path === 'string') {
+    if (typeof avatar?.path === 'string') {
       const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
       return getAbsoluteAttachmentPath(avatar.path) as string;

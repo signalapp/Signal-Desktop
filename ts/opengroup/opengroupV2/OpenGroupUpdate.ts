@@ -2,6 +2,8 @@ import { ApiV2 } from '.';
 import { getV2OpenGroupRoom } from '../../data/opengroups';
 import { ConversationModel } from '../../models/conversation';
 import { downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
+import { sha256 } from '../../session/crypto';
+import { fromArrayBufferToBase64 } from '../../session/utils/String';
 import { arrayBufferFromFile } from '../../types/Attachment';
 import { AttachmentUtil } from '../../util';
 
@@ -68,12 +70,14 @@ export async function updateOpenGroupV2(convo: ConversationModel, groupName: str
         isRaw: true,
         url: pathname,
       });
-      // TODO on our opengroupv2 we don't have a way to know when the file changed on the server.
-      // maybe we should download it once in a while even if we don't know if the file changed?
-      convo.set('avatarPointer', pathname);
-
+      // FIXME audric update of roomname on the server?
       window.log.warn('TODO update of roomName');
-      await convo.setGroupNameAndAvatar(convo.get('name') || 'Unknown', upgraded.path);
+      const newHash = sha256(fromArrayBufferToBase64(downloaded.buffer));
+      await convo.setLokiProfile({
+        displayName: groupName || convo.get('name') || 'Unknown',
+        avatar: upgraded.path,
+        avatarHash: newHash,
+      });
     } catch (e) {
       window.log.error(`Could not decrypt profile image: ${e}`);
     }
