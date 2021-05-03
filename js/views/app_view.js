@@ -178,7 +178,7 @@
         window.confirmationDialog({
           title,
           message,
-          resolve: () => groupConvo.leaveGroup(),
+          resolve: () => groupConvo.leaveClosedGroup(),
           theme: this.getThemeObject(),
         });
       } else {

@@ -39,6 +39,7 @@ interface Props {
   onGoBack: () => void;
   onInviteContacts: () => void;
   onLeaveGroup: () => void;
+  onDeleteContact: () => void;
   onUpdateGroupName: () => void;
   onAddModerators: () => void;
   onRemoveModerators: () => void;
@@ -218,6 +219,7 @@ class SessionRightPanel extends React.Component<Props, State> {
       name,
       timerOptions,
       onLeaveGroup,
+      onDeleteContact,
       isKickedFromGroup,
       left,
       isPublic,
@@ -310,7 +312,7 @@ class SessionRightPanel extends React.Component<Props, State> {
             buttonColor={SessionButtonColor.Danger}
             disabled={isKickedFromGroup || left}
             buttonType={SessionButtonType.SquareOutline}
-            onClick={onLeaveGroup}
+            onClick={isPublic ? onDeleteContact : onLeaveGroup}
           />
         )}
       </div>

@@ -189,7 +189,7 @@ export class ConversationController {
 
     // Close group leaving
     if (conversation.isClosedGroup()) {
-      await conversation.leaveGroup();
+      await conversation.leaveClosedGroup();
     } else if (conversation.isPublic() && !conversation.isOpenGroupV2()) {
       const channelAPI = await conversation.getPublicSendData();
       if (channelAPI === null) {

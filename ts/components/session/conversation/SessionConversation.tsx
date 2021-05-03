@@ -384,7 +384,7 @@ export class SessionConversation extends React.Component<Props, State> {
         conversation.copyPublicKey();
       },
       onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveGroup', conversation);
+        window.Whisper.events.trigger('leaveClosedGroup', conversation);
       },
       onInviteContacts: () => {
         window.Whisper.events.trigger('inviteContacts', conversation);
@@ -492,8 +492,9 @@ export class SessionConversation extends React.Component<Props, State> {
       onInviteContacts: () => {
         window.Whisper.events.trigger('inviteContacts', conversation);
       },
+      onDeleteContact: conversation.deleteContact,
       onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveGroup', conversation);
+        window.Whisper.events.trigger('leaveClosedGroup', conversation);
       },
       onAddModerators: () => {
         window.Whisper.events.trigger('addModerators', conversation);

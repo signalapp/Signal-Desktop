@@ -419,7 +419,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       onCopyPublicKey: this.copyPublicKey,
       onDeleteContact: this.deleteContact,
       onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveGroup', this);
+        window.Whisper.events.trigger('leaveClosedGroup', this);
       },
       onDeleteMessages: this.deleteMessages,
       onInviteContacts: () => {
@@ -953,7 +953,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return model;
   }
 
-  public async leaveGroup() {
+  public async leaveClosedGroup() {
     if (this.isMediumGroup()) {
       await leaveClosedGroup(this.id);
     } else {

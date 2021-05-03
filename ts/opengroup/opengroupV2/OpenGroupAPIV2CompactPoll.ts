@@ -8,7 +8,7 @@ import { parseStatusCodeFromOnionRequest } from './OpenGroupAPIV2Parser';
 import _ from 'lodash';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
-import { downloadPreviewOpenGroupV2, getAuthToken } from './OpenGroupAPIV2';
+import { downloadPreviewOpenGroupV2, getAuthToken, getMemberCount } from './OpenGroupAPIV2';
 
 const COMPACT_POLL_ENDPOINT = 'compact_poll';
 
@@ -70,6 +70,50 @@ export const getAllBase64AvatarForRooms = async (
   }
 
   return validPreviewBase64 ? validPreviewBase64 : null;
+};
+
+export const getAllMemberCount = async (
+  serverUrl: string,
+  rooms: Set<string>,
+  abortSignal: AbortSignal
+): Promise<Array<ParsedMemberCount> | null> => {
+  // fetch all we need
+  const allValidRoomInfos = await getAllValidRoomInfos(serverUrl, rooms);
+  if (!allValidRoomInfos?.length) {
+    window.log.info('getAllMemberCount: no valid roominfos got.');
+    return null;
+  }
+  if (abortSignal.aborted) {
+    window.log.info('memberCount aborted, returning null');
+    return null;
+  }
+  // Currently this call will not abort if AbortSignal is aborted,
+  // but the call will return null.
+  const validMemberCount = _.compact(
+    await Promise.all(
+      allValidRoomInfos.map(async room => {
+        try {
+          const memberCount = await getMemberCount(room);
+          if (memberCount !== undefined) {
+            return {
+              roomId: room.roomId,
+              memberCount,
+            };
+          }
+        } catch (e) {
+          window.log.warn('getPreview failed for room', room);
+        }
+        return null;
+      })
+    )
+  );
+
+  if (abortSignal.aborted) {
+    window.log.info('getMemberCount aborted, returning null');
+    return null;
+  }
+
+  return validMemberCount ? validMemberCount : null;
 };
 
 /**
@@ -256,6 +300,11 @@ export type ParsedRoomCompactPollResults = StatusCodeType & {
 export type ParsedBase64Avatar = {
   roomId: string;
   base64: string;
+};
+
+export type ParsedMemberCount = {
+  roomId: string;
+  memberCount: number;
 };
 
 const parseCompactPollResult = async (

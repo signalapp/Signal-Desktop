@@ -419,7 +419,9 @@ export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
   return parseRooms(result);
 };
 
-export const getMemberCount = async (roomInfos: OpenGroupRequestCommonType): Promise<void> => {
+export const getMemberCount = async (
+  roomInfos: OpenGroupRequestCommonType
+): Promise<number | undefined> => {
   const request: OpenGroupV2Request = {
     method: 'GET',
     room: roomInfos.roomId,
@@ -438,18 +440,7 @@ export const getMemberCount = async (roomInfos: OpenGroupRequestCommonType): Pro
     return;
   }
 
-  const conversationId = getOpenGroupV2ConversationId(roomInfos.serverUrl, roomInfos.roomId);
-
-  const convo = ConversationController.getInstance().get(conversationId);
-  if (!convo) {
-    window.log.warn('cannot update conversation memberCount as it does not exist');
-    return;
-  }
-  if (convo.get('subscriberCount') !== count) {
-    convo.set({ subscriberCount: count });
-    // triggers the save to db and the refresh of the UI
-    await convo.commit();
-  }
+  return count;
 };
 
 /**

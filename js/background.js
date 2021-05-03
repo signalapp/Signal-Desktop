@@ -601,7 +601,7 @@
       }
     });
 
-    Whisper.events.on('leaveGroup', async groupConvo => {
+    Whisper.events.on('leaveClosedGroup', async groupConvo => {
       if (appView) {
         appView.showLeaveGroupDialog(groupConvo);
       }
