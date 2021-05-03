@@ -229,9 +229,9 @@
   resolved "https://registry.yarnpkg.com/@iconify/react/-/react-1.1.3.tgz#ebe4d3e5f5dea23cd6a9634acd7a0a25c7414a59"
   integrity sha512-ReZNJyr89AfED6XZIXkhsJiNv2taT3j1cTo1HVPHMsrKOz6gAYdXtD2kDWF6+GVoFUxpmnO0fMcA6yCyTf6Tow==
 
-"@journeyapps/sqlcipher@https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b":
+"@journeyapps/sqlcipher@https://github.com/Bilb/node-sqlcipher.git#790f8857feb80584f78c52b32eadaf6be2d899a8":
   version "4.0.0"
-  resolved "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b"
+  resolved "https://github.com/Bilb/node-sqlcipher.git#790f8857feb80584f78c52b32eadaf6be2d899a8"
   dependencies:
     nan "^2.12.1"
     node-pre-gyp "^0.11.0"

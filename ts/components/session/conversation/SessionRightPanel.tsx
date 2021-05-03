@@ -307,6 +307,7 @@ class SessionRightPanel extends React.Component<Props, State> {
 
         <MediaGallery documents={documents} media={media} onItemClick={onItemClick} />
         {isGroup && (
+          // tslint:disable-next-line: use-simple-attributes
           <SessionButton
             text={leaveGroupString}
             buttonColor={SessionButtonColor.Danger}
