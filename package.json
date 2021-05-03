@@ -46,7 +46,7 @@
     "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test"
   },
   "dependencies": {
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b",
+    "@journeyapps/sqlcipher": "https://github.com/Bilb/node-sqlcipher.git#790f8857feb80584f78c52b32eadaf6be2d899a8",
     "@reduxjs/toolkit": "^1.4.0",
     "@sindresorhus/is": "0.8.0",
     "abort-controller": "3.0.0",
