@@ -30,7 +30,7 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v1
         with:
-          node-version: 10.13.0
+          node-version: 10.19.0
 
       - name: Setup node for windows
         if: runner.os == 'Windows'
