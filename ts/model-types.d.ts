@@ -140,12 +140,12 @@ export type MessageAttributesType = {
   attachments: Array<WhatIsThis>;
   preview: Array<WhatIsThis>;
   sticker: WhatIsThis;
-  sent_at: WhatIsThis;
+  sent_at: number;
   sent_to: Array<string>;
   unidentifiedDeliveries: Array<string>;
   contact: Array<WhatIsThis>;
   conversationId: string;
-  recipients: Array<WhatIsThis>;
+  recipients: Array<string>;
   reaction: WhatIsThis;
   destination?: WhatIsThis;
   destinationUuid?: string;

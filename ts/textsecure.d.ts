@@ -85,7 +85,7 @@ export type TextSecureType = {
   EventTarget: typeof EventTarget;
   MessageReceiver: typeof MessageReceiver;
   AccountManager: WhatIsThis;
-  MessageSender: WhatIsThis;
+  MessageSender: typeof MessageSender;
   SyncRequest: typeof SyncRequest;
 };
 

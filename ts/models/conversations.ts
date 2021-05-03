@@ -3547,7 +3547,7 @@ export class ConversationModel extends window.Backbone
   }
 
   async getSendMetadata(
-    options: { syncMessage?: string; disableMeCheck?: boolean } = {}
+    options: { syncMessage?: boolean; disableMeCheck?: boolean } = {}
   ): Promise<SendMetadataType | undefined> {
     const { syncMessage, disableMeCheck } = options;
 
@@ -4227,7 +4227,7 @@ export class ConversationModel extends window.Backbone
   async markRead(
     newestUnreadDate: number,
     providedOptions: { readAt?: number; sendReadReceipts: boolean }
-  ): Promise<WhatIsThis> {
+  ): Promise<void> {
     const options = providedOptions || {};
     window._.defaults(options, { sendReadReceipts: true });
 
@@ -5048,7 +5048,10 @@ export class ConversationModel extends window.Backbone
     return `mute(${this.get('id')})`;
   }
 
-  async notify(message: WhatIsThis, reaction?: WhatIsThis): Promise<void> {
+  async notify(
+    message: Readonly<MessageModel>,
+    reaction?: WhatIsThis
+  ): Promise<void> {
     // As a performance optimization don't perform any work if notifications are
     // disabled.
     if (!window.Whisper.Notifications.isEnabled) {
@@ -5296,7 +5299,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     this.generateLookups(this.models);
   },
 
-  generateLookups(models: Array<WhatIsThis>) {
+  generateLookups(models: ReadonlyArray<ConversationModel>) {
     models.forEach(model => {
       const e164 = model.get('e164');
       if (e164) {

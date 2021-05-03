@@ -3541,9 +3541,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           // GroupV1
           if (!isGroupV2 && dataMessage.group) {
             const pendingGroupUpdate = [];
-            const memberConversations: Array<
-              typeof window.WhatIsThis
-            > = await Promise.all(
+            const memberConversations: Array<ConversationModel> = await Promise.all(
               dataMessage.group.membersE164.map((e164: string) =>
                 window.ConversationController.getOrCreateAndWait(
                   e164,
@@ -3815,10 +3813,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           });
         }
 
-        window.MessageController.register(
-          message.id,
-          message as typeof window.WhatIsThis
-        );
+        window.MessageController.register(message.id, message);
         conversation.incrementMessageCount();
         window.Signal.Data.updateConversation(conversation.attributes);
 
@@ -4102,7 +4097,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 }
 
-window.Whisper.Message = MessageModel as typeof window.WhatIsThis;
+window.Whisper.Message = MessageModel;
 
 window.Whisper.Message.getLongMessageAttachment = ({
   body,
@@ -4137,7 +4132,7 @@ window.Whisper.Message.updateTimers = () => {
 
 window.Whisper.MessageCollection = window.Backbone.Collection.extend({
   model: window.Whisper.Message,
-  comparator(left: typeof window.WhatIsThis, right: typeof window.WhatIsThis) {
+  comparator(left: Readonly<MessageModel>, right: Readonly<MessageModel>) {
     if (left.get('received_at') === right.get('received_at')) {
       return (left.get('sent_at') || 0) - (right.get('sent_at') || 0);
     }

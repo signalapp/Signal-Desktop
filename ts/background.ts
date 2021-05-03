@@ -157,9 +157,7 @@ export async function startApp(): Promise<void> {
       clearSelectedMessage();
     }
     if (userChanged) {
-      userChanged({
-        interactionMode,
-      } as WhatIsThis);
+      userChanged({ interactionMode });
     }
   };
   window.enterMouseMode = () => {
@@ -175,7 +173,7 @@ export async function startApp(): Promise<void> {
       clearSelectedMessage();
     }
     if (userChanged) {
-      userChanged({ interactionMode } as WhatIsThis);
+      userChanged({ interactionMode });
     }
   };
 
@@ -195,7 +193,7 @@ export async function startApp(): Promise<void> {
 
   // Load these images now to ensure that they don't flicker on first use
   window.preloadedImages = [];
-  function preload(list: Array<WhatIsThis>) {
+  function preload(list: ReadonlyArray<string>) {
     for (let index = 0, max = list.length; index < max; index += 1) {
       const image = new Image();
       image.src = `./images/${list[index]}`;
@@ -339,7 +337,7 @@ export async function startApp(): Promise<void> {
   window.log.info('Storage fetch');
   window.storage.fetch();
 
-  function mapOldThemeToNew(theme: WhatIsThis) {
+  function mapOldThemeToNew(theme: Readonly<unknown>) {
     switch (theme) {
       case 'dark':
       case 'light':
@@ -372,7 +370,7 @@ export async function startApp(): Promise<void> {
           'theme-setting',
           window.platform === 'darwin' ? 'system' : 'light'
         ),
-      setThemeSetting: (value: WhatIsThis) => {
+      setThemeSetting: (value: 'light' | 'dark' | 'system') => {
         window.storage.put('theme-setting', value);
         onChangeTheme();
       },
@@ -1805,7 +1803,7 @@ export async function startApp(): Promise<void> {
         USERNAME,
         PASSWORD,
         mySignalingKey,
-        messageReceiverOptions as WhatIsThis
+        messageReceiverOptions
       );
       window.textsecure.messageReceiver = messageReceiver;
 
@@ -1814,7 +1812,7 @@ export async function startApp(): Promise<void> {
       preMessageReceiverStatus = null;
 
       // eslint-disable-next-line no-inner-declarations
-      function addQueuedEventListener(name: WhatIsThis, handler: WhatIsThis) {
+      function addQueuedEventListener(name: string, handler: WhatIsThis) {
         messageReceiver.addEventListener(name, (...args: Array<WhatIsThis>) =>
           eventHandlerQueue.add(async () => {
             try {

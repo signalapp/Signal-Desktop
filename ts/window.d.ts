@@ -150,7 +150,7 @@ declare global {
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager | undefined;
     getAlwaysRelayCalls: () => Promise<boolean>;
-    getBuiltInImages: () => Promise<Array<WhatIsThis>>;
+    getBuiltInImages: () => Promise<Array<string>>;
     getCallRingtoneNotification: () => Promise<boolean>;
     getCallSystemNotification: () => Promise<boolean>;
     getConversations: () => ConversationModelCollectionType;
@@ -175,8 +175,8 @@ declare global {
     showCallingPermissionsPopup: (forCamera: boolean) => Promise<void>;
     i18n: LocalizerType;
     isActive: () => boolean;
-    isAfterVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
-    isBeforeVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
+    isAfterVersion: (version: string, anotherVersion: string) => boolean;
+    isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
     isValidGuid: (maybeGuid: string | null) => boolean;
     isValidE164: (maybeE164: unknown) => boolean;
@@ -328,10 +328,7 @@ declare global {
           stickerId: number
         ) => Promise<typeof window.Signal.Types.Sticker>;
         deletePackReference: (id: string, packId: string) => Promise<void>;
-        downloadEphemeralPack: (
-          packId: string,
-          key: WhatIsThis
-        ) => Promise<void>;
+        downloadEphemeralPack: (packId: string, key: string) => Promise<void>;
         downloadQueuedPacks: () => void;
         downloadStickerPack: (
           id: string,
