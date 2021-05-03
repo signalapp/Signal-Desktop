@@ -34,8 +34,10 @@ const items: Record<string, TimelineItemType> = {
       id: 'id-1',
       direction: 'incoming',
       timestamp: Date.now(),
-      authorPhoneNumber: '(202) 555-2001',
-      authorColor: 'green',
+      author: {
+        phoneNumber: '(202) 555-2001',
+        color: 'green',
+      },
       text: '🔥',
     },
   },
@@ -46,7 +48,9 @@ const items: Record<string, TimelineItemType> = {
       conversationType: 'group',
       direction: 'incoming',
       timestamp: Date.now(),
-      authorColor: 'green',
+      author: {
+        color: 'green',
+      },
       text: 'Hello there from the new world! http://somewhere.com',
     },
   },
@@ -69,7 +73,9 @@ const items: Record<string, TimelineItemType> = {
       collapseMetadata: true,
       direction: 'incoming',
       timestamp: Date.now(),
-      authorColor: 'red',
+      author: {
+        color: 'red',
+      },
       text: 'Hello there from the new world!',
     },
   },
@@ -153,7 +159,9 @@ const items: Record<string, TimelineItemType> = {
       direction: 'outgoing',
       timestamp: Date.now(),
       status: 'sent',
-      authorColor: 'pink',
+      author: {
+        color: 'pink',
+      },
       text: '🔥',
     },
   },
@@ -164,7 +172,9 @@ const items: Record<string, TimelineItemType> = {
       direction: 'outgoing',
       timestamp: Date.now(),
       status: 'read',
-      authorColor: 'pink',
+      author: {
+        color: 'pink',
+      },
       text: 'Hello there from the new world! http://somewhere.com',
     },
   },
@@ -186,7 +196,9 @@ const items: Record<string, TimelineItemType> = {
       direction: 'outgoing',
       status: 'sent',
       timestamp: Date.now(),
-      authorColor: 'blue',
+      author: {
+        color: 'blue',
+      },
       text:
         'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
     },
@@ -322,7 +334,14 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
   haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),
   haveOldest: boolean('haveOldest', overrideProps.haveOldest !== false),
-  isLoadingMessages: false,
+  isIncomingMessageRequest: boolean(
+    'isIncomingMessageRequest',
+    overrideProps.isIncomingMessageRequest === true
+  ),
+  isLoadingMessages: boolean(
+    'isLoadingMessages',
+    overrideProps.isLoadingMessages === false
+  ),
   items: overrideProps.items || Object.keys(items),
   resetCounter: 0,
   scrollToIndex: overrideProps.scrollToIndex,
@@ -350,6 +369,40 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 story.add('Oldest and Newest', () => {
   const props = createProps();
+
+  return <Timeline {...props} />;
+});
+
+story.add('With active message request', () => {
+  const props = createProps({
+    isIncomingMessageRequest: true,
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('Without Newest Message', () => {
+  const props = createProps({
+    haveNewest: false,
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('Without newest message, active message request', () => {
+  const props = createProps({
+    haveOldest: false,
+    isIncomingMessageRequest: true,
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('Without Oldest Message', () => {
+  const props = createProps({
+    haveOldest: false,
+    scrollToIndex: -1,
+  });
 
   return <Timeline {...props} />;
 });
@@ -382,23 +435,6 @@ story.add('Target Index to Top', () => {
 story.add('Typing Indicator', () => {
   const props = createProps({
     typingContact: true,
-  });
-
-  return <Timeline {...props} />;
-});
-
-story.add('Without Newest Message', () => {
-  const props = createProps({
-    haveNewest: false,
-  });
-
-  return <Timeline {...props} />;
-});
-
-story.add('Without Oldest Message', () => {
-  const props = createProps({
-    haveOldest: false,
-    scrollToIndex: -1,
   });
 
   return <Timeline {...props} />;
