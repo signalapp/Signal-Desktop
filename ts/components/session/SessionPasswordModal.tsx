@@ -24,6 +24,7 @@ interface State {
   error: string | null;
   currentPasswordEntered: string | null;
   currentPasswordConfirmEntered: string | null;
+  currentPasswordRetypeEntered: string | null;
 }
 
 class SessionPasswordModalInner extends React.Component<Props, State> {
@@ -36,6 +37,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       error: null,
       currentPasswordEntered: null,
       currentPasswordConfirmEntered: null,
+      currentPasswordRetypeEntered: null
     };
 
     this.showError = this.showError.bind(this);
@@ -45,6 +47,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
 
     this.onPasswordInput = this.onPasswordInput.bind(this);
     this.onPasswordConfirmInput = this.onPasswordConfirmInput.bind(this);
+    this.onPasswordRetypeInput = this.onPasswordRetypeInput.bind(this);
   }
 
   public componentDidMount() {
@@ -58,7 +61,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     const { action, onOk } = this.props;
     const placeholders =
       action === PasswordAction.Change
-        ? [window.i18n('typeInOldPassword'), window.i18n('enterPassword')]
+        ? [window.i18n('typeInOldPassword'), window.i18n('enterPassword'), window.i18n('confirmPassword')]
         : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
 
     const confirmButtonColor =
@@ -90,6 +93,14 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
               id="password-modal-input-confirm"
               placeholder={placeholders[1]}
               onKeyUp={this.onPasswordConfirmInput}
+            />
+          )}
+          {action === PasswordAction.Change && (
+            <input
+              type="password"
+              id="password-modal-input-reconfirm"
+              placeholder={placeholders[2]}
+              onKeyUp={this.onPasswordRetypeInput}
             />
           )}
         </div>
@@ -185,12 +196,21 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     this.closeDialog();
   }
 
-  private async handleActionChange(oldPassword: string, newPassword: string) {
+  private async handleActionChange(oldPassword: string, newPassword: string, newConfirmedPassword: string) {
     // We don't validate oldPassword on change: this is validate on the validatePasswordHash below
     // we only validate the newPassword here
     if (!this.validatePassword(newPassword)) {
       return;
     }
+
+    // Check the retyped password matches the new password
+    if (newPassword !== newConfirmedPassword) {
+      this.setState({
+        error: window.i18n('passwordsDoNotMatch')
+      })
+      return
+    }
+
     const isValidWithStoredInDB = Boolean(
       await this.validatePasswordHash(oldPassword)
     );
@@ -242,12 +262,14 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     const {
       currentPasswordEntered,
       currentPasswordConfirmEntered,
+      currentPasswordRetypeEntered
     } = this.state;
     const { Set, Remove, Change } = PasswordAction;
 
     // Trim leading / trailing whitespace for UX
     const firstPasswordEntered = (currentPasswordEntered || '').trim();
     const secondPasswordEntered = (currentPasswordConfirmEntered || '').trim();
+    const thirdPasswordEntered = (currentPasswordRetypeEntered || '').trim();
 
     switch (action) {
       case Set: {
@@ -257,7 +279,8 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       case Change: {
         await this.handleActionChange(
           firstPasswordEntered,
-          secondPasswordEntered
+          secondPasswordEntered,
+          thirdPasswordEntered
         );
         return;
       }
@@ -292,6 +315,15 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     const currentPasswordConfirmEntered = event.target.value;
 
     this.setState({ currentPasswordConfirmEntered });
+  }
+
+  private async onPasswordRetypeInput(event: any) {
+    if (event.key === 'Enter') {
+      return this.setPassword();
+    }
+    const currentPasswordRetypeEntered = event.target.value;
+
+    this.setState({ currentPasswordRetypeEntered });
   }
 }
 
