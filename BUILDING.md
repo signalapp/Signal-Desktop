@@ -47,7 +47,7 @@ base64 -i certificate.p12 -o encoded.txt
 
 ### Node version
 
-You will need node `10.13.0`.
+You will need node `10.19.0`.
 This can be done by using [nvm](https://github.com/nvm-sh/nvm) and running `nvm use` or you can install it manually.
 
 ### Prerequisites
