@@ -67,7 +67,7 @@ describe('MentionCompletion', () => {
     };
 
     const options: MentionCompletionOptions = {
-      i18n: sinon.stub(),
+      i18n: Object.assign(sinon.stub(), { getLocale: sinon.stub() }),
       me,
       memberRepositoryRef,
       setMentionPickerElement: sinon.stub(),

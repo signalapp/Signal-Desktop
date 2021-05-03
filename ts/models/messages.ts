@@ -21,7 +21,7 @@ import {
 } from '../components/conversation/Message';
 import { OwnProps as SmartMessageDetailPropsType } from '../state/smart/MessageDetail';
 import { CallbackResultType } from '../textsecure/SendMessage';
-import { ExpirationTimerOptions } from '../util/ExpirationTimerOptions';
+import * as expirationTimer from '../util/expirationTimer';
 import { missingCaseError } from '../util/missingCaseError';
 import { ColorType } from '../types/Colors';
 import { CallMode } from '../types/Calling';
@@ -629,10 +629,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const { expireTimer, fromSync, source, sourceUuid } = timerUpdate;
-    const timespan = ExpirationTimerOptions.getName(
-      window.i18n,
-      expireTimer || 0
-    );
     const disabled = !expireTimer;
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -645,9 +641,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const basicProps = {
       ...formattedContact,
-      type: 'fromOther' as TimerNotificationType,
-      timespan,
       disabled,
+      expireTimer,
+      type: 'fromOther' as TimerNotificationType,
     };
 
     if (fromSync) {
@@ -1552,7 +1548,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       return {
         text: window.i18n('timerSetTo', [
-          ExpirationTimerOptions.getAbbreviated(window.i18n, expireTimer || 0),
+          expirationTimer.format(window.i18n, expireTimer),
         ]),
       };
     }

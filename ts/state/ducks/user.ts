@@ -82,7 +82,16 @@ export function getEmptyState(): UserStateType {
     platform: 'missing',
     interactionMode: 'mouse',
     theme: ThemeType.light,
-    i18n: () => 'missing',
+    i18n: Object.assign(
+      () => {
+        throw new Error('i18n not yet set up');
+      },
+      {
+        getLocale() {
+          throw new Error('i18n not yet set up');
+        },
+      }
+    ),
   };
 }
 

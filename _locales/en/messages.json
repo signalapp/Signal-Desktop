@@ -1657,105 +1657,13 @@
       }
     }
   },
-  "timerOption_0_seconds": {
+  "disappearingMessages__off": {
     "message": "off",
     "description": "Label for option to turn off message expiration in the timer menu"
-  },
-  "timerOption_5_seconds": {
-    "message": "5 seconds",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_10_seconds": {
-    "message": "10 seconds",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_30_seconds": {
-    "message": "30 seconds",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_1_minute": {
-    "message": "1 minute",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_5_minutes": {
-    "message": "5 minutes",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_30_minutes": {
-    "message": "30 minutes",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_1_hour": {
-    "message": "1 hour",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_6_hours": {
-    "message": "6 hours",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_12_hours": {
-    "message": "12 hours",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_1_day": {
-    "message": "1 day",
-    "description": "Label for a selectable option in the message expiration timer menu"
-  },
-  "timerOption_1_week": {
-    "message": "1 week",
-    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "disappearingMessages": {
     "message": "Disappearing messages",
     "description": "Conversation menu option to enable disappearing messages"
-  },
-  "timerOption_0_seconds_abbreviated": {
-    "message": "off",
-    "description": "Short format indicating current timer setting in the conversation list snippet"
-  },
-  "timerOption_5_seconds_abbreviated": {
-    "message": "5s",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_10_seconds_abbreviated": {
-    "message": "10s",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_30_seconds_abbreviated": {
-    "message": "30s",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_1_minute_abbreviated": {
-    "message": "1m",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_5_minutes_abbreviated": {
-    "message": "5m",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_30_minutes_abbreviated": {
-    "message": "30m",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_1_hour_abbreviated": {
-    "message": "1h",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_6_hours_abbreviated": {
-    "message": "6h",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_12_hours_abbreviated": {
-    "message": "12h",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_1_day_abbreviated": {
-    "message": "1d",
-    "description": "Very short format indicating current timer setting in the conversation header"
-  },
-  "timerOption_1_week_abbreviated": {
-    "message": "1w",
-    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "disappearingMessagesDisabled": {
     "message": "Disappearing messages disabled",

@@ -5,10 +5,8 @@ import React, { useState, ReactNode } from 'react';
 
 import { ConversationType } from '../../../state/ducks/conversations';
 import { assert } from '../../../util/assert';
-import {
-  ExpirationTimerOptions,
-  TimerOption,
-} from '../../../util/ExpirationTimerOptions';
+import * as expirationTimer from '../../../util/expirationTimer';
+
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
@@ -228,15 +226,20 @@ export const ConversationDetails: React.ComponentType<Props> = ({
                   onChange={updateExpireTimer}
                   value={conversation.expireTimer || 0}
                 >
-                  {ExpirationTimerOptions.map((item: typeof TimerOption) => (
-                    <option
-                      value={item.get('seconds')}
-                      key={item.get('seconds')}
-                      aria-label={item.getName(i18n)}
-                    >
-                      {item.getName(i18n)}
-                    </option>
-                  ))}
+                  {expirationTimer.DEFAULT_DURATIONS_IN_SECONDS.map(
+                    (seconds: number) => {
+                      const label = expirationTimer.format(i18n, seconds);
+                      return (
+                        <option
+                          value={seconds}
+                          key={seconds}
+                          aria-label={label}
+                        >
+                          {label}
+                        </option>
+                      );
+                    }
+                  )}
                 </select>
               </div>
             }
