@@ -102,7 +102,7 @@ export const parseMessages = async (
       }
     })
   );
-  return _.compact(messages);
+  return _.compact(messages).sort((a, b) => (a.serverId || 0) - (b.serverId || 0));
 };
 // tslint:disable: no-http-string
 const defaultServerUrl = 'http://116.203.70.33';

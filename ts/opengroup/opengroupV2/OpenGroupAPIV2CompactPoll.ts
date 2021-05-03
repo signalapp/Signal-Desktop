@@ -331,6 +331,7 @@ const parseCompactPollResult = async (
   }
 
   const validMessages = await parseMessages(rawMessages);
+
   const moderators = rawMods.sort() as Array<string>;
   const deletions = rawDeletions as ParsedDeletions;
   const statusCode = rawStatusCode as number;
