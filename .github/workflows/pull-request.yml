@@ -38,7 +38,7 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v1
         with:
-          node-version: 10.13.0
+          node-version: 10.19.0
 
       - name: Setup node for windows
         if: runner.os == 'Windows'
@@ -54,11 +54,10 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Install Dependencies  #skipped if step before set variable to true
+      - name: Install Dependencies #skipped if step before set variable to true
         if: |
           steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile --network-timeout 600000
-
 
       - name: Generate and concat files
         run: yarn generate

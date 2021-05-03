@@ -216,7 +216,7 @@
     "webpack": "4.4.1"
   },
   "engines": {
-    "node": "^10.13.0"
+    "node": "^10.19.0"
   },
   "build": {
     "appId": "com.loki-project.messenger-desktop",
