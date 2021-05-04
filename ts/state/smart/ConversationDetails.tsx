@@ -9,7 +9,7 @@ import {
   StateProps,
 } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
-  getComposableContacts,
+  getCandidateContactsForNewGroup,
   getConversationByIdSelector,
 } from '../selectors/conversations';
 import { GroupV2Membership } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList';
@@ -71,7 +71,7 @@ const mapStateToProps = (
   );
 
   const isAdmin = Boolean(conversation?.areWeAdmin);
-  const candidateContactsToAdd = getComposableContacts(state);
+  const candidateContactsToAdd = getCandidateContactsForNewGroup(state);
 
   return {
     ...props,

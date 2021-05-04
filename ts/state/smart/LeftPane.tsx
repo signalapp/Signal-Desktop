@@ -16,10 +16,10 @@ import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
 import { getSearchResults, isSearching } from '../selectors/search';
 import { getIntl, getRegionCode } from '../selectors/user';
 import {
-  getCandidateContactsForNewGroup,
+  getFilteredCandidateContactsForNewGroup,
   getCantAddContactForModal,
-  getComposeContacts,
-  getComposeGroups,
+  getFilteredComposeContacts,
+  getFilteredComposeGroups,
   getComposeGroupAvatar,
   getComposeGroupName,
   getComposeSelectedContacts,
@@ -96,15 +96,15 @@ const getModeSpecificProps = (
     case ComposerStep.StartDirectConversation:
       return {
         mode: LeftPaneMode.Compose,
-        composeContacts: getComposeContacts(state),
-        composeGroups: getComposeGroups(state),
+        composeContacts: getFilteredComposeContacts(state),
+        composeGroups: getFilteredComposeGroups(state),
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
       };
     case ComposerStep.ChooseGroupMembers:
       return {
         mode: LeftPaneMode.ChooseGroupMembers,
-        candidateContacts: getCandidateContactsForNewGroup(state),
+        candidateContacts: getFilteredCandidateContactsForNewGroup(state),
         cantAddContactForModal: getCantAddContactForModal(state),
         isShowingRecommendedGroupSizeModal:
           getRecommendedGroupSizeModalState(state) ===
