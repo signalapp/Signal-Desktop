@@ -5,10 +5,11 @@ on:
   push:
     branches:
       - master
-      - development
       - clearnet
-      - github-actions
-      - react-refactor
+
+  pull_request:
+    branches:
+      - clearnet
 
 jobs:
   build:
@@ -32,13 +33,22 @@ jobs:
         with:
           node-version: 10.19.0
 
+      - name: Chocolatey Install Action
+        if: runner.os == 'Windows'
+        uses: crazy-max/ghaction-chocolatey@v1.4.2
+        with:
+          args: install python2 visualcpp-build-tools -y
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+        if: runner.os == 'Windows'
+
       - name: Setup node for windows
         if: runner.os == 'Windows'
         run: |
-          npm install --global --production windows-build-tools@4.0.0
           npm install --global node-gyp@latest
           npm config set python python2.7
-          npm config set msvs_version 2015
+          npm config set msvs_version 2017
 
       - name: Install yarn
         run: npm install yarn --no-save
