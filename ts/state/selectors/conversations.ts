@@ -262,6 +262,7 @@ export const _getLeftPaneLists = (
     // We always show pinned conversations
     if (conversation.isPinned) {
       pinnedConversations.push(conversation);
+      continue;
     }
 
     if (conversation.activeAt) {

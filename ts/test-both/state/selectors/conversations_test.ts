@@ -1306,13 +1306,22 @@ describe('both/state/selectors/conversations', () => {
         },
       };
       const comparator = _getConversationComparator();
-      const { conversations } = _getLeftPaneLists(data, comparator);
+      const {
+        archivedConversations,
+        conversations,
+        pinnedConversations,
+      } = _getLeftPaneLists(data, comparator);
 
       assert.strictEqual(conversations[0].name, 'First!');
       assert.strictEqual(conversations[1].name, 'Á');
       assert.strictEqual(conversations[2].name, 'B');
       assert.strictEqual(conversations[3].name, 'C');
       assert.strictEqual(conversations[4].name, 'No timestamp');
+      assert.strictEqual(conversations.length, 5);
+
+      assert.strictEqual(archivedConversations.length, 0);
+
+      assert.strictEqual(pinnedConversations.length, 0);
     });
 
     describe('given pinned conversations', () => {
@@ -1400,7 +1409,11 @@ describe('both/state/selectors/conversations', () => {
 
         const pinnedConversationIds = ['pin1', 'pin2', 'pin3'];
         const comparator = _getConversationComparator();
-        const { pinnedConversations } = _getLeftPaneLists(
+        const {
+          archivedConversations,
+          conversations,
+          pinnedConversations,
+        } = _getLeftPaneLists(
           data,
           comparator,
           undefined,
@@ -1410,6 +1423,10 @@ describe('both/state/selectors/conversations', () => {
         assert.strictEqual(pinnedConversations[0].name, 'Pin One');
         assert.strictEqual(pinnedConversations[1].name, 'Pin Two');
         assert.strictEqual(pinnedConversations[2].name, 'Pin Three');
+
+        assert.strictEqual(archivedConversations.length, 0);
+
+        assert.strictEqual(conversations.length, 0);
       });
 
       it('includes archived and pinned conversations with no active_at', () => {
@@ -1545,8 +1562,9 @@ describe('both/state/selectors/conversations', () => {
         const pinnedConversationIds = ['pin1', 'pin2', 'pin3'];
         const comparator = _getConversationComparator();
         const {
-          pinnedConversations,
           archivedConversations,
+          conversations,
+          pinnedConversations,
         } = _getLeftPaneLists(
           data,
           comparator,
@@ -1561,6 +1579,8 @@ describe('both/state/selectors/conversations', () => {
 
         assert.strictEqual(archivedConversations[0].name, 'Pin Four');
         assert.strictEqual(archivedConversations.length, 1);
+
+        assert.strictEqual(conversations.length, 0);
       });
     });
   });
