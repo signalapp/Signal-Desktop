@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
@@ -12,30 +12,6 @@ import { ExceptionType, REASONS, RuleType } from './types';
 import { ENCODING, loadJSON, sortExceptions } from './util';
 
 const ALL_REASONS = REASONS.join('|');
-
-function getExceptionKey(
-  exception: Pick<ExceptionType, 'rule' | 'path' | 'lineNumber'>
-): string {
-  return `${exception.rule}-${exception.path}-${exception.lineNumber}`;
-}
-
-function createLookup(
-  list: ReadonlyArray<ExceptionType>
-): { [key: string]: ExceptionType } {
-  const lookup = Object.create(null);
-
-  list.forEach((exception: ExceptionType) => {
-    const key = getExceptionKey(exception);
-
-    if (lookup[key]) {
-      throw new Error(`Duplicate exception found for key ${key}`);
-    }
-
-    lookup[key] = exception;
-  });
-
-  return lookup;
-}
 
 const rulesPath = join(__dirname, 'rules.json');
 const exceptionsPath = join(__dirname, 'exceptions.json');
@@ -324,7 +300,7 @@ async function main(): Promise<void> {
   setupRules(rules);
 
   const exceptions: Array<ExceptionType> = loadJSON(exceptionsPath);
-  const exceptionsLookup = createLookup(exceptions);
+  let unusedExceptions = exceptions;
 
   const results: Array<ExceptionType> = [];
   let scannedCount = 0;
@@ -351,7 +327,7 @@ async function main(): Promise<void> {
           return;
         }
 
-        lines.forEach((line: string, lineIndex: number) => {
+        lines.forEach((line: string) => {
           if (!rule.regex.test(line)) {
             return;
           }
@@ -361,38 +337,35 @@ async function main(): Promise<void> {
             rule.regex = new RegExp(rule.expression, 'g');
           }
 
-          const lineNumber = lineIndex + 1;
+          const matchedException = unusedExceptions.find(
+            exception =>
+              exception.rule === rule.name &&
+              exception.path === relativePath &&
+              (line.length < 300
+                ? exception.line === line
+                : exception.line === undefined)
+          );
 
-          const exceptionKey = getExceptionKey({
-            rule: rule.name,
-            path: relativePath,
-            lineNumber,
-          });
-
-          const exception = exceptionsLookup[exceptionKey];
-          if (exception && (!exception.line || exception.line === line)) {
-            delete exceptionsLookup[exceptionKey];
-
-            return;
+          if (matchedException) {
+            unusedExceptions = unusedExceptions.filter(
+              exception => exception !== matchedException
+            );
+          } else {
+            results.push({
+              rule: rule.name,
+              path: relativePath,
+              line: line.length < 300 ? line : undefined,
+              reasonCategory: ALL_REASONS,
+              updated: now.toJSON(),
+              reasonDetail: '<optional>',
+            });
           }
-
-          results.push({
-            rule: rule.name,
-            path: relativePath,
-            line: line.length < 300 ? line : undefined,
-            lineNumber,
-            reasonCategory: ALL_REASONS,
-            updated: now.toJSON(),
-            reasonDetail: '<optional>',
-          });
         });
       });
     },
     // Without this, we may run into "too many open files" errors.
     { concurrency: 100 }
   );
-
-  const unusedExceptions = Object.values(exceptionsLookup);
 
   console.log(
     `${scannedCount} files scanned.`,
