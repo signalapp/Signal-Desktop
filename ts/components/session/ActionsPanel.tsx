@@ -6,7 +6,7 @@ import { SessionToastContainer } from './SessionToastContainer';
 import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
-import { DAYS, MINUTES, SECONDS } from '../../session/utils/Number';
+import { DAYS, MINUTES } from '../../session/utils/Number';
 import {
   generateAttachmentKeyIfEmpty,
   getItemById,
@@ -32,6 +32,7 @@ import { showLeftPaneSection } from '../../state/ducks/section';
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
+import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -216,6 +217,10 @@ export const ActionsPanel = () => {
   useInterval(() => {
     void syncConfigurationIfNeeded();
   }, DAYS * 2);
+
+  useInterval(() => {
+    void forceRefreshRandomSnodePool();
+  }, DAYS * 1);
 
   return (
     <div className="module-left-pane__sections-container">
