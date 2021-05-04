@@ -28,6 +28,7 @@ type Props = {
   | 'profileName'
   | 'sharedGroupNames'
   | 'title'
+  | 'type'
   | 'unblurredAvatarPath'
 >;
 
@@ -43,6 +44,7 @@ export class ContactListItem extends React.Component<Props> {
       profileName,
       sharedGroupNames,
       title,
+      type,
       unblurredAvatarPath,
     } = this.props;
 
@@ -51,7 +53,7 @@ export class ContactListItem extends React.Component<Props> {
         acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         color={color}
-        conversationType="direct"
+        conversationType={type}
         i18n={i18n}
         name={name}
         phoneNumber={phoneNumber}

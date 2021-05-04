@@ -18,6 +18,8 @@ storiesOf('Components/ContactListItem', module)
   .add("It's me!", () => {
     return (
       <ContactListItem
+        type="direct"
+        acceptedMessageRequest
         i18n={i18n}
         isMe
         title="Someone 🔥 Somewhere"
@@ -33,6 +35,8 @@ storiesOf('Components/ContactListItem', module)
     return (
       <div>
         <ContactListItem
+          type="direct"
+          acceptedMessageRequest
           i18n={i18n}
           title="Someone 🔥 Somewhere"
           name="Someone 🔥 Somewhere"
@@ -43,6 +47,8 @@ storiesOf('Components/ContactListItem', module)
           onClick={onClick}
         />
         <ContactListItem
+          type="direct"
+          acceptedMessageRequest
           i18n={i18n}
           title="Another ❄️ Yes"
           name="Another ❄️ Yes"
@@ -58,6 +64,8 @@ storiesOf('Components/ContactListItem', module)
   .add('With name and profile, admin', () => {
     return (
       <ContactListItem
+        type="direct"
+        acceptedMessageRequest
         i18n={i18n}
         isAdmin
         title="Someone 🔥 Somewhere"
@@ -70,9 +78,23 @@ storiesOf('Components/ContactListItem', module)
       />
     );
   })
+  .add('With a group with no avatarPath', () => {
+    return (
+      <ContactListItem
+        type="group"
+        i18n={i18n}
+        isAdmin
+        title="Group!"
+        about="👍 Free to chat"
+        onClick={onClick}
+      />
+    );
+  })
   .add('With just number, admin', () => {
     return (
       <ContactListItem
+        type="direct"
+        acceptedMessageRequest
         i18n={i18n}
         isAdmin
         title="(202) 555-0011"
@@ -86,6 +108,8 @@ storiesOf('Components/ContactListItem', module)
   .add('With name and profile, no avatar', () => {
     return (
       <ContactListItem
+        type="direct"
+        acceptedMessageRequest
         i18n={i18n}
         title="Someone 🔥 Somewhere"
         name="Someone 🔥 Somewhere"
@@ -100,6 +124,9 @@ storiesOf('Components/ContactListItem', module)
   .add('Profile, no name, no avatar', () => {
     return (
       <ContactListItem
+        type="direct"
+        acceptedMessageRequest
+        color="blue"
         i18n={i18n}
         phoneNumber="(202) 555-0011"
         title="🔥Flames🔥"
@@ -112,6 +139,8 @@ storiesOf('Components/ContactListItem', module)
   .add('No name, no profile, no avatar, no about', () => {
     return (
       <ContactListItem
+        type="direct"
+        acceptedMessageRequest
         i18n={i18n}
         phoneNumber="(202) 555-0011"
         title="(202) 555-0011"
@@ -122,6 +151,8 @@ storiesOf('Components/ContactListItem', module)
   .add('No name, no profile, no avatar', () => {
     return (
       <ContactListItem
+        type="direct"
+        acceptedMessageRequest
         i18n={i18n}
         title="(202) 555-0011"
         about="👍 Free to chat"
@@ -132,6 +163,12 @@ storiesOf('Components/ContactListItem', module)
   })
   .add('No name, no profile, no number', () => {
     return (
-      <ContactListItem i18n={i18n} title="Unknown contact" onClick={onClick} />
+      <ContactListItem
+        type="direct"
+        acceptedMessageRequest
+        i18n={i18n}
+        title="Unknown contact"
+        onClick={onClick}
+      />
     );
   });

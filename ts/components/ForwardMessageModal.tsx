@@ -250,13 +250,11 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
             </button>
           ) : (
             <button
-              aria-label={i18n('cancel')}
-              className="module-ForwardMessageModal__header--cancel"
+              aria-label={i18n('close')}
+              className="module-ForwardMessageModal__header--close"
               onClick={onClose}
               type="button"
-            >
-              {i18n('cancel')}
-            </button>
+            />
           )}
           <h1>{i18n('forwardMessage')}</h1>
         </div>

@@ -151,6 +151,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
             {selectedContacts.map(contact => (
               <ContactPill
                 key={contact.id}
+                acceptedMessageRequest={contact.acceptedMessageRequest}
                 avatarPath={contact.avatarPath}
                 color={contact.color}
                 firstName={contact.firstName}
