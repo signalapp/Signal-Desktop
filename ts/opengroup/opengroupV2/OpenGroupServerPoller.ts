@@ -95,6 +95,12 @@ export class OpenGroupServerPoller {
       this.pollForAllMemberCount,
       pollForMemberCountInterval
     );
+
+    if (this.roomIdsToPoll.size) {
+      void this.compactPoll();
+      void this.previewPerRoomPoll();
+      void this.pollForAllMemberCount();
+    }
   }
 
   /**
