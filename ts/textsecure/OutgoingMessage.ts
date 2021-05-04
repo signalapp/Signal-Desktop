@@ -675,7 +675,7 @@ export default class OutgoingMessage {
           identifier = uuid;
         } catch (error) {
           window.log.error(
-            `sentToIdentifier: Failed to fetch UUID for identifier ${identifier}`,
+            `sendToIdentifier: Failed to fetch UUID for identifier ${identifier}`,
             error && error.stack ? error.stack : error
           );
         }
