@@ -288,9 +288,6 @@ export class SessionConversation extends React.Component<Props, State> {
     const isPublic = selectedConversation.isPublic || false;
 
     const isPrivate = selectedConversation.type === 'direct';
-
-    // debugger;
-
     return (
       <SessionTheme theme={this.props.theme}>
         <div className="conversation-header">{this.renderHeader()}</div>

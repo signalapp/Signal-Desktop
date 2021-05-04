@@ -37,7 +37,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       error: null,
       currentPasswordEntered: null,
       currentPasswordConfirmEntered: null,
-      currentPasswordRetypeEntered: null,
+      currentPasswordRetypeEntered: null
     };
 
     this.showError = this.showError.bind(this);
@@ -61,11 +61,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     const { action, onOk } = this.props;
     const placeholders =
       action === PasswordAction.Change
-        ? [
-            window.i18n('typeInOldPassword'),
-            window.i18n('enterPassword'),
-            window.i18n('confirmPassword'),
-          ]
+        ? [window.i18n('typeInOldPassword'), window.i18n('enterPassword'), window.i18n('confirmPassword')]
         : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
 
     const confirmButtonColor =
@@ -200,11 +196,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     this.closeDialog();
   }
 
-  private async handleActionChange(
-    oldPassword: string,
-    newPassword: string,
-    newConfirmedPassword: string
-  ) {
+  private async handleActionChange(oldPassword: string, newPassword: string, newConfirmedPassword: string) {
     // We don't validate oldPassword on change: this is validate on the validatePasswordHash below
     // we only validate the newPassword here
     if (!this.validatePassword(newPassword)) {
@@ -214,9 +206,9 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     // Check the retyped password matches the new password
     if (newPassword !== newConfirmedPassword) {
       this.setState({
-        error: window.i18n('passwordsDoNotMatch'),
-      });
-      return;
+        error: window.i18n('passwordsDoNotMatch')
+      })
+      return
     }
 
     const isValidWithStoredInDB = Boolean(
@@ -270,7 +262,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     const {
       currentPasswordEntered,
       currentPasswordConfirmEntered,
-      currentPasswordRetypeEntered,
+      currentPasswordRetypeEntered
     } = this.state;
     const { Set, Remove, Change } = PasswordAction;
 
