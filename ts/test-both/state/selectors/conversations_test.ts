@@ -16,15 +16,18 @@ import {
   getAllComposableConversations,
   getCandidateContactsForNewGroup,
   getCantAddContactForModal,
-  getComposeContacts,
-  getComposeGroups,
+  getComposableContacts,
+  getComposableGroups,
   getComposeGroupAvatar,
   getComposeGroupName,
-  getComposeSelectedContacts,
   getComposerConversationSearchTerm,
   getComposerStep,
+  getComposeSelectedContacts,
   getConversationByIdSelector,
   getConversationSelector,
+  getFilteredCandidateContactsForNewGroup,
+  getFilteredComposeContacts,
+  getFilteredComposeGroups,
   getInvitedContactsForNewlyCreatedGroup,
   getMaximumGroupSizeModalState,
   getPlaceholderContact,
@@ -485,6 +488,7 @@ describe('both/state/selectors/conversations', () => {
             'our-conversation-id': {
               ...getDefaultConversation('our-conversation-id'),
               isMe: true,
+              profileName: 'My own name',
             },
           },
         },
@@ -501,27 +505,33 @@ describe('both/state/selectors/conversations', () => {
       Object.assign(result.conversations.conversationLookup, {
         'convo-1': {
           ...getDefaultConversation('convo-1'),
+          type: 'direct',
+          profileName: 'A',
           title: 'A',
         },
         'convo-2': {
           ...getDefaultConversation('convo-2'),
           type: 'group',
           isGroupV1AndDisabled: true,
+          name: '2',
           title: 'Should Be Dropped (GV1)',
         },
         'convo-3': {
           ...getDefaultConversation('convo-3'),
           type: 'group',
+          name: 'B',
           title: 'B',
         },
         'convo-4': {
           ...getDefaultConversation('convo-4'),
           isBlocked: true,
+          name: '4',
           title: 'Should Be Dropped (blocked)',
         },
         'convo-5': {
           ...getDefaultConversation('convo-5'),
           discoveredUnregisteredAt: new Date(1999, 3, 20).getTime(),
+          name: 'C',
           title: 'C',
         },
         'convo-6': {
@@ -533,6 +543,7 @@ describe('both/state/selectors/conversations', () => {
         'convo-7': {
           ...getDefaultConversation('convo-7'),
           discoveredUnregisteredAt: Date.now(),
+          name: '7',
           title: 'Should Be Dropped (unregistered)',
         },
       });
@@ -553,7 +564,254 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
-  describe('#getComposeContacts', () => {
+  describe('#getComposableContacts', () => {
+    const getRootState = (): StateType => {
+      const rootState = getEmptyRootState();
+      return {
+        ...rootState,
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'our-conversation-id': {
+              ...getDefaultConversation('our-conversation-id'),
+              isMe: true,
+            },
+          },
+        },
+        user: {
+          ...rootState.user,
+          ourConversationId: 'our-conversation-id',
+          i18n,
+        },
+      };
+    };
+
+    it('returns only direct contacts, including me', () => {
+      const state = {
+        ...getRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'convo-0': {
+              ...getDefaultConversation('convo-0'),
+              isMe: true,
+              profileSharing: false,
+            },
+            'convo-1': {
+              ...getDefaultConversation('convo-1'),
+              type: 'group' as const,
+              name: 'Friends!',
+            },
+            'convo-2': {
+              ...getDefaultConversation('convo-2'),
+              name: 'Alice',
+            },
+          },
+        },
+      };
+
+      const result = getComposableContacts(state);
+
+      const ids = result.map(group => group.id);
+      assert.deepEqual(ids, ['convo-0', 'convo-2']);
+    });
+    it('excludes blocked, unregistered, and missing name/profileSharing', () => {
+      const state = {
+        ...getRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'convo-0': {
+              ...getDefaultConversation('convo-0'),
+              name: 'Ex',
+              isBlocked: true,
+            },
+            'convo-1': {
+              ...getDefaultConversation('convo-1'),
+              name: 'Bob',
+              discoveredUnregisteredAt: Date.now(),
+            },
+            'convo-2': {
+              ...getDefaultConversation('convo-2'),
+              name: 'Charlie',
+            },
+          },
+        },
+      };
+
+      const result = getComposableContacts(state);
+
+      const ids = result.map(group => group.id);
+      assert.deepEqual(ids, ['convo-2']);
+    });
+  });
+
+  describe('#getCandidateContactsForNewGroup', () => {
+    const getRootState = (): StateType => {
+      const rootState = getEmptyRootState();
+      return {
+        ...rootState,
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'our-conversation-id': {
+              ...getDefaultConversation('our-conversation-id'),
+              isMe: true,
+            },
+          },
+        },
+        user: {
+          ...rootState.user,
+          ourConversationId: 'our-conversation-id',
+          i18n,
+        },
+      };
+    };
+
+    it('returns only direct contacts, without me', () => {
+      const state = {
+        ...getRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'convo-0': {
+              ...getDefaultConversation('convo-0'),
+              isMe: true,
+              name: 'Me!',
+            },
+            'convo-1': {
+              ...getDefaultConversation('convo-1'),
+              type: 'group' as const,
+              name: 'Friends!',
+            },
+            'convo-2': {
+              ...getDefaultConversation('convo-2'),
+              name: 'Alice',
+            },
+          },
+        },
+      };
+
+      const result = getCandidateContactsForNewGroup(state);
+
+      const ids = result.map(group => group.id);
+      assert.deepEqual(ids, ['convo-2']);
+    });
+    it('excludes blocked, unregistered, and missing name/profileSharing', () => {
+      const state = {
+        ...getRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'convo-0': {
+              ...getDefaultConversation('convo-0'),
+              name: 'Ex',
+              isBlocked: true,
+            },
+            'convo-1': {
+              ...getDefaultConversation('convo-1'),
+              name: 'Bob',
+              discoveredUnregisteredAt: Date.now(),
+            },
+            'convo-2': {
+              ...getDefaultConversation('convo-2'),
+              name: 'Charlie',
+            },
+          },
+        },
+      };
+
+      const result = getCandidateContactsForNewGroup(state);
+
+      const ids = result.map(group => group.id);
+      assert.deepEqual(ids, ['convo-2']);
+    });
+  });
+
+  describe('#getComposableGroups', () => {
+    const getRootState = (): StateType => {
+      const rootState = getEmptyRootState();
+      return {
+        ...rootState,
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'our-conversation-id': {
+              ...getDefaultConversation('our-conversation-id'),
+              isMe: true,
+            },
+          },
+        },
+        user: {
+          ...rootState.user,
+          ourConversationId: 'our-conversation-id',
+          i18n,
+        },
+      };
+    };
+
+    it('returns only groups with name', () => {
+      const state = {
+        ...getRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'convo-0': {
+              ...getDefaultConversation('convo-0'),
+              isMe: true,
+              name: 'Me!',
+            },
+            'convo-1': {
+              ...getDefaultConversation('convo-1'),
+              type: 'group' as const,
+              name: 'Friends!',
+            },
+            'convo-2': {
+              ...getDefaultConversation('convo-2'),
+              type: 'group' as const,
+            },
+          },
+        },
+      };
+
+      const result = getComposableGroups(state);
+
+      const ids = result.map(group => group.id);
+      assert.deepEqual(ids, ['convo-1']);
+    });
+    it('excludes blocked, and missing name/profileSharing', () => {
+      const state = {
+        ...getRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            'convo-0': {
+              ...getDefaultConversation('convo-0'),
+              type: 'group' as const,
+              name: 'Family!',
+              isBlocked: true,
+            },
+            'convo-1': {
+              ...getDefaultConversation('convo-1'),
+              type: 'group' as const,
+              name: 'Friends!',
+            },
+            'convo-2': {
+              ...getDefaultConversation('convo-2'),
+              type: 'group' as const,
+            },
+          },
+        },
+      };
+
+      const result = getComposableGroups(state);
+
+      const ids = result.map(group => group.id);
+      assert.deepEqual(ids, ['convo-1']);
+    });
+  });
+
+  describe('#getFilteredComposeContacts', () => {
     const getRootState = (searchTerm = ''): StateType => {
       const rootState = getEmptyRootState();
       return {
@@ -563,6 +821,9 @@ describe('both/state/selectors/conversations', () => {
           conversationLookup: {
             'our-conversation-id': {
               ...getDefaultConversation('our-conversation-id'),
+              name: 'Me, Myself, and I',
+              title: 'Me, Myself, and I',
+              searchableTitle: 'Note to Self',
               isMe: true,
             },
           },
@@ -582,13 +843,6 @@ describe('both/state/selectors/conversations', () => {
     const getRootStateWithConversations = (searchTerm = ''): StateType => {
       const result = getRootState(searchTerm);
       Object.assign(result.conversations.conversationLookup, {
-        'convo-0': {
-          ...getDefaultConversation('convo-0'),
-          name: 'Me, Myself, and I',
-          title: 'Me, Myself, and I',
-          searchableTitle: 'Note to Self',
-          isMe: true,
-        },
         'convo-1': {
           ...getDefaultConversation('convo-1'),
           name: 'In System Contacts',
@@ -617,6 +871,7 @@ describe('both/state/selectors/conversations', () => {
         'convo-6': {
           ...getDefaultConversation('convo-6'),
           profileSharing: true,
+          profileName: 'C. Has Profile Sharing',
           title: 'C. Has Profile Sharing',
         },
         'convo-7': {
@@ -630,23 +885,27 @@ describe('both/state/selectors/conversations', () => {
 
     it('returns no results when there are no contacts', () => {
       const state = getRootState('foo bar baz');
-      const result = getComposeContacts(state);
+      const result = getFilteredComposeContacts(state);
 
       assert.isEmpty(result);
     });
 
-    it('includes Note to Self', () => {
+    it('includes Note to Self with no search term', () => {
       const state = getRootStateWithConversations();
-      const result = getComposeContacts(state);
+      const result = getFilteredComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
-      // convo-6 is sorted last because it doesn't have a name
-      assert.deepEqual(ids, ['convo-1', 'convo-5', 'convo-0', 'convo-6']);
+      assert.deepEqual(ids, [
+        'convo-1',
+        'convo-5',
+        'convo-6',
+        'our-conversation-id',
+      ]);
     });
 
     it('can search for contacts', () => {
       const state = getRootStateWithConversations('in system');
-      const result = getComposeContacts(state);
+      const result = getFilteredComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
       // NOTE: convo-6 matches because you can't write "Sharing" without "in"
@@ -655,22 +914,22 @@ describe('both/state/selectors/conversations', () => {
 
     it('can search for note to self', () => {
       const state = getRootStateWithConversations('note');
-      const result = getComposeContacts(state);
+      const result = getFilteredComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
-      assert.deepEqual(ids, ['convo-0']);
+      assert.deepEqual(ids, ['our-conversation-id']);
     });
 
     it('returns note to self when searching for your own name', () => {
       const state = getRootStateWithConversations('Myself');
-      const result = getComposeContacts(state);
+      const result = getFilteredComposeContacts(state);
 
       const ids = result.map(contact => contact.id);
-      assert.deepEqual(ids, ['convo-0']);
+      assert.deepEqual(ids, ['our-conversation-id']);
     });
   });
 
-  describe('#getComposeGroups', () => {
+  describe('#getFilteredComposeGroups', () => {
     const getState = (searchTerm = ''): StateType => {
       const rootState = getEmptyRootState();
       return {
@@ -737,7 +996,7 @@ describe('both/state/selectors/conversations', () => {
 
     it('can search for groups', () => {
       const state = getState('hello');
-      const result = getComposeGroups(state);
+      const result = getFilteredComposeGroups(state);
 
       const ids = result.map(group => group.id);
       assert.deepEqual(ids, ['convo-3']);
@@ -745,14 +1004,14 @@ describe('both/state/selectors/conversations', () => {
 
     it('does not return unknown groups when getting all groups (no search term)', () => {
       const state = getState();
-      const result = getComposeGroups(state);
+      const result = getFilteredComposeGroups(state);
 
       const ids = result.map(group => group.id);
       assert.deepEqual(ids, ['convo-3', 'convo-6', 'convo-7']);
     });
   });
 
-  describe('#getCandidateContactsForNewGroup', () => {
+  describe('#getFilteredCandidateContactsForNewGroup', () => {
     const getRootState = (searchTerm = ''): StateType => {
       const rootState = getEmptyRootState();
       return {
@@ -818,7 +1077,7 @@ describe('both/state/selectors/conversations', () => {
 
     it('returns sorted contacts when there is no search term', () => {
       const state = getRootState();
-      const result = getCandidateContactsForNewGroup(state);
+      const result = getFilteredCandidateContactsForNewGroup(state);
 
       const ids = result.map(contact => contact.id);
       assert.deepEqual(ids, ['convo-1', 'convo-5']);
@@ -826,7 +1085,7 @@ describe('both/state/selectors/conversations', () => {
 
     it('can search for contacts', () => {
       const state = getRootState('system contacts');
-      const result = getCandidateContactsForNewGroup(state);
+      const result = getFilteredCandidateContactsForNewGroup(state);
 
       const ids = result.map(contact => contact.id);
       assert.deepEqual(ids, ['convo-1', 'convo-5']);
@@ -916,7 +1175,7 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
-  describe('#getLeftPaneList', () => {
+  describe('#_getLeftPaneLists', () => {
     it('sorts conversations based on timestamp then by intl-friendly title', () => {
       const data: ConversationLookupType = {
         id1: {
@@ -1150,6 +1409,157 @@ describe('both/state/selectors/conversations', () => {
         assert.strictEqual(pinnedConversations[0].name, 'Pin One');
         assert.strictEqual(pinnedConversations[1].name, 'Pin Two');
         assert.strictEqual(pinnedConversations[2].name, 'Pin Three');
+      });
+
+      it('includes archived and pinned conversations with no active_at', () => {
+        const data: ConversationLookupType = {
+          pin2: {
+            id: 'pin2',
+            e164: '+18005551111',
+            name: 'Pin Two',
+            timestamp: 30,
+            inboxPosition: 30,
+            phoneNumber: 'notused',
+            isArchived: false,
+            isPinned: true,
+            markedUnread: false,
+
+            type: 'direct',
+            isMe: false,
+            lastUpdated: Date.now(),
+            title: 'Pin Two',
+            unreadCount: 1,
+            isSelected: false,
+            typingContact: {
+              name: 'Someone There',
+              color: 'blue',
+              phoneNumber: '+18005551111',
+            },
+
+            acceptedMessageRequest: true,
+          },
+          pin3: {
+            id: 'pin3',
+            e164: '+18005551111',
+            name: 'Pin Three',
+            timestamp: 30,
+            inboxPosition: 30,
+            phoneNumber: 'notused',
+            isArchived: false,
+            isPinned: true,
+            markedUnread: false,
+
+            type: 'direct',
+            isMe: false,
+            lastUpdated: Date.now(),
+            title: 'Pin Three',
+            unreadCount: 1,
+            isSelected: false,
+            typingContact: {
+              name: 'Someone There',
+              color: 'blue',
+              phoneNumber: '+18005551111',
+            },
+
+            acceptedMessageRequest: true,
+          },
+          pin1: {
+            id: 'pin1',
+            e164: '+18005551111',
+            name: 'Pin One',
+            timestamp: 30,
+            inboxPosition: 30,
+            phoneNumber: 'notused',
+            isArchived: true,
+            isPinned: true,
+            markedUnread: false,
+
+            type: 'direct',
+            isMe: false,
+            lastUpdated: Date.now(),
+            title: 'Pin One',
+            unreadCount: 1,
+            isSelected: false,
+            typingContact: {
+              name: 'Someone There',
+              color: 'blue',
+              phoneNumber: '+18005551111',
+            },
+
+            acceptedMessageRequest: true,
+          },
+          pin4: {
+            id: 'pin1',
+            e164: '+18005551111',
+            name: 'Pin Four',
+            timestamp: 30,
+            inboxPosition: 30,
+            phoneNumber: 'notused',
+            activeAt: Date.now(),
+            isArchived: true,
+            isPinned: false,
+            markedUnread: false,
+
+            type: 'direct',
+            isMe: false,
+            lastUpdated: Date.now(),
+            title: 'Pin One',
+            unreadCount: 1,
+            isSelected: false,
+            typingContact: {
+              name: 'Someone There',
+              color: 'blue',
+              phoneNumber: '+18005551111',
+            },
+
+            acceptedMessageRequest: true,
+          },
+          pin5: {
+            id: 'pin1',
+            e164: '+18005551111',
+            name: 'Pin Five',
+            timestamp: 30,
+            inboxPosition: 30,
+            phoneNumber: 'notused',
+            isArchived: false,
+            isPinned: false,
+            markedUnread: false,
+
+            type: 'direct',
+            isMe: false,
+            lastUpdated: Date.now(),
+            title: 'Pin One',
+            unreadCount: 1,
+            isSelected: false,
+            typingContact: {
+              name: 'Someone There',
+              color: 'blue',
+              phoneNumber: '+18005551111',
+            },
+
+            acceptedMessageRequest: true,
+          },
+        };
+
+        const pinnedConversationIds = ['pin1', 'pin2', 'pin3'];
+        const comparator = _getConversationComparator();
+        const {
+          pinnedConversations,
+          archivedConversations,
+        } = _getLeftPaneLists(
+          data,
+          comparator,
+          undefined,
+          pinnedConversationIds
+        );
+
+        assert.strictEqual(pinnedConversations[0].name, 'Pin One');
+        assert.strictEqual(pinnedConversations[1].name, 'Pin Two');
+        assert.strictEqual(pinnedConversations[2].name, 'Pin Three');
+        assert.strictEqual(pinnedConversations.length, 3);
+
+        assert.strictEqual(archivedConversations[0].name, 'Pin Four');
+        assert.strictEqual(archivedConversations.length, 1);
       });
     });
   });
