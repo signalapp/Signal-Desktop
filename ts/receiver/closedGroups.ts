@@ -33,6 +33,7 @@ import { MessageController } from '../session/messages';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { queueAllCachedFromSource } from './receiver';
 import { actions as conversationActions } from '../state/ducks/conversations';
+import { SwarmPolling } from '../session/snode_api/swarmPolling';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -237,11 +238,30 @@ export async function handleNewClosedGroup(
   await addClosedGroupEncryptionKeyPair(groupId, ecKeyPair.toHexKeyPair());
 
   // start polling for this new group
-  window.SwarmPolling.addGroupId(PubKey.cast(groupId));
+  SwarmPolling.getInstance().addGroupId(PubKey.cast(groupId));
 
   await removeFromCache(envelope);
   // trigger decrypting of all this group messages we did not decrypt successfully yet.
   await queueAllCachedFromSource(groupId);
+}
+
+/**
+ *
+ * @param isKicked if true, we mark the reason for leaving as a we got kicked
+ */
+export async function markGroupAsLeftOrKicked(
+  groupPublicKey: string,
+  groupConvo: ConversationModel,
+  isKicked: boolean
+) {
+  await removeAllClosedGroupEncryptionKeyPairs(groupPublicKey);
+
+  if (isKicked) {
+    groupConvo.set('isKickedFromGroup', true);
+  } else {
+    groupConvo.set('left', true);
+  }
+  SwarmPolling.getInstance().removePubkey(groupPublicKey);
 }
 
 async function handleUpdateClosedGroup(
@@ -273,17 +293,14 @@ async function handleUpdateClosedGroup(
       await removeFromCache(envelope);
       return;
     }
-    await removeAllClosedGroupEncryptionKeyPairs(groupPublicKey);
-    // Disable typing:
-    convo.set('isKickedFromGroup', true);
-    window.SwarmPolling.removePubkey(groupPublicKey);
+    await markGroupAsLeftOrKicked(groupPublicKey, convo, true);
   } else {
     if (convo.get('isKickedFromGroup')) {
       // Enable typing:
       convo.set('isKickedFromGroup', false);
       convo.set('left', false);
       // Subscribe to this group id
-      window.SwarmPolling.addGroupId(new PubKey(groupPublicKey));
+      SwarmPolling.getInstance().addGroupId(new PubKey(groupPublicKey));
     }
   }
 
@@ -492,7 +509,7 @@ async function performIfValid(
   } else if (groupUpdate.type === Type.MEMBERS_REMOVED) {
     await handleClosedGroupMembersRemoved(envelope, groupUpdate, convo);
   } else if (groupUpdate.type === Type.MEMBER_LEFT) {
-    await handleClosedGroupMemberLeft(envelope, groupUpdate, convo);
+    await handleClosedGroupMemberLeft(envelope, convo);
   } else if (groupUpdate.type === Type.ENCRYPTION_KEY_PAIR_REQUEST) {
     if (window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
       await handleClosedGroupEncryptionKeyPairRequest(envelope, groupUpdate, convo);
@@ -555,7 +572,7 @@ async function handleClosedGroupMembersAdded(
   }
 
   if (await areWeAdmin(convo)) {
-    await sendLatestKeyPairToUsers(envelope, convo, convo.id, membersNotAlreadyPresent);
+    await sendLatestKeyPairToUsers(convo, convo.id, membersNotAlreadyPresent);
   }
 
   const members = [...oldMembers, ...membersNotAlreadyPresent];
@@ -616,10 +633,7 @@ async function handleClosedGroupMembersRemoved(
   const ourPubKey = UserUtils.getOurPubKeyFromCache();
   const wasCurrentUserRemoved = !membersAfterUpdate.includes(ourPubKey.key);
   if (wasCurrentUserRemoved) {
-    await removeAllClosedGroupEncryptionKeyPairs(groupPubKey);
-    // Disable typing:
-    convo.set('isKickedFromGroup', true);
-    window.SwarmPolling.removePubkey(groupPubKey);
+    await markGroupAsLeftOrKicked(groupPublicKey, convo, true);
   }
   // Generate and distribute a new encryption key pair if needed
   if (await areWeAdmin(convo)) {
@@ -651,19 +665,103 @@ async function handleClosedGroupMembersRemoved(
   await removeFromCache(envelope);
 }
 
-async function handleClosedGroupMemberLeft(
+function isUserAZombie(convo: ConversationModel, user: PubKey) {
+  return convo.get('zombies').includes(user.key);
+}
+
+/**
+ * Returns true if the user was not a zombie and so was added to the zombies.
+ * No commit() are called
+ */
+function addMemberToZombies(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
+  userToAdd: PubKey,
   convo: ConversationModel
+): boolean {
+  const zombies = convo.get('zombies');
+  const isAlreadyZombie = isUserAZombie(convo, userToAdd);
+
+  if (isAlreadyZombie) {
+    return false;
+  }
+  console.warn('Marking user ', userToAdd.key, ' as a zombie');
+  convo.set('zombies', [...zombies, userToAdd.key]);
+  return true;
+}
+
+/**
+ *
+ * Returns true if the user was not a zombie and so was not removed from the zombies.
+ * Note: no commit() are made
+ */
+function removeMemberFromZombies(
+  envelope: EnvelopePlus,
+  userToAdd: PubKey,
+  convo: ConversationModel
+): boolean {
+  const zombies = convo.get('zombies');
+  const isAlreadyAZombie = isUserAZombie(convo, userToAdd);
+
+  if (!isAlreadyAZombie) {
+    return false;
+  }
+  convo.set(
+    'zombies',
+    zombies.filter(z => z !== userToAdd.key)
+  );
+  return true;
+}
+
+async function handleClosedGroupAdminMemberLeft(
+  groupPublicKey: string,
+  isCurrentUserAdmin: boolean,
+  convo: ConversationModel,
+  envelope: EnvelopePlus
 ) {
+  // if the admin was remove and we are the admin, it can only be voluntary
+  await markGroupAsLeftOrKicked(groupPublicKey, convo, !isCurrentUserAdmin);
+
+  convo.set('members', []);
+  // everybody left ! this is how we disable a group when the admin left
+  const groupDiff: ClosedGroup.GroupDiff = {
+    leavingMembers: convo.get('members'),
+  };
+  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
+  convo.updateLastMessage();
+
+  await convo.commit();
+  await removeFromCache(envelope);
+}
+
+async function handleClosedGroupLeftOurself(
+  groupPublicKey: string,
+  convo: ConversationModel,
+  envelope: EnvelopePlus
+) {
+  await markGroupAsLeftOrKicked(groupPublicKey, convo, false);
+  const groupDiff: ClosedGroup.GroupDiff = {
+    leavingMembers: [envelope.senderIdentity],
+  };
+  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
+  convo.updateLastMessage();
+  // remove ourself from the list of members
+  convo.set(
+    'members',
+    convo.get('members').filter(m => !UserUtils.isUsFromCache(m))
+  );
+
+  await convo.commit();
+  await removeFromCache(envelope);
+}
+
+async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: ConversationModel) {
   const sender = envelope.senderIdentity;
   const groupPublicKey = envelope.source;
   const didAdminLeave = convo.get('groupAdmins')?.includes(sender) || false;
   // If the admin leaves the group is disbanded
   // otherwise, we remove the sender from the list of current members in this group
   const oldMembers = convo.get('members') || [];
-  const leftMemberWasPresent = oldMembers.includes(sender);
-  const members = didAdminLeave ? [] : oldMembers.filter(s => s !== sender);
+  const newMembers = oldMembers.filter(s => s !== sender);
 
   // Show log if we sent this message ourself (from another device or not)
   if (UserUtils.isUsFromCache(sender)) {
@@ -671,56 +769,42 @@ async function handleClosedGroupMemberLeft(
   }
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
 
-  // Generate and distribute a new encryption key pair if needed
+  // if the admin leaves, the group is disabled for every members
   const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourPubkey) || false;
-  if (isCurrentUserAdmin && !!members.length) {
-    await ClosedGroup.generateAndSendNewEncryptionKeyPair(groupPublicKey, members);
-  }
 
   if (didAdminLeave) {
-    window.SwarmPolling.removePubkey(groupPublicKey);
-
-    await removeAllClosedGroupEncryptionKeyPairs(groupPublicKey);
-    // Disable typing
-    // if the admin was remove and we are the admin, it can only be voluntary
-    if (isCurrentUserAdmin) {
-      convo.set('left', true);
-    } else {
-      convo.set('isKickedFromGroup', true);
-    }
-  }
-  const didWeLeaveFromAnotherDevice = !members.includes(ourPubkey);
-
-  if (didWeLeaveFromAnotherDevice) {
-    await removeAllClosedGroupEncryptionKeyPairs(groupPublicKey);
-    // Disable typing:
-    convo.set('left', true);
-    window.SwarmPolling.removePubkey(groupPublicKey);
+    await handleClosedGroupAdminMemberLeft(groupPublicKey, isCurrentUserAdmin, convo, envelope);
+    return;
   }
 
-  // Only add update message if we have something to show
-  if (leftMemberWasPresent) {
-    const groupDiff: ClosedGroup.GroupDiff = {
-      leavingMembers: didAdminLeave ? oldMembers : [sender],
-    };
-    await ClosedGroup.addUpdateMessage(
-      convo,
-      groupDiff,
-      'incoming',
-      _.toNumber(envelope.timestamp)
-    );
-    convo.updateLastMessage();
+  // if we are no longer a member, we LEFT from another device
+  if (!newMembers.includes(ourPubkey)) {
+    // stop polling, remove all stored pubkeys and make sure the UI does not let us write messages
+    await handleClosedGroupLeftOurself(groupPublicKey, convo, envelope);
+    return;
   }
 
-  convo.set('members', members);
+  // if we are the admin, and there are still some members after the member left, we send a new keypair
+  // to the remaining members
+  if (isCurrentUserAdmin && !!newMembers.length) {
+    await ClosedGroup.generateAndSendNewEncryptionKeyPair(groupPublicKey, newMembers);
+  }
 
+  // Another member left, not us, not the admin, just another member.
+  // But this member was in the list of members (as performIfValid checks for that)
+  const groupDiff: ClosedGroup.GroupDiff = {
+    leavingMembers: [sender],
+  };
+  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
+  convo.updateLastMessage();
+  await addMemberToZombies(envelope, PubKey.cast(sender), convo);
+  convo.set('members', newMembers);
   await convo.commit();
 
   await removeFromCache(envelope);
 }
 
 async function sendLatestKeyPairToUsers(
-  envelope: EnvelopePlus,
   groupConvo: ConversationModel,
   groupPubKey: string,
   targetUsers: Array<string>
@@ -778,7 +862,7 @@ async function handleClosedGroupEncryptionKeyPairRequest(
     await removeFromCache(envelope);
     return;
   }
-  await sendLatestKeyPairToUsers(envelope, groupConvo, groupPublicKey, [sender]);
+  await sendLatestKeyPairToUsers(groupConvo, groupPublicKey, [sender]);
   return removeFromCache(envelope);
 }
 
@@ -850,7 +934,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
   });
 
   // Subscribe to this group id
-  window.SwarmPolling.addGroupId(new PubKey(groupPublicKey));
+  SwarmPolling.getInstance().addGroupId(new PubKey(groupPublicKey));
 
   await Promise.all(promises);
 

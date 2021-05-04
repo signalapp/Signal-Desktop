@@ -747,11 +747,6 @@
       Whisper.Notifications.enable();
     }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
 
-    // TODO: Investigate the case where we reconnect
-    const ourKey = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
-    window.SwarmPolling.addPubkey(ourKey);
-    window.SwarmPolling.start();
-
     window.NewReceiver.queueAllCached();
 
     initAPIs();

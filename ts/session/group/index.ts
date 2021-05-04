@@ -22,13 +22,17 @@ import { ConversationModel, ConversationTypeEnum } from '../../models/conversati
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
 import { MessageController } from '../messages';
-import { distributingClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
+import {
+  distributingClosedGroupEncryptionKeyPairs,
+  markGroupAsLeftOrKicked,
+} from '../../receiver/closedGroups';
 import { getMessageQueue } from '..';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
 import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairRequestMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
+import { SwarmPolling } from '../snode_api/swarmPolling';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { updateOpenGroupV1 } from '../../opengroup/opengroupV1/OpenGroup';
 import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
@@ -337,10 +341,10 @@ export async function leaveClosedGroup(groupId: string) {
 
   window.log.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
   // sent the message to the group and once done, remove everything related to this group
-  window.SwarmPolling.removePubkey(groupId);
+  SwarmPolling.getInstance().removePubkey(groupId);
   await getMessageQueue().sendToGroup(ourLeavingMessage, async () => {
     window.log.info(`Leaving message sent ${groupId}. Removing everything related to this group.`);
-    await removeAllClosedGroupEncryptionKeyPairs(groupId);
+    await markGroupAsLeftOrKicked(groupId, convo, false);
   });
 }
 
