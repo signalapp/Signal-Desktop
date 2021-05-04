@@ -18,7 +18,6 @@ chai.should();
 chai.use(chaiAsPromised as any);
 chai.config.includeStack = true;
 
-// FIXME audric
 // From https://github.com/chaijs/chai/issues/200
 chai.use((_chai, _) => {
   _chai.Assertion.addMethod('withMessage', (msg: string) => {
@@ -77,11 +76,7 @@ export class Common {
   }
 
   // a wrapper to work around electron/spectron bug
-  public static async setValueWrapper(
-    app: Application,
-    selector: any,
-    value: string
-  ) {
+  public static async setValueWrapper(app: Application, selector: any, value: string) {
     // keys, setValue and addValue hang on certain platforms
 
     if (process.platform === 'darwin') {
@@ -114,22 +109,11 @@ export class Common {
   }
 
   public static async startApp(environment = 'test-integration-session') {
-    const env = environment.startsWith('test-integration')
-      ? 'test-integration'
-      : environment;
+    const env = environment.startsWith('test-integration') ? 'test-integration' : environment;
     const instance = environment.replace('test-integration-', '');
 
     const app1 = new Application({
-      path: path.join(
-        __dirname,
-        '..',
-        '..',
-        '..',
-        '..',
-        'node_modules',
-        '.bin',
-        'electron'
-      ),
+      path: path.join(__dirname, '..', '..', '..', '..', 'node_modules', '.bin', 'electron'),
       args: ['.'],
       env: {
         NODE_ENV: env,
@@ -148,9 +132,6 @@ export class Common {
         )}`,
       ],
     });
-    // FIXME audric
-    // chaiAsPromised.transferPromiseness = app1.transferPromiseness;
-
     await app1.start();
     await app1.client.waitUntilWindowLoaded();
 
@@ -187,24 +168,17 @@ export class Common {
   }
 
   public static async startAndAssureCleanedApp2() {
-    const app2 = await Common.startAndAssureCleanedApp(
-      'test-integration-session-2'
-    );
+    const app2 = await Common.startAndAssureCleanedApp('test-integration-session-2');
     return app2;
   }
 
-  public static async startAndAssureCleanedApp(
-    env = 'test-integration-session'
-  ) {
+  public static async startAndAssureCleanedApp(env = 'test-integration-session') {
     const userData = path.join(Common.USER_DATA_ROOT_FOLDER, `Session-${env}`);
 
     await Common.rmFolder(userData);
 
     const app1 = await Common.startApp(env);
-    await app1.client.waitForExist(
-      RegistrationPage.registrationTabSignIn,
-      4000
-    );
+    await app1.client.waitForExist(RegistrationPage.registrationTabSignIn, 4000);
 
     return app1;
   }
@@ -247,31 +221,17 @@ export class Common {
   ) {
     await app.client.element(RegistrationPage.registrationTabSignIn).click();
     await app.client.element(RegistrationPage.restoreFromSeedMode).click();
-    await Common.setValueWrapper(
-      app,
-      RegistrationPage.recoveryPhraseInput,
-      recoveryPhrase
-    );
+    await Common.setValueWrapper(app, RegistrationPage.recoveryPhraseInput, recoveryPhrase);
 
-    await Common.setValueWrapper(
-      app,
-      RegistrationPage.displayNameInput,
-      displayName
-    );
+    await Common.setValueWrapper(app, RegistrationPage.displayNameInput, displayName);
 
     // await app.client.element(RegistrationPage.continueSessionButton).click();
     await app.client.keys('Enter');
 
-    await app.client.waitForExist(
-      RegistrationPage.conversationListContainer,
-      4000
-    );
+    await app.client.waitForExist(RegistrationPage.conversationListContainer, 4000);
   }
 
-  public static async makeFriends(
-    app1: Application,
-    client2: [Application, string]
-  ) {
+  public static async makeFriends(app1: Application, client2: [Application, string]) {
     const [_, pubkey2] = client2;
 
     /** add each other as friends */
@@ -279,28 +239,14 @@ export class Common {
     await app1.client.element(ConversationPage.contactsButtonSection).click();
     await app1.client.element(ConversationPage.addContactButton).click();
 
-    await Common.setValueWrapper(
-      app1,
-      ConversationPage.sessionIDInput,
-      pubkey2
-    );
+    await Common.setValueWrapper(app1, ConversationPage.sessionIDInput, pubkey2);
     await app1.client.element(ConversationPage.nextButton).click();
-    await app1.client.waitForExist(
-      ConversationPage.sendMessageTextareaAndMessage,
-      1000
-    );
+    await app1.client.waitForExist(ConversationPage.sendMessageTextareaAndMessage, 1000);
 
     // send a text message to that user (will be a friend request)
-    await Common.setValueWrapper(
-      app1,
-      ConversationPage.sendMessageTextareaAndMessage,
-      textMessage
-    );
+    await Common.setValueWrapper(app1, ConversationPage.sendMessageTextareaAndMessage, textMessage);
     await app1.client.keys('Enter');
-    await app1.client.waitForExist(
-      ConversationPage.existingSendMessageText(textMessage),
-      1000
-    );
+    await app1.client.waitForExist(ConversationPage.existingSendMessageText(textMessage), 1000);
   }
 
   public static async startAppsAsFriends() {
@@ -329,9 +275,7 @@ export class Common {
   public static async addFriendToNewClosedGroup(members: Array<Application>) {
     const [app, ...others] = members;
 
-    await app.client
-      .element(ConversationPage.conversationButtonSection)
-      .click();
+    await app.client.element(ConversationPage.conversationButtonSection).click();
     await app.client.element(ConversationPage.createClosedGroupButton).click();
 
     await Common.setValueWrapper(
@@ -349,91 +293,63 @@ export class Common {
 
     for (let i = 0; i < others.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      await app.client
-        .element(ConversationPage.createClosedGroupMemberItem(i))
-        .isVisible().should.eventually.be.true;
+      await app.client.element(ConversationPage.createClosedGroupMemberItem(i)).isVisible().should
+        .eventually.be.true;
 
       // eslint-disable-next-line no-await-in-loop
-      await app.client
-        .element(ConversationPage.createClosedGroupMemberItem(i))
-        .click();
+      await app.client.element(ConversationPage.createClosedGroupMemberItem(i)).click();
     }
 
-    await app.client
-      .element(ConversationPage.createClosedGroupMemberItemSelected)
-      .isVisible().should.eventually.be.true;
+    await app.client.element(ConversationPage.createClosedGroupMemberItemSelected).isVisible()
+      .should.eventually.be.true;
 
     // trigger the creation of the group
-    await app.client
-      .element(ConversationPage.validateCreationClosedGroupButton)
-      .click();
+    await app.client.element(ConversationPage.validateCreationClosedGroupButton).click();
 
-    await app.client.waitForExist(
-      ConversationPage.sessionToastGroupCreatedSuccess,
-      1000
-    );
+    await app.client.waitForExist(ConversationPage.sessionToastGroupCreatedSuccess, 1000);
     await app.client.isExisting(
       ConversationPage.headerTitleGroupName(Common.VALID_CLOSED_GROUP_NAME1)
     ).should.eventually.be.true;
-    await app.client
-      .element(ConversationPage.headerTitleMembers(members.length))
-      .isVisible().should.eventually.be.true;
+    await app.client.element(ConversationPage.headerTitleMembers(members.length)).isVisible().should
+      .eventually.be.true;
 
     // validate overlay is closed
-    await app.client
-      .isExisting(ConversationPage.leftPaneOverlay)
-      .should.eventually.be.equal(false);
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should.eventually.be.equal(false);
 
     // move back to the conversation section
-    await app.client
-      .element(ConversationPage.conversationButtonSection)
-      .click();
+    await app.client.element(ConversationPage.conversationButtonSection).click();
 
     // validate open chat has been added
     await app.client.isExisting(
-      ConversationPage.rowOpenGroupConversationName(
-        Common.VALID_CLOSED_GROUP_NAME1
-      )
+      ConversationPage.rowOpenGroupConversationName(Common.VALID_CLOSED_GROUP_NAME1)
     ).should.eventually.be.true;
 
     await Promise.all(
       others.map(async otherApp => {
         // next check that other members have been invited and have the group in their conversations
         await otherApp.client.waitForExist(
-          ConversationPage.rowOpenGroupConversationName(
-            Common.VALID_CLOSED_GROUP_NAME1
-          ),
+          ConversationPage.rowOpenGroupConversationName(Common.VALID_CLOSED_GROUP_NAME1),
           6000
         );
         // open the closed group conversation on otherApp
-        await otherApp.client
-          .element(ConversationPage.conversationButtonSection)
-          .click();
+        await otherApp.client.element(ConversationPage.conversationButtonSection).click();
         await Common.timeout(500);
         await otherApp.client
-          .element(
-            ConversationPage.rowOpenGroupConversationName(
-              Common.VALID_CLOSED_GROUP_NAME1
-            )
-          )
+          .element(ConversationPage.rowOpenGroupConversationName(Common.VALID_CLOSED_GROUP_NAME1))
           .click();
       })
     );
   }
 
-  public static async linkApp2ToApp(
-    app1: Application,
-    app2: Application,
-    app1Pubkey: string
-  ) {
+  public static async linkApp2ToApp(app1: Application, app2: Application, app1Pubkey: string) {
     // app needs to be logged in as user1 and app2 needs to be logged out
     // start the pairing dialog for the first app
     await app1.client.element(SettingsPage.settingsButtonSection).click();
 
     await app1.client.isVisible(ConversationPage.noPairedDeviceMessage);
     // we should not find the linkDeviceButtonDisabled button (as DISABLED)
-    await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
-      .should.eventually.be.false;
+    await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled).should.eventually.be
+      .false;
     await app1.client.element(ConversationPage.linkDeviceButton).click();
 
     // validate device pairing dialog is shown and has a qrcode
@@ -443,11 +359,7 @@ export class Common {
     await app2.client.element(RegistrationPage.registrationTabSignIn).click();
     await app2.client.element(RegistrationPage.linkDeviceMode).click();
 
-    await Common.setValueWrapper(
-      app2,
-      RegistrationPage.textareaLinkDevicePubkey,
-      app1Pubkey
-    );
+    await Common.setValueWrapper(app2, RegistrationPage.textareaLinkDevicePubkey, app1Pubkey);
     await app2.client.element(RegistrationPage.linkDeviceTriggerButton).click();
     await app1.client.waitForExist(SettingsPage.secretWordsTextInDialog, 7000);
     const secretWordsapp1 = await app1.client
@@ -463,21 +375,14 @@ export class Common {
     await app1.client.element(ConversationPage.allowPairingButton).click();
     await app1.client.element(ConversationPage.okButton).click();
     // validate device paired in settings list with correct secrets
-    await app1.client.waitForExist(
-      ConversationPage.devicePairedDescription(secretWordsapp1),
-      2000
-    );
+    await app1.client.waitForExist(ConversationPage.devicePairedDescription(secretWordsapp1), 2000);
 
-    await app1.client.isExisting(ConversationPage.unpairDeviceButton).should
-      .eventually.be.true;
-    await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
-      .should.eventually.be.true;
+    await app1.client.isExisting(ConversationPage.unpairDeviceButton).should.eventually.be.true;
+    await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled).should.eventually.be
+      .true;
 
     // validate app2 (secondary device) is linked successfully
-    await app2.client.waitForExist(
-      RegistrationPage.conversationListContainer,
-      4000
-    );
+    await app2.client.waitForExist(RegistrationPage.conversationListContainer, 4000);
 
     // validate primary pubkey of app2 is the same that in app1
     await app2.webContents
@@ -485,27 +390,21 @@ export class Common {
       .should.eventually.be.equal(app1Pubkey);
   }
 
-  public static async triggerUnlinkApp2FromApp(
-    app1: Application,
-    app2: Application
-  ) {
+  public static async triggerUnlinkApp2FromApp(app1: Application, app2: Application) {
     // check app2 is loggedin
-    await app2.client.isExisting(RegistrationPage.conversationListContainer)
-      .should.eventually.be.true;
+    await app2.client.isExisting(RegistrationPage.conversationListContainer).should.eventually.be
+      .true;
 
     await app1.client.element(SettingsPage.settingsButtonSection).click();
-    await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
-      .should.eventually.be.true;
+    await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled).should.eventually.be
+      .true;
     // click the unlink button
     await app1.client.element(ConversationPage.unpairDeviceButton).click();
     await app1.client.element(ConversationPage.validateUnpairDevice).click();
 
-    await app1.client.waitForExist(
-      ConversationPage.noPairedDeviceMessage,
-      5000
-    );
-    await app1.client.element(ConversationPage.linkDeviceButton).isEnabled()
-      .should.eventually.be.true;
+    await app1.client.waitForExist(ConversationPage.noPairedDeviceMessage, 5000);
+    await app1.client.element(ConversationPage.linkDeviceButton).isEnabled().should.eventually.be
+      .true;
 
     // let time to app2 to catch the event and restart dropping its data
     await Common.timeout(5000);
@@ -514,8 +413,8 @@ export class Common {
     // (did not find a better way than checking the app no longer being accessible)
     let isApp2Joinable = true;
     try {
-      await app2.client.isExisting(RegistrationPage.registrationTabSignIn)
-        .should.eventually.be.true;
+      await app2.client.isExisting(RegistrationPage.registrationTabSignIn).should.eventually.be
+        .true;
     } catch (err) {
       // if we get an error here, it means Spectron is lost.
       // Common is a good thing because it means app2 restarted
@@ -529,16 +428,8 @@ export class Common {
     }
   }
 
-  public static async sendMessage(
-    app: Application,
-    messageText: string,
-    fileLocation?: string
-  ) {
-    await Common.setValueWrapper(
-      app,
-      ConversationPage.sendMessageTextarea,
-      messageText
-    );
+  public static async sendMessage(app: Application, messageText: string, fileLocation?: string) {
+    await Common.setValueWrapper(app, ConversationPage.sendMessageTextarea, messageText);
     await app.client
       .element(ConversationPage.sendMessageTextarea)
       .getValue()
@@ -546,11 +437,7 @@ export class Common {
 
     // attach a file
     if (fileLocation) {
-      await Common.setValueWrapper(
-        app,
-        ConversationPage.attachmentInput,
-        fileLocation
-      );
+      await Common.setValueWrapper(app, ConversationPage.attachmentInput, fileLocation);
     }
 
     // send message
@@ -591,12 +478,7 @@ export class Common {
 
         if (request.method === 'POST') {
           if (ENABLE_LOG) {
-            console.warn(
-              'POST',
-              pubkey.substr(2, 3),
-              data.substr(4, 10),
-              timestamp
-            );
+            console.warn('POST', pubkey.substr(2, 3), data.substr(4, 10), timestamp);
           }
 
           let ori = Common.messages[pubkey];
@@ -613,9 +495,7 @@ export class Common {
           const retrievedMessages = { messages: Common.messages[pubkey] || [] };
 
           if (ENABLE_LOG) {
-            const messages = retrievedMessages.messages.map((m: any) =>
-              m.data.substr(4, 10)
-            );
+            const messages = retrievedMessages.messages.map((m: any) => m.data.substr(4, 10));
             console.warn('GET', pubkey.substr(2, 3), messages);
           }
           response.writeHead(200, { 'Content-Type': 'application/json' });
@@ -639,47 +519,27 @@ export class Common {
     }
   }
 
-  public static async joinOpenGroup(
-    app: Application,
-    openGroupUrl: string,
-    name: string
-  ) {
-    await app.client
-      .element(ConversationPage.conversationButtonSection)
-      .click();
+  public static async joinOpenGroup(app: Application, openGroupUrl: string, name: string) {
+    await app.client.element(ConversationPage.conversationButtonSection).click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
-    await Common.setValueWrapper(
-      app,
-      ConversationPage.openGroupInputUrl,
-      openGroupUrl
-    );
+    await Common.setValueWrapper(app, ConversationPage.openGroupInputUrl, openGroupUrl);
     await app.client
       .element(ConversationPage.openGroupInputUrl)
       .getValue()
       .should.eventually.equal(openGroupUrl);
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
-    await app.client.waitForExist(
-      ConversationPage.sessionToastJoinOpenGroup,
-      2 * 1000
-    );
+    await app.client.waitForExist(ConversationPage.sessionToastJoinOpenGroup, 2 * 1000);
 
     // account for slow home internet connection delays...
-    await app.client.waitForExist(
-      ConversationPage.sessionToastJoinOpenGroupSuccess,
-      20 * 1000
-    );
+    await app.client.waitForExist(ConversationPage.sessionToastJoinOpenGroupSuccess, 20 * 1000);
 
     // validate overlay is closed
-    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
-      .eventually.be.false;
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should.eventually.be.false;
 
     // validate open chat has been added
-    await app.client.waitForExist(
-      ConversationPage.rowOpenGroupConversationName(name),
-      20 * 1000
-    );
+    await app.client.waitForExist(ConversationPage.rowOpenGroupConversationName(name), 20 * 1000);
   }
 
   public static async stopStubSnodeServer() {
@@ -695,25 +555,15 @@ export class Common {
    * @param str the string to search (not regex)
    * Note: getRenderProcessLogs() clears the app logs each calls.
    */
-  public static logsContains(
-    renderLogs: Array<{ message: string }>,
-    str: string,
-    count?: number
-  ) {
+  public static logsContains(renderLogs: Array<{ message: string }>, str: string, count?: number) {
     const foundLines = renderLogs.filter(log => log.message.includes(str));
 
     // tslint:disable-next-line: no-unused-expression
-    chai.expect(
-      foundLines.length > 0,
-      `'${str}' not found in logs but was expected`
-    ).to.be.true;
+    chai.expect(foundLines.length > 0, `'${str}' not found in logs but was expected`).to.be.true;
 
     if (count) {
       chai
-        .expect(
-          foundLines.length,
-          `'${str}' found but not the correct number of times`
-        )
+        .expect(foundLines.length, `'${str}' found but not the correct number of times`)
         .to.be.equal(count);
     }
   }

@@ -123,23 +123,14 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     return (
       <>
         <div className="session-modal__centered text-center">
-          <p className="session-modal__description">
-            {i18n('recoveryPhraseSavePromptMain')}
-          </p>
+          <p className="session-modal__description">{i18n('recoveryPhraseSavePromptMain')}</p>
           <div className="spacer-xs" />
 
-          <i className="session-modal__text-highlight">
-            {this.state.recoveryPhrase}
-          </i>
+          <i className="session-modal__text-highlight">{this.state.recoveryPhrase}</i>
         </div>
         <div className="spacer-lg" />
         <div className="qr-image">
-          <QRCode
-            value={hexEncodedSeed}
-            bgColor={bgColor}
-            fgColor={fgColor}
-            level="L"
-          />
+          <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
         </div>
         <div className="spacer-lg" />
         <div className="session-modal__button-group">
@@ -157,10 +148,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
   private confirmPassword() {
     const passwordHash = this.state.passwordHash;
     const passwordValue = jQuery('#seed-input-password').val();
-    const isPasswordValid = PasswordUtil.matchesHash(
-      passwordValue as string,
-      passwordHash
-    );
+    const isPasswordValid = PasswordUtil.matchesHash(passwordValue as string, passwordHash);
 
     if (!passwordValue) {
       this.setState({

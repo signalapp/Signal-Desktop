@@ -23,12 +23,7 @@ export class ContactListItem extends React.Component<Props> {
     const userName = name || profileName || phoneNumber;
 
     return (
-      <Avatar
-        avatarPath={avatarPath}
-        name={userName}
-        size={AvatarSize.S}
-        pubkey={phoneNumber}
-      />
+      <Avatar avatarPath={avatarPath} name={userName} size={AvatarSize.S} pubkey={phoneNumber} />
     );
   }
 
@@ -42,11 +37,7 @@ export class ContactListItem extends React.Component<Props> {
       !isMe && profileName && !name ? (
         <span className="module-contact-list-item__text__profile-name">
           ~
-          <Emojify
-            text={profileName}
-            i18n={i18n}
-            key={`emojify-list-item-${phoneNumber}`}
-          />
+          <Emojify text={profileName} i18n={i18n} key={`emojify-list-item-${phoneNumber}`} />
         </span>
       ) : null;
 

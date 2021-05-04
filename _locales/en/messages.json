@@ -1683,6 +1683,22 @@
     "description": "Shown in the settings page as the heading for the blocked user settings",
     "androidKey": "preferences_app_protection__blocked_contacts"
   },
+  "unbanUser": {
+    "message": "Unban User",
+    "description": "Unban user from open group by public key."
+  },
+  "unbanUserConfirm": {
+    "message": "Are you sure you want to unban user?",
+    "description": "Message shown when confirming user unban."
+  },
+  "userUnbanned": {
+    "message": "User unbanned successfully",
+    "description": "Toast on succesful user unban."
+  },
+  "userUnbanFailed": {
+    "message": "Unban failed!",
+    "description": "Toast on unsuccesful user unban."
+  },
   "banUser": {
     "message": "Ban User",
     "description": "Ban user from open group by public key."
@@ -2223,5 +2239,8 @@
   },
   "errorHappenedWhileRemovingModeratorDesc": {
     "message": "An error happened while removing this user from the moderator list."
+  },
+  "orJoinOneOfThese": {
+    "message": "Or join one of these..."
   }
 }

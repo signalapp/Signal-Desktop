@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  isImageTypeSupported,
-  isVideoTypeSupported,
-} from '../../util/GoogleChrome';
+import { isImageTypeSupported, isVideoTypeSupported } from '../../util/GoogleChrome';
 import { Image } from './Image';
 import { StagedGenericAttachment } from './StagedGenericAttachment';
 import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
@@ -47,31 +44,20 @@ export class AttachmentList extends React.Component<Props> {
       <div className="module-attachments">
         {attachments.length > 1 ? (
           <div className="module-attachments__header">
-            <div
-              role="button"
-              onClick={onClose}
-              className="module-attachments__close-button"
-            />
+            <div role="button" onClick={onClose} className="module-attachments__close-button" />
           </div>
         ) : null}
         <div className="module-attachments__rail">
           {(attachments || []).map((attachment, index) => {
             const { contentType } = attachment;
-            if (
-              isImageTypeSupported(contentType) ||
-              isVideoTypeSupported(contentType)
-            ) {
-              const imageKey =
-                getUrl(attachment) || attachment.fileName || index;
-              const clickCallback =
-                attachments.length > 1 ? onClickAttachment : undefined;
+            if (isImageTypeSupported(contentType) || isVideoTypeSupported(contentType)) {
+              const imageKey = getUrl(attachment) || attachment.fileName || index;
+              const clickCallback = attachments.length > 1 ? onClickAttachment : undefined;
 
               return (
                 <Image
                   key={imageKey}
-                  alt={window.i18n('stagedImageAttachment', [
-                    attachment.fileName,
-                  ])}
+                  alt={window.i18n('stagedImageAttachment', [attachment.fileName])}
                   i18n={window.i18n}
                   attachment={attachment}
                   softCorners={true}
@@ -86,8 +72,7 @@ export class AttachmentList extends React.Component<Props> {
               );
             }
 
-            const genericKey =
-              getUrl(attachment) || attachment.fileName || index;
+            const genericKey = getUrl(attachment) || attachment.fileName || index;
 
             return (
               <StagedGenericAttachment
@@ -98,9 +83,7 @@ export class AttachmentList extends React.Component<Props> {
               />
             );
           })}
-          {allVisualAttachments ? (
-            <StagedPlaceholderAttachment onClick={onAddAttachment} />
-          ) : null}
+          {allVisualAttachments ? <StagedPlaceholderAttachment onClick={onAddAttachment} /> : null}
         </div>
       </div>
     );

@@ -35,9 +35,7 @@ describe('Window Test and Login', function() {
   it('registration: window title is correct', async () => {
     app = await Common.startAndAssureCleanedApp();
 
-    app.client
-      .getTitle()
-      .should.eventually.be.equal('Session - test-integration-session');
+    app.client.getTitle().should.eventually.be.equal('Session - test-integration-session');
   });
 
   it('registration: can restore from seed', async () => {
@@ -48,9 +46,7 @@ describe('Window Test and Login', function() {
     await app.client
       .element(RegistrationPage.recoveryPhraseInput)
       .setValue(Common.TEST_RECOVERY_PHRASE_1);
-    await app.client
-      .element(RegistrationPage.displayNameInput)
-      .setValue(Common.TEST_DISPLAY_NAME1);
+    await app.client.element(RegistrationPage.displayNameInput).setValue(Common.TEST_DISPLAY_NAME1);
 
     // validate fields are filled
     await app.client
@@ -64,10 +60,7 @@ describe('Window Test and Login', function() {
 
     // trigger login
     await app.client.element(RegistrationPage.continueSessionButton).click();
-    await app.client.waitForExist(
-      RegistrationPage.conversationListContainer,
-      4000
-    );
+    await app.client.waitForExist(RegistrationPage.conversationListContainer, 4000);
 
     await Common.timeout(2000);
 
@@ -88,16 +81,10 @@ describe('Window Test and Login', function() {
     pubkeyGenerated.should.have.lengthOf(66);
     pubkeyGenerated.substr(0, 2).should.be.equal('05');
     await app.client.element(RegistrationPage.continueButton).click();
-    await app.client.isExisting(RegistrationPage.displayNameInput).should
-      .eventually.be.true;
-    await app.client
-      .element(RegistrationPage.displayNameInput)
-      .setValue(Common.TEST_DISPLAY_NAME1);
+    await app.client.isExisting(RegistrationPage.displayNameInput).should.eventually.be.true;
+    await app.client.element(RegistrationPage.displayNameInput).setValue(Common.TEST_DISPLAY_NAME1);
     await app.client.element(RegistrationPage.getStartedButton).click();
-    await app.client.waitForExist(
-      ConversationPage.conversationButtonSection,
-      5000
-    );
+    await app.client.waitForExist(ConversationPage.conversationButtonSection, 5000);
 
     await app.webContents
       .executeJavaScript("window.storage.get('primaryDevicePubKey')")
@@ -112,10 +99,7 @@ describe('Window Test and Login', function() {
     };
     app = await Common.startAndStub(login);
 
-    await app.client.waitForExist(
-      RegistrationPage.conversationListContainer,
-      4000
-    );
+    await app.client.waitForExist(RegistrationPage.conversationListContainer, 4000);
 
     await app.webContents
       .executeJavaScript("window.storage.get('primaryDevicePubKey')")
@@ -123,8 +107,8 @@ describe('Window Test and Login', function() {
     // delete account
     await app.client.element(SettingsPage.settingsButtonSection).click();
     await app.client.element(ConversationPage.deleteAccountButton).click();
-    await app.client.isExisting(ConversationPage.descriptionDeleteAccount)
-      .should.eventually.be.true;
+    await app.client.isExisting(ConversationPage.descriptionDeleteAccount).should.eventually.be
+      .true;
     // click on the modal OK button to delete the account
     await app.client.element(ConversationPage.validateDeleteAccount).click();
     // wait for the app restart
@@ -142,7 +126,7 @@ describe('Window Test and Login', function() {
       .executeJavaScript("window.storage.get('primaryDevicePubKey')")
       .should.eventually.be.equal(null);
     // and that the conversation list is not shown
-    await app.client.isExisting(RegistrationPage.conversationListContainer)
-      .should.eventually.be.false;
+    await app.client.isExisting(RegistrationPage.conversationListContainer).should.eventually.be
+      .false;
   });
 });

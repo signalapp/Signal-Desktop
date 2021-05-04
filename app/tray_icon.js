@@ -9,13 +9,7 @@ let tray = null;
 function createTrayIcon(getMainWindow, messages) {
   // A smaller icon is needed on macOS
   const iconSize = process.platform === 'darwin' ? '16' : '256';
-  const iconNoNewMessages = path.join(
-    __dirname,
-    '..',
-    'images',
-    'session',
-    `session_icon_${iconSize}.png`
-  );
+  const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', `session_icon_${iconSize}.png`);
 
   tray = new Tray(iconNoNewMessages);
 
@@ -66,8 +60,7 @@ function createTrayIcon(getMainWindow, messages) {
     trayContextMenu = Menu.buildFromTemplate([
       {
         id: 'toggleWindowVisibility',
-        label:
-          messages[mainWindow.isVisible() ? 'appMenuHide' : 'show'].message,
+        label: messages[mainWindow.isVisible() ? 'appMenuHide' : 'show'].message,
         click: tray.toggleWindowVisibility,
       },
       {

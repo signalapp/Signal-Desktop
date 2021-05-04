@@ -1,11 +1,9 @@
 import { LocalizerType } from '../types/Util';
-import { LokiMessageAPIInterface } from '../../js/modules/loki_message_api';
 import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
 import { SignalInterface } from '../../js/modules/signal';
 import { Libloki } from '../libloki';
 import { LokiPublicChatFactoryInterface } from '../js/modules/loki_public_chat_api';
 import { LokiAppDotNetServerInterface } from '../js/modules/loki_app_dot_net_api';
-import { LokiMessageInterface } from '../js/modules/loki_message_api';
 import { SwarmPolling } from './session/snode_api/swarmPolling';
 
 import { LibTextsecure } from '../libtextsecure';
@@ -37,8 +35,8 @@ declare global {
     LokiSnodeAPI: any;
     Session: any;
     Signal: SignalInterface;
-    StringView: any;
     StubAppDotNetApi: any;
+    StringView: any;
     StubMessageAPI: any;
     Whisper: any;
     clearLocalData: any;
@@ -56,7 +54,6 @@ declare global {
     log: any;
     lokiFeatureFlags: {
       useOnionRequests: boolean;
-      useOnionRequestsV2: boolean;
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
       onionRequestHops: number;
@@ -64,7 +61,6 @@ declare global {
       padOutgoingAttachments: boolean;
     };
     lokiFileServerAPI: LokiFileServerInstance;
-    lokiMessageAPI: LokiMessageInterface;
     lokiPublicChatAPI: LokiPublicChatFactoryInterface;
     lokiSnodeAPI: LokiSnodeAPI;
     onLogin: any;
@@ -96,8 +92,6 @@ declare global {
     dataURLToBlobSync: any;
     autoOrientImage: any;
     contextMenuShown: boolean;
-    setClockParams: any;
-    clientClockSynced: number | undefined;
     inboxStore?: Store;
     actionsCreators: any;
     extension: {

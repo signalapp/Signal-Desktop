@@ -18,9 +18,7 @@ function start(name, targetPath, options = {}) {
     console.log(`config/get: Successfully read ${name} config file`);
 
     if (!cachedValue) {
-      console.log(
-        `config/get: ${name} config value was falsy, cache is now empty object`
-      );
+      console.log(`config/get: ${name} config value was falsy, cache is now empty object`);
       cachedValue = Object.create(null);
     }
   } catch (error) {
@@ -28,9 +26,7 @@ function start(name, targetPath, options = {}) {
       throw error;
     }
 
-    console.log(
-      `config/get: Did not find ${name} config file, cache is now empty object`
-    );
+    console.log(`config/get: Did not find ${name} config file, cache is now empty object`);
     cachedValue = Object.create(null);
   }
 

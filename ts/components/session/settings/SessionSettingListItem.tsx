@@ -41,8 +41,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { title, description, type, value, content } = this.props;
     const inline =
-      !!type &&
-      ![SessionSettingType.Options, SessionSettingType.Slider].includes(type);
+      !!type && ![SessionSettingType.Options, SessionSettingType.Slider].includes(type);
 
     const currentSliderValue =
       type === SessionSettingType.Slider && (this.state.sliderValue || value);
@@ -52,11 +51,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
         <div className="session-settings-item__info">
           <div className="session-settings-item__title">{title}</div>
 
-          {description && (
-            <div className="session-settings-item__description">
-              {description}
-            </div>
-          )}
+          {description && <div className="session-settings-item__description">{description}</div>}
         </div>
 
         <div className="session-settings-item__content">

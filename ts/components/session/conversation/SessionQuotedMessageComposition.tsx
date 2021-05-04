@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Flex } from '../Flex';
+import { Flex } from '../../basic/Flex';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { ReplyingToMessageProps } from './SessionCompositionBox';
 import styled, { DefaultTheme, ThemeContext } from 'styled-components';
@@ -61,9 +61,7 @@ export const SessionQuotedMessageComposition = (props: Props) => {
         />
       </Flex>
       <QuotedMessageCompositionReply>
-        <Subtle>
-          {(hasAttachments && window.i18n('mediaMessage')) || body}
-        </Subtle>
+        <Subtle>{(hasAttachments && window.i18n('mediaMessage')) || body}</Subtle>
       </QuotedMessageCompositionReply>
     </QuotedMessageComposition>
   );

@@ -23,11 +23,7 @@ export interface MediaItemType {
 type Props = {
   close: () => void;
   media: Array<MediaItemType>;
-  onSave?: (options: {
-    attachment: AttachmentType;
-    message: Message;
-    index: number;
-  }) => void;
+  onSave?: (options: { attachment: AttachmentType; message: Message; index: number }) => void;
   selectedIndex: number;
 };
 

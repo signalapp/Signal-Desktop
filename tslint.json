@@ -41,13 +41,7 @@
         "named-imports-order": "case-insensitive"
       }
     ],
-    "quotemark": [
-      true,
-      "single",
-      "jsx-double",
-      "avoid-template",
-      "avoid-escape"
-    ],
+    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
     // Preferred by Prettier:
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     // Preferred by Prettier:
@@ -67,12 +61,7 @@
     // Disabling a large set of Microsoft-recommended rules
     // Modifying:
     // React components and namespaces are Pascal case
-    "variable-name": [
-      true,
-      "check-format",
-      "allow-leading-underscore",
-      "allow-pascal-case"
-    ],
+    "variable-name": [true, "check-format", "allow-leading-underscore", "allow-pascal-case"],
     "function-name": [
       true,
       {

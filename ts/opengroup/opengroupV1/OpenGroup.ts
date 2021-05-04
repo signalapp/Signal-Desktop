@@ -1,8 +1,10 @@
-import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
-import { ConversationModel } from '../../models/conversation';
-import { ConversationController } from '../conversations';
-import { PromiseUtils } from '../utils';
-import { forceSyncConfigurationNowIfNeeded } from '../utils/syncUtils';
+import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
+import { ConversationController } from '../../session/conversations';
+import { PromiseUtils } from '../../session/utils';
+import { allowOnlyOneAtATime } from '../../session/utils/Promise';
+import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
+import { arrayBufferFromFile } from '../../types/Attachment';
+import { openGroupPrefix, prefixify } from '../utils/OpenGroupUtils';
 
 interface OpenGroupParams {
   server: string;
@@ -10,13 +12,78 @@ interface OpenGroupParams {
   conversationId: string;
 }
 
+export async function updateOpenGroupV1(convo: any, groupName: string, avatar: any) {
+  const API = await convo.getPublicSendData();
+
+  if (avatar) {
+    // I hate duplicating this...
+    const readFile = async (attachment: any) =>
+      new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = (e: any) => {
+          const data = e.target.result;
+          resolve({
+            ...attachment,
+            data,
+            size: data.byteLength,
+          });
+        };
+        fileReader.onerror = reject;
+        fileReader.onabort = reject;
+        fileReader.readAsArrayBuffer(attachment.file);
+      });
+    const avatarAttachment: any = await readFile({ file: avatar });
+
+    // We want a square for iOS
+    const withBlob = await window.Signal.Util.AttachmentUtil.autoScale(
+      {
+        contentType: avatar.type,
+        file: new Blob([avatarAttachment.data], {
+          type: avatar.contentType,
+        }),
+      },
+      {
+        maxSide: 640,
+        maxSize: 1000 * 1024,
+      }
+    );
+    const dataResized = await arrayBufferFromFile(withBlob.file);
+    // const tempUrl = window.URL.createObjectURL(avatar);
+
+    // Get file onto public chat server
+    const fileObj = await API.serverAPI.putAttachment(dataResized);
+    if (fileObj === null) {
+      // problem
+      window.log.warn('File upload failed');
+      return;
+    }
+
+    // lets not allow ANY URLs, lets force it to be local to public chat server
+    const url = new URL(fileObj.url);
+
+    // write it to the channel
+    await API.setChannelAvatar(url.pathname);
+  }
+
+  if (await API.setChannelName(groupName)) {
+    // queue update from server
+    // and let that set the conversation
+    API.pollForChannelOnce();
+    // or we could just directly call
+    // convo.setGroupName(groupName);
+    // but gut is saying let the server be the definitive storage of the state
+    // and trickle down from there
+  }
+}
+
 export class OpenGroup {
   private static readonly serverRegex = new RegExp(
     '^((https?:\\/\\/){0,1})([\\w-]{2,}\\.){1,2}[\\w-]{2,}$'
   );
   private static readonly groupIdRegex = new RegExp(
-    '^publicChat:[0-9]*@([\\w-]{2,}.){1,2}[\\w-]{2,}$'
+    `^${openGroupPrefix}:[0-9]*@([\\w-]{2,}.){1,2}[\\w-]{2,}$`
   );
+
   public readonly server: string;
   public readonly channel: number;
   public readonly groupId?: string;
@@ -28,11 +95,11 @@ export class OpenGroup {
    *
    * @param params.server The server URL. `https` will be prepended if `http` or `https` is not explicitly set
    * @param params.channel The server channel
-   * @param params.groupId The string corresponding to the server. Eg. `publicChat:1@chat.getsession.org`
+   * @param params.groupId The string corresponding to the server. Eg. `${openGroupPrefix}1@chat.getsession.org`
    * @param params.conversationId The conversation ID for the backbone model
    */
   constructor(params: OpenGroupParams) {
-    this.server = OpenGroup.prefixify(params.server.toLowerCase());
+    this.server = prefixify(params.server.toLowerCase());
 
     // Validate server format
     const isValid = OpenGroup.serverRegex.test(this.server);
@@ -58,16 +125,14 @@ export class OpenGroup {
     const convos = ConversationController.getInstance().getConversations();
     return convos
       .filter(c => !!c.get('active_at') && c.isPublic() && !c.get('left'))
-      .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<
-      string
-    >;
+      .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<string>;
   }
 
   /**
    * Try to make a new instance of `OpenGroup`.
    * This does NOT respect `ConversationController` and does not guarentee the conversation's existence.
    *
-   * @param groupId The string corresponding to the server. Eg. `publicChat:1@chat.getsession.org`
+   * @param groupId The string corresponding to the server. Eg. `${openGroupPrefix}1@chat.getsession.org`
    * @param conversationId The conversation ID for the backbone model
    * @returns `OpenGroup` if valid otherwise returns `undefined`.
    */
@@ -106,11 +171,8 @@ export class OpenGroup {
    * @param onLoading Callback function to be called once server begins connecting
    * @returns `OpenGroup` if connection success or if already connected
    */
-  public static async join(
-    server: string,
-    fromSyncMessage: boolean = false
-  ): Promise<OpenGroup | undefined> {
-    const prefixedServer = OpenGroup.prefixify(server);
+  public static async join(server: string, fromSyncMessage: boolean = false): Promise<void> {
+    const prefixedServer = prefixify(server);
     if (!OpenGroup.validate(server)) {
       return;
     }
@@ -124,14 +186,7 @@ export class OpenGroup {
     conversation = OpenGroup.getConversation(prefixedServer);
 
     if (conversation) {
-      conversationId = conversation?.cid;
-      if (conversationId) {
-        return new OpenGroup({
-          server: prefixedServer,
-          channel: 1,
-          conversationId,
-        });
-      }
+      return;
     }
 
     // Try to connect to server
@@ -154,13 +209,6 @@ export class OpenGroup {
     } catch (e) {
       throw new Error(e);
     }
-
-    // Do we want to add conversation as a property of OpenGroup?
-    return new OpenGroup({
-      server,
-      channel,
-      conversationId,
-    });
   }
 
   /**
@@ -173,11 +221,9 @@ export class OpenGroup {
     if (!OpenGroup.validate(server)) {
       return;
     }
-    const rawServerURL = server
-      .replace(/^https?:\/\//i, '')
-      .replace(/[/\\]+$/i, '');
+    const rawServerURL = server.replace(/^https?:\/\//i, '').replace(/[/\\]+$/i, '');
     const channelId = 1;
-    const conversationId = `publicChat:${channelId}@${rawServerURL}`;
+    const conversationId = `${openGroupPrefix}${channelId}@${rawServerURL}`;
 
     // Quickly peak to make sure we don't already have it
     return ConversationController.getInstance().get(conversationId);
@@ -194,23 +240,16 @@ export class OpenGroup {
       return false;
     }
 
-    const prefixedServer = this.prefixify(server);
-    return Boolean(
-      await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer)
-    );
+    const prefixedServer = prefixify(server);
+    return Boolean(await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer));
   }
 
-  private static getServer(
-    groupId: string,
-    hasSSL: boolean
-  ): string | undefined {
+  private static getServer(groupId: string, hasSSL: boolean): string | undefined {
     const isValid = this.groupIdRegex.test(groupId);
     const strippedServer = isValid ? groupId.split('@')[1] : undefined;
 
     // We don't know for sure if the server is https or http when taken from the groupId. Preifx accordingly.
-    return strippedServer
-      ? this.prefixify(strippedServer.toLowerCase(), hasSSL)
-      : undefined;
+    return strippedServer ? prefixify(strippedServer.toLowerCase(), hasSSL) : undefined;
   }
 
   private static getChannel(groupId: string): number | undefined {
@@ -227,17 +266,7 @@ export class OpenGroup {
     const prefixRegex = new RegExp('https?:\\/\\/');
     const strippedServer = server.replace(prefixRegex, '');
 
-    return `publicChat:${channel}@${strippedServer}`;
-  }
-
-  private static prefixify(server: string, hasSSL: boolean = true): string {
-    // Prefix server with https:// if it's not already prefixed with http or https.
-    const hasPrefix = server.match('^https?://');
-    if (hasPrefix) {
-      return server;
-    }
-
-    return `http${hasSSL ? 's' : ''}://${server}`;
+    return `${openGroupPrefix}${channel}@${strippedServer}`;
   }
 
   /**
@@ -249,24 +278,24 @@ export class OpenGroup {
    * To avoid this issue, we allow only a single join of a specific opengroup at a time.
    */
   private static async attemptConnectionOneAtATime(
-    serverURL: string,
+    serverUrl: string,
     channelId: number = 1
   ): Promise<ConversationModel> {
-    if (!serverURL) {
+    if (!serverUrl) {
       throw new Error('Cannot join open group with empty URL');
     }
-    const oneAtaTimeStr = `oneAtaTimeOpenGroupJoin:${serverURL}${channelId}`;
+    const oneAtaTimeStr = `oneAtaTimeOpenGroupJoin:${serverUrl}${channelId}`;
     return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
-      return OpenGroup.attemptConnection(serverURL, channelId);
+      return OpenGroup.attemptConnection(serverUrl, channelId);
     });
   }
 
   // Attempts a connection to an open group server
   private static async attemptConnection(
-    serverURL: string,
+    serverUrl: string,
     channelId: number
   ): Promise<ConversationModel> {
-    let completeServerURL = serverURL.toLowerCase();
+    let completeServerURL = serverUrl.toLowerCase();
     const valid = OpenGroup.validate(completeServerURL);
     if (!valid) {
       return new Promise((_resolve, reject) => {
@@ -275,18 +304,14 @@ export class OpenGroup {
     }
 
     // Add http or https prefix to server
-    completeServerURL = OpenGroup.prefixify(completeServerURL);
+    completeServerURL = prefixify(completeServerURL);
 
-    const rawServerURL = serverURL
-      .replace(/^https?:\/\//i, '')
-      .replace(/[/\\]+$/i, '');
+    const rawServerURL = serverUrl.replace(/^https?:\/\//i, '').replace(/[/\\]+$/i, '');
 
-    const conversationId = `publicChat:${channelId}@${rawServerURL}`;
+    const conversationId = `${openGroupPrefix}${channelId}@${rawServerURL}`;
 
     // Quickly peak to make sure we don't already have it
-    const conversationExists = ConversationController.getInstance().get(
-      conversationId
-    );
+    const conversationExists = ConversationController.getInstance().get(conversationId);
     if (conversationExists) {
       // We are already a member of this public chat
       return new Promise((_resolve, reject) => {
@@ -295,9 +320,7 @@ export class OpenGroup {
     }
 
     // Get server
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-      completeServerURL
-    );
+    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(completeServerURL);
     // SSL certificate failure or offline
     if (!serverAPI) {
       // Url incorrect or server not compatible
@@ -309,7 +332,7 @@ export class OpenGroup {
     // Create conversation
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       conversationId,
-      'group'
+      ConversationTypeEnum.GROUP // keep a group for this one as this is an old open group
     );
 
     // Convert conversation to a public one

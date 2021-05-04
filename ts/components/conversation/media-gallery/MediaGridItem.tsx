@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import {
-  isImageTypeSupported,
-  isVideoTypeSupported,
-} from '../../../util/GoogleChrome';
+import { isImageTypeSupported, isVideoTypeSupported } from '../../../util/GoogleChrome';
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 import { useEncryptedFileFetch } from '../../../hooks/useEncryptedFileFetch';
@@ -22,18 +19,13 @@ const MediaGridItemContent = (props: Props) => {
   const urlToDecrypt = mediaItem.thumbnailObjectUrl || '';
   const [imageBroken, setImageBroken] = useState(false);
 
-  const { loading, urlToLoad } = useEncryptedFileFetch(
-    urlToDecrypt,
-    contentType
-  );
+  const { loading, urlToLoad } = useEncryptedFileFetch(urlToDecrypt, contentType);
   // data will be url if loading is finished and '' if not
   const srcData = !loading ? urlToLoad : '';
 
   const onImageError = () => {
     // tslint:disable-next-line no-console
-    console.log(
-      'MediaGridItem: Image failed to load; failing over to placeholder'
-    );
+    console.log('MediaGridItem: Image failed to load; failing over to placeholder');
     setImageBroken(true);
   };
 
@@ -90,21 +82,14 @@ const MediaGridItemContent = (props: Props) => {
 
   return (
     <div
-      className={classNames(
-        'module-media-grid-item__icon',
-        'module-media-grid-item__icon-generic'
-      )}
+      className={classNames('module-media-grid-item__icon', 'module-media-grid-item__icon-generic')}
     />
   );
 };
 
 export const MediaGridItem = (props: Props) => {
   return (
-    <div
-      className="module-media-grid-item"
-      role="button"
-      onClick={props.onClick}
-    >
+    <div className="module-media-grid-item" role="button" onClick={props.onClick}>
       <MediaGridItemContent {...props} />
     </div>
   );

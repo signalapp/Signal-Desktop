@@ -37,7 +37,7 @@
       this.remove();
     },
     submit() {
-      this.convo.leaveGroup();
+      this.convo.leaveClosedGroup();
     },
   });
 })();

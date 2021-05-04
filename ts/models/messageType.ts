@@ -4,14 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { QuotedAttachmentType } from '../components/conversation/Quote';
 import { AttachmentType } from '../types/Attachment';
 import { Contact } from '../types/Contact';
+import { ConversationTypeEnum } from './conversation';
 
 export type MessageModelType = 'incoming' | 'outgoing';
-export type MessageDeliveryStatus =
-  | 'sending'
-  | 'sent'
-  | 'delivered'
-  | 'read'
-  | 'error';
+export type MessageDeliveryStatus = 'sending' | 'sent' | 'delivered' | 'read' | 'error';
 
 export interface MessageAttributes {
   // the id of the message
@@ -192,7 +188,7 @@ export interface MessageRegularProps {
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
-  conversationType: 'group' | 'direct';
+  conversationType: ConversationTypeEnum;
   attachments?: Array<AttachmentType>;
   quote?: {
     text: string;
@@ -212,6 +208,7 @@ export interface MessageRegularProps {
   expirationTimestamp?: number;
   convoId: string;
   isPublic?: boolean;
+  isOpenGroupV2?: boolean;
   selected: boolean;
   isKickedFromGroup: boolean;
   // whether or not to show check boxes
@@ -230,6 +227,8 @@ export interface MessageRegularProps {
   onDeleteMessage: (messageId: string) => void;
   onCopyPubKey?: () => void;
   onBanUser?: () => void;
+  onUnbanUser?: () => void;
+
   onShowDetail: () => void;
   onShowUserDetails: (userPubKey: string) => void;
   markRead: (readAt: number) => Promise<void>;

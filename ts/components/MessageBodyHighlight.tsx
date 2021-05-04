@@ -50,14 +50,7 @@ export class MessageBodyHighlight extends React.Component<Props> {
     let count = 1;
 
     if (!match) {
-      return (
-        <MessageBody
-          disableJumbomoji={true}
-          disableLinks={true}
-          text={text}
-          i18n={i18n}
-        />
-      );
+      return <MessageBody disableJumbomoji={true} disableLinks={true} text={text} i18n={i18n} />;
     }
 
     const sizeClass = '';

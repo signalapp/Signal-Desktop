@@ -24,9 +24,7 @@ window.getAppInstance = () => config.appInstance;
 const electron = require('electron');
 
 const ipc = electron.ipcRenderer;
-const {
-  SessionPasswordPrompt,
-} = require('./ts/components/session/SessionPasswordPrompt');
+const { SessionPasswordPrompt } = require('./ts/components/session/SessionPasswordPrompt');
 
 window.Signal = {
   Components: {

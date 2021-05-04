@@ -62,9 +62,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
         : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
 
     const confirmButtonColor =
-      action === PasswordAction.Remove
-        ? SessionButtonColor.Danger
-        : SessionButtonColor.Primary;
+      action === PasswordAction.Remove ? SessionButtonColor.Danger : SessionButtonColor.Primary;
 
     return (
       <SessionModal
@@ -104,10 +102,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
             onClick={this.setPassword}
           />
 
-          <SessionButton
-            text={window.i18n('cancel')}
-            onClick={this.closeDialog}
-          />
+          <SessionButton text={window.i18n('cancel')} onClick={this.closeDialog} />
         </div>
       </SessionModal>
     );
@@ -144,10 +139,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
    */
   private validatePassword(firstPassword: string) {
     // if user did not fill the first password field, we can't do anything
-    const errorFirstInput = PasswordUtil.validatePassword(
-      firstPassword,
-      window.i18n
-    );
+    const errorFirstInput = PasswordUtil.validatePassword(firstPassword, window.i18n);
     if (errorFirstInput !== null) {
       this.setState({
         error: errorFirstInput,
@@ -157,10 +149,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     return true;
   }
 
-  private async handleActionSet(
-    enteredPassword: string,
-    enteredPasswordConfirm: string
-  ) {
+  private async handleActionSet(enteredPassword: string, enteredPasswordConfirm: string) {
     // be sure both password are valid
     if (!this.validatePassword(enteredPassword)) {
       return;
@@ -191,9 +180,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     if (!this.validatePassword(newPassword)) {
       return;
     }
-    const isValidWithStoredInDB = Boolean(
-      await this.validatePasswordHash(oldPassword)
-    );
+    const isValidWithStoredInDB = Boolean(await this.validatePasswordHash(oldPassword));
     if (!isValidWithStoredInDB) {
       this.setState({
         error: window.i18n('changePasswordInvalid'),
@@ -215,9 +202,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
 
   private async handleActionRemove(oldPassword: string) {
     // We don't validate oldPassword on change: this is validate on the validatePasswordHash below
-    const isValidWithStoredInDB = Boolean(
-      await this.validatePasswordHash(oldPassword)
-    );
+    const isValidWithStoredInDB = Boolean(await this.validatePasswordHash(oldPassword));
     if (!isValidWithStoredInDB) {
       this.setState({
         error: window.i18n('removePasswordInvalid'),
@@ -239,10 +224,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
   // tslint:disable-next-line: cyclomatic-complexity
   private async setPassword() {
     const { action } = this.props;
-    const {
-      currentPasswordEntered,
-      currentPasswordConfirmEntered,
-    } = this.state;
+    const { currentPasswordEntered, currentPasswordConfirmEntered } = this.state;
     const { Set, Remove, Change } = PasswordAction;
 
     // Trim leading / trailing whitespace for UX
@@ -255,10 +237,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
         return;
       }
       case Change: {
-        await this.handleActionChange(
-          firstPasswordEntered,
-          secondPasswordEntered
-        );
+        await this.handleActionChange(firstPasswordEntered, secondPasswordEntered);
         return;
       }
       case Remove: {

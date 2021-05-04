@@ -1,12 +1,11 @@
 /* global log, textsecure, libloki, Signal, Whisper,
 clearTimeout, getMessageController, libsignal, StringView, window, _,
 dcodeIO, Buffer, process */
-const insecureNodeFetch = require('node-fetch');
-const { URL, URLSearchParams } = require('url');
+const { URL } = require('url');
 const FormData = require('form-data');
-const https = require('https');
 const path = require('path');
 const DataMessage = require('../../ts/receiver/dataMessage');
+const OnionSend = require('../../ts/session/onions/onionSend');
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
@@ -14,20 +13,9 @@ const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
 const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 
-// FIXME: replace with something on urlPubkeyMap...
-const FILESERVER_HOSTS = [
-  'file-dev.lokinet.org',
-  'file.lokinet.org',
-  'file-dev.getsession.org',
-  'file.getsession.org',
-];
-
-const LOKIFOUNDATION_DEVFILESERVER_PUBKEY =
-  'BSZiMVxOco/b3sYfaeyiMWv/JnqokxGXkHoclEx8TmZ6';
-const LOKIFOUNDATION_FILESERVER_PUBKEY =
-  'BWJQnVm97sQE3Q1InB4Vuo+U/T1hmwHBv0ipkiv8tzEc';
-const LOKIFOUNDATION_APNS_PUBKEY =
-  'BWQqZYWRl0LlotTcUSRJZPvNi8qyt1YSQH3li4EHQNBJ';
+const LOKIFOUNDATION_DEVFILESERVER_PUBKEY = 'BSZiMVxOco/b3sYfaeyiMWv/JnqokxGXkHoclEx8TmZ6';
+const LOKIFOUNDATION_FILESERVER_PUBKEY = 'BWJQnVm97sQE3Q1InB4Vuo+U/T1hmwHBv0ipkiv8tzEc';
+const LOKIFOUNDATION_APNS_PUBKEY = 'BWQqZYWRl0LlotTcUSRJZPvNi8qyt1YSQH3li4EHQNBJ';
 
 const urlPubkeyMap = {
   'https://file-dev.getsession.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
@@ -44,314 +32,6 @@ const SETTINGS_CHANNEL_ANNOTATION_TYPE = 'net.patter-app.settings';
 const MESSAGE_ATTACHMENT_TYPE = 'net.app.core.oembed';
 const LOKI_ATTACHMENT_TYPE = 'attachment';
 const LOKI_PREVIEW_TYPE = 'preview';
-
-const snodeHttpsAgent = new https.Agent({
-  rejectUnauthorized: false,
-});
-
-const MAX_SEND_ONION_RETRIES = 3;
-
-const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
-  if (!srvPubKey) {
-    log.error(
-      'loki_app_dot_net:::sendViaOnion - called without a server public key'
-    );
-    return {};
-  }
-
-  // set retry count
-  if (options.retry === undefined) {
-    // eslint-disable-next-line no-param-reassign
-    options.retry = 0;
-    // eslint-disable-next-line no-param-reassign
-    options.requestNumber = window.OnionPaths.getInstance().assignOnionRequestNumber();
-  }
-
-  const payloadObj = {
-    method: fetchOptions.method || 'GET',
-    body: fetchOptions.body || '',
-    // safety issue with file server, just safer to have this
-    headers: fetchOptions.headers || {},
-    // no initial /
-    endpoint: url.pathname.replace(/^\//, ''),
-  };
-  if (url.search) {
-    payloadObj.endpoint += url.search;
-  }
-
-  // from https://github.com/sindresorhus/is-stream/blob/master/index.js
-  if (
-    payloadObj.body &&
-    typeof payloadObj.body === 'object' &&
-    typeof payloadObj.body.pipe === 'function'
-  ) {
-    const fData = payloadObj.body.getBuffer();
-    const fHeaders = payloadObj.body.getHeaders();
-    // update headers for boundary
-    payloadObj.headers = { ...payloadObj.headers, ...fHeaders };
-    // update body with base64 chunk
-    payloadObj.body = {
-      fileUpload: fData.toString('base64'),
-    };
-  }
-
-  let pathNodes = [];
-  try {
-    pathNodes = await window.OnionPaths.getInstance().getOnionPath();
-  } catch (e) {
-    log.error(
-      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - getOnionPath Error ${e.code} ${e.message}`
-    );
-  }
-  if (!pathNodes || !pathNodes.length) {
-    log.warn(
-      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - failing, no path available`
-    );
-    // should we retry?
-    return {};
-  }
-
-  // do the request
-  let result;
-  try {
-    result = await window.NewSnodeAPI.sendOnionRequestLsrpcDest(
-      0,
-      pathNodes,
-      srvPubKey,
-      url.host,
-      payloadObj,
-      options.requestNumber
-    );
-    if (typeof result === 'number') {
-      window.log.error(
-        'sendOnionRequestLsrpcDest() returned a number indicating an error: ',
-        result
-      );
-    }
-  } catch (e) {
-    log.error(
-      'loki_app_dot_net:::sendViaOnion - lokiRpcUtils error',
-      e.code,
-      e.message
-    );
-    return {};
-  }
-
-  // handle error/retries
-  if (!result.status) {
-    log.error(
-      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Retry #${options.retry} Couldnt handle onion request, retrying`,
-      payloadObj
-    );
-    if (options.retry && options.retry >= MAX_SEND_ONION_RETRIES) {
-      log.error(
-        `sendViaOnion too many retries: ${options.retry}. Stopping retries.`
-      );
-      return {};
-    }
-    return sendViaOnion(srvPubKey, url, fetchOptions, {
-      ...options,
-      retry: options.retry + 1,
-      counter: options.requestNumber,
-    });
-  }
-
-  if (options.noJson) {
-    return {
-      result,
-      txtResponse: result.body,
-      response: result.body,
-    };
-  }
-
-  // get the return variables we need
-  let response = {};
-  let txtResponse = '';
-
-  let { body } = result;
-  if (typeof body === 'string') {
-    // adn does uses this path
-    // log.info(`loki_app_dot_net:::sendViaOnion - got text response ${url.toString()}`);
-    txtResponse = result.body;
-    try {
-      body = JSON.parse(result.body);
-    } catch (e) {
-      log.error(
-        `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Can't decode JSON body`,
-        typeof result.body,
-        result.body
-      );
-    }
-  } else {
-    // FIXME why is
-    // https://chat-dev.lokinet.org/loki/v1/channel/1/deletes?count=200&since_id=
-    // difference in response than all the other calls....
-    // log.info(
-    //   `loki_app_dot_net:::sendViaOnion #${
-    //     options.requestNumber
-    //   } - got object response ${url.toString()}`
-    // );
-  }
-  // result.status has the http response code
-  if (!txtResponse) {
-    txtResponse = JSON.stringify(body);
-  }
-  response = body;
-  response.headers = result.headers;
-
-  return { result, txtResponse, response };
-};
-
-const serverRequest = async (endpoint, options = {}) => {
-  const {
-    params = {},
-    method,
-    rawBody,
-    objBody,
-    token,
-    srvPubKey,
-    forceFreshToken = false,
-  } = options;
-
-  const url = new URL(endpoint);
-  if (!_.isEmpty(params)) {
-    url.search = new URLSearchParams(params);
-  }
-  const fetchOptions = {};
-  const headers = {};
-  try {
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-    if (method) {
-      fetchOptions.method = method;
-    }
-    if (objBody) {
-      headers['Content-Type'] = 'application/json';
-      fetchOptions.body = JSON.stringify(objBody);
-    } else if (rawBody) {
-      fetchOptions.body = rawBody;
-    }
-    fetchOptions.headers = headers;
-
-    // domain ends in .loki
-    if (url.host.match(/\.loki$/i)) {
-      fetchOptions.agent = snodeHttpsAgent;
-    }
-  } catch (e) {
-    log.error(
-      'loki_app_dot_net:::serverRequest - set up error:',
-      e.code,
-      e.message
-    );
-    return {
-      err: e,
-      ok: false,
-    };
-  }
-
-  let response;
-  let result;
-  let txtResponse;
-  let mode = 'insecureNodeFetch';
-  try {
-    const host = url.host.toLowerCase();
-    // log.info('host', host, FILESERVER_HOSTS);
-    if (
-      window.lokiFeatureFlags.useFileOnionRequests &&
-      FILESERVER_HOSTS.includes(host)
-    ) {
-      mode = 'sendViaOnion';
-      ({ response, txtResponse, result } = await sendViaOnion(
-        srvPubKey,
-        url,
-        fetchOptions,
-        options
-      ));
-    } else if (window.lokiFeatureFlags.useFileOnionRequests) {
-      if (!srvPubKey) {
-        throw new Error(
-          'useFileOnionRequests=true but we do not have a server pubkey set.'
-        );
-      }
-      mode = 'sendViaOnionOG';
-      ({ response, txtResponse, result } = await sendViaOnion(
-        srvPubKey,
-        url,
-        fetchOptions,
-        options
-      ));
-    } else {
-      // we end up here only if window.lokiFeatureFlags.useFileOnionRequests is false
-      log.info(`insecureNodeFetch => plaintext for ${url}`);
-      result = await insecureNodeFetch(url, fetchOptions);
-
-      txtResponse = await result.text();
-      // cloudflare timeouts (504s) will be html...
-      response = options.noJson ? txtResponse : JSON.parse(txtResponse);
-
-      // result.status will always be 200
-      // emulate the correct http code if available
-      if (response && response.meta && response.meta.code) {
-        result.status = response.meta.code;
-      }
-    }
-  } catch (e) {
-    if (txtResponse) {
-      log.error(
-        `loki_app_dot_net:::serverRequest - ${mode} error`,
-        e.code,
-        e.message,
-        `json: ${txtResponse}`,
-        'attempting connection to',
-        url.toString()
-      );
-    } else {
-      log.error(
-        `loki_app_dot_net:::serverRequest - ${mode} error`,
-        e.code,
-        e.message,
-        'attempting connection to',
-        url.toString()
-      );
-    }
-
-    return {
-      err: e,
-      ok: false,
-    };
-  }
-
-  if (!result) {
-    return {
-      err: 'noResult',
-      response,
-      ok: false,
-    };
-  }
-
-  // if it's a response style with a meta
-  if (result.status !== 200) {
-    if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
-      // retry with forcing a fresh token
-      return serverRequest(endpoint, {
-        ...options,
-        forceFreshToken: true,
-      });
-    }
-    return {
-      err: 'statusCode',
-      statusCode: result.status,
-      response,
-      ok: false,
-    };
-  }
-  return {
-    statusCode: result.status,
-    response,
-    ok: result.status >= 200 && result.status <= 299,
-  };
-};
 
 // the core ADN class that handles all communication with a specific server
 class LokiAppDotNetServerAPI {
@@ -381,27 +61,15 @@ class LokiAppDotNetServerAPI {
 
   // channel getter/factory
   async findOrCreateChannel(chatAPI, channelId, conversationId) {
-    let thisChannel = this.channels.find(
-      channel => channel.channelId === channelId
-    );
+    let thisChannel = this.channels.find(channel => channel.channelId === channelId);
     if (!thisChannel) {
       // make sure we're subscribed
       // eventually we'll need to move to account registration/add server
       await this.serverRequest(`channels/${channelId}/subscribe`, {
         method: 'POST',
       });
-      thisChannel = new LokiPublicChannelAPI(
-        chatAPI,
-        this,
-        channelId,
-        conversationId
-      );
-      log.info(
-        'LokiPublicChannelAPI started for',
-        channelId,
-        'on',
-        this.baseServerUrl
-      );
+      thisChannel = new LokiPublicChannelAPI(chatAPI, this, channelId, conversationId);
+      log.info('LokiPublicChannelAPI started for', channelId, 'on', this.baseServerUrl);
       this.channels.push(thisChannel);
     }
     return thisChannel;
@@ -444,9 +112,7 @@ class LokiAppDotNetServerAPI {
     // Hard coded
     let pubKeyAB;
     if (urlPubkeyMap && urlPubkeyMap[this.baseServerUrl]) {
-      pubKeyAB = window.Signal.Crypto.base64ToArrayBuffer(
-        urlPubkeyMap[this.baseServerUrl]
-      );
+      pubKeyAB = window.Signal.Crypto.base64ToArrayBuffer(urlPubkeyMap[this.baseServerUrl]);
     }
 
     // do we have their pubkey locally?
@@ -459,8 +125,7 @@ class LokiAppDotNetServerAPI {
         window.lokiPublicChatAPI.openGroupPubKeys &&
         window.lokiPublicChatAPI.openGroupPubKeys[this.baseServerUrl]
       ) {
-        pubKeyAB =
-          window.lokiPublicChatAPI.openGroupPubKeys[this.baseServerUrl];
+        pubKeyAB = window.lokiPublicChatAPI.openGroupPubKeys[this.baseServerUrl];
       }
     }
     // else will fail validation later
@@ -506,10 +171,7 @@ class LokiAppDotNetServerAPI {
     // no big deal if it fails...
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(
-          `setProfileName Error ${res.err} ${res.statusCode}`,
-          this.baseServerUrl
-        );
+        log.error(`setProfileName Error ${res.err} ${res.statusCode}`, this.baseServerUrl);
       }
       return [];
     }
@@ -560,9 +222,7 @@ class LokiAppDotNetServerAPI {
       if (this.token) {
         return this.token;
       }
-      token = await Signal.Data.getPublicServerTokenByServerUrl(
-        this.baseServerUrl
-      );
+      token = await Signal.Data.getPublicServerTokenByServerUrl(this.baseServerUrl);
     }
     if (!token) {
       token = await this.refreshServerToken();
@@ -677,25 +337,12 @@ class LokiAppDotNetServerAPI {
       // not really an error, from a client's pov, network servers can fail...
       if (e.code === 'ECONNREFUSED') {
         // down
-        log.warn(
-          'requestToken request can not connect',
-          this.baseServerUrl,
-          e.message
-        );
+        log.warn('requestToken request can not connect', this.baseServerUrl, e.message);
       } else if (e.code === 'ECONNRESET') {
         // got disconnected
-        log.warn(
-          'requestToken request lost connection',
-          this.baseServerUrl,
-          e.message
-        );
+        log.warn('requestToken request lost connection', this.baseServerUrl, e.message);
       } else {
-        log.error(
-          'requestToken request failed',
-          this.baseServerUrl,
-          e.code,
-          e.message
-        );
+        log.error('requestToken request failed', this.baseServerUrl, e.code, e.message);
       }
       return null;
     }
@@ -731,10 +378,10 @@ class LokiAppDotNetServerAPI {
     if (options.forceFreshToken) {
       await this.getOrRefreshServerToken(true);
     }
-    return serverRequest(`${this.baseServerUrl}/${endpoint}`, {
+    return OnionSend.serverRequest(`${this.baseServerUrl}/${endpoint}`, {
       ...options,
       token: this.token,
-      srvPubKey: this.pubKey,
+      srvPubKey: this.pubKeyHex,
     });
   }
 
@@ -765,9 +412,7 @@ class LokiAppDotNetServerAPI {
       log.warn('No channelId provided to getModerators!');
       return [];
     }
-    const res = await this.serverRequest(
-      `loki/v1/channels/${channelId}/moderators`
-    );
+    const res = await this.serverRequest(`loki/v1/channels/${channelId}/moderators`);
 
     return (!res.err && res.response && res.response.moderators) || [];
   }
@@ -907,11 +552,7 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(
-          `loki_app_dot_net:::getUsers - Error: ${res.err} for ${pubKeys.join(
-            ','
-          )}`
-        );
+        log.error(`loki_app_dot_net:::getUsers - Error: ${res.err} for ${pubKeys.join(',')}`);
       }
       return [];
     }
@@ -956,10 +597,7 @@ class LokiAppDotNetServerAPI {
       throw new Error(`Failed to upload avatar to ${this.baseServerUrl}`);
     }
 
-    const url =
-      response.data &&
-      response.data.avatar_image &&
-      response.data.avatar_image.url;
+    const url = response.data && response.data.avatar_image && response.data.avatar_image.url;
 
     if (!url) {
       throw new Error(`Failed to upload data: Invalid url.`);
@@ -1037,9 +675,7 @@ class LokiAppDotNetServerAPI {
     });
 
     if (window.lokiFeatureFlags.useFileOnionRequestsV2) {
-      const buffer = dcodeIO.ByteBuffer.fromBase64(
-        res.response
-      ).toArrayBuffer();
+      const buffer = dcodeIO.ByteBuffer.fromBase64(res.response).toArrayBuffer();
       return buffer;
     }
     return new Uint8Array(res.response.data).buffer;
@@ -1054,9 +690,7 @@ class LokiPublicChannelAPI {
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
     this.conversationId = conversationId;
-    this.conversation = window
-      .getConversationController()
-      .getOrThrow(conversationId);
+    this.conversation = window.getConversationController().getOrThrow(conversationId);
     this.lastMessageServerID = null;
     this.modStatus = false;
     this.deleteLastId = 1;
@@ -1072,9 +706,7 @@ class LokiPublicChannelAPI {
 
     // end properties
 
-    log.info(
-      `registered LokiPublicChannel ${channelId} on ${this.serverAPI.baseServerUrl}`
-    );
+    log.info(`registered LokiPublicChannel ${channelId} on ${this.serverAPI.baseServerUrl}`);
     // start polling
     this.open();
   }
@@ -1092,12 +724,9 @@ class LokiPublicChannelAPI {
   }
 
   async banUser(pubkey) {
-    const res = await this.serverRequest(
-      `loki/v1/moderation/blacklist/@${pubkey}`,
-      {
-        method: 'POST',
-      }
-    );
+    const res = await this.serverRequest(`loki/v1/moderation/blacklist/@${pubkey}`, {
+      method: 'POST',
+    });
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
@@ -1110,9 +739,7 @@ class LokiPublicChannelAPI {
   }
 
   open() {
-    log.info(
-      `LokiPublicChannel open ${this.channelId} on ${this.serverAPI.baseServerUrl}`
-    );
+    log.info(`LokiPublicChannel open ${this.channelId} on ${this.serverAPI.baseServerUrl}`);
     if (this.running) {
       log.warn(
         `LokiPublicChannel already open ${this.channelId} on ${this.serverAPI.baseServerUrl}`
@@ -1135,9 +762,7 @@ class LokiPublicChannelAPI {
   }
 
   stop() {
-    log.info(
-      `LokiPublicChannel close ${this.channelId} on ${this.serverAPI.baseServerUrl}`
-    );
+    log.info(`LokiPublicChannel close ${this.channelId} on ${this.serverAPI.baseServerUrl}`);
     if (!this.running) {
       log.warn(
         `LokiPublicChannel already open ${this.channelId} on ${this.serverAPI.baseServerUrl}`
@@ -1179,11 +804,7 @@ class LokiPublicChannelAPI {
     try {
       await this.pollOnceForModerators();
     } catch (e) {
-      log.warn(
-        'Error while polling for public chat moderators:',
-        e.code,
-        e.message
-      );
+      log.warn('Error while polling for public chat moderators:', e.code, e.message);
     }
     if (this.running) {
       this.timers.moderator = setTimeout(() => {
@@ -1195,9 +816,7 @@ class LokiPublicChannelAPI {
   // get moderator status
   async pollOnceForModerators() {
     // get moderator status
-    const res = await this.serverRequest(
-      `loki/v1/channels/${this.channelId}/moderators`
-    );
+    const res = await this.serverRequest(`loki/v1/channels/${this.channelId}/moderators`);
     const ourNumberDevice = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
 
     // Get the list of moderators if no errors occurred
@@ -1228,15 +847,12 @@ class LokiPublicChannelAPI {
       log.warn(`public chat channel state unknown, skipping set: ${res.err}`);
       return false;
     }
-    let notes =
-      res.response && res.response.data && res.response.data.annotations;
+    let notes = res.response && res.response.data && res.response.data.annotations;
     if (!notes) {
       // ok if nothing is set yet
       notes = [];
     }
-    let settingNotes = notes.filter(
-      note => note.type === SETTINGS_CHANNEL_ANNOTATION_TYPE
-    );
+    let settingNotes = notes.filter(note => note.type === SETTINGS_CHANNEL_ANNOTATION_TYPE);
     if (!settingNotes) {
       // default name, description, avatar
       settingNotes = [
@@ -1253,10 +869,10 @@ class LokiPublicChannelAPI {
     // update settings
     settingNotes[0].value = Object.assign(settingNotes[0].value, settings);
     // commit settings
-    const updateRes = await this.serverRequest(
-      `loki/v1/${this.baseChannelUrl}`,
-      { method: 'PUT', objBody: { annotations: settingNotes } }
-    );
+    const updateRes = await this.serverRequest(`loki/v1/${this.baseChannelUrl}`, {
+      method: 'PUT',
+      objBody: { annotations: settingNotes },
+    });
     if (updateRes.err || !updateRes.response || !updateRes.response.data) {
       if (updateRes.err) {
         log.error(`setChannelSettings Error ${updateRes.err}`);
@@ -1284,17 +900,13 @@ class LokiPublicChannelAPI {
       { method: 'DELETE', params: { ids: serverIds } }
     );
     if (!res.err) {
-      const deletedIds = res.response.data
-        .filter(d => d.is_deleted)
-        .map(d => d.id);
+      const deletedIds = res.response.data.filter(d => d.is_deleted).map(d => d.id);
 
       if (deletedIds.length > 0) {
         log.info(`deleted ${serverIds} on ${this.baseChannelUrl}`);
       }
 
-      const failedIds = res.response.data
-        .filter(d => !d.is_deleted)
-        .map(d => d.id);
+      const failedIds = res.response.data.filter(d => !d.is_deleted).map(d => d.id);
 
       if (failedIds.length > 0) {
         log.warn(`failed to delete ${failedIds} on ${this.baseChannelUrl}`);
@@ -1302,10 +914,7 @@ class LokiPublicChannelAPI {
 
       // Note: if there is no entry for message, we assume it wasn't found
       // on the server, so it is not treated as explicitly failed
-      const ignoredIds = _.difference(
-        serverIds,
-        _.union(failedIds, deletedIds)
-      );
+      const ignoredIds = _.difference(serverIds, _.union(failedIds, deletedIds));
 
       if (ignoredIds.length > 0) {
         log.warn(`No response for ${ignoredIds} on ${this.baseChannelUrl}`);
@@ -1314,9 +923,7 @@ class LokiPublicChannelAPI {
       return { deletedIds, ignoredIds };
     }
     if (canThrow) {
-      throw new textsecure.PublicChatError(
-        'Failed to delete public chat message'
-      );
+      throw new textsecure.PublicChatError('Failed to delete public chat message');
     }
     return { deletedIds: [], ignoredIds: [] };
   }
@@ -1332,11 +939,7 @@ class LokiPublicChannelAPI {
     try {
       await this.pollForChannelOnce();
     } catch (e) {
-      log.warn(
-        'Error while polling for public chat room details',
-        e.code,
-        e.message
-      );
+      log.warn('Error while polling for public chat room details', e.code, e.message);
     }
     if (this.running) {
       this.timers.channel = setTimeout(() => {
@@ -1389,16 +992,11 @@ class LokiPublicChannelAPI {
         } else {
           // relative URL avatar
           const avatarAbsUrl = this.serverAPI.baseServerUrl + note.value.avatar;
-          const {
-            writeNewAttachmentData,
-            deleteAttachmentData,
-          } = window.Signal.Migrations;
+          const { writeNewAttachmentData, deleteAttachmentData } = window.Signal.Migrations;
           // do we already have this image? no, then
 
           // download a copy and save it
-          const imageData = await this.serverAPI.downloadAttachment(
-            avatarAbsUrl
-          );
+          const imageData = await this.serverAPI.downloadAttachment(avatarAbsUrl);
 
           const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
             this.conversation.attributes,
@@ -1428,11 +1026,7 @@ class LokiPublicChannelAPI {
     try {
       await this.pollOnceForDeletions();
     } catch (e) {
-      log.warn(
-        'Error while polling for public chat deletions:',
-        e.code,
-        e.message
-      );
+      log.warn('Error while polling for public chat deletions:', e.code, e.message);
     }
     if (this.running) {
       this.timers.delete = setTimeout(() => {
@@ -1455,18 +1049,10 @@ class LokiPublicChannelAPI {
 
       // grab the next 200 deletions from where we last checked
       // eslint-disable-next-line no-await-in-loop
-      const res = await this.serverRequest(
-        `loki/v1/channel/${this.channelId}/deletes`,
-        { params }
-      );
+      const res = await this.serverRequest(`loki/v1/channel/${this.channelId}/deletes`, { params });
 
       // if any problems, abort out
-      if (
-        res.err ||
-        !res.response ||
-        !res.response.data ||
-        !res.response.meta
-      ) {
+      if (res.err || !res.response || !res.response.data || !res.response.meta) {
         if (res.statusCode === 403) {
           // token is now invalid
           this.serverAPI.getOrRefreshServerToken(true);
@@ -1474,9 +1060,7 @@ class LokiPublicChannelAPI {
         if (res.err) {
           log.error(`pollOnceForDeletions Error ${res.err}`);
         } else {
-          log.error(
-            `pollOnceForDeletions Error: Received incorrect response ${res.response}`
-          );
+          log.error(`pollOnceForDeletions Error: Received incorrect response ${res.response}`);
         }
         break;
       }
@@ -1492,20 +1076,11 @@ class LokiPublicChannelAPI {
 
       // update where we last checked
       this.deleteLastId = res.response.meta.max_id;
-      more =
-        res.response.meta.more &&
-        res.response.data.length >= params.count &&
-        this.running;
+      more = res.response.meta.more && res.response.data.length >= params.count && this.running;
     }
   }
 
-  static getSigData(
-    sigVer,
-    noteValue,
-    attachmentAnnotations,
-    previewAnnotations,
-    adnMessage
-  ) {
+  static getSigData(sigVer, noteValue, attachmentAnnotations, previewAnnotations, adnMessage) {
     let sigString = '';
     sigString += adnMessage.text.trim();
     sigString += noteValue.timestamp;
@@ -1527,10 +1102,7 @@ class LokiPublicChannelAPI {
   }
 
   async getMessengerData(adnMessage) {
-    if (
-      !Array.isArray(adnMessage.annotations) ||
-      adnMessage.annotations.length === 0
-    ) {
+    if (!Array.isArray(adnMessage.annotations) || adnMessage.annotations.length === 0) {
       return false;
     }
     const noteValue = adnMessage.annotations[0].value;
@@ -1610,8 +1182,7 @@ class LokiPublicChannelAPI {
 
     return {
       timestamp,
-      serverTimestamp:
-        new Date(`${adnMessage.created_at}`).getTime() || timestamp,
+      serverTimestamp: new Date(`${adnMessage.created_at}`).getTime() || timestamp,
       attachments,
       preview,
       quote,
@@ -1626,11 +1197,7 @@ class LokiPublicChannelAPI {
     try {
       await this.pollOnceForMessages();
     } catch (e) {
-      log.warn(
-        'Error while polling for public chat messages:',
-        e.code,
-        e.message
-      );
+      log.warn('Error while polling for public chat messages:', e.code, e.message);
     }
     if (this.running) {
       this.timers.message = setTimeout(() => {
@@ -1703,8 +1270,7 @@ class LokiPublicChannelAPI {
     // get our profile name
     const ourNumberDevice = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
     // if no primaryDevicePubKey fall back to ourNumberDevice
-    const ourNumberProfile =
-      window.storage.get('primaryDevicePubKey') || ourNumberDevice;
+    const ourNumberProfile = window.storage.get('primaryDevicePubKey') || ourNumberDevice;
     let lastProfileName = false;
 
     // the signature forces this to be async
@@ -1754,11 +1320,7 @@ class LokiPublicChannelAPI {
           // message is one of the object of this.lastMessagesCache
           // testedMessage is the adnMessage object
           const isDuplicate = (message, testedMessage) =>
-            DataMessage.isDuplicate(
-              message,
-              testedMessage,
-              testedMessage.user.username
-            );
+            DataMessage.isDuplicate(message, testedMessage, testedMessage.user.username);
           const isThisMessageDuplicate = this.lastMessagesCache.some(m =>
             isDuplicate(m, adnMessage)
           );
@@ -1820,8 +1382,7 @@ class LokiPublicChannelAPI {
             receivedAt,
             isPublic: true,
             message: {
-              body:
-                adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
+              body: adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
               attachments,
               group: {
                 id: this.conversationId,
@@ -1888,9 +1449,7 @@ class LokiPublicChannelAPI {
     // if we received one of our own messages
     if (lastProfileName !== false) {
       // get current profileName
-      const profileConvo = window
-        .getConversationController()
-        .get(ourNumberProfile);
+      const profileConvo = window.getConversationController().get(ourNumberProfile);
       const profileName = profileConvo.getProfileName();
       // check to see if it out of sync
       if (profileName !== lastProfileName) {
@@ -1985,12 +1544,8 @@ class LokiPublicChannelAPI {
   async sendMessage(data, messageTimeStamp) {
     const { quote, attachments, preview } = data;
     const text = data.body || messageTimeStamp.toString();
-    const attachmentAnnotations = attachments.map(
-      LokiPublicChannelAPI.getAnnotationFromAttachment
-    );
-    const previewAnnotations = preview.map(
-      LokiPublicChannelAPI.getAnnotationFromPreview
-    );
+    const attachmentAnnotations = attachments.map(LokiPublicChannelAPI.getAnnotationFromAttachment);
+    const previewAnnotations = preview.map(LokiPublicChannelAPI.getAnnotationFromPreview);
 
     const payload = {
       text,
@@ -2038,10 +1593,7 @@ class LokiPublicChannelAPI {
       previewAnnotations.map(anno => anno.value),
       mockAdnMessage
     );
-    const sig = await libsignal.Curve.async.calculateSignature(
-      privKey,
-      sigData
-    );
+    const sig = await libsignal.Curve.async.calculateSignature(privKey, sigData);
     payload.annotations[0].value.sig = StringView.arrayBufferToHex(sig);
     payload.annotations[0].value.sigver = sigVer;
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
@@ -2069,8 +1621,7 @@ class LokiPublicChannelAPI {
   }
 }
 
-LokiAppDotNetServerAPI.serverRequest = serverRequest;
-LokiAppDotNetServerAPI.sendViaOnion = sendViaOnion;
+LokiAppDotNetServerAPI.serverRequest = OnionSend.serverRequest;
 
 // These files are expected to be in commonjs so we can't use es6 syntax :(
 // If we move these to TS then we should be able to use es6

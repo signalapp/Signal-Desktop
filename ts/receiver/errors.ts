@@ -3,13 +3,11 @@ import { toNumber } from 'lodash';
 import { ConversationController } from '../session/conversations';
 import { MessageController } from '../session/messages';
 import { actions as conversationActions } from '../state/ducks/conversations';
+import { ConversationTypeEnum } from '../models/conversation';
 
 export async function onError(ev: any) {
   const { error } = ev;
-  window.log.error(
-    'background onError:',
-    window.Signal.Errors.toLogFormat(error)
-  );
+  window.log.error('background onError:', window.Signal.Errors.toLogFormat(error));
 
   if (ev.proto) {
     const envelope = ev.proto;
@@ -20,7 +18,7 @@ export async function onError(ev: any) {
     const id = message.get('conversationId');
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       id,
-      'private'
+      ConversationTypeEnum.PRIVATE
     );
     // force conversation unread count to be > 0 so it is highlighted
     conversation.set({

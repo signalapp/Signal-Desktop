@@ -69,25 +69,14 @@ export class SessionModal extends React.PureComponent<Props, State> {
   };
 
   public render() {
-    const {
-      title,
-      headerIconButtons,
-      showExitIcon,
-      showHeader,
-      headerReverse,
-    } = this.props;
+    const { title, headerIconButtons, showExitIcon, showHeader, headerReverse } = this.props;
     const { isVisible } = this.state;
 
     return isVisible ? (
       <div ref={node => (this.node = node)} className={'session-modal'}>
         {showHeader ? (
           <>
-            <div
-              className={classNames(
-                'session-modal__header',
-                headerReverse && 'reverse'
-              )}
-            >
+            <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
               <div className="session-modal__header__close">
                 {showExitIcon ? (
                   <SessionIconButton

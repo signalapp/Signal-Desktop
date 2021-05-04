@@ -35,9 +35,7 @@ describe('Closed groups', function() {
 
     // send a message from app and validate it is received on app2
     const textMessage = Common.generateSendMessageText();
-    await app.client
-      .element(ConversationPage.sendMessageTextarea)
-      .setValue(textMessage);
+    await app.client.element(ConversationPage.sendMessageTextarea).setValue(textMessage);
     await app.client
       .element(ConversationPage.sendMessageTextarea)
       .getValue()
@@ -46,15 +44,9 @@ describe('Closed groups', function() {
     await app.client.keys('Enter');
 
     // validate that the message has been added to the message list view
-    await app.client.waitForExist(
-      ConversationPage.existingSendMessageText(textMessage),
-      2000
-    );
+    await app.client.waitForExist(ConversationPage.existingSendMessageText(textMessage), 2000);
 
     // validate that the message has been added to the message list view
-    await app2.client.waitForExist(
-      ConversationPage.existingReceivedMessageText(textMessage),
-      5000
-    );
+    await app2.client.waitForExist(ConversationPage.existingReceivedMessageText(textMessage), 5000);
   });
 });

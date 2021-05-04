@@ -7,32 +7,21 @@ export = {
   // create new account
   createSessionIDButton: commonPage.divRoleButtonWithText('Create Session ID'),
   continueButton: commonPage.divRoleButtonWithText('Continue'),
-  textareaGeneratedPubkey:
-    '//textarea[contains(@class, "session-id-editable-textarea")]',
+  textareaGeneratedPubkey: '//textarea[contains(@class, "session-id-editable-textarea")]',
   getStartedButton: commonPage.divRoleButtonWithText('Get started'),
 
   // restore from seed
-  restoreFromSeedMode: commonPage.divRoleButtonWithText(
-    'Restore From Recovery'
-  ),
+  restoreFromSeedMode: commonPage.divRoleButtonWithText('Restore From Recovery'),
 
   recoveryPhraseInput: commonPage.inputWithPlaceholder('Enter Recovery Phrase'),
   displayNameInput: commonPage.inputWithPlaceholder('Enter a display name'),
   passwordInput: commonPage.inputWithPlaceholder('Enter password (optional)'),
-  continueSessionButton: commonPage.divRoleButtonWithText(
-    'Continue Your Session'
-  ),
-  conversationListContainer: commonPage.divWithClass(
-    'module-conversations-list-content'
-  ),
+  continueSessionButton: commonPage.divRoleButtonWithText('Continue Your Session'),
+  conversationListContainer: commonPage.divWithClass('module-conversations-list-content'),
 
   // device linking
-  linkDeviceMode: commonPage.divRoleButtonWithText(
-    'Link Device to Existing Session ID'
-  ),
-  textareaLinkDevicePubkey: commonPage.textAreaWithPlaceholder(
-    'Enter your Session ID'
-  ),
+  linkDeviceMode: commonPage.divRoleButtonWithText('Link Device to Existing Session ID'),
+  textareaLinkDevicePubkey: commonPage.textAreaWithPlaceholder('Enter your Session ID'),
   linkDeviceTriggerButton: commonPage.divRoleButtonWithText('Link Device'),
   toastWrapper: '//*[contains(@class,"session-toast-wrapper")]',
   secretWordsText:

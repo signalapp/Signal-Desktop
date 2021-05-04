@@ -49,17 +49,11 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
 
     if (from.isMe && to.isMe) {
       return (
-        <span className="module-message-search-result__header__name">
-          {i18n('noteToSelf')}
-        </span>
+        <span className="module-message-search-result__header__name">{i18n('noteToSelf')}</span>
       );
     }
     if (from.isMe) {
-      return (
-        <span className="module-message-search-result__header__name">
-          {i18n('you')}
-        </span>
-      );
+      return <span className="module-message-search-result__header__name">{i18n('you')}</span>;
     }
 
     return (
@@ -95,11 +89,7 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
       );
     }
 
-    return (
-      <div className="module-message-search-result__header__from">
-        {fromName}
-      </div>
-    );
+    return <div className="module-message-search-result__header__from">{fromName}</div>;
   }
 
   public renderAvatar() {

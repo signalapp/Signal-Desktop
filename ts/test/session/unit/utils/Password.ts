@@ -50,10 +50,7 @@ describe('Password Util', () => {
     it('should return an error if password is not a string', () => {
       const invalid = [0, 123456, [], {}, null, undefined] as any;
       invalid.forEach((pass: any) => {
-        assert.strictEqual(
-          PasswordUtil.validatePassword(pass),
-          'Password must be a string'
-        );
+        assert.strictEqual(PasswordUtil.validatePassword(pass), 'Password must be a string');
       });
     });
 

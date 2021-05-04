@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionIdEditable } from '../SessionIdEditable';
 import { signUp, validatePassword } from './RegistrationTabs';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
@@ -21,11 +17,7 @@ export interface Props {
   hexGeneratedPubKey: string;
 }
 
-const CreateSessionIdButton = ({
-  createSessionID,
-}: {
-  createSessionID: any;
-}) => {
+const CreateSessionIdButton = ({ createSessionID }: { createSessionID: any }) => {
   return (
     <SessionButton
       onClick={createSessionID}
@@ -112,8 +104,7 @@ export const SignUpTab = (props: Props) => {
   // Display name is required
   const displayNameOK = !displayNameError && !!displayName;
   // Password is valid if empty, or if no error and fields are matching
-  const passwordsOK =
-    !password || (!passwordErrorString && passwordFieldsMatch);
+  const passwordsOK = !password || (!passwordErrorString && passwordFieldsMatch);
 
   const enableCompleteSignUp = displayNameOK && passwordsOK;
   const signUpWithDetails = async () => {
@@ -140,9 +131,7 @@ export const SignUpTab = (props: Props) => {
           const sanitizedName = name.replace(window.displayNameRegex, '');
           const trimName = sanitizedName.trim();
           setDisplayName(sanitizedName);
-          setDisplayNameError(
-            !trimName ? window.i18n('displayNameEmpty') : undefined
-          );
+          setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
         }}
         onPasswordChanged={(val: string) => {
           setPassword(val);

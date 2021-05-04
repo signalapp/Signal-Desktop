@@ -38,8 +38,7 @@ export class BlockedNumberController {
   public static isBlocked(device: string | PubKey): boolean {
     // This function is not `async` because the old `isBlocked` function in js was also not async.
     // To convert it means we'll have to re-wire all our UI components to work with async.
-    const stringValue =
-      device instanceof PubKey ? device.key : device.toLowerCase();
+    const stringValue = device instanceof PubKey ? device.key : device.toLowerCase();
     return this.blockedNumbers.has(stringValue);
   }
 
@@ -50,8 +49,7 @@ export class BlockedNumberController {
    * @param groupId The group id.
    */
   public static isGroupBlocked(groupId: string | PubKey): boolean {
-    const stringValue =
-      groupId instanceof PubKey ? groupId.key : groupId.toLowerCase();
+    const stringValue = groupId instanceof PubKey ? groupId.key : groupId.toLowerCase();
     return this.blockedGroups.has(stringValue);
   }
 
@@ -89,20 +87,14 @@ export class BlockedNumberController {
     }
   }
 
-  public static async setBlocked(
-    user: string | PubKey,
-    blocked: boolean
-  ): Promise<void> {
+  public static async setBlocked(user: string | PubKey, blocked: boolean): Promise<void> {
     if (blocked) {
       return BlockedNumberController.block(user);
     }
     return BlockedNumberController.unblock(user);
   }
 
-  public static async setGroupBlocked(
-    groupId: string | PubKey,
-    blocked: boolean
-  ): Promise<void> {
+  public static async setGroupBlocked(groupId: string | PubKey, blocked: boolean): Promise<void> {
     if (blocked) {
       return BlockedNumberController.blockGroup(groupId);
     }
@@ -156,10 +148,7 @@ export class BlockedNumberController {
     return new Set(data.value);
   }
 
-  private static async saveToDB(
-    id: string,
-    numbers: Set<string>
-  ): Promise<void> {
+  private static async saveToDB(id: string, numbers: Set<string>): Promise<void> {
     await createOrUpdateItem({
       id,
       value: [...numbers],

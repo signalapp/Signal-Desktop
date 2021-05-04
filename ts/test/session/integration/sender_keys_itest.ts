@@ -12,9 +12,7 @@ import ConversationPage from './page-objects/conversation.page';
 async function generateAndSendMessage(app: Application) {
   // send a message from app and validate it is received on app2
   const textMessage = Common.generateSendMessageText();
-  await app.client
-    .element(ConversationPage.sendMessageTextarea)
-    .setValue(textMessage);
+  await app.client.element(ConversationPage.sendMessageTextarea).setValue(textMessage);
 
   await app.client
     .element(ConversationPage.sendMessageTextarea)
@@ -24,18 +22,12 @@ async function generateAndSendMessage(app: Application) {
   await app.client.keys('Enter');
 
   // validate that the message has been added to the message list view
-  await app.client.waitForExist(
-    ConversationPage.existingSendMessageText(textMessage),
-    2000
-  );
+  await app.client.waitForExist(ConversationPage.existingSendMessageText(textMessage), 2000);
 
   return textMessage;
 }
 
-async function makeFriendsPlusMessage(
-  app: Application,
-  [app2, pubkey]: [Application, string]
-) {
+async function makeFriendsPlusMessage(app: Application, [app2, pubkey]: [Application, string]) {
   await Common.makeFriends(app, [app2, pubkey]);
 
   // Send something back so that `app` can see our name
@@ -43,10 +35,7 @@ async function makeFriendsPlusMessage(
   await app2.client.element(ConversationPage.conversationItem).click();
   const text = await generateAndSendMessage(app2);
 
-  await app.client.waitForExist(
-    ConversationPage.existingReceivedMessageText(text),
-    8000
-  );
+  await app.client.waitForExist(ConversationPage.existingReceivedMessageText(text), 8000);
 
   // Click away so we can call this function again
   await app.client.element(ConversationPage.conversationButtonSection).click();
@@ -61,20 +50,14 @@ async function testTwoMembers() {
   const text1 = await generateAndSendMessage(app);
 
   // validate that the message has been added to the message list view
-  await app2.client.waitForExist(
-    ConversationPage.existingReceivedMessageText(text1),
-    5000
-  );
+  await app2.client.waitForExist(ConversationPage.existingReceivedMessageText(text1), 5000);
 
   // Send a message back:
   const text2 = await generateAndSendMessage(app2);
 
   // TODO: fix this. We can send messages back manually, not sure
   // why this test fails
-  await app.client.waitForExist(
-    ConversationPage.existingReceivedMessageText(text2),
-    10000
-  );
+  await app.client.waitForExist(ConversationPage.existingReceivedMessageText(text2), 10000);
 }
 
 async function testThreeMembers() {
@@ -115,14 +98,8 @@ async function testThreeMembers() {
 
   // 4. Test that all members can see the message from app1
   const text1 = await generateAndSendMessage(app1);
-  await app2.client.waitForExist(
-    ConversationPage.existingReceivedMessageText(text1),
-    5000
-  );
-  await app3.client.waitForExist(
-    ConversationPage.existingReceivedMessageText(text1),
-    5000
-  );
+  await app2.client.waitForExist(ConversationPage.existingReceivedMessageText(text1), 5000);
+  await app3.client.waitForExist(ConversationPage.existingReceivedMessageText(text1), 5000);
   // TODO: test that B and C can send messages to the group
 
   // const text2 = await generateAndSendMessage(app3);

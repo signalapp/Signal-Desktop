@@ -151,9 +151,6 @@ function isLinkSneaky(href) {
   // We can't use `url.pathname` (and so on) because it automatically encodes strings.
   //   For example, it turns `/aquí` into `/aqu%C3%AD`.
   const startOfPathAndHash = href.indexOf('/', url.protocol.length + 4);
-  const pathAndHash =
-    startOfPathAndHash === -1 ? '' : href.substr(startOfPathAndHash);
-  return [...pathAndHash].some(
-    character => !VALID_URI_CHARACTERS.has(character)
-  );
+  const pathAndHash = startOfPathAndHash === -1 ? '' : href.substr(startOfPathAndHash);
+  return [...pathAndHash].some(character => !VALID_URI_CHARACTERS.has(character));
 }

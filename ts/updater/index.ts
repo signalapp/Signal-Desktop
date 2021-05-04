@@ -34,9 +34,7 @@ export async function start(
       After that you can change `updatesEnabled` to `true` in the default config.
     */
 
-    logger.info(
-      'updater/start: Updates disabled - not starting new version checks'
-    );
+    logger.info('updater/start: Updates disabled - not starting new version checks');
 
     return;
   }

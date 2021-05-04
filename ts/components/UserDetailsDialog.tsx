@@ -2,11 +2,7 @@ import React from 'react';
 import { Avatar, AvatarSize } from './Avatar';
 
 import { SessionModal } from './session/SessionModal';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './session/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import { SessionIdEditable } from './session/SessionIdEditable';
 import { DefaultTheme } from 'styled-components';
 
@@ -63,9 +59,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
 
   private renderAvatar() {
     const { avatarPath, pubkey, profileName } = this.props;
-    const size = this.state.isEnlargedImageShown
-      ? AvatarSize.HUGE
-      : AvatarSize.XL;
+    const size = this.state.isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
     const userName = profileName || pubkey;
 
     return (

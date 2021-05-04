@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import { ConversationTypeEnum } from '../../../models/conversation';
 
 import { ConversationLookupType } from '../../../state/ducks/conversations';
 import {
@@ -17,7 +18,7 @@ describe('state/selectors/conversations', () => {
           name: 'No timestamp',
           phoneNumber: 'notused',
 
-          type: 'direct',
+          type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
           mentionedUs: false,
@@ -33,7 +34,7 @@ describe('state/selectors/conversations', () => {
           name: 'B',
           phoneNumber: 'notused',
 
-          type: 'direct',
+          type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
           mentionedUs: false,
@@ -49,7 +50,7 @@ describe('state/selectors/conversations', () => {
           name: 'C',
           phoneNumber: 'notused',
 
-          type: 'direct',
+          type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
           mentionedUs: false,
@@ -64,7 +65,7 @@ describe('state/selectors/conversations', () => {
           activeAt: 20,
           name: 'Á',
           phoneNumber: 'notused',
-          type: 'direct',
+          type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
           mentionedUs: false,
@@ -79,7 +80,7 @@ describe('state/selectors/conversations', () => {
           activeAt: 30,
           name: 'First!',
           phoneNumber: 'notused',
-          type: 'direct',
+          type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
           mentionedUs: false,

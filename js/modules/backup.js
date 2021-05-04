@@ -174,8 +174,7 @@ async function importConversationsFromJSON(conversations, options) {
 
   for (let i = 0, max = conversations.length; i < max; i += 1) {
     const toAdd = unstringify(conversations[i]);
-    const haveConversationAlready =
-      conversationLookup[getConversationKey(toAdd)];
+    const haveConversationAlready = conversationLookup[getConversationKey(toAdd)];
 
     if (haveConversationAlready) {
       skipCount += 1;
@@ -186,23 +185,14 @@ async function importConversationsFromJSON(conversations, options) {
 
     count += 1;
     // eslint-disable-next-line no-await-in-loop
-    const migrated = await window.Signal.Types.Conversation.migrateConversation(
-      toAdd,
-      {
-        writeNewAttachmentData,
-      }
-    );
+    const migrated = await window.Signal.Types.Conversation.migrateConversation(toAdd, {
+      writeNewAttachmentData,
+    });
     // eslint-disable-next-line no-await-in-loop
     await window.Signal.Data.saveConversation(migrated);
   }
 
-  window.log.info(
-    'Done importing conversations:',
-    'Total count:',
-    count,
-    'Skipped:',
-    skipCount
-  );
+  window.log.info('Done importing conversations:', 'Total count:', count, 'Skipped:', skipCount);
 }
 
 async function importFromJsonString(jsonString, targetPath, options) {
@@ -229,9 +219,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
     delete importObject.sessions;
     delete importObject.unprocessed;
 
-    window.log.info(
-      'This is a light import; contacts, groups and messages only'
-    );
+    window.log.info('This is a light import; contacts, groups and messages only');
   }
 
   // We mutate the on-disk backup to prevent the user from importing client
@@ -260,9 +248,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
     _.map(remainingStoreNames, async storeName => {
       const save = SAVE_FUNCTIONS[storeName];
       if (!_.isFunction(save)) {
-        throw new Error(
-          `importFromJsonString: Didn't have save function for store ${storeName}`
-        );
+        throw new Error(`importFromJsonString: Didn't have save function for store ${storeName}`);
       }
 
       window.log.info(`Importing items for store ${storeName}`);
@@ -279,12 +265,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
         await save(toAdd);
       }
 
-      window.log.info(
-        'Done importing to store',
-        storeName,
-        'Total count:',
-        toImport.length
-      );
+      window.log.info('Done importing to store', storeName, 'Total count:', toImport.length);
     })
   );
 
@@ -339,10 +320,7 @@ function readFileAsText(parent, name) {
 // Buffer instances are also Uint8Array instances, but they might be a view
 //   https://nodejs.org/docs/latest/api/buffer.html#buffer_buffers_and_typedarray
 const toArrayBuffer = nodeBuffer =>
-  nodeBuffer.buffer.slice(
-    nodeBuffer.byteOffset,
-    nodeBuffer.byteOffset + nodeBuffer.byteLength
-  );
+  nodeBuffer.buffer.slice(nodeBuffer.byteOffset, nodeBuffer.byteOffset + nodeBuffer.byteLength);
 
 function readFileAsArrayBuffer(targetPath) {
   return new Promise((resolve, reject) => {
@@ -381,9 +359,7 @@ function _getExportAttachmentFileName(message, index, attachment) {
 
   if (attachment.contentType) {
     const components = attachment.contentType.split('/');
-    name += `.${
-      components.length > 1 ? components[1] : attachment.contentType
-    }`;
+    name += `.${components.length > 1 ? components[1] : attachment.contentType}`;
   }
 
   return name;
@@ -413,11 +389,7 @@ async function readEncryptedAttachment(dir, attachment, name, options) {
   const isEncrypted = !_.isUndefined(key);
 
   if (isEncrypted) {
-    attachment.data = await crypto.decryptAttachment(
-      key,
-      attachment.path,
-      data
-    );
+    attachment.data = await crypto.decryptAttachment(key, attachment.path, data);
   } else {
     attachment.data = data;
   }
@@ -429,10 +401,7 @@ async function writeQuoteThumbnail(attachment, options) {
   }
 
   const { dir, message, index, key, newKey } = options;
-  const filename = `${_getAnonymousAttachmentFileName(
-    message,
-    index
-  )}-quote-thumbnail`;
+  const filename = `${_getAnonymousAttachmentFileName(message, index)}-quote-thumbnail`;
   const target = path.join(dir, filename);
 
   await writeEncryptedAttachment(target, attachment.thumbnail.path, {
@@ -485,10 +454,7 @@ async function writeAttachment(attachment, options) {
   });
 
   if (attachment.thumbnail && _.isString(attachment.thumbnail.path)) {
-    const thumbnailName = `${_getAnonymousAttachmentFileName(
-      message,
-      index
-    )}-thumbnail`;
+    const thumbnailName = `${_getAnonymousAttachmentFileName(message, index)}-thumbnail`;
     const thumbnailTarget = path.join(dir, thumbnailName);
     await writeEncryptedAttachment(thumbnailTarget, attachment.thumbnail.path, {
       key,
@@ -499,21 +465,14 @@ async function writeAttachment(attachment, options) {
   }
 
   if (attachment.screenshot && _.isString(attachment.screenshot.path)) {
-    const screenshotName = `${_getAnonymousAttachmentFileName(
-      message,
-      index
-    )}-screenshot`;
+    const screenshotName = `${_getAnonymousAttachmentFileName(message, index)}-screenshot`;
     const screenshotTarget = path.join(dir, screenshotName);
-    await writeEncryptedAttachment(
-      screenshotTarget,
-      attachment.screenshot.path,
-      {
-        key,
-        newKey,
-        filename: screenshotName,
-        dir,
-      }
-    );
+    await writeEncryptedAttachment(screenshotTarget, attachment.screenshot.path, {
+      key,
+      newKey,
+      filename: screenshotName,
+      dir,
+    });
   }
 }
 
@@ -686,13 +645,10 @@ async function exportConversation(conversation, options = {}) {
 
   while (!complete) {
     // eslint-disable-next-line no-await-in-loop
-    const collection = await window.Signal.Data.getMessagesByConversation(
-      conversation.id,
-      {
-        limit: CHUNK_SIZE,
-        receivedAt: lastReceivedAt,
-      }
-    );
+    const collection = await window.Signal.Data.getMessagesByConversation(conversation.id, {
+      limit: CHUNK_SIZE,
+      receivedAt: lastReceivedAt,
+    });
     const messages = getPlainJS(collection);
 
     for (let i = 0, max = messages.length; i < max; i += 1) {
@@ -712,9 +668,7 @@ async function exportConversation(conversation, options = {}) {
       const { attachments } = message;
       // eliminate attachment data from the JSON, since it will go to disk
       // Note: this is for legacy messages only, which stored attachment data in the db
-      message.attachments = _.map(attachments, attachment =>
-        _.omit(attachment, ['data'])
-      );
+      message.attachments = _.map(attachments, attachment => _.omit(attachment, ['data']));
       // completely drop any attachments in messages cached in error objects
       // TODO: move to lodash. Sadly, a number of the method signatures have changed!
       message.errors = _.map(message.errors, error => {
@@ -901,22 +855,12 @@ async function loadAttachments(dir, getName, options) {
 
       if (attachment.thumbnail && _.isString(attachment.thumbnail.path)) {
         const thumbnailName = `${name}-thumbnail`;
-        await readEncryptedAttachment(
-          dir,
-          attachment.thumbnail,
-          thumbnailName,
-          options
-        );
+        await readEncryptedAttachment(dir, attachment.thumbnail, thumbnailName, options);
       }
 
       if (attachment.screenshot && _.isString(attachment.screenshot.path)) {
         const screenshotName = `${name}-screenshot`;
-        await readEncryptedAttachment(
-          dir,
-          attachment.screenshot,
-          screenshotName,
-          options
-        );
+        await readEncryptedAttachment(dir, attachment.screenshot, screenshotName, options);
       }
     })
   );
@@ -989,10 +933,7 @@ async function saveAllMessages(rawMessages) {
       `[REDACTED]${conversationId.slice(-3)}`
     );
   } catch (error) {
-    window.log.error(
-      'saveAllMessages error',
-      error && error.message ? error.message : error
-    );
+    window.log.error('saveAllMessages error', error && error.message ? error.message : error);
   }
 }
 
@@ -1015,18 +956,14 @@ async function importConversation(dir, options) {
   try {
     contents = await readFileAsText(dir, 'messages.json');
   } catch (error) {
-    window.log.error(
-      `Warning: could not access messages.json in directory: ${dir}`
-    );
+    window.log.error(`Warning: could not access messages.json in directory: ${dir}`);
   }
 
   let promiseChain = Promise.resolve();
 
   const json = JSON.parse(contents);
   if (json.messages && json.messages.length) {
-    conversationId = `[REDACTED]${(json.messages[0].conversationId || '').slice(
-      -3
-    )}`;
+    conversationId = `[REDACTED]${(json.messages[0].conversationId || '').slice(-3)}`;
   }
   total = json.messages.length;
 
@@ -1040,9 +977,7 @@ async function importConversation(dir, options) {
 
     const hasAttachments = message.attachments && message.attachments.length;
     const hasQuotedAttachments =
-      message.quote &&
-      message.quote.attachments &&
-      message.quote.attachments.length > 0;
+      message.quote && message.quote.attachments && message.quote.attachments.length > 0;
     const hasContacts = message.contact && message.contact.length;
     const hasPreviews = message.preview && message.preview.length;
 
@@ -1051,8 +986,7 @@ async function importConversation(dir, options) {
         const getName = attachmentsDir
           ? _getAnonymousAttachmentFileName
           : _getExportAttachmentFileName;
-        const parentDir =
-          attachmentsDir || path.join(dir, message.received_at.toString());
+        const parentDir = attachmentsDir || path.join(dir, message.received_at.toString());
 
         await loadAttachments(parentDir, getName, {
           message,
@@ -1229,10 +1163,7 @@ async function exportToDirectory(directory, options) {
     window.log.info('done backing up!');
     return directory;
   } catch (error) {
-    window.log.error(
-      'The backup went wrong!',
-      error && error.stack ? error.stack : error
-    );
+    window.log.error('The backup went wrong!', error && error.stack ? error.stack : error);
     throw error;
   } finally {
     if (stagingDir) {
@@ -1255,10 +1186,7 @@ async function importFromDirectory(directory, options) {
   options = options || {};
 
   try {
-    const lookups = await Promise.all([
-      loadMessagesLookup(),
-      loadConversationLookup(),
-    ]);
+    const lookups = await Promise.all([loadMessagesLookup(), loadConversationLookup()]);
     const [messageLookup, conversationLookup] = lookups;
     options = Object.assign({}, options, {
       messageLookup,
@@ -1274,9 +1202,7 @@ async function importFromDirectory(directory, options) {
 
       // we're in the world of an encrypted, zipped backup
       if (!options.key) {
-        throw new Error(
-          'Importing an encrypted backup; decryption key is required!'
-        );
+        throw new Error('Importing an encrypted backup; decryption key is required!');
       }
 
       let stagingDir;
@@ -1315,10 +1241,7 @@ async function importFromDirectory(directory, options) {
     window.log.info('Done importing!');
     return result;
   } catch (error) {
-    window.log.error(
-      'The import went wrong!',
-      error && error.stack ? error.stack : error
-    );
+    window.log.error('The import went wrong!', error && error.stack ? error.stack : error);
     throw error;
   }
 }

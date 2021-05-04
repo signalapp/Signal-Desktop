@@ -1,13 +1,9 @@
 import { Constants } from '../../../..';
 import { SignalService } from '../../../../../protobuf';
 import { fromHexToArray } from '../../../../utils/String';
-import {
-  ClosedGroupMessage,
-  ClosedGroupMessageParams,
-} from './ClosedGroupMessage';
+import { ClosedGroupMessage, ClosedGroupMessageParams } from './ClosedGroupMessage';
 
-interface ClosedGroupRemovedMembersMessageParams
-  extends ClosedGroupMessageParams {
+interface ClosedGroupRemovedMembersMessageParams extends ClosedGroupMessageParams {
   removedMembers: Array<string>;
 }
 
@@ -33,14 +29,8 @@ export class ClosedGroupRemovedMembersMessage extends ClosedGroupMessage {
     // tslint:disable: no-non-null-assertion
     dataMessage.closedGroupControlMessage!.type =
       SignalService.DataMessage.ClosedGroupControlMessage.Type.MEMBERS_REMOVED;
-    dataMessage.closedGroupControlMessage!.members = this.removedMembers.map(
-      fromHexToArray
-    );
+    dataMessage.closedGroupControlMessage!.members = this.removedMembers.map(fromHexToArray);
 
     return dataMessage;
-  }
-
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 }

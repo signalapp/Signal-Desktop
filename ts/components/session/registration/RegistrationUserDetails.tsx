@@ -56,9 +56,7 @@ const PasswordAndVerifyPasswordFields = (props: {
 }) => {
   const { password, passwordFieldsMatch, passwordErrorString } = props;
   const passwordsDoNotMatch =
-    !passwordFieldsMatch && password
-      ? window.i18n('passwordsDoNotMatch')
-      : undefined;
+    !passwordFieldsMatch && password ? window.i18n('passwordsDoNotMatch') : undefined;
 
   return (
     <>
@@ -105,10 +103,7 @@ export interface Props {
 }
 
 export const RegistrationUserDetails = (props: Props) => {
-  if (
-    props.showSeedField &&
-    (props.recoveryPhrase === undefined || !props.onSeedChanged)
-  ) {
+  if (props.showSeedField && (props.recoveryPhrase === undefined || !props.onSeedChanged)) {
     throw new Error('if show seed is true, we need callback + value');
   }
   return (

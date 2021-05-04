@@ -140,10 +140,7 @@
           Whisper.Import.reset()
         )
         .then(() =>
-          Promise.all([
-            Whisper.Import.start(),
-            window.Signal.Backup.importFromDirectory(directory),
-          ])
+          Promise.all([Whisper.Import.start(), window.Signal.Backup.importFromDirectory(directory)])
         )
         .then(results => {
           const importResult = results[1];
@@ -158,10 +155,7 @@
           return this.finishLightImport(directory);
         })
         .catch(error => {
-          window.log.error(
-            'Error importing:',
-            error && error.stack ? error.stack : error
-          );
+          window.log.error('Error importing:', error && error.stack ? error.stack : error);
 
           this.error = error || new Error('Something went wrong!');
           this.state = null;
@@ -177,10 +171,7 @@
         .getConversationController()
         .load()
         .then(() =>
-          Promise.all([
-            Whisper.Import.saveLocation(directory),
-            Whisper.Import.complete(),
-          ])
+          Promise.all([Whisper.Import.saveLocation(directory), Whisper.Import.complete()])
         )
         .then(() => {
           this.state = State.LIGHT_COMPLETE;

@@ -13,10 +13,7 @@ export class SwarmPollingStub extends SwarmPolling {
     };
 
     // insecureNodeFetch but this is a stub
-    const res = await insecureNodeFetch(
-      `${this.baseUrl}/messages?pubkey=${pubkeyStr}`,
-      get
-    );
+    const res = await insecureNodeFetch(`${this.baseUrl}/messages?pubkey=${pubkeyStr}`, get);
 
     try {
       const json = await res.json();

@@ -18,11 +18,7 @@ const SessionIDResetDialogInner = (props: Props) => {
     Your existing contacts and conversations will be lost, but you’ll be able to use Session knowing you have the best privacy and security possible.';
 
   return (
-    <SessionModal
-      title="Mandatory Upgrade Session ID"
-      onClose={() => null}
-      theme={props.theme}
-    >
+    <SessionModal title="Mandatory Upgrade Session ID" onClose={() => null} theme={props.theme}>
       <div className="spacer-sm" />
       <div className="session-modal__centered text-center">
         <SessionIcon

@@ -21,18 +21,11 @@ interface CurveType {
     privKey: BinaryType;
   };
   sign: (privateKey: BinaryType, message: BinaryType) => BinaryType;
-  verify: (
-    publicKey: BinaryType,
-    message: BinaryType,
-    signature: BinaryType
-  ) => boolean;
+  verify: (publicKey: BinaryType, message: BinaryType, signature: BinaryType) => boolean;
 }
 
-const {
-  keyPair: internalKeyPair,
-  sign: internalSign,
-  verify: internalVerify,
-} = g.Internal.curve25519 as CurveType;
+const { keyPair: internalKeyPair, sign: internalSign, verify: internalVerify } = g.Internal
+  .curve25519 as CurveType;
 
 export function keyPair() {
   const privateKey = randomBytes(32);
@@ -48,11 +41,7 @@ export function sign(privateKey: BinaryType, message: BinaryType) {
   return internalSign(privateKey, message);
 }
 
-export function verify(
-  publicKey: BinaryType,
-  message: BinaryType,
-  signature: BinaryType
-) {
+export function verify(publicKey: BinaryType, message: BinaryType, signature: BinaryType) {
   const failed = internalVerify(publicKey, message, signature);
 
   return !failed;

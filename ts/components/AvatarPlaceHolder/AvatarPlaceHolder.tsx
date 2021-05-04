@@ -11,10 +11,7 @@ type Props = {
 
 const sha512FromPubkey = async (pubkey: string): Promise<string> => {
   // tslint:disable-next-line: await-promise
-  const buf = await crypto.subtle.digest(
-    'SHA-512',
-    new TextEncoder().encode(pubkey)
-  );
+  const buf = await crypto.subtle.digest('SHA-512', new TextEncoder().encode(pubkey));
 
   // tslint:disable: prefer-template restrict-plus-operands
   return Array.prototype.map

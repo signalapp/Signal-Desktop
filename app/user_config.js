@@ -27,10 +27,7 @@ if (config.has(storageProfile)) {
 }
 
 if (storageProfile) {
-  const userData = path.join(
-    app.getPath('appData'),
-    `Session-${storageProfile}`
-  );
+  const userData = path.join(app.getPath('appData'), `Session-${storageProfile}`);
 
   app.setPath('userData', userData);
 }

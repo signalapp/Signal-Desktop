@@ -24,9 +24,7 @@ describe('ReceiptMessage', () => {
     const decoded = SignalService.Content.decode(plainText);
 
     expect(decoded.receiptMessage).to.have.property('type', 1);
-    const decodedTimestamps = (decoded.receiptMessage?.timestamp ?? []).map(
-      toNumber
-    );
+    const decodedTimestamps = (decoded.receiptMessage?.timestamp ?? []).map(toNumber);
     expect(decodedTimestamps).to.deep.equal(timestamps);
   });
 
@@ -35,27 +33,17 @@ describe('ReceiptMessage', () => {
     const decoded = SignalService.Content.decode(plainText);
 
     expect(decoded.receiptMessage).to.have.property('type', 0);
-    const decodedTimestamps = (decoded.receiptMessage?.timestamp ?? []).map(
-      toNumber
-    );
+    const decodedTimestamps = (decoded.receiptMessage?.timestamp ?? []).map(toNumber);
     expect(decodedTimestamps).to.deep.equal(timestamps);
   });
 
   it('correct ttl', () => {
-    expect(readMessage.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
-    expect(deliveryMessage.ttl()).to.equal(
-      Constants.TTL_DEFAULT.REGULAR_MESSAGE
-    );
+    expect(readMessage.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
+    expect(deliveryMessage.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
   });
 
   it('has an identifier', () => {
-    expect(readMessage.identifier).to.not.equal(
-      null,
-      'identifier cannot be null'
-    );
-    expect(readMessage.identifier).to.not.equal(
-      undefined,
-      'identifier cannot be undefined'
-    );
+    expect(readMessage.identifier).to.not.equal(null, 'identifier cannot be null');
+    expect(readMessage.identifier).to.not.equal(undefined, 'identifier cannot be undefined');
   });
 });

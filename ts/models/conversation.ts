@@ -1,11 +1,10 @@
 import Backbone from 'backbone';
 import _ from 'lodash';
-import { ConversationType } from '../receiver/common';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
-import { OpenGroup, PubKey } from '../session/types';
-import { ToastUtils, UserUtils } from '../session/utils';
+import { PubKey } from '../session/types';
+import { UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { MessageController } from '../session/messages';
 import { leaveClosedGroup } from '../session/group';
@@ -22,10 +21,7 @@ import {
   saveMessages,
   updateConversation,
 } from '../../ts/data/data';
-import {
-  fromArrayBufferToBase64,
-  fromBase64ToArrayBuffer,
-} from '../session/utils/String';
+import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import {
   actions as conversationActions,
   ConversationType as ReduxConversationType,
@@ -40,6 +36,17 @@ import {
 } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
+import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
+import { OpenGroupUtils } from '../opengroup/utils';
+import { ConversationInteraction } from '../interactions';
+import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
+import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
+
+export enum ConversationTypeEnum {
+  GROUP = 'group',
+  PRIVATE = 'private',
+}
 
 export interface ConversationAttributes {
   profileName?: string;
@@ -66,6 +73,8 @@ export interface ConversationAttributes {
   type: string;
   avatarPointer?: any;
   avatar?: any;
+  /* Avatar hash is currently used for opengroupv2. it's sha256 hash of the base64 avatar data. */
+  avatarHash?: string;
   server?: any;
   channelId?: any;
   nickname?: string;
@@ -101,6 +110,7 @@ export interface ConversationAttributesOptionals {
   type: string;
   avatarPointer?: any;
   avatar?: any;
+  avatarHash?: string;
   server?: any;
   channelId?: any;
   nickname?: string;
@@ -160,24 +170,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     autoBind(this);
 
     this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
-    this.updateLastMessage = _.throttle(
-      this.bouncyUpdateLastMessage.bind(this),
-      1000
-    );
+    this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000);
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
     //start right away the function is called, and wait 1sec before calling it again
     this.markRead = _.debounce(this.markReadBouncy, 1000, { leading: true });
     // Listening for out-of-band data updates
-    this.on('ourAvatarChanged', avatar =>
-      this.updateAvatarOnPublicChat(avatar)
-    );
+    this.on('ourAvatarChanged', avatar => this.updateAvatarOnPublicChat(avatar));
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
-    window.inboxStore?.dispatch(
-      conversationActions.conversationChanged(this.id, this.getProps())
-    );
+    window.inboxStore?.dispatch(conversationActions.conversationChanged(this.id, this.getProps()));
   }
 
   public idForLogging() {
@@ -191,11 +194,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isMe() {
     return UserUtils.isUsFromCache(this.id);
   }
-  public isPublic() {
-    return !!(this.id && this.id.match(/^publicChat:/));
+  public isPublic(): boolean {
+    return Boolean(this.id && this.id.match(OpenGroupUtils.openGroupPrefixRegex));
+  }
+  public isOpenGroupV2(): boolean {
+    return OpenGroupUtils.isOpenGroupV2(this.id);
+  }
+  public isOpenGroupV1(): boolean {
+    return OpenGroupUtils.isOpenGroupV1(this.id);
   }
   public isClosedGroup() {
-    return this.get('type') === ConversationType.GROUP && !this.isPublic();
+    return this.get('type') === ConversationTypeEnum.GROUP && !this.isPublic();
   }
 
   public isBlocked() {
@@ -274,10 +283,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.typingRefreshTimer) {
       clearTimeout(this.typingRefreshTimer);
     }
-    this.typingRefreshTimer = global.setTimeout(
-      this.onTypingRefreshTimeout.bind(this),
-      10 * 1000
-    );
+    this.typingRefreshTimer = global.setTimeout(this.onTypingRefreshTimeout.bind(this), 10 * 1000);
   }
 
   public onTypingRefreshTimeout() {
@@ -292,10 +298,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.typingPauseTimer) {
       clearTimeout(this.typingPauseTimer);
     }
-    this.typingPauseTimer = global.setTimeout(
-      this.onTypingPauseTimeout.bind(this),
-      10 * 1000
-    );
+    this.typingPauseTimer = global.setTimeout(this.onTypingPauseTimeout.bind(this), 10 * 1000);
   }
 
   public onTypingPauseTimeout() {
@@ -349,12 +352,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async cleanup() {
     const { deleteAttachmentData } = window.Signal.Migrations;
-    await window.Signal.Types.Conversation.deleteExternalFiles(
-      this.attributes,
-      {
-        deleteAttachmentData,
-      }
-    );
+    await window.Signal.Types.Conversation.deleteExternalFiles(this.attributes, {
+      deleteAttachmentData,
+    });
     window.profileImages.removeImage(this.id);
   }
 
@@ -377,21 +377,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public getGroupAdmins() {
-    return this.get('groupAdmins') || this.get('moderators');
+    const groupAdmins = this.get('groupAdmins');
+    if (groupAdmins?.length) {
+      return groupAdmins;
+    }
+    return this.get('moderators');
   }
   public getProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
 
-    const members =
-      this.isGroup() && !this.isPublic() ? this.get('members') : undefined;
-
+    const members = this.isGroup() && !this.isPublic() ? this.get('members') : undefined;
     // isSelected is overriden by redux
     return {
       isSelected: false,
       id: this.id as string,
       activeAt: this.get('active_at'),
       avatarPath: this.getAvatarPath() || undefined,
-      type: this.isPrivate() ? 'direct' : 'group',
+      type: this.isPrivate() ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
       isMe: this.isMe(),
       isPublic: this.isPublic(),
       isTyping: !!this.typingTimer,
@@ -417,7 +419,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       onCopyPublicKey: this.copyPublicKey,
       onDeleteContact: this.deleteContact,
       onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveGroup', this);
+        window.Whisper.events.trigger('leaveClosedGroup', this);
       },
       onDeleteMessages: this.deleteMessages,
       onInviteContacts: () => {
@@ -505,20 +507,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async getQuoteAttachment(attachments: any, preview: any) {
-    const {
-      loadAttachmentData,
-      getAbsoluteAttachmentPath,
-    } = window.Signal.Migrations;
+    const { loadAttachmentData, getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
     if (attachments && attachments.length) {
       return Promise.all(
         attachments
           .filter(
             (attachment: any) =>
-              attachment &&
-              attachment.contentType &&
-              !attachment.pending &&
-              !attachment.error
+              attachment && attachment.contentType && !attachment.pending && !attachment.error
           )
           .slice(0, 1)
           .map(async (attachment: any) => {
@@ -568,33 +564,30 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return [];
   }
 
-  public async makeQuote(quotedMessage: any) {
-    const { getName } = window.Signal.Types.Contact;
-    const contact = quotedMessage.getContact();
+  public async makeQuote(quotedMessage: MessageModel) {
     const attachments = quotedMessage.get('attachments');
     const preview = quotedMessage.get('preview');
 
     const body = quotedMessage.get('body');
-    const embeddedContact = quotedMessage.get('contact');
-    const embeddedContactName =
-      embeddedContact && embeddedContact.length > 0
-        ? getName(embeddedContact[0])
-        : '';
-    const quotedAttachments = await this.getQuoteAttachment(
-      attachments,
-      preview
-    );
+    const quotedAttachments = await this.getQuoteAttachment(attachments, preview);
     return {
-      author: contact.id,
+      author: quotedMessage.getSource(),
       id: quotedMessage.get('sent_at'),
-      text: body || embeddedContactName,
+      text: body,
       attachments: quotedAttachments,
     };
   }
 
-  public toOpenGroup() {
-    if (!this.isPublic()) {
-      throw new Error('tried to run toOpenGroup for not public group');
+  public toOpenGroupV2(): OpenGroupRequestCommonType {
+    if (!this.isOpenGroupV2()) {
+      throw new Error('tried to run toOpenGroup for not public group v2');
+    }
+    return getOpenGroupV2FromConversationId(this.id);
+  }
+
+  public toOpenGroupV1(): OpenGroup {
+    if (!this.isOpenGroupV1()) {
+      throw new Error('tried to run toOpenGroup for not public group v1');
     }
 
     return new OpenGroup({
@@ -603,10 +596,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       conversationId: this.id,
     });
   }
-  public async sendMessageJob(
-    message: MessageModel,
-    expireTimer: number | undefined
-  ) {
+  public async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
     try {
       const uploads = await message.uploadData();
       const { id } = message;
@@ -618,8 +608,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         throw new Error('sendMessageJob() sent_at must be set.');
       }
 
-      if (this.isPublic()) {
-        const openGroup = this.toOpenGroup();
+      if (this.isPublic() && !this.isOpenGroupV2()) {
+        const openGroup = this.toOpenGroupV1();
 
         const openGroupParams = {
           body: uploads.body,
@@ -633,8 +623,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const openGroupMessage = new OpenGroupMessage(openGroupParams);
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToOpenGroup(openGroupMessage);
+
         return;
       }
+      // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
         body: uploads.body,
         identifier: id,
@@ -645,6 +637,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         quote: uploads.quote,
         lokiProfile: UserUtils.getOurProfile(),
       };
+
+      if (this.isOpenGroupV2()) {
+        const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
+        const roomInfos = this.toOpenGroupV2();
+        if (!roomInfos) {
+          throw new Error('Could not find this room in db');
+        }
+
+        // we need the return await so that errors are caught in the catch {}
+        await getMessageQueue().sendToOpenGroupV2(chatMessageOpenGroupV2, roomInfos);
+        return;
+      }
 
       const destinationPubkey = new PubKey(destination);
       if (this.isPrivate()) {
@@ -661,24 +665,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           const groupInvitMessage = new GroupInvitationMessage({
             identifier: id,
             timestamp: sentAt,
-            serverName: groupInvitation.name,
-            channelId: groupInvitation.channelId,
-            serverAddress: groupInvitation.address,
+            serverName: groupInvitation.serverName,
+            channelId: 1,
+            serverAddress: groupInvitation.serverAddress,
             expireTimer: this.get('expireTimer'),
           });
           // we need the return await so that errors are caught in the catch {}
-          await getMessageQueue().sendToPubKey(
-            destinationPubkey,
-            groupInvitMessage
-          );
+          await getMessageQueue().sendToPubKey(destinationPubkey, groupInvitMessage);
           return;
         }
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
 
-        await getMessageQueue().sendToPubKey(
-          destinationPubkey,
-          chatMessagePrivate
-        );
+        await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
         return;
       }
 
@@ -695,9 +693,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isClosedGroup()) {
-        throw new Error(
-          'Legacy group are not supported anymore. You need to recreate this group.'
-        );
+        throw new Error('Legacy group are not supported anymore. You need to recreate this group.');
       }
 
       throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
@@ -711,7 +707,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     attachments: any,
     quote: any,
     preview: any,
-    groupInvitation = null
+    groupInvitation: any = null
   ) {
     this.clearTypingTimers();
 
@@ -722,12 +718,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const now = Date.now();
 
-    window.log.info(
-      'Sending message to conversation',
-      this.idForLogging(),
-      'with timestamp',
-      now
-    );
+    window.log.info('Sending message to conversation', this.idForLogging(), 'with timestamp', now);
     // be sure an empty quote is marked as undefined rather than being empty
     // otherwise upgradeMessageSchema() will return an object with an empty array
     // and this.get('quote') will be true, even if there is no quote.
@@ -762,10 +753,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       serverTimestamp: this.isPublic() ? new Date().getTime() : undefined,
     };
 
-    const model = await this.addSingleMessage(attributes);
+    const messageModel = await this.addSingleMessage(attributes);
 
     this.set({
-      lastMessage: model.getNotificationText(),
+      lastMessage: messageModel.getNotificationText(),
       lastMessageStatus: 'sending',
       active_at: now,
     });
@@ -776,11 +767,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const error = new Error('Network is not available');
       error.name = 'SendMessageNetworkError';
       (error as any).number = this.id;
-      await model.saveErrors([error]);
+      await messageModel.saveErrors([error]);
       return null;
     }
     this.queueJob(async () => {
-      await this.sendMessageJob(model, expireTimer);
+      await this.sendMessageJob(messageModel, expireTimer);
     });
     return null;
   }
@@ -796,9 +787,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       // tslint:disable-next-line: no-parameter-reassignment
       profileKey = fromArrayBufferToBase64(profileKey);
     }
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-      this.get('server')
-    );
+    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(this.get('server'));
     if (!serverAPI) {
       return;
     }
@@ -820,16 +809,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const lastMessageStatusModel = lastMessageModel
       ? lastMessageModel.getMessagePropStatus()
       : null;
-    const lastMessageUpdate = window.Signal.Types.Conversation.createLastMessageUpdate(
-      {
-        currentTimestamp: this.get('active_at') || null,
-        lastMessage: lastMessageJSON,
-        lastMessageStatus: lastMessageStatusModel,
-        lastMessageNotificationText: lastMessageModel
-          ? lastMessageModel.getNotificationText()
-          : null,
-      }
-    );
+    const lastMessageUpdate = window.Signal.Types.Conversation.createLastMessageUpdate({
+      currentTimestamp: this.get('active_at') || null,
+      lastMessage: lastMessageJSON,
+      lastMessageStatus: lastMessageStatusModel,
+      lastMessageNotificationText: lastMessageModel ? lastMessageModel.getNotificationText() : null,
+    });
     // Because we're no longer using Backbone-integrated saves, we need to manually
     //   clear the changed fields here so our hasChanged() check below is useful.
     (this as any).changed = {};
@@ -855,10 +840,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (!expireTimer) {
       expireTimer = null;
     }
-    if (
-      this.get('expireTimer') === expireTimer ||
-      (!expireTimer && !this.get('expireTimer'))
-    ) {
+    if (this.get('expireTimer') === expireTimer || (!expireTimer && !this.get('expireTimer'))) {
       return null;
     }
 
@@ -918,30 +900,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (this.isMe()) {
-      const expirationTimerMessage = new ExpirationTimerUpdateMessage(
-        expireUpdate
-      );
+      const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       return message.sendSyncMessageOnly(expirationTimerMessage);
     }
 
     if (this.isPrivate()) {
-      const expirationTimerMessage = new ExpirationTimerUpdateMessage(
-        expireUpdate
-      );
+      const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);
     } else {
-      window.log.warn(
-        'TODO: Expiration update for closed groups are to be updated'
-      );
+      window.log.warn('TODO: Expiration update for closed groups are to be updated');
       const expireUpdateForGroup = {
         ...expireUpdate,
         groupId: this.get('id'),
       };
 
-      const expirationTimerMessage = new ExpirationTimerUpdateMessage(
-        expireUpdateForGroup
-      );
+      const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
 
       await getMessageQueue().sendToGroup(expirationTimerMessage);
     }
@@ -959,10 +933,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     );
   }
 
-  public async addSingleMessage(
-    messageAttributes: MessageAttributesOptionals,
-    setToExpire = true
-  ) {
+  public async addSingleMessage(messageAttributes: MessageAttributesOptionals, setToExpire = true) {
     const model = new MessageModel(messageAttributes);
 
     const messageId = await model.commit();
@@ -982,7 +953,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return model;
   }
 
-  public async leaveGroup() {
+  public async leaveClosedGroup() {
     if (this.isMediumGroup()) {
       await leaveClosedGroup(this.id);
     } else {
@@ -993,10 +964,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async markReadBouncy(
-    newestUnreadDate: number,
-    providedOptions: any = {}
-  ) {
+  public async markReadBouncy(newestUnreadDate: number, providedOptions: any = {}) {
     const options = providedOptions || {};
     _.defaults(options, { sendReadReceipts: true });
 
@@ -1033,9 +1001,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     for (const nowRead of oldUnreadNowRead) {
       nowRead.generateProps(false);
     }
-    window.inboxStore?.dispatch(
-      conversationActions.messagesChanged(oldUnreadNowRead)
-    );
+    window.inboxStore?.dispatch(conversationActions.messagesChanged(oldUnreadNowRead));
 
     // Some messages we're marking read are local notifications with no sender
     read = _.filter(read, m => Boolean(m.sender));
@@ -1052,9 +1018,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
 
-    allUnreadMessagesInConvo = allUnreadMessagesInConvo.filter((m: any) =>
-      Boolean(m.isIncoming())
-    );
+    allUnreadMessagesInConvo = allUnreadMessagesInConvo.filter((m: any) => Boolean(m.isIncoming()));
 
     this.set({ unreadCount: realUnreadCount });
 
@@ -1085,7 +1049,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     read = read.filter(item => !item.hasErrors);
 
     if (this.isPublic()) {
-      window.log.debug('public conversation... No need to send read receipt');
       return;
     }
     if (this.isPrivate() && read.length && options.sendReadReceipts) {
@@ -1093,9 +1056,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (window.storage.get('read-receipt-setting')) {
         await Promise.all(
           _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
-            const timestamps = _.map(receipts, 'timestamp').filter(
-              t => !!t
-            ) as Array<number>;
+            const timestamps = _.map(receipts, 'timestamp').filter(t => !!t) as Array<number>;
             const receiptMessage = new ReadReceiptMessage({
               timestamp: Date.now(),
               timestamps,
@@ -1124,6 +1085,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async setLokiProfile(newProfile: {
     displayName?: string | null;
     avatar?: string;
+    avatarHash?: string;
   }) {
     if (!_.isEqual(this.get('profile'), newProfile)) {
       this.set({ profile: newProfile });
@@ -1133,7 +1095,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // a user cannot remove an avatar. Only change it
     // if you change this behavior, double check all setLokiProfile calls (especially the one in EditProfileDialog)
     if (newProfile.avatar) {
-      await this.setProfileAvatar({ path: newProfile.avatar });
+      await this.setProfileAvatar({ path: newProfile.avatar }, newProfile.avatarHash);
     }
 
     await this.updateProfileName();
@@ -1156,15 +1118,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   // maybe "Backend" instead of "Source"?
   public async setPublicSource(newServer: any, newChannelId: any) {
     if (!this.isPublic()) {
-      window.log.warn(
-        `trying to setPublicSource on non public chat conversation ${this.id}`
-      );
+      window.log.warn(`trying to setPublicSource on non public chat conversation ${this.id}`);
       return;
     }
-    if (
-      this.get('server') !== newServer ||
-      this.get('channelId') !== newChannelId
-    ) {
+    if (this.get('server') !== newServer || this.get('channelId') !== newChannelId) {
       // mark active so it's not in the contacts list but in the conversation list
       this.set({
         server: newServer,
@@ -1176,9 +1133,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
   public getPublicSource() {
     if (!this.isPublic()) {
-      window.log.warn(
-        `trying to getPublicSource on non public chat conversation ${this.id}`
-      );
+      window.log.warn(`trying to getPublicSource on non public chat conversation ${this.id}`);
       return null;
     }
     return {
@@ -1238,7 +1193,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async getProfile(id: string) {
     const c = await ConversationController.getInstance().getOrCreateAndWait(
       id,
-      'private'
+      ConversationTypeEnum.PRIVATE
     );
 
     // We only need to update the profile as they are all stored inside the conversation
@@ -1265,25 +1220,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     // Not sure if we care about updating the database
   }
-  public async setGroupNameAndAvatar(name: any, avatarPath: any) {
-    const currentName = this.get('name');
-    const profileAvatar = this.get('profileAvatar');
-    if (profileAvatar !== avatarPath || currentName !== name) {
-      // only update changed items
-      if (profileAvatar !== avatarPath) {
-        this.set({ profileAvatar: avatarPath });
-      }
-      if (currentName !== name) {
-        this.set({ name });
-      }
-      // save
-      await this.commit();
-    }
-  }
-  public async setProfileAvatar(avatar: any) {
-    const profileAvatar = this.get('profileAvatar');
+
+  public async setProfileAvatar(avatar: any, avatarHash?: string) {
+    const profileAvatar = this.get('avatar');
+    const existingHash = this.get('avatarHash');
+    let shouldCommit = false;
     if (profileAvatar !== avatar) {
-      this.set({ profileAvatar: avatar });
+      this.set({ avatar });
+      shouldCommit = true;
+    }
+
+    if (existingHash !== avatarHash) {
+      this.set({ avatarHash });
+      shouldCommit = true;
+    }
+
+    if (shouldCommit) {
       await this.commit();
     }
   }
@@ -1312,9 +1264,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     try {
       const profileKeyBuffer = fromBase64ToArrayBuffer(profileKey);
-      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
-        profileKeyBuffer
-      );
+      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(profileKeyBuffer);
       const accessKey = fromArrayBufferToBase64(accessKeyBuffer);
       this.set({ accessKey });
     } catch (e) {
@@ -1329,9 +1279,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const { attributes } = message;
       const { schemaVersion } = attributes;
 
-      if (
-        schemaVersion < window.Signal.Types.Message.VERSION_NEEDED_FOR_DISPLAY
-      ) {
+      if (schemaVersion < window.Signal.Types.Message.VERSION_NEEDED_FOR_DISPLAY) {
         // Yep, we really do want to wait for each of these
         // eslint-disable-next-line no-await-in-loop
         const { upgradeMessageSchema } = window.Signal.Migrations;
@@ -1353,17 +1301,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public copyPublicKey() {
-    if (this.isPublic()) {
-      const atIndex = this.id.indexOf('@') as number;
-      const openGroupUrl = this.id.substr(atIndex + 1);
-      window.clipboard.writeText(openGroupUrl);
-
-      ToastUtils.pushCopiedToClipBoard();
-      return;
-    }
-    window.clipboard.writeText(this.id);
-
-    ToastUtils.pushCopiedToClipBoard();
+    void ConversationInteraction.copyPublicKey(this.id);
   }
 
   public changeNickname() {
@@ -1388,47 +1326,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
   }
 
-  public async deletePublicMessages(messages: Array<MessageModel>) {
-    const channelAPI = await this.getPublicSendData();
-
-    if (!channelAPI) {
-      throw new Error('Unable to get public channel API');
-    }
-
-    const invalidMessages = messages.filter(m => !m.attributes.serverId);
-    const pendingMessages = messages.filter(m => m.attributes.serverId);
-
-    let deletedServerIds = [];
-    let ignoredServerIds = [];
-
-    if (pendingMessages.length > 0) {
-      const result = await channelAPI.deleteMessages(
-        pendingMessages.map(m => m.attributes.serverId)
-      );
-      deletedServerIds = result.deletedIds;
-      ignoredServerIds = result.ignoredIds;
-    }
-
-    const toDeleteLocallyServerIds = _.union(
-      deletedServerIds,
-      ignoredServerIds
-    );
-    let toDeleteLocally = messages.filter(m =>
-      toDeleteLocallyServerIds.includes(m.attributes.serverId)
-    );
-    toDeleteLocally = _.union(toDeleteLocally, invalidMessages);
-
-    await Promise.all(
-      toDeleteLocally.map(async m => {
-        await this.removeMessage(m.id);
-      })
-    );
-
-    await this.updateLastMessage();
-
-    return toDeleteLocally;
-  }
-
   public async removeMessage(messageId: any) {
     await dataRemoveMessage(messageId);
     this.updateLastMessage();
@@ -1444,9 +1341,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public deleteMessages() {
     let params;
     if (this.isPublic()) {
-      throw new Error(
-        'Called deleteMessages() on an open group. Only leave group is supported.'
-      );
+      throw new Error('Called deleteMessages() on an open group. Only leave group is supported.');
     } else {
       params = {
         title: window.i18n('deleteMessages'),
@@ -1488,9 +1383,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isPrivate()) {
       const profileName = this.getProfileName();
       const number = this.getNumber();
-      const name = profileName
-        ? `${profileName} (${PubKey.shorten(number)})`
-        : number;
+      const name = profileName ? `${profileName} (${PubKey.shorten(number)})` : number;
 
       return this.get('name') || name;
     }
@@ -1552,7 +1445,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isPrivate() {
-    return this.get('type') === 'private';
+    return this.get('type') === ConversationTypeEnum.PRIVATE;
   }
 
   public getAvatarPath() {
@@ -1561,7 +1454,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return avatar;
     }
 
-    if (avatar && avatar.path && typeof avatar.path === 'string') {
+    if (typeof avatar?.path === 'string') {
       const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
       return getAbsoluteAttachmentPath(avatar.path) as string;
@@ -1594,7 +1487,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const convo = await ConversationController.getInstance().getOrCreateAndWait(
       message.get('source'),
-      'private'
+      ConversationTypeEnum.PRIVATE
     );
 
     const iconUrl = await convo.getNotificationIcon();
@@ -1681,9 +1574,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 }
 
-export class ConversationCollection extends Backbone.Collection<
-  ConversationModel
-> {
+export class ConversationCollection extends Backbone.Collection<ConversationModel> {
   constructor(models?: Array<ConversationModel>) {
     super(models);
     this.comparator = (m: ConversationModel) => {

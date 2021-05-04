@@ -2,20 +2,13 @@ import React from 'react';
 
 import { SettingsHeader } from './SessionSettingsHeader';
 import { SessionSettingListItem } from './SessionSettingListItem';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { BlockedNumberController, PasswordUtil } from '../../../util';
 import { ToastUtils } from '../../../session/utils';
 import { ConversationLookupType } from '../../../state/ducks/conversations';
 import { StateType } from '../../../state/reducer';
 import { ConversationController } from '../../../session/conversations';
-import {
-  getConversationLookup,
-  getConversations,
-} from '../../../state/selectors/conversations';
+import { getConversationLookup, getConversations } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
 
@@ -122,10 +115,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
             const description = setting.description || '';
 
             const comparisonValue = setting.comparisonValue || null;
-            const storedSetting = window.getSettingValue(
-              setting.id,
-              comparisonValue
-            );
+            const storedSetting = window.getSettingValue(setting.id, comparisonValue);
             const value =
               storedSetting !== undefined
                 ? storedSetting
@@ -133,8 +123,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
             const sliderFn =
               setting.type === SessionSettingType.Slider
-                ? (settingValue: any) =>
-                    window.setSettingValue(setting.id, settingValue)
+                ? (settingValue: any) => window.setSettingValue(setting.id, settingValue)
                 : () => null;
 
             const onClickFn =
@@ -169,20 +158,13 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
       <div className="session-settings__password-lock">
         <div className="session-settings__password-lock-box">
           <h3>{window.i18n('password')}</h3>
-          <input
-            type="password"
-            id="password-lock-input"
-            defaultValue=""
-            placeholder="Password"
-          />
+          <input type="password" id="password-lock-input" defaultValue="" placeholder="Password" />
 
           <div className="spacer-xs" />
 
           {this.state.pwdLockError && (
             <>
-              <div className="session-label warning">
-                {this.state.pwdLockError}
-              </div>
+              <div className="session-label warning">{this.state.pwdLockError}</div>
               <div className="spacer-lg" />
             </>
           )}
@@ -230,8 +212,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
   public render() {
     const { category } = this.props;
-    const shouldRenderPasswordLock =
-      this.state.shouldLockSettings && this.state.hasPassword;
+    const shouldRenderPasswordLock = this.state.shouldLockSettings && this.state.hasPassword;
 
     return (
       <div className="session-settings">
@@ -355,8 +336,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         comparisonValue: undefined,
         onClick: undefined,
         confirmationDialogParams: {
-          shouldShowConfirm: () =>
-            !window.getSettingValue('link-preview-setting'),
+          shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: 'danger',
@@ -377,8 +357,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         content: {
           options: {
             group: 'notification-setting',
-            initalItem:
-              window.getSettingValue('notification-setting') || 'message',
+            initalItem: window.getSettingValue('notification-setting') || 'message',
             items: [
               {
                 label: window.i18n('nameAndMessage'),
@@ -559,14 +538,9 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     for (const blockedNumber of blockedNumbers) {
       let title: string;
 
-      const currentModel = ConversationController.getInstance().get(
-        blockedNumber
-      );
+      const currentModel = ConversationController.getInstance().get(blockedNumber);
       if (currentModel) {
-        title =
-          currentModel.getProfileName() ||
-          currentModel.getName() ||
-          window.i18n('anonymous');
+        title = currentModel.getProfileName() || currentModel.getName() || window.i18n('anonymous');
       } else {
         title = window.i18n('anonymous');
       }
@@ -619,9 +593,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
   }
 
   private async onKeyUp(event: any) {
-    const lockPasswordFocussed = ($('#password-lock-input') as any).is(
-      ':focus'
-    );
+    const lockPasswordFocussed = ($('#password-lock-input') as any).is(':focus');
 
     if (event.key === 'Enter' && lockPasswordFocussed) {
       await this.validatePasswordLock();

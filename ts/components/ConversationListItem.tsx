@@ -49,10 +49,7 @@ type PropsHousekeeping = {
 type Props = ConversationListItemProps & PropsHousekeeping;
 
 const Portal = ({ children }: { children: any }) => {
-  return createPortal(
-    children,
-    document.querySelector('.inbox.index') as Element
-  );
+  return createPortal(children, document.querySelector('.inbox.index') as Element);
 };
 
 class ConversationListItem extends React.PureComponent<Props> {
@@ -61,13 +58,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderAvatar() {
-    const {
-      avatarPath,
-      name,
-      phoneNumber,
-      profileName,
-      memberAvatars,
-    } = this.props;
+    const { avatarPath, name, phoneNumber, profileName, memberAvatars } = this.props;
 
     const userName = name || profileName || phoneNumber;
 
@@ -91,11 +82,7 @@ class ConversationListItem extends React.PureComponent<Props> {
     let unreadCountDiv = null;
     if (unreadCount > 0) {
       atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
-      unreadCountDiv = (
-        <p className="module-conversation-list-item__unread-count">
-          {unreadCount}
-        </p>
-      );
+      unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
     }
 
     return (
@@ -103,9 +90,7 @@ class ConversationListItem extends React.PureComponent<Props> {
         <div
           className={classNames(
             'module-conversation-list-item__header__name',
-            unreadCount > 0
-              ? 'module-conversation-list-item__header__name--with-unread'
-              : null
+            unreadCount > 0 ? 'module-conversation-list-item__header__name--with-unread' : null
           )}
         >
           {this.renderUser()}
@@ -116,9 +101,7 @@ class ConversationListItem extends React.PureComponent<Props> {
           <div
             className={classNames(
               'module-conversation-list-item__header__date',
-              unreadCount > 0
-                ? 'module-conversation-list-item__header__date--has-unread'
-                : null
+              unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
             )}
           >
             {
@@ -152,9 +135,7 @@ class ConversationListItem extends React.PureComponent<Props> {
         <div
           className={classNames(
             'module-conversation-list-item__message__text',
-            unreadCount > 0
-              ? 'module-conversation-list-item__message__text--has-unread'
-              : null
+            unreadCount > 0 ? 'module-conversation-list-item__message__text--has-unread' : null
           )}
         >
           {isTyping ? (
@@ -212,12 +193,8 @@ class ConversationListItem extends React.PureComponent<Props> {
           style={style}
           className={classNames(
             'module-conversation-list-item',
-            unreadCount > 0
-              ? 'module-conversation-list-item--has-unread'
-              : null,
-            unreadCount > 0 && mentionedUs
-              ? 'module-conversation-list-item--mentioned-us'
-              : null,
+            unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
+            unreadCount > 0 && mentionedUs ? 'module-conversation-list-item--mentioned-us' : null,
             isSelected ? 'module-conversation-list-item--is-selected' : null,
             isBlocked ? 'module-conversation-list-item--is-blocked' : null
           )}

@@ -46,11 +46,7 @@ module.exports = {
     // Use LF to stay consistent
     'linebreak-style': ['error', 'unix'],
 
-    quotes: [
-      'error',
-      'single',
-      { avoidEscape: true, allowTemplateLiterals: true },
-    ],
+    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
 
     // Prettier overrides:
     'arrow-parens': 'off',

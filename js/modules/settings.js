@@ -26,8 +26,7 @@ exports.getMessageExportLastIndex = connection =>
   exports._getItem(connection, MESSAGE_LAST_INDEX_KEY);
 exports.setMessageExportLastIndex = (connection, lastIndex) =>
   exports._setItem(connection, MESSAGE_LAST_INDEX_KEY, lastIndex);
-exports.getMessageExportCount = connection =>
-  exports._getItem(connection, MESSAGE_COUNT_KEY);
+exports.getMessageExportCount = connection => exports._getItem(connection, MESSAGE_COUNT_KEY);
 exports.setMessageExportCount = (connection, count) =>
   exports._setItem(connection, MESSAGE_COUNT_KEY, count);
 
@@ -52,8 +51,7 @@ exports._getItem = (connection, key) => {
   return new Promise((resolve, reject) => {
     request.onerror = event => reject(event.target.error);
 
-    request.onsuccess = event =>
-      resolve(event.target.result ? event.target.result.value : null);
+    request.onsuccess = event => resolve(event.target.result ? event.target.result.value : null);
   });
 };
 

@@ -1,8 +1,4 @@
-import {
-  Quote,
-  AttachmentPointer,
-  Preview,
-} from '../../ts/session/messages/outgoing';
+import { Quote, AttachmentPointer, Preview } from '../../ts/session/messages/outgoing';
 
 interface UploadResponse {
   url: string;
@@ -21,6 +17,7 @@ export interface LokiAppDotNetServerInterface {
   putAttachment(data: ArrayBuffer): Promise<UploadResponse>;
   putAvatar(data: ArrayBuffer): Promise<UploadResponse>;
   downloadAttachment(url: String): Promise<ArrayBuffer>;
+  serverRequest(endpoint: string): Promise<any>;
 }
 
 export interface LokiPublicChannelAPI {

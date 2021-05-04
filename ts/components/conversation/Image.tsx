@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Spinner } from '../Spinner';
+import { Spinner } from '../basic/Spinner';
 import { LocalizerType } from '../../types/Util';
 import { AttachmentType } from '../../types/Attachment';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
@@ -64,10 +64,7 @@ export const Image = (props: Props) => {
   const canClick = onClick && !pending;
   const role = canClick ? 'button' : undefined;
 
-  const { loading, urlToLoad } = useEncryptedFileFetch(
-    url,
-    attachment.contentType
-  );
+  const { loading, urlToLoad } = useEncryptedFileFetch(url, attachment.contentType);
   // data will be url if loading is finished and '' if not
   const srcData = !loading ? urlToLoad : '';
 
@@ -159,10 +156,7 @@ export const Image = (props: Props) => {
         </div>
       ) : null}
       {overlayText ? (
-        <div
-          className="module-image__text-container"
-          style={{ lineHeight: `${height}px` }}
-        >
+        <div className="module-image__text-container" style={{ lineHeight: `${height}px` }}>
           {overlayText}
         </div>
       ) : null}

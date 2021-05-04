@@ -174,9 +174,7 @@ describe('app/logging', () => {
         JSON.stringify({ time: '2018-01-04T19:17:02.014Z' }),
         JSON.stringify({ time: '2018-01-04T19:17:03.014Z' }),
       ].join('\n');
-      const expected = [
-        JSON.stringify({ time: '2018-01-04T19:17:03.014Z' }),
-      ].join('\n');
+      const expected = [JSON.stringify({ time: '2018-01-04T19:17:03.014Z' })].join('\n');
 
       const target = path.join(basePath, 'log.log');
       const files = [
@@ -267,10 +265,7 @@ describe('app/logging', () => {
       });
     });
     it('returns sorted entries from all files', () => {
-      const first = [
-        JSON.stringify({ msg: 2, time: '2018-01-04T19:17:05.014Z' }),
-        '',
-      ].join('\n');
+      const first = [JSON.stringify({ msg: 2, time: '2018-01-04T19:17:05.014Z' }), ''].join('\n');
       const second = [
         JSON.stringify({ msg: 1, time: '2018-01-04T19:17:00.014Z' }),
         JSON.stringify({ msg: 3, time: '2018-01-04T19:18:00.014Z' }),

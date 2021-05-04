@@ -45,22 +45,12 @@ export class SessionSearchInput extends React.Component<Props> {
           />
         </div>
         <Menu id={triggerId} animation={animation.fade}>
-          <Item onClick={() => document.execCommand('undo')}>
-            {window.i18n('editMenuUndo')}
-          </Item>
-          <Item onClick={() => document.execCommand('redo')}>
-            {window.i18n('editMenuRedo')}
-          </Item>
+          <Item onClick={() => document.execCommand('undo')}>{window.i18n('editMenuUndo')}</Item>
+          <Item onClick={() => document.execCommand('redo')}>{window.i18n('editMenuRedo')}</Item>
           <hr />
-          <Item onClick={() => document.execCommand('cut')}>
-            {window.i18n('editMenuCut')}
-          </Item>
-          <Item onClick={() => document.execCommand('copy')}>
-            {window.i18n('editMenuCopy')}
-          </Item>
-          <Item onClick={() => document.execCommand('paste')}>
-            {window.i18n('editMenuPaste')}
-          </Item>
+          <Item onClick={() => document.execCommand('cut')}>{window.i18n('editMenuCut')}</Item>
+          <Item onClick={() => document.execCommand('copy')}>{window.i18n('editMenuCopy')}</Item>
+          <Item onClick={() => document.execCommand('paste')}>{window.i18n('editMenuPaste')}</Item>
           <Item onClick={() => document.execCommand('selectAll')}>
             {window.i18n('editMenuSelectAll')}
           </Item>

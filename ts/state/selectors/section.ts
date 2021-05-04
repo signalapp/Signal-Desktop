@@ -14,6 +14,5 @@ export const getFocusedSection = createSelector(
 
 export const getFocusedSettingsSection = createSelector(
   getSection,
-  (state: SectionStateType): SessionSettingCategory | undefined =>
-    state.focusedSettingsSection
+  (state: SectionStateType): SessionSettingCategory | undefined => state.focusedSettingsSection
 );

@@ -1,9 +1,6 @@
 import { Constants } from '../../../..';
 import { SignalService } from '../../../../../protobuf';
-import {
-  ClosedGroupMessage,
-  ClosedGroupMessageParams,
-} from './ClosedGroupMessage';
+import { ClosedGroupMessage, ClosedGroupMessageParams } from './ClosedGroupMessage';
 
 interface ClosedGroupNameChangeMessageParams extends ClosedGroupMessageParams {
   name: string;
@@ -34,9 +31,5 @@ export class ClosedGroupNameChangeMessage extends ClosedGroupMessage {
     dataMessage.closedGroupControlMessage!.name = this.name;
 
     return dataMessage;
-  }
-
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 }

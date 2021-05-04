@@ -4,31 +4,38 @@ import { EnvelopePlus } from './types';
 export { downloadAttachment } from './attachments';
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-  addToCache,
-  getAllFromCache,
-  getAllFromCacheForSource,
-  removeFromCache,
-} from './cache';
+import { addToCache, getAllFromCache, getAllFromCacheForSource, removeFromCache } from './cache';
 import { processMessage } from '../session/snode_api/swarmPolling';
 import { onError } from './errors';
 
 // innerHandleContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
-import {
-  handleContentMessage,
-  innerHandleContentMessage,
-} from './contentMessage';
-import _ from 'lodash';
+import { handleContentMessage, innerHandleContentMessage, unpad } from './contentMessage';
+import _, { noop } from 'lodash';
 
 export { processMessage };
 
-import { handleMessageEvent, updateProfile } from './dataMessage';
+import {
+  createMessage,
+  handleMessageEvent,
+  isMessageDuplicate,
+  MessageCreationData,
+  updateProfile,
+} from './dataMessage';
 
 import { getEnvelopeId } from './common';
 import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
 import { removeUnprocessed } from '../data/data';
+import { ConversationTypeEnum } from '../models/conversation';
+import {
+  getOpenGroupV2ConversationId,
+  openGroupPrefixRegex,
+} from '../opengroup/utils/OpenGroupUtils';
+import { OpenGroupMessageV2 } from '../opengroup/opengroupV2/OpenGroupMessageV2';
+import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
+import { handleMessageJob } from './queuedJob';
+import { fromBase64ToArray } from '../session/utils/String';
 
 // TODO: check if some of these exports no longer needed
 
@@ -64,10 +71,7 @@ class EnvelopeQueue {
     const promise = this.pending.then(task, task);
     this.pending = promise;
 
-    this.pending.then(
-      this.cleanup.bind(this, promise),
-      this.cleanup.bind(this, promise)
-    );
+    this.pending.then(this.cleanup.bind(this, promise), this.cleanup.bind(this, promise));
   }
 
   private cleanup(promise: Promise<any>) {
@@ -87,10 +91,7 @@ function queueEnvelope(envelope: EnvelopePlus) {
   window.log.info('queueing envelope', id);
 
   const task = handleEnvelope.bind(null, envelope);
-  const taskWithTimeout = window.textsecure.createTaskWithTimeout(
-    task,
-    `queueEnvelope ${id}`
-  );
+  const taskWithTimeout = window.textsecure.createTaskWithTimeout(task, `queueEnvelope ${id}`);
 
   try {
     envelopeQueue.add(taskWithTimeout);
@@ -133,9 +134,7 @@ async function handleRequestDetail(
   }
 
   envelope.id = envelope.serverGuid || uuidv4();
-  envelope.serverTimestamp = envelope.serverTimestamp
-    ? envelope.serverTimestamp.toNumber()
-    : null;
+  envelope.serverTimestamp = envelope.serverTimestamp ? envelope.serverTimestamp.toNumber() : null;
 
   try {
     // NOTE: Annoyngly we add plaintext to the cache
@@ -166,16 +165,11 @@ export function handleRequest(body: any, options: ReqOptions): void {
 
   const plaintext = body;
 
-  const promise = handleRequestDetail(plaintext, options, lastPromise).catch(
-    e => {
-      window.log.error(
-        'Error handling incoming message:',
-        e && e.stack ? e.stack : e
-      );
+  const promise = handleRequestDetail(plaintext, options, lastPromise).catch(e => {
+    window.log.error('Error handling incoming message:', e && e.stack ? e.stack : e);
 
-      void onError(e);
-    }
-  );
+    void onError(e);
+  });
 
   incomingMessagePromises.push(promise);
 }
@@ -266,10 +260,7 @@ function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
   }
 }
 
-async function handleDecryptedEnvelope(
-  envelope: EnvelopePlus,
-  plaintext: ArrayBuffer
-) {
+async function handleDecryptedEnvelope(envelope: EnvelopePlus, plaintext: ArrayBuffer) {
   // if (this.stoppingProcessing) {
   //   return Promise.resolve();
   // }
@@ -290,18 +281,15 @@ export async function handlePublicMessage(messageData: any) {
   if (!isMe && profile) {
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       source,
-      'private'
+      ConversationTypeEnum.PRIVATE
     );
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const isPublicVisibleMessage =
-    group && group.id && !!group.id.match(/^publicChat:/);
+  const isPublicVisibleMessage = group && group.id && !!group.id.match(openGroupPrefixRegex);
 
   if (!isPublicVisibleMessage) {
-    throw new Error(
-      'handlePublicMessage Should only be called with public message groups'
-    );
+    throw new Error('handlePublicMessage Should only be called with public message groups');
   }
 
   const ev = {
@@ -314,4 +302,78 @@ export async function handlePublicMessage(messageData: any) {
   };
 
   await handleMessageEvent(ev); // open groups
+}
+
+export async function handleOpenGroupV2Message(
+  message: OpenGroupMessageV2,
+  roomInfos: OpenGroupRequestCommonType
+) {
+  const { base64EncodedData, sentTimestamp, sender, serverId } = message;
+  const { serverUrl, roomId } = roomInfos;
+  if (!base64EncodedData || !sentTimestamp || !sender || !serverId) {
+    window.log.warn('Invalid data passed to handleMessageEvent.', message);
+    return;
+  }
+
+  const dataUint = new Uint8Array(unpad(fromBase64ToArray(base64EncodedData)));
+
+  const decoded = SignalService.Content.decode(dataUint);
+
+  const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
+  if (!conversationId) {
+    window.log.error('We cannot handle a message without a conversationId');
+    return;
+  }
+  const dataMessage = decoded?.dataMessage;
+  if (!dataMessage) {
+    window.log.error('Invalid decoded opengroup message: no dataMessage');
+    return;
+  }
+
+  if (!ConversationController.getInstance().get(conversationId)) {
+    window.log.error('Received a message for an unknown convo. Skipping');
+    return;
+  }
+  const isMe = UserUtils.isUsFromCache(sender);
+  // for an opengroupv2 incoming message the serverTimestamp and the timestamp
+  const messageCreationData: MessageCreationData = {
+    isPublic: true,
+    sourceDevice: 1,
+    serverId,
+    serverTimestamp: sentTimestamp,
+    receivedAt: Date.now(),
+    destination: conversationId,
+    timestamp: sentTimestamp,
+    unidentifiedStatus: undefined,
+    expirationStartTimestamp: undefined,
+    source: sender,
+    message: dataMessage,
+  };
+
+  if (await isMessageDuplicate(messageCreationData)) {
+    window.log.info('Received duplicate message. Dropping it.');
+    return;
+  }
+
+  // this line just create an empty message with some basic stuff set.
+  // the whole decoding of data is happening in handleMessageJob()
+  const msg = createMessage(messageCreationData, !isMe);
+
+  // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
+  // source = source || msg.get('source');
+
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+    conversationId,
+    ConversationTypeEnum.GROUP
+  );
+
+  if (!conversation) {
+    window.log.warn('Skipping handleJob for unknown convo: ', conversationId);
+    return;
+  }
+
+  conversation.queueJob(async () => {
+    await handleMessageJob(msg, conversation, decoded?.dataMessage, ourNumber, noop, sender);
+  });
 }

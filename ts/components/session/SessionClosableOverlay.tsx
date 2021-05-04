@@ -6,18 +6,15 @@ import { SessionIdEditable } from './SessionIdEditable';
 import { UserSearchDropdown } from './UserSearchDropdown';
 import { ContactType, SessionMemberListItem } from './SessionMemberListItem';
 import { ConversationType } from '../../state/ducks/conversations';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
 import { PillDivider } from './PillDivider';
 import { DefaultTheme } from 'styled-components';
 import { UserUtils } from '../../session/utils';
+import { ConversationTypeEnum } from '../../models/conversation';
+import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 
 export enum SessionClosableOverlayType {
-  Contact = 'contact',
   Message = 'message',
   OpenGroup = 'open-group',
   ClosedGroup = 'closed-group',
@@ -70,11 +67,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const contactsList = this.props.contacts ?? [];
     // Depending on the rendered overlay type we have to filter the contact list.
     let filteredContactsList = contactsList;
-    const isClosedGroupView =
-      overlayMode === SessionClosableOverlayType.ClosedGroup;
+    const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
     if (isClosedGroupView) {
       filteredContactsList = filteredContactsList.filter(
-        c => c.type === 'direct' && !c.isMe
+        c => c.type === ConversationTypeEnum.PRIVATE && !c.isMe
       );
     }
 
@@ -116,12 +112,11 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       onButtonClick,
     } = this.props;
 
-    const isAddContactView = overlayMode === SessionClosableOverlayType.Contact;
+    const { groupName, selectedMembers } = this.state;
+
     const isMessageView = overlayMode === SessionClosableOverlayType.Message;
-    const isOpenGroupView =
-      overlayMode === SessionClosableOverlayType.OpenGroup;
-    const isClosedGroupView =
-      overlayMode === SessionClosableOverlayType.ClosedGroup;
+    const isOpenGroupView = overlayMode === SessionClosableOverlayType.OpenGroup;
+    const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
 
     let title;
     let buttonText;
@@ -131,13 +126,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     switch (overlayMode) {
       case 'message':
         title = window.i18n('newSession');
-        buttonText = window.i18n('next');
-        descriptionLong = window.i18n('usersCanShareTheir...');
-        subtitle = window.i18n('enterSessionID');
-        placeholder = window.i18n('enterSessionIDOfRecipient');
-        break;
-      case 'contact':
-        title = window.i18n('addContact');
         buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
         subtitle = window.i18n('enterSessionID');
@@ -159,14 +147,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       default:
     }
 
-    const { groupName, selectedMembers } = this.state;
-    const ourSessionID = UserUtils.getOurPubKeyStrFromCache();
-
     const contacts = this.getContacts();
 
     const noContactsForClosedGroup =
-      overlayMode === SessionClosableOverlayType.ClosedGroup &&
-      contacts.length === 0;
+      overlayMode === SessionClosableOverlayType.ClosedGroup && contacts.length === 0;
 
     const showLoadingSpinner = showSpinner === undefined ? false : showSpinner;
 
@@ -234,11 +218,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           </>
         )}
 
-        {descriptionLong && (
-          <div className="session-description-long">{descriptionLong}</div>
-        )}
+        {descriptionLong && <div className="session-description-long">{descriptionLong}</div>}
         {isMessageView && false && <h4>{window.i18n('or')}</h4>}
         {/* FIXME enable back those two items when they are working */}
+        {isOpenGroupView && <SessionJoinableRooms />}
         {isMessageView && false && (
           <UserSearchDropdown
             searchTerm={searchTerm || ''}
@@ -246,18 +229,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
             placeholder={window.i18n('searchFor...')}
             searchResults={searchResults}
             theme={this.props.theme}
-          />
-        )}
-
-        {isAddContactView && (
-          <PillDivider text={window.i18n('yourSessionID')} />
-        )}
-
-        {isAddContactView && (
-          <SessionIdEditable
-            editable={false}
-            placeholder=""
-            text={ourSessionID}
           />
         )}
 

@@ -63,8 +63,8 @@ export class SessionInboxView extends React.Component<any, State> {
   private async setupLeftPane() {
     // Here we set up a full redux store with initial state for our LeftPane Root
     const convoCollection = ConversationController.getInstance().getConversations();
-    const conversations = convoCollection.map(
-      (conversation: ConversationModel) => conversation.getProps()
+    const conversations = convoCollection.map((conversation: ConversationModel) =>
+      conversation.getProps()
     );
 
     const filledConversations = conversations.map((conv: any) => {
@@ -91,10 +91,7 @@ export class SessionInboxView extends React.Component<any, State> {
     window.inboxStore = this.store;
 
     // Enables our redux store to be updated by backbone events in the outside world
-    const { messageExpired } = bindActionCreators(
-      conversationActions,
-      this.store.dispatch
-    );
+    const { messageExpired } = bindActionCreators(conversationActions, this.store.dispatch);
     window.actionsCreators = conversationActions;
 
     // messageExpired is currently inboked fropm js. So we link it to Redux that way

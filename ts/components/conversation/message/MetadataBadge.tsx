@@ -10,9 +10,7 @@ type BadgeProps = {
   children?: ReactNode;
 };
 
-const BadgeText = styled(props => <OpacityMetadataComponent {...props} />)<
-  BadgeProps
->`
+const BadgeText = styled(props => <OpacityMetadataComponent {...props} />)<BadgeProps>`
   font-weight: bold;
   padding-inline-end: 5px;
   font-size: 11px;
@@ -20,16 +18,14 @@ const BadgeText = styled(props => <OpacityMetadataComponent {...props} />)<
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: ${props =>
-    props.withImageNoCaption ? 'white' : props.theme.colors.textColor};
+  color: ${props => (props.withImageNoCaption ? 'white' : props.theme.colors.textColor)};
 `;
 
-const BadgeSeparator = styled(props => (
-  <OpacityMetadataComponent {...props} />
-))<{ withImageNoCaption: boolean }>`
+const BadgeSeparator = styled(props => <OpacityMetadataComponent {...props} />)<{
+  withImageNoCaption: boolean;
+}>`
   margin-top: -2px;
-  color: ${props =>
-    props.withImageNoCaption ? 'white' : props.theme.colors.textColor};
+  color: ${props => (props.withImageNoCaption ? 'white' : props.theme.colors.textColor)};
 `;
 
 export const MetadataBadge = (props: BadgeProps): JSX.Element => {
@@ -51,10 +47,9 @@ type BadgesProps = {
 
 export const MetadataBadges = (props: BadgesProps): JSX.Element => {
   const { id, direction, isPublic, isAdmin, withImageNoCaption } = props;
-  const badges = [
-    (isPublic && 'Public') || null,
-    (isPublic && isAdmin && 'Mod') || null,
-  ].filter(nonNullish);
+  const badges = [(isPublic && 'Public') || null, (isPublic && isAdmin && 'Mod') || null].filter(
+    nonNullish
+  );
 
   if (!badges || badges.length === 0) {
     return <></>;

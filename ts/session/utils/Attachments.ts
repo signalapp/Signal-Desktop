@@ -1,14 +1,13 @@
 import * as crypto from 'crypto';
 import { Attachment } from '../../types/Attachment';
-import { OpenGroup } from '../types';
 
-import { LokiAppDotNetServerInterface } from '../../../js/modules/loki_app_dot_net_api';
 import {
   AttachmentPointer,
   Preview,
   Quote,
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
+import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 
 interface UploadParams {
   attachment: Attachment;
@@ -43,18 +42,8 @@ export class AttachmentUtils {
 
   private constructor() {}
 
-  public static getDefaultServer(): LokiAppDotNetServerInterface {
-    return window.tokenlessFileServerAdnAPI;
-  }
-
-  public static async upload(params: UploadParams): Promise<AttachmentPointer> {
-    const {
-      attachment,
-      openGroup,
-      isAvatar = false,
-      isRaw = false,
-      shouldPad = false,
-    } = params;
+  public static async uploadV1(params: UploadParams): Promise<AttachmentPointer> {
+    const { attachment, openGroup, isAvatar = false, isRaw = false, shouldPad = false } = params;
     if (typeof attachment !== 'object' || attachment == null) {
       throw new Error('Invalid attachment passed.');
     }
@@ -65,20 +54,16 @@ export class AttachmentUtils {
       );
     }
 
-    let server = this.getDefaultServer();
+    let server = window.tokenlessFileServerAdnAPI;
     if (openGroup) {
-      const openGroupServer = await window.lokiPublicChatAPI.findOrCreateServer(
-        openGroup.server
-      );
+      const openGroupServer = await window.lokiPublicChatAPI.findOrCreateServer(openGroup.server);
       if (!openGroupServer) {
-        throw new Error(
-          `Failed to get open group server: ${openGroup.server}.`
-        );
+        throw new Error(`Failed to get open group server: ${openGroup.server}.`);
       }
       server = openGroupServer;
     }
     const pointer: AttachmentPointer = {
-      contentType: attachment.contentType ? attachment.contentType : undefined,
+      contentType: attachment.contentType || undefined,
       size: attachment.size,
       fileName: attachment.fileName,
       flags: attachment.flags,
@@ -90,7 +75,7 @@ export class AttachmentUtils {
     if (isRaw || openGroup) {
       attachmentData = attachment.data;
     } else {
-      server = this.getDefaultServer();
+      server = window.tokenlessFileServerAdnAPI;
       pointer.key = new Uint8Array(crypto.randomBytes(64));
       const iv = new Uint8Array(crypto.randomBytes(16));
 
@@ -117,7 +102,7 @@ export class AttachmentUtils {
     return pointer;
   }
 
-  public static async uploadAvatar(
+  public static async uploadAvatarV1(
     attachment?: Attachment
   ): Promise<AttachmentPointer | undefined> {
     if (!attachment) {
@@ -126,19 +111,19 @@ export class AttachmentUtils {
 
     // isRaw is true since the data is already encrypted
     // and doesn't need to be encrypted again
-    return this.upload({
+    return this.uploadV1({
       attachment,
       isAvatar: true,
       isRaw: true,
     });
   }
 
-  public static async uploadAttachments(
+  public static async uploadAttachmentsV1(
     attachments: Array<Attachment>,
     openGroup?: OpenGroup
   ): Promise<Array<AttachmentPointer>> {
     const promises = (attachments || []).map(async attachment =>
-      this.upload({
+      this.uploadV1({
         attachment,
         openGroup,
         shouldPad: true,
@@ -148,7 +133,7 @@ export class AttachmentUtils {
     return Promise.all(promises);
   }
 
-  public static async uploadLinkPreviews(
+  public static async uploadLinkPreviewsV1(
     previews: Array<RawPreview>,
     openGroup?: OpenGroup
   ): Promise<Array<Preview>> {
@@ -159,7 +144,7 @@ export class AttachmentUtils {
       }
       return {
         ...item,
-        image: await this.upload({
+        image: await this.uploadV1({
           attachment: item.image,
           openGroup,
         }),
@@ -168,7 +153,7 @@ export class AttachmentUtils {
     return Promise.all(promises);
   }
 
-  public static async uploadQuoteThumbnails(
+  public static async uploadQuoteThumbnailsV1(
     quote?: RawQuote,
     openGroup?: OpenGroup
   ): Promise<Quote | undefined> {
@@ -179,7 +164,7 @@ export class AttachmentUtils {
     const promises = (quote.attachments ?? []).map(async attachment => {
       let thumbnail: AttachmentPointer | undefined;
       if (attachment.thumbnail) {
-        thumbnail = await this.upload({
+        thumbnail = await this.uploadV1({
           attachment: attachment.thumbnail,
           openGroup,
         });
@@ -216,17 +201,12 @@ export class AttachmentUtils {
     return true;
   }
 
-  private static addAttachmentPadding(data: ArrayBuffer): ArrayBuffer {
+  public static addAttachmentPadding(data: ArrayBuffer): ArrayBuffer {
     const originalUInt = new Uint8Array(data);
 
     const paddedSize = Math.max(
       541,
-      Math.floor(
-        Math.pow(
-          1.05,
-          Math.ceil(Math.log(originalUInt.length) / Math.log(1.05))
-        )
-      )
+      Math.floor(Math.pow(1.05, Math.ceil(Math.log(originalUInt.length) / Math.log(1.05))))
     );
     const paddedData = new ArrayBuffer(paddedSize);
     const paddedUInt = new Uint8Array(paddedData);

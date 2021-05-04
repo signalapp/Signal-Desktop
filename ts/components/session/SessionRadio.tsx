@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex } from './Flex';
+import { Flex } from '../basic/Flex';
 // tslint:disable: react-unused-props-and-state
 
 interface Props {

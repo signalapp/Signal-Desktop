@@ -3,9 +3,13 @@ import { DAYS, SECONDS } from './utils/Number';
 
 export const TTL_DEFAULT = {
   TYPING_MESSAGE: 20 * SECONDS,
-  REGULAR_MESSAGE: 2 * DAYS,
-  ENCRYPTION_PAIR_GROUP: 4 * DAYS,
-  CONFIGURATION_MESSAGE: 4 * DAYS,
+  TTL_MAX: 14 * DAYS,
+};
+
+export const PROTOCOLS = {
+  // tslint:disable-next-line: no-http-string
+  HTTP: 'http:',
+  HTTPS: 'https:',
 };
 
 // User Interface

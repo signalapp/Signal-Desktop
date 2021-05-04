@@ -44,9 +44,7 @@ describe('Settings', function() {
     const menuBarVisible = await app.browserWindow.isMenuBarVisible();
 
     await app.client.element(SettingsPage.settingsButtonSection).click();
-    await app.client
-      .element(SettingsPage.settingToggleWithText('Hide Menu Bar'))
-      .click();
+    await app.client.element(SettingsPage.settingToggleWithText('Hide Menu Bar')).click();
 
     // Confirm that toggling works
     const menuBarToggled = await app.browserWindow.isMenuBarVisible();
@@ -54,19 +52,11 @@ describe('Settings', function() {
   });
 
   it('settings: can set password', async () => {
-    await app.client
-      .element(SettingsPage.settingsRowWithText('Privacy'))
-      .click();
+    await app.client.element(SettingsPage.settingsRowWithText('Privacy')).click();
 
-    await app.client
-      .element(SettingsPage.settingButtonWithText('Set Password'))
-      .click();
+    await app.client.element(SettingsPage.settingButtonWithText('Set Password')).click();
 
-    await Common.setValueWrapper(
-      app,
-      CommonPage.inputWithId(passwordInputID),
-      password
-    );
+    await Common.setValueWrapper(app, CommonPage.inputWithId(passwordInputID), password);
     await Common.setValueWrapper(
       app,
       CommonPage.inputWithId(`${passwordInputID}-confirm`),
@@ -76,46 +66,29 @@ describe('Settings', function() {
     await app.client.keys('Enter');
 
     // Verify password set
-    await app.client.waitForExist(
-      CommonPage.toastWithText('Set Password'),
-      2000
-    );
+    await app.client.waitForExist(CommonPage.toastWithText('Set Password'), 2000);
 
     await Common.closeToast(app);
   });
 
   it('settings: can remove password', async () => {
     // Enter password to unlock settings
-    await Common.setValueWrapper(
-      app,
-      CommonPage.inputWithId('password-lock-input'),
-      password
-    );
+    await Common.setValueWrapper(app, CommonPage.inputWithId('password-lock-input'), password);
 
     await app.client.keys('Enter');
 
     // Remove password
-    await app.client
-      .element(SettingsPage.settingButtonWithText('Remove Password'))
-      .click();
+    await app.client.element(SettingsPage.settingButtonWithText('Remove Password')).click();
 
-    await Common.setValueWrapper(
-      app,
-      CommonPage.inputWithId(passwordInputID),
-      password
-    );
+    await Common.setValueWrapper(app, CommonPage.inputWithId(passwordInputID), password);
 
     await app.client.keys('Enter');
 
     // Verify password removed with toast
-    await app.client.waitForExist(
-      CommonPage.toastWithText('Removed Password'),
-      2000
-    );
+    await app.client.waitForExist(CommonPage.toastWithText('Removed Password'), 2000);
 
     // Verify password actully removed
-    await app.client.isExisting(
-      CommonPage.divWithClass('session-settings__password-lock')
-    ).should.eventually.be.false;
+    await app.client.isExisting(CommonPage.divWithClass('session-settings__password-lock')).should
+      .eventually.be.false;
   });
 });

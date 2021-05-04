@@ -3,11 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { Constants } from '../../../session';
 import { ToastUtils } from '../../../session/utils';
 import { DefaultTheme, withTheme } from 'styled-components';
@@ -102,8 +98,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
     const actionStopRecording = actionHover && isRecording;
     const actionPlayAudio = !isRecording && !isPlaying;
     const actionPauseAudio = !isRecording && !isPaused && isPlaying;
-    const actionDefault =
-      !actionStopRecording && !actionPlayAudio && !actionPauseAudio;
+    const actionDefault = !actionStopRecording && !actionPlayAudio && !actionPauseAudio;
 
     // if we are recording, we base the time recording on our state values
     // if we are playing ( audioElement?.currentTime is !== 0, use that instead)
@@ -112,23 +107,15 @@ class SessionRecordingInner extends React.Component<Props, State> {
     const displayTimeMs = isRecording
       ? (nowTimestamp - startTimestamp) * 1000
       : (this.audioElement &&
-          (this.audioElement?.currentTime * 1000 ||
-            this.audioElement?.duration)) ||
+          (this.audioElement?.currentTime * 1000 || this.audioElement?.duration)) ||
         0;
 
     const displayTimeString = moment.utc(displayTimeMs).format('m:ss');
 
-    const actionPauseFn = isPlaying
-      ? this.pauseAudio
-      : this.stopRecordingStream;
+    const actionPauseFn = isPlaying ? this.pauseAudio : this.stopRecordingStream;
 
     return (
-      <div
-        role="main"
-        className="session-recording"
-        tabIndex={0}
-        onKeyDown={this.onKeyDown}
-      >
+      <div role="main" className="session-recording" tabIndex={0} onKeyDown={this.onKeyDown}>
         <div
           className="session-recording--actions"
           onMouseEnter={this.handleHoverActions}
@@ -169,20 +156,12 @@ class SessionRecordingInner extends React.Component<Props, State> {
           )}
         </div>
 
-        <div
-          className="session-recording--visualisation"
-          ref={this.visualisationRef}
-        >
+        <div className="session-recording--visualisation" ref={this.visualisationRef}>
           {!isRecording && <canvas ref={this.playbackCanvas} />}
           {isRecording && <canvas ref={this.visualisationCanvas} />}
         </div>
 
-        <div
-          className={classNames(
-            'session-recording--timer',
-            !isRecording && 'playback-timer'
-          )}
-        >
+        <div className={classNames('session-recording--timer', !isRecording && 'playback-timer')}>
           {displayTimeString}
           {isRecording && <div className="session-recording--timer-light" />}
         </div>
@@ -278,11 +257,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
       this.audioElement.oncanplaythrough = async () => {
         const duration = recordDuration;
 
-        if (
-          duration &&
-          this.audioElement &&
-          this.audioElement.currentTime < duration
-        ) {
+        if (duration && this.audioElement && this.audioElement.currentTime < duration) {
           await this.audioElement?.play();
         }
       };
@@ -322,13 +297,8 @@ class SessionRecordingInner extends React.Component<Props, State> {
     }
 
     // Is the audio file > attachment filesize limit
-    if (
-      this.audioBlobMp3.size >
-      Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES
-    ) {
-      ToastUtils.pushFileSizeErrorAsByte(
-        Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES
-      );
+    if (this.audioBlobMp3.size > Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES) {
+      ToastUtils.pushFileSizeErrorAsByte(Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES);
       return;
     }
 

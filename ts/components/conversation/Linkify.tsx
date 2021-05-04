@@ -40,36 +40,25 @@ export class Linkify extends React.Component<Props> {
       return renderNonLink({ text, key: 0 });
     }
 
-    matchData.forEach(
-      (match: {
-        index: number;
-        url: string;
-        lastIndex: number;
-        text: string;
-      }) => {
-        if (last < match.index) {
-          const textWithNoLink = text.slice(last, match.index);
-          results.push(renderNonLink({ text: textWithNoLink, key: count++ }));
-        }
-
-        const { url, text: originalText } = match;
-        if (
-          SUPPORTED_PROTOCOLS.test(url) &&
-          !isLinkSneaky(url) &&
-          !HAS_AT.test(url)
-        ) {
-          results.push(
-            <a key={count++} href={url} onClick={this.handleClick}>
-              {originalText}
-            </a>
-          );
-        } else {
-          results.push(renderNonLink({ text: originalText, key: count++ }));
-        }
-
-        last = match.lastIndex;
+    matchData.forEach((match: { index: number; url: string; lastIndex: number; text: string }) => {
+      if (last < match.index) {
+        const textWithNoLink = text.slice(last, match.index);
+        results.push(renderNonLink({ text: textWithNoLink, key: count++ }));
       }
-    );
+
+      const { url, text: originalText } = match;
+      if (SUPPORTED_PROTOCOLS.test(url) && !isLinkSneaky(url) && !HAS_AT.test(url)) {
+        results.push(
+          <a key={count++} href={url} onClick={this.handleClick}>
+            {originalText}
+          </a>
+        );
+      } else {
+        results.push(renderNonLink({ text: originalText, key: count++ }));
+      }
+
+      last = match.lastIndex;
+    });
 
     if (last < text.length) {
       results.push(renderNonLink({ text: text.slice(last), key: count++ }));

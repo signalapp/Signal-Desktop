@@ -31,9 +31,7 @@ export const createLastMessageUpdate = ({
   );
 
   const shouldUpdateTimestamp = Boolean(!isExpireTimerUpdateFromSync);
-  const newTimestamp = shouldUpdateTimestamp
-    ? lastMessage.sent_at
-    : currentTimestamp;
+  const newTimestamp = shouldUpdateTimestamp ? lastMessage.sent_at : currentTimestamp;
 
   return {
     lastMessage: lastMessageNotificationText || '',

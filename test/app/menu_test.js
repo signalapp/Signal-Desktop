@@ -61,9 +61,7 @@ describe('SignalMenu', () => {
               const { messages } = loadLocale({ appLocale, logger });
 
               const actual = SignalMenu.createTemplate(options, messages);
-              const fixturePath = includeSetup
-                ? fixtures.setup
-                : fixtures.default;
+              const fixturePath = includeSetup ? fixtures.setup : fixtures.default;
               // eslint-disable-next-line global-require, import/no-dynamic-require
               const fixture = require(fixturePath);
               assert.deepEqual(actual, fixture);

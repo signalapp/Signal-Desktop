@@ -15,10 +15,7 @@ describe('Fixtures', () => {
 
     await window
       .getConversationController()
-      .getOrCreateAndWait(
-        window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache(),
-        'private'
-      );
+      .getOrCreateAndWait(window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache(), 'private');
   });
 
   it('renders', async () => {
