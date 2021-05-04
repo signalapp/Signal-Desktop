@@ -6,11 +6,7 @@ import * as GoogleChrome from '../util/GoogleChrome';
 import { AttachmentType } from '../types/Attachment';
 
 import { SessionInput } from './session/SessionInput';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './session/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import { darkTheme, lightTheme } from '../state/ducks/SessionTheme';
 
 interface Props {
@@ -87,14 +83,8 @@ export class CaptionEditor extends React.Component<Props, State> {
 
     return (
       <div role="dialog" className="module-caption-editor">
-        <div
-          role="button"
-          onClick={onClose}
-          className="module-caption-editor__close-button"
-        />
-        <div className="module-caption-editor__media-container">
-          {this.renderObject()}
-        </div>
+        <div role="button" onClick={onClose} className="module-caption-editor__close-button" />
+        <div className="module-caption-editor__media-container">{this.renderObject()}</div>
         <div className="module-caption-editor__bottom-bar">
           <div className="module-caption-editor__input-container">
             <SessionInput

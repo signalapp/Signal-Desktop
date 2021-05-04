@@ -20,10 +20,7 @@ export async function removeFromCache(envelope: EnvelopePlus) {
   return removeUnprocessed(id);
 }
 
-export async function addToCache(
-  envelope: EnvelopePlus,
-  plaintext: ArrayBuffer
-) {
+export async function addToCache(envelope: EnvelopePlus, plaintext: ArrayBuffer) {
   const { id } = envelope;
   window.log.info(`adding to cache envelope: ${id}`);
 
@@ -47,9 +44,7 @@ async function fetchAllFromCache(): Promise<Array<any>> {
 
   if (count > 1500) {
     await removeAllUnprocessed();
-    window.log.warn(
-      `There were ${count} messages in cache. Deleted all instead of reprocessing`
-    );
+    window.log.warn(`There were ${count} messages in cache. Deleted all instead of reprocessing`);
     return [];
   }
 
@@ -69,10 +64,7 @@ export async function getAllFromCache() {
 
       try {
         if (attempts >= 10) {
-          window.log.warn(
-            'getAllFromCache final attempt for envelope',
-            item.id
-          );
+          window.log.warn('getAllFromCache final attempt for envelope', item.id);
           await removeUnprocessed(item.id);
         } else {
           await updateUnprocessedAttempts(item.id, attempts);
@@ -97,11 +89,7 @@ export async function getAllFromCacheForSource(source: string) {
     item => !!item.senderIdentity || item.senderIdentity === source
   );
 
-  window.log.info(
-    'getAllFromCacheForSource loaded',
-    itemsFromSource.length,
-    'saved envelopes'
-  );
+  window.log.info('getAllFromCacheForSource loaded', itemsFromSource.length, 'saved envelopes');
 
   return Promise.all(
     _.map(items, async (item: any) => {
@@ -109,10 +97,7 @@ export async function getAllFromCacheForSource(source: string) {
 
       try {
         if (attempts >= 10) {
-          window.log.warn(
-            'getAllFromCache final attempt for envelope',
-            item.id
-          );
+          window.log.warn('getAllFromCache final attempt for envelope', item.id);
           await removeUnprocessed(item.id);
         } else {
           await updateUnprocessedAttempts(item.id, attempts);
@@ -129,10 +114,7 @@ export async function getAllFromCacheForSource(source: string) {
   );
 }
 
-export async function updateCache(
-  envelope: EnvelopePlus,
-  plaintext: ArrayBuffer
-): Promise<void> {
+export async function updateCache(envelope: EnvelopePlus, plaintext: ArrayBuffer): Promise<void> {
   const { id } = envelope;
   const item = await getUnprocessedById(id);
   if (!item) {

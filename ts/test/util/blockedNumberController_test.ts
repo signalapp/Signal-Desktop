@@ -168,9 +168,7 @@ describe('BlockedNumberController', () => {
     let ourDevice: PubKey;
     beforeEach(() => {
       ourDevice = TestUtils.generateFakePubKey();
-      sandbox
-        .stub(UserUtils, 'getOurPubKeyStrFromCache')
-        .returns(ourDevice.key);
+      sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourDevice.key);
     });
     it('should return false for our device', async () => {
       const isBlocked = await BlockedNumberController.isBlockedAsync(ourDevice);
@@ -182,10 +180,7 @@ describe('BlockedNumberController', () => {
       memoryDB.blocked = [other.key];
 
       const isBlocked = await BlockedNumberController.isBlockedAsync(other);
-      expect(isBlocked).to.equal(
-        true,
-        'Expected isBlockedAsync to return true.'
-      );
+      expect(isBlocked).to.equal(true, 'Expected isBlockedAsync to return true.');
     });
 
     it('should return false if device is not blocked', async () => {
@@ -193,10 +188,7 @@ describe('BlockedNumberController', () => {
       memoryDB.blocked = [];
 
       const isBlocked = await BlockedNumberController.isBlockedAsync(other);
-      expect(isBlocked).to.equal(
-        false,
-        'Expected isBlockedAsync to return false.'
-      );
+      expect(isBlocked).to.equal(false, 'Expected isBlockedAsync to return false.');
     });
   });
 

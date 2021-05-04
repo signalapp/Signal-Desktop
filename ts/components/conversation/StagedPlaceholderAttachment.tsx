@@ -9,11 +9,7 @@ export class StagedPlaceholderAttachment extends React.Component<Props> {
     const { onClick } = this.props;
 
     return (
-      <div
-        className="module-staged-placeholder-attachment"
-        role="button"
-        onClick={onClick}
-      >
+      <div className="module-staged-placeholder-attachment" role="button" onClick={onClick}>
         <div className="module-staged-placeholder-attachment__plus-icon" />
       </div>
     );

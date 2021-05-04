@@ -32,19 +32,13 @@ function _createFileHandler({ userDataPath, installPath, isWindows }) {
     const properCasing = isWindows ? realPath.toLowerCase() : realPath;
 
     if (!path.isAbsolute(realPath)) {
-      console.log(
-        `Warning: denying request to non-absolute path '${realPath}'`
-      );
+      console.log(`Warning: denying request to non-absolute path '${realPath}'`);
       return callback();
     }
 
     if (
-      !properCasing.startsWith(
-        isWindows ? userDataPath.toLowerCase() : userDataPath
-      ) &&
-      !properCasing.startsWith(
-        isWindows ? installPath.toLowerCase() : installPath
-      )
+      !properCasing.startsWith(isWindows ? userDataPath.toLowerCase() : userDataPath) &&
+      !properCasing.startsWith(isWindows ? installPath.toLowerCase() : installPath)
     ) {
       console.log(
         `Warning: denying request to path '${realPath}' (userDataPath: '${userDataPath}', installPath: '${installPath}')`
@@ -58,12 +52,7 @@ function _createFileHandler({ userDataPath, installPath, isWindows }) {
   };
 }
 
-function installFileHandler({
-  protocol,
-  userDataPath,
-  installPath,
-  isWindows,
-}) {
+function installFileHandler({ protocol, userDataPath, installPath, isWindows }) {
   protocol.interceptFileProtocol(
     'file',
     _createFileHandler({ userDataPath, installPath, isWindows })

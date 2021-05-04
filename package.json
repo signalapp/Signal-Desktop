@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
@@ -21,6 +21,7 @@
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",
     "start-swarm-test": "cross-env NODE_ENV=swarm-testing NODE_APP_INSTANCE=$MULTI electron .",
     "grunt": "grunt",
+    "grunt:dev": "yarn clean-transpile; yarn grunt dev --force",
     "icon-gen": "electron-icon-maker --input=images/session/session_icon_1024.png --output=./build",
     "generate": "yarn icon-gen && yarn grunt --force",
     "build-release": "cross-env SIGNAL_ENV=production electron-builder --config.extraMetadata.environment=production --publish=never --config.directories.output=release",
@@ -31,29 +32,21 @@
     "test": "yarn test-node && yarn test-electron",
     "test-view": "NODE_ENV=test yarn run start",
     "test-lib-view": "NODE_ENV=test-lib yarn run start",
-    "test-loki-view": "NODE_ENV=test-loki yarn run start",
     "test-electron": "yarn grunt test",
     "test-integration": "ELECTRON_DISABLE_SANDBOX=1 mocha --exit --full-trace --timeout 10000 ts/test/session/integration/integration_itest.js",
-    "test-node": "mocha --recursive --exit --timeout 10000  test/app test/modules \"./ts/test/**/*_test.js\" libloki/test/node ",
-    "eslint": "eslint --cache .",
-    "eslint-fix": "eslint --fix .",
-    "eslint-full": "eslint .",
-    "lint": "yarn format && yarn lint-files",
+    "test-node": "mocha --recursive --exit --timeout 10000  test/app test/modules \"./ts/test/**/*_test.js\" ",
+    "eslint-full": "eslint . --cache",
     "lint-full": "yarn format-full && yarn lint-files-full",
-    "dev-lint": "yarn format && yarn lint-files",
-    "lint-files": "yarn eslint && yarn tslint",
     "lint-files-full": "yarn eslint-full && yarn tslint",
-    "lint-deps": "node ts/util/lint/linter.js",
     "tslint": "tslint --format stylish --project .",
-    "format": "prettier --list-different --write `git ls-files --modified *.{css,js,json,scss,ts,tsx}` `git ls-files --modified ./**/*.{css,js,json,scss,ts,tsx}`",
     "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
     "transpile": "tsc --incremental",
-    "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js",
-    "pow-metrics": "node metrics_app.js localhost 9000",
-    "ready": "yarn clean-transpile && yarn grunt && yarn lint-full && yarn test-node && yarn test-electron && yarn lint-deps"
+    "transpile:watch": "tsc -w",
+    "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js && rimraf tsconfig.tsbuildinfo;",
+    "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test"
   },
   "dependencies": {
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b",
+    "@journeyapps/sqlcipher": "https://github.com/Bilb/node-sqlcipher.git#98039b72e197171b69358b900bc179ffc22e1f32",
     "@reduxjs/toolkit": "^1.4.0",
     "@sindresorhus/is": "0.8.0",
     "abort-controller": "3.0.0",
@@ -219,7 +212,7 @@
     "webpack": "4.4.1"
   },
   "engines": {
-    "node": "^10.13.0"
+    "node": "^10.19.0"
   },
   "build": {
     "appId": "com.loki-project.messenger-desktop",

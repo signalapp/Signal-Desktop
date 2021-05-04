@@ -42,15 +42,9 @@ describe('Message Functions', function() {
     await Common.sendMessage(app, messageText, fileLocation);
 
     // validate attachment sent
-    await app.client.waitForExist(
-      ConversationPage.existingSendMessageText(messageText),
-      3000
-    );
+    await app.client.waitForExist(ConversationPage.existingSendMessageText(messageText), 3000);
     // validate attachment recieved
-    await app2.client.waitForExist(
-      ConversationPage.existingReceivedMessageText(messageText),
-      5000
-    );
+    await app2.client.waitForExist(ConversationPage.existingReceivedMessageText(messageText), 5000);
   });
 
   it('messageFunction: can delete message', async () => {
@@ -59,31 +53,19 @@ describe('Message Functions', function() {
     const messageText = 'delete_me';
     await Common.sendMessage(app, messageText);
 
-    await app.client.waitForExist(
-      ConversationPage.existingSendMessageText(messageText),
-      6000
-    );
-    await app2.client.waitForExist(
-      ConversationPage.existingReceivedMessageText(messageText),
-      7000
-    );
+    await app.client.waitForExist(ConversationPage.existingSendMessageText(messageText), 6000);
+    await app2.client.waitForExist(ConversationPage.existingReceivedMessageText(messageText), 7000);
 
     // delete message in context menu
-    await app.client
-      .element(ConversationPage.messageCtxMenu(messageText))
-      .click();
+    await app.client.element(ConversationPage.messageCtxMenu(messageText)).click();
     await app.client.element(ConversationPage.deleteMessageCtxButton).click();
 
     // delete message from modal
-    await app.client.waitForExist(
-      ConversationPage.deleteMessageModalButton,
-      5000
-    );
+    await app.client.waitForExist(ConversationPage.deleteMessageModalButton, 5000);
     await app.client.element(ConversationPage.deleteMessageModalButton).click();
 
     // verify the message is actually deleted
-    await app.client.isExisting(
-      ConversationPage.existingSendMessageText(messageText)
-    ).should.eventually.be.false;
+    await app.client.isExisting(ConversationPage.existingSendMessageText(messageText)).should
+      .eventually.be.false;
   });
 });

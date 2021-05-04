@@ -14,11 +14,7 @@ describe('Errors', () => {
 
       const formattedError = Errors.toLogFormat(error);
       assert.include(formattedError, 'errors_test.js');
-      assert.include(
-        formattedError,
-        APP_ROOT_PATH,
-        'Formatted stack has app path'
-      );
+      assert.include(formattedError, APP_ROOT_PATH, 'Formatted stack has app path');
     });
 
     it('should return error string representation if stack is missing', () => {

@@ -23,10 +23,7 @@ const Tab = ({
 
   return (
     <h1
-      className={classNames(
-        'module-left-pane__title',
-        isSelected ? 'active' : null
-      )}
+      className={classNames('module-left-pane__title', isSelected ? 'active' : null)}
       onClick={handleClick}
       role="button"
     >
@@ -49,11 +46,7 @@ export const LeftPaneSectionHeader = (props: Props) => {
     <div className="module-left-pane__header">
       {label && <Tab label={label} type={0} isSelected={true} key={label} />}
       {buttonIcon && (
-        <SessionButton
-          onClick={buttonClicked}
-          key="compose"
-          theme={props.theme}
-        >
+        <SessionButton onClick={buttonClicked} key="compose" theme={props.theme}>
           <SessionIcon
             iconType={buttonIcon}
             iconSize={SessionIconSize.Small}

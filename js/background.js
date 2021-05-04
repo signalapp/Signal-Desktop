@@ -106,7 +106,7 @@
     if (specialConvInited) {
       return;
     }
-    const publicConversations = await window.Signal.Data.getAllPublicConversations();
+    const publicConversations = await window.Signal.Data.getAllOpenGroupV1Conversations();
     publicConversations.forEach(conversation => {
       // weird but create the object and does everything we need
       conversation.getPublicSendData();
@@ -119,9 +119,9 @@
       return;
     }
     const ourKey = libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
-    window.lokiMessageAPI = new window.LokiMessageAPI();
     // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
+
     // singleton to interface the File server
     // If already exists we registered as a secondary device
     if (!window.lokiFileServerAPI) {
@@ -160,17 +160,9 @@
     // Update zoom
     window.updateZoomFactor();
 
-    const currentPoWDifficulty = storage.get('PoWDifficulty', null);
-    if (!currentPoWDifficulty) {
-      storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());
-    }
-
     // Ensure accounts created prior to 1.0.0-beta8 do have their
     // 'primaryDevicePubKey' defined.
-    if (
-      Whisper.Registration.isDone() &&
-      !storage.get('primaryDevicePubKey', null)
-    ) {
+    if (Whisper.Registration.isDone() && !storage.get('primaryDevicePubKey', null)) {
       storage.put(
         'primaryDevicePubKey',
         window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache()
@@ -206,7 +198,7 @@
 
       shutdown: async () => {
         // Stop background processing
-        window.Signal.AttachmentDownloads.stop();
+        window.libsession.Utils.AttachmentDownloads.stop();
 
         // Stop processing incoming messages
         if (messageReceiver) {
@@ -225,9 +217,7 @@
     await storage.put('version', currentVersion);
 
     if (newVersion) {
-      window.log.info(
-        `New version detected: ${currentVersion}; previous: ${lastVersion}`
-      );
+      window.log.info(`New version detected: ${currentVersion}; previous: ${lastVersion}`);
 
       await window.Signal.Data.cleanupOrphanedAttachments();
 
@@ -264,31 +254,26 @@
     }
   });
 
-  Whisper.events.on(
-    'deleteLocalPublicMessages',
-    async ({ messageServerIds, conversationId }) => {
-      if (!Array.isArray(messageServerIds)) {
-        return;
-      }
-      const messageIds = await window.Signal.Data.getMessageIdsFromServerIds(
-        messageServerIds,
-        conversationId
-      );
-      if (messageIds.length === 0) {
-        return;
-      }
-
-      const conversation = window
-        .getConversationController()
-        .get(conversationId);
-      messageIds.forEach(id => {
-        if (conversation) {
-          conversation.removeMessage(id);
-        }
-        window.Signal.Data.removeMessage(id);
-      });
+  Whisper.events.on('deleteLocalPublicMessages', async ({ messageServerIds, conversationId }) => {
+    if (!Array.isArray(messageServerIds)) {
+      return;
     }
-  );
+    const messageIds = await window.Signal.Data.getMessageIdsFromServerIds(
+      messageServerIds,
+      conversationId
+    );
+    if (messageIds.length === 0) {
+      return;
+    }
+
+    const conversation = window.getConversationController().get(conversationId);
+    messageIds.forEach(id => {
+      if (conversation) {
+        conversation.removeMessage(id);
+      }
+      window.Signal.Data.removeMessage(id);
+    });
+  });
 
   function manageExpiringData() {
     window.Signal.Data.cleanSeenMessages();
@@ -302,9 +287,7 @@
 
     window.log.info('Cleanup: starting...');
 
-    const results = await Promise.all([
-      window.Signal.Data.getOutgoingWithoutExpiresAt(),
-    ]);
+    const results = await Promise.all([window.Signal.Data.getOutgoingWithoutExpiresAt()]);
 
     // Combine the models
     const messagesForCleanup = results.reduce(
@@ -312,29 +295,20 @@
       []
     );
 
-    window.log.info(
-      `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
-    );
+    window.log.info(`Cleanup: Found ${messagesForCleanup.length} messages for cleanup`);
     await Promise.all(
       messagesForCleanup.map(async message => {
         const delivered = message.get('delivered');
         const sentAt = message.get('sent_at');
-        const expirationStartTimestamp = message.get(
-          'expirationStartTimestamp'
-        );
+        const expirationStartTimestamp = message.get('expirationStartTimestamp');
 
         if (message.hasErrors()) {
           return;
         }
 
         if (delivered) {
-          window.log.info(
-            `Cleanup: Starting timer for delivered message ${sentAt}`
-          );
-          message.set(
-            'expirationStartTimestamp',
-            expirationStartTimestamp || sentAt
-          );
+          window.log.info(`Cleanup: Starting timer for delivered message ${sentAt}`);
+          message.set('expirationStartTimestamp', expirationStartTimestamp || sentAt);
           await message.setToExpire();
           return;
         }
@@ -484,13 +458,11 @@
                   profileKey
                 );
 
-                const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatar(
-                  {
-                    ...dataResized,
-                    data: encryptedData,
-                    size: encryptedData.byteLength,
-                  }
-                );
+                const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatarV1({
+                  ...dataResized,
+                  data: encryptedData,
+                  size: encryptedData.byteLength,
+                });
 
                 ({ url } = avatarPointer);
 
@@ -511,12 +483,8 @@
                   avatar: newAvatarPath,
                 });
                 await conversation.commit();
-                window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(
-                  Date.now()
-                );
-                await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
-                  true
-                );
+                window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(Date.now());
+                await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(true);
               } catch (error) {
                 window.log.error(
                   'showEditProfileDialog Error ensuring that image is properly sized:',
@@ -530,12 +498,8 @@
               });
               // might be good to not trigger a sync if the name did not change
               await conversation.commit();
-              window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(
-                Date.now()
-              );
-              await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(
-                true
-              );
+              window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(Date.now());
+              await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(true);
             }
 
             // inform all your registered public servers
@@ -550,9 +514,7 @@
                 .getConversationController()
                 .getConversations()
                 .filter(convo => convo.isPublic())
-                .forEach(convo =>
-                  convo.trigger('ourAvatarChanged', { url, profileKey })
-                );
+                .forEach(convo => convo.trigger('ourAvatarChanged', { url, profileKey }));
             }
           },
         });
@@ -639,48 +601,7 @@
       }
     });
 
-    Whisper.events.on(
-      'publicChatInvitationAccepted',
-      async (serverAddress, channelId) => {
-        // To some degree this has been copy-pasted
-        // form connection_to_server_dialog_view.js:
-        const rawServerUrl = serverAddress
-          .replace(/^https?:\/\//i, '')
-          .replace(/[/\\]+$/i, '');
-        const sslServerUrl = `https://${rawServerUrl}`;
-        const conversationId = `publicChat:${channelId}@${rawServerUrl}`;
-
-        const conversationExists = window
-          .getConversationController()
-          .get(conversationId);
-        if (conversationExists) {
-          window.log.warn('We are already a member of this public chat');
-          window.libsession.Utils.ToastUtils.pushAlreadyMemberOpenGroup();
-
-          return;
-        }
-
-        const conversation = await window
-          .getConversationController()
-          .getOrCreateAndWait(conversationId, 'group');
-        await conversation.setPublicSource(sslServerUrl, channelId);
-
-        const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
-          sslServerUrl,
-          channelId,
-          conversationId
-        );
-        if (!channelAPI) {
-          window.log.warn(`Could not connect to ${serverAddress}`);
-          return;
-        }
-        window.inboxStore.dispatch(
-          window.actionsCreators.openConversationExternal(conversationId)
-        );
-      }
-    );
-
-    Whisper.events.on('leaveGroup', async groupConvo => {
+    Whisper.events.on('leaveClosedGroup', async groupConvo => {
       if (appView) {
         appView.showLeaveGroupDialog(groupConvo);
       }
@@ -689,9 +610,7 @@
     Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
       if (id) {
-        window.inboxStore.dispatch(
-          window.actionsCreators.openConversationExternal(id, messageId)
-        );
+        window.inboxStore.dispatch(window.actionsCreators.openConversationExternal(id, messageId));
       } else {
         appView.openInbox({
           initialLoadComplete,
@@ -789,7 +708,7 @@
     if (messageReceiver) {
       await messageReceiver.close();
     }
-    window.Signal.AttachmentDownloads.stop();
+    window.libsession.Utils.AttachmentDownloads.stop();
   }
 
   let connectCount = 0;
@@ -801,9 +720,7 @@
       window.addEventListener('offline', onOffline);
     }
     if (connectCount === 0 && !navigator.onLine) {
-      window.log.warn(
-        'Starting up offline; will connect when we have network access'
-      );
+      window.log.warn('Starting up offline; will connect when we have network access');
       window.addEventListener('online', onOnline);
       onEmpty(); // this ensures that the loading screen is dismissed
       return;
@@ -840,19 +757,13 @@
     initAPIs();
     await initSpecialConversations();
     messageReceiver = new textsecure.MessageReceiver();
-    messageReceiver.addEventListener(
-      'message',
-      window.DataMessageReceiver.handleMessageEvent
-    );
-    messageReceiver.addEventListener(
-      'sent',
-      window.DataMessageReceiver.handleMessageEvent
-    );
+    messageReceiver.addEventListener('message', window.DataMessageReceiver.handleMessageEvent);
+    messageReceiver.addEventListener('sent', window.DataMessageReceiver.handleMessageEvent);
     messageReceiver.addEventListener('reconnect', onReconnect);
     messageReceiver.addEventListener('configuration', onConfiguration);
     // messageReceiver.addEventListener('typing', onTyping);
 
-    window.Signal.AttachmentDownloads.start({
+    window.libsession.Utils.AttachmentDownloads.start({
       logger: window.log,
     });
 

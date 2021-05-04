@@ -28,14 +28,10 @@ export class StagedGenericAttachment extends React.Component<Props> {
         />
         <div className="module-staged-generic-attachment__icon">
           {extension ? (
-            <div className="module-staged-generic-attachment__icon__extension">
-              {extension}
-            </div>
+            <div className="module-staged-generic-attachment__icon__extension">{extension}</div>
           ) : null}
         </div>
-        <div className="module-staged-generic-attachment__filename">
-          {fileName}
-        </div>
+        <div className="module-staged-generic-attachment__filename">{fileName}</div>
       </div>
     );
   }

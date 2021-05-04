@@ -25,11 +25,7 @@ class AdminLeaveClosedGroupDialogInner extends React.Component<Props> {
     const okText = window.i18n('leaveAndRemoveForEveryone');
 
     return (
-      <SessionModal
-        title={titleText}
-        onClose={this.closeDialog}
-        theme={this.props.theme}
-      >
+      <SessionModal title={titleText} onClose={this.closeDialog} theme={this.props.theme}>
         <div className="spacer-lg" />
         <p>{warningAsAdmin}</p>
 

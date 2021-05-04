@@ -2,6 +2,7 @@ import * as MessageEncrypter from './MessageEncrypter';
 import * as DecryptedAttachmentsManager from './DecryptedAttachmentsManager';
 
 export { MessageEncrypter, DecryptedAttachmentsManager };
+import crypto from 'crypto';
 
 // libsodium-wrappers requires the `require` call to work
 // tslint:disable-next-line: no-require-imports
@@ -13,6 +14,13 @@ export async function getSodium(): Promise<typeof libsodiumwrappers> {
   await libsodiumwrappers.ready;
   return libsodiumwrappers;
 }
+
+export const sha256 = (s: string) => {
+  return crypto
+    .createHash('sha256')
+    .update(s)
+    .digest('base64');
+};
 
 export const concatUInt8Array = (...args: Array<Uint8Array>): Uint8Array => {
   const totalLength = args.reduce((acc, current) => acc + current.length, 0);
@@ -36,9 +44,7 @@ export async function generateClosedGroupPublicKey() {
   const sodium = await getSodium();
 
   const ed25519KeyPair = sodium.crypto_sign_keypair();
-  const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
-    ed25519KeyPair.publicKey
-  );
+  const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(ed25519KeyPair.publicKey);
   // prepend version byte (coming from `processKeys(raw_keys)`)
   const origPub = new Uint8Array(x25519PublicKey);
   const prependedX25519PublicKey = new Uint8Array(33);
@@ -56,12 +62,8 @@ export async function generateCurve25519KeyPairWithoutPrefix(): Promise<ECKeyPai
 
   try {
     const ed25519KeyPair = sodium.crypto_sign_keypair();
-    const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
-      ed25519KeyPair.publicKey
-    );
-    const x25519SecretKey = sodium.crypto_sign_ed25519_sk_to_curve25519(
-      ed25519KeyPair.privateKey
-    );
+    const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(ed25519KeyPair.publicKey);
+    const x25519SecretKey = sodium.crypto_sign_ed25519_sk_to_curve25519(ed25519KeyPair.privateKey);
 
     return new ECKeyPair(x25519PublicKey, x25519SecretKey);
   } catch (err) {

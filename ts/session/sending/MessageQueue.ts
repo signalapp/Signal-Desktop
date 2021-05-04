@@ -18,6 +18,9 @@ import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMe
 import { ClosedGroupVisibleMessage } from '../messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { SyncMessageType } from '../utils/syncUtils';
 
+import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
+import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
   | ClosedGroupAddedMembersMessage
@@ -44,17 +47,14 @@ export class MessageQueue {
     message: ContentMessage,
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
-    if (
-      message instanceof ConfigurationMessage ||
-      !!(message as any).syncTarget
-    ) {
+    if (message instanceof ConfigurationMessage || !!(message as any).syncTarget) {
       throw new Error('SyncMessage needs to be sent with sendSyncMessage');
     }
     await this.process(user, message, sentCb);
   }
 
   /**
-   * This function is synced. It will wait for the message to be delivered to the open
+   * DEPRECATED This function is synced. It will wait for the message to be delivered to the open
    * group to return.
    * So there is no need for a sendCb callback
    *
@@ -77,10 +77,35 @@ export class MessageQueue {
         void MessageSentHandler.handlePublicMessageSentSuccess(message, result);
       }
     } catch (e) {
-      window?.log?.warn(
-        `Failed to send message to open group: ${message.group.server}`,
-        e
-      );
+      window?.log?.warn(`Failed to send message to open group: ${message.group.server}`, e);
+      void MessageSentHandler.handleMessageSentFailure(message, error);
+    }
+  }
+
+  /**
+   * This function is synced. It will wait for the message to be delivered to the open
+   * group to return.
+   * So there is no need for a sendCb callback
+   *
+   */
+  public async sendToOpenGroupV2(
+    message: OpenGroupVisibleMessage,
+    roomInfos: OpenGroupRequestCommonType
+  ) {
+    // No queue needed for Open Groups v2; send directly
+    const error = new Error('Failed to send message to open group.');
+
+    try {
+      const { sentTimestamp, serverId } = await MessageSender.sendToOpenGroupV2(message, roomInfos);
+      if (!serverId) {
+        throw new Error(`Invalid serverId returned by server: ${serverId}`);
+      }
+      void MessageSentHandler.handlePublicMessageSentSuccess(message, {
+        serverId: serverId,
+        serverTimestamp: sentTimestamp,
+      });
+    } catch (e) {
+      window?.log?.warn(`Failed to send message to open group: ${roomInfos}`, e);
       void MessageSentHandler.handleMessageSentFailure(message, error);
     }
   }
@@ -94,10 +119,7 @@ export class MessageQueue {
     sentCb?: (message: RawMessage) => Promise<void>
   ): Promise<void> {
     let groupId: PubKey | undefined;
-    if (
-      message instanceof ExpirationTimerUpdateMessage ||
-      message instanceof ClosedGroupMessage
-    ) {
+    if (message instanceof ExpirationTimerUpdateMessage || message instanceof ClosedGroupMessage) {
       groupId = message.groupId;
     }
 
@@ -115,10 +137,7 @@ export class MessageQueue {
     if (!message) {
       return;
     }
-    if (
-      !(message instanceof ConfigurationMessage) &&
-      !(message as any)?.syncTarget
-    ) {
+    if (!(message instanceof ConfigurationMessage) && !(message as any)?.syncTarget) {
       throw new Error('Invalid message given to sendSyncMessage');
     }
 
@@ -139,14 +158,9 @@ export class MessageQueue {
         const job = async () => {
           try {
             const wrappedEnvelope = await MessageSender.send(message);
-            await MessageSentHandler.handleMessageSentSuccess(
-              message,
-              wrappedEnvelope
-            );
+            await MessageSentHandler.handleMessageSentSuccess(message, wrappedEnvelope);
 
-            const cb = this.pendingMessageCache.callbacks.get(
-              message.identifier
-            );
+            const cb = this.pendingMessageCache.callbacks.get(message.identifier);
 
             if (cb) {
               await cb(message);

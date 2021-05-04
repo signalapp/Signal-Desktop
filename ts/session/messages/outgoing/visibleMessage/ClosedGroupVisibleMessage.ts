@@ -23,19 +23,12 @@ export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
     });
     this.chatMessage = params.chatMessage;
   }
-
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
-  }
-
   public dataProto(): SignalService.DataMessage {
     const dataProto = this.chatMessage.dataProto();
 
     if (this.groupId) {
       const groupMessage = new SignalService.GroupContext();
-      const groupIdWithPrefix = PubKey.addTextSecurePrefixIfNeeded(
-        this.groupId.key
-      );
+      const groupIdWithPrefix = PubKey.addTextSecurePrefixIfNeeded(this.groupId.key);
       const encoded = StringUtils.encode(groupIdWithPrefix, 'utf8');
       const id = new Uint8Array(encoded);
       groupMessage.id = id;

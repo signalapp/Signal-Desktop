@@ -20,10 +20,7 @@ const Mention = (props: MentionProps) => {
 
   const tryRenameMention = async () => {
     if (!found) {
-      const foundMember = await FindMember.findMember(
-        props.text.slice(1),
-        props.convoId
-      );
+      const foundMember = await FindMember.findMember(props.text.slice(1), props.convoId);
 
       if (foundMember) {
         const itsUs = UserUtils.isUsFromCache(foundMember.id);
@@ -38,17 +35,12 @@ const Mention = (props: MentionProps) => {
 
   if (found) {
     // TODO: We don't have to search the database of message just to know that the message is for us!
-    const className = classNames(
-      'mention-profile-name',
-      us && 'mention-profile-name-us'
-    );
+    const className = classNames('mention-profile-name', us && 'mention-profile-name-us');
 
     const displayedName = found.getContactProfileNameOrShortenedPubKey();
     return <span className={className}>{displayedName}</span>;
   } else {
-    return (
-      <span className="mention-profile-name">{PubKey.shorten(props.text)}</span>
-    );
+    return <span className="mention-profile-name">{PubKey.shorten(props.text)}</span>;
   }
 };
 

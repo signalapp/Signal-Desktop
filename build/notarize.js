@@ -21,16 +21,10 @@ exports.default = async function notarizing(context) {
   log('Notarizing mac application');
 
   const appName = context.packager.appInfo.productFilename;
-  const {
-    SIGNING_APPLE_ID,
-    SIGNING_APP_PASSWORD,
-    SIGNING_TEAM_ID,
-  } = process.env;
+  const { SIGNING_APPLE_ID, SIGNING_APP_PASSWORD, SIGNING_TEAM_ID } = process.env;
 
   if (isEmpty(SIGNING_APPLE_ID) || isEmpty(SIGNING_APP_PASSWORD)) {
-    log(
-      'SIGNING_APPLE_ID or SIGNING_APP_PASSWORD not set.\nTerminating noratization.'
-    );
+    log('SIGNING_APPLE_ID or SIGNING_APP_PASSWORD not set.\nTerminating noratization.');
     return;
   }
 

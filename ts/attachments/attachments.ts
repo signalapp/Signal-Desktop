@@ -6,10 +6,7 @@ import { default as glob } from 'glob';
 import fse from 'fs-extra';
 import toArrayBuffer from 'to-arraybuffer';
 import { isArrayBuffer, isString, map } from 'lodash';
-import {
-  decryptAttachmentBuffer,
-  encryptAttachmentBuffer,
-} from '../../ts/types/Attachment';
+import { decryptAttachmentBuffer, encryptAttachmentBuffer } from '../../ts/types/Attachment';
 
 const PATH = 'attachments.noindex';
 
@@ -111,9 +108,7 @@ export const createWriterForExisting = (root: any) => {
     }
 
     await fse.ensureFile(normalized);
-    const { encryptedBufferWithHeader } = await encryptAttachmentBuffer(
-      arrayBuffer
-    );
+    const { encryptedBufferWithHeader } = await encryptAttachmentBuffer(arrayBuffer);
     const buffer = Buffer.from(encryptedBufferWithHeader.buffer);
 
     await fse.writeFile(normalized, buffer);
@@ -175,9 +170,7 @@ export const getRelativePath = (name: any) => {
 };
 
 //      createAbsolutePathGetter :: RootPath -> RelativePath -> AbsolutePath
-export const createAbsolutePathGetter = (rootPath: string) => (
-  relativePath: string
-) => {
+export const createAbsolutePathGetter = (rootPath: string) => (relativePath: string) => {
   const absolutePath = path.join(rootPath, relativePath);
   const normalized = path.normalize(absolutePath);
   if (!normalized.startsWith(rootPath)) {

@@ -57,8 +57,7 @@
 
       const { isEnabled } = this;
       const isAppFocused = isFocused();
-      const isAudioNotificationEnabled =
-        storage.get('audio-notification') || false;
+      const isAudioNotificationEnabled = storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
       // const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
       const numNotifications = this.length;
@@ -99,9 +98,7 @@
       // e.g. Russian:
       // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
       const newMessageCountLabel = `${messagesNotificationCount} ${
-        messagesNotificationCount === 1
-          ? i18n('newMessage')
-          : i18n('newMessages')
+        messagesNotificationCount === 1 ? i18n('newMessage') : i18n('newMessages')
       }`;
 
       const last = this.last().toJSON();
@@ -141,14 +138,11 @@
           iconUrl = last.iconUrl;
           break;
         default:
-          window.log.error(
-            `Error: Unknown user notification setting: '${userSetting}'`
-          );
+          window.log.error(`Error: Unknown user notification setting: '${userSetting}'`);
           break;
       }
 
-      const shouldHideExpiringMessageBody =
-        last.isExpiringMessage && Signal.OS.isMacOS();
+      const shouldHideExpiringMessageBody = last.isExpiringMessage && Signal.OS.isMacOS();
       if (shouldHideExpiringMessageBody) {
         message = i18n('newMessage');
       }
@@ -160,8 +154,7 @@
         icon: iconUrl,
         silent: !status.shouldPlayNotificationSound,
       });
-      this.lastNotification.onclick = () =>
-        this.trigger('click', last.conversationId, last.id);
+      this.lastNotification.onclick = () => this.trigger('click', last.conversationId, last.id);
 
       // We continue to build up more and more messages for our notifications
       // until the user comes back to our app or closes the app. Then we’ll

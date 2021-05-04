@@ -6,12 +6,8 @@ import is from '@sindresorhus/is';
 
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
-import {
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from './session/icon';
-import { Flex } from './session/Flex';
+import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
+import { Flex } from './basic/Flex';
 import { DefaultTheme } from 'styled-components';
 // useCss has some issues on our setup. so import it directly
 // tslint:disable-next-line: no-submodule-imports
@@ -179,17 +175,13 @@ const IconButton = ({ onClick, type, theme }: IconButtonProps) => {
   );
 };
 
-const IconButtonPlaceholder = () => (
-  <div style={styles.iconButtonPlaceholder} />
-);
+const IconButtonPlaceholder = () => <div style={styles.iconButtonPlaceholder} />;
 
 const Icon = ({
   onClick,
   url,
 }: {
-  onClick?: (
-    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
-  ) => void;
+  onClick?: (event: React.MouseEvent<HTMLImageElement | HTMLDivElement>) => void;
   url: string;
 }) => (
   <div
@@ -252,13 +244,7 @@ export const LightboxObject = ({
   });
 
   if (isImageTypeSupported) {
-    return (
-      <img
-        style={styles.object}
-        alt={window.i18n('lightboxImageAlt')}
-        src={urlToLoad}
-      />
-    );
+    return <img style={styles.object} alt={window.i18n('lightboxImageAlt')} src={urlToLoad} />;
   }
 
   const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
@@ -280,14 +266,10 @@ export const LightboxObject = ({
     );
   }
 
-  const isUnsupportedImageType =
-    !isImageTypeSupported && MIME.isImage(contentType);
-  const isUnsupportedVideoType =
-    !isVideoTypeSupported && MIME.isVideo(contentType);
+  const isUnsupportedImageType = !isImageTypeSupported && MIME.isImage(contentType);
+  const isUnsupportedVideoType = !isVideoTypeSupported && MIME.isVideo(contentType);
   if (isUnsupportedImageType || isUnsupportedVideoType) {
-    const iconUrl = isUnsupportedVideoType
-      ? 'images/video.svg'
-      : 'images/image.svg';
+    const iconUrl = isUnsupportedVideoType ? 'images/video.svg' : 'images/image.svg';
 
     return <Icon url={iconUrl} onClick={onObjectClick} />;
   }
@@ -351,12 +333,7 @@ export const Lightbox = (props: Props) => {
           </Flex>
 
           {onSave ? (
-            <IconButton
-              type="save"
-              onClick={onSave}
-              style={styles.saveButton}
-              theme={theme}
-            />
+            <IconButton type="save" onClick={onSave} style={styles.saveButton} theme={theme} />
           ) : null}
         </div>
       </div>

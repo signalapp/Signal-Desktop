@@ -2,10 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
-import {
-  SessionDropdownItem,
-  SessionDropDownItemType,
-} from './SessionDropdownItem';
+import { SessionDropdownItem, SessionDropDownItemType } from './SessionDropdownItem';
 
 // THIS IS DROPDOWN ACCORDIAN STYLE OPTIONS SELECTOR ELEMENT, NOT A CONTEXTMENU
 

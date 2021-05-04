@@ -20,17 +20,11 @@ export class ECKeyPair {
   }
 
   public static fromKeyPair(pair: KeyPair) {
-    return new ECKeyPair(
-      new Uint8Array(pair.pubKey),
-      new Uint8Array(pair.privKey)
-    );
+    return new ECKeyPair(new Uint8Array(pair.pubKey), new Uint8Array(pair.privKey));
   }
 
   public static fromHexKeyPair(pair: HexKeyPair) {
-    return new ECKeyPair(
-      fromHexToArray(pair.publicHex),
-      fromHexToArray(pair.privateHex)
-    );
+    return new ECKeyPair(fromHexToArray(pair.publicHex), fromHexToArray(pair.privateHex));
   }
 
   public toString() {

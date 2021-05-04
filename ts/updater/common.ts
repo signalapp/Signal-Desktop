@@ -65,10 +65,7 @@ export async function showUpdateDialog(
   return ret.response === RESTART_BUTTON;
 }
 
-export async function showCannotUpdateDialog(
-  mainWindow: BrowserWindow,
-  messages: MessagesType
-) {
+export async function showCannotUpdateDialog(mainWindow: BrowserWindow, messages: MessagesType) {
   const options = {
     type: 'error',
     buttons: [messages.ok.message],

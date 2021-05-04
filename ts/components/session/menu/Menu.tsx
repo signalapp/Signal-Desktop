@@ -20,11 +20,7 @@ function showBlock(isMe: boolean, isPrivate: boolean): boolean {
   return !isMe && isPrivate;
 }
 
-function showClearNickname(
-  isPublic: boolean,
-  isMe: boolean,
-  hasNickname: boolean
-): boolean {
+function showClearNickname(isPublic: boolean, isMe: boolean, hasNickname: boolean): boolean {
   return !isPublic && !isMe && hasNickname;
 }
 
@@ -45,31 +41,18 @@ function showDeleteContact(
   isKickedFromGroup: boolean
 ): boolean {
   // you need to have left a closed group first to be able to delete it completely.
-  return (
-    (!isMe && !isGroup) ||
-    (isGroup && (isGroupLeft || isKickedFromGroup || isPublic))
-  );
+  return (!isMe && !isGroup) || (isGroup && (isGroupLeft || isKickedFromGroup || isPublic));
 }
 
-function showAddModerators(
-  isAdmin: boolean,
-  isKickedFromGroup: boolean
-): boolean {
+function showAddModerators(isAdmin: boolean, isKickedFromGroup: boolean): boolean {
   return !isKickedFromGroup && isAdmin;
 }
 
-function showRemoveModerators(
-  isAdmin: boolean,
-  isKickedFromGroup: boolean
-): boolean {
+function showRemoveModerators(isAdmin: boolean, isKickedFromGroup: boolean): boolean {
   return !isKickedFromGroup && isAdmin;
 }
 
-function showUpdateGroupName(
-  isAdmin: boolean,
-  isKickedFromGroup: boolean,
-  left: boolean
-): boolean {
+function showUpdateGroupName(isAdmin: boolean, isKickedFromGroup: boolean, left: boolean): boolean {
   return !isKickedFromGroup && !left && isAdmin;
 }
 
@@ -135,12 +118,7 @@ export function getLeaveGroupMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (
-    showLeaveGroup(
-      Boolean(isKickedFromGroup),
-      Boolean(left),
-      Boolean(isGroup),
-      Boolean(isPublic)
-    )
+    showLeaveGroup(Boolean(isKickedFromGroup), Boolean(left), Boolean(isGroup), Boolean(isPublic))
   ) {
     return <Item onClick={action}>{i18n('leaveGroup')}</Item>;
   }
@@ -154,13 +132,7 @@ export function getUpdateGroupNameMenuItem(
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (
-    showUpdateGroupName(
-      Boolean(isAdmin),
-      Boolean(isKickedFromGroup),
-      Boolean(left)
-    )
-  ) {
+  if (showUpdateGroupName(Boolean(isAdmin), Boolean(isKickedFromGroup), Boolean(left))) {
     return <Item onClick={action}>{i18n('editGroup')}</Item>;
   }
   return null;
@@ -197,18 +169,13 @@ export function getCopyMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showCopyId(Boolean(isPublic), Boolean(isGroup))) {
-    const copyIdLabel = isPublic
-      ? i18n('copyOpenGroupURL')
-      : i18n('copySessionID');
+    const copyIdLabel = isPublic ? i18n('copyOpenGroupURL') : i18n('copySessionID');
     return <Item onClick={action}>{copyIdLabel}</Item>;
   }
   return null;
 }
 
-export function getMarkAllReadMenuItem(
-  action: any,
-  i18n: LocalizerType
-): JSX.Element | null {
+export function getMarkAllReadMenuItem(action: any, i18n: LocalizerType): JSX.Element | null {
   return <Item onClick={action}>{i18n('markAllAsRead')}</Item>;
 }
 
@@ -291,9 +258,7 @@ export function getClearNicknameMenuItem(
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (
-    showClearNickname(Boolean(isPublic), Boolean(isMe), Boolean(hasNickname))
-  ) {
+  if (showClearNickname(Boolean(isPublic), Boolean(isMe), Boolean(hasNickname))) {
     return <Item onClick={action}>{i18n('clearNickname')}</Item>;
   }
   return null;

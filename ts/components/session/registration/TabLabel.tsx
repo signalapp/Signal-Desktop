@@ -21,10 +21,7 @@ export const TabLabel = ({
       }
     : undefined;
 
-  const label =
-    type === TabType.SignUp
-      ? window.i18n('createAccount')
-      : window.i18n('signIn');
+  const label = type === TabType.SignUp ? window.i18n('createAccount') : window.i18n('signIn');
 
   return (
     <div

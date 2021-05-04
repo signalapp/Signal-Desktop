@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar, AvatarSize } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
@@ -6,7 +6,7 @@ import { SessionToastContainer } from './SessionToastContainer';
 import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
-import { DAYS, MINUTES, SECONDS } from '../../session/utils/Number';
+import { DAYS, MINUTES } from '../../session/utils/Number';
 import {
   generateAttachmentKeyIfEmpty,
   getItemById,
@@ -28,9 +28,11 @@ import { getFocusedSection } from '../../state/selectors/section';
 import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
 import { showLeftPaneSection } from '../../state/ducks/section';
+
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
-import { useTimeoutFn } from 'react-use';
-import { getSodium } from '../../session/crypto';
+import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
+import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
+import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -104,8 +106,7 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
       iconType = SessionIconType.Moon;
   }
 
-  const unreadToShow =
-    type === SectionType.Message ? unreadMessageCount : undefined;
+  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
 
   return (
     <SessionIconButton
@@ -130,6 +131,53 @@ const showResetSessionIDDialogIfNeeded = async () => {
 
 const cleanUpMediasInterval = MINUTES * 30;
 
+const setupTheme = (dispatch: Dispatch<any>) => {
+  const theme = window.Events.getThemeSetting();
+  window.setTheme(theme);
+
+  const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
+  dispatch(applyTheme(newThemeObject));
+};
+
+// Do this only if we created a new Session ID, or if we already received the initial configuration message
+const triggerSyncIfIfNeeded = async () => {
+  const didWeHandleAConfigurationMessageAlready =
+    (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+  if (didWeHandleAConfigurationMessageAlready) {
+    await syncConfigurationIfNeeded();
+  }
+};
+
+/**
+ * This function is called only once: on app startup with a logged in user
+ */
+const doAppStartUp = (dispatch: Dispatch<any>) => {
+  if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
+    // Initialize paths for onion requests
+    void OnionPaths.getInstance().buildNewOnionPaths();
+  }
+
+  // init the messageQueue. In the constructor, we add all not send messages
+  // this call does nothing except calling the constructor, which will continue sending message in the pipeline
+  void getMessageQueue().processAllPending();
+  void setupTheme(dispatch);
+
+  // keep that one to make sure our users upgrade to new sessionIDS
+  void showResetSessionIDDialogIfNeeded();
+  // remove existing prekeys, sign prekeys and sessions
+  // FIXME audric, make this in a migration so we can remove this line
+  void clearSessionsAndPreKeys();
+
+  // this generates the key to encrypt attachments locally
+  void generateAttachmentKeyIfEmpty();
+  void OpenGroupManagerV2.getInstance().startPolling();
+  // trigger a sync message if needed for our other devices
+
+  void triggerSyncIfIfNeeded();
+
+  void loadDefaultRooms();
+};
+
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
@@ -143,53 +191,13 @@ export const ActionsPanel = () => {
   // this maxi useEffect is called only once: when the component is mounted.
   // For the action panel, it means this is called only one per app start/with a user loggedin
   useEffect(() => {
-    void window.setClockParams();
-    if (
-      window.lokiFeatureFlags.useOnionRequests ||
-      window.lokiFeatureFlags.useFileOnionRequests
-    ) {
-      // Initialize paths for onion requests
-      void OnionPaths.getInstance().buildNewOnionPaths();
-    }
-
-    // init the messageQueue. In the constructor, we had all not send messages
-    // this call does nothing except calling the constructor, which will continue sending message in the pipeline
-    void getMessageQueue().processAllPending();
-
-    const theme = window.Events.getThemeSetting();
-    window.setTheme(theme);
-
-    const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
-    dispatch(applyTheme(newThemeObject));
-
-    void showResetSessionIDDialogIfNeeded();
-    // remove existing prekeys, sign prekeys and sessions
-    void clearSessionsAndPreKeys();
-    // we consider people had the time to upgrade, so remove this id from the db
-    // it was used to display a dialog when we added the light mode auto-enabled
-    void removeItemById('hasSeenLightModeDialog');
-
-    // Do this only if we created a new Session ID, or if we already received the initial configuration message
-
-    const syncConfiguration = async () => {
-      const didWeHandleAConfigurationMessageAlready =
-        (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
-      if (didWeHandleAConfigurationMessageAlready) {
-        await syncConfigurationIfNeeded();
-      }
-    };
-    void generateAttachmentKeyIfEmpty();
-    // trigger a sync message if needed for our other devices
-    void syncConfiguration();
+    void doAppStartUp(dispatch);
   }, []);
 
   // wait for cleanUpMediasInterval and then start cleaning up medias
   // this would be way easier to just be able to not trigger a call with the setInterval
   useEffect(() => {
-    const timeout = global.setTimeout(
-      () => setStartCleanUpMedia(true),
-      cleanUpMediasInterval
-    );
+    const timeout = global.setTimeout(() => setStartCleanUpMedia(true), cleanUpMediasInterval);
 
     return () => global.clearTimeout(timeout);
   }, []);
@@ -210,12 +218,13 @@ export const ActionsPanel = () => {
     void syncConfigurationIfNeeded();
   }, DAYS * 2);
 
+  useInterval(() => {
+    void forceRefreshRandomSnodePool();
+  }, DAYS * 1);
+
   return (
     <div className="module-left-pane__sections-container">
-      <Section
-        type={SectionType.Profile}
-        avatarPath={ourPrimaryConversation.avatarPath}
-      />
+      <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
       <Section type={SectionType.Message} />
       <Section type={SectionType.Contact} />
       <Section type={SectionType.Settings} />

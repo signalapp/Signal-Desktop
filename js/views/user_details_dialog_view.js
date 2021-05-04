@@ -8,14 +8,7 @@
 
   Whisper.UserDetailsDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
-    initialize({
-      profileName,
-      avatarPath,
-      pubkey,
-      onOk,
-      onStartConversation,
-      theme,
-    }) {
+    initialize({ profileName, avatarPath, pubkey, onOk, onStartConversation, theme }) {
       this.close = this.close.bind(this);
 
       this.profileName = profileName;

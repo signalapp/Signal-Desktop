@@ -36,9 +36,7 @@ class WorkerInterface {
 
       if (errorForDisplay) {
         return reject(
-          new Error(
-            `Error received from worker job ${jobId} (${fnName}): ${errorForDisplay}`
-          )
+          new Error(`Error received from worker job ${jobId} (${fnName}): ${errorForDisplay}`)
         );
       }
 
@@ -72,18 +70,14 @@ class WorkerInterface {
         this._removeJob(id);
         const end = Date.now();
         if (this._DEBUG) {
-          window.log.info(
-            `Worker job ${id} (${fnName}) succeeded in ${end - start}ms`
-          );
+          window.log.info(`Worker job ${id} (${fnName}) succeeded in ${end - start}ms`);
         }
         return resolve(value);
       },
       reject: error => {
         this._removeJob(id);
         const end = Date.now();
-        window.log.info(
-          `Worker job ${id} (${fnName}) failed in ${end - start}ms`
-        );
+        window.log.info(`Worker job ${id} (${fnName}) failed in ${end - start}ms`);
         return reject(error);
       },
     };
@@ -114,10 +108,7 @@ class WorkerInterface {
       });
 
       setTimeout(
-        () =>
-          reject(
-            new TimedOutError(`Worker job ${jobId} (${fnName}) timed out`)
-          ),
+        () => reject(new TimedOutError(`Worker job ${jobId} (${fnName}) timed out`)),
         this.timeout
       );
     });

@@ -1,24 +1,15 @@
 import React from 'react';
 import styled, { DefaultTheme } from 'styled-components';
-import {
-  SessionIcon,
-  SessionIconSize,
-  SessionIconType,
-} from '../../session/icon';
+import { SessionIcon, SessionIconSize, SessionIconType } from '../../session/icon';
 import { OpacityMetadataComponent } from './MessageMetadata';
 
-const MessageStatusSendingContainer = styled(props => (
-  <OpacityMetadataComponent {...props} />
-))`
+const MessageStatusSendingContainer = styled(props => <OpacityMetadataComponent {...props} />)`
   display: inline-block;
   margin-bottom: 2px;
   margin-inline-start: 5px;
 `;
 
-const MessageStatusSending = (props: {
-  theme: DefaultTheme;
-  iconColor: string;
-}) => {
+const MessageStatusSending = (props: { theme: DefaultTheme; iconColor: string }) => {
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
@@ -32,10 +23,7 @@ const MessageStatusSending = (props: {
   );
 };
 
-const MessageStatusSent = (props: {
-  theme: DefaultTheme;
-  iconColor: string;
-}) => {
+const MessageStatusSent = (props: { theme: DefaultTheme; iconColor: string }) => {
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
@@ -48,10 +36,7 @@ const MessageStatusSent = (props: {
   );
 };
 
-const MessageStatusDelivered = (props: {
-  theme: DefaultTheme;
-  iconColor: string;
-}) => {
+const MessageStatusDelivered = (props: { theme: DefaultTheme; iconColor: string }) => {
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
@@ -64,10 +49,7 @@ const MessageStatusDelivered = (props: {
   );
 };
 
-const MessageStatusRead = (props: {
-  theme: DefaultTheme;
-  iconColor: string;
-}) => {
+const MessageStatusRead = (props: { theme: DefaultTheme; iconColor: string }) => {
   return (
     <MessageStatusSendingContainer>
       <SessionIcon

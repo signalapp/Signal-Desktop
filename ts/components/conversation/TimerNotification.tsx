@@ -18,28 +18,17 @@ type Props = {
 export const TimerNotification = (props: Props) => {
   function renderContents() {
     const { phoneNumber, profileName, timespan, type, disabled } = props;
-    const changeKey = disabled
-      ? 'disabledDisappearingMessages'
-      : 'theyChangedTheTimer';
+    const changeKey = disabled ? 'disabledDisappearingMessages' : 'theyChangedTheTimer';
 
     const contact = (
-      <span
-        key={`external-${phoneNumber}`}
-        className="module-timer-notification__contact"
-      >
+      <span key={`external-${phoneNumber}`} className="module-timer-notification__contact">
         {profileName || phoneNumber}
       </span>
     );
 
     switch (type) {
       case 'fromOther':
-        return (
-          <Intl
-            i18n={window.i18n}
-            id={changeKey}
-            components={[contact, timespan]}
-          />
-        );
+        return <Intl i18n={window.i18n} id={changeKey} components={[contact, timespan]} />;
       case 'fromMe':
         return disabled
           ? window.i18n('youDisabledDisappearingMessages')

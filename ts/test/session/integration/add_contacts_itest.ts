@@ -47,14 +47,9 @@ describe('Add contact', function() {
 
     await app.client.element(ConversationPage.contactsButtonSection).click();
     await app.client.element(ConversationPage.addContactButton).click();
-    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
-      .eventually.be.true;
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should.eventually.be.true;
 
-    await Common.setValueWrapper(
-      app,
-      ConversationPage.sessionIDInput,
-      Common.TEST_PUBKEY2
-    );
+    await Common.setValueWrapper(app, ConversationPage.sessionIDInput, Common.TEST_PUBKEY2);
     await app.client
       .element(ConversationPage.sessionIDInput)
       .getValue()
@@ -64,27 +59,18 @@ describe('Add contact', function() {
     await app.client.waitForExist(ConversationPage.sendMessageTextarea, 1000);
 
     // send a text message to that user
-    await app.client
-      .element(ConversationPage.sendMessageTextarea)
-      .setValue(textMessage);
+    await app.client.element(ConversationPage.sendMessageTextarea).setValue(textMessage);
     await app.client.keys('Enter');
-    await app.client.waitForExist(
-      ConversationPage.existingSendMessageText(textMessage),
-      1000
-    );
+    await app.client.waitForExist(ConversationPage.existingSendMessageText(textMessage), 1000);
 
     // assure session request message has been sent
     await Common.timeout(3000);
-    await app.client.isExisting(ConversationPage.retrySendButton).should
-      .eventually.be.false;
+    await app.client.isExisting(ConversationPage.retrySendButton).should.eventually.be.false;
 
     await app2.client.waitForExist(ConversationPage.conversationItem, 5000);
 
     await app2.client.element(ConversationPage.conversationItem).click();
 
-    await app2.client.waitForExist(
-      ConversationPage.existingReceivedMessageText(textMessage),
-      1000
-    );
+    await app2.client.waitForExist(ConversationPage.existingReceivedMessageText(textMessage), 1000);
   });
 });

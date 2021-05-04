@@ -56,12 +56,7 @@ export const ImageGrid = (props: Props) => {
     const { height, width } = getImageDimensions(attachments[0]);
 
     return (
-      <div
-        className={classNames(
-          'module-image-grid',
-          'module-image-grid--one-image'
-        )}
-      >
+      <div className={classNames('module-image-grid', 'module-image-grid--one-image')}>
         <Image
           alt={getAlt(attachments[0], i18n)}
           i18n={i18n}
@@ -229,9 +224,7 @@ export const ImageGrid = (props: Props) => {
   }
 
   const moreMessagesOverlay = attachments.length > 5;
-  const moreMessagesOverlayText = moreMessagesOverlay
-    ? `+${attachments.length - 5}`
-    : undefined;
+  const moreMessagesOverlayText = moreMessagesOverlay ? `+${attachments.length - 5}` : undefined;
 
   return (
     <div className="module-image-grid">

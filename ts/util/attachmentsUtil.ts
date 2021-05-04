@@ -33,21 +33,15 @@ export async function autoScale<T extends { contentType: string; file: any }>(
     img.onload = () => {
       URL.revokeObjectURL(url);
 
-      if (
-        maxMeasurements?.maxSide &&
-        (maxMeasurements?.maxHeight || maxMeasurements?.maxWidth)
-      ) {
+      if (maxMeasurements?.maxSide && (maxMeasurements?.maxHeight || maxMeasurements?.maxWidth)) {
         reject('Cannot have maxSide and another dimension set together');
       }
 
       const maxSize =
-        maxMeasurements?.maxSize ||
-        Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES;
+        maxMeasurements?.maxSize || Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES;
       const makeSquare = Boolean(maxMeasurements?.maxSide);
-      const maxHeight =
-        maxMeasurements?.maxHeight || maxMeasurements?.maxSide || 4096;
-      const maxWidth =
-        maxMeasurements?.maxWidth || maxMeasurements?.maxSide || 4096;
+      const maxHeight = maxMeasurements?.maxHeight || maxMeasurements?.maxSide || 4096;
+      const maxWidth = maxMeasurements?.maxWidth || maxMeasurements?.maxSide || 4096;
 
       if (
         img.naturalWidth <= maxWidth &&
@@ -83,9 +77,7 @@ export async function autoScale<T extends { contentType: string; file: any }>(
       let blob;
       do {
         i -= 1;
-        blob = window.dataURLToBlobSync(
-          canvas.toDataURL('image/jpeg', quality)
-        );
+        blob = window.dataURLToBlobSync(canvas.toDataURL('image/jpeg', quality));
         quality = (quality * maxSize) / blob.size;
 
         if (quality > 1) {
@@ -102,10 +94,7 @@ export async function autoScale<T extends { contentType: string; file: any }>(
   });
 }
 
-export async function getFile(
-  attachment: StagedAttachmentType,
-  maxMeasurements?: MaxScaleSize
-) {
+export async function getFile(attachment: StagedAttachmentType, maxMeasurements?: MaxScaleSize) {
   if (!attachment) {
     return Promise.resolve();
   }

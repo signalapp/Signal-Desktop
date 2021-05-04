@@ -92,10 +92,6 @@ export class VisibleMessage extends DataMessage {
     this.syncTarget = params.syncTarget;
   }
 
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
-  }
-
   public dataProto(): SignalService.DataMessage {
     const dataMessage = new SignalService.DataMessage();
 
@@ -179,9 +175,6 @@ export class VisibleMessage extends DataMessage {
   }
 
   public isEqual(comparator: VisibleMessage): boolean {
-    return (
-      this.identifier === comparator.identifier &&
-      this.timestamp === comparator.timestamp
-    );
+    return this.identifier === comparator.identifier && this.timestamp === comparator.timestamp;
   }
 }

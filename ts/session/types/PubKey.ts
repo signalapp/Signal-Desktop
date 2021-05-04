@@ -60,9 +60,7 @@ export class PubKey {
     const pk = value instanceof PubKey ? valAny.key : value;
 
     if (!pk) {
-      throw new Error(
-        'PubkKey.shorten was given an invalid PubKey to shorten.'
-      );
+      throw new Error('PubkKey.shorten was given an invalid PubKey to shorten.');
     }
 
     return `(...${pk.substring(pk.length - 6)})`;
@@ -125,10 +123,7 @@ export class PubKey {
    * @param keyWithOrWithoutPrefix the key with or without the prefix
    */
   public static remove05PrefixIfNeeded(keyWithOrWithoutPrefix: string): string {
-    if (
-      keyWithOrWithoutPrefix.length === 66 &&
-      keyWithOrWithoutPrefix.startsWith('05')
-    ) {
+    if (keyWithOrWithoutPrefix.length === 66 && keyWithOrWithoutPrefix.startsWith('05')) {
       return keyWithOrWithoutPrefix.substr(2);
     }
     return keyWithOrWithoutPrefix;
@@ -138,9 +133,7 @@ export class PubKey {
    * This adds the `__textsecure_group__!` prefix to a pubkey if this pubkey does not already have it
    * @param keyWithOrWithoutPrefix the key to use as base
    */
-  public static addTextSecurePrefixIfNeeded(
-    keyWithOrWithoutPrefix: string | PubKey
-  ): string {
+  public static addTextSecurePrefixIfNeeded(keyWithOrWithoutPrefix: string | PubKey): string {
     const key =
       keyWithOrWithoutPrefix instanceof PubKey
         ? keyWithOrWithoutPrefix.key
@@ -155,9 +148,7 @@ export class PubKey {
    * This removes the `__textsecure_group__!` prefix from a pubkey if this pubkey have one
    * @param keyWithOrWithoutPrefix the key to use as base
    */
-  public static removeTextSecurePrefixIfNeeded(
-    keyWithOrWithoutPrefix: string | PubKey
-  ): string {
+  public static removeTextSecurePrefixIfNeeded(keyWithOrWithoutPrefix: string | PubKey): string {
     const key =
       keyWithOrWithoutPrefix instanceof PubKey
         ? keyWithOrWithoutPrefix.key

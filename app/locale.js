@@ -13,13 +13,7 @@ function normalizeLocaleName(locale) {
 function getLocaleMessages(locale) {
   const onDiskLocale = locale.replace('-', '_');
 
-  const targetFile = path.join(
-    __dirname,
-    '..',
-    '_locales',
-    onDiskLocale,
-    'messages.json'
-  );
+  const targetFile = path.join(__dirname, '..', '_locales', onDiskLocale, 'messages.json');
 
   return JSON.parse(fs.readFileSync(targetFile, 'utf-8'));
 }
@@ -49,9 +43,7 @@ function load({ appLocale, logger } = {}) {
     // We start with english, then overwrite that with anything present in locale
     messages = _.merge(english, messages);
   } catch (e) {
-    logger.error(
-      `Problem loading messages for locale ${localeName} ${e.stack}`
-    );
+    logger.error(`Problem loading messages for locale ${localeName} ${e.stack}`);
     logger.error('Falling back to en locale');
 
     localeName = 'en';

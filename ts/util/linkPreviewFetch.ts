@@ -1,14 +1,7 @@
 import { RequestInit, Response } from 'node-fetch';
 import { AbortSignal } from 'abort-controller';
 
-import {
-  IMAGE_GIF,
-  IMAGE_ICO,
-  IMAGE_JPEG,
-  IMAGE_PNG,
-  IMAGE_WEBP,
-  MIMEType,
-} from '../types/MIME';
+import { IMAGE_GIF, IMAGE_ICO, IMAGE_JPEG, IMAGE_PNG, IMAGE_WEBP, MIMEType } from '../types/MIME';
 
 const MAX_REQUEST_COUNT_WITH_REDIRECTS = 20;
 // tslint:disable: prefer-for-of
@@ -62,9 +55,7 @@ export interface LinkPreviewImage {
   contentType: MIMEType;
 }
 
-type ParsedContentType =
-  | { type: null; charset: null }
-  | { type: MIMEType; charset: null | string };
+type ParsedContentType = { type: null; charset: null } | { type: MIMEType; charset: null | string };
 
 // This throws non-helpful errors because (1) it logs (2) it will be immediately caught.
 async function fetchWithRedirects(
@@ -176,17 +167,13 @@ const parseContentLength = (headerValue: string | null): number => {
   return Number.isNaN(result) ? Infinity : result;
 };
 
-const emptyHtmlDocument = (): HTMLDocument =>
-  new DOMParser().parseFromString('', 'text/html');
+const emptyHtmlDocument = (): HTMLDocument => new DOMParser().parseFromString('', 'text/html');
 
 // The charset behavior here follows the [W3 guidelines][0]. The priority is BOM, HTTP
 //   header, `http-equiv` meta tag, `charset` meta tag, and finally a UTF-8 fallback.
 //   (This fallback could, perhaps, be smarter based on user locale.)
 // [0]: https://www.w3.org/International/questions/qa-html-encoding-declarations.en
-const parseHtmlBytes = (
-  bytes: Readonly<Uint8Array>,
-  httpCharset: string | null
-): HTMLDocument => {
+const parseHtmlBytes = (bytes: Readonly<Uint8Array>, httpCharset: string | null): HTMLDocument => {
   const hasBom = bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf;
 
   let isSureOfCharset: boolean;
@@ -232,9 +219,7 @@ const parseHtmlBytes = (
       }
     }
 
-    const metaCharset = document
-      .querySelector('meta[charset]')
-      ?.getAttribute('charset');
+    const metaCharset = document.querySelector('meta[charset]')?.getAttribute('charset');
     if (metaCharset) {
       return parseHtmlBytes(bytes, metaCharset);
     }
@@ -265,21 +250,14 @@ const getHtmlDocument = async (
 
       // This check exists to satisfy TypeScript; chunk should always be a Buffer.
       if (typeof chunk === 'string') {
-        if (
-          httpCharset !== null &&
-          httpCharset !== undefined &&
-          Buffer.isEncoding(httpCharset)
-        ) {
+        if (httpCharset !== null && httpCharset !== undefined && Buffer.isEncoding(httpCharset)) {
           chunk = Buffer.from(chunk, httpCharset);
         } else {
           chunk = Buffer.from(chunk, 'utf8');
         }
       }
 
-      const truncatedChunk = chunk.slice(
-        0,
-        maxHtmlBytesToLoad - bytesLoadedSoFar
-      );
+      const truncatedChunk = chunk.slice(0, maxHtmlBytesToLoad - bytesLoadedSoFar);
       buffer.set(truncatedChunk, bytesLoadedSoFar);
       bytesLoadedSoFar += truncatedChunk.byteLength;
 
@@ -292,9 +270,7 @@ const getHtmlDocument = async (
     }
     /* eslint-enable no-restricted-syntax */
   } catch (err) {
-    window.log.warn(
-      'getHtmlDocument: error when reading body; continuing with what we got'
-    );
+    window.log.warn('getHtmlDocument: error when reading body; continuing with what we got');
   }
 
   return result;
@@ -334,16 +310,10 @@ const getLinkHrefAttribute = (
   return null;
 };
 
-const parseMetadata = (
-  document: HTMLDocument,
-  href: string
-): LinkPreviewMetadata | null => {
-  const title =
-    getOpenGraphContent(document, ['og:title']) || document.title.trim();
+const parseMetadata = (document: HTMLDocument, href: string): LinkPreviewMetadata | null => {
+  const title = getOpenGraphContent(document, ['og:title']) || document.title.trim();
   if (!title) {
-    window.log.warn(
-      "parseMetadata: HTML document doesn't have a title; bailing"
-    );
+    window.log.warn("parseMetadata: HTML document doesn't have a title; bailing");
     return null;
   }
 
@@ -357,11 +327,7 @@ const parseMetadata = (
 
   const rawImageHref =
     getOpenGraphContent(document, ['og:image', 'og:image:url']) ||
-    getLinkHrefAttribute(document, [
-      'shortcut icon',
-      'icon',
-      'apple-touch-icon',
-    ]);
+    getLinkHrefAttribute(document, ['shortcut icon', 'icon', 'apple-touch-icon']);
   const imageUrl = rawImageHref ? maybeParseUrl(rawImageHref, href) : null;
   const imageHref = imageUrl ? imageUrl.href : null;
 
@@ -419,16 +385,12 @@ export async function fetchLinkPreviewMetadata(
       signal: abortSignal,
     });
   } catch (err) {
-    window.log.warn(
-      'fetchLinkPreviewMetadata: failed to fetch link preview HTML; bailing'
-    );
+    window.log.warn('fetchLinkPreviewMetadata: failed to fetch link preview HTML; bailing');
     return null;
   }
 
   if (!response.ok) {
-    window.log.warn(
-      `fetchLinkPreviewMetadata: got a ${response.status} status code; bailing`
-    );
+    window.log.warn(`fetchLinkPreviewMetadata: got a ${response.status} status code; bailing`);
     return null;
   }
 
@@ -437,12 +399,8 @@ export async function fetchLinkPreviewMetadata(
     return null;
   }
 
-  if (
-    !isInlineContentDisposition(response.headers.get('Content-Disposition'))
-  ) {
-    window.log.warn(
-      'fetchLinkPreviewMetadata: Content-Disposition header is not inline; bailing'
-    );
+  if (!isInlineContentDisposition(response.headers.get('Content-Disposition'))) {
+    window.log.warn('fetchLinkPreviewMetadata: Content-Disposition header is not inline; bailing');
     return null;
   }
 
@@ -450,21 +408,15 @@ export async function fetchLinkPreviewMetadata(
     return null;
   }
 
-  const contentLength = parseContentLength(
-    response.headers.get('Content-Length')
-  );
+  const contentLength = parseContentLength(response.headers.get('Content-Length'));
   if (contentLength < MIN_HTML_CONTENT_LENGTH) {
-    window.log.warn(
-      'fetchLinkPreviewMetadata: Content-Length is too short; bailing'
-    );
+    window.log.warn('fetchLinkPreviewMetadata: Content-Length is too short; bailing');
     return null;
   }
 
   const contentType = parseContentType(response.headers.get('Content-Type'));
   if (contentType.type !== 'text/html') {
-    window.log.warn(
-      'fetchLinkPreviewMetadata: Content-Type is not HTML; bailing'
-    );
+    window.log.warn('fetchLinkPreviewMetadata: Content-Type is not HTML; bailing');
     return null;
   }
 
@@ -525,35 +477,23 @@ export async function fetchLinkPreviewImage(
   }
 
   if (!response.ok) {
-    window.log.warn(
-      `fetchLinkPreviewImage: got a ${response.status} status code; bailing`
-    );
+    window.log.warn(`fetchLinkPreviewImage: got a ${response.status} status code; bailing`);
     return null;
   }
 
-  const contentLength = parseContentLength(
-    response.headers.get('Content-Length')
-  );
+  const contentLength = parseContentLength(response.headers.get('Content-Length'));
   if (contentLength < MIN_IMAGE_CONTENT_LENGTH) {
-    window.log.warn(
-      'fetchLinkPreviewImage: Content-Length is too short; bailing'
-    );
+    window.log.warn('fetchLinkPreviewImage: Content-Length is too short; bailing');
     return null;
   }
   if (contentLength > MAX_IMAGE_CONTENT_LENGTH) {
-    window.log.warn(
-      'fetchLinkPreviewImage: Content-Length is too large or is unset; bailing'
-    );
+    window.log.warn('fetchLinkPreviewImage: Content-Length is too large or is unset; bailing');
     return null;
   }
 
-  const { type: contentType } = parseContentType(
-    response.headers.get('Content-Type')
-  );
+  const { type: contentType } = parseContentType(response.headers.get('Content-Type'));
   if (!contentType || !VALID_IMAGE_MIME_TYPES.has(contentType)) {
-    window.log.warn(
-      'fetchLinkPreviewImage: Content-Type is not an image; bailing'
-    );
+    window.log.warn('fetchLinkPreviewImage: Content-Type is not an image; bailing');
     return null;
   }
 

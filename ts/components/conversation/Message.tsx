@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Avatar, AvatarSize } from '../Avatar';
-import { Spinner } from '../Spinner';
+import { Spinner } from '../basic/Spinner';
 import { MessageBody } from './MessageBody';
 import { ImageGrid } from './ImageGrid';
 import { Image } from './Image';
@@ -13,10 +13,7 @@ import { Quote } from './Quote';
 import H5AudioPlayer from 'react-h5-audio-player';
 // import 'react-h5-audio-player/lib/styles.css';
 
-const AudioPlayerWithEncryptedFile = (props: {
-  src: string;
-  contentType: string;
-}) => {
+const AudioPlayerWithEncryptedFile = (props: { src: string; contentType: string }) => {
   const theme = useTheme();
   const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
   return (
@@ -77,6 +74,7 @@ import { ToastUtils, UserUtils } from '../../session/utils';
 import { ConversationController } from '../../session/conversations';
 import { MessageRegularProps } from '../../models/messageType';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
+import { addSenderAsModerator, removeSenderFromModerator } from '../../interactions/message';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -198,8 +196,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     // For attachments which aren't full-frame
     const withContentBelow = Boolean(text);
     const withContentAbove =
-      Boolean(quote) ||
-      (conversationType === 'group' && direction === 'incoming');
+      Boolean(quote) || (conversationType === 'group' && direction === 'incoming');
     const displayImage = canDisplayImage(attachments);
 
     if (
@@ -212,12 +209,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         <div
           className={classNames(
             'module-message__attachment-container',
-            withContentAbove
-              ? 'module-message__attachment-container--with-content-above'
-              : null,
-            withContentBelow
-              ? 'module-message__attachment-container--with-content-below'
-              : null
+            withContentAbove ? 'module-message__attachment-container--with-content-above' : null,
+            withContentBelow ? 'module-message__attachment-container--with-content-below' : null
           )}
         >
           <ImageGrid
@@ -260,12 +253,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         <div
           className={classNames(
             'module-message__generic-attachment',
-            withContentBelow
-              ? 'module-message__generic-attachment--with-content-below'
-              : null,
-            withContentAbove
-              ? 'module-message__generic-attachment--with-content-above'
-              : null
+            withContentBelow ? 'module-message__generic-attachment--with-content-below' : null,
+            withContentAbove ? 'module-message__generic-attachment--with-content-above' : null
           )}
         >
           {pending ? (
@@ -346,8 +335,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     }
 
     const withContentAbove =
-      Boolean(quote) ||
-      (conversationType === 'group' && direction === 'incoming');
+      Boolean(quote) || (conversationType === 'group' && direction === 'incoming');
 
     const previewHasImage = first.image && isImageAttachment(first.image);
     const width = first.image && first.image.width;
@@ -358,9 +346,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         role="button"
         className={classNames(
           'module-message__link-preview',
-          withContentAbove
-            ? 'module-message__link-preview--with-content-above'
-            : null
+          withContentAbove ? 'module-message__link-preview--with-content-above' : null
         )}
         onClick={() => {
           if (onClickLinkPreview) {
@@ -408,12 +394,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
                 : null
             )}
           >
-            <div className="module-message__link-preview__title">
-              {first.title}
-            </div>
-            <div className="module-message__link-preview__location">
-              {first.domain}
-            </div>
+            <div className="module-message__link-preview__title">{first.title}</div>
+            <div className="module-message__link-preview__location">{first.domain}</div>
           </div>
         </div>
       </div>
@@ -435,14 +417,11 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       return null;
     }
 
-    const withContentAbove =
-      conversationType === 'group' && direction === 'incoming';
+    const withContentAbove = conversationType === 'group' && direction === 'incoming';
 
     const shortenedPubkey = PubKey.shorten(quote.authorPhoneNumber);
 
-    const displayedPubkey = quote.authorProfileName
-      ? shortenedPubkey
-      : quote.authorPhoneNumber;
+    const displayedPubkey = quote.authorProfileName ? shortenedPubkey : quote.authorPhoneNumber;
 
     return (
       <Quote
@@ -454,11 +433,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             this.props.onSelectMessage(id);
             return;
           }
-          const {
-            authorPhoneNumber,
-            messageId: quoteId,
-            referencedMessageNotFound,
-          } = quote;
+          const { authorPhoneNumber, messageId: quoteId, referencedMessageNotFound } = quote;
           quote?.onClick({
             quoteAuthor: authorPhoneNumber,
             quoteId,
@@ -496,11 +471,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       firstMessageOfSeries,
     } = this.props;
 
-    if (
-      collapseMetadata ||
-      conversationType !== 'group' ||
-      direction === 'outgoing'
-    ) {
+    if (collapseMetadata || conversationType !== 'group' || direction === 'outgoing') {
       return;
     }
     const userName = authorName || authorProfileName || authorPhoneNumber;
@@ -530,19 +501,10 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   }
 
   public renderText() {
-    const {
-      text,
-      direction,
-      status,
-      conversationType,
-      convoId,
-      multiSelectMode,
-    } = this.props;
+    const { text, direction, status, conversationType, convoId, multiSelectMode } = this.props;
 
     const contents =
-      direction === 'incoming' && status === 'error'
-        ? window.i18n('incomingError')
-        : text;
+      direction === 'incoming' && status === 'error' ? window.i18n('incomingError') : text;
 
     if (!contents) {
       return null;
@@ -554,9 +516,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,
-          status === 'error' && direction === 'incoming'
-            ? 'module-message__text--error'
-            : null
+          status === 'error' && direction === 'incoming' ? 'module-message__text--error' : null
         )}
       >
         <MessageBody
@@ -580,10 +540,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     return (
       <div className="module-message__error-container">
         <div
-          className={classNames(
-            'module-message__error',
-            `module-message__error--${direction}`
-          )}
+          className={classNames('module-message__error', `module-message__error--${direction}`)}
         />
       </div>
     );
@@ -603,9 +560,11 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       onRetrySend,
       onShowDetail,
       isPublic,
+      isOpenGroupV2,
       weAreAdmin,
       isAdmin,
       onBanUser,
+      onUnbanUser,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
@@ -647,13 +606,9 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         ) : null}
 
         <Item onClick={onCopyText}>{window.i18n('copyMessage')}</Item>
-        <Item onClick={this.onReplyPrivate}>
-          {window.i18n('replyToMessage')}
-        </Item>
+        <Item onClick={this.onReplyPrivate}>{window.i18n('replyToMessage')}</Item>
         <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
-        {showRetry ? (
-          <Item onClick={onRetrySend}>{window.i18n('resend')}</Item>
-        ) : null}
+        {showRetry ? <Item onClick={onRetrySend}>{window.i18n('resend')}</Item> : null}
         {isDeletable ? (
           <>
             <Item
@@ -672,18 +627,15 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             </Item>
           </>
         ) : null}
-        {weAreAdmin && isPublic ? (
-          <Item onClick={onBanUser}>{window.i18n('banUser')}</Item>
+        {weAreAdmin && isPublic ? <Item onClick={onBanUser}>{window.i18n('banUser')}</Item> : null}
+        {weAreAdmin && isOpenGroupV2 ? (
+          <Item onClick={onUnbanUser}>{window.i18n('unbanUser')}</Item>
         ) : null}
         {weAreAdmin && isPublic && !isAdmin ? (
-          <Item onClick={this.onAddModerator}>
-            {window.i18n('addAsModerator')}
-          </Item>
+          <Item onClick={this.onAddModerator}>{window.i18n('addAsModerator')}</Item>
         ) : null}
         {weAreAdmin && isPublic && isAdmin ? (
-          <Item onClick={this.onRemoveFromModerator}>
-            {window.i18n('removeFromModerators')}
-          </Item>
+          <Item onClick={this.onRemoveFromModerator}>{window.i18n('removeFromModerators')}</Item>
         ) : null}
       </Menu>
     );
@@ -707,11 +659,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       }
       const { width } = first.image;
 
-      if (
-        isImageAttachment(first.image) &&
-        width &&
-        width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH
-      ) {
+      if (isImageAttachment(first.image) && width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH) {
         const dimensions = getImageDimensions(first.image);
         if (dimensions) {
           return dimensions.width;
@@ -781,8 +729,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     // message differently
     const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
     const mentions = (text ? text.match(regex) : []) as Array<string>;
-    const mentionMe =
-      mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
+    const mentionMe = mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
 
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && isPublic;
@@ -872,10 +819,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
 
               // User clicked on message body
               const target = event.target as HTMLDivElement;
-              if (
-                target.className === 'text-selectable' ||
-                window.contextMenuShown
-              ) {
+              if (target.className === 'text-selectable' || window.contextMenuShown) {
                 return;
               }
 
@@ -889,10 +833,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             {this.renderAttachment()}
             {this.renderPreview()}
             {this.renderText()}
-            <MessageMetadata
-              {...this.props}
-              isShowingImage={this.isShowingImage()}
-            />
+            <MessageMetadata {...this.props} isShowingImage={this.isShowingImage()} />
           </div>
           {this.renderError(!isIncoming)}
           {this.renderContextMenu()}
@@ -935,9 +876,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
 
     const shortenedPubkey = PubKey.shorten(authorPhoneNumber);
 
-    const displayedPubkey = authorProfileName
-      ? shortenedPubkey
-      : authorPhoneNumber;
+    const displayedPubkey = authorProfileName ? shortenedPubkey : authorPhoneNumber;
 
     return (
       <div className="module-message__author">
@@ -961,58 +900,11 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   }
 
   private async onAddModerator() {
-    const { authorPhoneNumber: pubkey, convoId } = this.props;
-    try {
-      const convo = ConversationController.getInstance().getOrThrow(convoId);
-      const channelAPI = await convo.getPublicSendData();
-      if (!channelAPI) {
-        throw new Error('No channelAPI');
-      }
-      if (!channelAPI.serverAPI) {
-        throw new Error('No serverAPI');
-      }
-      const res = await channelAPI.serverAPI.addModerator([pubkey]);
-      if (!res) {
-        window.log.warn('failed to add moderators:', res);
-
-        ToastUtils.pushUserNeedsToHaveJoined();
-      } else {
-        window.log.info(`${pubkey} added as moderator...`);
-        // refresh the moderator list. Will trigger a refresh
-        const modPubKeys = await channelAPI.getModerators();
-        await convo.updateGroupAdmins(modPubKeys);
-
-        ToastUtils.pushUserAddedToModerators();
-      }
-    } catch (e) {
-      window.log.error('Got error while adding moderator:', e);
-    }
+    await addSenderAsModerator(this.props.authorPhoneNumber, this.props.convoId);
   }
 
   private async onRemoveFromModerator() {
-    const { authorPhoneNumber: pubkey, convoId } = this.props;
-    try {
-      const convo = ConversationController.getInstance().getOrThrow(convoId);
-      const channelAPI = await convo.getPublicSendData();
-      if (!channelAPI) {
-        throw new Error('No channelAPI');
-      }
-      const res = await channelAPI.serverAPI.removeModerators([pubkey]);
-      if (!res) {
-        window.log.warn('failed to remove moderators:', res);
-
-        ToastUtils.pushErrorHappenedWhileRemovingModerator();
-      } else {
-        // refresh the moderator list. Will trigger a refresh
-        const modPubKeys = await channelAPI.getModerators();
-        await convo.updateGroupAdmins(modPubKeys);
-
-        window.log.info(`${pubkey} removed from moderators...`);
-        ToastUtils.pushUserRemovedToModerators();
-      }
-    } catch (e) {
-      window.log.error('Got error while removing moderator:', e);
-    }
+    await removeSenderFromModerator(this.props.authorPhoneNumber, this.props.convoId);
   }
 }
 

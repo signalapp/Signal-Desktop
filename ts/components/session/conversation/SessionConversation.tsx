@@ -4,10 +4,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import {
-  SessionCompositionBox,
-  StagedAttachmentType,
-} from './SessionCompositionBox';
+import { SessionCompositionBox, StagedAttachmentType } from './SessionCompositionBox';
 
 import { Constants } from '../../../session';
 import _ from 'lodash';
@@ -29,12 +26,11 @@ import { MessageView } from '../../MainViewController';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
 import { ConversationController } from '../../../session/conversations';
-import {
-  getMessageById,
-  getPubkeysInPublicConversation,
-} from '../../../data/data';
+import { getMessageById, getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
+import { deleteOpenGroupMessages } from '../../../interactions/conversation';
+import { ConversationTypeEnum } from '../../../models/conversation';
 
 interface State {
   // Message sending progress
@@ -121,11 +117,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const { selectedConversationKey: oldConversationKey } = prevProps;
 
     // if the convo is valid, and it changed, register for drag events
-    if (
-      newConversationKey &&
-      newConversation &&
-      newConversationKey !== oldConversationKey
-    ) {
+    if (newConversationKey && newConversation && newConversationKey !== oldConversationKey) {
       // Pause thread to wait for rendering to complete
       setTimeout(() => {
         const div = this.messageContainerRef.current;
@@ -145,10 +137,7 @@ export class SessionConversation extends React.Component<Props, State> {
       if (newConversation.isPublic) {
         // TODO use abort controller to stop those requests too
         void this.updateMemberList();
-        this.publicMembersRefreshTimeout = global.setInterval(
-          this.updateMemberList,
-          10000
-        );
+        this.publicMembersRefreshTimeout = global.setInterval(this.updateMemberList, 10000);
       }
     }
     // if we do not have a model, unregister for events
@@ -205,20 +194,13 @@ export class SessionConversation extends React.Component<Props, State> {
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
-    const {
-      selectedConversation,
-      selectedConversationKey,
-      messages,
-      actions,
-    } = this.props;
+    const { selectedConversation, selectedConversationKey, messages, actions } = this.props;
 
     if (!selectedConversation || !messages) {
       // return an empty message view
       return <MessageView />;
     }
-    const conversationModel = ConversationController.getInstance().get(
-      selectedConversationKey
-    );
+    const conversationModel = ConversationController.getInstance().get(selectedConversationKey);
     // TODO VINCE: OPTIMISE FOR NEW SENDING???
     const sendMessageFn = (
       body: any,
@@ -230,13 +212,7 @@ export class SessionConversation extends React.Component<Props, State> {
       if (!conversationModel) {
         return;
       }
-      void conversationModel.sendMessage(
-        body,
-        attachments,
-        quote,
-        preview,
-        groupInvitation
-      );
+      void conversationModel.sendMessage(body, attachments, quote, preview, groupInvitation);
       if (this.messageContainerRef.current) {
         // force scrolling to bottom on message sent
         // this will mark all messages as read, and reset the conversation unreadCount
@@ -248,7 +224,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const isPublic = selectedConversation.isPublic || false;
 
-    const isPrivate = selectedConversation.type === 'direct';
+    const isPrivate = selectedConversation.type === ConversationTypeEnum.PRIVATE;
     return (
       <SessionTheme theme={this.props.theme}>
         <div className="conversation-header">{this.renderHeader()}</div>
@@ -263,23 +239,13 @@ export class SessionConversation extends React.Component<Props, State> {
 
         <div
           // if you change the classname, also update it on onKeyDown
-          className={classNames(
-            'conversation-content',
-            selectionMode && 'selection-mode'
-          )}
+          className={classNames('conversation-content', selectionMode && 'selection-mode')}
           tabIndex={0}
           onKeyDown={this.onKeyDown}
           role="navigation"
         >
-          <div
-            className={classNames(
-              'conversation-info-panel',
-              showMessageDetails && 'show'
-            )}
-          >
-            {showMessageDetails && (
-              <MessageDetail {...messageDetailShowProps} />
-            )}
+          <div className={classNames('conversation-info-panel', showMessageDetails && 'show')}>
+            {showMessageDetails && <MessageDetail {...messageDetailShowProps} />}
           </div>
 
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
@@ -287,9 +253,7 @@ export class SessionConversation extends React.Component<Props, State> {
           <div className="conversation-messages">
             <SessionMessagesList {...this.getMessagesListProps()} />
 
-            {showRecordingView && (
-              <div className="conversation-messages__blocking-overlay" />
-            )}
+            {showRecordingView && <div className="conversation-messages__blocking-overlay" />}
             {isDraggingFile && <SessionFileDropzone />}
           </div>
 
@@ -322,12 +286,7 @@ export class SessionConversation extends React.Component<Props, State> {
           />
         </div>
 
-        <div
-          className={classNames(
-            'conversation-item__options-pane',
-            showOptionsPane && 'show'
-          )}
-        >
+        <div className={classNames('conversation-item__options-pane', showOptionsPane && 'show')}>
           <SessionRightPanelWithDetails {...this.getRightPanelProps()} />
         </div>
       </SessionTheme>
@@ -349,9 +308,7 @@ export class SessionConversation extends React.Component<Props, State> {
     if (!selectedConversation) {
       return;
     }
-    const conversationModel = ConversationController.getInstance().get(
-      selectedConversationKey
-    );
+    const conversationModel = ConversationController.getInstance().get(selectedConversationKey);
     const unreadCount = await conversationModel.getUnreadCount();
     const messagesToFetch = Math.max(
       Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
@@ -366,9 +323,7 @@ export class SessionConversation extends React.Component<Props, State> {
   public getHeaderProps() {
     const { selectedConversationKey, ourNumber } = this.props;
     const { selectedMessages, messageDetailShowProps } = this.state;
-    const conversation = ConversationController.getInstance().getOrThrow(
-      selectedConversationKey
-    );
+    const conversation = ConversationController.getInstance().getOrThrow(selectedConversationKey);
     const expireTimer = conversation.get('expireTimer');
     const expirationSettingName = expireTimer
       ? window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
@@ -429,7 +384,7 @@ export class SessionConversation extends React.Component<Props, State> {
         conversation.copyPublicKey();
       },
       onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveGroup', conversation);
+        window.Whisper.events.trigger('leaveClosedGroup', conversation);
       },
       onInviteContacts: () => {
         window.Whisper.events.trigger('inviteContacts', conversation);
@@ -487,9 +442,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public getRightPanelProps() {
     const { selectedConversationKey } = this.props;
-    const conversation = ConversationController.getInstance().getOrThrow(
-      selectedConversationKey
-    );
+    const conversation = ConversationController.getInstance().getOrThrow(selectedConversationKey);
     const ourPrimary = window.storage.get('primaryDevicePubKey');
 
     const members = conversation.get('members') || [];
@@ -539,8 +492,9 @@ export class SessionConversation extends React.Component<Props, State> {
       onInviteContacts: () => {
         window.Whisper.events.trigger('inviteContacts', conversation);
       },
+      onDeleteContact: conversation.deleteContact,
       onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveGroup', conversation);
+        window.Whisper.events.trigger('leaveClosedGroup', conversation);
       },
       onAddModerators: () => {
         window.Whisper.events.trigger('addModerators', conversation);
@@ -602,16 +556,9 @@ export class SessionConversation extends React.Component<Props, State> {
     this.updateSendingProgress(100, -1);
   }
 
-  public async deleteMessagesById(
-    messageIds: Array<string>,
-    askUserForConfirmation: boolean
-  ) {
+  public async deleteMessagesById(messageIds: Array<string>, askUserForConfirmation: boolean) {
     // Get message objects
-    const {
-      selectedConversationKey,
-      selectedConversation,
-      messages,
-    } = this.props;
+    const { selectedConversationKey, selectedConversation, messages } = this.props;
 
     const conversationModel = ConversationController.getInstance().getOrThrow(
       selectedConversationKey
@@ -637,15 +584,11 @@ export class SessionConversation extends React.Component<Props, State> {
           ? window.i18n('deleteMultiplePublicWarning')
           : window.i18n('deletePublicWarning');
       }
-      return multiple
-        ? window.i18n('deleteMultipleWarning')
-        : window.i18n('deleteWarning');
+      return multiple ? window.i18n('deleteMultipleWarning') : window.i18n('deleteWarning');
     })();
 
     const doDelete = async () => {
       let toDeleteLocally;
-
-      // VINCE TODO: MARK TO-DELETE MESSAGES AS READ
 
       if (selectedConversation.isPublic) {
         // Get our Moderator status
@@ -666,9 +609,7 @@ export class SessionConversation extends React.Component<Props, State> {
           return;
         }
 
-        toDeleteLocally = await conversationModel.deletePublicMessages(
-          selectedMessages
-        );
+        toDeleteLocally = await deleteOpenGroupMessages(selectedMessages, conversationModel);
         if (toDeleteLocally.length === 0) {
           // Message failed to delete from server, show error?
           return;
@@ -678,7 +619,7 @@ export class SessionConversation extends React.Component<Props, State> {
       }
 
       await Promise.all(
-        toDeleteLocally.map(async (message: any) => {
+        toDeleteLocally.map(async message => {
           await conversationModel.removeMessage(message.id);
         })
       );
@@ -690,14 +631,10 @@ export class SessionConversation extends React.Component<Props, State> {
     // If removable from server, we "Unsend" - otherwise "Delete"
     const pluralSuffix = multiple ? 's' : '';
     const title = window.i18n(
-      isServerDeletable
-        ? `deleteMessage${pluralSuffix}ForEveryone`
-        : `deleteMessage${pluralSuffix}`
+      isServerDeletable ? `deleteMessage${pluralSuffix}ForEveryone` : `deleteMessage${pluralSuffix}`
     );
 
-    const okText = window.i18n(
-      isServerDeletable ? 'deleteForEveryone' : 'delete'
-    );
+    const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
     if (askUserForConfirmation) {
       window.confirmationDialog({
         title,
@@ -728,10 +665,7 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public deleteMessage(messageId: string) {
-    this.setState(
-      { selectedMessages: [messageId] },
-      this.deleteSelectedMessages
-    );
+    this.setState({ selectedMessages: [messageId] }, this.deleteSelectedMessages);
   }
 
   public resetSelection() {
@@ -770,16 +704,12 @@ export class SessionConversation extends React.Component<Props, State> {
 
       let quotedMessageProps = null;
       if (quotedMessageTimestamp) {
-        const quotedMessage = messages.find(
-          m => m.attributes.sent_at === quotedMessageTimestamp
-        );
+        const quotedMessage = messages.find(m => m.attributes.sent_at === quotedMessageTimestamp);
 
         if (quotedMessage) {
           const quotedMessageModel = await getMessageById(quotedMessage.id);
           if (quotedMessageModel) {
-            quotedMessageProps = await conversationModel.makeQuote(
-              quotedMessageModel
-            );
+            quotedMessageProps = await conversationModel.makeQuote(quotedMessageModel);
           }
         }
       }
@@ -886,10 +816,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const { stagedAttachments } = this.state;
     let newAttachmentsFiltered: Array<StagedAttachmentType> = [];
     if (newAttachments?.length > 0) {
-      if (
-        newAttachments.some(a => a.isVoiceMessage) &&
-        stagedAttachments.length > 0
-      ) {
+      if (newAttachments.some(a => a.isVoiceMessage) && stagedAttachments.length > 0) {
         throw new Error('A voice note cannot be sent with other attachments');
       }
       // do not add already added attachments
@@ -903,19 +830,10 @@ export class SessionConversation extends React.Component<Props, State> {
     });
   }
 
-  private renderLightBox({
-    media,
-    attachment,
-  }: {
-    media: Array<MediaItemType>;
-    attachment: any;
-  }) {
+  private renderLightBox({ media, attachment }: { media: Array<MediaItemType>; attachment: any }) {
     const selectedIndex =
       media.length > 1
-        ? media.findIndex(
-            (mediaMessage: any) =>
-              mediaMessage.attachment.path === attachment.path
-          )
+        ? media.findIndex((mediaMessage: any) => mediaMessage.attachment.path === attachment.path)
         : 0;
     return (
       <LightboxGallery
@@ -940,10 +858,7 @@ export class SessionConversation extends React.Component<Props, State> {
     index?: number;
   }) {
     const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-    attachment.url = await getDecryptedMediaUrl(
-      attachment.url,
-      attachment.contentType
-    );
+    attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
     save({
       attachment,
       document,
@@ -1073,12 +988,8 @@ export class SessionConversation extends React.Component<Props, State> {
         file,
       });
 
-      if (
-        blob.file.size >= Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES
-      ) {
-        ToastUtils.pushFileSizeErrorAsByte(
-          Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES
-        );
+      if (blob.file.size >= Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES) {
+        ToastUtils.pushFileSizeErrorAsByte(Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES);
         return;
       }
     } catch (error) {
@@ -1167,9 +1078,7 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   private async updateMemberList() {
-    const allPubKeys = await getPubkeysInPublicConversation(
-      this.props.selectedConversationKey
-    );
+    const allPubKeys = await getPubkeysInPublicConversation(this.props.selectedConversationKey);
 
     const allMembers = allPubKeys.map((pubKey: string) => {
       const conv = ConversationController.getInstance().get(pubKey);

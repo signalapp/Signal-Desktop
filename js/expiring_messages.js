@@ -81,10 +81,7 @@
     clearTimeout(timeout);
     timeout = setTimeout(destroyExpiredMessages, wait);
   }
-  const throttledCheckExpiringMessages = _.throttle(
-    checkExpiringMessages,
-    1000
-  );
+  const throttledCheckExpiringMessages = _.throttle(checkExpiringMessages, 1000);
 
   Whisper.ExpiringMessagesListener = {
     nextExpiration: null,
@@ -103,11 +100,7 @@
       );
     },
     getAbbreviated() {
-      return i18n(
-        ['timerOption', this.get('time'), this.get('unit'), 'abbreviated'].join(
-          '_'
-        )
-      );
+      return i18n(['timerOption', this.get('time'), this.get('unit'), 'abbreviated'].join('_'));
     },
   });
   Whisper.ExpirationTimerOptions = new (Backbone.Collection.extend({

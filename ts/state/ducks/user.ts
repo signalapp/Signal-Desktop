@@ -25,10 +25,7 @@ export const actions = {
   userChanged,
 };
 
-function userChanged(attributes: {
-  ourNumber: string;
-  ourPrimary: string;
-}): UserChangedActionType {
+function userChanged(attributes: { ourNumber: string; ourPrimary: string }): UserChangedActionType {
   return {
     type: 'USER_CHANGED',
     payload: attributes,
@@ -44,10 +41,7 @@ function getEmptyState(): UserStateType {
   };
 }
 
-export function reducer(
-  state: UserStateType,
-  action: UserActionType
-): UserStateType {
+export function reducer(state: UserStateType, action: UserActionType): UserStateType {
   if (!state) {
     return getEmptyState();
   }

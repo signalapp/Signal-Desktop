@@ -26,14 +26,7 @@ export class Emojify extends React.Component<Props> {
   };
 
   public render() {
-    const {
-      text,
-      sizeClass,
-      renderNonEmoji,
-      i18n,
-      isGroup,
-      convoId,
-    } = this.props;
+    const { text, sizeClass, renderNonEmoji, i18n, isGroup, convoId } = this.props;
     const results: Array<any> = [];
     const regex = getRegex();
 

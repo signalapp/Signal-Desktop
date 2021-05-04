@@ -29,13 +29,9 @@ export const groupMediaItemsByDate = (
 
     return -message.received_at;
   });
-  const messagesWithSection = sortedMediaItem.map(
-    withSection(referenceDateTime)
-  );
+  const messagesWithSection = sortedMediaItem.map(withSection(referenceDateTime));
   const groupedMediaItem = groupBy(messagesWithSection, 'type');
-  const yearMonthMediaItem = Object.values(
-    groupBy(groupedMediaItem.yearMonth, 'order')
-  ).reverse();
+  const yearMonthMediaItem = Object.values(groupBy(groupedMediaItem.yearMonth, 'order')).reverse();
 
   return compact([
     toSection(groupedMediaItem.today),
@@ -53,15 +49,12 @@ const toSection = (
     return;
   }
 
-  const firstMediaItemWithSection: MediaItemWithSection =
-    messagesWithSection[0];
+  const firstMediaItemWithSection: MediaItemWithSection = messagesWithSection[0];
   if (!firstMediaItemWithSection) {
     return;
   }
 
-  const mediaItems = messagesWithSection.map(
-    messageWithSection => messageWithSection.mediaItem
-  );
+  const mediaItems = messagesWithSection.map(messageWithSection => messageWithSection.mediaItem);
   switch (firstMediaItemWithSection.type) {
     case 'today':
     case 'yesterday':
@@ -92,18 +85,12 @@ interface GenericMediaItemWithSection<T> {
   type: T;
   mediaItem: MediaItemType;
 }
-type MediaItemWithStaticSection = GenericMediaItemWithSection<
-  StaticSectionType
->;
-type MediaItemWithYearMonthSection = GenericMediaItemWithSection<
-  YearMonthSectionType
-> & {
+type MediaItemWithStaticSection = GenericMediaItemWithSection<StaticSectionType>;
+type MediaItemWithYearMonthSection = GenericMediaItemWithSection<YearMonthSectionType> & {
   year: number;
   month: number;
 };
-type MediaItemWithSection =
-  | MediaItemWithStaticSection
-  | MediaItemWithYearMonthSection;
+type MediaItemWithSection = MediaItemWithStaticSection | MediaItemWithYearMonthSection;
 
 const withSection = (referenceDateTime: moment.Moment) => (
   mediaItem: MediaItemType

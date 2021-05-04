@@ -1,15 +1,9 @@
 import { Constants } from '../../../..';
 import { SignalService } from '../../../../../protobuf';
-import {
-  ClosedGroupMessage,
-  ClosedGroupMessageParams,
-} from './ClosedGroupMessage';
+import { ClosedGroupMessage, ClosedGroupMessageParams } from './ClosedGroupMessage';
 
-export interface ClosedGroupEncryptionPairMessageParams
-  extends ClosedGroupMessageParams {
-  encryptedKeyPairs: Array<
-    SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper
-  >;
+export interface ClosedGroupEncryptionPairMessageParams extends ClosedGroupMessageParams {
+  encryptedKeyPairs: Array<SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper>;
 }
 
 export class ClosedGroupEncryptionPairMessage extends ClosedGroupMessage {
@@ -36,20 +30,14 @@ export class ClosedGroupEncryptionPairMessage extends ClosedGroupMessage {
     // tslint:disable: no-non-null-assertion
     dataMessage.closedGroupControlMessage!.type =
       SignalService.DataMessage.ClosedGroupControlMessage.Type.ENCRYPTION_KEY_PAIR;
-    dataMessage.closedGroupControlMessage!.wrappers = this.encryptedKeyPairs.map(
-      w => {
-        const { publicKey, encryptedKeyPair } = w;
-        return {
-          publicKey: publicKey,
-          encryptedKeyPair,
-        };
-      }
-    );
+    dataMessage.closedGroupControlMessage!.wrappers = this.encryptedKeyPairs.map(w => {
+      const { publicKey, encryptedKeyPair } = w;
+      return {
+        publicKey: publicKey,
+        encryptedKeyPair,
+      };
+    });
 
     return dataMessage;
-  }
-
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.ENCRYPTION_PAIR_GROUP;
   }
 }

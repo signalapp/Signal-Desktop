@@ -1,11 +1,7 @@
 import { ConversationController } from '../session/conversations';
 import { getSodium } from '../session/crypto';
 import { UserUtils } from '../session/utils';
-import {
-  fromArrayBufferToBase64,
-  fromHex,
-  toHex,
-} from '../session/utils/String';
+import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
 import {
@@ -18,6 +14,7 @@ import {
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
+import { ConversationTypeEnum } from '../models/conversation';
 
 /**
  * Might throw
@@ -27,17 +24,13 @@ export async function sessionGenerateKeyPair(
 ): Promise<{ pubKey: ArrayBufferLike; privKey: ArrayBufferLike }> {
   const sodium = await getSodium();
   const ed25519KeyPair = sodium.crypto_sign_seed_keypair(new Uint8Array(seed));
-  const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
-    ed25519KeyPair.publicKey
-  );
+  const x25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(ed25519KeyPair.publicKey);
   // prepend version byte (coming from `processKeys(raw_keys)`)
   const origPub = new Uint8Array(x25519PublicKey);
   const prependedX25519PublicKey = new Uint8Array(33);
   prependedX25519PublicKey.set(origPub, 1);
   prependedX25519PublicKey[0] = 5;
-  const x25519SecretKey = sodium.crypto_sign_ed25519_sk_to_curve25519(
-    ed25519KeyPair.privateKey
-  );
+  const x25519SecretKey = sodium.crypto_sign_ed25519_sk_to_curve25519(ed25519KeyPair.privateKey);
 
   // prepend with 05 the public key
   const x25519KeyPair = {
@@ -80,14 +73,9 @@ export async function signInWithRecovery(
  * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
  * @param mnemonicLanguage 'english' only is supported
  */
-export async function signInByLinkingDevice(
-  mnemonic: string,
-  mnemonicLanguage: string
-) {
+export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: string) {
   if (!mnemonic) {
-    throw new Error(
-      'Session always needs a mnemonic. Either generated or given by the user'
-    );
+    throw new Error('Session always needs a mnemonic. Either generated or given by the user');
   }
   if (!mnemonicLanguage) {
     throw new Error('We always needs a mnemonicLanguage');
@@ -115,9 +103,7 @@ export async function registerSingleDevice(
   profileName: string
 ) {
   if (!generatedMnemonic) {
-    throw new Error(
-      'Session always needs a mnemonic. Either generated or given by the user'
-    );
+    throw new Error('Session always needs a mnemonic. Either generated or given by the user');
   }
   if (!profileName) {
     throw new Error('We always needs a profileName');
@@ -126,10 +112,7 @@ export async function registerSingleDevice(
     throw new Error('We always needs a mnemonicLanguage');
   }
 
-  const identityKeyPair = await generateKeypair(
-    generatedMnemonic,
-    mnemonicLanguage
-  );
+  const identityKeyPair = await generateKeypair(generatedMnemonic, mnemonicLanguage);
 
   await createAccount(identityKeyPair);
   UserUtils.saveRecoveryPhrase(generatedMnemonic);
@@ -164,9 +147,7 @@ export async function clearSessionsAndPreKeys() {
 
 export async function deleteAccount(reason?: string) {
   const deleteEverything = async () => {
-    window.log.info(
-      'configuration message sent successfully. Deleting everything'
-    );
+    window.log.info('configuration message sent successfully. Deleting everything');
     await window.Signal.Logs.deleteAll();
     await window.Signal.Data.removeAll();
     await window.Signal.Data.close();
@@ -222,10 +203,7 @@ async function createAccount(identityKeyPair: any) {
   await window.textsecure.storage.put('read-receipt-setting', false);
 
   // Enable typing indicators by default
-  await window.textsecure.storage.put(
-    'typing-indicators-setting',
-    Boolean(true)
-  );
+  await window.textsecure.storage.put('typing-indicators-setting', Boolean(true));
 
   await window.textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
 }
@@ -238,7 +216,7 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   // Ensure that we always have a conversation for ourself
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     ourPubkey,
-    'private'
+    ConversationTypeEnum.PRIVATE
   );
   await conversation.setLokiProfile({ displayName });
   const user = {

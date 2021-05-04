@@ -60,15 +60,12 @@ exports.isValid = () => true;
 
 // Schema
 exports.initializeSchemaVersion = ({ message, logger }) => {
-  const isInitialized =
-    SchemaVersion.isValid(message.schemaVersion) && message.schemaVersion >= 1;
+  const isInitialized = SchemaVersion.isValid(message.schemaVersion) && message.schemaVersion >= 1;
   if (isInitialized) {
     return message;
   }
 
-  const numAttachments = Array.isArray(message.attachments)
-    ? message.attachments.length
-    : 0;
+  const numAttachments = Array.isArray(message.attachments) ? message.attachments.length : 0;
   const hasAttachments = numAttachments > 0;
   if (!hasAttachments) {
     return Object.assign({}, message, {
@@ -79,9 +76,7 @@ exports.initializeSchemaVersion = ({ message, logger }) => {
   // All attachments should have the same schema version, so we just pick
   // the first one:
   const firstAttachment = message.attachments[0];
-  const inheritedSchemaVersion = SchemaVersion.isValid(
-    firstAttachment.schemaVersion
-  )
+  const inheritedSchemaVersion = SchemaVersion.isValid(firstAttachment.schemaVersion)
     ? firstAttachment.schemaVersion
     : INITIAL_SCHEMA_VERSION;
   const messageWithInitialSchema = Object.assign({}, message, {
@@ -108,17 +103,12 @@ exports._withSchemaVersion = ({ schemaVersion, upgrade }) => {
 
   return async (message, context) => {
     if (!context || !isObject(context.logger)) {
-      throw new TypeError(
-        '_withSchemaVersion: context must have logger object'
-      );
+      throw new TypeError('_withSchemaVersion: context must have logger object');
     }
     const { logger } = context;
 
     if (!exports.isValid(message)) {
-      logger.error(
-        'Message._withSchemaVersion: Invalid input message:',
-        message
-      );
+      logger.error('Message._withSchemaVersion: Invalid input message:', message);
       return message;
     }
 
@@ -150,10 +140,7 @@ exports._withSchemaVersion = ({ schemaVersion, upgrade }) => {
     }
 
     if (!exports.isValid(upgradedMessage)) {
-      logger.error(
-        'Message._withSchemaVersion: Invalid upgraded message:',
-        upgradedMessage
-      );
+      logger.error('Message._withSchemaVersion: Invalid upgraded message:', upgradedMessage);
       return message;
     }
 
@@ -166,11 +153,8 @@ exports._withSchemaVersion = ({ schemaVersion, upgrade }) => {
 //                         (Message, Context) ->
 //                         Promise Message
 exports._mapAttachments = upgradeAttachment => async (message, context) => {
-  const upgradeWithContext = attachment =>
-    upgradeAttachment(attachment, context);
-  const attachments = await Promise.all(
-    (message.attachments || []).map(upgradeWithContext)
-  );
+  const upgradeWithContext = attachment => upgradeAttachment(attachment, context);
+  const attachments = await Promise.all((message.attachments || []).map(upgradeWithContext));
   return Object.assign({}, message, { attachments });
 };
 
@@ -180,21 +164,15 @@ exports._mapAttachments = upgradeAttachment => async (message, context) => {
 //                     Promise Message
 exports._mapContact = upgradeContact => async (message, context) => {
   const contextWithMessage = Object.assign({}, context, { message });
-  const upgradeWithContext = contact =>
-    upgradeContact(contact, contextWithMessage);
-  const contact = await Promise.all(
-    (message.contact || []).map(upgradeWithContext)
-  );
+  const upgradeWithContext = contact => upgradeContact(contact, contextWithMessage);
+  const contact = await Promise.all((message.contact || []).map(upgradeWithContext));
   return Object.assign({}, message, { contact });
 };
 
 //      _mapQuotedAttachments :: (QuotedAttachment -> Promise QuotedAttachment) ->
 //                               (Message, Context) ->
 //                               Promise Message
-exports._mapQuotedAttachments = upgradeAttachment => async (
-  message,
-  context
-) => {
+exports._mapQuotedAttachments = upgradeAttachment => async (message, context) => {
   if (!message.quote) {
     return message;
   }
@@ -216,9 +194,7 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
 
   const quotedAttachments = (message.quote && message.quote.attachments) || [];
 
-  const attachments = await Promise.all(
-    quotedAttachments.map(upgradeWithContext)
-  );
+  const attachments = await Promise.all(quotedAttachments.map(upgradeWithContext));
   return Object.assign({}, message, {
     quote: Object.assign({}, message.quote, {
       attachments,
@@ -229,10 +205,7 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
 //      _mapPreviewAttachments :: (PreviewAttachment -> Promise PreviewAttachment) ->
 //                               (Message, Context) ->
 //                               Promise Message
-exports._mapPreviewAttachments = upgradeAttachment => async (
-  message,
-  context
-) => {
+exports._mapPreviewAttachments = upgradeAttachment => async (message, context) => {
   if (!message.preview) {
     return message;
   }
@@ -252,9 +225,7 @@ exports._mapPreviewAttachments = upgradeAttachment => async (
     });
   };
 
-  const preview = await Promise.all(
-    (message.preview || []).map(upgradeWithContext)
-  );
+  const preview = await Promise.all((message.preview || []).map(upgradeWithContext));
   return Object.assign({}, message, {
     preview,
   });
@@ -284,9 +255,7 @@ const toVersion5 = exports._withSchemaVersion({
 });
 const toVersion6 = exports._withSchemaVersion({
   schemaVersion: 6,
-  upgrade: exports._mapContact(
-    Contact.parseAndWriteAvatar(Attachment.migrateDataToFileSystem)
-  ),
+  upgrade: exports._mapContact(Contact.parseAndWriteAvatar(Attachment.migrateDataToFileSystem)),
 });
 // IMPORTANT: We’ve updated our definition of `initializeAttachmentMetadata`, so
 // we need to run it again on existing items that have previously been incorrectly
@@ -435,39 +404,31 @@ exports.processNewAttachment = async (
   }
 
   const rotatedAttachment = await Attachment.autoOrientJPEG(attachment);
-  const onDiskAttachment = await Attachment.migrateDataToFileSystem(
-    rotatedAttachment,
-    { writeNewAttachmentData }
-  );
-  const finalAttachment = await Attachment.captureDimensionsAndScreenshot(
-    onDiskAttachment,
-    {
-      writeNewAttachmentData,
-      getAbsoluteAttachmentPath,
-      makeObjectUrl,
-      revokeObjectUrl,
-      getImageDimensions,
-      makeImageThumbnail,
-      makeVideoScreenshot,
-      logger,
-    }
-  );
+  const onDiskAttachment = await Attachment.migrateDataToFileSystem(rotatedAttachment, {
+    writeNewAttachmentData,
+  });
+  const finalAttachment = await Attachment.captureDimensionsAndScreenshot(onDiskAttachment, {
+    writeNewAttachmentData,
+    getAbsoluteAttachmentPath,
+    makeObjectUrl,
+    revokeObjectUrl,
+    getImageDimensions,
+    makeImageThumbnail,
+    makeVideoScreenshot,
+    logger,
+  });
 
   return finalAttachment;
 };
 
 exports.createAttachmentLoader = loadAttachmentData => {
   if (!isFunction(loadAttachmentData)) {
-    throw new TypeError(
-      'createAttachmentLoader: loadAttachmentData is required'
-    );
+    throw new TypeError('createAttachmentLoader: loadAttachmentData is required');
   }
 
   return async message =>
     Object.assign({}, message, {
-      attachments: await Promise.all(
-        message.attachments.map(loadAttachmentData)
-      ),
+      attachments: await Promise.all(message.attachments.map(loadAttachmentData)),
     });
 };
 
@@ -528,15 +489,11 @@ exports.loadPreviewData = loadAttachmentData => {
 
 exports.deleteAllExternalFiles = ({ deleteAttachmentData, deleteOnDisk }) => {
   if (!isFunction(deleteAttachmentData)) {
-    throw new TypeError(
-      'deleteAllExternalFiles: deleteAttachmentData must be a function'
-    );
+    throw new TypeError('deleteAllExternalFiles: deleteAttachmentData must be a function');
   }
 
   if (!isFunction(deleteOnDisk)) {
-    throw new TypeError(
-      'deleteAllExternalFiles: deleteOnDisk must be a function'
-    );
+    throw new TypeError('deleteAllExternalFiles: deleteOnDisk must be a function');
   }
 
   return async message => {
@@ -590,10 +547,7 @@ exports.deleteAllExternalFiles = ({ deleteAttachmentData, deleteOnDisk }) => {
 //      createAttachmentDataWriter :: (RelativePath -> IO Unit)
 //                                    Message ->
 //                                    IO (Promise Message)
-exports.createAttachmentDataWriter = ({
-  writeExistingAttachmentData,
-  logger,
-}) => {
+exports.createAttachmentDataWriter = ({ writeExistingAttachmentData, logger }) => {
   if (!isFunction(writeExistingAttachmentData)) {
     throw new TypeError(
       'createAttachmentDataWriter: writeExistingAttachmentData must be a function'
@@ -633,15 +587,11 @@ exports.createAttachmentDataWriter = ({
 
     (attachments || []).forEach(attachment => {
       if (!Attachment.hasData(attachment)) {
-        throw new TypeError(
-          "'attachment.data' is required during message import"
-        );
+        throw new TypeError("'attachment.data' is required during message import");
       }
 
       if (!isString(attachment.path)) {
-        throw new TypeError(
-          "'attachment.path' is required during message import"
-        );
+        throw new TypeError("'attachment.path' is required during message import");
       }
     });
 
