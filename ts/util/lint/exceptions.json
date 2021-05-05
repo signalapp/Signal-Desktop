@@ -16750,66 +16750,66 @@
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
-    "line": "    form.append('key', fields.key);",
-    "lineNumber": 61,
+    "line": "    form.append('key', uploadKey);",
+    "lineNumber": 62,
     "reasonCategory": "falseMatch",
-    "updated": "2020-12-17T18:08:07.752Z"
+    "updated": "2021-05-05T10:16:27.804Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
     "line": "        form.append(key, value);",
-    "lineNumber": 65,
+    "lineNumber": 66,
     "reasonCategory": "falseMatch",
-    "updated": "2020-12-17T18:08:07.752Z"
+    "updated": "2021-05-05T10:16:27.804Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
     "line": "    form.append('Content-Type', contentType);",
-    "lineNumber": 69,
+    "lineNumber": 70,
     "reasonCategory": "falseMatch",
-    "updated": "2020-12-17T18:08:07.752Z"
+    "updated": "2021-05-05T10:16:27.804Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
     "line": "    form.append('file', contentBuffer, {",
-    "lineNumber": 70,
+    "lineNumber": 71,
     "reasonCategory": "falseMatch",
-    "updated": "2020-12-17T18:08:07.752Z"
+    "updated": "2021-05-05T10:16:27.804Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.ts",
-    "line": "  form.append('key', fields.key);",
-    "lineNumber": 49,
+    "line": "  form.append('key', uploadKey);",
+    "lineNumber": 50,
     "reasonCategory": "falseMatch",
-    "updated": "2020-12-17T18:08:07.752Z"
+    "updated": "2021-05-05T10:16:27.804Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.ts",
     "line": "      form.append(key, value);",
-    "lineNumber": 53,
+    "lineNumber": 54,
     "reasonCategory": "falseMatch",
-    "updated": "2020-12-17T18:08:07.752Z"
+    "updated": "2021-05-05T10:16:27.804Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.ts",
     "line": "  form.append('Content-Type', contentType);",
-    "lineNumber": 58,
+    "lineNumber": 59,
     "reasonCategory": "falseMatch",
-    "updated": "2020-12-17T18:08:07.752Z"
+    "updated": "2021-05-05T10:16:27.804Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.ts",
     "line": "  form.append('file', contentBuffer, {",
-    "lineNumber": 59,
+    "lineNumber": 60,
     "reasonCategory": "falseMatch",
-    "updated": "2020-12-17T18:08:07.752Z"
+    "updated": "2021-05-05T10:16:27.804Z"
   },
   {
     "rule": "jQuery-$(",
@@ -17088,3 +17088,4 @@
     "reasonDetail": "Doesn't manipulate the DOM. This is just a function."
   }
 ]
+
