@@ -45,6 +45,13 @@ export const enum SenderCertificateMode {
   WithoutE164,
 }
 
+type SendMetadata = {
+  type: number;
+  destinationDeviceId: number;
+  destinationRegistrationId: number;
+  content: string;
+};
+
 export const serializedCertificateSchema = z
   .object({
     expires: z.number().optional(),
@@ -434,58 +441,70 @@ export default class OutgoingMessage {
 
     return Promise.all(
       deviceIds.map(async destinationDeviceId => {
-        const protocolAddress = ProtocolAddress.new(
-          identifier,
-          destinationDeviceId
+        const address = `${identifier}.${destinationDeviceId}`;
+
+        return window.textsecure.storage.protocol.enqueueSessionJob<SendMetadata>(
+          address,
+          async () => {
+            const protocolAddress = ProtocolAddress.new(
+              identifier,
+              destinationDeviceId
+            );
+
+            const activeSession = await sessionStore.getSession(
+              protocolAddress
+            );
+            if (!activeSession) {
+              throw new Error(
+                'OutgoingMessage.doSendMessage: No active sesssion!'
+              );
+            }
+
+            const destinationRegistrationId = activeSession.remoteRegistrationId();
+
+            if (sealedSender && senderCertificate) {
+              const certificate = SenderCertificate.deserialize(
+                Buffer.from(senderCertificate.serialized)
+              );
+
+              const buffer = await sealedSenderEncryptMessage(
+                Buffer.from(plaintext),
+                protocolAddress,
+                certificate,
+                sessionStore,
+                identityKeyStore
+              );
+
+              return {
+                type:
+                  window.textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER,
+                destinationDeviceId,
+                destinationRegistrationId,
+                content: buffer.toString('base64'),
+              };
+            }
+
+            const ciphertextMessage = await signalEncrypt(
+              Buffer.from(plaintext),
+              protocolAddress,
+              sessionStore,
+              identityKeyStore
+            );
+            const type = ciphertextMessageTypeToEnvelopeType(
+              ciphertextMessage.type()
+            );
+
+            return {
+              type,
+              destinationDeviceId,
+              destinationRegistrationId,
+              content: ciphertextMessage.serialize().toString('base64'),
+            };
+          }
         );
-
-        const activeSession = await sessionStore.getSession(protocolAddress);
-        if (!activeSession) {
-          throw new Error('OutgoingMessage.doSendMessage: No active sesssion!');
-        }
-
-        const destinationRegistrationId = activeSession.remoteRegistrationId();
-
-        if (sealedSender && senderCertificate) {
-          const certificate = SenderCertificate.deserialize(
-            Buffer.from(senderCertificate.serialized)
-          );
-
-          const buffer = await sealedSenderEncryptMessage(
-            Buffer.from(plaintext),
-            protocolAddress,
-            certificate,
-            sessionStore,
-            identityKeyStore
-          );
-
-          return {
-            type: window.textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER,
-            destinationDeviceId,
-            destinationRegistrationId,
-            content: buffer.toString('base64'),
-          };
-        }
-
-        const ciphertextMessage = await signalEncrypt(
-          Buffer.from(plaintext),
-          protocolAddress,
-          sessionStore,
-          identityKeyStore
-        );
-        const type = ciphertextMessageTypeToEnvelopeType(
-          ciphertextMessage.type()
-        );
-
-        return {
-          type,
-          destinationDeviceId,
-          destinationRegistrationId,
-          content: ciphertextMessage.serialize().toString('base64'),
-        };
       })
     )
-      .then(async jsonData => {
+      .then(async (jsonData: Array<SendMetadata>) => {
         if (sealedSender) {
           return this.transmitMessage(identifier, jsonData, this.timestamp, {
             accessKey,
