@@ -13,6 +13,8 @@ import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import { ConversationModel } from './models/conversations';
 import { createBatcher } from './util/batcher';
+import { ourProfileKeyService } from './services/ourProfileKey';
+import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -29,6 +31,8 @@ export async function startApp(): Promise<void> {
       err && err.stack ? err.stack : err
     );
   }
+
+  ourProfileKeyService.initialize(window.storage);
 
   let resolveOnAppView: (() => void) | undefined;
   const onAppView = new Promise<void>(resolve => {
@@ -51,6 +55,10 @@ export async function startApp(): Promise<void> {
     concurrency: 1,
     timeout: 1000 * 60 * 2,
   });
+
+  const profileKeyResponseQueue = new window.PQueue();
+  profileKeyResponseQueue.pause();
+
   window.Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -1800,8 +1808,10 @@ export async function startApp(): Promise<void> {
 
       connectCount += 1;
 
-      window.Whisper.deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
-      window.Whisper.Notifications.disable(); // avoid notification flood until empty
+      // To avoid a flood of operations before we catch up, we pause some queues.
+      profileKeyResponseQueue.pause();
+      window.Whisper.deliveryReceiptQueue.pause();
+      window.Whisper.Notifications.disable();
 
       // initialize the socket and start listening for messages
       window.log.info('Initializing socket and listening for messages');
@@ -2122,6 +2132,7 @@ export async function startApp(): Promise<void> {
       newVersion
     );
 
+    profileKeyResponseQueue.start();
     window.Whisper.deliveryReceiptQueue.start();
     window.Whisper.Notifications.enable();
 
@@ -2193,6 +2204,7 @@ export async function startApp(): Promise<void> {
     //   scenarios where we're coming back from sleep, we can get offline/online events
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
+    profileKeyResponseQueue.pause();
     window.Whisper.deliveryReceiptQueue.pause();
     window.Whisper.Notifications.disable();
   }
@@ -2376,7 +2388,7 @@ export async function startApp(): Promise<void> {
       // special case for syncing details about ourselves
       if (details.profileKey) {
         window.log.info('Got sync message with our own profile key');
-        window.storage.put('profileKey', details.profileKey);
+        ourProfileKeyService.set(details.profileKey);
       }
     }
 
@@ -2628,6 +2640,24 @@ export async function startApp(): Promise<void> {
     }
 
     const message = initIncomingMessage(data, messageDescriptor);
+
+    // We don't need this to interrupt our processing of the message, so we "fire and
+    //   forget".
+    (async () => {
+      if (await shouldRespondWithProfileKey(message)) {
+        const contact = message.getContact();
+        if (!contact) {
+          assert(false, 'Expected message to have a contact');
+          return;
+        }
+
+        profileKeyResponseQueue.add(() => {
+          contact.queueJob(() => contact.sendProfileKeyUpdate());
+        });
+      }
+    })().catch(err => {
+      window.log.error(err);
+    });
 
     if (data.message.reaction) {
       window.normalizeUuids(

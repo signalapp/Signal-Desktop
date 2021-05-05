@@ -38,6 +38,7 @@ import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
 } from '../util/timestampLongUtils';
+import { ourProfileKeyService } from './ourProfileKey';
 
 const { updateConversation } = dataInterface;
 
@@ -846,7 +847,7 @@ export async function mergeAccountRecord(
   window.storage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey) {
-    window.storage.put('profileKey', profileKey.toArrayBuffer());
+    ourProfileKeyService.set(profileKey.toArrayBuffer());
   }
 
   if (pinnedConversations) {
