@@ -475,7 +475,7 @@ export async function sendRemovedMembers(
   });
 }
 
-export async function generateAndSendNewEncryptionKeyPair(
+async function generateAndSendNewEncryptionKeyPair(
   groupPublicKey: string,
   targetMembers: Array<string>
 ) {

@@ -327,10 +327,8 @@ async function handleClosedGroupEncryptionKeyPair(
     await removeFromCache(envelope);
     return;
   }
-  if (!groupConvo.get('members')?.includes(sender)) {
-    window.log.warn(
-      `Ignoring closed group encryption key pair from non-member. ${groupPublicKey}: ${envelope.senderIdentity}`
-    );
+  if (!groupConvo.get('groupAdmins')?.includes(sender)) {
+    window.log.warn(`Ignoring closed group encryption key pair from non-admin. ${groupPublicKey}`);
     await removeFromCache(envelope);
     return;
   }
@@ -512,11 +510,18 @@ async function handleClosedGroupMembersAdded(
   const membersNotAlreadyPresent = addedMembers.filter(m => !oldMembers.includes(m));
   window.log.info(`Got a group update for group ${envelope.source}, type: MEMBERS_ADDED`);
 
+  // make sure those members are not on our zombie list
+  addedMembers.forEach(added => removeMemberFromZombies(envelope, PubKey.cast(added), convo));
+
   if (membersNotAlreadyPresent.length === 0) {
     window.log.info(
       'no new members in this group update compared to what we have already. Skipping update'
     );
+    // this is just to make sure that the zombie list got written to the db.
+    // if a member adds a member we have as a zombie, we consider that this member is not a zombie anymore
+    await convo.commit();
     await removeFromCache(envelope);
+
     return;
   }
 
@@ -533,8 +538,6 @@ async function handleClosedGroupMembersAdded(
   await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
 
   convo.set({ members });
-  // make sure those members are not on our zombie list
-  addedMembers.forEach(added => removeMemberFromZombies(envelope, PubKey.cast(added), convo));
 
   convo.updateLastMessage();
   await convo.commit();
@@ -576,7 +579,14 @@ async function handleClosedGroupMembersRemoved(
   if (removedMembers.includes(firstAdmin)) {
     window.log.warn('Ignoring invalid closed group update: trying to remove the admin.');
     await removeFromCache(envelope);
-    return;
+    throw new Error('Admins cannot be removed. They can only leave');
+  }
+
+  // The MEMBERS_REMOVED message type can only come from an admin.
+  if (!groupAdmins.includes(envelope.senderIdentity)) {
+    window.log.warn('Ignoring invalid closed group update. Only admins can remove members.');
+    await removeFromCache(envelope);
+    throw new Error('Only admins can remove members.');
   }
 
   // If the current user was removed:
@@ -588,6 +598,7 @@ async function handleClosedGroupMembersRemoved(
     await markGroupAsLeftOrKicked(groupPubKey, convo, true);
   }
   // Note: we don't want to send a new encryption keypair when we get a member removed.
+  // this is only happening when the admin gets a MEMBER_LEFT message
 
   // Only add update message if we have something to show
   if (membersAfterUpdate.length !== currentMembers.length) {
@@ -604,8 +615,9 @@ async function handleClosedGroupMembersRemoved(
   }
 
   // Update the group
-  convo.set({ members: membersAfterUpdate });
   const zombies = convo.get('zombies').filter(z => membersAfterUpdate.includes(z));
+
+  convo.set({ members: membersAfterUpdate });
   convo.set({ zombies });
 
   await convo.commit();
@@ -739,7 +751,7 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
   };
   await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
   convo.updateLastMessage();
-  // if a user just left and we are the admin, we remove him right away for everyone by sending a members removed
+  // if a user just left and we are the admin, we remove him right away for everyone by sending a MEMBERS_REMOVED message so no need to add him as a zombie
   if (!isCurrentUserAdmin && oldMembers.includes(sender)) {
     addMemberToZombies(envelope, PubKey.cast(sender), convo);
   }

@@ -151,32 +151,39 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   private renderMemberList() {
     const members = this.state.contactList;
 
-    return members.map((member: ContactType, index: number) => (
-      <SessionMemberListItem
-        member={member}
-        index={index}
-        isSelected={!member.checkmarked}
-        onSelect={this.onMemberClicked}
-        onUnselect={this.onMemberClicked}
-        key={member.id}
-        theme={this.props.theme}
-      />
-    ));
+    return members.map((member: ContactType, index: number) => {
+      const isSelected = this.props.isAdmin && !member.checkmarked;
+
+      return (
+        <SessionMemberListItem
+          member={member}
+          index={index}
+          isSelected={isSelected}
+          onSelect={this.onMemberClicked}
+          onUnselect={this.onMemberClicked}
+          key={member.id}
+          theme={this.props.theme}
+        />
+      );
+    });
   }
 
   private renderZombiesList() {
-    return this.state.zombies.map((member: ContactType, index: number) => (
-      <SessionMemberListItem
-        member={member}
-        index={index}
-        isSelected={!member.checkmarked}
-        onSelect={this.onZombieClicked}
-        onUnselect={this.onZombieClicked}
-        isZombie={true}
-        key={member.id}
-        theme={this.props.theme}
-      />
-    ));
+    return this.state.zombies.map((member: ContactType, index: number) => {
+      const isSelected = this.props.isAdmin && !member.checkmarked;
+      return (
+        <SessionMemberListItem
+          member={member}
+          index={index}
+          isSelected={isSelected}
+          onSelect={this.onZombieClicked}
+          onUnselect={this.onZombieClicked}
+          isZombie={true}
+          key={member.id}
+          theme={this.props.theme}
+        />
+      );
+    });
   }
 
   private onKeyUp(event: any) {
