@@ -32,6 +32,7 @@ export type PropsDataType = {
   | 'profileName'
   | 'sharedGroupNames'
   | 'title'
+  | 'type'
   | 'unblurredAvatarPath'
 >;
 
@@ -64,6 +65,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     sharedGroupNames,
     style,
     title,
+    type,
     unblurredAvatarPath,
   }) => {
     const disabled = Boolean(disabledReason);
@@ -99,7 +101,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
         avatarPath={avatarPath}
         checked={isChecked}
         color={color}
-        conversationType="direct"
+        conversationType={type}
         disabled={disabled}
         headerName={headerName}
         i18n={i18n}

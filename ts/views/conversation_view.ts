@@ -2356,9 +2356,8 @@ Whisper.ConversationView = Whisper.View.extend({
       })
     );
 
-    if (linkPreview) {
-      this.resetLinkPreview();
-    }
+    // Cancel any link still pending, even if it didn't make it into the message
+    this.resetLinkPreview();
 
     return true;
   },

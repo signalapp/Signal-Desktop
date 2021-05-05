@@ -60,8 +60,9 @@
     &__scroller {
       max-height: 300px;
       min-height: 300px;
-      padding-right: 36px;
       padding: 16px;
+      // Need more padding on the right to make room for floating emoji button
+      padding-right: 36px;
     }
   }
 
@@ -79,14 +80,26 @@
       }
     }
 
-    &--cancel {
+    &--close {
       @include button-reset;
       position: absolute;
-      left: 16px;
+      top: 8px;
+      right: 16px;
+
+      height: 22px;
+      width: 22px;
+
+      @include light-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+      }
+
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+      }
 
       @include keyboard-mode {
         &:focus {
-          color: $ultramarine-ui-light;
+          background-color: $ultramarine-ui-light;
         }
       }
     }
