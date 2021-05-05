@@ -15185,9 +15185,9 @@ rimraf@~2.2.8:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
 
-"ringrtc@https://github.com/signalapp/signal-ringrtc-node.git#b43c6b728d62b6d386d95705e128f32f44edb650":
-  version "2.9.4"
-  resolved "https://github.com/signalapp/signal-ringrtc-node.git#b43c6b728d62b6d386d95705e128f32f44edb650"
+"ringrtc@https://github.com/signalapp/signal-ringrtc-node.git#36332761d510d2e7747bfece6504b649ca3ee20b":
+  version "2.9.6"
+  resolved "https://github.com/signalapp/signal-ringrtc-node.git#36332761d510d2e7747bfece6504b649ca3ee20b"
 
 ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.1"
