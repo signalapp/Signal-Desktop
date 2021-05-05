@@ -15,7 +15,7 @@ You can install the beta version of Signal Desktop alongside the production vers
 
 - _Windows:_ First, download [this file](https://updates.signal.org/desktop/beta.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<installer location>`. Then run the installer.
 - _macOS:_ First, download [this file](https://updates.signal.org/desktop/beta-mac.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<package location>`. Then unzip that package and copy the `.app` file into the `/Applications` folder using Finder.
-- _Linux:_ Follow the production instructions to set up the APT repository and run `apt install signal-desktop-beta`.
+- _Linux:_ Follow the production [instructions](https://signal.org/download/linux/) to set up the APT repository and run `apt install signal-desktop-beta`.
 
 ## Got a question?
 
