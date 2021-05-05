@@ -47,6 +47,7 @@ import { PropsType as ProfileChangeNotificationPropsType } from '../components/c
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { MIMEType } from '../types/MIME';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
+import { ourProfileKeyService } from '../services/ourProfileKey';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -2131,8 +2132,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       .filter(exists);
 
     const profileKey = conversation.get('profileSharing')
-      ? window.storage.get('profileKey')
-      : null;
+      ? await ourProfileKeyService.get()
+      : undefined;
 
     // Determine retry recipients and get their most up-to-date addressing information
     let recipients = _.intersection(intendedRecipients, currentRecipients);

@@ -34,6 +34,7 @@ import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
 import { isMoreRecentThan } from '../util/timestamp';
 import { isStorageWriteFeatureEnabled } from '../storage/isFeatureEnabled';
+import { ourProfileKeyService } from './ourProfileKey';
 
 const {
   eraseStorageServiceStateFromConversations,
@@ -1156,7 +1157,9 @@ export const runStorageServiceSyncJob = debounce(() => {
     return;
   }
 
-  storageJobQueue(async () => {
-    await sync();
-  }, `sync v${window.storage.get('manifestVersion')}`);
+  ourProfileKeyService.blockGetWithPromise(
+    storageJobQueue(async () => {
+      await sync();
+    }, `sync v${window.storage.get('manifestVersion')}`)
+  );
 }, 500);

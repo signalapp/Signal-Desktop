@@ -54,6 +54,7 @@ import {
   SerializedCertificateType,
 } from '../textsecure/OutgoingMessage';
 import { senderCertificateService } from '../services/senderCertificate';
+import { ourProfileKeyService } from '../services/ourProfileKey';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -3033,11 +3034,6 @@ export class ConversationModel extends window.Backbone
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
 
-    let profileKey: ArrayBuffer | undefined;
-    if (this.get('profileSharing')) {
-      profileKey = window.storage.get('profileKey');
-    }
-
     return this.queueJob(async () => {
       window.log.info(
         'Sending deleteForEveryone to conversation',
@@ -3073,7 +3069,12 @@ export class ConversationModel extends window.Backbone
 
       const options = await this.getSendOptions();
 
-      const promise = (() => {
+      const promise = (async () => {
+        let profileKey: ArrayBuffer | undefined;
+        if (this.get('profileSharing')) {
+          profileKey = await ourProfileKeyService.get();
+        }
+
         if (this.isPrivate()) {
           return window.textsecure.messaging.sendMessageToIdentifier(
             destination,
@@ -3143,11 +3144,6 @@ export class ConversationModel extends window.Backbone
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
 
-    let profileKey: ArrayBuffer | undefined;
-    if (this.get('profileSharing')) {
-      profileKey = window.storage.get('profileKey');
-    }
-
     return this.queueJob(async () => {
       window.log.info(
         'Sending reaction to conversation',
@@ -3183,6 +3179,11 @@ export class ConversationModel extends window.Backbone
       // We're offline!
       if (!window.textsecure.messaging) {
         throw new Error('Cannot send reaction while offline!');
+      }
+
+      let profileKey: ArrayBuffer | undefined;
+      if (this.get('profileSharing')) {
+        profileKey = await ourProfileKeyService.get();
       }
 
       // Special-case the self-send case - we send only a sync message
@@ -3262,7 +3263,13 @@ export class ConversationModel extends window.Backbone
       return;
     }
     window.log.info('Sending profileKeyUpdate to conversation', id, recipients);
-    const profileKey = window.storage.get('profileKey');
+    const profileKey = await ourProfileKeyService.get();
+    if (!profileKey) {
+      window.log.error(
+        'Attempted to send profileKeyUpdate but our profile key was not found'
+      );
+      return;
+    }
     await window.textsecure.messaging.sendProfileKeyUpdate(
       profileKey,
       recipients,
@@ -3300,11 +3307,6 @@ export class ConversationModel extends window.Backbone
     const destination = this.getSendTarget()!;
     const expireTimer = this.get('expireTimer');
     const recipients = this.getRecipients();
-
-    let profileKey: ArrayBuffer | undefined;
-    if (this.get('profileSharing')) {
-      profileKey = window.storage.get('profileKey');
-    }
 
     this.queueJob(async () => {
       const now = Date.now();
@@ -3398,6 +3400,11 @@ export class ConversationModel extends window.Backbone
         attachments: attachmentsWithData,
         now,
       });
+
+      let profileKey: ArrayBuffer | undefined;
+      if (this.get('profileSharing')) {
+        profileKey = await ourProfileKeyService.get();
+      }
 
       // Special-case the self-send case - we send only a sync message
       if (this.isMe()) {
@@ -4035,11 +4042,13 @@ export class ConversationModel extends window.Backbone
       return message;
     }
 
+    const sendOptions = await this.getSendOptions();
+
     let profileKey;
     if (this.get('profileSharing')) {
-      profileKey = window.storage.get('profileKey');
+      profileKey = await ourProfileKeyService.get();
     }
-    const sendOptions = await this.getSendOptions();
+
     let promise;
 
     if (this.isMe()) {
