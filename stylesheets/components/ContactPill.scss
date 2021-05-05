@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-ContactPill {
+  @include rounded-corners;
   align-items: center;
-  border-radius: 9999px; // This ensures the borders are completely rounded. (A value like 100% would make it an ellipse.)
   display: inline-flex;
   user-select: none;
   overflow: hidden;

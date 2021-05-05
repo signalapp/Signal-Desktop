@@ -3050,6 +3050,10 @@
     "message": "No groups in common.",
     "description": "Shown to indicate this user is not a member of any groups"
   },
+  "no-groups-in-common-warning": {
+    "message": "No groups in common. Review requests carefully.",
+    "description": "When a user has no common groups, show this warning"
+  },
   "acceptCall": {
     "message": "Answer",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
@@ -5072,5 +5076,47 @@
   "ForwardMessageModal--continue": {
     "message": "Continue",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "MessageRequestWarning__learn-more": {
+    "message": "Learn more",
+    "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+  },
+  "MessageRequestWarning__dialog__details": {
+    "message": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
+    "description": "Shown in the message request warning dialog. Gives more information about message requests"
+  },
+  "MessageRequestWarning__dialog__learn-even-more": {
+    "message": "About Message Requests",
+    "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+  },
+  "ContactSpoofing__same-name": {
+    "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+    "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+    "placeholders": {
+      "link": {
+        "content": "$1",
+        "example": "Review request"
+      }
+    }
+  },
+  "ContactSpoofing__same-name__link": {
+    "message": "Review request",
+    "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+  },
+  "ContactSpoofingReviewDialog__title": {
+    "message": "Review request",
+    "description": "Title for the contact name spoofing review dialog"
+  },
+  "ContactSpoofingReviewDialog__description": {
+    "message": "If you're not sure who the request is from, review the contacts below and take action.",
+    "description": "Description for the contact spoofing review dialog"
+  },
+  "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+    "message": "Request",
+    "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+  },
+  "ContactSpoofingReviewDialog__safe-title": {
+    "message": "Your contact",
+    "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
   }
 }
