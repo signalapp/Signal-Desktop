@@ -10,6 +10,7 @@ import { initiateGroupUpdate } from '../../session/group';
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { getCompleteUrlForV2ConvoId } from '../../interactions/conversation';
 import _ from 'lodash';
+import autoBind from 'auto-bind';
 interface Props {
   contactList: Array<any>;
   chatName: string;
@@ -26,12 +27,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    this.onMemberClicked = this.onMemberClicked.bind(this);
-    this.closeDialog = this.closeDialog.bind(this);
-    this.onClickOK = this.onClickOK.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.submitForOpenGroup = this.submitForOpenGroup.bind(this);
-    this.submitForClosedGroup = this.submitForClosedGroup.bind(this);
+    autoBind(this);
 
     let contacts = this.props.contactList;
 
@@ -137,11 +133,10 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
 
   private async submitForClosedGroup(pubkeys: Array<string>) {
     const { convo } = this.props;
-    // FIXME audric is this dialog still used for closed groups? I think
-    // public group chats
 
-    // private group chats
+    // closed group chats
     const ourPK = UserUtils.getOurPubKeyStrFromCache();
+    // we only care about real members. If a member is currently a zombie we have to be able to add him back
     let existingMembers = convo.get('members') || [];
     // at least make sure it's an array
     if (!Array.isArray(existingMembers)) {

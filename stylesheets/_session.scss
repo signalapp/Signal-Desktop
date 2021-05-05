@@ -1300,6 +1300,10 @@ input {
     }
   }
 
+  &.zombie {
+    opacity: 0.5;
+  }
+
   &__checkmark {
     opacity: 0;
     transition: $session-transition-duration;

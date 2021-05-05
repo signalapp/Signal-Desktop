@@ -2015,6 +2015,10 @@
   "noModeratorsToRemove": {
     "message": "no moderators to remove"
   },
+  "onlyAdminCanRemoveMembers": { "message": "You are not the creator" },
+  "onlyAdminCanRemoveMembersDesc": {
+    "message": "Only the creator of the group can remove users"
+  },
   "createAccount": {
     "message": "Create Account"
   },

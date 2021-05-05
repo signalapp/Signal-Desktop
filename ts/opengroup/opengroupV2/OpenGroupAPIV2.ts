@@ -451,6 +451,10 @@ export const downloadFileOpenGroupV2 = async (
   fileId: number,
   roomInfos: OpenGroupRequestCommonType
 ): Promise<Uint8Array | null> => {
+  if (!fileId) {
+    window.log.warn('downloadFileOpenGroupV2: FileId cannot be unset. returning null');
+    return null;
+  }
   const request: OpenGroupV2Request = {
     method: 'GET',
     room: roomInfos.roomId,

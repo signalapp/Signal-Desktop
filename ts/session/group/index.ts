@@ -40,7 +40,8 @@ import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
 export interface GroupInfo {
   id: string;
   name: string;
-  members: Array<string>; // Primary keys
+  members: Array<string>;
+  zombies?: Array<string>;
   active?: boolean;
   expireTimer?: number | null;
   avatar?: any;
@@ -107,6 +108,8 @@ export async function initiateGroupUpdate(
   if (!isMediumGroup) {
     throw new Error('Legacy group are not supported anymore.');
   }
+  const oldZombies = convo.get('zombies');
+  console.warn('initiategroupUpdate old zombies:', oldZombies);
 
   // do not give an admins field here. We don't want to be able to update admins and
   // updateOrCreateClosedGroup() will update them if given the choice.
@@ -114,10 +117,13 @@ export async function initiateGroupUpdate(
     id: groupId,
     name: groupName,
     members,
+    // remove from the zombies list the zombies not which are not in the group anymore
+    zombies: convo.get('zombies').filter(z => members.includes(z)),
     active: true,
     expireTimer: convo.get('expireTimer'),
     avatar,
   };
+  console.warn('initiategroupUpdate new zombies:', groupDetails.zombies);
 
   const diff = buildGroupDiff(convo, groupDetails);
 
@@ -150,8 +156,9 @@ export async function initiateGroupUpdate(
     const dbMessageLeaving = await addUpdateMessage(convo, leavingOnlyDiff, 'outgoing', Date.now());
     MessageController.getInstance().register(dbMessageLeaving.id, dbMessageLeaving);
     const stillMembers = members;
-    await sendRemovedMembers(convo, diff.leavingMembers, dbMessageLeaving.id, stillMembers);
+    await sendRemovedMembers(convo, diff.leavingMembers, stillMembers, dbMessageLeaving.id);
   }
+  await convo.commit();
 }
 
 export async function addUpdateMessage(
@@ -253,6 +260,10 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     updates.left = true;
   }
 
+  if (details.zombies) {
+    updates.zombies = details.zombies;
+  }
+
   conversation.set(updates);
 
   // Update the conversation avatar only if new avatar exists and hash differs
@@ -285,10 +296,14 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
-  const source = UserUtils.getOurPubKeyStrFromCache();
-  await conversation.updateExpirationTimer(expireTimer, source, Date.now(), {
-    fromSync: true,
-  });
+  await conversation.updateExpirationTimer(
+    expireTimer,
+    UserUtils.getOurPubKeyStrFromCache(),
+    Date.now(),
+    {
+      fromSync: true,
+    }
+  );
 }
 
 export async function leaveClosedGroup(groupId: string) {
@@ -420,11 +435,11 @@ async function sendAddedMembers(
   await Promise.all(promises);
 }
 
-async function sendRemovedMembers(
+export async function sendRemovedMembers(
   convo: ConversationModel,
   removedMembers: Array<string>,
-  messageId: string,
-  stillMembers: Array<string>
+  stillMembers: Array<string>,
+  messageId?: string
 ) {
   if (!removedMembers?.length) {
     window.log.warn('No removedMembers given for group update. Skipping');

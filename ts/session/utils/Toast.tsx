@@ -183,6 +183,14 @@ export function pushCannotRemoveCreatorFromGroup() {
   );
 }
 
+export function pushOnlyAdminCanRemove() {
+  pushToastInfo(
+    'onlyAdminCanRemoveMembers',
+    window.i18n('onlyAdminCanRemoveMembers'),
+    window.i18n('onlyAdminCanRemoveMembersDesc')
+  );
+}
+
 export function pushUserNeedsToHaveJoined() {
   pushToastWarning(
     'userNeedsToHaveJoined',

@@ -584,6 +584,9 @@ async function handleClosedGroupMembersAdded(
   await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
 
   convo.set({ members });
+  // make sure those members are not on our zombie list
+  addedMembers.forEach(added => removeMemberFromZombies(envelope, PubKey.cast(added), convo));
+
   convo.updateLastMessage();
   await convo.commit();
   await removeFromCache(envelope);
@@ -633,16 +636,9 @@ async function handleClosedGroupMembersRemoved(
   const ourPubKey = UserUtils.getOurPubKeyFromCache();
   const wasCurrentUserRemoved = !membersAfterUpdate.includes(ourPubKey.key);
   if (wasCurrentUserRemoved) {
-    await markGroupAsLeftOrKicked(groupPublicKey, convo, true);
+    await markGroupAsLeftOrKicked(groupPubKey, convo, true);
   }
-  // Generate and distribute a new encryption key pair if needed
-  if (await areWeAdmin(convo)) {
-    try {
-      await ClosedGroup.generateAndSendNewEncryptionKeyPair(groupPubKey, membersAfterUpdate);
-    } catch (e) {
-      window.log.warn('Could not distribute new encryption keypair.');
-    }
-  }
+  // Note: we don't want to send a new encryption keypair when we get a member removed.
 
   // Only add update message if we have something to show
   if (membersAfterUpdate.length !== currentMembers.length) {
@@ -660,6 +656,8 @@ async function handleClosedGroupMembersRemoved(
 
   // Update the group
   convo.set({ members: membersAfterUpdate });
+  const zombies = convo.get('zombies').filter(z => membersAfterUpdate.includes(z));
+  convo.set({ zombies });
 
   await convo.commit();
   await removeFromCache(envelope);
@@ -762,6 +760,7 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
   // otherwise, we remove the sender from the list of current members in this group
   const oldMembers = convo.get('members') || [];
   const newMembers = oldMembers.filter(s => s !== sender);
+  window.log.info(`Got a group update for group ${envelope.source}, type: MEMBER_LEFT`);
 
   // Show log if we sent this message ourself (from another device or not)
   if (UserUtils.isUsFromCache(sender)) {
@@ -784,12 +783,6 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
     return;
   }
 
-  // if we are the admin, and there are still some members after the member left, we send a new keypair
-  // to the remaining members
-  if (isCurrentUserAdmin && !!newMembers.length) {
-    await ClosedGroup.generateAndSendNewEncryptionKeyPair(groupPublicKey, newMembers);
-  }
-
   // Another member left, not us, not the admin, just another member.
   // But this member was in the list of members (as performIfValid checks for that)
   const groupDiff: ClosedGroup.GroupDiff = {
@@ -797,8 +790,19 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
   };
   await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
   convo.updateLastMessage();
-  await addMemberToZombies(envelope, PubKey.cast(sender), convo);
+  // if a user just left and we are the admin, we remove him right away for everyone by sending a members removed
+  if (!isCurrentUserAdmin && oldMembers.includes(sender)) {
+    addMemberToZombies(envelope, PubKey.cast(sender), convo);
+  }
   convo.set('members', newMembers);
+
+  // if we are the admin, and there are still some members after the member left, we send a new keypair
+  // to the remaining members.
+  // also if we are the admin, we can tell to everyone that this user is effectively removed
+  if (isCurrentUserAdmin && !!newMembers.length) {
+    await ClosedGroup.sendRemovedMembers(convo, [sender], newMembers);
+  }
+
   await convo.commit();
 
   await removeFromCache(envelope);

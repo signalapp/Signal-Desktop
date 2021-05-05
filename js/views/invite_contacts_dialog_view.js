@@ -17,8 +17,13 @@
         d => !!d && !d.isBlocked() && d.isPrivate() && !d.isMe() && !!d.get('active_at')
       );
       if (!convo.isPublic()) {
+        // filter our zombies and current members from the list of contact we can add
+
         const members = convo.get('members') || [];
-        this.contacts = this.contacts.filter(d => !members.includes(d.id));
+        const zombies = convo.get('zombies') || [];
+        this.contacts = this.contacts.filter(
+          d => !members.includes(d.id) && !zombies.includes(d.id)
+        );
       }
 
       this.chatName = convo.get('name');
