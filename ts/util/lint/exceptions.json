@@ -14547,6 +14547,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/ConversationHero.js",
+    "line": "    const previousHeightRef = react_1.useRef();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-05T21:55:35.064Z",
+    "reasonDetail": "Doesn't refer to a DOM element."
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.tsx",
     "line": "  const firstRenderRef = useRef(true);",
     "reasonCategory": "falseMatch",

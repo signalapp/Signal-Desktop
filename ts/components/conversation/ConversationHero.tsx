@@ -172,7 +172,9 @@ export const ConversationHero = ({
 }: Props): JSX.Element => {
   const firstRenderRef = useRef(true);
 
+  const previousHeightRef = useRef<undefined | number>();
   const [height, setHeight] = useState<undefined | number>();
+
   const [
     isShowingMessageRequestWarning,
     setIsShowingMessageRequestWarning,
@@ -191,10 +193,18 @@ export const ConversationHero = ({
   }, []);
 
   useEffect(() => {
-    if (!firstRenderRef.current && onHeightChange) {
-      onHeightChange();
+    // We only want to kick off a "height change" when the height goes from number to
+    //   number. We DON'T want to do it when we measure the height for the first time, as
+    //   this will cause a re-render loop.
+    const previousHeight = previousHeightRef.current;
+    if (previousHeight && height && previousHeight !== height) {
+      onHeightChange?.();
     }
   }, [height, onHeightChange]);
+
+  useEffect(() => {
+    previousHeightRef.current = height;
+  }, [height]);
 
   let avatarBlur: AvatarBlur;
   let avatarOnClick: undefined | (() => void);
