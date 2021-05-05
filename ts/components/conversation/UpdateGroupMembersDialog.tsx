@@ -70,7 +70,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
           return null;
         }
         const lokiProfile = convo.getLokiProfile();
-        const name = lokiProfile ? `${lokiProfile.displayName} (Zombie)` : window.i18n('anonymous');
+        const name = lokiProfile ? lokiProfile.displayName : window.i18n('anonymous');
 
         const existingZombie = this.props.existingZombies.includes(convo.id);
         return {

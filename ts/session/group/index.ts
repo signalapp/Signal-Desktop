@@ -37,12 +37,12 @@ import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMe
 import { updateOpenGroupV1 } from '../../opengroup/opengroupV1/OpenGroup';
 import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
 
-export interface GroupInfo {
+export type GroupInfo = {
   id: string;
   name: string;
   members: Array<string>;
   zombies?: Array<string>;
-  active?: boolean;
+  activeAt?: number;
   expireTimer?: number | null;
   avatar?: any;
   color?: any; // what is this???
@@ -50,7 +50,7 @@ export interface GroupInfo {
   admins?: Array<string>;
   secretKey?: Uint8Array;
   weWereJustAdded?: boolean;
-}
+};
 
 interface UpdatableGroupState {
   name: string;
@@ -113,13 +113,13 @@ export async function initiateGroupUpdate(
 
   // do not give an admins field here. We don't want to be able to update admins and
   // updateOrCreateClosedGroup() will update them if given the choice.
-  const groupDetails = {
+  const groupDetails: GroupInfo = {
     id: groupId,
     name: groupName,
     members,
     // remove from the zombies list the zombies not which are not in the group anymore
     zombies: convo.get('zombies').filter(z => members.includes(z)),
-    active: true,
+    activeAt: Date.now(),
     expireTimer: convo.get('expireTimer'),
     avatar,
   };
@@ -245,15 +245,10 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     is_medium_group: true,
   };
 
-  if (details.active) {
-    const activeAt = conversation.get('active_at');
+  if (details.activeAt) {
+    updates.active_at = details.activeAt;
+    updates.timestamp = updates.active_at;
 
-    // The idea is to make any new group show up in the left pane. If
-    //   activeAt is null, then this group has been purposefully hidden.
-    if (activeAt !== null) {
-      updates.active_at = activeAt || Date.now();
-      updates.timestamp = updates.active_at;
-    }
     updates.left = false;
     updates.lastJoinedTimestamp = weWereJustAdded ? Date.now() : updates.active_at;
   } else {

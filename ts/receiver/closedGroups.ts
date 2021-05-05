@@ -44,7 +44,9 @@ export async function handleClosedGroupControlMessage(
   const { type } = groupUpdate;
   const { Type } = SignalService.DataMessage.ClosedGroupControlMessage;
   window.log.info(
-    ` handle closed group update from ${envelope.senderIdentity} about group ${envelope.source}`
+    ` handle closed group update from ${envelope.senderIdentity || envelope.source} about group ${
+      envelope.source
+    }`
   );
 
   if (BlockedNumberController.isGroupBlocked(PubKey.cast(envelope.source))) {
@@ -210,12 +212,12 @@ export async function handleNewClosedGroup(
   );
 
   // We only set group admins on group creation
-  const groupDetails = {
+  const groupDetails: ClosedGroup.GroupInfo = {
     id: groupId,
     name: name,
     members: members,
     admins,
-    active: true,
+    activeAt: Date.now(),
     weWereJustAdded: true,
   };
 
@@ -228,12 +230,13 @@ export async function handleNewClosedGroup(
   // Having that timestamp set will allow us to pickup incoming group update which were sent between
   // envelope.timestamp and Date.now(). And we need to listen to those (some might even remove us)
   convo.set('lastJoinedTimestamp', _.toNumber(envelope.timestamp));
+  convo.updateLastMessage();
 
   await convo.commit();
   // sanity checks validate this
   // tslint:disable: no-non-null-assertion
   const ecKeyPair = new ECKeyPair(encryptionKeyPair!.publicKey, encryptionKeyPair!.privateKey);
-  window.log.info(`Received a the encryptionKeyPair for new group ${groupId}`);
+  window.log.info(`Received the encryptionKeyPair for new group ${groupId}`);
 
   await addClosedGroupEncryptionKeyPair(groupId, ecKeyPair.toHexKeyPair());
 
@@ -894,12 +897,12 @@ export async function createClosedGroup(groupName: string, members: Array<string
 
   const admins = [ourNumber.key];
 
-  const groupDetails = {
+  const groupDetails: ClosedGroup.GroupInfo = {
     id: groupPublicKey,
     name: groupName,
     members: listOfMembers,
     admins,
-    active: true,
+    activeAt: Date.now(),
     expireTimer: 0,
   };
 
@@ -931,11 +934,12 @@ export async function createClosedGroup(groupName: string, members: Array<string
       expireTimer: 0,
     };
     const message = new ClosedGroupNewMessage(messageParams);
-    window.log.info(`Creating a new group and an encryptionKeyPair for group ${groupPublicKey}`);
-    // tslint:disable-next-line: no-non-null-assertion
-    await addClosedGroupEncryptionKeyPair(groupPublicKey, encryptionKeyPair.toHexKeyPair());
+
     return getMessageQueue().sendToPubKey(PubKey.cast(m), message);
   });
+  window.log.info(`Creating a new group and an encryptionKeyPair for group ${groupPublicKey}`);
+  // tslint:disable-next-line: no-non-null-assertion
+  await addClosedGroupEncryptionKeyPair(groupPublicKey, encryptionKeyPair.toHexKeyPair());
 
   // Subscribe to this group id
   SwarmPolling.getInstance().addGroupId(new PubKey(groupPublicKey));
