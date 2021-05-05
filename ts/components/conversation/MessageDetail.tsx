@@ -21,6 +21,7 @@ import { assert } from '../../util/assert';
 export type Contact = {
   status: MessageStatusType | null;
 
+  acceptedMessageRequest?: boolean;
   title: string;
   phoneNumber?: string;
   name?: string;
@@ -28,7 +29,9 @@ export type Contact = {
   avatarPath?: string;
   color?: ColorType;
   isOutgoingKeyError: boolean;
+  sharedGroupNames?: Array<string>;
   isUnidentifiedDelivery: boolean;
+  unblurredAvatarPath?: string;
 
   errors?: Array<Error>;
 
@@ -89,16 +92,20 @@ export class MessageDetail extends React.Component<Props> {
   public renderAvatar(contact: Contact): JSX.Element {
     const { i18n } = this.props;
     const {
+      acceptedMessageRequest,
       avatarPath,
       color,
-      phoneNumber,
       name,
+      phoneNumber,
       profileName,
+      sharedGroupNames,
       title,
+      unblurredAvatarPath,
     } = contact;
 
     return (
       <Avatar
+        acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         color={color}
         conversationType="direct"
@@ -107,7 +114,9 @@ export class MessageDetail extends React.Component<Props> {
         phoneNumber={phoneNumber}
         profileName={profileName}
         title={title}
+        sharedGroupNames={sharedGroupNames}
         size={52}
+        unblurredAvatarPath={unblurredAvatarPath}
       />
     );
   }
