@@ -81,8 +81,6 @@ export async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
   return new Uint8Array(fromHex(secretKey));
 }
 
-// tslint:disable: max-func-body-length
-// tslint:disable: cyclomatic-complexity
 export async function initiateGroupUpdate(
   groupId: string,
   groupName: string,
@@ -109,7 +107,6 @@ export async function initiateGroupUpdate(
     throw new Error('Legacy group are not supported anymore.');
   }
   const oldZombies = convo.get('zombies');
-  console.warn('initiategroupUpdate old zombies:', oldZombies);
 
   // do not give an admins field here. We don't want to be able to update admins and
   // updateOrCreateClosedGroup() will update them if given the choice.
@@ -123,7 +120,6 @@ export async function initiateGroupUpdate(
     expireTimer: convo.get('expireTimer'),
     avatar,
   };
-  console.warn('initiategroupUpdate new zombies:', groupDetails.zombies);
 
   const diff = buildGroupDiff(convo, groupDetails);
 
@@ -207,7 +203,7 @@ export async function addUpdateMessage(
   return message;
 }
 
-export function buildGroupDiff(convo: ConversationModel, update: UpdatableGroupState): GroupDiff {
+function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff {
   const groupDiff: GroupDiff = {};
 
   if (convo.get('name') !== update.name) {
@@ -215,13 +211,17 @@ export function buildGroupDiff(convo: ConversationModel, update: UpdatableGroupS
   }
 
   const oldMembers = convo.get('members');
+  const oldZombies = convo.get('zombies');
+  const oldMembersWithZombies = _.uniq(oldMembers.concat(oldZombies));
 
-  const addedMembers = _.difference(update.members, oldMembers);
+  const newMembersWithZombiesLeft = _.uniq(update.members.concat(update.zombies || []));
+
+  const addedMembers = _.difference(newMembersWithZombiesLeft, oldMembersWithZombies);
   if (addedMembers.length > 0) {
     groupDiff.joiningMembers = addedMembers;
   }
   // Check if anyone got kicked:
-  const removedMembers = _.difference(oldMembers, update.members);
+  const removedMembers = _.difference(oldMembersWithZombies, newMembersWithZombiesLeft);
   if (removedMembers.length > 0) {
     groupDiff.leavingMembers = removedMembers;
   }

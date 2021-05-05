@@ -143,11 +143,16 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
       existingMembers = [];
     }
     existingMembers = _.compact(existingMembers);
+    const existingZombies = convo.get('zombies') || [];
     const newMembers = pubkeys.filter(d => !existingMembers.includes(d));
 
     if (newMembers.length > 0) {
       // Do not trigger an update if there is too many members
-      if (newMembers.length + existingMembers.length > window.CONSTANTS.CLOSED_GROUP_SIZE_LIMIT) {
+      // be sure to include current zombies in this count
+      if (
+        newMembers.length + existingMembers.length + existingZombies.length >
+        window.CONSTANTS.CLOSED_GROUP_SIZE_LIMIT
+      ) {
         ToastUtils.pushTooManyMembers();
         return;
       }

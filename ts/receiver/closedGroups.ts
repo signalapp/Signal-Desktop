@@ -752,17 +752,10 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
   await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
   convo.updateLastMessage();
   // if a user just left and we are the admin, we remove him right away for everyone by sending a MEMBERS_REMOVED message so no need to add him as a zombie
-  if (!isCurrentUserAdmin && oldMembers.includes(sender)) {
+  if (oldMembers.includes(sender)) {
     addMemberToZombies(envelope, PubKey.cast(sender), convo);
   }
   convo.set('members', newMembers);
-
-  // if we are the admin, and there are still some members after the member left, we send a new keypair
-  // to the remaining members.
-  // also if we are the admin, we can tell to everyone that this user is effectively removed
-  if (isCurrentUserAdmin && !!newMembers.length) {
-    await ClosedGroup.sendRemovedMembers(convo, [sender], newMembers);
-  }
 
   await convo.commit();
 

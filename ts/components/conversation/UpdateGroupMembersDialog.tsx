@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { SessionModal } from '../session/SessionModal';
-import { SessionButton, SessionButtonColor } from '../session/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { DefaultTheme } from 'styled-components';
 import { ToastUtils } from '../../session/utils';
@@ -11,6 +11,7 @@ import autoBind from 'auto-bind';
 import { ConversationController } from '../../session/conversations';
 
 import _ from 'lodash';
+import { Text } from '../basic/Text';
 
 interface Props {
   titleText: string;
@@ -25,8 +26,8 @@ interface Props {
   admins: Array<string>; // used for closed group
 
   i18n: LocalizerType;
-  onSubmit: any;
-  onClose: any;
+  onSubmit: (membersLeft: Array<string>) => void;
+  onClose: () => void;
   theme: DefaultTheme;
 }
 
@@ -106,7 +107,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const { okText, cancelText, isAdmin, contactList, titleText } = this.props;
+    const { okText, cancelText, isAdmin, contactList, titleText, existingZombies } = this.props;
 
     const showNoMembersMessage = contactList.length === 0;
 
@@ -115,6 +116,8 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       'error-message',
       this.state.errorDisplayed ? 'error-shown' : 'error-faded'
     );
+
+    const hasZombies = Boolean(existingZombies.length);
 
     return (
       <SessionModal
@@ -169,8 +172,15 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   private renderZombiesList() {
-    return this.state.zombies.map((member: ContactType, index: number) => {
-      const isSelected = this.props.isAdmin && !member.checkmarked;
+    const { isAdmin } = this.props;
+    const { zombies } = this.state;
+
+    if (!zombies.length) {
+      return <></>;
+    }
+
+    const zombieElements = zombies.map((member: ContactType, index: number) => {
+      const isSelected = isAdmin && !member.checkmarked;
       return (
         <SessionMemberListItem
           member={member}
@@ -184,6 +194,22 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         />
       );
     });
+    return (
+      <>
+        <div className="spacer-lg" />
+        {isAdmin && (
+          <Text
+            padding="20px"
+            theme={this.props.theme}
+            text={window.i18n('removeResidueMembers')}
+            subtle={true}
+            maxWidth="400px"
+            textAlign="center"
+          />
+        )}
+        {zombieElements}
+      </>
+    );
   }
 
   private onKeyUp(event: any) {
@@ -252,39 +278,11 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   private onZombieClicked(selected: ContactType) {
-    const { isAdmin, admins } = this.props;
-    const { zombies } = this.state;
+    const { isAdmin } = this.props;
 
     if (!isAdmin) {
       ToastUtils.pushOnlyAdminCanRemove();
       return;
     }
-    if (selected.existingMember && !isAdmin) {
-      window.log.warn('Only group admin can remove members!');
-      return;
-    }
-
-    if (selected.existingMember && admins.includes(selected.id)) {
-      window.log.warn(
-        `User ${selected.id} cannot be removed as they are the creator of the closed group.`
-      );
-      ToastUtils.pushCannotRemoveCreatorFromGroup();
-      return;
-    }
-
-    const updatedZombies = zombies.map(zombie => {
-      if (zombie.id === selected.id) {
-        return { ...zombie, checkmarked: !zombie.checkmarked };
-      } else {
-        return zombie;
-      }
-    });
-
-    this.setState(state => {
-      return {
-        ...state,
-        zombies: updatedZombies,
-      };
-    });
   }
 }

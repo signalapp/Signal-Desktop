@@ -1,14 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 type TextProps = {
   text: string;
   subtle?: boolean;
   opposite?: boolean;
+  maxWidth?: string;
+  padding?: string;
+  textAlign?: 'center';
+  theme?: DefaultTheme;
 };
 
 const StyledDefaultText = styled.div<TextProps>`
   transition: ${props => props.theme.common.animations.defaultDuration};
+  max-width: ${props => (props.maxWidth ? props.maxWidth : '')};
+  padding: ${props => (props.padding ? props.padding : '')};
+  text-align: ${props => (props.textAlign ? props.textAlign : '')};
   font-family: ${props => props.theme.common.fonts.sessionFontDefault};
   color: ${props =>
     props.opposite
