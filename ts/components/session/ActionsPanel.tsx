@@ -141,7 +141,7 @@ const setupTheme = (dispatch: Dispatch<any>) => {
 };
 
 // Do this only if we created a new Session ID, or if we already received the initial configuration message
-const triggerSyncIfIfNeeded = async () => {
+const triggerSyncIfNeeded = async () => {
   const didWeHandleAConfigurationMessageAlready =
     (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
@@ -174,7 +174,7 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
   void OpenGroupManagerV2.getInstance().startPolling();
   // trigger a sync message if needed for our other devices
 
-  void triggerSyncIfIfNeeded();
+  void triggerSyncIfNeeded();
 
   void loadDefaultRooms();
 

@@ -42,7 +42,7 @@ export const syncConfigurationIfNeeded = async () => {
   const now = Date.now();
 
   // if the last sync was less than 2 days before, return early.
-  if (Math.abs(now - lastSyncedTimestamp) < DAYS * 2) {
+  if (Math.abs(now - lastSyncedTimestamp) < DAYS * 7) {
     return;
   }
 
@@ -195,7 +195,7 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
 
   const activeOpenGroups = [...openGroupsV1Ids, ...opengroupV2CompleteUrls];
 
-  console.warn('SyncConfiguration', activeOpenGroups);
+  // console.warn('SyncConfiguration', activeOpenGroups);
 
   return new ConfigurationMessage({
     identifier: uuid(),

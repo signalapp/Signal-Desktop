@@ -756,8 +756,9 @@
     messageReceiver.addEventListener('sent', window.DataMessageReceiver.handleMessageEvent);
     messageReceiver.addEventListener('reconnect', onReconnect);
     messageReceiver.addEventListener('configuration', onConfiguration);
-    // messageReceiver.addEventListener('typing', onTyping);
+    window.SwarmPolling.addPubkey(window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache());
 
+    window.SwarmPolling.start();
     window.libsession.Utils.AttachmentDownloads.start({
       logger: window.log,
     });
