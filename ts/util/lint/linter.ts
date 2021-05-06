@@ -22,6 +22,7 @@ const searchPattern = normalizePath(join(basePath, '**/*.{js,ts,tsx}'));
 const excludedFilesRegexps = [
   '^release/',
   '^preload.bundle.js(LICENSE.txt|map)?',
+  '^storybook-static/',
 
   // Non-distributed files
   '\\.d\\.ts$',
