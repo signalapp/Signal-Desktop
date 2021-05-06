@@ -2119,6 +2119,7 @@ export function initialize({
         auth.groupPublicParamsHex,
         auth.authCredentialPresentationHex
       );
+      const safeInviteLinkPassword = toWebSafeBase64(inviteLinkPassword);
 
       const response: ArrayBuffer = await _ajax({
         basicAuth,
@@ -2127,7 +2128,8 @@ export function initialize({
         host: storageUrl,
         httpType: 'GET',
         responseType: 'arraybuffer',
-        urlParameters: `/${toWebSafeBase64(inviteLinkPassword)}`,
+        urlParameters: `/${safeInviteLinkPassword}`,
+        redactUrl: _createRedactor(safeInviteLinkPassword),
       });
 
       return window.textsecure.protobuf.GroupJoinInfo.decode(response);
@@ -2143,6 +2145,9 @@ export function initialize({
         options.authCredentialPresentationHex
       );
       const data = changes.toArrayBuffer();
+      const safeInviteLinkPassword = inviteLinkBase64
+        ? toWebSafeBase64(inviteLinkBase64)
+        : undefined;
 
       const response: ArrayBuffer = await _ajax({
         basicAuth,
@@ -2152,8 +2157,11 @@ export function initialize({
         host: storageUrl,
         httpType: 'PATCH',
         responseType: 'arraybuffer',
-        urlParameters: inviteLinkBase64
-          ? `?inviteLinkPassword=${toWebSafeBase64(inviteLinkBase64)}`
+        urlParameters: safeInviteLinkPassword
+          ? `?inviteLinkPassword=${safeInviteLinkPassword}`
+          : undefined,
+        redactUrl: safeInviteLinkPassword
+          ? _createRedactor(safeInviteLinkPassword)
           : undefined,
       });
 

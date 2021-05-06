@@ -53,6 +53,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onSetSkinTone: action('onSetSkinTone'),
   recentEmojis: [],
   removeLinkPreview: action('removeLinkPreview'),
+  setSecureInput: action('setSecureInput'),
   skinTone: 0,
 });
 

@@ -593,6 +593,12 @@ ipc.on('show-window', () => {
   showWindow();
 });
 
+ipc.on('set-secure-input', (_sender, enabled) => {
+  if (app.setSecureKeyboardEntryEnabled) {
+    app.setSecureKeyboardEntryEnabled(enabled);
+  }
+});
+
 ipc.on('title-bar-double-click', () => {
   if (!mainWindow) {
     return;

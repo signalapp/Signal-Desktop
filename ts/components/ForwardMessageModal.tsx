@@ -49,6 +49,7 @@ export type DataPropsType = {
     caretLocation?: number
   ) => unknown;
   onTextTooLong: () => void;
+  setSecureInput: (enabled: boolean) => void;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
 
 type ActionPropsType = Pick<
@@ -78,6 +79,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   recentEmojis,
   removeLinkPreview,
   skinTone,
+  setSecureInput,
 }) => {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const inputApiRef = React.useRef<InputApi | undefined>();
@@ -306,6 +308,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                 onPickEmoji={onPickEmoji}
                 onSubmit={forwardMessage}
                 onTextTooLong={onTextTooLong}
+                setSecureInput={setSecureInput}
               />
               <div className="module-ForwardMessageModal__emoji">
                 <EmojiButton
