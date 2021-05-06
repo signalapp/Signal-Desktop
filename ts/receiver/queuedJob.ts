@@ -11,7 +11,7 @@ import { MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 import { actions as conversationActions } from '../state/ducks/conversations';
-import { updateProfile } from './dataMessage';
+import { updateProfileOneAtATime } from './dataMessage';
 import Long from 'long';
 
 async function handleGroups(
@@ -299,7 +299,6 @@ async function handleRegularMessage(
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
   const type = message.get('type');
-
   await copyFromQuotedMessage(message, initialMessage.quote);
 
   // `upgradeMessageSchema` only seems to add `schemaVersion: 10` to the message
@@ -371,14 +370,15 @@ async function handleRegularMessage(
     source,
     ConversationTypeEnum.PRIVATE
   );
+
   // Check if we need to update any profile names
   // the only profile we don't update with what is coming here is ours,
   // as our profile is shared accross our devices with a ConfigurationMessage
-  if (type === 'incoming' && dataMessage.profile) {
-    await updateProfile(
+  if (type === 'incoming' && dataMessage.profile && dataMessage.profile && dataMessage.profileKey) {
+    void updateProfileOneAtATime(
       sendingDeviceConversation,
       dataMessage.profile,
-      dataMessage.profile?.profileKey
+      dataMessage.profileKey
     );
   }
 
