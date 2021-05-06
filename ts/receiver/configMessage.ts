@@ -9,7 +9,7 @@ import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
 import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
-import { updateProfile } from './dataMessage';
+import { updateProfileOneAtATime } from './dataMessage';
 import { EnvelopePlus } from './types';
 
 async function handleOurProfileUpdate(
@@ -39,7 +39,7 @@ async function handleOurProfileUpdate(
       displayName,
       profilePicture,
     };
-    await updateProfile(ourConversation, lokiProfile, profileKey);
+    await updateProfileOneAtATime(ourConversation, lokiProfile, profileKey);
     UserUtils.setLastProfileUpdateTimestamp(_.toNumber(sentAt));
     // do not trigger a signin by linking if the display name is empty
     if (displayName) {
@@ -121,7 +121,7 @@ async function handleGroupsAndContactsFromConfigMessage(
           // updateProfile will do a commit for us
           contactConvo.set('active_at', _.toNumber(envelope.timestamp));
 
-          await updateProfile(contactConvo, profile, c.profileKey);
+          await updateProfileOneAtATime(contactConvo, profile, c.profileKey);
         } catch (e) {
           window?.log?.warn('failed to handle  a new closed group from configuration message');
         }
