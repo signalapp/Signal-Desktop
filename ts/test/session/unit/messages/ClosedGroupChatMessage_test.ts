@@ -28,12 +28,7 @@ describe('ClosedGroupVisibleMessage', () => {
       .to.have.property('group')
       .to.have.deep.property(
         'id',
-        new Uint8Array(
-          StringUtils.encode(
-            PubKey.PREFIX_GROUP_TEXTSECURE + groupId.key,
-            'utf8'
-          )
-        )
+        new Uint8Array(StringUtils.encode(PubKey.PREFIX_GROUP_TEXTSECURE + groupId.key, 'utf8'))
       );
     expect(decoded.dataMessage)
       .to.have.property('group')
@@ -55,7 +50,7 @@ describe('ClosedGroupVisibleMessage', () => {
       groupId,
       chatMessage,
     });
-    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
   });
 
   it('has an identifier', () => {
@@ -67,10 +62,7 @@ describe('ClosedGroupVisibleMessage', () => {
       chatMessage,
     });
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
-    expect(message.identifier).to.not.equal(
-      undefined,
-      'identifier cannot be undefined'
-    );
+    expect(message.identifier).to.not.equal(undefined, 'identifier cannot be undefined');
   });
 
   it('should use the identifier passed into it over the one set in chatMessage', () => {

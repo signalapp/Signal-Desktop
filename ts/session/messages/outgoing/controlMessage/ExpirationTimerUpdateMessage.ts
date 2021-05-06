@@ -25,10 +25,6 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
     this.syncTarget = syncTarget ? PubKey.cast(syncTarget).key : undefined;
   }
 
-  public ttl(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
-  }
-
   public dataProto(): SignalService.DataMessage {
     const data = new SignalService.DataMessage();
 
@@ -38,9 +34,7 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
     // the envelope stores the groupId for a closed group already.
     if (this.groupId) {
       const groupMessage = new SignalService.GroupContext();
-      const groupIdWithPrefix = PubKey.addTextSecurePrefixIfNeeded(
-        this.groupId.key
-      );
+      const groupIdWithPrefix = PubKey.addTextSecurePrefixIfNeeded(this.groupId.key);
       const encoded = StringUtils.encode(groupIdWithPrefix, 'utf8');
       const id = new Uint8Array(encoded);
       groupMessage.id = id;

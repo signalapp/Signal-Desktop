@@ -11,7 +11,6 @@ export interface LibTextsecure {
   HTTPError: any;
   NotFoundError: any;
   WrongSwarmError: any;
-  WrongDifficultyError: any;
   TimestampError: any;
   PublicChatError: any;
   createTaskWithTimeout(task: any, id: any, options?: any): Promise<any>;

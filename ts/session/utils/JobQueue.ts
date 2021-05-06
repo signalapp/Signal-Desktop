@@ -17,10 +17,7 @@ export class JobQueue {
     return this.addWithId(id, job);
   }
 
-  public async addWithId<Result>(
-    id: string,
-    job: Job<Result>
-  ): Promise<Result> {
+  public async addWithId<Result>(id: string, job: Job<Result>): Promise<Result> {
     if (this.jobs.has(id)) {
       return this.jobs.get(id) as Promise<Result>;
     }

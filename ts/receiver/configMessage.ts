@@ -1,12 +1,9 @@
 import _ from 'lodash';
-import {
-  createOrUpdateItem,
-  getItemById,
-  hasSyncedInitialConfigurationItem,
-} from '../data/data';
+import { createOrUpdateItem, getItemById, hasSyncedInitialConfigurationItem } from '../data/data';
+import { ConversationTypeEnum } from '../models/conversation';
+import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
-import { OpenGroup } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
@@ -48,9 +45,7 @@ async function handleOurProfileUpdate(
     if (displayName) {
       trigger(configurationMessageReceived, displayName);
     } else {
-      window.log.warn(
-        'Got a configuration message but the display name is empty'
-      );
+      window.log.warn('Got a configuration message but the display name is empty');
     }
   }
 }
@@ -80,22 +75,18 @@ async function handleGroupsAndContactsFromConfigMessage(
 
   await Promise.all(
     configMessage.closedGroups.map(async c => {
-      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage(
-        {
-          type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
-          encryptionKeyPair: c.encryptionKeyPair,
-          name: c.name,
-          admins: c.admins,
-          members: c.members,
-          publicKey: c.publicKey,
-        }
-      );
+      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage({
+        type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
+        encryptionKeyPair: c.encryptionKeyPair,
+        name: c.name,
+        admins: c.admins,
+        members: c.members,
+        publicKey: c.publicKey,
+      });
       try {
         await handleNewClosedGroup(envelope, groupUpdate);
       } catch (e) {
-        window?.log?.warn(
-          'failed to handle  a new closed group from configuration message'
-        );
+        window?.log?.warn('failed to handle  a new closed group from configuration message');
       }
     })
   );
@@ -108,9 +99,7 @@ async function handleGroupsAndContactsFromConfigMessage(
   for (let i = 0; i < numberOpenGroup; i++) {
     const current = configMessage.openGroups[i];
     if (!allOpenGroups.includes(current)) {
-      window?.log?.info(
-        `triggering join of public chat '${current}' from ConfigurationMessage`
-      );
+      window?.log?.info(`triggering join of public chat '${current}' from ConfigurationMessage`);
       void OpenGroup.join(current);
     }
   }
@@ -123,7 +112,7 @@ async function handleGroupsAndContactsFromConfigMessage(
           }
           const contactConvo = await ConversationController.getInstance().getOrCreateAndWait(
             toHex(c.publicKey),
-            'private'
+            ConversationTypeEnum.PRIVATE
           );
           const profile = {
             displayName: c.name,
@@ -134,9 +123,7 @@ async function handleGroupsAndContactsFromConfigMessage(
 
           await updateProfile(contactConvo, profile, c.profileKey);
         } catch (e) {
-          window?.log?.warn(
-            'failed to handle  a new closed group from configuration message'
-          );
+          window?.log?.warn('failed to handle  a new closed group from configuration message');
         }
       })
     );
@@ -153,22 +140,13 @@ export async function handleConfigurationMessage(
   }
 
   if (envelope.source !== ourPubkey) {
-    window?.log?.info(
-      'Dropping configuration change from someone else than us.'
-    );
+    window?.log?.info('Dropping configuration change from someone else than us.');
     return removeFromCache(envelope);
   }
 
-  await handleOurProfileUpdate(
-    envelope.timestamp,
-    configurationMessage,
-    ourPubkey
-  );
+  await handleOurProfileUpdate(envelope.timestamp, configurationMessage, ourPubkey);
 
-  await handleGroupsAndContactsFromConfigMessage(
-    envelope,
-    configurationMessage
-  );
+  await handleGroupsAndContactsFromConfigMessage(envelope, configurationMessage);
 
   await removeFromCache(envelope);
 }

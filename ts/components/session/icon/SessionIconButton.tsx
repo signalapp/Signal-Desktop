@@ -30,11 +30,7 @@ export const SessionIconButton = (props: SProps) => {
 
   return (
     <div
-      className={classNames(
-        'session-icon-button',
-        iconSize,
-        isSelected ? 'no-opacity' : ''
-      )}
+      className={classNames('session-icon-button', iconSize, isSelected ? 'no-opacity' : '')}
       role="button"
       onClick={clickHandler}
     >
@@ -45,9 +41,7 @@ export const SessionIconButton = (props: SProps) => {
         iconRotation={iconRotation}
         theme={theme}
       />
-      {Boolean(notificationCount) && (
-        <SessionNotificationCount count={notificationCount} />
-      )}
+      {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
     </div>
   );
 };

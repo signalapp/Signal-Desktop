@@ -13,32 +13,21 @@ import { ConversationLookupType } from '../ducks/conversations';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 
-export const getQuery = createSelector(
-  getSearch,
-  (state: SearchStateType): string => state.query
-);
+export const getQuery = createSelector(getSearch, (state: SearchStateType): string => state.query);
 
 export const getSelectedMessage = createSelector(
   getSearch,
   (state: SearchStateType): string | undefined => state.selectedMessage
 );
 
-export const isSearching = createSelector(
-  getSearch,
-  (state: SearchStateType) => {
-    const { query } = state;
+export const isSearching = createSelector(getSearch, (state: SearchStateType) => {
+  const { query } = state;
 
-    return Boolean(query && query.trim().length > 1);
-  }
-);
+  return Boolean(query && query.trim().length > 1);
+});
 
 export const getSearchResults = createSelector(
-  [
-    getSearch,
-    getConversationLookup,
-    getSelectedConversationKey,
-    getSelectedMessage,
-  ],
+  [getSearch, getConversationLookup, getSelectedConversationKey, getSelectedMessage],
   (
     state: SearchStateType,
     lookup: ConversationLookupType,

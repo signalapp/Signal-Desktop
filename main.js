@@ -46,8 +46,7 @@ function getMainWindow() {
 // Tray icon and related objects
 let tray = null;
 const startInTray = process.argv.some(arg => arg === '--start-in-tray');
-const usingTrayIcon =
-  startInTray || process.argv.some(arg => arg === '--use-tray-icon');
+const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
 
 const config = require('./app/config');
 
@@ -56,8 +55,7 @@ const config = require('./app/config');
 const userConfig = require('./app/user_config');
 const passwordUtil = require('./ts/util/passwordUtils');
 
-const importMode =
-  process.argv.some(arg => arg === '--import') || config.get('import');
+const importMode = process.argv.some(arg => arg === '--import') || config.get('import');
 
 const development = config.environment === 'development';
 const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
@@ -76,10 +74,7 @@ const sql = require('./app/sql');
 const sqlChannels = require('./app/sql_channel');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');
-const {
-  installFileHandler,
-  installWebHandler,
-} = require('./app/protocol_filter');
+const { installFileHandler, installWebHandler } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
 
 const _sodium = require('libsodium-wrappers');
@@ -174,10 +169,8 @@ function prepareURL(pathSegments, moreKeys) {
       serverUrl: config.get('serverUrl'),
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
-      defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
       // one day explain why we need to do this - neuroscr
       seedNodeList: JSON.stringify(config.get('seedNodeList')),
-      certificateAuthority: config.get('certificateAuthority'),
       environment: config.environment,
       node_version: process.versions.node,
       hostname: os.hostname(),
@@ -219,10 +212,7 @@ function getWindowSize() {
   const { minWidth, minHeight, defaultWidth, defaultHeight } = WINDOW_SIZE;
   // Ensure that the screen can fit within the default size
   const width = Math.min(defaultWidth, Math.max(minWidth, screenSize.width));
-  const height = Math.min(
-    defaultHeight,
-    Math.max(minHeight, screenSize.height)
-  );
+  const height = Math.min(defaultHeight, Math.max(minHeight, screenSize.height));
 
   return { width, height, minWidth, minHeight };
 }
@@ -235,15 +225,12 @@ function isVisible(window, bounds) {
   const BOUNDS_BUFFER = 100;
 
   // requiring BOUNDS_BUFFER pixels on the left or right side
-  const rightSideClearOfLeftBound =
-    window.x + window.width >= boundsX + BOUNDS_BUFFER;
-  const leftSideClearOfRightBound =
-    window.x <= boundsX + boundsWidth - BOUNDS_BUFFER;
+  const rightSideClearOfLeftBound = window.x + window.width >= boundsX + BOUNDS_BUFFER;
+  const leftSideClearOfRightBound = window.x <= boundsX + boundsWidth - BOUNDS_BUFFER;
 
   // top can't be offscreen, and must show at least BOUNDS_BUFFER pixels at bottom
   const topClearOfUpperBound = window.y >= boundsY;
-  const topClearOfLowerBound =
-    window.y <= boundsY + boundsHeight - BOUNDS_BUFFER;
+  const topClearOfLowerBound = window.y <= boundsY + boundsHeight - BOUNDS_BUFFER;
 
   return (
     rightSideClearOfLeftBound &&
@@ -276,14 +263,7 @@ async function createWindow() {
       },
       icon: path.join(__dirname, 'images', 'session', 'session_icon_64.png'),
     },
-    _.pick(windowConfig, [
-      'maximized',
-      'autoHideMenuBar',
-      'width',
-      'height',
-      'x',
-      'y',
-    ])
+    _.pick(windowConfig, ['maximized', 'autoHideMenuBar', 'width', 'height', 'x', 'y'])
   );
 
   if (!_.isNumber(windowOptions.width) || windowOptions.width < minWidth) {
@@ -316,10 +296,7 @@ async function createWindow() {
     delete windowOptions.fullscreen;
   }
 
-  logger.info(
-    'Initializing BrowserWindow config: %s',
-    JSON.stringify(windowOptions)
-  );
+  logger.info('Initializing BrowserWindow config: %s', JSON.stringify(windowOptions));
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
@@ -356,10 +333,7 @@ async function createWindow() {
       windowConfig.fullscreen = true;
     }
 
-    logger.info(
-      'Updating BrowserWindow config: %s',
-      JSON.stringify(windowConfig)
-    );
+    logger.info('Updating BrowserWindow config: %s', JSON.stringify(windowConfig));
     ephemeralConfig.set('window', windowConfig);
   }
 
@@ -378,13 +352,7 @@ async function createWindow() {
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
   } else if (config.environment === 'test-lib') {
-    mainWindow.loadURL(
-      prepareURL([__dirname, 'libtextsecure', 'test', 'index.html'])
-    );
-  } else if (config.environment === 'test-loki') {
-    mainWindow.loadURL(
-      prepareURL([__dirname, 'libloki', 'test', 'index.html'])
-    );
+    mainWindow.loadURL(prepareURL([__dirname, 'libtextsecure', 'test', 'index.html']));
   } else if (config.environment.includes('test-integration')) {
     mainWindow.loadURL(prepareURL([__dirname, 'background_test.html']));
   } else {
@@ -410,7 +378,6 @@ async function createWindow() {
     if (
       config.environment === 'test' ||
       config.environment === 'test-lib' ||
-      config.environment === 'test-loki' ||
       config.environment.includes('test-integration') ||
       (mainWindow.readyForShutdown && windowState.shouldQuit())
     ) {
@@ -423,10 +390,7 @@ async function createWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    if (
-      !windowState.shouldQuit() &&
-      (usingTrayIcon || process.platform === 'darwin')
-    ) {
+    if (!windowState.shouldQuit() && (usingTrayIcon || process.platform === 'darwin')) {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
@@ -477,10 +441,7 @@ async function readyForUpdates() {
     await updater.start(getMainWindow, userConfig, locale.messages, logger);
   } catch (error) {
     const log = logger || console;
-    log.error(
-      'Error starting update checks:',
-      error && error.stack ? error.stack : error
-    );
+    log.error('Error starting update checks:', error && error.stack ? error.stack : error);
   }
 }
 ipc.once('ready-for-updates', readyForUpdates);
@@ -556,10 +517,7 @@ function showPasswordWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    if (
-      !windowState.shouldQuit() &&
-      (usingTrayIcon || process.platform === 'darwin')
-    ) {
+    if (!windowState.shouldQuit() && (usingTrayIcon || process.platform === 'darwin')) {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
@@ -677,7 +635,6 @@ app.on('ready', async () => {
   if (
     process.env.NODE_ENV !== 'test' &&
     process.env.NODE_ENV !== 'test-lib' &&
-    process.env.NODE_ENV !== 'test-loki' &&
     !process.env.NODE_ENV.includes('test-integration')
   ) {
     installFileHandler({
@@ -718,9 +675,7 @@ app.on('ready', async () => {
 function getDefaultSQLKey() {
   let key = userConfig.get('key');
   if (!key) {
-    console.log(
-      'key/initialize: Generating new encryption key, since we did not find it on disk'
-    );
+    console.log('key/initialize: Generating new encryption key, since we did not find it on disk');
     // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
     key = crypto.randomBytes(32).toString('hex');
     userConfig.set('key', key);
@@ -755,9 +710,7 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
 
   async function cleanupOrphanedAttachments() {
     const allAttachments = await attachments.getAllAttachments(userDataPath);
-    const orphanedAttachments = await sql.removeKnownAttachments(
-      allAttachments
-    );
+    const orphanedAttachments = await sql.removeKnownAttachments(allAttachments);
     await attachments.deleteAll({
       userDataPath,
       attachments: orphanedAttachments,
@@ -824,9 +777,7 @@ async function requestShutdown() {
     //   yet listening for these events), or if there are a whole lot of stacked-up tasks.
     // Note: two minutes is also our timeout for SQL tasks in data.ts in the browser.
     setTimeout(() => {
-      console.log(
-        'requestShutdown: Response never received; forcing shutdown.'
-      );
+      console.log('requestShutdown: Response never received; forcing shutdown.');
       resolve();
     }, 2 * 60 * 1000);
   });
@@ -834,10 +785,7 @@ async function requestShutdown() {
   try {
     await request;
   } catch (error) {
-    console.log(
-      'requestShutdown error:',
-      error && error.stack ? error.stack : error
-    );
+    console.log('requestShutdown error:', error && error.stack ? error.stack : error);
   }
 }
 
@@ -858,7 +806,6 @@ app.on('window-all-closed', () => {
     process.platform !== 'darwin' ||
     config.environment === 'test' ||
     config.environment === 'test-lib' ||
-    config.environment === 'test-loki' ||
     config.environment.includes('test-integration')
   ) {
     app.quit();
@@ -955,8 +902,7 @@ ipc.on('update-tray-icon', (event, unreadCount) => {
 
 // Password screen related IPC calls
 ipc.on('password-window-login', async (event, passPhrase) => {
-  const sendResponse = e =>
-    event.sender.send('password-window-login-response', e);
+  const sendResponse = e => event.sender.send('password-window-login-response', e);
 
   try {
     const passwordAttempt = true;
@@ -978,8 +924,7 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
     if (hash && !hashMatches) {
       const incorrectOldPassword = locale.messages.invalidOldPassword.message;
       sendResponse(
-        incorrectOldPassword ||
-          'Failed to set password: Old password provided is invalid'
+        incorrectOldPassword || 'Failed to set password: Old password provided is invalid'
       );
       return;
     }

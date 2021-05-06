@@ -39,9 +39,7 @@ function installPermissionsHandler({ session, userConfig }) {
   //   they've already been used successfully.
   session.defaultSession.setPermissionRequestHandler(null);
 
-  session.defaultSession.setPermissionRequestHandler(
-    _createPermissionHandler(userConfig)
-  );
+  session.defaultSession.setPermissionRequestHandler(_createPermissionHandler(userConfig));
 }
 
 module.exports = {

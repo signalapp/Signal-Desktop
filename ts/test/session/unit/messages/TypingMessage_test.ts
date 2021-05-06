@@ -73,9 +73,6 @@ describe('TypingMessage', () => {
       isTyping: true,
     });
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
-    expect(message.identifier).to.not.equal(
-      undefined,
-      'identifier cannot be undefined'
-    );
+    expect(message.identifier).to.not.equal(undefined, 'identifier cannot be undefined');
   });
 });

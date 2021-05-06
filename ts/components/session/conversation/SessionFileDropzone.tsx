@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
-import { Flex } from '../Flex';
+import { Flex } from '../../basic/Flex';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 
 // padding-inline-end: ${props => props.theme.common.margins.md};
@@ -33,12 +33,7 @@ export const SessionFileDropzone = () => {
   return (
     <DropZoneContainer>
       <DropZoneWithBorder>
-        <Flex
-          container={true}
-          justifyContent="space-around"
-          height="100%"
-          alignItems="center"
-        >
+        <Flex container={true} justifyContent="space-around" height="100%" alignItems="center">
           <SessionIcon
             iconSize={SessionIconSize.Max}
             iconType={SessionIconType.CirclePlus}

@@ -68,9 +68,9 @@ describe('String Utils', () => {
       const testString = '';
       expect(testString).to.have.length(0);
 
-      const allEncodedings = (['base64', 'hex', 'binary', 'utf8'] as Array<
-        Encoding
-      >).map(e => StringUtils.encode(testString, e));
+      const allEncodedings = (['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>).map(e =>
+        StringUtils.encode(testString, e)
+      );
 
       allEncodedings.forEach(encoded => {
         expect(encoded instanceof ArrayBuffer).to.equal(
@@ -87,9 +87,9 @@ describe('String Utils', () => {
         .fill('0')
         .join('');
 
-      const allEncodedings = (['base64', 'hex', 'binary', 'utf8'] as Array<
-        Encoding
-      >).map(e => StringUtils.encode(testString, e));
+      const allEncodedings = (['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>).map(e =>
+        StringUtils.encode(testString, e)
+      );
 
       allEncodedings.forEach(encoded => {
         expect(encoded instanceof ArrayBuffer).to.equal(

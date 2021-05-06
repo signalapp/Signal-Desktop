@@ -1,11 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSettingCategory } from './settings/SessionSettings';
@@ -156,10 +152,7 @@ export const LeftPaneSettingSection = () => {
 
   return (
     <div className="left-pane-setting-section">
-      <LeftPaneSectionHeader
-        label={window.i18n('settingsHeader')}
-        theme={theme}
-      />
+      <LeftPaneSectionHeader label={window.i18n('settingsHeader')} theme={theme} />
       <div className="left-pane-setting-content">
         <LeftPaneSettingsCategories />
         <LeftPaneBottomButtons />

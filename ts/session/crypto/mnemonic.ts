@@ -23,19 +23,14 @@ function mn_get_checksum_index(words: Array<string>, prefixLen: number) {
   return index;
 }
 
-export function mn_encode(
-  str: string,
-  wordsetName: string = MN_DEFAULT_WORDSET
-): string {
+export function mn_encode(str: string, wordsetName: string = MN_DEFAULT_WORDSET): string {
   const wordset = mnWords[wordsetName];
   let out = [] as Array<any>;
   const n = wordset.words.length;
   let strCopy = str;
   for (let j = 0; j < strCopy.length; j += 8) {
     strCopy =
-      strCopy.slice(0, j) +
-      mn_swap_endian_4byte(strCopy.slice(j, j + 8)) +
-      strCopy.slice(j + 8);
+      strCopy.slice(0, j) + mn_swap_endian_4byte(strCopy.slice(j, j + 8)) + strCopy.slice(j + 8);
   }
   for (let i = 0; i < strCopy.length; i += 8) {
     const x = parseInt(strCopy.substr(i, 8), 16);
@@ -57,10 +52,7 @@ function mn_swap_endian_4byte(str: string) {
   return str.slice(6, 8) + str.slice(4, 6) + str.slice(2, 4) + str.slice(0, 2);
 }
 
-export function mn_decode(
-  str: string,
-  wordsetName: string = MN_DEFAULT_WORDSET
-): string {
+export function mn_decode(str: string, wordsetName: string = MN_DEFAULT_WORDSET): string {
   const wordset = mnWords[wordsetName];
   let out = '';
   const n = wordset.words.length;
@@ -114,8 +106,7 @@ export function mn_decode(
     const index = mn_get_checksum_index(wlist, wordset.prefixLen);
     const expectedChecksumWord = wlist[index];
     if (
-      expectedChecksumWord.slice(0, wordset.prefixLen) !==
-      checksumWord.slice(0, wordset.prefixLen)
+      expectedChecksumWord.slice(0, wordset.prefixLen) !== checksumWord.slice(0, wordset.prefixLen)
     ) {
       throw new MnemonicError(
         'Your private key could not be verified, please verify the checksum word'
@@ -170,9 +161,7 @@ for (const i in mnWords) {
       continue;
     }
     for (let j = 0; j < mnWords[i].words.length; ++j) {
-      mnWords[i].truncWords.push(
-        mnWords[i].words[j].slice(0, mnWords[i].prefixLen)
-      );
+      mnWords[i].truncWords.push(mnWords[i].words[j].slice(0, mnWords[i].prefixLen));
     }
   }
 }

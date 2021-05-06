@@ -32,9 +32,7 @@ class LokiSnodeAPI {
     // Timeouts
     const maxTimeoutVal = 2 ** 31 - 1;
     const timeoutPromise = () =>
-      new Promise((_resolve, reject) =>
-        setTimeout(() => reject(), timeout || maxTimeoutVal)
-      );
+      new Promise((_resolve, reject) => setTimeout(() => reject(), timeout || maxTimeoutVal));
 
     // Get nodes capable of doing LNS
     const lnsNodes = await window.SnodePool.getNodesMinVersion(
@@ -72,9 +70,7 @@ class LokiSnodeAPI {
       if (res && res.result && res.result.status === 'OK') {
         const hasMapping = res.result.entries && res.result.entries.length > 0;
 
-        const resValue = hasMapping
-          ? res.result.entries[0].encrypted_value
-          : null;
+        const resValue = hasMapping ? res.result.entries[0].encrypted_value : null;
 
         confirmedNodes.push(resValue);
 
@@ -84,10 +80,7 @@ class LokiSnodeAPI {
             return;
           }
 
-          const [winner, count] = _.maxBy(
-            _.entries(_.countBy(confirmedNodes)),
-            x => x[1]
-          );
+          const [winner, count] = _.maxBy(_.entries(_.countBy(confirmedNodes)), x => x[1]);
 
           if (count >= numRequiredConfirms) {
             ciphertextHex = winner === String(null) ? null : winner;

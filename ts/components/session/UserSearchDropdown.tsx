@@ -52,14 +52,8 @@ export class UserSearchDropdown extends React.Component<Props, State> {
       this.setState(prevState => ({
         selectedContact: +prevState.selectedContact + 1,
       }));
-    } else if (
-      e.key === 'Enter' &&
-      searchResults &&
-      searchResults.contacts.length > 0
-    ) {
-      this.handleContactSelected(
-        searchResults.contacts[selectedContact].phoneNumber
-      );
+    } else if (e.key === 'Enter' && searchResults && searchResults.contacts.length > 0) {
+      this.handleContactSelected(searchResults.contacts[selectedContact].phoneNumber);
     }
   }
 

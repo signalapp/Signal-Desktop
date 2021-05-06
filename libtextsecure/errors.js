@@ -114,19 +114,6 @@
     }
   }
 
-  function WrongDifficultyError(newDifficulty) {
-    this.name = 'WrongDifficultyError';
-    this.newDifficulty = newDifficulty;
-
-    Error.call(this, this.name);
-
-    // Maintains proper stack trace, where our error was thrown (only available on V8)
-    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this);
-    }
-  }
-
   function TimestampError(message) {
     this.name = 'TimeStampError';
 
@@ -156,7 +143,6 @@
   window.textsecure.HTTPError = HTTPError;
   window.textsecure.NotFoundError = NotFoundError;
   window.textsecure.WrongSwarmError = WrongSwarmError;
-  window.textsecure.WrongDifficultyError = WrongDifficultyError;
   window.textsecure.TimestampError = TimestampError;
   window.textsecure.PublicChatError = PublicChatError;
 })();

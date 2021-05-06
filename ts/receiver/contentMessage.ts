@@ -1,27 +1,22 @@
 import { EnvelopePlus } from './types';
-import { handleDataMessage, updateProfile } from './dataMessage';
+import { handleDataMessage } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
 import * as Lodash from 'lodash';
-import { OpenGroup, PubKey } from '../session/types';
+import { PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { ConversationController } from '../session/conversations';
-import {
-  getAllEncryptionKeyPairsForGroup,
-  getItemById,
-  hasSyncedInitialConfigurationItem,
-} from '../../ts/data/data';
+import { getAllEncryptionKeyPairsForGroup } from '../../ts/data/data';
 import { ECKeyPair } from './keypairs';
-import { handleNewClosedGroup } from './closedGroups';
 import { KeyPairRequestManager } from './keyPairRequestManager';
 import { requestEncryptionKeyPair } from '../session/group';
-import { configurationMessageReceived, trigger } from '../shims/events';
 import { handleConfigurationMessage } from './configMessage';
+import { ConversationTypeEnum } from '../models/conversation';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -39,28 +34,19 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
   }
 }
 
-async function decryptForClosedGroup(
-  envelope: EnvelopePlus,
-  ciphertext: ArrayBuffer
-) {
+async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBuffer) {
   // case .closedGroupCiphertext: for ios
   window.log.info('received closed group message');
   try {
     const hexEncodedGroupPublicKey = envelope.source;
     if (!GroupUtils.isMediumGroup(PubKey.cast(hexEncodedGroupPublicKey))) {
-      window.log.warn(
-        'received medium group message but not for an existing medium group'
-      );
+      window.log.warn('received medium group message but not for an existing medium group');
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }
-    const encryptionKeyPairs = await getAllEncryptionKeyPairsForGroup(
-      hexEncodedGroupPublicKey
-    );
+    const encryptionKeyPairs = await getAllEncryptionKeyPairsForGroup(hexEncodedGroupPublicKey);
     const encryptionKeyPairsCount = encryptionKeyPairs?.length;
     if (!encryptionKeyPairs?.length) {
-      throw new Error(
-        `No group keypairs for group ${hexEncodedGroupPublicKey}`
-      ); // noGroupKeyPair
+      throw new Error(`No group keypairs for group ${hexEncodedGroupPublicKey}`); // noGroupKeyPair
     }
     // Loop through all known group key pairs in reverse order (i.e. try the latest key pair first (which'll more than
     // likely be the one we want) but try older ones in case that didn't work)
@@ -77,9 +63,7 @@ async function decryptForClosedGroup(
         if (!hexEncryptionKeyPair) {
           throw new Error('No more encryption keypairs to try for message.');
         }
-        const encryptionKeyPair = ECKeyPair.fromHexKeyPair(
-          hexEncryptionKeyPair
-        );
+        const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
 
         decryptedContent = await decryptWithSessionProtocol(
           envelope,
@@ -108,10 +92,7 @@ async function decryptForClosedGroup(
         'Decrypted a closed group message with not the latest encryptionkeypair we have'
       );
     }
-    window.log.info(
-      'ClosedGroup Message decrypted successfully with keyIndex:',
-      keyIndex
-    );
+    window.log.info('ClosedGroup Message decrypted successfully with keyIndex:', keyIndex);
 
     return unpad(decryptedContent);
   } catch (e) {
@@ -122,10 +103,7 @@ async function decryptForClosedGroup(
      *
      */
 
-    window.log.warn(
-      'decryptWithSessionProtocol for medium group message throw:',
-      e
-    );
+    window.log.warn('decryptWithSessionProtocol for medium group message throw:', e);
     const groupPubKey = PubKey.cast(envelope.source);
 
     // To enable back if we decide to enable encryption key pair request work again
@@ -175,35 +153,23 @@ export async function decryptWithSessionProtocol(
     fromHexToArray(recipientX25519PublicKey),
     new Uint8Array(recipientX25519PrivateKey)
   );
-  if (
-    plaintextWithMetadata.byteLength <=
-    signatureSize + ed25519PublicKeySize
-  ) {
+  if (plaintextWithMetadata.byteLength <= signatureSize + ed25519PublicKeySize) {
     throw new Error('Decryption failed.'); // throw Error.decryptionFailed;
   }
 
   // 2. ) Get the message parts
   const signatureStart = plaintextWithMetadata.byteLength - signatureSize;
   const signature = plaintextWithMetadata.subarray(signatureStart);
-  const pubkeyStart =
-    plaintextWithMetadata.byteLength - (signatureSize + ed25519PublicKeySize);
+  const pubkeyStart = plaintextWithMetadata.byteLength - (signatureSize + ed25519PublicKeySize);
   const pubkeyEnd = plaintextWithMetadata.byteLength - signatureSize;
-  const senderED25519PublicKey = plaintextWithMetadata.subarray(
-    pubkeyStart,
-    pubkeyEnd
-  );
-  const plainTextEnd =
-    plaintextWithMetadata.byteLength - (signatureSize + ed25519PublicKeySize);
+  const senderED25519PublicKey = plaintextWithMetadata.subarray(pubkeyStart, pubkeyEnd);
+  const plainTextEnd = plaintextWithMetadata.byteLength - (signatureSize + ed25519PublicKeySize);
   const plaintext = plaintextWithMetadata.subarray(0, plainTextEnd);
 
   // 3. ) Verify the signature
   const isValid = sodium.crypto_sign_verify_detached(
     signature,
-    concatUInt8Array(
-      plaintext,
-      senderED25519PublicKey,
-      fromHexToArray(recipientX25519PublicKey)
-    ),
+    concatUInt8Array(plaintext, senderED25519PublicKey, fromHexToArray(recipientX25519PublicKey)),
     senderED25519PublicKey
   );
 
@@ -211,9 +177,7 @@ export async function decryptWithSessionProtocol(
     throw new Error('Invalid message signature.'); //throw Error.invalidSignature
   }
   // 4. ) Get the sender's X25519 public key
-  const senderX25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
-    senderED25519PublicKey
-  );
+  const senderX25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(senderED25519PublicKey);
   if (!senderX25519PublicKey) {
     throw new Error('Decryption failed.'); // Error.decryptionFailed
   }
@@ -227,7 +191,7 @@ export async function decryptWithSessionProtocol(
   return plaintext;
 }
 
-function unpad(paddedData: ArrayBuffer): ArrayBuffer {
+export function unpad(paddedData: ArrayBuffer): ArrayBuffer {
   const paddedPlaintext = new Uint8Array(paddedData);
 
   for (let i = paddedPlaintext.length - 1; i >= 0; i -= 1) {
@@ -262,17 +226,10 @@ async function decryptUnidentifiedSender(
       userX25519KeyPair.privKey
     );
     // keep the await so the try catch works as expected
-    const retSessionProtocol = await decryptWithSessionProtocol(
-      envelope,
-      ciphertext,
-      ecKeyPair
-    );
+    const retSessionProtocol = await decryptWithSessionProtocol(envelope, ciphertext, ecKeyPair);
     return unpad(retSessionProtocol);
   } catch (e) {
-    window.log.warn(
-      'decryptWithSessionProtocol for unidentified message throw:',
-      e
-    );
+    window.log.warn('decryptWithSessionProtocol for unidentified message throw:', e);
     return null;
   }
 }
@@ -298,10 +255,7 @@ async function doDecrypt(
 }
 
 // tslint:disable-next-line: max-func-body-length
-async function decrypt(
-  envelope: EnvelopePlus,
-  ciphertext: ArrayBuffer
-): Promise<any> {
+async function decrypt(envelope: EnvelopePlus, ciphertext: ArrayBuffer): Promise<any> {
   try {
     const plaintext = await doDecrypt(envelope, ciphertext);
 
@@ -381,22 +335,17 @@ export async function innerHandleContentMessage(
         window.log.info('Dropping blocked user message');
         return;
       } else {
-        window.log.info(
-          'Allowing group-control message only from blocked user'
-        );
+        window.log.info('Allowing group-control message only from blocked user');
       }
     }
 
     await ConversationController.getInstance().getOrCreateAndWait(
       envelope.source,
-      'private'
+      ConversationTypeEnum.PRIVATE
     );
 
     if (content.dataMessage) {
-      if (
-        content.dataMessage.profileKey &&
-        content.dataMessage.profileKey.length === 0
-      ) {
+      if (content.dataMessage.profileKey && content.dataMessage.profileKey.length === 0) {
         content.dataMessage.profileKey = null;
       }
       await handleDataMessage(envelope, content.dataMessage);

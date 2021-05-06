@@ -64,11 +64,7 @@
         };
 
         request.onerror = () => {
-          Whisper.Database.handleDOMException(
-            'clearStores request error',
-            request.error,
-            reject
-          );
+          Whisper.Database.handleDOMException('clearStores request error', request.error, reject);
         };
       });
     });

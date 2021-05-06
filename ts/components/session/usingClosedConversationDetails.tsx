@@ -3,6 +3,7 @@ import { PubKey } from '../../session/types';
 import React from 'react';
 import * as _ from 'lodash';
 import { ConversationController } from '../../session/conversations';
+import { ConversationTypeEnum } from '../../models/conversation';
 
 export type ConversationAvatar = {
   avatarPath?: string;
@@ -32,28 +33,13 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
     }
 
     public render() {
-      return (
-        <WrappedComponent
-          memberAvatars={this.state.memberAvatars}
-          {...this.props}
-        />
-      );
+      return <WrappedComponent memberAvatars={this.state.memberAvatars} {...this.props} />;
     }
 
     private async fetchClosedConversationDetails() {
-      const {
-        isPublic,
-        type,
-        conversationType,
-        isGroup,
-        phoneNumber,
-        id,
-      } = this.props;
+      const { isPublic, type, conversationType, isGroup, phoneNumber, id } = this.props;
 
-      if (
-        !isPublic &&
-        (conversationType === 'group' || type === 'group' || isGroup)
-      ) {
+      if (!isPublic && (conversationType === 'group' || type === 'group' || isGroup)) {
         const groupId = id || phoneNumber;
         const ourPrimary = UserUtils.getOurPubKeyFromCache();
         let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
@@ -71,7 +57,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
           members.map(async m =>
             ConversationController.getInstance().getOrCreateAndWait(
               m.key,
-              'private'
+              ConversationTypeEnum.PRIVATE
             )
           )
         );

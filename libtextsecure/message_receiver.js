@@ -80,12 +80,8 @@ window.textsecure = window.textsecure || {};
 
 textsecure.MessageReceiver = function MessageReceiverWrapper() {
   const messageReceiver = new MessageReceiver();
-  this.addEventListener = messageReceiver.addEventListener.bind(
-    messageReceiver
-  );
-  this.removeEventListener = messageReceiver.removeEventListener.bind(
-    messageReceiver
-  );
+  this.addEventListener = messageReceiver.addEventListener.bind(messageReceiver);
+  this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
   this.close = messageReceiver.close.bind(messageReceiver);
 
   this.stopProcessing = messageReceiver.stopProcessing.bind(messageReceiver);
@@ -97,9 +93,6 @@ textsecure.MessageReceiver.prototype = {
   constructor: textsecure.MessageReceiver,
 };
 
-textsecure.MessageReceiver.stringToArrayBuffer =
-  MessageReceiver.stringToArrayBuffer;
-textsecure.MessageReceiver.arrayBufferToString =
-  MessageReceiver.arrayBufferToString;
-textsecure.MessageReceiver.arrayBufferToStringBase64 =
-  MessageReceiver.arrayBufferToStringBase64;
+textsecure.MessageReceiver.stringToArrayBuffer = MessageReceiver.stringToArrayBuffer;
+textsecure.MessageReceiver.arrayBufferToString = MessageReceiver.arrayBufferToString;
+textsecure.MessageReceiver.arrayBufferToStringBase64 = MessageReceiver.arrayBufferToStringBase64;

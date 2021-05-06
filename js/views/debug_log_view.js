@@ -67,10 +67,7 @@
           .focus()
           .select();
       } catch (error) {
-        window.log.error(
-          'DebugLogView error:',
-          error && error.stack ? error.stack : error
-        );
+        window.log.error('DebugLogView error:', error && error.stack ? error.stack : error);
         this.$('.loading').removeClass('loading');
         this.$('.result').text(i18n('debugLogError'));
       }

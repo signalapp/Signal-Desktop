@@ -2,18 +2,21 @@ import React from 'react';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import {
-  ContactType,
-  SessionMemberListItem,
-} from '../session/SessionMemberListItem';
-import { DefaultTheme, withTheme } from 'styled-components';
-
+import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
+import { DefaultTheme } from 'styled-components';
+import { ConversationController } from '../../session/conversations';
+import { ToastUtils, UserUtils } from '../../session/utils';
+import { initiateGroupUpdate } from '../../session/group';
+import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
+import { getCompleteUrlForV2ConvoId } from '../../interactions/conversation';
+import _ from 'lodash';
+import autoBind from 'auto-bind';
 interface Props {
   contactList: Array<any>;
   chatName: string;
-  onSubmit: any;
   onClose: any;
   theme: DefaultTheme;
+  convo: ConversationModel;
 }
 
 interface State {
@@ -24,18 +27,13 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    this.onMemberClicked = this.onMemberClicked.bind(this);
-    this.closeDialog = this.closeDialog.bind(this);
-    this.onClickOK = this.onClickOK.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
+    autoBind(this);
 
     let contacts = this.props.contactList;
 
     contacts = contacts.map(d => {
       const lokiProfile = d.getLokiProfile();
-      const name = lokiProfile
-        ? lokiProfile.displayName
-        : window.i18n('anonymous');
+      const name = lokiProfile ? lokiProfile.displayName : window.i18n('anonymous');
 
       // TODO: should take existing members into account
       const existingMember = false;
@@ -67,11 +65,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
     const hasContacts = this.state.contactList.length !== 0;
 
     return (
-      <SessionModal
-        title={titleText}
-        onClose={this.closeDialog}
-        theme={this.props.theme}
-      >
+      <SessionModal title={titleText} onClose={this.closeDialog} theme={this.props.theme}>
         <div className="spacer-lg" />
 
         <div className="contact-selection-list">{this.renderMemberList()}</div>
@@ -98,13 +92,95 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
     );
   }
 
+  private async submitForOpenGroup(pubkeys: Array<string>) {
+    const { convo } = this.props;
+    if (convo.isOpenGroupV1()) {
+      const v1 = convo.toOpenGroupV1();
+      const groupInvitation = {
+        serverAddress: v1.server,
+        serverName: convo.getName(),
+        channelId: 1, // always 1
+      };
+      pubkeys.forEach(async pubkeyStr => {
+        const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
+          pubkeyStr,
+          ConversationTypeEnum.PRIVATE
+        );
+
+        if (privateConvo) {
+          void privateConvo.sendMessage('', null, null, null, groupInvitation);
+        }
+      });
+    } else if (convo.isOpenGroupV2()) {
+      const v2 = convo.toOpenGroupV2();
+      const completeUrl = await getCompleteUrlForV2ConvoId(convo.id);
+      const groupInvitation = {
+        serverAddress: completeUrl,
+        serverName: convo.getName(),
+      };
+      pubkeys.forEach(async pubkeyStr => {
+        const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
+          pubkeyStr,
+          ConversationTypeEnum.PRIVATE
+        );
+
+        if (privateConvo) {
+          void privateConvo.sendMessage('', null, null, null, groupInvitation);
+        }
+      });
+    }
+  }
+
+  private async submitForClosedGroup(pubkeys: Array<string>) {
+    const { convo } = this.props;
+
+    // closed group chats
+    const ourPK = UserUtils.getOurPubKeyStrFromCache();
+    // we only care about real members. If a member is currently a zombie we have to be able to add him back
+    let existingMembers = convo.get('members') || [];
+    // at least make sure it's an array
+    if (!Array.isArray(existingMembers)) {
+      existingMembers = [];
+    }
+    existingMembers = _.compact(existingMembers);
+    const existingZombies = convo.get('zombies') || [];
+    const newMembers = pubkeys.filter(d => !existingMembers.includes(d));
+
+    if (newMembers.length > 0) {
+      // Do not trigger an update if there is too many members
+      // be sure to include current zombies in this count
+      if (
+        newMembers.length + existingMembers.length + existingZombies.length >
+        window.CONSTANTS.CLOSED_GROUP_SIZE_LIMIT
+      ) {
+        ToastUtils.pushTooManyMembers();
+        return;
+      }
+
+      const allMembers = _.concat(existingMembers, newMembers, [ourPK]);
+      const uniqMembers = _.uniq(allMembers);
+
+      const groupId = convo.get('id');
+      const groupName = convo.get('name');
+
+      await initiateGroupUpdate(
+        groupId,
+        groupName || window.i18n('unknown'),
+        uniqMembers,
+        undefined
+      );
+    }
+  }
+
   private onClickOK() {
-    const selectedContacts = this.state.contactList
-      .filter(d => d.checkmarked)
-      .map(d => d.id);
+    const selectedContacts = this.state.contactList.filter(d => d.checkmarked).map(d => d.id);
 
     if (selectedContacts.length > 0) {
-      this.props.onSubmit(selectedContacts);
+      if (this.props.convo.isPublic()) {
+        void this.submitForOpenGroup(selectedContacts);
+      } else {
+        void this.submitForClosedGroup(selectedContacts);
+      }
     }
 
     this.closeDialog();
@@ -112,9 +188,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
 
   private renderMemberList() {
     const members = this.state.contactList;
-    const selectedContacts = this.state.contactList
-      .filter(d => d.checkmarked)
-      .map(d => d.id);
+    const selectedContacts = this.state.contactList.filter(d => d.checkmarked).map(d => d.id);
 
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem

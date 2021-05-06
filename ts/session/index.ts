@@ -8,13 +8,4 @@ import * as ClosedGroup from './group';
 
 const getMessageQueue = Sending.getMessageQueue;
 
-export {
-  Conversations,
-  Messages,
-  Utils,
-  Types,
-  Sending,
-  Constants,
-  ClosedGroup,
-  getMessageQueue,
-};
+export { Conversations, Messages, Utils, Types, Sending, Constants, ClosedGroup, getMessageQueue };

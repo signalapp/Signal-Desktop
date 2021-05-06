@@ -7,16 +7,16 @@ export const MetadataSpacer = styled.span`
   flex-grow: 1;
 `;
 
-const MessageSendingErrorContainer = styled(props => (
-  <OpacityMetadataComponent {...props} />
-))<{ withImageNoCaption: boolean; theme: DefaultTheme }>`
+const MessageSendingErrorContainer = styled(props => <OpacityMetadataComponent {...props} />)<{
+  withImageNoCaption: boolean;
+  theme: DefaultTheme;
+}>`
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: ${props =>
-    props.withImageNoCaption ? 'white' : props.theme.colors.sentMessageText};
+  color: ${props => (props.withImageNoCaption ? 'white' : props.theme.colors.sentMessageText)};
 `;
 export const MessageSendingErrorText = (props: {
   withImageNoCaption: boolean;

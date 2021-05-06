@@ -67,9 +67,7 @@ describe('Promise Utils', () => {
 
       expect(pollSpy.callCount).to.equal(1);
       expect(completionSpy.callCount).to.equal(0);
-      return promise.should.eventually.be.rejectedWith(
-        'Periodic check timeout'
-      );
+      return promise.should.eventually.be.rejectedWith('Periodic check timeout');
     });
 
     it('will recur according to interval option', async () => {
@@ -140,9 +138,7 @@ describe('Promise Utils', () => {
       const promise = PromiseUtils.waitUntil(check, 1);
 
       expect(waitUntilSpy.callCount).to.equal(1);
-      return promise.should.eventually.be.rejectedWith(
-        'Periodic check timeout'
-      );
+      return promise.should.eventually.be.rejectedWith('Periodic check timeout');
     });
   });
 });

@@ -87,14 +87,7 @@ export class MessageBody extends React.Component<Props> {
   }
 
   public render() {
-    const {
-      text,
-      disableJumbomoji,
-      disableLinks,
-      i18n,
-      isGroup,
-      convoId,
-    } = this.props;
+    const { text, disableJumbomoji, disableLinks, i18n, isGroup, convoId } = this.props;
     const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
 
     if (disableLinks) {

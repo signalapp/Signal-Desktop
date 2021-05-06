@@ -19,23 +19,17 @@
 
   async function DHEncrypt(symmetricKey, plainText) {
     const iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
-    const ciphertext = await libsignal.crypto.encrypt(
-      symmetricKey,
-      plainText,
-      iv
-    );
-    const ivAndCiphertext = new Uint8Array(
-      iv.byteLength + ciphertext.byteLength
-    );
+    const ciphertext = await libsignal.crypto.encrypt(symmetricKey, plainText, iv);
+    const ivAndCiphertext = new Uint8Array(iv.byteLength + ciphertext.byteLength);
     ivAndCiphertext.set(new Uint8Array(iv));
     ivAndCiphertext.set(new Uint8Array(ciphertext), iv.byteLength);
     return ivAndCiphertext;
   }
 
-  async function deriveSymmetricKey(pubkey, seckey) {
+  async function deriveSymmetricKey(x25519PublicKey, x25519PrivateKey) {
     const ephemeralSecret = await libsignal.Curve.async.calculateAgreement(
-      pubkey,
-      seckey
+      x25519PublicKey,
+      x25519PrivateKey
     );
 
     const salt = window.Signal.Crypto.bytesFromString('LOKI');
@@ -56,28 +50,22 @@
     return symmetricKey;
   }
 
+  // encryptForPubkey: string, payloadBytes: Uint8Array
   async function encryptForPubkey(pubkeyX25519, payloadBytes) {
     const ephemeral = await libloki.crypto.generateEphemeralKeyPair();
-
     const snPubkey = StringView.hexToArrayBuffer(pubkeyX25519);
-
     const symmetricKey = await deriveSymmetricKey(snPubkey, ephemeral.privKey);
-
-    const ciphertext = await EncryptGCM(symmetricKey, payloadBytes);
+    const ciphertext = await EncryptAESGCM(symmetricKey, payloadBytes);
 
     return { ciphertext, symmetricKey, ephemeralKey: ephemeral.pubKey };
   }
 
-  async function EncryptGCM(symmetricKey, plaintext) {
+  async function EncryptAESGCM(symmetricKey, plaintext) {
     const nonce = crypto.getRandomValues(new Uint8Array(NONCE_LENGTH));
 
-    const key = await crypto.subtle.importKey(
-      'raw',
-      symmetricKey,
-      { name: 'AES-GCM' },
-      false,
-      ['encrypt']
-    );
+    const key = await crypto.subtle.importKey('raw', symmetricKey, { name: 'AES-GCM' }, false, [
+      'encrypt',
+    ]);
 
     const ciphertext = await crypto.subtle.encrypt(
       { name: 'AES-GCM', iv: nonce, tagLength: 128 },
@@ -85,9 +73,7 @@
       plaintext
     );
 
-    const ivAndCiphertext = new Uint8Array(
-      NONCE_LENGTH + ciphertext.byteLength
-    );
+    const ivAndCiphertext = new Uint8Array(NONCE_LENGTH + ciphertext.byteLength);
 
     ivAndCiphertext.set(nonce);
     ivAndCiphertext.set(new Uint8Array(ciphertext), nonce.byteLength);
@@ -95,23 +81,14 @@
     return ivAndCiphertext;
   }
 
-  async function DecryptGCM(symmetricKey, ivAndCiphertext) {
+  async function DecryptAESGCM(symmetricKey, ivAndCiphertext) {
     const nonce = ivAndCiphertext.slice(0, NONCE_LENGTH);
     const ciphertext = ivAndCiphertext.slice(NONCE_LENGTH);
+    const key = await crypto.subtle.importKey('raw', symmetricKey, { name: 'AES-GCM' }, false, [
+      'decrypt',
+    ]);
 
-    const key = await crypto.subtle.importKey(
-      'raw',
-      symmetricKey,
-      { name: 'AES-GCM' },
-      false,
-      ['decrypt']
-    );
-
-    return crypto.subtle.decrypt(
-      { name: 'AES-GCM', iv: nonce },
-      key,
-      ciphertext
-    );
+    return crypto.subtle.decrypt({ name: 'AES-GCM', iv: nonce }, key, ciphertext);
   }
 
   async function DHDecrypt(symmetricKey, ivAndCiphertext) {
@@ -152,10 +129,7 @@
       throw new Error('Failed to get keypair for token decryption');
     }
     const { privKey } = keyPair;
-    const symmetricKey = await libsignal.Curve.async.calculateAgreement(
-      serverPubKey,
-      privKey
-    );
+    const symmetricKey = await libsignal.Curve.async.calculateAgreement(serverPubKey, privKey);
 
     const token = await DHDecrypt(symmetricKey, ivAndCiphertext);
 
@@ -165,18 +139,13 @@
 
   const sha512 = data => crypto.subtle.digest('SHA-512', data);
 
-  const PairingType = Object.freeze({
-    REQUEST: 1,
-    GRANT: 2,
-  });
-
   window.libloki.crypto = {
     DHEncrypt,
-    EncryptGCM, // AES-GCM
+    EncryptAESGCM, // AES-GCM
     DHDecrypt,
-    DecryptGCM, // AES-GCM
+    DecryptAESGCM, // AES-GCM
     decryptToken,
-    PairingType,
+    deriveSymmetricKey,
     generateEphemeralKeyPair,
     encryptForPubkey,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,

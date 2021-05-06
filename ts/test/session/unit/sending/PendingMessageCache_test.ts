@@ -74,21 +74,12 @@ describe('PendingMessageCache', () => {
   it('can add multiple messages belonging to the same user', async () => {
     const device = TestUtils.generateFakePubKey();
 
-    await pendingMessageCacheStub.add(
-      device,
-      TestUtils.generateVisibleMessage()
-    );
+    await pendingMessageCacheStub.add(device, TestUtils.generateVisibleMessage());
     // We have to timeout here otherwise it's processed too fast and messages start having the same timestamp
     await TestUtils.timeout(5);
-    await pendingMessageCacheStub.add(
-      device,
-      TestUtils.generateVisibleMessage()
-    );
+    await pendingMessageCacheStub.add(device, TestUtils.generateVisibleMessage());
     await TestUtils.timeout(5);
-    await pendingMessageCacheStub.add(
-      device,
-      TestUtils.generateVisibleMessage()
-    );
+    await pendingMessageCacheStub.add(device, TestUtils.generateVisibleMessage());
 
     // Verify that the message is in the cache
     const finalCache = await pendingMessageCacheStub.getAllPending();
@@ -126,10 +117,7 @@ describe('PendingMessageCache', () => {
       device,
       TestUtils.generateVisibleMessage(message.identifier)
     );
-    const two = await pendingMessageCacheStub.add(
-      TestUtils.generateFakePubKey(),
-      message
-    );
+    const two = await pendingMessageCacheStub.add(TestUtils.generateFakePubKey(), message);
 
     const initialCache = await pendingMessageCacheStub.getAllPending();
     expect(initialCache).to.have.length(3);
@@ -197,9 +185,7 @@ describe('PendingMessageCache', () => {
 
     // Get pending for each specific device
     for (const item of cacheItems) {
-      const pendingForDevice = await pendingMessageCacheStub.getForDevice(
-        item.device
-      );
+      const pendingForDevice = await pendingMessageCacheStub.getForDevice(item.device);
       expect(pendingForDevice).to.have.length(1);
       expect(pendingForDevice[0].device).to.equal(item.device.key);
     }
@@ -293,14 +279,8 @@ describe('PendingMessageCache', () => {
 
       // Pull out plainTextBuffer for a separate check
       const buffersCompare =
-        Buffer.compare(
-          message.plainTextBuffer,
-          addedMessage.plainTextBuffer
-        ) === 0;
-      expect(buffersCompare).to.equal(
-        true,
-        'buffers were not loaded properly from database'
-      );
+        Buffer.compare(message.plainTextBuffer, addedMessage.plainTextBuffer) === 0;
+      expect(buffersCompare).to.equal(true, 'buffers were not loaded properly from database');
 
       // Compare all other valures
       const trimmedAdded = _.omit(addedMessage, ['plainTextBuffer']);

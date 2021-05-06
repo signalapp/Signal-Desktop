@@ -8,8 +8,4 @@ interface Options {
   allowMalformedOnStartup: boolean;
 }
 
-export function start(
-  name: string,
-  targetPath: string,
-  options: Options
-): BaseConfig;
+export function start(name: string, targetPath: string, options: Options): BaseConfig;

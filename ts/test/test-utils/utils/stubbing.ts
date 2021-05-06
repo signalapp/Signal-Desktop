@@ -29,10 +29,7 @@ type WindowValue<K extends keyof Window> = Partial<Window[K]> | undefined;
  * Note: This uses a custom sandbox.
  * Please call `restoreStubs()` or `stub.restore()` to restore original functionality.
  */
-export function stubWindow<K extends keyof Window>(
-  fn: K,
-  value: WindowValue<K>
-) {
+export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>) {
   // tslint:disable-next-line: no-typeof-undefined
   if (typeof globalAny.window === 'undefined') {
     globalAny.window = {};
@@ -61,17 +58,11 @@ export async function spyMessageQueueSend(app: Application) {
 }
 
 export async function getAllMessagesSent(app: Application) {
-  const messageQueueSpy = await app.webContents.executeJavaScript(
-    'messageQueueSpy.args;'
-  );
+  const messageQueueSpy = await app.webContents.executeJavaScript('messageQueueSpy.args;');
   if (!messageQueueSpy) {
-    throw new Error(
-      'Be sure to call spyMessageQueueSend() on the correct app first.'
-    );
+    throw new Error('Be sure to call spyMessageQueueSend() on the correct app first.');
   }
-  const messages = await app.webContents.executeJavaScript(
-    'messageQueueSpy.args'
-  );
+  const messages = await app.webContents.executeJavaScript('messageQueueSpy.args');
   return messages;
 }
 

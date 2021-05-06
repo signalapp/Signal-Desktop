@@ -2,12 +2,13 @@ import React from 'react';
 
 import { TypingAnimation } from './TypingAnimation';
 import styled from 'styled-components';
+import { ConversationTypeEnum } from '../../models/conversation';
 
 interface TypingBubbleProps {
   avatarPath?: string;
   phoneNumber: string;
   displayedName: string | null;
-  conversationType: string;
+  conversationType: ConversationTypeEnum;
   isTyping: boolean;
 }
 
@@ -24,7 +25,7 @@ const TypingBubbleContainer = styled.div<TypingBubbleProps>`
 `;
 
 export const TypingBubble = (props: TypingBubbleProps) => {
-  if (props.conversationType === 'group') {
+  if (props.conversationType === ConversationTypeEnum.GROUP) {
     return <></>;
   }
 

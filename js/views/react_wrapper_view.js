@@ -40,9 +40,7 @@
     },
     update(props) {
       const updatedProps = this.augmentProps(props);
-      const reactElement = this.JSX
-        ? this.JSX
-        : React.createElement(this.Component, updatedProps);
+      const reactElement = this.JSX ? this.JSX : React.createElement(this.Component, updatedProps);
       ReactDOM.render(reactElement, this.el, () => {
         if (this.hasRendered) {
           return;

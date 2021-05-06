@@ -10,9 +10,9 @@
       { root: window.PROTO_ROOT, file: filename },
       (error, result) => {
         if (error) {
-          const text = `Error loading protos from ${filename} (root: ${
-            window.PROTO_ROOT
-          }) ${error && error.stack ? error.stack : error}`;
+          const text = `Error loading protos from ${filename} (root: ${window.PROTO_ROOT}) ${
+            error && error.stack ? error.stack : error
+          }`;
           window.log.error(text);
           throw error;
         }

@@ -28,9 +28,7 @@ export class DocumentListItem extends React.Component<Props> {
       <div
         className={classNames(
           'module-document-list-item',
-          shouldShowSeparator
-            ? 'module-document-list-item--with-separator'
-            : null
+          shouldShowSeparator ? 'module-document-list-item--with-separator' : null
         )}
       >
         {this.renderContent()}
@@ -49,9 +47,7 @@ export class DocumentListItem extends React.Component<Props> {
       >
         <div className="module-document-list-item__icon" />
         <div className="module-document-list-item__metadata">
-          <span className="module-document-list-item__file-name">
-            {fileName}
-          </span>
+          <span className="module-document-list-item__file-name">{fileName}</span>
           <span className="module-document-list-item__file-size">
             {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
           </span>

@@ -18,14 +18,10 @@ function buildAvatarUpdater({ field }) {
     const avatar = conversation[field];
     const { writeNewAttachmentData, deleteAttachmentData } = options;
     if (!isFunction(writeNewAttachmentData)) {
-      throw new Error(
-        'Conversation.buildAvatarUpdater: writeNewAttachmentData must be a function'
-      );
+      throw new Error('Conversation.buildAvatarUpdater: writeNewAttachmentData must be a function');
     }
     if (!isFunction(deleteAttachmentData)) {
-      throw new Error(
-        'Conversation.buildAvatarUpdater: deleteAttachmentData must be a function'
-      );
+      throw new Error('Conversation.buildAvatarUpdater: deleteAttachmentData must be a function');
     }
 
     const newHash = await computeHash(data);
@@ -70,9 +66,7 @@ async function upgradeToVersion2(conversation, options) {
 
   const { writeNewAttachmentData } = options;
   if (!isFunction(writeNewAttachmentData)) {
-    throw new Error(
-      'Conversation.upgradeToVersion2: writeNewAttachmentData must be a function'
-    );
+    throw new Error('Conversation.upgradeToVersion2: writeNewAttachmentData must be a function');
   }
 
   let { avatar, profileAvatar, profileKey } = conversation;
@@ -123,9 +117,7 @@ async function deleteExternalFiles(conversation, options = {}) {
 
   const { deleteAttachmentData } = options;
   if (!isFunction(deleteAttachmentData)) {
-    throw new Error(
-      'Conversation.buildAvatarUpdater: deleteAttachmentData must be a function'
-    );
+    throw new Error('Conversation.buildAvatarUpdater: deleteAttachmentData must be a function');
   }
 
   const { avatar, profileAvatar } = conversation;

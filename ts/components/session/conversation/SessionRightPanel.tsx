@@ -1,11 +1,7 @@
 import React from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { Avatar, AvatarSize } from '../../Avatar';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionDropdown } from '../SessionDropdown';
 import { MediaGallery } from '../../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
@@ -43,6 +39,7 @@ interface Props {
   onGoBack: () => void;
   onInviteContacts: () => void;
   onLeaveGroup: () => void;
+  onDeleteContact: () => void;
   onUpdateGroupName: () => void;
   onAddModerators: () => void;
   onRemoveModerators: () => void;
@@ -70,36 +67,29 @@ class SessionRightPanel extends React.Component<Props, State> {
   }
 
   public componentWillMount() {
-    void this.getMediaGalleryProps().then(
-      ({ documents, media, onItemClick }) => {
-        this.setState({
-          documents,
-          media,
-          onItemClick,
-        });
-      }
-    );
+    void this.getMediaGalleryProps().then(({ documents, media, onItemClick }) => {
+      this.setState({
+        documents,
+        media,
+        onItemClick,
+      });
+    });
   }
 
   public componentDidUpdate() {
     const mediaScanInterval = 1000;
 
     setTimeout(() => {
-      void this.getMediaGalleryProps().then(
-        ({ documents, media, onItemClick }) => {
-          const { documents: oldDocs, media: oldMedias } = this.state;
-          if (
-            oldDocs.length !== documents.length ||
-            oldMedias.length !== media.length
-          ) {
-            this.setState({
-              documents,
-              media,
-              onItemClick,
-            });
-          }
+      void this.getMediaGalleryProps().then(({ documents, media, onItemClick }) => {
+        const { documents: oldDocs, media: oldMedias } = this.state;
+        if (oldDocs.length !== documents.length || oldMedias.length !== media.length) {
+          this.setState({
+            documents,
+            media,
+            onItemClick,
+          });
         }
-      );
+      });
     }, mediaScanInterval);
   }
 
@@ -111,12 +101,9 @@ class SessionRightPanel extends React.Component<Props, State> {
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
     const conversationId = this.props.id;
-    const rawMedia = await getMessagesWithVisualMediaAttachments(
-      conversationId,
-      {
-        limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
-      }
-    );
+    const rawMedia = await getMessagesWithVisualMediaAttachments(conversationId, {
+      limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
+    });
     const rawDocuments = await getMessagesWithFileAttachments(conversationId, {
       limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
     });
@@ -130,9 +117,7 @@ class SessionRightPanel extends React.Component<Props, State> {
       if (schemaVersion < message.VERSION_NEEDED_FOR_DISPLAY) {
         // Yep, we really do want to wait for each of these
         // eslint-disable-next-line no-await-in-loop
-        rawMedia[i] = await window.Signal.Migrations.upgradeMessageSchema(
-          message
-        );
+        rawMedia[i] = await window.Signal.Migrations.upgradeMessageSchema(message);
         // eslint-disable-next-line no-await-in-loop
         await rawMedia[i].commit();
       }
@@ -147,59 +132,45 @@ class SessionRightPanel extends React.Component<Props, State> {
             (attachment: { thumbnail: any; pending: any; error: any }) =>
               attachment.thumbnail && !attachment.pending && !attachment.error
           )
-          .map(
-            (
-              attachment: { path?: any; contentType?: any; thumbnail?: any },
-              index: any
-            ) => {
-              const { thumbnail } = attachment;
+          .map((attachment: { path?: any; contentType?: any; thumbnail?: any }, index: any) => {
+            const { thumbnail } = attachment;
 
-              return {
-                objectURL: window.Signal.Migrations.getAbsoluteAttachmentPath(
-                  attachment.path
-                ),
-                thumbnailObjectUrl: thumbnail
-                  ? window.Signal.Migrations.getAbsoluteAttachmentPath(
-                      thumbnail.path
-                    )
-                  : null,
-                contentType: attachment.contentType,
-                index,
-                attachment,
-                message,
-              };
-            }
-          );
+            return {
+              objectURL: window.Signal.Migrations.getAbsoluteAttachmentPath(attachment.path),
+              thumbnailObjectUrl: thumbnail
+                ? window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnail.path)
+                : null,
+              contentType: attachment.contentType,
+              index,
+              attachment,
+              message,
+            };
+          });
       })
     );
 
     // Unlike visual media, only one non-image attachment is supported
-    const documents = rawDocuments.map(
-      (message: { attachments: Array<any> }) => {
-        // this is to not fail if the attachment is invalid (could be a Long Attachment type which is not supported)
-        if (!message.attachments?.length) {
-          // window.log.info(
-          //   'Got a message with an empty list of attachment. Skipping...'
-          // );
-          return null;
-        }
-        const attachment = message.attachments[0];
-
-        return {
-          contentType: attachment.contentType,
-          index: 0,
-          attachment,
-          message,
-        };
+    const documents = rawDocuments.map((message: { attachments: Array<any> }) => {
+      // this is to not fail if the attachment is invalid (could be a Long Attachment type which is not supported)
+      if (!message.attachments?.length) {
+        // window.log.info(
+        //   'Got a message with an empty list of attachment. Skipping...'
+        // );
+        return null;
       }
-    );
+      const attachment = message.attachments[0];
+
+      return {
+        contentType: attachment.contentType,
+        index: 0,
+        attachment,
+        message,
+      };
+    });
 
     const saveAttachment = async ({ attachment, message }: any = {}) => {
       const timestamp = message.received_at;
-      attachment.url = await getDecryptedMediaUrl(
-        attachment.url,
-        attachment.contentType
-      );
+      attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
       save({
         attachment,
         document,
@@ -248,6 +219,7 @@ class SessionRightPanel extends React.Component<Props, State> {
       name,
       timerOptions,
       onLeaveGroup,
+      onDeleteContact,
       isKickedFromGroup,
       left,
       isPublic,
@@ -280,7 +252,7 @@ class SessionRightPanel extends React.Component<Props, State> {
     const showUpdateGroupNameButton = isAdmin && !commonNoShow;
     const showAddRemoveModeratorsButton = isAdmin && !commonNoShow && isPublic;
 
-    const showUpdateGroupMembersButton = !isPublic && !commonNoShow && isAdmin;
+    const showUpdateGroupMembersButton = !isPublic && !commonNoShow;
 
     return (
       <div className="group-settings">
@@ -295,26 +267,15 @@ class SessionRightPanel extends React.Component<Props, State> {
             <div className="spacer-lg" />
           </>
         )}
-        <input
-          className="description"
-          placeholder={window.i18n('description')}
-        />
+        <input className="description" placeholder={window.i18n('description')} />
         {showUpdateGroupNameButton && (
-          <div
-            className="group-settings-item"
-            role="button"
-            onClick={this.props.onUpdateGroupName}
-          >
+          <div className="group-settings-item" role="button" onClick={this.props.onUpdateGroupName}>
             {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
           </div>
         )}
         {showAddRemoveModeratorsButton && (
           <>
-            <div
-              className="group-settings-item"
-              role="button"
-              onClick={this.props.onAddModerators}
-            >
+            <div className="group-settings-item" role="button" onClick={this.props.onAddModerators}>
               {window.i18n('addModerators')}
             </div>
             <div
@@ -344,18 +305,15 @@ class SessionRightPanel extends React.Component<Props, State> {
           />
         )}
 
-        <MediaGallery
-          documents={documents}
-          media={media}
-          onItemClick={onItemClick}
-        />
+        <MediaGallery documents={documents} media={media} onItemClick={onItemClick} />
         {isGroup && (
+          // tslint:disable-next-line: use-simple-attributes
           <SessionButton
             text={leaveGroupString}
             buttonColor={SessionButtonColor.Danger}
             disabled={isKickedFromGroup || left}
             buttonType={SessionButtonType.SquareOutline}
-            onClick={onLeaveGroup}
+            onClick={isPublic ? onDeleteContact : onLeaveGroup}
           />
         )}
       </div>
@@ -379,8 +337,7 @@ class SessionRightPanel extends React.Component<Props, State> {
       left,
     } = this.props;
 
-    const showInviteContacts =
-      (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked && !left;
+    const showInviteContacts = (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked && !left;
     const userName = name || profileName || phoneNumber;
 
     return (

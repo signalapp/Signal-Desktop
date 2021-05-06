@@ -3,9 +3,7 @@ require('mocha-testcheck').install();
 const { assert } = require('chai');
 
 const Attachment = require('../../../js/modules/types/attachment');
-const {
-  stringToArrayBuffer,
-} = require('../../../js/modules/string_to_array_buffer');
+const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buffer');
 
 describe('Attachment', () => {
   describe('replaceUnicodeOrderOverrides', () => {
@@ -218,10 +216,7 @@ describe('Attachment', () => {
           },
         });
       } catch (error) {
-        assert.strictEqual(
-          error.message,
-          'Expected `attachment.data` to be an array buffer; got: number'
-        );
+        assert.strictEqual(error.message, 'Expected 42 to be an array buffer got: number');
         return;
       }
 

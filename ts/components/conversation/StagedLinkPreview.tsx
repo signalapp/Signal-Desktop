@@ -33,9 +33,7 @@ export const StagedLinkPreview = (props: Props) => {
       )}
     >
       {!isLoaded ? (
-        <div className="module-staged-link-preview__loading">
-          {i18n('loading')}
-        </div>
+        <div className="module-staged-link-preview__loading">{i18n('loading')}</div>
       ) : null}
       {isLoaded && image && isImage ? (
         <div className="module-staged-link-preview__icon-container">
@@ -54,9 +52,7 @@ export const StagedLinkPreview = (props: Props) => {
         <div className="module-staged-link-preview__content">
           <div className="module-staged-link-preview__title">{title}</div>
           {description && (
-            <div className="module-staged-link-preview__description">
-              {description}
-            </div>
+            <div className="module-staged-link-preview__description">{description}</div>
           )}
           <div className="module-staged-link-preview__footer">
             <div className="module-staged-link-preview__location">{domain}</div>

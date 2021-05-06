@@ -1,11 +1,7 @@
 import chai, { expect } from 'chai';
 import * as crypto from 'crypto';
 import * as sinon from 'sinon';
-import {
-  concatUInt8Array,
-  getSodium,
-  MessageEncrypter,
-} from '../../../../session/crypto';
+import { concatUInt8Array, getSodium, MessageEncrypter } from '../../../../session/crypto';
 import { EncryptionType } from '../../../../session/types/EncryptionType';
 import { Stubs, TestUtils } from '../../../test-utils';
 import { SignalService } from '../../../../protobuf';
@@ -118,9 +114,7 @@ describe('MessageEncrypter', () => {
     });
 
     sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
-    sandbox
-      .stub(UserUtils, 'getUserED25519KeyPair')
-      .resolves(ourUserEd25516Keypair);
+    sandbox.stub(UserUtils, 'getUserED25519KeyPair').resolves(ourUserEd25516Keypair);
   });
 
   afterEach(() => {
@@ -136,9 +130,7 @@ describe('MessageEncrypter', () => {
           privateHex: '0123456789abcdef',
         };
 
-        TestUtils.stubData('getLatestClosedGroupEncryptionKeyPair').resolves(
-          hexKeyPair
-        );
+        TestUtils.stubData('getLatestClosedGroupEncryptionKeyPair').resolves(hexKeyPair);
 
         const data = crypto.randomBytes(10);
 
@@ -183,9 +175,7 @@ describe('MessageEncrypter', () => {
     beforeEach(() => {
       sandboxSessionProtocol = sinon.createSandbox();
 
-      sandboxSessionProtocol
-        .stub(UserUtils, 'getIdentityKeyPair')
-        .resolves(ourIdentityKeypair);
+      sandboxSessionProtocol.stub(UserUtils, 'getIdentityKeyPair').resolves(ourIdentityKeypair);
     });
 
     afterEach(() => {
@@ -195,11 +185,7 @@ describe('MessageEncrypter', () => {
     it('should pass the padded message body to encrypt', async () => {
       const data = crypto.randomBytes(10);
       const spy = sinon.spy(MessageEncrypter, 'encryptUsingSessionProtocol');
-      await MessageEncrypter.encrypt(
-        TestUtils.generateFakePubKey(),
-        data,
-        EncryptionType.Fallback
-      );
+      await MessageEncrypter.encrypt(TestUtils.generateFakePubKey(), data, EncryptionType.Fallback);
       chai.expect(spy.callCount).to.be.equal(1);
       const paddedData = MessageEncrypter.padPlainTextBuffer(data);
       const firstArgument = new Uint8Array(spy.args[0][1]);
@@ -211,41 +197,26 @@ describe('MessageEncrypter', () => {
       const keypair = await UserUtils.getUserED25519KeyPair();
       const recipient = TestUtils.generateFakePubKey();
       const sodium = await getSodium();
-      const cryptoSignDetachedSpy = sandboxSessionProtocol.spy(
-        sodium,
-        'crypto_sign_detached'
-      );
+      const cryptoSignDetachedSpy = sandboxSessionProtocol.spy(sodium, 'crypto_sign_detached');
       const plainText = '123456';
-      const plainTextBytes = new Uint8Array(
-        StringUtils.encode(plainText, 'utf8')
-      );
+      const plainTextBytes = new Uint8Array(StringUtils.encode(plainText, 'utf8'));
       const userED25519PubKeyBytes = new Uint8Array(
         // tslint:disable: no-non-null-assertion
         StringUtils.fromHex(keypair!.pubKey)
       );
-      const recipientX25519PublicKeyWithoutPrefix = PubKey.remove05PrefixIfNeeded(
-        recipient.key
-      );
+      const recipientX25519PublicKeyWithoutPrefix = PubKey.remove05PrefixIfNeeded(recipient.key);
 
       const recipientX25519PublicKey = new Uint8Array(
         StringUtils.fromHex(recipientX25519PublicKeyWithoutPrefix)
       );
-      await MessageEncrypter.encryptUsingSessionProtocol(
-        recipient,
-        plainTextBytes
-      );
-      const [
-        dataForSign,
-        userED25519SecretKeyBytes,
-      ] = cryptoSignDetachedSpy.args[0];
-      const userEdPrivkeyBytes = new Uint8Array(
-        StringUtils.fromHex(keypair!.privKey)
-      );
+      await MessageEncrypter.encryptUsingSessionProtocol(recipient, plainTextBytes);
+      const [dataForSign, userED25519SecretKeyBytes] = cryptoSignDetachedSpy.args[0];
+      const userEdPrivkeyBytes = new Uint8Array(StringUtils.fromHex(keypair!.privKey));
       expect(userED25519SecretKeyBytes).to.equalBytes(userEdPrivkeyBytes);
       // dataForSign must be plaintext | userED25519PubKeyBytes | recipientX25519PublicKey
-      expect(
-        (dataForSign as Uint8Array).subarray(0, plainTextBytes.length)
-      ).to.equalBytes(plainTextBytes);
+      expect((dataForSign as Uint8Array).subarray(0, plainTextBytes.length)).to.equalBytes(
+        plainTextBytes
+      );
       expect(
         (dataForSign as Uint8Array).subarray(
           plainTextBytes.length,
@@ -255,9 +226,7 @@ describe('MessageEncrypter', () => {
 
       // the recipient pubkey must have its 05 prefix removed
       expect(
-        (dataForSign as Uint8Array).subarray(
-          plainTextBytes.length + userED25519PubKeyBytes.length
-        )
+        (dataForSign as Uint8Array).subarray(plainTextBytes.length + userED25519PubKeyBytes.length)
       ).to.equalBytes(recipientX25519PublicKey);
     });
 
@@ -266,9 +235,7 @@ describe('MessageEncrypter', () => {
       const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
       const userEd25519KeyPair = await UserUtils.getUserED25519KeyPair();
 
-      const plainTextBytes = new Uint8Array(
-        StringUtils.encode('123456789', 'utf8')
-      );
+      const plainTextBytes = new Uint8Array(StringUtils.encode('123456789', 'utf8'));
 
       const sodium = await getSodium();
 
@@ -277,9 +244,7 @@ describe('MessageEncrypter', () => {
       const recipientX25519PublicKeyWithoutPrefix = PubKey.remove05PrefixIfNeeded(
         recipientX25519PublicKeyHex
       );
-      const recipientX25519PublicKey = new PubKey(
-        recipientX25519PublicKeyWithoutPrefix
-      );
+      const recipientX25519PublicKey = new PubKey(recipientX25519PublicKeyWithoutPrefix);
       const ciphertext = await MessageEncrypter.encryptUsingSessionProtocol(
         recipientX25519PublicKey,
         plainTextBytes
@@ -297,19 +262,13 @@ describe('MessageEncrypter', () => {
       const ed25519PublicKeySize = sodium.crypto_sign_PUBLICKEYBYTES;
       const signatureStart = plaintextWithMetadata.byteLength - signatureSize;
       const signature = plaintextWithMetadata.subarray(signatureStart);
-      const pubkeyStart =
-        plaintextWithMetadata.byteLength -
-        (signatureSize + ed25519PublicKeySize);
+      const pubkeyStart = plaintextWithMetadata.byteLength - (signatureSize + ed25519PublicKeySize);
       const pubkeyEnd = plaintextWithMetadata.byteLength - signatureSize;
       // this should be ours ed25519 pubkey
-      const senderED25519PublicKey = plaintextWithMetadata.subarray(
-        pubkeyStart,
-        pubkeyEnd
-      );
+      const senderED25519PublicKey = plaintextWithMetadata.subarray(pubkeyStart, pubkeyEnd);
 
       const plainTextEnd =
-        plaintextWithMetadata.byteLength -
-        (signatureSize + ed25519PublicKeySize);
+        plaintextWithMetadata.byteLength - (signatureSize + ed25519PublicKeySize);
       const plaintextDecoded = plaintextWithMetadata.subarray(0, plainTextEnd);
 
       expect(plaintextDecoded).to.equalBytes(plainTextBytes);

@@ -1,3 +1,5 @@
+import { Snode } from '../onions';
+
 type SimpleFunction<T> = (arg: T) => void;
 type Return<T> = Promise<T> | T;
 
@@ -11,6 +13,66 @@ export class TaskTimedOutError extends Error {
     // Set the prototype explicitly.
     Object.setPrototypeOf(this, TaskTimedOutError.prototype);
   }
+}
+
+// one action resolves all
+const snodeGlobalLocks: Record<string, Promise<any>> = {};
+
+export async function allowOnlyOneAtATime(
+  name: string,
+  process: () => Promise<any>,
+  timeoutMs?: number
+) {
+  // if currently not in progress
+  if (snodeGlobalLocks[name] === undefined) {
+    // set lock
+    snodeGlobalLocks[name] = new Promise(async (resolve, reject) => {
+      // set up timeout feature
+      let timeoutTimer = null;
+      if (timeoutMs) {
+        timeoutTimer = setTimeout(() => {
+          window.log.warn(`allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}s`);
+          // tslint:disable-next-line: no-dynamic-delete
+          delete snodeGlobalLocks[name]; // clear lock
+          reject();
+        }, timeoutMs);
+      }
+      // do actual work
+      let innerRetVal;
+      try {
+        innerRetVal = await process();
+      } catch (e) {
+        if (typeof e === 'string') {
+          window.log.error(`allowOnlyOneAtATime - error ${e}`);
+        } else {
+          window.log.error(`allowOnlyOneAtATime - error ${e.code} ${e.message}`);
+        }
+
+        // clear timeout timer
+        if (timeoutMs) {
+          if (timeoutTimer !== null) {
+            clearTimeout(timeoutTimer);
+            timeoutTimer = null;
+          }
+        }
+        // tslint:disable-next-line: no-dynamic-delete
+        delete snodeGlobalLocks[name]; // clear lock
+        throw e;
+      }
+      // clear timeout timer
+      if (timeoutMs) {
+        if (timeoutTimer !== null) {
+          clearTimeout(timeoutTimer);
+          timeoutTimer = null;
+        }
+      }
+      // tslint:disable-next-line: no-dynamic-delete
+      delete snodeGlobalLocks[name]; // clear lock
+      // release the kraken
+      resolve(innerRetVal);
+    });
+  }
+  return snodeGlobalLocks[name];
 }
 
 /**
@@ -107,10 +169,7 @@ export async function poll(
  * @param check The boolean check.
  * @param timeout The time before an error is thrown.
  */
-export async function waitUntil(
-  check: () => Return<boolean>,
-  timeoutMs: number = 2000
-) {
+export async function waitUntil(check: () => Return<boolean>, timeoutMs: number = 2000) {
   // This is causing unhandled promise rejection somewhere in MessageQueue tests
   return poll(
     async done => {
@@ -126,10 +185,7 @@ export async function waitUntil(
   );
 }
 
-export async function timeout<T>(
-  promise: Promise<T>,
-  timeoutMs: number = 2000
-): Promise<T> {
+export async function timeout<T>(promise: Promise<T>, timeoutMs: number = 2000): Promise<T> {
   const timeoutPromise = new Promise<T>((_, rej) => {
     const wait = setTimeout(() => {
       clearTimeout(wait);
@@ -147,3 +203,26 @@ export async function delay(timeoutMs: number = 2000): Promise<Boolean> {
     }, timeoutMs);
   });
 }
+
+// tslint:disable: no-string-based-set-timeout
+export const sleepFor = async (ms: number) =>
+  new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+
+// Taken from https://stackoverflow.com/questions/51160260/clean-way-to-wait-for-first-true-returned-by-promise
+// The promise returned by this function will resolve true when the first promise
+// in ps resolves true *or* it will resolve false when all of ps resolve false
+export const firstTrue = async (ps: Array<Promise<any>>) => {
+  const newPs = ps.map(
+    async p =>
+      new Promise(
+        // eslint-disable more/no-then
+        // tslint:disable: no-void-expression
+        (resolve, reject) => p.then(v => v && resolve(v), reject)
+      )
+  );
+  // eslint-disable-next-line more/no-then
+  newPs.push(Promise.all(ps).then(() => false));
+  return Promise.race(newPs) as Promise<Snode>;
+};

@@ -9,48 +9,29 @@ const OS = require('../../ts/OS');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
 const LinkPreviews = require('./link_previews');
-const AttachmentDownloads = require('./attachment_downloads');
 const { Message } = require('../../ts/components/conversation/Message');
 
 // Components
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
-const {
-  SessionSeedModal,
-} = require('../../ts/components/session/SessionSeedModal');
-const {
-  SessionIDResetDialog,
-} = require('../../ts/components/session/SessionIDResetDialog');
-const {
-  SessionRegistrationView,
-} = require('../../ts/components/session/SessionRegistrationView');
+const { SessionSeedModal } = require('../../ts/components/session/SessionSeedModal');
+const { SessionIDResetDialog } = require('../../ts/components/session/SessionIDResetDialog');
+const { SessionRegistrationView } = require('../../ts/components/session/SessionRegistrationView');
 
-const {
-  SessionInboxView,
-} = require('../../ts/components/session/SessionInboxView');
-const {
-  SessionPasswordModal,
-} = require('../../ts/components/session/SessionPasswordModal');
-const {
-  SessionConfirm,
-} = require('../../ts/components/session/SessionConfirm');
+const { SessionInboxView } = require('../../ts/components/session/SessionInboxView');
+const { SessionPasswordModal } = require('../../ts/components/session/SessionPasswordModal');
+const { SessionConfirm } = require('../../ts/components/session/SessionConfirm');
 
-const {
-  UpdateGroupNameDialog,
-} = require('../../ts/components/conversation/UpdateGroupNameDialog');
+const { UpdateGroupNameDialog } = require('../../ts/components/conversation/UpdateGroupNameDialog');
 const {
   UpdateGroupMembersDialog,
 } = require('../../ts/components/conversation/UpdateGroupMembersDialog');
-const {
-  InviteContactsDialog,
-} = require('../../ts/components/conversation/InviteContactsDialog');
+const { InviteContactsDialog } = require('../../ts/components/conversation/InviteContactsDialog');
 const {
   AdminLeaveClosedGroupDialog,
 } = require('../../ts/components/conversation/AdminLeaveClosedGroupDialog');
 
-const {
-  AddModeratorsDialog,
-} = require('../../ts/components/conversation/ModeratorsAddDialog');
+const { AddModeratorsDialog } = require('../../ts/components/conversation/ModeratorsAddDialog');
 const {
   RemoveModeratorsDialog,
 } = require('../../ts/components/conversation/ModeratorsRemoveDialog');
@@ -68,13 +49,7 @@ const SettingsType = require('../../ts/types/Settings');
 // Views
 const Initialization = require('./views/initialization');
 
-function initializeMigrations({
-  userDataPath,
-  Attachments,
-  Type,
-  VisualType,
-  logger,
-}) {
+function initializeMigrations({ userDataPath, Attachments, Type, VisualType, logger }) {
   if (!Attachments) {
     return null;
   }
@@ -146,8 +121,7 @@ function initializeMigrations({
       logger,
     }),
     writeNewAttachmentData: createWriterForNew(attachmentsPath),
-    writeAttachment: ({ data, path }) =>
-      createWriterForExisting(attachmentsPath)({ data, path }),
+    writeAttachment: ({ data, path }) => createWriterForExisting(attachmentsPath)({ data, path }),
   };
 }
 
@@ -198,7 +172,6 @@ exports.setup = (options = {}) => {
   };
 
   return {
-    AttachmentDownloads,
     Components,
     Crypto,
     Data,

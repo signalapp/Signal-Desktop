@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  PromiseUtils,
-  StringUtils,
-  ToastUtils,
-  UserUtils,
-} from '../../../session/utils';
+import { PromiseUtils, StringUtils, ToastUtils, UserUtils } from '../../../session/utils';
 import { ConversationController } from '../../../session/conversations';
 import { createOrUpdateItem, removeAll } from '../../../data/data';
 import { SignUpTab } from './SignUpTab';
@@ -76,18 +71,12 @@ const passwordsAreValid = (password: string, verifyPassword: string) => {
   const passwordErrors = validatePassword(password, verifyPassword);
   if (passwordErrors.passwordErrorString) {
     window.log.warn('invalid password for registration');
-    ToastUtils.pushToastError(
-      'invalidPassword',
-      window.i18n('invalidPassword')
-    );
+    ToastUtils.pushToastError('invalidPassword', window.i18n('invalidPassword'));
     return false;
   }
   if (!!password && !passwordErrors.passwordFieldsMatch) {
     window.log.warn('passwords does not match for registration');
-    ToastUtils.pushToastError(
-      'invalidPassword',
-      window.i18n('passwordsDoNotMatch')
-    );
+    ToastUtils.pushToastError('invalidPassword', window.i18n('passwordsDoNotMatch'));
     return false;
   }
 
@@ -104,10 +93,7 @@ const displayNameIsValid = (displayName: string): undefined | string => {
 
   if (!trimName) {
     window.log.warn('invalid trimmed name for registration');
-    ToastUtils.pushToastError(
-      'invalidDisplayName',
-      window.i18n('displayNameEmpty')
-    );
+    ToastUtils.pushToastError('invalidDisplayName', window.i18n('displayNameEmpty'));
     return undefined;
   }
   return trimName;
@@ -119,12 +105,7 @@ export async function signUp(signUpDetails: {
   password: string;
   verifyPassword: string;
 }) {
-  const {
-    displayName,
-    password,
-    verifyPassword,
-    generatedRecoveryPhrase,
-  } = signUpDetails;
+  const { displayName, password, verifyPassword, generatedRecoveryPhrase } = signUpDetails;
   window.log.info('SIGNING UP');
 
   const trimName = displayNameIsValid(displayName);
@@ -150,10 +131,7 @@ export async function signUp(signUpDetails: {
   } catch (e) {
     await resetRegistration();
 
-    ToastUtils.pushToastError(
-      'registrationError',
-      `Error: ${e.message || 'Something went wrong'}`
-    );
+    ToastUtils.pushToastError('registrationError', `Error: ${e.message || 'Something went wrong'}`);
     window.log.warn('exception during registration:', e);
   }
 }
@@ -169,12 +147,7 @@ export async function signInWithRecovery(signInDetails: {
   password: string;
   verifyPassword: string;
 }) {
-  const {
-    displayName,
-    password,
-    verifyPassword,
-    userRecoveryPhrase,
-  } = signInDetails;
+  const { displayName, password, verifyPassword, userRecoveryPhrase } = signInDetails;
   window.log.info('RESTORING FROM SEED');
   const trimName = displayNameIsValid(displayName);
   // shows toast to user about the error
@@ -194,10 +167,7 @@ export async function signInWithRecovery(signInDetails: {
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
-    ToastUtils.pushToastError(
-      'registrationError',
-      `Error: ${e.message || 'Something went wrong'}`
-    );
+    ToastUtils.pushToastError('registrationError', `Error: ${e.message || 'Something went wrong'}`);
     window.log.warn('exception during registration:', e);
   }
 }
@@ -225,27 +195,20 @@ export async function signInWithLinking(signInDetails: {
     let displayNameFromNetwork = '';
 
     await PromiseUtils.waitForTask(done => {
-      window.Whisper.events.on(
-        'configurationMessageReceived',
-        (displayName: string) => {
-          window.Whisper.events.off('configurationMessageReceived');
-          UserUtils.setSignInByLinking(false);
-          done(displayName);
+      window.Whisper.events.on('configurationMessageReceived', (displayName: string) => {
+        window.Whisper.events.off('configurationMessageReceived');
+        UserUtils.setSignInByLinking(false);
+        done(displayName);
 
-          displayNameFromNetwork = displayName;
-        }
-      );
+        displayNameFromNetwork = displayName;
+      });
     }, 60000);
     if (displayNameFromNetwork.length) {
       // display name, avatars, groups and contacts should already be handled when this event was triggered.
       window.log.info('We got a displayName from network: ');
     } else {
-      window.log.info(
-        'Got a config message from network but without a displayName...'
-      );
-      throw new Error(
-        'Got a config message from network but without a displayName...'
-      );
+      window.log.info('Got a config message from network but without a displayName...');
+      throw new Error('Got a config message from network but without a displayName...');
     }
     // Do not set the lastProfileUpdateTimestamp.
     // We expect to get a display name from a configuration message while we are loading messages of this user
@@ -332,11 +295,7 @@ export class RegistrationTabs extends React.Component<any, State> {
   };
 
   private renderSections() {
-    const {
-      selectedTab,
-      generatedRecoveryPhrase,
-      hexGeneratedPubKey,
-    } = this.state;
+    const { selectedTab, generatedRecoveryPhrase, hexGeneratedPubKey } = this.state;
     if (selectedTab === TabType.SignUp) {
       return (
         <SignUpTab

@@ -44,7 +44,6 @@ module.exports = grunt => {
         src: [
           'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
-          'libloki/proof-of-work.js',
           'node_modules/long/dist/long.js',
           'js/util_worker_tasks.js',
         ],
@@ -59,11 +58,7 @@ module.exports = grunt => {
         dest: 'libloki/test/components.js',
       },
       test: {
-        src: [
-          'node_modules/mocha/mocha.js',
-          'node_modules/chai/chai.js',
-          'test/_test.js',
-        ],
+        src: ['node_modules/mocha/mocha.js', 'node_modules/chai/chai.js', 'test/_test.js'],
         dest: 'test/test.js',
       },
       // TODO: Move errors back down?
@@ -90,19 +85,11 @@ module.exports = grunt => {
         dest: 'js/libtextsecure.js',
       },
       libloki: {
-        src: [
-          'libloki/crypto.js',
-          'libloki/service_nodes.js',
-          'libloki/storage.js',
-        ],
+        src: ['libloki/crypto.js', 'libloki/service_nodes.js', 'libloki/storage.js'],
         dest: 'js/libloki.js',
       },
       lokitest: {
-        src: [
-          'node_modules/mocha/mocha.js',
-          'node_modules/chai/chai.js',
-          'libloki/test/_test.js',
-        ],
+        src: ['node_modules/mocha/mocha.js', 'node_modules/chai/chai.js', 'libloki/test/_test.js'],
         dest: 'libloki/test/test.js',
       },
       libtextsecuretest: {
@@ -136,7 +123,6 @@ module.exports = grunt => {
         files: [
           'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
-          'libloki/proof-of-work.js',
           'node_modules/long/dist/long.js',
           'js/util_worker_tasks.js',
         ],
@@ -155,12 +141,7 @@ module.exports = grunt => {
         tasks: ['sass'],
       },
       transpile: {
-        files: [
-          './ts/**/*.ts',
-          './ts/**/*.tsx',
-          './ts/**/**/*.tsx',
-          './test/ts/**.ts',
-        ],
+        files: ['./ts/**/*.ts', './ts/**/*.tsx', './ts/**/**/*.tsx', './test/ts/**.ts'],
         tasks: ['exec:transpile'],
       },
     },
@@ -222,10 +203,7 @@ module.exports = grunt => {
       // eslint-disable-next-line no-restricted-syntax
       for (const key in messages) {
         if (en[key] !== undefined && messages[key] !== undefined) {
-          if (
-            en[key].placeholders !== undefined &&
-            messages[key].placeholders === undefined
-          ) {
+          if (en[key].placeholders !== undefined && messages[key].placeholders === undefined) {
             messages[key].placeholders = en[key].placeholders;
           }
         }
@@ -274,8 +252,7 @@ module.exports = grunt => {
   function runTests(environment, cb) {
     let failure;
     const { Application } = spectron;
-    const electronBinary =
-      process.platform === 'win32' ? 'electron.cmd' : 'electron';
+    const electronBinary = process.platform === 'win32' ? 'electron.cmd' : 'electron';
     const app = new Application({
       path: path.join(__dirname, 'node_modules', '.bin', electronBinary),
       args: [path.join(__dirname, 'main.js')],
@@ -284,9 +261,7 @@ module.exports = grunt => {
       },
       requireName: 'unused',
       chromeDriverArgs: [
-        `remote-debugging-port=${Math.floor(
-          Math.random() * (9999 - 9000) + 9000
-        )}`,
+        `remote-debugging-port=${Math.floor(Math.random() * (9999 - 9000) + 9000)}`,
       ],
     });
 
@@ -299,10 +274,7 @@ module.exports = grunt => {
       .start()
       .then(() =>
         app.client.waitUntil(
-          () =>
-            app.client
-              .execute(getMochaResults)
-              .then(data => Boolean(data.value)),
+          () => app.client.execute(getMochaResults).then(data => Boolean(data.value)),
           25000,
           'Expected to find window.mochaResults set!'
         )
@@ -312,8 +284,7 @@ module.exports = grunt => {
         const results = data.value;
         if (results.failures > 0) {
           console.error(results.reports);
-          failure = () =>
-            grunt.fail.fatal(`Found ${results.failures} failing unit tests.`);
+          failure = () => grunt.fail.fatal(`Found ${results.failures} failing unit tests.`);
           return app.client.log('browser');
         }
         grunt.log.ok(`${results.passes} tests passed.`);
@@ -327,10 +298,7 @@ module.exports = grunt => {
         }
       })
       .catch(error => {
-        failure = () =>
-          grunt.fail.fatal(
-            `Something went wrong: ${error.message} ${error.stack}`
-          );
+        failure = () => grunt.fail.fatal(`Something went wrong: ${error.message} ${error.stack}`);
       })
       .then(() => {
         // We need to use the failure variable and this early stop to clean up before
@@ -371,16 +339,12 @@ module.exports = grunt => {
       });
   }
 
-  grunt.registerTask(
-    'unit-tests',
-    'Run unit tests w/Electron',
-    function thisNeeded() {
-      const environment = grunt.option('env') || 'test';
-      const done = this.async();
+  grunt.registerTask('unit-tests', 'Run unit tests w/Electron', function thisNeeded() {
+    const environment = grunt.option('env') || 'test';
+    const done = this.async();
 
-      runTests(environment, done);
-    }
-  );
+    runTests(environment, done);
+  });
 
   grunt.registerTask(
     'lib-unit-tests',
@@ -393,117 +357,90 @@ module.exports = grunt => {
     }
   );
 
-  grunt.registerTask(
-    'loki-unit-tests',
-    'Run loki unit tests w/Electron',
-    function thisNeeded() {
-      const environment = grunt.option('env') || 'test-loki';
-      const done = this.async();
+  grunt.registerMultiTask('test-release', 'Test packaged releases', function thisNeeded() {
+    const dir = grunt.option('dir') || 'release';
+    const environment = grunt.option('env') || 'production';
+    const config = this.data;
+    const archive = [dir, config.archive].join('/');
+    const files = [
+      'config/default.json',
+      `config/${environment}.json`,
+      `config/local-${environment}.json`,
+    ];
 
-      runTests(environment, done);
-    }
-  );
-
-  grunt.registerMultiTask(
-    'test-release',
-    'Test packaged releases',
-    function thisNeeded() {
-      const dir = grunt.option('dir') || 'release';
-      const environment = grunt.option('env') || 'production';
-      const config = this.data;
-      const archive = [dir, config.archive].join('/');
-      const files = [
-        'config/default.json',
-        `config/${environment}.json`,
-        `config/local-${environment}.json`,
-      ];
-
-      console.log(this.target, archive);
-      const releaseFiles = files.concat(config.files || []);
-      releaseFiles.forEach(fileName => {
-        console.log(fileName);
-        try {
-          asar.statFile(archive, fileName);
-          return true;
-        } catch (e) {
-          console.log(e);
-          throw new Error(`Missing file ${fileName}`);
-        }
-      });
-
-      if (config.appUpdateYML) {
-        const appUpdateYML = [dir, config.appUpdateYML].join('/');
-        if (fs.existsSync(appUpdateYML)) {
-          console.log('auto update ok');
-        } else {
-          throw new Error(`Missing auto update config ${appUpdateYML}`);
-        }
+    console.log(this.target, archive);
+    const releaseFiles = files.concat(config.files || []);
+    releaseFiles.forEach(fileName => {
+      console.log(fileName);
+      try {
+        asar.statFile(archive, fileName);
+        return true;
+      } catch (e) {
+        console.log(e);
+        throw new Error(`Missing file ${fileName}`);
       }
+    });
 
-      const done = this.async();
-      // A simple test to verify a visible window is opened with a title
-      const { Application } = spectron;
-
-      const app = new Application({
-        path: [dir, config.exe].join('/'),
-        requireName: 'unused',
-        chromeDriverArgs: [
-          `remote-debugging-port=${Math.floor(
-            Math.random() * (9999 - 9000) + 9000
-          )}`,
-        ],
-      });
-
-      app
-        .start()
-        .then(() => app.client.getWindowCount())
-        .then(count => {
-          assert.equal(count, 1);
-          console.log('window opened');
-        })
-        .then(() =>
-          // Get the window's title
-          app.client.getTitle()
-        )
-        .then(title => {
-          // TODO: restore once fixed on win
-          if (this.target !== 'win') {
-            // Verify the window's title
-            assert.equal(title, packageJson.productName);
-            console.log('title ok');
-          }
-        })
-        .then(() => {
-          assert(
-            app.chromeDriver.logLines.indexOf(`NODE_ENV ${environment}`) > -1
-          );
-          console.log('environment ok');
-        })
-        .then(
-          () =>
-            // Successfully completed test
-            app.stop(),
-          error =>
-            // Test failed!
-            app.stop().then(() => {
-              grunt.fail.fatal(`Test failed: ${error.message} ${error.stack}`);
-            })
-        )
-        .then(done);
+    if (config.appUpdateYML) {
+      const appUpdateYML = [dir, config.appUpdateYML].join('/');
+      if (fs.existsSync(appUpdateYML)) {
+        console.log('auto update ok');
+      } else {
+        throw new Error(`Missing auto update config ${appUpdateYML}`);
+      }
     }
-  );
 
-  grunt.registerTask('tx', [
-    'exec:tx-pull-new',
-    'exec:tx-pull',
-    'locale-patch',
-  ]);
+    const done = this.async();
+    // A simple test to verify a visible window is opened with a title
+    const { Application } = spectron;
+
+    const app = new Application({
+      path: [dir, config.exe].join('/'),
+      requireName: 'unused',
+      chromeDriverArgs: [
+        `remote-debugging-port=${Math.floor(Math.random() * (9999 - 9000) + 9000)}`,
+      ],
+    });
+
+    app
+      .start()
+      .then(() => app.client.getWindowCount())
+      .then(count => {
+        assert.equal(count, 1);
+        console.log('window opened');
+      })
+      .then(() =>
+        // Get the window's title
+        app.client.getTitle()
+      )
+      .then(title => {
+        // TODO: restore once fixed on win
+        if (this.target !== 'win') {
+          // Verify the window's title
+          assert.equal(title, packageJson.productName);
+          console.log('title ok');
+        }
+      })
+      .then(() => {
+        assert(app.chromeDriver.logLines.indexOf(`NODE_ENV ${environment}`) > -1);
+        console.log('environment ok');
+      })
+      .then(
+        () =>
+          // Successfully completed test
+          app.stop(),
+        error =>
+          // Test failed!
+          app.stop().then(() => {
+            grunt.fail.fatal(`Test failed: ${error.message} ${error.stack}`);
+          })
+      )
+      .then(done);
+  });
+
+  grunt.registerTask('tx', ['exec:tx-pull-new', 'exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('test', [
-    'unit-tests',
-    'lib-unit-tests',
-    'loki-unit-tests',
-  ]);
+  grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', [
     'exec:build-protobuf',

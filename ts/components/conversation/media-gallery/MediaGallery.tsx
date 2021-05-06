@@ -77,9 +77,7 @@ export class MediaGallery extends React.Component<Props, State> {
             onSelect={this.handleTabSelect}
           />
         </div>
-        <div className="module-media-gallery__content">
-          {this.renderSections()}
-        </div>
+        <div className="module-media-gallery__content">{this.renderSections()}</div>
       </div>
     );
   }

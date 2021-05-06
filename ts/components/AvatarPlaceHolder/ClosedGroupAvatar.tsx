@@ -7,6 +7,7 @@ interface Props {
   size: number;
   memberAvatars: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   i18n: LocalizerType;
+  onAvatarClick?: () => void;
 }
 
 export class ClosedGroupAvatar extends React.PureComponent<Props> {
@@ -24,14 +25,12 @@ export class ClosedGroupAvatar extends React.PureComponent<Props> {
       case AvatarSize.HUGE:
         return AvatarSize.XL;
       default:
-        throw new Error(
-          `Invalid size request for closed group avatar: ${size}`
-        );
+        throw new Error(`Invalid size request for closed group avatar: ${size}`);
     }
   }
 
   public render() {
-    const { memberAvatars, size } = this.props;
+    const { memberAvatars, size, onAvatarClick } = this.props;
     const avatarsDiameter = this.getClosedGroupAvatarsSize(size);
 
     const conv1 = memberAvatars.length > 0 ? memberAvatars[0] : undefined;
@@ -47,12 +46,14 @@ export class ClosedGroupAvatar extends React.PureComponent<Props> {
           name={name1}
           size={avatarsDiameter}
           pubkey={conv1?.id}
+          onAvatarClick={onAvatarClick}
         />
         <Avatar
           avatarPath={conv2?.avatarPath}
           name={name2}
           size={avatarsDiameter}
           pubkey={conv2?.id}
+          onAvatarClick={onAvatarClick}
         />
       </div>
     );

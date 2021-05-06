@@ -1683,6 +1683,22 @@
     "description": "Shown in the settings page as the heading for the blocked user settings",
     "androidKey": "preferences_app_protection__blocked_contacts"
   },
+  "unbanUser": {
+    "message": "Unban User",
+    "description": "Unban user from open group by public key."
+  },
+  "unbanUserConfirm": {
+    "message": "Are you sure you want to unban user?",
+    "description": "Message shown when confirming user unban."
+  },
+  "userUnbanned": {
+    "message": "User unbanned successfully",
+    "description": "Toast on succesful user unban."
+  },
+  "userUnbanFailed": {
+    "message": "Unban failed!",
+    "description": "Toast on unsuccesful user unban."
+  },
   "banUser": {
     "message": "Ban User",
     "description": "Ban user from open group by public key."
@@ -1999,6 +2015,10 @@
   "noModeratorsToRemove": {
     "message": "no moderators to remove"
   },
+  "onlyAdminCanRemoveMembers": { "message": "You are not the creator" },
+  "onlyAdminCanRemoveMembersDesc": {
+    "message": "Only the creator of the group can remove users"
+  },
   "createAccount": {
     "message": "Create Account"
   },
@@ -2035,6 +2055,10 @@
   "anonymous": {
     "message": "Anonymous",
     "description": "The name of currently unidentified users"
+  },
+  "removeResidueMembers": {
+    "message": "Clicking ok will also remove those members as they left the group.",
+    "description": "Shown when the admin shows the group member dialog, to warn him that zombies members will be removed"
   },
   "enterDisplayName": {
     "message": "Enter a display name",
@@ -2223,5 +2247,8 @@
   },
   "errorHappenedWhileRemovingModeratorDesc": {
     "message": "An error happened while removing this user from the moderator list."
+  },
+  "orJoinOneOfThese": {
+    "message": "Or join one of these..."
   }
 }

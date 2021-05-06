@@ -19,10 +19,7 @@ describe('Crypto', () => {
   describe('symmetric encryption', () => {
     it('roundtrips', async () => {
       const message = 'this is my message';
-      const plaintext = dcodeIO.ByteBuffer.wrap(
-        message,
-        'binary'
-      ).toArrayBuffer();
+      const plaintext = dcodeIO.ByteBuffer.wrap(message, 'binary').toArrayBuffer();
       const key = textsecure.crypto.getRandomBytes(32);
 
       const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
@@ -36,10 +33,7 @@ describe('Crypto', () => {
 
     it('roundtrip fails if nonce is modified', async () => {
       const message = 'this is my message';
-      const plaintext = dcodeIO.ByteBuffer.wrap(
-        message,
-        'binary'
-      ).toArrayBuffer();
+      const plaintext = dcodeIO.ByteBuffer.wrap(message, 'binary').toArrayBuffer();
       const key = textsecure.crypto.getRandomBytes(32);
 
       const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
@@ -61,10 +55,7 @@ describe('Crypto', () => {
 
     it('roundtrip fails if mac is modified', async () => {
       const message = 'this is my message';
-      const plaintext = dcodeIO.ByteBuffer.wrap(
-        message,
-        'binary'
-      ).toArrayBuffer();
+      const plaintext = dcodeIO.ByteBuffer.wrap(message, 'binary').toArrayBuffer();
       const key = textsecure.crypto.getRandomBytes(32);
 
       const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
@@ -86,10 +77,7 @@ describe('Crypto', () => {
 
     it('roundtrip fails if encrypted contents are modified', async () => {
       const message = 'this is my message';
-      const plaintext = dcodeIO.ByteBuffer.wrap(
-        message,
-        'binary'
-      ).toArrayBuffer();
+      const plaintext = dcodeIO.ByteBuffer.wrap(message, 'binary').toArrayBuffer();
       const key = textsecure.crypto.getRandomBytes(32);
 
       const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
@@ -115,8 +103,7 @@ describe('Crypto', () => {
       const staticKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
       const message = 'this is my message';
       const plaintext = Signal.Crypto.bytesFromString(message);
-      const path =
-        'fa/facdf99c22945b1c9393345599a276f4b36ad7ccdc8c2467f5441b742c2d11fa';
+      const path = 'fa/facdf99c22945b1c9393345599a276f4b36ad7ccdc8c2467f5441b742c2d11fa';
 
       const encrypted = await Signal.Crypto.encryptAttachment(
         staticKeyPair.pubKey.slice(1),

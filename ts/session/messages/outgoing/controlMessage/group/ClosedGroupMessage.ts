@@ -25,10 +25,7 @@ export abstract class ClosedGroupMessage extends DataMessage {
     }
   }
 
-  public static areAdminsMembers(
-    admins: Array<string>,
-    members: Array<string>
-  ) {
+  public static areAdminsMembers(admins: Array<string>, members: Array<string>) {
     return admins.every(a => members.includes(a));
   }
 

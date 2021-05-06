@@ -19,6 +19,7 @@ type Props = {
   name?: string; // display name, profileName or phoneNumber, whatever is set first
   pubkey?: string;
   size: AvatarSize;
+  base64Data?: string; // if this is not empty, it will be used to render the avatar with base64 encoded data
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   onAvatarClick?: () => void;
 };
@@ -43,8 +44,9 @@ const NoImage = (props: {
   name?: string;
   pubkey?: string;
   size: AvatarSize;
+  onAvatarClick?: () => void;
 }) => {
-  const { memberAvatars, size } = props;
+  const { name, memberAvatars, size, pubkey } = props;
   // if no image but we have conversations set for the group, renders group members avatars
   if (memberAvatars) {
     return (
@@ -52,53 +54,51 @@ const NoImage = (props: {
         size={size}
         memberAvatars={memberAvatars}
         i18n={window.i18n}
+        onAvatarClick={props.onAvatarClick}
       />
     );
   }
 
-  return <Identicon {...props} />;
+  return <Identicon size={size} name={name} pubkey={pubkey} />;
 };
 
 const AvatarImage = (props: {
   avatarPath?: string;
+  base64Data?: string;
   name?: string; // display name, profileName or phoneNumber, whatever is set first
   imageBroken: boolean;
   handleImageError: () => any;
 }) => {
-  const { avatarPath, name, imageBroken, handleImageError } = props;
+  const { avatarPath, base64Data, name, imageBroken, handleImageError } = props;
 
-  if (!avatarPath || imageBroken) {
+  if ((!avatarPath && !base64Data) || imageBroken) {
     return null;
   }
+  const dataToDisplay = base64Data ? `data:image/jpeg;base64,${base64Data}` : avatarPath;
 
   return (
     <img
       onError={handleImageError}
       alt={window.i18n('contactAvatarAlt', [name])}
-      src={avatarPath}
+      src={dataToDisplay}
     />
   );
 };
 
 export const Avatar = (props: Props) => {
-  const { avatarPath, size, memberAvatars, name } = props;
+  const { avatarPath, base64Data, size, memberAvatars, name } = props;
   const [imageBroken, setImageBroken] = useState(false);
   // contentType is not important
-
   const { urlToLoad } = useEncryptedFileFetch(avatarPath || '', '');
   const handleImageError = () => {
-    window.log.warn(
-      'Avatar: Image failed to load; failing over to placeholder',
-      urlToLoad
-    );
+    window.log.warn('Avatar: Image failed to load; failing over to placeholder', urlToLoad);
     setImageBroken(true);
   };
 
-  const isClosedGroupAvatar = memberAvatars && memberAvatars.length;
-  const hasImage = urlToLoad && !imageBroken && !isClosedGroupAvatar;
+  const isClosedGroupAvatar = Boolean(memberAvatars?.length);
+  const hasImage = (base64Data || urlToLoad) && !imageBroken && !isClosedGroupAvatar;
 
   const isClickable = !!props.onAvatarClick;
-
   return (
     <div
       className={classNames(
@@ -116,6 +116,7 @@ export const Avatar = (props: Props) => {
       {hasImage ? (
         <AvatarImage
           avatarPath={urlToLoad}
+          base64Data={base64Data}
           imageBroken={imageBroken}
           name={name}
           handleImageError={handleImageError}
