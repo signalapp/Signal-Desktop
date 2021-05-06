@@ -1,9 +1,8 @@
 import is from '@sindresorhus/is';
 import moment from 'moment';
-import { padStart } from 'lodash';
+import { isArrayBuffer, padStart } from 'lodash';
 
 import * as MIME from './MIME';
-import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
 import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import {
@@ -11,6 +10,8 @@ import {
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
 import { LocalizerType } from './Util';
+import { fromHexToArray } from '../session/utils/String';
+import { getSodium } from '../session/crypto';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -396,8 +397,17 @@ export const getSuggestedFilenameSending = ({
 export const getFileExtension = (
   attachment: AttachmentType
 ): string | undefined => {
-  if (!attachment.contentType) {
-    return;
+  // we override textplain to the extension of the file
+  if (!attachment.contentType || attachment.contentType === 'text/plain') {
+    if (attachment.fileName?.length) {
+      const dotLastIndex = attachment.fileName.lastIndexOf('.');
+      if (dotLastIndex !== -1) {
+        return attachment.fileName.substring(dotLastIndex + 1);
+      } else {
+        return undefined;
+      }
+    }
+    return undefined;
   }
 
   switch (attachment.contentType) {
@@ -406,4 +416,82 @@ export const getFileExtension = (
     default:
       return attachment.contentType.split('/')[1];
   }
+};
+
+export const encryptAttachmentBuffer = async (bufferIn: ArrayBuffer) => {
+  if (!isArrayBuffer(bufferIn)) {
+    throw new TypeError("'bufferIn' must be an array buffer");
+  }
+
+  const uintArrayIn = new Uint8Array(bufferIn);
+  const sodium = await getSodium();
+  const encryptingKey = window.textsecure.storage.get(
+    'local_attachment_encrypted_key'
+  );
+
+  /* Set up a new stream: initialize the state and create the header */
+  const {
+    state,
+    header,
+  } = sodium.crypto_secretstream_xchacha20poly1305_init_push(
+    fromHexToArray(encryptingKey)
+  );
+  /* Now, encrypt the buffer. */
+  const bufferOut = sodium.crypto_secretstream_xchacha20poly1305_push(
+    state,
+    uintArrayIn,
+    null,
+    sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
+  );
+
+  const encryptedBufferWithHeader = new Uint8Array(
+    bufferOut.length + header.length
+  );
+  encryptedBufferWithHeader.set(header);
+  encryptedBufferWithHeader.set(bufferOut, header.length);
+
+  return { encryptedBufferWithHeader, header };
+};
+
+export const decryptAttachmentBuffer = async (
+  bufferIn: ArrayBuffer
+): Promise<Uint8Array> => {
+  if (!isArrayBuffer(bufferIn)) {
+    throw new TypeError("'bufferIn' must be an array buffer");
+  }
+  const sodium = await getSodium();
+  const encryptingKey = window.textsecure.storage.get(
+    'local_attachment_encrypted_key'
+  );
+
+  const header = new Uint8Array(
+    bufferIn.slice(0, sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
+  );
+
+  const encryptedBuffer = new Uint8Array(
+    bufferIn.slice(sodium.crypto_secretstream_xchacha20poly1305_HEADERBYTES)
+  );
+  try {
+    /* Decrypt the stream: initializes the state, using the key and a header */
+    const state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(
+      header,
+      fromHexToArray(encryptingKey)
+    );
+    // what if ^ this call fail (? try to load as a unencrypted attachment?)
+
+    const messageTag = sodium.crypto_secretstream_xchacha20poly1305_pull(
+      state,
+      encryptedBuffer
+    );
+    // we expect the final tag to be there. If not, we might have an issue with this file
+    // maybe not encrypted locally?
+    if (
+      messageTag.tag === sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
+    ) {
+      return messageTag.message;
+    }
+  } catch (e) {
+    window?.log?.warn('Failed to load the file as an encrypted one', e);
+  }
+  return new Uint8Array();
 };

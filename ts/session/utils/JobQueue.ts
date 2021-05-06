@@ -36,7 +36,7 @@ export class JobQueue {
       })
       .finally(() => {
         if (this.pending === current) {
-          delete this.pending;
+          delete this?.pending;
         }
         this.jobs.delete(id);
       });

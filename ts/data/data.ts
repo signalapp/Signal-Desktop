@@ -9,7 +9,9 @@ import {
   ConversationModel,
 } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
+import { MessageAttributes } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
+import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
 import {
   fromArrayBufferToBase64,
@@ -481,6 +483,24 @@ export async function getItemById(
 
   return Array.isArray(keys) ? keysToArrayBuffer(keys, data) : data;
 }
+
+export async function generateAttachmentKeyIfEmpty() {
+  const existingKey = await getItemById('local_attachment_encrypted_key');
+  if (!existingKey) {
+    const sodium = await getSodium();
+    const encryptingKey = sodium.to_hex(sodium.randombytes_buf(32));
+    await createOrUpdateItem({
+      id: 'local_attachment_encrypted_key',
+      value: encryptingKey,
+    });
+    // be sure to write the new key to the cache. so we can access it straight away
+    window.textsecure.storage.put(
+      'local_attachment_encrypted_key',
+      encryptingKey
+    );
+  }
+}
+
 export async function getAllItems(): Promise<Array<StorageItem>> {
   const items = await channels.getAllItems();
   return _.map(items, item => {
@@ -671,23 +691,32 @@ export async function cleanLastHashes(): Promise<void> {
 }
 
 // TODO: Strictly type the following
-export async function saveSeenMessageHashes(data: any): Promise<void> {
+export async function saveSeenMessageHashes(
+  data: Array<{
+    expiresAt: number;
+    hash: string;
+  }>
+): Promise<void> {
   await channels.saveSeenMessageHashes(_cleanData(data));
 }
 
-export async function updateLastHash(data: any): Promise<void> {
+export async function updateLastHash(data: {
+  convoId: string;
+  snode: string;
+  hash: string;
+  expiresAt: number;
+}): Promise<void> {
   await channels.updateLastHash(_cleanData(data));
 }
 
-export async function saveMessage(data: MessageModel): Promise<string> {
+export async function saveMessage(data: MessageAttributes): Promise<string> {
   const id = await channels.saveMessage(_cleanData(data));
   window.Whisper.ExpiringMessagesListener.update();
   return id;
 }
 
 export async function saveMessages(
-  arrayOfMessages: any,
-  options?: { forceSave: boolean }
+  arrayOfMessages: Array<MessageAttributes>
 ): Promise<void> {
   await channels.saveMessages(_cleanData(arrayOfMessages));
 }
@@ -860,7 +889,18 @@ export async function getUnprocessedById(id: string): Promise<any> {
   return channels.getUnprocessedById(id);
 }
 
-export async function saveUnprocessed(data: any): Promise<string> {
+export type UnprocessedParameter = {
+  id: string;
+  version: number;
+  envelope: string;
+  timestamp: number;
+  attempts: number;
+  senderIdentity?: string;
+};
+
+export async function saveUnprocessed(
+  data: UnprocessedParameter
+): Promise<string> {
   const id = await channels.saveUnprocessed(_cleanData(data));
   return id;
 }

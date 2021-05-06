@@ -1,4 +1,4 @@
-/* global Signal, setTimeout, clearTimeout, getMessageController, NewReceiver, models */
+/* global Signal, setTimeout, clearTimeout, getMessageController, NewReceiver */
 
 const { isNumber, omit } = require('lodash');
 const getGuid = require('uuid/v4');
@@ -11,7 +11,6 @@ const {
   saveMessage,
   setAttachmentDownloadJobPending,
 } = require('../../ts/data/data');
-const { stringFromBytes } = require('./crypto');
 
 module.exports = {
   start,
@@ -142,9 +141,7 @@ async function _runJob(job) {
       );
     }
 
-    const found = await getMessageById(messageId, {
-      Message: models.Message.MessageModel,
-    });
+    const found = await getMessageById(messageId);
     if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
       await _finishJob(null, id);
@@ -226,9 +223,7 @@ async function _runJob(job) {
 
 async function _finishJob(message, id) {
   if (message) {
-    await saveMessage(message.attributes, {
-      Message: models.Message.MessageModel,
-    });
+    await saveMessage(message.attributes);
     const conversation = message.getConversation();
     if (conversation) {
       message.commit();
@@ -257,18 +252,6 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
   }
 
   const logPrefix = `${message.idForLogging()} (type: ${type}, index: ${index})`;
-
-  if (type === 'long-message') {
-    try {
-      const { data } = await Signal.Migrations.loadAttachmentData(attachment);
-      message.set({
-        body: attachment.isError ? message.get('body') : stringFromBytes(data),
-      });
-    } finally {
-      Signal.Migrations.deleteAttachmentData(attachment.path);
-    }
-    return;
-  }
 
   if (type === 'attachment') {
     const attachments = message.get('attachments');

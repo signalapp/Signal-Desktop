@@ -2,6 +2,7 @@ import { initIncomingMessage } from './dataMessage';
 import { toNumber } from 'lodash';
 import { ConversationController } from '../session/conversations';
 import { MessageController } from '../session/messages';
+import { actions as conversationActions } from '../state/ducks/conversations';
 
 export async function onError(ev: any) {
   const { error } = ev;
@@ -36,10 +37,12 @@ export async function onError(ev: any) {
     conversation.updateLastMessage();
     await conversation.notify(message);
     MessageController.getInstance().register(message.id, message);
-    window.Whisper.events.trigger('messageAdded', {
-      conversationKey: conversation.id,
-      messageModel: message,
-    });
+    window.inboxStore?.dispatch(
+      conversationActions.messageAdded({
+        conversationKey: conversation.id,
+        messageModel: message,
+      })
+    );
 
     if (ev.confirm) {
       ev.confirm();

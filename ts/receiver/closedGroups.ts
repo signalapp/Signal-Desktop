@@ -22,7 +22,7 @@ import {
 import {
   ClosedGroupNewMessage,
   ClosedGroupNewMessageParams,
-} from '../session/messages/outgoing/content/data/group/ClosedGroupNewMessage';
+} from '../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 
 import { ECKeyPair, HexKeyPair } from './keypairs';
 import { UserUtils } from '../session/utils';
@@ -30,8 +30,9 @@ import { ConversationModel } from '../models/conversation';
 import _ from 'lodash';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { MessageController } from '../session/messages';
-import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/content/data/group';
+import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { queueAllCachedFromSource } from './receiver';
+import { actions as conversationActions } from '../state/ducks/conversations';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<
   string,
@@ -981,7 +982,7 @@ export async function createClosedGroup(
 
   await forceSyncConfigurationNowIfNeeded();
 
-  window.inboxStore.dispatch(
-    window.actionsCreators.openConversationExternal(groupPublicKey)
+  window.inboxStore?.dispatch(
+    conversationActions.openConversationExternal(groupPublicKey)
   );
 }

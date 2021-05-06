@@ -7,12 +7,11 @@ import { getMessageQueue, Types, Utils } from '../../ts/session';
 import { ConversationController } from '../../ts/session/conversations';
 import { MessageController } from '../../ts/session/messages';
 import {
-  ChatMessage,
   DataMessage,
   OpenGroupMessage,
 } from '../../ts/session/messages/outgoing';
-import { ClosedGroupChatMessage } from '../../ts/session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
-import { EncryptionType, PubKey, RawMessage } from '../../ts/session/types';
+import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
+import { PubKey } from '../../ts/session/types';
 import { ToastUtils, UserUtils } from '../../ts/session/utils';
 import {
   fillMessageAttributesWithDefaults,
@@ -23,6 +22,10 @@ import {
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel } from './conversation';
+import { getSuggestedFilenameSending } from '../types/Attachment';
+import { actions as conversationActions } from '../state/ducks/conversations';
+import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { buildSyncMessage } from '../session/utils/syncUtils';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -52,27 +55,27 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     void this.setToExpire();
     autoBind(this);
 
-    this.markRead = this.markRead.bind(this);
-    // Keep props ready
-    const generateProps = (triggerEvent = true) => {
-      if (this.isExpirationTimerUpdate()) {
-        this.propsForTimerNotification = this.getPropsForTimerNotification();
-      } else if (this.isGroupUpdate()) {
-        this.propsForGroupNotification = this.getPropsForGroupNotification();
-      } else if (this.isGroupInvitation()) {
-        this.propsForGroupInvitation = this.getPropsForGroupInvitation();
-      } else {
-        this.propsForSearchResult = this.getPropsForSearchResult();
-        this.propsForMessage = this.getPropsForMessage();
-      }
-      if (triggerEvent) {
-        window.Whisper.events.trigger('messageChanged', this);
-      }
-    };
-    this.on('change', generateProps);
     window.contextMenuShown = false;
 
-    generateProps(false);
+    this.generateProps(false);
+  }
+
+  // Keep props ready
+  public generateProps(triggerEvent = true) {
+    if (this.isExpirationTimerUpdate()) {
+      this.propsForTimerNotification = this.getPropsForTimerNotification();
+    } else if (this.isGroupUpdate()) {
+      this.propsForGroupNotification = this.getPropsForGroupNotification();
+    } else if (this.isGroupInvitation()) {
+      this.propsForGroupInvitation = this.getPropsForGroupInvitation();
+    } else {
+      this.propsForSearchResult = this.getPropsForSearchResult();
+      this.propsForMessage = this.getPropsForMessage();
+    }
+
+    if (triggerEvent) {
+      window.inboxStore?.dispatch(conversationActions.messageChanged(this));
+    }
   }
 
   public idForLogging() {
@@ -111,7 +114,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const { unread } = attributes;
     if (unread === undefined) {
-      this.set({ unread: false });
+      this.set({ unread: 0 });
     }
 
     this.set(attributes);
@@ -426,10 +429,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (sent || sentTo.length > 0) {
       return 'sent';
     }
-    const calculatingPoW = this.get('calculatingPoW');
-    if (calculatingPoW) {
-      return 'pow';
-    }
 
     return 'sending';
   }
@@ -671,8 +670,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async getPropsForMessageDetail() {
-    const newIdentity = window.i18n('newIdentity');
-
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
     //   back to the conversation's current recipients
@@ -802,7 +799,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const filenameOverridenAttachments = finalAttachments.map(
       (attachment: any) => ({
         ...attachment,
-        fileName: window.Signal.Types.Attachment.getSuggestedFilenameSending({
+        fileName: getSuggestedFilenameSending({
           attachment,
           timestamp: Date.now(),
         }),
@@ -893,7 +890,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         delete chatParams.lokiProfile;
       }
 
-      const chatMessage = new ChatMessage(chatParams);
+      const chatMessage = new VisibleMessage(chatParams);
 
       // Special-case the self-send case - we send only a sync message
       if (conversation.isMe()) {
@@ -916,13 +913,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         );
       }
 
-      const closedGroupChatMessage = new ClosedGroupChatMessage({
+      const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
         identifier: this.id,
         chatMessage,
         groupId: this.get('conversationId'),
       });
 
-      return getMessageQueue().sendToGroup(closedGroupChatMessage);
+      return getMessageQueue().sendToGroup(closedGroupVisibleMessage);
     } catch (e) {
       await this.saveErrors(e);
       return null;
@@ -1003,18 +1000,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return null;
   }
 
-  public async setCalculatingPoW() {
-    if (this.get('calculatingPoW')) {
-      return;
-    }
-
-    this.set({
-      calculatingPoW: true,
-    });
-
-    await this.commit();
-  }
-
   public async sendSyncMessageOnly(dataMessage: DataMessage) {
     const now = Date.now();
     this.set({
@@ -1043,13 +1028,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // if this message needs to be synced
     if (
       (dataMessage.body && dataMessage.body.length) ||
-      dataMessage.attachments.length
+      dataMessage.attachments.length ||
+      dataMessage.flags ===
+        SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
       const conversation = this.getConversation();
       if (!conversation) {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
-      const syncMessage = ChatMessage.buildSyncMessage(
+      const syncMessage = buildSyncMessage(
         this.id,
         dataMessage,
         conversation.id,
@@ -1107,12 +1094,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       throw new Error('A message always needs an id');
     }
     const id = await saveMessage(this.attributes);
-    this.trigger('change');
+    this.generateProps();
     return id;
   }
 
   public async markRead(readAt: number) {
-    this.set({ unread: false });
+    this.markReadNoCommit(readAt);
+
+    await this.commit();
+  }
+
+  public markReadNoCommit(readAt: number) {
+    this.set({ unread: 0 });
 
     if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
       const expirationStartTimestamp = Math.min(
@@ -1127,8 +1120,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         messageId: this.id,
       })
     );
-
-    await this.commit();
   }
 
   public isExpiring() {

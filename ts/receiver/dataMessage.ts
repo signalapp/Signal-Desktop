@@ -8,7 +8,6 @@ import { handleMessageJob } from './queuedJob';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils, UserUtils } from '../session/utils';
-import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
@@ -16,6 +15,7 @@ import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
 import { getMessageBySender } from '../../ts/data/data';
 import { ConversationModel } from '../models/conversation';
+import { DeliveryReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
 
 export async function updateProfile(
   conversation: ConversationModel,

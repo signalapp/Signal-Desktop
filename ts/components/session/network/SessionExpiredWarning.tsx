@@ -12,7 +12,7 @@ const SessionExpiredWarningLink = styled.a`
   color: black;
 `;
 
-export const SessionExpiredWarning = (props: { theme: DefaultTheme }) => {
+export const SessionExpiredWarning = () => {
   return (
     <SessionExpiredWarningContainer>
       <div>{window.i18n('expiredWarning')}</div>

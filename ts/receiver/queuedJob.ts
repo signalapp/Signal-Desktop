@@ -10,6 +10,7 @@ import { ConversationModel } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
+import { actions as conversationActions } from '../state/ducks/conversations';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -195,39 +196,6 @@ async function copyFromQuotedMessage(
   }
 }
 
-// Handle expiration timer as part of a regular message
-async function handleExpireTimer(
-  source: string,
-  message: MessageModel,
-  expireTimer: number,
-  conversation: ConversationModel
-) {
-  const oldValue = conversation.get('expireTimer');
-
-  if (expireTimer) {
-    message.set({ expireTimer });
-
-    if (expireTimer !== oldValue) {
-      await conversation.updateExpirationTimer(
-        expireTimer,
-        source,
-        message.get('sent_at') || message.get('received_at'),
-        {
-          fromGroupUpdate: message.isGroupUpdate(), // WHAT DOES GROUP UPDATE HAVE TO DO WITH THIS???
-        }
-      );
-    }
-  } else if (oldValue && !message.isGroupUpdate()) {
-    // We only turn off timers if it's not a group update
-    await conversation.updateExpirationTimer(
-      null,
-      source,
-      message.get('received_at'),
-      {}
-    );
-  }
-}
-
 function handleLinkPreviews(
   messageBody: string,
   messagePreview: any,
@@ -288,7 +256,7 @@ function updateReadStatus(
     }
   }
   if (readSync || message.isExpirationTimerUpdate()) {
-    message.set({ unread: false });
+    message.set({ unread: 0 });
 
     // This is primarily to allow the conversation to mark all older
     // messages as read, as is done when we receive a read sync for
@@ -362,7 +330,7 @@ async function handleRegularMessage(
   // `upgradeMessageSchema` only seems to add `schemaVersion: 10` to the message
   const dataMessage = await upgradeMessageSchema(initialMessage);
 
-  const now = new Date().getTime();
+  const now = Date.now();
 
   // Medium groups might have `group` set even if with group chat messages...
   if (dataMessage.group && !conversation.isMediumGroup()) {
@@ -382,6 +350,7 @@ async function handleRegularMessage(
   }
 
   handleLinkPreviews(dataMessage.body, dataMessage.preview, message);
+  const existingExpireTimer = conversation.get('expireTimer');
 
   message.set({
     flags: dataMessage.flags,
@@ -398,15 +367,14 @@ async function handleRegularMessage(
     errors: [],
   });
 
-  conversation.set({ active_at: now });
+  if (existingExpireTimer) {
+    message.set({ expireTimer: existingExpireTimer });
+    message.set({ expirationStartTimestamp: now });
+  }
 
-  // Handle expireTimer found directly as part of a regular message
-  await handleExpireTimer(
-    source,
-    message,
-    dataMessage.expireTimer,
-    conversation
-  );
+  conversation.set({ active_at: now });
+  // Expire timer updates are now explicit.
+  // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.
 
   const ourPubKey = PubKey.cast(ourNumber);
 
@@ -477,10 +445,7 @@ async function handleExpirationTimerUpdate(
   await conversation.updateExpirationTimer(
     expireTimer,
     source,
-    message.get('received_at'),
-    {
-      fromGroupUpdate: message.isGroupUpdate(), // WHAT DOES GROUP UPDATE HAVE TO DO WITH THIS???
-    }
+    message.get('received_at')
   );
 }
 
@@ -529,10 +494,15 @@ export async function handleMessageJob(
     const id = await message.commit();
 
     message.set({ id });
-    window.Whisper.events.trigger('messageAdded', {
-      conversationKey: conversation.id,
-      messageModel: message,
-    });
+    // this updates the redux store.
+    // if the convo on which this message should become visible,
+    // it will be shown to the user, and might as well be read right away
+    window.inboxStore?.dispatch(
+      conversationActions.messageAdded({
+        conversationKey: conversation.id,
+        messageModel: message,
+      })
+    );
     MessageController.getInstance().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to

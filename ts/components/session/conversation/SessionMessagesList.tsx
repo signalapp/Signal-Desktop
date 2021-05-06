@@ -18,6 +18,7 @@ import { ConversationController } from '../../../session/conversations';
 import { MessageModel } from '../../../models/message';
 import { MessageRegularProps } from '../../../models/messageType';
 import { getMessagesBySentAt } from '../../../data/data';
+import autoBind from 'auto-bind';
 
 interface State {
   showScrollButton: boolean;
@@ -59,13 +60,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     this.state = {
       showScrollButton: false,
     };
-    this.renderMessage = this.renderMessage.bind(this);
-    this.handleScroll = this.handleScroll.bind(this);
-    this.scrollToUnread = this.scrollToUnread.bind(this);
-    this.scrollToBottom = this.scrollToBottom.bind(this);
-    this.scrollToQuoteMessage = this.scrollToQuoteMessage.bind(this);
-    this.getScrollOffsetBottomPx = this.getScrollOffsetBottomPx.bind(this);
-    this.displayUnreadBannerIndex = this.displayUnreadBannerIndex.bind(this);
+    autoBind(this);
 
     this.messageContainerRef = this.props.messageContainerRef;
     this.ignoreScrollEvents = true;

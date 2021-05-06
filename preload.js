@@ -333,7 +333,7 @@ window.nodeSetImmediate = setImmediate;
 
 const Signal = require('./js/modules/signal');
 const i18n = require('./js/modules/i18n');
-const Attachments = require('./app/attachments');
+const Attachments = require('./ts/attachments/attachments');
 
 window.Signal = Signal.setup({
   Attachments,
@@ -357,7 +357,6 @@ window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 window.LokiPushNotificationServerApi = require('./js/modules/loki_push_notification_server_api');
 
-window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
 
 // A Worker with a 3 minute timeout

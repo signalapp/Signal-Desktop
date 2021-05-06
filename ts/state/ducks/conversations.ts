@@ -49,6 +49,19 @@ export type MessageTypeInConvo = {
   getPropsForMessageDetail(): Promise<any>;
 };
 
+export type LastMessageStatusType =
+  | 'error'
+  | 'sending'
+  | 'sent'
+  | 'delivered'
+  | 'read'
+  | null;
+
+export type LastMessageType = {
+  status: LastMessageStatusType;
+  text: string | null;
+};
+
 export interface ConversationType {
   id: string;
   name?: string;
@@ -57,10 +70,7 @@ export interface ConversationType {
   index?: number;
 
   activeAt?: number;
-  lastMessage?: {
-    status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
-    text: string;
-  };
+  lastMessage?: LastMessageType;
   phoneNumber: string;
   type: 'direct' | 'group';
   isMe: boolean;
@@ -76,6 +86,17 @@ export interface ConversationType {
   avatarPath?: string; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
+
+  onClick?: () => void;
+  onBlockContact?: () => void;
+  onUnblockContact?: () => void;
+  onCopyPublicKey?: () => void;
+  onDeleteContact?: () => void;
+  onLeaveGroup?: () => void;
+  onDeleteMessages?: () => void;
+  onInviteContacts?: () => void;
+  onMarkAllRead?: () => void;
+  onClearNickname?: () => void;
 }
 
 export type ConversationLookupType = {
@@ -218,6 +239,10 @@ export type MessageChangedActionType = {
   type: 'MESSAGE_CHANGED';
   payload: MessageModel;
 };
+export type MessagesChangedActionType = {
+  type: 'MESSAGES_CHANGED';
+  payload: Array<MessageModel>;
+};
 export type MessageAddedActionType = {
   type: 'MESSAGE_ADDED';
   payload: {
@@ -264,6 +289,7 @@ export type ConversationActionType =
   | MessageAddedActionType
   | MessageDeletedActionType
   | MessageChangedActionType
+  | MessagesChangedActionType
   | SelectedConversationChangedActionType
   | SelectedConversationChangedActionType
   | FetchMessagesForConversationType;
@@ -280,6 +306,7 @@ export const actions = {
   messageDeleted,
   conversationReset,
   messageChanged,
+  messagesChanged,
   fetchMessagesForConversation,
   openConversationExternal,
 };
@@ -346,6 +373,15 @@ function messageChanged(messageModel: MessageModel): MessageChangedActionType {
   };
 }
 
+function messagesChanged(
+  messageModels: Array<MessageModel>
+): MessagesChangedActionType {
+  return {
+    type: 'MESSAGES_CHANGED',
+    payload: messageModels,
+  };
+}
+
 function messageAdded({
   conversationKey,
   messageModel,
@@ -391,7 +427,7 @@ function conversationReset({
   };
 }
 
-function openConversationExternal(
+export function openConversationExternal(
   id: string,
   messageId?: string
 ): SelectedConversationChangedActionType {
@@ -501,6 +537,7 @@ function handleMessageChanged(
   action: MessageChangedActionType
 ) {
   const { payload } = action;
+
   const messageInStoreIndex = state?.messages?.findIndex(
     m => m.id === payload.id
   );
@@ -521,7 +558,7 @@ function handleMessageChanged(
     // reorder the messages depending on the timestamp (we might have an updated serverTimestamp now)
     const sortedMessage = sortMessages(editedMessages, isPublic);
     const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
-      editedMessages
+      sortedMessage
     );
 
     return {
@@ -529,6 +566,23 @@ function handleMessageChanged(
       messages: updatedWithFirstMessageOfSeries,
     };
   }
+
+  return state;
+}
+
+function handleMessagesChanged(
+  state: ConversationsStateType,
+  action: MessagesChangedActionType
+) {
+  const { payload } = action;
+
+  payload.forEach(element => {
+    // tslint:disable-next-line: no-parameter-reassignment
+    state = handleMessageChanged(state, {
+      payload: element,
+      type: 'MESSAGE_CHANGED',
+    });
+  });
 
   return state;
 }
@@ -678,6 +732,10 @@ export function reducer(
 
   if (action.type === 'MESSAGE_CHANGED') {
     return handleMessageChanged(state, action);
+  }
+
+  if (action.type === 'MESSAGES_CHANGED') {
+    return handleMessagesChanged(state, action);
   }
 
   if (action.type === 'MESSAGE_ADDED') {

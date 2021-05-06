@@ -76,7 +76,7 @@ export const actions = {
   updateSearchTerm,
 };
 
-function search(
+export function search(
   query: string,
   options: SearchOptions
 ): SearchResultsKickoffActionType {
@@ -125,13 +125,13 @@ async function doSearch(
     messages: getMessageProps(filteredMessages) || [],
   };
 }
-function clearSearch(): ClearSearchActionType {
+export function clearSearch(): ClearSearchActionType {
   return {
     type: 'SEARCH_CLEAR',
     payload: null,
   };
 }
-function updateSearchTerm(query: string): UpdateSearchTermActionType {
+export function updateSearchTerm(query: string): UpdateSearchTermActionType {
   return {
     type: 'SEARCH_UPDATE',
     payload: {

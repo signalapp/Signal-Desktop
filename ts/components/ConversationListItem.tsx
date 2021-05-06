@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { contextMenu } from 'react-contexify';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
@@ -26,7 +26,7 @@ import { PubKey } from '../session/types';
 import { ConversationType } from '../state/ducks/conversations';
 
 export interface ConversationListItemProps extends ConversationType {
-  index: number; // used to force a refresh when one conversation is removed on top of the list
+  index?: number; // used to force a refresh when one conversation is removed on top of the list
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 }
 
@@ -42,6 +42,7 @@ type PropsHousekeeping = {
   onUnblockContact?: () => void;
   onInviteContacts?: () => void;
   onClearNickname?: () => void;
+  onMarkAllRead: () => void;
   theme: DefaultTheme;
 };
 
@@ -62,14 +63,12 @@ class ConversationListItem extends React.PureComponent<Props> {
   public renderAvatar() {
     const {
       avatarPath,
-      i18n,
       name,
       phoneNumber,
       profileName,
       memberAvatars,
     } = this.props;
 
-    const iconSize = 36;
     const userName = name || profileName || phoneNumber;
 
     return (
@@ -77,7 +76,7 @@ class ConversationListItem extends React.PureComponent<Props> {
         <Avatar
           avatarPath={avatarPath}
           name={userName}
-          size={iconSize}
+          size={AvatarSize.S}
           memberAvatars={memberAvatars}
           pubkey={phoneNumber}
         />

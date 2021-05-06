@@ -1,13 +1,11 @@
 import { expect } from 'chai';
 import { beforeEach } from 'mocha';
 
-import {
-  DeliveryReceiptMessage,
-  ReadReceiptMessage,
-} from '../../../../session/messages/outgoing';
 import { SignalService } from '../../../../protobuf';
 import { toNumber } from 'lodash';
 import { Constants } from '../../../../session';
+import { DeliveryReceiptMessage } from '../../../../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
+import { ReadReceiptMessage } from '../../../../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 
 describe('ReceiptMessage', () => {
   let readMessage: ReadReceiptMessage;

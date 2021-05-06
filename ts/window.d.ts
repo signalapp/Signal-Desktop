@@ -9,7 +9,6 @@ import { LokiMessageInterface } from '../js/modules/loki_message_api';
 import { SwarmPolling } from './session/snode_api/swarmPolling';
 
 import { LibTextsecure } from '../libtextsecure';
-import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
 import { ConfirmationDialogParams } from '../background';
 import {} from 'styled-components/cssprop';
 
@@ -68,7 +67,6 @@ declare global {
     lokiMessageAPI: LokiMessageInterface;
     lokiPublicChatAPI: LokiPublicChatFactoryInterface;
     lokiSnodeAPI: LokiSnodeAPI;
-    mnemonic: RecoveryPhraseUtil;
     onLogin: any;
     resetDatabase: any;
     restart: any;
@@ -100,7 +98,7 @@ declare global {
     contextMenuShown: boolean;
     setClockParams: any;
     clientClockSynced: number | undefined;
-    inboxStore: Store;
+    inboxStore?: Store;
     actionsCreators: any;
     extension: {
       expired: (boolean) => void;

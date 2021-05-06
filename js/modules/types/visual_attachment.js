@@ -1,12 +1,13 @@
+/* eslint-disable more/no-then */
 /* global document, URL, Blob */
 
 const loadImage = require('blueimp-load-image');
 const { toLogFormat } = require('./errors');
+
 const dataURLToBlobSync = require('blueimp-canvas-to-blob');
+
 const { blobToArrayBuffer } = require('blob-util');
-const {
-  arrayBufferToObjectURL,
-} = require('../../../ts/util/arrayBufferToObjectURL');
+const DecryptedAttachmentsManager = require('../../../ts/session/crypto/DecryptedAttachmentsManager');
 
 exports.blobToArrayBuffer = blobToArrayBuffer;
 
@@ -24,8 +25,13 @@ exports.getImageDimensions = ({ objectUrl, logger }) =>
       logger.error('getImageDimensions error', toLogFormat(error));
       reject(error);
     });
-
-    image.src = objectUrl;
+    // TODO image/jpeg is hard coded, but it does not look to cause any issues
+    DecryptedAttachmentsManager.getDecryptedMediaUrl(
+      objectUrl,
+      'image/jpg'
+    ).then(decryptedUrl => {
+      image.src = decryptedUrl;
+    });
   });
 
 exports.makeImageThumbnail = ({
@@ -70,7 +76,12 @@ exports.makeImageThumbnail = ({
       reject(error);
     });
 
-    image.src = objectUrl;
+    DecryptedAttachmentsManager.getDecryptedMediaUrl(
+      objectUrl,
+      contentType
+    ).then(decryptedUrl => {
+      image.src = decryptedUrl;
+    });
   });
 
 exports.makeVideoScreenshot = ({
@@ -103,44 +114,16 @@ exports.makeVideoScreenshot = ({
       reject(error);
     });
 
-    video.src = objectUrl;
-    video.muted = true;
-    // for some reason, this is to be started, otherwise the generated thumbnail will be empty
-    video.play();
+    DecryptedAttachmentsManager.getDecryptedMediaUrl(
+      objectUrl,
+      contentType
+    ).then(decryptedUrl => {
+      video.src = decryptedUrl;
+      video.muted = true;
+      // for some reason, this is to be started, otherwise the generated thumbnail will be empty
+      video.play();
+    });
   });
-
-exports.makeVideoThumbnail = async ({
-  size,
-  videoObjectUrl,
-  logger,
-  contentType,
-}) => {
-  let screenshotObjectUrl;
-  try {
-    const blob = await exports.makeVideoScreenshot({
-      objectUrl: videoObjectUrl,
-      contentType,
-      logger,
-    });
-    const data = await blobToArrayBuffer(blob);
-    screenshotObjectUrl = arrayBufferToObjectURL({
-      data,
-      type: contentType,
-    });
-
-    // We need to wait for this, otherwise the finally below will run first
-    const resultBlob = await exports.makeImageThumbnail({
-      size,
-      objectUrl: screenshotObjectUrl,
-      contentType,
-      logger,
-    });
-
-    return resultBlob;
-  } finally {
-    exports.revokeObjectUrl(screenshotObjectUrl);
-  }
-};
 
 exports.makeObjectUrl = (data, contentType) => {
   const blob = new Blob([data], {

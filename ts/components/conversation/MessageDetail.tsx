@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message } from './Message';
 import { MessageRegularProps } from '../../models/messageType';
@@ -39,7 +39,7 @@ export class MessageDetail extends React.Component<Props> {
       <Avatar
         avatarPath={avatarPath}
         name={userName}
-        size={36}
+        size={AvatarSize.S}
         pubkey={phoneNumber}
       />
     );

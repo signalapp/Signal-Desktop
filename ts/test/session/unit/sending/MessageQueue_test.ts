@@ -15,7 +15,7 @@ import {
 import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
-import { ClosedGroupMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupMessage';
+import { ClosedGroupMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupMessage';
 
 import chaiAsPromised from 'chai-as-promised';
 import { MessageSentHandler } from '../../../../session/sending/MessageSentHandler';
@@ -87,7 +87,7 @@ describe('MessageQueue', () => {
       void pendingMessageCache
         .add(
           device,
-          TestUtils.generateChatMessage(),
+          TestUtils.generateVisibleMessage(),
           waitForMessageSentEvent as any
         )
         .then(async () => {
@@ -108,7 +108,10 @@ describe('MessageQueue', () => {
         }
 
         const device = TestUtils.generateFakePubKey();
-        await pendingMessageCache.add(device, TestUtils.generateChatMessage());
+        await pendingMessageCache.add(
+          device,
+          TestUtils.generateVisibleMessage()
+        );
 
         const initialMessages = await pendingMessageCache.getForDevice(device);
         expect(initialMessages).to.have.length(1);
@@ -125,7 +128,7 @@ describe('MessageQueue', () => {
     describe('events', () => {
       it('should send a success event if message was sent', done => {
         const device = TestUtils.generateFakePubKey();
-        const message = TestUtils.generateChatMessage();
+        const message = TestUtils.generateVisibleMessage();
         const waitForMessageSentEvent = async () =>
           new Promise<void>(resolve => {
             resolve();
@@ -149,7 +152,7 @@ describe('MessageQueue', () => {
         sendStub.throws(new Error('failure'));
 
         const device = TestUtils.generateFakePubKey();
-        const message = TestUtils.generateChatMessage();
+        const message = TestUtils.generateVisibleMessage();
         void pendingMessageCache
           .add(device, message)
           .then(() => messageQueueStub.processPending(device));
@@ -180,7 +183,7 @@ describe('MessageQueue', () => {
       const device = TestUtils.generateFakePubKey();
       const stub = sandbox.stub(messageQueueStub as any, 'process').resolves();
 
-      const message = TestUtils.generateChatMessage();
+      const message = TestUtils.generateVisibleMessage();
       await messageQueueStub.sendToPubKey(device, message);
 
       const args = stub.lastCall.args as [Array<PubKey>, ContentMessage];
@@ -191,7 +194,7 @@ describe('MessageQueue', () => {
 
   describe('sendToGroup', () => {
     it('should throw an error if invalid non-group message was passed', async () => {
-      const chatMessage = TestUtils.generateChatMessage();
+      const chatMessage = TestUtils.generateVisibleMessage();
       return expect(
         messageQueueStub.sendToGroup(chatMessage as any)
       ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');

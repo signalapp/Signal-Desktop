@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 
 import {
   SessionIconButton,
@@ -82,6 +82,8 @@ interface Props {
   onRemoveModerators: () => void;
   onAvatarClick?: (userPubKey: string) => void;
   onUpdateGroupName: () => void;
+
+  onMarkAllRead: () => void;
 
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   theme: DefaultTheme;
@@ -183,7 +185,7 @@ class ConversationHeaderInner extends React.Component<Props> {
         <Avatar
           avatarPath={avatarPath}
           name={userName}
-          size={36}
+          size={AvatarSize.S}
           onAvatarClick={() => {
             this.onAvatarClick(phoneNumber);
           }}

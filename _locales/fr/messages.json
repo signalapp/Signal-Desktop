@@ -363,6 +363,10 @@
             }
         }
     },
+    "markAllAsRead": {
+        "message": "Tout Marquer Comme Lu",
+        "description": "Shown on a menu to mark the whole convo as read."
+    },
     "isNotVerified": {
         "message": "Vous n’avez pas vérifié votre numéro de sécurité avec $name$",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
@@ -630,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Pour envoyer des messages audio, autorisez Session à accéder à votre microphone.",
+        "message": "Vous pouvez autoriser l'accès au microphone via: Paramètres (icon roue dentée) => Confidentialité.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -1220,6 +1224,14 @@
     },
     "copy": {
         "message": "Copier"
+    },
+    "copySessionID": {
+        "message": "Copier le Session ID",
+        "description": "Copy to clipboard session ID"
+    },
+    "copyOpenGroupURL": {
+        "message": "Copier l'URL de Group",
+        "description": "Copy to clipboard Open Group URL"
     },
     "linkPreviewsTitle": {
         "message": "Envoyer des aperçus de liens"
