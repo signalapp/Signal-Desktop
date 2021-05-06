@@ -11,6 +11,7 @@ export const SpinnerDirections = [
   'outgoing',
   'incoming',
   'on-background',
+  'on-captcha',
   'on-progress-dialog',
   'on-avatar',
 ] as const;

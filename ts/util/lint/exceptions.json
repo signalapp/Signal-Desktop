@@ -14155,6 +14155,41 @@
     "reasonDetail": "Needed to render remote video elements. Doesn't interact with the DOM."
   },
   {
+    "rule": "jQuery-load(",
+    "path": "ts/challenge.js",
+    "line": "    async load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-05T23:11:22.692Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/challenge.js",
+    "line": "            // 1. `.load()` when the `window.storage` is ready",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-05T23:11:22.692Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/challenge.ts",
+    "line": "// to the `ChallengeHandler` on `.load()` call (from `ts/background.ts`). They",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-05T23:11:22.692Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/challenge.ts",
+    "line": "  public async load(): Promise<void> {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-05T23:11:22.692Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/challenge.ts",
+    "line": "        // 1. `.load()` when the `window.storage` is ready",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-05T23:11:22.692Z"
+  },
+  {
     "rule": "React-useRef",
     "path": "ts/components/AvatarInput.js",
     "line": "    const fileInputRef = react_1.useRef(null);",
@@ -14225,6 +14260,14 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CaptchaDialog.js",
+    "line": "    const buttonRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-05T23:11:22.692Z",
+    "reasonDetail": "Used only to set focus"
   },
   {
     "rule": "React-createRef",

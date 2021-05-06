@@ -487,6 +487,15 @@ story.add('Error', () => {
   return renderBothDirections(props);
 });
 
+story.add('Paused', () => {
+  const props = createProps({
+    status: 'paused',
+    text: 'I am up to a challenge',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('Partial Send', () => {
   const props = createProps({
     status: 'partial-sent',

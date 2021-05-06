@@ -16,6 +16,7 @@ import {
   GroupCredentialsType,
   GroupLogResponseType,
   ProxiedRequestOptionsType,
+  ChallengeType,
   WebAPIType,
 } from './WebAPI';
 import createTaskWithTimeout from './TaskWithTimeout';
@@ -1935,5 +1936,11 @@ export default class MessageSender {
     options: GroupCredentialsType
   ): Promise<GroupExternalCredentialClass> {
     return this.server.getGroupExternalCredential(options);
+  }
+
+  public async sendChallengeResponse(
+    challengeResponse: ChallengeType
+  ): Promise<void> {
+    return this.server.sendChallengeResponse(challengeResponse);
   }
 }

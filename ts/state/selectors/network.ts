@@ -22,3 +22,8 @@ export const hasNetworkDialog = createSelector(
       socketStatus === WebSocket.CLOSED ||
       socketStatus === WebSocket.CLOSING)
 );
+
+export const isChallengePending = createSelector(
+  getNetwork,
+  ({ challengeStatus }) => challengeStatus === 'pending'
+);

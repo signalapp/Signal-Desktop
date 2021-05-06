@@ -13,6 +13,7 @@ import {
   LastMessageStatus,
 } from './state/ducks/conversations';
 import { SendOptionsType } from './textsecure/SendMessage';
+import { SendMessageChallengeData } from './textsecure/Errors';
 import {
   AccessRequiredEnum,
   MemberRoleEnum,
@@ -44,6 +45,8 @@ type TaskResultType = any;
 export type CustomError = Error & {
   identifier?: string;
   number?: string;
+  data?: object;
+  retryAfter?: number;
 };
 
 export type GroupMigrationType = {
@@ -63,6 +66,13 @@ export type QuotedMessageType = {
   referencedMessageNotFound: boolean;
   text: string;
 };
+
+export type RetryOptions = Readonly<{
+  type: 'session-reset';
+  uuid: string;
+  e164: string;
+  now: number;
+}>;
 
 export type MessageAttributesType = {
   bodyPending: boolean;
@@ -115,6 +125,7 @@ export type MessageAttributesType = {
   }>;
   read_by: Array<string | null>;
   requiredProtocolVersion: number;
+  retryOptions?: RetryOptions;
   sent: boolean;
   sourceDevice: string | number;
   snippet: unknown;
@@ -322,6 +333,11 @@ export type VerificationOptions = {
   viaContactSync?: boolean;
   viaStorageServiceSync?: boolean;
   viaSyncMessage?: boolean;
+};
+
+export type ShallowChallengeError = CustomError & {
+  readonly retryAfter: number;
+  readonly data: SendMessageChallengeData;
 };
 
 export declare class ConversationModelCollectionType extends Backbone.Collection<

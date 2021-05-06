@@ -4,9 +4,11 @@
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
+import { select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { LeftPane, LeftPaneMode, PropsType } from './LeftPane';
+import { CaptchaDialog } from './CaptchaDialog';
 import { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import { setup as setupI18n } from '../../js/modules/i18n';
@@ -106,6 +108,12 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   modeSpecificProps: defaultModeSpecificProps,
   openConversationInternal: action('openConversationInternal'),
   regionCode: 'US',
+  challengeStatus: select(
+    'challengeStatus',
+    ['idle', 'required', 'pending'],
+    'idle'
+  ),
+  setChallengeStatus: action('setChallengeStatus'),
   renderExpiredBuildDialog: () => <div />,
   renderMainHeader: () => <div />,
   renderMessageSearchResult: (id: string, style: React.CSSProperties) => (
@@ -126,6 +134,14 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   renderNetworkStatus: () => <div />,
   renderRelinkDialog: () => <div />,
   renderUpdateDialog: () => <div />,
+  renderCaptchaDialog: () => (
+    <CaptchaDialog
+      i18n={i18n}
+      isPending={overrideProps.challengeStatus === 'pending'}
+      onContinue={action('onCaptchaContinue')}
+      onSkip={action('onCaptchaSkip')}
+    />
+  ),
   selectedConversationId: undefined,
   selectedMessageId: undefined,
   setComposeSearchTerm: action('setComposeSearchTerm'),
@@ -465,6 +481,36 @@ story.add('Compose: some contacts, some groups, with a search term', () => (
         regionCode: 'US',
         searchTerm: 'ar',
       },
+    })}
+  />
+));
+
+// Captcha flow
+
+story.add('Captcha dialog: required', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Inbox,
+        pinnedConversations,
+        conversations: defaultConversations,
+        archivedConversations: [],
+      },
+      challengeStatus: 'required',
+    })}
+  />
+));
+
+story.add('Captcha dialog: pending', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Inbox,
+        pinnedConversations,
+        conversations: defaultConversations,
+        archivedConversations: [],
+      },
+      challengeStatus: 'pending',
     })}
   />
 ));

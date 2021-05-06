@@ -106,8 +106,10 @@ const OS = require('./ts/OS');
 const { isBeta } = require('./ts/util/version');
 const {
   isSgnlHref,
+  isCaptchaHref,
   isSignalHttpsLink,
   parseSgnlHref,
+  parseCaptchaHref,
   parseSignalHttpsLink,
 } = require('./ts/util/sgnlHref');
 const {
@@ -118,8 +120,10 @@ const {
   TitleBarVisibility,
 } = require('./ts/types/Settings');
 const { Environment } = require('./ts/environment');
+const { ChallengeMainHandler } = require('./ts/main/challengeMain');
 
 const sql = new MainSQL();
+const challengeHandler = new ChallengeMainHandler();
 
 let sqlInitTimeStart = 0;
 let sqlInitTimeEnd = 0;
@@ -190,6 +194,12 @@ if (!process.mas) {
         }
 
         showWindow();
+      }
+      const incomingCaptchaHref = getIncomingCaptchaHref(argv);
+      if (incomingCaptchaHref) {
+        const { captcha } = parseCaptchaHref(incomingCaptchaHref, logger);
+        challengeHandler.handleCaptcha(captcha);
+        return true;
       }
       // Are they trying to open a sgnl:// href?
       const incomingHref = getIncomingHref(argv);
@@ -1386,11 +1396,19 @@ app.on('web-contents-created', (createEvent, contents) => {
 });
 
 app.setAsDefaultProtocolClient('sgnl');
+app.setAsDefaultProtocolClient('signalcaptcha');
 app.on('will-finish-launching', () => {
   // open-url must be set from within will-finish-launching for macOS
   // https://stackoverflow.com/a/43949291
   app.on('open-url', (event, incomingHref) => {
     event.preventDefault();
+
+    if (isCaptchaHref(incomingHref, logger)) {
+      const { captcha } = parseCaptchaHref(incomingHref, logger);
+      challengeHandler.handleCaptcha(captcha);
+      return;
+    }
+
     handleSgnlHref(incomingHref);
   });
 });
@@ -1649,6 +1667,10 @@ function installSettingsSetter(name, isEphemeral = false) {
 
 function getIncomingHref(argv) {
   return argv.find(arg => isSgnlHref(arg, logger));
+}
+
+function getIncomingCaptchaHref(argv) {
+  return argv.find(arg => isCaptchaHref(arg, logger));
 }
 
 function handleSgnlHref(incomingHref) {

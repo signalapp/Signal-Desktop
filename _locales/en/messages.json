@@ -1505,6 +1505,10 @@
     "message": "Send failed",
     "description": "Shown on outgoing message if it fails to send"
   },
+  "sendPaused": {
+    "message": "Send paused",
+    "description": "Shown on outgoing message if it cannot be sent immediately"
+  },
   "partiallySent": {
     "message": "Partially sent, click for details",
     "description": "Shown on outgoing message if it is partially sent"
@@ -5118,5 +5122,41 @@
   "ContactSpoofingReviewDialog__safe-title": {
     "message": "Your contact",
     "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+  },
+  "CaptchaDialog__title": {
+    "message": "Verify to continue messaging",
+    "description": "Header in the captcha dialog"
+  },
+  "CaptchaDialog__first-paragraph": {
+    "message": "To help prevent spam on Signal, please complete verification.",
+    "description": "First paragraph in the captcha dialog"
+  },
+  "CaptchaDialog__second-paragraph": {
+    "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+    "description": "First paragraph in the captcha dialog"
+  },
+  "CaptchaDialog--can-close__title": {
+    "message": "Continue Without Verifying?",
+    "description": "Header in the captcha dialog that can be closed"
+  },
+  "CaptchaDialog--can-close__body": {
+    "message": "If you choose to skip verification, you may miss messages from other people and your messages may fail to send.",
+    "description": "Body of the captcha dialog that can be closed"
+  },
+  "CaptchaDialog--can_close__skip-verification": {
+    "message": "Skip verification",
+    "description": "Skip button of the captcha dialog that can be closed"
+  },
+  "verificationComplete": {
+    "message": "Verification complete.",
+    "description": "Displayed after successful captcha"
+  },
+  "verificationFailed": {
+    "message": "Verification failed. Please retry later.",
+    "description": "Displayed after unsuccessful captcha"
+  },
+  "deleteForEveryoneFailed": {
+    "message": "Failed to delete message for everyone. Please retry later.",
+    "description": "Displayed when delete-for-everyone has failed to send to all recepients"
   }
 }

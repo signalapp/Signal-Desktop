@@ -304,7 +304,8 @@ function getContentType(response: Response) {
   return null;
 }
 
-type HeaderListType = { [name: string]: string };
+type FetchHeaderListType = { [name: string]: string };
+type HeaderListType = { [name: string]: string | ReadonlyArray<string> };
 type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 type RedactUrl = (url: string) => string;
@@ -395,7 +396,7 @@ async function _promiseAjax(
         'User-Agent': getUserAgent(options.version),
         'X-Signal-Agent': 'OWD',
         ...options.headers,
-      } as HeaderListType,
+      } as FetchHeaderListType,
       redirect: options.redirect,
       agent,
       ca: options.certificateAuthority,
@@ -498,6 +499,7 @@ async function _promiseAjax(
                     makeHTTPError(
                       'promiseAjax: invalid response',
                       response.status,
+                      response.headers.raw(),
                       result,
                       options.stack
                     )
@@ -561,6 +563,7 @@ async function _promiseAjax(
             makeHTTPError(
               'promiseAjax: error response',
               response.status,
+              response.headers.raw(),
               result,
               options.stack
             )
@@ -574,7 +577,7 @@ async function _promiseAjax(
           window.log.error(options.type, url, 0, 'Error');
         }
         const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
-        reject(makeHTTPError('promiseAjax catch', 0, e.toString(), stack));
+        reject(makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack));
       });
   });
 }
@@ -612,6 +615,7 @@ declare global {
   interface Error {
     code?: number | string;
     response?: any;
+    responseHeaders?: HeaderListType;
     warn?: boolean;
   }
 }
@@ -619,6 +623,7 @@ declare global {
 function makeHTTPError(
   message: string,
   providedCode: number,
+  headers: HeaderListType,
   response: any,
   stack?: string
 ) {
@@ -626,6 +631,7 @@ function makeHTTPError(
   const e = new Error(`${message}; code: ${code}`);
   e.name = 'HTTPError';
   e.code = code;
+  e.responseHeaders = headers;
   if (DEBUG && response) {
     e.stack += `\nresponse: ${response}`;
   }
@@ -668,6 +674,7 @@ const URL_CALLS = {
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
   whoami: 'v1/accounts/whoami',
+  challenge: 'v1/challenge',
 };
 
 type InitializeOptionsType = {
@@ -873,6 +880,7 @@ export type WebAPIType = {
     options: GroupCredentialsType
   ) => Promise<string>;
   whoami: () => Promise<any>;
+  sendChallengeResponse: (challengeResponse: ChallengeType) => Promise<any>;
   getConfig: () => Promise<
     Array<{ name: string; enabled: boolean; value: string | null }>
   >;
@@ -908,6 +916,12 @@ export type ServerKeysType = {
     };
   }>;
   identityKey: ArrayBuffer;
+};
+
+export type ChallengeType = {
+  readonly type: 'recaptcha';
+  readonly token: string;
+  readonly captcha: string;
 };
 
 export type ProxiedRequestOptionsType = {
@@ -1033,6 +1047,7 @@ export function initialize({
       updateDeviceName,
       uploadGroupAvatar,
       whoami,
+      sendChallengeResponse,
     };
 
     async function _ajax(param: AjaxOptionsType): Promise<any> {
@@ -1100,6 +1115,14 @@ export function initialize({
         call: 'whoami',
         httpType: 'GET',
         responseType: 'json',
+      });
+    }
+
+    async function sendChallengeResponse(challengeResponse: ChallengeType) {
+      return _ajax({
+        call: 'challenge',
+        httpType: 'PUT',
+        jsonData: challengeResponse,
       });
     }
 

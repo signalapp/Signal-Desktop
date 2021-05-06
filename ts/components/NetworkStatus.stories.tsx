@@ -19,6 +19,7 @@ const defaultProps = {
   socketStatus: 0,
   manualReconnect: action('manual-reconnect'),
   withinConnectingGracePeriod: false,
+  challengeStatus: 'idle' as const,
 };
 
 const permutations = [

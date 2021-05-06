@@ -23,6 +23,14 @@ export function isSgnlHref(value: string | URL, logger: LoggerType): boolean {
   return url !== null && url.protocol === 'sgnl:';
 }
 
+export function isCaptchaHref(
+  value: string | URL,
+  logger: LoggerType
+): boolean {
+  const url = parseUrl(value, logger);
+  return url !== null && url.protocol === 'signalcaptcha:';
+}
+
 export function isSignalHttpsLink(
   value: string | URL,
   logger: LoggerType
@@ -61,6 +69,23 @@ export function parseSgnlHref(
     command: url.host,
     args,
     hash: url.hash ? url.hash.slice(1) : undefined,
+  };
+}
+
+type ParsedCaptchaHref = {
+  readonly captcha: string;
+};
+export function parseCaptchaHref(
+  href: URL | string,
+  logger: LoggerType
+): ParsedCaptchaHref {
+  const url = parseUrl(href, logger);
+  if (!url || !isCaptchaHref(url, logger)) {
+    throw new Error('Not a captcha href');
+  }
+
+  return {
+    captcha: url.host,
   };
 }
 

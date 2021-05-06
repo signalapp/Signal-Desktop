@@ -297,6 +297,17 @@
     );
   }
 }
+.module-message__error--paused {
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/error-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/error-solid-24.svg', $color-gray-45);
+  }
+}
 
 .module-message__error--outgoing {
   left: 8px;
@@ -1261,6 +1272,7 @@
   margin-bottom: 2px;
 }
 
+.module-message__metadata__status-icon--paused,
 .module-message__metadata__status-icon--sending {
   animation: module-message__metadata__status-icon--spinning 4s linear infinite;
 
@@ -5221,6 +5233,10 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-spinner__circle--on-captcha {
+  background-color: $color-white-alpha-40;
+}
+
 .module-spinner__circle--on-progress-dialog {
   @include light-theme {
     background-color: $color-white;
@@ -5233,6 +5249,9 @@ button.module-image__border-overlay:focus {
   background-color: $ultramarine-ui-light;
 }
 .module-spinner__arc--on-avatar {
+  background-color: $color-white;
+}
+.module-spinner__arc--on-captcha {
   background-color: $color-white;
 }
 
@@ -6987,6 +7006,21 @@ button.module-image__border-overlay:focus {
                   @include color-svg(
                     '../images/icons/v2/error-solid-12.svg',
                     $color-accent-red
+                  );
+                }
+              }
+
+              &--paused {
+                @include light-theme {
+                  @include color-svg(
+                    '../images/icons/v2/error-outline-12.svg',
+                    $color-gray-60
+                  );
+                }
+                @include dark-theme {
+                  @include color-svg(
+                    '../images/icons/v2/error-solid-12.svg',
+                    $color-gray-45
                   );
                 }
               }

@@ -4,6 +4,8 @@
 import {
   CustomError,
   MessageAttributesType,
+  RetryOptions,
+  ShallowChallengeError,
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
@@ -1041,6 +1043,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const sentTo = this.get('sent_to') || [];
 
     if (this.hasErrors()) {
+      if (this.getLastChallengeError()) {
+        return 'paused';
+      }
       if (sent || sentTo.length > 0) {
         return 'partial-sent';
       }
@@ -2000,6 +2005,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           'code',
           'number',
           'identifier',
+          'retryAfter',
+          'data',
           'reason'
         ) as Required<Error>;
       }
@@ -2008,6 +2015,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     errors = errors.concat(this.get('errors') || []);
 
     this.set({ errors });
+
+    if (
+      !this.doNotSave &&
+      errors.some(error => error.name === 'SendMessageChallengeError')
+    ) {
+      await window.Signal.challengeHandler.register(this);
+    }
 
     if (!skipSave && !this.doNotSave) {
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -2109,7 +2123,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return null;
     }
 
-    this.set({ errors: undefined });
+    const retryOptions = this.get('retryOptions');
+
+    this.set({ errors: undefined, retryOptions: undefined });
+
+    if (retryOptions) {
+      return this.sendUtilityMessageWithRetry(retryOptions);
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = this.getConversation()!;
@@ -2252,9 +2272,33 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       e.name === 'MessageError' ||
       e.name === 'OutgoingMessageError' ||
       e.name === 'SendMessageNetworkError' ||
+      e.name === 'SendMessageChallengeError' ||
       e.name === 'SignedPreKeyRotationError' ||
       e.name === 'OutgoingIdentityKeyError'
     );
+  }
+
+  public getLastChallengeError(): ShallowChallengeError | undefined {
+    const errors: ReadonlyArray<CustomError> | undefined = this.get('errors');
+    if (!errors) {
+      return undefined;
+    }
+
+    const challengeErrors = errors
+      .filter((error): error is ShallowChallengeError => {
+        return (
+          error.name === 'SendMessageChallengeError' &&
+          _.isNumber(error.retryAfter) &&
+          _.isObject(error.data)
+        );
+      })
+      .sort((a, b) => a.retryAfter - b.retryAfter);
+
+    return challengeErrors.pop();
+  }
+
+  public hasSuccessfulDelivery(): boolean {
+    return (this.get('sent_to') || []).length !== 0;
   }
 
   canDeleteForEveryone(): boolean {
@@ -2423,6 +2467,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         (e.name === 'MessageError' ||
           e.name === 'OutgoingMessageError' ||
           e.name === 'SendMessageNetworkError' ||
+          e.name === 'SendMessageChallengeError' ||
           e.name === 'SignedPreKeyRotationError' ||
           e.name === 'OutgoingIdentityKeyError')
     );
@@ -2564,6 +2609,59 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       });
   }
 
+  // Currently used only for messages that have to be retried when the server
+  // responds with 428 and we have to retry sending the message on challenge
+  // solution.
+  //
+  // Supported types of messages:
+  // * `session-reset` see `endSession` in `ts/models/conversations.ts`
+  async sendUtilityMessageWithRetry(options: RetryOptions): Promise<void> {
+    if (options.type === 'session-reset') {
+      const conv = this.getConversation();
+      if (!conv) {
+        throw new Error(
+          `Failed to find conversation for message: ${this.idForLogging()}`
+        );
+      }
+      if (!window.textsecure.messaging) {
+        throw new Error('Offline');
+      }
+
+      this.set({
+        retryOptions: options,
+      });
+
+      const sendOptions = await conv.getSendOptions();
+
+      // We don't have to check `sent_to` here, because:
+      //
+      // 1. This happens only in private conversations
+      // 2. Messages to different device ids for the same identifier are sent
+      //    in a single request to the server. So partial success is not
+      //    possible.
+      await this.send(
+        conv.wrapSend(
+          // TODO: DESKTOP-724
+          // resetSession returns `Array<void>` which is incompatible with the
+          // expected promise return values. `[]` is truthy and wrapSend assumes
+          // it's a valid callback result type
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          window.textsecure.messaging.resetSession(
+            options.uuid,
+            options.e164,
+            options.now,
+            sendOptions
+          )
+        )
+      );
+
+      return;
+    }
+
+    throw new Error(`Unsupported retriable type: ${options.type}`);
+  }
+
   async sendSyncMessageOnly(dataMessage: ArrayBuffer): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conv = this.getConversation()!;
@@ -2590,7 +2688,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       });
     } catch (result) {
       const errors = (result && result.errors) || [new Error('Unknown error')];
-      this.set({ errors });
+      this.saveErrors(errors);
     } finally {
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: window.Whisper.Message,
@@ -4095,6 +4193,33 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       reactionFromId,
     });
   }
+}
+
+export async function getMessageById(
+  messageId: string
+): Promise<MessageModel | undefined> {
+  let message = window.MessageController.getById(messageId);
+  if (message) {
+    return message;
+  }
+
+  try {
+    message = await window.Signal.Data.getMessageById(messageId, {
+      Message: window.Whisper.Message,
+    });
+  } catch (error) {
+    window.log.error(
+      `failed to load message with id ${messageId} ` +
+        `due to error ${error && error.stack}`
+    );
+  }
+
+  if (!message) {
+    return undefined;
+  }
+
+  message = window.MessageController.register(message.id, message);
+  return message;
 }
 
 window.Whisper.Message = MessageModel as typeof window.WhatIsThis;
