@@ -67,7 +67,10 @@ async function start(options = {}) {
 }
 
 async function stop() {
-  logger.info('attachment_downloads/stop: disabling');
+  // If `.start()` wasn't called - the `logger` is `undefined`
+  if (logger) {
+    logger.info('attachment_downloads/stop: disabling');
+  }
   enabled = false;
   if (timeout) {
     clearTimeout(timeout);
