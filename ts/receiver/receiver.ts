@@ -19,7 +19,7 @@ import {
   handleMessageEvent,
   isMessageDuplicate,
   MessageCreationData,
-  updateProfile,
+  updateProfileOneAtATime,
 } from './dataMessage';
 
 import { getEnvelopeId } from './common';
@@ -283,7 +283,7 @@ export async function handlePublicMessage(messageData: any) {
       source,
       ConversationTypeEnum.PRIVATE
     );
-    await updateProfile(conversation, profile, profileKey);
+    await updateProfileOneAtATime(conversation, profile, profileKey);
   }
 
   const isPublicVisibleMessage = group && group.id && !!group.id.match(openGroupPrefixRegex);

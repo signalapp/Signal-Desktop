@@ -16,8 +16,24 @@ import { MessageModelType } from '../models/messageType';
 import { getMessageBySender, getMessageBySenderAndServerId } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
+import { allowOnlyOneAtATime } from '../session/utils/Promise';
 
-export async function updateProfile(
+export async function updateProfileOneAtATime(
+  conversation: ConversationModel,
+  profile: SignalService.DataMessage.ILokiProfile,
+  profileKey: any
+) {
+  if (!conversation?.id) {
+    window.log.warn('Cannot update profile with empty convoid');
+    return;
+  }
+  const oneAtaTimeStr = `updateProfileOneAtATime:${conversation.id}`;
+  return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
+    return updateProfile(conversation, profile, profileKey);
+  });
+}
+
+async function updateProfile(
   conversation: ConversationModel,
   profile: SignalService.DataMessage.ILokiProfile,
   profileKey: any
@@ -285,7 +301,7 @@ export async function handleDataMessage(
 
   // Check if we need to update any profile names
   if (!isMe && senderConversation && message.profile) {
-    await updateProfile(senderConversation, message.profile, message.profileKey);
+    await updateProfileOneAtATime(senderConversation, message.profile, message.profileKey);
   }
   if (isMessageEmpty(message)) {
     window.log.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
