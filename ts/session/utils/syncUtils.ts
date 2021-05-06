@@ -195,7 +195,7 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
 
   const activeOpenGroups = [...openGroupsV1Ids, ...opengroupV2CompleteUrls];
 
-  console.warn('SyncConfiguration', activeOpenGroups);
+  // console.warn('SyncConfiguration', activeOpenGroups);
 
   return new ConfigurationMessage({
     identifier: uuid(),
