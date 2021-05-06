@@ -33,6 +33,7 @@ import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachm
 import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
+import { SwarmPolling } from '../../session/snode_api/swarmPolling';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -176,6 +177,11 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
   void triggerSyncIfIfNeeded();
 
   void loadDefaultRooms();
+
+  // TODO: Investigate the case where we reconnect
+  const ourKey = UserUtils.getOurPubKeyStrFromCache();
+  SwarmPolling.getInstance().addPubkey(ourKey);
+  SwarmPolling.getInstance().start();
 };
 
 /**

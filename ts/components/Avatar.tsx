@@ -44,14 +44,22 @@ const NoImage = (props: {
   name?: string;
   pubkey?: string;
   size: AvatarSize;
+  onAvatarClick?: () => void;
 }) => {
-  const { memberAvatars, size } = props;
+  const { name, memberAvatars, size, pubkey } = props;
   // if no image but we have conversations set for the group, renders group members avatars
   if (memberAvatars) {
-    return <ClosedGroupAvatar size={size} memberAvatars={memberAvatars} i18n={window.i18n} />;
+    return (
+      <ClosedGroupAvatar
+        size={size}
+        memberAvatars={memberAvatars}
+        i18n={window.i18n}
+        onAvatarClick={props.onAvatarClick}
+      />
+    );
   }
 
-  return <Identicon {...props} />;
+  return <Identicon size={size} name={name} pubkey={pubkey} />;
 };
 
 const AvatarImage = (props: {
@@ -87,11 +95,10 @@ export const Avatar = (props: Props) => {
     setImageBroken(true);
   };
 
-  const isClosedGroupAvatar = memberAvatars && memberAvatars.length;
+  const isClosedGroupAvatar = Boolean(memberAvatars?.length);
   const hasImage = (base64Data || urlToLoad) && !imageBroken && !isClosedGroupAvatar;
 
   const isClickable = !!props.onAvatarClick;
-
   return (
     <div
       className={classNames(

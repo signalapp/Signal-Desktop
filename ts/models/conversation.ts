@@ -52,7 +52,9 @@ export interface ConversationAttributes {
   profileName?: string;
   id: string;
   name?: string;
+  // members are all members for this group. zombies excluded
   members: Array<string>;
+  zombies: Array<string>; // only used for closed groups. Zombies are users which left but not yet removed by the admin
   left: boolean;
   expireTimer: number;
   mentionedUs: boolean;
@@ -90,6 +92,7 @@ export interface ConversationAttributesOptionals {
   id: string;
   name?: string;
   members?: Array<string>;
+  zombies?: Array<string>;
   left?: boolean;
   expireTimer?: number;
   mentionedUs?: boolean;
@@ -130,6 +133,7 @@ export const fillConvoAttributesWithDefaults = (
 ): ConversationAttributes => {
   return _.defaults(optAttributes, {
     members: [],
+    zombies: [],
     left: false,
     unreadCount: 0,
     lastMessageStatus: null,

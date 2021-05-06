@@ -27,6 +27,7 @@ import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { openGroupV2CompleteURLRegex } from '../../opengroup/utils/OpenGroupUtils';
 import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
+import autoBind from 'auto-bind';
 
 export interface Props {
   searchTerm: string;
@@ -61,7 +62,6 @@ interface State {
 }
 
 export class LeftPaneMessageSection extends React.Component<Props, State> {
-  private readonly updateSearchBound: (searchedString: string) => void;
   private readonly debouncedSearch: (searchTerm: string) => void;
 
   public constructor(props: Props) {
@@ -73,19 +73,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       valuePasted: '',
     };
 
-    this.updateSearchBound = this.updateSearch.bind(this);
-
-    this.handleOnPaste = this.handleOnPaste.bind(this);
-    this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
-    this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
-
-    this.handleNewSessionButtonClick = this.handleNewSessionButtonClick.bind(this);
-    this.handleJoinChannelButtonClick = this.handleJoinChannelButtonClick.bind(this);
-    this.onCreateClosedGroup = this.onCreateClosedGroup.bind(this);
-
-    this.renderClosableOverlay = this.renderClosableOverlay.bind(this);
+    autoBind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
-    this.closeOverlay = this.closeOverlay.bind(this);
   }
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element => {
@@ -187,7 +176,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       <div className="module-conversations-list-content">
         <SessionSearchInput
           searchString={this.props.searchTerm}
-          onChange={this.updateSearchBound}
+          onChange={this.updateSearch}
           placeholder={window.i18n('searchFor...')}
           theme={this.props.theme}
         />
@@ -254,7 +243,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         }}
         onButtonClick={this.handleJoinChannelButtonClick}
         searchTerm={searchTerm}
-        updateSearch={this.updateSearchBound}
+        updateSearch={this.updateSearch}
         showSpinner={loading}
         theme={this.props.theme}
       />
@@ -272,7 +261,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           this.onCreateClosedGroup(groupName, groupMembers)
         }
         searchTerm={searchTerm}
-        updateSearch={this.updateSearchBound}
+        updateSearch={this.updateSearch}
         showSpinner={loading}
         theme={this.props.theme}
       />
@@ -288,7 +277,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         onButtonClick={this.handleMessageButtonClick}
         searchTerm={searchTerm}
         searchResults={searchResults}
-        updateSearch={this.updateSearchBound}
+        updateSearch={this.updateSearch}
         theme={this.props.theme}
       />
     );
@@ -365,6 +354,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         ConversationTypeEnum.PRIVATE
       );
       openConversationExternal(pubkey);
+      this.handleToggleOverlay(undefined);
     } else {
       ToastUtils.pushToastError('invalidPubKey', error);
     }

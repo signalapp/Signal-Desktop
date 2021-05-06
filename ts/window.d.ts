@@ -4,7 +4,6 @@ import { SignalInterface } from '../../js/modules/signal';
 import { Libloki } from '../libloki';
 import { LokiPublicChatFactoryInterface } from '../js/modules/loki_public_chat_api';
 import { LokiAppDotNetServerInterface } from '../js/modules/loki_app_dot_net_api';
-import { SwarmPolling } from './session/snode_api/swarmPolling';
 
 import { LibTextsecure } from '../libtextsecure';
 import { ConfirmationDialogParams } from '../background';
@@ -83,7 +82,6 @@ declare global {
     versionInfo: any;
     getStoragePubKey: (key: string) => string;
     getConversations: () => ConversationCollection;
-    SwarmPolling: SwarmPolling;
     SnodePool: {
       getSnodesFor: (string) => any;
     };

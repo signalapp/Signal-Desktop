@@ -410,14 +410,6 @@ window.DataMessageReceiver = require('./ts/receiver/dataMessage');
 window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
-if (process.env.USE_STUBBED_NETWORK) {
-  const { SwarmPollingStub } = require('./ts/session/snode_api/swarmPollingStub');
-  window.SwarmPolling = new SwarmPollingStub();
-} else {
-  const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
-  window.SwarmPolling = new SwarmPolling();
-}
-
 // eslint-disable-next-line no-extend-native,func-names
 Promise.prototype.ignore = function() {
   // eslint-disable-next-line more/no-then

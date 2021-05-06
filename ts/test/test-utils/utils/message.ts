@@ -81,6 +81,7 @@ export class MockConversation {
       lastJoinedTimestamp: Date.now(),
       lastMessageStatus: null,
       lastMessage: null,
+      zombies: [],
     };
   }
 

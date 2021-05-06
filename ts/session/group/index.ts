@@ -22,22 +22,27 @@ import { ConversationModel, ConversationTypeEnum } from '../../models/conversati
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
 import { MessageController } from '../messages';
-import { distributingClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
+import {
+  distributingClosedGroupEncryptionKeyPairs,
+  markGroupAsLeftOrKicked,
+} from '../../receiver/closedGroups';
 import { getMessageQueue } from '..';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
 import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairRequestMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
+import { SwarmPolling } from '../snode_api/swarmPolling';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { updateOpenGroupV1 } from '../../opengroup/opengroupV1/OpenGroup';
 import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
 
-export interface GroupInfo {
+export type GroupInfo = {
   id: string;
   name: string;
-  members: Array<string>; // Primary keys
-  active?: boolean;
+  members: Array<string>;
+  zombies?: Array<string>;
+  activeAt?: number;
   expireTimer?: number | null;
   avatar?: any;
   color?: any; // what is this???
@@ -45,7 +50,7 @@ export interface GroupInfo {
   admins?: Array<string>;
   secretKey?: Uint8Array;
   weWereJustAdded?: boolean;
-}
+};
 
 interface UpdatableGroupState {
   name: string;
@@ -76,8 +81,6 @@ export async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
   return new Uint8Array(fromHex(secretKey));
 }
 
-// tslint:disable: max-func-body-length
-// tslint:disable: cyclomatic-complexity
 export async function initiateGroupUpdate(
   groupId: string,
   groupName: string,
@@ -103,14 +106,17 @@ export async function initiateGroupUpdate(
   if (!isMediumGroup) {
     throw new Error('Legacy group are not supported anymore.');
   }
+  const oldZombies = convo.get('zombies');
 
   // do not give an admins field here. We don't want to be able to update admins and
   // updateOrCreateClosedGroup() will update them if given the choice.
-  const groupDetails = {
+  const groupDetails: GroupInfo = {
     id: groupId,
     name: groupName,
     members,
-    active: true,
+    // remove from the zombies list the zombies not which are not in the group anymore
+    zombies: convo.get('zombies').filter(z => members.includes(z)),
+    activeAt: Date.now(),
     expireTimer: convo.get('expireTimer'),
     avatar,
   };
@@ -146,8 +152,9 @@ export async function initiateGroupUpdate(
     const dbMessageLeaving = await addUpdateMessage(convo, leavingOnlyDiff, 'outgoing', Date.now());
     MessageController.getInstance().register(dbMessageLeaving.id, dbMessageLeaving);
     const stillMembers = members;
-    await sendRemovedMembers(convo, diff.leavingMembers, dbMessageLeaving.id, stillMembers);
+    await sendRemovedMembers(convo, diff.leavingMembers, stillMembers, dbMessageLeaving.id);
   }
+  await convo.commit();
 }
 
 export async function addUpdateMessage(
@@ -196,7 +203,7 @@ export async function addUpdateMessage(
   return message;
 }
 
-export function buildGroupDiff(convo: ConversationModel, update: UpdatableGroupState): GroupDiff {
+function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff {
   const groupDiff: GroupDiff = {};
 
   if (convo.get('name') !== update.name) {
@@ -204,13 +211,17 @@ export function buildGroupDiff(convo: ConversationModel, update: UpdatableGroupS
   }
 
   const oldMembers = convo.get('members');
+  const oldZombies = convo.get('zombies');
+  const oldMembersWithZombies = _.uniq(oldMembers.concat(oldZombies));
 
-  const addedMembers = _.difference(update.members, oldMembers);
+  const newMembersWithZombiesLeft = _.uniq(update.members.concat(update.zombies || []));
+
+  const addedMembers = _.difference(newMembersWithZombiesLeft, oldMembersWithZombies);
   if (addedMembers.length > 0) {
     groupDiff.joiningMembers = addedMembers;
   }
   // Check if anyone got kicked:
-  const removedMembers = _.difference(oldMembers, update.members);
+  const removedMembers = _.difference(oldMembersWithZombies, newMembersWithZombiesLeft);
   if (removedMembers.length > 0) {
     groupDiff.leavingMembers = removedMembers;
   }
@@ -234,19 +245,18 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     is_medium_group: true,
   };
 
-  if (details.active) {
-    const activeAt = conversation.get('active_at');
+  if (details.activeAt) {
+    updates.active_at = details.activeAt;
+    updates.timestamp = updates.active_at;
 
-    // The idea is to make any new group show up in the left pane. If
-    //   activeAt is null, then this group has been purposefully hidden.
-    if (activeAt !== null) {
-      updates.active_at = activeAt || Date.now();
-      updates.timestamp = updates.active_at;
-    }
     updates.left = false;
     updates.lastJoinedTimestamp = weWereJustAdded ? Date.now() : updates.active_at;
   } else {
     updates.left = true;
+  }
+
+  if (details.zombies) {
+    updates.zombies = details.zombies;
   }
 
   conversation.set(updates);
@@ -281,10 +291,14 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
-  const source = UserUtils.getOurPubKeyStrFromCache();
-  await conversation.updateExpirationTimer(expireTimer, source, Date.now(), {
-    fromSync: true,
-  });
+  await conversation.updateExpirationTimer(
+    expireTimer,
+    UserUtils.getOurPubKeyStrFromCache(),
+    Date.now(),
+    {
+      fromSync: true,
+    }
+  );
 }
 
 export async function leaveClosedGroup(groupId: string) {
@@ -337,10 +351,10 @@ export async function leaveClosedGroup(groupId: string) {
 
   window.log.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
   // sent the message to the group and once done, remove everything related to this group
-  window.SwarmPolling.removePubkey(groupId);
+  SwarmPolling.getInstance().removePubkey(groupId);
   await getMessageQueue().sendToGroup(ourLeavingMessage, async () => {
     window.log.info(`Leaving message sent ${groupId}. Removing everything related to this group.`);
-    await removeAllClosedGroupEncryptionKeyPairs(groupId);
+    await markGroupAsLeftOrKicked(groupId, convo, false);
   });
 }
 
@@ -416,11 +430,11 @@ async function sendAddedMembers(
   await Promise.all(promises);
 }
 
-async function sendRemovedMembers(
+export async function sendRemovedMembers(
   convo: ConversationModel,
   removedMembers: Array<string>,
-  messageId: string,
-  stillMembers: Array<string>
+  stillMembers: Array<string>,
+  messageId?: string
 ) {
   if (!removedMembers?.length) {
     window.log.warn('No removedMembers given for group update. Skipping');
@@ -461,7 +475,7 @@ async function sendRemovedMembers(
   });
 }
 
-export async function generateAndSendNewEncryptionKeyPair(
+async function generateAndSendNewEncryptionKeyPair(
   groupPublicKey: string,
   targetMembers: Array<string>
 ) {
