@@ -7,10 +7,6 @@ on:
       - master
       - clearnet
 
-  pull_request:
-    branches:
-      - clearnet
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}

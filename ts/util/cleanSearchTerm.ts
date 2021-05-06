@@ -1,9 +1,6 @@
 export function cleanSearchTerm(searchTerm: string) {
   const lowercase = searchTerm.toLowerCase();
-  const withoutSpecialCharacters = lowercase.replace(
-    /([!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])/g,
-    ' '
-  );
+  const withoutSpecialCharacters = lowercase.replace(/([!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])/g, ' ');
   const whiteSpaceNormalized = withoutSpecialCharacters.replace(/\s+/g, ' ');
   const byToken = whiteSpaceNormalized.split(' ');
   const withoutSpecialTokens = byToken.filter(

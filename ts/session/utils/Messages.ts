@@ -1,18 +1,14 @@
 import { RawMessage } from '../types/RawMessage';
-import {
-  ContentMessage,
-  ExpirationTimerUpdateMessage,
-} from '../messages/outgoing';
-import { EncryptionType, PubKey } from '../types';
-import { ClosedGroupMessage } from '../messages/outgoing/content/data/group/ClosedGroupMessage';
-import { ClosedGroupNewMessage } from '../messages/outgoing/content/data/group/ClosedGroupNewMessage';
-import _ from 'lodash';
-import { ConversationModel } from '../../models/conversation';
-import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/content/data/group/ClosedGroupEncryptionPairReplyMessage';
 
-function getEncryptionTypeFromMessageType(
-  message: ContentMessage
-): EncryptionType {
+import { EncryptionType, PubKey } from '../types';
+import { ClosedGroupMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMessage';
+import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
+import _ from 'lodash';
+import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
+import { ContentMessage } from '../messages/outgoing';
+import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+
+function getEncryptionTypeFromMessageType(message: ContentMessage): EncryptionType {
   // ClosedGroupNewMessage is sent using established channels, so using fallback
   if (
     message instanceof ClosedGroupNewMessage ||
@@ -33,13 +29,9 @@ function getEncryptionTypeFromMessageType(
   }
 }
 
-export async function toRawMessage(
-  device: PubKey,
-  message: ContentMessage
-): Promise<RawMessage> {
+export async function toRawMessage(device: PubKey, message: ContentMessage): Promise<RawMessage> {
   const timestamp = message.timestamp;
   const ttl = message.ttl();
-  // window?.log?.debug('toRawMessage proto:', message.contentProto());
   const plainTextBuffer = message.plainTextBuffer();
 
   const encryption = getEncryptionTypeFromMessageType(message);

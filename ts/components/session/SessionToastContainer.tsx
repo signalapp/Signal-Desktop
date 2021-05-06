@@ -6,8 +6,8 @@ const SessionToastContainerPrivate = () => {
   return (
     <WrappedToastContainer
       position="bottom-right"
-      autoClose={5000}
-      hideProgressBar={false}
+      autoClose={3000}
+      hideProgressBar={true}
       newestOnTop={true}
       closeOnClick={true}
       rtl={false}
@@ -30,11 +30,9 @@ const WrappedToastContainer = ({
 );
 
 // tslint:disable-next-line: no-default-export
-export const SessionToastContainer = styled(SessionToastContainerPrivate).attrs(
-  {
-    // custom props
-  }
-)`
+export const SessionToastContainer = styled(SessionToastContainerPrivate).attrs({
+  // custom props
+})`
   .Toastify__toast-container {
   }
   .Toastify__toast {

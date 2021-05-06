@@ -30,11 +30,7 @@ export class GroupInvitation extends React.Component<Props> {
               <span className="group-name">{this.props.serverName}</span>
               <span className="group-address">{this.props.serverAddress}</span>
             </span>
-            <span
-              role="button"
-              className="join-btn"
-              onClick={this.props.onClick}
-            >
+            <span role="button" className="join-btn" onClick={this.props.onClick}>
               Join
             </span>
           </div>

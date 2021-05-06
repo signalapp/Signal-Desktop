@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { ECKeyPair } from '../../../../receiver/keypairs';
+import { TTL_DEFAULT } from '../../../../session/constants';
 
 import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
   ConfigurationMessageContact,
-} from '../../../../session/messages/outgoing/content/ConfigurationMessage';
+} from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 import { TestUtils } from '../../../test-utils';
 
 // tslint:disable-next-line: max-func-body-length
@@ -19,9 +20,7 @@ describe('ConfigurationMessage', () => {
       displayName: 'displayName',
       contacts: [],
     };
-    expect(() => new ConfigurationMessage(params)).to.throw(
-      'closed group must be set'
-    );
+    expect(() => new ConfigurationMessage(params)).to.throw('closed group must be set');
   });
 
   it('throw if open group is not set', () => {
@@ -33,9 +32,7 @@ describe('ConfigurationMessage', () => {
       displayName: 'displayName',
       contacts: [],
     };
-    expect(() => new ConfigurationMessage(params)).to.throw(
-      'open group must be set'
-    );
+    expect(() => new ConfigurationMessage(params)).to.throw('open group must be set');
   });
 
   it('throw if display name is not set', () => {
@@ -46,9 +43,7 @@ describe('ConfigurationMessage', () => {
       displayName: undefined as any,
       contacts: [],
     };
-    expect(() => new ConfigurationMessage(params)).to.throw(
-      'displayName must be set'
-    );
+    expect(() => new ConfigurationMessage(params)).to.throw('displayName must be set');
   });
 
   it('throw if display name is set but empty', () => {
@@ -59,9 +54,7 @@ describe('ConfigurationMessage', () => {
       displayName: undefined as any,
       contacts: [],
     };
-    expect(() => new ConfigurationMessage(params)).to.throw(
-      'displayName must be set'
-    );
+    expect(() => new ConfigurationMessage(params)).to.throw('displayName must be set');
   });
 
   it('ttl is 4 days', () => {
@@ -73,7 +66,7 @@ describe('ConfigurationMessage', () => {
       contacts: [],
     };
     const configMessage = new ConfigurationMessage(params);
-    expect(configMessage.ttl()).to.be.equal(4 * 24 * 60 * 60 * 1000);
+    expect(configMessage.ttl()).to.be.equal(TTL_DEFAULT.TTL_MAX);
   });
 
   describe('ConfigurationMessageClosedGroup', () => {
@@ -130,9 +123,7 @@ describe('ConfigurationMessage', () => {
         encryptionKeyPair: TestUtils.generateFakeECKeyPair(),
       };
 
-      expect(() => new ConfigurationMessageClosedGroup(params)).to.throw(
-        'name must be set'
-      );
+      expect(() => new ConfigurationMessageClosedGroup(params)).to.throw('name must be set');
     });
 
     it('throw if members is empty', () => {
@@ -145,9 +136,7 @@ describe('ConfigurationMessage', () => {
         encryptionKeyPair: TestUtils.generateFakeECKeyPair(),
       };
 
-      expect(() => new ConfigurationMessageClosedGroup(params)).to.throw(
-        'members must be set'
-      );
+      expect(() => new ConfigurationMessageClosedGroup(params)).to.throw('members must be set');
     });
 
     it('throw if admins is empty', () => {
@@ -160,9 +149,7 @@ describe('ConfigurationMessage', () => {
         encryptionKeyPair: TestUtils.generateFakeECKeyPair(),
       };
 
-      expect(() => new ConfigurationMessageClosedGroup(params)).to.throw(
-        'admins must be set'
-      );
+      expect(() => new ConfigurationMessageClosedGroup(params)).to.throw('admins must be set');
     });
 
     it('throw if some admins are not members', () => {
@@ -191,9 +178,7 @@ describe('ConfigurationMessage', () => {
         displayName: 'displayName',
         contacts: undefined as any,
       };
-      expect(() => new ConfigurationMessage(params)).to.throw(
-        'contacts must be set'
-      );
+      expect(() => new ConfigurationMessage(params)).to.throw('contacts must be set');
     });
     it('throw if some admins are not members', () => {
       const member = TestUtils.generateFakePubKey().key;

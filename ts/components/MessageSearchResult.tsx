@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
@@ -49,17 +49,11 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
 
     if (from.isMe && to.isMe) {
       return (
-        <span className="module-message-search-result__header__name">
-          {i18n('noteToSelf')}
-        </span>
+        <span className="module-message-search-result__header__name">{i18n('noteToSelf')}</span>
       );
     }
     if (from.isMe) {
-      return (
-        <span className="module-message-search-result__header__name">
-          {i18n('you')}
-        </span>
-      );
+      return <span className="module-message-search-result__header__name">{i18n('you')}</span>;
     }
 
     return (
@@ -95,11 +89,7 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
       );
     }
 
-    return (
-      <div className="module-message-search-result__header__from">
-        {fromName}
-      </div>
-    );
+    return <div className="module-message-search-result__header__from">{fromName}</div>;
   }
 
   public renderAvatar() {
@@ -110,7 +100,7 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
       <Avatar
         avatarPath={from.avatarPath}
         name={userName}
-        size={36}
+        size={AvatarSize.S}
         pubkey={from.phoneNumber}
       />
     );

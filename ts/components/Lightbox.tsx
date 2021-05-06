@@ -1,19 +1,19 @@
 // tslint:disable:react-a11y-anchors
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
-import classNames from 'classnames';
 import is from '@sindresorhus/is';
 
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
-import {
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from './session/icon';
-import { Flex } from './session/Flex';
+import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
+import { Flex } from './basic/Flex';
 import { DefaultTheme } from 'styled-components';
+// useCss has some issues on our setup. so import it directly
+// tslint:disable-next-line: no-submodule-imports
+import useUnmount from 'react-use/lib/useUnmount';
+import { useEncryptedFileFetch } from '../hooks/useEncryptedFileFetch';
+import { darkTheme } from '../state/ducks/SessionTheme';
 
 const Colors = {
   TEXT_SECONDARY: '#bbb',
@@ -28,7 +28,7 @@ const colorSVG = (url: string, color: string) => {
   };
 };
 
-interface Props {
+type Props = {
   close: () => void;
   contentType: MIME.MIMEType | undefined;
   objectURL: string;
@@ -36,8 +36,7 @@ interface Props {
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
-  theme: DefaultTheme;
-}
+};
 
 const CONTROLS_WIDTH = 50;
 const CONTROLS_SPACING = 10;
@@ -135,7 +134,7 @@ interface IconButtonProps {
   theme: DefaultTheme;
 }
 
-const IconButton = ({ onClick, style, type, theme }: IconButtonProps) => {
+const IconButton = ({ onClick, type, theme }: IconButtonProps) => {
   const clickHandler = (event: React.MouseEvent<HTMLAnchorElement>): void => {
     if (!onClick) {
       return;
@@ -176,17 +175,13 @@ const IconButton = ({ onClick, style, type, theme }: IconButtonProps) => {
   );
 };
 
-const IconButtonPlaceholder = () => (
-  <div style={styles.iconButtonPlaceholder} />
-);
+const IconButtonPlaceholder = () => <div style={styles.iconButtonPlaceholder} />;
 
 const Icon = ({
   onClick,
   url,
 }: {
-  onClick?: (
-    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
-  ) => void;
+  onClick?: (event: React.MouseEvent<HTMLImageElement | HTMLDivElement>) => void;
   url: string;
 }) => (
   <div
@@ -200,38 +195,27 @@ const Icon = ({
   />
 );
 
-export class Lightbox extends React.Component<Props> {
-  private readonly containerRef: React.RefObject<HTMLDivElement>;
-  private readonly videoRef: React.RefObject<HTMLVideoElement>;
-  private readonly playVideoBound: () => void;
+export const LightboxObject = ({
+  objectURL,
+  contentType,
+  videoRef,
+  onObjectClick,
+}: {
+  objectURL: string;
+  contentType: MIME.MIMEType;
+  videoRef: React.MutableRefObject<any>;
+  onObjectClick: (event: any) => any;
+}) => {
+  const { urlToLoad } = useEncryptedFileFetch(objectURL, contentType);
 
-  constructor(props: Props) {
-    super(props);
+  const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
 
-    this.playVideoBound = this.playVideo.bind(this);
-
-    this.videoRef = React.createRef();
-    this.containerRef = React.createRef();
-  }
-
-  public componentDidMount() {
-    const useCapture = true;
-    document.addEventListener('keyup', this.onKeyUp, useCapture);
-
-    this.playVideo();
-  }
-
-  public componentWillUnmount() {
-    const useCapture = true;
-    document.removeEventListener('keyup', this.onKeyUp, useCapture);
-  }
-
-  public playVideo() {
-    if (!this.videoRef) {
+  const playVideo = () => {
+    if (!videoRef) {
       return;
     }
 
-    const { current } = this.videoRef;
+    const { current } = videoRef;
     if (!current) {
       return;
     }
@@ -241,170 +225,130 @@ export class Lightbox extends React.Component<Props> {
     } else {
       current.pause();
     }
+  };
+
+  const pauseVideo = () => {
+    if (!videoRef) {
+      return;
+    }
+
+    const { current } = videoRef;
+    if (current) {
+      current.pause();
+    }
+  };
+
+  // auto play video on showing a video attachment
+  useUnmount(() => {
+    pauseVideo();
+  });
+
+  if (isImageTypeSupported) {
+    return <img style={styles.object} alt={window.i18n('lightboxImageAlt')} src={urlToLoad} />;
   }
 
-  public render() {
-    const {
-      caption,
-      contentType,
-      objectURL,
-      onNext,
-      onPrevious,
-      onSave,
-    } = this.props;
-
+  const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
+  if (isVideoTypeSupported) {
+    if (urlToLoad) {
+      playVideo();
+    }
     return (
-      <div
-        style={styles.container}
-        onClick={this.onContainerClick}
-        ref={this.containerRef}
-        role="dialog"
+      <video
+        role="button"
+        ref={videoRef}
+        onClick={playVideo}
+        controls={true}
+        style={styles.object}
+        key={urlToLoad}
       >
-        <div style={styles.mainContainer}>
-          <div style={styles.controlsOffsetPlaceholder} />
-          <div style={styles.objectParentContainer}>
-            <div style={styles.objectContainer}>
-              {!is.undefined(contentType)
-                ? this.renderObject({ objectURL, contentType })
-                : null}
-              {caption ? <div style={styles.caption}>{caption}</div> : null}
-            </div>
-          </div>
-          <div style={styles.controls}>
-            <Flex flex="1 1 auto">
-              <IconButton
-                type="close"
-                onClick={this.onClose}
-                theme={this.props.theme}
-              />
-            </Flex>
-
-            {onSave ? (
-              <IconButton
-                type="save"
-                onClick={onSave}
-                style={styles.saveButton}
-                theme={this.props.theme}
-              />
-            ) : null}
-          </div>
-        </div>
-        <div style={styles.navigationContainer}>
-          {onPrevious ? (
-            <IconButton
-              type="previous"
-              onClick={onPrevious}
-              theme={this.props.theme}
-            />
-          ) : (
-            <IconButtonPlaceholder />
-          )}
-          {onNext ? (
-            <IconButton type="next" onClick={onNext} theme={this.props.theme} />
-          ) : (
-            <IconButtonPlaceholder />
-          )}
-        </div>
-      </div>
+        <source src={urlToLoad} />
+      </video>
     );
   }
 
-  private readonly renderObject = ({
-    objectURL,
-    contentType,
-  }: {
-    objectURL: string;
-    contentType: MIME.MIMEType;
-  }) => {
-    const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
-    if (isImageTypeSupported) {
-      return (
-        <img
-          alt={window.i18n('lightboxImageAlt')}
-          style={styles.object}
-          src={objectURL}
-          onClick={this.onObjectClick}
-        />
-      );
-    }
+  const isUnsupportedImageType = !isImageTypeSupported && MIME.isImage(contentType);
+  const isUnsupportedVideoType = !isVideoTypeSupported && MIME.isVideo(contentType);
+  if (isUnsupportedImageType || isUnsupportedVideoType) {
+    const iconUrl = isUnsupportedVideoType ? 'images/video.svg' : 'images/image.svg';
 
-    const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
-    if (isVideoTypeSupported) {
-      return (
-        <video
-          role="button"
-          ref={this.videoRef}
-          onClick={this.playVideoBound}
-          controls={true}
-          style={styles.object}
-          key={objectURL}
-        >
-          <source src={objectURL} />
-        </video>
-      );
-    }
+    return <Icon url={iconUrl} onClick={onObjectClick} />;
+  }
 
-    const isUnsupportedImageType =
-      !isImageTypeSupported && MIME.isImage(contentType);
-    const isUnsupportedVideoType =
-      !isVideoTypeSupported && MIME.isVideo(contentType);
-    if (isUnsupportedImageType || isUnsupportedVideoType) {
-      const iconUrl = isUnsupportedVideoType
-        ? 'images/video.svg'
-        : 'images/image.svg';
+  // tslint:disable-next-line no-console
+  console.log('Lightbox: Unexpected content type', { contentType });
 
-      return <Icon url={iconUrl} onClick={this.onObjectClick} />;
-    }
+  return <Icon onClick={onObjectClick} url="images/file.svg" />;
+};
 
-    // tslint:disable-next-line no-console
-    console.log('Lightbox: Unexpected content type', { contentType });
+export const Lightbox = (props: Props) => {
+  const videoRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  // there is no theme in use on the lightbox
+  const theme = darkTheme;
+  const { caption, contentType, objectURL, onNext, onPrevious, onSave } = props;
 
-    return <Icon onClick={this.onObjectClick} url="images/file.svg" />;
-  };
-
-  private readonly onClose = () => {
-    const { close } = this.props;
-    if (!close) {
-      return;
-    }
-
-    close();
-  };
-
-  private readonly onKeyUp = (event: KeyboardEvent) => {
-    const { onNext, onPrevious } = this.props;
-    switch (event.key) {
-      case 'Escape':
-        this.onClose();
-        break;
-
-      case 'ArrowLeft':
-        if (onPrevious) {
-          onPrevious();
-        }
-        break;
-
-      case 'ArrowRight':
-        if (onNext) {
-          onNext();
-        }
-        break;
-
-      default:
-    }
-  };
-
-  private readonly onContainerClick = (
-    event: React.MouseEvent<HTMLDivElement>
-  ) => {
-    if (this.containerRef && event.target !== this.containerRef.current) {
-      return;
-    }
-    this.onClose();
-  };
-
-  private readonly onObjectClick = (event: any) => {
+  const onObjectClick = (event: any) => {
     event.stopPropagation();
-    this.onClose();
+    props.close?.();
   };
-}
+
+  const onContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (containerRef && event.target !== containerRef.current) {
+      return;
+    }
+    props.close?.();
+  };
+
+  return (
+    <div style={styles.container} role="dialog">
+      <div style={styles.mainContainer}>
+        <div style={styles.controlsOffsetPlaceholder} />
+        <div
+          style={styles.objectParentContainer}
+          onClick={onContainerClick}
+          ref={containerRef}
+          role="button"
+        >
+          <div style={styles.objectContainer}>
+            {!is.undefined(contentType) ? (
+              <LightboxObject
+                objectURL={objectURL}
+                contentType={contentType}
+                videoRef={videoRef}
+                onObjectClick={onObjectClick}
+              />
+            ) : null}
+            {caption ? <div style={styles.caption}>{caption}</div> : null}
+          </div>
+        </div>
+        <div style={styles.controls}>
+          <Flex flex="1 1 auto">
+            <IconButton
+              type="close"
+              onClick={() => {
+                props.close?.();
+              }}
+              theme={theme}
+            />
+          </Flex>
+
+          {onSave ? (
+            <IconButton type="save" onClick={onSave} style={styles.saveButton} theme={theme} />
+          ) : null}
+        </div>
+      </div>
+      <div style={styles.navigationContainer}>
+        {onPrevious ? (
+          <IconButton type="previous" onClick={onPrevious} theme={theme} />
+        ) : (
+          <IconButtonPlaceholder />
+        )}
+        {onNext ? (
+          <IconButton type="next" onClick={onNext} theme={theme} />
+        ) : (
+          <IconButtonPlaceholder />
+        )}
+      </div>
+    </div>
+  );
+};

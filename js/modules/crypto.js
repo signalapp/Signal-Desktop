@@ -129,11 +129,7 @@ async function encryptSymmetric(key, plaintext) {
   const cipherKey = await hmacSha256(key, nonce);
   const macKey = await hmacSha256(key, cipherKey);
 
-  const cipherText = await _encrypt_aes256_CBC_PKCSPadding(
-    cipherKey,
-    iv,
-    plaintext
-  );
+  const cipherText = await _encrypt_aes256_CBC_PKCSPadding(cipherKey, iv, plaintext);
   const mac = _getFirstBytes(await hmacSha256(macKey, cipherText), MAC_LENGTH);
 
   return concatenateBytes(nonce, cipherText, mac);
@@ -143,24 +139,15 @@ async function decryptSymmetric(key, data) {
   const iv = getZeroes(IV_LENGTH);
 
   const nonce = _getFirstBytes(data, NONCE_LENGTH);
-  const cipherText = _getBytes(
-    data,
-    NONCE_LENGTH,
-    data.byteLength - NONCE_LENGTH - MAC_LENGTH
-  );
+  const cipherText = _getBytes(data, NONCE_LENGTH, data.byteLength - NONCE_LENGTH - MAC_LENGTH);
   const theirMac = _getBytes(data, data.byteLength - MAC_LENGTH, MAC_LENGTH);
 
   const cipherKey = await hmacSha256(key, nonce);
   const macKey = await hmacSha256(key, cipherKey);
 
-  const ourMac = _getFirstBytes(
-    await hmacSha256(macKey, cipherText),
-    MAC_LENGTH
-  );
+  const ourMac = _getFirstBytes(await hmacSha256(macKey, cipherText), MAC_LENGTH);
   if (!constantTimeEqual(theirMac, ourMac)) {
-    throw new Error(
-      'decryptSymmetric: Failed to decrypt; MAC verification failed'
-    );
+    throw new Error('decryptSymmetric: Failed to decrypt; MAC verification failed');
   }
 
   return _decrypt_aes256_CBC_PKCSPadding(cipherKey, iv, cipherText);
@@ -189,13 +176,9 @@ async function hmacSha256(key, plaintext) {
   };
   const extractable = false;
 
-  const cryptoKey = await window.crypto.subtle.importKey(
-    'raw',
-    key,
-    algorithm,
-    extractable,
-    ['sign']
-  );
+  const cryptoKey = await window.crypto.subtle.importKey('raw', key, algorithm, extractable, [
+    'sign',
+  ]);
 
   return window.crypto.subtle.sign(algorithm, cryptoKey, plaintext);
 }
@@ -207,13 +190,9 @@ async function _encrypt_aes256_CBC_PKCSPadding(key, iv, plaintext) {
   };
   const extractable = false;
 
-  const cryptoKey = await window.crypto.subtle.importKey(
-    'raw',
-    key,
-    algorithm,
-    extractable,
-    ['encrypt']
-  );
+  const cryptoKey = await window.crypto.subtle.importKey('raw', key, algorithm, extractable, [
+    'encrypt',
+  ]);
 
   return window.crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
 }
@@ -225,13 +204,9 @@ async function _decrypt_aes256_CBC_PKCSPadding(key, iv, plaintext) {
   };
   const extractable = false;
 
-  const cryptoKey = await window.crypto.subtle.importKey(
-    'raw',
-    key,
-    algorithm,
-    extractable,
-    ['decrypt']
-  );
+  const cryptoKey = await window.crypto.subtle.importKey('raw', key, algorithm, extractable, [
+    'decrypt',
+  ]);
   return window.crypto.subtle.decrypt(algorithm, cryptoKey, plaintext);
 }
 
@@ -243,19 +218,9 @@ async function encryptAesCtr(key, plaintext, counter) {
     length: 128,
   };
 
-  const cryptoKey = await crypto.subtle.importKey(
-    'raw',
-    key,
-    algorithm,
-    extractable,
-    ['encrypt']
-  );
+  const cryptoKey = await crypto.subtle.importKey('raw', key, algorithm, extractable, ['encrypt']);
 
-  const ciphertext = await crypto.subtle.encrypt(
-    algorithm,
-    cryptoKey,
-    plaintext
-  );
+  const ciphertext = await crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
 
   return ciphertext;
 }
@@ -268,18 +233,8 @@ async function decryptAesCtr(key, ciphertext, counter) {
     length: 128,
   };
 
-  const cryptoKey = await crypto.subtle.importKey(
-    'raw',
-    key,
-    algorithm,
-    extractable,
-    ['decrypt']
-  );
-  const plaintext = await crypto.subtle.decrypt(
-    algorithm,
-    cryptoKey,
-    ciphertext
-  );
+  const cryptoKey = await crypto.subtle.importKey('raw', key, algorithm, extractable, ['decrypt']);
+  const plaintext = await crypto.subtle.decrypt(algorithm, cryptoKey, ciphertext);
   return plaintext;
 }
 
@@ -290,13 +245,7 @@ async function _encrypt_aes_gcm(key, iv, plaintext) {
   };
   const extractable = false;
 
-  const cryptoKey = await crypto.subtle.importKey(
-    'raw',
-    key,
-    algorithm,
-    extractable,
-    ['encrypt']
-  );
+  const cryptoKey = await crypto.subtle.importKey('raw', key, algorithm, extractable, ['encrypt']);
   return crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
 }
 
@@ -338,10 +287,7 @@ function getViewOfArrayBuffer(buffer, start, finish) {
 }
 
 function concatenateBytes(...elements) {
-  const length = elements.reduce(
-    (total, element) => total + element.byteLength,
-    0
-  );
+  const length = elements.reduce((total, element) => total + element.byteLength, 0);
 
   const result = new Uint8Array(length);
   let position = 0;

@@ -5,25 +5,23 @@ import * as sinon from 'sinon';
 import { TestUtils } from '../../../test-utils';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
 import { EncryptionType, PubKey } from '../../../../session/types';
-import { ClosedGroupChatMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
-import {
-  ClosedGroupEncryptionPairMessage,
-  ClosedGroupNewMessage,
-} from '../../../../session/messages/outgoing';
-import { SignalService } from '../../../../protobuf';
-import {
-  ClosedGroupAddedMembersMessage,
-  ClosedGroupNameChangeMessage,
-  ClosedGroupRemovedMembersMessage,
-} from '../../../../session/messages/outgoing/content/data/group';
+import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { MockConversation } from '../../../test-utils/utils';
-import { ConfigurationMessage } from '../../../../session/messages/outgoing/content/ConfigurationMessage';
+import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 
-import { ConversationModel } from '../../../../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../../../../models/conversation';
 
 import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised as any);
-import { ClosedGroupEncryptionPairReplyMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupEncryptionPairReplyMessage';
+import { ClosedGroupEncryptionPairReplyMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
+import { SignalService } from '../../../../protobuf';
+import { ClosedGroupAddedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
+import { ClosedGroupEncryptionPairMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
+import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
+import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
+import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
+import { OpenGroup } from '../../../../opengroup/opengroupV1/OpenGroup';
+import { openGroupPrefix } from '../../../../opengroup/utils/OpenGroupUtils';
 
 const { expect } = chai;
 
@@ -38,7 +36,7 @@ describe('Message Utils', () => {
   describe('toRawMessage', () => {
     it('can convert to raw message', async () => {
       const device = TestUtils.generateFakePubKey();
-      const message = TestUtils.generateChatMessage();
+      const message = TestUtils.generateVisibleMessage();
 
       const rawMessage = await MessageUtils.toRawMessage(device, message);
 
@@ -52,16 +50,14 @@ describe('Message Utils', () => {
 
       expect(rawMessage.identifier).to.equal(message.identifier);
       expect(rawMessage.device).to.equal(device.key);
-      expect(rawMessage.plainTextBuffer).to.deep.equal(
-        message.plainTextBuffer()
-      );
+      expect(rawMessage.plainTextBuffer).to.deep.equal(message.plainTextBuffer());
       expect(rawMessage.timestamp).to.equal(message.timestamp);
       expect(rawMessage.ttl).to.equal(message.ttl());
     });
 
     it('should generate valid plainTextBuffer', async () => {
       const device = TestUtils.generateFakePubKey();
-      const message = TestUtils.generateChatMessage();
+      const message = TestUtils.generateVisibleMessage();
 
       const rawMessage = await MessageUtils.toRawMessage(device, message);
 
@@ -81,7 +77,7 @@ describe('Message Utils', () => {
 
     it('should maintain pubkey', async () => {
       const device = TestUtils.generateFakePubKey();
-      const message = TestUtils.generateChatMessage();
+      const message = TestUtils.generateVisibleMessage();
 
       const rawMessage = await MessageUtils.toRawMessage(device, message);
       const derivedPubKey = PubKey.from(rawMessage.device);
@@ -93,11 +89,11 @@ describe('Message Utils', () => {
       );
     });
 
-    it('should set encryption to ClosedGroup if a ClosedGroupChatMessage is passed in', async () => {
+    it('should set encryption to ClosedGroup if a ClosedGroupVisibleMessage is passed in', async () => {
       const device = TestUtils.generateFakePubKey();
       const groupId = TestUtils.generateFakePubKey();
-      const chatMessage = TestUtils.generateChatMessage();
-      const message = new ClosedGroupChatMessage({ chatMessage, groupId });
+      const chatMessage = TestUtils.generateVisibleMessage();
+      const message = new ClosedGroupVisibleMessage({ chatMessage, groupId });
 
       const rawMessage = await MessageUtils.toRawMessage(device, message);
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
@@ -105,7 +101,7 @@ describe('Message Utils', () => {
 
     it('should set encryption to Fallback on other messages', async () => {
       const device = TestUtils.generateFakePubKey();
-      const message = TestUtils.generateChatMessage();
+      const message = TestUtils.generateVisibleMessage();
       const rawMessage = await MessageUtils.toRawMessage(device, message);
 
       expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);
@@ -231,17 +227,17 @@ describe('Message Utils', () => {
 
     let convos: Array<ConversationModel>;
     const mockValidOpenGroup = new MockConversation({
-      type: 'public',
-      id: 'publicChat:1@chat-dev.lokinet.org',
+      type: ConversationTypeEnum.GROUP,
+      id: `${openGroupPrefix}1@chat-dev.lokinet.org`,
     });
 
     const mockValidOpenGroup2 = new MockConversation({
-      type: 'public',
-      id: 'publicChat:1@chat-dev2.lokinet.org',
+      type: ConversationTypeEnum.GROUP,
+      id: `${openGroupPrefix}1@chat-dev2.lokinet.org`,
     });
 
     const mockValidClosedGroup = new MockConversation({
-      type: 'group',
+      type: ConversationTypeEnum.GROUP,
     });
 
     const mockValidPrivate = {
@@ -253,9 +249,7 @@ describe('Message Utils', () => {
     beforeEach(() => {
       convos = [];
       sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
-      sandbox
-        .stub(UserUtils, 'getOurPubKeyFromCache')
-        .resolves(PubKey.cast(ourNumber));
+      sandbox.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
     });
 
     beforeEach(() => {

@@ -1,20 +1,16 @@
 import React from 'react';
 import { DefaultTheme } from 'styled-components';
 import { ConversationModel } from '../../models/conversation';
+import { ApiV2 } from '../../opengroup/opengroupV2';
 import { ConversationController } from '../../session/conversations';
+import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
-import { Flex } from '../session/Flex';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../session/SessionButton';
-import {
-  ContactType,
-  SessionMemberListItem,
-} from '../session/SessionMemberListItem';
+import { Flex } from '../basic/Flex';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
+import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { SessionModal } from '../session/SessionModal';
 import { SessionSpinner } from '../session/SessionSpinner';
+import _ from 'lodash';
 interface Props {
   convo: ConversationModel;
   onClose: any;
@@ -45,7 +41,9 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    this.channelAPI = await this.props.convo.getPublicSendData();
+    if (this.props.convo.isOpenGroupV1()) {
+      this.channelAPI = await this.props.convo.getPublicSendData();
+    }
 
     void this.refreshModList();
   }
@@ -62,18 +60,12 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     const renderContent = !firstLoading;
 
     return (
-      <SessionModal
-        title={title}
-        onClose={this.closeDialog}
-        theme={this.props.theme}
-      >
+      <SessionModal title={title} onClose={this.closeDialog} theme={this.props.theme}>
         <Flex container={true} flexDirection="column" alignItems="center">
           {renderContent && (
             <>
               <p>Existing moderators:</p>
-              <div className="contact-selection-list">
-                {this.renderMemberList()}
-              </div>
+              <div className="contact-selection-list">{this.renderMemberList()}</div>
 
               {hasMods ? null : <p>{i18n('noModeratorsToRemove')}</p>}
               <SessionSpinner loading={removingInProgress} />
@@ -146,8 +138,13 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
   }
 
   private async refreshModList() {
-    // get current list of moderators
-    const modPubKeys = (await this.channelAPI.getModerators()) as Array<string>;
+    let modPubKeys: Array<string> = [];
+    if (this.props.convo.isOpenGroupV1()) {
+      // get current list of moderators
+      modPubKeys = (await this.channelAPI.getModerators()) as Array<string>;
+    } else if (this.props.convo.isOpenGroupV2()) {
+      modPubKeys = this.props.convo.getGroupAdmins() || [];
+    }
     const convos = ConversationController.getInstance().getConversations();
     const moderatorsConvos = modPubKeys
       .map(
@@ -187,9 +184,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
   }
 
   private async removeThem() {
-    const removedMods = this.state.modList
-      .filter(d => !d.checkmarked)
-      .map(d => d.id);
+    const removedMods = this.state.modList.filter(d => !d.checkmarked).map(d => d.id);
 
     if (removedMods.length === 0) {
       window.log.info('No moderators removed. Nothing todo');
@@ -201,14 +196,27 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
       this.setState({
         removingInProgress: true,
       });
-      const res = await this.channelAPI.serverAPI.removeModerators(removedMods);
+      let res;
+      if (this.props.convo.isOpenGroupV1()) {
+        res = await this.channelAPI.serverAPI.removeModerators(removedMods);
+      } else if (this.props.convo.isOpenGroupV2()) {
+        const roomInfos = this.props.convo.toOpenGroupV2();
+        const modsToRemove = _.compact(removedMods.map(m => PubKey.from(m)));
+        res = await Promise.all(
+          modsToRemove.map(async m => {
+            return ApiV2.removeModerator(m, roomInfos);
+          })
+        );
+        // all moderators are removed means all promise resolved with bool= true
+        res = res.every(r => !!r);
+      }
       if (!res) {
         window.log.warn('failed to remove moderators:', res);
 
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {
         window.log.info(`${removedMods} removed from moderators...`);
-        ToastUtils.pushUserRemovedToModerators();
+        ToastUtils.pushUserRemovedFromModerators();
       }
     } catch (e) {
       window.log.error('Got error while adding moderator:', e);

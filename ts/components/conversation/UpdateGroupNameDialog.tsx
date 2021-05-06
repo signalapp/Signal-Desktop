@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { DefaultTheme, withTheme } from 'styled-components';
 
 interface Props {
@@ -59,10 +59,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
       return;
     }
 
-    const avatar =
-      this?.inputEl?.current?.files?.length > 0
-        ? this.inputEl.current.files[0]
-        : null; // otherwise use the current avatar
+    const avatar = this?.inputEl?.current?.files?.length > 0 ? this.inputEl.current.files[0] : null; // otherwise use the current avatar
 
     onSubmit(this.state.groupName, avatar);
 
@@ -176,11 +173,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
     return (
       <div className="avatar-center">
         <div className="avatar-center-inner">
-          <Avatar
-            avatarPath={avatarPath}
-            size={80}
-            pubkey={this.props.pubkey}
-          />
+          <Avatar avatarPath={avatarPath} size={AvatarSize.XL} pubkey={this.props.pubkey} />
           <div
             className="image-upload-section"
             role="button"

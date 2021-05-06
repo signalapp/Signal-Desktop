@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { contextMenu } from 'react-contexify';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
@@ -26,7 +26,7 @@ import { PubKey } from '../session/types';
 import { ConversationType } from '../state/ducks/conversations';
 
 export interface ConversationListItemProps extends ConversationType {
-  index: number; // used to force a refresh when one conversation is removed on top of the list
+  index?: number; // used to force a refresh when one conversation is removed on top of the list
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 }
 
@@ -42,16 +42,14 @@ type PropsHousekeeping = {
   onUnblockContact?: () => void;
   onInviteContacts?: () => void;
   onClearNickname?: () => void;
+  onMarkAllRead: () => void;
   theme: DefaultTheme;
 };
 
 type Props = ConversationListItemProps & PropsHousekeeping;
 
 const Portal = ({ children }: { children: any }) => {
-  return createPortal(
-    children,
-    document.querySelector('.inbox.index') as Element
-  );
+  return createPortal(children, document.querySelector('.inbox.index') as Element);
 };
 
 class ConversationListItem extends React.PureComponent<Props> {
@@ -60,16 +58,8 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderAvatar() {
-    const {
-      avatarPath,
-      i18n,
-      name,
-      phoneNumber,
-      profileName,
-      memberAvatars,
-    } = this.props;
+    const { avatarPath, name, phoneNumber, profileName, memberAvatars } = this.props;
 
-    const iconSize = 36;
     const userName = name || profileName || phoneNumber;
 
     return (
@@ -77,7 +67,7 @@ class ConversationListItem extends React.PureComponent<Props> {
         <Avatar
           avatarPath={avatarPath}
           name={userName}
-          size={iconSize}
+          size={AvatarSize.S}
           memberAvatars={memberAvatars}
           pubkey={phoneNumber}
         />
@@ -92,11 +82,7 @@ class ConversationListItem extends React.PureComponent<Props> {
     let unreadCountDiv = null;
     if (unreadCount > 0) {
       atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
-      unreadCountDiv = (
-        <p className="module-conversation-list-item__unread-count">
-          {unreadCount}
-        </p>
-      );
+      unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
     }
 
     return (
@@ -104,9 +90,7 @@ class ConversationListItem extends React.PureComponent<Props> {
         <div
           className={classNames(
             'module-conversation-list-item__header__name',
-            unreadCount > 0
-              ? 'module-conversation-list-item__header__name--with-unread'
-              : null
+            unreadCount > 0 ? 'module-conversation-list-item__header__name--with-unread' : null
           )}
         >
           {this.renderUser()}
@@ -117,9 +101,7 @@ class ConversationListItem extends React.PureComponent<Props> {
           <div
             className={classNames(
               'module-conversation-list-item__header__date',
-              unreadCount > 0
-                ? 'module-conversation-list-item__header__date--has-unread'
-                : null
+              unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
             )}
           >
             {
@@ -153,9 +135,7 @@ class ConversationListItem extends React.PureComponent<Props> {
         <div
           className={classNames(
             'module-conversation-list-item__message__text',
-            unreadCount > 0
-              ? 'module-conversation-list-item__message__text--has-unread'
-              : null
+            unreadCount > 0 ? 'module-conversation-list-item__message__text--has-unread' : null
           )}
         >
           {isTyping ? (
@@ -213,12 +193,8 @@ class ConversationListItem extends React.PureComponent<Props> {
           style={style}
           className={classNames(
             'module-conversation-list-item',
-            unreadCount > 0
-              ? 'module-conversation-list-item--has-unread'
-              : null,
-            unreadCount > 0 && mentionedUs
-              ? 'module-conversation-list-item--mentioned-us'
-              : null,
+            unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
+            unreadCount > 0 && mentionedUs ? 'module-conversation-list-item--mentioned-us' : null,
             isSelected ? 'module-conversation-list-item--is-selected' : null,
             isBlocked ? 'module-conversation-list-item--is-blocked' : null
           )}

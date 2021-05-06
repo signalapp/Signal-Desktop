@@ -1,21 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
-import { mapDispatchToProps } from '../../state/actions';
-import { ConversationType } from '../../state/ducks/conversations';
-import { DefaultTheme } from 'styled-components';
-import { StateType } from '../../state/reducer';
 import { ConversationController } from '../../session/conversations';
-import { getFocusedSection } from '../../state/selectors/section';
-import { getTheme } from '../../state/selectors/theme';
-import { getOurNumber } from '../../state/selectors/user';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS, MINUTES } from '../../session/utils/Number';
 import {
+  generateAttachmentKeyIfEmpty,
   getItemById,
   hasSyncedInitialConfigurationItem,
   removeItemById,
@@ -23,7 +16,24 @@ import {
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
 import { clearSessionsAndPreKeys } from '../../util/accountManager';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOurNumber } from '../../state/selectors/user';
+import {
+  getOurPrimaryConversation,
+  getUnreadMessageCount,
+} from '../../state/selectors/conversations';
+import { getTheme } from '../../state/selectors/theme';
+import { applyTheme } from '../../state/ducks/theme';
+import { getFocusedSection } from '../../state/selectors/section';
+import { useInterval } from '../../hooks/useInterval';
+import { clearSearch } from '../../state/ducks/search';
+import { showLeftPaneSection } from '../../state/ducks/section';
+
+import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
+import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
+import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
+import { SwarmPolling } from '../../session/snode_api/swarmPolling';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -35,258 +45,198 @@ export enum SectionType {
   Moon,
 }
 
-interface Props {
-  onSectionSelected: any;
-  selectedSection: SectionType;
-  unreadMessageCount: number;
-  ourPrimaryConversation: ConversationType;
-  ourNumber: string;
-  applyTheme?: any;
-  theme: DefaultTheme;
-}
+const Section = (props: { type: SectionType; avatarPath?: string }) => {
+  const ourNumber = useSelector(getOurNumber);
+  const unreadMessageCount = useSelector(getUnreadMessageCount);
+  const theme = useSelector(getTheme);
+  const dispatch = useDispatch();
+  const { type, avatarPath } = props;
+
+  const focusedSection = useSelector(getFocusedSection);
+  const isSelected = focusedSection === props.type;
+
+  const handleClick = () => {
+    /* tslint:disable:no-void-expression */
+    if (type === SectionType.Profile) {
+      window.showEditProfileDialog();
+    } else if (type === SectionType.Moon) {
+      const themeFromSettings = window.Events.getThemeSetting();
+      const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
+      window.setTheme(updatedTheme);
+
+      const newThemeObject = updatedTheme === 'dark' ? darkTheme : lightTheme;
+      dispatch(applyTheme(newThemeObject));
+    } else {
+      dispatch(clearSearch());
+      dispatch(showLeftPaneSection(type));
+    }
+  };
+
+  if (type === SectionType.Profile) {
+    const conversation = ConversationController.getInstance().get(ourNumber);
+
+    const profile = conversation?.getLokiProfile();
+    const userName = (profile && profile.displayName) || ourNumber;
+    return (
+      <Avatar
+        avatarPath={avatarPath}
+        size={AvatarSize.XS}
+        onAvatarClick={handleClick}
+        name={userName}
+        pubkey={ourNumber}
+      />
+    );
+  }
+
+  let iconType: SessionIconType;
+  switch (type) {
+    case SectionType.Message:
+      iconType = SessionIconType.ChatBubble;
+      break;
+    case SectionType.Contact:
+      iconType = SessionIconType.Users;
+      break;
+    case SectionType.Settings:
+      iconType = SessionIconType.Gear;
+      break;
+    case SectionType.Moon:
+      iconType = SessionIconType.Moon;
+      break;
+
+    default:
+      iconType = SessionIconType.Moon;
+  }
+
+  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
+
+  return (
+    <SessionIconButton
+      iconSize={SessionIconSize.Medium}
+      iconType={iconType}
+      notificationCount={unreadToShow}
+      onClick={handleClick}
+      isSelected={isSelected}
+      theme={theme}
+    />
+  );
+};
+
+const showResetSessionIDDialogIfNeeded = async () => {
+  const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
+  if (userED25519KeyPairHex) {
+    return;
+  }
+
+  window.showResetSessionIdDialog();
+};
+
+const cleanUpMediasInterval = MINUTES * 30;
+
+const setupTheme = (dispatch: Dispatch<any>) => {
+  const theme = window.Events.getThemeSetting();
+  window.setTheme(theme);
+
+  const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
+  dispatch(applyTheme(newThemeObject));
+};
+
+// Do this only if we created a new Session ID, or if we already received the initial configuration message
+const triggerSyncIfNeeded = async () => {
+  const didWeHandleAConfigurationMessageAlready =
+    (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+  if (didWeHandleAConfigurationMessageAlready) {
+    await syncConfigurationIfNeeded();
+  }
+};
+
+/**
+ * This function is called only once: on app startup with a logged in user
+ */
+const doAppStartUp = (dispatch: Dispatch<any>) => {
+  if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
+    // Initialize paths for onion requests
+    void OnionPaths.getInstance().buildNewOnionPaths();
+  }
+
+  // init the messageQueue. In the constructor, we add all not send messages
+  // this call does nothing except calling the constructor, which will continue sending message in the pipeline
+  void getMessageQueue().processAllPending();
+  void setupTheme(dispatch);
+
+  // keep that one to make sure our users upgrade to new sessionIDS
+  void showResetSessionIDDialogIfNeeded();
+  // remove existing prekeys, sign prekeys and sessions
+  // FIXME audric, make this in a migration so we can remove this line
+  void clearSessionsAndPreKeys();
+
+  // this generates the key to encrypt attachments locally
+  void generateAttachmentKeyIfEmpty();
+  void OpenGroupManagerV2.getInstance().startPolling();
+  // trigger a sync message if needed for our other devices
+
+  void triggerSyncIfNeeded();
+
+  void loadDefaultRooms();
+
+  // TODO: Investigate the case where we reconnect
+  const ourKey = UserUtils.getOurPubKeyStrFromCache();
+  SwarmPolling.getInstance().addPubkey(ourKey);
+  SwarmPolling.getInstance().start();
+};
 
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
  */
-class ActionsPanelPrivate extends React.Component<Props> {
-  private syncInterval: NodeJS.Timeout | null = null;
-  private snodeForceRefreshInterval: NodeJS.Timeout | null = null;
+export const ActionsPanel = () => {
+  const dispatch = useDispatch();
+  const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
 
-  constructor(props: Props) {
-    super(props);
+  const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
 
-    // we consider people had the time to upgrade, so remove this id from the db
-    // it was used to display a dialog when we added the light mode auto-enabled
-    void removeItemById('hasSeenLightModeDialog');
+  // this maxi useEffect is called only once: when the component is mounted.
+  // For the action panel, it means this is called only one per app start/with a user loggedin
+  useEffect(() => {
+    void doAppStartUp(dispatch);
+  }, []);
+
+  // wait for cleanUpMediasInterval and then start cleaning up medias
+  // this would be way easier to just be able to not trigger a call with the setInterval
+  useEffect(() => {
+    const timeout = global.setTimeout(() => setStartCleanUpMedia(true), cleanUpMediasInterval);
+
+    return () => global.clearTimeout(timeout);
+  }, []);
+
+  useInterval(
+    () => {
+      cleanUpOldDecryptedMedias();
+    },
+    startCleanUpMedia ? cleanUpMediasInterval : null
+  );
+
+  if (!ourPrimaryConversation) {
+    window.log.warn('ActionsPanel: ourPrimaryConversation is not set');
+    return <></>;
   }
 
-  // fetch the user saved theme from the db, and apply it on mount.
-  public componentDidMount() {
-    void window.setClockParams();
-    if (
-      window.lokiFeatureFlags.useOnionRequests ||
-      window.lokiFeatureFlags.useFileOnionRequests
-    ) {
-      // Initialize paths for onion requests
-      void OnionPaths.getInstance().buildNewOnionPaths();
-    }
+  useInterval(() => {
+    void syncConfigurationIfNeeded();
+  }, DAYS * 2);
 
-    // This is not ideal, but on the restore from seed, our conversation will be created before the
-    // redux store is ready.
-    // If that's the case, the save events on our conversation won't be triggering redux updates.
-    // So changes to our conversation won't make a change on the UI.
-    // Calling this makes sure that our own conversation is registered to redux.
-    ConversationController.getInstance().registerAllConvosToRedux();
+  useInterval(() => {
+    void forceRefreshRandomSnodePool();
+  }, DAYS * 1);
 
-    // init the messageQueue. In the constructor, we had all not send messages
-    // this call does nothing except calling the constructor, which will continue sending message in the pipeline
-    void getMessageQueue().processAllPending();
+  return (
+    <div className="module-left-pane__sections-container">
+      <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
+      <Section type={SectionType.Message} />
+      <Section type={SectionType.Contact} />
+      <Section type={SectionType.Settings} />
 
-    const theme = window.Events.getThemeSetting();
-    window.setTheme(theme);
-
-    const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
-    this.props.applyTheme(newThemeObject);
-
-    void this.showResetSessionIDDialogIfNeeded();
-
-    // remove existing prekeys, sign prekeys and sessions
-    void clearSessionsAndPreKeys();
-
-    // Do this only if we created a new Session ID, or if we already received the initial configuration message
-
-    const syncConfiguration = async () => {
-      const didWeHandleAConfigurationMessageAlready =
-        (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
-      if (didWeHandleAConfigurationMessageAlready) {
-        await syncConfigurationIfNeeded();
-      }
-    };
-
-    // trigger a sync message if needed for our other devices
-
-    void syncConfiguration();
-
-    this.syncInterval = global.setInterval(() => {
-      void syncConfigurationIfNeeded();
-    }, DAYS * 2);
-    this.snodeForceRefreshInterval = global.setInterval(async () => {
-      await forceRefreshRandomSnodePool();
-    }, DAYS * 1);
-  }
-
-  public componentWillUnmount() {
-    if (this.syncInterval) {
-      clearInterval(this.syncInterval);
-      this.syncInterval = null;
-    }
-
-    if (this.snodeForceRefreshInterval) {
-      clearInterval(this.snodeForceRefreshInterval);
-      this.snodeForceRefreshInterval = null;
-    }
-  }
-
-  public Section = ({
-    isSelected,
-    onSelect,
-    type,
-    avatarPath,
-    notificationCount,
-  }: {
-    isSelected: boolean;
-    onSelect?: (event: SectionType) => void;
-    type: SectionType;
-    avatarPath?: string;
-    notificationCount?: number;
-  }) => {
-    const { ourNumber } = this.props;
-    const handleClick = onSelect
-      ? () => {
-          /* tslint:disable:no-void-expression */
-          if (type === SectionType.Profile) {
-            window.showEditProfileDialog();
-          } else if (type === SectionType.Moon) {
-            const theme = window.Events.getThemeSetting();
-            const updatedTheme = theme === 'dark' ? 'light' : 'dark';
-            window.setTheme(updatedTheme);
-
-            const newThemeObject =
-              updatedTheme === 'dark' ? darkTheme : lightTheme;
-            this.props.applyTheme(newThemeObject);
-          } else {
-            onSelect(type);
-          }
-          /* tslint:enable:no-void-expression */
-        }
-      : undefined;
-
-    if (type === SectionType.Profile) {
-      const conversation = ConversationController.getInstance().get(ourNumber);
-
-      const profile = conversation?.getLokiProfile();
-      const userName = (profile && profile.displayName) || ourNumber;
-      return (
-        <Avatar
-          avatarPath={avatarPath}
-          size={28}
-          onAvatarClick={handleClick}
-          name={userName}
-          pubkey={ourNumber}
-        />
-      );
-    }
-
-    let iconType: SessionIconType;
-    switch (type) {
-      case SectionType.Message:
-        iconType = SessionIconType.ChatBubble;
-        break;
-      case SectionType.Contact:
-        iconType = SessionIconType.Users;
-        break;
-      case SectionType.Channel:
-        iconType = SessionIconType.Globe;
-        break;
-      case SectionType.Settings:
-        iconType = SessionIconType.Gear;
-        break;
-      case SectionType.Moon:
-        iconType = SessionIconType.Moon;
-        break;
-
-      default:
-        iconType = SessionIconType.Moon;
-    }
-
-    return (
-      <SessionIconButton
-        iconSize={SessionIconSize.Medium}
-        iconType={iconType}
-        notificationCount={notificationCount}
-        onClick={handleClick}
-        isSelected={isSelected}
-        theme={this.props.theme}
-      />
-    );
-  };
-
-  public render(): JSX.Element {
-    const {
-      selectedSection,
-      unreadMessageCount,
-      ourPrimaryConversation,
-    } = this.props;
-
-    if (!ourPrimaryConversation) {
-      window.log.warn('ActionsPanel: ourPrimaryConversation is not set');
-      return <></>;
-    }
-
-    const isProfilePageSelected = selectedSection === SectionType.Profile;
-    const isMessagePageSelected = selectedSection === SectionType.Message;
-    const isContactPageSelected = selectedSection === SectionType.Contact;
-    const isSettingsPageSelected = selectedSection === SectionType.Settings;
-    const isMoonPageSelected = selectedSection === SectionType.Moon;
-
-    return (
-      <div className="module-left-pane__sections-container">
-        <this.Section
-          type={SectionType.Profile}
-          avatarPath={ourPrimaryConversation.avatarPath}
-          isSelected={isProfilePageSelected}
-          onSelect={this.handleSectionSelect}
-        />
-        <this.Section
-          type={SectionType.Message}
-          isSelected={isMessagePageSelected}
-          onSelect={this.handleSectionSelect}
-          notificationCount={unreadMessageCount}
-        />
-        <this.Section
-          type={SectionType.Contact}
-          isSelected={isContactPageSelected}
-          onSelect={this.handleSectionSelect}
-        />
-        <this.Section
-          type={SectionType.Settings}
-          isSelected={isSettingsPageSelected}
-          onSelect={this.handleSectionSelect}
-        />
-
-        <SessionToastContainer />
-        <this.Section
-          type={SectionType.Moon}
-          isSelected={isMoonPageSelected}
-          onSelect={this.handleSectionSelect}
-        />
-      </div>
-    );
-  }
-
-  private readonly handleSectionSelect = (section: SectionType): void => {
-    this.props.onSectionSelected(section);
-  };
-
-  private async showResetSessionIDDialogIfNeeded() {
-    const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
-    if (userED25519KeyPairHex) {
-      return;
-    }
-
-    window.showResetSessionIdDialog();
-  }
-}
-
-const mapStateToProps = (state: StateType) => {
-  return {
-    section: getFocusedSection(state),
-    theme: getTheme(state),
-    ourNumber: getOurNumber(state),
-  };
+      <SessionToastContainer />
+      <Section type={SectionType.Moon} />
+    </div>
+  );
 };
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const ActionsPanel = smart(ActionsPanelPrivate);

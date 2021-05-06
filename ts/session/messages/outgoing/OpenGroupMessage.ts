@@ -1,6 +1,6 @@
 import { Message, MessageParams } from './Message';
-import { AttachmentPointer, Preview, Quote } from './content';
-import { OpenGroup } from '../../types/OpenGroup';
+import { OpenGroup } from '../../../opengroup/opengroupV1/OpenGroup';
+import { AttachmentPointer, Preview, Quote } from './visibleMessage/VisibleMessage';
 
 interface OpenGroupMessageParams extends MessageParams {
   group: OpenGroup;
@@ -10,6 +10,9 @@ interface OpenGroupMessageParams extends MessageParams {
   quote?: Quote;
 }
 
+/**
+ * This class is only used for OpenGroup v1 (deprecated)
+ */
 export class OpenGroupMessage extends Message {
   public readonly group: OpenGroup;
   public readonly body?: string;

@@ -54,29 +54,29 @@ Whisper.Fixtures = () => {
   ]);
 
   const Vera = conversationCollection.get(VERA_ID);
-  Vera.messageCollection.add([
+  Vera.addSingleMessage(
     {
       conversationId: VERA_ID,
       type: 'incoming',
       sent_at: now - 10000000,
       received_at: now - 10000000,
       body: 'My piece for Iskra is ready!',
-    },
-  ]);
+    }
+  );
 
   const Nestor = conversationCollection.get(NESTOR_ID);
-  Nestor.messageCollection.add([
+  Nestor.addSingleMessage(
     {
       conversationId: NESTOR_ID,
       type: 'incoming',
       sent_at: now - 1000000000,
       received_at: now - 1000000000,
       body: 'Need a ride?',
-    },
-  ]);
+    }
+  );
 
   const Fred = conversationCollection.get(FRED_ID);
-  Fred.messageCollection.add([
+  Fred.addSingleMessage(
     {
       conversationId: FRED_ID,
       type: 'incoming',
@@ -84,11 +84,11 @@ Whisper.Fixtures = () => {
       received_at: now - 500000000,
       body:
         'It is my ambition to say in ten sentences what everyone else says in a whole book — what everyone else does not say in a whole book.',
-    },
-  ]);
+    }
+  );
 
   const Michel = conversationCollection.get(MICHEL_ID);
-  Michel.messageCollection.add([
+  Michel.addSingleMessage(
     {
       conversationId: MICHEL_ID,
       type: 'outgoing',
@@ -100,15 +100,16 @@ Whisper.Fixtures = () => {
           data: dataURItoBlob(getImage1()),
         },
       ],
-    },
-    {
-      conversationId: MICHEL_ID,
-      type: 'incoming',
-      body: 'The soul is the prison of the body.',
-      sent_at: now - 1000000,
-      received_at: now - 1000000,
-      source: MICHEL_ID,
-    },
+    });
+  Michel.addSingleMessage({
+    conversationId: MICHEL_ID,
+    type: 'incoming',
+    body: 'The soul is the prison of the body.',
+    sent_at: now - 1000000,
+    received_at: now - 1000000,
+    source: MICHEL_ID,
+  });
+  Michel.addSingleMessage(
     {
       conversationId: MICHEL_ID,
       type: 'incoming',
@@ -117,55 +118,57 @@ Whisper.Fixtures = () => {
         'In their opinion I am a dangerous man, since I am a crypto-Marxist.',
       received_at: now - 2000000,
       source: MICHEL_ID,
-    },
-  ]);
+    });
 
   const Masha = conversationCollection.get(MASHA_ID);
-  Masha.messageCollection.add(
-    [
-      {
-        date: now - 60000,
-        type: 'incoming',
-        source: MASHA_ID,
-        attachments: [
-          {
-            contentType: 'image/jpeg',
-            data: dataURItoBlob(getImage2()),
-          },
-        ],
-      },
-      {
-        date: now - 5000,
-        type: 'outgoing',
-        body: 'I just installed Signal Desktop!',
-      },
-      {
-        date: now - 4000,
-        type: 'outgoing',
-        body:
-          'Now I can use Signal on my computer, even when my phone is off. 😄 ',
-      },
-      {
-        date: now,
-        type: 'incoming',
-        source: MASHA_ID,
-        body: "I can't wait to try it!",
-        unread: 1,
-      },
-    ].map((m) => {
-      return {
-        conversationId: MASHA_ID,
-        type: m.type,
-        body: m.body,
-        sent_at: m.date,
-        received_at: m.date,
-        timestamp: m.date,
-        attachments: m.attachments,
-        unread: m.unread,
-        source: m.source,
-      };
-    })
-  );
+  Masha.addSingleMessage(
+    {
+      date: now - 60000,
+      type: 'incoming',
+      source: MASHA_ID,
+      attachments: [
+        {
+          contentType: 'image/jpeg',
+          data: dataURItoBlob(getImage2()),
+        },
+      ],
+      conversationId: MASHA_ID,
+      sent_at: now - 60000,
+      received_at: now - 60000,
+      timestamp: now - 60000,
+    });
+  Masha.addSingleMessage(
+    {
+      date: now - 5000,
+      type: 'outgoing',
+      body: 'I just installed Signal Desktop!',
+      conversationId: MASHA_ID,
+      sent_at: now - 5000,
+      received_at: now - 5000,
+      timestamp: now - 5000,
+    });
+  Masha.addSingleMessage({
+    date: now - 4000,
+    type: 'outgoing',
+    body:
+      'Now I can use Signal on my computer, even when my phone is off. 😄 ',
+      conversationId: MASHA_ID,
+      sent_at: now - 4000,
+      received_at: now - 4000,
+      timestamp: now - 4000,
+  });
+  Masha.addSingleMessage({
+    date: now,
+    type: 'incoming',
+    source: MASHA_ID,
+    body: "I can't wait to try it!",
+    unread: 1,
+    conversationId: MASHA_ID,
+    sent_at: now,
+    received_at: now,
+    timestamp: now,
+  });
+
 
   const group = conversationCollection.add({
     name: '📖 Book Club',
@@ -176,51 +179,60 @@ Whisper.Fixtures = () => {
     lastMessage: 'See you all there!',
     members: [MICHEL_ID, FRED_ID, NESTOR_ID],
   });
-  group.messageCollection.add(
-    [
+  group.addSingleMessage(
       {
-        date: now - 60 * 1000 * 30,
+        sent_at: now - 60 * 1000 * 30,
+        received_at: now - 60 * 1000 * 30,
+        timestamp: now - 60 * 1000 * 30,
         type: 'incoming',
         body:
           'If you knew when you began a book what you would say at the end, do you think that you would have the courage to write it?',
         source: MICHEL_ID,
-      },
-      {
-        date: now - 60 * 1000 * 20,
-        type: 'incoming',
-        body:
-          'A book which has a strange knack of seeking out its fellow-revellers and enticing them on to new secret paths and dancing-places.',
-        source: FRED_ID,
-      },
-      {
-        date: now - 60 * 1000 * 4,
-        type: 'incoming',
-        body: "Let's meet in the library.",
-        source: NESTOR_ID,
-      },
-      {
-        date: now - 60 * 1000,
-        type: 'incoming',
-        body: "I'll be a little late.",
-        source: NESTOR_ID,
-      },
-      {
-        date: now,
-        type: 'outgoing',
-        body: 'See you all there!',
-        recipients: [MICHEL_ID, FRED_ID, NESTOR_ID],
-        delivered_to: [MICHEL_ID, FRED_ID],
-        sent_to: [NESTOR_ID],
-      },
-    ].map((m) => {
-      return Object.assign({}, m, {
         conversationId: group.id,
-        sent_at: m.date,
-        received_at: m.date,
-        timestamp: m.date,
       });
-    })
-  );
+  group.addSingleMessage(
+    {
+    sent_at: now - 60 * 1000 * 20,
+    received_at: now - 60 * 1000 * 20,
+    timestamp: now - 60 * 1000 * 20,
+    type: 'incoming',
+    body:
+      'A book which has a strange knack of seeking out its fellow-revellers and enticing them on to new secret paths and dancing-places.',
+    source: FRED_ID,
+    conversationId: group.id,
+  });
+  group.addSingleMessage(
+    {
+    sent_at: now - 60 * 1000 * 4,
+    received_at: now - 60 * 1000 * 4,
+    timestamp: now - 60 * 1000 * 4,
+    type: 'incoming',
+    body: "Let's meet in the library.",
+    source: NESTOR_ID,
+    conversationId: group.id,
+  });
+  group.addSingleMessage(
+    {
+    sent_at: now - 60 * 1000,
+    received_at: now - 60 * 1000,
+    timestamp: now - 60 * 1000,
+    type: 'incoming',
+    body: "I'll be a little late.",
+    source: NESTOR_ID,
+    conversationId: group.id,
+  });
+  group.addSingleMessage(
+    {
+    sent_at: now,
+    received_at: now,
+    timestamp: now,
+    type: 'outgoing',
+    body: 'See you all there!',
+    recipients: [MICHEL_ID, FRED_ID, NESTOR_ID],
+    delivered_to: [MICHEL_ID, FRED_ID],
+    sent_to: [NESTOR_ID],
+    conversationId: group.id,
+  });
 
   function dataURItoBlob(dataURI) {
     const binary = atob(dataURI.split(',')[1]);
@@ -234,9 +246,7 @@ Whisper.Fixtures = () => {
   conversationCollection.saveAll = function thisNeeded() {
     Promise.all(
       this.map(async (convo) => {
-        await window.Signal.Data.saveConversation(convo.attributes, {
-          Conversation: window.models.Conversation.ConversationModel,
-        });
+        await window.Signal.Data.saveConversation(convo.attributes);
 
         await Promise.all(
           convo.messageCollection.map(async (message) => {

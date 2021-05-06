@@ -57,8 +57,7 @@ export class SessionProgress extends React.PureComponent<Props, State> {
     const failureColor = Constants.UI.COLORS.DANGER_ALT;
     const backgroundColor = sendStatus === -1 ? failureColor : successColor;
 
-    const shiftDurationMs =
-      this.getShiftDuration(this.props.value, prevValue) * 1000;
+    const shiftDurationMs = this.getShiftDuration(this.props.value, prevValue) * 1000;
     const showDurationMs = 500;
     const showOffsetMs = shiftDurationMs + 500;
 

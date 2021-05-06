@@ -1,16 +1,13 @@
 import React from 'react';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../session/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { SessionModal } from '../session/SessionModal';
 import { DefaultTheme } from 'styled-components';
 import { SessionSpinner } from '../session/SessionSpinner';
-import { Flex } from '../session/Flex';
+import { Flex } from '../basic/Flex';
 import { ConversationModel } from '../../models/conversation';
+import { ApiV2 } from '../../opengroup/opengroupV2';
 interface Props {
   convo: ConversationModel;
   onClose: any;
@@ -40,7 +37,9 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    this.channelAPI = await this.props.convo.getPublicSendData();
+    if (this.props.convo.isOpenGroupV1()) {
+      this.channelAPI = await this.props.convo.getPublicSendData();
+    }
 
     this.setState({ firstLoading: false });
   }
@@ -49,10 +48,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     // if we don't have valid data entered by the user
     const pubkey = PubKey.from(this.state.inputBoxValue);
     if (!pubkey) {
-      window.log.info(
-        'invalid pubkey for adding as moderator:',
-        this.state.inputBoxValue
-      );
+      window.log.info('invalid pubkey for adding as moderator:', this.state.inputBoxValue);
       ToastUtils.pushInvalidPubKey();
       return;
     }
@@ -63,9 +59,16 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
       this.setState({
         addingInProgress: true,
       });
-      const res = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
-      if (!res) {
-        window.log.warn('failed to add moderators:', res);
+      let isAdded: any;
+      if (this.props.convo.isOpenGroupV1()) {
+        isAdded = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
+      } else {
+        // this is a v2 opengroup
+        const roomInfos = this.props.convo.toOpenGroupV2();
+        isAdded = await ApiV2.addModerator(pubkey, roomInfos);
+      }
+      if (!isAdded) {
+        window.log.warn('failed to add moderators:', isAdded);
 
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {
@@ -96,11 +99,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     const renderContent = !firstLoading;
 
     return (
-      <SessionModal
-        title={title}
-        onClose={() => this.props.onClose()}
-        theme={this.props.theme}
-      >
+      <SessionModal title={title} onClose={() => this.props.onClose()} theme={this.props.theme}>
         <Flex container={true} flexDirection="column" alignItems="center">
           {renderContent && (
             <>

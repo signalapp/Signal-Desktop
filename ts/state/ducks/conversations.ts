@@ -3,8 +3,9 @@ import _, { omit } from 'lodash';
 import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ConversationController } from '../../session/conversations';
-import { MessageCollection, MessageModel } from '../../models/message';
+import { MessageModel } from '../../models/message';
 import { getMessagesByConversation } from '../../data/data';
+import { ConversationTypeEnum } from '../../models/conversation';
 
 // State
 
@@ -49,6 +50,13 @@ export type MessageTypeInConvo = {
   getPropsForMessageDetail(): Promise<any>;
 };
 
+export type LastMessageStatusType = 'error' | 'sending' | 'sent' | 'delivered' | 'read' | null;
+
+export type LastMessageType = {
+  status: LastMessageStatusType;
+  text: string | null;
+};
+
 export interface ConversationType {
   id: string;
   name?: string;
@@ -57,12 +65,9 @@ export interface ConversationType {
   index?: number;
 
   activeAt?: number;
-  lastMessage?: {
-    status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
-    text: string;
-  };
+  lastMessage?: LastMessageType;
   phoneNumber: string;
-  type: 'direct' | 'group';
+  type: ConversationTypeEnum;
   isMe: boolean;
   isPublic?: boolean;
   unreadCount: number;
@@ -76,6 +81,17 @@ export interface ConversationType {
   avatarPath?: string; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
+
+  onClick?: () => void;
+  onBlockContact?: () => void;
+  onUnblockContact?: () => void;
+  onCopyPublicKey?: () => void;
+  onDeleteContact?: () => void;
+  onLeaveGroup?: () => void;
+  onDeleteMessages?: () => void;
+  onInviteContacts?: () => void;
+  onMarkAllRead?: () => void;
+  onClearNickname?: () => void;
 }
 
 export type ConversationLookupType = {
@@ -92,9 +108,7 @@ async function getMessages(
   conversationKey: string,
   numMessages: number
 ): Promise<Array<MessageTypeInConvo>> {
-  const conversation = ConversationController.getInstance().get(
-    conversationKey
-  );
+  const conversation = ConversationController.getInstance().get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
     window.log.error('Failed to get convo on reducer.');
@@ -102,8 +116,7 @@ async function getMessages(
   }
   const unreadCount = await conversation.getUnreadCount();
   let msgCount =
-    numMessages ||
-    Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) + unreadCount;
+    numMessages || Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) + unreadCount;
   msgCount =
     msgCount > Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
       ? Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
@@ -148,9 +161,7 @@ const updateFirstMessageOfSeries = (messageModels: Array<any>) => {
       firstMessageOfSeries = false;
     }
     if (messageModels[i].propsForMessage) {
-      messageModels[
-        i
-      ].propsForMessage.firstMessageOfSeries = firstMessageOfSeries;
+      messageModels[i].propsForMessage.firstMessageOfSeries = firstMessageOfSeries;
     }
   }
   return messageModels;
@@ -158,21 +169,13 @@ const updateFirstMessageOfSeries = (messageModels: Array<any>) => {
 
 const fetchMessagesForConversation = createAsyncThunk(
   'messages/fetchByConversationKey',
-  async ({
-    conversationKey,
-    count,
-  }: {
-    conversationKey: string;
-    count: number;
-  }) => {
+  async ({ conversationKey, count }: { conversationKey: string; count: number }) => {
     const beforeTimestamp = Date.now();
     const messages = await getMessages(conversationKey, count);
     const afterTimestamp = Date.now();
 
     const time = afterTimestamp - beforeTimestamp;
-    window.log.info(
-      `Loading ${messages.length} messages took ${time}ms to load.`
-    );
+    window.log.info(`Loading ${messages.length} messages took ${time}ms to load.`);
 
     return {
       conversationKey,
@@ -217,6 +220,10 @@ export type MessageExpiredActionType = {
 export type MessageChangedActionType = {
   type: 'MESSAGE_CHANGED';
   payload: MessageModel;
+};
+export type MessagesChangedActionType = {
+  type: 'MESSAGES_CHANGED';
+  payload: Array<MessageModel>;
 };
 export type MessageAddedActionType = {
   type: 'MESSAGE_ADDED';
@@ -264,6 +271,7 @@ export type ConversationActionType =
   | MessageAddedActionType
   | MessageDeletedActionType
   | MessageChangedActionType
+  | MessagesChangedActionType
   | SelectedConversationChangedActionType
   | SelectedConversationChangedActionType
   | FetchMessagesForConversationType;
@@ -280,14 +288,12 @@ export const actions = {
   messageDeleted,
   conversationReset,
   messageChanged,
+  messagesChanged,
   fetchMessagesForConversation,
   openConversationExternal,
 };
 
-function conversationAdded(
-  id: string,
-  data: ConversationType
-): ConversationAddedActionType {
+function conversationAdded(id: string, data: ConversationType): ConversationAddedActionType {
   return {
     type: 'CONVERSATION_ADDED',
     payload: {
@@ -296,10 +302,7 @@ function conversationAdded(
     },
   };
 }
-function conversationChanged(
-  id: string,
-  data: ConversationType
-): ConversationChangedActionType {
+function conversationChanged(id: string, data: ConversationType): ConversationChangedActionType {
   return {
     type: 'CONVERSATION_CHANGED',
     payload: {
@@ -343,6 +346,13 @@ function messageChanged(messageModel: MessageModel): MessageChangedActionType {
   return {
     type: 'MESSAGE_CHANGED',
     payload: messageModel,
+  };
+}
+
+function messagesChanged(messageModels: Array<MessageModel>): MessagesChangedActionType {
+  return {
+    type: 'MESSAGES_CHANGED',
+    payload: messageModels,
   };
 }
 
@@ -391,7 +401,7 @@ function conversationReset({
   };
 }
 
-function openConversationExternal(
+export function openConversationExternal(
   id: string,
   messageId?: string
 ): SelectedConversationChangedActionType {
@@ -450,8 +460,7 @@ function sortMessages(
   // be sure to update the sorting order to fetch messages from the DB too at getMessagesByConversation
   if (isPublic) {
     return messages.sort(
-      (a: any, b: any) =>
-        b.attributes.serverTimestamp - a.attributes.serverTimestamp
+      (a: any, b: any) => b.attributes.serverTimestamp - a.attributes.serverTimestamp
     );
   }
   if (messages.some(n => !n.attributes.sent_at && !n.attributes.received_at)) {
@@ -469,10 +478,7 @@ function sortMessages(
   return messagesSorted;
 }
 
-function handleMessageAdded(
-  state: ConversationsStateType,
-  action: MessageAddedActionType
-) {
+function handleMessageAdded(state: ConversationsStateType, action: MessageAddedActionType) {
   const { messages } = state;
   const { conversationKey, messageModel } = action.payload;
   if (conversationKey === state.selectedConversation) {
@@ -483,9 +489,7 @@ function handleMessageAdded(
 
     if (convo) {
       const sortedMessage = sortMessages(messagesWithNewMessage, isPublic);
-      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
-        sortedMessage
-      );
+      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(sortedMessage);
 
       return {
         ...state,
@@ -496,19 +500,12 @@ function handleMessageAdded(
   return state;
 }
 
-function handleMessageChanged(
-  state: ConversationsStateType,
-  action: MessageChangedActionType
-) {
+function handleMessageChanged(state: ConversationsStateType, action: MessageChangedActionType) {
   const { payload } = action;
-  const messageInStoreIndex = state?.messages?.findIndex(
-    m => m.id === payload.id
-  );
+
+  const messageInStoreIndex = state?.messages?.findIndex(m => m.id === payload.id);
   if (messageInStoreIndex >= 0) {
-    const changedMessage = _.pick(
-      payload as any,
-      toPickFromMessageModel
-    ) as MessageTypeInConvo;
+    const changedMessage = _.pick(payload as any, toPickFromMessageModel) as MessageTypeInConvo;
     // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
     const editedMessages = [
       ...state.messages.slice(0, messageInStoreIndex),
@@ -520,15 +517,27 @@ function handleMessageChanged(
     const isPublic = convo?.isPublic || false;
     // reorder the messages depending on the timestamp (we might have an updated serverTimestamp now)
     const sortedMessage = sortMessages(editedMessages, isPublic);
-    const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
-      editedMessages
-    );
+    const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(sortedMessage);
 
     return {
       ...state,
       messages: updatedWithFirstMessageOfSeries,
     };
   }
+
+  return state;
+}
+
+function handleMessagesChanged(state: ConversationsStateType, action: MessagesChangedActionType) {
+  const { payload } = action;
+
+  payload.forEach(element => {
+    // tslint:disable-next-line: no-parameter-reassignment
+    state = handleMessageChanged(state, {
+      payload: element,
+      type: 'MESSAGE_CHANGED',
+    });
+  });
 
   return state;
 }
@@ -541,9 +550,7 @@ function handleMessageExpiredOrDeleted(
   if (conversationKey === state.selectedConversation) {
     // search if we find this message id.
     // we might have not loaded yet, so this case might not happen
-    const messageInStoreIndex = state?.messages.findIndex(
-      m => m.id === messageId
-    );
+    const messageInStoreIndex = state?.messages.findIndex(m => m.id === messageId);
     if (messageInStoreIndex >= 0) {
       // we cannot edit the array directly, so slice the first part, and slice the second part,
       // keeping the index removed out
@@ -552,9 +559,7 @@ function handleMessageExpiredOrDeleted(
         ...state.messages.slice(messageInStoreIndex + 1),
       ];
 
-      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(
-        editedMessages
-      );
+      const updatedWithFirstMessageOfSeries = updateFirstMessageOfSeries(editedMessages);
 
       // FIXME two other thing we have to do:
       // * update the last message text if the message deleted was the last one
@@ -632,8 +637,7 @@ export function reducer(
     return {
       ...state,
       conversationLookup: omit(conversationLookup, [id]),
-      selectedConversation:
-        selectedConversation === id ? undefined : selectedConversation,
+      selectedConversation: selectedConversation === id ? undefined : selectedConversation,
     };
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
@@ -665,9 +669,9 @@ export function reducer(
     const { messages, conversationKey } = action.payload as any;
     // double check that this update is for the shown convo
     if (conversationKey === state.selectedConversation) {
-      const lightMessages = messages.map((m: any) =>
-        _.pick(m, toPickFromMessageModel)
-      ) as Array<MessageTypeInConvo>;
+      const lightMessages = messages.map((m: any) => _.pick(m, toPickFromMessageModel)) as Array<
+        MessageTypeInConvo
+      >;
       return {
         ...state,
         messages: lightMessages,
@@ -678,6 +682,10 @@ export function reducer(
 
   if (action.type === 'MESSAGE_CHANGED') {
     return handleMessageChanged(state, action);
+  }
+
+  if (action.type === 'MESSAGES_CHANGED') {
+    return handleMessagesChanged(state, action);
   }
 
   if (action.type === 'MESSAGE_ADDED') {

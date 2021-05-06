@@ -61,17 +61,9 @@
     },
     async onReceipt(receipt) {
       try {
-        const messages = await window.Signal.Data.getMessagesBySentAt(
-          receipt.get('timestamp'),
-          {
-            MessageCollection: window.models.Message.MessageCollection,
-          }
-        );
+        const messages = await window.Signal.Data.getMessagesBySentAt(receipt.get('timestamp'));
 
-        const message = await this.getTargetMessage(
-          receipt.get('reader'),
-          messages
-        );
+        const message = await this.getTargetMessage(receipt.get('reader'), messages);
 
         if (!message) {
           window.log.info(
@@ -83,9 +75,7 @@
         }
 
         const readBy = message.get('read_by') || [];
-        const expirationStartTimestamp = message.get(
-          'expirationStartTimestamp'
-        );
+        const expirationStartTimestamp = message.get('expirationStartTimestamp');
 
         readBy.push(receipt.get('reader'));
         message.set({
@@ -102,9 +92,7 @@
         }
 
         // notify frontend listeners
-        const conversation = window
-          .getConversationController()
-          .get(message.get('conversationId'));
+        const conversation = window.getConversationController().get(message.get('conversationId'));
         if (conversation) {
           conversation.updateLastMessage();
         }

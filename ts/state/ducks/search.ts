@@ -15,6 +15,7 @@ import {
 import { PubKey } from '../../session/types';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
+import { ConversationTypeEnum } from '../../models/conversation';
 
 // State
 
@@ -76,20 +77,14 @@ export const actions = {
   updateSearchTerm,
 };
 
-function search(
-  query: string,
-  options: SearchOptions
-): SearchResultsKickoffActionType {
+export function search(query: string, options: SearchOptions): SearchResultsKickoffActionType {
   return {
     type: 'SEARCH_RESULTS',
     payload: doSearch(query, options),
   };
 }
 
-async function doSearch(
-  query: string,
-  options: SearchOptions
-): Promise<SearchResultsPayloadType> {
+async function doSearch(query: string, options: SearchOptions): Promise<SearchResultsPayloadType> {
   const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
   const processedQuery = advancedSearchOptions.query;
   const isAdvancedQuery = query !== processedQuery;
@@ -110,11 +105,7 @@ async function doSearch(
       );
       senderFilter = senderFilterQuery.contacts;
     }
-    filteredMessages = filterMessages(
-      filteredMessages,
-      advancedSearchOptions,
-      senderFilter
-    );
+    filteredMessages = filterMessages(filteredMessages, advancedSearchOptions, senderFilter);
   }
 
   return {
@@ -125,13 +116,13 @@ async function doSearch(
     messages: getMessageProps(filteredMessages) || [],
   };
 }
-function clearSearch(): ClearSearchActionType {
+export function clearSearch(): ClearSearchActionType {
   return {
     type: 'SEARCH_CLEAR',
     payload: null,
   };
 }
-function updateSearchTerm(query: string): UpdateSearchTermActionType {
+export function updateSearchTerm(query: string): UpdateSearchTermActionType {
   return {
     type: 'SEARCH_UPDATE',
     payload: {
@@ -163,14 +154,10 @@ function filterMessages(
     }
   }
   if (filters.before > 0) {
-    filteredMessages = filteredMessages.filter(
-      message => message.received_at < filters.before
-    );
+    filteredMessages = filteredMessages.filter(message => message.received_at < filters.before);
   }
   if (filters.after > 0) {
-    filteredMessages = filteredMessages.filter(
-      message => message.received_at > filters.after
-    );
+    filteredMessages = filteredMessages.filter(message => message.received_at > filters.after);
   }
 
   return filteredMessages;
@@ -195,9 +182,7 @@ function getUnixMillisecondsTimestamp(timestamp: string): number {
   return 0;
 }
 
-function getAdvancedSearchOptionsFromQuery(
-  query: string
-): AdvancedSearchOptions {
+function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions {
   const filterSeperator = ':';
   const filters: any = {
     query: null,
@@ -253,16 +238,11 @@ async function queryMessages(query: string) {
   }
 }
 
-async function queryConversationsAndContacts(
-  providedQuery: string,
-  options: SearchOptions
-) {
+async function queryConversationsAndContacts(providedQuery: string, options: SearchOptions) {
   const { ourNumber, noteToSelf } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
 
-  const searchResults: Array<ConversationType> = await searchConversations(
-    query
-  );
+  const searchResults: Array<ConversationType> = await searchConversations(query);
 
   // Split into two groups - active conversations and items just from address book
   let conversations: Array<string> = [];
@@ -278,9 +258,9 @@ async function queryConversationsAndContacts(
       } else {
         conversations.push(primaryDevice);
       }
-    } else if (conversation.type === 'direct') {
+    } else if (conversation.type === ConversationTypeEnum.PRIVATE) {
       contacts.push(conversation.id);
-    } else if (conversation.type !== 'group') {
+    } else if (conversation.type !== ConversationTypeEnum.GROUP) {
       contacts.push(conversation.id);
     } else {
       conversations.push(conversation.id);
@@ -310,10 +290,7 @@ function getEmptyState(): SearchStateType {
   };
 }
 
-export function reducer(
-  state: SearchStateType | undefined,
-  action: SEARCH_TYPES
-): SearchStateType {
+export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES): SearchStateType {
   if (!state) {
     return getEmptyState();
   }
@@ -334,13 +311,7 @@ export function reducer(
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const {
-      query,
-      messages,
-      normalizedPhoneNumber,
-      conversations,
-      contacts,
-    } = payload;
+    const { query, messages, normalizedPhoneNumber, conversations, contacts } = payload;
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {

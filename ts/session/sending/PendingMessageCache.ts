@@ -13,10 +13,7 @@ import { MessageUtils } from '../utils';
 // memory and sync its state with the database on modification (add or remove).
 
 export class PendingMessageCache {
-  public callbacks: Map<
-    string,
-    (message: RawMessage) => Promise<void>
-  > = new Map();
+  public callbacks: Map<string, (message: RawMessage) => Promise<void>> = new Map();
 
   protected loadPromise: Promise<void> | undefined;
   protected cache: Array<RawMessage> = [];
@@ -63,9 +60,7 @@ export class PendingMessageCache {
     return rawMessage;
   }
 
-  public async remove(
-    message: RawMessage
-  ): Promise<Array<RawMessage> | undefined> {
+  public async remove(message: RawMessage): Promise<Array<RawMessage> | undefined> {
     await this.loadFromDBIfNeeded();
     // Should only be called after message is processed
 
@@ -76,11 +71,7 @@ export class PendingMessageCache {
 
     // Remove item from cache and sync with database
     const updatedCache = this.cache.filter(
-      cached =>
-        !(
-          cached.device === message.device &&
-          cached.timestamp === message.timestamp
-        )
+      cached => !(cached.device === message.device && cached.timestamp === message.timestamp)
     );
     this.cache = updatedCache;
     this.callbacks.delete(message.identifier);
@@ -91,9 +82,7 @@ export class PendingMessageCache {
 
   public find(message: RawMessage): RawMessage | undefined {
     // Find a message in the cache
-    return this.cache.find(
-      m => m.device === message.device && m.timestamp === message.timestamp
-    );
+    return this.cache.find(m => m.device === message.device && m.timestamp === message.timestamp);
   }
 
   public async clear() {
@@ -122,9 +111,7 @@ export class PendingMessageCache {
       return [];
     }
 
-    const barePending = JSON.parse(String(data.value)) as Array<
-      PartialRawMessage
-    >;
+    const barePending = JSON.parse(String(data.value)) as Array<PartialRawMessage>;
 
     // Rebuild plainTextBuffer
     return barePending.map((message: PartialRawMessage) => {

@@ -11,9 +11,9 @@ import {
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
 import { LocalizerType } from '../../types/Util';
+import { ConversationTypeEnum } from '../../models/conversation';
 
-export const getConversations = (state: StateType): ConversationsStateType =>
-  state.conversations;
+export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
 export const getConversationLookup = createSelector(
   getConversations,
@@ -49,10 +49,7 @@ export const getMessagesOfSelectedConversation = createSelector(
   (state: ConversationsStateType): Array<MessageTypeInConvo> => state.messages
 );
 
-function getConversationTitle(
-  conversation: ConversationType,
-  i18n: LocalizerType
-): string {
+function getConversationTitle(conversation: ConversationType, i18n: LocalizerType): string {
   if (conversation.name) {
     return conversation.name;
   }
@@ -78,23 +75,15 @@ export const _getConversationComparator = (i18n: LocalizerType) => {
     if (leftActiveAt && rightActiveAt && leftActiveAt !== rightActiveAt) {
       return rightActiveAt - leftActiveAt;
     }
-    const leftTitle = getConversationTitle(
-      left,
-      i18n || window?.i18n
-    ).toLowerCase();
-    const rightTitle = getConversationTitle(
-      right,
-      i18n || window?.i18n
-    ).toLowerCase();
+    const leftTitle = getConversationTitle(left, i18n || window?.i18n).toLowerCase();
+    const rightTitle = getConversationTitle(right, i18n || window?.i18n).toLowerCase();
 
     return collator.compare(leftTitle, rightTitle);
   };
 };
-export const getConversationComparator = createSelector(
-  getIntl,
-  _getConversationComparator
-);
+export const getConversationComparator = createSelector(getIntl, _getConversationComparator);
 
+// export only because we use it in some of our tests
 export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
   comparator: (left: ConversationType, right: ConversationType) => number,
@@ -108,7 +97,7 @@ export const _getLeftPaneLists = (
   const sorted = values.sort(comparator);
 
   const conversations: Array<ConversationType> = [];
-  const allContacts: Array<ConversationType> = [];
+  const directConversations: Array<ConversationType> = [];
 
   let index = 0;
 
@@ -134,10 +123,7 @@ export const _getLeftPaneLists = (
     conversation.index = index;
 
     // Add Open Group to list as soon as the name has been set
-    if (
-      conversation.isPublic &&
-      (!conversation.name || conversation.name === 'Unknown group')
-    ) {
+    if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
       continue;
     }
 
@@ -155,8 +141,8 @@ export const _getLeftPaneLists = (
       continue;
     }
 
-    if (conversation.activeAt !== undefined) {
-      allContacts.push(conversation);
+    if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
+      directConversations.push(conversation);
     }
 
     if (unreadCount < 9 && conversation.unreadCount > 0) {
@@ -169,7 +155,7 @@ export const _getLeftPaneLists = (
 
   return {
     conversations,
-    contacts: allContacts,
+    contacts: directConversations,
     unreadCount,
   };
 };
@@ -223,3 +209,7 @@ export const getMe = createSelector(
     return lookup[ourNumber];
   }
 );
+
+export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
+  return state.unreadCount;
+});

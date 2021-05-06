@@ -4,10 +4,7 @@ import { SignalService } from '../../../protobuf';
 import uuid from 'uuid';
 import { fromHexToArray } from '../../../session/utils/String';
 
-export function generateEnvelopePlusClosedGroup(
-  groupId: string,
-  sender: string
-): EnvelopePlus {
+export function generateEnvelopePlusClosedGroup(groupId: string, sender: string): EnvelopePlus {
   const envelope: EnvelopePlus = {
     senderIdentity: sender,
     receivedAt: Date.now(),

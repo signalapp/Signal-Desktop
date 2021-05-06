@@ -1,47 +1,37 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { SessionIconType } from '../../components/session/icon';
-import {
-  SessionToast,
-  SessionToastType,
-} from '../../components/session/SessionToast';
+import { SessionToast, SessionToastType } from '../../components/session/SessionToast';
 
 // if you push a toast manually with toast...() be sure to set the type attribute of the SessionToast component
-export function pushToastError(
-  id: string,
-  title: string,
-  description?: string
-) {
+export function pushToastError(id: string, title: string, description?: string) {
   toast.error(
-    <SessionToast
-      title={title}
-      description={description}
-      type={SessionToastType.Error}
-    />
+    <SessionToast title={title} description={description} type={SessionToastType.Error} />,
+    { toastId: id, updateId: id }
   );
 }
 
-export function pushToastWarning(
+export function pushToastWarning(id: string, title: string, description?: string) {
+  toast.warning(
+    <SessionToast title={title} description={description} type={SessionToastType.Warning} />,
+    { toastId: id, updateId: id }
+  );
+}
+
+export function pushToastInfo(
   id: string,
   title: string,
-  description?: string
+  description?: string,
+  onToastClick?: () => void
 ) {
-  toast.warning(
-    <SessionToast
-      title={title}
-      description={description}
-      type={SessionToastType.Warning}
-    />
-  );
-}
-
-export function pushToastInfo(id: string, title: string, description?: string) {
   toast.info(
     <SessionToast
       title={title}
       description={description}
       type={SessionToastType.Info}
-    />
+      onToastClick={onToastClick}
+    />,
+    { toastId: id, updateId: id }
   );
 }
 
@@ -57,21 +47,16 @@ export function pushToastSuccess(
       description={description}
       type={SessionToastType.Success}
       icon={icon}
-    />
+    />,
+    { toastId: id, updateId: id }
   );
 }
 
 export function pushLoadAttachmentFailure(message?: string) {
   if (message) {
-    pushToastError(
-      'unableToLoadAttachment',
-      `${window.i18n('unableToLoadAttachment')} ${message}`
-    );
+    pushToastError('unableToLoadAttachment', `${window.i18n('unableToLoadAttachment')} ${message}`);
   } else {
-    pushToastError(
-      'unableToLoadAttachment',
-      window.i18n('unableToLoadAttachment')
-    );
+    pushToastError('unableToLoadAttachment', window.i18n('unableToLoadAttachment'));
   }
 }
 
@@ -80,11 +65,7 @@ export function pushDangerousFileError() {
 }
 
 export function pushFileSizeError(limit: number, units: string) {
-  pushToastError(
-    'fileSizeWarning',
-    window.i18n('fileSizeWarning'),
-    `Max size: ${limit} ${units}`
-  );
+  pushToastError('fileSizeWarning', window.i18n('fileSizeWarning'), `Max size: ${limit} ${units}`);
 }
 
 export function pushFileSizeErrorAsByte(bytesCount: number) {
@@ -106,10 +87,7 @@ export function pushMultipleNonImageError() {
 }
 
 export function pushCannotMixError() {
-  pushToastError(
-    'oneNonImageAtATimeToast',
-    window.i18n('oneNonImageAtATimeToast')
-  );
+  pushToastError('oneNonImageAtATimeToast', window.i18n('oneNonImageAtATimeToast'));
 }
 
 export function pushMaximumAttachmentsError() {
@@ -144,40 +122,37 @@ export function pushUserBanFailure() {
   pushToastError('userBanFailed', window.i18n('userBanFailed'));
 }
 
-export function pushMessageDeleteForbidden() {
-  pushToastError(
-    'messageDeletionForbidden',
-    window.i18n('messageDeletionForbidden')
-  );
+export function pushUserUnbanSuccess() {
+  pushToastSuccess('userUnbanned', window.i18n('userUnbanned'));
 }
 
-export function pushAudioPermissionNeeded() {
+export function pushUserUnbanFailure() {
+  pushToastError('userUnbanFailed', window.i18n('userUnbanFailed'));
+}
+
+export function pushMessageDeleteForbidden() {
+  pushToastError('messageDeletionForbidden', window.i18n('messageDeletionForbidden'));
+}
+
+export function pushAudioPermissionNeeded(onClicked: () => void) {
   pushToastInfo(
     'audioPermissionNeeded',
     window.i18n('audioPermissionNeededTitle'),
-    window.i18n('audioPermissionNeeded')
+    window.i18n('audioPermissionNeeded'),
+    onClicked
   );
 }
 
 export function pushOriginalNotFound() {
-  pushToastError(
-    'originalMessageNotFound',
-    window.i18n('originalMessageNotFound')
-  );
+  pushToastError('originalMessageNotFound', window.i18n('originalMessageNotFound'));
 }
 
 export function pushOriginalNoLongerAvailable() {
-  pushToastError(
-    'originalMessageNotAvailable',
-    window.i18n('originalMessageNotAvailable')
-  );
+  pushToastError('originalMessageNotAvailable', window.i18n('originalMessageNotAvailable'));
 }
 
 export function pushFoundButNotLoaded() {
-  pushToastError(
-    'messageFoundButNotLoaded',
-    window.i18n('messageFoundButNotLoaded')
-  );
+  pushToastError('messageFoundButNotLoaded', window.i18n('messageFoundButNotLoaded'));
 }
 
 export function pushTooManyMembers() {
@@ -192,21 +167,12 @@ export function pushUnblockToSendGroup() {
   pushToastInfo('unblockGroupToSend', window.i18n('unblockGroupToSend'));
 }
 
-export function pushClockOutOfSync() {
-  pushToastError('clockOutOfSync', window.i18n('clockOutOfSync'));
-}
-
 export function pushYouLeftTheGroup() {
   pushToastError('youLeftTheGroup', window.i18n('youLeftTheGroup'));
 }
 
 export function pushDeleted() {
-  pushToastSuccess(
-    'deleted',
-    window.i18n('deleted'),
-    undefined,
-    SessionIconType.Check
-  );
+  pushToastSuccess('deleted', window.i18n('deleted'), undefined, SessionIconType.Check);
 }
 
 export function pushCannotRemoveCreatorFromGroup() {
@@ -214,6 +180,14 @@ export function pushCannotRemoveCreatorFromGroup() {
     'cannotRemoveCreatorFromGroup',
     window.i18n('cannotRemoveCreatorFromGroup'),
     window.i18n('cannotRemoveCreatorFromGroupDesc')
+  );
+}
+
+export function pushOnlyAdminCanRemove() {
+  pushToastInfo(
+    'onlyAdminCanRemoveMembers',
+    window.i18n('onlyAdminCanRemoveMembers'),
+    window.i18n('onlyAdminCanRemoveMembersDesc')
   );
 }
 
@@ -226,17 +200,11 @@ export function pushUserNeedsToHaveJoined() {
 }
 
 export function pushUserAddedToModerators() {
-  pushToastSuccess(
-    'userAddedToModerators',
-    window.i18n('userAddedToModerators')
-  );
+  pushToastSuccess('userAddedToModerators', window.i18n('userAddedToModerators'));
 }
 
-export function pushUserRemovedToModerators() {
-  pushToastSuccess(
-    'userRemovedFromModerators',
-    window.i18n('userRemovedFromModerators')
-  );
+export function pushUserRemovedFromModerators() {
+  pushToastSuccess('userRemovedFromModerators', window.i18n('userRemovedFromModerators'));
 }
 
 export function pushInvalidPubKey() {

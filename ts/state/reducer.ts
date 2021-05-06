@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux';
 
 import { reducer as search, SearchStateType } from './ducks/search';
-import {
-  ConversationsStateType,
-  reducer as conversations,
-} from './ducks/conversations';
+import { ConversationsStateType, reducer as conversations } from './ducks/conversations';
 import { reducer as user, UserStateType } from './ducks/user';
 import { reducer as theme, ThemeStateType } from './ducks/theme';
 import { reducer as section, SectionStateType } from './ducks/section';
+import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
 
 export type StateType = {
   search: SearchStateType;
@@ -16,6 +14,7 @@ export type StateType = {
   conversations: ConversationsStateType;
   theme: ThemeStateType;
   section: SectionStateType;
+  defaultRooms: DefaultRoomsState;
 };
 
 export const reducers = {
@@ -27,6 +26,7 @@ export const reducers = {
   user,
   theme,
   section,
+  defaultRooms,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

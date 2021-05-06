@@ -2,19 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './session/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 
-import {
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from './session/icon';
+import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
 import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
 import { ToastUtils, UserUtils } from '../session/utils';
@@ -104,14 +96,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
         <div className="session-id-section">
           <PillDivider text={window.i18n('yourSessionID')} />
-          <p
-            className={classNames(
-              'text-selectable',
-              'session-id-section-display'
-            )}
-          >
-            {sessionID}
-          </p>
+          <p className={classNames('text-selectable', 'session-id-section-display')}>{sessionID}</p>
 
           <div className="spacer-lg" />
           <SessionSpinner loading={this.state.loading} />
@@ -149,11 +134,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
         <div className="avatar-center">
           <div className="avatar-center-inner">
             {this.renderAvatar()}
-            <div
-              className="image-upload-section"
-              role="button"
-              onClick={this.fireInputEvent}
-            />
+            <div className="image-upload-section" role="button" onClick={this.fireInputEvent} />
             <input
               type="file"
               ref={this.inputEl}
@@ -237,12 +218,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
     return (
       <div className="qr-image">
-        <QRCode
-          value={sessionID}
-          bgColor={bgColor}
-          fgColor={fgColor}
-          level="L"
-        />
+        <QRCode value={sessionID} bgColor={bgColor} fgColor={fgColor} level="L" />
       </div>
     );
   }
@@ -261,9 +237,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
     const { pubkey } = this.props;
     const userName = profileName || pubkey;
 
-    return (
-      <Avatar avatarPath={avatar} name={userName} size={80} pubkey={pubkey} />
-    );
+    return <Avatar avatarPath={avatar} name={userName} size={AvatarSize.XL} pubkey={pubkey} />;
   }
 
   private onNameEdited(event: any) {

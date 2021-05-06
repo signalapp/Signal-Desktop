@@ -27,8 +27,7 @@ describe('Backup', () => {
     });
 
     it('handles a file with a long extension', () => {
-      const initial =
-        '0123456789012345678901234567890123456789.01234567890123456789';
+      const initial = '0123456789012345678901234567890123456789.01234567890123456789';
       const expected = '012345678901234567890123456789';
       assert.strictEqual(Signal.Backup._trimFileName(initial), expected);
     });
@@ -51,11 +50,7 @@ describe('Backup', () => {
       };
       const expected = 'blah.jpg';
 
-      const actual = Signal.Backup._getExportAttachmentFileName(
-        message,
-        index,
-        attachment
-      );
+      const actual = Signal.Backup._getExportAttachmentFileName(message, index, attachment);
       assert.strictEqual(actual, expected);
     });
 
@@ -69,11 +64,7 @@ describe('Backup', () => {
       };
       const expected = '123';
 
-      const actual = Signal.Backup._getExportAttachmentFileName(
-        message,
-        index,
-        attachment
-      );
+      const actual = Signal.Backup._getExportAttachmentFileName(message, index, attachment);
       assert.strictEqual(actual, expected);
     });
 
@@ -88,11 +79,7 @@ describe('Backup', () => {
       };
       const expected = '123.jpeg';
 
-      const actual = Signal.Backup._getExportAttachmentFileName(
-        message,
-        index,
-        attachment
-      );
+      const actual = Signal.Backup._getExportAttachmentFileName(message, index, attachment);
       assert.strictEqual(actual, expected);
     });
 
@@ -107,11 +94,7 @@ describe('Backup', () => {
       };
       const expected = '123.something';
 
-      const actual = Signal.Backup._getExportAttachmentFileName(
-        message,
-        index,
-        attachment
-      );
+      const actual = Signal.Backup._getExportAttachmentFileName(message, index, attachment);
       assert.strictEqual(actual, expected);
     });
   });
@@ -128,11 +111,7 @@ describe('Backup', () => {
       };
       const expected = 'id-45';
 
-      const actual = Signal.Backup._getAnonymousAttachmentFileName(
-        message,
-        index,
-        attachment
-      );
+      const actual = Signal.Backup._getAnonymousAttachmentFileName(message, index, attachment);
       assert.strictEqual(actual, expected);
     });
 
@@ -147,11 +126,7 @@ describe('Backup', () => {
       };
       const expected = 'id-45-1';
 
-      const actual = Signal.Backup._getAnonymousAttachmentFileName(
-        message,
-        index,
-        attachment
-      );
+      const actual = Signal.Backup._getAnonymousAttachmentFileName(message, index, attachment);
       assert.strictEqual(actual, expected);
     });
   });
@@ -164,10 +139,7 @@ describe('Backup', () => {
         id: 'id',
       };
       const expected = '123 (012345678901234567890123456789 id)';
-      assert.strictEqual(
-        Signal.Backup._getConversationDirName(conversation),
-        expected
-      );
+      assert.strictEqual(Signal.Backup._getConversationDirName(conversation), expected);
     });
 
     it('uses just id if name is not available', () => {
@@ -176,10 +148,7 @@ describe('Backup', () => {
         id: 'id',
       };
       const expected = '123 (id)';
-      assert.strictEqual(
-        Signal.Backup._getConversationDirName(conversation),
-        expected
-      );
+      assert.strictEqual(Signal.Backup._getConversationDirName(conversation), expected);
     });
 
     it('uses inactive for missing active_at', () => {
@@ -188,10 +157,7 @@ describe('Backup', () => {
         id: 'id',
       };
       const expected = 'inactive (name id)';
-      assert.strictEqual(
-        Signal.Backup._getConversationDirName(conversation),
-        expected
-      );
+      assert.strictEqual(Signal.Backup._getConversationDirName(conversation), expected);
     });
   });
 
@@ -203,10 +169,7 @@ describe('Backup', () => {
         type: 'private',
       };
       const expected = '123 (id)';
-      assert.strictEqual(
-        Signal.Backup._getConversationLoggingName(conversation),
-        expected
-      );
+      assert.strictEqual(Signal.Backup._getConversationLoggingName(conversation), expected);
     });
 
     it('uses just id if name is not available', () => {
@@ -216,10 +179,7 @@ describe('Backup', () => {
         type: 'group',
       };
       const expected = '123 ([REDACTED_GROUP]pId)';
-      assert.strictEqual(
-        Signal.Backup._getConversationLoggingName(conversation),
-        expected
-      );
+      assert.strictEqual(Signal.Backup._getConversationLoggingName(conversation), expected);
     });
 
     it('uses inactive for missing active_at', () => {
@@ -228,10 +188,7 @@ describe('Backup', () => {
         type: 'private',
       };
       const expected = 'inactive (id)';
-      assert.strictEqual(
-        Signal.Backup._getConversationLoggingName(conversation),
-        expected
-      );
+      assert.strictEqual(Signal.Backup._getConversationLoggingName(conversation), expected);
     });
   });
 
@@ -245,17 +202,12 @@ describe('Backup', () => {
       //  because it always fails due to lstat permission error.
       // Don't know how to fix it so this is a temp work around.
       if (isWindows || !isWindows) {
-        console.log(
-          'Skipping exports then imports to produce the same data we started'
-        );
+        console.log('Skipping exports then imports to produce the same data we started');
         this.skip();
         return;
       }
 
-      const {
-        upgradeMessageSchema,
-        loadAttachmentData,
-      } = window.Signal.Migrations;
+      const { upgradeMessageSchema, loadAttachmentData } = window.Signal.Migrations;
 
       const staticKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
       const attachmentsPattern = path.join(attachmentsPath, '**');
@@ -278,9 +230,7 @@ describe('Backup', () => {
         jpg: getFixture('fixtures/koushik-chowdavarapu-105425-unsplash.jpg'),
         mp3: getFixture('fixtures/incompetech-com-Agnus-Dei-X.mp3'),
         txt: getFixture('fixtures/lorem-ipsum.txt'),
-        png: getFixture(
-          'fixtures/freepngs-2cd43b_bed7d1327e88454487397574d87b64dc_mv2.png'
-        ),
+        png: getFixture('fixtures/freepngs-2cd43b_bed7d1327e88454487397574d87b64dc_mv2.png'),
       };
 
       async function wrappedLoadAttachment(attachment) {
@@ -308,8 +258,7 @@ describe('Backup', () => {
         Object.entries(object)
           .filter(([, value]) => value === undefined)
           .map(([name]) => name);
-      const omitUndefinedKeys = object =>
-        _.omit(object, getUndefinedKeys(object));
+      const omitUndefinedKeys = object => _.omit(object, getUndefinedKeys(object));
 
       // We want to know which paths have two slashes, since that tells us which files
       //   in the attachment fan-out are files vs. directories.
@@ -340,14 +289,11 @@ describe('Backup', () => {
             });
           };
 
-          const quotedAttachments =
-            (message.quote && message.quote.attachments) || [];
+          const quotedAttachments = (message.quote && message.quote.attachments) || [];
 
           return Object.assign({}, message, {
             quote: Object.assign({}, message.quote, {
-              attachments: await Promise.all(
-                quotedAttachments.map(wrappedMapper)
-              ),
+              attachments: await Promise.all(quotedAttachments.map(wrappedMapper)),
             }),
           });
         };
@@ -369,9 +315,7 @@ describe('Backup', () => {
               return contact && contact.avatar && contact.avatar.avatar
                 ? Object.assign({}, contact, {
                     avatar: Object.assign({}, contact.avatar, {
-                      avatar: await wrappedLoadAttachment(
-                        contact.avatar.avatar
-                      ),
+                      avatar: await wrappedLoadAttachment(contact.avatar.avatar),
                     }),
                   })
                 : contact;
@@ -495,9 +439,7 @@ describe('Backup', () => {
 
         console.log('Backup test: Create models, save to db/disk');
         const message = await upgradeMessageSchema(messageWithAttachments);
-        await window.Signal.Data.saveMessage(message, {
-          Message: window.models.Message.MessageModel,
-        });
+        await window.Signal.Data.saveMessage(message);
 
         const conversation = {
           active_at: 1524185933350,
@@ -518,13 +460,9 @@ describe('Backup', () => {
           version: 2,
         };
         console.log({ conversation });
-        await window.Signal.Data.saveConversation(conversation, {
-          Conversation: window.models.Conversation.ConversationModel,
-        });
+        await window.Signal.Data.saveConversation(conversation);
 
-        console.log(
-          'Backup test: Ensure that all attachments were saved to disk'
-        );
+        console.log('Backup test: Ensure that all attachments were saved to disk');
         const attachmentFiles = removeDirs(glob.sync(attachmentsPattern));
         console.log({ attachmentFiles });
         assert.strictEqual(ATTACHMENT_COUNT, attachmentFiles.length);
@@ -541,9 +479,7 @@ describe('Backup', () => {
         const messageZipExists = fse.existsSync(archivePath);
         assert.strictEqual(true, messageZipExists);
 
-        console.log(
-          'Backup test: Ensure that all attachments made it to backup dir'
-        );
+        console.log('Backup test: Ensure that all attachments made it to backup dir');
         const backupAttachmentPattern = path.join(backupDir, 'attachments/*');
         const backupAttachments = glob.sync(backupAttachmentPattern);
         console.log({ backupAttachments });
@@ -573,35 +509,24 @@ describe('Backup', () => {
         ];
         const conversationFromDB = conversationCollection.at(0).attributes;
         console.log({ conversationFromDB, conversation });
-        assert.deepEqual(
-          _.omit(conversationFromDB, ommited),
-          _.omit(conversation, ommited)
-        );
+        assert.deepEqual(_.omit(conversationFromDB, ommited), _.omit(conversation, ommited));
 
         console.log('Backup test: Check messages');
-        const messageCollection = await window.Signal.Data.getAllMessages({
-          MessageCollection: window.models.Message.MessageCollection,
-        });
-        assert.strictEqual(messageCollection.length, MESSAGE_COUNT);
-        const messageFromDB = removeId(messageCollection.at(0).attributes);
+        const allMessages = await window.Signal.Data.getAllMessages();
+        assert.strictEqual(allMessages.length, MESSAGE_COUNT);
+        const messageFromDB = removeId(allMessages.at(0).attributes);
         const expectedMessage = messageFromDB;
         console.log({ messageFromDB, expectedMessage });
         assert.deepEqual(messageFromDB, expectedMessage);
 
         console.log('Backup test: ensure that all attachments were imported');
-        const recreatedAttachmentFiles = removeDirs(
-          glob.sync(attachmentsPattern)
-        );
+        const recreatedAttachmentFiles = removeDirs(glob.sync(attachmentsPattern));
         console.log({ recreatedAttachmentFiles });
         assert.strictEqual(ATTACHMENT_COUNT, recreatedAttachmentFiles.length);
         assert.deepEqual(attachmentFiles, recreatedAttachmentFiles);
 
-        console.log(
-          'Backup test: Check that all attachments were successfully imported'
-        );
-        const messageWithAttachmentsFromDB = await loadAllFilesFromDisk(
-          messageFromDB
-        );
+        console.log('Backup test: Check that all attachments were successfully imported');
+        const messageWithAttachmentsFromDB = await loadAllFilesFromDisk(messageFromDB);
         const expectedMessageWithAttachments = await loadAllFilesFromDisk(
           omitUndefinedKeys(message)
         );

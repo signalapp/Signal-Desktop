@@ -15,8 +15,7 @@
         let complete = false;
         let timer = setTimeout(() => {
           if (!complete) {
-            const message = `${id ||
-              ''} task did not complete in time. Calling stack: ${
+            const message = `${id || ''} task did not complete in time. Calling stack: ${
               errorForStack.stack
             }`;
 

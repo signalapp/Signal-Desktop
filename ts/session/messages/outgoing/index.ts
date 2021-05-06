@@ -1,5 +1,7 @@
 import { Message } from './Message';
 import { OpenGroupMessage } from './OpenGroupMessage';
 
-export * from './content/';
+export * from './ContentMessage';
+export * from './DataMessage';
+
 export { Message, OpenGroupMessage };

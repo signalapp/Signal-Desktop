@@ -8,14 +8,11 @@ import { describe } from 'mocha';
 import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../../test/test-utils';
 import { MessageQueue } from '../../../../session/sending/MessageQueue';
-import {
-  ContentMessage,
-  OpenGroupMessage,
-} from '../../../../session/messages/outgoing';
+import { ContentMessage, OpenGroupMessage } from '../../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
-import { ClosedGroupMessage } from '../../../../session/messages/outgoing/content/data/group/ClosedGroupMessage';
+import { ClosedGroupMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupMessage';
 
 import chaiAsPromised from 'chai-as-promised';
 import { MessageSentHandler } from '../../../../session/sending/MessageSentHandler';
@@ -39,11 +36,7 @@ describe('MessageQueue', () => {
   let messageQueueStub: MessageQueue;
 
   // Message Sender Stubs
-  let sendStub: sinon.SinonStub<[
-    RawMessage,
-    (number | undefined)?,
-    (number | undefined)?
-  ]>;
+  let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?, (number | undefined)?]>;
 
   beforeEach(() => {
     // Utils Stubs
@@ -85,11 +78,7 @@ describe('MessageQueue', () => {
       });
 
       void pendingMessageCache
-        .add(
-          device,
-          TestUtils.generateChatMessage(),
-          waitForMessageSentEvent as any
-        )
+        .add(device, TestUtils.generateVisibleMessage(), waitForMessageSentEvent as any)
         .then(async () => {
           return messageQueueStub.processPending(device);
         })
@@ -108,7 +97,7 @@ describe('MessageQueue', () => {
         }
 
         const device = TestUtils.generateFakePubKey();
-        await pendingMessageCache.add(device, TestUtils.generateChatMessage());
+        await pendingMessageCache.add(device, TestUtils.generateVisibleMessage());
 
         const initialMessages = await pendingMessageCache.getForDevice(device);
         expect(initialMessages).to.have.length(1);
@@ -125,15 +114,15 @@ describe('MessageQueue', () => {
     describe('events', () => {
       it('should send a success event if message was sent', done => {
         const device = TestUtils.generateFakePubKey();
-        const message = TestUtils.generateChatMessage();
+        const message = TestUtils.generateVisibleMessage();
         const waitForMessageSentEvent = async () =>
           new Promise<void>(resolve => {
             resolve();
             try {
               expect(messageSentHandlerSuccessStub.callCount).to.be.equal(1);
-              expect(
-                messageSentHandlerSuccessStub.lastCall.args[0].identifier
-              ).to.be.equal(message.identifier);
+              expect(messageSentHandlerSuccessStub.lastCall.args[0].identifier).to.be.equal(
+                message.identifier
+              );
               done();
             } catch (e) {
               done(e);
@@ -149,7 +138,7 @@ describe('MessageQueue', () => {
         sendStub.throws(new Error('failure'));
 
         const device = TestUtils.generateFakePubKey();
-        const message = TestUtils.generateChatMessage();
+        const message = TestUtils.generateVisibleMessage();
         void pendingMessageCache
           .add(device, message)
           .then(() => messageQueueStub.processPending(device));
@@ -159,12 +148,10 @@ describe('MessageQueue', () => {
           if (messageSentHandlerFailedStub.callCount === 1) {
             try {
               expect(messageSentHandlerFailedStub.callCount).to.be.equal(1);
-              expect(
-                messageSentHandlerFailedStub.lastCall.args[0].identifier
-              ).to.be.equal(message.identifier);
-              expect(
-                messageSentHandlerFailedStub.lastCall.args[1].message
-              ).to.equal('failure');
+              expect(messageSentHandlerFailedStub.lastCall.args[0].identifier).to.be.equal(
+                message.identifier
+              );
+              expect(messageSentHandlerFailedStub.lastCall.args[1].message).to.equal('failure');
               done();
             } catch (e) {
               done(e);
@@ -180,7 +167,7 @@ describe('MessageQueue', () => {
       const device = TestUtils.generateFakePubKey();
       const stub = sandbox.stub(messageQueueStub as any, 'process').resolves();
 
-      const message = TestUtils.generateChatMessage();
+      const message = TestUtils.generateVisibleMessage();
       await messageQueueStub.sendToPubKey(device, message);
 
       const args = stub.lastCall.args as [Array<PubKey>, ContentMessage];
@@ -191,17 +178,15 @@ describe('MessageQueue', () => {
 
   describe('sendToGroup', () => {
     it('should throw an error if invalid non-group message was passed', async () => {
-      const chatMessage = TestUtils.generateChatMessage();
-      return expect(
-        messageQueueStub.sendToGroup(chatMessage as any)
-      ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
+      const chatMessage = TestUtils.generateVisibleMessage();
+      return expect(messageQueueStub.sendToGroup(chatMessage as any)).to.be.rejectedWith(
+        'Invalid group message passed in sendToGroup.'
+      );
     });
 
     describe('closed groups', () => {
       it('can send to closed group', async () => {
-        const members = TestUtils.generateFakePubKeys(4).map(
-          p => new PubKey(p.key)
-        );
+        const members = TestUtils.generateFakePubKeys(4).map(p => new PubKey(p.key));
         sandbox.stub(GroupUtils, 'getGroupMembers').resolves(members);
 
         const send = sandbox.stub(messageQueueStub, 'sendToPubKey').resolves();
@@ -243,15 +228,13 @@ describe('MessageQueue', () => {
           const message = TestUtils.generateOpenGroupMessage();
           await messageQueueStub.sendToOpenGroup(message);
           expect(messageSentPublicHandlerSuccessStub.callCount).to.equal(1);
-          expect(
-            messageSentPublicHandlerSuccessStub.lastCall.args[0].identifier
-          ).to.equal(message.identifier);
-          expect(
-            messageSentPublicHandlerSuccessStub.lastCall.args[1].serverId
-          ).to.equal(5125);
-          expect(
-            messageSentPublicHandlerSuccessStub.lastCall.args[1].serverTimestamp
-          ).to.equal(5126);
+          expect(messageSentPublicHandlerSuccessStub.lastCall.args[0].identifier).to.equal(
+            message.identifier
+          );
+          expect(messageSentPublicHandlerSuccessStub.lastCall.args[1].serverId).to.equal(5125);
+          expect(messageSentPublicHandlerSuccessStub.lastCall.args[1].serverTimestamp).to.equal(
+            5126
+          );
         });
 
         it('should emit a fail event if something went wrong', async () => {
@@ -260,9 +243,9 @@ describe('MessageQueue', () => {
 
           await messageQueueStub.sendToOpenGroup(message);
           expect(messageSentHandlerFailedStub.callCount).to.equal(1);
-          expect(
-            messageSentHandlerFailedStub.lastCall.args[0].identifier
-          ).to.equal(message.identifier);
+          expect(messageSentHandlerFailedStub.lastCall.args[0].identifier).to.equal(
+            message.identifier
+          );
         });
       });
     });

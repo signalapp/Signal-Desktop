@@ -44,8 +44,7 @@ function getStringable(thing) {
 window.textsecure.utils = (() => {
   const self = {};
   self.unencodeNumber = number => number.split('.');
-  self.isNumberSane = number =>
-    number[0] === '+' && /^[0-9]+$/.test(number.substring(1));
+  self.isNumberSane = number => number[0] === '+' && /^[0-9]+$/.test(number.substring(1));
 
   /** ************************
    *** JSON'ing Utilities ***

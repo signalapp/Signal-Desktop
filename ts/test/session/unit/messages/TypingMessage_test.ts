@@ -1,12 +1,10 @@
 import { expect } from 'chai';
 
-import { TypingMessage } from '../../../../session/messages/outgoing';
 import { SignalService } from '../../../../protobuf';
 import Long from 'long';
 import { toNumber } from 'lodash';
-import { StringUtils } from '../../../../session/utils';
-import { TestUtils } from '../../../test-utils';
 import { Constants } from '../../../../session';
+import { TypingMessage } from '../../../../session/messages/outgoing/controlMessage/TypingMessage';
 
 describe('TypingMessage', () => {
   it('has Action.STARTED if isTyping = true', () => {
@@ -75,9 +73,6 @@ describe('TypingMessage', () => {
       isTyping: true,
     });
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
-    expect(message.identifier).to.not.equal(
-      undefined,
-      'identifier cannot be undefined'
-    );
+    expect(message.identifier).to.not.equal(undefined, 'identifier cannot be undefined');
   });
 });

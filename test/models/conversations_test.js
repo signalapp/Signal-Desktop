@@ -61,7 +61,7 @@ describe('ConversationCollection', () => {
   //       type: 'group',
   //       id: '052d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
   //     });
-  //     await convo.leaveGroup();
+  //     await convo.leaveClosedGroup();
   //     assert.notEqual(convo.messageCollection.length, 0);
   //   });
   //   it('has a title', () => {

@@ -41,10 +41,7 @@
     },
 
     setLastProfileUpdateTimestamp(lastUpdateTimestamp) {
-      textsecure.storage.put(
-        'last_profile_update_timestamp',
-        lastUpdateTimestamp
-      );
+      textsecure.storage.put('last_profile_update_timestamp', lastUpdateTimestamp);
     },
 
     getDeviceId() {

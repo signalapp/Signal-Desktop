@@ -3,9 +3,7 @@ const sinon = require('sinon');
 
 const Message = require('../../../js/modules/types/message');
 const { SignalService } = require('../../../ts/protobuf');
-const {
-  stringToArrayBuffer,
-} = require('../../../js/modules/string_to_array_buffer');
+const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buffer');
 
 describe('Message', () => {
   const logger = {
@@ -77,10 +75,7 @@ describe('Message', () => {
 
       const writeExistingAttachmentData = attachment => {
         assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.deepEqual(
-          attachment.data,
-          stringToArrayBuffer('It’s easy if you try')
-        );
+        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
       };
 
       const actual = await Message.createAttachmentDataWriter({
@@ -125,10 +120,7 @@ describe('Message', () => {
 
       const writeExistingAttachmentData = attachment => {
         assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.deepEqual(
-          attachment.data,
-          stringToArrayBuffer('It’s easy if you try')
-        );
+        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
       };
 
       const actual = await Message.createAttachmentDataWriter({
@@ -176,10 +168,7 @@ describe('Message', () => {
 
       const writeExistingAttachmentData = attachment => {
         assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.deepEqual(
-          attachment.data,
-          stringToArrayBuffer('It’s easy if you try')
-        );
+        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
       };
 
       const actual = await Message.createAttachmentDataWriter({
@@ -291,9 +280,7 @@ describe('Message', () => {
         contact: [],
       };
 
-      const expectedAttachmentData = stringToArrayBuffer(
-        'It’s easy if you try'
-      );
+      const expectedAttachmentData = stringToArrayBuffer('It’s easy if you try');
       const context = {
         writeNewAttachmentData: async attachmentData => {
           assert.deepEqual(attachmentData, expectedAttachmentData);
@@ -340,13 +327,11 @@ describe('Message', () => {
           schemaVersion: 1,
         };
 
-        const v1 = async message =>
-          Object.assign({}, message, { hasUpgradedToVersion1: true });
+        const v1 = async message => Object.assign({}, message, { hasUpgradedToVersion1: true });
         const v2 = async () => {
           throw new Error('boom');
         };
-        const v3 = async message =>
-          Object.assign({}, message, { hasUpgradedToVersion3: true });
+        const v3 = async message => Object.assign({}, message, { hasUpgradedToVersion3: true });
 
         const toVersion1 = Message._withSchemaVersion({
           schemaVersion: 1,
@@ -363,10 +348,7 @@ describe('Message', () => {
 
         const context = { logger };
         const upgradeSchema = async message =>
-          toVersion3(
-            await toVersion2(await toVersion1(message, context), context),
-            context
-          );
+          toVersion3(await toVersion2(await toVersion1(message, context), context), context);
 
         const actual = await upgradeSchema(input);
         assert.deepEqual(actual, expected);
@@ -421,10 +403,7 @@ describe('Message', () => {
         const context = { logger };
         // NOTE: We upgrade to 3 before 2, i.e. the pipeline should abort:
         const upgradeSchema = async attachment =>
-          toVersion2(
-            await toVersion3(await toVersion1(attachment, context), context),
-            context
-          );
+          toVersion2(await toVersion3(await toVersion1(attachment, context), context), context);
 
         const actual = await upgradeSchema(input);
         assert.deepEqual(actual, expected);
@@ -436,8 +415,7 @@ describe('Message', () => {
     it('should require a version number', () => {
       const toVersionX = () => {};
       assert.throws(
-        () =>
-          Message._withSchemaVersion({ schemaVersion: toVersionX, upgrade: 2 }),
+        () => Message._withSchemaVersion({ schemaVersion: toVersionX, upgrade: 2 }),
         '_withSchemaVersion: schemaVersion is invalid'
       );
     });
@@ -450,8 +428,7 @@ describe('Message', () => {
     });
 
     it('should skip upgrading if message has already been upgraded', async () => {
-      const upgrade = async message =>
-        Object.assign({}, message, { foo: true });
+      const upgrade = async message => Object.assign({}, message, { foo: true });
       const upgradeWithVersion = Message._withSchemaVersion({
         schemaVersion: 3,
         upgrade,
@@ -512,9 +489,7 @@ describe('Message', () => {
 
   describe('_mapQuotedAttachments', () => {
     it('handles message with no quote', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -525,9 +500,7 @@ describe('Message', () => {
     });
 
     it('handles quote with no attachments', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -548,9 +521,7 @@ describe('Message', () => {
     });
 
     it('handles zero attachments', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -565,9 +536,7 @@ describe('Message', () => {
     });
 
     it('handles attachments with no thumbnail', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -587,9 +556,7 @@ describe('Message', () => {
     });
 
     it('does not eliminate thumbnails with missing data field', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .returns({ fileName: 'processed!' });
+      const upgradeAttachment = sinon.stub().returns({ fileName: 'processed!' });
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -665,9 +632,7 @@ describe('Message', () => {
 
   describe('_mapContact', () => {
     it('handles message with no contact field', async () => {
-      const upgradeContact = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
+      const upgradeContact = sinon.stub().throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapContact(upgradeContact);
 
       const message = {

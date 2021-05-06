@@ -111,9 +111,7 @@ export function getLastProfileUpdateTimestamp(): number | undefined {
 }
 
 export function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
-  return window.textsecure.storage.user.setLastProfileUpdateTimestamp(
-    lastUpdateTimestamp
-  );
+  return window.textsecure.storage.user.setLastProfileUpdateTimestamp(lastUpdateTimestamp);
 }
 
 export function getCurrentRecoveryPhrase() {

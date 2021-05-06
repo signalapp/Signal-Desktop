@@ -32,9 +32,7 @@ export class FindMember {
       const publicMembers = await window.lokiPublicChatAPI.getListOfMembers();
       const memberConversations = publicMembers
         .map(publicMember =>
-          ConversationController.getInstance().get(
-            publicMember.authorPhoneNumber
-          )
+          ConversationController.getInstance().get(publicMember.authorPhoneNumber)
         )
         .filter((c: any) => !!c);
       groupMembers = memberConversations;

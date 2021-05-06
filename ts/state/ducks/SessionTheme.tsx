@@ -129,8 +129,7 @@ export const darkTheme = {
     clickableHovered: '#414347',
     sessionBorder: `1px solid ${borderDarkTheme}`,
     sessionUnreadBorder: `4px solid ${accentDarkTheme}`,
-    leftpaneOverlayBackground:
-      'linear-gradient(180deg, #171717 0%, #121212 100%)',
+    leftpaneOverlayBackground: 'linear-gradient(180deg, #171717 0%, #121212 100%)',
     // scrollbars
     scrollBarTrack: '#1b1b1b',
     scrollBarThumb: '#474646',
@@ -157,13 +156,9 @@ export const inversedTheme = (theme: DefaultTheme): DefaultTheme => {
   };
 };
 
-export const SessionTheme = ({
-  children,
-  theme,
-}: {
-  children: any;
-  theme: DefaultTheme;
-}) => <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+export const SessionTheme = ({ children, theme }: { children: any; theme: DefaultTheme }) => (
+  <ThemeProvider theme={theme}>{children}</ThemeProvider>
+);
 
 window.lightTheme = lightTheme;
 window.darkTheme = darkTheme;

@@ -35,23 +35,19 @@
       }
 
       const message = messages.find(
-        item =>
-          !item.isIncoming() && originalSource === item.get('conversationId')
+        item => !item.isIncoming() && originalSource === item.get('conversationId')
       );
       if (message) {
         return message;
       }
 
-      const groups = await window.Signal.Data.getAllGroupsInvolvingId(
-        originalSource
-      );
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(originalSource);
 
       const ids = groups.pluck('id');
       ids.push(originalSource);
 
       const target = messages.find(
-        item =>
-          !item.isIncoming() && _.contains(ids, item.get('conversationId'))
+        item => !item.isIncoming() && _.contains(ids, item.get('conversationId'))
       );
       if (!target) {
         return null;
@@ -61,17 +57,9 @@
     },
     async onReceipt(receipt) {
       try {
-        const messages = await window.Signal.Data.getMessagesBySentAt(
-          receipt.get('timestamp'),
-          {
-            MessageCollection: window.models.Message.MessageCollection,
-          }
-        );
+        const messages = await window.Signal.Data.getMessagesBySentAt(receipt.get('timestamp'));
 
-        const message = await this.getTargetMessage(
-          receipt.get('source'),
-          messages
-        );
+        const message = await this.getTargetMessage(receipt.get('source'), messages);
         if (!message) {
           window.log.info(
             'No message for delivery receipt',
@@ -83,9 +71,7 @@
 
         const deliveries = message.get('delivered') || 0;
         const deliveredTo = message.get('delivered_to') || [];
-        const expirationStartTimestamp = message.get(
-          'expirationStartTimestamp'
-        );
+        const expirationStartTimestamp = message.get('expirationStartTimestamp');
         message.set({
           delivered_to: _.union(deliveredTo, [receipt.get('source')]),
           delivered: deliveries + 1,
@@ -101,9 +87,7 @@
         }
 
         // notify frontend listeners
-        const conversation = window
-          .getConversationController()
-          .get(message.get('conversationId'));
+        const conversation = window.getConversationController().get(message.get('conversationId'));
         if (conversation) {
           conversation.updateLastMessage();
         }

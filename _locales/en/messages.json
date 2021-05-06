@@ -453,6 +453,10 @@
   "unverify": {
     "message": "Mark As Not Verified"
   },
+  "markAllAsRead": {
+    "message": "Mark All as Read",
+    "description": "Shown on a menu to mark the whole convo as read."
+  },
   "isNotVerified": {
     "message": "You have not verified your safety number with $name$.",
     "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
@@ -772,7 +776,7 @@
     "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
   "audioPermissionNeeded": {
-    "message": "Session needs microphone access to send audio messages.",
+    "message": "You can enable microphone access under: Settings (Gear icon) => Privacy",
     "description": "Shown if the user attempts to send an audio message without audio permssions turned on",
     "androidKey": "ConversationActivity_to_send_audio_messages_allow_signal_access_to_your_microphone"
   },
@@ -1061,6 +1065,10 @@
     "message": "Copy Session ID",
     "description": "Copy to clipboard session ID",
     "androidKey": "activity_conversation_menu_copy_session_id"
+  },
+  "copyOpenGroupURL": {
+    "message": "Copy Group's URL",
+    "description": "Copy to clipboard Open Group URL"
   },
   "save": {
     "message": "Save",
@@ -1675,6 +1683,22 @@
     "description": "Shown in the settings page as the heading for the blocked user settings",
     "androidKey": "preferences_app_protection__blocked_contacts"
   },
+  "unbanUser": {
+    "message": "Unban User",
+    "description": "Unban user from open group by public key."
+  },
+  "unbanUserConfirm": {
+    "message": "Are you sure you want to unban user?",
+    "description": "Message shown when confirming user unban."
+  },
+  "userUnbanned": {
+    "message": "User unbanned successfully",
+    "description": "Toast on succesful user unban."
+  },
+  "userUnbanFailed": {
+    "message": "Unban failed!",
+    "description": "Toast on unsuccesful user unban."
+  },
   "banUser": {
     "message": "Ban User",
     "description": "Ban user from open group by public key."
@@ -1991,6 +2015,10 @@
   "noModeratorsToRemove": {
     "message": "no moderators to remove"
   },
+  "onlyAdminCanRemoveMembers": { "message": "You are not the creator" },
+  "onlyAdminCanRemoveMembersDesc": {
+    "message": "Only the creator of the group can remove users"
+  },
   "createAccount": {
     "message": "Create Account"
   },
@@ -2027,6 +2055,10 @@
   "anonymous": {
     "message": "Anonymous",
     "description": "The name of currently unidentified users"
+  },
+  "removeResidueMembers": {
+    "message": "Clicking ok will also remove those members as they left the group.",
+    "description": "Shown when the admin shows the group member dialog, to warn him that zombies members will be removed"
   },
   "enterDisplayName": {
     "message": "Enter a display name",
@@ -2215,5 +2247,8 @@
   },
   "errorHappenedWhileRemovingModeratorDesc": {
     "message": "An error happened while removing this user from the moderator list."
+  },
+  "orJoinOneOfThese": {
+    "message": "Or join one of these..."
   }
 }

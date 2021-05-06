@@ -21,9 +21,7 @@
       window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
     } catch (e) {
       // give it a minute
-      log.warn(
-        'Could not check to see if newer version is available cause our pubkey is not set'
-      );
+      log.warn('Could not check to see if newer version is available cause our pubkey is not set');
       nextWaitSeconds = 60;
       setTimeout(async () => {
         await checkForUpgrades();
@@ -81,9 +79,7 @@
       if (expiredVersion !== null) {
         return res(expiredVersion);
       }
-      log.info(
-        `Delaying sending checks for ${nextWaitSeconds}s, no version yet`
-      );
+      log.info(`Delaying sending checks for ${nextWaitSeconds}s, no version yet`);
       setTimeout(waitForVersion, nextWaitSeconds * 1000);
       return true;
     }
@@ -106,45 +102,5 @@
     }
     // yes we know
     cb(expiredVersion);
-  };
-
-  const getServerTime = async () => {
-    let timestamp = NaN;
-
-    try {
-      const res = await window.tokenlessFileServerAdnAPI.serverRequest(
-        'loki/v1/time'
-      );
-      if (res.ok) {
-        timestamp = res.response;
-      }
-    } catch (e) {
-      return timestamp;
-    }
-
-    return Number(timestamp);
-  };
-
-  const getTimeDifferential = async () => {
-    // Get time differential between server and client in seconds
-    const serverTime = await getServerTime();
-    const clientTime = Math.ceil(Date.now() / 1000);
-
-    if (Number.isNaN(serverTime)) {
-      log.error('expire:::getTimeDifferential - serverTime is not valid');
-      return 0;
-    }
-    return serverTime - clientTime;
-  };
-
-  // require for PoW to work
-  window.setClockParams = async () => {
-    // Set server-client time difference
-    const maxTimeDifferential = 30 + 15; // + 15 for onion requests
-    const timeDifferential = await getTimeDifferential();
-    log.info('expire:::setClockParams - Clock difference', timeDifferential);
-
-    window.clientClockSynced = Math.abs(timeDifferential) < maxTimeDifferential;
-    return window.clientClockSynced;
   };
 })();

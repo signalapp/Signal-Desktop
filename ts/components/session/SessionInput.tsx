@@ -38,15 +38,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const {
-      autoFocus,
-      placeholder,
-      type,
-      value,
-      maxLength,
-      enableShowHide,
-      error,
-    } = this.props;
+    const { autoFocus, placeholder, type, value, maxLength, enableShowHide, error } = this.props;
     const { forceShow } = this.state;
 
     const correctType = forceShow ? 'text' : type;
@@ -64,9 +56,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
           onChange={e => {
             this.updateInputValue(e);
           }}
-          className={classNames(
-            enableShowHide ? 'session-input-floating-label-show-hide' : ''
-          )}
+          className={classNames(enableShowHide ? 'session-input-floating-label-show-hide' : '')}
           // just incase onChange isn't triggered
           onBlur={e => {
             this.updateInputValue(e);
@@ -109,9 +99,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
     return (
       <label
         htmlFor="session-input-floating-label"
-        className={classNames(
-          'session-input-with-label-container filled error'
-        )}
+        className={classNames('session-input-with-label-container filled error')}
       >
         {error}
       </label>

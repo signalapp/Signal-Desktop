@@ -21,9 +21,7 @@ export class AttachmentSection extends React.Component<Props> {
     return (
       <div className="module-attachment-section">
         <div className="module-attachment-section__items">
-          <div className={`module-attachment-section__items-${type}`}>
-            {this.renderItems()}
-          </div>
+          <div className={`module-attachment-section__items-${type}`}>{this.renderItems()}</div>
         </div>
       </div>
     );

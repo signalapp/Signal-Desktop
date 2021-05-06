@@ -1,18 +1,10 @@
 import React from 'react';
 
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarSize } from '../Avatar';
 
-import {
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from '../session/icon';
+import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
 
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../session/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import {
   ConversationAvatar,
   usingClosedConversationDetails,
@@ -83,6 +75,8 @@ interface Props {
   onAvatarClick?: (userPubKey: string) => void;
   onUpdateGroupName: () => void;
 
+  onMarkAllRead: () => void;
+
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   theme: DefaultTheme;
 }
@@ -127,11 +121,7 @@ class ConversationHeaderInner extends React.Component<Props> {
     const { i18n } = window;
 
     if (isMe) {
-      return (
-        <div className="module-conversation-header__title">
-          {i18n('noteToSelf')}
-        </div>
-      );
+      return <div className="module-conversation-header__title">{i18n('noteToSelf')}</div>;
     }
 
     const memberCount: number = (() => {
@@ -168,13 +158,7 @@ class ConversationHeaderInner extends React.Component<Props> {
   }
 
   public renderAvatar() {
-    const {
-      avatarPath,
-      memberAvatars,
-      name,
-      phoneNumber,
-      profileName,
-    } = this.props;
+    const { avatarPath, memberAvatars, name, phoneNumber, profileName } = this.props;
 
     const userName = name || profileName || phoneNumber;
 
@@ -183,7 +167,7 @@ class ConversationHeaderInner extends React.Component<Props> {
         <Avatar
           avatarPath={avatarPath}
           name={userName}
-          size={36}
+          size={AvatarSize.S}
           onAvatarClick={() => {
             this.onAvatarClick(phoneNumber);
           }}
@@ -216,9 +200,7 @@ class ConversationHeaderInner extends React.Component<Props> {
     const { i18n } = window;
 
     const isServerDeletable = isPublic;
-    const deleteMessageButtonText = i18n(
-      isServerDeletable ? 'deleteForEveryone' : 'delete'
-    );
+    const deleteMessageButtonText = i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
 
     return (
       <div className="message-selection-overlay">

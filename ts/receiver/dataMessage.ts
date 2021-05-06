@@ -1,21 +1,21 @@
 import { SignalService } from './../protobuf';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
-import { ConversationType, getEnvelopeId } from './common';
+import { getEnvelopeId } from './common';
 
 import { PubKey } from '../session/types';
 import { handleMessageJob } from './queuedJob';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils, UserUtils } from '../session/utils';
-import { DeliveryReceiptMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
 import { ConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
-import { getMessageBySender } from '../../ts/data/data';
-import { ConversationModel } from '../models/conversation';
+import { getMessageBySender, getMessageBySenderAndServerId } from '../../ts/data/data';
+import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
+import { DeliveryReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
 
 export async function updateProfile(
   conversation: ConversationModel,
@@ -29,11 +29,9 @@ export async function updateProfile(
 
   newProfile.displayName = profile.displayName;
 
-  // TODO: may need to allow users to reset their avatars to null
   if (profile.profilePicture) {
     const prevPointer = conversation.get('avatarPointer');
-    const needsUpdate =
-      !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
+    const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
 
     if (needsUpdate) {
       const downloaded = await downloadAttachment({
@@ -75,7 +73,7 @@ export async function updateProfile(
 
   const conv = await ConversationController.getInstance().getOrCreateAndWait(
     conversation.id,
-    'private'
+    ConversationTypeEnum.PRIVATE
   );
   await conv.setLokiProfile(newProfile);
 }
@@ -221,16 +219,7 @@ export async function processDecrypted(
 }
 
 export function isMessageEmpty(message: SignalService.DataMessage) {
-  const {
-    flags,
-    body,
-    attachments,
-    group,
-    quote,
-    contact,
-    preview,
-    groupInvitation,
-  } = message;
+  const { flags, body, attachments, group, quote, contact, preview, groupInvitation } = message;
 
   return (
     !flags &&
@@ -282,9 +271,7 @@ export async function handleDataMessage(
   window.log.info(`Handle dataMessage from ${source} `);
 
   if (isSyncMessage && !isMe) {
-    window.log.warn(
-      'Got a sync message from someone else than me. Dropping it.'
-    );
+    window.log.warn('Got a sync message from someone else than me. Dropping it.');
     return removeFromCache(envelope);
   } else if (isSyncMessage && dataMessage.syncTarget) {
     // override the envelope source
@@ -293,16 +280,12 @@ export async function handleDataMessage(
 
   const senderConversation = await ConversationController.getInstance().getOrCreateAndWait(
     senderPubKey,
-    'private'
+    ConversationTypeEnum.PRIVATE
   );
 
   // Check if we need to update any profile names
   if (!isMe && senderConversation && message.profile) {
-    await updateProfile(
-      senderConversation,
-      message.profile,
-      message.profileKey
-    );
+    await updateProfile(senderConversation, message.profile, message.profileKey);
   }
   if (isMessageEmpty(message)) {
     window.log.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
@@ -335,54 +318,92 @@ export async function handleDataMessage(
     message,
   };
 
-  await handleMessageEvent(ev);
+  await handleMessageEvent(ev); // dataMessage
 }
 
-interface MessageId {
-  source: any;
-  sourceDevice: any;
-  timestamp: any;
-  message: any;
-}
+type MessageDuplicateSearchType = {
+  body: string;
+  id: string;
+  timestamp: number;
+  serverId?: number;
+};
+
+export type MessageId = {
+  source: string;
+  serverId: number;
+  sourceDevice: number;
+  timestamp: number;
+  message: MessageDuplicateSearchType;
+};
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
-async function isMessageDuplicate({
+export async function isMessageDuplicate({
   source,
   sourceDevice,
   timestamp,
   message,
+  serverId,
 }: MessageId) {
   const { Errors } = window.Signal.Types;
-
+  // serverId is only used for opengroupv2
   try {
-    const result = await getMessageBySender({
-      source,
-      sourceDevice,
-      sent_at: timestamp,
-    });
-
+    let result;
+    if (serverId) {
+      result = await getMessageBySenderAndServerId({
+        source,
+        serverId,
+      });
+    } else {
+      result = await getMessageBySender({
+        source,
+        sourceDevice,
+        sentAt: timestamp,
+      });
+    }
     if (!result) {
       return false;
     }
-    const filteredResult = [result].filter(
-      (m: any) => m.attributes.body === message.body
-    );
-    const isSimilar = filteredResult.some((m: any) =>
-      isDuplicate(m, message, source)
-    );
-    return isSimilar;
+    const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
+    if (serverId) {
+      return filteredResult.some(m => isDuplicateServerId(m, { ...message, serverId }, source));
+    }
+    return filteredResult.some(m => isDuplicate(m, message, source));
   } catch (error) {
     window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
     return false;
   }
 }
 
-export const isDuplicate = (m: any, testedMessage: any, source: string) => {
+/**
+ * This function is to be used to check for duplicates for open group v2 messages.
+ * It just check that the sender and the serverId of a received and an already saved messages are the same
+ */
+export const isDuplicateServerId = (
+  m: MessageModel,
+  testedMessage: MessageDuplicateSearchType,
+  source: string
+) => {
   // The username in this case is the users pubKey
   const sameUsername = m.attributes.source === source;
+  // testedMessage.id is needed as long as we support opengroupv1
   const sameServerId =
     m.attributes.serverId !== undefined &&
-    testedMessage.id === m.attributes.serverId;
+    (testedMessage.serverId || testedMessage.id) === m.attributes.serverId;
+
+  return sameUsername && sameServerId;
+};
+
+export const isDuplicate = (
+  m: MessageModel,
+  testedMessage: MessageDuplicateSearchType,
+  source: string
+) => {
+  // The username in this case is the users pubKey
+  const sameUsername = m.attributes.source === source;
+  // testedMessage.id is needed as long as we support opengroupv1
+  const sameServerId =
+    m.attributes.serverId !== undefined &&
+    (testedMessage.serverId || testedMessage.id) === m.attributes.serverId;
   const sameText = m.attributes.body === testedMessage.body;
   // Don't filter out messages that are too far apart from each other
   const timestampsSimilar =
@@ -395,7 +416,7 @@ export const isDuplicate = (m: any, testedMessage: any, source: string) => {
 async function handleProfileUpdate(
   profileKeyBuffer: Uint8Array,
   convoId: string,
-  convoType: ConversationType,
+  convoType: ConversationTypeEnum,
   isIncoming: boolean
 ) {
   const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
@@ -403,9 +424,9 @@ async function handleProfileUpdate(
   if (!isIncoming) {
     // We update our own profileKey if it's different from what we have
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-    const me = await ConversationController.getInstance().getOrCreate(
+    const me = ConversationController.getInstance().getOrCreate(
       ourNumber,
-      'private'
+      ConversationTypeEnum.PRIVATE
     );
 
     // Will do the save for us if needed
@@ -413,7 +434,7 @@ async function handleProfileUpdate(
   } else {
     const sender = await ConversationController.getInstance().getOrCreateAndWait(
       convoId,
-      'private'
+      ConversationTypeEnum.PRIVATE
     );
 
     // Will do the save for us
@@ -421,12 +442,12 @@ async function handleProfileUpdate(
   }
 }
 
-interface MessageCreationData {
+export interface MessageCreationData {
   timestamp: number;
   isPublic: boolean;
   receivedAt: number;
   sourceDevice: number; // always 1 isn't it?
-  source: boolean;
+  source: string;
   serverId: number;
   message: any;
   serverTimestamp: any;
@@ -450,8 +471,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
   } = data;
 
   const messageGroupId = message?.group?.id;
-  let groupId =
-    messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+  let groupId = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
 
   if (groupId) {
     groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
@@ -492,15 +512,11 @@ function createSentMessage(data: MessageCreationData): MessageModel {
   const sentSpecificFields = {
     sent_to: [],
     sent: true,
-    expirationStartTimestamp: Math.min(
-      expirationStartTimestamp || data.timestamp || now,
-      now
-    ),
+    expirationStartTimestamp: Math.min(expirationStartTimestamp || data.timestamp || now, now),
   };
 
   const messageGroupId = message?.group?.id;
-  let groupId =
-    messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+  let groupId = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
 
   if (groupId) {
     groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
@@ -522,10 +538,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
   return new MessageModel(messageData);
 }
 
-function createMessage(
-  data: MessageCreationData,
-  isIncoming: boolean
-): MessageModel {
+export function createMessage(data: MessageCreationData, isIncoming: boolean): MessageModel {
   if (isIncoming) {
     return initIncomingMessage(data);
   } else {
@@ -566,9 +579,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   const isGroupMessage = Boolean(message.group);
 
-  const type = isGroupMessage
-    ? ConversationType.GROUP
-    : ConversationType.PRIVATE;
+  const type = isGroupMessage ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE;
 
   let conversationId = isIncoming ? source : destination || source; // for synced message
   if (!conversationId) {
@@ -577,12 +588,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     return;
   }
   if (message.profileKey?.length) {
-    await handleProfileUpdate(
-      message.profileKey,
-      conversationId,
-      type,
-      isIncoming
-    );
+    await handleProfileUpdate(message.profileKey, conversationId, type, isIncoming);
   }
 
   const msg = createMessage(data, isIncoming);
@@ -616,10 +622,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   if (!conversationId) {
-    window.log.warn(
-      'Invalid conversation id for incoming message',
-      conversationId
-    );
+    window.log.warn('Invalid conversation id for incoming message', conversationId);
   }
   const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
@@ -632,7 +635,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   const conversation = await ConversationController.getInstance().getOrCreateAndWait(
     conversationId,
-    isGroupMessage ? 'group' : 'private'
+    type
   );
 
   if (!conversation) {
@@ -641,13 +644,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   conversation.queueJob(async () => {
-    await handleMessageJob(
-      msg,
-      conversation,
-      message,
-      ourNumber,
-      confirm,
-      source
-    );
+    await handleMessageJob(msg, conversation, message, ourNumber, confirm, source);
   });
 }

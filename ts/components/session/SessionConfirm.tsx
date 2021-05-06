@@ -56,20 +56,12 @@ const SessionConfirmInner = (props: Props) => {
       <div className="session-modal__centered">
         {sessionIcon && iconSize && (
           <>
-            <SessionIcon
-              iconType={sessionIcon}
-              iconSize={iconSize}
-              theme={props.theme}
-            />
+            <SessionIcon iconType={sessionIcon} iconSize={iconSize} theme={props.theme} />
             <div className="spacer-lg" />
           </>
         )}
 
-        <SessionHtmlRenderer
-          tag="span"
-          className={messageSubText}
-          html={message}
-        />
+        <SessionHtmlRenderer tag="span" className={messageSubText} html={message} />
         <SessionHtmlRenderer
           tag="span"
           className="session-confirm-sub-message subtle"
@@ -78,18 +70,10 @@ const SessionConfirmInner = (props: Props) => {
       </div>
 
       <div className="session-modal__button-group">
-        <SessionButton
-          text={okText}
-          buttonColor={okTheme}
-          onClick={onClickOk}
-        />
+        <SessionButton text={okText} buttonColor={okTheme} onClick={onClickOk} />
 
         {!hideCancel && (
-          <SessionButton
-            text={cancelText}
-            buttonColor={closeTheme}
-            onClick={onClickClose}
-          />
+          <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickClose} />
         )}
       </div>
     </SessionModal>

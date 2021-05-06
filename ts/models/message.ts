@@ -3,17 +3,13 @@ import Backbone from 'backbone';
 import filesize from 'filesize';
 import _ from 'lodash';
 import { SignalService } from '../../ts/protobuf';
-import { getMessageQueue, Types, Utils } from '../../ts/session';
+import { getMessageQueue, Utils } from '../../ts/session';
 import { ConversationController } from '../../ts/session/conversations';
 import { MessageController } from '../../ts/session/messages';
-import {
-  ChatMessage,
-  DataMessage,
-  OpenGroupMessage,
-} from '../../ts/session/messages/outgoing';
-import { ClosedGroupChatMessage } from '../../ts/session/messages/outgoing/content/data/group/ClosedGroupChatMessage';
-import { EncryptionType, PubKey, RawMessage } from '../../ts/session/types';
-import { ToastUtils, UserUtils } from '../../ts/session/utils';
+import { DataMessage, OpenGroupMessage } from '../../ts/session/messages/outgoing';
+import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
+import { PubKey } from '../../ts/session/types';
+import { UserUtils } from '../../ts/session/utils';
 import {
   fillMessageAttributesWithDefaults,
   MessageAttributes,
@@ -22,7 +18,19 @@ import {
 
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
-import { ConversationModel } from './conversation';
+import { ConversationModel, ConversationTypeEnum } from './conversation';
+import { getSuggestedFilenameSending } from '../types/Attachment';
+import { actions as conversationActions } from '../state/ducks/conversations';
+import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { buildSyncMessage } from '../session/utils/syncUtils';
+import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
+import { MessageInteraction } from '../interactions';
+import {
+  uploadAttachmentsV2,
+  uploadLinkPreviewsV2,
+  uploadQuoteThumbnailsV2,
+} from '../session/utils/AttachmentsV2';
+import { acceptOpenGroupInvitation } from '../interactions/message';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -52,27 +60,27 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     void this.setToExpire();
     autoBind(this);
 
-    this.markRead = this.markRead.bind(this);
-    // Keep props ready
-    const generateProps = (triggerEvent = true) => {
-      if (this.isExpirationTimerUpdate()) {
-        this.propsForTimerNotification = this.getPropsForTimerNotification();
-      } else if (this.isGroupUpdate()) {
-        this.propsForGroupNotification = this.getPropsForGroupNotification();
-      } else if (this.isGroupInvitation()) {
-        this.propsForGroupInvitation = this.getPropsForGroupInvitation();
-      } else {
-        this.propsForSearchResult = this.getPropsForSearchResult();
-        this.propsForMessage = this.getPropsForMessage();
-      }
-      if (triggerEvent) {
-        window.Whisper.events.trigger('messageChanged', this);
-      }
-    };
-    this.on('change', generateProps);
     window.contextMenuShown = false;
 
-    generateProps(false);
+    this.generateProps(false);
+  }
+
+  // Keep props ready
+  public generateProps(triggerEvent = true) {
+    if (this.isExpirationTimerUpdate()) {
+      this.propsForTimerNotification = this.getPropsForTimerNotification();
+    } else if (this.isGroupUpdate()) {
+      this.propsForGroupNotification = this.getPropsForGroupNotification();
+    } else if (this.isGroupInvitation()) {
+      this.propsForGroupInvitation = this.getPropsForGroupInvitation();
+    } else {
+      this.propsForSearchResult = this.getPropsForSearchResult();
+      this.propsForMessage = this.getPropsForMessage();
+    }
+
+    if (triggerEvent) {
+      window.inboxStore?.dispatch(conversationActions.messageChanged(this));
+    }
   }
 
   public idForLogging() {
@@ -80,8 +88,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public isExpirationTimerUpdate() {
-    const expirationTimerFlag =
-      SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+    const expirationTimerFlag = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
     const flags = this.get('flags');
     if (!flags) {
       return false;
@@ -111,7 +118,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const { unread } = attributes;
     if (unread === undefined) {
-      this.set({ unread: false });
+      this.set({ unread: 0 });
     }
 
     this.set(attributes);
@@ -151,15 +158,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
       if (groupUpdate.joined && groupUpdate.joined.length) {
         const names = groupUpdate.joined.map((pubKey: string) =>
-          ConversationController.getInstance().getContactProfileNameOrFullPubKey(
-            pubKey
-          )
+          ConversationController.getInstance().getContactProfileNameOrFullPubKey(pubKey)
         );
 
         if (names.length > 1) {
-          messages.push(
-            window.i18n('multipleJoinedTheGroup', names.join(', '))
-          );
+          messages.push(window.i18n('multipleJoinedTheGroup', names.join(', ')));
         } else {
           messages.push(window.i18n('joinedTheGroup', names[0]));
         }
@@ -168,14 +171,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (groupUpdate.kicked && groupUpdate.kicked.length) {
         const names = _.map(
           groupUpdate.kicked,
-          ConversationController.getInstance()
-            .getContactProfileNameOrShortenedPubKey
+          ConversationController.getInstance().getContactProfileNameOrShortenedPubKey
         );
 
         if (names.length > 1) {
-          messages.push(
-            window.i18n('multipleKickedFromTheGroup', names.join(', '))
-          );
+          messages.push(window.i18n('multipleKickedFromTheGroup', names.join(', ')));
         } else {
           messages.push(window.i18n('kickedFromTheGroup', names[0]));
         }
@@ -222,9 +222,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       return window.i18n(
         'timerSetTo',
-        window.Whisper.ExpirationTimerOptions.getAbbreviated(
-          expireTimerUpdate.expireTimer || 0
-        )
+        window.Whisper.ExpirationTimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0)
       );
     }
     const contacts = this.get('contact');
@@ -251,9 +249,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { expireTimer, fromSync, source } = timerUpdate;
-    const timespan = window.Whisper.ExpirationTimerOptions.getName(
-      expireTimer || 0
-    );
+    const timespan = window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
 
     const basicProps = {
@@ -285,17 +281,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (!direction) {
       direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
     }
+    const serverAddress = invitation.serverAddress?.length
+      ? `${invitation.serverAddress.slice(0, 30)}...`
+      : '';
 
     return {
       serverName: invitation.serverName,
-      serverAddress: invitation.serverAddress,
+      serverAddress,
       direction,
       onClick: () => {
-        window.Whisper.events.trigger(
-          'publicChatInvitationAccepted',
-          invitation.serverAddress,
-          invitation.channelId
-        );
+        void acceptOpenGroupInvitation(invitation.serverAddress);
       },
     };
   }
@@ -337,9 +332,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       changes.push({
         type: 'add',
         contacts: _.map(
-          Array.isArray(groupUpdate.joined)
-            ? groupUpdate.joined
-            : [groupUpdate.joined],
+          Array.isArray(groupUpdate.joined) ? groupUpdate.joined : [groupUpdate.joined],
           phoneNumber => this.findAndFormatContact(phoneNumber)
         ),
       });
@@ -354,9 +347,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       changes.push({
         type: 'kicked',
         contacts: _.map(
-          Array.isArray(groupUpdate.kicked)
-            ? groupUpdate.kicked
-            : [groupUpdate.kicked],
+          Array.isArray(groupUpdate.kicked) ? groupUpdate.kicked : [groupUpdate.kicked],
           phoneNumber => this.findAndFormatContact(phoneNumber)
         ),
       });
@@ -381,9 +372,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         changes.push({
           type: 'remove',
           contacts: _.map(
-            Array.isArray(groupUpdate.left)
-              ? groupUpdate.left
-              : [groupUpdate.left],
+            Array.isArray(groupUpdate.left) ? groupUpdate.left : [groupUpdate.left],
             phoneNumber => this.findAndFormatContact(phoneNumber)
           ),
         });
@@ -425,10 +414,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const sentTo = this.get('sent_to') || [];
     if (sent || sentTo.length > 0) {
       return 'sent';
-    }
-    const calculatingPoW = this.get('calculatingPoW');
-    if (calculatingPoW) {
-      return 'pow';
     }
 
     return 'sending';
@@ -474,17 +459,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expirationLength = this.get('expireTimer') * 1000;
     const expireTimerStart = this.get('expirationStartTimestamp');
     const expirationTimestamp =
-      expirationLength && expireTimerStart
-        ? expireTimerStart + expirationLength
-        : null;
+      expirationLength && expireTimerStart ? expireTimerStart + expirationLength : null;
 
-    // TODO: investigate why conversation is undefined
-    // for the public group chat
     const conversation = this.getConversation();
 
     const convoId = conversation ? conversation.id : undefined;
     const isGroup = !!conversation && !conversation.isPrivate();
     const isPublic = !!this.get('isPublic');
+    const isPublicOpenGroupV2 = isOpenGroupV2(this.getConversation()?.id || '');
 
     const attachments = this.get('attachments') || [];
 
@@ -498,7 +480,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       authorName: contact.name,
       authorProfileName: contact.profileName,
       authorPhoneNumber: contact.phoneNumber,
-      conversationType: isGroup ? 'group' : 'direct',
+      conversationType: isGroup ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE,
       convoId,
       attachments: attachments
         .filter((attachment: any) => !attachment.error)
@@ -510,11 +492,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       expirationLength,
       expirationTimestamp,
       isPublic,
+      isOpenGroupV2: isPublicOpenGroupV2,
       isKickedFromGroup: conversation && conversation.get('isKickedFromGroup'),
 
       onCopyText: this.copyText,
       onCopyPubKey: this.copyPubKey,
       onBanUser: this.banUser,
+      onUnbanUser: this.unbanUser,
       onRetrySend: this.retrySend,
       markRead: this.markRead,
 
@@ -534,9 +518,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const regex = /(\S)( +)(\S+\s*)$/;
     return text.replace(regex, (_match, start, spaces, end) => {
       const newSpaces =
-        end.length < 12
-          ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
-          : spaces;
+        end.length < 12 ? _.reduce(spaces, accumulator => accumulator + nbsp, '') : spaces;
       return `${start}${newSpaces}${end}`;
     });
   }
@@ -602,9 +584,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const contact = author && ConversationController.getInstance().get(author);
 
     const authorName = contact ? contact.getName() : null;
-    const isFromMe = contact
-      ? contact.id === UserUtils.getOurPubKeyStrFromCache()
-      : false;
+    const isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
     const onClick = noClick
       ? null
       : (event: any) => {
@@ -620,9 +600,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     return {
       text: this.createNonBreakingLastSeparator(quote.text),
-      attachment: firstAttachment
-        ? this.processQuoteAttachment(firstAttachment)
-        : null,
+      attachment: firstAttachment ? this.processQuoteAttachment(firstAttachment) : null,
       isFromMe,
       authorPhoneNumber: author,
       messageId: id,
@@ -648,31 +626,23 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         // tslint:disable-next-line: no-bitwise
         flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
       pending,
-      url: path
-        ? window.Signal.Migrations.getAbsoluteAttachmentPath(path)
-        : null,
+      url: path ? window.Signal.Migrations.getAbsoluteAttachmentPath(path) : null,
       screenshot: screenshot
         ? {
             ...screenshot,
-            url: window.Signal.Migrations.getAbsoluteAttachmentPath(
-              screenshot.path
-            ),
+            url: window.Signal.Migrations.getAbsoluteAttachmentPath(screenshot.path),
           }
         : null,
       thumbnail: thumbnail
         ? {
             ...thumbnail,
-            url: window.Signal.Migrations.getAbsoluteAttachmentPath(
-              thumbnail.path
-            ),
+            url: window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnail.path),
           }
         : null,
     };
   }
 
   public async getPropsForMessageDetail() {
-    const newIdentity = window.i18n('newIdentity');
-
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
     //   back to the conversation's current recipients
@@ -680,9 +650,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       ? [this.get('source')]
       : _.union(
           this.get('sent_to') || [],
-          this.get('recipients') ||
-            this.getConversation()?.getRecipients() ||
-            []
+          this.get('recipients') || this.getConversation()?.getRecipients() || []
         );
 
     // This will make the error message for outgoing key errors a bit nicer
@@ -727,7 +695,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         ...this.propsForMessage,
         disableMenu: true,
         // To ensure that group avatar doesn't show up
-        conversationType: 'direct',
+        conversationType: ConversationTypeEnum.PRIVATE,
       },
       errors,
       contacts: sortedContacts,
@@ -735,51 +703,19 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public copyPubKey() {
-    if (this.isIncoming()) {
-      window.clipboard.writeText(this.get('source'));
-    } else {
-      window.clipboard.writeText(UserUtils.getOurPubKeyStrFromCache());
-    }
-
-    ToastUtils.pushCopiedToClipBoard();
+    // this.getSource return out pubkey if this is an outgoing message, or the sender pubkey
+    MessageInteraction.copyPubKey(this.getSource());
   }
 
   public banUser() {
-    window.confirmationDialog({
-      title: window.i18n('banUser'),
-      message: window.i18n('banUserConfirm'),
-      resolve: async () => {
-        const source = this.get('source');
-        const conversation = this.getConversation();
-        if (!conversation) {
-          window.log.info(
-            'cannot ban user, the corresponding conversation was not found.'
-          );
-          return;
-        }
-
-        const channelAPI = await conversation.getPublicSendData();
-        if (!channelAPI) {
-          window.log.info(
-            'cannot ban user, the corresponding channelAPI was not found.'
-          );
-          return;
-        }
-        const success = await channelAPI.banUser(source);
-
-        if (success) {
-          ToastUtils.pushUserBanSuccess();
-        } else {
-          ToastUtils.pushUserBanFailure();
-        }
-      },
-    });
+    MessageInteraction.banUser(this.get('source'), this.getConversation());
+  }
+  public unbanUser() {
+    MessageInteraction.unbanUser(this.get('source'), this.getConversation());
   }
 
   public copyText() {
-    window.clipboard.writeText(this.get('body'));
-
-    ToastUtils.pushCopiedToClipBoard();
+    MessageInteraction.copyBodyToClipboard(this.get('body'));
   }
 
   /**
@@ -792,43 +728,52 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // This way we don't upload duplicated data.
 
     const attachmentsWithData = await Promise.all(
-      (this.get('attachments') || []).map(
-        window.Signal.Migrations.loadAttachmentData
-      )
+      (this.get('attachments') || []).map(window.Signal.Migrations.loadAttachmentData)
     );
     const body = this.get('body');
     const finalAttachments = attachmentsWithData;
 
-    const filenameOverridenAttachments = finalAttachments.map(
-      (attachment: any) => ({
-        ...attachment,
-        fileName: window.Signal.Types.Attachment.getSuggestedFilenameSending({
-          attachment,
-          timestamp: Date.now(),
-        }),
-      })
-    );
+    const filenameOverridenAttachments = finalAttachments.map((attachment: any) => ({
+      ...attachment,
+      fileName: getSuggestedFilenameSending({
+        attachment,
+        timestamp: Date.now(),
+      }),
+    }));
 
-    const quoteWithData = await window.Signal.Migrations.loadQuoteData(
-      this.get('quote')
-    );
-    const previewWithData = await window.Signal.Migrations.loadPreviewData(
-      this.get('preview')
-    );
+    const quoteWithData = await window.Signal.Migrations.loadQuoteData(this.get('quote'));
+    const previewWithData = await window.Signal.Migrations.loadPreviewData(this.get('preview'));
 
     const conversation = this.getConversation();
-    const openGroup =
-      (conversation && conversation.isPublic() && conversation.toOpenGroup()) ||
-      undefined;
 
+    let attachmentPromise;
+    let linkPreviewPromise;
+    let quotePromise;
     const { AttachmentUtils } = Utils;
-    const [attachments, preview, quote] = await Promise.all([
-      AttachmentUtils.uploadAttachments(
+
+    // we want to go for the v1, if this is an OpenGroupV1 or not an open group at all
+    if (conversation?.isOpenGroupV2()) {
+      const openGroupV2 = conversation.toOpenGroupV2();
+      attachmentPromise = uploadAttachmentsV2(filenameOverridenAttachments, openGroupV2);
+      linkPreviewPromise = uploadLinkPreviewsV2(previewWithData, openGroupV2);
+      quotePromise = uploadQuoteThumbnailsV2(openGroupV2, quoteWithData);
+    } else {
+      // NOTE: we want to go for the v1 if this is an OpenGroupV1 or not an open group at all
+      // because there is a fallback invoked on uploadV1() for attachments for not open groups attachments
+
+      const openGroupV1 = conversation?.isOpenGroupV1() ? conversation?.toOpenGroupV1() : undefined;
+      attachmentPromise = AttachmentUtils.uploadAttachmentsV1(
         filenameOverridenAttachments,
-        openGroup
-      ),
-      AttachmentUtils.uploadLinkPreviews(previewWithData, openGroup),
-      AttachmentUtils.uploadQuoteThumbnails(quoteWithData, openGroup),
+        openGroupV1
+      );
+      linkPreviewPromise = AttachmentUtils.uploadLinkPreviewsV1(previewWithData, openGroupV1);
+      quotePromise = AttachmentUtils.uploadQuoteThumbnailsV1(quoteWithData, openGroupV1);
+    }
+
+    const [attachments, preview, quote] = await Promise.all([
+      attachmentPromise,
+      linkPreviewPromise,
+      quotePromise,
     ]);
 
     return {
@@ -849,13 +794,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     this.set({ errors: null });
     await this.commit();
     try {
-      const conversation:
-        | ConversationModel
-        | undefined = this.getConversation();
+      const conversation: ConversationModel | undefined = this.getConversation();
       if (!conversation) {
-        window.log.info(
-          'cannot retry send message, the corresponding conversation was not found.'
-        );
+        window.log.info('cannot retry send message, the corresponding conversation was not found.');
         return;
       }
 
@@ -893,7 +834,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         delete chatParams.lokiProfile;
       }
 
-      const chatMessage = new ChatMessage(chatParams);
+      const chatMessage = new VisibleMessage(chatParams);
 
       // Special-case the self-send case - we send only a sync message
       if (conversation.isMe()) {
@@ -901,10 +842,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       if (conversation.isPrivate()) {
-        return getMessageQueue().sendToPubKey(
-          PubKey.cast(conversation.id),
-          chatMessage
-        );
+        return getMessageQueue().sendToPubKey(PubKey.cast(conversation.id), chatMessage);
       }
 
       // Here, the convo is neither an open group, a private convo or ourself. It can only be a medium group.
@@ -916,13 +854,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         );
       }
 
-      const closedGroupChatMessage = new ClosedGroupChatMessage({
+      const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
         identifier: this.id,
         chatMessage,
         groupId: this.get('conversationId'),
       });
 
-      return getMessageQueue().sendToGroup(closedGroupChatMessage);
+      return getMessageQueue().sendToGroup(closedGroupVisibleMessage);
     } catch (e) {
       await this.saveErrors(e);
       return null;
@@ -942,9 +880,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // This needs to be an unsafe call, because this method is called during
     //   initial module setup. We may be in the middle of the initial fetch to
     //   the database.
-    return ConversationController.getInstance().getUnsafe(
-      this.get('conversationId')
-    );
+    return ConversationController.getInstance().getUnsafe(this.get('conversationId'));
   }
 
   public getQuoteContact() {
@@ -975,7 +911,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    return ConversationController.getInstance().getOrCreate(source, 'private');
+    return ConversationController.getInstance().getOrCreate(source, ConversationTypeEnum.PRIVATE);
   }
 
   public isOutgoing() {
@@ -1003,18 +939,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return null;
   }
 
-  public async setCalculatingPoW() {
-    if (this.get('calculatingPoW')) {
-      return;
-    }
-
-    this.set({
-      calculatingPoW: true,
-    });
-
-    await this.commit();
-  }
-
   public async sendSyncMessageOnly(dataMessage: DataMessage) {
     const now = Date.now();
     this.set({
@@ -1025,17 +949,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     await this.commit();
 
-    const data =
-      dataMessage instanceof DataMessage
-        ? dataMessage.dataProto()
-        : dataMessage;
+    const data = dataMessage instanceof DataMessage ? dataMessage.dataProto() : dataMessage;
     await this.sendSyncMessage(data, now);
   }
 
-  public async sendSyncMessage(
-    dataMessage: SignalService.DataMessage,
-    sentTimestamp: number
-  ) {
+  public async sendSyncMessage(dataMessage: SignalService.DataMessage, sentTimestamp: number) {
     if (this.get('synced') || this.get('sentSync')) {
       return;
     }
@@ -1043,18 +961,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // if this message needs to be synced
     if (
       (dataMessage.body && dataMessage.body.length) ||
-      dataMessage.attachments.length
+      dataMessage.attachments.length ||
+      dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
       const conversation = this.getConversation();
       if (!conversation) {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
-      const syncMessage = ChatMessage.buildSyncMessage(
-        this.id,
-        dataMessage,
-        conversation.id,
-        sentTimestamp
-      );
+      const syncMessage = buildSyncMessage(this.id, dataMessage, conversation.id, sentTimestamp);
       await getMessageQueue().sendSyncMessage(syncMessage);
     }
     this.set({ sentSync: true });
@@ -1107,18 +1021,21 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       throw new Error('A message always needs an id');
     }
     const id = await saveMessage(this.attributes);
-    this.trigger('change');
+    this.generateProps();
     return id;
   }
 
   public async markRead(readAt: number) {
-    this.set({ unread: false });
+    this.markReadNoCommit(readAt);
+
+    await this.commit();
+  }
+
+  public markReadNoCommit(readAt: number) {
+    this.set({ unread: 0 });
 
     if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
-      const expirationStartTimestamp = Math.min(
-        Date.now(),
-        readAt || Date.now()
-      );
+      const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
       this.set({ expirationStartTimestamp });
     }
 
@@ -1127,8 +1044,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         messageId: this.id,
       })
     );
-
-    await this.commit();
   }
 
   public isExpiring() {

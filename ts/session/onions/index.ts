@@ -1,12 +1,12 @@
-import { allowOnlyOneAtATime } from '../../../js/modules/loki_primitives';
-import { getGuardNodes } from '../../../ts/data/data';
+import { getGuardNodes, updateGuardNodes } from '../../../ts/data/data';
 import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
 import { snodeHttpsAgent } from '../snode_api/onions';
+import { allowOnlyOneAtATime } from '../utils/Promise';
 
-type Snode = SnodePool.Snode;
+export type Snode = SnodePool.Snode;
 
 interface SnodePath {
   path: Array<Snode>;
@@ -40,9 +40,7 @@ export class OnionPaths {
     });
   }
 
-  public async getOnionPath(toExclude?: {
-    pubkey_ed25519: string;
-  }): Promise<Array<Snode>> {
+  public async getOnionPath(toExclude?: { pubkey_ed25519: string }): Promise<Array<Snode>> {
     const { log, CONSTANTS } = window;
 
     let goodPaths = this.onionPaths.filter(x => !x.bad);
@@ -76,11 +74,7 @@ export class OnionPaths {
 
     // Select a path that doesn't contain `toExclude`
     const otherPaths = paths.filter(
-      path =>
-        !_.some(
-          path.path,
-          node => node.pubkey_ed25519 === toExclude.pubkey_ed25519
-        )
+      path => !_.some(path.path, node => node.pubkey_ed25519 === toExclude.pubkey_ed25519)
     );
 
     if (otherPaths.length === 0) {
@@ -102,10 +96,7 @@ export class OnionPaths {
     }
 
     if (!otherPaths[0].path) {
-      log.error(
-        'LokiSnodeAPI::getOnionPath - otherPaths no path in',
-        otherPaths[0]
-      );
+      log.error('LokiSnodeAPI::getOnionPath - otherPaths no path in', otherPaths[0]);
     }
 
     return otherPaths[0].path;
@@ -175,6 +166,7 @@ export class OnionPaths {
     }
 
     if (!response.ok) {
+      const tg = await response.text();
       log.info('Node failed the guard test:', snode);
     }
 
@@ -187,10 +179,7 @@ export class OnionPaths {
     // `getRandomSnodePool` is expected to refresh itself on low nodes
     const nodePool = await SnodePool.getRandomSnodePool();
     if (nodePool.length < CONSTANTS.DESIRED_GUARD_COUNT) {
-      log.error(
-        'Could not select guard nodes. Not enough nodes in the pool: ',
-        nodePool.length
-      );
+      log.error('Could not select guard nodes. Not enough nodes in the pool: ', nodePool.length);
       return [];
     }
 
@@ -211,9 +200,7 @@ export class OnionPaths {
 
       // Test all three nodes at once
       // eslint-disable-next-line no-await-in-loop
-      const idxOk = await Promise.all(
-        candidateNodes.map(n => this.testGuardNode(n))
-      );
+      const idxOk = await Promise.all(candidateNodes.map(n => this.testGuardNode(n)));
 
       const goodNodes = _.zip(idxOk, candidateNodes)
         .filter(x => x[0])
@@ -223,16 +210,14 @@ export class OnionPaths {
     }
 
     if (guardNodes.length < CONSTANTS.DESIRED_GUARD_COUNT) {
-      log.error(
-        `COULD NOT get enough guard nodes, only have: ${guardNodes.length}`
-      );
+      log.error(`COULD NOT get enough guard nodes, only have: ${guardNodes.length}`);
     }
 
     log.info('new guard nodes: ', guardNodes);
 
     const edKeys = guardNodes.map(n => n.pubkey_ed25519);
 
-    await window.libloki.storage.updateGuardNodes(edKeys);
+    await updateGuardNodes(edKeys);
 
     return guardNodes;
   }
@@ -255,9 +240,7 @@ export class OnionPaths {
       } else {
         // We only store the nodes' keys, need to find full entries:
         const edKeys = nodes.map(x => x.ed25519PubKey);
-        this.guardNodes = allNodes.filter(
-          x => edKeys.indexOf(x.pubkey_ed25519) !== -1
-        );
+        this.guardNodes = allNodes.filter(x => edKeys.indexOf(x.pubkey_ed25519) !== -1);
 
         if (this.guardNodes.length < edKeys.length) {
           log.warn(
@@ -295,9 +278,7 @@ export class OnionPaths {
     const maxPath = Math.floor(
       Math.min(
         guards.length,
-        nodesNeededPerPaths
-          ? otherNodes.length / nodesNeededPerPaths
-          : otherNodes.length
+        nodesNeededPerPaths ? otherNodes.length / nodesNeededPerPaths : otherNodes.length
       )
     );
 

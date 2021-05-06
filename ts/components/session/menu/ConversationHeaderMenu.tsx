@@ -9,6 +9,7 @@ import {
   getDisappearingMenuItem,
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
+  getMarkAllReadMenuItem,
   getRemoveModeratorsMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';
@@ -31,6 +32,7 @@ export type PropsConversationHeaderMenu = {
   onInviteContacts?: () => void;
 
   onLeaveGroup: () => void;
+  onMarkAllRead: () => void;
   onAddModerators: () => void;
   onRemoveModerators: () => void;
   onUpdateGroupName: () => void;
@@ -55,6 +57,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     onDeleteMessages,
     onDeleteContact,
     onCopyPublicKey,
+    onMarkAllRead,
     onLeaveGroup,
     onAddModerators,
     onRemoveModerators,
@@ -76,51 +79,17 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         onSetDisappearingMessages,
         window.i18n
       )}
-      {getBlockMenuItem(
-        isMe,
-        isPrivate,
-        isBlocked,
-        onBlockUser,
-        onUnblockUser,
-        window.i18n
-      )}
+      {getBlockMenuItem(isMe, isPrivate, isBlocked, onBlockUser, onUnblockUser, window.i18n)}
 
       {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey, window.i18n)}
+      {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
       {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
-      {getAddModeratorsMenuItem(
-        isAdmin,
-        isKickedFromGroup,
-        onAddModerators,
-        window.i18n
-      )}
-      {getRemoveModeratorsMenuItem(
-        isAdmin,
-        isKickedFromGroup,
-        onRemoveModerators,
-        window.i18n
-      )}
-      {getUpdateGroupNameMenuItem(
-        isAdmin,
-        isKickedFromGroup,
-        left,
-        onUpdateGroupName,
-        window.i18n
-      )}
-      {getLeaveGroupMenuItem(
-        isKickedFromGroup,
-        left,
-        isGroup,
-        isPublic,
-        onLeaveGroup,
-        window.i18n
-      )}
+      {getAddModeratorsMenuItem(isAdmin, isKickedFromGroup, onAddModerators, window.i18n)}
+      {getRemoveModeratorsMenuItem(isAdmin, isKickedFromGroup, onRemoveModerators, window.i18n)}
+      {getUpdateGroupNameMenuItem(isAdmin, isKickedFromGroup, left, onUpdateGroupName, window.i18n)}
+      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n)}
       {/* TODO: add delete group */}
-      {getInviteContactMenuItem(
-        isGroup,
-        isPublic,
-        onInviteContacts,
-        window.i18n
-      )}
+      {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts, window.i18n)}
       {getDeleteContactMenuItem(
         isMe,
         isGroup,

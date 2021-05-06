@@ -31,9 +31,7 @@
         this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // I'd much prefer to integrate mods with groupAdmins
         // but lets discuss first...
-        this.isAdmin = groupConvo.isAdmin(
-          window.storage.get('primaryDevicePubKey')
-        );
+        this.isAdmin = groupConvo.isAdmin(window.storage.get('primaryDevicePubKey'));
       }
 
       this.$el.focus();
@@ -89,43 +87,29 @@
       this.theme = groupConvo.theme;
 
       if (this.isPublic) {
-        this.titleText = i18n('updateGroupDialogTitle', this.groupName);
-        // I'd much prefer to integrate mods with groupAdmins
-        // but lets discuss first...
-        this.isAdmin = groupConvo.isAdmin(
-          window.storage.get('primaryDevicePubKey')
-        );
-        // zero out contactList for now
-        this.contactsAndMembers = [];
+        throw new Error('UpdateGroupMembersDialog is only made for Closed/Medium groups');
+      }
+      this.titleText = i18n('updateGroupDialogTitle', this.groupName);
+      // anybody can edit a closed group name or members
+      const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
+      this.isAdmin = groupConvo.get('groupAdmins').includes(ourPK);
+      this.admins = groupConvo.get('groupAdmins');
+      const convos = window
+        .getConversationController()
+        .getConversations()
+        .filter(d => !!d);
+
+      this.existingMembers = groupConvo.get('members') || [];
+      this.existingZombies = groupConvo.get('zombies') || [];
+      // Show a contact if they are our friend or if they are a member
+      this.contactsAndMembers = convos.filter(
+        d => this.existingMembers.includes(d.id) && d.isPrivate() && !d.isMe()
+      );
+      this.contactsAndMembers = _.uniq(this.contactsAndMembers, true, d => d.id);
+
+      // at least make sure it's an array
+      if (!Array.isArray(this.existingMembers)) {
         this.existingMembers = [];
-      } else {
-        this.titleText = i18n('updateGroupDialogTitle', this.groupName);
-        // anybody can edit a closed group name or members
-        const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
-        this.isAdmin = groupConvo.isMediumGroup()
-          ? true
-          : groupConvo.get('groupAdmins').includes(ourPK);
-        this.admins = groupConvo.get('groupAdmins');
-        const convos = window
-          .getConversationController()
-          .getConversations()
-          .filter(d => !!d);
-
-        this.existingMembers = groupConvo.get('members') || [];
-        // Show a contact if they are our friend or if they are a member
-        this.contactsAndMembers = convos.filter(
-          d => this.existingMembers.includes(d.id) && d.isPrivate() && !d.isMe()
-        );
-        this.contactsAndMembers = _.uniq(
-          this.contactsAndMembers,
-          true,
-          d => d.id
-        );
-
-        // at least make sure it's an array
-        if (!Array.isArray(this.existingMembers)) {
-          this.existingMembers = [];
-        }
       }
 
       this.$el.focus();
@@ -141,6 +125,7 @@
           cancelText: i18n('cancel'),
           isPublic: this.isPublic,
           existingMembers: this.existingMembers,
+          existingZombies: this.existingZombies,
           contactList: this.contactsAndMembers,
           isAdmin: this.isAdmin,
           admins: this.admins,
@@ -157,35 +142,50 @@
     async onSubmit(newMembers) {
       const _ = window.Lodash;
       const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
-      const allMembers = window.Lodash.concat(newMembers, [ourPK]);
+
+      const allMembersAfterUpdate = window.Lodash.concat(newMembers, [ourPK]);
+
+      if (!this.isAdmin) {
+        window.log.warn('Skipping update of members, we are not the admin');
+        return;
+      }
+      // new members won't include the zombies. We are the admin and we want to remove them not matter what
 
       // We need to NOT trigger an group update if the list of member is the same.
-      const notPresentInOld = allMembers.filter(
-        m => !this.existingMembers.includes(m)
+      // we need to merge all members, including zombies for this call.
+
+      // we consider that the admin ALWAYS wants to remove zombies (actually they should be removed
+      // automatically by him when the LEFT message is received)
+      const allExistingMembersWithZombies = _.uniq(
+        this.existingMembers.concat(this.existingZombies)
       );
 
-      const membersToRemove = this.existingMembers.filter(
-        m => !allMembers.includes(m)
+      const notPresentInOld = allMembersAfterUpdate.filter(
+        m => !allExistingMembersWithZombies.includes(m)
       );
 
-      // If any extra devices of removed exist in newMembers, ensure that you filter them
-      const filteredMemberes = allMembers.filter(
-        member => !_.includes(membersToRemove, member)
+      // be sure to include zombies in here
+      const membersToRemove = allExistingMembersWithZombies.filter(
+        m => !allMembersAfterUpdate.includes(m)
       );
 
       const xor = _.xor(membersToRemove, notPresentInOld);
       if (xor.length === 0) {
-        window.log.info(
-          'skipping group update: no detected changes in group member list'
-        );
+        window.log.info('skipping group update: no detected changes in group member list');
 
         return;
       }
 
+      // If any extra devices of removed exist in newMembers, ensure that you filter them
+      // Note: I think this is useless
+      const filteredMembers = allMembersAfterUpdate.filter(
+        member => !_.includes(membersToRemove, member)
+      );
+
       window.libsession.ClosedGroup.initiateGroupUpdate(
         this.groupId,
         this.groupName,
-        filteredMemberes,
+        filteredMembers,
         this.avatarPath
       );
     },

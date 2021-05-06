@@ -53,8 +53,7 @@ export const GroupNotification = (props: Props) => {
           throw new Error('Group update add is missing contacts');
         }
 
-        const joinKey =
-          contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
+        const joinKey = contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
 
         return <Intl i18n={i18n} id={joinKey} components={[people]} />;
       case 'remove':
@@ -66,8 +65,7 @@ export const GroupNotification = (props: Props) => {
           throw new Error('Group update remove is missing contacts');
         }
 
-        const leftKey =
-          contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
+        const leftKey = contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
 
         return <Intl i18n={i18n} id={leftKey} components={[people]} />;
       case 'kicked':
@@ -79,10 +77,7 @@ export const GroupNotification = (props: Props) => {
           throw new Error('Group update kicked is missing contacts');
         }
 
-        const kickedKey =
-          contacts.length > 1
-            ? 'multipleKickedFromTheGroup'
-            : 'kickedFromTheGroup';
+        const kickedKey = contacts.length > 1 ? 'multipleKickedFromTheGroup' : 'kickedFromTheGroup';
 
         return <Intl i18n={i18n} id={kickedKey} components={[people]} />;
       case 'general':

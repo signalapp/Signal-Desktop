@@ -27,23 +27,15 @@
     },
     async onReceipt(receipt) {
       try {
-        const messages = await window.Signal.Data.getMessagesBySentAt(
-          receipt.get('timestamp'),
-          {
-            MessageCollection: window.models.Message.MessageCollection,
-          }
-        );
+        const messages = await window.Signal.Data.getMessagesBySentAt(receipt.get('timestamp'));
 
         const found = messages.find(
-          item =>
-            item.isIncoming() && item.get('source') === receipt.get('sender')
+          item => item.isIncoming() && item.get('source') === receipt.get('sender')
         );
         const notificationForMessage = found
           ? Whisper.Notifications.findWhere({ messageId: found.id })
           : null;
-        const removedNotification = Whisper.Notifications.remove(
-          notificationForMessage
-        );
+        const removedNotification = Whisper.Notifications.remove(notificationForMessage);
         const receiptSender = receipt.get('sender');
         const receiptTimestamp = receipt.get('timestamp');
         const wasMessageFound = Boolean(found);
@@ -92,10 +84,7 @@
 
         this.remove(receipt);
       } catch (error) {
-        window.log.error(
-          'ReadSyncs.onReceipt error:',
-          error && error.stack ? error.stack : error
-        );
+        window.log.error('ReadSyncs.onReceipt error:', error && error.stack ? error.stack : error);
       }
     },
   }))();

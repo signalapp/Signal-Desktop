@@ -1,13 +1,10 @@
 import React from 'react';
 
-interface ReceivedProps {
+type Props = {
   text: string;
-}
+};
 
-// Needed because of https://github.com/microsoft/tslint-microsoft-contrib/issues/339
-type Props = ReceivedProps;
-
-export const PillDivider: React.SFC<Props> = props => {
+export const PillDivider = (props: Props) => {
   return (
     <div className="panel-text-divider">
       <div className="panel-text-divider-line" />
