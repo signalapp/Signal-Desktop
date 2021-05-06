@@ -8804,6 +8804,83 @@
     "reasonDetail": "isn't jquery"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/liftup/node_modules/braces/lib/expand.js",
+    "line": "        result.push(append(value, stash, enclose));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/liftup/node_modules/braces/lib/expand.js",
+    "line": "        result.push(Array.isArray(ele) ? append(item, ele, enclose) : (item + ele));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/liftup/node_modules/braces/lib/expand.js",
+    "line": "      q.push(append(q.pop(), stringify(node, options)));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/liftup/node_modules/braces/lib/expand.js",
+    "line": "      q.push(append(q.pop(), ['{}']));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/liftup/node_modules/braces/lib/expand.js",
+    "line": "      q.push(append(q.pop(), range));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/liftup/node_modules/braces/lib/expand.js",
+    "line": "        q.push(append(q.pop(), queue, enclose));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/liftup/node_modules/braces/lib/expand.js",
+    "line": "        queue.push(append(queue.pop(), child.value));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/liftup/node_modules/resolve/lib/async.js",
+    "line": "        load(exts, x, loadAsFilePackage);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/liftup/node_modules/resolve/lib/async.js",
+    "line": "        function load(exts, x, loadPackage) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/liftup/node_modules/resolve/lib/async.js",
+    "line": "                    if (r) return load(",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/liftup/node_modules/resolve/lib/async.js",
+    "line": "                load(exts.slice(1), x, pkg);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
+  },
+  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/load-json-file/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
@@ -13893,6 +13970,12 @@
     "line": "module.exports = function wrap(str, options){",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/underscore.string/dist/underscore.string.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-06T21:37:22.288Z"
   },
   {
     "rule": "jQuery-wrap(",

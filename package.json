@@ -246,7 +246,7 @@
     "eslint-plugin-more": "1.0.0",
     "eslint-plugin-react": "7.20.6",
     "file-loader": "4.2.0",
-    "grunt": "1.0.1",
+    "grunt": "1.4.0",
     "grunt-cli": "1.2.0",
     "grunt-contrib-concat": "1.0.1",
     "grunt-contrib-copy": "1.0.0",
