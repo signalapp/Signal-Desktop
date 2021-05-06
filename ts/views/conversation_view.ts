@@ -85,6 +85,18 @@ Whisper.BlockedGroupToast = Whisper.ToastView.extend({
   },
 });
 
+Whisper.CaptchaSolvedToast = Whisper.ToastView.extend({
+  render_attributes() {
+    return { toastMessage: window.i18n('verificationComplete') };
+  },
+});
+
+Whisper.CaptchaFailedToast = Whisper.ToastView.extend({
+  render_attributes() {
+    return { toastMessage: window.i18n('verificationFailed') };
+  },
+});
+
 Whisper.LeftGroupToast = Whisper.ToastView.extend({
   render_attributes() {
     return { toastMessage: window.i18n('youLeftTheGroup') };
@@ -234,6 +246,12 @@ Whisper.ReactionFailedToast = Whisper.ToastView.extend({
   },
   render_attributes() {
     return { toastMessage: window.i18n('Reactions--error') };
+  },
+});
+
+Whisper.DeleteForEveryoneFailedToast = Whisper.ToastView.extend({
+  render_attributes() {
+    return { toastMessage: window.i18n('deleteForEveryoneFailed') };
   },
 });
 
@@ -2788,7 +2806,16 @@ Whisper.ConversationView = Whisper.View.extend({
       message: window.i18n('deleteForEveryoneWarning'),
       okText: window.i18n('delete'),
       resolve: async () => {
-        await this.model.sendDeleteForEveryoneMessage(message.get('sent_at'));
+        try {
+          await this.model.sendDeleteForEveryoneMessage(message.get('sent_at'));
+        } catch (error) {
+          window.log.error(
+            'Error sending delete-for-everyone',
+            error,
+            messageId
+          );
+          this.showToast(Whisper.DeleteForEveryoneFailedToast);
+        }
         this.resetPanel();
       },
     });

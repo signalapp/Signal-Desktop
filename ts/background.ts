@@ -5,6 +5,7 @@ import { DataMessageClass } from './textsecure.d';
 import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
+import { ChallengeHandler } from './challenge';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
 import { senderCertificateService } from './services/senderCertificate';
@@ -12,6 +13,7 @@ import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import { ConversationModel } from './models/conversations';
+import { getMessageById } from './models/messages';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
 import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
@@ -1439,7 +1441,62 @@ export async function startApp(): Promise<void> {
     window.textsecure.messaging.sendRequestKeySyncMessage();
   }
 
+  let challengeHandler: ChallengeHandler | undefined;
+
   async function start() {
+    challengeHandler = new ChallengeHandler({
+      storage: window.storage,
+
+      getMessageById,
+
+      requestChallenge(request) {
+        window.sendChallengeRequest(request);
+      },
+
+      async sendChallengeResponse(data) {
+        await window.textsecure.messaging.sendChallengeResponse(data);
+      },
+
+      onChallengeFailed() {
+        // TODO: DESKTOP-1530
+        // Display humanized `retryAfter`
+        window.Whisper.ToastView.show(
+          window.Whisper.CaptchaFailedToast,
+          document.getElementsByClassName('conversation-stack')[0] ||
+            document.body
+        );
+      },
+
+      onChallengeSolved() {
+        window.Whisper.ToastView.show(
+          window.Whisper.CaptchaSolvedToast,
+          document.getElementsByClassName('conversation-stack')[0] ||
+            document.body
+        );
+      },
+
+      setChallengeStatus(challengeStatus) {
+        window.reduxActions.network.setChallengeStatus(challengeStatus);
+      },
+    });
+    window.Whisper.events.on('challengeResponse', response => {
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be there');
+      }
+
+      challengeHandler.onResponse(response);
+    });
+
+    window.storage.onready(async () => {
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be there');
+      }
+
+      await challengeHandler.load();
+    });
+
+    window.Signal.challengeHandler = challengeHandler;
+
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('Cleanup: starting...');
@@ -1661,6 +1718,10 @@ export async function startApp(): Promise<void> {
     //   we get an online event. This waits a bit after getting an 'offline' event
     //   before disconnecting the socket manually.
     disconnectTimer = setTimeout(disconnect, 1000);
+
+    if (challengeHandler) {
+      challengeHandler.onOffline();
+    }
   }
 
   function onOnline() {
@@ -2046,6 +2107,13 @@ export async function startApp(): Promise<void> {
           );
         }
       });
+
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be initialized');
+      }
+
+      // Intentionally not awaiting
+      challengeHandler.onOnline();
     } finally {
       connecting = false;
     }

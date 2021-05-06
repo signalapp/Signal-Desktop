@@ -67,6 +67,7 @@ const THREE_HOURS = 3 * 60 * 60 * 1000;
 export const MessageStatuses = [
   'delivered',
   'error',
+  'paused',
   'partial-sent',
   'read',
   'sending',
@@ -522,8 +523,31 @@ export class Message extends React.Component<Props, State> {
     const isError = status === 'error' && direction === 'outgoing';
     const isPartiallySent =
       status === 'partial-sent' && direction === 'outgoing';
+    const isPaused = status === 'paused';
 
-    if (isError || isPartiallySent) {
+    if (isError || isPartiallySent || isPaused) {
+      let statusInfo: React.ReactChild;
+      if (isError) {
+        statusInfo = i18n('sendFailed');
+      } else if (isPaused) {
+        statusInfo = i18n('sendPaused');
+      } else {
+        statusInfo = (
+          <button
+            type="button"
+            className="module-message__metadata__tapable"
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
+              showMessageDetail(id);
+            }}
+          >
+            {i18n('partiallySent')}
+          </button>
+        );
+      }
+
       return (
         <span
           className={classNames({
@@ -533,22 +557,7 @@ export class Message extends React.Component<Props, State> {
             'module-message__metadata__date--with-image-no-caption': withImageNoCaption,
           })}
         >
-          {isError ? (
-            i18n('sendFailed')
-          ) : (
-            <button
-              type="button"
-              className="module-message__metadata__tapable"
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                showMessageDetail(id);
-              }}
-            >
-              {i18n('partiallySent')}
-            </button>
-          )}
+          {statusInfo}
         </span>
       );
     }
@@ -1232,7 +1241,15 @@ export class Message extends React.Component<Props, State> {
   public renderError(isCorrectSide: boolean): JSX.Element | null {
     const { status, direction } = this.props;
 
-    if (!isCorrectSide || (status !== 'error' && status !== 'partial-sent')) {
+    if (!isCorrectSide) {
+      return null;
+    }
+
+    if (
+      status !== 'paused' &&
+      status !== 'error' &&
+      status !== 'partial-sent'
+    ) {
       return null;
     }
 
@@ -1241,7 +1258,8 @@ export class Message extends React.Component<Props, State> {
         <div
           className={classNames(
             'module-message__error',
-            `module-message__error--${direction}`
+            `module-message__error--${direction}`,
+            `module-message__error--${status}`
           )}
         />
       </div>
@@ -1446,7 +1464,9 @@ export class Message extends React.Component<Props, State> {
     const { canDeleteForEveryone } = this.state;
 
     const showRetry =
-      (status === 'error' || status === 'partial-sent') &&
+      (status === 'paused' ||
+        status === 'error' ||
+        status === 'partial-sent') &&
       direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
 

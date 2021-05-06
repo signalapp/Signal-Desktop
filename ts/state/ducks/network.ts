@@ -11,6 +11,7 @@ export type NetworkStateType = {
   isOnline: boolean;
   socketStatus: SocketStatus;
   withinConnectingGracePeriod: boolean;
+  challengeStatus: 'required' | 'pending' | 'idle';
 };
 
 // Actions
@@ -18,6 +19,7 @@ export type NetworkStateType = {
 const CHECK_NETWORK_STATUS = 'network/CHECK_NETWORK_STATUS';
 const CLOSE_CONNECTING_GRACE_PERIOD = 'network/CLOSE_CONNECTING_GRACE_PERIOD';
 const RELINK_DEVICE = 'network/RELINK_DEVICE';
+const SET_CHALLENGE_STATUS = 'network/SET_CHALLENGE_STATUS';
 
 export type CheckNetworkStatusPayloadType = {
   isOnline: boolean;
@@ -37,10 +39,18 @@ type RelinkDeviceActionType = {
   type: 'network/RELINK_DEVICE';
 };
 
+type SetChallengeStatusActionType = {
+  type: 'network/SET_CHALLENGE_STATUS';
+  payload: {
+    challengeStatus: NetworkStateType['challengeStatus'];
+  };
+};
+
 export type NetworkActionType =
   | CheckNetworkStatusAction
   | CloseConnectingGracePeriodActionType
-  | RelinkDeviceActionType;
+  | RelinkDeviceActionType
+  | SetChallengeStatusActionType;
 
 // Action Creators
 
@@ -67,19 +77,30 @@ function relinkDevice(): RelinkDeviceActionType {
   };
 }
 
+function setChallengeStatus(
+  challengeStatus: NetworkStateType['challengeStatus']
+): SetChallengeStatusActionType {
+  return {
+    type: SET_CHALLENGE_STATUS,
+    payload: { challengeStatus },
+  };
+}
+
 export const actions = {
   checkNetworkStatus,
   closeConnectingGracePeriod,
   relinkDevice,
+  setChallengeStatus,
 };
 
 // Reducer
 
-function getEmptyState(): NetworkStateType {
+export function getEmptyState(): NetworkStateType {
   return {
     isOnline: navigator.onLine,
     socketStatus: WebSocket.OPEN,
     withinConnectingGracePeriod: true,
+    challengeStatus: 'idle',
   };
 }
 
@@ -102,6 +123,13 @@ export function reducer(
     return {
       ...state,
       withinConnectingGracePeriod: false,
+    };
+  }
+
+  if (action.type === SET_CHALLENGE_STATUS) {
+    return {
+      ...state,
+      challengeStatus: action.payload.challengeStatus,
     };
   }
 

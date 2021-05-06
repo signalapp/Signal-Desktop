@@ -367,7 +367,8 @@
     "protocols": {
       "name": "sgnl-url-scheme",
       "schemes": [
-        "sgnl"
+        "sgnl",
+        "signalcaptcha"
       ]
     },
     "asarUnpack": [

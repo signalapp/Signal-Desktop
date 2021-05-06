@@ -18,6 +18,10 @@ import {
   MessageAttributesType,
 } from './model-types.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
+import {
+  ChallengeHandler,
+  IPCRequest as IPCChallengeRequest,
+} from './challenge';
 import { WebAPIConnectType } from './textsecure/WebAPI';
 import { uploadDebugLogs } from './logging/debuglogs';
 import { CallingClass } from './services/calling';
@@ -216,6 +220,7 @@ declare global {
     showWindow: () => void;
     showSettings: () => void;
     shutdown: () => void;
+    sendChallengeRequest: (request: IPCChallengeRequest) => void;
     setAutoHideMenuBar: (value: WhatIsThis) => void;
     setBadgeCount: (count: number) => void;
     setMenuBarVisibility: (value: WhatIsThis) => void;
@@ -522,6 +527,7 @@ declare global {
         getInitialState: () => WhatIsThis;
         load: () => void;
       };
+      challengeHandler: ChallengeHandler;
     };
 
     ConversationController: ConversationController;
@@ -580,6 +586,7 @@ export type DCodeIOType = {
 };
 
 type MessageControllerType = {
+  getById: (id: string) => MessageModel | undefined;
   findBySender: (sender: string) => MessageModel | null;
   findBySentAt: (sentAt: number) => MessageModel | null;
   register: (id: string, model: MessageModel) => MessageModel;
@@ -739,6 +746,8 @@ export type WhisperType = {
   BlockedGroupToast: typeof window.Whisper.ToastView;
   BlockedToast: typeof window.Whisper.ToastView;
   CannotMixImageAndNonImageAttachmentsToast: typeof window.Whisper.ToastView;
+  CaptchaSolvedToast: typeof window.Whisper.ToastView;
+  CaptchaFailedToast: typeof window.Whisper.ToastView;
   DangerousFileTypeToast: typeof window.Whisper.ToastView;
   ExpiredToast: typeof window.Whisper.ToastView;
   FileSavedToast: typeof window.Whisper.ToastView;
@@ -753,6 +762,7 @@ export type WhisperType = {
   OriginalNotFoundToast: typeof window.Whisper.ToastView;
   PinnedConversationsFullToast: typeof window.Whisper.ToastView;
   ReactionFailedToast: typeof window.Whisper.ToastView;
+  DeleteForEveryoneFailedToast: typeof window.Whisper.ToastView;
   TapToViewExpiredIncomingToast: typeof window.Whisper.ToastView;
   TapToViewExpiredOutgoingToast: typeof window.Whisper.ToastView;
   TimerConflictToast: typeof window.Whisper.ToastView;

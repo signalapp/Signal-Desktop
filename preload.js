@@ -172,6 +172,12 @@ try {
     Whisper.events.trigger('setupAsStandalone');
   });
 
+  ipc.on('challenge:response', (_event, response) => {
+    Whisper.events.trigger('challengeResponse', response);
+  });
+  window.sendChallengeRequest = request =>
+    ipc.send('challenge:request', request);
+
   {
     let isFullScreen = config.isFullScreen === 'true';
 

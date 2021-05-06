@@ -48,12 +48,22 @@ export function Modal({
                 aria-label={i18n('close')}
                 type="button"
                 className="module-Modal__close-button"
+                tabIndex={0}
                 onClick={() => {
                   onClose();
                 }}
               />
             )}
-            {title && <h1 className="module-Modal__title">{title}</h1>}
+            {title && (
+              <h1
+                className={classNames(
+                  'module-Modal__title',
+                  hasXButton ? 'module-Modal__title--with-x-button' : null
+                )}
+              >
+                {title}
+              </h1>
+            )}
           </div>
         )}
         <div

@@ -3028,8 +3028,6 @@ export class ConversationModel extends window.Backbone
       fromId: window.ConversationController.getOurConversationId(),
     });
 
-    window.Whisper.Deletes.onDelete(deleteModel);
-
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
@@ -3108,7 +3106,16 @@ export class ConversationModel extends window.Backbone
       //   anything to the database.
       message.doNotSave = true;
 
-      return message.send(this.wrapSend(promise));
+      const result = await message.send(this.wrapSend(promise));
+
+      if (!message.hasSuccessfulDelivery()) {
+        // This is handled by `conversation_view` which displays a toast on
+        // send error.
+        throw new Error('No successful delivery for delete for everyone');
+      }
+      window.Whisper.Deletes.onDelete(deleteModel);
+
+      return result;
     }).catch(error => {
       window.log.error(
         'Error sending deleteForEveryone',
@@ -3138,7 +3145,6 @@ export class ConversationModel extends window.Backbone
       timestamp,
       fromSync: true,
     });
-    window.Whisper.Reactions.onReaction(reactionModel);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
@@ -3239,15 +3245,17 @@ export class ConversationModel extends window.Backbone
         );
       })();
 
-      return message.send(this.wrapSend(promise));
-    }).catch(error => {
-      window.log.error('Error sending reaction', reaction, target, error);
+      const result = await message.send(this.wrapSend(promise));
 
-      const reverseReaction = reactionModel.clone();
-      reverseReaction.set('remove', !reverseReaction.get('remove'));
-      window.Whisper.Reactions.onReaction(reverseReaction);
+      if (!message.hasSuccessfulDelivery()) {
+        // This is handled by `conversation_view` which displays a toast on
+        // send error.
+        throw new Error('No successful delivery for reaction');
+      }
 
-      throw error;
+      window.Whisper.Reactions.onReaction(reactionModel);
+
+      return result;
     });
   }
 
@@ -4167,25 +4175,17 @@ export class ConversationModel extends window.Backbone
       const message = window.MessageController.register(model.id, model);
       this.addSingleMessage(message);
 
-      const options = await this.getSendOptions();
-      message.send(
-        this.wrapSend(
-          // TODO: DESKTOP-724
-          // resetSession returns `Array<void>` which is incompatible with the
-          // expected promise return values. `[]` is truthy and wrapSend assumes
-          // it's a valid callback result type
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          window.textsecure.messaging.resetSession(
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.get('uuid')!,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.get('e164')!,
-            now,
-            options
-          )
-        )
-      );
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const uuid = this.get('uuid')!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const e164 = this.get('e164')!;
+
+      message.sendUtilityMessageWithRetry({
+        type: 'session-reset',
+        uuid,
+        e164,
+        now,
+      });
     }
   }
 

@@ -32,6 +32,7 @@ export type PropsType = {
   isMe?: boolean;
   name?: string;
   color?: ColorType;
+  disabled?: boolean;
   isVerified?: boolean;
   profileName?: string;
   title: string;
@@ -339,6 +340,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     const {
       avatarPath,
       color,
+      disabled,
       i18n,
       name,
       startComposing,
@@ -437,6 +439,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             />
           )}
           <input
+            disabled={disabled}
             type="text"
             ref={this.inputRef}
             className={classNames(

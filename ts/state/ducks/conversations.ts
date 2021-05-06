@@ -42,6 +42,7 @@ export type DBConversationType = {
 };
 
 export type LastMessageStatus =
+  | 'paused'
   | 'error'
   | 'partial-sent'
   | 'sending'

@@ -27,6 +27,7 @@ export const MessageStatuses = [
   'sent',
   'delivered',
   'read',
+  'paused',
   'error',
   'partial-sent',
 ] as const;
