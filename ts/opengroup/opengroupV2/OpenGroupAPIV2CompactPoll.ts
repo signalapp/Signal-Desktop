@@ -8,7 +8,8 @@ import { parseStatusCodeFromOnionRequest } from './OpenGroupAPIV2Parser';
 import _ from 'lodash';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
-import { downloadPreviewOpenGroupV2, getAuthToken, getMemberCount } from './OpenGroupAPIV2';
+import { downloadPreviewOpenGroupV2, getMemberCount } from './OpenGroupAPIV2';
+import { getAuthToken } from './ApiAuth';
 
 const COMPACT_POLL_ENDPOINT = 'compact_poll';
 
@@ -247,7 +248,7 @@ async function sendOpenGroupV2RequestCompactPoll(
 
   const statusCode = parseStatusCodeFromOnionRequest(res);
   if (!statusCode) {
-    window.log.warn('sendOpenGroupV2Request Got unknown status code; res:', res);
+    window.log.warn('sendOpenGroupV2RequestCompactPoll Got unknown status code; res:', res);
     return null;
   }
 

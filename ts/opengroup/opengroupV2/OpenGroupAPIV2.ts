@@ -4,24 +4,11 @@ import {
   OpenGroupV2Room,
   saveV2OpenGroupRoom,
 } from '../../data/opengroups';
-import { ConversationController } from '../../session/conversations';
+import { FSv2 } from '../../fileserver/';
 import { sendViaOnion } from '../../session/onions/onionSend';
 import { PubKey } from '../../session/types';
-import { allowOnlyOneAtATime } from '../../session/utils/Promise';
-import {
-  fromArrayBufferToBase64,
-  fromBase64ToArrayBuffer,
-  toHex,
-} from '../../session/utils/String';
-import { getIdentityKeyPair, getOurPubKeyStrFromCache } from '../../session/utils/User';
-import { getCompleteEndpointUrl, getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
-import {
-  buildUrl,
-  OpenGroupRequestCommonType,
-  OpenGroupV2Info,
-  OpenGroupV2Request,
-  parseMessages,
-} from './ApiUtil';
+import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../../session/utils/String';
+import { OpenGroupRequestCommonType, OpenGroupV2Info, OpenGroupV2Request } from './ApiUtil';
 import {
   parseMemberCount,
   parseRooms,
@@ -29,13 +16,63 @@ import {
 } from './OpenGroupAPIV2Parser';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
+import { isOpenGroupV2Request } from '../../fileserver/FileServerApiV2';
+import { getAuthToken } from './ApiAuth';
+
 /**
- * This send function is to be used for all non polling stuff
- * download and upload of attachments for instance, but most of the logic happens in
- * the compact_poll endpoint
+ * This function returns a base url to this room
+ * This is basically used for building url after posting an attachment
+ * hasRoomInEndpoint = true means the roomId is already in the endpoint.
+ * so we don't add the room after the serverUrl.
+ *
  */
-async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Object | null> {
-  const builtUrl = buildUrl(request);
+function getCompleteEndpointUrl(
+  roomInfos: OpenGroupRequestCommonType,
+  endpoint: string,
+  hasRoomInEndpoint: boolean
+) {
+  // serverUrl has the port and protocol already
+  if (!hasRoomInEndpoint) {
+    return `${roomInfos.serverUrl}/${roomInfos.roomId}/${endpoint}`;
+  }
+  // not room based, the endpoint already has the room in it
+  return `${roomInfos.serverUrl}/${endpoint}`;
+}
+
+const getDestinationPubKey = async (
+  request: OpenGroupV2Request | FSv2.FileServerV2Request
+): Promise<string> => {
+  if (FSv2.isOpenGroupV2Request(request)) {
+    if (!request.serverPublicKey) {
+      const roomDetails = await getV2OpenGroupRoomByRoomId({
+        serverUrl: request.server,
+        roomId: request.room,
+      });
+      if (!roomDetails?.serverPublicKey) {
+        throw new Error('PublicKey not found for this server.');
+      }
+      return roomDetails.serverPublicKey;
+    } else {
+      return request.serverPublicKey;
+    }
+  } else {
+    // this is a fileServer call
+    return FSv2.fileServerV2PubKey;
+  }
+};
+
+/**
+ *
+ * This send function is to be used for all non polling stuff.
+ * This function can be used for OpengroupV2 request OR File Server V2 request
+ * Download and upload of attachments for instance, but most of the logic happens in
+ * the compact_poll endpoint.
+ *
+ */
+export async function sendApiV2Request(
+  request: OpenGroupV2Request | FSv2.FileServerV2Request
+): Promise<Object | null> {
+  const builtUrl = FSv2.buildUrl(request);
 
   if (!builtUrl) {
     throw new Error('Invalid request');
@@ -43,28 +80,19 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
 
   // set the headers sent by the caller, and the roomId.
   const headers = request.headers || {};
-  headers.Room = request.room;
+  if (FSv2.isOpenGroupV2Request(request)) {
+    headers.Room = request.room;
+  }
 
   let body = '';
   if (request.method !== 'GET') {
     body = JSON.stringify(request.queryParams);
   }
 
-  let destinationX25519Key: string;
-  if (!request.serverPublicKey) {
-    const roomDetails = await getV2OpenGroupRoomByRoomId({
-      serverUrl: request.server,
-      roomId: request.room,
-    });
-    if (!roomDetails?.serverPublicKey) {
-      throw new Error('PublicKey not found for this server.');
-    }
-    destinationX25519Key = roomDetails.serverPublicKey;
-  } else {
-    destinationX25519Key = request.serverPublicKey;
-  }
+  const destinationX25519Key = await getDestinationPubKey(request);
+
   // Because auth happens on a per-room basis, we need both to make an authenticated request
-  if (request.isAuthRequired && request.room) {
+  if (isOpenGroupV2Request(request) && request.isAuthRequired && request.room) {
     // this call will either return the token on the db,
     // or the promise currently fetching a new token for that same room
     // or fetch from the open group a new token for that room.
@@ -122,61 +150,6 @@ async function sendOpenGroupV2Request(request: OpenGroupV2Request): Promise<Obje
   }
 }
 
-// tslint:disable: member-ordering
-export async function requestNewAuthToken({
-  serverUrl,
-  roomId,
-}: OpenGroupRequestCommonType): Promise<string | null> {
-  const userKeyPair = await getIdentityKeyPair();
-  if (!userKeyPair) {
-    throw new Error('Failed to fetch user keypair');
-  }
-
-  const ourPubkey = getOurPubKeyStrFromCache();
-  const parameters = {} as Record<string, string>;
-  parameters.public_key = ourPubkey;
-  const request: OpenGroupV2Request = {
-    method: 'GET',
-    room: roomId,
-    server: serverUrl,
-    queryParams: parameters,
-    isAuthRequired: false,
-    endpoint: 'auth_token_challenge',
-  };
-  const json = (await sendOpenGroupV2Request(request)) as any;
-  // parse the json
-  if (!json || !json?.result?.challenge) {
-    window.log.warn('Parsing failed');
-    return null;
-  }
-  const {
-    ciphertext: base64EncodedCiphertext,
-    ephemeral_public_key: base64EncodedEphemeralPublicKey,
-  } = json?.result?.challenge;
-
-  if (!base64EncodedCiphertext || !base64EncodedEphemeralPublicKey) {
-    window.log.warn('Parsing failed');
-    return null;
-  }
-  const ciphertext = fromBase64ToArrayBuffer(base64EncodedCiphertext);
-  const ephemeralPublicKey = fromBase64ToArrayBuffer(base64EncodedEphemeralPublicKey);
-  try {
-    const symmetricKey = await window.libloki.crypto.deriveSymmetricKey(
-      ephemeralPublicKey,
-      userKeyPair.privKey
-    );
-
-    const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(symmetricKey, ciphertext);
-
-    const token = toHex(plaintextBuffer);
-
-    return token;
-  } catch (e) {
-    window.log.error('Failed to decrypt token open group v2');
-    return null;
-  }
-}
-
 /**
  *
  */
@@ -194,7 +167,7 @@ export async function openGroupV2GetRoomInfo({
     isAuthRequired: false,
     endpoint: `rooms/${roomId}`,
   };
-  const result = (await sendOpenGroupV2Request(request)) as any;
+  const result = (await sendApiV2Request(request)) as any;
   if (result?.result?.room) {
     const { id, name, image_id: imageId } = result?.result?.room;
 
@@ -213,105 +186,6 @@ export async function openGroupV2GetRoomInfo({
   window.log.warn('getInfo failed');
   return null;
 }
-
-async function claimAuthToken(
-  authToken: string,
-  serverUrl: string,
-  roomId: string
-): Promise<string | null> {
-  // Set explicitly here because is isn't in the database yet at this point
-  const headers = { Authorization: authToken };
-  const request: OpenGroupV2Request = {
-    method: 'POST',
-    headers,
-    room: roomId,
-    server: serverUrl,
-    queryParams: { public_key: getOurPubKeyStrFromCache() },
-    isAuthRequired: false,
-    endpoint: 'claim_auth_token',
-  };
-  const result = await sendOpenGroupV2Request(request);
-  const statusCode = parseStatusCodeFromOnionRequest(result);
-  if (statusCode !== 200) {
-    window.log.warn(`Could not claim token, status code: ${statusCode}`);
-    return null;
-  }
-  return authToken;
-}
-
-export async function getAuthToken({
-  serverUrl,
-  roomId,
-}: OpenGroupRequestCommonType): Promise<string | null> {
-  // first try to fetch from db a saved token.
-  const roomDetails = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
-  if (!roomDetails) {
-    window.log.warn('getAuthToken Room does not exist.');
-    return null;
-  }
-  if (roomDetails?.token) {
-    return roomDetails.token;
-  }
-
-  await allowOnlyOneAtATime(`getAuthTokenV2${serverUrl}:${roomId}`, async () => {
-    try {
-      window.log.info('TRIGGERING NEW AUTH TOKEN WITH', { serverUrl, roomId });
-      const token = await requestNewAuthToken({ serverUrl, roomId });
-      if (!token) {
-        window.log.warn('invalid new auth token', token);
-        return;
-      }
-      const claimedToken = await claimAuthToken(token, serverUrl, roomId);
-      if (!claimedToken) {
-        window.log.warn('invalid claimed token', claimedToken);
-      }
-      // still save it to the db. just to mark it as to be refreshed later
-      roomDetails.token = claimedToken || '';
-      await saveV2OpenGroupRoom(roomDetails);
-    } catch (e) {
-      window.log.error('Failed to getAuthToken', e);
-      throw e;
-    }
-  });
-
-  const refreshedRoomDetails = await getV2OpenGroupRoomByRoomId({
-    serverUrl,
-    roomId,
-  });
-  if (!refreshedRoomDetails) {
-    window.log.warn('getAuthToken Room does not exist.');
-    return null;
-  }
-  if (refreshedRoomDetails?.token) {
-    return refreshedRoomDetails?.token;
-  }
-  return null;
-}
-
-export const deleteAuthToken = async ({
-  serverUrl,
-  roomId,
-}: OpenGroupRequestCommonType): Promise<boolean> => {
-  const request: OpenGroupV2Request = {
-    method: 'DELETE',
-    room: roomId,
-    server: serverUrl,
-    isAuthRequired: false,
-    endpoint: 'auth_token',
-  };
-  try {
-    const result = await sendOpenGroupV2Request(request);
-    const statusCode = parseStatusCodeFromOnionRequest(result);
-    if (statusCode !== 200) {
-      window.log.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
-      return false;
-    }
-    return true;
-  } catch (e) {
-    window.log.error('deleteAuthToken failed:', e);
-    return false;
-  }
-};
 
 /**
  * Send the specified message to the specified room.
@@ -333,7 +207,7 @@ export const postMessage = async (
     isAuthRequired: true,
     endpoint: 'messages',
   };
-  const result = await sendOpenGroupV2Request(request);
+  const result = await sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
 
   if (statusCode !== 200) {
@@ -360,7 +234,7 @@ export const banUser = async (
     queryParams,
     endpoint: 'block_list',
   };
-  const banResult = await sendOpenGroupV2Request(request);
+  const banResult = await sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(banResult) === 200;
   return isOk;
 };
@@ -376,7 +250,7 @@ export const unbanUser = async (
     isAuthRequired: true,
     endpoint: `block_list/${userToBan.key}`,
   };
-  const unbanResult = await sendOpenGroupV2Request(request);
+  const unbanResult = await sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(unbanResult) === 200;
   return isOk;
 };
@@ -393,7 +267,7 @@ export const deleteMessageByServerIds = async (
     endpoint: 'delete_messages',
     queryParams: { ids: idsToRemove },
   };
-  const messageDeletedResult = await sendOpenGroupV2Request(request);
+  const messageDeletedResult = await sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(messageDeletedResult) === 200;
   return isOk;
 };
@@ -408,7 +282,7 @@ export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
     endpoint: 'rooms',
     serverPublicKey: roomInfos.serverPublicKey,
   };
-  const result = await sendOpenGroupV2Request(request);
+  const result = await sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
 
   if (statusCode !== 200) {
@@ -429,7 +303,7 @@ export const getMemberCount = async (
     isAuthRequired: true,
     endpoint: 'member_count',
   };
-  const result = await sendOpenGroupV2Request(request);
+  const result = await sendApiV2Request(request);
   if (parseStatusCodeFromOnionRequest(result) !== 200) {
     window.log.warn('getMemberCount failed invalid status code');
     return;
@@ -463,7 +337,7 @@ export const downloadFileOpenGroupV2 = async (
     endpoint: `files/${fileId}`,
   };
 
-  const result = await sendOpenGroupV2Request(request);
+  const result = await sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -490,7 +364,7 @@ export const downloadFileOpenGroupV2ByUrl = async (
     endpoint: pathName,
   };
 
-  const result = await sendOpenGroupV2Request(request);
+  const result = await sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -522,7 +396,7 @@ export const downloadPreviewOpenGroupV2 = async (
     serverPublicKey: roomInfos.serverPublicKey,
   };
 
-  const result = await sendOpenGroupV2Request(request);
+  const result = await sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -561,7 +435,7 @@ export const uploadFileOpenGroupV2 = async (
     queryParams,
   };
 
-  const result = await sendOpenGroupV2Request(request);
+  const result = await sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -601,7 +475,7 @@ export const uploadImageForRoomOpenGroupV2 = async (
     queryParams,
   };
 
-  const result = await sendOpenGroupV2Request(request);
+  const result = await sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -626,7 +500,7 @@ export const addModerator = async (
     queryParams: { public_key: userToAddAsMods.key, room_id: roomInfos.roomId },
     endpoint: 'moderators',
   };
-  const addModResult = await sendOpenGroupV2Request(request);
+  const addModResult = await sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(addModResult) === 200;
   return isOk;
 };
@@ -642,7 +516,7 @@ export const removeModerator = async (
     isAuthRequired: true,
     endpoint: `moderators/${userToAddAsMods.key}`,
   };
-  const removeModResult = await sendOpenGroupV2Request(request);
+  const removeModResult = await sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(removeModResult) === 200;
   return isOk;
 };

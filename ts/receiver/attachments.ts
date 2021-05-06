@@ -10,6 +10,7 @@ import {
   downloadFileOpenGroupV2ByUrl,
 } from '../opengroup/opengroupV2/OpenGroupAPIV2';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
+import { FSv2 } from '../fileserver';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -19,11 +20,20 @@ export async function downloadAttachment(attachment: any) {
     ['https://file-static.lokinet.org', 'https://file.getsession.org'],
     serverUrl
   );
+  // is it an attachment hosted on the file server v2 ?
+  const defaultFsV2 = _.startsWith(serverUrl, FSv2.fileServerV2URL);
 
   let res: ArrayBuffer | null = null;
 
-  // TODO: we need attachments to remember which API should be used to retrieve them
-  if (!defaultFileserver) {
+  if (defaultFsV2) {
+    if (!attachment.id) {
+      window.log.warn('Cannot download fsv2 file with empty id');
+      return;
+    }
+    window.log.info('Download v2 file server attachment');
+    res = await FSv2.downloadFileFromFSv2(attachment.id);
+  } else if (!defaultFileserver) {
+    // TODO: we need attachments to remember which API should be used to retrieve them
     const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(serverUrl);
 
     if (serverAPI) {
@@ -39,18 +49,6 @@ export async function downloadAttachment(attachment: any) {
   if (res.byteLength === 0) {
     window.log.error('Failed to download attachment. Length is 0');
     throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
-  }
-
-  // FIXME "178" test to remove once this is fixed server side.
-  if (!window.lokiFeatureFlags.useFileOnionRequestsV2) {
-    if (res.byteLength === 178) {
-      window.log.error(
-        'Data of 178 length corresponds of a 404 returned as 200 by file.getsession.org.'
-      );
-      throw new Error(`downloadAttachment: invalid response for ${attachment.url}`);
-    }
-  } else {
-    // if useFileOnionRequestsV2 is true, we expect an ArrayBuffer not empty
   }
 
   // The attachment id is actually just the absolute url of the attachment
