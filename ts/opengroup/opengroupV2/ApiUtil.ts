@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import { FileServerV2Request } from '../../fileserver/FileServerApiV2';
 import { PubKey } from '../../session/types';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { fromBase64ToArrayBuffer, fromHex } from '../../session/utils/String';
@@ -13,14 +14,9 @@ export type OpenGroupRequestCommonType = {
   roomId: string;
 };
 
-export type OpenGroupV2Request = {
-  method: 'GET' | 'POST' | 'DELETE' | 'PUT';
+export type OpenGroupV2Request = FileServerV2Request & {
   room: string;
   server: string;
-  endpoint: string;
-  // queryParams are used for post or get, but not the same way
-  queryParams?: Record<string, any>;
-  headers?: Record<string, string>;
   isAuthRequired: boolean;
   serverPublicKey?: string; // if not provided, a db called will be made to try to get it.
 };
@@ -41,28 +37,6 @@ export type OpenGroupV2Info = {
 export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
   completeUrl: string;
   base64Data?: string;
-};
-
-/**
- * Try to build an full url and check it for validity.
- * @returns null if the check failed. the built URL otherwise
- */
-export const buildUrl = (request: OpenGroupV2Request): URL | null => {
-  let rawURL = `${request.server}/${request.endpoint}`;
-  if (request.method === 'GET') {
-    const entries = Object.entries(request.queryParams || {});
-
-    if (entries.length) {
-      const queryString = entries.map(([key, value]) => `${key}=${value}`).join('&');
-      rawURL += `?${queryString}`;
-    }
-  }
-  // this just check that the URL is valid
-  try {
-    return new URL(`${rawURL}`);
-  } catch (error) {
-    return null;
-  }
 };
 
 export const parseMessages = async (

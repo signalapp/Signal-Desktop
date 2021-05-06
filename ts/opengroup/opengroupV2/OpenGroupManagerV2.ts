@@ -10,10 +10,11 @@ import { ConversationController } from '../../session/conversations';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
-import { deleteAuthToken, openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
+import { openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import _ from 'lodash';
+import { deleteAuthToken } from './ApiAuth';
 
 export class OpenGroupManagerV2 {
   public static readonly useV2OpenGroups = false;

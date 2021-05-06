@@ -15,9 +15,9 @@ import { getSnodesFor } from '../snode_api/snodePool';
 import { PubKey } from '../types';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
-import { deleteAuthToken } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import _ from 'lodash';
 import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
+import { deleteAuthToken } from '../../opengroup/opengroupV2/ApiAuth';
 
 export class ConversationController {
   private static instance: ConversationController | null;

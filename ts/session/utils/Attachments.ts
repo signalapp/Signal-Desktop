@@ -8,6 +8,7 @@ import {
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
+import { FSv2 } from '../../fileserver';
 
 interface UploadParams {
   attachment: Attachment;
@@ -55,6 +56,7 @@ export class AttachmentUtils {
     }
 
     let server = window.tokenlessFileServerAdnAPI;
+    // this can only be an opengroupv1
     if (openGroup) {
       const openGroupServer = await window.lokiPublicChatAPI.findOrCreateServer(openGroup.server);
       if (!openGroupServer) {
@@ -92,12 +94,23 @@ export class AttachmentUtils {
       attachmentData = data.ciphertext;
     }
 
-    const result = isAvatar
-      ? await server.putAvatar(attachmentData)
-      : await server.putAttachment(attachmentData);
+    // use file server v2
 
-    pointer.id = result.id;
-    pointer.url = result.url;
+    if (FSv2.useFileServerAPIV2Sending) {
+      const uploadToV2Result = await FSv2.uploadFileToFsV2(attachmentData);
+      if (uploadToV2Result) {
+        pointer.id = uploadToV2Result.fileId;
+        pointer.url = uploadToV2Result.fileUrl;
+      } else {
+        console.warn('upload to file server v2 failed');
+      }
+    } else {
+      const result = isAvatar
+        ? await server.putAvatar(attachmentData)
+        : await server.putAttachment(attachmentData);
+      pointer.id = result.id;
+      pointer.url = result.url;
+    }
 
     return pointer;
   }
