@@ -36,9 +36,6 @@ import { assert } from '../../util/assert';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const FilteredSmartTimelineItem = SmartTimelineItem as any;
 const FilteredSmartTypingBubble = SmartTypingBubble as any;
-const FilteredSmartLastSeenIndicator = SmartLastSeenIndicator as any;
-const FilteredSmartHeroRow = SmartHeroRow as any;
-const FilteredSmartTimelineLoadingRow = SmartTimelineLoadingRow as any;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 type ExternalProps = {
@@ -65,7 +62,7 @@ function renderItem(
 }
 
 function renderLastSeenIndicator(id: string): JSX.Element {
-  return <FilteredSmartLastSeenIndicator id={id} />;
+  return <SmartLastSeenIndicator id={id} />;
 }
 function renderHeroRow(
   id: string,
@@ -74,7 +71,7 @@ function renderHeroRow(
   updateSharedGroups: () => unknown
 ): JSX.Element {
   return (
-    <FilteredSmartHeroRow
+    <SmartHeroRow
       id={id}
       onHeightChange={onHeightChange}
       unblurAvatar={unblurAvatar}
@@ -83,7 +80,7 @@ function renderHeroRow(
   );
 }
 function renderLoadingRow(id: string): JSX.Element {
-  return <FilteredSmartTimelineLoadingRow id={id} />;
+  return <SmartTimelineLoadingRow id={id} />;
 }
 function renderTypingBubble(id: string): JSX.Element {
   return <FilteredSmartTypingBubble id={id} />;
