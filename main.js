@@ -724,7 +724,7 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
 
   ready = true;
 
-  createWindow();
+  await createWindow();
 
   if (usingTrayIcon) {
     tray = createTrayIcon(getMainWindow, locale.messages);
