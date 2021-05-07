@@ -24,8 +24,8 @@ import {
   keyBy,
   last,
   map,
-  pick,
   omit,
+  pick,
 } from 'lodash';
 
 import { GroupV2MemberType } from '../model-types.d';
@@ -3001,7 +3001,7 @@ async function getMessageBySender({
 }
 
 function getExpireData(
-  messageExpireTimer: number,
+  expireTimer: number,
   readAt?: number
 ): {
   expirationStartTimestamp: number;
@@ -3009,7 +3009,7 @@ function getExpireData(
 } {
   const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
   const expiresAt = getExpiresAt({
-    expireTimer: messageExpireTimer,
+    expireTimer,
     expirationStartTimestamp,
   });
 
@@ -3026,40 +3026,70 @@ function getExpireData(
 }
 
 function updateExpirationTimers(
-  messageExpireTimer: number,
-  messagesWithExpireTimer: Set<string>,
+  conversationId: string,
+  newestUnreadId: number,
+  messagesWithExpireTimer: Map<
+    string,
+    {
+      id: string;
+      expireTimer: number;
+    }
+  >,
   readAt?: number
 ) {
-  const { expirationStartTimestamp, expiresAt } = getExpireData(
-    messageExpireTimer,
-    readAt
-  );
-
   const db = getInstance();
-  const stmt = db.prepare<Query>(
-    `
-  UPDATE messages
-  SET
-    unread = 0,
-    expires_at = $expiresAt,
-    expirationStartTimestamp = $expirationStartTimestamp,
-    json = json_patch(json, $jsonPatch)
-  WHERE
-    id = $id
-  `
-  );
-  messagesWithExpireTimer.forEach(id => {
-    stmt.run({
-      id,
+
+  const rowsWithSameExpireTimer = new Map();
+  for (const row of messagesWithExpireTimer.values()) {
+    const { expireTimer } = row;
+    const expireTimerRow = rowsWithSameExpireTimer.get(expireTimer);
+
+    if (expireTimerRow) {
+      return;
+    }
+
+    const { expirationStartTimestamp, expiresAt } = getExpireData(
+      expireTimer,
+      readAt
+    );
+
+    rowsWithSameExpireTimer.set(expireTimer, {
       expirationStartTimestamp,
+      expireTimer,
       expiresAt,
-      jsonPatch: JSON.stringify({
-        expirationStartTimestamp,
-        expires_at: expiresAt,
-        unread: 0,
-      }),
     });
-  });
+  }
+
+  rowsWithSameExpireTimer.forEach(
+    ({ expirationStartTimestamp, expireTimer, expiresAt }) => {
+      db.prepare<Query>(
+        `
+      UPDATE messages
+      SET
+        unread = 0,
+        expires_at = $expiresAt,
+        expirationStartTimestamp = $expirationStartTimestamp,
+        json = json_patch(json, $jsonPatch)
+      WHERE
+        unread = 0 AND
+        conversationId = $conversationId AND
+        received_at <= $newestUnreadId AND
+        expireTimer = $expireTimer
+      `
+      ).run({
+        conversationId,
+        expirationStartTimestamp,
+        expireTimer,
+        expiresAt,
+        jsonPatch: JSON.stringify({
+          expirationStartTimestamp,
+          expires_at: expiresAt,
+          unread: 0,
+        }),
+        newestUnreadId,
+      });
+    }
+  );
 }
 
 async function getUnreadByConversationAndMarkRead(
@@ -3074,7 +3104,7 @@ async function getUnreadByConversationAndMarkRead(
     const rows = db
       .prepare<Query>(
         `
-        SELECT id, expireTimer, expirationStartTimestamp, json
+        SELECT id, expires_at, expireTimer, expirationStartTimestamp, json
         FROM messages WHERE
           unread = $unread AND
           conversationId = $conversationId AND
@@ -3088,44 +3118,48 @@ async function getUnreadByConversationAndMarkRead(
         newestUnreadId,
       });
 
-    let messageExpireTimer: number | undefined;
-    const messagesWithExpireTimer: Set<string> = new Set();
-    const messagesToMarkRead: Array<string> = [];
+    const messagesWithExpireTimer: Map<
+      string,
+      {
+        id: string;
+        expireTimer: number;
+      }
+    > = new Map();
 
     rows.forEach(row => {
-      if (row.expireTimer && !row.expirationStartTimestamp) {
-        messageExpireTimer = row.expireTimer;
-        messagesWithExpireTimer.add(row.id);
+      if (
+        row.expireTimer &&
+        (!row.expirationStartTimestamp || !row.expires_at)
+      ) {
+        messagesWithExpireTimer.set(row.id, {
+          id: row.id,
+          expireTimer: row.expireTimer,
+        });
       }
-      messagesToMarkRead.push(row.id);
     });
 
-    if (messagesToMarkRead.length) {
-      const stmt = db.prepare<Query>(
+    db.prepare<Query>(
+      `
+        UPDATE messages
+        SET
+          unread = 0,
+          json = json_patch(json, $jsonPatch)
+        WHERE
+          unread = $unread AND
+          conversationId = $conversationId AND
+          received_at <= $newestUnreadId;
         `
-          UPDATE messages
-          SET
-            unread = 0,
-            json = json_patch(json, $jsonPatch)
-          WHERE
-            id = $id;
-          `
-      );
+    ).run({
+      conversationId,
+      jsonPatch: JSON.stringify({ unread: 0 }),
+      newestUnreadId,
+      unread: 1,
+    });
 
-      messagesToMarkRead.forEach(id =>
-        stmt.run({
-          id,
-          jsonPatch: JSON.stringify({ unread: 0 }),
-        })
-      );
-    }
-
-    if (messageExpireTimer && messagesWithExpireTimer.size) {
-      // We use the messageExpireTimer set above from whichever row we have
-      // in the database. Since this is the same conversation the expireTimer
-      // should be the same for all messages within it.
+    if (messagesWithExpireTimer.size) {
       updateExpirationTimers(
-        messageExpireTimer,
+        conversationId,
+        newestUnreadId,
         messagesWithExpireTimer,
         readAt
       );
@@ -3134,9 +3168,10 @@ async function getUnreadByConversationAndMarkRead(
     return rows.map(row => {
       const json = jsonToObject(row.json);
       const expireAttrs = {};
-      if (messageExpireTimer && messagesWithExpireTimer.has(row.id)) {
+      const expiringMessage = messagesWithExpireTimer.get(row.id);
+      if (expiringMessage) {
         const { expirationStartTimestamp, expiresAt } = getExpireData(
-          messageExpireTimer,
+          expiringMessage.expireTimer,
           readAt
         );
         Object.assign(expireAttrs, {
