@@ -123,10 +123,6 @@
         "message": "Настроить с импортом",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsStandalone": {
-        "message": "Настроить как отдельное устройство",
-        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
-    },
     "loading": {
         "message": "Загрузка...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -134,16 +130,6 @@
     "optimizingApplication": {
         "message": "Оптимизация приложения...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
-    },
-    "migratingToSQLCipher": {
-        "message": "Оптимизация сообщений... $status$ выполнена.",
-        "description": "Message shown on the loading screen while we are doing application optimizations",
-        "placeholders": {
-            "status": {
-                "content": "$1",
-                "example": "45/200"
-            }
-        }
     },
     "chooseDirectory": {
         "message": "Выберите папку",
@@ -219,112 +205,6 @@
             }
         }
     },
-    "youMarkedAsVerified": {
-        "message": "Вы отметили код безопасности с $name$ как подтверждённый",
-        "description": "Shown in the conversation history when the user marks a contact as verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "youMarkedAsNotVerified": {
-        "message": "Вы отметили код безопасности с $name$ как неподтверждённый",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "youMarkedAsVerifiedOtherDevice": {
-        "message": "Вы отметили код безопасности с $name$ как подтверждённый с другого устройства",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Вы отметили код безопасности с $name$ как неподтверждённый с другого устройства",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "membersNeedingVerification": {
-        "message": "Коды безопасности с данными участниками группы изменились со времени последнего подтверждения. Нажмите на участника группы, чтобы увидеть новый код безопасности.",
-        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
-    },
-    "changedSinceVerifiedMultiple": {
-        "message": "Коды безопасности с несколькими участниками группы изменились со времени последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников группы переустановил Session.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedSinceVerified": {
-        "message": "Ваш код безопасности с $name$ изменился и более не считается подтверждённым. Это означает, что либо вашу переписку пытаются перехватить, либо $name$ просто переустановил(а) Session.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "changedRightAfterVerify": {
-        "message": "Код безопасности который вы пытаетесь подтвердить уже изменился. Пожалуйста, перепроверьте код безопасности с $name$. Помните, что подобные изменения могут означать попытку перехвата ваших сообщений, либо $name$ попросту переустановил Session.",
-        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "changedRecentlyMultiple": {
-        "message": "Коды безопасности с несколькими участниками группы изменились со времени последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников переустановил Session. ",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedRecently": {
-        "message": "Ваш код безопасности с $name$ изменился. Это означает, что либо вашу переписку пытаются перехватить, либо $name$ просто переустановил(а) Session.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "identityKeyErrorOnSend": {
-        "message": "Код безопасности с $name$ изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, либо $name$ попросту переустановил Session. Вы можете подтвердить свой код безопасности с данным контактом.",
-        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "noLongerVerified": {
-        "message": "Код безопасности с $name$ изменился и более не является подтвержденным. Нажмите, чтобы показать.",
-        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "multipleNoLongerVerified": {
-        "message": "Коды безопасности с несколькими участниками данной группы изменились и больше не являются подтвержденными. Нажмите, чтобы показать.",
-        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
-    },
     "debugLogExplanation": {
         "message": "Этот журнал отладки будет открыто опубликован для разработчиков. Вы можете проверить и изменить его перед отправкой.",
         "description": ""
@@ -344,42 +224,6 @@
     "submit": {
         "message": "Отправить",
         "description": ""
-    },
-    "verify": {
-        "message": "Отметить как подтвержденный",
-        "description": ""
-    },
-    "unverify": {
-        "message": "Отметить как не подтвержденный",
-        "description": ""
-    },
-    "isVerified": {
-        "message": "Вы отметили код безопасности с $name$ как подтверждённый",
-        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "isNotVerified": {
-        "message": "Вы не подтвердили свой код безопасности с $name$.",
-        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "verified": {
-        "message": "Подтверждён",
-        "description": ""
-    },
-    "newIdentity": {
-        "message": "Новый код безопасности",
-        "description": "Header for a key change dialog"
     },
     "incomingError": {
         "message": "Ошибка при обработке входящего сообщения",
@@ -475,10 +319,6 @@
         "message": "Извините, произошла ошибка при обработке вложения.",
         "description": ""
     },
-    "connecting": {
-        "message": "Соединяемся...",
-        "description": "Displayed when the desktop client is currently connecting to the server."
-    },
     "offline": {
         "message": "Оффлайн",
         "description": "Displayed when the desktop client has no network connection."
@@ -551,10 +391,6 @@
         "message": "Сообщения",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSession": {
-        "message": "Добро пожаловать в Session.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Анимация набора текста для этого разговора",
         "description": "Used as the 'title' attibute for the typing animation"
@@ -568,38 +404,6 @@
                 "example": "John"
             }
         }
-    },
-    "home": {
-        "message": "Домашний",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "work": {
-        "message": "Рабочий",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "mobile": {
-        "message": "Мобильный",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
-    },
-    "email": {
-        "message": "email",
-        "description": "Generic label shown if contact email has custom type but no label"
-    },
-    "phone": {
-        "message": "телефон",
-        "description": "Generic label shown if contact phone has custom type but no label"
-    },
-    "address": {
-        "message": "адрес",
-        "description": "Generic label shown if contact address has custom type but no label"
-    },
-    "poBox": {
-        "message": "почтовый ящик",
-        "description": "When rendering an address, used to provide context to a post office box"
-    },
-    "downloading": {
-        "message": "Скачивание",
-        "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
         "message": "Загрузить вложение",
@@ -621,10 +425,6 @@
         "message": "Исходное сообщение найдено, но не загружено. Прокрутите вверх, чтобы загрузить его.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
-    "voiceNoteMustBeOnlyAttachment": {
-        "message": "Голосовая заметка должна быть единственным вложением в сообщении.",
-        "description": "Shown in toast if tries to record a voice note with any staged attachments"
-    },
     "you": {
         "message": "Вы",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
@@ -632,10 +432,6 @@
     "audioPermissionNeeded": {
         "message": "Для отправки аудиосообщений разрешите Session доступ к микрофону.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
-    },
-    "allowAccess": {
-        "message": "Разрешить доступ",
-        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "audio": {
         "message": "Аудио",
@@ -701,28 +497,6 @@
         "message": "Участники группы",
         "description": ""
     },
-    "resetSession": {
-        "message": "Обновить Сеанс Шифрования",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
-    },
-    "showSafetyNumber": {
-        "message": "Просмотреть Код Безопасности",
-        "description": ""
-    },
-    "verifyHelp": {
-        "message": "Если вы хотите подтвердить безопасность вашего соединения с $name$, сравните код, указанные выше, с кодом на устройстве собеседника.",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "theirIdentityUnknown": {
-        "message": "Вы еще не обменивались сообщениями с данным собеседником. Код безопасности станет доступен после отправки первого сообщения.",
-        "description": ""
-    },
     "deleteMessage": {
         "message": "Удалить Сообщение",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
@@ -734,10 +508,6 @@
     "deleteConversationConfirmation": {
         "message": "Удалить этот разговор без возможности восстановления?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "sessionEnded": {
-        "message": "Безопасная сессия сброшена",
-        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
         "message": "Миниатюра изображения из цитируемого сообщения",
@@ -766,20 +536,6 @@
     "save": {
         "message": "Сохранить",
         "description": ""
-    },
-    "emojiAlt": {
-        "message": "Emoji '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
-    "linkNewDevice": {
-        "message": "Привязать Новое Устройство",
-        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Разрешения",
@@ -844,10 +600,6 @@
     "sendFailed": {
         "message": "Не Удалось Отправить",
         "description": "Shown on outgoing message if it fails to send"
-    },
-    "learnMore": {
-        "message": "Дополнительные сведения о проверке кодов безопасности",
-        "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
         "message": "Эта версия Session Desktop устарела. Выполните обновление до последней версии, чтобы продолжить обмен сообщениями.",
@@ -1047,34 +799,6 @@
             }
         }
     },
-    "safetyNumberChanged": {
-        "message": "Код безопасности изменился",
-        "description": "A notification shown in the conversation when a contact reinstalls"
-    },
-    "safetyNumberChangedGroup": {
-        "message": "Ваш код безопасности с $name$ изменился.",
-        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "verifyNewNumber": {
-        "message": "Подтвердить Код Безопасности",
-        "description": "Label on button included with safety number change notification in the conversation"
-    },
-    "yourSafetyNumberWith": {
-        "message": "Ваш код безопасности с $name$:",
-        "description": "Heading for safety number view",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "noteToSelf": {
         "message": "Заметка для себя",
         "description": "Name for the conversation with your own phone number"
@@ -1167,12 +891,6 @@
     "unknown": {
         "message": "Неизвестен"
     },
-    "changedSinceVerifiedTitle": {
-        "message": "Код Безопасности Изменился"
-    },
-    "youMayWishToVerifyContact": {
-        "message": "Возможно, вам стоит подтвердить код безопасности с этим контактом."
-    },
     "about": {
         "message": "О Session"
     },
@@ -1181,27 +899,6 @@
     },
     "continue": {
         "message": "Продолжить"
-    },
-    "devicePairingRequestReceivedLimitTitle": {
-        "message": "Достигнуто предельное кол-во устройств"
-    },
-    "devicePairingRequestReceivedLimitDescription": {
-        "message": "К сожалению, у вас уже привязано слишком много устройств. Попробуйте отвязать некоторые из них"
-    },
-    "devicePairingRequestReceivedNoListenerTitle": {
-        "message": "Запрос на привязывание получен"
-    },
-    "waitingForDeviceToRegister": {
-        "message": "Ожидание устройства"
-    },
-    "pairNewDevicePrompt": {
-        "message": "Просканируйте QR-код, отображаемый на устройстве, чтобы привязать его"
-    },
-    "noPairedDevices": {
-        "message": "Нет привязанных устройств"
-    },
-    "deviceUnpaired": {
-        "message": "Ваше устройство успешно отвязано"
     },
     "moreInformation": {
         "message": "Больше информации"
@@ -1232,9 +929,6 @@
     },
     "typingIndicatorsSettingTitle": {
         "message": "Индикаторы Ввода"
-    },
-    "themeToggleTitle": {
-        "message": "Светлая"
     },
     "successUnlinked": {
         "message": "Ваше устройство успешно отвязано"
@@ -1353,9 +1047,6 @@
     "notificationsSettingsTitle": {
         "message": "Уведомления"
     },
-    "devicesSettingsTitle": {
-        "message": "Привязанные устройства"
-    },
     "recoveryPhraseEmpty": {
         "message": "Введите секретную фразу"
     },
@@ -1382,9 +1073,6 @@
     },
     "next": {
         "message": "Далее"
-    },
-    "pairingDevice": {
-        "message": "Привязка Устройства"
     },
     "invalidGroupNameTooShort": {
         "message": "Пожалуйста, введите название группы"
@@ -1413,35 +1101,6 @@
     "close": {
         "message": "Close"
     },
-    "devicePairingRequestReceivedNoListenerDescription": {
-        "message": "Device linking request received but you are not on the device linking screen. \nGo to Settings > Device > Link New Device."
-    },
-    "deviceIsSecondaryNoPairing": {
-        "message": "This device is a secondary device and so cannot be linked."
-    },
-    "pairingOngoing": {
-        "message": "A pairing request is already ongoing. Restart the app if it takes too long."
-    },
-    "allowPairingWithDevice": {
-        "message": "Allow linking with this device?"
-    },
-    "provideDeviceAlias": {
-        "message": "Please provide an alias for this linked device"
-    },
-    "showPairingWordsTitle": {
-        "message": "Linking Secret Words"
-    },
-    "confirmUnpairingTitle": {
-        "message": "Please confirm you want to unlink the following device:"
-    },
-    "unpairDeviceWarning": {
-        "message": "Are you sure you want to unlink this device?",
-        "description": "Warning for device unlinking in settings view"
-    },
-    "unpairDeviceWarningSub": {
-        "message": "Unlinking this device will delete all history, including all messages, sessions, and contacts from this device.",
-        "description": "Warning description for device unlinking in settings view"
-    },
     "deletePublicWarning": {
         "message": "Are you sure? This will permanently remove this message for everyone in this open group."
     },
@@ -1455,9 +1114,6 @@
         "message": "You don’t have permission to delete others’ messages",
         "description": "Toast message explaining that the user doens't have the rights to delete other people's messages."
     },
-    "sendMessageBlockedUser": {
-        "message": "You have blocked this contact"
-    },
     "deleteMessageForEveryone": {
         "message": "Delete Message For Everyone",
         "description": "Menu item for deleting messages, title case."
@@ -1469,18 +1125,6 @@
     "deleteForEveryone": {
         "message": "Delete For Everyone",
         "description": "Menu item for deleting messages, title case."
-    },
-    "deletePublicConversationConfirmation": {
-        "message": "Permanently delete the messages locally from this open group?",
-        "description": "Confirmation dialog text that asks the user if they really wish to delete the open group messages locally. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "sessionResetFailed": {
-        "message": "Secure session reset failed",
-        "description": "your secure session could not been transmitted to the other participant."
-    },
-    "sessionResetOngoing": {
-        "message": "Secure session reset in progress",
-        "description": "your secure session is currently being reset, waiting for the reset acknowledgment."
     },
     "linkPreviewsConfirmMessage": {
         "message": "You will not have full metadata protection when sending or receiving link previews."
@@ -1508,10 +1152,6 @@
         "message": "Масштабирование Приложения",
         "description": "Title of the Zoom Factor setting"
     },
-    "clockOutOfSync": {
-        "message": "Your clock is out of sync. Please update your clock and try again.",
-        "description": "Notifcation that user's clock is out of sync with Loki's servers."
-    },
     "changeNickname": {
         "message": "Change Nickname",
         "description": "Conversation menu option to change user nickname"
@@ -1519,9 +1159,6 @@
     "clearNickname": {
         "message": "Clear nickname",
         "description": "Conversation menu option to clear user nickname"
-    },
-    "themeToggleDescription": {
-        "message": "Choose the theme best suited to you"
     },
     "hideMenuBarTitle": {
         "message": "Спрятать Системное Меню",
@@ -1754,24 +1391,6 @@
     "enterOptionalPassword": {
         "message": "Введите пароль (если используется)"
     },
-    "devicePairingHeaderReassure": {
-        "message": "Linking may take up to one minute to register on your primary device. Please be patient."
-    },
-    "devicePairingHeader_Step1": {
-        "message": "Open Session on your other device."
-    },
-    "devicePairingHeader_Step2": {
-        "message": "Navigate to the <strong>Devices</strong> section in your user account screen."
-    },
-    "devicePairingHeader_Step3": {
-        "message": "Select <strong>Link New Device</strong> to prepare your other device for pairing."
-    },
-    "devicePairingHeader_Step4": {
-        "message": "Enter your <strong>Session ID</strong> below to link this device to your <strong>Session ID</strong>."
-    },
-    "linkDeviceToExistingAccount": {
-        "message": "Link Device to Existing Session ID"
-    },
     "or": {
         "message": "or"
     },
@@ -1786,9 +1405,6 @@
     },
     "message": {
         "message": "Message"
-    },
-    "addContact": {
-        "message": "Добавить Контакт"
     },
     "permissionSettingsTitle": {
         "message": "Разрешения"
