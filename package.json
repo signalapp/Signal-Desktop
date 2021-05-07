@@ -47,7 +47,7 @@
     "dev:typed-scss": "yarn build:typed-scss -w",
     "dev:storybook": "cross-env SIGNAL_ENV=storybook start-storybook -p 6006 -s ./",
     "storybook:axe": "build-storybook && axe-storybook",
-    "build": "run-s --print-label build:grunt build:typed-scss build:webpack build:fuses build:release build:zip",
+    "build": "run-s --print-label build:grunt build:typed-scss build:webpack build:release build:zip",
     "build:acknowledgments": "node scripts/generate-acknowledgments.js",
     "build:dev": "run-s --print-label build:grunt build:typed-scss build:webpack",
     "build:grunt": "yarn grunt",
