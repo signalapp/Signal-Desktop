@@ -9,6 +9,7 @@ import {
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 import { FSv2 } from '../../fileserver';
+import { addAttachmentPadding } from '../crypto/BufferPadding';
 
 interface UploadParams {
   attachment: Attachment;
@@ -39,8 +40,6 @@ interface RawQuote {
 
 // tslint:disable-next-line: no-unnecessary-class
 export class AttachmentUtils {
-  public static readonly PADDING_BYTE = 0;
-
   private constructor() {}
 
   public static async uploadV1(params: UploadParams): Promise<AttachmentPointer> {
@@ -85,7 +84,7 @@ export class AttachmentUtils {
       const dataToEncrypt =
         !shouldPad || !window.lokiFeatureFlags.padOutgoingAttachments
           ? attachment.data
-          : AttachmentUtils.addAttachmentPadding(attachment.data);
+          : addAttachmentPadding(attachment.data);
       const data = await window.textsecure.crypto.encryptAttachment(
         dataToEncrypt,
         pointer.key.buffer,
@@ -195,39 +194,5 @@ export class AttachmentUtils {
       ...quote,
       attachments,
     };
-  }
-
-  public static isLeftOfBufferPaddingOnly(
-    data: ArrayBuffer,
-    unpaddedExpectedSize: number
-  ): boolean {
-    // to have a padding we must have a strictly longer length expected
-    if (data.byteLength <= unpaddedExpectedSize) {
-      return false;
-    }
-    const dataUint = new Uint8Array(data);
-    for (let i = unpaddedExpectedSize; i < data.byteLength; i++) {
-      if (dataUint[i] !== this.PADDING_BYTE) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  public static addAttachmentPadding(data: ArrayBuffer): ArrayBuffer {
-    const originalUInt = new Uint8Array(data);
-
-    const paddedSize = Math.max(
-      541,
-      Math.floor(Math.pow(1.05, Math.ceil(Math.log(originalUInt.length) / Math.log(1.05))))
-    );
-    const paddedData = new ArrayBuffer(paddedSize);
-    const paddedUInt = new Uint8Array(paddedData);
-
-    paddedUInt.fill(AttachmentUtils.PADDING_BYTE, originalUInt.length);
-    paddedUInt.set(originalUInt);
-
-    return paddedUInt.buffer;
   }
 }

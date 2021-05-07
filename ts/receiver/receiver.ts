@@ -36,7 +36,7 @@ import { OpenGroupMessageV2 } from '../opengroup/opengroupV2/OpenGroupMessageV2'
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { handleMessageJob } from './queuedJob';
 import { fromBase64ToArray } from '../session/utils/String';
-import { removeMessagePadding } from '../session/crypto/MessagePadding';
+import { removeMessagePadding } from '../session/crypto/BufferPadding';
 
 // TODO: check if some of these exports no longer needed
 

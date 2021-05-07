@@ -11,7 +11,7 @@ import { StringUtils, UserUtils } from '../../../../session/utils';
 import chaiBytes from 'chai-bytes';
 import { PubKey } from '../../../../session/types';
 import { fromHex, toHex } from '../../../../session/utils/String';
-import { addMessagePadding } from '../../../../session/crypto/MessagePadding';
+import { addMessagePadding } from '../../../../session/crypto/BufferPadding';
 
 chai.use(chaiBytes);
 

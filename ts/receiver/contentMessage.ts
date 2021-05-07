@@ -17,7 +17,7 @@ import { KeyPairRequestManager } from './keyPairRequestManager';
 import { requestEncryptionKeyPair } from '../session/group';
 import { handleConfigurationMessage } from './configMessage';
 import { ConversationTypeEnum } from '../models/conversation';
-import { removeMessagePadding } from '../session/crypto/MessagePadding';
+import { removeMessagePadding } from '../session/crypto/BufferPadding';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {

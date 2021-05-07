@@ -13,7 +13,7 @@ import { OpenGroupMessageV2 } from '../../opengroup/opengroupV2/OpenGroupMessage
 import { fromUInt8ArrayToBase64 } from '../utils/String';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import * as LokiMessageApi from './LokiMessageApi';
-import { addMessagePadding } from '../crypto/MessagePadding';
+import { addMessagePadding } from '../crypto/BufferPadding';
 
 // ================ Regular ================
 

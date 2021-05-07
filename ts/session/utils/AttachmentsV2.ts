@@ -10,6 +10,7 @@ import {
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { AttachmentUtils } from './Attachments';
 import { uploadFileOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
+import { addAttachmentPadding } from '../crypto/BufferPadding';
 
 interface UploadParamsV2 {
   attachment: Attachment;
@@ -35,8 +36,6 @@ interface RawQuote {
   attachments?: Array<RawQuoteAttachment>;
 }
 
-const PADDING_BYTE = 0;
-
 export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointer> {
   const { attachment, openGroup } = params;
   if (typeof attachment !== 'object' || attachment == null) {
@@ -57,9 +56,10 @@ export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointe
     caption: attachment.caption,
   };
 
-  const paddedAttachment: ArrayBuffer = window.lokiFeatureFlags.padOutgoingAttachments
-    ? AttachmentUtils.addAttachmentPadding(attachment.data)
-    : attachment.data;
+  const paddedAttachment: ArrayBuffer =
+    window.lokiFeatureFlags.padOutgoingAttachments && !openGroup
+      ? addAttachmentPadding(attachment.data)
+      : attachment.data;
 
   const fileDetails = await uploadFileOpenGroupV2(new Uint8Array(paddedAttachment), openGroup);
 

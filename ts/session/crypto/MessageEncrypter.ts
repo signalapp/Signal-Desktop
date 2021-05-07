@@ -6,7 +6,7 @@ import { fromHexToArray } from '../utils/String';
 export { concatUInt8Array, getSodium };
 import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
 import { UserUtils } from '../utils';
-import { addMessagePadding } from './MessagePadding';
+import { addMessagePadding } from './BufferPadding';
 
 type EncryptResult = {
   envelopeType: SignalService.Envelope.Type;
