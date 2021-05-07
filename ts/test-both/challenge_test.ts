@@ -325,18 +325,18 @@ describe('ChallengeHandler', () => {
   it('should not retry more than 5 times', async () => {
     const handler = await createHandler();
 
-    const one = createMessage('1');
+    const one = createMessage('1', { retryAfter: IMMEDIATE_RETRY });
+    const retrySend = sinon.stub(one, 'retrySend');
+
     messageStorage.set('1', one);
     await handler.register(one);
-
-    const retrySend = sinon.stub(one, 'retrySend');
 
     assert.isTrue(isInStorage(one.id));
     assert.deepEqual(sent, []);
     assert.equal(challengeStatus, 'required');
 
     // Let it spam the server.
-    await sleep(DEFAULT_RETRY_AFTER + LEEWAY);
+    await sleep(LEEWAY);
 
     assert.isTrue(isInStorage(one.id));
     assert.deepEqual(sent, []);
