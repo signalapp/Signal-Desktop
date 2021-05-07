@@ -14,6 +14,7 @@ type Props = {
     | 'acceptedMessageRequest'
     | 'avatarPath'
     | 'color'
+    | 'isMe'
     | 'name'
     | 'phoneNumber'
     | 'profileName'
@@ -49,10 +50,12 @@ export const CallNeedPermissionScreen: React.FC<Props> = ({
         noteToSelf={false}
         conversationType="direct"
         i18n={i18n}
+        isMe={conversation.isMe}
         name={conversation.name}
         phoneNumber={conversation.phoneNumber}
         profileName={conversation.profileName}
         title={conversation.title}
+        sharedGroupNames={conversation.sharedGroupNames}
         size={112}
       />
 

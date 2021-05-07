@@ -32,14 +32,17 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
 
     return (
       <BaseConversationListItem
+        acceptedMessageRequest={false}
         color="grey"
         conversationType="direct"
         headerName={phoneNumber}
         i18n={i18n}
+        isMe={false}
         isSelected={false}
         messageText={messageText}
         onClick={onClick}
         phoneNumber={phoneNumber}
+        sharedGroupNames={[]}
         style={style}
         title={phoneNumber}
       />

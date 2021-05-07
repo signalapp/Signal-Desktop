@@ -87,13 +87,6 @@ describe('shouldBlurAvatar', () => {
     assert.isTrue(
       shouldBlurAvatar({
         avatarPath: '/path/to/avatar.jpg',
-        acceptedMessageRequest: false,
-        isMe: false,
-      })
-    );
-    assert.isTrue(
-      shouldBlurAvatar({
-        avatarPath: '/path/to/avatar.jpg',
         unblurredAvatarPath: '/different/path.jpg',
         acceptedMessageRequest: false,
         isMe: false,

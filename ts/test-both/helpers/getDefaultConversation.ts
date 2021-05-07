@@ -321,12 +321,15 @@ export function getDefaultConversation(
   const lastName = getLastName();
 
   return {
-    id: generateUuid(),
-    isGroupV2Capable: true,
-    lastUpdated: Date.now(),
-    markedUnread: Boolean(overrideProps.markedUnread),
+    acceptedMessageRequest: true,
     e164: '+1300555000',
     firstName,
+    id: generateUuid(),
+    isGroupV2Capable: true,
+    isMe: false,
+    lastUpdated: Date.now(),
+    markedUnread: Boolean(overrideProps.markedUnread),
+    sharedGroupNames: [],
     title: `${firstName} ${lastName}`,
     type: 'direct' as const,
     uuid: generateUuid(),

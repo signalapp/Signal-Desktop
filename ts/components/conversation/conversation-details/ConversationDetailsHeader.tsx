@@ -32,6 +32,7 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
         i18n={i18n}
         size={80}
         {...conversation}
+        sharedGroupNames={[]}
       />
       <div>
         <div className={bem('title')}>{conversation.title}</div>

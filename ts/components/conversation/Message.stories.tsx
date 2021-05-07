@@ -5,7 +5,7 @@ import * as React from 'react';
 import { isBoolean } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
-import { boolean, number, text, select } from '@storybook/addon-knobs';
+import { boolean, number, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { SignalService } from '../../protobuf';
@@ -25,6 +25,7 @@ import { computePeaks } from '../GlobalAudioContext';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -67,18 +68,9 @@ const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
   <MessageAudioContainer {...props} />
 );
 
-const createAuthorProp = (
-  overrides: Partial<Props['author']> = {}
-): Props['author'] => ({
-  id: 'some-id',
-  color: select('authorColor', Colors, Colors[0]),
-  ...overrides,
-  title: text('authorTitle', overrides.title || ''),
-});
-
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
-  author: overrideProps.author || createAuthorProp(),
+  author: overrideProps.author || getDefaultConversation(),
   reducedMotion: boolean('reducedMotion', false),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,
@@ -220,7 +212,7 @@ story.add('Pending', () => {
 
 story.add('Collapsed Metadata', () => {
   const props = createProps({
-    author: createAuthorProp({ title: 'Fred Willard' }),
+    author: getDefaultConversation({ title: 'Fred Willard' }),
     collapseMetadata: true,
     conversationType: 'group',
     text: 'Hello there from a pal!',
@@ -254,83 +246,83 @@ story.add('Reactions (wider message)', () => {
     reactions: [
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           isMe: true,
           id: '+14155552672',
           phoneNumber: '+14155552672',
           name: 'Me',
           title: 'Me',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552672',
           phoneNumber: '+14155552672',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552673',
           phoneNumber: '+14155552673',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '😂',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552674',
           phoneNumber: '+14155552674',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '😂',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552676',
           phoneNumber: '+14155552676',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '😡',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552677',
           phoneNumber: '+14155552677',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '👎',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552678',
           phoneNumber: '+14155552678',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
       {
         emoji: '❤️',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552679',
           phoneNumber: '+14155552679',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now() - 10,
       },
     ],
@@ -346,83 +338,83 @@ story.add('Reactions (short message)', () => {
     reactions: [
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           isMe: true,
           id: '+14155552672',
           phoneNumber: '+14155552672',
           name: 'Me',
           title: 'Me',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552672',
           phoneNumber: '+14155552672',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552673',
           phoneNumber: '+14155552673',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '😂',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552674',
           phoneNumber: '+14155552674',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '😂',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552676',
           phoneNumber: '+14155552676',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '😡',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552677',
           phoneNumber: '+14155552677',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '👎',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552678',
           phoneNumber: '+14155552678',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '❤️',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552679',
           phoneNumber: '+14155552679',
           name: 'Amelia Briggs',
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
     ],
@@ -433,7 +425,7 @@ story.add('Reactions (short message)', () => {
 
 story.add('Avatar in Group', () => {
   const props = createProps({
-    author: createAuthorProp({ avatarPath: pngUrl }),
+    author: getDefaultConversation({ avatarPath: pngUrl }),
     conversationType: 'group',
     status: 'sent',
     text: 'Hello it is me, the saxophone.',
@@ -1000,7 +992,7 @@ story.add('Colors', () => {
       {Colors.map(color => (
         <Message
           {...createProps({
-            author: createAuthorProp({ color }),
+            author: getDefaultConversation({ color }),
             text:
               'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
           })}

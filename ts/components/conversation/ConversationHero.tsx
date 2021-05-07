@@ -17,7 +17,7 @@ export type Props = {
   about?: string;
   acceptedMessageRequest?: boolean;
   i18n: LocalizerType;
-  isMe?: boolean;
+  isMe: boolean;
   membersCount?: number;
   onHeightChange?: () => unknown;
   phoneNumber?: string;
@@ -179,18 +179,21 @@ export const ConversationHero = ({
         {({ measureRef }) => (
           <div className="module-conversation-hero" ref={measureRef}>
             <Avatar
-              i18n={i18n}
-              blur={avatarBlur}
-              color={color}
-              noteToSelf={isMe}
+              acceptedMessageRequest={acceptedMessageRequest}
               avatarPath={avatarPath}
+              blur={avatarBlur}
+              className="module-conversation-hero__avatar"
+              color={color}
               conversationType={conversationType}
+              i18n={i18n}
+              isMe={isMe}
               name={name}
+              noteToSelf={isMe}
               onClick={avatarOnClick}
               profileName={profileName}
-              title={title}
+              sharedGroupNames={sharedGroupNames}
               size={112}
-              className="module-conversation-hero__avatar"
+              title={title}
             />
             <h1 className="module-conversation-hero__profile-name">
               {isMe ? (

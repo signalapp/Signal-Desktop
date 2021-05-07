@@ -28,7 +28,7 @@ const MAX_PARTICIPANTS = 32;
 
 const i18n = setupI18n('en', enMessages);
 
-const conversation = {
+const conversation = getDefaultConversation({
   id: '3051234567',
   avatarPath: undefined,
   color: Colors[0],
@@ -36,10 +36,7 @@ const conversation = {
   name: 'Rick Sanchez',
   phoneNumber: '3051234567',
   profileName: 'Rick Sanchez',
-  markedUnread: false,
-  type: 'direct' as const,
-  lastUpdated: Date.now(),
-};
+});
 
 type OverridePropsBase = {
   hasLocalAudio?: boolean;

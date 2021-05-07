@@ -99,8 +99,15 @@ GroupDialog.Contacts = ({ contacts, i18n }: Readonly<ContactsPropsType>) => (
     {contacts.map(contact => (
       <li key={contact.id} className="module-GroupDialog__contacts__contact">
         <Avatar
-          {...contact}
+          acceptedMessageRequest={contact.acceptedMessageRequest}
+          avatarPath={contact.avatarPath}
+          color={contact.color}
           conversationType={contact.type}
+          isMe={contact.isMe}
+          noteToSelf={contact.isMe}
+          title={contact.title}
+          unblurredAvatarPath={contact.unblurredAvatarPath}
+          sharedGroupNames={contact.sharedGroupNames}
           size={AvatarSize.TWENTY_EIGHT}
           i18n={i18n}
         />

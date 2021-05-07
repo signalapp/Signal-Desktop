@@ -273,15 +273,20 @@ export const CallScreen: React.FC<PropsType> = ({
         <div className="module-ongoing-call__local-preview-fullsize">
           <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
             <Avatar
+              acceptedMessageRequest
               avatarPath={me.avatarPath}
               color={me.color || 'ultramarine'}
               noteToSelf={false}
               conversationType="direct"
               i18n={i18n}
+              isMe
               name={me.name}
               phoneNumber={me.phoneNumber}
               profileName={me.profileName}
               title={me.title}
+              // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
+              //   to determine blurring.
+              sharedGroupNames={[]}
               size={80}
             />
             <div className="module-calling__video-off--container">
@@ -336,15 +341,19 @@ export const CallScreen: React.FC<PropsType> = ({
           {!hasLocalVideo && !isLonelyInGroup ? (
             <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
               <Avatar
+                acceptedMessageRequest
                 avatarPath={me.avatarPath}
                 color={me.color || 'ultramarine'}
                 noteToSelf={false}
                 conversationType="direct"
                 i18n={i18n}
+                isMe
                 name={me.name}
                 phoneNumber={me.phoneNumber}
                 profileName={me.profileName}
                 title={me.title}
+                // See comment above about `sharedGroupNames`.
+                sharedGroupNames={[]}
                 size={80}
               />
             </CallBackgroundBlur>

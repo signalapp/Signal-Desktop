@@ -63,7 +63,16 @@ type PropsForMessageDetail = Pick<
 type PropsForMessage = Omit<PropsData, 'interactionMode'>;
 
 type FormattedContact = Partial<ConversationType> &
-  Pick<ConversationType, 'title' | 'id' | 'type'>;
+  Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'id'
+    | 'isMe'
+    | 'sharedGroupNames'
+    | 'title'
+    | 'type'
+    | 'unblurredAvatarPath'
+  >;
 
 type PropsForUnsupportedMessage = {
   canProcessNow: boolean;
@@ -155,10 +164,13 @@ const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
 
 const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
 const { bytesFromString } = window.Signal.Crypto;
-const PLACEHOLDER_CONTACT: Pick<ConversationType, 'title' | 'type' | 'id'> = {
+const PLACEHOLDER_CONTACT: FormattedContact = {
+  acceptedMessageRequest: false,
   id: 'placeholder-contact',
-  type: 'direct',
+  isMe: false,
+  sharedGroupNames: [],
   title: window.i18n('unknownContact'),
+  type: 'direct',
 };
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
@@ -1003,10 +1015,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     });
 
     return {
+      acceptedMessageRequest: false,
       id: 'phone-only',
-      type: 'direct',
-      title: phoneNumber,
+      isMe: false,
       phoneNumber,
+      sharedGroupNames: [],
+      title: phoneNumber,
+      type: 'direct',
     };
   }
 

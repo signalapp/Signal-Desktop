@@ -368,6 +368,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
           <Reference>
             {({ ref }) => (
               <Avatar
+                acceptedMessageRequest
                 avatarPath={avatarPath}
                 className="module-main-header__avatar"
                 color={color}
@@ -378,6 +379,9 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                 phoneNumber={phoneNumber}
                 profileName={profileName}
                 title={title}
+                // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
+                //   to determine blurring.
+                sharedGroupNames={[]}
                 size={28}
                 innerRef={ref}
                 onClick={this.showAvatarPopup}
@@ -389,8 +393,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                 <Popper placement="bottom-end">
                   {({ ref, style }) => (
                     <AvatarPopup
+                      acceptedMessageRequest
                       innerRef={ref}
                       i18n={i18n}
+                      isMe
                       style={{ ...style, zIndex: 1 }}
                       color={color}
                       conversationType="direct"
@@ -400,6 +406,8 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       title={title}
                       avatarPath={avatarPath}
                       size={28}
+                      // See the comment above about `sharedGroupNames`.
+                      sharedGroupNames={[]}
                       onViewPreferences={() => {
                         showSettings();
                         this.hideAvatarPopup();

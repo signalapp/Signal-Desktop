@@ -45,9 +45,12 @@ export const getPlaceholderContact = (): ConversationType => {
   }
 
   placeholderContact = {
+    acceptedMessageRequest: false,
     id: 'placeholder-contact',
     type: 'direct',
     title: window.i18n('unknownContact'),
+    isMe: false,
+    sharedGroupNames: [],
   };
   return placeholderContact;
 };

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -8,22 +8,25 @@ import { ContactName } from './ContactName';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
 import { useRestoreFocus } from '../../util/hooks';
-import { ColorType } from '../../types/Colors';
+import { ConversationType } from '../../state/ducks/conversations';
 import { emojiToData, EmojiData } from '../emoji/lib';
 
 export type Reaction = {
   emoji: string;
   timestamp: number;
-  from: {
-    id: string;
-    color?: ColorType;
-    avatarPath?: string;
-    name?: string;
-    profileName?: string;
-    title: string;
-    isMe?: boolean;
-    phoneNumber?: string;
-  };
+  from: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'id'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+  >;
 };
 
 export type OwnProps = {
@@ -212,9 +215,12 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
             >
               <div className="module-reaction-viewer__body__row__avatar">
                 <Avatar
+                  acceptedMessageRequest={from.acceptedMessageRequest}
                   avatarPath={from.avatarPath}
                   conversationType="direct"
+                  sharedGroupNames={from.sharedGroupNames}
                   size={32}
+                  isMe={from.isMe}
                   color={from.color}
                   name={from.name}
                   profileName={from.profileName}

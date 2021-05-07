@@ -25,6 +25,7 @@ import {
 } from '../../../state/ducks/conversations';
 import { CallMode } from '../../../types/Calling';
 import * as groups from '../../../groups';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 const {
   cantAddContactToGroup,
@@ -72,31 +73,7 @@ describe('both/state/ducks/conversations', () => {
 
   describe('helpers', () => {
     describe('getConversationCallMode', () => {
-      const fakeConversation: ConversationType = {
-        id: 'id1',
-        e164: '+18005551111',
-        activeAt: Date.now(),
-        name: 'No timestamp',
-        timestamp: 0,
-        inboxPosition: 0,
-        phoneNumber: 'notused',
-        isArchived: false,
-        markedUnread: false,
-
-        type: 'direct',
-        isMe: false,
-        lastUpdated: Date.now(),
-        title: 'No timestamp',
-        unreadCount: 1,
-        isSelected: false,
-        typingContact: {
-          name: 'Someone There',
-          color: 'blue',
-          phoneNumber: '+18005551111',
-        },
-
-        acceptedMessageRequest: true,
-      };
+      const fakeConversation: ConversationType = getDefaultConversation();
 
       it("returns CallMode.None if you've left the conversation", () => {
         assert.strictEqual(
@@ -144,6 +121,7 @@ describe('both/state/ducks/conversations', () => {
             ...fakeConversation,
             type: 'group',
             groupVersion: 1,
+            sharedGroupNames: [],
           }),
           CallMode.None
         );
@@ -152,6 +130,7 @@ describe('both/state/ducks/conversations', () => {
           getConversationCallMode({
             ...fakeConversation,
             type: 'group',
+            sharedGroupNames: [],
           }),
           CallMode.None
         );
@@ -170,6 +149,7 @@ describe('both/state/ducks/conversations', () => {
             ...fakeConversation,
             type: 'group',
             groupVersion: 2,
+            sharedGroupNames: [],
           }),
           CallMode.Group
         );
@@ -177,14 +157,6 @@ describe('both/state/ducks/conversations', () => {
     });
 
     describe('updateConversationLookups', () => {
-      function getDefaultConversation(id: string): ConversationType {
-        return {
-          id,
-          type: 'direct',
-          title: `${id} title`,
-        };
-      }
-
       it('does not change lookups if no conversations provided', () => {
         const state = getEmptyState();
         const result = updateConversationLookups(undefined, undefined, state);
@@ -204,24 +176,26 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('adds and removes e164-only contact', () => {
-        const removed = {
-          ...getDefaultConversation('id-removed'),
+        const removed = getDefaultConversation({
+          id: 'id-removed',
           e164: 'e164-removed',
-        };
+          uuid: undefined,
+        });
 
         const state = {
           ...getEmptyState(),
           conversationsByE164: {
-            [removed.e164]: removed,
+            'e164-removed': removed,
           },
         };
-        const added = {
-          ...getDefaultConversation('id-added'),
+        const added = getDefaultConversation({
+          id: 'id-added',
           e164: 'e164-added',
-        };
+          uuid: undefined,
+        });
 
         const expected = {
-          [added.e164]: added,
+          'e164-added': added,
         };
 
         const actual = updateConversationLookups(added, removed, state);
@@ -238,24 +212,26 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('adds and removes uuid-only contact', () => {
-        const removed = {
-          ...getDefaultConversation('id-removed'),
+        const removed = getDefaultConversation({
+          id: 'id-removed',
           uuid: 'uuid-removed',
-        };
+          e164: undefined,
+        });
 
         const state = {
           ...getEmptyState(),
           conversationsByuuid: {
-            [removed.uuid]: removed,
+            'uuid-removed': removed,
           },
         };
-        const added = {
-          ...getDefaultConversation('id-added'),
+        const added = getDefaultConversation({
+          id: 'id-added',
           uuid: 'uuid-added',
-        };
+          e164: undefined,
+        });
 
         const expected = {
-          [added.uuid]: added,
+          'uuid-added': added,
         };
 
         const actual = updateConversationLookups(added, removed, state);
@@ -272,24 +248,28 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('adds and removes groupId-only contact', () => {
-        const removed = {
-          ...getDefaultConversation('id-removed'),
+        const removed = getDefaultConversation({
+          id: 'id-removed',
           groupId: 'groupId-removed',
-        };
+          e164: undefined,
+          uuid: undefined,
+        });
 
         const state = {
           ...getEmptyState(),
           conversationsBygroupId: {
-            [removed.groupId]: removed,
+            'groupId-removed': removed,
           },
         };
-        const added = {
-          ...getDefaultConversation('id-added'),
+        const added = getDefaultConversation({
+          id: 'id-added',
           groupId: 'groupId-added',
-        };
+          e164: undefined,
+          uuid: undefined,
+        });
 
         const expected = {
-          [added.groupId]: added,
+          'groupId-added': added,
         };
 
         const actual = updateConversationLookups(added, removed, state);
@@ -420,14 +400,13 @@ describe('both/state/ducks/conversations', () => {
         });
 
         it('shows the inbox if the conversation is not archived', () => {
+          const conversation = getDefaultConversation({
+            id: 'fake-conversation-id',
+          });
           const state = {
             ...getEmptyState(),
             conversationLookup: {
-              'fake-conversation-id': {
-                id: 'fake-conversation-id',
-                type: 'direct' as const,
-                title: 'Foo Bar',
-              },
+              [conversation.id]: conversation,
             },
           };
           const result = reducer(state, action);
@@ -437,15 +416,14 @@ describe('both/state/ducks/conversations', () => {
         });
 
         it('shows the archive if the conversation is archived', () => {
+          const conversation = getDefaultConversation({
+            id: 'fake-conversation-id',
+            isArchived: true,
+          });
           const state = {
             ...getEmptyState(),
             conversationLookup: {
-              'fake-conversation-id': {
-                id: 'fake-conversation-id',
-                type: 'group' as const,
-                title: 'Baz Qux',
-                isArchived: true,
-              },
+              [conversation.id]: conversation,
             },
           };
           const result = reducer(state, action);

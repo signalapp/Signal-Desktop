@@ -1,10 +1,10 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 import classNames from 'classnames';
 
-import { Avatar } from '../Avatar';
+import { Avatar, AvatarBlur } from '../Avatar';
 import { Spinner } from '../Spinner';
 
 import { LocalizerType } from '../../types/Util';
@@ -45,11 +45,15 @@ export function renderAvatar({
 
   return (
     <Avatar
+      acceptedMessageRequest={false}
       avatarPath={avatarPath}
+      blur={AvatarBlur.NoBlur}
       color="grey"
       conversationType="direct"
       i18n={i18n}
+      isMe
       title={title}
+      sharedGroupNames={[]}
       size={size}
     />
   );

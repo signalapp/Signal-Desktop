@@ -43,11 +43,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.conversationType || 'direct'
   ),
   i18n,
+  isMe: false,
   loading: boolean('loading', overrideProps.loading || false),
   name: text('name', overrideProps.name || ''),
   noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
   onClick: action('onClick'),
   phoneNumber: text('phoneNumber', overrideProps.phoneNumber || ''),
+  sharedGroupNames: [],
   size: 80,
   title: overrideProps.title || '',
 });

@@ -34,6 +34,7 @@ export const ContactPill: FunctionComponent<PropsType> = ({
   color,
   firstName,
   i18n,
+  isMe,
   id,
   name,
   phoneNumber,
@@ -54,6 +55,7 @@ export const ContactPill: FunctionComponent<PropsType> = ({
         noteToSelf={false}
         conversationType="direct"
         i18n={i18n}
+        isMe={isMe}
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}

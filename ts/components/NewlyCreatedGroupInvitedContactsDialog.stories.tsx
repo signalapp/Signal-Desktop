@@ -10,26 +10,13 @@ import { NewlyCreatedGroupInvitedContactsDialog } from './NewlyCreatedGroupInvit
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 import { ConversationType } from '../state/ducks/conversations';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
 const conversations: Array<ConversationType> = [
-  {
-    id: 'fred-convo',
-    isSelected: false,
-    lastUpdated: Date.now(),
-    markedUnread: false,
-    title: 'Fred Willard',
-    type: 'direct',
-  },
-  {
-    id: 'marc-convo',
-    isSelected: true,
-    lastUpdated: Date.now(),
-    markedUnread: false,
-    title: 'Marc Barraca',
-    type: 'direct',
-  },
+  getDefaultConversation({ title: 'Fred Willard' }),
+  getDefaultConversation({ title: 'Marc Barraca' }),
 ];
 
 const story = storiesOf(

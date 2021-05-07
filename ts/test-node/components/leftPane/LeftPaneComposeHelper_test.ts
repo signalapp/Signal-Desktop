@@ -3,20 +3,14 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
 import * as remoteConfig from '../../../RemoteConfig';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneComposeHelper } from '../../../components/leftPane/LeftPaneComposeHelper';
 
 describe('LeftPaneComposeHelper', () => {
-  const fakeConvo = () => ({
-    id: uuid(),
-    title: uuid(),
-    type: 'direct' as const,
-  });
-
   let sinonSandbox: sinon.SinonSandbox;
   let remoteConfigStub: sinon.SinonStub;
 
@@ -65,7 +59,7 @@ describe('LeftPaneComposeHelper', () => {
     it('returns the number of contacts + 2 (for the "new group" button and header) if not searching', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
-          composeContacts: [fakeConvo(), fakeConvo()],
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
@@ -77,8 +71,8 @@ describe('LeftPaneComposeHelper', () => {
     it('returns the number of contacts + number of groups + 3 (for the "new group" button and the headers) if not searching', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
-          composeContacts: [fakeConvo(), fakeConvo()],
-          composeGroups: [fakeConvo(), fakeConvo()],
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultConversation(), getDefaultConversation()],
           regionCode: 'US',
           searchTerm: '',
         }).getRowCount(),
@@ -98,7 +92,7 @@ describe('LeftPaneComposeHelper', () => {
       );
       assert.strictEqual(
         new LeftPaneComposeHelper({
-          composeContacts: [fakeConvo(), fakeConvo()],
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
@@ -107,8 +101,8 @@ describe('LeftPaneComposeHelper', () => {
       );
       assert.strictEqual(
         new LeftPaneComposeHelper({
-          composeContacts: [fakeConvo(), fakeConvo()],
-          composeGroups: [fakeConvo()],
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultConversation()],
           regionCode: 'US',
           searchTerm: 'foo bar',
         }).getRowCount(),
@@ -131,7 +125,7 @@ describe('LeftPaneComposeHelper', () => {
     it('returns the number of contacts + 2 (for the "Start new conversation" button and header) if searching for a phone number', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
-          composeContacts: [fakeConvo(), fakeConvo()],
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505551234',
@@ -157,7 +151,10 @@ describe('LeftPaneComposeHelper', () => {
     });
 
     it('returns a "new group" button, a header, and contacts if not searching', () => {
-      const composeContacts = [fakeConvo(), fakeConvo()];
+      const composeContacts = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneComposeHelper({
         composeContacts,
         composeGroups: [],
@@ -183,8 +180,14 @@ describe('LeftPaneComposeHelper', () => {
     });
 
     it('returns a "new group" button, a header, contacts, groups header, and groups -- if not searching', () => {
-      const composeContacts = [fakeConvo(), fakeConvo()];
-      const composeGroups = [fakeConvo(), fakeConvo()];
+      const composeContacts = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
+      const composeGroups = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneComposeHelper({
         composeContacts,
         composeGroups,
@@ -266,7 +269,10 @@ describe('LeftPaneComposeHelper', () => {
     });
 
     it('returns one row per contact if searching', () => {
-      const composeContacts = [fakeConvo(), fakeConvo()];
+      const composeContacts = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneComposeHelper({
         composeContacts,
         composeGroups: [],
@@ -300,7 +306,10 @@ describe('LeftPaneComposeHelper', () => {
     });
 
     it('returns a "start new conversation" row, a header, and contacts if searching for a phone number', () => {
-      const composeContacts = [fakeConvo(), fakeConvo()];
+      const composeContacts = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneComposeHelper({
         composeContacts,
         composeGroups: [],
@@ -330,7 +339,7 @@ describe('LeftPaneComposeHelper', () => {
   describe('getConversationAndMessageAtIndex', () => {
     it('returns undefined because keyboard shortcuts are not supported', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeConvo(), fakeConvo()],
+        composeContacts: [getDefaultConversation(), getDefaultConversation()],
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
@@ -343,7 +352,7 @@ describe('LeftPaneComposeHelper', () => {
   describe('getConversationAndMessageInDirection', () => {
     it('returns undefined because keyboard shortcuts are not supported', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeConvo(), fakeConvo()],
+        composeContacts: [getDefaultConversation(), getDefaultConversation()],
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
@@ -362,7 +371,7 @@ describe('LeftPaneComposeHelper', () => {
   describe('shouldRecomputeRowHeights', () => {
     it('returns false if going from "no header" to "no header"', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeConvo(), fakeConvo()],
+        composeContacts: [getDefaultConversation(), getDefaultConversation()],
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
@@ -370,7 +379,7 @@ describe('LeftPaneComposeHelper', () => {
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeConvo()],
+          composeContacts: [getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
@@ -378,7 +387,11 @@ describe('LeftPaneComposeHelper', () => {
       );
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeConvo(), fakeConvo(), fakeConvo()],
+          composeContacts: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'bing bong',
@@ -388,7 +401,7 @@ describe('LeftPaneComposeHelper', () => {
 
     it('returns false if going from "has header" to "has header"', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeConvo(), fakeConvo()],
+        composeContacts: [getDefaultConversation(), getDefaultConversation()],
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
@@ -396,7 +409,7 @@ describe('LeftPaneComposeHelper', () => {
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeConvo()],
+          composeContacts: [getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
@@ -404,7 +417,7 @@ describe('LeftPaneComposeHelper', () => {
       );
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeConvo()],
+          composeContacts: [getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505559876',
@@ -414,7 +427,7 @@ describe('LeftPaneComposeHelper', () => {
 
     it('returns true if going from "no header" to "has header"', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeConvo(), fakeConvo()],
+        composeContacts: [getDefaultConversation(), getDefaultConversation()],
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
@@ -422,7 +435,7 @@ describe('LeftPaneComposeHelper', () => {
 
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeConvo(), fakeConvo()],
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
@@ -430,7 +443,7 @@ describe('LeftPaneComposeHelper', () => {
       );
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeConvo(), fakeConvo()],
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505551234',
@@ -440,7 +453,7 @@ describe('LeftPaneComposeHelper', () => {
 
     it('returns true if going from "has header" to "no header"', () => {
       const helper = new LeftPaneComposeHelper({
-        composeContacts: [fakeConvo(), fakeConvo()],
+        composeContacts: [getDefaultConversation(), getDefaultConversation()],
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
@@ -448,7 +461,7 @@ describe('LeftPaneComposeHelper', () => {
 
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
-          composeContacts: [fakeConvo(), fakeConvo()],
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
@@ -458,7 +471,7 @@ describe('LeftPaneComposeHelper', () => {
 
     it('should be true if going from contact to group or vice versa', () => {
       const helperContacts = new LeftPaneComposeHelper({
-        composeContacts: [fakeConvo(), fakeConvo()],
+        composeContacts: [getDefaultConversation(), getDefaultConversation()],
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
@@ -467,7 +480,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.isTrue(
         helperContacts.shouldRecomputeRowHeights({
           composeContacts: [],
-          composeGroups: [fakeConvo(), fakeConvo()],
+          composeGroups: [getDefaultConversation(), getDefaultConversation()],
           regionCode: 'US',
           searchTerm: 'foo bar',
         })
@@ -475,14 +488,14 @@ describe('LeftPaneComposeHelper', () => {
 
       const helperGroups = new LeftPaneComposeHelper({
         composeContacts: [],
-        composeGroups: [fakeConvo(), fakeConvo()],
+        composeGroups: [getDefaultConversation(), getDefaultConversation()],
         regionCode: 'US',
         searchTerm: 'foo bar',
       });
 
       assert.isTrue(
         helperGroups.shouldRecomputeRowHeights({
-          composeContacts: [fakeConvo(), fakeConvo()],
+          composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
@@ -492,16 +505,16 @@ describe('LeftPaneComposeHelper', () => {
 
     it('should be true if the headers are in different row indices as before', () => {
       const helperContacts = new LeftPaneComposeHelper({
-        composeContacts: [fakeConvo(), fakeConvo()],
-        composeGroups: [fakeConvo()],
+        composeContacts: [getDefaultConversation(), getDefaultConversation()],
+        composeGroups: [getDefaultConversation()],
         regionCode: 'US',
         searchTerm: 'soup',
       });
 
       assert.isTrue(
         helperContacts.shouldRecomputeRowHeights({
-          composeContacts: [fakeConvo()],
-          composeGroups: [fakeConvo(), fakeConvo()],
+          composeContacts: [getDefaultConversation()],
+          composeGroups: [getDefaultConversation(), getDefaultConversation()],
           regionCode: 'US',
           searchTerm: 'sandwich',
         })

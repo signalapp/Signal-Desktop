@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -19,15 +19,15 @@ const story = storiesOf(
   module
 );
 
-const conversation: ConversationType = {
+const conversation: ConversationType = getDefaultConversation({
   id: '',
   lastUpdated: 0,
-  markedUnread: false,
   memberships: Array(32).fill({ member: getDefaultConversation({}) }),
   pendingMemberships: Array(16).fill({ member: getDefaultConversation({}) }),
   title: 'Some Conversation',
   type: 'group',
-};
+  sharedGroupNames: [],
+});
 
 class AccessEnum {
   static ANY = 0;

@@ -39,6 +39,7 @@ export class ContactListItem extends React.Component<Props> {
       avatarPath,
       color,
       i18n,
+      isMe,
       name,
       phoneNumber,
       profileName,
@@ -55,6 +56,7 @@ export class ContactListItem extends React.Component<Props> {
         color={color}
         conversationType={type}
         i18n={i18n}
+        isMe={isMe}
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}

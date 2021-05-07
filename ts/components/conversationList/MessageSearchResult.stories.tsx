@@ -9,6 +9,7 @@ import { boolean, text, withKnobs } from '@storybook/addon-knobs';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { MessageSearchResult, PropsType } from './MessageSearchResult';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/MessageSearchResult', module);
@@ -17,22 +18,23 @@ const story = storiesOf('Components/MessageSearchResult', module);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 
-const someone = {
+const someone = getDefaultConversation({
   title: 'Some Person',
   name: 'Some Person',
   phoneNumber: '(202) 555-0011',
-};
+});
 
-const me = {
+const me = getDefaultConversation({
   title: 'Me',
   name: 'Me',
   isMe: true,
-};
+});
 
-const group = {
+const group = getDefaultConversation({
   title: 'Group Chat',
   name: 'Group Chat',
-};
+  type: 'group',
+});
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,

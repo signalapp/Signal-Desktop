@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { ComponentProps } from 'react';
@@ -6,6 +6,7 @@ import React, { ComponentProps } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import {
@@ -27,9 +28,10 @@ type ConversationHeaderStory = {
 };
 
 const commonProps = {
+  ...getDefaultConversation(),
+
   showBackButton: false,
   outgoingCallButtonStyle: OutgoingCallButtonStyle.Both,
-  markedUnread: false,
 
   i18n,
 

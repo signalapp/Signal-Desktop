@@ -54,13 +54,16 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const { getFrameBuffer, getGroupCallVideoFrameSource, i18n } = props;
 
     const {
+      acceptedMessageRequest,
       avatarPath,
       color,
       demuxId,
       hasRemoteAudio,
       hasRemoteVideo,
       isBlocked,
+      isMe,
       profileName,
+      sharedGroupNames,
       title,
       videoAspectRatio,
     } = props.remoteParticipant;
@@ -285,13 +288,16 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 </>
               ) : (
                 <Avatar
+                  acceptedMessageRequest={acceptedMessageRequest}
                   avatarPath={avatarPath}
                   color={color || 'ultramarine'}
                   noteToSelf={false}
                   conversationType="direct"
                   i18n={i18n}
+                  isMe={isMe}
                   profileName={profileName}
                   title={title}
+                  sharedGroupNames={sharedGroupNames}
                   size={avatarSize}
                 />
               )}

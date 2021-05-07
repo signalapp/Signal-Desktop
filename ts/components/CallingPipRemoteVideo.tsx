@@ -32,11 +32,14 @@ const NoVideo = ({
   i18n: LocalizerType;
 }): JSX.Element => {
   const {
+    acceptedMessageRequest,
     avatarPath,
     color,
+    isMe,
     name,
     phoneNumber,
     profileName,
+    sharedGroupNames,
     title,
   } = activeCall.conversation;
 
@@ -45,16 +48,19 @@ const NoVideo = ({
       <CallBackgroundBlur avatarPath={avatarPath} color={color}>
         <div className="module-calling-pip__video--avatar">
           <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
             avatarPath={avatarPath}
             color={color || 'ultramarine'}
             noteToSelf={false}
             conversationType="direct"
             i18n={i18n}
+            isMe={isMe}
             name={name}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}
             size={52}
+            sharedGroupNames={sharedGroupNames}
           />
         </div>
       </CallBackgroundBlur>

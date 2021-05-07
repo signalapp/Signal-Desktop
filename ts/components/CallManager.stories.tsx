@@ -24,18 +24,19 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const getConversation = () => ({
-  id: '3051234567',
-  avatarPath: undefined,
-  color: select('Callee color', Colors, 'ultramarine' as ColorType),
-  title: text('Callee Title', 'Rick Sanchez'),
-  name: text('Callee Name', 'Rick Sanchez'),
-  phoneNumber: '3051234567',
-  profileName: 'Rick Sanchez',
-  markedUnread: false,
-  type: 'direct' as ConversationTypeType,
-  lastUpdated: Date.now(),
-});
+const getConversation = () =>
+  getDefaultConversation({
+    id: '3051234567',
+    avatarPath: undefined,
+    color: select('Callee color', Colors, 'ultramarine' as ColorType),
+    title: text('Callee Title', 'Rick Sanchez'),
+    name: text('Callee Name', 'Rick Sanchez'),
+    phoneNumber: '3051234567',
+    profileName: 'Rick Sanchez',
+    markedUnread: false,
+    type: 'direct' as ConversationTypeType,
+    lastUpdated: Date.now(),
+  });
 
 const getCommonActiveCallData = () => ({
   conversation: getConversation(),

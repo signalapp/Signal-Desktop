@@ -40,14 +40,14 @@ export type Props = {
   color?: ColorType;
   loading?: boolean;
 
-  acceptedMessageRequest?: boolean;
+  acceptedMessageRequest: boolean;
   conversationType: 'group' | 'direct';
-  isMe?: boolean;
+  isMe: boolean;
   name?: string;
   noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
-  sharedGroupNames?: Array<string>;
+  sharedGroupNames: Array<string>;
   size: AvatarSize;
   title: string;
   unblurredAvatarPath?: string;

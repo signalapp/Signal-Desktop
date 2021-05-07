@@ -106,7 +106,7 @@ export type ConversationType = {
   }>;
   muteExpiresAt?: number;
   type: ConversationTypeType;
-  isMe?: boolean;
+  isMe: boolean;
   lastUpdated?: number;
   // This is used by the CompositionInput for @mentions
   sortedGroupMembers?: Array<ConversationType>;
@@ -129,12 +129,12 @@ export type ConversationType = {
   draftBodyRanges?: Array<BodyRangeType>;
   draftPreview?: string;
 
-  sharedGroupNames?: Array<string>;
+  sharedGroupNames: Array<string>;
   groupVersion?: 1 | 2;
   groupId?: string;
   groupLink?: string;
   messageRequestsEnabled?: boolean;
-  acceptedMessageRequest?: boolean;
+  acceptedMessageRequest: boolean;
   secretParams?: string;
   publicParams?: string;
 };

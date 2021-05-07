@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -9,6 +9,7 @@ import { storiesOf } from '@storybook/react';
 import { Props, ReactionViewer } from './ReactionViewer';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -28,94 +29,94 @@ story.add('All Reactions', () => {
       {
         emoji: '❤️',
         timestamp: 1,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552671',
           phoneNumber: '+14155552671',
           profileName: 'Ameila Briggs',
           title: 'Amelia',
-        },
+        }),
       },
       {
         emoji: '❤️',
         timestamp: 2,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552672',
           name: 'Adam Burrel',
           title: 'Adam',
-        },
+        }),
       },
       {
         emoji: '❤️',
         timestamp: 3,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552673',
           name: 'Rick Owens',
           title: 'Rick',
-        },
+        }),
       },
       {
         emoji: '❤️',
         timestamp: 4,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552674',
           name: 'Bojack Horseman',
           title: 'Bojack',
-        },
+        }),
       },
       {
         emoji: '👍',
         timestamp: 9,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552678',
           phoneNumber: '+14155552678',
           profileName: 'Adam Burrel',
           title: 'Adam',
-        },
+        }),
       },
       {
         emoji: '👎',
         timestamp: 10,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552673',
           name: 'Rick Owens',
           title: 'Rick',
-        },
+        }),
       },
       {
         emoji: '😂',
         timestamp: 11,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552674',
           name: 'Bojack Horseman',
           title: 'Bojack',
-        },
+        }),
       },
       {
         emoji: '😮',
         timestamp: 12,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552675',
           name: 'Cayce Pollard',
           title: 'Cayce',
-        },
+        }),
       },
       {
         emoji: '😢',
         timestamp: 13,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552676',
           name: 'Foo McBarrington',
           title: 'Foo',
-        },
+        }),
       },
       {
         emoji: '😡',
         timestamp: 14,
-        from: {
+        from: getDefaultConversation({
           id: '+14155552676',
           name: 'Foo McBarrington',
           title: 'Foo',
-        },
+        }),
       },
     ],
   });
@@ -128,22 +129,22 @@ story.add('Picked Reaction', () => {
     reactions: [
       {
         emoji: '❤️',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552671',
           name: 'Amelia Briggs',
           isMe: true,
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552671',
           phoneNumber: '+14155552671',
           profileName: 'Joel Ferrari',
           title: 'Joel',
-        },
+        }),
         timestamp: Date.now(),
       },
     ],
@@ -157,22 +158,22 @@ story.add('Picked Missing Reaction', () => {
     reactions: [
       {
         emoji: '❤️',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552671',
           name: 'Amelia Briggs',
           isMe: true,
           title: 'Amelia',
-        },
+        }),
         timestamp: Date.now(),
       },
       {
         emoji: '👍',
-        from: {
+        from: getDefaultConversation({
           id: '+14155552671',
           phoneNumber: '+14155552671',
           profileName: 'Joel Ferrari',
           title: 'Joel',
-        },
+        }),
         timestamp: Date.now(),
       },
     ],
@@ -196,11 +197,11 @@ const createReaction = (
   timestamp = Date.now()
 ) => ({
   emoji,
-  from: {
+  from: getDefaultConversation({
     id: '+14155552671',
     name,
     title: name,
-  },
+  }),
   timestamp,
 });
 

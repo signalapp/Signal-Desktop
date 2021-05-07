@@ -12,6 +12,7 @@ import enMessages from '../../_locales/en/messages.json';
 import { ContactPills } from './ContactPills';
 import { ContactPill, PropsType as ContactPillPropsType } from './ContactPill';
 import { gifUrl } from '../storybook/Fixtures';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -19,30 +20,32 @@ const story = storiesOf('Components/Contact Pills', module);
 
 type ContactType = Omit<ContactPillPropsType, 'i18n' | 'onClickRemove'>;
 
-const contacts: Array<ContactType> = times(50, index => ({
-  color: 'red',
-  id: `contact-${index}`,
-  isMe: false,
-  name: `Contact ${index}`,
-  phoneNumber: '(202) 555-0001',
-  profileName: `C${index}`,
-  title: `Contact ${index}`,
-}));
+const contacts: Array<ContactType> = times(50, index =>
+  getDefaultConversation({
+    color: 'red',
+    id: `contact-${index}`,
+    name: `Contact ${index}`,
+    phoneNumber: '(202) 555-0001',
+    profileName: `C${index}`,
+    title: `Contact ${index}`,
+  })
+);
 
 const contactPillProps = (
   overrideProps?: ContactType
 ): ContactPillPropsType => ({
-  ...(overrideProps || {
-    avatarPath: gifUrl,
-    color: 'red',
-    firstName: 'John',
-    id: 'abc123',
-    isMe: false,
-    name: 'John Bon Bon Jovi',
-    phoneNumber: '(202) 555-0001',
-    profileName: 'JohnB',
-    title: 'John Bon Bon Jovi',
-  }),
+  ...(overrideProps ||
+    getDefaultConversation({
+      avatarPath: gifUrl,
+      color: 'red',
+      firstName: 'John',
+      id: 'abc123',
+      isMe: false,
+      name: 'John Bon Bon Jovi',
+      phoneNumber: '(202) 555-0001',
+      profileName: 'JohnB',
+      title: 'John Bon Bon Jovi',
+    })),
   i18n,
   onClickRemove: action('onClickRemove'),
 });

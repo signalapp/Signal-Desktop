@@ -111,6 +111,7 @@ export const ContactModal = ({
               color={contact.color}
               conversationType="direct"
               i18n={i18n}
+              isMe={contact.isMe}
               name={contact.name}
               profileName={contact.profileName}
               sharedGroupNames={contact.sharedGroupNames}

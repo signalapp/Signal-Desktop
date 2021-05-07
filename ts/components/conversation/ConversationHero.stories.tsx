@@ -30,6 +30,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={getTitle()}
           avatarPath={getAvatarPath()}
           name={getName()}
@@ -50,6 +51,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={getTitle()}
           avatarPath={getAvatarPath()}
           name={getName()}
@@ -70,6 +72,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={getTitle()}
           avatarPath={getAvatarPath()}
           name={getName()}
@@ -90,6 +93,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={getTitle()}
           avatarPath={getAvatarPath()}
           name={getName()}
@@ -110,6 +114,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'Cayce Bollard (profile)')}
           avatarPath={getAvatarPath()}
           name={text('name', '')}
@@ -130,6 +135,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', '+1 (646) 327-2700')}
           avatarPath={getAvatarPath()}
           name={text('name', '')}
@@ -148,6 +154,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           i18n={i18n}
+          isMe={false}
           title={text('title', 'Unknown contact')}
           acceptedMessageRequest
           avatarPath={getAvatarPath()}
@@ -167,6 +174,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           i18n={i18n}
+          isMe={false}
           title={text('title', 'Unknown contact')}
           acceptedMessageRequest={false}
           avatarPath={getAvatarPath()}
@@ -187,10 +195,12 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <ConversationHero
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={numberKnob('membersCount', 22)}
+          sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
         />
@@ -203,10 +213,12 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <ConversationHero
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={1}
+          sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
         />
@@ -219,10 +231,12 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <ConversationHero
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={0}
+          sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
         />
@@ -235,10 +249,12 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <ConversationHero
           acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'Unknown group')}
           name={text('groupName', '')}
           conversationType="group"
           membersCount={0}
+          sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
         />
@@ -249,11 +265,13 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
           isMe
           title={getTitle()}
           conversationType="direct"
           phoneNumber={getPhoneNumber()}
+          sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}
           updateSharedGroups={updateSharedGroups}
         />

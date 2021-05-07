@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -8,37 +8,30 @@ import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { GroupV1MigrationDialog, PropsType } from './GroupV1MigrationDialog';
+import { ConversationType } from '../state/ducks/conversations';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
-const contact1 = {
+const contact1: ConversationType = getDefaultConversation({
   title: 'Alice',
-  number: '+1 (300) 555-0000',
+  phoneNumber: '+1 (300) 555-0000',
   id: 'guid-1',
-  markedUnread: false,
-  type: 'direct' as const,
-  lastUpdated: Date.now(),
-};
+});
 
-const contact2 = {
+const contact2: ConversationType = getDefaultConversation({
   title: 'Bob',
-  number: '+1 (300) 555-0001',
+  phoneNumber: '+1 (300) 555-0001',
   id: 'guid-2',
-  markedUnread: false,
-  type: 'direct' as const,
-  lastUpdated: Date.now(),
-};
+});
 
-const contact3 = {
+const contact3: ConversationType = getDefaultConversation({
   title: 'Chet',
-  number: '+1 (300) 555-0002',
+  phoneNumber: '+1 (300) 555-0002',
   id: 'guid-3',
-  markedUnread: false,
-  type: 'direct' as const,
-  lastUpdated: Date.now(),
-};
+});
 
 function booleanOr(value: boolean | undefined, defaultValue: boolean): boolean {
   return isBoolean(value) ? value : defaultValue;
