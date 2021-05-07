@@ -13623,34 +13623,6 @@
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/tar-fs/node_modules/bl/BufferList.js",
-    "line": "    this.append(buf)",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-20T22:42:00.662Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/tar-fs/node_modules/bl/BufferList.js",
-    "line": "    copy.append(this._bufs[i])",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-20T22:42:00.662Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/tar-fs/node_modules/bl/BufferList.js",
-    "line": "      this.append(buf[i])",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-20T22:42:00.662Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/tar-fs/node_modules/bl/BufferList.js",
-    "line": "      this.append(buf._bufs[i])",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-20T22:42:00.662Z"
-  },
-  {
-    "rule": "jQuery-append(",
     "path": "node_modules/tar-fs/node_modules/tar-stream/extract.js",
     "line": "    b.append(data)",
     "reasonCategory": "falseMatch",
