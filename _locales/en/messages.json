@@ -292,8 +292,23 @@
   "openGroupInvitation": {
     "message": "Open group invitation"
   },
-  "joinOpenGroupAfterInvitationConfirmation": {
-    "message": "Do you want to join this open group?"
+  "joinOpenGroupAfterInvitationConfirmationTitle": {
+    "message": "Join $roomName$?",
+    "placeholders": {
+      "count": {
+        "roomName": "$1",
+        "example": "Main"
+      }
+    }
+  },
+  "joinOpenGroupAfterInvitationConfirmationDesc": {
+    "message": "Are you sure you wan to join the $roomName$ open group?",
+    "placeholders": {
+      "count": {
+        "roomName": "$1",
+        "example": "Main"
+      }
+    }
   },
   "media": {
     "message": "Media",
@@ -1592,9 +1607,6 @@
   "add": {
     "message": "Add",
     "androidKey": "fragment_add_public_chat_add_button_title_1"
-  },
-  "groupInvitation": {
-    "message": "Group Invitation"
   },
   "addingContacts": {
     "message": "Adding contacts to"

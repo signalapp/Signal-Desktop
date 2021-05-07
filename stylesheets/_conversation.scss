@@ -31,7 +31,6 @@
 }
 
 .check-box-container {
-  // background-color: blue;
   align-items: center;
   flex-direction: row;
   display: inline-flex;
@@ -52,15 +51,19 @@
 }
 
 .group-invitation {
-  background-color: #f4f4f0;
+  @include themify($themes) {
+    background: themed('receivedMessageBackground');
+  }
+  &.invitation-outgoing {
+    @include themify($themes) {
+      background: themed('sentMessageBackground');
+    }
+  }
   display: inline-block;
   margin: 4px 16px;
   padding: 4px;
 
-  border: solid;
-  border-width: 0.5px;
-  border-radius: 4px;
-  border-color: #e0e0e0;
+  border-radius: 15px;
 
   align-self: flex-start;
 
@@ -104,6 +107,7 @@
         background-color: themed('accent');
         box-shadow: none;
       }
+      filter: brightness(1.05);
       svg path {
         transition: $session-transition-duration;
         opacity: 0.6;

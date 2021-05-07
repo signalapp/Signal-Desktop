@@ -22,7 +22,7 @@ import autoBind from 'auto-bind';
 import { sha256 } from '../../session/crypto';
 import { fromBase64ToArrayBuffer } from '../../session/utils/String';
 
-const pollForEverythingInterval = SECONDS * 6;
+const pollForEverythingInterval = SECONDS * 4;
 const pollForRoomAvatarInterval = DAYS * 1;
 const pollForMemberCountInterval = MINUTES * 10;
 

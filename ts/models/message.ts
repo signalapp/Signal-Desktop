@@ -186,7 +186,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return window.i18n('incomingError');
     }
     if (this.isGroupInvitation()) {
-      return `<${window.i18n('groupInvitation')}>`;
+      return `😎 ${window.i18n('openGroupInvitation')}`;
     }
     return this.get('body');
   }
@@ -295,7 +295,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       serverAddress,
       direction,
       onJoinClick: () => {
-        void acceptOpenGroupInvitation(invitation.serverAddress);
+        void acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
       },
     };
   }
