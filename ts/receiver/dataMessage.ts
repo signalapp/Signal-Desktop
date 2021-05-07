@@ -230,6 +230,11 @@ export async function processDecrypted(
 
   cleanAttachments(decrypted);
 
+  // if the decrypted dataMessage timestamp is not set, copy the one from the envelope
+  if (!_.toNumber(decrypted?.timestamp)) {
+    decrypted.timestamp = envelope.timestamp;
+  }
+
   return decrypted as SignalService.DataMessage;
   /* tslint:disable:no-bitwise */
 }
@@ -325,6 +330,7 @@ export async function handleDataMessage(
   }
 
   ev.confirm = () => removeFromCache(envelope);
+
   ev.data = {
     source: senderPubKey,
     destination: isMe ? message.syncTarget : undefined,
@@ -416,17 +422,13 @@ export const isDuplicate = (
 ) => {
   // The username in this case is the users pubKey
   const sameUsername = m.attributes.source === source;
-  // testedMessage.id is needed as long as we support opengroupv1
-  const sameServerId =
-    m.attributes.serverId !== undefined &&
-    (testedMessage.serverId || testedMessage.id) === m.attributes.serverId;
   const sameText = m.attributes.body === testedMessage.body;
   // Don't filter out messages that are too far apart from each other
   const timestampsSimilar =
     Math.abs(m.attributes.sent_at - testedMessage.timestamp) <=
     PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
 
-  return sameUsername && sameText && (timestampsSimilar || sameServerId);
+  return sameUsername && sameText && timestampsSimilar;
 };
 
 async function handleProfileUpdate(

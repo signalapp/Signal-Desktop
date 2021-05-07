@@ -752,6 +752,7 @@
     initAPIs();
     await initSpecialConversations();
     messageReceiver = new textsecure.MessageReceiver();
+    // those handleMessageEvent calls are only used by opengroupv1
     messageReceiver.addEventListener('message', window.DataMessageReceiver.handleMessageEvent);
     messageReceiver.addEventListener('sent', window.DataMessageReceiver.handleMessageEvent);
     messageReceiver.addEventListener('reconnect', onReconnect);
