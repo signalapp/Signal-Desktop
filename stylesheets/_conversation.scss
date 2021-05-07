@@ -87,11 +87,11 @@
       display: inline-flex;
       flex-direction: column;
 
-      padding: 8px;
+      padding: 0px 12px;
 
       .group-name {
-        font-weight: lighter;
-        padding-bottom: 4px;
+        font-weight: bold;
+        font-size: 18px;
       }
 
       .group-address {
@@ -99,19 +99,17 @@
       }
     }
 
-    .join-btn {
-      background-color: #00f782;
-      color: white;
-      padding: 6px 10px;
-      margin-inline-start: 6px;
-      border-radius: 2px;
-      box-shadow: none;
-      user-select: none;
-      cursor: pointer;
-      transition: $session-transition-duration;
-
-      &:hover {
-        background-color: #00d672;
+    .session-icon-button {
+      @include themify($themes) {
+        background-color: themed('accent');
+        box-shadow: none;
+      }
+      svg path {
+        transition: $session-transition-duration;
+        opacity: 0.6;
+        @include themify($themes) {
+          fill: themed('textColorOpposite');
+        }
       }
     }
   }

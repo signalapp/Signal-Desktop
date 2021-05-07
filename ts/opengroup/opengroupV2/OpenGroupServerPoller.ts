@@ -409,7 +409,6 @@ const handleCompactPollResults = async (
   serverUrl: string,
   results: Array<ParsedRoomCompactPollResults>
 ) => {
-  // console.warn('compoll res', results);
   await Promise.all(
     results.map(async res => {
       const convoId = getOpenGroupV2ConversationId(serverUrl, res.roomId);

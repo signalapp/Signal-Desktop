@@ -289,6 +289,9 @@
   "incomingError": {
     "message": "Error handling incoming message"
   },
+  "openGroupInvitation": {
+    "message": "Open group invitation"
+  },
   "media": {
     "message": "Media",
     "description": "Header of the default pane in the media gallery, showing images and videos",
