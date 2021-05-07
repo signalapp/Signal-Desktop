@@ -103,7 +103,7 @@
     "js-yaml": "3.13.1",
     "libsignal-client": "https://github.com/signalapp/libsignal-client-node.git#afa8f40eaa218b7fff94278d9b2ab2e13a2ee04b",
     "linkify-it": "2.2.0",
-    "lodash": "4.17.20",
+    "lodash": "4.17.21",
     "lru-cache": "6.0.0",
     "memoizee": "0.4.14",
     "mkdirp": "0.5.2",
