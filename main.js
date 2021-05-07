@@ -555,15 +555,8 @@ async function createWindow() {
   mainWindow.once('ready-to-show', async () => {
     console.log('main window is ready-to-show');
 
-    try {
-      await sqlInitPromise;
-    } catch (error) {
-      console.log(
-        'main window is ready, but sql has errored',
-        error && error.stack
-      );
-      return;
-    }
+    // Ignore sql errors and show the window anyway
+    await sqlInitPromise;
 
     if (!mainWindow) {
       return;
@@ -579,9 +572,12 @@ async function createWindow() {
 
 // Renderer asks if we are done with the database
 ipc.on('database-ready', async event => {
-  try {
-    await sqlInitPromise;
-  } catch (error) {
+  const { error } = await sqlInitPromise;
+  if (error) {
+    console.log(
+      'database-ready requested, but got sql error',
+      error && error.stack
+    );
     return;
   }
 
@@ -1039,11 +1035,18 @@ async function initializeSQL() {
   }
 
   sqlInitTimeStart = Date.now();
-  await sql.initialize({
-    configDir: userDataPath,
-    key,
-  });
-  sqlInitTimeEnd = Date.now();
+  try {
+    await sql.initialize({
+      configDir: userDataPath,
+      key,
+    });
+  } catch (error) {
+    return { ok: false, error };
+  } finally {
+    sqlInitTimeEnd = Date.now();
+  }
+
+  return { ok: true };
 }
 
 const sqlInitPromise = initializeSQL();
@@ -1166,7 +1169,7 @@ app.on('ready', async () => {
 
     loadingWindow.once('ready-to-show', async () => {
       loadingWindow.show();
-      // Wait for sql initialization to complete
+      // Wait for sql initialization to complete, but ignore errors
       await sqlInitPromise;
       loadingWindow.destroy();
       loadingWindow = null;
@@ -1178,9 +1181,8 @@ app.on('ready', async () => {
   // Run window preloading in parallel with database initialization.
   await createWindow();
 
-  try {
-    await sqlInitPromise;
-  } catch (error) {
+  const { error: sqlError } = await sqlInitPromise;
+  if (sqlError) {
     console.log('sql.initialize was unsuccessful; returning early');
     const buttonIndex = dialog.showMessageBoxSync({
       buttons: [
@@ -1188,7 +1190,7 @@ app.on('ready', async () => {
         locale.messages.deleteAndRestart.message,
       ],
       defaultId: 0,
-      detail: redactAll(error.stack),
+      detail: redactAll(sqlError.stack),
       message: locale.messages.databaseError.message,
       noLink: true,
       type: 'error',
@@ -1196,7 +1198,7 @@ app.on('ready', async () => {
 
     if (buttonIndex === 0) {
       clipboard.writeText(
-        `Database startup error:\n\n${redactAll(error.stack)}`
+        `Database startup error:\n\n${redactAll(sqlError.stack)}`
       );
     } else {
       await sql.sqlCall('removeDB', []);
