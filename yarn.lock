@@ -1185,6 +1185,13 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.2.tgz#8f03a22a04de437254e8ce8cc84ba39689288752"
   integrity sha512-HyYEUDeIj5rRQU2Hk5HTB2uHsbRQpF70nvMhVzi+VJR0X+xNEhjPui4/kBf3VeH/wqD28PT4sVOm8qqLjBrSZg==
 
+"@electron/fuses@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@electron/fuses/-/fuses-1.0.1.tgz#b8115682aca2a81e3cbdc95121f5abb1b35f2bb5"
+  integrity sha512-UNfNOhNRzoxwrfV+4oUify8ajDgGMymzgjvyFnPIMv4ItLPi1O8aTG/VbBJVopIt3l4fjl0TeP63BBP3+u/ZOw==
+  dependencies:
+    fs-extra "^9.0.1"
+
 "@electron/get@^1.0.1":
   version "1.7.6"
   resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.7.6.tgz#f1c8e87cbef0bce78644159b72340821d52066b3"
