@@ -13812,10 +13812,133 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-after(",
+    "path": "node_modules/underscore/amd/after.js",
+    "line": "  function after(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/underscore/amd/before.js",
+    "line": "  function before(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/underscore/amd/wrap.js",
+    "line": "  function wrap(func, wrapper) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/underscore/cjs/after.js",
+    "line": "function after(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/underscore/cjs/before.js",
+    "line": "function before(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/underscore/cjs/wrap.js",
+    "line": "function wrap(func, wrapper) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/underscore/modules/after.js",
+    "line": "export default function after(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/underscore/modules/before.js",
+    "line": "export default function before(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/underscore/modules/wrap.js",
+    "line": "export default function wrap(func, wrapper) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/underscore/underscore-esm-min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/underscore/underscore-esm-min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/underscore/underscore-esm-min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/underscore/underscore-esm.js",
+    "line": "function after(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/underscore/underscore-esm.js",
+    "line": "function before(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/underscore/underscore-esm.js",
+    "line": "function wrap(func, wrapper) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/underscore/underscore-min.js",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/underscore/underscore.js",
+    "line": "  function after(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/underscore/underscore.js",
+    "line": "  function before(times, func) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/underscore/underscore.js",
+    "line": "  function wrap(func, wrapper) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T18:18:03.022Z"
   },
   {
     "rule": "jQuery-$(",

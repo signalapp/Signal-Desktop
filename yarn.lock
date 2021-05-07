@@ -17684,9 +17684,10 @@ underscore.string@~3.3.5:
     sprintf-js "^1.0.3"
     util-deprecate "^1.0.2"
 
-underscore@1.9.0, underscore@>=1.8.3:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.0.tgz#31dbb314cfcc88f169cd3692d9149d81a00a73e4"
+underscore@1.12.1, underscore@>=1.8.3:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.12.1.tgz#7bb8cc9b3d397e201cf8553336d262544ead829e"
+  integrity sha512-hEQt0+ZLDVUMhebKxL4x1BTtDY7bavVofhZ9KZ4aI26X9SRaE+Y3m83XUL1UP2jn8ynjndwCCpEHdUG+9pP1Tw==
 
 underscore@~1.9.1:
   version "1.9.1"
