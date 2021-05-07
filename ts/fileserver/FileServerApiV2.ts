@@ -20,7 +20,7 @@ const FILES_ENDPOINT = 'files';
 
 // Disable this if you don't want to use the file server v2 for sending
 // Receiving is always enabled if the attachments url matches a fsv2 url
-export const useFileServerAPIV2Sending = false;
+export const useFileServerAPIV2Sending = true;
 
 /**
  * Upload a file to the file server v2
