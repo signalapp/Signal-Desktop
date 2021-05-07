@@ -9,14 +9,12 @@ describe('GroupInvitationMessage', () => {
   let message: GroupInvitationMessage;
   const timestamp = Date.now();
   const serverAddress = 'http://localhost';
-  const channelId = 1;
   const serverName = 'test';
 
   beforeEach(() => {
     message = new GroupInvitationMessage({
       timestamp,
       serverAddress,
-      channelId,
       serverName,
     });
   });
@@ -26,7 +24,6 @@ describe('GroupInvitationMessage', () => {
     const decoded = SignalService.Content.decode(plainText);
 
     expect(decoded.dataMessage?.groupInvitation).to.have.property('serverAddress', serverAddress);
-    expect(decoded.dataMessage?.groupInvitation).to.have.property('channelId', channelId);
     expect(decoded.dataMessage?.groupInvitation).to.have.property('serverName', serverName);
   });
 

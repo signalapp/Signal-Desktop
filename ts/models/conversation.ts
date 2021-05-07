@@ -670,7 +670,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             identifier: id,
             timestamp: sentAt,
             serverName: groupInvitation.serverName,
-            channelId: 1,
             serverAddress: groupInvitation.serverAddress,
             expireTimer: this.get('expireTimer'),
           });
