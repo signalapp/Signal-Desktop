@@ -643,7 +643,6 @@ function addMemberToZombies(
   if (isAlreadyZombie) {
     return false;
   }
-  // console.warn('Marking user ', userToAdd.key, ' as a zombie');
   convo.set('zombies', [...zombies, userToAdd.key]);
   return true;
 }

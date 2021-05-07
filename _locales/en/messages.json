@@ -289,6 +289,27 @@
   "incomingError": {
     "message": "Error handling incoming message"
   },
+  "openGroupInvitation": {
+    "message": "Open group invitation"
+  },
+  "joinOpenGroupAfterInvitationConfirmationTitle": {
+    "message": "Join $roomName$?",
+    "placeholders": {
+      "count": {
+        "roomName": "$1",
+        "example": "Main"
+      }
+    }
+  },
+  "joinOpenGroupAfterInvitationConfirmationDesc": {
+    "message": "Are you sure you wan to join the $roomName$ open group?",
+    "placeholders": {
+      "count": {
+        "roomName": "$1",
+        "example": "Main"
+      }
+    }
+  },
   "media": {
     "message": "Media",
     "description": "Header of the default pane in the media gallery, showing images and videos",
@@ -1586,9 +1607,6 @@
   "add": {
     "message": "Add",
     "androidKey": "fragment_add_public_chat_add_button_title_1"
-  },
-  "groupInvitation": {
-    "message": "Group Invitation"
   },
   "addingContacts": {
     "message": "Adding contacts to"

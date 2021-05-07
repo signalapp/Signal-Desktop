@@ -186,7 +186,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return window.i18n('incomingError');
     }
     if (this.isGroupInvitation()) {
-      return `<${window.i18n('groupInvitation')}>`;
+      return `😎 ${window.i18n('openGroupInvitation')}`;
     }
     return this.get('body');
   }
@@ -281,16 +281,21 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (!direction) {
       direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
     }
-    const serverAddress = invitation.serverAddress?.length
-      ? `${invitation.serverAddress.slice(0, 30)}...`
-      : '';
+
+    let serverAddress = '';
+    try {
+      const url = new URL(invitation.serverAddress);
+      serverAddress = url.origin;
+    } catch (e) {
+      window.log.warn('failed to get hostname from opengroupv2 invitation', invitation);
+    }
 
     return {
       serverName: invitation.serverName,
       serverAddress,
       direction,
-      onClick: () => {
-        void acceptOpenGroupInvitation(invitation.serverAddress);
+      onJoinClick: () => {
+        void acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
       },
     };
   }
