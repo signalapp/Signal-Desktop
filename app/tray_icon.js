@@ -9,7 +9,13 @@ let tray = null;
 function createTrayIcon(getMainWindow, messages) {
   // A smaller icon is needed on macOS
   const iconSize = process.platform === 'darwin' ? '16' : '256';
-  const iconNoNewMessages = path.join(__dirname, '..', 'images', 'session', `session_icon_${iconSize}.png`);
+  const iconNoNewMessages = path.join(
+    __dirname,
+    '..',
+    'images',
+    'session',
+    `session_icon_${iconSize}.png`
+  );
 
   tray = new Tray(iconNoNewMessages);
 

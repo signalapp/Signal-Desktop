@@ -74,6 +74,7 @@ export class AttachmentUtils {
 
     let attachmentData: ArrayBuffer;
 
+    // We don't pad attachments for opengroup as they are unencrypted
     if (isRaw || openGroup) {
       attachmentData = attachment.data;
     } else {

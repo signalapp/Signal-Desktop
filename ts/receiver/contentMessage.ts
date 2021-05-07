@@ -17,6 +17,7 @@ import { KeyPairRequestManager } from './keyPairRequestManager';
 import { requestEncryptionKeyPair } from '../session/group';
 import { handleConfigurationMessage } from './configMessage';
 import { ConversationTypeEnum } from '../models/conversation';
+import { removeMessagePadding } from '../session/crypto/MessagePadding';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -94,7 +95,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
     }
     window.log.info('ClosedGroup Message decrypted successfully with keyIndex:', keyIndex);
 
-    return unpad(decryptedContent);
+    return removeMessagePadding(decryptedContent);
   } catch (e) {
     /**
      * If an error happened during the decoding,
@@ -130,7 +131,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
  * or a message sent to a closed group.
  *
  * We do not unpad the result here, as in the case of the keypair wrapper, there is not padding.
- * Instead, it is the called who needs to unpad() the content.
+ * Instead, it is the called who needs to removeMessagePadding() the content.
  */
 export async function decryptWithSessionProtocol(
   envelope: EnvelopePlus,
@@ -191,22 +192,6 @@ export async function decryptWithSessionProtocol(
   return plaintext;
 }
 
-export function unpad(paddedData: ArrayBuffer): ArrayBuffer {
-  const paddedPlaintext = new Uint8Array(paddedData);
-
-  for (let i = paddedPlaintext.length - 1; i >= 0; i -= 1) {
-    if (paddedPlaintext[i] === 0x80) {
-      const plaintext = new Uint8Array(i);
-      plaintext.set(paddedPlaintext.subarray(0, i));
-      return plaintext.buffer;
-    } else if (paddedPlaintext[i] !== 0x00) {
-      throw new Error('Invalid padding');
-    }
-  }
-
-  throw new Error('Invalid padding');
-}
-
 export async function isBlocked(number: string) {
   return BlockedNumberController.isBlockedAsync(number);
 }
@@ -227,7 +212,7 @@ async function decryptUnidentifiedSender(
     );
     // keep the await so the try catch works as expected
     const retSessionProtocol = await decryptWithSessionProtocol(envelope, ciphertext, ecKeyPair);
-    return unpad(retSessionProtocol);
+    return removeMessagePadding(retSessionProtocol);
   } catch (e) {
     window.log.warn('decryptWithSessionProtocol for unidentified message throw:', e);
     return null;

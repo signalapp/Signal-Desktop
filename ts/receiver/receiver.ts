@@ -9,7 +9,7 @@ import { processMessage } from '../session/snode_api/swarmPolling';
 import { onError } from './errors';
 
 // innerHandleContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
-import { handleContentMessage, innerHandleContentMessage, unpad } from './contentMessage';
+import { handleContentMessage, innerHandleContentMessage } from './contentMessage';
 import _, { noop } from 'lodash';
 
 export { processMessage };
@@ -36,6 +36,7 @@ import { OpenGroupMessageV2 } from '../opengroup/opengroupV2/OpenGroupMessageV2'
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { handleMessageJob } from './queuedJob';
 import { fromBase64ToArray } from '../session/utils/String';
+import { removeMessagePadding } from '../session/crypto/MessagePadding';
 
 // TODO: check if some of these exports no longer needed
 
@@ -315,7 +316,8 @@ export async function handleOpenGroupV2Message(
     return;
   }
 
-  const dataUint = new Uint8Array(unpad(fromBase64ToArray(base64EncodedData)));
+  // Note: opengroup messages are not padded
+  const dataUint = new Uint8Array(removeMessagePadding(fromBase64ToArray(base64EncodedData)));
 
   const decoded = SignalService.Content.decode(dataUint);
 
