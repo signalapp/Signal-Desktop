@@ -104,21 +104,11 @@ const LeftPaneSettingsCategories = () => {
 
 const onDeleteAccount = () => {
   const title = window.i18n('clearAllData');
-
-  const message = window.i18n('unpairDeviceWarning');
-
-  let messageSub = '';
-
-  const identityKey = window.textsecure.storage.get('identityKey');
-  if (identityKey && identityKey.ed25519KeyPair === undefined) {
-    messageSub =
-      "We've updated the way Session IDs are generated, so you will not be able to restore your current Session ID.";
-  }
+  const message = window.i18n('deleteAccountWarning');
 
   window.confirmationDialog({
     title,
     message,
-    messageSub,
     resolve: deleteAccount,
     okTheme: 'danger',
   });
