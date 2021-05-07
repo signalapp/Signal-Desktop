@@ -8946,6 +8946,12 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/moment/min/moment.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T01:39:53.992Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/nconf/lib/nconf/provider.js",
     "line": "      return next(new Error('nconf store ' + store.type + ' has no load() method'));",

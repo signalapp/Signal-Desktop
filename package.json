@@ -107,7 +107,7 @@
     "lru-cache": "6.0.0",
     "memoizee": "0.4.14",
     "mkdirp": "0.5.2",
-    "moment": "2.21.0",
+    "moment": "2.29.1",
     "mustache": "2.3.0",
     "node-fetch": "2.6.1",
     "node-forge": "0.10.0",
