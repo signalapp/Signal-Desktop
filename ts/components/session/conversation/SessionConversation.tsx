@@ -628,11 +628,22 @@ export class SessionConversation extends React.Component<Props, State> {
       this.setState({ selectedMessages: [] }, ToastUtils.pushDeleted);
     };
 
-    // If removable from server, we "Unsend" - otherwise "Delete"
-    const pluralSuffix = multiple ? 's' : '';
-    const title = window.i18n(
-      isServerDeletable ? `deleteMessage${pluralSuffix}ForEveryone` : `deleteMessage${pluralSuffix}`
-    );
+    let title = '';
+
+    // Note:  keep that i18n logic separated so the scripts in tools/ find the usage of those
+    if (isServerDeletable) {
+      if (multiple) {
+        title = window.i18n('deleteMessagesForEveryone');
+      } else {
+        title = window.i18n('deleteMessageForEveryone');
+      }
+    } else {
+      if (multiple) {
+        title = window.i18n('deleteMessages');
+      } else {
+        title = window.i18n('deleteMessage');
+      }
+    }
 
     const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
     if (askUserForConfirmation) {

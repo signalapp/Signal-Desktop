@@ -146,10 +146,6 @@
     "message": "Set Up with Import",
     "description": "When the application is not yet set up, menu option to start up the import sequence"
   },
-  "menuSetupAsStandalone": {
-    "message": "Set Up as Standalone Device",
-    "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
-  },
   "contextMenuNoSuggestions": {
     "message": "No Suggestions",
     "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
@@ -162,16 +158,6 @@
   "optimizingApplication": {
     "message": "Optimizing application...",
     "description": "Message shown on the loading screen while we are doing application optimizations"
-  },
-  "migratingToSQLCipher": {
-    "message": "Optimizing messages... $status$ complete.",
-    "description": "Message shown on the loading screen while we are doing application optimizations",
-    "placeholders": {
-      "status": {
-        "content": "$1",
-        "example": "45/200"
-      }
-    }
   },
   "chooseDirectory": {
     "message": "Choose folder",
@@ -277,157 +263,6 @@
     },
     "ignoreCase": true
   },
-  "verificationKeysLoadFail": {
-    "message": "Failed to load verification keys",
-    "description": "Displayed on `Show Safety Number` option in conversation screen"
-  },
-  "youMarkedAsVerified": {
-    "message": "You marked your safety number with $name$ verified",
-    "description": "Shown in the conversation history when the user marks a contact as verified.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    },
-    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_verified",
-    "androidReplace": {
-      "%s": "$name$"
-    }
-  },
-  "youMarkedAsNotVerified": {
-    "message": "You marked your safety number with $name$ unverified",
-    "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    },
-    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_unverified",
-    "androidReplace": {
-      "%s": "$name$"
-    }
-  },
-  "youMarkedAsVerifiedOtherDevice": {
-    "message": "You marked your safety number with $name$ verified from another device",
-    "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    },
-    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_verified_from_another_device",
-    "androidReplace": {
-      "%s": "$name$"
-    }
-  },
-  "youMarkedAsNotVerifiedOtherDevice": {
-    "message": "You marked your safety number with $name$ unverified from another device",
-    "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    },
-    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_unverified_from_another_device",
-    "androidReplace": {
-      "%s": "$name$"
-    }
-  },
-  "membersNeedingVerification": {
-    "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
-    "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
-  },
-  "changedSinceVerifiedTitle": {
-    "message": "Safety Number Changed",
-    "androidKey": "ThreadRecord_safety_number_changed",
-    "ignoreCase": true
-  },
-  "changedSinceVerifiedMultiple": {
-    "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
-    "description": "Shown on confirmation dialog when user attempts to send a message"
-  },
-  "changedSinceVerified": {
-    "message": "Your safety number with $name$ has changed and is no longer verified. This could either mean that someone is trying to intercept your communication, or that $name$ simply reinstalled Session.",
-    "description": "Shown on confirmation dialog when user attempts to send a message",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    },
-    "androidKey": "IdentityUtil_unverified_dialog_one",
-    "androidReplace": {
-      "%1$s": "$name$"
-    }
-  },
-  "changedRightAfterVerify": {
-    "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
-    "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
-  },
-  "changedRecentlyMultiple": {
-    "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
-    "description": "Shown on confirmation dialog when user attempts to send a message"
-  },
-  "changedRecently": {
-    "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication, or that $name$ simply reinstalled Session.",
-    "description": "Shown on confirmation dialog when user attempts to send a message",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    },
-    "androidKey": "ConfirmIdentityDialog_your_safety_number_with_s_has_changed",
-    "androidReplace": {
-      "%1$s": "$name$",
-      "%2$s": "$name$"
-    }
-  },
-  "identityKeyErrorOnSend": {
-    "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
-    "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
-  },
-  "youMayWishToVerifyContact": {
-    "message": "You may wish to verify your safety number with this contact.",
-    "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    },
-    "androidKey": "WebRtcCallScreen_you_may_wish_to_verify_this_contact"
-  },
-  "noLongerVerified": {
-    "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
-    "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
-  },
-  "multipleNoLongerVerified": {
-    "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
-    "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
-  },
   "debugLogExplanation": {
     "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
   },
@@ -447,34 +282,9 @@
     "message": "Submit",
     "androidKey": "log_submit_activity__button_submit"
   },
-  "verify": {
-    "message": "Mark As Verified"
-  },
-  "unverify": {
-    "message": "Mark As Not Verified"
-  },
   "markAllAsRead": {
     "message": "Mark All as Read",
     "description": "Shown on a menu to mark the whole convo as read."
-  },
-  "isNotVerified": {
-    "message": "You have not verified your safety number with $name$.",
-    "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
-  },
-  "verified": {
-    "message": "Verified",
-    "androidKey": "verify_display_fragment__verified"
-  },
-  "newIdentity": {
-    "message": "New safety number",
-    "description": "Header for a key change dialog",
-    "androidKey": "MessageDetailsRecipient_new_safety_number"
   },
   "incomingError": {
     "message": "Error handling incoming message"
@@ -581,11 +391,6 @@
     "message": "Sorry, there was an error setting your attachment.",
     "androidKey": "ConversationActivity_sorry_there_was_an_error_setting_your_attachment"
   },
-  "connecting": {
-    "message": "Connecting...",
-    "description": "Displayed when the desktop client is currently connecting to the server.",
-    "androidKey": "CallNotificationBuilder_connecting"
-  },
   "offline": {
     "message": "Offline",
     "description": "Displayed when the desktop client has no network connection."
@@ -679,10 +484,6 @@
     "message": "Settings",
     "androidKey": "activity_settings_title"
   },
-  "welcomeToSession": {
-    "message": "Welcome to Session.",
-    "androidKey": "ExperienceUpgradeActivity_welcome_to_signal_dgaf"
-  },
   "typingAlt": {
     "message": "Typing animation for this conversation",
     "description": "Used as the 'title' attibute for the typing animation"
@@ -696,41 +497,6 @@
         "example": "John"
       }
     }
-  },
-  "home": {
-    "message": "Home",
-    "description": "Shown on contact detail screen as a label for an address/phone/email",
-    "androidKey": "ContactShareEditActivity_type_home"
-  },
-  "work": {
-    "message": "Work",
-    "description": "Shown on contact detail screen as a label for an address/phone/email",
-    "androidKey": "ContactShareEditActivity_type_work"
-  },
-  "mobile": {
-    "message": "Mobile",
-    "description": "Shown on contact detail screen as a label for a phone or email",
-    "androidKey": "ContactShareEditActivity_type_mobile"
-  },
-  "email": {
-    "message": "email",
-    "description": "Generic label shown if contact email has custom type but no label"
-  },
-  "phone": {
-    "message": "phone",
-    "description": "Generic label shown if contact phone has custom type but no label"
-  },
-  "address": {
-    "message": "address",
-    "description": "Generic label shown if contact address has custom type but no label"
-  },
-  "poBox": {
-    "message": "PO Box",
-    "description": "When rendering an address, used to provide context to a post office box"
-  },
-  "downloading": {
-    "message": "Downloading",
-    "description": "Shown in the message bubble while a long message attachment is being downloaded"
   },
   "downloadAttachment": {
     "message": "Download Attachment",
@@ -762,10 +528,6 @@
     "message": "Recording",
     "description": "Shown on SessionRecording when recording is active."
   },
-  "voiceNoteMustBeOnlyAttachment": {
-    "message": "A voice note must be the only attachment included in a message.",
-    "description": "Shown in toast if tries to record a voice note with any staged attachments"
-  },
   "you": {
     "message": "You",
     "description": "In Android theme, shown in quote if you or someone else replies to you",
@@ -779,10 +541,6 @@
     "message": "You can enable microphone access under: Settings (Gear icon) => Privacy",
     "description": "Shown if the user attempts to send an audio message without audio permssions turned on",
     "androidKey": "ConversationActivity_to_send_audio_messages_allow_signal_access_to_your_microphone"
-  },
-  "allowAccess": {
-    "message": "Allow Access",
-    "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
   },
   "audio": {
     "message": "Audio",
@@ -821,73 +579,6 @@
   "continue": {
     "message": "Continue",
     "androidKey": "RegistrationActivity_continue"
-  },
-  "devicePairingRequestReceivedLimitTitle": {
-    "message": "Device Limit Reached",
-    "androidKey": "activity_linked_devices_multi_device_limit_reached_dialog_title"
-  },
-  "devicePairingRequestReceivedLimitDescription": {
-    "message": "Sorry, you have too many devices linked already, try removing some",
-    "androidKey": "DeviceProvisioningActivity_sorry_you_have_too_many_devices_linked_already"
-  },
-  "devicePairingRequestReceivedNoListenerTitle": {
-    "message": "Linking Request Received",
-    "androidKey": "dialog_link_device_master_mode_title_2"
-  },
-  "devicePairingRequestReceivedNoListenerDescription": {
-    "message": "Device linking request received but you are not on the device linking screen. \nGo to Settings > Device > Link New Device."
-  },
-  "waitingForDeviceToRegister": {
-    "message": "Waiting for Device",
-    "androidKey": "dialog_link_device_master_mode_title_1"
-  },
-  "pairNewDevicePrompt": {
-    "message": "Scan the QR code displayed on the device to link",
-    "androidKey": "device_add_fragment__scan_the_qr_code_displayed_on_the_device_to_link"
-  },
-  "noPairedDevices": {
-    "message": "You don't have any linked devices yet",
-    "androidKey": "device_list_fragment__no_devices_linked"
-  },
-  "deviceIsSecondaryNoPairing": {
-    "message": "This device is a secondary device and so cannot be linked."
-  },
-  "pairingOngoing": {
-    "message": "A pairing request is already ongoing. Restart the app if it takes too long."
-  },
-  "allowPairing": {
-    "message": "Authorize",
-    "androidKey": "view_device_linking_authorize_button_title"
-  },
-  "allowPairingWithDevice": {
-    "message": "Allow linking with this device?"
-  },
-  "provideDeviceAlias": {
-    "message": "Please provide an alias for this linked device"
-  },
-  "showPairingWordsTitle": {
-    "message": "Linking Secret Words"
-  },
-  "confirmUnpairingTitle": {
-    "message": "Please confirm you want to unlink the following device:"
-  },
-  "unpairDevice": {
-    "message": "Unlink Device",
-    "androidKey": "fragment_device_list_unlink_device_title",
-    "ignoreCase": true,
-    "sentenceCase": true
-  },
-  "unpairDeviceWarning": {
-    "message": "Are you sure you want to unlink this device?",
-    "description": "Warning for device unlinking in settings view"
-  },
-  "unpairDeviceWarningSub": {
-    "message": "Unlinking this device will delete all history, including all messages, sessions, and contacts from this device.",
-    "description": "Warning description for device unlinking in settings view"
-  },
-  "deviceUnpaired": {
-    "message": "Your device was unlinked successfully",
-    "androidKey": "activity_linked_devices_unlinking_successful_message"
   },
   "error": {
     "message": "Error"
@@ -945,35 +636,9 @@
     "message": "Message",
     "description": "Placeholder text in the message entry field"
   },
-  "sendMessageBlockedUser": {
-    "message": "You have blocked this contact"
-  },
   "groupMembers": {
     "message": "Group members",
     "androidKey": "ConversationActivity_group_members"
-  },
-  "resetSession": {
-    "message": "Reset Secure Session",
-    "description": "This is a menu item for resetting the session, using the imperative case, as in a command.",
-    "androidKey": "conversation_secure_verified__menu_reset_secure_session",
-    "ignoreCase": true
-  },
-  "showSafetyNumber": {
-    "message": "View Safety Number",
-    "androidKey": "recipient_preferences__view_safety_number",
-    "ignoreCase": true
-  },
-  "verifyHelp": {
-    "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
-  },
-  "theirIdentityUnknown": {
-    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "moreInformation": {
     "message": "More information",
@@ -1007,10 +672,6 @@
   "deleteForEveryone": {
     "message": "Delete For Everyone",
     "description": "Menu item for deleting messages, title case."
-  },
-  "deletePublicConversationConfirmation": {
-    "message": "Permanently delete the messages locally from this open group?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the open group messages locally. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "deleteConversationConfirmation": {
     "message": "Permanently delete the messages in this conversation?",
@@ -1078,22 +739,6 @@
   "saved": {
     "message": "Saved",
     "description": "Used to display when an action was saved."
-  },
-  "emojiAlt": {
-    "message": "Emoji image of '$title$'",
-    "description": "Used in the alt tag of all emoji images",
-    "placeholders": {
-      "title": {
-        "content": "$1",
-        "example": "grinning"
-      }
-    }
-  },
-  "linkNewDevice": {
-    "message": "Link New Device",
-    "description": "The menu option shown in Session iOS to add a new linked device",
-    "androidKey": "device_list_fragment__link_new_device",
-    "ignoreCase": true
   },
   "permissions": {
     "message": "Permissions",
@@ -1217,17 +862,9 @@
     "description": "Shown on outgoing message if it fails to send",
     "androidKey": "conversation_item_sent__send_failed_indicator_description"
   },
-  "learnMore": {
-    "message": "Learn more about verifying safety numbers",
-    "description": "Text that links to a support article on verifying safety numbers"
-  },
   "expiredWarning": {
     "message": "This version of Session has expired. Please upgrade to the latest version to continue messaging.",
     "description": "Warning notification that this version of the app has expired"
-  },
-  "clockOutOfSync": {
-    "message": "Your clock is out of sync. Please update your clock and try again.",
-    "description": "Notifcation that user's clock is out of sync with Loki's servers."
   },
   "upgrade": {
     "message": "Upgrade",
@@ -1458,52 +1095,6 @@
     "androidReplace": {
       "%s": "$time$"
     }
-  },
-  "safetyNumber": {
-    "message": "Safety Number",
-    "description": "Title to the safety number view"
-  },
-  "safetyNumberChanged": {
-    "message": "Safety number changed",
-    "description": "A notification shown in the conversation when a contact reinstalls",
-    "androidKey": "ThreadRecord_safety_number_changed"
-  },
-  "safetyNumberChangedGroup": {
-    "message": "Your safety number with $name$ has changed.",
-    "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    },
-    "androidKey": "ThreadRecord_your_safety_number_with_s_has_changed",
-    "androidReplace": {
-      "%s": "$name$"
-    }
-  },
-  "verifyNewNumber": {
-    "message": "Verify Safety Number",
-    "description": "Label on button included with safety number change notification in the conversation",
-    "androidKey": "AndroidManifest__verify_safety_number",
-    "ignoreCase": true
-  },
-  "yourSafetyNumberWith": {
-    "message": "Your safety number with $name$:",
-    "description": "Heading for safety number view",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
-  },
-  "themeToggleTitle": {
-    "message": "Light",
-    "androidKey": "preferences__light_theme"
-  },
-  "themeToggleDescription": {
-    "message": "Choose the theme best suited to you"
   },
   "noteToSelf": {
     "message": "Note to Self",
@@ -1749,10 +1340,6 @@
   "userNeedsToHaveJoinedDesc": {
     "message": "An error happened. The user needs to have already joined the server for this ADD to work.",
     "description": "Toast description when the user adds a moderator for an open group."
-  },
-  "addToTheListBelow": {
-    "message": "Add to the list below",
-    "description": "Button action to add a moderator by pubkey"
   },
   "noContactsForGroup": {
     "message": "You don't have any contacts yet",
@@ -2067,21 +1654,6 @@
   "enterOptionalPassword": {
     "message": "Enter password (optional)"
   },
-  "devicePairingHeaderReassure": {
-    "message": "Linking may take up to one minute to register on your primary device. Please be patient."
-  },
-  "devicePairingHeader_Step1": {
-    "message": "Open Session on your other device."
-  },
-  "devicePairingHeader_Step2": {
-    "message": "Navigate to the <strong>Devices</strong> section in your user account screen."
-  },
-  "devicePairingHeader_Step3": {
-    "message": "Select <strong>Link New Device</strong> to prepare your other device for pairing."
-  },
-  "devicePairingHeader_Step4": {
-    "message": "Enter your <strong>Session ID</strong> below to link this device to your <strong>Session ID</strong>."
-  },
   "continueYourSession": {
     "message": "Continue Your Session",
     "androidKey": "activity_landing_restore_button_title"
@@ -2093,9 +1665,6 @@
   "restoreUsingRecoveryPhrase": {
     "message": "Restore your account",
     "androidKey": "activity_restore_title"
-  },
-  "linkDeviceToExistingAccount": {
-    "message": "Link Device to Existing Session ID"
   },
   "or": {
     "message": "or"
@@ -2132,9 +1701,6 @@
   "message": {
     "message": "Message"
   },
-  "addContact": {
-    "message": "Add Contact"
-  },
   "appearanceSettingsTitle": {
     "message": "Appearance",
     "androidKey": "preferences__appearance"
@@ -2149,10 +1715,6 @@
   "notificationsSettingsTitle": {
     "message": "Notifications",
     "androidKey": "preferences__notifications"
-  },
-  "devicesSettingsTitle": {
-    "message": "Linked devices",
-    "androidKey": "preferences__linked_devices"
   },
   "recoveryPhraseEmpty": {
     "message": "Enter your recovery phrase",
@@ -2202,19 +1764,6 @@
   },
   "description": {
     "message": "Description"
-  },
-  "secretWords": {
-    "message": "Please check that the words below match the ones shown on your other device",
-    "androidKey": "view_device_linking_explanation_2"
-  },
-  "pairingDevice": {
-    "message": "Linking Device",
-    "androidKey": "DeviceProvisioningActivity_content_progress_title",
-    "ignoreCase": true
-  },
-  "devicePairedSuccessfully": {
-    "message": "Your device has been linked successfully",
-    "androidKey": "view_device_linking_explanation_3"
   },
   "invalidGroupNameTooShort": {
     "message": "Please enter a group name",
