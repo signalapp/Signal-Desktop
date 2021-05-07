@@ -374,7 +374,7 @@ async function handleRegularMessage(
   // Check if we need to update any profile names
   // the only profile we don't update with what is coming here is ours,
   // as our profile is shared accross our devices with a ConfigurationMessage
-  if (type === 'incoming' && dataMessage.profile && dataMessage.profile && dataMessage.profileKey) {
+  if (type === 'incoming' && dataMessage.profile) {
     void updateProfileOneAtATime(
       sendingDeviceConversation,
       dataMessage.profile,
