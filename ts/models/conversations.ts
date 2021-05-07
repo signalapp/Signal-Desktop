@@ -4,6 +4,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 import { ProfileKeyCredentialRequestContext } from 'zkgroup';
+import { compact } from 'lodash';
 import {
   MessageModelCollectionType,
   WhatIsThis,
@@ -15,7 +16,6 @@ import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import {
   CallbackResultType,
   GroupV2InfoType,
-  SendMetadataType,
   SendOptionsType,
 } from '../textsecure/SendMessage';
 import {
@@ -26,7 +26,6 @@ import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
 import { isConversationUnregistered } from '../util/isConversationUnregistered';
-import { assert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
@@ -35,7 +34,6 @@ import {
   base64ToArrayBuffer,
   deriveAccessKey,
   fromEncodedBinaryToArrayBuffer,
-  getRandomBytes,
   stringFromBytes,
   trimForDisplay,
   verifyAccessKey,
@@ -45,16 +43,13 @@ import { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
-import {
-  PhoneNumberSharingMode,
-  parsePhoneNumberSharingMode,
-} from '../util/phoneNumberSharingMode';
-import {
-  SenderCertificateMode,
-  SerializedCertificateType,
-} from '../textsecure/OutgoingMessage';
-import { senderCertificateService } from '../services/senderCertificate';
 import { ourProfileKeyService } from '../services/ourProfileKey';
+import { getSendOptions } from '../util/getSendOptions';
+import { isConversationAccepted } from '../util/isConversationAccepted';
+import { markConversationRead } from '../util/markConversationRead';
+import { handleMessageSend } from '../util/handleMessageSend';
+import { getConversationMembers } from '../util/getConversationMembers';
+import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -1211,6 +1206,7 @@ export class ConversationModel extends window.Backbone
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const model = this.messageCollection!.add(message, { merge: true });
+    // TODO use MessageUpdater.setToExpire
     model.setToExpire();
 
     if (!existing) {
@@ -1535,7 +1531,7 @@ export class ConversationModel extends window.Backbone
 
       if (isLocalAction) {
         // eslint-disable-next-line no-await-in-loop
-        await this.sendReadReceiptsFor(receiptSpecs);
+        await sendReadReceiptsFor(this.attributes, receiptSpecs);
       }
 
       // eslint-disable-next-line no-await-in-loop
@@ -2304,43 +2300,7 @@ export class ConversationModel extends window.Backbone
    * of message requests
    */
   getAccepted(): boolean {
-    const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
-      'desktop.messageRequests'
-    );
-
-    if (!messageRequestsEnabled) {
-      return true;
-    }
-
-    if (this.isMe()) {
-      return true;
-    }
-
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
-    if (this.getMessageRequestResponseType() === messageRequestEnum.ACCEPT) {
-      return true;
-    }
-
-    const isFromOrAddedByTrustedContact = this.isFromOrAddedByTrustedContact();
-    const hasSentMessages = this.getSentMessageCount() > 0;
-    const hasMessagesBeforeMessageRequests =
-      (this.get('messageCountBeforeMessageRequests') || 0) > 0;
-    const hasNoMessages = (this.get('messageCount') || 0) === 0;
-
-    const isEmptyPrivateConvo = hasNoMessages && this.isPrivate();
-    const isEmptyWhitelistedGroup =
-      hasNoMessages && !this.isPrivate() && this.get('profileSharing');
-
-    return (
-      isFromOrAddedByTrustedContact ||
-      hasSentMessages ||
-      hasMessagesBeforeMessageRequests ||
-      // an empty group is the scenario where we need to rely on
-      // whether the profile has already been shared or not
-      isEmptyPrivateConvo ||
-      isEmptyWhitelistedGroup
-    );
+    return isConversationAccepted(this.attributes);
   }
 
   onMemberVerifiedChange(): void {
@@ -2631,12 +2591,6 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  getUnread(): Promise<MessageModelCollectionType> {
-    return window.Signal.Data.getUnreadByConversation(this.id, {
-      MessageCollection: window.Whisper.MessageCollection,
-    });
-  }
-
   validate(attributes = this.attributes): string | null {
     const required = ['type'];
     const missing = window._.filter(required, attr => !attributes[attr]);
@@ -2785,50 +2739,11 @@ export class ConversationModel extends window.Backbone
   getMembers(
     options: { includePendingMembers?: boolean } = {}
   ): Array<ConversationModel> {
-    if (this.isPrivate()) {
-      return [this];
-    }
-
-    if (this.get('membersV2')) {
-      const { includePendingMembers } = options;
-      const members: Array<{ conversationId: string }> = includePendingMembers
-        ? [
-            ...(this.get('membersV2') || []),
-            ...(this.get('pendingMembersV2') || []),
-          ]
-        : this.get('membersV2') || [];
-
-      return window._.compact(
-        members.map(member => {
-          const c = window.ConversationController.get(member.conversationId);
-
-          // In groups we won't sent to contacts we believe are unregistered
-          if (c && c.isUnregistered()) {
-            return null;
-          }
-
-          return c;
-        })
-      );
-    }
-
-    if (this.get('members')) {
-      return window._.compact(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.get('members')!.map(id => {
-          const c = window.ConversationController.get(id);
-
-          // In groups we won't send to contacts we believe are unregistered
-          if (c && c.isUnregistered()) {
-            return null;
-          }
-
-          return c;
-        })
-      );
-    }
-
-    return [];
+    return compact(
+      getConversationMembers(this.attributes, options).map(conversationAttrs =>
+        window.ConversationController.get(conversationAttrs.id)
+      )
+    );
   }
 
   getMemberIds(): Array<string> {
@@ -3477,198 +3392,13 @@ export class ConversationModel extends window.Backbone
   async wrapSend(
     promise: Promise<CallbackResultType | void | null>
   ): Promise<CallbackResultType | void | null> {
-    return promise.then(
-      async result => {
-        // success
-        if (result) {
-          await this.handleMessageSendResult(
-            result.failoverIdentifiers,
-            result.unidentifiedDeliveries
-          );
-        }
-        return result;
-      },
-      async result => {
-        // failure
-        if (result) {
-          await this.handleMessageSendResult(
-            result.failoverIdentifiers,
-            result.unidentifiedDeliveries
-          );
-        }
-        throw result;
-      }
-    );
+    return handleMessageSend(promise);
   }
 
-  async handleMessageSendResult(
-    failoverIdentifiers: Array<string> | undefined,
-    unidentifiedDeliveries: Array<string> | undefined
-  ): Promise<void> {
-    await Promise.all(
-      (failoverIdentifiers || []).map(async identifier => {
-        const conversation = window.ConversationController.get(identifier);
-
-        if (
-          conversation &&
-          conversation.get('sealedSender') !== SEALED_SENDER.DISABLED
-        ) {
-          window.log.info(
-            `Setting sealedSender to DISABLED for conversation ${conversation.idForLogging()}`
-          );
-          conversation.set({
-            sealedSender: SEALED_SENDER.DISABLED,
-          });
-          window.Signal.Data.updateConversation(conversation.attributes);
-        }
-      })
-    );
-
-    await Promise.all(
-      (unidentifiedDeliveries || []).map(async identifier => {
-        const conversation = window.ConversationController.get(identifier);
-
-        if (
-          conversation &&
-          conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN
-        ) {
-          if (conversation.get('accessKey')) {
-            window.log.info(
-              `Setting sealedSender to ENABLED for conversation ${conversation.idForLogging()}`
-            );
-            conversation.set({
-              sealedSender: SEALED_SENDER.ENABLED,
-            });
-          } else {
-            window.log.info(
-              `Setting sealedSender to UNRESTRICTED for conversation ${conversation.idForLogging()}`
-            );
-            conversation.set({
-              sealedSender: SEALED_SENDER.UNRESTRICTED,
-            });
-          }
-          window.Signal.Data.updateConversation(conversation.attributes);
-        }
-      })
-    );
-  }
-
-  async getSendOptions(options = {}): Promise<SendOptionsType> {
-    const sendMetadata = await this.getSendMetadata(options);
-
-    return {
-      sendMetadata,
-    };
-  }
-
-  async getSendMetadata(
-    options: { syncMessage?: boolean; disableMeCheck?: boolean } = {}
-  ): Promise<SendMetadataType | undefined> {
-    const { syncMessage, disableMeCheck } = options;
-
-    // START: this code has an Expiration date of ~2018/11/21
-    // We don't want to enable unidentified delivery for send unless it is
-    //   also enabled for our own account.
-    const myId = window.ConversationController.getOurConversationId();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const me = window.ConversationController.get(myId)!;
-    if (!disableMeCheck && me.get('sealedSender') === SEALED_SENDER.DISABLED) {
-      return undefined;
-    }
-    // END
-
-    if (!this.isPrivate()) {
-      assert(
-        this.contactCollection,
-        'getSendMetadata: expected contactCollection to be defined'
-      );
-      const result: SendMetadataType = {};
-      await Promise.all(
-        this.contactCollection.map(async conversation => {
-          const sendMetadata =
-            (await conversation.getSendMetadata(options)) || {};
-          Object.assign(result, sendMetadata);
-        })
-      );
-      return result;
-    }
-
-    const accessKey = this.get('accessKey');
-    const sealedSender = this.get('sealedSender');
-
-    // We never send sync messages as sealed sender
-    if (syncMessage && this.isMe()) {
-      return undefined;
-    }
-
-    const e164 = this.get('e164');
-    const uuid = this.get('uuid');
-
-    const senderCertificate = await this.getSenderCertificateForDirectConversation();
-
-    // If we've never fetched user's profile, we default to what we have
-    if (sealedSender === SEALED_SENDER.UNKNOWN) {
-      const info = {
-        accessKey: accessKey || arrayBufferToBase64(getRandomBytes(16)),
-        senderCertificate,
-      };
-      return {
-        ...(e164 ? { [e164]: info } : {}),
-        ...(uuid ? { [uuid]: info } : {}),
-      };
-    }
-
-    if (sealedSender === SEALED_SENDER.DISABLED) {
-      return undefined;
-    }
-
-    const info = {
-      accessKey:
-        accessKey && sealedSender === SEALED_SENDER.ENABLED
-          ? accessKey
-          : arrayBufferToBase64(getRandomBytes(16)),
-      senderCertificate,
-    };
-
-    return {
-      ...(e164 ? { [e164]: info } : {}),
-      ...(uuid ? { [uuid]: info } : {}),
-    };
-  }
-
-  private getSenderCertificateForDirectConversation(): Promise<
-    undefined | SerializedCertificateType
-  > {
-    if (!this.isPrivate()) {
-      throw new Error(
-        'getSenderCertificateForDirectConversation should only be called for direct conversations'
-      );
-    }
-
-    const phoneNumberSharingMode = parsePhoneNumberSharingMode(
-      window.storage.get('phoneNumberSharingMode')
-    );
-
-    let certificateMode: SenderCertificateMode;
-    switch (phoneNumberSharingMode) {
-      case PhoneNumberSharingMode.Everybody:
-        certificateMode = SenderCertificateMode.WithE164;
-        break;
-      case PhoneNumberSharingMode.ContactsOnly: {
-        const isInSystemContacts = Boolean(this.get('name'));
-        certificateMode = isInSystemContacts
-          ? SenderCertificateMode.WithE164
-          : SenderCertificateMode.WithoutE164;
-        break;
-      }
-      case PhoneNumberSharingMode.Nobody:
-        certificateMode = SenderCertificateMode.WithoutE164;
-        break;
-      default:
-        throw missingCaseError(phoneNumberSharingMode);
-    }
-
-    return senderCertificateService.get(certificateMode);
+  async getSendOptions(
+    options: { syncMessage?: boolean } = {}
+  ): Promise<SendOptionsType> {
+    return getSendOptions(this.attributes, options);
   }
 
   // Is this someone who is a contact, or are we sharing our profile with them?
@@ -4234,100 +3964,18 @@ export class ConversationModel extends window.Backbone
   }
 
   async markRead(
-    newestUnreadDate: number,
-    providedOptions: { readAt?: number; sendReadReceipts: boolean }
+    newestUnreadId: number,
+    options: { readAt?: number; sendReadReceipts: boolean } = {
+      sendReadReceipts: true,
+    }
   ): Promise<void> {
-    const options = providedOptions || {};
-    window._.defaults(options, { sendReadReceipts: true });
-
-    const conversationId = this.id;
-    window.Whisper.Notifications.removeBy({ conversationId });
-
-    let unreadMessages:
-      | MessageModelCollectionType
-      | Array<MessageModel> = await this.getUnread();
-    const oldUnread = unreadMessages.filter(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      message => message.get('received_at')! <= newestUnreadDate
+    const unreadCount = await markConversationRead(
+      this.attributes,
+      newestUnreadId,
+      options
     );
-
-    let read = await Promise.all(
-      window._.map(oldUnread, async providedM => {
-        const m = window.MessageController.register(providedM.id, providedM);
-
-        // Note that this will update the message in the database
-        await m.markRead(options.readAt);
-
-        return {
-          senderE164: m.get('source'),
-          senderUuid: m.get('sourceUuid'),
-          senderId: window.ConversationController.ensureContactIds({
-            e164: m.get('source'),
-            uuid: m.get('sourceUuid'),
-          }),
-          timestamp: m.get('sent_at'),
-          hasErrors: m.hasErrors(),
-        };
-      })
-    );
-
-    // Some messages we're marking read are local notifications with no sender
-    read = window._.filter(read, m => Boolean(m.senderId));
-    unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
-
-    const unreadCount = unreadMessages.length - read.length;
     this.set({ unreadCount });
     window.Signal.Data.updateConversation(this.attributes);
-
-    // If a message has errors, we don't want to send anything out about it.
-    //   read syncs - let's wait for a client that really understands the message
-    //      to mark it read. we'll mark our local error read locally, though.
-    //   read receipts - here we can run into infinite loops, where each time the
-    //      conversation is viewed, another error message shows up for the contact
-    read = read.filter(item => !item.hasErrors);
-
-    if (read.length && options.sendReadReceipts) {
-      window.log.info(`Sending ${read.length} read syncs`);
-      // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
-      //   to a contact, we need accessKeys for both.
-      const {
-        sendOptions,
-      } = await window.ConversationController.prepareForSend(
-        window.ConversationController.getOurConversationId(),
-        { syncMessage: true }
-      );
-      await this.wrapSend(
-        window.textsecure.messaging.syncReadMessages(read, sendOptions)
-      );
-      await this.sendReadReceiptsFor(read);
-    }
-  }
-
-  async sendReadReceiptsFor(items: Array<unknown>): Promise<void> {
-    // Only send read receipts for accepted conversations
-    if (window.storage.get('read-receipt-setting') && this.getAccepted()) {
-      window.log.info(`Sending ${items.length} read receipts`);
-      const convoSendOptions = await this.getSendOptions();
-      const receiptsBySender = window._.groupBy(items, 'senderId');
-
-      await Promise.all(
-        window._.map(receiptsBySender, async (receipts, senderId) => {
-          const timestamps = window._.map(receipts, 'timestamp');
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const c = window.ConversationController.get(senderId)!;
-          await this.wrapSend(
-            window.textsecure.messaging.sendReadReceipts(
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              c.get('e164')!,
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              c.get('uuid')!,
-              timestamps,
-              convoSendOptions
-            )
-          );
-        })
-      );
-    }
   }
 
   // This is an expensive operation we use to populate the message request hero row. It
@@ -4443,8 +4091,7 @@ export class ConversationModel extends window.Backbone
         ));
       }
 
-      const sendMetadata =
-        (await c.getSendMetadata({ disableMeCheck: true })) || {};
+      const { sendMetadata = {} } = await c.getSendOptions();
       const getInfo =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         sendMetadata[c.get('uuid')!] || sendMetadata[c.get('e164')!] || {};

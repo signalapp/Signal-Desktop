@@ -67,7 +67,7 @@
 
   function getById(id) {
     const existing = messageLookup[id];
-    return existing && existing.message ? existing.message : null;
+    return existing && existing.message ? existing.message : undefined;
   }
 
   function findBySentAt(sentAt) {

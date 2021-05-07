@@ -20,6 +20,7 @@ import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
 import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 import { ourProfileKeyService } from './services/ourProfileKey';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
+import { setToExpire } from './services/MessageUpdater';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1525,10 +1526,11 @@ export async function startApp(): Promise<void> {
             `Cleanup: Starting timer for delivered message ${sentAt}`
           );
           message.set(
-            'expirationStartTimestamp',
-            expirationStartTimestamp || sentAt
+            setToExpire({
+              ...message.attributes,
+              expirationStartTimestamp: expirationStartTimestamp || sentAt,
+            })
           );
-          await message.setToExpire();
           return;
         }
 

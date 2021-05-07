@@ -97,6 +97,7 @@
         });
 
         if (message.isExpiring() && !expirationStartTimestamp) {
+          // TODO DESKTOP-1509: use setToExpire once this is TS
           await message.setToExpire(false, { skipSave: true });
         }
 

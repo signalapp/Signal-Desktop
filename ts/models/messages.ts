@@ -28,6 +28,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import { ColorType } from '../types/Colors';
 import { CallMode } from '../types/Calling';
 import { BodyRangesType } from '../types/Util';
+import { ReactionType } from '../types/Reactions';
 import { PropsDataType as GroupsV2Props } from '../components/conversation/GroupV2Change';
 import {
   PropsData as TimerNotificationProps,
@@ -50,6 +51,7 @@ import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { MIMEType } from '../types/MIME';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
 import { ourProfileKeyService } from '../services/ourProfileKey';
+import { markRead, setToExpire } from '../services/MessageUpdater';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -1755,7 +1757,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (this.get('unread')) {
-      await this.markRead();
+      this.set(markRead(this.attributes));
     }
 
     await this.eraseContents();
@@ -2030,31 +2032,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
   }
 
-  async markRead(
-    readAt?: number,
-    options: { skipSave?: boolean } = {}
-  ): Promise<void> {
-    const { skipSave } = options;
-
-    this.unset('unread');
-
-    if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
-      const expirationStartTimestamp = Math.min(
-        Date.now(),
-        readAt || Date.now()
-      );
-      this.set({ expirationStartTimestamp });
-    }
-
-    window.Whisper.Notifications.removeBy({ messageId: this.id });
-
-    if (!skipSave) {
-      window.Signal.Util.queueUpdateMessage(this.attributes);
-    }
+  markRead(readAt?: number, options = {}): void {
+    this.set(markRead(this.attributes, readAt, options));
   }
 
   isExpiring(): number | null {
     return this.get('expireTimer') && this.get('expirationStartTimestamp');
+  }
+
+  setToExpire(force = false, options = {}): void {
+    this.set(setToExpire(this.attributes, { ...options, force }));
   }
 
   isExpired(): boolean {
@@ -2074,33 +2061,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       msFromNow = 0;
     }
     return msFromNow;
-  }
-
-  async setToExpire(
-    force = false,
-    options: { skipSave?: boolean } = {}
-  ): Promise<void> {
-    const { skipSave } = options || {};
-
-    if (this.isExpiring() && (force || !this.get('expires_at'))) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const start = this.get('expirationStartTimestamp')!;
-      const delta = this.get('expireTimer') * 1000;
-      const expiresAt = start + delta;
-
-      this.set({ expires_at: expiresAt });
-
-      window.log.info('Set message expiration', {
-        start,
-        expiresAt,
-        sentAt: this.get('sent_at'),
-      });
-
-      const id = this.get('id');
-      if (id && !skipSave) {
-        window.Signal.Util.queueUpdateMessage(this.attributes);
-      }
-    }
   }
 
   getIncomingContact(): ConversationModel | undefined | null {
@@ -4110,7 +4070,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       this.get('conversationId')
     );
 
-    let staleReactionFromId: string | undefined;
+    let reactionToRemove: Partial<ReactionType> | undefined;
 
     if (reaction.get('remove')) {
       window.log.info('Removing reaction for message', messageId);
@@ -4121,7 +4081,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
       this.set({ reactions: newReactions });
 
-      staleReactionFromId = reaction.get('fromId');
+      reactionToRemove = {
+        emoji: reaction.get('emoji'),
+        targetAuthorUuid: reaction.get('targetAuthorUuid'),
+        targetTimestamp: reaction.get('targetTimestamp'),
+      };
+
+      await window.Signal.Data.removeReactionFromConversation({
+        emoji: reaction.get('emoji'),
+        fromId: reaction.get('fromId'),
+        targetAuthorUuid: reaction.get('targetAuthorUuid'),
+        targetTimestamp: reaction.get('targetTimestamp'),
+      });
     } else {
       window.log.info('Adding reaction for message', messageId);
       const newReactions = reactions.filter(
@@ -4134,8 +4105,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         re => re.fromId === reaction.get('fromId')
       );
       if (oldReaction) {
-        staleReactionFromId = oldReaction.fromId;
+        reactionToRemove = {
+          emoji: oldReaction.emoji,
+          targetAuthorUuid: oldReaction.targetAuthorUuid,
+          targetTimestamp: oldReaction.targetTimestamp,
+        };
       }
+
+      await window.Signal.Data.addReaction({
+        conversationId: this.get('conversationId'),
+        emoji: reaction.get('emoji'),
+        fromId: reaction.get('fromId'),
+        messageReceivedAt: this.get('received_at'),
+        targetAuthorUuid: reaction.get('targetAuthorUuid'),
+        targetTimestamp: reaction.get('targetTimestamp'),
+      });
 
       // Only notify for reactions to our own messages
       if (conversation && this.isOutgoing() && !reaction.get('fromSync')) {
@@ -4143,8 +4127,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
-    if (staleReactionFromId) {
-      this.clearNotifications(reaction.get('fromId'));
+    if (reactionToRemove) {
+      this.clearNotifications(reactionToRemove);
     }
 
     const newCount = (this.get('reactions') || []).length;
@@ -4184,10 +4168,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.getConversation()!.updateLastMessage();
   }
 
-  clearNotifications(reactionFromId?: string): void {
+  clearNotifications(reaction: Partial<ReactionType> = {}): void {
     window.Whisper.Notifications.removeBy({
+      ...reaction,
       messageId: this.id,
-      reactionFromId,
     });
   }
 }

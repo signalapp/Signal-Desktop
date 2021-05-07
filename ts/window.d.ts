@@ -587,9 +587,9 @@ export type DCodeIOType = {
 };
 
 type MessageControllerType = {
-  getById: (id: string) => MessageModel | undefined;
   findBySender: (sender: string) => MessageModel | null;
   findBySentAt: (sentAt: number) => MessageModel | null;
+  getById: (id: string) => MessageModel | undefined;
   register: (id: string, model: MessageModel) => MessageModel;
   unregister: (id: string) => void;
 };

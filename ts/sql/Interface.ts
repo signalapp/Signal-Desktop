@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {
   ConversationAttributesType,
   ConversationModelCollectionType,
@@ -14,6 +13,7 @@ import {
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
 import { StoredJob } from '../jobs/types';
+import { ReactionType } from '../types/Reactions';
 
 export type AttachmentDownloadJobType = {
   id: string;
@@ -343,9 +343,32 @@ export type ServerInterface = DataInterface & {
   getNextTapToViewMessageToAgeOut: () => Promise<MessageType | undefined>;
   getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
-  getUnreadByConversation: (
-    conversationId: string
-  ) => Promise<Array<MessageType>>;
+  getUnreadByConversationAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number,
+    readAt?: number
+  ) => Promise<
+    Array<
+      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
+    >
+  >;
+  getUnreadReactionsAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number
+  ) => Promise<
+    Array<Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp'>>
+  >;
+  markReactionAsRead: (
+    targetAuthorUuid: string,
+    targetTimestamp: number
+  ) => Promise<ReactionType | undefined>;
+  removeReactionFromConversation: (reaction: {
+    emoji: string;
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+  }) => Promise<void>;
+  addReaction: (reactionObj: ReactionType) => Promise<void>;
   removeConversation: (id: Array<string> | string) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
   removeMessages: (ids: Array<string>) => Promise<void>;
@@ -463,10 +486,32 @@ export type ClientInterface = DataInterface & {
   getTapToViewMessagesNeedingErase: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
-  getUnreadByConversation: (
+  getUnreadByConversationAndMarkRead: (
     conversationId: string,
-    options: { MessageCollection: typeof MessageModelCollectionType }
-  ) => Promise<MessageModelCollectionType>;
+    newestUnreadId: number,
+    readAt?: number
+  ) => Promise<
+    Array<
+      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
+    >
+  >;
+  getUnreadReactionsAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number
+  ) => Promise<
+    Array<Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp'>>
+  >;
+  markReactionAsRead: (
+    targetAuthorUuid: string,
+    targetTimestamp: number
+  ) => Promise<ReactionType | undefined>;
+  removeReactionFromConversation: (reaction: {
+    emoji: string;
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+  }) => Promise<void>;
+  addReaction: (reactionObj: ReactionType) => Promise<void>;
   removeConversation: (
     id: string,
     options: { Conversation: typeof ConversationModel }

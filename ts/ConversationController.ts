@@ -723,7 +723,7 @@ export class ConversationController {
 
   async prepareForSend(
     id: string | undefined,
-    options?: { syncMessage?: boolean; disableMeCheck?: boolean }
+    options?: { syncMessage?: boolean }
   ): Promise<{
     wrap: (
       promise: Promise<CallbackResultType | void | null>

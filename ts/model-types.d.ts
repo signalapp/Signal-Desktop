@@ -109,8 +109,6 @@ export type MessageAttributesType = {
   quote?: QuotedMessageType;
   reactions?: Array<{
     emoji: string;
-    timestamp: number;
-    fromId: string;
     from: {
       id: string;
       color?: string;
@@ -120,6 +118,10 @@ export type MessageAttributesType = {
       isMe?: boolean;
       phoneNumber?: string;
     };
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+    timestamp: number;
   }>;
   read_by: Array<string | null>;
   requiredProtocolVersion: number;

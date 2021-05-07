@@ -28,6 +28,7 @@ import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
 import { assert } from '../util/assert';
 import { cleanDataForIpc } from './cleanDataForIpc';
+import { ReactionType } from '../types/Reactions';
 
 import {
   ConversationModelCollectionType,
@@ -166,7 +167,11 @@ const dataInterface: ClientInterface = {
   saveMessages,
   removeMessage,
   removeMessages,
-  getUnreadByConversation,
+  getUnreadByConversationAndMarkRead,
+  getUnreadReactionsAndMarkRead,
+  markReactionAsRead,
+  removeReactionFromConversation,
+  addReaction,
 
   getMessageBySender,
   getMessageById,
@@ -1041,15 +1046,43 @@ async function getMessageBySender(
   return new Message(messages[0]);
 }
 
-async function getUnreadByConversation(
+async function getUnreadByConversationAndMarkRead(
   conversationId: string,
-  {
-    MessageCollection,
-  }: { MessageCollection: typeof MessageModelCollectionType }
+  newestUnreadId: number,
+  readAt?: number
 ) {
-  const messages = await channels.getUnreadByConversation(conversationId);
+  return channels.getUnreadByConversationAndMarkRead(
+    conversationId,
+    newestUnreadId,
+    readAt
+  );
+}
 
-  return new MessageCollection(messages);
+async function getUnreadReactionsAndMarkRead(
+  conversationId: string,
+  newestUnreadId: number
+) {
+  return channels.getUnreadReactionsAndMarkRead(conversationId, newestUnreadId);
+}
+
+async function markReactionAsRead(
+  targetAuthorUuid: string,
+  targetTimestamp: number
+) {
+  return channels.markReactionAsRead(targetAuthorUuid, targetTimestamp);
+}
+
+async function removeReactionFromConversation(reaction: {
+  emoji: string;
+  fromId: string;
+  targetAuthorUuid: string;
+  targetTimestamp: number;
+}) {
+  return channels.removeReactionFromConversation(reaction);
+}
+
+async function addReaction(reactionObj: ReactionType) {
+  return channels.addReaction(reactionObj);
 }
 
 function handleMessageJSON(messages: Array<MessageTypeUnhydrated>) {
