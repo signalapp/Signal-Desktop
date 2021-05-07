@@ -11,6 +11,7 @@ import {
 } from '../opengroup/opengroupV2/OpenGroupAPIV2';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { FSv2 } from '../fileserver';
+import { getUnpaddedAttachment } from '../session/crypto/BufferPadding';
 
 export async function downloadAttachment(attachment: any) {
   const serverUrl = new URL(attachment.url).origin;
@@ -69,14 +70,13 @@ export async function downloadAttachment(attachment: any) {
     if (!size || size !== data.byteLength) {
       // we might have padding, check that all the remaining bytes are padding bytes
       // otherwise we have an error.
-      if (AttachmentUtils.isLeftOfBufferPaddingOnly(data, size)) {
-        // we can safely remove the padding
-        data = data.slice(0, size);
-      } else {
+      const unpaddedData = getUnpaddedAttachment(data, size);
+      if (!unpaddedData) {
         throw new Error(
           `downloadAttachment: Size ${size} did not match downloaded attachment size ${data.byteLength}`
         );
       }
+      data = unpaddedData;
     }
   }
 
@@ -120,17 +120,17 @@ export async function downloadAttachmentOpenGroupV2(
   if (attachment.size !== dataUint.length) {
     // we might have padding, check that all the remaining bytes are padding bytes
     // otherwise we have an error.
-    if (AttachmentUtils.isLeftOfBufferPaddingOnly(dataUint.buffer, attachment.size)) {
-      // we can safely remove the padding
-      data = data.slice(0, attachment.size);
-    } else {
+    const unpaddedData = getUnpaddedAttachment(dataUint.buffer, attachment.size);
+    if (!unpaddedData) {
       throw new Error(
         `downloadAttachment: Size ${attachment.size} did not match downloaded attachment size ${data.byteLength}`
       );
     }
+    data = new Uint8Array(unpaddedData);
   } else {
-    // nothing to do, the attachment has already the correct size. There is just no padding included, which is bas
-    window.log.warn('Received opengroupv2 unpadded attachment');
+    // nothing to do, the attachment has already the correct size.
+    // There is just no padding included, which is what we agreed on
+    window.log.info('Received opengroupv2 unpadded attachment');
   }
 
   return {

@@ -6,29 +6,7 @@ import { fromHexToArray } from '../utils/String';
 export { concatUInt8Array, getSodium };
 import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
 import { UserUtils } from '../utils';
-
-/**
- * Add padding to a message buffer
- * @param messageBuffer The buffer to add padding to.
- */
-export function padPlainTextBuffer(messageBuffer: Uint8Array): Uint8Array {
-  const plaintext = new Uint8Array(getPaddedMessageLength(messageBuffer.byteLength + 1) - 1);
-  plaintext.set(new Uint8Array(messageBuffer));
-  plaintext[messageBuffer.byteLength] = 0x80;
-
-  return plaintext;
-}
-
-function getPaddedMessageLength(originalLength: number): number {
-  const messageLengthWithTerminator = originalLength + 1;
-  let messagePartCount = Math.floor(messageLengthWithTerminator / 160);
-
-  if (messageLengthWithTerminator % 160 !== 0) {
-    messagePartCount += 1;
-  }
-
-  return messagePartCount * 160;
-}
+import { addMessagePadding } from './BufferPadding';
 
 type EncryptResult = {
   envelopeType: SignalService.Envelope.Type;
@@ -53,7 +31,7 @@ export async function encrypt(
     throw new Error(`Invalid encryption type:${encryptionType}`);
   }
   const encryptForClosedGroup = encryptionType === EncryptionType.ClosedGroup;
-  const plainText = padPlainTextBuffer(plainTextBuffer);
+  const plainText = addMessagePadding(plainTextBuffer);
 
   if (encryptForClosedGroup) {
     window?.log?.info(
