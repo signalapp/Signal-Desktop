@@ -273,6 +273,10 @@ async function handleDecryptedEnvelope(envelope: EnvelopePlus, plaintext: ArrayB
   }
 }
 
+/**
+ * Only used for opengroupv1 it seems.
+ * To be removed soon
+ */
 export async function handlePublicMessage(messageData: any) {
   const { source } = messageData;
   const { group, profile, profileKey } = messageData.message;
@@ -302,7 +306,7 @@ export async function handlePublicMessage(messageData: any) {
     },
   };
 
-  await handleMessageEvent(ev); // open groups
+  await handleMessageEvent(ev); // open groups v1
 }
 
 export async function handleOpenGroupV2Message(
