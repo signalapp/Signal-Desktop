@@ -31,7 +31,7 @@ export function removeMessagePadding(paddedData: ArrayBuffer): ArrayBuffer {
  * @param messageBuffer The buffer to add padding to.
  */
 export function addMessagePadding(messageBuffer: Uint8Array): Uint8Array {
-  window.log.info('Adding message padding...');
+  window.log?.info('Adding message padding...');
 
   const plaintext = new Uint8Array(getPaddedMessageLength(messageBuffer.byteLength + 1) - 1);
   plaintext.set(new Uint8Array(messageBuffer));
@@ -51,16 +51,14 @@ function getPaddedMessageLength(originalLength: number): number {
   return messagePartCount * 160;
 }
 
-/**
- *
+/*
  * If the attachment has padding, remove the padding and return the unpad attachment
-
  */
 export function getUnpaddedAttachment(
   data: ArrayBuffer,
   unpaddedExpectedSize: number
 ): ArrayBuffer | null {
-  window.log.info('Removing attachment padding...');
+  window.log?.info('Removing attachment padding...');
 
   // to have a padding we must have a strictly longer length expected
   if (data.byteLength <= unpaddedExpectedSize) {
