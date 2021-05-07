@@ -241,9 +241,12 @@ async function acceptOpenGroupInvitationV1(serverAddress: string) {
   }
 }
 
-const acceptOpenGroupInvitationV2 = async (completeUrl: string) => {
+const acceptOpenGroupInvitationV2 = (completeUrl: string) => {
+  window.confirmationDialog({
+    message: window.i18n('joinOpenGroupAfterInvitationConfirmation'),
+    resolve: () => joinOpenGroupV2WithUIEvents(completeUrl, true),
+  });
   // this function does not throw, and will showToasts if anything happens
-  await joinOpenGroupV2WithUIEvents(completeUrl, true);
 };
 
 /**
@@ -251,7 +254,7 @@ const acceptOpenGroupInvitationV2 = async (completeUrl: string) => {
  */
 export const acceptOpenGroupInvitation = async (completeUrl: string) => {
   if (completeUrl.match(openGroupV2CompleteURLRegex)) {
-    await acceptOpenGroupInvitationV2(completeUrl);
+    acceptOpenGroupInvitationV2(completeUrl);
   } else {
     await acceptOpenGroupInvitationV1(completeUrl);
   }
