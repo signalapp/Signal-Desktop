@@ -24,6 +24,8 @@ type CreateHandlerOptions = {
   readonly onChallengeFailed?: (retryAfter?: number) => void;
 };
 
+const NEVER_RETRY = Date.now() + 365 * 24 * 3600 * 1000;
+
 describe('ChallengeHandler', () => {
   const storage = new Map<string, any>();
   const messageStorage = new Map<string, MinimalMessage>();
@@ -173,7 +175,7 @@ describe('ChallengeHandler', () => {
   it('should send challenge response', async () => {
     const handler = await createHandler({ challenge: true });
 
-    const one = createMessage('1', { retryAfter: Date.now() + 100000 });
+    const one = createMessage('1', { retryAfter: NEVER_RETRY });
     messageStorage.set('1', one);
 
     await handler.register(one);
@@ -348,7 +350,7 @@ describe('ChallengeHandler', () => {
     });
 
     const one = createMessage('1', {
-      retryAfter: Date.now() + 1,
+      retryAfter: NEVER_RETRY,
     });
     messageStorage.set('1', one);
     await handler.register(one);
@@ -369,7 +371,7 @@ describe('ChallengeHandler', () => {
     });
 
     const one = createMessage('1', {
-      retryAfter: Date.now() + 1,
+      retryAfter: NEVER_RETRY,
     });
     messageStorage.set('1', one);
     await handler.register(one);
