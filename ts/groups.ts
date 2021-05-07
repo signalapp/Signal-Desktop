@@ -22,6 +22,7 @@ import { isStorageWriteFeatureEnabled } from './storage/isFeatureEnabled';
 import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assert } from './util/assert';
+import { isMoreRecentThan } from './util/timestamp';
 import {
   ConversationAttributesType,
   GroupV2MemberType,
@@ -2597,6 +2598,8 @@ type MaybeUpdatePropsType = {
   dropInitialJoinMessage?: boolean;
 };
 
+const FIVE_MINUTES = 1000 * 60 * 5;
+
 export async function waitThenMaybeUpdateGroup(
   options: MaybeUpdatePropsType,
   { viaSync = false } = {}
@@ -2607,10 +2610,23 @@ export async function waitThenMaybeUpdateGroup(
   // Then wait to process all outstanding messages for this conversation
   const { conversation } = options;
 
+  const { lastSuccessfulGroupFetch = 0 } = conversation;
+
+  if (isMoreRecentThan(lastSuccessfulGroupFetch, FIVE_MINUTES)) {
+    const waitTime = lastSuccessfulGroupFetch + FIVE_MINUTES - Date.now();
+    window.log.info(
+      `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: group update ` +
+        `was fetched recently, skipping for ${waitTime}ms`
+    );
+    return;
+  }
+
   await conversation.queueJob(async () => {
     try {
       // And finally try to update the group
       await maybeUpdateGroup(options, { viaSync });
+
+      conversation.lastSuccessfulGroupFetch = Date.now();
     } catch (error) {
       window.log.error(
         `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: maybeUpdateGroup failure:`,

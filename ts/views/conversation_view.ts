@@ -391,12 +391,6 @@ Whisper.ConversationView = Whisper.View.extend({
         this.model.updateSharedGroups.bind(this.model),
         FIVE_MINUTES
       );
-    this.model.throttledFetchLatestGroupV2Data =
-      this.model.throttledFetchLatestGroupV2Data ||
-      window._.throttle(
-        this.model.fetchLatestGroupV2Data.bind(this.model),
-        FIVE_MINUTES
-      );
     this.model.throttledMaybeMigrateV1Group =
       this.model.throttledMaybeMigrateV1Group ||
       window._.throttle(
@@ -2181,7 +2175,7 @@ Whisper.ConversationView = Whisper.View.extend({
       this.setQuoteMessage(quotedMessageId);
     }
 
-    this.model.throttledFetchLatestGroupV2Data();
+    this.model.fetchLatestGroupV2Data();
     this.model.throttledMaybeMigrateV1Group();
 
     const statusPromise = this.model.throttledGetProfiles();

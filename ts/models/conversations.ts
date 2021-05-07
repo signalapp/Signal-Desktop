@@ -150,6 +150,8 @@ export class ConversationModel extends window.Backbone
 
   intlCollator = new Intl.Collator(undefined, { sensitivity: 'base' });
 
+  lastSuccessfulGroupFetch?: number;
+
   private cachedLatestGroupCallEraId?: string;
 
   private cachedIdenticon?: CachedIdenticon;
