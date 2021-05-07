@@ -17,14 +17,21 @@ type CreateMessageOptions = {
 };
 
 type CreateHandlerOptions = {
-  readonly challenge?: boolean;
+  readonly autoSolve?: boolean;
   readonly challengeError?: Error;
   readonly expireAfter?: number;
   readonly onChallengeSolved?: () => void;
   readonly onChallengeFailed?: (retryAfter?: number) => void;
 };
 
-const NEVER_RETRY = Date.now() + 365 * 24 * 3600 * 1000;
+const ONE_DAY = 24 * 3600 * 1000;
+const NEVER_RETRY = Date.now() + ONE_DAY;
+const IMMEDIATE_RETRY = Date.now() - ONE_DAY;
+
+// Various timeouts in milliseconds
+const DEFAULT_RETRY_AFTER = 25;
+const SOLVE_AFTER = 5;
+const LEEWAY = 25;
 
 describe('ChallengeHandler', () => {
   const storage = new Map<string, any>();
@@ -46,7 +53,7 @@ describe('ChallengeHandler', () => {
     const {
       sentAt = 0,
       isNormalBubble = true,
-      retryAfter = Date.now() + 25,
+      retryAfter = Date.now() + DEFAULT_RETRY_AFTER,
     } = options;
 
     const testLocalSent = sent;
@@ -82,7 +89,6 @@ describe('ChallengeHandler', () => {
         events.delete(name);
       },
       async retrySend() {
-        await sleep(5);
         const handler = events.get('sent');
         if (!handler) {
           throw new Error('Expected handler');
@@ -94,7 +100,7 @@ describe('ChallengeHandler', () => {
   };
 
   const createHandler = async ({
-    challenge = false,
+    autoSolve = false,
     challengeError,
     expireAfter,
     onChallengeSolved = noop,
@@ -116,7 +122,7 @@ describe('ChallengeHandler', () => {
       onChallengeFailed,
 
       requestChallenge(request) {
-        if (!challenge) {
+        if (!autoSolve) {
           return;
         }
 
@@ -125,7 +131,7 @@ describe('ChallengeHandler', () => {
             seq: request.seq,
             data: { captcha: 'captcha' },
           });
-        }, 5);
+        }, SOLVE_AFTER);
       },
 
       async getMessageById(messageId) {
@@ -165,7 +171,7 @@ describe('ChallengeHandler', () => {
     assert.isTrue(isInStorage(one.id));
     assert.equal(challengeStatus, 'required');
 
-    await sleep(50);
+    await sleep(DEFAULT_RETRY_AFTER + LEEWAY);
 
     assert.deepEqual(sent, ['1']);
     assert.equal(challengeStatus, 'idle');
@@ -173,7 +179,7 @@ describe('ChallengeHandler', () => {
   });
 
   it('should send challenge response', async () => {
-    const handler = await createHandler({ challenge: true });
+    const handler = await createHandler({ autoSolve: true });
 
     const one = createMessage('1', { retryAfter: NEVER_RETRY });
     messageStorage.set('1', one);
@@ -181,7 +187,7 @@ describe('ChallengeHandler', () => {
     await handler.register(one);
     assert.equal(challengeStatus, 'required');
 
-    await sleep(50);
+    await sleep(DEFAULT_RETRY_AFTER + SOLVE_AFTER + LEEWAY);
 
     assert.deepEqual(sent, ['1']);
     assert.isFalse(isInStorage(one.id));
@@ -191,13 +197,11 @@ describe('ChallengeHandler', () => {
   it('should send old messages', async () => {
     const handler = await createHandler();
 
-    const retryAfter = Date.now() + 50;
-
     // Put messages in reverse order to validate that the send order is correct
     const messages = [
-      createMessage('3', { sentAt: 3, retryAfter }),
-      createMessage('2', { sentAt: 2, retryAfter }),
-      createMessage('1', { sentAt: 1, retryAfter }),
+      createMessage('3', { sentAt: 3 }),
+      createMessage('2', { sentAt: 2 }),
+      createMessage('1', { sentAt: 1 }),
     ];
     for (const message of messages) {
       messageStorage.set(message.id, message);
@@ -218,7 +222,7 @@ describe('ChallengeHandler', () => {
     await handler.onOffline();
 
     // Wait for messages to mature
-    await sleep(50);
+    await sleep(DEFAULT_RETRY_AFTER + LEEWAY);
 
     // Create new handler to load old messages from storage
     await createHandler();
@@ -241,7 +245,7 @@ describe('ChallengeHandler', () => {
   it('should send message immediately if it is ready', async () => {
     const handler = await createHandler();
 
-    const one = createMessage('1', { retryAfter: Date.now() - 100 });
+    const one = createMessage('1', { retryAfter: IMMEDIATE_RETRY });
     await handler.register(one);
 
     assert.equal(challengeStatus, 'idle');
@@ -251,13 +255,15 @@ describe('ChallengeHandler', () => {
   it('should not change challenge status on non-bubble messages', async () => {
     const handler = await createHandler();
 
-    const one = createMessage('1', { isNormalBubble: false });
+    const one = createMessage('1', {
+      isNormalBubble: false,
+    });
     await handler.register(one);
 
     assert.equal(challengeStatus, 'idle');
     assert.deepEqual(sent, []);
 
-    await sleep(50);
+    await sleep(DEFAULT_RETRY_AFTER + LEEWAY);
     assert.deepEqual(sent, ['1']);
   });
 
@@ -270,7 +276,7 @@ describe('ChallengeHandler', () => {
     assert.isTrue(isInStorage(bubble.id));
 
     const newHandler = await createHandler({
-      challenge: true,
+      autoSolve: true,
       expireAfter: -1,
     });
     await handler.unregister(bubble);
@@ -281,7 +287,7 @@ describe('ChallengeHandler', () => {
     assert.equal(challengeStatus, 'idle');
     assert.deepEqual(sent, []);
 
-    await sleep(25);
+    await sleep(DEFAULT_RETRY_AFTER + SOLVE_AFTER + LEEWAY);
 
     assert.equal(challengeStatus, 'idle');
     assert.deepEqual(sent, []);
@@ -302,7 +308,7 @@ describe('ChallengeHandler', () => {
     await handler.onOffline();
 
     // Let messages mature
-    await sleep(50);
+    await sleep(DEFAULT_RETRY_AFTER + LEEWAY);
 
     assert.isTrue(isInStorage(one.id));
     assert.deepEqual(sent, []);
@@ -319,9 +325,7 @@ describe('ChallengeHandler', () => {
   it('should not retry more than 5 times', async () => {
     const handler = await createHandler();
 
-    const one = createMessage('1', {
-      retryAfter: Date.now() + 50,
-    });
+    const one = createMessage('1');
     messageStorage.set('1', one);
     await handler.register(one);
 
@@ -331,8 +335,8 @@ describe('ChallengeHandler', () => {
     assert.deepEqual(sent, []);
     assert.equal(challengeStatus, 'required');
 
-    // Let it spam the server
-    await sleep(100);
+    // Let it spam the server.
+    await sleep(DEFAULT_RETRY_AFTER + LEEWAY);
 
     assert.isTrue(isInStorage(one.id));
     assert.deepEqual(sent, []);
@@ -345,18 +349,16 @@ describe('ChallengeHandler', () => {
     const onChallengeSolved = sinon.stub();
 
     const handler = await createHandler({
-      challenge: true,
+      autoSolve: true,
       onChallengeSolved,
     });
 
-    const one = createMessage('1', {
-      retryAfter: NEVER_RETRY,
-    });
+    const one = createMessage('1', { retryAfter: NEVER_RETRY });
     messageStorage.set('1', one);
     await handler.register(one);
 
     // Let the challenge go through
-    await sleep(50);
+    await sleep(SOLVE_AFTER + LEEWAY);
 
     sinon.assert.calledOnce(onChallengeSolved);
   });
@@ -365,19 +367,17 @@ describe('ChallengeHandler', () => {
     const onChallengeFailed = sinon.stub();
 
     const handler = await createHandler({
-      challenge: true,
+      autoSolve: true,
       challengeError: new Error('custom failure'),
       onChallengeFailed,
     });
 
-    const one = createMessage('1', {
-      retryAfter: NEVER_RETRY,
-    });
+    const one = createMessage('1', { retryAfter: NEVER_RETRY });
     messageStorage.set('1', one);
     await handler.register(one);
 
     // Let the challenge go through
-    await sleep(50);
+    await sleep(SOLVE_AFTER + LEEWAY);
 
     sinon.assert.calledOnce(onChallengeFailed);
   });
