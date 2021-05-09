@@ -146,6 +146,8 @@ export const LeftPane: React.FC<PropsType> = ({
     modeSpecificProps
   );
 
+  const previousMessageId = usePrevious(selectedMessageId, selectedMessageId);
+
   // The left pane can be in various modes: the inbox, the archive, the composer, etc.
   //   Ideally, this would render subcomponents such as `<LeftPaneInbox>` or
   //   `<LeftPaneArchive>` (and if there's a way to do that cleanly, we should refactor
@@ -286,7 +288,7 @@ export const LeftPane: React.FC<PropsType> = ({
           conversationToOpen = helper.getConversationAndMessageInDirection(
             toFind,
             selectedConversationId,
-            selectedMessageId
+            selectedMessageId || previousMessageId
           );
         }
       }
@@ -309,6 +311,7 @@ export const LeftPane: React.FC<PropsType> = ({
     selectedConversationId,
     selectedMessageId,
     startComposing,
+    previousMessageId,
   ]);
 
   const preRowsNode = helper.getPreRowsNode({
