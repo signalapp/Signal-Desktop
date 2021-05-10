@@ -14,7 +14,8 @@ import { FSv2 } from '../fileserver';
 import { getUnpaddedAttachment } from '../session/crypto/BufferPadding';
 
 export async function downloadAttachment(attachment: any) {
-  const serverUrl = new URL(attachment.url).origin;
+  const asURL = new URL(attachment.url);
+  const serverUrl = asURL.origin;
 
   // The fileserver adds the `-static` part for some reason
   const defaultFileserver = _.includes(
@@ -27,12 +28,13 @@ export async function downloadAttachment(attachment: any) {
   let res: ArrayBuffer | null = null;
 
   if (defaultFsV2) {
-    if (!attachment.id) {
-      window.log.warn('Cannot download fsv2 file with empty id');
-      return;
+    let attachmentId = attachment.id;
+    if (!attachmentId) {
+      // try to get the fileId from the end of the URL
+      attachmentId = attachment.url;
     }
     window.log.info('Download v2 file server attachment');
-    res = await FSv2.downloadFileFromFSv2(attachment.id);
+    res = await FSv2.downloadFileFromFSv2(attachmentId);
   } else if (!defaultFileserver) {
     // TODO: we need attachments to remember which API should be used to retrieve them
     const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(serverUrl);
