@@ -8,6 +8,7 @@ import Delta from 'quill-delta';
 import { matchMention } from '../../../quill/mentions/matchers';
 import { MemberRepository } from '../../../quill/memberRepository';
 import { ConversationType } from '../../../state/ducks/conversations';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 class FakeTokenList<T> extends Array<T> {
   constructor(elements: Array<T>) {
@@ -37,7 +38,7 @@ const createMockMentionBlotElement = (
   dataset: Record<string, string>
 ): HTMLElement => createMockElement('mention-blot', dataset);
 
-const memberMahershala: ConversationType = {
+const memberMahershala: ConversationType = getDefaultConversation({
   id: '555444',
   uuid: 'abcdefg',
   title: 'Mahershala Ali',
@@ -47,9 +48,9 @@ const memberMahershala: ConversationType = {
   lastUpdated: Date.now(),
   markedUnread: false,
   areWeAdmin: false,
-};
+});
 
-const memberShia: ConversationType = {
+const memberShia: ConversationType = getDefaultConversation({
   id: '333222',
   uuid: 'hijklmno',
   title: 'Shia LaBeouf',
@@ -59,7 +60,7 @@ const memberShia: ConversationType = {
   lastUpdated: Date.now(),
   markedUnread: false,
   areWeAdmin: false,
-};
+});
 
 const members: Array<ConversationType> = [memberMahershala, memberShia];
 

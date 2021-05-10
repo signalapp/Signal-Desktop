@@ -15,21 +15,25 @@ import {
   PropsData as MessagePropsDataType,
 } from './Message';
 import { LocalizerType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
+import { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
 
-export type Contact = {
+export type Contact = Pick<
+  ConversationType,
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'isMe'
+  | 'name'
+  | 'phoneNumber'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+  | 'unblurredAvatarPath'
+> & {
   status: MessageStatusType | null;
 
-  acceptedMessageRequest?: boolean;
-  title: string;
-  phoneNumber?: string;
-  name?: string;
-  profileName?: string;
-  avatarPath?: string;
-  color?: ColorType;
   isOutgoingKeyError: boolean;
-  sharedGroupNames?: Array<string>;
   isUnidentifiedDelivery: boolean;
   unblurredAvatarPath?: string;
 
@@ -95,6 +99,7 @@ export class MessageDetail extends React.Component<Props> {
       acceptedMessageRequest,
       avatarPath,
       color,
+      isMe,
       name,
       phoneNumber,
       profileName,
@@ -110,6 +115,7 @@ export class MessageDetail extends React.Component<Props> {
         color={color}
         conversationType="direct"
         i18n={i18n}
+        isMe={isMe}
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}

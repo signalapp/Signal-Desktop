@@ -4,7 +4,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { LocalizerType } from '../types/Util';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarBlur } from './Avatar';
 import { Spinner } from './Spinner';
 import { Button, ButtonVariant } from './Button';
 
@@ -77,10 +77,14 @@ export const GroupV2JoinDialog = React.memo((props: PropsType) => {
       />
       <div className="module-group-v2-join-dialog__avatar">
         <Avatar
+          acceptedMessageRequest={false}
           avatarPath={avatar ? avatar.url : undefined}
+          blur={AvatarBlur.NoBlur}
           loading={avatar && !avatar.url}
           conversationType="group"
           title={title}
+          isMe={false}
+          sharedGroupNames={[]}
           size={80}
           i18n={i18n}
         />

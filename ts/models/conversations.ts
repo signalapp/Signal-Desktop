@@ -18,10 +18,7 @@ import {
   SendMetadataType,
   SendOptionsType,
 } from '../textsecure/SendMessage';
-import {
-  ConversationType,
-  ConversationTypeType,
-} from '../state/ducks/conversations';
+import { ConversationType } from '../state/ducks/conversations';
 import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
@@ -1389,7 +1386,6 @@ export class ConversationModel extends window.Backbone.Model<
       profileSharing: this.get('profileSharing'),
       publicParams: this.get('publicParams'),
       secretParams: this.get('secretParams'),
-      sharedGroupNames: this.get('sharedGroupNames'),
       shouldShowDraft,
       sortedGroupMembers,
       timestamp,
@@ -1397,8 +1393,16 @@ export class ConversationModel extends window.Backbone.Model<
       searchableTitle: this.isMe()
         ? window.i18n('noteToSelf')
         : this.getTitle(),
-      type: (this.isPrivate() ? 'direct' : 'group') as ConversationTypeType,
       unreadCount: this.get('unreadCount')! || 0,
+      ...(this.isPrivate()
+        ? {
+            type: 'direct' as const,
+            sharedGroupNames: this.get('sharedGroupNames') || [],
+          }
+        : {
+            type: 'group' as const,
+            sharedGroupNames: [],
+          }),
     };
 
     if (typingContact) {

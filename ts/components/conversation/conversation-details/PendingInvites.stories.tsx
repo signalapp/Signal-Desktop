@@ -27,13 +27,16 @@ const sortedGroupMembers = Array.from(Array(32)).map((_, i) =>
 );
 
 const conversation: ConversationType = {
+  acceptedMessageRequest: true,
   areWeAdmin: true,
   id: '',
   lastUpdated: 0,
   markedUnread: false,
+  isMe: false,
   sortedGroupMembers,
   title: 'Some Conversation',
   type: 'group',
+  sharedGroupNames: [],
 };
 
 const createProps = (): PropsType => ({

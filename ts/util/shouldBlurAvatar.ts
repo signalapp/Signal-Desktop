@@ -7,7 +7,7 @@ export const shouldBlurAvatar = ({
   acceptedMessageRequest,
   avatarPath,
   isMe,
-  sharedGroupNames = [],
+  sharedGroupNames,
   unblurredAvatarPath,
 }: Readonly<
   Pick<

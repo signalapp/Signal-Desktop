@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -7,7 +7,7 @@ import { Tooltip } from './Tooltip';
 import { Theme } from '../util/theme';
 import { ContactName } from './conversation/ContactName';
 import { LocalizerType } from '../types/Util';
-import { ColorType } from '../types/Colors';
+import { ConversationType } from '../state/ducks/conversations';
 import { AcceptCallType, DeclineCallType } from '../state/ducks/calling';
 
 export type PropsType = {
@@ -17,15 +17,19 @@ export type PropsType = {
   call: {
     isVideoCall: boolean;
   };
-  conversation: {
-    id: string;
-    avatarPath?: string;
-    color?: ColorType;
-    title: string;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-  };
+  conversation: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'id'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+  >;
 };
 
 type CallButtonProps = {
@@ -66,12 +70,15 @@ export const IncomingCallBar = ({
   const { isVideoCall } = call;
   const {
     id: conversationId,
+    acceptedMessageRequest,
     avatarPath,
     color,
-    title,
+    isMe,
     name,
     phoneNumber,
     profileName,
+    sharedGroupNames,
+    title,
   } = conversation;
 
   return (
@@ -79,15 +86,18 @@ export const IncomingCallBar = ({
       <div className="module-incoming-call__contact">
         <div className="module-incoming-call__contact--avatar">
           <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
             avatarPath={avatarPath}
             color={color || 'ultramarine'}
             noteToSelf={false}
             conversationType="direct"
             i18n={i18n}
+            isMe={isMe}
             name={name}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}
+            sharedGroupNames={sharedGroupNames}
             size={52}
           />
         </div>

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -91,6 +91,7 @@ export const SafetyNumberChangeDialog = ({
                 color={contact.color}
                 conversationType="direct"
                 i18n={i18n}
+                isMe={contact.isMe}
                 name={contact.name}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}

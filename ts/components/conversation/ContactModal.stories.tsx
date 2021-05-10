@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -7,6 +7,7 @@ import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { ContactModal, PropsType } from './ContactModal';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -16,16 +17,13 @@ const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/ContactModal', module);
 
-const defaultContact: ConversationType = {
+const defaultContact: ConversationType = getDefaultConversation({
   id: 'abcdef',
-  lastUpdated: Date.now(),
-  markedUnread: false,
   areWeAdmin: false,
   title: 'Pauline Oliveros',
-  type: 'direct',
   phoneNumber: '(333) 444-5515',
   about: '👍 Free to chat',
-};
+});
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   areWeAdmin: boolean('areWeAdmin', overrideProps.areWeAdmin || false),

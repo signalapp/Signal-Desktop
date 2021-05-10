@@ -6,6 +6,7 @@ import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { PropsType, Timeline } from './Timeline';
@@ -307,7 +308,9 @@ const getPhoneNumber = () => text('phoneNumber', '+1 (808) 555-1234');
 const renderHeroRow = () => (
   <ConversationHero
     about={getAbout()}
+    acceptedMessageRequest
     i18n={i18n}
+    isMe={false}
     title={getTitle()}
     avatarPath={getAvatarPath()}
     name={getName()}
@@ -322,11 +325,14 @@ const renderHeroRow = () => (
 const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;
 const renderTypingBubble = () => (
   <TypingBubble
+    acceptedMessageRequest
     color="red"
     conversationType="direct"
     phoneNumber="+18005552222"
     i18n={i18n}
+    isMe={false}
     title="title"
+    sharedGroupNames={[]}
   />
 );
 
@@ -444,16 +450,14 @@ story.add('Typing Indicator', () => {
 story.add('With invited contacts for a newly-created group', () => {
   const props = createProps({
     invitedContactsForNewlyCreatedGroup: [
-      {
+      getDefaultConversation({
         id: 'abc123',
         title: 'John Bon Bon Jovi',
-        type: 'direct',
-      },
-      {
+      }),
+      getDefaultConversation({
         id: 'def456',
         title: 'Bon John Bon Jovi',
-        type: 'direct',
-      },
+      }),
     ],
   });
 

@@ -156,10 +156,12 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
                 color={contact.color}
                 firstName={contact.firstName}
                 i18n={i18n}
+                isMe={contact.isMe}
                 id={contact.id}
                 name={contact.name}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
+                sharedGroupNames={contact.sharedGroupNames}
                 title={contact.title}
                 onClickRemove={() => {
                   removeSelectedContact(contact.id);

@@ -2,21 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { v4 as uuid } from 'uuid';
 import {
   FindDirection,
   ToFindType,
 } from '../../../components/leftPane/LeftPaneHelper';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { getConversationInDirection } from '../../../components/leftPane/getConversationInDirection';
 
 describe('getConversationInDirection', () => {
-  const fakeConversation = (markedUnread = false) => ({
-    id: uuid(),
-    title: uuid(),
-    type: 'direct' as const,
-    markedUnread,
-  });
+  const fakeConversation = (markedUnread = false) =>
+    getDefaultConversation({ markedUnread });
 
   const fakeConversations = [
     fakeConversation(),

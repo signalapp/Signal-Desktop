@@ -21,16 +21,17 @@ import {
 import { Props, Quote } from './Quote';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/Quote', module);
 
 const defaultMessageProps: MessagesProps = {
-  author: {
+  author: getDefaultConversation({
     id: 'some-id',
     title: 'Person X',
-  },
+  }),
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,

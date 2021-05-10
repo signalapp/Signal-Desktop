@@ -272,11 +272,15 @@ export class MentionCompletion {
                   )}
                 >
                   <Avatar
+                    acceptedMessageRequest={member.acceptedMessageRequest}
                     avatarPath={member.avatarPath}
                     conversationType="direct"
                     i18n={this.options.i18n}
+                    isMe={member.isMe}
+                    sharedGroupNames={member.sharedGroupNames}
                     size={28}
                     title={member.title}
+                    unblurredAvatarPath={member.unblurredAvatarPath}
                   />
                   <div className="module-composition-input__suggestions__title">
                     {member.title}

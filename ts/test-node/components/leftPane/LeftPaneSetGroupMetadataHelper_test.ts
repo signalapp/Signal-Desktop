@@ -3,18 +3,12 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneSetGroupMetadataHelper } from '../../../components/leftPane/LeftPaneSetGroupMetadataHelper';
 
 describe('LeftPaneSetGroupMetadataHelper', () => {
-  const fakeContact = () => ({
-    id: uuid(),
-    title: uuid(),
-    type: 'direct' as const,
-  });
-
   describe('getBackAction', () => {
     it('returns the "show composer" action if a request is not active', () => {
       const showChooseGroupMembers = sinon.fake();
@@ -68,7 +62,10 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
           groupName: '',
           hasError: false,
           isCreating: false,
-          selectedContacts: [fakeContact(), fakeContact()],
+          selectedContacts: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
         }).getRowCount(),
         4
       );
@@ -89,7 +86,10 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
     });
 
     it('returns a header, then the contacts, then a blank space if there are contacts', () => {
-      const selectedContacts = [fakeContact(), fakeContact()];
+      const selectedContacts = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneSetGroupMetadataHelper({
         groupAvatar: undefined,
         groupName: '',

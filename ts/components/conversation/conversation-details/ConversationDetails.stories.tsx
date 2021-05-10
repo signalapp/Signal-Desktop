@@ -20,13 +20,13 @@ const story = storiesOf(
   module
 );
 
-const conversation: ConversationType = {
+const conversation: ConversationType = getDefaultConversation({
   id: '',
   lastUpdated: 0,
-  markedUnread: false,
   title: 'Some Conversation',
   type: 'group',
-};
+  sharedGroupNames: [],
+});
 
 const createProps = (hasGroupLink = false): Props => ({
   addMembers: async () => {
