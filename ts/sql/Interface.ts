@@ -343,6 +343,7 @@ export type ServerInterface = DataInterface & {
   getNextTapToViewMessageToAgeOut: () => Promise<MessageType | undefined>;
   getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
+  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
   getUnreadByConversationAndMarkRead: (
     conversationId: string,
     newestUnreadId: number,
@@ -486,6 +487,7 @@ export type ClientInterface = DataInterface & {
   getTapToViewMessagesNeedingErase: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
+  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
   getUnreadByConversationAndMarkRead: (
     conversationId: string,
     newestUnreadId: number,

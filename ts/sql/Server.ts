@@ -157,6 +157,7 @@ const dataInterface: ServerInterface = {
   saveMessages,
   removeMessage,
   removeMessages,
+  getUnreadCountForConversation,
   getUnreadByConversationAndMarkRead,
   getUnreadReactionsAndMarkRead,
   markReactionAsRead,
@@ -3092,6 +3093,24 @@ function updateExpirationTimers(
   );
 }
 
+async function getUnreadCountForConversation(
+  conversationId: string
+): Promise<number> {
+  const db = getInstance();
+  const row = db
+    .prepare<Query>(
+      `
+      SELECT COUNT(*) AS unreadCount FROM messages
+      WHERE unread = 1 AND
+      conversationId = $conversationId
+      `
+    )
+    .get({
+      conversationId,
+    });
+  return row.unreadCount;
+}
+
 async function getUnreadByConversationAndMarkRead(
   conversationId: string,
   newestUnreadId: number,
@@ -3117,6 +3136,10 @@ async function getUnreadByConversationAndMarkRead(
         conversationId,
         newestUnreadId,
       });
+
+    if (!rows.length) {
+      return [];
+    }
 
     const messagesWithExpireTimer: Map<
       string,

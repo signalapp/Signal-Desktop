@@ -167,6 +167,7 @@ const dataInterface: ClientInterface = {
   saveMessages,
   removeMessage,
   removeMessages,
+  getUnreadCountForConversation,
   getUnreadByConversationAndMarkRead,
   getUnreadReactionsAndMarkRead,
   markReactionAsRead,
@@ -1044,6 +1045,10 @@ async function getMessageBySender(
   }
 
   return new Message(messages[0]);
+}
+
+async function getUnreadCountForConversation(conversationId: string) {
+  return channels.getUnreadCountForConversation(conversationId);
 }
 
 async function getUnreadByConversationAndMarkRead(

@@ -11,7 +11,7 @@ export async function markConversationRead(
   options: { readAt?: number; sendReadReceipts: boolean } = {
     sendReadReceipts: true,
   }
-): Promise<number> {
+): Promise<boolean> {
   const { id: conversationId } = conversationAttrs;
   window.Whisper.Notifications.removeBy({ conversationId });
 
@@ -26,6 +26,10 @@ export async function markConversationRead(
       newestUnreadId
     ),
   ]);
+
+  if (!unreadMessages.length && !unreadReactions.length) {
+    return false;
+  }
 
   const unreadReactionSyncData = new Map<
     string,
@@ -67,22 +71,13 @@ export async function markConversationRead(
   });
 
   // Some messages we're marking read are local notifications with no sender
-  const messagesWithSenderId = allReadMessagesSync.filter(syncMessage =>
-    Boolean(syncMessage.senderId)
-  );
-  const incomingUnreadMessages = unreadMessages.filter(
-    message => message.type === 'incoming'
-  );
-  const unreadCount =
-    incomingUnreadMessages.length - messagesWithSenderId.length;
-
   // If a message has errors, we don't want to send anything out about it.
   //   read syncs - let's wait for a client that really understands the message
   //      to mark it read. we'll mark our local error read locally, though.
   //   read receipts - here we can run into infinite loops, where each time the
   //      conversation is viewed, another error message shows up for the contact
-  const unreadMessagesSyncData = messagesWithSenderId.filter(
-    item => !item.hasErrors
+  const unreadMessagesSyncData = allReadMessagesSync.filter(
+    item => Boolean(item.senderId) && !item.hasErrors
   );
 
   const readSyncs = [
@@ -107,5 +102,5 @@ export async function markConversationRead(
     await sendReadReceiptsFor(conversationAttrs, unreadMessagesSyncData);
   }
 
-  return unreadCount;
+  return true;
 }

@@ -3975,10 +3975,18 @@ export class ConversationModel extends window.Backbone
       sendReadReceipts: true,
     }
   ): Promise<void> {
-    const unreadCount = await markConversationRead(
+    const markedUnread = await markConversationRead(
       this.attributes,
       newestUnreadId,
       options
+    );
+
+    if (!markedUnread) {
+      return;
+    }
+
+    const unreadCount = await window.Signal.Data.getUnreadCountForConversation(
+      this.id
     );
     this.set({ unreadCount });
     window.Signal.Data.updateConversation(this.attributes);
