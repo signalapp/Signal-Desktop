@@ -21,7 +21,10 @@ import {
   MessageStatusType,
   PropsData,
 } from '../components/conversation/Message';
-import { OwnProps as SmartMessageDetailPropsType } from '../state/smart/MessageDetail';
+import {
+  OwnProps as SmartMessageDetailPropsType,
+  Contact as SmartMessageDetailContact,
+} from '../state/smart/MessageDetail';
 import { CallbackResultType } from '../textsecure/SendMessage';
 import * as expirationTimer from '../util/expirationTimer';
 import { missingCaseError } from '../util/missingCaseError';
@@ -464,33 +467,51 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       return window.ConversationController.getConversationId(identifier);
     });
-    const finalContacts = (conversationIds || []).map(id => {
-      const errorsForContact = errorsGroupedById[id];
-      const isOutgoingKeyError = Boolean(
-        _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
-      );
-      const isUnidentifiedDelivery =
-        window.storage.get('unidentifiedDeliveryIndicators') &&
-        this.isUnidentifiedDelivery(id, unidentifiedLookup);
+    const finalContacts: Array<SmartMessageDetailContact> = (
+      conversationIds || []
+    ).map(
+      (id: string): SmartMessageDetailContact => {
+        const errorsForContact = errorsGroupedById[id];
+        const isOutgoingKeyError = Boolean(
+          _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
+        );
+        const isUnidentifiedDelivery =
+          window.storage.get('unidentifiedDeliveryIndicators') &&
+          this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
-      return {
-        ...this.findAndFormatContact(id),
+        return {
+          ...this.findAndFormatContact(id),
 
-        status: this.getStatus(id),
-        errors: errorsForContact,
-        isOutgoingKeyError,
-        isUnidentifiedDelivery,
-        onSendAnyway: () =>
-          this.trigger('force-send', { contactId: id, messageId: this.id }),
-        onShowSafetyNumber: () => this.trigger('show-identity', id),
-      };
-    });
-
+          status: this.getStatus(id),
+          errors: errorsForContact,
+          isOutgoingKeyError,
+          isUnidentifiedDelivery,
+          onSendAnyway: () =>
+            this.trigger('force-send', { contactId: id, messageId: this.id }),
+          onShowSafetyNumber: () => this.trigger('show-identity', id),
+        };
+      }
+    );
     // The prefix created here ensures that contacts with errors are listed
     //   first; otherwise it's alphabetical
-    const sortedContacts = _.sortBy(
-      finalContacts,
-      contact => `${contact.errors ? '0' : '1'}${contact.title}`
+    const collator = new Intl.Collator();
+    const sortedContacts: Array<SmartMessageDetailContact> = finalContacts.sort(
+      (
+        left: SmartMessageDetailContact,
+        right: SmartMessageDetailContact
+      ): number => {
+        const leftErrors = Boolean(left.errors && left.errors.length);
+        const rightErrors = Boolean(right.errors && right.errors.length);
+
+        if (leftErrors && !rightErrors) {
+          return -1;
+        }
+        if (!leftErrors && rightErrors) {
+          return 1;
+        }
+
+        return collator.compare(left.title, right.title);
+      }
     );
 
     return {

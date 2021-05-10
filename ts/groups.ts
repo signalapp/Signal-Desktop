@@ -3452,7 +3452,7 @@ async function getCurrentGroupState({
     logId
   );
 
-  const oldVersion = group.version;
+  const oldVersion = group.revision;
   const newVersion = decryptedGroupState.version;
   window.log.info(
     `getCurrentGroupState/${logId}: Applying full group state, from version ${oldVersion} to ${newVersion}.`

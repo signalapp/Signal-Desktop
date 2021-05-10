@@ -2543,7 +2543,7 @@ export class ConversationModel extends window.Backbone
       sent_at: now,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
-      unread: 1,
+      unread: 0,
       changedId: conversationId || this.id,
       profileChange,
       // TODO: DESKTOP-722

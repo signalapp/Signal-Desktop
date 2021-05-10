@@ -5,6 +5,7 @@ import React from 'react';
 
 import { LocalizerType } from '../../../types/Util';
 import { Avatar } from '../../Avatar';
+import { Emojify } from '../Emojify';
 
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 import { ConversationType } from '../../../state/ducks/conversations';
@@ -108,7 +109,7 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
               {...member}
             />
           }
-          label={member.isMe ? i18n('you') : member.title}
+          label={<Emojify text={member.isMe ? i18n('you') : member.title} />}
           right={isAdmin ? i18n('GroupV2--admin') : ''}
         />
       ))}
