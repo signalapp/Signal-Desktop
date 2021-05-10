@@ -62,6 +62,14 @@ story.add('Avatar', () => {
   return sizes.map(size => <Avatar key={size} {...props} size={size} />);
 });
 
+story.add('Wide image', () => {
+  const props = createProps({
+    avatarPath: '/fixtures/wide.jpg',
+  });
+
+  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+});
+
 story.add('One-word Name', () => {
   const props = createProps({
     title: 'John',
