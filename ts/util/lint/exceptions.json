@@ -2873,34 +2873,6 @@
     "updated": "2020-09-11T17:24:56.124Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/global-agent/node_modules/core-js/internals/collection.js",
     "line": "  $({ global: true, forced: Constructor != NativeConstructor }, exported);",
@@ -5073,34 +5045,6 @@
   {
     "rule": "jQuery-load(",
     "path": "node_modules/http-proxy-agent/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/https-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/https-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/https-proxy-agent/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/https-proxy-agent/node_modules/debug/src/node.js",
     "line": "exports.enable(load());",
     "reasonCategory": "falseMatch",
     "updated": "2018-11-27T18:02:26.186Z"
@@ -7941,7 +7885,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
     "line": "apply = curry$(function(f, list){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -7949,7 +7893,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
     "line": "  return curry$(f);",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -7957,7 +7901,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
     "line": "flip = curry$(function(f, x, y){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -7965,7 +7909,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
     "line": "over = curry$(function(f, g, x, y){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -7973,135 +7917,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
     "line": "function curry$(f, bound){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "each = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "map = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "filter = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "reject = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "remove = curry$(function(el, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "partition = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "find = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "    if (!in$(x, result)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "uniqueBy = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "    if (in$(val, seen)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "fold = foldl = curry$(function(f, memo, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "fold1 = foldl1 = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "foldr = curry$(function(f, memo, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "foldr1 = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "unfoldr = curry$(function(f, b){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
-    "line": "concatMap = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8131,9 +7947,137 @@
   {
     "rule": "jQuery-$(",
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "each = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "map = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "filter = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "reject = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "remove = curry$(function(el, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "partition = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "find = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "    if (!in$(x, result)) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "uniqueBy = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "    if (in$(val, seen)) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "fold = foldl = curry$(function(f, memo, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "fold1 = foldl1 = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "foldr = curry$(function(f, memo, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "foldr1 = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "unfoldr = curry$(function(f, b){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "concatMap = curry$(function(f, xs){",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "countBy = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8141,7 +8085,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "groupBy = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8149,7 +8093,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "any = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8157,7 +8101,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "all = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8165,7 +8109,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "sortWith = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8173,7 +8117,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "sortBy = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8181,7 +8125,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "maximumBy = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8189,7 +8133,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "minimumBy = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8197,7 +8141,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "scan = scanl = curry$(function(f, memo, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8205,7 +8149,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "scan1 = scanl1 = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8213,7 +8157,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "scanr = curry$(function(f, memo, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8221,7 +8165,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "scanr1 = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8229,7 +8173,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "slice = curry$(function(x, y, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8237,7 +8181,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "take = curry$(function(n, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8245,7 +8189,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "drop = curry$(function(n, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8253,7 +8197,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "splitAt = curry$(function(n, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8261,7 +8205,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "takeWhile = curry$(function(p, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8269,7 +8213,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "dropWhile = curry$(function(p, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8277,7 +8221,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "span = curry$(function(p, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8285,7 +8229,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "breakList = curry$(function(p, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8293,7 +8237,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "  return span(compose$(p, not$), xs);",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8301,7 +8245,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "zip = curry$(function(xs, ys){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8309,7 +8253,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "zipWith = curry$(function(f, xs, ys){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8317,7 +8261,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "    results$.push(f.apply(null, (fn$())));",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8325,7 +8269,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "  function fn$(){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8333,7 +8277,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "at = curry$(function(n, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8341,7 +8285,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "elemIndex = curry$(function(el, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8349,7 +8293,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "elemIndices = curry$(function(el, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8357,7 +8301,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "findIndex = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8365,7 +8309,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "findIndices = curry$(function(f, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8373,7 +8317,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "function curry$(f, bound){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8381,7 +8325,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "function in$(x, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8389,7 +8333,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "function compose$() {",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8397,7 +8341,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
     "line": "function not$(x){ return !x; }",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8405,7 +8349,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "max = curry$(function(x$, y$){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8413,7 +8357,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "min = curry$(function(x$, y$){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8421,7 +8365,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "quot = curry$(function(x, y){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8429,7 +8373,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "rem = curry$(function(x$, y$){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8437,7 +8381,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "div = curry$(function(x, y){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8445,7 +8389,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "mod = curry$(function(x$, y$){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8453,7 +8397,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "pow = curry$(function(x$, y$){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8461,7 +8405,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "atan2 = curry$(function(x, y){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8469,7 +8413,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "gcd = curry$(function(x, y){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8477,7 +8421,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "lcm = curry$(function(x, y){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8485,7 +8429,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
     "line": "function curry$(f, bound){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8493,7 +8437,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
     "line": "listsToObj = curry$(function(keys, values){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8501,7 +8445,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
     "line": "each = curry$(function(f, object){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8509,7 +8453,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
     "line": "map = curry$(function(f, object){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8517,7 +8461,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
     "line": "filter = curry$(function(f, object){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8525,7 +8469,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
     "line": "reject = curry$(function(f, object){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8533,7 +8477,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
     "line": "partition = curry$(function(f, object){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8541,7 +8485,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
     "line": "find = curry$(function(f, object){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8549,7 +8493,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
     "line": "function curry$(f, bound){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8557,7 +8501,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Str.js",
     "line": "split = curry$(function(sep, str){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8565,7 +8509,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Str.js",
     "line": "join = curry$(function(sep, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8573,7 +8517,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Str.js",
     "line": "repeat = curry$(function(n, str){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8581,7 +8525,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/Str.js",
     "line": "function curry$(f, bound){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8589,7 +8533,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/index.js",
     "line": "isType = curry$(function(type, x){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8597,7 +8541,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/index.js",
     "line": "replicate = curry$(function(n, x){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8605,7 +8549,7 @@
     "path": "node_modules/levn/node_modules/prelude-ls/lib/index.js",
     "line": "function curry$(f, bound){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8613,7 +8557,7 @@
     "path": "node_modules/levn/node_modules/type-check/lib/parse-type.js",
     "line": "    if (in$('->', tokens)) {",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -8621,7 +8565,7 @@
     "path": "node_modules/levn/node_modules/type-check/lib/parse-type.js",
     "line": "  function in$(x, xs){",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
@@ -9365,14 +9309,6 @@
   {
     "rule": "jQuery-$(",
     "path": "node_modules/optionator/lib/help.js",
-    "line": "      : [repeatString$(' ', a), b - a - 1], indent = ref$[0], width = ref$[1];",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/help.js",
     "line": "      seperator = defaultString || descriptionString || exampleString ? \"\\n\" + repeatString$('=', pre.length) : '';",
     "reasonCategory": "falseMatch",
     "updated": "2020-08-28T16:12:19.904Z",
@@ -9457,706 +9393,27 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/index.js",
-    "line": "                  option.dependsOn = [dependsType].concat(arrayFrom$(dependsOpts));",
+    "path": "node_modules/optionator/node_modules/levn/lib/parse-string.js",
+    "line": "  function not$(x){ return !x; }",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
-    "line": "apply = curry$(function(f, list){",
+    "rule": "jQuery-append(",
+    "path": "node_modules/pac-proxy-agent/node_modules/socks/build/client/socksclient.js",
+    "line": "        this.receiveBuffer.append(data);",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
-    "line": "  return curry$(f);",
+    "rule": "jQuery-append(",
+    "path": "node_modules/pac-proxy-agent/node_modules/socks/build/common/receivebuffer.js",
+    "line": "    append(data) {",
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
+    "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
-    "line": "flip = curry$(function(f, x, y){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
-    "line": "over = curry$(function(f, g, x, y){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
-    "line": "function curry$(f, bound){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "each = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "map = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "filter = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "reject = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "remove = curry$(function(el, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "partition = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "find = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "    if (!in$(x, result)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "uniqueBy = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "    if (in$(val, seen)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "fold = foldl = curry$(function(f, memo, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "fold1 = foldl1 = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "foldr = curry$(function(f, memo, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "foldr1 = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "unfoldr = curry$(function(f, b){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "concatMap = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "      if (in$(x, ys)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "      if (!in$(x, ys)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "      if (!in$(x, results)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "countBy = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "groupBy = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "any = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "all = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "sortWith = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "sortBy = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "maximumBy = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "minimumBy = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "scan = scanl = curry$(function(f, memo, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "scan1 = scanl1 = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "scanr = curry$(function(f, memo, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "scanr1 = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "slice = curry$(function(x, y, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "take = curry$(function(n, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "drop = curry$(function(n, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "splitAt = curry$(function(n, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "takeWhile = curry$(function(p, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "dropWhile = curry$(function(p, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "span = curry$(function(p, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "breakList = curry$(function(p, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "  return span(compose$(p, not$), xs);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "zip = curry$(function(xs, ys){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "zipWith = curry$(function(f, xs, ys){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "    results$.push(f.apply(null, (fn$())));",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "  function fn$(){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "at = curry$(function(n, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "elemIndex = curry$(function(el, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "elemIndices = curry$(function(el, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "findIndex = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "findIndices = curry$(function(f, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "function curry$(f, bound){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "function in$(x, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "function compose$() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
-    "line": "function not$(x){ return !x; }",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "max = curry$(function(x$, y$){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "min = curry$(function(x$, y$){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "quot = curry$(function(x, y){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "rem = curry$(function(x$, y$){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "div = curry$(function(x, y){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "mod = curry$(function(x$, y$){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "pow = curry$(function(x$, y$){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "atan2 = curry$(function(x, y){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "gcd = curry$(function(x, y){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "lcm = curry$(function(x, y){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
-    "line": "function curry$(f, bound){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
-    "line": "listsToObj = curry$(function(keys, values){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
-    "line": "each = curry$(function(f, object){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
-    "line": "map = curry$(function(f, object){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
-    "line": "filter = curry$(function(f, object){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
-    "line": "reject = curry$(function(f, object){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
-    "line": "partition = curry$(function(f, object){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
-    "line": "find = curry$(function(f, object){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
-    "line": "function curry$(f, bound){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Str.js",
-    "line": "split = curry$(function(sep, str){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Str.js",
-    "line": "join = curry$(function(sep, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Str.js",
-    "line": "repeat = curry$(function(n, str){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Str.js",
-    "line": "function curry$(f, bound){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/index.js",
-    "line": "isType = curry$(function(type, x){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/index.js",
-    "line": "replicate = curry$(function(n, x){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/prelude-ls/lib/index.js",
-    "line": "function curry$(f, bound){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/type-check/lib/parse-type.js",
-    "line": "    if (in$('->', tokens)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/type-check/lib/parse-type.js",
-    "line": "  function in$(x, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/pac-resolver/index.js",
-    "line": "  var resolver = co.wrap(fn);",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "jQuery-insertBefore(",
@@ -12093,6 +11350,22 @@
     "line": "    return this.load(filename, options, SYNC);",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/proxy-agent/node_modules/socks/build/client/socksclient.js",
+    "line": "        this.receiveBuffer.append(data);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "not jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/proxy-agent/node_modules/socks/build/common/receivebuffer.js",
+    "line": "    append(data) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-07T20:07:48.358Z",
+    "reasonDetail": "not jquery"
   },
   {
     "rule": "jQuery-insertBefore(",
