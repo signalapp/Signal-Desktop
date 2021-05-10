@@ -14,13 +14,14 @@ import {
 import _ from 'lodash';
 import { ConversationModel } from '../../models/conversation';
 import { getMessageIdsFromServerIds, removeMessage } from '../../data/data';
-import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
+import { getV2OpenGroupRoom, OpenGroupV2Room, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
 import { DAYS, MINUTES, SECONDS } from '../../session/utils/Number';
 import autoBind from 'auto-bind';
 import { sha256 } from '../../session/crypto';
 import { fromBase64ToArrayBuffer } from '../../session/utils/String';
+import { getAuthToken } from './ApiAuth';
 
 const pollForEverythingInterval = SECONDS * 4;
 const pollForRoomAvatarInterval = DAYS * 1;
@@ -97,9 +98,7 @@ export class OpenGroupServerPoller {
     );
 
     if (this.roomIdsToPoll.size) {
-      void this.compactPoll();
-      void this.previewPerRoomPoll();
-      void this.pollForAllMemberCount();
+      void this.triggerPollAfterAdd();
     }
   }
 
@@ -118,9 +117,7 @@ export class OpenGroupServerPoller {
     this.roomIdsToPoll.add(room.roomId);
 
     // if we are not already polling right now, trigger a polling
-    void this.compactPoll();
-    void this.previewPerRoomPoll();
-    void this.pollForAllMemberCount();
+    void this.triggerPollAfterAdd();
   }
 
   public removeRoomFromPoll(room: OpenGroupRequestCommonType) {
@@ -166,6 +163,21 @@ export class OpenGroupServerPoller {
       this.pollForMemberCountTimer = undefined;
       this.wasStopped = true;
     }
+  }
+
+  private async triggerPollAfterAdd(room?: OpenGroupRequestCommonType) {
+    if (this.roomIdsToPoll.size) {
+      await Promise.all(
+        [...this.roomIdsToPoll].map(async r => {
+          // this call either get the token from db, or fetch a new one
+          await getAuthToken({ roomId: r, serverUrl: this.serverUrl });
+        })
+      );
+    }
+
+    await this.compactPoll();
+    await this.previewPerRoomPoll();
+    await this.pollForAllMemberCount();
   }
 
   private shouldPoll() {
