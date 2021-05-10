@@ -449,6 +449,12 @@ async function performIfValid(
     await removeFromCache(envelope);
     return;
   }
+  // make sure the conversation with this user exist (even if it's just hidden)
+  await ConversationController.getInstance().getOrCreateAndWait(
+    sender,
+    ConversationTypeEnum.PRIVATE
+  );
+
   if (groupUpdate.type === Type.NAME_CHANGE) {
     await handleClosedGroupNameChanged(envelope, groupUpdate, convo);
   } else if (groupUpdate.type === Type.MEMBERS_ADDED) {
@@ -531,6 +537,12 @@ async function handleClosedGroupMembersAdded(
   }
 
   const members = [...oldMembers, ...membersNotAlreadyPresent];
+  // make sure the conversation with those members (even if it's just hidden)
+  await Promise.all(
+    members.map(async m =>
+      ConversationController.getInstance().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE)
+    )
+  );
 
   const groupDiff: ClosedGroup.GroupDiff = {
     joiningMembers: membersNotAlreadyPresent,
@@ -748,6 +760,7 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
   const groupDiff: ClosedGroup.GroupDiff = {
     leavingMembers: [sender],
   };
+
   await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
   convo.updateLastMessage();
   // if a user just left and we are the admin, we remove him right away for everyone by sending a MEMBERS_REMOVED message so no need to add him as a zombie
