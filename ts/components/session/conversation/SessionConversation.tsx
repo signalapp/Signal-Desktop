@@ -486,7 +486,20 @@ export class SessionConversation extends React.Component<Props, State> {
       onUpdateGroupName: () => {
         window.Whisper.events.trigger('updateGroupName', conversation);
       },
-      onUpdateGroupMembers: () => {
+      onUpdateGroupMembers: async () => {
+        if (conversation.isMediumGroup()) {
+          // make sure all the members' convo exists so we can add or remove them
+          await Promise.all(
+            conversation
+              .get('members')
+              .map(m =>
+                ConversationController.getInstance().getOrCreateAndWait(
+                  m,
+                  ConversationTypeEnum.PRIVATE
+                )
+              )
+          );
+        }
         window.Whisper.events.trigger('updateGroupMembers', conversation);
       },
       onInviteContacts: () => {

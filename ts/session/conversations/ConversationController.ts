@@ -34,6 +34,7 @@ export class ConversationController {
       return ConversationController.instance;
     }
     ConversationController.instance = new ConversationController();
+
     return ConversationController.instance;
   }
 
@@ -187,9 +188,10 @@ export class ConversationController {
       return;
     }
 
-    // Close group leaving
+    // Closed/Medium group leaving
     if (conversation.isClosedGroup()) {
       await conversation.leaveClosedGroup();
+      // open group v1
     } else if (conversation.isPublic() && !conversation.isOpenGroupV2()) {
       const channelAPI = await conversation.getPublicSendData();
       if (channelAPI === null) {
@@ -197,6 +199,7 @@ export class ConversationController {
       } else {
         channelAPI.serverAPI.partChannel((channelAPI as any).channelId);
       }
+      // open group v2
     } else if (conversation.isOpenGroupV2()) {
       window.log.info('leaving open group v2', conversation.id);
       const roomInfos = await getV2OpenGroupRoom(conversation.id);
@@ -220,10 +223,21 @@ export class ConversationController {
     // those are the stuff to do for all contact types
     await conversation.destroyMessages();
 
-    await removeConversation(id);
-    this.conversations.remove(conversation);
-    if (window.inboxStore) {
-      window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
+    // if this conversation is a private conversation it's in fact a `contact` for desktop.
+    // we just want to remove everything related to it, set the active_at to undefined
+    // so conversation still exists (useful for medium groups members or opengroups) but is not shown on the UI
+    if (conversation.isPrivate()) {
+      conversation.set('active_at', undefined);
+      await conversation.commit();
+    } else {
+      await removeConversation(id);
+      this.conversations.remove(conversation);
+      if (window.inboxStore) {
+        window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
+        window.inboxStore?.dispatch(
+          conversationActions.conversationChanged(conversation.id, conversation.getProps())
+        );
+      }
     }
   }
 
