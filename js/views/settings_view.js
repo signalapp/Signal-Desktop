@@ -152,6 +152,12 @@
           window.setSpellCheck(val);
         },
       });
+      new CheckboxView({
+        el: this.$('.auto-launch-setting'),
+        name: 'auto-launch-setting',
+        value: window.initialData.autoLaunch,
+        setFn: window.setAutoLaunch,
+      });
       if (Settings.isHideMenuBarSupported()) {
         new CheckboxView({
           el: this.$('.menu-bar-setting'),
@@ -259,6 +265,7 @@
         spellCheckDirtyText: appStartSpellCheck
           ? i18n('spellCheckWillBeDisabled')
           : i18n('spellCheckWillBeEnabled'),
+        autoLaunchDescription: i18n('autoLaunchDescription'),
       };
     },
     onClose() {

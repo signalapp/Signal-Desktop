@@ -431,6 +431,9 @@ export async function startApp(): Promise<void> {
       setAlwaysRelayCalls: (value: boolean) =>
         window.storage.put('always-relay-calls', value),
 
+      getAutoLaunch: () => window.getAutoLaunch(),
+      setAutoLaunch: (value: boolean) => window.setAutoLaunch(value),
+
       // eslint-disable-next-line eqeqeq
       isPrimary: () => window.textsecure.storage.user.getDeviceId() == '1',
       getSyncRequest: () =>
