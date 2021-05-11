@@ -2675,6 +2675,30 @@ export async function startApp(): Promise<void> {
     return confirm();
   }
 
+  const respondWithProfileKeyBatcher = createBatcher<ConversationModel>({
+    name: 'respondWithProfileKeyBatcher',
+    processBatch(batch) {
+      const deduped = new Set(batch);
+      deduped.forEach(async sender => {
+        try {
+          if (!(await shouldRespondWithProfileKey(sender))) {
+            return;
+          }
+        } catch (error) {
+          window.log.error(
+            'respondWithProfileKeyBatcher error',
+            error && error.stack
+          );
+        }
+
+        sender.queueJob(() => sender.sendProfileKeyUpdate());
+      });
+    },
+
+    wait: 200,
+    maxSize: Infinity,
+  });
+
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
@@ -2701,23 +2725,17 @@ export async function startApp(): Promise<void> {
 
     const message = initIncomingMessage(data, messageDescriptor);
 
-    // We don't need this to interrupt our processing of the message, so we "fire and
-    //   forget".
-    (async () => {
-      if (await shouldRespondWithProfileKey(message)) {
-        const contact = message.getContact();
-        if (!contact) {
-          assert(false, 'Expected message to have a contact');
-          return;
-        }
+    if (message.isIncoming() && message.get('unidentifiedDeliveryReceived')) {
+      const sender = message.getContact();
 
-        profileKeyResponseQueue.add(() => {
-          contact.queueJob(() => contact.sendProfileKeyUpdate());
-        });
+      if (!sender) {
+        throw new Error('MessageModel has no sender.');
       }
-    })().catch(err => {
-      window.log.error(err);
-    });
+
+      profileKeyResponseQueue.add(() => {
+        respondWithProfileKeyBatcher.add(sender);
+      });
+    }
 
     if (data.message.reaction) {
       window.normalizeUuids(

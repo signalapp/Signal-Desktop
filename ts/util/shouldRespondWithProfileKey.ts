@@ -1,25 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { MessageModel } from '../models/messages';
-import { assert } from './assert';
+import { ConversationModel } from '../models/conversations';
 
 export async function shouldRespondWithProfileKey(
-  message: MessageModel
+  sender: ConversationModel
 ): Promise<boolean> {
-  if (!message.isIncoming() || message.get('unidentifiedDeliveryReceived')) {
-    return false;
-  }
-
-  const sender = message.getContact();
-  if (!sender) {
-    assert(
-      false,
-      'MessageModel#shouldRespondWithProfileKey had no sender. Returning false'
-    );
-    return false;
-  }
-
   if (sender.isMe() || !sender.getAccepted() || sender.isBlocked()) {
     return false;
   }
