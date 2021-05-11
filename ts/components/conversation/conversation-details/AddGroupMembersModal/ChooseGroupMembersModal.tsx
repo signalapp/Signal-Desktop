@@ -22,6 +22,7 @@ import { ContactPill } from '../../../ContactPill';
 import { ConversationList, Row, RowType } from '../../../ConversationList';
 import { ContactCheckboxDisabledReason } from '../../../conversationList/ContactCheckbox';
 import { Button, ButtonVariant } from '../../../Button';
+import { SearchInput } from '../../../SearchInput';
 
 type PropsType = {
   candidateContacts: ReadonlyArray<ConversationType>;
@@ -130,9 +131,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
         <h1 className="module-AddGroupMembersModal__header">
           {i18n('AddGroupMembersModal--title')}
         </h1>
-        <input
-          type="text"
-          className="module-AddGroupMembersModal__search-input"
+        <SearchInput
           disabled={candidateContacts.length === 0}
           placeholder={i18n('contactSearchPlaceholder')}
           onChange={event => {

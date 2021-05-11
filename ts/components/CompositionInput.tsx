@@ -34,6 +34,7 @@ import {
 } from '../quill/util';
 import { SignalClipboard } from '../quill/signal-clipboard';
 import { DirectionalBlot } from '../quill/block/blot';
+import { getClassNamesFor } from '../util/getClassNamesFor';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
@@ -80,17 +81,7 @@ export type Props = {
 };
 
 const MAX_LENGTH = 64 * 1024;
-
-function getClassName(
-  moduleClassName?: string,
-  modifier?: string | null
-): string | undefined {
-  if (!moduleClassName || !modifier) {
-    return undefined;
-  }
-
-  return `${moduleClassName}${modifier}`;
-}
+const BASE_CLASS_NAME = 'module-composition-input';
 
 export const CompositionInput: React.ComponentType<Props> = props => {
   const {
@@ -525,7 +516,7 @@ export const CompositionInput: React.ComponentType<Props> = props => {
 
       return (
         <ReactQuill
-          className="module-composition-input__quill"
+          className={`${BASE_CLASS_NAME}__quill`}
           onFocus={() => callbacksRef.current.onFocus()}
           onBlur={() => callbacksRef.current.onBlur()}
           onChange={() => callbacksRef.current.onChange()}
@@ -642,29 +633,19 @@ export const CompositionInput: React.ComponentType<Props> = props => {
   // eslint-disable-next-line max-len
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
+  const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
+
   return (
     <Manager>
       <Reference>
         {({ ref }) => (
-          <div
-            className={classNames(
-              'module-composition-input__input',
-              getClassName(moduleClassName, '__input')
-            )}
-            ref={ref}
-          >
+          <div className={getClassName('__input')} ref={ref}>
             <div
               ref={scrollerRef}
               onClick={focus}
               className={classNames(
-                'module-composition-input__input__scroller',
-                large
-                  ? 'module-composition-input__input__scroller--large'
-                  : null,
-                getClassName(moduleClassName, '__scroller'),
-                large
-                  ? getClassName(moduleClassName, '__scroller--large')
-                  : null
+                getClassName('__input__scroller'),
+                large ? getClassName('__input__scroller--large') : null
               )}
             >
               {reactQuill}

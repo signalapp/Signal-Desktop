@@ -25,6 +25,7 @@ import { EmojiPickDataType } from './emoji/EmojiPicker';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
 import { BodyRangeType, LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
+import { SearchInput } from './SearchInput';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { assert } from '../util/assert';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
@@ -325,20 +326,15 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
           </div>
         ) : (
           <div className="module-ForwardMessageModal__main-body">
-            <div className="module-ForwardMessageModal__search">
-              <i className="module-ForwardMessageModal__search--icon" />
-              <input
-                type="text"
-                className="module-ForwardMessageModal__search--input"
-                disabled={candidateConversations.length === 0}
-                placeholder={i18n('contactSearchPlaceholder')}
-                onChange={event => {
-                  setSearchTerm(event.target.value);
-                }}
-                ref={inputRef}
-                value={searchTerm}
-              />
-            </div>
+            <SearchInput
+              disabled={candidateConversations.length === 0}
+              placeholder={i18n('contactSearchPlaceholder')}
+              onChange={event => {
+                setSearchTerm(event.target.value);
+              }}
+              ref={inputRef}
+              value={searchTerm}
+            />
             {candidateConversations.length ? (
               <Measure bounds>
                 {({ contentRect, measureRef }: MeasuredComponentProps) => {

@@ -7329,39 +7329,8 @@ button.module-image__border-overlay:focus {
 }
 
 .module-left-pane__compose-search-form {
-  display: flex;
-  padding: 8px 16px;
-  margin-bottom: 8px;
-
   &__input {
     flex-grow: 1;
-
-    padding: 5px 12px;
-
-    border-radius: 17px;
-    border: none;
-
-    @include font-body-1;
-
-    @include light-theme {
-      background-color: $color-gray-05;
-      color: $color-gray-90;
-      border: solid 1px $color-gray-02;
-    }
-    @include dark-theme {
-      color: $color-gray-05;
-      background-color: $color-gray-95;
-      border: solid 1px $color-gray-80;
-    }
-
-    &:placeholder {
-      color: $color-gray-45;
-    }
-
-    &:focus {
-      border: solid 1px $ultramarine-ui-light;
-      outline: none;
-    }
   }
 }
 

@@ -29,36 +29,6 @@
     @include modal-close-button;
   }
 
-  &__search-input {
-    margin: 10px $padding;
-    padding: 5px 12px;
-
-    border-radius: 17px;
-    border: none;
-
-    @include font-body-2;
-
-    @include light-theme {
-      background-color: $color-gray-05;
-      color: $color-gray-90;
-      border: solid 1px $color-gray-02;
-    }
-    @include dark-theme {
-      color: $color-gray-05;
-      background-color: $color-gray-95;
-      border: solid 1px $color-gray-80;
-    }
-
-    &:placeholder {
-      color: $color-gray-45;
-    }
-
-    &:focus {
-      border: solid 1px $ultramarine-ui-light;
-      outline: none;
-    }
-  }
-
   .module-ContactPills {
     max-height: 50px;
   }

@@ -8,6 +8,7 @@ import { noop } from 'lodash';
 import { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import { Theme } from '../util/theme';
+import { getClassNamesFor } from '../util/getClassNamesFor';
 
 type PropsType = {
   children: ReactNode;
@@ -18,6 +19,8 @@ type PropsType = {
   title?: ReactNode;
   theme?: Theme;
 };
+
+const BASE_CLASS_NAME = 'module-Modal';
 
 export function Modal({
   children,
@@ -31,23 +34,23 @@ export function Modal({
   const [scrolled, setScrolled] = useState(false);
 
   const hasHeader = Boolean(hasXButton || title);
+  const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
   return (
     <ModalHost onClose={onClose} theme={theme}>
       <div
         className={classNames(
-          'module-Modal',
-          hasHeader ? 'module-Modal--has-header' : 'module-Modal--no-header',
-          moduleClassName
+          getClassName(''),
+          getClassName(hasHeader ? '--has-header' : '--no-header')
         )}
       >
         {hasHeader && (
-          <div className="module-Modal__header">
+          <div className={getClassName('__header')}>
             {hasXButton && (
               <button
                 aria-label={i18n('close')}
                 type="button"
-                className="module-Modal__close-button"
+                className={getClassName('__close-button')}
                 tabIndex={0}
                 onClick={() => {
                   onClose();
@@ -57,8 +60,8 @@ export function Modal({
             {title && (
               <h1
                 className={classNames(
-                  'module-Modal__title',
-                  hasXButton ? 'module-Modal__title--with-x-button' : null
+                  getClassName('__title'),
+                  hasXButton ? getClassName('__title--with-x-button') : null
                 )}
               >
                 {title}
@@ -67,9 +70,10 @@ export function Modal({
           </div>
         )}
         <div
-          className={classNames('module-Modal__body', {
-            'module-Modal__body--scrolled': scrolled,
-          })}
+          className={classNames(
+            getClassName('__body'),
+            scrolled ? getClassName('__body--scrolled') : null
+          )}
           onScroll={event => {
             setScrolled((event.target as HTMLDivElement).scrollTop > 2);
           }}
@@ -83,6 +87,14 @@ export function Modal({
 
 Modal.Footer = ({
   children,
-}: Readonly<{ children: ReactNode }>): ReactElement => (
-  <div className="module-Modal__footer">{children}</div>
+  moduleClassName,
+}: Readonly<{
+  children: ReactNode;
+  moduleClassName?: string;
+}>): ReactElement => (
+  <div
+    className={getClassNamesFor(BASE_CLASS_NAME, moduleClassName)('__footer')}
+  >
+    {children}
+  </div>
 );
