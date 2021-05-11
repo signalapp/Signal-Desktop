@@ -63,6 +63,10 @@ export type StateProps = {
 
 export type Props = StateProps;
 
+const expirationTimerDefaultSet = new Set<number>(
+  expirationTimer.DEFAULT_DURATIONS_IN_SECONDS
+);
+
 export const ConversationDetails: React.ComponentType<Props> = ({
   addMembers,
   canEditGroupInfo,
@@ -196,6 +200,13 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       throw missingCaseError(modalState);
   }
 
+  const expireTimer = conversation.expireTimer || 0;
+
+  let expirationTimerDurations = expirationTimer.DEFAULT_DURATIONS_IN_SECONDS;
+  if (!expirationTimerDefaultSet.has(expireTimer)) {
+    expirationTimerDurations = [...expirationTimerDurations, expireTimer];
+  }
+
   return (
     <div className="conversation-details-panel">
       <ConversationDetailsHeader
@@ -222,24 +233,15 @@ export const ConversationDetails: React.ComponentType<Props> = ({
             label={i18n('ConversationDetails--disappearing-messages-label')}
             right={
               <div className="module-conversation-details-select">
-                <select
-                  onChange={updateExpireTimer}
-                  value={conversation.expireTimer || 0}
-                >
-                  {expirationTimer.DEFAULT_DURATIONS_IN_SECONDS.map(
-                    (seconds: number) => {
-                      const label = expirationTimer.format(i18n, seconds);
-                      return (
-                        <option
-                          value={seconds}
-                          key={seconds}
-                          aria-label={label}
-                        >
-                          {label}
-                        </option>
-                      );
-                    }
-                  )}
+                <select onChange={updateExpireTimer} value={expireTimer}>
+                  {expirationTimerDurations.map((seconds: number) => {
+                    const label = expirationTimer.format(i18n, seconds);
+                    return (
+                      <option value={seconds} key={seconds} aria-label={label}>
+                        {label}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             }
