@@ -79,7 +79,7 @@ async function handleGroups(
   return groupUpdate;
 }
 
-function contentTypeSupported(type: any): boolean {
+function contentTypeSupported(type: string): boolean {
   const Chrome = window.Signal.Util.GoogleChrome;
   return Chrome.isImageTypeSupported(type) || Chrome.isVideoTypeSupported(type);
 }
@@ -139,7 +139,7 @@ async function copyFromQuotedMessage(
     return;
   }
 
-  if (!firstAttachment || !contentTypeSupported(firstAttachment)) {
+  if (!firstAttachment || !contentTypeSupported(firstAttachment.contentType)) {
     return;
   }
 
