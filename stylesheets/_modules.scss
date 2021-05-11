@@ -4288,12 +4288,15 @@ button.module-conversation-details__action-button {
 
 .module-image--tap-to-play {
   span:after {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     content: 'GIF';
     height: 24px;
     width: 24px;
 
     @include font-body-1;
-    line-height: 24px;
     color: $color-white;
   }
 }
