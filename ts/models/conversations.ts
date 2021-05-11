@@ -3128,7 +3128,9 @@ export class ConversationModel extends window.Backbone
           expireTimer,
           profileKey
         );
-        return message.sendSyncMessageOnly(dataMessage);
+        const result = await message.sendSyncMessageOnly(dataMessage);
+        window.Whisper.Reactions.onReaction(reactionModel);
+        return result;
       }
 
       const options = await this.getSendOptions();
