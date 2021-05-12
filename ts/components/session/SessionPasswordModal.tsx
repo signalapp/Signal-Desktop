@@ -208,9 +208,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       return;
     }
 
-    const isValidWithStoredInDB = Boolean(
-      await this.validatePasswordHash(oldPassword)
-    );
+    const isValidWithStoredInDB = Boolean(await this.validatePasswordHash(oldPassword));
     if (!isValidWithStoredInDB) {
       this.setState({
         error: window.i18n('changePasswordInvalid'),
