@@ -43,6 +43,7 @@ export enum SectionType {
   Channel,
   Settings,
   Moon,
+  PathIndicator,
 }
 
 const Section = (props: { type: SectionType; avatarPath?: string }) => {
@@ -66,7 +67,12 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
 
       const newThemeObject = updatedTheme === 'dark' ? darkTheme : lightTheme;
       dispatch(applyTheme(newThemeObject));
-    } else {
+    } else if (type === SectionType.PathIndicator) {
+      // Show Path Indicator Modal
+      console.log("status clicked")
+      // window.showPathIndicatorDialog();
+    }
+    else {
       dispatch(clearSearch());
       dispatch(showLeftPaneSection(type));
     }
@@ -102,7 +108,10 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     case SectionType.Moon:
       iconType = SessionIconType.Moon;
       break;
-
+    // Update Icon Here
+    case SectionType.PathIndicator:
+      iconType = SessionIconType.Star;
+      break;
     default:
       iconType = SessionIconType.Moon;
   }
@@ -236,6 +245,8 @@ export const ActionsPanel = () => {
       <Section type={SectionType.Settings} />
 
       <SessionToastContainer />
+      
+      <Section type={SectionType.PathIndicator} />
       <Section type={SectionType.Moon} />
     </div>
   );
