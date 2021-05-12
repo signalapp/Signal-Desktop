@@ -1156,8 +1156,16 @@
         "message": "Change Nickname",
         "description": "Conversation menu option to change user nickname"
     },
+    "nicknamePlaceholder": {
+        "message": "New Nickname",
+        "description": "A placeholder value for entering a new nickname"
+    },
+    "changeNicknameMessage": {
+        "message": "Enter a nickname for this user",
+        "description": "A short message describing what the nickname modal input changes"
+    },
     "clearNickname": {
-        "message": "Clear nickname",
+        "message": "Clear Nickname",
         "description": "Conversation menu option to clear user nickname"
     },
     "hideMenuBarTitle": {

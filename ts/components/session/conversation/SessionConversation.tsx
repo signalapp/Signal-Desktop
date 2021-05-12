@@ -359,6 +359,8 @@ export class SessionConversation extends React.Component<Props, State> {
       onSetDisappearingMessages: conversation.updateExpirationTimer,
       onDeleteMessages: conversation.deleteMessages,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
+      onChangeNickname: conversation.changeNickname,
+      onClearNickname: conversation.clearNickname,
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
       },

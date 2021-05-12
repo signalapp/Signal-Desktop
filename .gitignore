@@ -47,3 +47,6 @@ proxy.pub
 
 *.tsbuildinfo
 yarn-error.log
+
+# editor
+.vscode/

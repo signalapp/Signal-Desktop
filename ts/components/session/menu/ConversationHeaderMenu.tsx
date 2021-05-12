@@ -3,6 +3,8 @@ import { animation, Menu } from 'react-contexify';
 import {
   getAddModeratorsMenuItem,
   getBlockMenuItem,
+  getChangeNicknameMenuItem,
+  getClearNicknameMenuItem,
   getCopyMenuItem,
   getDeleteContactMenuItem,
   getDeleteMessagesMenuItem,
@@ -26,10 +28,14 @@ export type PropsConversationHeaderMenu = {
   timerOptions: Array<TimerOption>;
   isPrivate: boolean;
   isBlocked: boolean;
+  hasNickname?: boolean;
+
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
   onCopyPublicKey?: () => void;
   onInviteContacts?: () => void;
+  onChangeNickname?: () => void;
+  onClearNickname?: () => void;
 
   onLeaveGroup: () => void;
   onMarkAllRead: () => void;
@@ -53,7 +59,10 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     isBlocked,
     isPrivate,
     left,
+    hasNickname,
 
+    onClearNickname,
+    onChangeNickname,
     onDeleteMessages,
     onDeleteContact,
     onCopyPublicKey,
@@ -83,6 +92,8 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
 
       {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey, window.i18n)}
       {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
+      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, window.i18n)}
+      {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup, window.i18n)}
       {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
       {getAddModeratorsMenuItem(isAdmin, isKickedFromGroup, onAddModerators, window.i18n)}
       {getRemoveModeratorsMenuItem(isAdmin, isKickedFromGroup, onRemoveModerators, window.i18n)}

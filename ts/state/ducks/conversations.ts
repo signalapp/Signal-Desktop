@@ -92,6 +92,7 @@ export interface ConversationType {
   onInviteContacts?: () => void;
   onMarkAllRead?: () => void;
   onClearNickname?: () => void;
+  onChangeNickname?: () => void;
 }
 
 export type ConversationLookupType = {

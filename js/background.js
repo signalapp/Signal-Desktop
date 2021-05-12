@@ -383,6 +383,19 @@
       confirmDialog.render();
     };
 
+    window.showNicknameDialog = params => {
+      const options = {
+        title: params.title || undefined,
+        message: params.message,
+        placeholder: params.placeholder,
+        convoId: params.convoId || undefined,
+      };
+
+      if (appView) {
+        appView.showNicknameDialog(options);
+      }
+    };
+
     window.showResetSessionIdDialog = () => {
       appView.showResetSessionIdDialog();
     };

@@ -422,18 +422,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       onUnblockContact: this.unblock,
       onCopyPublicKey: this.copyPublicKey,
       onDeleteContact: this.deleteContact,
+      onChangeNickname: this.changeNickname,
+      onClearNickname: this.clearNickname,
+      onDeleteMessages: this.deleteMessages,
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveClosedGroup', this);
       },
-      onDeleteMessages: this.deleteMessages,
       onInviteContacts: () => {
         window.Whisper.events.trigger('inviteContacts', this);
       },
       onMarkAllRead: () => {
         void this.markReadBouncy(Date.now());
-      },
-      onClearNickname: () => {
-        void this.setLokiProfile({ displayName: null });
       },
     };
   }
@@ -1308,8 +1307,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public changeNickname() {
-    throw new Error('changeNickname todo');
+    if (this.isGroup()) {
+      throw new Error(
+        'Called changeNickname() on a group. This is only supported in 1-on-1 conversation items and 1-on-1 conversation headers'
+      );
+    }
+    window.showNicknameDialog({
+      title: window.i18n('changeNickname') || 'Change Nickname',
+      message: window.i18n('changeNicknameMessage') || '',
+      placeholder: window.i18n('nicknamePlaceholder') || '',
+      convoId: this.id,
+    });
   }
+
+  public clearNickname = () => {
+    void this.setNickname('');
+  };
 
   public deleteContact() {
     let title = window.i18n('delete');

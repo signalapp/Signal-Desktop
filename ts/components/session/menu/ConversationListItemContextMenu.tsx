@@ -4,6 +4,7 @@ import { ConversationTypeEnum } from '../../../models/conversation';
 
 import {
   getBlockMenuItem,
+  getChangeNicknameMenuItem,
   getClearNicknameMenuItem,
   getCopyMenuItem,
   getDeleteContactMenuItem,
@@ -32,6 +33,7 @@ export type PropsContextConversationItem = {
   onUnblockContact?: () => void;
   onInviteContacts?: () => void;
   onClearNickname?: () => void;
+  onChangeNickname?: () => void;
 };
 
 export const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
@@ -53,7 +55,10 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     onUnblockContact,
     onInviteContacts,
     onLeaveGroup,
+    onChangeNickname,
   } = props;
+
+  const isGroup = type === 'group';
 
   return (
     <Menu id={triggerId} animation={animation.fade}>
@@ -65,34 +70,23 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
         onUnblockContact,
         window.i18n
       )}
-      {/* {!isPublic && !isMe ? (
-        <Item onClick={onChangeNickname}>
-          {i18n('changeNickname')}
-        </Item>
-      ) : null} */}
-      {getClearNicknameMenuItem(isPublic, isMe, hasNickname, onClearNickname, window.i18n)}
-      {getCopyMenuItem(isPublic, type === 'group', onCopyPublicKey, window.i18n)}
+      {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey, window.i18n)}
       {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
+      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, window.i18n)}
+      {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup, window.i18n)}
 
       {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
-      {getInviteContactMenuItem(type === 'group', isPublic, onInviteContacts, window.i18n)}
+      {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts, window.i18n)}
       {getDeleteContactMenuItem(
         isMe,
-        type === 'group',
+        isGroup,
         isPublic,
         left,
         isKickedFromGroup,
         onDeleteContact,
         window.i18n
       )}
-      {getLeaveGroupMenuItem(
-        isKickedFromGroup,
-        left,
-        type === 'group',
-        isPublic,
-        onLeaveGroup,
-        window.i18n
-      )}
+      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n)}
     </Menu>
   );
 };
