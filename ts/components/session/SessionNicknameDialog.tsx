@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
 import { ConversationController } from '../../session/conversations/ConversationController';
 import { SessionModal } from './SessionModal';
-import { SessionButton, SessionButtonColor } from './SessionButton';
+import { SessionButton } from './SessionButton';
 import { DefaultTheme, withTheme } from 'styled-components';
 
+import _ from 'lodash';
+
 type Props = {
-  message: string;
-  title: string;
-  placeholder?: string;
-  onOk?: any;
-  onClose?: any;
   onClickOk: any;
   onClickClose: any;
-  hideCancel: boolean;
-  okTheme: SessionButtonColor;
   theme: DefaultTheme;
-  convoId?: string;
+  convoId: string;
 };
 
 const SessionNicknameInner = (props: Props) => {
-  const { title = '', message, onClickOk, onClickClose, convoId, placeholder } = props;
-  const showHeader = true;
+  const { onClickOk, onClickClose, convoId, theme } = props;
   const [nickname, setNickname] = useState('');
 
   /**
@@ -30,9 +24,10 @@ const SessionNicknameInner = (props: Props) => {
   const onNicknameInput = async (event: any) => {
     if (event.key === 'Enter') {
       await saveNickname();
+    } else {
+      const currentNicknameEntered = event.target.value;
+      setNickname(currentNicknameEntered);
     }
-    const currentNicknameEntered = event.target.value;
-    setNickname(currentNicknameEntered);
   };
 
   /**
@@ -49,24 +44,24 @@ const SessionNicknameInner = (props: Props) => {
 
   return (
     <SessionModal
-      title={title}
+      title={window.i18n('changeNickname')}
       onClose={onClickClose}
       showExitIcon={false}
-      showHeader={showHeader}
-      theme={props.theme}
+      showHeader={true}
+      theme={theme}
     >
-      {!showHeader && <div className="spacer-lg" />}
-
       <div className="session-modal__centered">
-        <span className="subtle">{message}</span>
+        <span className="subtle">{window.i18n('changeNicknameMessage')}</span>
         <div className="spacer-lg" />
       </div>
 
       <input
         type="nickname"
         id="nickname-modal-input"
-        placeholder={placeholder}
-        onKeyUp={onNicknameInput}
+        placeholder={window.i18n('nicknamePlaceholder')}
+        onKeyPress={e => {
+          void onNicknameInput(_.cloneDeep(e));
+        }}
       />
 
       <div className="session-modal__button-group">

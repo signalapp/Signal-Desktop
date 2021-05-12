@@ -68,7 +68,7 @@ declare global {
     setPassword: any;
     setSettingValue: any;
     showEditProfileDialog: any;
-    showNicknameDialog: any;
+    showNicknameDialog: (options: { convoId: string }) => void;
     showResetSessionIdDialog: any;
     storage: any;
     textsecure: LibTextsecure;

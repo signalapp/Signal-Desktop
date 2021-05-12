@@ -1313,9 +1313,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       );
     }
     window.showNicknameDialog({
-      title: window.i18n('changeNickname') || 'Change Nickname',
-      message: window.i18n('changeNicknameMessage') || '',
-      placeholder: window.i18n('nicknamePlaceholder') || '',
       convoId: this.id,
     });
   }
