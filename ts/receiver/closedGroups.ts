@@ -190,10 +190,8 @@ export async function handleNewClosedGroup(
 
   const maybeConvo = ConversationController.getInstance().get(groupId);
 
-  const groupExists = !!maybeConvo;
-
-  if (groupExists) {
-    if (maybeConvo && (maybeConvo.get('isKickedFromGroup') || maybeConvo.get('left'))) {
+  if (maybeConvo) {
+    if (maybeConvo.get('isKickedFromGroup') || maybeConvo.get('left')) {
       // TODO: indicate that we've been re-invited
       // to the group if that is the case
 
@@ -202,8 +200,30 @@ export async function handleNewClosedGroup(
       maybeConvo.set('left', false);
       maybeConvo.set('lastJoinedTimestamp', _.toNumber(envelope.timestamp));
     } else {
-      log.warn('Ignoring a closed group message of type NEW: the conversation already exists');
+      const ecKeyPairAlreadyExistingConvo = new ECKeyPair(
+        // tslint:disable: no-non-null-assertion
+        encryptionKeyPair!.publicKey,
+        encryptionKeyPair!.privateKey
+      );
+      const isKeyPairAlreadyHere = await isKeyPairAlreadySaved(
+        groupId,
+        ecKeyPairAlreadyExistingConvo.toHexKeyPair()
+      );
+
+      if (isKeyPairAlreadyHere) {
+        await getAllEncryptionKeyPairsForGroup(groupId);
+        window.log.info('Dropping already saved keypair for group', groupId);
+        await removeFromCache(envelope);
+        return;
+      }
+
+      window.log.info(`Received the encryptionKeyPair for new group ${groupId}`);
+
+      await addClosedGroupEncryptionKeyPair(groupId, ecKeyPairAlreadyExistingConvo.toHexKeyPair());
       await removeFromCache(envelope);
+      log.warn(
+        'Closed group message of type NEW: the conversation already exists, but we saved the new encryption keypair'
+      );
       return;
     }
   }
