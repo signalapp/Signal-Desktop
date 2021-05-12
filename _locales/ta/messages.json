@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": " ஸ்டிக்கர் தொகுப்பை உருவாக்க/பதிவேற்ற",
+        "message": "ஒட்டிப் பொதியை உருவாக்க/பதிவேற்ற",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -198,7 +198,7 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "முக்கியமானது",
+        "message": "முக்கியமானவை",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -222,11 +222,11 @@
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "உரையாடலை பாதுகாக்கவும்",
+        "message": "முக்கியமானதாகக் குறிக்கவும்",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "உரையாடலைத் திறக்கவும்",
+        "message": "சாதாரணமானதாகக் குறிக்கவும்",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
@@ -771,6 +771,10 @@
         "message": "தொடர்புகள்",
         "description": "Shown to separate the types of search results"
     },
+    "groupsHeader": {
+        "message": "குழுக்கள்",
+        "description": "Shown to separate the types of search results"
+    },
     "messagesHeader": {
         "message": "செய்திகள்",
         "description": "Shown to separate the types of search results"
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "'நீக்கு' என்பதைக் கிளிக் செய்தால், இந்தச் செய்தியை உங்கள் சாதனங்களிலிருந்து மட்டுமே நிரந்தரமாக நீக்கும்.",
+        "message": "இந்த செய்தி இந்த சாதனத்திலிருந்து நீக்கப்படும்.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1075,10 @@
         "message": "இந்த தொடர்புடன் நீங்கள் இதுவரை எந்த செய்திகளையும் பரிமாறவில்லை. அவர்களுடனான உங்கள் பாதுகாப்பு எண் முதல் செய்திக்குப் பிறகு கிடைக்கும்.",
         "description": ""
     },
+    "back": {
+        "message": "மீண்டும்",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "திரும்பிச் செல்லுங்கள்",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "அனுப்ப முயற்சிக்கவும்",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "செய்தியை முன்னனுப்புக",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": " செய்தியை எனக்கு மட்டும் நீக்கு",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "பாதுகாப்பான அமர்வு மீட்டமைப்பு",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "உரையாடல் அமர்வு புதுப்பிக்கப்பட்டது",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "மேலும் அறிக",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal இருமுனை குறியாக்கத்தைப் (E2EE) பயன்படுத்துகிறது, மேலும் இது சில நேரங்களில் உங்கள் அரட்டை அமர்வை புதுப்பிக்க வேண்டியிருக்கும். இது உங்கள் அரட்டையின் பாதுகாப்பைப் பாதிக்காது, ஆனால் இந்த தொடர்பிலிருந்து நீங்கள் ஒரு செய்தியைத் தவறவிட்டிருக்கலாம், மேலும் அதை மீண்டும் அனுப்புமாறு அவர்களிடம் கேட்கலாம்.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "தொடர்பு ஆதரவு",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "மேற்கோள் செய்தியிலிருந்து படத்தின் சிறு உருவம்",
@@ -1909,6 +1937,112 @@
         "message": "புதிய உரையாடலைத் தொடங்குங்கள்…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "புதிய உரையாடல்",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "பெயர் அல்லது தொலைபேசி எண் மூலம் தேட",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "எந்த தொடர்புகளும் கிடைக்கவில்லை",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "உரையாடல்கள் எதுவும் கிடைக்கவில்லை",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "உறுப்பினர்களை தேர்ந்தெடு",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "மீண்டும்",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "தவிர்",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "அடுத்தது",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "அதிகபட்ச குழு அளவு எட்டப்பட்டுள்ளது",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signal குழுக்களில் அதிகபட்சம்  $max$ உறுப்பினர்கள் இருக்கலாம்.\n",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "குழு உறுப்பினர் அளவு பரிந்துரைக்கப்பட்ட வரம்பை எட்டியுள்ளது",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal groups perform best with $max$ members or less. Adding more members will cause delays sending and receiving messages.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "உறுப்பினரை சேர்க்க முடியாது",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "இந்த குழுவிற்கு பெயரிடுங்கள்",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "உறுப்பினரைத் தேர்ந்தெடுக்க திரும்பு",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "குழு பெயர் (தேவை)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "உருவாக்கவும்",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "உறுப்பினர்கள்",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "இந்தக் குழுவினை உருவாக்க முடியவில்லை. உங்கள் இணைப்பை சோதித்து விட்டு மறுபடி முயற்சிக்கவும்.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "குழு பெயர் மற்றும் புகைப்படத்தைத் தொகு அல்லது திருத்தவும்",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "குழுவினை புதுப்பிக்க முடியவில்லை. உங்கள் இணைப்பை சோதித்து விட்டு மறுபடி முயற்சிக்கவும்",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "எஸ்எம்எஸ் / எம்எம்எஸ் செய்திகள் ஆதரிக்கப்படவில்லை.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -2351,6 +2485,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "உரையாடல் மெனுவைத் திறக்கவும்",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "புதிய உரையாடலைத் தொடங்கு",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2970,68 +3108,20 @@
         }
     },
     "ConversationHero--membership-1": {
-        "message": "$group$ குழு உறுப்பினர்.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "message": "உறுப்பினர்$group$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
-        "message": "$group1$ மற்றும் $group2$ இன் உறுப்பினர்.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "message": "உறுப்பினர் $group1$ மற்றும் $group2$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
-        "message": "$group1$, $group2$, மற்றும் $group3$ குழுக்களின் உறுப்பினர்",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "message": "உறுப்பினர் $group1$, $group2$, மற்றும் $group3$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": " $group1$, $group2$, $group3$ மேலும் $remainingCount$ குழுக்களின் உறுப்பினர்",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ அவர் உங்களை குழுவில் சேர்த்தார்.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "பொதுவான குழுக்கள் இல்லை",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "பதில்",
@@ -3245,6 +3339,10 @@
         "message": "ஒரு மணி நேரம் முடக்கு",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "எட்டு மணி நேரம் முடக்கு",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "ஒரு நாள் முடக்கு",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "ஒரு வாரம் முடக்கு",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "ஒரு வருடம் முடக்கு",
+    "muteAlways": {
+        "message": "எப்போதும் முடக்கு",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "தடுப்புநீக்கு",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "எப்போதும் முடக்கியது",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "அறிவிப்புகள் $duration$ வரை முடக்கப்பட்டன",
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "நிர்வாகம்",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "நிர்வாகிகள் மட்டுமே",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "அனைத்து உறுப்பினர்கள்",
@@ -4641,6 +4747,10 @@
         "message": "குழுவைத் தடு",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "நீங்கள் வெளியேறுவதற்கு முன், இந்த குழுவிற்கு குறைந்தபட்சம் ஒரு புதிய new admin நிர்வாகியையாவது தேர்வு செய்ய வேண்டும்.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "நீங்கள் உண்மையில் வெளியேற விரும்புகிறீர்களா?",
         "description": "This is the modal title for confirming leaving a group"
@@ -4698,6 +4808,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "உறுப்பினர்களைச் சேர்க்கவும்",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "அனைத்தையும் பார்",
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "விவரங்கள் பற்றி மக்கள் இதற்கு அழைக்கப்பட்டார் குழு அவை வரை காட்டப்படவில்லை சேர. அழைப்பாளர்கள் செய்திகளுக்குப் பிறகுதான் செய்திகளைப் பார்ப்பார்கள்சேர தி குழு.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "குழு புகைப்படத்தை சேர்",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "புகைப்படத்தை மாற்று",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "புகைப்படத்தை பதிவேற்று",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "புகைப்படத்தை அகற்று",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "தொடர்பை நீக்கு",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "சரி",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "அழைப்பு அனுப்பப்பட்டது.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ invitations sent",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$ can’t be automatically added to this group by you.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "இந்தப் பயனர்களைத் தானாகவே உங்களால் இந்தக் குழுவில் சேர்க்க முடியாது.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "குழுவில் சேர அவர்கள் அழைக்கப்பட்டுள்ளனர். அதை ஏற்றுக் கொள்ளும்வரை எந்தவொரு குழு செய்திகளையும்  அவர்களால் பார்க்க முடியாது.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "மேலும் அறிக",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "உறுப்பினர்களைச் சேர்க்கவும்",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "புதுப்பிக்கப்பட்டது",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Add $person$ to \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Add $count$ members to \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "குழுஉறுப்பினர் சேர்க்",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "உறுப்பினர்களைச் சேர்க்கவும்",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "புதிய குழு",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "தொடர்பைத் தேர்ந்தெடு",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "தொடர்பைத் தேர்வுநீக்கு",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "தொடர்பைத் தேர்ந்தெடுக்க இயலாது",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "ஏற்கனவே உறுப்பினர்தான்",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "கேட்பொலி இணைப்பை இயக்கு",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "கேட்பொலி இணைப்பைச் சற்று நிறுத்து",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "கேட்பொலி இணைப்பை பதிவிறக்கு",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "கேட்பொலி இணைப்பு பதிவிறக்கப்படுகின்றது...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "கேட்பொலி இணைப்பின் முழு இயக்க நேரம்",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "செய்தியை அனுப்ப, மேலே உள்ள $composeIcon$ அழுத்தி உங்கள் தொடர்புகள் அல்லது குழுக்களைத் தேடுங்கள். ",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "எழுது பொத்தானை",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "தொடர்ந்து செல் ",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

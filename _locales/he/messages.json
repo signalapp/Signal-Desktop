@@ -771,6 +771,10 @@
         "message": "אנשי קשר",
         "description": "Shown to separate the types of search results"
     },
+    "groupsHeader": {
+        "message": "קבוצות",
+        "description": "Shown to separate the types of search results"
+    },
     "messagesHeader": {
         "message": "הודעות",
         "description": "Shown to separate the types of search results"
@@ -906,11 +910,11 @@
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "לצורך ביצוע שיחות, אתה חייב להתיר אל Signal Desktop להשיג גישה אל המיקרופון שלך.",
+        "message": "לצורך התקשרות, אתה חייב להתיר אל Signal Desktop להשיג גישה אל המיקרופון שלך.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "לצורך ביצוע שיחות וידאו, אתה חייב להתיר אל Signal Desktop להשיג גישה אל המצלמה שלך.",
+        "message": "לצורך התקשרות וידאו, אתה חייב להתיר אל Signal Desktop להשיג גישה אל המצלמה שלך.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "לחיצה על 'מחק' תסיר לצמיתות הודעה זו מהמכשירים שלך בלבד.",
+        "message": "הודעה זו תימחק ממכשיר זה.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1075,10 @@
         "message": "לא החלפת עדין הודעות כלשהן עם איש קשר זה. מספר הביטחון שלך איתו יהיה זמין לאחר ההודעה הראשונה.",
         "description": ""
     },
+    "back": {
+        "message": "הקודם",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "חזור",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "נסה מחדש שליחה",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "העבר הלאה הודעה",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "מחק הודעה עבורי",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "שיח מאובטח אופס",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "שיח התכתבות רוענן",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "למד עוד",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal משתמש בהצפנה מקצה־אל־קצה והוא עשוי להצטרך לרענן את שיח ההתכתבות שלך לפעמים. זה לא משפיע על אבטחת ההתכתבות שלך אבל ייתכן שהחמצת הודעה מאיש קשר זה ואתה יכול לבקש ממנו לשלוח אותה מחדש.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "צור קשר עם תמיכה",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "תמונה ממוזערת מהודעה מצוטטת",
@@ -1798,7 +1826,7 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "נגן צלילי חיוג",
+        "message": "נגן צלצול שיחה",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
@@ -1908,6 +1936,112 @@
     "startConversation": {
         "message": "התחל שיחה חדשה…",
         "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newConversation": {
+        "message": "שיחה חדשה",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "חפש לפי שם או מספר טלפון",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "אנשי קשר לא נמצאו",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "שיחות לא נמצאו",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "בחר חברי קבוצה",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "הקודם",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "דלג",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "הבא",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "גודל קבוצה מרבי הושג",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "קבוצות Signal יכולות להכיל מרב של $max$ חברי קבוצה.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "מגבלה מומלצת של חברי קבוצה הושגה",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "קבוצות Signal מתפקדות בצורה הטובה ביותר עם $max$ חברי קבוצה או פחות. הוספת חברי קבוצה נוספים תגרום לעיכובים בשליחה ובקבלה של הודעות.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "לא ניתן להוסיף חבר קבוצה",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "המשתמש \"$name$\" לא יכול להתווסף אל הקבוצה מאחר שהוא משתמש בגרסה ישנה של Signal. אתה יכול להוסיף אותו אל הקבוצה לאחר שהוא יעדכן את Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "תן שם לקבוצה זו",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "חזור אל בחירת חבר קבוצה",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "שם קבוצה (דרוש)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "צור",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "חברי קבוצה",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "קבוצה זו לא יכלה להיווצר. בדוק את החיבור שלך ונסה שוב.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "ערוך את השם והתמונה של הקבוצה",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "נכשל בעדכון הקבוצה. בדוק את החיבור שלך ונסה שוב.",
+        "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
         "message": "הודעות SMS/MMS אינן נתמכות.",
@@ -2351,6 +2485,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "פתח תפריט שיחה",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "התחל שיחה חדשה",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "חבר קבוצה של $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "חבר קבוצה של $group1$ ושל $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "חבר קבוצה של $group1$, $group2$, ושל $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "חבר קבוצה של $group1$, $group2$, $group3$ ושל עוד $remainingCount$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ הוסיף אותך אל הקבוצה.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "אין קבוצות במשותף.",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "ענה",
@@ -3245,6 +3339,10 @@
         "message": "השתק לשעה אחת",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "השתק למשך שמונה שעות",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "השתק ליום אחד",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "השתק לשבוע אחד",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "השתק לשנה אחת",
+    "muteAlways": {
+        "message": "השתק תמיד",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "בטל השתקה",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "מושתק תמיד",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "מושתק עד $duration$",
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "מנהלן",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "רק מנהלנים",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "כל חברי הקבוצה",
@@ -4641,6 +4747,10 @@
         "message": "חסום קבוצה",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "לפני שאתה עוזב, אתה חייב לבחור לפחות מנהלן חדש אחד עבור קבוצה זו.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "האם אתה באמת רוצה לעזוב?",
         "description": "This is the modal title for confirming leaving a group"
@@ -4698,6 +4808,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "הוסף חברי קבוצה",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "ראה הכל",
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "פרטים אודות אנשים שהוזמנו אל קבוצה זו אינם נראים עד שהאנשים יצטרפו. מוזמנים יראו הודעות רק לאחר שהם מצטרפים אל הקבוצה.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "הוסף תמונת קבוצה",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "שנה תמונה",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "העלה תמונה",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "הסר תמונה",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "הסר איש קשר",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "בסדר",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "הזמנה נשלחה",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ הזמנות נשלחו",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$ לא יכול/ה להתווסף באופן אוטומטי אל קבוצה זו על ידך.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "משתמשים אלו לא יכולים להתווסף באופן אוטומטי אל קבוצה זו על ידך.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "משתמש הוזמן להצטרף, והוא לא יראה הודעות קבוצה כלשהן עד שהוא יאשר.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "למד עוד",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "הוסף חברי קבוצה",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "עדכן",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "להוסיף את $person$ אל \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "להוסיף $count$ חברי קבוצה אל \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "הוספת חבר",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "הוסף חברי קבוצה",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "קבוצה חדשה",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "בחר איש קשר",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "בטל בחירת איש קשר",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "לא ניתן לבחור איש קשר",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "כבר חבר/ת קבוצה",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "נגן צרופת שמע",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "השהה צרופת שמע",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "הורד צרופת שמע",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "מוריד צרופת שמע…",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "זמן ניגון של צרופת שמע",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "לחץ על $composeIcon$ למעלה וחפש אחר אנשי הקשר או הקבוצות שלך כדי לשלוח הודעה.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "כפתור חַבֵּר",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "המשך",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

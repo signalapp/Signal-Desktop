@@ -160,7 +160,7 @@
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "Link másolása",
+        "message": "Hivatkozás másolása",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
@@ -194,7 +194,7 @@
         }
     },
     "archivedConversations": {
-        "message": "Archív beszélgetések",
+        "message": "Archivált beszélgetések",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
@@ -206,7 +206,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Ezek a beszélgetések archiválva vannak, ezért csak akkor jelennek meg újra a bejövő üzenet közt, ha újabb üzenet érkezik.",
+        "message": "Ezek a beszélgetések archiválva vannak, ezért csak akkor jelennek meg újra a bejövő üzenet közt, ha azokhoz újabb üzenet érkeznek.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -230,7 +230,7 @@
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "Maximum 4 beszélgetést rögzíthetsz",
+        "message": "Legfeljebb 4 beszélgetést rögzíthetsz",
         "description": ""
     },
     "chooseDirectory": {
@@ -262,7 +262,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Bizonyosodj meg róla, hogy a megfelelő, Signal adataidat tartalmazó könyvtárat választottad ki! A nevének 'Signal Export'-tal kell kezdődnie. Emellett készíthetsz egy új másolatot a Chrome alkalmazás adataiból is.",
+        "message": "Győződj meg róla, hogy a megfelelő, Signal adataidat tartalmazó könyvtárat választottad ki! A nevének 'Signal Export'-tal kell kezdődnie. Emellett készíthetsz egy új másolatot a Chrome alkalmazás adataiból is.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -312,7 +312,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "Érvénytelen csoport. Kérlek hozz létre egy újat.",
+        "message": "Érvénytelen csoport. Hozz létre egy újat!",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -386,7 +386,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "A hitelesítés alatt álló biztonsági szám megváltozott. Kérlek ellenőrizd új biztonsági számodat $name1$ nevű partnereddel. Ne felejtsd, ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name2$ egyszerűen csak újratelepítette a Signalt.",
+        "message": "A hitelesítés alatt álló biztonsági szám megváltozott. Kérlek ellenőrizd új biztonsági számodat $name1$ nevű partnereddel! Ez utalhat arra, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name2$ egyszerűen csak újratelepítette a Signalt.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -400,11 +400,11 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "A következő személyek lehet, hogy újratelepítették a Signalt vagy készüléket cseréltek. Ellenőrizd biztonsági számotokat a privacy megőrzése érdekében!",
+        "message": "A következő személyek lehet, hogy újratelepítették a Signalt vagy készüléket cseréltek. Ellenőrizd biztonsági számotokat az adatvédelem megőrzése érdekében!",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Biztonsági számod $name1$ nevű partnereddel megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name2$ egyszerűen csak újratelepítette a Signalt. Javasolt újraellenőrizni a partnereddel közös biztonsági számotokat.",
+        "message": "Biztonsági számod $name1$ nevű partnereddel megváltozott. Ez utalhat arra, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name2$ egyszerűen csak újratelepítette a Signalt. Javasolt újraellenőrizni a partnereddel közös biztonsági számotokat.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -448,7 +448,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Valamiért nem sikerült a feltöltés! Kérjük vedd fontolóra a naplófájl kézi feltöltését a hiba bejelentése során.",
+        "message": "Valamiért nem sikerült a feltöltés! Vedd fontolóra a naplófájl kézi feltöltését a hiba bejelentése során.",
         "description": ""
     },
     "debugLogCopy": {
@@ -532,7 +532,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
-        "message": "Minden média",
+        "message": "Összes médiafájl",
         "description": "Header for the media gallery"
     },
     "documents": {
@@ -604,7 +604,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Képcsatolmány vázlat: $path$",
+        "message": "Képcsatolmány-vázlat: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -618,7 +618,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "Nem keverheted a nem-kép és kép típusú csatolmányokat üzeneten belül.",
+        "message": "Nem keverheted a nem-kép és kép típusú csatolmányokat egy üzeneten belül.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
@@ -694,7 +694,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Matricacsomag készítő",
+        "message": "Matricacsomag-készítő",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -769,6 +769,10 @@
     },
     "contactsHeader": {
         "message": "Kontaktok",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "Csoportok",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -858,7 +862,7 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Az eredeti üzenet ugyan fellelhető, de még nincs betöltve. Görgess fel a betöltéséhez!",
+        "message": "Az eredeti üzenet ugyan létezik, de még nincs betöltve. Görgess fel a betöltéséhez!",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
@@ -878,7 +882,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Melléklet lementve. Kattints a mappa megjelenítéséhez!",
+        "message": "Csatolmány lementve. Kattints a mappa megjelenítéséhez!",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -902,7 +906,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Hangüzenetek küldéséhez engedélyezd, hogy a Signal Desktop hozzáférjen mikrofonodhoz",
+        "message": "Hangüzenetek küldéséhez engedélyezd, hogy a Signal Desktop hozzáférjen mikrofonodhoz!",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
@@ -930,7 +934,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Kép",
+        "message": "Fotó",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
@@ -938,7 +942,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "A Signal Desktop frissítése nem sikerült, pedig újabb verzió érhető el. Kérlek látogass el a  $url$ címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba a támogatással vagy nyiss egy hibajegyet az eseményről.",
+        "message": "A Signal Desktop frissítése nem sikerült, pedig újabb verzió érhető el. Kérlek látogass el a  $url$ címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba a szoftvertámogatással, vagy nyiss egy hibajegyet az eseményről!",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -948,7 +952,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "A Signal Desktop valószínűleg macOS karanténban fut, ami miatt képtelen lesz automatikusan frissülni. Próbáld meg áthelyezni a  $app$ fájlt a  $folder$ mappába a Finder segítségével!",
+        "message": "A Signal Desktop valószínűleg macOS karanténban fut, és emiatt nem fog tudni automatikusan frissíteni. Próbáld meg áthelyezni a  $app$ fájlt a $folder$ mappába a Finder segítségével!",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1002,11 +1006,11 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "A 'Törlés'-re kattintással végleg eltávolítod az üzenetet a saját eszközeidről.",
+        "message": "A beszélgetés ezen az eszközön törlésre kerül.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Ez az üzenet a beszélgetés minden olyan résztvevőjénél törlésre kerül, aki a Signal friss verzióját használja. Számukra az is látható látható lesz, hogy töröltél egy üzenetet.",
+        "message": "Ez az üzenet a beszélgetés minden olyan résztvevőjénél törlésre kerül, akik a Signal friss verzióját használják. Számukra látható látható lesz, hogy töröltél egy üzenetet.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1071,17 +1075,25 @@
         "message": "Még nem váltottál üzenetet ezzel a partnerrel. Biztonsági számod az első üzenet elküldését követően lesz elérhető.",
         "description": ""
     },
+    "back": {
+        "message": "Vissza",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Vissza",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
-        "message": "Részletek",
+        "message": "További információ",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
         "message": "Újraküldés",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Üzenet továbbítása",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Üzenet törlése számomra",
@@ -1103,6 +1115,22 @@
         "message": "A biztonságos munkamenet újra lett indítva",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
+    "ChatRefresh--notification": {
+        "message": "A beszélgetés munkamenete alaphelyzetbe állt",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "További információ",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "A Signal végpontok közti titkosítást használ és nagy ritkán újra be kell állítania a két végpont közti adatkapcsolatot. Ennek nincs hatása a biztonságra, de előfordulhat, hogy pont ezalatt nem kaptál meg egy üzenetet ettől a személytől. Ilyen esetekben érdemes megkérni a partnert, hogy küldje újra üzenetét.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Kapcsolatfelvétel a támogatással",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
     "quoteThumbnailAlt": {
         "message": "Az idézett üzenetben megjelenített fotó előnézeti képe",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1116,7 +1144,7 @@
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Beszélgetés során küldött fotó",
+        "message": "Beszélgetés során küldött kép",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
@@ -1220,7 +1248,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "A hívás betelt",
+        "message": "A hívás megtelt",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
@@ -1252,7 +1280,7 @@
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "Nincs itt senki",
+        "message": "Nincs itt senki más",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
@@ -1266,7 +1294,7 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "Egy másik eszközöd már belépett a hívásba",
+        "message": "Egy másik eszközön már beléptél a hívásba",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
@@ -1320,11 +1348,11 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "Nincs itt senki",
+        "message": "Nincs itt senki más",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "1 személy · ebben a hívásban",
+        "message": "Ebben a hívásban · 1 személy",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
@@ -1352,11 +1380,11 @@
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
-        "message": "Felgörgetés",
+        "message": "Görgetés fel",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Legörgetés",
+        "message": "Görgetés le",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "alwaysRelayCallsDescription": {
@@ -1364,7 +1392,7 @@
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "A hívások átjátszása a Signal szerverein annak érdekében, hogy IP címed telefonhívás során is rejtve maradjon partnered előtt. Engedélyezésével a hívások minősége gyengébb lesz.",
+        "message": "A hívások átjátszása a Signal szerverein annak érdekében, hogy IP címed a telefonhívás során is rejtve maradjon partnered előtt. Engedélyezésével a hívások minősége gyengébb lesz.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1392,7 +1420,7 @@
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "A helyesírás-ellenőrzés a Signal újraindítását követően lesz letiltva.",
+        "message": "A helyesírás-ellenőrzés a Signal újraindítását követően lesz kikapcsolva.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
@@ -1424,7 +1452,7 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "Egy korábbi Signal Desktop telepítés elavult adatokat hagyott hátra. Ha úgy döntesz, hogy folytatod, akkor ezek az adatok törölve lesznek.",
+        "message": "Egy korábbi Signal Desktop telepítés elavult adatokat hagyott hátra. Ha úgy döntesz, hogy folytatod, akkor ezek az adatok törölve lesznek, és elölről kell kezdened.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
@@ -1444,11 +1472,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Név, tartalom és műveletek",
+        "message": "Név, szöveg és műveletek",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Se név, se tartalom",
+        "message": "Se név, se szöveg",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1578,7 +1606,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$ órája",
+        "message": "$hours$ó",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1588,7 +1616,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ perce",
+        "message": "$minutes$p",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1678,7 +1706,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 perce",
+        "message": "1 perc",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
@@ -1690,7 +1718,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 órája",
+        "message": "1 óra",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
@@ -1766,7 +1794,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Egy tag letiltotta az üzenet-időzítőt.",
+        "message": "Egy csoporttag letiltotta az időzítőt.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
@@ -1780,7 +1808,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Letiltottad az eltűnő üzeneteket.",
+        "message": "Letiltottad az időzítőt.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1864,7 +1892,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Ezt a felhasználót nem teheted Ellenőrzötté, amíg nem kezdesz el vele beszélgetni.",
+        "message": "Ezt a felhasználót nem jelölheted ellenőrzöttnek, míg nem váltottatok üzenetet egymással.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -1894,7 +1922,7 @@
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "Ebben a beszélgetésben magadnak hagyhatsz jegyzeteket, Ha a fiókodat más, társított eszközökkel is használod, a jegyzetek azokra is átszinkronizálásra kerülnek.",
+        "message": "Ebben a beszélgetésben magadnak hagyhatsz jegyzeteket. Ha a fiókodat más társított eszközön is használod, akkor a jegyzetek ott is elérhetőek lesznek.",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
@@ -1906,8 +1934,114 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Új beszélgetés megkezdése…",
+        "message": "Új beszélgetés indítása…",
         "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newConversation": {
+        "message": "Új beszélgetés",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Keresés név vagy telefonszám alapján",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Nem találhatók kontaktok",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Nem találhatóak beszélgetések",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Tagok kiválasztása",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Vissza",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Kihagyás",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Tovább",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "A csoport elérte maximális létszámát",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "A Signal csoportok legfeljebb $max$ tagból állhatnak.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Elérted a javasolt létszám limitet",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "A Signal csoportok $max$ vagy kevesebb taggal működnek hatékonyan. Ennél több tag esetén lassulások tapasztalhatók az üzenetek küldése és fogadása során.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Csoporttag hozzáadása sikertelen",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "\"$name$\" nem adható hozzá a csoporthoz, mert a Signal egy elavult verzióját használja. A Signal frissítését követően hozzáadhatod őt.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Csoport elnevezése",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Vissza a tag kiválasztáshoz",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Csoport neve (kötelező)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Létrehozás",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Csoporttagok",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Ezt a csoportot nem lehetett létrehozni. Ellenőrizd a hálózatodat, majd próbáld újra!",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Csoport nevének és képének szerkesztése",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "A csoport frissítése nem sikerült. Ellenőrizd a hálózatodat, majd próbáld újra!",
+        "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
         "message": "Az SMS/MMS üzenetek nem támogatottak.",
@@ -1974,7 +2108,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ frissítette a csoportot.",
+        "message": "$name$ módosította a csoportot.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1984,11 +2118,11 @@
         }
     },
     "youUpdatedTheGroup": {
-        "message": "Frissítetted a csoportot.",
+        "message": "Módosítottad a csoportot.",
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "A csoportkép frissítve lett.",
+        "message": "A csoportkép módosítva lett.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -2050,7 +2184,7 @@
         "description": "Shown in notifications and in the left pane when a voice message is received."
     },
     "message--getNotificationText--audio-message": {
-        "message": "Hangfájl üzenet",
+        "message": "Hangfájlüzenet",
         "description": "Shown in notifications and in the left pane when an audio message is received."
     },
     "message--getNotificationText--file": {
@@ -2128,15 +2262,15 @@
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "ltávolítás",
+        "message": "Eltávolítás",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Ha kitörlöd a forrásüzeneteket, akkor már nem fogod tudni újratelepíteni ezt a matricacsomagot.",
+        "message": "Ha kitörlöd a matricákat tartalmazó eredeti üzeneteket, akkor már nem fogod tudni újratelepíteni ezt a matricacsomagot.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "Bemutatkoznak a matricák: Bandit, a macska",
+        "message": "Bemutatkozik a Matricák: Bandit, a macska",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
@@ -2180,7 +2314,7 @@
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Az üzeneteidnek köszönhetően újabb matricák váltak telepíthetővé",
+        "message": "A beérkezett üzeneteid révén újabb matricacsomagok váltak telepíthetővé",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
@@ -2278,7 +2412,7 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Az egyik eszközödről olyan üzenetet küldtél, melyet nem lehet feldolgozni vagy megjeleníteni ezen az eszközön, mivel olyan funkciót tartalmaz, mely csak a Signal egy újabb verzióiban érhető el.",
+        "message": "Az egyik eszközödről olyan üzenetet küldtél, melyet nem lehet feldolgozni vagy megjeleníteni ezen az eszközön, mivel olyan funkciót tartalmaz, mely csak a Signal egy újabb verziójában érhető el.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
@@ -2351,6 +2485,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "Beszélgetés menüjének megnyitása",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Új beszélgetés indítása",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2486,11 +2624,11 @@
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Gördítés a lista tetejére",
+        "message": "Görgetés a lista tetejére",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Gördítés a lista aljára",
+        "message": "Görgetés a lista aljára",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
@@ -2538,11 +2676,11 @@
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
-        "message": "Matricacsomag készítő",
+        "message": "Matricacsomag-készítő",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Hozzáadáshoz kattints ide, vagy húzd ide a képeket",
+        "message": "Kattints ide, vagy húzd ide a képeket",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -2612,7 +2750,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "Javasolhatsz matricákat a beszélgetés közben.",
+        "message": "Ennek segítségével javasolhatunk matricákat beszélgetés közben.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
@@ -2696,7 +2834,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Nézd meg az új Signalos matricacsomagomat! #makeprivacystick",
+        "message": "Nézd meg az új Signal matricacsomagomat! #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2776,7 +2914,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Engedélyezed, hogy $name$ üzenetet küldjön számodra és lássa a profilodat? Amíg nem fogadod el a felkérést, nem fog tudni arról, hogy megkaptad az üzeneteit.",
+        "message": "Engedélyezed, hogy $name$ üzenetet küldjön számodra és lássa a profilodat, valamint profilképedet? Amíg nem fogadod el a felkérést, nem fogja tudni, hogy megkaptad az üzeneteit.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -2786,7 +2924,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Engedélyezed, hogy $name$ üzenetet küldjön számodra és lássa a profilodat? Nem fogsz üzenetet kapni tőle, amíg fel nem oldod a tiltást.",
+        "message": "Engedélyezed, hogy $name$ üzenetet küldjön számodra és lássa a profilodat, valamint profilképedet? Nem fogsz üzenetet kapni tőle, amíg fel nem oldod a tiltást.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -2796,7 +2934,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Szeretnél csatlakozni a csoporthoz? Ezzel profilod láthatóvá is válik. Amíg ezt meg nem erősíted, senki nem értesül róla, hogy láttad -e ezt a felkérő üzenetet.",
+        "message": "Szeretnél csatlakozni a csoporthoz? Ezzel profilod és profilképed láthatóvá válik a csoporttagok számára. Amíg ezt meg nem erősíted, senki sem értesül róla, hogy láttad-e ezt a felkérő üzenetet.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -2806,7 +2944,7 @@
         }
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Feloldod a csoport tiltását és megosztod profilodat a tagokkal? Amíg nem oldod fel a tiltást, nem kapsz üzeneteket a csoportból.",
+        "message": "Feloldod a csoport tiltását és megosztod profilodat és profilképedet a tagokkal? Amíg nem oldod fel a tiltást, nem kapsz üzeneteket a csoportból.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -2828,7 +2966,7 @@
         }
     },
     "MessageRequests--unblock-direct-confirm-body": {
-        "message": "Újra fogadhatsz üzeneteket és hívásokat ettől a kontakttól.",
+        "message": "Újra válthatsz üzeneteket és hívásokat ezzel a kontakttal.",
         "description": "Shown as the body in the confirmation modal for unblocking a private message request",
         "placeholders": {
             "name": {
@@ -2922,7 +3060,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Folytatod a csoporton belüli csevegést, és megosztod nevedet, valamint profilképed a tagokkal? $learnMore$",
+        "message": "Folytatod a csoporton belüli beszélgetést, és megosztod nevedet, valamint profilképedet a csoporttagokkal? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -2932,7 +3070,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Folytatod a csoporton belüli csevegést $firstName$ nevű partnereddel, és megosztod nevedet, valamint profilképed vele? $learnMore$",
+        "message": "Folytatod a csoporton belüli beszélgetést $firstName$ nevű partnereddel, és megosztod nevedet, valamint profilképed vele? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "$group$ tagja.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "$group1$ és $group2$ tagja.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "$group1$, $group2$ és $group3$ tagja.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "$group1$, $group2$, $group3$ és további $remainingCount$ csoport tagja.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ hozzáadott a csoporthoz.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Nincs közös csoportotok.",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Válasz",
@@ -3242,27 +3336,35 @@
         "description": "Label for the mute notifications drop-down selector"
     },
     "muteHour": {
-        "message": "Elnémítás egy órára",
+        "message": "Némítás egy órára",
+        "description": "Label for muting the conversation"
+    },
+    "muteEightHours": {
+        "message": "Némítás 8 órára",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "Elnémítás egy napra",
+        "message": "Némítás egy napra",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
-        "message": "Elnémítás egy hétre",
+        "message": "Némítás egy hétre",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Elnémítás egy évre",
+    "muteAlways": {
+        "message": "Folyamatos némítás",
         "description": "Label for muting the conversation"
     },
     "unmute": {
-        "message": "Feloldás",
+        "message": "Némítás feloldása",
         "description": "Label for unmuting the conversation"
     },
+    "muteExpirationLabelAlways": {
+        "message": "Folyamatosan némítva",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
+    },
     "muteExpirationLabel": {
-        "message": "Némítva $duration$-ig",
+        "message": "Némítva eddig: $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3280,7 +3382,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Kérlek próbáld újra vagy vedd fel a kapcsolatot a támogatással!",
+        "message": "Próbáld újra, vagy vedd fel a kapcsolatot a támogatással!",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3288,7 +3390,7 @@
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Sajnos ez a sgnl:// nem értelmezhető",
+        "message": "Sajnos ez a sgnl:// hivatkozás nem értelmezhető",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3296,11 +3398,11 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "Ez a csoporthivatkozás nem érvényes. A csoportba belépés előtt bizonyosodj meg róla, hogy a link nem sérült, vagy módosult valahogy.",
+        "message": "Ez a csoporthivatkozás nem érvényes. A csoportba való belépés előtt győződj meg róla, hogy a link nem sérült!",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Szeretnél belépni a csoportba? Ezzel profilod láthatóvá is válik.",
+        "message": "Szeretnél belépni a csoportba? Ezzel profilod és profilképed láthatóvá válik számukra.",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -3308,7 +3410,7 @@
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
-        "message": "Korábban már kérted felvételed ebbe a csoportba.",
+        "message": "Korábban már kérted felvételedet ebbe a csoportba.",
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
@@ -3320,11 +3422,11 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "Nem lehet belépni a csoportba",
+        "message": "Nem sikerült belépni a csoportba",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "Ez a csoporthivatkozás már érvénytelen.",
+        "message": "Ez a csoporthivatkozás már nem érvényes.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -3336,15 +3438,15 @@
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "Csatlakozási igény",
+        "message": "Csatlakozási igény benyújtása",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
-        "message": "Kérés törlése",
+        "message": "Igény törlése",
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
-        "message": "Visszavonod belépési igényedet ebbe a csoportba?",
+        "message": "Visszavonod csatlakozási igényedet ebbe a csoportba?",
         "description": "A confirmation message that shows after you click the button"
     },
     "GroupV2--join--cancel-request-to-join--yes": {
@@ -3380,7 +3482,7 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "A csatlakozási kérésed el lett küldve a csoportadmin részére. Értesítést fogsz kapni, amint reagálnak rá.",
+        "message": "Csatlakozási igényed el lett küldve a csoportadmin részére. Értesítést fogsz kapni, amint reagálnak rá.",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "Admin",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Csak adminok",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Összes tag",
@@ -3466,7 +3572,7 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "Eltávolítottad a csoportnevet.",
+        "message": "Eltávolítottad a csoport nevét.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
@@ -3528,7 +3634,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$ beállította, hogy a csoport információit \"Az összes tag\" szerkesztheti.",
+        "message": "$adminName$ beállította, hogy a csoport információit az \"Összes tag\" szerkesztheti.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3538,11 +3644,11 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "Beállítottad, hogy a csoport információit \"Az összes tag\" szerkesztheti.",
+        "message": "Beállítottad, hogy a csoport információit az \"Összes tag\" szerkesztheti.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "Egy admin beállította, hogy a csoport információit \"Az összes tag\" szerkesztheti.",
+        "message": "Egy admin beállította, hogy a csoport információit az \"Összes tag\" szerkesztheti.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
@@ -3564,7 +3670,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$ beállította, hogy a csoport tagságát \"Az összes tag\" szerkesztheti.",
+        "message": "$adminName$ beállította, hogy a csoport tagságát az \"Összes tag\" szerkesztheti.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3574,19 +3680,19 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "Beállítottad, hogy a csoport tagságát \"Az összes tag\" szerkesztheti.",
+        "message": "Beállítottad, hogy a csoport tagságát az \"Összes tag\" szerkesztheti.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "Egy admin beállította, hogy a csoport tagságát \"Az összes tag\" szerkesztheti.",
+        "message": "Egy admin beállította, hogy a csoport tagságát az \"Összes tag\" szerkesztheti.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "Kikapcsoltad az adminisztrátori jóváhagyás kérését a csoporthivatkozáshoz.",
+        "message": "Kikapcsoltad az adminisztrátori jóváhagyás kérését a csoporthivatkozás használatához.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ kikapcsolta az adminisztrátori jóváhagyás kérését a csoporthivatkozáshoz.",
+        "message": "$adminName$ kikapcsolta az adminisztrátori jóváhagyás kérését a csoporthivatkozás használatához.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3600,11 +3706,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "Bekapcsoltad az adminisztrátori jóváhagyás kérését a csoporthivatkozáshoz.",
+        "message": "Bekapcsoltad az adminisztrátori jóváhagyás kérését a csoporthivatkozás használatához.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ bekapcsoltaa az adminisztrátori jóváhagyás kérését a csoporthivatkozáshoz.",
+        "message": "$adminName$ bekapcsolta az adminisztrátori jóváhagyás kérését a csoporthivatkozás használatához.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3752,7 +3858,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "Beléptél a csoportba egy megosztható csoporthivatkozás használatával.",
+        "message": "Beléptél a csoportba egy csoporthivatkozás használatával.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
@@ -4310,7 +4416,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "Visszavontad belépési igényedet.",
+        "message": "Visszavontad csatlakozási igényedet.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
@@ -4388,7 +4494,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "Kikapcsoltad a megosztható csoporthivatkozást.",
+        "message": "Kikapcsoltad a csoporthivatkozást.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
@@ -4424,7 +4530,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Frissítsd a csoportot új típusúra, hogy elérhesd az olyan új funkciókat, mint például az @említés és admin szerep. Azok a tagok, akik nem osztották meg a nevüket vagy profilképüket ebben a csoportban, meghívót fognak kapni. $learnMore$",
+        "message": "Frissítsd a csoportot új típusúra, hogy elérhesd az olyan új funkciókat, mint például az @említés és admin szerep használata! Azok a tagok, akik nem osztották meg a nevüket vagy profilképüket ezzel a csoporttal, meghívót fognak kapni. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -4438,7 +4544,7 @@
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "Tudj meg többet",
+        "message": "További információ",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
@@ -4454,7 +4560,7 @@
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "Az új típusú csoportok olyan képességekkel rendelkeznek, mint példáui @említések, csoportadminok, és a jövőben újabb képességes hozzáadása várható.",
+        "message": "Az új típusú csoportok olyan új funkcionalitással rendelkeznek, mint például az @említések és a csoportadminok kinevezése, azonban a jövőben újabb képességek hozzáadása várható.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -4462,39 +4568,39 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "Megtartottuk a frissítés előtti üzenet-előzményeket és médiafájlokat.",
+        "message": "A frissítés előtti üzenet-előzmények és médiafájlok meg lesznek tartva.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "Csak egy meghívó elfogadása után leszel képes a csoporthoz újra csatlakozni, amíg ez nem teljesül, addig nem kapsz innen üzeneteket.",
+        "message": "Csak egy újabb meghívó elfogadása után fogsz tudni újra csatlakozni a csoporthoz. Amíg ez nem történik meg, addig nem fogsz innen üzeneteket kapni.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "Az alábbi tagok csak egy meghívó elfogadása után lesznek képesek a csoporthoz csatlakozni és annak megtörténtéig nem fogadhatnak innen üzeneteket sem:",
+        "message": "Az alábbi tagok csak egy újabb meghívó elfogadása után fognak tudni újra csatlakozni ehhez a csoporthoz. Amíg ez nem történik meg, addig nem fognak innen üzeneteket kapni:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Az alábbi tag csak egy meghívó elfogadása után lesz képes a csoporthoz csatlakozni és annak megtörténtéig nem fogadhat innen üzeneteket sem:",
+        "message": "Az alábbi tag csak egy újabb meghívó elfogadása után fog tudni újra csatlakozni ehhez a csoporthoz. Amíg ez nem történik meg, addig nem fog innen üzeneteket kapni:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "Az alábbi tagok nem képesek az új típusú csoportba belépni és eltávolításra kerülnek:",
+        "message": "Az alábbi tagok nem tudnak az új típusú csoportba belépni, ezért eltávolításra kerülnek:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Az alábbi tag nem képes az új típusú csoportba belépni és eltávolításra kerül:",
+        "message": "Az alábbi tag nem tud az új típusú csoportba belépni, ezért eltávolításra kerül:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "Ezek a csoporttagok nem tudnak új típusú csoportokba belépni, ezért eltávolításra kerültek a tagok közül:",
+        "message": "Az alábbi tagok nem tudtak az új típusú csoportba belépni, ezért eltávolításra kerültek:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Ez a tag nem tud új típusú csoportokba belépni, ezért eltávolításra került a tagok közül:",
+        "message": "Az alábbi tag nem tudott az új típusú csoportba belépni, ezért eltávolításra került:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "Nem tudtak közvetlenül hozzáadni az új típusú csoporthoz, ezért helyette meghívót kaptál.",
+        "message": "Nem lehetett téged közvetlenül hozzáadni az új típusú csoporthoz, ezért helyette meghívót kaptál.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
@@ -4570,7 +4676,7 @@
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Admin jog adás",
+        "message": "Admin jogosultság adás",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
@@ -4584,7 +4690,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Elveszed $contact$ csoportadmin jogát?",
+        "message": "Elveszed $contact$ csoportadmin jogosultságát?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4641,12 +4747,16 @@
         "message": "Csoport letiltása",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Kilépés előtt ki kell jelölnöd legalább egy új admint.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Tényleg ki akarsz lépni?",
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
-        "message": "Többé nem tudsz küldeni vagy fogadni üzeneteket és hívásokat ebben a csoportban.",
+        "message": "Többé nem fogsz tudni üzeneteket vagy hívásokat küldeni és fogadni ebben a csoportban.",
         "description": "This is the modal content for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-confirm": {
@@ -4699,6 +4809,10 @@
             }
         }
     },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Tagok hozzáadása",
+        "description": "The button that you can click to add new members"
+    },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Összes megtekintése",
         "description": "This is a button on the conversation details to show all members"
@@ -4708,11 +4822,11 @@
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
-        "message": "Link másolása",
+        "message": "Hivatkozás másolása",
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Biztosan lecseréled a csoporthivatkozást? Utána már nem lehet a jelenlegi hivatkozás használatával belépni a csoportba.",
+        "message": "Biztosan lecseréled a csoporthivatkozást? Ezt követően nem lehet a jelenlegi hivatkozás használatával belépni a csoportba.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "A meghívott személyek részletes adatai nem lesznek láthatóak, míg nem lépnek be a csoportba. A meghívottak csak azokat az üzeneteket láthatják, melyeket a csatlakozásukat követően küldtek el.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Csoport profilkép hozzáadása",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Kép cseréje",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Kép feltöltése",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Kép eltávolítása",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Kontakt eltávolítása",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "OK",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Meghívó elküldve",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ meghívó elküldve",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$ nem adható általad automatikusan a csoporthoz.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Ezek a felhasználók általad nem adhatók automatikusan a csoporthoz.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "A kiválasztott személyek meg lettek hívva a csoportba, de addig nem fogják látni a csoport üzeneteit, míg nem fogadják el a meghívót.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "További információ",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Tagok hozzáadása",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Frissítés",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": " $person$ hozzáadása a(z) \"$group$\" csoporthoz?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": " $count$ tag hozzáadása a(z) \"$group$\" csoporthoz?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Tag hozzáadása",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Tagok hozzáadása",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Új csoport",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Kontakt kijelölése",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Kontakt kijelölésének megszüntetése",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Nem jelölhető ki a kontakt",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Már tag",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Hangcsatolmány lejátszása",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Hangcsatolmány megállítása",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Hangcsatolmány letöltése",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Hangcsatolmány letöltése...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Hangcsatolmány lejátszási ideje",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Kattints az $composeIcon$ra a címzettnek szánt kontakt vagy csoport kikereséséhez!",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "új üzenet gomb",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Folytatás",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

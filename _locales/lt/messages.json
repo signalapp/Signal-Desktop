@@ -771,6 +771,10 @@
         "message": "Adresatai",
         "description": "Shown to separate the types of search results"
     },
+    "groupsHeader": {
+        "message": "Grupės",
+        "description": "Shown to separate the types of search results"
+    },
     "messagesHeader": {
         "message": "Žinutės",
         "description": "Shown to separate the types of search results"
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Spustelėjus „Ištrinti“ ši žinutė visam laikui bus pašalinta tik iš jūsų įrenginių.",
+        "message": "Ši žinutė bus ištrinta iš šio įrenginio.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1022,7 +1026,7 @@
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "skirta",
+        "message": "žinutė, skirta",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
@@ -1071,6 +1075,10 @@
         "message": "Jūs su šiuo adresatu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės.",
         "description": ""
     },
+    "back": {
+        "message": "Atgal",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Grįžti",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "Bandyti siųsti dar kartą",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Persiųsti žinutę",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Ištrinti žinutę man",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "Saugusis seansas atstatytas",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Pokalbio seansas atnaujintas",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Sužinoti daugiau",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal programėlė naudoja ištisinį šifravimą ir jai kartais gali tekti atnaujinti jūsų pokalbio seansą. Tai neįtakoja jūsų pokalbio saugumo, bet gali būti, kad praleidote ir negavote žinutės nuo šio adresato, todėl galite jo paprašyti, kad išsiųstų žinutę dar kartą.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Susisiekti su palaikymu",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "Paveikslo iš cituotos žinutės miniatiūra",
@@ -1909,6 +1937,112 @@
         "message": "Pradėti naują pokalbį…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "Naujas pokalbis",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Ieškokite pagal vardą ar telefono numerį",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Adresatų nerasta",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Nerasta jokių pokalbių",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Pasirinkite narius",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Atgal",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Praleisti",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Kitas",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Pasiektas didžiausias grupės dydis",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signal grupėse gali būti daugiausiai $max$ narių.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Pasiekta rekomenduojamo narių skaičiaus riba",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal grupės geriausiai veikia, kai jose yra $max$ ar mažiau narių. Pridėjus daugiau narių, žinučių išsiuntimas ir gavimas bus uždelsiamas.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Nepavyksta pridėti nario",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "Naudotojas „$name$“ negali būti pridėtas į grupę, nes jis naudoja seną Signal versija. Šį naudotoją galėsite pridėti po to, kai jis atnaujins Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Suteikti šiai grupei pavadinimą",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Atgal į narių pasirinkimą",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Grupės pavadinimas (būtina)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Sukurti",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Nariai",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Nepavyko sukurti šios grupės. Patikrinkite savo ryšį ir bandykite dar kartą.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Taisyti grupės pavadinimą ir nuotrauką",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Nepavyko atnaujinti grupės. Patikrinkite savo ryšį ir bandykite dar kartą.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "SMS/MMS žinutės yra nepalaikomos.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -2351,6 +2485,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "Atverti pokalbių meniu",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Pradėti naują pokalbį",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "$group$ grupės narys.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "$group1$ ir $group2$ grupių narys.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "$group1$, $group2$ ir $group3$ grupių narys.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "$group1$, $group2$, $group3$ ir dar $remainingCount$ grupių narys.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ pridėjo jus į grupę.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Nėra bendrų grupių.",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Atsakyti",
@@ -3245,6 +3339,10 @@
         "message": "Išjungti pranešimus vienai valandai",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Išjungti pranešimus aštuonioms valandoms",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "Išjungti pranešimus vienai dienai",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "Išjungti pranešimus vienai savaitei",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Išjungti pranešimus vieneriems metams",
+    "muteAlways": {
+        "message": "Visada išjungti pranešimus",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Įjungti pranešimus",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Pranešimai visada išjungti",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Pranešimai išjungti iki $duration$",
@@ -3328,7 +3430,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "An admin of this group must approve your request before you can join this group. If approved, your name and photo will be shared with its members.",
+        "message": "Prieš tai, kai galėsite prisijungti prie šios grupės, jos administratorius privalo patvirtinti jūsų prašymą. Jei prašymas bus patvirtintas, jūsų vardas ir nuotrauka bus bendrinami su grupės nariais.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "Administratorius",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Tik administratoriai",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Visi nariai",
@@ -3614,7 +3720,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Administratoriaus patvirtinimai grupės nuorodai išjungti.",
+        "message": "Administratoriaus patvirtinimai grupės nuorodai įjungti.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -4641,6 +4747,10 @@
         "message": "Užblokuoti grupę",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Prieš išeidami, privalote pasirinkti šiai grupei bent vieną naują administratorių.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Ar tikrai norite išeiti?",
         "description": "This is the modal title for confirming leaving a group"
@@ -4698,6 +4808,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Pridėti narius",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Rodyti visus",
@@ -4768,15 +4882,15 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "Invited by you",
+        "message": "Pakvietėte jūs",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Invited by you",
+        "message": "Pakvietėte jūs",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Invited by others",
+        "message": "Pakvietė kiti",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
@@ -4818,7 +4932,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"",
+        "message": "Panaikinti $number$ pakvietimų(-us), kuriuos išsiuntė „$name$“?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -4854,7 +4968,169 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
+        "message": "Išsamesnė informacija apie žmones, kurie pakviesti į šią grupę, nebus rodoma tol, kol jie neprisijungs. Kviestiniai pradės matyti siunčiamas žinutes tik prisijungę prie grupės.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Pridėti grupės nuotrauką",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Keisti nuotrauką",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Nusiųsti nuotrauką",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Šalinti nuotrauką",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Šalinti adresatą",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Gerai",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Pakvietimas išsiųstas",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "Išsiųsta pakvietimų: $count$",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "Jūs negalite automatiškai pridėti į šią grupę naudotoją $name$.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Jūs negalite automatiškai pridėti šių naudotojų į šią grupę.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "Naudotojai yra pakviesti prisijungti prie grupės ir nematys jokių grupės žinučių tol, kol nepriims pakvietimo.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Sužinoti daugiau",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Pridėti narius",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Atnaujinti",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Pridėti $person$ į „$group$“?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Pridėti $count$ narių(-us) į „$group$“?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Pridėti narį",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Pridėti narius",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Nauja grupė",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Pažymėti adresatą",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Nebežymėti adresato",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Nepavyksta pažymėti adresato",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Jau narys",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Atkurti garso įrašo priedą",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Pristabdyti garso įrašo priedą",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Atsisiųsti garso įrašo priedą",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Atsiunčiamas garso įrašo priedas...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Garso įrašo priedo atkūrimo laikas",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Spustelėkite aukščiau ant $composeIcon$ ir ieškokite adresatų ar grupių, kuriems norite rašyti žinutę.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "rašymo mygtukas",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Tęsti",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

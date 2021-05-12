@@ -771,6 +771,10 @@
         "message": "Контакти",
         "description": "Shown to separate the types of search results"
     },
+    "groupsHeader": {
+        "message": "Групи",
+        "description": "Shown to separate the types of search results"
+    },
     "messagesHeader": {
         "message": "Пораки",
         "description": "Shown to separate the types of search results"
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Ако кликнете „Избриши“ перманетно ќе ја избришете пораката само од Вашите уреди.",
+        "message": "Оваа порака ќе биде избришана од овој уред.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1075,10 @@
         "message": "Сѐ уште немате разменето пораки со овој контакт. Вашиот сигурносен број за овој контакт ќе стане достапен по испраќањето на првата порака.",
         "description": ""
     },
+    "back": {
+        "message": "Назад",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Оди назад",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "Прати повторно",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Проследи порака",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Избриши порака за мене",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "Безбедната сесија е ресетирана",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Сесијата со разговорот е освежена",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Научете повеќе",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal користи од-крај-до-крај енкрипција и можно е да има потреба да ги освежи Вашите разговори понекогаш. Ова нема никаков ефект на безбедноста на разговорите, но може да се случи да пропуштите порака од овој контакт. Затоа можете да го прашате да ја препрати.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Контактактирајте го тимот за поддршка",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "Мала сликичка од сликата од цитираната порака",
@@ -1909,6 +1937,112 @@
         "message": "Започни нов разговор...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "Нов разговор",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Пребарувајте по име или телефонски број",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Не се пронајдени контакти",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "No conversations found",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Избери членови",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Назад",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Прескокни",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Следно",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Достигната е максималната големина за групата",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Групите на Signal можат да имаат максимум $max$ членови.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Препорачаното ограничување за членови е достигнато",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal групите функционираат најдобро со $max$ членови или помалку. Ако додадете повеќе членови може да настане застој при примање и испраќање на пораки.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Can’t add member",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "\"$name$\" не може да бидат додадени на групата затоа што тие користат стара верзија на Signal. Може да ги додадете во групата откако ќе го ажурираат Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Именувајте ја оваа група",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Back to member selection",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Име на групата (задолжително)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Создај",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Членови",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Оваа група не може да биде создадена. Проверете ја вашата интернет конекција и обидете се повторно.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Уреди име на група и слика",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Не успеа да се ажурира групата. Проверете ја Вашата интернет конекција и обидете се повторно.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "SMS/MMS пораки не се поддржани.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -2351,6 +2485,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "Отвори го менито за разговори",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Започни нов разговор",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "Член на $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "Член на $group1$ и $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "Член на $group1$, $group2$, и $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "Член на $group1$, $group2$, $group3$ и уште $remainingCount$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ Ве додаде во групата.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Немате заеднички групи.",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Одговори",
@@ -3245,6 +3339,10 @@
         "message": "Исклучи звук на 1 час",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Исклучи звук на осум часа",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "Исклучи звук на 1 ден",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "Исклучи звук на 1 недела",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Исклучи звук на 1 година",
+    "muteAlways": {
+        "message": "Mute always",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Вклучи звук",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Muted always",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Исклучени до $duration$",
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "Администратор",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Само администратори",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Сите членови",
@@ -3586,7 +3692,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ disabled admin approval for the group link.",
+        "message": "$adminName$ го исклучи одобрувањето од администратор за групниот линк.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3596,7 +3702,7 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Admin approval for the group link has been disabled.",
+        "message": "Администраторското одобрување за групниот линк е исклучено.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
@@ -3604,7 +3710,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ enabled admin approval for the group link.",
+        "message": "$adminName$ го овозможи одобрувањето од администратор за групниот линк.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3614,7 +3720,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Admin approval for the group link has been disabled.",
+        "message": "Администраторско одобрување за групниот линк е вклучено.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -3756,7 +3862,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
-        "message": "$memberName$ joined the group via the group link.",
+        "message": "$memberName$ и се приклучи на групата преку групниот линк.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3766,7 +3872,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$ approved your request to join the group.",
+        "message": "$adminName$ го одобри Вашето барање за да се приклучите на групата.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3804,7 +3910,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "A request to join the group from $joinerName$ has been approved.",
+        "message": "Барањето за приклучување на групата од $joinerName$ е одобрено.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4300,7 +4406,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$ requested to join via the group link.",
+        "message": "$joinerName$ побара да се вклучи преку групниот линк.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4328,7 +4434,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ canceled their request to join the group.",
+        "message": "$joinerName$ го откажа барањето за приклучување во групата.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4392,7 +4498,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$ turned off the group link.",
+        "message": "$adminName$ го исклучи групниот линк.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4410,7 +4516,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ reset the group link.",
+        "message": "$adminName$ го ресетираше групниот линк.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4574,7 +4680,7 @@
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
-        "message": "$contact$ will be able to edit this group and its members.",
+        "message": "$contact$ ќе може да ја уредува оваа група и нејзините членови.",
         "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
         "placeholders": {
             "contact": {
@@ -4610,7 +4716,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "When enabled, messages sent and received in this group will disappear after they've been seen.",
+        "message": "Кога е овозможено, пораките испратени и примени во оваа група ќе исчезнат откако ќе бидат видени.",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--group-info-label": {
@@ -4618,7 +4724,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+        "message": "Изберете кој може да ги уредува името на групата, аватарот и бројачот за исчезнувачките пораки.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -4626,7 +4732,7 @@
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Choose who can add members to this group.",
+        "message": "Изберете кој може да додаде членови во оваа група.",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -4640,6 +4746,10 @@
     "ConversationDetailsActions--block-group": {
         "message": "Блокирај група",
         "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Пред да ја напуштите групата мора да одберете барем еден администратор за оваа група.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Навистина сакате да си заминете?",
@@ -4672,7 +4782,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsHeader--members": {
-        "message": "$number$ members",
+        "message": "$number$ членови",
         "description": "This is the number of members in a group",
         "placeholders": {
             "number": {
@@ -4690,7 +4800,7 @@
         "description": "This is a button on the conversation details to show all media"
     },
     "ConversationDetailsMembershipList--title": {
-        "message": "$number$ members",
+        "message": "$number$ членови",
         "description": "The title of the membership list panel",
         "placeholders": {
             "number": {
@@ -4698,6 +4808,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Додај членови",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Види сѐ",
@@ -4728,7 +4842,7 @@
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
-        "message": "Requests ($count$)",
+        "message": "Барања ($count$)",
         "description": "Label for the tab to view pending requests",
         "placeholders": {
             "name": {
@@ -4738,7 +4852,7 @@
         }
     },
     "PendingInvites--tab-invites": {
-        "message": "Invites ($count$)",
+        "message": "Покани ($count$)",
         "description": "Label for the tab to view pending invites",
         "placeholders": {
             "name": {
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "Деталите за луѓето поканети во оваа група нема да се покажат додека не се приклучат. Поканетите ќе ги видат пораките само откатко ќе се приклучат на групата.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Add a group photo",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Промени ја сликата",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Прикачи слика",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Отстрани слика",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Отстрани контакт",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Во ред",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Поканата е испратена",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ испратени покани",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$ can’t be automatically added to this group by you.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "These users can’t be automatically added to this group by you.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "They’ve been invited to join, and won’t see any group messages until they accept.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Дознајте повеќе",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Додај членови",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Aжурирај",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Да го/ја додадам $person$ во \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Додади $count$ членови во \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Додадете член",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Додај членови",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Нова група",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Избери контакт",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "De-select contact",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Не може да се избере контакт",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Веќе е член",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Пушти аудио прилог",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Паузирај аудио прилогот",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Преземи аудио прилог",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Се презема аудио прилог...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Playback time of audio attachment",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "compose button",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Продолжи",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

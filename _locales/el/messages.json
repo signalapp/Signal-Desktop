@@ -44,7 +44,7 @@
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "Παρά&θυρο",
+        "message": "&Παράθυρο",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
@@ -242,7 +242,7 @@
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Φόρτωσε τα δεδομένων σου",
+        "message": "Φόρτωση των δεδομένων σου",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
@@ -740,7 +740,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Δευ υπάρχουν αποτελέσματα για \"$searchTerm$\"",
+        "message": "Δεν υπάρχουν αποτελέσματα για \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -769,6 +769,10 @@
     },
     "contactsHeader": {
         "message": "Επαφές",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "Ομάδες",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -846,7 +850,7 @@
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "Απάντησε στο μήνυμα ",
+        "message": "Απάντηση στο μήνυμα ",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Πατώντας \"διαγραφή\", το μήνυμα αυτό θα σβηστεί μόνο από τις συσκευές σου.",
+        "message": "Αυτό το μήνυμα θα διαγραφτεί από αυτή τη συσκευή.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1075,10 @@
         "message": "Δεν έχεις ανταλλάξει ακόμα μηνύματα με αυτήν την επαφή. Ο αριθμός ασφαλείας σου με αυτή θα είναι διαθέσιμος μετά το πρώτο μήνυμα.",
         "description": ""
     },
+    "back": {
+        "message": "Πίσω",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Πίσω",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "Επανάληψη αποστολής",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Προώθηση μηνύματος",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Διαγραφή μηνύματος για εμένα",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "Η ασφαλής σύνδεση επανεκκινήθηκε",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Η συνομιλία ανανεώθηκε",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Μάθε περισσότερα",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Το Signal χρησιμοποιεί κρυπτογράφηση από την πηγή μέχρι τον προορισμό (end to end) και έτσι ίσως χρειαστεί να ανανεώσει τις συνομιλίες σου ανά διαστήματα. Αυτό δεν επηρεάζει την ασφάλεια των συνομιλιών σου, αλλά ίσως δεν λάβεις κάποιο μήνυμα από τη συγκεκριμένη συνομιλία. Σε αυτή την περίπτωση μπορείς να ζητήσεις να σου ξαναστείλουν το μήνυμα.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Επικοινωνία με την υποστήριξη",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "Μικρογραφία της εικόνας από το αναφερόμενο μήνυμα",
@@ -1909,6 +1937,112 @@
         "message": "Εκκίνηση νέας συνομιλίας...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "Νέα συνομιλία",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Αναζήτηση με όνομα ή αριθμό τηλεφώνου",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Δεν βρέθηκαν επαφές",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Δεν βρέθηκαν συνομιλίες",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Επιλογή μελών",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Πίσω",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Παράλειψη",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Επόμενο",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Έφτασες το μέγιστο όριο μεγέθους ομάδας",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Οι ομάδες του Signal μπορούν να έχουν μέχρι $max$ μέλη.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Έφτασες το προτεινόμενο όριο μελών",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Οι ομάδες του Signal λειτουργούν καλύτερα με $max$ μέλη ή λιγότερα. Αν προσθέσεις παραπάνω μέλη, θα υπάρξουν καθυστερήσεις στην αποστολή και λήψη μηνυμάτων.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Αδυναμία προσθήκη μέλους",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "Ο/Η \"$name$\" δεν μπορεί να προστεθεί στην ομάδα επειδή χρησιμοποιεί μια παλιά έκδοση του Signal. Μπορείς να τον/την προσθέσεις στην ομάδα αφού αναβαθμίσει το Signal. ",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Ονομασία ομάδας",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Πίσω στην επιλογή μελών",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Όνομα ομάδας (απαιτείται)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Δημιουργία",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Μέλη",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Η ομάδα δεν μπόρεσε να δημιουργηθεί. Έλεγξε τη σύνδεσή σου και ξαναπροσπάθησε.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Επεξεργασία ονόματος και φωτογραφίας ομάδας",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Αδυναμία ενημέρωσης της ομάδας. Έλεγξε τη σύνδεσή σου και ξαναπροσπάθησε.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "Τα μηνύματα SMS/MMS δεν υποστηρίζονται.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -2351,6 +2485,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "Άνοιγμα μενού συνομιλίας",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Εκκίνηση νέας συνομιλίας",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "Μέλος του $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "Μέλος του $group1$ και $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "Μέλος του $group1$, $group2$, και $group3$. ",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "Μέλος του $group1$, $group2$, $group3$ και $remainingCount$ ακόμα.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "Ο/Η $name$ σε πρόσθεσε στην ομάδα.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Καμμία κοινή ομάδα.",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Απάντηση",
@@ -3245,6 +3339,10 @@
         "message": "Σίγαση για μια ώρα",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Σίγαση για οκτώ ώρες",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "Σίγαση για μια ημέρα",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "Σίγαση για μια εβδομάδα",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Σίγαση για ένα έτος",
+    "muteAlways": {
+        "message": "Σίγαση πάντα",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Αναίρεση σίγασης",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Πάντα σε σίγαση",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Σε σίγαση μέχρι $duration$",
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "Διαχειριστής/τρια",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Μόνο διαχειριστές",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Όλα τα μέλη",
@@ -4641,6 +4747,10 @@
         "message": "Φραγή ομάδας",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Πριν αποχωρήσεις, θα πρέπει να επιλέξεις τουλάχιστον έναν νέο διαχειριστή ή διαχειρίστρια για την ομάδα.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Θέλεις όντως να αποχωρήσεις;",
         "description": "This is the modal title for confirming leaving a group"
@@ -4698,6 +4808,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Προσθήκη μελών",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Προβολή όλων",
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "Οι λεπτομέρειες των ατόμων που προσκλήθηκαν στην ομάδα δεν εμφανίζονται μέχρι να μπουν. Οι προσκεκλημένοι/ες θα μπορούν να δουν τα μηνύματα μόνο από τη στιγμή που μπουν στην ομάδα.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Προσθήκη φωτογραφίας ομάδας",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Αλλαγή φωτογραφίας",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Ανέβασμα φωτογραφίας",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Αφαίρεση φωτογραφίας",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Αφαίρεση επαφής",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Εντάξει",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Η πρόσκληση στάλθηκε",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "Στάλθηκαν $count$ προσκλήσεις",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "Δεν μπορείς να προσθέσεις $name$ άτομα αυτόματα στην ομάδα.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Δεν μπορείς να προσθέσεις αυτούς τους χρήστες αυτόματα στην ομάδα.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "Έχουν προσκληθεί να μπουν, και δεν θα βλέπουν τα μηνύματα της ομάδας μέχρι να αποδεχτούν.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Μάθε περισσότερα",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Προσθήκη μελών",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Ενημέρωση",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Προσθήκη του/της $person$ στο \"$group$\";",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Προσθήκη $count$ μελών στο \"$group$\"; ",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Προσθήκη μέλους",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Προσθήκη μελών",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Νέα ομάδα",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Επιλογή επαφής",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Αποεπιλογή επαφής",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Αδυναμία επιλογής επαφής",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Ήδη μέλος",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Αναπαραγωγή συνημμένου ήχου",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Παύση συνημμένου ήχου",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Λήψη συνημμένου ήχου",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Το συνημμένο ήχου κατεβαίνει...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Χρόνος αναπαραγωγής του συνημμένου ήχου",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Κάντε κλικ στο $composeIcon$ παραπάνω και αναζητήστε τις επαφές ή τις ομάδες σας για αποστολή μηνύματος.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "κουμπί σύνθεσης",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Συνέχεια",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

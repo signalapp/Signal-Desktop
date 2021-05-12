@@ -72,11 +72,11 @@
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Undo",
+        "message": "Відмінити",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Redo",
+        "message": "Повторити",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
@@ -92,7 +92,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
+        "message": "Вставити без форматування",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -148,7 +148,7 @@
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
+        "message": "Налаштувати як новий пристрій",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
@@ -156,7 +156,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
-        "message": "More actions",
+        "message": "Інші дії",
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
@@ -164,7 +164,7 @@
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
-        "message": "Copy Image",
+        "message": "Копіювати зображення",
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
@@ -172,7 +172,7 @@
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
-        "message": "View Archive",
+        "message": "Переглянути архів",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -180,11 +180,11 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "Оптимізація застосунку...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimizing messages... $status$ complete.",
+        "message": "Оптимізація повідомлень... $status$ завершено.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -214,7 +214,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "Mark as unread",
+        "message": "Позначити непрочитаним",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
@@ -222,11 +222,11 @@
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "Pin Conversation",
+        "message": "Закріпити розмову",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Unpin Conversation",
+        "message": "Відкріпити розмову",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
@@ -308,7 +308,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You are no longer a member of the group.",
+        "message": "Ви більше не учасник групи.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
@@ -342,7 +342,7 @@
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "Ви підтвердили ваш номер безпеки із $name$",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -352,7 +352,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "Ви не підтвердили ваш номер безпеки із $name$",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -362,7 +362,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "Ви підтвердили ваш номер безпеки із $name$ з іншого пристрою",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -372,7 +372,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "Ви не підтвердили ваш номер безпеки із $name$ з іншого пристрою",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -386,7 +386,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
+        "message": "Код безпеки, який ви намагаєтеся підтвердити, змінився. Перевірте новий код безпеки, який $name1$ використовує для зв’язку з вами. Пам’ятайте: зміна коду означає, що хтось намагався перехопити ваші повідомлення або додаток чи програма Signal, яку використовує $name2$, просто була перевстановлена.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -404,7 +404,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+        "message": "Змінився код безпеки, який $name1$ використовує для зв’язку з вами. Це означає, що хтось намався перехопити ваші повідомлення, або додаток чи програма Signal, яку використовує $name2$, була перевстановлена. Можливо, ви забажаєте підтвердити новий код безпеки.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -456,11 +456,11 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Copy link to your clipboard",
+        "message": "Копіювати посилання до буферу обміну",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Link Copied to Your Clipboard",
+        "message": "Посилання скопійовано до буферу обміну",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -528,7 +528,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "You don’t have any media in this conversation",
+        "message": "Медіафайлів у цій розмові немає",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
@@ -540,7 +540,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "You don’t have any documents in this conversation",
+        "message": "Документів у цій розмові немає",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -552,7 +552,7 @@
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "Цей тиждень",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
@@ -576,7 +576,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Attachment type not allowed for security reasons",
+        "message": "Тип додатку не дозволений з міркувань безпеки",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -630,7 +630,7 @@
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Unable to load selected attachment.",
+        "message": "Не вдається завантажити обране вкладення.",
         "description": ""
     },
     "disconnected": {
@@ -642,11 +642,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connect",
+        "message": "Підключитись",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": "Має бути швидко...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -658,7 +658,7 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "Debug log",
+        "message": "Журнал відладки",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
@@ -678,23 +678,23 @@
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
-        "message": "Go to Forums",
+        "message": "Перейти на Форуми",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Go to Support Page",
+        "message": "Перейти на Сторінку підтримки",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Join the Beta",
+        "message": "Приєднатись до бета-версії",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
+        "message": "Налаштування Signal Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Sticker pack creator",
+        "message": "Створювач пакунків наліпок",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -726,7 +726,7 @@
         "description": "Placeholder text in the search input"
     },
     "clearSearch": {
-        "message": "Clear Search",
+        "message": "Очистити пошук",
         "description": "Aria label for clear search button"
     },
     "searchIn": {
@@ -740,7 +740,7 @@
         }
     },
     "noSearchResults": {
-        "message": "No results for \"$searchTerm$\"",
+        "message": "Немає результатів для «$searchTerm$»",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -750,7 +750,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "No results for \"$searchTerm$\" in $conversationName$",
+        "message": "Немає результатів для «$searchTerm$» у $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -771,6 +771,10 @@
         "message": "Контакти",
         "description": "Shown to separate the types of search results"
     },
+    "groupsHeader": {
+        "message": "Групи",
+        "description": "Shown to separate the types of search results"
+    },
     "messagesHeader": {
         "message": "Повідомлення",
         "description": "Shown to separate the types of search results"
@@ -784,15 +788,15 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Typing animation for this conversation",
+        "message": "Анімація набору тексту для цієї розмови",
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "This person is in your contacts.",
+        "message": "Ця особа є серед ваших контактів.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "Аватар для контакту $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -806,15 +810,15 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "home",
+        "message": "дім",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "work",
+        "message": "робота",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "mobile",
+        "message": "мобільний",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
@@ -822,15 +826,15 @@
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "phone",
+        "message": "телефон",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "address",
+        "message": "адреса",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "PO Box",
+        "message": "поштова скринька",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
@@ -838,7 +842,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Download Attachment",
+        "message": "Завантажити вкладення",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
@@ -878,7 +882,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Attachment saved. Click to show in folder.",
+        "message": "Додаток збережено. Клацніть, щоб побачити його у папці.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -892,7 +896,7 @@
         "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "Відповідь $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -902,7 +906,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "Щоб надсилати аудіо повідомлення, дозвольте Signal Desktop доступ до мікрофона.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
@@ -914,11 +918,11 @@
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
-        "message": "Allow Access",
+        "message": "Надати доступ",
         "description": "Button shown in popup asking to enable microphone/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Show Settings",
+        "message": "Показати налаштування",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
@@ -934,7 +938,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "Неможливо оновити",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
@@ -1002,11 +1006,11 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+        "message": "This message will be deleted from this device.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "Це повідомлення буде видалено для усіх у розмові, якщо вони використовують найновішу версію Signal. Вони зможуть побачити, що ви видалили повідомлення.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1022,7 +1026,7 @@
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "to",
+        "message": "до",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
@@ -1054,7 +1058,7 @@
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "View recent media",
+        "message": "Дивитись нещодавні медіа",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1071,8 +1075,12 @@
         "message": "Ви ще не обмінювалися повідомленнями з даними співрозмовником. Код безпеки стане доступний після першого надсилання повідомлення.",
         "description": ""
     },
+    "back": {
+        "message": "Назад",
+        "description": "Generic label for back"
+    },
     "goBack": {
-        "message": "Go back",
+        "message": "Назад",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1080,15 +1088,19 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "Відправити ще раз",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
+    "forwardMessage": {
+        "message": "Переслати повідомлення",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
+    },
     "deleteMessage": {
-        "message": "Delete message for me",
+        "message": "Видалити повідомлення для мене",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Delete message for everyone",
+        "message": "Видалити повідомлення для усіх",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "Захищену сесію перезапущено",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Сесію чату оновлено",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Дізнатися більше",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal використовує наскрізне шифровання, що подекуди призводить до оновлення сесій чатів. Це не впливає на безпеку чату, хоча надіслане контактом повідомлення може не дійти і вам потрібно буде попросити надіслати його знов.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Зверніться в службу підтримки",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "Thumbnail of image from quoted message",
@@ -1132,7 +1160,7 @@
         "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
     },
     "fileIconAlt": {
-        "message": "File icon",
+        "message": "Значок файлу",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -1144,7 +1172,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
+        "message": "Прив'язати ваш телефон до Signal Desktop",
         "description": "Shown on the front page when the application first starts, above the QR code"
     },
     "signalSettings": {
@@ -1164,19 +1192,19 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Device name",
+        "message": "Назва пристрою",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Choose this device's name",
+        "message": "Обрати назву пристрою",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Finish linking phone",
+        "message": "Завершити прив'язку пристрою",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Syncing contacts and groups",
+        "message": "Синхронізування контактів та груп",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1188,7 +1216,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Update Signal on this device to link your phone.",
+        "message": "Оновіть Signal на цьому пристрої, щоб прив'язати ваш телефон.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1216,35 +1244,35 @@
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Return to Call",
+        "message": "Повернутись до виклику",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
-        "message": "Call is full",
+        "message": "Дзвінок повний",
         "description": "Button label in the call lobby when you can't join because the call is full"
     },
     "calling__button--video-disabled": {
-        "message": "Camera disabled",
+        "message": "Камера вимкнута",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Turn off camera",
+        "message": "Вимкнути камеру",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Turn on camera",
+        "message": "Увімкнути камеру",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
-        "message": "Microphone disabled",
+        "message": "Мікрофон вимкнутий",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Mute mic",
+        "message": "Вимкнути мікрофон",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Unmute mic",
+        "message": "Увімкнути мікрофон",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
@@ -1266,7 +1294,7 @@
         }
     },
     "calling__lobby-summary--self": {
-        "message": "One of your other devices is in this call",
+        "message": "Один з ваших пристроїв у цьому дзвінку",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
@@ -1302,7 +1330,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$, and $others$ others are in this call",
+        "message": "$first$, $second$ та $others$ інших у цьому дзвінку",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1328,7 +1356,7 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "In this call · $people$ people",
+        "message": "Людей у цьому дзвінку: $people$",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1368,15 +1396,15 @@
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
-        "message": "Permissions",
+        "message": "Дозволи",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to the microphone",
+        "message": "Надати доступ до мікрофону",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Allow access to the camera",
+        "message": "Надати доступ до камери",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1396,19 +1424,19 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "Стерти дані",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "Це видалить усі дані у застосунку, зокрема видалить усі повідомлення та збережену інформацію про обліковий запис.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "Стерти дані",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "Видалити усі дані?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
@@ -1424,11 +1452,11 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+        "message": "З попереднього встановлення Signal Desktop на комп'ютері залишились застарілі дані. Якщо ви продовжите, їх буде видалено та ви почнете з самого початку.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "Delete Old Data",
+        "message": "Видалити застарілі дані",
         "description": "Button to make the delete happen"
     },
     "notifications": {
@@ -1444,11 +1472,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Name, content, and actions",
+        "message": "Ім'я, вміст, дії",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "No name or content",
+        "message": "Імені чи вмісту немає",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1460,7 +1488,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ in $group$",
+        "message": "$sender$ у $group$",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1474,7 +1502,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ reacted $emoji$ to your message",
+        "message": "$sender$ відреагував з $emoji$ на ваше повідомлення",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1488,7 +1516,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ reacted $emoji$ to: $message$",
+        "message": "$sender$ відреагував з $emoji$ на: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1510,7 +1538,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "partiallySent": {
-        "message": "Partially sent, click for details",
+        "message": "Частково надіслано, торкніться для деталей",
         "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
@@ -1534,7 +1562,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Media Message",
+        "message": "Медіаповідомлення",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
@@ -1578,7 +1606,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$h",
+        "message": "$hours$ год.",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1588,7 +1616,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$m",
+        "message": "$minutes$ хв.",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1606,7 +1634,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "Message body is too long.",
+        "message": "Тіло повідомлення завелике.",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
@@ -1682,11 +1710,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutes",
+        "message": "5 хвилин",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutes",
+        "message": "30 хвилин",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
@@ -1694,11 +1722,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 hours",
+        "message": "6 годин",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 hours",
+        "message": "12 годин",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
@@ -1802,7 +1830,7 @@
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Show notifications for calls",
+        "message": "Показувати сповіщення для дзвінків",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
@@ -1842,7 +1870,7 @@
         }
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "Код безпеки змінився",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
@@ -1850,7 +1878,7 @@
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "Код безпеки з $name$ змінився",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1868,7 +1896,7 @@
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name1$:",
+        "message": "Ваш код безпеки з $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name1": {
@@ -1906,11 +1934,117 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Start new conversation…",
+        "message": "Почати нову розмову...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "Нова розмова",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Шукати за ім'ям або номером телефону",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Контактів не знайдено",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Розмов не знайдено",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Обрати учасників",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Назад",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Пропустити",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Далі",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Досягнуто максимального розміру групи",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signal groups can have a maximum of $max$ members.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Досягнуто ліміт на рекомендовану кількість користувачів у групі",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal groups perform best with $max$ members or less. Adding more members will cause delays sending and receiving messages.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Не вдалось додати учасника",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "\"$name$\" can’t be added to the group because they’re using an old version of Signal. You can add them to the group after they’ve updated Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Дати ім'я групі",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Повернутись до вибору користувачів",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Ім'я групи (обов'язково)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Створити",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Учасники",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Групу не вдалось створити. Перевірте з'єднання та спробуйте ще раз.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Редагувати назву та фото групи",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Не вдалось оновити групу. Перевірте з'єднання з інтернетом та спробуйте ще раз.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
-        "message": "SMS/MMS messages are not supported.",
+        "message": "Повідомлення SMS/MMS не підтримуються.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -1942,7 +2076,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "Натисніть Перезапустити Signal, щоб застосувати зміни.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -1954,7 +2088,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ вийшов з групи.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1964,7 +2098,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ вийшов з групи.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1974,7 +2108,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ оновив групу.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1988,11 +2122,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "Аватар групи було оновлено.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "Нове ім'я групи «$name$».",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -2006,7 +2140,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ приєднався до групи.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -2016,7 +2150,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ приєднались до групи.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -2076,7 +2210,7 @@
         }
     },
     "message--getDescription--unsupported-message": {
-        "message": "Unsupported message",
+        "message": "Повідомлення не підтримується",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
@@ -2156,19 +2290,19 @@
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
-        "message": "Next Page",
+        "message": "Наступна сторінка",
         "description": "Label for the next page button in the sticker picker"
     },
     "stickers--StickerPicker--PrevPage": {
-        "message": "Previous Page",
+        "message": "Попередня сторінка",
         "description": "Label for the previous page button in the sticker picker"
     },
     "stickers--StickerPicker--Recents": {
-        "message": "Recent Sticker",
+        "message": "Недавні стікери",
         "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Some stickers could not be downloaded.",
+        "message": "Не вдалось завантажити деякі стікери.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
@@ -2204,7 +2338,7 @@
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Search Emoji",
+        "message": "Пошук Emoji",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -2222,7 +2356,7 @@
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
-        "message": "Emoji",
+        "message": "Емоджі",
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
@@ -2330,35 +2464,39 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
-        "message": "Previous conversation",
+        "message": "Попередня розмова",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-conversation": {
-        "message": "Next conversation",
+        "message": "Наступна розмова",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Previous unread conversation",
+        "message": "Попередня непрочитана розмова",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
-        "message": "Next unread conversation",
+        "message": "Наступна непрочитана розмова",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "Preferences",
+        "message": "Налаштування",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Open conversation menu",
+        "message": "Відкрити меню розмови",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Почати нову розмову",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Archive conversation",
+        "message": "Архівувати розмову",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Unarchive conversation",
+        "message": "Розархівувати розмову",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
@@ -2366,7 +2504,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Search in conversation",
+        "message": "Пошук у розмові",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
@@ -2426,7 +2564,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Attach file",
+        "message": "Прикріпити файл",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
@@ -2466,7 +2604,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
-        "message": "1 to 9",
+        "message": "1 до 9",
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
@@ -2538,7 +2676,7 @@
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
-        "message": "Sticker pack creator",
+        "message": "Створювач пакунків наліпок",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
@@ -2748,7 +2886,7 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Link copied",
+        "message": "Посилання скопійовано",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
@@ -2768,7 +2906,7 @@
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
-        "message": "More",
+        "message": "Більше",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
@@ -2862,7 +3000,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Blocked people won't be able to call you or send you messages.",
+        "message": "Заблоковані люди не зможуть вам дзвонити чи відправляти повідомлення.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -2946,11 +3084,11 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Learn more.",
+        "message": "Дізнатись більше.",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
-        "message": "$count$ members",
+        "message": "Учасників $count$",
         "description": "Specifies the number of members in a group conversation",
         "placeholders": {
             "count": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "Member of $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "Member of $group1$ and $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "Member of $group1$, $group2$, and $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ added you to the group.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "No groups in common.",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Відповісти",
@@ -3056,7 +3150,7 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "You declined an audio call",
+        "message": "Ви відхилили аудіодзвінок",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
@@ -3096,19 +3190,19 @@
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Incoming audio call...",
+        "message": "Вхідний аудіодзвінок...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Incoming video call...",
+        "message": "Вхідний відеодзвінок...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
-        "message": "Calling...",
+        "message": "Телефонуємо...",
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
-        "message": "Ringing...",
+        "message": "Чекаємо на відповідь...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
@@ -3222,15 +3316,15 @@
         "description": "Label for video input selector"
     },
     "callingDeviceSelection__label--audio-input": {
-        "message": "Microphone",
+        "message": "Мікрофон",
         "description": "Label for audio input selector"
     },
     "callingDeviceSelection__label--audio-output": {
-        "message": "Speakers",
+        "message": "Динаміки",
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "No devices available",
+        "message": "Пристрої недоступні",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
@@ -3245,6 +3339,10 @@
         "message": "Не сповіщати 1 годину",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Стишити на 8 годин",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "Не сповіщати 1 день",
         "description": "Label for muting the conversation"
@@ -3253,16 +3351,20 @@
         "message": "Не сповіщати тиждень",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Не сповіщати 1 рік",
+    "muteAlways": {
+        "message": "Стишити назавжди",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Сповіщати",
         "description": "Label for unmuting the conversation"
     },
+    "muteExpirationLabelAlways": {
+        "message": "Стишено назавжди",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
+    },
     "muteExpirationLabel": {
-        "message": "Muted until $duration$",
+        "message": "Стишено до $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3272,7 +3374,7 @@
         }
     },
     "EmojiButton__label": {
-        "message": "Emoji",
+        "message": "Емоджі",
         "description": "Label for emoji button"
     },
     "ErrorModal--title": {
@@ -3280,7 +3382,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "Спробуйте ще раз, будь ласка, або зв'яжіться з підтримкою.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3288,7 +3390,7 @@
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Sorry, that sgnl:// link didn't make sense!",
+        "message": "Вибачте, це посилання sgnl:// не має сенсу!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3296,7 +3398,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "This is not a valid group link. Make sure the entire link is intact and correct before attempting to join.",
+        "message": "Це посилання на групу — недійсне. Впевніться у правильності посилання та відредагуйте за потреби перед новою спробою приєднатись.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
@@ -3304,7 +3406,7 @@
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "You're already in this group.",
+        "message": "Ви вже у групі.",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
@@ -3360,7 +3462,7 @@
         "description": "Shown in the metadata section if group has just one member"
     },
     "GroupV2--join--member-count--multiple": {
-        "message": "$count$ members",
+        "message": "Учасників $count$",
         "description": "Shown in the metadata section if group has more than one member",
         "placeholders": {
             "count": {
@@ -3370,7 +3472,7 @@
         }
     },
     "GroupV2--join--group-metadata": {
-        "message": "Group · $memberCount$",
+        "message": "Група · $memberCount$",
         "description": "A holder for two pieces of information - the type of conversation, and the member count",
         "placeholders": {
             "memberCount": {
@@ -3384,7 +3486,7 @@
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Link Error",
+        "message": "Помилка посилання",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
@@ -3395,12 +3497,16 @@
         "message": "Адміністратор",
         "description": "Label for a group administrator"
     },
+    "GroupV2--only-admins": {
+        "message": "Тільки Адміністратори",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
+    },
     "GroupV2--all-members": {
         "message": "Всі учасники",
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
-        "message": "Updating...",
+        "message": "Оновлення...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -3408,7 +3514,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
-        "message": "$memberName$ created the group.",
+        "message": "$memberName$ створив цю групу.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3418,11 +3524,11 @@
         }
     },
     "GroupV2--create--unknown": {
-        "message": "The group was created.",
+        "message": "Групу створено.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--change--other": {
-        "message": "$memberName$ changed the group name to \"$newTitle$\".",
+        "message": "$memberName$ змінив ім'я групи на «$newTitle$».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3436,7 +3542,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "You changed the group name to \"$newTitle$\".",
+        "message": "Ви змінили ім'я групи на «$newTitle$».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -3868,7 +3974,7 @@
         }
     },
     "GroupV2--member-remove--you--you": {
-        "message": "You left the group.",
+        "message": "Ви покинули групу.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
@@ -4454,35 +4560,35 @@
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+        "message": "Нові групи мають такі можливості як @згадки, адміністраторів груп, та підтримуватимуть більше можливостей у майбутньому.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "All message history and media has been kept from before the upgrade.",
+        "message": "Уся історія повідомлень та медіа були збережені під час оновлення.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All message history and media will be kept from before the upgrade.",
+        "message": "Уся історія повідомлень та медіа будуть збережені під час оновлення.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
+        "message": "Вам потрібно прийняти запит, щоб приєднатись до цієї групи знов. Ви не отримуватимете повідомлень від групи поки не приймете запит.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "Цим користувачам потрібно прийняти запит, щоб приєднатись до групи знов. Вони не отримуватимуть повідомлень від групи поки не приймуть запит:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "Цьому користувачу потрібно прийняти запит, щоб приєднатись до цієї групи знов. Він не отримуватиме повідомлень від групи поки не прийме запит:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "message": "Ці учасники не можуть приєднуватись до Нових груп, та їх буде видалено з групи:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "message": "Цей учасник не може приєднуватись до Нових груп, та його буде видалено з групи:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
@@ -4542,19 +4648,19 @@
         "description": "Generic close label"
     },
     "previous": {
-        "message": "previous",
+        "message": "назад",
         "description": "Generic previous label"
     },
     "next": {
-        "message": "next",
+        "message": "вперед",
         "description": "Generic next label"
     },
     "CompositionArea--expand": {
-        "message": "Expand",
+        "message": "Розкрити",
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
-        "message": "Attach file",
+        "message": "Прикріпити файл",
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
@@ -4566,15 +4672,15 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--rm-admin": {
-        "message": "Remove as admin",
+        "message": "Видалити як адміністратора",
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "Призначити адміністратором",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
-        "message": "$contact$ will be able to edit this group and its members.",
+        "message": "$contact$ зможе змінювати цю групу та її учасників.",
         "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
         "placeholders": {
             "contact": {
@@ -4584,7 +4690,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin",
+        "message": "Видалити $contact$ як адміністратора групи",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4594,11 +4700,11 @@
         }
     },
     "ContactModal--remove-from-group": {
-        "message": "Remove from group",
+        "message": "Видалити з групи",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showConversationDetails": {
-        "message": "Group settings",
+        "message": "Налаштування групи",
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "ConversationDetails--group-link": {
@@ -4614,23 +4720,23 @@
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--group-info-label": {
-        "message": "Who can edit group info",
+        "message": "Хто може редагувати інформацію групи",
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+        "message": "Виберіть, хто може редагувати ім'я й аватар групи та час видалення повідомлень з групи.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "Who can add members",
+        "message": "Хто може додавати учасників",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Choose who can add members to this group.",
+        "message": "Виберіть, хто може додавати учасників до цієї групи.",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--requests-and-invites": {
-        "message": "Requests & Invites",
+        "message": "Запити та запрошення",
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
@@ -4640,6 +4746,10 @@
     "ConversationDetailsActions--block-group": {
         "message": "Блокувати групу",
         "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Перш ніж покинути цю групу, необхідно обрати щонайменше одного нового адміністратора для цієї групи.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Ви дійсно хочете покинути?",
@@ -4672,7 +4782,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsHeader--members": {
-        "message": "$number$ members",
+        "message": "Учасників $number$",
         "description": "This is the number of members in a group",
         "placeholders": {
             "number": {
@@ -4690,7 +4800,7 @@
         "description": "This is a button on the conversation details to show all media"
     },
     "ConversationDetailsMembershipList--title": {
-        "message": "$number$ members",
+        "message": "Учасників $number$",
         "description": "The title of the membership list panel",
         "placeholders": {
             "number": {
@@ -4699,36 +4809,40 @@
             }
         }
     },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Додати учасників",
+        "description": "The button that you can click to add new members"
+    },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Побачити все",
         "description": "This is a button on the conversation details to show all members"
     },
     "GroupLinkManagement--clipboard": {
-        "message": "Group link copied.",
+        "message": "Посилання групи скопійовано.",
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
-        "message": "Copy link",
+        "message": "Копіювати посилання",
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Are you sure you want to reset the group link? People will no longer be able to join the group using the current link.",
+        "message": "Ви впевнені, що бажаєте скинути посилання на групу? Люди більше не зможуть приєднуватись до групи за цим посиланням.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "Reset link",
+        "message": "Скинути посилання",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
-        "message": "Approve new members",
+        "message": "Схвалити запити нових користувачів",
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Require an admin to approve new members joining via the group link",
+        "message": "Потрібно бути адміністратором для схвалення запитів нових користувачів, які бажають приєднатись за допомогою посилання групи",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
-        "message": "Requests ($count$)",
+        "message": "Запити ($count$)",
         "description": "Label for the tab to view pending requests",
         "placeholders": {
             "name": {
@@ -4738,7 +4852,7 @@
         }
     },
     "PendingInvites--tab-invites": {
-        "message": "Invites ($count$)",
+        "message": "Запрошення ($count$)",
         "description": "Label for the tab to view pending invites",
         "placeholders": {
             "name": {
@@ -4748,7 +4862,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "Approve request from \"$name$\"?",
+        "message": "Схвалити запит від «$name$»?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -4758,7 +4872,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Deny request from \"$name$\"?",
+        "message": "Відхилити запит від «$name$»?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -4768,19 +4882,19 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "Invited by you",
+        "message": "Запрошені вами",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Invited by you",
+        "message": "Запрошені вами",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Invited by others",
+        "message": "Запрошені іншими",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
-        "message": "Invited $number$",
+        "message": "Запросив $number$",
         "description": "This is the label for the number of members someone has invited",
         "placeholders": {
             "number": {
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Додати фото групи",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Змінити фото",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Завантажити фото",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Видалати світлину",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Remove contact",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Добре",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Запрошення надіслано",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "Запрошень надіслано $count$",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$ can’t be automatically added to this group by you.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "These users can’t be automatically added to this group by you.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "They’ve been invited to join, and won’t see any group messages until they accept.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Дізнатись більше",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Додати учасників",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Оновити",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Add $person$ to \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Add $count$ members to \"$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Додати учасника",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Додати учасників",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Нова група",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Обрати контакт",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "De-select contact",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Cannot select contact",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Вже учасник",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Play audio attachment",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Pause audio attachment",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Download audio attachment",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Downloading audio attachment...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Playback time of audio attachment",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "compose button",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Продовжити",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

@@ -771,6 +771,10 @@
         "message": "連絡先",
         "description": "Shown to separate the types of search results"
     },
+    "groupsHeader": {
+        "message": "グループ",
+        "description": "Shown to separate the types of search results"
+    },
     "messagesHeader": {
         "message": "メッセージ",
         "description": "Shown to separate the types of search results"
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "「削除する」をクリックすると、このメッセージがあなたの端末でのみ完全に削除されます。",
+        "message": "このメッセージはこの端末から削除されます。",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1075,10 @@
         "message": "この連絡先とまだメッセージを交換していません。安全番号は最初のメッセージのあとに利用可能になります。",
         "description": ""
     },
+    "back": {
+        "message": "戻る",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "戻る",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "再送信する",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "メッセージの転送",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "自分だけメッセージを削除",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "セキュアセッションがリセットされました",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "セッションが更新されました",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "詳細を見る",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signalは、エンドツーエンドの暗号を使用しており、セッションを時々更新する必要があります。セキュリティには影響しませんが、この連絡先からのメッセージが失われる場合があり、その際は再送を依頼する必要があるかもしれません。",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "サポートに問い合わせる",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "引用されたメッセージから画像のサムネール",
@@ -1864,7 +1892,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "メッセージをやり取りするまではこのユーザを確認できません。",
+        "message": "メッセージをやり取りするまではこのユーザーを確認できません。",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -1908,6 +1936,112 @@
     "startConversation": {
         "message": "新しいチャットを始める...",
         "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newConversation": {
+        "message": "新しいチャット",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "名前や電話番号で検索",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "連絡先が見つかりません",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "チャットが見つかりません",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "メンバーの選択",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "戻る",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "スキップ",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "次へ",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "グループのサイズが最大値に達しました",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signalグループは最大$max$名まで参加できます。",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "推奨されるメンバー数の上限に達しました",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signalグループは$max$人以下が最適です。これよりメンバーを追加すると、メッセージの送受信で遅延が発生します。",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "メンバーを追加できません",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "$name$は、古いバージョンのSignalを使っているのでグループに追加できません。Signalをアップデートしてもらってからグループに追加してください。",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "このグループに名前を付ける",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "メンバーの選択へ戻る",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "グループ名 (必須)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "作成する",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "メンバー",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "グループを作成できませんでした。インターネット接続を確認して再度試してください。",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "グループ名とアイコンの編集",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "グループを更新できませんでした。インターネット接続を確認して再度試してください。",
+        "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
         "message": "SMS/MMS メッセージはサポートしていません。",
@@ -2351,6 +2485,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "チャットメニューを開く",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "新しいチャットを始める",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2862,7 +3000,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "ブロックされたユーザは、あなたにメッセージや通話をすることができなくなります。",
+        "message": "ブロックされたユーザーは、あなたにメッセージや通話をすることができなくなります。",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "$group$のメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "$group1$と$group2$のメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "$group1$、$group2$、$group3$のメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "$group1$、$group2$、$group3$、他$remainingCount$グループのメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$があなたをグループに追加しました。",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "共通のグループはありません",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "応答する",
@@ -3245,6 +3339,10 @@
         "message": "1時間ミュート",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "8時間ミュート",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "1日ミュート",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "1週間ミュート",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "1年間ミュート",
+    "muteAlways": {
+        "message": "常にミュート",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "ミュートを解除",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "常時ミュート中",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "$duration$までミュート",
@@ -3395,6 +3497,10 @@
         "message": "管理者",
         "description": "Label for a group administrator"
     },
+    "GroupV2--only-admins": {
+        "message": "管理者のみ",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
+    },
     "GroupV2--all-members": {
         "message": "すべてのメンバー",
         "description": "Label for describing the general non-privileged members of a group"
@@ -3510,7 +3616,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$がグループ情報を編集できるユーザを「管理者のみ」に変更しました。",
+        "message": "$adminName$がグループ情報を編集できるユーザーを「管理者のみ」に変更しました。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3520,11 +3626,11 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "グループ情報を編集できるユーザを「管理者のみ」に変更しました。",
+        "message": "グループ情報を編集できるユーザーを「管理者のみ」に変更しました。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "管理者がグループ情報を編集できるユーザを「管理者のみ」に変更しました。",
+        "message": "管理者がグループ情報を編集できるユーザーを「管理者のみ」に変更しました。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
@@ -3546,7 +3652,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$がグループのメンバーを変更できるユーザを「管理者のみ」に変更しました。",
+        "message": "$adminName$がグループのメンバーを変更できるユーザーを「管理者のみ」に変更しました。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3556,7 +3662,7 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "グループのメンバーを変更できるユーザを「管理者のみ」に変更しました。",
+        "message": "グループのメンバーを変更できるユーザーを「管理者のみ」に変更しました。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
@@ -4641,6 +4747,10 @@
         "message": "グループをブロック",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "グループから抜ける前に、新しい管理者を1人以上選択する必要があります。",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "本当に抜けますか？",
         "description": "This is the modal title for confirming leaving a group"
@@ -4698,6 +4808,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "メンバーを追加する",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "すべて表示",
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "このグループに招待された人の詳細は、グループに参加するまで表示されません。招待された人は、グループに参加するとメッセージを見ることができます。",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "グループアイコンの追加",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "写真を変更",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "写真をアップロード",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "画像を削除する",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "連絡先を削除",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "OK",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "招待を送信しました",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$件の招待を送信しました",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$は、自動で追加できません。",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "以下のユーザーは、自動で追加できません。",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "招待したユーザーが受信した招待を受け入れるまで、グループのメッセージは閲覧できません。",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "詳しく見る",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "メンバーを追加する",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "アップデートする",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "$person$ を「$group$」に追加しますか？",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "$count$人のメンバーを「$group$」に追加しますか？",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "参加者を追加する",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "メンバーを追加する",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "新規グループ",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "連絡先を選択",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "連絡先の選択を解除",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "連絡先を選択できません",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "既存のメンバー",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "添付の音声を再生",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "添付の音声を一時停止",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "添付の音声をダウンロード",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "添付の音声をダウンロードしています…",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "添付の音声の再生時間",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "上にある$composeIcon$をクリックして、メッセージを送りたい相手やグループを探してください。",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "作成ボタン",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "続ける",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

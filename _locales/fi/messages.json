@@ -206,7 +206,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Nämä keskustelut ovat arkistoituja. Ne siirtyvät takaisin postilaatikkoon, jos niihin tulee uusia viestejä",
+        "message": "Arkistoidut keskustelut siirretään takaisin viestiluetteloon, jos niihin tulee uusia viestejä.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -646,7 +646,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Vielä pieni hetki…",
+        "message": "Hetkinen...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -654,7 +654,7 @@
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Tarkista verkkoyhteytesi.",
+        "message": "Tarkista verkkoyhteys.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
@@ -769,6 +769,10 @@
     },
     "contactsHeader": {
         "message": "Yhteystiedot",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "Ryhmät",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -902,15 +906,15 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Lähetä ääniviestejä myöntämällä Signalille mikrofonin käyttöoikeus.",
+        "message": "Ääniviestin lähettäminen edellyttää mikrofonin käyttöoikeuden myöntämistä Signal Desktopille.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "Jotta voit tehdä puheluita, sinun on myönnettävä Signal Desktopille mikrofonin käyttöoikeus.",
+        "message": "Puhelun soittaminen edellyttää mikrofonin käyttöoikeuden myöntämistä Signal Desktopille.",
         "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
-        "message": "Jotta voit tehdä videopuheluita, sinun on myönnettävä Signal Desktopille kameran käyttöoikeus.",
+        "message": "Videopuhelun soittaminen edellyttää kameran käyttöoikeuden myöntämistä Signal Desktopille.",
         "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
@@ -974,7 +978,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Lähettäminen joillekin vastaanottajille epäonnistui. Tarkista verkkoyhteytesi.",
+        "message": "Lähettäminen joillekin vastaanottajille epäonnistui. Tarkista verkkoyhteys.",
         "description": ""
     },
     "error": {
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "'Poista' -painikkeen klikkaaminen poistaa tämän viestin pysyvästi vain omilta laitteiltasi.",
+        "message": "Viesti poistetaan tästä laitteesta.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1075,10 @@
         "message": "Et ole lähettänyt tai vastaanottanut vielä viestejä tämän yhteystiedon kanssa. Turvanumero on saatavilla vasta ensimmäisen viestin jälkeen.",
         "description": ""
     },
+    "back": {
+        "message": "Takaisin",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Siirry takaisin",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "Lähetä uudelleen",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Välitä viesti",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Poista viesti minulta",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "Suojattu istunto alustettu",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Keskustelu on päivitetty",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Lue lisää",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signalin sisältö salataan päästä päähän, mutta ajoittain keskustelu voidaan joutua päivittämään. Se ei vaikuta tietoturvaan, mutta tämän yhteyshenkilön viimeisin viesti ei välttämättä näy, ja voit pyytää häntä lähettämään sen uudelleen.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Ota yhteyttä tukeen",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "Lainatun kuvaviestin pikkukuva",
@@ -1228,11 +1256,11 @@
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Poista kamera käytöstä",
+        "message": "Sammuta kamera",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Ota kamera käyttöön",
+        "message": "Käynnistä kamera",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
@@ -1376,7 +1404,7 @@
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Myönnä kameran käyttöoikeus",
+        "message": "Salli kameran käyttö",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1384,7 +1412,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Ota käyttöön kirjoituskentän oikoluku",
+        "message": "Oikolue kirjoituskentän sisältö",
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
@@ -1909,6 +1937,112 @@
         "message": "Aloita uusi keskustelu...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "Uusi keskustelu",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Etsi nimellä tai puhelinnumerolla",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Yhteystietoja ei löytynyt",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Yhtään keskustelua ei löytynyt",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Valitse jäsenet",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Takaisin",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Ohita",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Seuraava",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Ryhmän enimmäiskoko saavutettu",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signal-ryhmissä voi olla enintään $max$ jäsentä.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Suositeltu jäsenmäärä saavutettu",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal-ryhmät toimivat parhaiten enintään $max$ jäsenellä. Korkeampi jäsenmäärä viivästyttää viestien kulkua.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Jäsenen lisääminen epäonnistui",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "Käyttäjää $name$ ei voi lisätä ryhmään, sillä hän käyttää Signalin vanhaa versiota. Pyydä häntä päivittämään Signal-sovellus.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Nimeä tämä ryhmä",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Takaisin jäsenvalintaan",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Ryhmän nimi (pakollinen)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Luo",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Jäsenet",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Ryhmän luominen ei onnistunut. Tarkista verkkoyhteys ja yritä uudelleen.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Muokkaa nimeä ja kuvaa",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Ryhmän päivitys epäonnistui. Tarkista verkkoyhteys ja yritä uudelleen.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "Teksti- tai multimediaviestejä ei tueta.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -2120,7 +2254,7 @@
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Saapuvien viestien tarrat tulevat näkymään tässä",
+        "message": "Vastaanotetut tarrat näytetään tässä",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -2132,7 +2266,7 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Et välttämättä pysty asentamaan tätä tarrapakkettia uudelleen, jos lähdeviestiä ei enää ole.",
+        "message": "Tarrapakettia ei voi asentaa uudelleen, jos sen lähdeviesti on poistettu.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
@@ -2188,7 +2322,7 @@
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Hiljattain käytetyt tarrat tulevat näkymään tässä.",
+        "message": "Viimeksi käytetyt tarrat näytetään tässä.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
@@ -2351,6 +2485,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "Avaa keskustelun valikko",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Aloita uusi keskustelu",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "Jäsen ryhmässä $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "Jäsen ryhmissä $group1$ ja $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "Jäsen ryhmissä $group1$, $group2$ ja $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "Jäsen ryhmissä $group1$, $group2$, $group3$ ja $remainingCount$ muussa.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ lisäsi sinut ryhmään.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Ei yhteisiä ryhmiä.",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Vastaa",
@@ -3064,11 +3158,11 @@
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Saapuva äänipuhelu",
+        "message": "Vastattu äänipuhelu",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Saapuva videopuhelu",
+        "message": "Vastattu videopuhelu",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
@@ -3080,11 +3174,11 @@
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Lähtevä äänipuhelu",
+        "message": "Soitettu äänipuhelu",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Lähtevä videopuhelu",
+        "message": "Soitettu videopuhelu",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
@@ -3245,6 +3339,10 @@
         "message": "Mykistä yhdeksi tunniksi",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Mykistä 8 tunniksi",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "Mykistä yhdeksi päiväksi",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "Mykistä yhdeksi viikoksi",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Mykistä yhdeksi vuodeksi",
+    "muteAlways": {
+        "message": "Mykistä aina",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Poista mykistys",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Mykistetty aina",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Mykistetty $duration$ asti",
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "Ylläpitäjä",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Vain ylläpitäjät",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Kaikki jäsenet",
@@ -3582,11 +3688,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "Otit ryhmäänliittymispyynnöt pois käytöstä.",
+        "message": "Otit liittymispyynnöt pois käytöstä.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ otti ryhmäänliittymispyynnöt pois käytöstä.",
+        "message": "$adminName$ otti liittymispyynnöt pois käytöstä.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3596,15 +3702,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Ryhmäänliittymispyynnöt on otettu pois käytöstä.",
+        "message": "Liittymispyynnöt on otettu pois käytöstä.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "Otit ryhmäänliittymispyynnöt käyttöön.",
+        "message": "Otit liittymispyynnöt käyttöön.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$otti ryhmäänliittymispyynnöt käyttöön.",
+        "message": "$adminName$otti liittymispyynnöt käyttöön.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4352,11 +4458,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "Otit ryhmälinkin käyttöön. Ryhmäänliittymispyynnöt eivät ole käytössä.",
+        "message": "Otit ryhmälinkin käyttöön. Liittymispyynnöt eivät ole käytössä.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ otti ryhmälinkin käyttöön. Ryhmäänliittymispyynnöt eivät ole käytössä.",
+        "message": "$adminName$ otti ryhmälinkin käyttöön. Liittymispyynnöt eivät ole käytössä.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4366,15 +4472,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "Ryhmälinkki on otettu käyttöön. Ryhmäänliittymispyynnöt eivät ole käytössä.",
+        "message": "Ryhmälinkki on otettu käyttöön. Liittymispyynnöt eivät ole käytössä.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "Otit ryhmälinkin käyttöön. Ylläpitäjä tarkistaa ryhmäänliittymispyynnöt.",
+        "message": "Otit ryhmälinkin käyttöön. Ylläpitäjä tarkistaa liittymispyynnöt.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ otti ryhmälinkin käyttöön. Ylläpitäjä tarkistaa ryhmäänliittymispyynnöt.",
+        "message": "$adminName$ otti ryhmälinkin käyttöön. Ylläpitäjä tarkistaa liittymispyynnöt.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4384,7 +4490,7 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "Ryhmälinkki on otettu käyttöön. Ylläpitäjä tarkistaa ryhmäänliittymispyynnöt.",
+        "message": "Ryhmälinkki on otettu käyttöön. Ylläpitäjä tarkistaa liittymispyynnöt.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
@@ -4392,7 +4498,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$ otti ryhmäänliittymispyynnöt pois käytöstä.",
+        "message": "$adminName$ otti liittymispyynnöt pois käytöstä.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4610,11 +4716,11 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "Kun tämä on päällä, lähetetyt ja vastaanotetut viestit katoavat tästä ryhmästä, kun ne on nähty.",
+        "message": "Lähetetyt ja vastaanotetut viestit katoavat tästä keskustelusta, kun ne on nähty.",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--group-info-label": {
-        "message": "Ketkä voivat muokata ryhmän tietoja",
+        "message": "Ryhmän tietojen muokkaaminen",
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
@@ -4622,7 +4728,7 @@
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "Ketkä voivat lisätä jäseniä",
+        "message": "Jäsenten hallinta",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
@@ -4630,7 +4736,7 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--requests-and-invites": {
-        "message": "Liittymispyynnöt & Kutsut",
+        "message": "Liittymispyynnöt & kutsut",
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
@@ -4640,6 +4746,10 @@
     "ConversationDetailsActions--block-group": {
         "message": "Estä ryhmä",
         "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Ennen kuin lähdet, sinun on valittava vähintään yksi uusi ylläpitäjä tälle ryhmälle.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Haluatko varmasti poistua?",
@@ -4699,6 +4809,10 @@
             }
         }
     },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Lisää jäseniä",
+        "description": "The button that you can click to add new members"
+    },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Näytä kaikki",
         "description": "This is a button on the conversation details to show all members"
@@ -4738,7 +4852,7 @@
         }
     },
     "PendingInvites--tab-invites": {
-        "message": "Kutsut($count$)",
+        "message": "Kutsut ($count$)",
         "description": "Label for the tab to view pending invites",
         "placeholders": {
             "name": {
@@ -4844,7 +4958,7 @@
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "Tässä luettelossa olevat henkilöt yrittävät liittyä ryhmään \"$name$\" ryhmälinkin kautta.",
+        "message": "Luettelon henkilöt yrittävät liittyä ryhmään $name$ ryhmälinkin kautta.",
         "description": "Inforamtion shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -4854,7 +4968,169 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Tähän ryhmään kutsuttuja ihmisiä koskevia tietoja ei näytetä ennen kuin he ovat liittyneet. Kutsutut näkevät viestit liittymishetkestä eteenpäin.",
+        "message": "Ryhmään kutsutun henkilön tiedot näytetään vasta ryhmään liittymisen jälkeen. Kutsuttu ei näe ryhmän viestejä ennen liittymistä.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Lisää ryhmän kuva",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Vaihda kuva",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Tallenna kuva",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Poista kuva",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Poista yhteystieto",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Selvä",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Kutsu lähetetty",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ kutsua lähetetty",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "Et voi lisätä käyttäjää $name$ automaattisesti tähän ryhmään.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Et voi lisätä näitä käyttäjiä automaattisesti tähän ryhmään.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "Heille on lähetetty ryhmäkutsu. He eivät näe ryhmän sisältöä ennen kutsun hyväksymistä.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Lue lisää",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Lisää jäseniä",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Päivitä",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Lisätäänkö $person$ ryhmään $group$?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Lisätäänkö $count$ jäsentä ryhmään $group$?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Lisää jäsen",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Lisää jäseniä",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Uusi ryhmä",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Valitse kontakti",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Poista yhteystieto valinnasta",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Yhteystietoa ei voi valita",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Jo jäsen",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Toista äänitiedosto",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Pysäytä äänitiedosto",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Lataa äänitiedosto",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Ladataan äänitiedostoa...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Äänitiedoston toistoaika",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Napsauta $composeIcon$ edellä ja etsi yhteystietojasi tai ryhmiäsi.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "kirjoituspainike",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Jatka",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }
