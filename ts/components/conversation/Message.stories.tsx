@@ -804,6 +804,21 @@ story.add('Audio', () => {
   return renderBothDirections(props);
 });
 
+story.add('Long Audio', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: AUDIO_MP3,
+        fileName: 'long-audio.mp3',
+        url: '/fixtures/long-audio.mp3',
+      },
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('Audio with Caption', () => {
   const props = createProps({
     attachments: [
