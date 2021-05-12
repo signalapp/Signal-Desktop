@@ -196,12 +196,23 @@ const processOnionResponse = async (
 ): Promise<SnodeResponse | RequestError> => {
   const { log, libloki } = window;
 
+  let content;
+
+  try {
+    content = await response.text();
+  } catch (e) {
+    window.log.warn(e);
+    content = '';
+  }
+
+  // if (response.status !== 200) {
+  // debugger;
+  // }
+
   if (abortSignal?.aborted) {
     log.warn(`(${reqIdx}) [path] Call aborted`);
     return RequestError.ABORTED;
   }
-
-  // FIXME: 401/500 handling?
 
   // detect SNode is deregisted?
   if (response.status === 502) {
@@ -229,10 +240,8 @@ const processOnionResponse = async (
   }
 
   if (response.status !== 200) {
-    const rsp = await response.text();
-
     log.warn(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - fetch unhandled error code: ${response.status}: ${rsp}`
+      `(${reqIdx}) [path] lokiRpc::processingOnionResponse - fetch unhandled error code: ${response.status}: ${content}`
     );
     // FIXME audric
     // this is pretty strong but on the current setup.
@@ -241,15 +250,15 @@ const processOnionResponse = async (
     return RequestError.BAD_PATH;
   }
 
-  let ciphertext = await response.text();
+  let ciphertext = content;
   if (!ciphertext) {
     log.warn(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - Target node return empty ciphertext`
+      `(${reqIdx}) [path] lokiRpc::processingOnionResponse - Target node return empty ciphertext`
     );
     return RequestError.OTHER;
   }
   if (debug) {
-    log.debug(`(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertext`, ciphertext);
+    log.debug(`(${reqIdx}) [path] lokiRpc::processingOnionResponse - ciphertext`, ciphertext);
   }
 
   let plaintext;
@@ -266,26 +275,26 @@ const processOnionResponse = async (
 
     if (debug) {
       log.debug(
-        `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertextBuffer`,
+        `(${reqIdx}) [path] lokiRpc::processingOnionResponse - ciphertextBuffer`,
         toHex(ciphertextBuffer)
       );
     }
 
     const plaintextBuffer = await libloki.crypto.DecryptAESGCM(symmetricKey, ciphertextBuffer);
     if (debug) {
-      log.debug('lokiRpc::processOnionResponse - plaintextBuffer', plaintextBuffer.toString());
+      log.debug('lokiRpc::processingOnionResponse - plaintextBuffer', plaintextBuffer.toString());
     }
 
     plaintext = new TextDecoder().decode(plaintextBuffer);
   } catch (e) {
-    log.error(`(${reqIdx}) [path] lokiRpc::processOnionResponse - decode error`, e);
+    log.error(`(${reqIdx}) [path] lokiRpc::processingOnionResponse - decode error`, e);
     log.error(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - symmetricKey`,
+      `(${reqIdx}) [path] lokiRpc::processingOnionResponse - symmetricKey`,
       toHex(symmetricKey)
     );
     if (ciphertextBuffer) {
       log.error(
-        `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertextBuffer`,
+        `(${reqIdx}) [path] lokiRpc::processingOnionResponse - ciphertextBuffer`,
         toHex(ciphertextBuffer)
       );
     }
@@ -293,7 +302,7 @@ const processOnionResponse = async (
   }
 
   if (debug) {
-    log.debug('lokiRpc::processOnionResponse - plaintext', plaintext);
+    log.debug('lokiRpc::processingOnionResponse - plaintext', plaintext);
   }
 
   try {
@@ -307,7 +316,7 @@ const processOnionResponse = async (
     return jsonRes;
   } catch (e) {
     log.error(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - parse error outer json ${e.code} ${e.message} json: '${plaintext}'`
+      `(${reqIdx}) [path] lokiRpc::processingOnionResponse - parse error outer json ${e.code} ${e.message} json: '${plaintext}'`
     );
     return RequestError.OTHER;
   }
@@ -430,6 +439,8 @@ const sendOnionRequest = async (
     id
   );
 
+  const guardNode = nodePath[0];
+
   const guardFetchOptions = {
     method: 'POST',
     body: payload,
@@ -438,10 +449,8 @@ const sendOnionRequest = async (
     abortSignal,
   };
 
-  const target = '/onion_req/v2';
-
-  const guardUrl = `https://${nodePath[0].ip}:${nodePath[0].port}${target}`;
-  // no logs for that one as we do need to call insecureNodeFetch to our guardNode
+  const guardUrl = `https://${guardNode.ip}:${guardNode.port}/onion_req/v2`;
+  // no logs for that one insecureNodeFetch as we do need to call insecureNodeFetch to our guardNode
   // window.log.info('insecureNodeFetch => plaintext for sendOnionRequest');
 
   const response = await insecureNodeFetch(guardUrl, guardFetchOptions);
@@ -452,7 +461,7 @@ async function sendOnionRequestSnodeDest(
   reqIdx: any,
   nodePath: Array<Snode>,
   targetNode: Snode,
-  plaintext: any
+  plaintext?: string
 ) {
   return sendOnionRequest(
     reqIdx,
@@ -492,27 +501,30 @@ function getPathString(pathObjArr: Array<any>): string {
   return pathObjArr.map(node => `${node.ip}:${node.port}`).join(', ');
 }
 
-export async function lokiOnionFetch(body: any, targetNode: Snode): Promise<SnodeResponse | false> {
+export async function lokiOnionFetch(
+  targetNode: Snode,
+  body?: string
+): Promise<SnodeResponse | false> {
   const { log } = window;
 
   // Loop until the result is not BAD_PATH
-  // tslint:disable-next-line no-constant-condition
+  // tslint:disable no-constant-condition
   while (true) {
     // Get a path excluding `targetNode`:
-    // eslint-disable-next-line no-await-in-loop
-    const path = await OnionPaths.getInstance().getOnionPath(targetNode);
-    const thisIdx = OnionPaths.getInstance().assignOnionRequestNumber();
+    // eslint-disable no-await-in-loop
+    const path = await OnionPaths.getOnionPath(targetNode);
+    const thisIdx = OnionPaths.assignOnionRequestNumber();
 
     // At this point I only care about BAD_PATH
-
-    // eslint-disable-next-line no-await-in-loop
+    console.warn('lokiOnionFetch with path', path);
+    path[2].pubkey_ed25519 = '11edd12a6f29011a1beb5b245a06b16548f2796eec4057a6c191700ffa780f5c';
     const result = await sendOnionRequestSnodeDest(thisIdx, path, targetNode, body);
 
     if (result === RequestError.BAD_PATH) {
       log.error(
         `[path] Error on the path: ${getPathString(path)} to ${targetNode.ip}:${targetNode.port}`
       );
-      OnionPaths.getInstance().markPathAsBad(path);
+      OnionPaths.markPathAsBad(path);
       return false;
     } else if (result === RequestError.OTHER) {
       // could mean, fail to parse results

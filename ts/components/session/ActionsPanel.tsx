@@ -155,7 +155,7 @@ const triggerSyncIfNeeded = async () => {
 const doAppStartUp = (dispatch: Dispatch<any>) => {
   if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
     // Initialize paths for onion requests
-    void OnionPaths.getInstance().buildNewOnionPaths();
+    void OnionPaths.buildNewOnionPaths();
   }
 
   // init the messageQueue. In the constructor, we add all not send messages

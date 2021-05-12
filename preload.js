@@ -353,8 +353,6 @@ window.clipboard = clipboard;
 
 window.seedNodeList = JSON.parse(config.seedNodeList);
 
-const { OnionPaths } = require('./ts/session/onions');
-
 const { locale: localFromEnv } = config;
 window.i18n = i18n.setup(localFromEnv, localeMessages);
 
@@ -374,8 +372,6 @@ window.moment.updateLocale(localeSetForMoment, {
     h: window.i18n('timestamp_h'),
   },
 });
-
-window.OnionPaths = OnionPaths;
 
 window.libsession = require('./ts/session');
 window.models = require('./ts/models');

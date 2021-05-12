@@ -109,7 +109,7 @@ const buildSendViaOnionPayload = (url: URL, fetchOptions: OnionFetchOptions) => 
 export const getOnionPathForSending = async (requestNumber: number) => {
   let pathNodes: Array<Snode> = [];
   try {
-    pathNodes = await OnionPaths.getInstance().getOnionPath();
+    pathNodes = await OnionPaths.getOnionPath();
   } catch (e) {
     window.log.error(`sendViaOnion #${requestNumber} - getOnionPath Error ${e.code} ${e.message}`);
   }
@@ -124,7 +124,7 @@ export const getOnionPathForSending = async (requestNumber: number) => {
 const initOptionsWithDefaults = (options: OnionFetchBasicOptions) => {
   const defaultFetchBasicOptions = {
     retry: 0,
-    requestNumber: OnionPaths.getInstance().assignOnionRequestNumber(),
+    requestNumber: OnionPaths.assignOnionRequestNumber(),
   };
   return _.defaults(options, defaultFetchBasicOptions);
 };

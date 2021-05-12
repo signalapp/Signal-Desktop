@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import { Snode } from '../onions';
 import { SendParams, storeOnNode } from '../snode_api/serviceNodeAPI';
-import { getSwarm } from '../snode_api/snodePool';
+import { getSwarm, Snode } from '../snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 
 const DEFAULT_CONNECTIONS = 3;

@@ -6,6 +6,8 @@ import { lokiOnionFetch, snodeHttpsAgent, SnodeResponse } from './onions';
 
 interface FetchOptions {
   method: string;
+  body?: string;
+  agent?: any;
 }
 
 // A small wrapper around node-fetch which deserializes response
@@ -18,7 +20,7 @@ async function lokiFetch(
   const timeout = 10000;
   const method = options.method || 'GET';
 
-  const fetchOptions: any = {
+  const fetchOptions = {
     ...options,
     timeout,
     method,
@@ -28,7 +30,7 @@ async function lokiFetch(
     // Absence of targetNode indicates that we want a direct connection
     // (e.g. to connect to a seed node for the first time)
     if (window.lokiFeatureFlags.useOnionRequests && targetNode) {
-      const fetchResult = await lokiOnionFetch(fetchOptions.body, targetNode);
+      const fetchResult = await lokiOnionFetch(targetNode, fetchOptions.body);
       if (!fetchResult) {
         return undefined;
       }

@@ -1,4 +1,4 @@
-import { Snode } from '../onions';
+import { Snode } from '../snode_api/snodePool';
 
 type SimpleFunction<T> = (arg: T) => void;
 type Return<T> = Promise<T> | T;
