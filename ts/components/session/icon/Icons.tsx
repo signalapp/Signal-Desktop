@@ -5,6 +5,7 @@ export enum SessionIconType {
   ChatBubble = 'chatBubble',
   Check = 'check',
   Chevron = 'chevron',
+  Circle = 'circle',
   CircleCheck = 'circleCheck',
   DoubleCheckCircleFilled = 'doubleCheckCircleFilled',
   CirclePlus = 'circlePlus',
@@ -97,6 +98,11 @@ export const icons = {
     path:
       'M12,13.5857864 L6.70710678,8.29289322 C6.31658249,7.90236893 5.68341751,7.90236893 5.29289322,8.29289322 C4.90236893,8.68341751 4.90236893,9.31658249 5.29289322,9.70710678 L11.2928932,15.7071068 C11.6834175,16.0976311 12.3165825,16.0976311 12.7071068,15.7071068 L18.7071068,9.70710678 C19.0976311,9.31658249 19.0976311,8.68341751 18.7071068,8.29289322 C18.3165825,7.90236893 17.6834175,7.90236893 17.2928932,8.29289322 L12,13.5857864 Z',
     viewBox: '1.5 5.5 21 12',
+    ratio: 1,
+  },
+  [SessionIconType.Circle]: {
+    path: 'M 100, 100m -75, 0a 75,75 0 1,0 150,0a 75,75 0 1,0 -150,0',
+    viewBox: '0 0 200 200',
     ratio: 1,
   },
   [SessionIconType.CircleCheck]: {

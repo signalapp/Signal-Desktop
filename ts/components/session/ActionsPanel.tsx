@@ -108,9 +108,8 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     case SectionType.Moon:
       iconType = SessionIconType.Moon;
       break;
-    // Update Icon Here
     case SectionType.PathIndicator:
-      iconType = SessionIconType.Star;
+      iconType = SessionIconType.Circle;
       break;
     default:
       iconType = SessionIconType.Moon;
@@ -122,6 +121,7 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     <SessionIconButton
       iconSize={SessionIconSize.Medium}
       iconType={iconType}
+      iconColor={type === SectionType.PathIndicator ? 'green' : undefined}
       notificationCount={unreadToShow}
       onClick={handleClick}
       isSelected={isSelected}
