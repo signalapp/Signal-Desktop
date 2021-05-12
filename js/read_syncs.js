@@ -25,6 +25,7 @@
         receipt.get('senderUuid'),
         receipt.get('timestamp')
       );
+      return;
     }
 
     Whisper.Notifications.removeBy({
