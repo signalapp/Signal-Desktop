@@ -120,6 +120,9 @@
       );
       this.recorder.startRecording();
     },
+    isRecording() {
+      return this.recorder.isRecording();
+    },
     onTimeout() {
       this.recorder.finishRecording();
       this.close();

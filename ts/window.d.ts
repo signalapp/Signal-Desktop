@@ -793,6 +793,7 @@ export type WhisperType = {
   TapToViewExpiredIncomingToast: typeof window.Whisper.ToastView;
   TapToViewExpiredOutgoingToast: typeof window.Whisper.ToastView;
   TimerConflictToast: typeof window.Whisper.ToastView;
+  UnableToAttachFileWhileRecording: typeof window.Whisper.ToastView;
   UnableToLoadToast: typeof window.Whisper.ToastView;
   VoiceNoteLimit: typeof window.Whisper.ToastView;
   VoiceNoteMustBeOnlyAttachmentToast: typeof window.Whisper.ToastView;
