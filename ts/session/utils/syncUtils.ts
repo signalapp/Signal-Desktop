@@ -65,6 +65,11 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
   new Promise(resolve => {
     const allConvos = ConversationController.getInstance().getConversations();
 
+    // if we hang for more than 10sec, force resolve this promise.
+    setTimeout(() => {
+      resolve(false);
+    }, 10000);
+
     void getCurrentConfigurationMessage(allConvos)
       .then(configMessage => {
         // this just adds the message to the sending queue.

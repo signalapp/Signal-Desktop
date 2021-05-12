@@ -59,6 +59,17 @@
   }
   inherit(ReplayableError, EmptySwarmError);
 
+  function InvalidateSwarm(number, message) {
+    // eslint-disable-next-line prefer-destructuring
+    this.number = number.split('.')[0];
+
+    ReplayableError.call(this, {
+      name: 'InvalidateSwarm',
+      message,
+    });
+  }
+  inherit(ReplayableError, InvalidateSwarm);
+
   function NotFoundError(message, error) {
     this.name = 'NotFoundError';
     this.message = message;

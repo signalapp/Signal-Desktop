@@ -1,9 +1,8 @@
-import { default as insecureNodeFetch } from 'node-fetch';
+import { default as insecureNodeFetch, Response } from 'node-fetch';
 import https from 'https';
 
 import { Snode } from './snodePool';
 import ByteBuffer from 'bytebuffer';
-import { StringUtils } from '../utils';
 import { OnionPaths } from '../onions';
 import { fromBase64ToArrayBuffer, toHex } from '../utils/String';
 
@@ -190,7 +189,7 @@ async function buildOnionGuardNodePayload(
 // May return false BAD_PATH, indicating that we should try a new path.
 const processOnionResponse = async (
   reqIdx: number,
-  response: any,
+  response: Response,
   symmetricKey: ArrayBuffer,
   debug: boolean,
   abortSignal?: AbortSignal
@@ -231,6 +230,7 @@ const processOnionResponse = async (
 
   if (response.status !== 200) {
     const rsp = await response.text();
+
     log.warn(
       `(${reqIdx}) [path] lokiRpc::processOnionResponse - fetch unhandled error code: ${response.status}: ${rsp}`
     );
@@ -241,7 +241,7 @@ const processOnionResponse = async (
     return RequestError.BAD_PATH;
   }
 
-  let ciphertext = (await response.text()) as string;
+  let ciphertext = await response.text();
   if (!ciphertext) {
     log.warn(
       `(${reqIdx}) [path] lokiRpc::processOnionResponse - Target node return empty ciphertext`
@@ -492,10 +492,7 @@ function getPathString(pathObjArr: Array<any>): string {
   return pathObjArr.map(node => `${node.ip}:${node.port}`).join(', ');
 }
 
-export async function lokiOnionFetch(
-  body: any,
-  targetNode: Snode
-): Promise<SnodeResponse | boolean> {
+export async function lokiOnionFetch(body: any, targetNode: Snode): Promise<SnodeResponse | false> {
   const { log } = window;
 
   // Loop until the result is not BAD_PATH

@@ -11,7 +11,7 @@ import {
   ConversationTypeEnum,
 } from '../../models/conversation';
 import { BlockedNumberController } from '../../util';
-import { getSnodesFor } from '../snode_api/snodePool';
+import { getSwarm } from '../snode_api/snodePool';
 import { PubKey } from '../types';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
@@ -120,7 +120,7 @@ export class ConversationController {
         await Promise.all([
           conversation.updateProfileAvatar(),
           // NOTE: we request snodes updating the cache, but ignore the result
-          void getSnodesFor(id),
+          void getSwarm(id),
         ]);
       }
     });

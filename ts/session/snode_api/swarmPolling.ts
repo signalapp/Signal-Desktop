@@ -1,5 +1,5 @@
 import { PubKey } from '../types';
-import { getSnodesFor, Snode } from './snodePool';
+import { getSwarm, Snode } from './snodePool';
 import { retrieveNextMessages } from './serviceNodeAPI';
 import { SignalService } from '../../protobuf';
 import * as Receiver from '../../receiver/receiver';
@@ -91,7 +91,7 @@ export class SwarmPolling {
     // accept both until this is fixed:
     const pkStr = pubkey.key;
 
-    const snodes = await getSnodesFor(pkStr);
+    const snodes = await getSwarm(pkStr);
 
     // Select nodes for which we already have lastHashes
     const alreadyPolled = snodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);

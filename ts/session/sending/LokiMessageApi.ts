@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Snode } from '../onions';
 import { SendParams, storeOnNode } from '../snode_api/serviceNodeAPI';
-import { getSnodesFor } from '../snode_api/snodePool';
+import { getSwarm } from '../snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 
 const DEFAULT_CONNECTIONS = 3;
@@ -46,7 +46,7 @@ export async function sendMessage(
   const data64 = window.dcodeIO.ByteBuffer.wrap(data).toString('base64');
 
   // Using timestamp as a unique identifier
-  const swarm = await getSnodesFor(pubKey);
+  const swarm = await getSwarm(pubKey);
 
   // send parameters
   const params = {
@@ -62,7 +62,6 @@ export async function sendMessage(
 
   let snode;
   try {
-    // eslint-disable-next-line more/no-then
     snode = await firstTrue(promises);
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';

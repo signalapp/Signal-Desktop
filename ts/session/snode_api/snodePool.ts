@@ -1,14 +1,36 @@
 import semver from 'semver';
 import _ from 'lodash';
 
-import { getSnodesFromSeedUrl, requestSnodesForPubkey } from './serviceNodeAPI';
+import {
+  getSnodePoolFromSnodes,
+  getSnodesFromSeedUrl,
+  requestSnodesForPubkey,
+} from './serviceNodeAPI';
 
-import { getSwarmNodesForPubkey, updateSwarmNodesForPubkey } from '../../../ts/data/data';
+import * as Data from '../../../ts/data/data';
 
 export type SnodeEdKey = string;
 import { allowOnlyOneAtATime } from '../utils/Promise';
+import pRetry from 'p-retry';
 
-const MIN_NODES = 3;
+/**
+ * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
+ */
+const minSwarmSnodeCount = 3;
+
+/**
+ * If we get less than minSnodePoolCount we consider that we need to fetch the new snode pool from a seed node
+ * and not from those snodes.
+ */
+const minSnodePoolCount = 12;
+
+/**
+ * If we do a request to fetch nodes from snodes and they don't return at least
+ * the same `requiredSnodesForAgreement` snodes we consider that this is not a valid return.
+ *
+ * Too many nodes are not shared for this call to be trustworthy
+ */
+export const requiredSnodesForAgreement = 24;
 
 export interface Snode {
   ip: string;
@@ -24,10 +46,13 @@ let randomSnodePool: Array<Snode> = [];
 // We only store nodes' identifiers here,
 const nodesForPubkey: Map<string, Array<SnodeEdKey>> = new Map();
 
+export type SeedNode = {
+  url: string;
+  ip_url: string;
+};
+
 // just get the filtered list
-async function tryGetSnodeListFromLokidSeednode(
-  seedNodes = window.seedNodeList
-): Promise<Array<Snode>> {
+async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Promise<Array<Snode>> {
   const { log } = window;
 
   if (!seedNodes.length) {
@@ -106,7 +131,7 @@ export async function getRandomSnodeAddress(): Promise<Snode> {
   if (randomSnodePool.length === 0) {
     // TODO: ensure that we only call this once at a time
     // Should not this be saved to the database?
-    await refreshRandomPool([]);
+    await refreshRandomPool();
 
     if (randomSnodePool.length === 0) {
       throw new window.textsecure.SeedNodeError('Invalid seed node response');
@@ -117,51 +142,19 @@ export async function getRandomSnodeAddress(): Promise<Snode> {
   return _.sample(randomSnodePool) as Snode;
 }
 
-function compareSnodes(lhs: any, rhs: any): boolean {
-  return lhs.pubkey_ed25519 === rhs.pubkey_ed25519;
-}
-
-/**
- * Request the version of the snode.
- * THIS IS AN INSECURE NODE FETCH and leaks our IP to all snodes but with no other identifying information
- * except "that a client started up" or "ran out of random pool snodes"
- * and the order of the list is randomized, so a snode can't tell if it just started or not
- */
-async function requestVersion(node: any): Promise<void> {
-  const { log } = window;
-
-  // WARNING: getVersion is doing an insecure node fetch.
-  // be sure to update getVersion to onion routing if we need this call again.
-  const result = false; // await getVersion(node);
-
-  if (result === false) {
-    return;
-  }
-
-  const version = result as string;
-
-  const foundNodeIdx = randomSnodePool.findIndex((n: any) => compareSnodes(n, node));
-  if (foundNodeIdx !== -1) {
-    randomSnodePool[foundNodeIdx].version = version;
-  } else {
-    // maybe already marked bad...
-    log.debug(`LokiSnodeAPI::_getVersion - can't find ${node.ip}:${node.port} in randomSnodePool`);
-  }
-}
-
 /**
  * This function force the snode poll to be refreshed from a random seed node again.
  * This should be called once in a day or so for when the app it kept on.
  */
 export async function forceRefreshRandomSnodePool(): Promise<Array<Snode>> {
-  await refreshRandomPool([]);
+  await refreshRandomPool();
 
   return randomSnodePool;
 }
 
 export async function getRandomSnodePool(): Promise<Array<Snode>> {
   if (randomSnodePool.length === 0) {
-    await refreshRandomPool([]);
+    await refreshRandomPool();
   }
   return randomSnodePool;
 }
@@ -172,7 +165,7 @@ export function getNodesMinVersion(minVersion: string): Array<Snode> {
 }
 
 async function getSnodeListFromLokidSeednode(
-  seedNodes = window.seedNodeList,
+  seedNodes: Array<SeedNode>,
   retries = 0
 ): Promise<Array<Snode>> {
   const SEED_NODE_RETRIES = 3;
@@ -207,7 +200,11 @@ async function getSnodeListFromLokidSeednode(
   return snodes;
 }
 
-async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
+/**
+ * Fetch all snodes from a seed nodes if we don't have enough snodes to make the request ourself
+ * @param seedNodes the seednodes to use to fetch snodes details
+ */
+async function refreshRandomPoolDetail(seedNodes: Array<SeedNode>): Promise<void> {
   const { log } = window;
 
   let snodes = [];
@@ -241,21 +238,51 @@ async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
     }
   }
 }
-
-export async function refreshRandomPool(seedNodes?: Array<any>): Promise<void> {
+/**
+ * This function runs only once at a time, and fetches the snode pool from a random seed node,
+ *  or if we have enough snodes, fetches the snode pool from one of the snode.
+ */
+export async function refreshRandomPool(): Promise<void> {
   const { log } = window;
 
-  if (!seedNodes || !seedNodes.length) {
-    if (!window.seedNodeList || !window.seedNodeList.length) {
-      log.error('LokiSnodeAPI:::refreshRandomPool - seedNodeList has not been loaded yet');
-      return;
-    }
-    // tslint:disable-next-line:no-parameter-reassignment
-    seedNodes = window.seedNodeList;
+  if (!window.seedNodeList || !window.seedNodeList.length) {
+    log.error('LokiSnodeAPI:::refreshRandomPool - seedNodeList has not been loaded yet');
+    return;
   }
+  // tslint:disable-next-line:no-parameter-reassignment
+  const seedNodes = window.seedNodeList;
 
   return allowOnlyOneAtATime('refreshRandomPool', async () => {
-    if (seedNodes) {
+    // we don't have nodes to fetch the pool from them, so call the seed node instead.
+    if (randomSnodePool.length < minSnodePoolCount) {
+      await refreshRandomPoolDetail(seedNodes);
+      return;
+    }
+    try {
+      // let this request try 3 (2+1) times. If all those requests end up without having a consensus,
+      // fetch the snode pool from one of the seed nodes (see the catch).
+      await pRetry(
+        async () => {
+          const commonNodes = await getSnodePoolFromSnodes();
+          if (!commonNodes || commonNodes.length < requiredSnodesForAgreement) {
+            // throwing makes trigger a retry if we have some left.
+            throw new Error('Not enough common nodes.');
+          }
+          window.log.info('updating snode list with snode pool length:', commonNodes.length);
+          randomSnodePool = commonNodes;
+        },
+        {
+          retries: 2,
+          factor: 1,
+          minTimeout: 1000,
+        }
+      );
+    } catch (e) {
+      window.log.warn(
+        'Failed to fetch snode pool from snodes. Fetching from seed node instead:',
+        e
+      );
+      // fallback to a seed node fetch of the snode pool
       await refreshRandomPoolDetail(seedNodes);
     }
   });
@@ -267,18 +294,20 @@ export async function updateSnodesFor(pubkey: string, snodes: Array<Snode>): Pro
 }
 
 async function internalUpdateSnodesFor(pubkey: string, edkeys: Array<string>) {
+  // update our in-memory cache
   nodesForPubkey.set(pubkey, edkeys);
-  await updateSwarmNodesForPubkey(pubkey, edkeys);
+  // write this change to the db
+  await Data.updateSwarmNodesForPubkey(pubkey, edkeys);
 }
 
-export async function getSnodesFor(pubkey: string): Promise<Array<Snode>> {
+export async function getSwarm(pubkey: string): Promise<Array<Snode>> {
   const maybeNodes = nodesForPubkey.get(pubkey);
   let nodes: Array<string>;
 
   // NOTE: important that maybeNodes is not [] here
   if (maybeNodes === undefined) {
-    // First time access, try the database:
-    nodes = await getSwarmNodesForPubkey(pubkey);
+    // First time access, no cache yet, let's try the database.
+    nodes = await Data.getSwarmNodesForPubkey(pubkey);
     nodesForPubkey.set(pubkey, nodes);
   } else {
     nodes = maybeNodes;
@@ -287,13 +316,12 @@ export async function getSnodesFor(pubkey: string): Promise<Array<Snode>> {
   // See how many are actually still reachable
   const goodNodes = randomSnodePool.filter((n: Snode) => nodes.indexOf(n.pubkey_ed25519) !== -1);
 
-  if (goodNodes.length < MIN_NODES) {
+  if (goodNodes.length < minSwarmSnodeCount) {
     // Request new node list from the network
     const freshNodes = _.shuffle(await requestSnodesForPubkey(pubkey));
 
     const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
-    void internalUpdateSnodesFor(pubkey, edkeys);
-    // TODO: We could probably check that the retuned sndoes are not "unreachable"
+    await internalUpdateSnodesFor(pubkey, edkeys);
 
     return freshNodes;
   } else {

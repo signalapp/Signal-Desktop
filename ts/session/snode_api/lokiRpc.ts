@@ -14,7 +14,7 @@ async function lokiFetch(
   url: string,
   options: FetchOptions,
   targetNode?: Snode
-): Promise<boolean | SnodeResponse> {
+): Promise<undefined | SnodeResponse> {
   const timeout = 10000;
   const method = options.method || 'GET';
 
@@ -28,7 +28,11 @@ async function lokiFetch(
     // Absence of targetNode indicates that we want a direct connection
     // (e.g. to connect to a seed node for the first time)
     if (window.lokiFeatureFlags.useOnionRequests && targetNode) {
-      return await lokiOnionFetch(fetchOptions.body, targetNode);
+      const fetchResult = await lokiOnionFetch(fetchOptions.body, targetNode);
+      if (!fetchResult) {
+        return undefined;
+      }
+      return fetchResult;
     }
 
     if (url.match(/https:\/\//)) {
@@ -62,7 +66,7 @@ export async function snodeRpc(
   method: string,
   params: any,
   targetNode: Snode
-): Promise<boolean | SnodeResponse> {
+): Promise<undefined | SnodeResponse> {
   const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
 
   // TODO: The jsonrpc and body field will be ignored on storage server

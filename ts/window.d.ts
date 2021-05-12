@@ -55,7 +55,6 @@ declare global {
       useOnionRequests: boolean;
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
-      onionRequestHops: number;
       useRequestEncryptionKeyPair: boolean;
       padOutgoingAttachments: boolean;
     };
@@ -82,9 +81,6 @@ declare global {
     versionInfo: any;
     getStoragePubKey: (key: string) => string;
     getConversations: () => ConversationCollection;
-    SnodePool: {
-      getSnodesFor: (string) => any;
-    };
     profileImages: any;
     MediaRecorder: any;
     dataURLToBlobSync: any;
