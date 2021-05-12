@@ -1382,7 +1382,7 @@
     "description": "Header for general options on the settings screen"
   },
   "spellCheckDescription": {
-    "message": "Enable spell check of text entered in message composition box",
+    "message": "Enable spell check",
     "description": "Description of the spell check setting"
   },
   "spellCheckWillBeEnabled": {
