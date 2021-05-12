@@ -94,6 +94,16 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     );
   }
 
+  let iconColor = undefined;
+  if (type === SectionType.PathIndicator) {
+    // Query Status from backend
+    // const connectionStatus = queryFunction()
+    // Set icon color based on result
+
+    // TODO: store colors somewhere
+    iconColor = 'green'
+  }
+
   let iconType: SessionIconType;
   switch (type) {
     case SectionType.Message:
@@ -121,7 +131,7 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     <SessionIconButton
       iconSize={SessionIconSize.Medium}
       iconType={iconType}
-      iconColor={type === SectionType.PathIndicator ? 'green' : undefined}
+      iconColor={iconColor}
       notificationCount={unreadToShow}
       onClick={handleClick}
       isSelected={isSelected}
@@ -245,7 +255,7 @@ export const ActionsPanel = () => {
       <Section type={SectionType.Settings} />
 
       <SessionToastContainer />
-      
+
       <Section type={SectionType.PathIndicator} />
       <Section type={SectionType.Moon} />
     </div>
