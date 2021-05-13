@@ -1185,6 +1185,15 @@ class MessageReceiverInner extends EventTarget {
           throw error;
         }
 
+        // We don't do a light session reset if it's an error with the sealed sender
+        //   wrapper, since we don't trust the sender information.
+        if (
+          error?.message?.includes &&
+          error.message.includes('trust root validation failed')
+        ) {
+          throw error;
+        }
+
         if (uuid && deviceId) {
           await this.maybeLightSessionReset(uuid, deviceId);
         } else {
