@@ -36,11 +36,23 @@
       try {
         await Logs.deleteAll();
 
+        window.log.info('clearAllData: deleted all logs');
+
         await window.Signal.Data.removeAll();
+
+        window.log.info('clearAllData: emptied database');
+
         await window.Signal.Data.close();
+
+        window.log.info('clearAllData: closed database');
+
         await window.Signal.Data.removeDB();
 
+        window.log.info('clearAllData: removed database');
+
         await window.Signal.Data.removeOtherData();
+
+        window.log.info('clearAllData: removed all other data');
       } catch (error) {
         window.log.error(
           'Something went wrong deleting all data:',

@@ -38,6 +38,7 @@ declare global {
 }
 
 let globalLogger: undefined | pinoms.Logger;
+let shouldRestart = false;
 
 const isRunningFromConsole =
   Boolean(process.stdout.isTTY) ||
@@ -74,13 +75,16 @@ export async function initialize(): Promise<pinoms.Logger> {
     rotate: 3,
   });
 
-  stream.on('close', () => {
+  const onClose = () => {
     globalLogger = undefined;
-  });
 
-  stream.on('error', () => {
-    globalLogger = undefined;
-  });
+    if (shouldRestart) {
+      initialize();
+    }
+  };
+
+  stream.on('close', onClose);
+  stream.on('error', onClose);
 
   const streams: pinoms.Streams = [];
   streams.push({ stream });
@@ -109,6 +113,9 @@ export async function initialize(): Promise<pinoms.Logger> {
   });
 
   ipc.on('delete-all-logs', async event => {
+    // Restart logging when the streams will close
+    shouldRestart = true;
+
     try {
       await deleteAllLogs(logPath);
     } catch (error) {
