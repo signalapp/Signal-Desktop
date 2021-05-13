@@ -5,7 +5,7 @@ import * as React from 'react';
 import { isBoolean } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
-import { boolean, number, text } from '@storybook/addon-knobs';
+import { boolean, number, select, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { SignalService } from '../../protobuf';
@@ -70,7 +70,10 @@ const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
-  author: overrideProps.author || getDefaultConversation(),
+  author: overrideProps.author || {
+    ...getDefaultConversation(),
+    color: select('authorColor', Colors, 'red'),
+  },
   reducedMotion: boolean('reducedMotion', false),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,

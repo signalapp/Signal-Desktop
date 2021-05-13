@@ -161,6 +161,30 @@
   outline: 0;
 }
 
+.module-message__audio-attachment__button,
+.module-message__audio-attachment__spinner,
+.module-message__audio-attachment__waveform {
+  &:focus {
+    @include keyboard-mode {
+      outline: 2px solid $color-white-alpha-60;
+    }
+    @include ios-keyboard-mode {
+      outline: 2px solid $ultramarine-ui-light;
+    }
+  }
+
+  .module-message__audio-attachment--outgoing & {
+    &:focus {
+      @include keyboard-mode {
+        outline: 2px solid $ultramarine-ui-light;
+      }
+      @include ios-keyboard-mode {
+        outline: 2px solid $color-white-alpha-60;
+      }
+    }
+  }
+}
+
 .module-message__audio-attachment__waveform__bar {
   display: inline-block;
 
