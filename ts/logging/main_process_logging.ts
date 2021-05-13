@@ -104,7 +104,26 @@ export async function initialize(): Promise<pinoms.Logger> {
   ipc.on('fetch-log', event => {
     fetch(logPath).then(
       data => {
-        event.sender.send('fetched-log', data);
+        try {
+          event.sender.send('fetched-log', data);
+        } catch (err: unknown) {
+          // NOTE(evanhahn): We don't want to send a message to a window that's closed.
+          //   I wanted to use `event.sender.isDestroyed()` but that seems to fail.
+          //   Instead, we attempt the send and catch the failure as best we can.
+          const hasUserClosedWindow = isProbablyObjectHasBeenDestroyedError(
+            err
+          );
+          if (hasUserClosedWindow) {
+            logger.info(
+              'Logs were requested, but it seems the window was closed'
+            );
+          } else {
+            logger.error(
+              'Problem replying with fetched logs',
+              err instanceof Error && err.stack ? err.stack : err
+            );
+          }
+        }
       },
       error => {
         logger.error(`Problem loading log from disk: ${error.stack}`);
@@ -300,6 +319,10 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>) {
   } else if (isRunningFromConsole) {
     console._log(...args);
   }
+}
+
+function isProbablyObjectHasBeenDestroyedError(err: unknown): boolean {
+  return err instanceof Error && err.message === 'Object has been destroyed';
 }
 
 // This blows up using mocha --watch, so we ensure it is run just once
