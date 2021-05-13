@@ -101,6 +101,11 @@ function fetch(): Promise<string> {
 }
 
 let globalLogger: undefined | pino.Logger;
+let shouldRestart = false;
+
+export function beforeRestart(): void {
+  shouldRestart = true;
+}
 
 export function initialize(): void {
   if (globalLogger) {
@@ -114,13 +119,16 @@ export function initialize(): void {
     rotate: 3,
   });
 
-  stream.on('close', () => {
+  const onClose = () => {
     globalLogger = undefined;
-  });
 
-  stream.on('error', () => {
-    globalLogger = undefined;
-  });
+    if (shouldRestart) {
+      initialize();
+    }
+  };
+
+  stream.on('close', onClose);
+  stream.on('error', onClose);
 
   globalLogger = pino(
     {

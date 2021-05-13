@@ -459,7 +459,9 @@ export async function startApp(): Promise<void> {
       removeDarkOverlay: () => $('.dark-overlay').remove(),
       showKeyboardShortcuts: () => window.showKeyboardShortcuts(),
 
-      deleteAllData: () => {
+      deleteAllData: async () => {
+        await window.sqlInitializer.goBackToMainProcess();
+
         const clearDataView = new window.Whisper.ClearDataView().render();
         $('body').append(clearDataView.el);
       },

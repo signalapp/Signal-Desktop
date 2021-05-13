@@ -269,6 +269,9 @@ async function goBackToMainProcess(): Promise<void> {
   // We don't need to wait for pending queries since they are synchronous.
   window.log.info('data.goBackToMainProcess: switching to main process');
 
+  // Close the database in the renderer process.
+  await close();
+
   shouldUseRendererProcess = false;
 
   // Print query statistics for whole startup

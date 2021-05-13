@@ -371,10 +371,16 @@ try {
   installGetter('sync-time', 'getLastSyncTime');
   installSetter('sync-time', 'setLastSyncTime');
 
-  ipc.on('delete-all-data', () => {
+  ipc.on('delete-all-data', async () => {
     const { deleteAllData } = window.Events;
-    if (deleteAllData) {
-      deleteAllData();
+    if (!deleteAllData) {
+      return;
+    }
+
+    try {
+      await deleteAllData();
+    } catch (error) {
+      window.log.error('delete-all-data: error', error && error.stack);
     }
   });
 

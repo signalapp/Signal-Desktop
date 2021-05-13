@@ -1477,6 +1477,7 @@ ipc.on('draw-attention', () => {
 });
 
 ipc.on('restart', () => {
+  console.log('Relaunching application');
   app.relaunch();
   app.quit();
 });
