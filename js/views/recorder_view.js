@@ -58,6 +58,10 @@
       if (this.recorder.isRecording()) {
         this.recorder.cancelRecording();
       }
+
+      // Reach in and terminate the web worker used by WebAudioRecorder, otherwise
+      // it gets leaked due to a reference cycle with its onmessage listener
+      this.recorder.worker.terminate();
       this.recorder = null;
 
       if (this.interval) {
