@@ -1,26 +1,25 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { LoggerType } from '../types/Logging';
+import { maybeParseUrl } from './url';
 
-function parseUrl(value: unknown, logger: LoggerType): null | URL {
+function parseUrl(value: string | URL, logger: LoggerType): undefined | URL {
   if (value instanceof URL) {
     return value;
   }
+
   if (typeof value === 'string') {
-    try {
-      return new URL(value);
-    } catch (err) {
-      return null;
-    }
+    return maybeParseUrl(value);
   }
+
   logger.warn('Tried to parse a sgnl:// URL but got an unexpected type');
-  return null;
+  return undefined;
 }
 
 export function isSgnlHref(value: string | URL, logger: LoggerType): boolean {
   const url = parseUrl(value, logger);
-  return url !== null && url.protocol === 'sgnl:';
+  return Boolean(url?.protocol === 'sgnl:');
 }
 
 export function isCaptchaHref(
@@ -28,7 +27,7 @@ export function isCaptchaHref(
   logger: LoggerType
 ): boolean {
   const url = parseUrl(value, logger);
-  return url !== null && url.protocol === 'signalcaptcha:';
+  return Boolean(url?.protocol === 'signalcaptcha:');
 }
 
 export function isSignalHttpsLink(

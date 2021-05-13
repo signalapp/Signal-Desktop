@@ -11,6 +11,7 @@ import { MediaItemType } from '../components/LightboxGallery';
 import { MessageModel } from '../models/messages';
 import { MessageType } from '../state/ducks/conversations';
 import { assert } from '../util/assert';
+import { maybeParseUrl } from '../util/url';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -3934,10 +3935,8 @@ Whisper.ConversationView = Whisper.View.extend({
     url: string,
     abortSignal: any
   ): Promise<null | GetLinkPreviewResult> {
-    let urlObject;
-    try {
-      urlObject = new URL(url);
-    } catch (err) {
+    const urlObject = maybeParseUrl(url);
+    if (!urlObject) {
       return null;
     }
 

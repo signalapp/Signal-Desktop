@@ -1,11 +1,10 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-/* global URL */
 
 const { isNumber, compact, isEmpty, range } = require('lodash');
 const nodeUrl = require('url');
 const LinkifyIt = require('linkify-it');
+const { maybeParseUrl } = require('../../ts/util/url');
 
 const linkify = LinkifyIt();
 
@@ -18,16 +17,8 @@ module.exports = {
   isStickerPack,
 };
 
-function maybeParseHref(href) {
-  try {
-    return new URL(href);
-  } catch (err) {
-    return null;
-  }
-}
-
 function isLinkSafeToPreview(href) {
-  const url = maybeParseHref(href);
+  const url = maybeParseUrl(href);
   return Boolean(url && url.protocol === 'https:' && !isLinkSneaky(href));
 }
 
@@ -64,7 +55,7 @@ function findLinks(text, caretLocation) {
 }
 
 function getDomain(href) {
-  const url = maybeParseHref(href);
+  const url = maybeParseUrl(href);
   return url ? url.hostname : null;
 }
 
@@ -109,7 +100,7 @@ function isLinkSneaky(href) {
     return true;
   }
 
-  const url = maybeParseHref(href);
+  const url = maybeParseUrl(href);
 
   // If we can't parse it, it's sneaky.
   if (!url) {

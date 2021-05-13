@@ -7,6 +7,7 @@ import { gzip } from 'zlib';
 import pify from 'pify';
 import got, { Response } from 'got';
 import { getUserAgent } from '../util/getUserAgent';
+import { maybeParseUrl } from '../util/url';
 
 const BASE_URL = 'https://debuglogs.org';
 
@@ -22,10 +23,8 @@ const parseTokenBody = (
 ): { fields: Record<string, unknown>; url: string } => {
   const body = tokenBodySchema.parse(rawBody);
 
-  let parsedUrl: URL;
-  try {
-    parsedUrl = new URL(body.url);
-  } catch (err) {
+  const parsedUrl = maybeParseUrl(body.url);
+  if (!parsedUrl) {
     throw new Error("Token body's URL was not a valid URL");
   }
   if (parsedUrl.protocol !== 'https:') {

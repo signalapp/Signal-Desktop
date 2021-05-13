@@ -6,6 +6,7 @@
     // Specify library files to be included in the compilation.
     "lib": [
       "dom", // Required to access `window`
+      "dom.iterable",
       "es2020"
     ],
     "incremental": true,

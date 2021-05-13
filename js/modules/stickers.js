@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global
@@ -8,7 +8,6 @@
   navigator,
   reduxStore,
   reduxActions,
-  URL,
   URLSearchParams
 */
 
@@ -38,6 +37,7 @@ const pMap = require('p-map');
 const Queue = require('p-queue').default;
 
 const { makeLookup } = require('../../ts/util/makeLookup');
+const { maybeParseUrl } = require('../../ts/util/url');
 const {
   base64ToArrayBuffer,
   deriveStickerPackKey,
@@ -96,10 +96,8 @@ async function load() {
 }
 
 function getDataFromLink(link) {
-  let url;
-  try {
-    url = new URL(link);
-  } catch (err) {
+  const url = maybeParseUrl(link);
+  if (!url) {
     return null;
   }
 

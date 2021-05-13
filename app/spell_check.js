@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable strict */
@@ -7,6 +7,7 @@ const { Menu, clipboard, nativeImage } = require('electron');
 const osLocale = require('os-locale');
 const { uniq } = require('lodash');
 const url = require('url');
+const { maybeParseUrl } = require('../ts/util/url');
 
 function getLanguages(userLocale, availableLocales) {
   const baseLocale = userLocale.split('-')[0];
@@ -97,7 +98,8 @@ exports.setup = (browserWindow, messages) => {
           label = messages.contextMenuCopyLink.message;
         } else if (isImage) {
           click = () => {
-            if (url.parse(params.srcURL).protocol !== 'file:') {
+            const parsedSrcUrl = maybeParseUrl(params.srcURL);
+            if (!parsedSrcUrl || parsedSrcUrl.protocol !== 'file:') {
               return;
             }
 
