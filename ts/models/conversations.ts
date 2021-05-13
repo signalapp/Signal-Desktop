@@ -9,6 +9,7 @@ import {
   MessageModelCollectionType,
   WhatIsThis,
   MessageAttributesType,
+  ReactionModelType,
   ConversationAttributesType,
   VerificationOptions,
 } from '../model-types.d';
@@ -3067,6 +3068,11 @@ export class ConversationModel extends window.Backbone
       fromSync: true,
     });
 
+    // Apply reaction optimistically
+    const oldReaction = await window.Whisper.Reactions.onReaction(
+      reactionModel
+    );
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
@@ -3176,9 +3182,23 @@ export class ConversationModel extends window.Backbone
         throw new Error('No successful delivery for reaction');
       }
 
-      window.Whisper.Reactions.onReaction(reactionModel);
-
       return result;
+    }).catch(() => {
+      let reverseReaction: ReactionModelType;
+      if (oldReaction) {
+        // Either restore old reaction
+        reverseReaction = window.Whisper.Reactions.add({
+          ...oldReaction,
+          fromId: window.ConversationController.getOurConversationId(),
+          timestamp,
+        });
+      } else {
+        // Or remove a new one on failure
+        reverseReaction = reactionModel.clone();
+        reverseReaction.set('remove', !reverseReaction.get('remove'));
+      }
+
+      window.Whisper.Reactions.onReaction(reverseReaction);
     });
   }
 

@@ -179,15 +179,6 @@ export type MessageType = {
   reactions?: Array<{
     emoji: string;
     timestamp: number;
-    from: {
-      id: string;
-      color?: string;
-      avatarPath?: string;
-      name?: string;
-      profileName?: string;
-      isMe?: boolean;
-      phoneNumber?: string;
-    };
   }>;
   deletedForEveryone?: boolean;
 

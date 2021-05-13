@@ -61,11 +61,11 @@
             reaction.get('targetAuthorUuid'),
             reaction.get('targetTimestamp')
           );
-          return;
+          return undefined;
         }
 
         // awaiting is safe since `onReaction` is never called from inside the queue
-        await targetConversation.queueJob(async () => {
+        return await targetConversation.queueJob(async () => {
           window.log.info(
             'Handling reaction for',
             reaction.get('targetTimestamp')
@@ -112,7 +112,7 @@
               oldReaction.forEach(r => this.remove(r));
             }
 
-            return;
+            return undefined;
           }
 
           const message = MessageController.register(
@@ -120,15 +120,18 @@
             targetMessage
           );
 
-          await message.handleReaction(reaction);
+          const oldReaction = await message.handleReaction(reaction);
 
           this.remove(reaction);
+
+          return oldReaction;
         });
       } catch (error) {
         window.log.error(
           'Reactions.onReaction error:',
           error && error.stack ? error.stack : error
         );
+        return undefined;
       }
     },
   }))();

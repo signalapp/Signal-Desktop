@@ -16,6 +16,8 @@ import {
   ConversationModelCollectionType,
   MessageModelCollectionType,
   MessageAttributesType,
+  ReactionAttributesType,
+  ReactionModelType,
 } from './model-types.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import {
@@ -724,9 +726,9 @@ export type WhisperType = {
   };
 
   Reactions: {
-    forMessage: (message: unknown) => Array<WhatIsThis>;
-    add: (reaction: unknown) => WhatIsThis;
-    onReaction: (reactionModel: unknown) => unknown;
+    forMessage: (message: unknown) => Array<ReactionModelType>;
+    add: (reaction: ReactionAttributesType) => ReactionModelType;
+    onReaction: (reactionModel: ReactionModelType) => ReactionAttributesType;
   };
 
   Deletes: {

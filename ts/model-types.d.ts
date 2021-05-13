@@ -109,15 +109,6 @@ export type MessageAttributesType = {
   quote?: QuotedMessageType;
   reactions?: Array<{
     emoji: string;
-    from: {
-      id: string;
-      color?: string;
-      avatarPath?: string;
-      name?: string;
-      profileName?: string;
-      isMe?: boolean;
-      phoneNumber?: string;
-    };
     fromId: string;
     targetAuthorUuid: string;
     targetTimestamp: number;
@@ -348,3 +339,15 @@ export declare class ConversationModelCollectionType extends Backbone.Collection
 }
 
 export declare class MessageModelCollectionType extends Backbone.Collection<MessageModel> {}
+
+export type ReactionAttributesType = {
+  emoji: string;
+  remove?: boolean;
+  targetAuthorUuid: string;
+  targetTimestamp: number;
+  fromId?: string;
+  timestamp: number;
+  fromSync?: boolean;
+};
+
+export declare class ReactionModelType extends Backbone.Model<ReactionAttributesType> {}

@@ -5,6 +5,7 @@ import {
   CustomError,
   MessageAttributesType,
   RetryOptions,
+  ReactionAttributesType,
   ShallowChallengeError,
   QuotedMessageType,
   WhatIsThis,
@@ -4084,9 +4085,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async handleReaction(
     reaction: typeof window.WhatIsThis,
     shouldPersist = true
-  ): Promise<void> {
+  ): Promise<ReactionAttributesType | undefined> {
     if (this.get('deletedForEveryone')) {
-      return;
+      return undefined;
     }
 
     // We allow you to react to messages with outgoing errors only if it has sent
@@ -4095,7 +4096,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       this.hasErrors() &&
       (this.isIncoming() || this.getMessagePropStatus() !== 'partial-sent')
     ) {
-      return;
+      return undefined;
     }
 
     const reactions = this.get('reactions') || [];
@@ -4108,6 +4109,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     let reactionToRemove: Partial<ReactionType> | undefined;
 
+    let oldReaction: ReactionAttributesType | undefined;
     if (reaction.get('remove')) {
       window.log.info('Removing reaction for message', messageId);
       const newReactions = reactions.filter(
@@ -4137,9 +4139,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       newReactions.push(reaction.toJSON());
       this.set({ reactions: newReactions });
 
-      const oldReaction = reactions.find(
-        re => re.fromId === reaction.get('fromId')
-      );
+      oldReaction = reactions.find(re => re.fromId === reaction.get('fromId'));
       if (oldReaction) {
         reactionToRemove = {
           emoji: oldReaction.emoji,
@@ -4177,6 +4177,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         Message: window.Whisper.Message,
       });
     }
+
+    return oldReaction;
   }
 
   async handleDeleteForEveryone(
