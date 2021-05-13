@@ -19,7 +19,8 @@ export function removeMessagePadding(paddedData: ArrayBuffer): ArrayBuffer {
       plaintext.set(paddedPlaintext.subarray(0, i));
       return plaintext.buffer;
     } else if (paddedPlaintext[i] !== PADDING_BYTE) {
-      throw new Error('Invalid padding');
+      window.log.warn('got a message without padding... Letting it through for now');
+      return paddedPlaintext;
     }
   }
 
