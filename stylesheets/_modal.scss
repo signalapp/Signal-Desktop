@@ -323,10 +323,11 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    p {
+    line-height: 1.5em;
+
+    .onionDescriptionContainer {
       text-align: center;
       margin-top: 0;
-      line-height: 1.25em;
     }
 
     .onionPath {
@@ -334,6 +335,23 @@
       align-items: center;
       flex-direction: column;
       margin: 2em auto;
+
+      .dotContainer:not(:last-child) {
+        padding-bottom: 2em;
+
+        // .dot:after {
+        //   z-index: 1;
+        //   content: '';
+        //   position: relative;
+        //   top: 15px;
+        //   bottom: 0;
+        //   left: 7px;
+        //   @include themify($themes) {
+        //     border-left: 1px solid themed('textColor');
+        //   }
+        //   height: 2em;
+        // }
+      }
 
       .dotContainer {
         display: flex;
@@ -344,6 +362,7 @@
           margin-bottom: 0 !important;
           margin-top: 0;
           margin-left: 2em;
+          text-align: left;
         }
 
         .dot {
@@ -353,18 +372,26 @@
           border-radius: 50%;
           display: inline-block;
         }
+
+
       }
     }
 
-    .line {
-      height: 2em;
-      @include themify($themes) {
-        border-left: 1px solid themed('textColor');
-      }
-      display: flex;
-      align-self: flex-start;
-      margin-left: 7px;
+    .lineContainer {
+      height: 50px
+
     }
+
+    // .line {
+    //   height: 100%;
+    //   @include themify($themes) {
+    //     border-left: 1px solid themed('textColor');
+    //   }
+    //   display: relative;
+    //   // align-self: flex-start;
+    //   margin-left: 7px;
+    //   // z-index: -1;
+    // }
 
     // .dot:after {
     //   position: absolute;

@@ -45,40 +45,50 @@ export const OnionStatusDialog = (props: Props) => {
       onClose={onClose}
     >
       <div className="spacer-sm" />
-      <p>{window.i18n('onionPathIndicatorDescription')}</p>
-
+      <div className='onionDescriptionContainer'>
+        <p>{window.i18n('onionPathIndicatorDescription')}</p>
+      </div>
+      {/* <div className='lineContainer'>
+        <div className='line'></div>
+      </div> */}
+      {/* TODO: Figure out how to add a line */}
       <div className='onionPath'>
+
+
         <div className='dotContainer'>
           <div className='dot'></div>
-          <div className='nodeText'>You</div>
+          <p className='nodeText'><b>You</b></p>
         </div>
 
-        <div className='line'></div>
-        
+
         <div className='dotContainer'>
           <div className='dot'></div>
-          <div className='nodeText'>Entry Node<br/>Malaysia</div>
+          <p className='nodeText'><b>Entry Node</b><br />Malaysia</p>
         </div>
 
-        <div className='line'></div>
-        
+        {/* <div className='line'></div> */}
+
         <div className='dotContainer'>
           <div className='dot'></div>
-          <div className='nodeText'>START</div>
+          <p className='nodeText'><b>Service Node</b><br />
+            United States
+          </p>
         </div>
 
-        <div className='line'></div>
-        
+        {/* <div className='line'></div> */}
+
         <div className='dotContainer'>
           <div className='dot'></div>
-          <div className='nodeText'>START</div>
+          <p className='nodeText'><b>Service Node</b><br />
+            Australia
+          </p>
         </div>
 
-        <div className='line'></div>
+        {/* <div className='line'></div> */}
 
         <div className='dotContainer'>
           <div className='dot'></div>
-          <div className='nodeText'>START</div>
+          <p className='nodeText'><b>Destination</b></p>
         </div>
       </div>
 
