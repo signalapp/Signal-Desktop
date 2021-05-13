@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import { CompositionArea } from '../../components/CompositionArea';
 import { StateType } from '../reducer';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 
 import { selectRecentEmojis } from '../selectors/emojis';
 import { getIntl } from '../selectors/user';
@@ -72,6 +73,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     // Message Requests
     ...conversation,
     conversationType: conversation.type,
+    isSMSOnly: Boolean(isConversationSMSOnly(conversation)),
+    isFetchingUUID: conversation.isFetchingUUID,
     isMissingMandatoryProfileSharing: Boolean(
       !conversation.profileSharing &&
         window.Signal.RemoteConfig.isEnabled(

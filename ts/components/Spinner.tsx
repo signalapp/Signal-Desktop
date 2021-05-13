@@ -20,17 +20,21 @@ export const SpinnerDirections = [
 export type SpinnerDirection = typeof SpinnerDirections[number];
 
 export type Props = {
-  moduleClassName?: string;
+  ariaLabel?: string;
   direction?: SpinnerDirection;
+  moduleClassName?: string;
+  role?: string;
   size?: string;
   svgSize: SpinnerSvgSize;
 };
 
 export const Spinner = ({
+  ariaLabel,
+  direction,
   moduleClassName,
+  role,
   size,
   svgSize,
-  direction,
 }: Props): JSX.Element => {
   const getClassName = getClassNamesFor('module-spinner', moduleClassName);
 
@@ -42,6 +46,8 @@ export const Spinner = ({
         getClassName(direction && `__container--${direction}`),
         getClassName(direction && `__container--${svgSize}-${direction}`)
       )}
+      role={role}
+      aria-label={ariaLabel}
       style={{
         height: size,
         width: size,

@@ -4,6 +4,7 @@
 import * as React from 'react';
 import { get, noop } from 'lodash';
 import classNames from 'classnames';
+import { Spinner } from './Spinner';
 import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
 import {
   Props as StickerButtonProps,
@@ -38,6 +39,8 @@ export type OwnProps = {
   readonly groupVersion?: 1 | 2;
   readonly isGroupV1AndDisabled?: boolean;
   readonly isMissingMandatoryProfileSharing?: boolean;
+  readonly isSMSOnly?: boolean;
+  readonly isFetchingUUID?: boolean;
   readonly left?: boolean;
   readonly messageRequestsEnabled?: boolean;
   readonly acceptedMessageRequest?: boolean;
@@ -157,6 +160,9 @@ export const CompositionArea = ({
   onStartGroupMigration,
   // GroupV2 Pending Approval Actions
   onCancelJoinRequest,
+  // SMS-only contacts
+  isSMSOnly,
+  isFetchingUUID,
 }: Props): JSX.Element => {
   const [disabled, setDisabled] = React.useState(false);
   const [showMic, setShowMic] = React.useState(!draftText);
@@ -379,6 +385,36 @@ export const CompositionArea = ({
         phoneNumber={phoneNumber}
         title={title}
       />
+    );
+  }
+
+  if (conversationType === 'direct' && isSMSOnly) {
+    return (
+      <div
+        className={classNames([
+          'module-composition-area',
+          'module-composition-area--sms-only',
+          isFetchingUUID ? 'module-composition-area--pending' : null,
+        ])}
+      >
+        {isFetchingUUID ? (
+          <Spinner
+            ariaLabel={i18n('CompositionArea--sms-only__spinner-label')}
+            role="presentation"
+            moduleClassName="module-image-spinner"
+            svgSize="small"
+          />
+        ) : (
+          <>
+            <h2 className="module-composition-area--sms-only__title">
+              {i18n('CompositionArea--sms-only__title')}
+            </h2>
+            <p className="module-composition-area--sms-only__body">
+              {i18n('CompositionArea--sms-only__body')}
+            </p>
+          </>
+        )}
+      </div>
     );
   }
 

@@ -74,6 +74,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onStartGroupMigration: action('onStartGroupMigration'),
   // GroupV2 Pending Approval Actions
   onCancelJoinRequest: action('onCancelJoinRequest'),
+  // SMS-only
+  isSMSOnly: overrideProps.isSMSOnly || false,
+  isFetchingUUID: overrideProps.isFetchingUUID || false,
 });
 
 story.add('Default', () => {
@@ -102,6 +105,23 @@ story.add('Sticker Button', () => {
 story.add('Message Request', () => {
   const props = createProps({
     messageRequestsEnabled: true,
+  });
+
+  return <CompositionArea {...props} />;
+});
+
+story.add('SMS-only fetching UUID', () => {
+  const props = createProps({
+    isSMSOnly: true,
+    isFetchingUUID: true,
+  });
+
+  return <CompositionArea {...props} />;
+});
+
+story.add('SMS-only', () => {
+  const props = createProps({
+    isSMSOnly: true,
   });
 
   return <CompositionArea {...props} />;

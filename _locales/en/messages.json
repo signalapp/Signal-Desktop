@@ -4615,6 +4615,18 @@
     "message": "Attach file",
     "description": "Aria label for file attachment button in composition area"
   },
+  "CompositionArea--sms-only__title": {
+    "message": "This person isn’t using Signal",
+    "description": "Title for the composition area for the SMS-only contact"
+  },
+  "CompositionArea--sms-only__body": {
+    "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+    "description": "Body for the composition area for the SMS-only contact"
+  },
+  "CompositionArea--sms-only__spinner-label": {
+    "message": "Checking contact's registration status",
+    "description": "Displayed while checking if the contact is SMS-only"
+  },
   "countMutedConversationsDescription": {
     "message": "Count muted conversations in badge count",
     "description": "Description for counting muted conversations in badge setting"

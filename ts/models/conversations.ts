@@ -23,6 +23,7 @@ import { ConversationType } from '../state/ducks/conversations';
 import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
+import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
 import { isConversationUnregistered } from '../util/isConversationUnregistered';
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
@@ -48,6 +49,7 @@ import { markConversationRead } from '../util/markConversationRead';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getConversationMembers } from '../util/getConversationMembers';
 import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
+import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -88,6 +90,7 @@ const COLORS = [
 ];
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
+const FIVE_MINUTES = 1000 * 60 * 5;
 
 type CustomError = Error & {
   identifier?: string;
@@ -140,6 +143,8 @@ export class ConversationModel extends window.Backbone
 
   throttledBumpTyping: unknown;
 
+  throttledFetchSMSOnlyUUID?: () => Promise<void> | void;
+
   typingRefreshTimer?: NodeJS.Timer | null;
 
   typingPauseTimer?: NodeJS.Timer | null;
@@ -153,6 +158,8 @@ export class ConversationModel extends window.Backbone
   private cachedLatestGroupCallEraId?: string;
 
   private cachedIdenticon?: CachedIdenticon;
+
+  private isFetchingUUID?: boolean;
 
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
@@ -281,6 +288,15 @@ export class ConversationModel extends window.Backbone
       }
       this.cachedProps = null;
     });
+
+    // Set `isFetchingUUID` eagerly to avoid UI flicker when opening the
+    // conversation for the first time.
+    this.isFetchingUUID = this.isSMSOnly();
+
+    this.throttledFetchSMSOnlyUUID = window._.throttle(
+      this.fetchSMSOnlyUUID,
+      FIVE_MINUTES
+    );
   }
 
   isMe(): boolean {
@@ -763,6 +779,13 @@ export class ConversationModel extends window.Backbone
     return isConversationUnregistered(this.attributes);
   }
 
+  isSMSOnly(): boolean {
+    return isConversationSMSOnly({
+      ...this.attributes,
+      type: this.isPrivate() ? 'direct' : 'unknown',
+    });
+  }
+
   setUnregistered(): void {
     window.log.info(`Conversation ${this.idForLogging()} is now unregistered`);
     this.set({
@@ -985,6 +1008,45 @@ export class ConversationModel extends window.Backbone
     await window.Signal.Groups.waitThenMaybeUpdateGroup({
       conversation: this,
     });
+  }
+
+  async fetchSMSOnlyUUID(): Promise<void> {
+    const { messaging } = window.textsecure;
+    if (!messaging) {
+      return;
+    }
+    if (!this.isSMSOnly()) {
+      return;
+    }
+
+    window.log.info(
+      `Fetching uuid for a sms-only conversation ${this.idForLogging()}`
+    );
+
+    this.isFetchingUUID = true;
+    this.trigger('change', this);
+
+    try {
+      // Attempt to fetch UUID
+      await updateConversationsWithUuidLookup({
+        conversationController: window.ConversationController,
+        conversations: [this],
+        messaging,
+      });
+    } finally {
+      // No redux update here
+      this.isFetchingUUID = false;
+      this.trigger('change', this);
+
+      window.log.info(
+        `Done fetching uuid for a sms-only conversation ${this.idForLogging()}`
+      );
+    }
+
+    // On successful fetch - mark contact as registered.
+    if (this.get('uuid')) {
+      this.setRegistered();
+    }
   }
 
   isValid(): boolean {
@@ -1358,6 +1420,7 @@ export class ConversationModel extends window.Backbone
       isPinned: this.get('isPinned'),
       isUntrusted: this.isUntrusted(),
       isVerified: this.isVerified(),
+      isFetchingUUID: this.isFetchingUUID,
       lastMessage: {
         status: this.get('lastMessageStatus')!,
         text: this.get('lastMessage')!,

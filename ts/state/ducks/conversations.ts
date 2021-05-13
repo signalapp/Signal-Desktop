@@ -114,6 +114,7 @@ export type ConversationType = {
   searchableTitle?: string;
   unreadCount?: number;
   isSelected?: boolean;
+  isFetchingUUID?: boolean;
   typingContact?: {
     avatarPath?: string;
     color?: ColorType;
@@ -568,7 +569,6 @@ export type ToggleConversationInChooseMembersActionType = {
     maxGroupSize: number;
   };
 };
-
 export type ConversationActionType =
   | CantAddContactToGroupActionType
   | ClearChangedMessagesActionType

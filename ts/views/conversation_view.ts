@@ -2178,6 +2178,11 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.model.fetchLatestGroupV2Data();
     this.model.throttledMaybeMigrateV1Group();
+    assert(
+      this.model.throttledFetchSMSOnlyUUID !== undefined,
+      'Conversation model should be initialized'
+    );
+    this.model.throttledFetchSMSOnlyUUID();
 
     const statusPromise = this.model.throttledGetProfiles();
     // eslint-disable-next-line more/no-then
