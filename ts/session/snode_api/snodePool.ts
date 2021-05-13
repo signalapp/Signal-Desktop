@@ -1,15 +1,10 @@
 import semver from 'semver';
 import _ from 'lodash';
 
-import {
-  getSnodePoolFromSnodes,
-  getSnodesFromSeedUrl,
-  requestSnodesForPubkey,
-} from './serviceNodeAPI';
+import { getSnodePoolFromSnodes, getSnodesFromSeedUrl, requestSnodesForPubkey } from './SNodeAPI';
 
 import * as Data from '../../../ts/data/data';
 
-export type SnodeEdKey = string;
 import { allowOnlyOneAtATime } from '../utils/Promise';
 import pRetry from 'p-retry';
 
@@ -36,7 +31,7 @@ export interface Snode {
   ip: string;
   port: number;
   pubkey_x25519: string;
-  pubkey_ed25519: SnodeEdKey;
+  pubkey_ed25519: string;
   version: string;
 }
 
@@ -44,7 +39,7 @@ export interface Snode {
 let randomSnodePool: Array<Snode> = [];
 
 // We only store nodes' identifiers here,
-const nodesForPubkey: Map<string, Array<SnodeEdKey>> = new Map();
+const nodesForPubkey: Map<string, Array<string>> = new Map();
 
 export type SeedNode = {
   url: string;
@@ -118,7 +113,7 @@ export function markNodeUnreachable(snode: Snode): void {
   for (const [pubkey, nodes] of nodesForPubkey) {
     const edkeys = _.filter(nodes, edkey => edkey !== snode.pubkey_ed25519);
 
-    void internalUpdateSnodesFor(pubkey, edkeys);
+    void internalUpdateSwarmFor(pubkey, edkeys);
   }
 
   log.warn(
@@ -288,12 +283,12 @@ export async function refreshRandomPool(): Promise<void> {
   });
 }
 
-export async function updateSnodesFor(pubkey: string, snodes: Array<Snode>): Promise<void> {
+export async function updateSwarmFor(pubkey: string, snodes: Array<Snode>): Promise<void> {
   const edkeys = snodes.map((sn: Snode) => sn.pubkey_ed25519);
-  await internalUpdateSnodesFor(pubkey, edkeys);
+  await internalUpdateSwarmFor(pubkey, edkeys);
 }
 
-async function internalUpdateSnodesFor(pubkey: string, edkeys: Array<string>) {
+async function internalUpdateSwarmFor(pubkey: string, edkeys: Array<string>) {
   // update our in-memory cache
   nodesForPubkey.set(pubkey, edkeys);
   // write this change to the db
@@ -321,7 +316,7 @@ export async function getSwarm(pubkey: string): Promise<Array<Snode>> {
     const freshNodes = _.shuffle(await requestSnodesForPubkey(pubkey));
 
     const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
-    await internalUpdateSnodesFor(pubkey, edkeys);
+    await internalUpdateSwarmFor(pubkey, edkeys);
 
     return freshNodes;
   } else {

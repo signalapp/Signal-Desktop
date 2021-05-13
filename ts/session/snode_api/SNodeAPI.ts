@@ -22,7 +22,7 @@ import {
   markNodeUnreachable,
   requiredSnodesForAgreement,
   Snode,
-  updateSnodesFor,
+  updateSwarmFor,
 } from './snodePool';
 import { Constants } from '..';
 import { sleepFor } from '../utils/Promise';
@@ -438,7 +438,7 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
       );
       if (e instanceof textsecure.WrongSwarmError) {
         const { newSwarm } = e;
-        await updateSnodesFor(params.pubKey, newSwarm);
+        await updateSwarmFor(params.pubKey, newSwarm);
         return false;
       } else if (e instanceof textsecure.NotFoundError) {
         // TODO: Handle resolution error
@@ -458,7 +458,7 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
           node => node.pubkey_ed25519 !== targetNode.pubkey_ed25519
         );
 
-        await updateSnodesFor(params.pubKey, updatedSwarm);
+        await updateSwarmFor(params.pubKey, updatedSwarm);
       }
       successiveFailures += 1;
     }
@@ -497,7 +497,7 @@ export async function retrieveNextMessages(
     window.log.warn('loki_message:::retrieveNextMessages - send error:', e.code, e.message);
     if (e instanceof window.textsecure.WrongSwarmError) {
       const { newSwarm } = e;
-      await updateSnodesFor(params.pubKey, newSwarm);
+      await updateSwarmFor(params.pubKey, newSwarm);
       return [];
     } else if (e instanceof window.textsecure.InvalidateSwarm) {
       const existingSwarm = await getSwarm(params.pubKey);
@@ -505,7 +505,7 @@ export async function retrieveNextMessages(
         node => node.pubkey_ed25519 !== targetNode.pubkey_ed25519
       );
 
-      await updateSnodesFor(params.pubKey, updatedSwarm);
+      await updateSwarmFor(params.pubKey, updatedSwarm);
       return [];
     }
   }

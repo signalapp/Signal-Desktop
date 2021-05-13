@@ -196,69 +196,37 @@ const processOnionResponse = async (
 ): Promise<SnodeResponse | RequestError> => {
   const { log, libloki } = window;
 
-  let content;
+  let ciphertext = '';
 
   try {
-    content = await response.text();
+    ciphertext = await response.text();
   } catch (e) {
     window.log.warn(e);
-    content = '';
   }
-
-  // if (response.status !== 200) {
-  // debugger;
-  // }
 
   if (abortSignal?.aborted) {
     log.warn(`(${reqIdx}) [path] Call aborted`);
     return RequestError.ABORTED;
   }
 
-  // detect SNode is deregisted?
-  if (response.status === 502) {
-    log.warn(`(${reqIdx}) [path] Got 502: snode not found`);
+  // detect SNode is deregisted, or SNode is not ready (not in swarm; not done syncing, ...)
+  if (
+    response.status === 502 ||
+    response.status === 503 ||
+    response.status === 504 ||
+    response.status === 404 ||
+    response.status !== 200
+  ) {
+    log.warn(`(${reqIdx}) [path] Got status: ${response.status}`);
 
     return RequestError.BAD_PATH;
   }
 
-  // detect SNode is not ready (not in swarm; not done syncing)
-  if (response.status === 503) {
-    log.warn(`(${reqIdx}) [path] Got 503: snode not ready`);
-
-    return RequestError.BAD_PATH;
-  }
-
-  if (response.status === 504) {
-    log.warn(`(${reqIdx}) [path] Got 504: Gateway timeout`);
-    return RequestError.BAD_PATH;
-  }
-
-  if (response.status === 404) {
-    // Why would we get this error on testnet?
-    log.warn(`(${reqIdx}) [path] Got 404: Gateway timeout`);
-    return RequestError.BAD_PATH;
-  }
-
-  if (response.status !== 200) {
-    log.warn(
-      `(${reqIdx}) [path] lokiRpc::processingOnionResponse - fetch unhandled error code: ${response.status}: ${content}`
-    );
-    // FIXME audric
-    // this is pretty strong but on the current setup.
-    // we have to increase a snode invididually and only mark later the path as bad
-    // the way it works on mobile is that we treat a node as bad in that case, and if it then reaches a failure count of 3 or so we kick it out and rebuild the path
-    return RequestError.BAD_PATH;
-  }
-
-  let ciphertext = content;
   if (!ciphertext) {
     log.warn(
       `(${reqIdx}) [path] lokiRpc::processingOnionResponse - Target node return empty ciphertext`
     );
     return RequestError.OTHER;
-  }
-  if (debug) {
-    log.debug(`(${reqIdx}) [path] lokiRpc::processingOnionResponse - ciphertext`, ciphertext);
   }
 
   let plaintext;
@@ -272,19 +240,7 @@ const processOnionResponse = async (
   }
   try {
     ciphertextBuffer = fromBase64ToArrayBuffer(ciphertext);
-
-    if (debug) {
-      log.debug(
-        `(${reqIdx}) [path] lokiRpc::processingOnionResponse - ciphertextBuffer`,
-        toHex(ciphertextBuffer)
-      );
-    }
-
     const plaintextBuffer = await libloki.crypto.DecryptAESGCM(symmetricKey, ciphertextBuffer);
-    if (debug) {
-      log.debug('lokiRpc::processingOnionResponse - plaintextBuffer', plaintextBuffer.toString());
-    }
-
     plaintext = new TextDecoder().decode(plaintextBuffer);
   } catch (e) {
     log.error(`(${reqIdx}) [path] lokiRpc::processingOnionResponse - decode error`, e);
@@ -459,13 +415,13 @@ const sendOnionRequest = async (
 
 async function sendOnionRequestSnodeDest(
   reqIdx: any,
-  nodePath: Array<Snode>,
+  onionPath: Array<Snode>,
   targetNode: Snode,
   plaintext?: string
 ) {
   return sendOnionRequest(
     reqIdx,
-    nodePath,
+    onionPath,
     targetNode.pubkey_x25519,
     {
       destination_ed25519_hex: targetNode.pubkey_ed25519,
@@ -479,7 +435,7 @@ async function sendOnionRequestSnodeDest(
 // need relay node's pubkey_x25519_hex
 export async function sendOnionRequestLsrpcDest(
   reqIdx: number,
-  nodePath: Array<Snode>,
+  onionPath: Array<Snode>,
   destX25519Any: string,
   finalRelayOptions: FinalRelayOptions,
   payloadObj: FinalDestinationOptions,
@@ -488,7 +444,7 @@ export async function sendOnionRequestLsrpcDest(
 ): Promise<SnodeResponse | RequestError> {
   return sendOnionRequest(
     reqIdx,
-    nodePath,
+    onionPath,
     destX25519Any,
     payloadObj,
     finalRelayOptions,

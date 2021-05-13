@@ -1,6 +1,6 @@
 import { PubKey } from '../types';
 import { getSwarm, Snode } from './snodePool';
-import { retrieveNextMessages } from './serviceNodeAPI';
+import { retrieveNextMessages } from './SNodeAPI';
 import { SignalService } from '../../protobuf';
 import * as Receiver from '../../receiver/receiver';
 import _ from 'lodash';

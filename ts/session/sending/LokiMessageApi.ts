@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { SendParams, storeOnNode } from '../snode_api/serviceNodeAPI';
+import { SendParams, storeOnNode } from '../snode_api/SNodeAPI';
 import { getSwarm, Snode } from '../snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 
