@@ -14,7 +14,7 @@ import { DefaultTheme } from 'styled-components';
 import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 import { SessionSpinner } from './session/SessionSpinner';
 import electron from 'electron';
-const {shell} = electron;
+const { shell } = electron;
 interface State {
   profileName: string;
   setProfileName: string;
@@ -46,6 +46,41 @@ export const OnionStatusDialog = (props: Props) => {
     >
       <div className="spacer-sm" />
       <p>{window.i18n('onionPathIndicatorDescription')}</p>
+
+      <div className='onionPath'>
+        <div className='dotContainer'>
+          <div className='dot'></div>
+          <div className='nodeText'>You</div>
+        </div>
+
+        <div className='line'></div>
+        
+        <div className='dotContainer'>
+          <div className='dot'></div>
+          <div className='nodeText'>Entry Node<br/>Malaysia</div>
+        </div>
+
+        <div className='line'></div>
+        
+        <div className='dotContainer'>
+          <div className='dot'></div>
+          <div className='nodeText'>START</div>
+        </div>
+
+        <div className='line'></div>
+        
+        <div className='dotContainer'>
+          <div className='dot'></div>
+          <div className='nodeText'>START</div>
+        </div>
+
+        <div className='line'></div>
+
+        <div className='dotContainer'>
+          <div className='dot'></div>
+          <div className='nodeText'>START</div>
+        </div>
+      </div>
 
       <SessionButton
         text={window.i18n('learnMore')}

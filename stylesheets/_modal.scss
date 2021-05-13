@@ -328,5 +328,52 @@
       margin-top: 0;
       line-height: 1.25em;
     }
+
+    .onionPath {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 2em auto;
+
+      .dotContainer {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        .nodeText {
+          margin-bottom: 0 !important;
+          margin-top: 0;
+          margin-left: 2em;
+        }
+
+        .dot {
+          height: 15px;
+          width: 15px;
+          background-color: $color-loki-green;
+          border-radius: 50%;
+          display: inline-block;
+        }
+      }
+    }
+
+    .line {
+      height: 2em;
+      @include themify($themes) {
+        border-left: 1px solid themed('textColor');
+      }
+      display: flex;
+      align-self: flex-start;
+      margin-left: 7px;
+    }
+
+    // .dot:after {
+    //   position: absolute;
+    //   left: 0;
+    //   top: 0;
+    //   content: '';
+    //   border-left: 2px solid black;
+    //   margin-left: 5px;
+    //   height: 100%;
+    // }
   }
 }
