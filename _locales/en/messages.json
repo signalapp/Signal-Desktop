@@ -1833,5 +1833,8 @@
   },
   "onionPathIndicatorDescription": {
     "message": "Session hides your IP by bouncing your messages through several Service Nodes in Session's decentralized network. These are the countries your connection is currently being bounced through:"
+  },
+  "learnMore": {
+    "message" : "Learn More"
   }
 }

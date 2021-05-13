@@ -305,3 +305,28 @@
     }
   }
 }
+
+.onion-status-dialog {
+  .session-modal__header__title {
+    font-size: $session-font-lg;
+  }
+
+  .session-modal {
+    width: $session-modal-size-md;
+
+    &__header {
+      height: 68.45px;
+    }
+  }
+
+  .session-modal__body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    p {
+      text-align: center;
+      margin-top: 0;
+      line-height: 1.25em;
+    }
+  }
+}

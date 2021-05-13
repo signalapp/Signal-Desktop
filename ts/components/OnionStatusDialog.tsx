@@ -13,8 +13,8 @@ import { ToastUtils, UserUtils } from '../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 import { SessionSpinner } from './session/SessionSpinner';
-
-
+import electron from 'electron';
+const {shell} = electron;
 interface State {
   profileName: string;
   setProfileName: string;
@@ -32,20 +32,29 @@ interface Props {
 
 
 export const OnionStatusDialog = (props: Props) => {
-    const { theme, onClose} = props;
-  
-    return (
-      <SessionModal
-        title={window.i18n('onionPathIndicatorTitle')}
-        theme={theme}
-        onClose={onClose}
-      >
-        <div className="spacer-md">
+  const { theme, onClose } = props;
 
-        {window.i18n('onionPathIndicatorDescription')}
-        </div>
-      </SessionModal>
-    );
+  const openFAQPage = () => {
+    console.log("Opening FAQ Page")
+    shell.openExternal('https://getsession.org/faq/#onion-routing');
+  }
+  return (
+    <SessionModal
+      title={window.i18n('onionPathIndicatorTitle')}
+      theme={theme}
+      onClose={onClose}
+    >
+      <div className="spacer-sm" />
+      <p>{window.i18n('onionPathIndicatorDescription')}</p>
+
+      <SessionButton
+        text={window.i18n('learnMore')}
+        buttonType={SessionButtonType.BrandOutline}
+        buttonColor={SessionButtonColor.Green}
+        onClick={openFAQPage}
+      />
+    </SessionModal>
+  );
 }
 
 // export class OnionStatusDialog extends React.Component<Props, State> {
