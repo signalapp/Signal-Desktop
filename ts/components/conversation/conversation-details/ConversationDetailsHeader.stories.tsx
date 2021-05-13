@@ -27,7 +27,6 @@ const createConversation = (): ConversationType =>
     type: 'group',
     lastUpdated: 0,
     title: text('conversation title', 'Some Conversation'),
-    memberships: new Array(number('conversation members length', 0)),
   });
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
@@ -35,6 +34,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   canEdit: false,
   startEditing: action('startEditing'),
+  memberships: new Array(number('conversation members length', 0)),
   ...overrideProps,
 });
 

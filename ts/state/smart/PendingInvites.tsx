@@ -4,8 +4,6 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import {
-  GroupV2PendingMembership,
-  GroupV2RequestingMembership,
   PendingInvites,
   PropsType,
 } from '../../components/conversation/conversation-details/PendingInvites';
@@ -13,7 +11,7 @@ import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
 import { getConversationByIdSelector } from '../selectors/conversations';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { assert } from '../../util/assert';
 
 export type SmartPendingInvitesProps = {
@@ -35,39 +33,11 @@ const mapStateToProps = (
     '<SmartPendingInvites> expected a conversation to be found'
   );
 
-  const pendingApprovalMemberships = (
-    conversation.pendingApprovalMemberships || []
-  ).reduce((result: Array<GroupV2RequestingMembership>, membership) => {
-    const member = conversationSelector(membership.conversationId);
-    if (!member || isConversationUnregistered(member)) {
-      return result;
-    }
-    return [...result, { member }];
-  }, []);
-
-  const pendingMemberships = (conversation.pendingMemberships || []).reduce(
-    (result: Array<GroupV2PendingMembership>, membership) => {
-      const member = conversationSelector(membership.conversationId);
-      if (!member || isConversationUnregistered(member)) {
-        return result;
-      }
-      return [
-        ...result,
-        {
-          member,
-          metadata: { addedByUserId: membership.addedByUserId },
-        },
-      ];
-    },
-    []
-  );
-
   return {
     ...props,
+    ...getGroupMemberships(conversation, conversationSelector),
     conversation,
     i18n: getIntl(state),
-    pendingApprovalMemberships,
-    pendingMemberships,
   };
 };
 

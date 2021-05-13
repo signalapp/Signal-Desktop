@@ -22,6 +22,10 @@ import {
   ConversationDetailsMembershipList,
   GroupV2Membership,
 } from './ConversationDetailsMembershipList';
+import {
+  GroupV2PendingMembership,
+  GroupV2RequestingMembership,
+} from './PendingInvites';
 import { EditConversationAttributesModal } from './EditConversationAttributesModal';
 import { RequestState } from './util';
 
@@ -41,6 +45,8 @@ export type StateProps = {
   isAdmin: boolean;
   loadRecentMediaItems: (limit: number) => void;
   memberships: Array<GroupV2Membership>;
+  pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
+  pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
   showContactModal: (conversationId: string) => void;
@@ -77,6 +83,8 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   isAdmin,
   loadRecentMediaItems,
   memberships,
+  pendingApprovalMemberships,
+  pendingMemberships,
   setDisappearingMessages,
   showAllMedia,
   showContactModal,
@@ -108,9 +116,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     throw new Error('ConversationDetails rendered without a conversation');
   }
 
-  const pendingMemberships = conversation.pendingMemberships || [];
-  const pendingApprovalMemberships =
-    conversation.pendingApprovalMemberships || [];
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
 
@@ -213,6 +218,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         canEdit={canEditGroupInfo}
         conversation={conversation}
         i18n={i18n}
+        memberships={memberships}
         startEditing={() => {
           setModalState(ModalState.EditingGroupAttributes);
         }}

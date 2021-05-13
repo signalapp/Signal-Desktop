@@ -7,12 +7,14 @@ import { Avatar } from '../../Avatar';
 import { Emojify } from '../Emojify';
 import { LocalizerType } from '../../../types/Util';
 import { ConversationType } from '../../../state/ducks/conversations';
+import { GroupV2Membership } from './ConversationDetailsMembershipList';
 import { bemGenerator } from './util';
 
 export type Props = {
   canEdit: boolean;
   conversation: ConversationType;
   i18n: LocalizerType;
+  memberships: Array<GroupV2Membership>;
   startEditing: () => void;
 };
 
@@ -22,10 +24,9 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
   canEdit,
   conversation,
   i18n,
+  memberships,
   startEditing,
 }) => {
-  const memberships = conversation.memberships || [];
-
   const contents = (
     <>
       <Avatar

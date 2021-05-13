@@ -12,10 +12,9 @@ import {
   getCandidateContactsForNewGroup,
   getConversationByIdSelector,
 } from '../selectors/conversations';
-import { GroupV2Membership } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getIntl } from '../selectors/user';
 import { MediaItemType } from '../../components/LightboxGallery';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { assert } from '../../util/assert';
 
 export type SmartConversationDetailsProps = {
@@ -59,17 +58,6 @@ const mapStateToProps = (
       ? conversation.canEditGroupInfo
       : false;
 
-  const memberships = (conversation.memberships || []).reduce(
-    (result: Array<GroupV2Membership>, membership) => {
-      const member = conversationSelector(membership.conversationId);
-      if (!member || isConversationUnregistered(member)) {
-        return result;
-      }
-      return [...result, { isAdmin: membership.isAdmin, member }];
-    },
-    []
-  );
-
   const isAdmin = Boolean(conversation?.areWeAdmin);
   const candidateContactsToAdd = getCandidateContactsForNewGroup(state);
 
@@ -80,7 +68,7 @@ const mapStateToProps = (
     conversation,
     i18n: getIntl(state),
     isAdmin,
-    memberships,
+    ...getGroupMemberships(conversation, conversationSelector),
   };
 };
 

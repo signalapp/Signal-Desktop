@@ -45,6 +45,13 @@ const createProps = (hasGroupLink = false): Props => ({
       isMe: i === 2,
     }),
   })),
+  pendingApprovalMemberships: times(8, () => ({
+    member: getDefaultConversation(),
+  })),
+  pendingMemberships: times(5, () => ({
+    metadata: {},
+    member: getDefaultConversation(),
+  })),
   setDisappearingMessages: action('setDisappearingMessages'),
   showAllMedia: action('showAllMedia'),
   showContactModal: action('showContactModal'),
