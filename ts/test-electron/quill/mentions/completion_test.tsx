@@ -13,8 +13,9 @@ import {
 } from '../../../quill/mentions/completion';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { MemberRepository } from '../../../quill/memberRepository';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
-const me: ConversationType = {
+const me: ConversationType = getDefaultConversation({
   id: '666777',
   uuid: 'pqrstuv',
   title: 'Fred Savage',
@@ -24,10 +25,11 @@ const me: ConversationType = {
   lastUpdated: Date.now(),
   markedUnread: false,
   areWeAdmin: false,
-};
+  isMe: true,
+});
 
 const members: Array<ConversationType> = [
-  {
+  getDefaultConversation({
     id: '555444',
     uuid: 'abcdefg',
     title: 'Mahershala Ali',
@@ -37,8 +39,8 @@ const members: Array<ConversationType> = [
     lastUpdated: Date.now(),
     markedUnread: false,
     areWeAdmin: false,
-  },
-  {
+  }),
+  getDefaultConversation({
     id: '333222',
     uuid: 'hijklmno',
     title: 'Shia LaBeouf',
@@ -48,7 +50,7 @@ const members: Array<ConversationType> = [
     lastUpdated: Date.now(),
     markedUnread: false,
     areWeAdmin: false,
-  },
+  }),
   me,
 ];
 
@@ -67,7 +69,7 @@ describe('MentionCompletion', () => {
     };
 
     const options: MentionCompletionOptions = {
-      i18n: sinon.stub(),
+      i18n: Object.assign(sinon.stub(), { getLocale: sinon.stub() }),
       me,
       memberRepositoryRef,
       setMentionPickerElement: sinon.stub(),

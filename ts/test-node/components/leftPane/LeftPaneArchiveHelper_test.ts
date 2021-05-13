@@ -6,16 +6,11 @@ import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneArchiveHelper } from '../../../components/leftPane/LeftPaneArchiveHelper';
 
 describe('LeftPaneArchiveHelper', () => {
-  const fakeConversation = () => ({
-    id: uuid(),
-    title: uuid(),
-    type: 'direct' as const,
-  });
-
   describe('getBackAction', () => {
     it('returns the "show inbox" action', () => {
       const showInbox = sinon.fake();
@@ -33,7 +28,10 @@ describe('LeftPaneArchiveHelper', () => {
       );
       assert.strictEqual(
         new LeftPaneArchiveHelper({
-          archivedConversations: [fakeConversation(), fakeConversation()],
+          archivedConversations: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
         }).getRowCount(),
         2
       );
@@ -43,7 +41,10 @@ describe('LeftPaneArchiveHelper', () => {
   describe('getRowIndexToScrollTo', () => {
     it('returns undefined if no conversation is selected', () => {
       const helper = new LeftPaneArchiveHelper({
-        archivedConversations: [fakeConversation(), fakeConversation()],
+        archivedConversations: [
+          getDefaultConversation(),
+          getDefaultConversation(),
+        ],
       });
 
       assert.isUndefined(helper.getRowIndexToScrollTo(undefined));
@@ -51,14 +52,20 @@ describe('LeftPaneArchiveHelper', () => {
 
     it('returns undefined if the selected conversation is not pinned or non-pinned', () => {
       const helper = new LeftPaneArchiveHelper({
-        archivedConversations: [fakeConversation(), fakeConversation()],
+        archivedConversations: [
+          getDefaultConversation(),
+          getDefaultConversation(),
+        ],
       });
 
       assert.isUndefined(helper.getRowIndexToScrollTo(uuid()));
     });
 
     it("returns the archived conversation's index", () => {
-      const archivedConversations = [fakeConversation(), fakeConversation()];
+      const archivedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneArchiveHelper({ archivedConversations });
 
       assert.strictEqual(
@@ -74,7 +81,10 @@ describe('LeftPaneArchiveHelper', () => {
 
   describe('getRow', () => {
     it('returns each conversation as a row', () => {
-      const archivedConversations = [fakeConversation(), fakeConversation()];
+      const archivedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneArchiveHelper({ archivedConversations });
 
       assert.deepEqual(helper.getRow(0), {
@@ -90,7 +100,10 @@ describe('LeftPaneArchiveHelper', () => {
 
   describe('getConversationAndMessageAtIndex', () => {
     it('returns the conversation at the given index when it exists', () => {
-      const archivedConversations = [fakeConversation(), fakeConversation()];
+      const archivedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneArchiveHelper({ archivedConversations });
 
       assert.strictEqual(
@@ -104,7 +117,10 @@ describe('LeftPaneArchiveHelper', () => {
     });
 
     it('when requesting an index out of bounds, returns the last conversation', () => {
-      const archivedConversations = [fakeConversation(), fakeConversation()];
+      const archivedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneArchiveHelper({ archivedConversations });
 
       assert.strictEqual(
@@ -135,7 +151,10 @@ describe('LeftPaneArchiveHelper', () => {
 
   describe('getConversationAndMessageInDirection', () => {
     it('returns the next conversation when searching downward', () => {
-      const archivedConversations = [fakeConversation(), fakeConversation()];
+      const archivedConversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const helper = new LeftPaneArchiveHelper({ archivedConversations });
 
       assert.deepEqual(
@@ -154,17 +173,23 @@ describe('LeftPaneArchiveHelper', () => {
   describe('shouldRecomputeRowHeights', () => {
     it('always returns false because row heights are constant', () => {
       const helper = new LeftPaneArchiveHelper({
-        archivedConversations: [fakeConversation(), fakeConversation()],
+        archivedConversations: [
+          getDefaultConversation(),
+          getDefaultConversation(),
+        ],
       });
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          archivedConversations: [fakeConversation()],
+          archivedConversations: [getDefaultConversation()],
         })
       );
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
-          archivedConversations: [fakeConversation(), fakeConversation()],
+          archivedConversations: [
+            getDefaultConversation(),
+            getDefaultConversation(),
+          ],
         })
       );
     });

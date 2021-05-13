@@ -40,6 +40,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   clearQuotedMessage: action('clearQuotedMessage'),
   getQuotedMessage: action('getQuotedMessage'),
   sortedGroupMembers: [],
+  setSecureInput: action('setSecureInput'),
   // EmojiButton
   onPickEmoji: action('onPickEmoji'),
   onSetSkinTone: action('onSetSkinTone'),

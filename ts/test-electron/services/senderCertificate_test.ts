@@ -11,7 +11,7 @@ import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { arrayBufferToBase64 } from '../../Crypto';
 import { SenderCertificateClass } from '../../textsecure';
-import { SenderCertificateMode } from '../../metadata/SecretSessionCipher';
+import { SenderCertificateMode } from '../../textsecure/OutgoingMessage';
 
 import { SenderCertificateService } from '../../services/senderCertificate';
 
@@ -91,24 +91,6 @@ describe('SenderCertificateService', () => {
     };
     fakeStorage.get.withArgs('uuid_id').returns(`${uuid()}.2`);
     fakeStorage.get.withArgs('password').returns('abc123');
-  });
-
-  describe('initialize', () => {
-    it('removes an old storage service key if it was present', () => {
-      fakeStorage.get
-        .withArgs('senderCertificateWithUuid')
-        .returns('some value');
-
-      initializeTestService();
-
-      sinon.assert.calledWith(fakeStorage.remove, 'senderCertificateWithUuid');
-    });
-
-    it("doesn't remove anything from storage if it wasn't there", () => {
-      initializeTestService();
-
-      sinon.assert.notCalled(fakeStorage.put);
-    });
   });
 
   describe('get', () => {

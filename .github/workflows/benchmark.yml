@@ -71,8 +71,21 @@ jobs:
         RUN_COUNT: 10
         ELECTRON_ENABLE_STACK_DUMPING: on
 
-    - name: Upload benchmark log
-      uses: actions/upload-artifact@v2
+    - name: Clone benchmark branch
+      uses: actions/checkout@v2
       with:
-        name: benchmark.log
-        path: benchmark.log
+        repository: 'signalapp/Signal-Desktop-Benchmarks-Private'
+        path: 'benchmark-results'
+        token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
+
+    - name: Push benchmark branch
+      working-directory: benchmark-results
+      run: |
+        npm ci
+        node ./bin/collect.js ../benchmark.log data.json
+        npm run build
+        git config --global user.email "no-reply@signal.org"
+        git config --global user.name "Signal Bot"
+        git add .
+        git commit --message "${GITHUB_REF} ${GITHUB_SHA}"
+        git push --force origin main

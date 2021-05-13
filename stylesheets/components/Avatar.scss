@@ -1,0 +1,148 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-Avatar {
+  align-items: center;
+  border-radius: 100%;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 0;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+  vertical-align: middle;
+
+  &__button {
+    @include button-reset;
+
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+  }
+
+  &__image {
+    background-position: center center;
+    background-size: cover;
+    display: flex;
+    height: 100%;
+    transition: filter 100ms ease-out;
+    width: 100%;
+  }
+
+  &__click-to-view {
+    @include font-body-2;
+    align-items: center;
+    background: $color-black-alpha-20;
+    color: $color-white;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    &::before {
+      @include color-svg(
+        '../images/icons/v2/click-outline-24.svg',
+        $color-white
+      );
+      content: '';
+      display: block;
+      height: 24px;
+      margin-bottom: 8px;
+      width: 24px;
+    }
+
+    &:hover {
+      background: $color-black-alpha-40;
+    }
+  }
+
+  &__label {
+    align-items: center;
+    display: flex;
+    font-weight: bold;
+    justify-content: center;
+    text-align: center;
+    text-transform: uppercase;
+    transition: font-size 100ms ease-out;
+
+    @include light-theme {
+      color: $color-white;
+    }
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+  }
+
+  &__icon {
+    @mixin avatar-icon($icon) {
+      @include light-theme {
+        @include color-svg($icon, $color-white);
+      }
+      @include dark-theme {
+        @include color-svg($icon, $color-gray-05);
+      }
+    }
+
+    &--direct {
+      @include avatar-icon('../images/icons/v2/profile-outline-20.svg');
+      height: 60%;
+      width: 60%;
+    }
+
+    &--group {
+      @include avatar-icon('../images/icons/v2/group-outline-20.svg');
+      height: 60%;
+      width: 60%;
+    }
+
+    &--note-to-self {
+      @include avatar-icon('../images/note-28.svg');
+      height: 70%;
+      width: 70%;
+    }
+  }
+
+  &__spinner-container {
+    padding: 4px;
+  }
+
+  &--no-image {
+    @include light-theme {
+      background-color: $color-conversation-grey;
+    }
+    @include dark-theme {
+      background-color: $color-conversation-grey-shade;
+    }
+  }
+
+  &--signal-blue {
+    background-color: $ultramarine-ui-light;
+  }
+
+  @each $color, $value in $conversation-colors {
+    &--#{$color} {
+      @include light-theme {
+        background-color: $value;
+      }
+    }
+  }
+  @each $color, $value in $conversation-colors-shade {
+    &--#{$color} {
+      @include dark-theme {
+        background-color: $value;
+      }
+    }
+  }
+}

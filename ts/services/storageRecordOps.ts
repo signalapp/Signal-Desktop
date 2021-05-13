@@ -38,6 +38,7 @@ import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
 } from '../util/timestampLongUtils';
+import { ourProfileKeyService } from './ourProfileKey';
 
 const { updateConversation } = dataInterface;
 
@@ -740,7 +741,12 @@ export async function mergeContactRecord(
   const verified = await conversation.safeGetVerified();
   const storageServiceVerified = contactRecord.identityState || 0;
   if (verified !== storageServiceVerified) {
-    const verifiedOptions = { viaStorageServiceSync: true };
+    const verifiedOptions = {
+      key: contactRecord.identityKey
+        ? contactRecord.identityKey.toArrayBuffer()
+        : undefined,
+      viaStorageServiceSync: true,
+    };
     const STATE_ENUM = window.textsecure.protobuf.ContactRecord.IdentityState;
 
     switch (storageServiceVerified) {
@@ -846,7 +852,7 @@ export async function mergeAccountRecord(
   window.storage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey) {
-    window.storage.put('profileKey', profileKey.toArrayBuffer());
+    ourProfileKeyService.set(profileKey.toArrayBuffer());
   }
 
   if (pinnedConversations) {

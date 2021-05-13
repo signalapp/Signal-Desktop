@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -15,6 +15,8 @@ const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/Conversation/TypingBubble', module);
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  acceptedMessageRequest: true,
+  isMe: false,
   i18n,
   color: select(
     'color',
@@ -29,6 +31,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     { group: 'group', direct: 'direct' },
     overrideProps.conversationType || 'direct'
   ),
+  sharedGroupNames: [],
 });
 
 story.add('Direct', () => {

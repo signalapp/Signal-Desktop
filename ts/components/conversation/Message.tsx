@@ -8,11 +8,13 @@ import { drop, groupBy, orderBy, take } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
 
+import { ConversationType } from '../../state/ducks/conversations';
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
 import { ExpireTimer } from './ExpireTimer';
 import { ImageGrid } from './ImageGrid';
+import { GIF } from './GIF';
 import { Image } from './Image';
 import { Timestamp } from './Timestamp';
 import { ContactName } from './ContactName';
@@ -41,6 +43,7 @@ import {
   isImage,
   isImageAttachment,
   isVideo,
+  isGIF,
 } from '../../types/Attachment';
 import { ContactType } from '../../types/Contact';
 
@@ -57,12 +60,14 @@ type Trigger = {
 };
 
 const STICKER_SIZE = 200;
+const GIF_SIZE = 300;
 const SELECTED_TIMEOUT = 1000;
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
 export const MessageStatuses = [
   'delivered',
   'error',
+  'paused',
   'partial-sent',
   'read',
   'sending',
@@ -105,12 +110,21 @@ export type PropsData = {
   timestamp: number;
   status?: MessageStatusType;
   contact?: ContactType;
-  authorId: string;
-  authorTitle: string;
-  authorName?: string;
-  authorProfileName?: string;
-  authorPhoneNumber?: string;
-  authorColor?: ColorType;
+  author: Pick<
+    ConversationType,
+    | 'acceptedMessageRequest'
+    | 'avatarPath'
+    | 'color'
+    | 'id'
+    | 'isMe'
+    | 'name'
+    | 'phoneNumber'
+    | 'profileName'
+    | 'sharedGroupNames'
+    | 'title'
+    | 'unblurredAvatarPath'
+  >;
+  reducedMotion?: boolean;
   conversationType: ConversationTypesType;
   attachments?: Array<AttachmentType>;
   quote?: {
@@ -128,7 +142,6 @@ export type PropsData = {
     referencedMessageNotFound: boolean;
   };
   previews: Array<LinkPreviewType>;
-  authorAvatarPath?: string;
   isExpired?: boolean;
 
   isTapToView?: boolean;
@@ -236,16 +249,14 @@ type State = {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-export class Message extends React.PureComponent<Props, State> {
+export class Message extends React.Component<Props, State> {
   public menuTriggerRef: Trigger | undefined;
 
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();
 
-  public reactionsContainerRef: React.RefObject<
-    HTMLDivElement
-  > = React.createRef();
+  public reactionsContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   public reactionsContainerRefMerger = createRefMerger();
 
@@ -512,8 +523,31 @@ export class Message extends React.PureComponent<Props, State> {
     const isError = status === 'error' && direction === 'outgoing';
     const isPartiallySent =
       status === 'partial-sent' && direction === 'outgoing';
+    const isPaused = status === 'paused';
 
-    if (isError || isPartiallySent) {
+    if (isError || isPartiallySent || isPaused) {
+      let statusInfo: React.ReactChild;
+      if (isError) {
+        statusInfo = i18n('sendFailed');
+      } else if (isPaused) {
+        statusInfo = i18n('sendPaused');
+      } else {
+        statusInfo = (
+          <button
+            type="button"
+            className="module-message__metadata__tapable"
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
+              showMessageDetail(id);
+            }}
+          >
+            {i18n('partiallySent')}
+          </button>
+        );
+      }
+
       return (
         <span
           className={classNames({
@@ -523,22 +557,7 @@ export class Message extends React.PureComponent<Props, State> {
             'module-message__metadata__date--with-image-no-caption': withImageNoCaption,
           })}
         >
-          {isError ? (
-            i18n('sendFailed')
-          ) : (
-            <button
-              type="button"
-              className="module-message__metadata__tapable"
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                showMessageDetail(id);
-              }}
-            >
-              {i18n('partiallySent')}
-            </button>
-          )}
+          {statusInfo}
         </span>
       );
     }
@@ -635,10 +654,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderAuthor(): JSX.Element | null {
     const {
-      authorTitle,
-      authorName,
-      authorPhoneNumber,
-      authorProfileName,
+      author,
       collapseMetadata,
       conversationType,
       direction,
@@ -655,7 +671,7 @@ export class Message extends React.PureComponent<Props, State> {
     if (
       direction !== 'incoming' ||
       conversationType !== 'group' ||
-      !authorTitle
+      !author.title
     ) {
       return null;
     }
@@ -671,10 +687,10 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <div className={moduleName}>
         <ContactName
-          title={authorTitle}
-          phoneNumber={authorPhoneNumber}
-          name={authorName}
-          profileName={authorProfileName}
+          title={author.title}
+          phoneNumber={author.phoneNumber}
+          name={author.name}
+          profileName={author.profileName}
           module={moduleName}
           i18n={i18n}
         />
@@ -697,6 +713,7 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       text,
       theme,
+      reducedMotion,
 
       renderAudioAttachment,
     } = this.props;
@@ -715,52 +732,72 @@ export class Message extends React.PureComponent<Props, State> {
       (conversationType === 'group' && direction === 'incoming');
     const displayImage = canDisplayImage(attachments);
 
-    if (
-      displayImage &&
-      !imageBroken &&
-      (isImage(attachments) || isVideo(attachments))
-    ) {
+    if (displayImage && !imageBroken) {
       const prefix = isSticker ? 'sticker' : 'attachment';
-      const bottomOverlay = !isSticker && !collapseMetadata;
-      // We only want users to tab into this if there's more than one
-      const tabIndex = attachments.length > 1 ? 0 : -1;
-
-      return (
-        <div
-          className={classNames(
-            `module-message__${prefix}-container`,
-            withContentAbove
-              ? `module-message__${prefix}-container--with-content-above`
-              : null,
-            withContentBelow
-              ? 'module-message__attachment-container--with-content-below'
-              : null,
-            isSticker && !collapseMetadata
-              ? 'module-message__sticker-container--with-content-below'
-              : null
-          )}
-        >
-          <ImageGrid
-            attachments={attachments}
-            withContentAbove={isSticker || withContentAbove}
-            withContentBelow={isSticker || withContentBelow}
-            isSticker={isSticker}
-            stickerSize={STICKER_SIZE}
-            bottomOverlay={bottomOverlay}
-            i18n={i18n}
-            theme={theme}
-            onError={this.handleImageError}
-            tabIndex={tabIndex}
-            onClick={attachment => {
-              if (hasNotDownloaded(attachment)) {
-                kickOffAttachmentDownload({ attachment, messageId: id });
-              } else {
-                showVisualAttachment({ attachment, messageId: id });
-              }
-            }}
-          />
-        </div>
+      const containerClassName = classNames(
+        `module-message__${prefix}-container`,
+        withContentAbove
+          ? `module-message__${prefix}-container--with-content-above`
+          : null,
+        withContentBelow
+          ? 'module-message__attachment-container--with-content-below'
+          : null,
+        isSticker && !collapseMetadata
+          ? 'module-message__sticker-container--with-content-below'
+          : null
       );
+
+      if (isGIF(attachments)) {
+        return (
+          <div className={containerClassName}>
+            <GIF
+              attachment={firstAttachment}
+              size={GIF_SIZE}
+              theme={theme}
+              i18n={i18n}
+              tabIndex={0}
+              reducedMotion={reducedMotion}
+              onError={this.handleImageError}
+              kickOffAttachmentDownload={() => {
+                kickOffAttachmentDownload({
+                  attachment: firstAttachment,
+                  messageId: id,
+                });
+              }}
+            />
+          </div>
+        );
+      }
+
+      if (isImage(attachments) || isVideo(attachments)) {
+        const bottomOverlay = !isSticker && !collapseMetadata;
+        // We only want users to tab into this if there's more than one
+        const tabIndex = attachments.length > 1 ? 0 : -1;
+
+        return (
+          <div className={containerClassName}>
+            <ImageGrid
+              attachments={attachments}
+              withContentAbove={isSticker || withContentAbove}
+              withContentBelow={isSticker || withContentBelow}
+              isSticker={isSticker}
+              stickerSize={STICKER_SIZE}
+              bottomOverlay={bottomOverlay}
+              i18n={i18n}
+              theme={theme}
+              onError={this.handleImageError}
+              tabIndex={tabIndex}
+              onClick={attachment => {
+                if (hasNotDownloaded(attachment)) {
+                  kickOffAttachmentDownload({ attachment, messageId: id });
+                } else {
+                  showVisualAttachment({ attachment, messageId: id });
+                }
+              }}
+            />
+          </div>
+        );
+      }
     }
     if (isAudio(attachments)) {
       return renderAudioAttachment({
@@ -998,8 +1035,8 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderQuote(): JSX.Element | null {
     const {
+      author,
       conversationType,
-      authorColor,
       direction,
       disableScroll,
       i18n,
@@ -1014,7 +1051,7 @@ export class Message extends React.PureComponent<Props, State> {
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
     const quoteColor =
-      direction === 'incoming' ? authorColor : quote.authorColor;
+      direction === 'incoming' ? author.color : quote.authorColor;
     const { referencedMessageNotFound } = quote;
 
     const clickHandler = disableScroll
@@ -1106,14 +1143,8 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderAvatar(): JSX.Element | undefined {
     const {
-      authorAvatarPath,
-      authorId,
-      authorName,
-      authorPhoneNumber,
-      authorProfileName,
-      authorTitle,
+      author,
       collapseMetadata,
-      authorColor,
       conversationType,
       direction,
       i18n,
@@ -1137,19 +1168,23 @@ export class Message extends React.PureComponent<Props, State> {
         <button
           type="button"
           className="module-message__author-avatar"
-          onClick={() => showContactModal(authorId)}
+          onClick={() => showContactModal(author.id)}
           tabIndex={0}
         >
           <Avatar
-            avatarPath={authorAvatarPath}
-            color={authorColor}
+            acceptedMessageRequest={author.acceptedMessageRequest}
+            avatarPath={author.avatarPath}
+            color={author.color}
             conversationType="direct"
             i18n={i18n}
-            name={authorName}
-            phoneNumber={authorPhoneNumber}
-            profileName={authorProfileName}
-            title={authorTitle}
+            isMe={author.isMe}
+            name={author.name}
+            phoneNumber={author.phoneNumber}
+            profileName={author.profileName}
+            sharedGroupNames={author.sharedGroupNames}
             size={28}
+            title={author.title}
+            unblurredAvatarPath={author.unblurredAvatarPath}
           />
         </button>
       </div>
@@ -1206,7 +1241,15 @@ export class Message extends React.PureComponent<Props, State> {
   public renderError(isCorrectSide: boolean): JSX.Element | null {
     const { status, direction } = this.props;
 
-    if (!isCorrectSide || (status !== 'error' && status !== 'partial-sent')) {
+    if (!isCorrectSide) {
+      return null;
+    }
+
+    if (
+      status !== 'paused' &&
+      status !== 'error' &&
+      status !== 'partial-sent'
+    ) {
       return null;
     }
 
@@ -1215,7 +1258,8 @@ export class Message extends React.PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message__error',
-            `module-message__error--${direction}`
+            `module-message__error--${direction}`,
+            `module-message__error--${status}`
           )}
         />
       </div>
@@ -1420,7 +1464,9 @@ export class Message extends React.PureComponent<Props, State> {
     const { canDeleteForEveryone } = this.state;
 
     const showRetry =
-      (status === 'error' || status === 'partial-sent') &&
+      (status === 'paused' ||
+        status === 'error' ||
+        status === 'partial-sent') &&
       direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
 
@@ -1560,6 +1606,11 @@ export class Message extends React.PureComponent<Props, State> {
     const { attachments, isSticker, previews } = this.props;
 
     if (attachments && attachments.length) {
+      if (isGIF(attachments)) {
+        // Message container border + image border
+        return GIF_SIZE + 4;
+      }
+
       if (isSticker) {
         // Padding is 8px, on both sides, plus two for 1px border
         return STICKER_SIZE + 8 * 2 + 2;
@@ -2016,6 +2067,11 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isAttachmentPending = this.isAttachmentPending();
 
+    // Don't show lightbox for GIFs
+    if (isGIF(attachments)) {
+      return;
+    }
+
     if (isTapToView) {
       if (isAttachmentPending) {
         return;
@@ -2193,7 +2249,8 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderContainer(): JSX.Element {
     const {
-      authorColor,
+      attachments,
+      author,
       deletedForEveryone,
       direction,
       isSticker,
@@ -2210,6 +2267,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const containerClassnames = classNames(
       'module-message__container',
+      isGIF(attachments) ? 'module-message__container--gif' : null,
       isSelected && !isSticker ? 'module-message__container--selected' : null,
       isSticker ? 'module-message__container--with-sticker' : null,
       !isSticker ? `module-message__container--${direction}` : null,
@@ -2218,13 +2276,13 @@ export class Message extends React.PureComponent<Props, State> {
         ? 'module-message__container--with-tap-to-view-expired'
         : null,
       !isSticker && direction === 'incoming'
-        ? `module-message__container--incoming-${authorColor}`
+        ? `module-message__container--incoming-${author.color}`
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
         ? 'module-message__container--with-tap-to-view-pending'
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
-        ? `module-message__container--${direction}-${authorColor}-tap-to-view-pending`
+        ? `module-message__container--${direction}-${author.color}-tap-to-view-pending`
         : null,
       isTapToViewError
         ? 'module-message__container--with-tap-to-view-error'
@@ -2251,7 +2309,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public render(): JSX.Element | null {
     const {
-      authorId,
+      author,
       attachments,
       direction,
       id,
@@ -2262,7 +2320,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
-    const triggerId = String(id || `${authorId}-${timestamp}`);
+    const triggerId = String(id || `${author.id}-${timestamp}`);
 
     if (expired) {
       return null;

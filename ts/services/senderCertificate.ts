@@ -5,7 +5,7 @@ import {
   SenderCertificateMode,
   serializedCertificateSchema,
   SerializedCertificateType,
-} from '../metadata/SecretSessionCipher';
+} from '../textsecure/OutgoingMessage';
 import { SenderCertificateClass } from '../textsecure';
 import { base64ToArrayBuffer } from '../Crypto';
 import { assert } from '../util/assert';
@@ -60,8 +60,6 @@ export class SenderCertificateService {
     this.navigator = navigator;
     this.onlineEventTarget = onlineEventTarget;
     this.storage = storage;
-
-    removeOldKey(storage);
   }
 
   async get(
@@ -240,14 +238,6 @@ function modeToLogString(mode: SenderCertificateMode): string {
 
 function isExpirationValid(expiration: unknown): expiration is number {
   return typeof expiration === 'number' && expiration > Date.now();
-}
-
-function removeOldKey(storage: Readonly<Storage>) {
-  const oldCertKey = 'senderCertificateWithUuid';
-  const oldUuidCert = storage.get(oldCertKey);
-  if (oldUuidCert) {
-    storage.remove(oldCertKey);
-  }
 }
 
 export const senderCertificateService = new SenderCertificateService();

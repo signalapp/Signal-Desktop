@@ -214,7 +214,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
-        "message": "Voor mij als ongelezen markeren",
+        "message": "Voor mij markeren als ongelezen",
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
@@ -278,7 +278,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Begin Signal Desktop te gebruiken",
+        "message": "Begin Signal-Desktop te gebruiken",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -580,11 +580,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Voorbeeld laden …",
+        "message": "Voorbeeldafbeelding aan het laden …",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Conceptvoorbeeldweergave voor $domain$",
+        "message": "Concept-voorbeeldafbeelding voor $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -594,7 +594,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Voorbeeldweergave voor $domain$",
+        "message": "Voorbeeldafbeelding voor $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -638,7 +638,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Aan het verbinden",
+        "message": "Verbinding aan het maken",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
@@ -690,7 +690,7 @@
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop-instellingen",
+        "message": "Signal-Desktop-instellingen",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
@@ -698,7 +698,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Over Signal Desktop",
+        "message": "Over Signal-Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -718,7 +718,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Signal Desktop",
+        "message": "Signal-Desktop",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -769,6 +769,10 @@
     },
     "contactsHeader": {
         "message": "Contacten",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "Groepen",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -902,7 +906,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Om een audiobericht te versturen moet je Signal Desktop toegang tot de microfoon geven.",
+        "message": "Om een audiobericht te versturen moet je Signal-Desktop toegang tot de microfoon geven.",
         "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
@@ -974,7 +978,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Verzenden naar bepaalde ontvangers mislukt. Ga na dat je netwerkverbinding werkt.",
+        "message": "Verzenden naar bepaalde ontvangers mislukt. Ga na dat je apparaat internetverbinding heeft.",
         "description": ""
     },
     "error": {
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Door op ‘Wissen’ te klikken, wordt dit bericht voorgoed van enkel je eigen apparaten gewist.",
+        "message": "Dit bericht zal alleen van dit apparaat gewist worden.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1046,7 +1050,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Sessie opnieuw instellen",
+        "message": "Sessie opnieuw opzetten",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
@@ -1071,6 +1075,10 @@
         "message": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Je veiligheidsnummer met hem zal beschikbaar zijn na het eerste bericht.",
         "description": ""
     },
+    "back": {
+        "message": "Terug",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Ga terug",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "Opnieuw proberen te verzenden",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Bericht doorsturen",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Bericht alleen voor mij wissen",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "Beveiligde sessie opnieuw ingesteld",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Gespreksessie vernieuwd",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Meer lezen",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Het kan soms nodig zijn om je gesprekssessie te vernieuwen. Dit heeft geen invloed op de beveiliging van je gesprek, maar het is mogelijk dat je een bericht van je contactpersoon hebt gemist. Vraag je contactpersoon eventueel om zijn of haar meest recente berichten opnieuw te zenden.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Neem contact op met ondersteuning",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "Miniatuur van afbeelding uit aangehaald bericht",
@@ -1136,7 +1164,7 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Welkom bij Signal Desktop",
+        "message": "Welkom bij Signal-Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -1144,7 +1172,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Koppel je telefoon aan Signal Desktop",
+        "message": "Koppel je telefoon aan Signal-Desktop",
         "description": "Shown on the front page when the application first starts, above the QR code"
     },
     "signalSettings": {
@@ -1364,7 +1392,7 @@
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "Om te voorkomen dat je gesprekspartner je IP-adres kan achterhalen worden Signal-oproepen met niet-contactpersonen altijd omgeleid via de Signal-server. Door deze optie in te schakelen wordt dat ook gedaan voor Signal-oproepen met contacten wie wel in je contactenlijst staan. Dit leidt echter tot een verminderde geluids- en videokwaliteit.",
+        "message": "Om te voorkomen dat je gesprekspartner je IP-adres kan achterhalen worden Signal-oproepen met niet-contactpersonen altijd omgeleid via de Signal-server. Door deze optie in te schakelen wordt dat ook gedaan voor Signal-oproepen met contacten die wel in je contactenlijst staan. Dit leidt echter tot een verminderde geluids- en videokwaliteit.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -1526,7 +1554,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Deze versie van Signal Desktop is verouderd. Opwaardeer naar de laatste versie om verder te chatten.",
+        "message": "Deze versie van Signal-Desktop is verouderd. Werk bij naar de meest recente versie om gesprekken voort te kunnen zetten.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1618,7 +1646,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Je hebt de timer voor verlopende berichten op $time$ ingesteld.",
+        "message": "Je hebt de tijdsspanne voor verlopende berichten op $time$ ingesteld.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1628,7 +1656,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "De timer voor verlopende berichten is bijgewerkt naar $time$.",
+        "message": "De tijdsspanne voor verlopende berichten is bijgewerkt naar $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1638,7 +1666,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Een groepslid heeft de timer voor verlopende berichten op $time$ ingesteld.",
+        "message": "Een groepslid heeft de tijdsspanne voor verlopende berichten op $time$ ingesteld.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1648,7 +1676,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ heeft de timer voor verlopende berichten op $time$ ingesteld.",
+        "message": "$name$ heeft de tijdsspanne voor verlopende berichten op $time$ ingesteld.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1784,7 +1812,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Timer ingesteld op $time$",
+        "message": "Tijdsspanne ingesteld op $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1806,7 +1834,7 @@
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
-        "message": "Activeer inkomende oproepen",
+        "message": "Inkomende oproepen toelaten",
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
@@ -1909,6 +1937,112 @@
         "message": "Begin een nieuw gesprek …",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "Nieuw gesprek",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Zoeken op naam of nummer",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Geen contactpersonen gevonden",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Er zijn geen gesprekken gevonden",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Kies leden",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Terug",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Overslaan",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Volgende",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "De maximale groepsgrootte is bereikt",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signalgroepen kunnen maximaal $max$ leden omvatten.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Het aanbevolen ledenlimiet is bereikt",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal-groepen presteren het best met $max$ of minder leden. Het toevoegen van extra leden zal vertragingen veroorzaken in het verzenden en ontvangen van berichten.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Kan persoon niet toevoegen aan de groep",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "“$name$” kan niet aan de groep worden toegevoegd omdat hij of zij een oude versie van Signal gebruikt. Je kunt hem of haar aan de groep toevoegen nadat hij of zij Signal heeft bijgewerkt.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Geef dit groepsgesprek een naam ",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Terug naar ledenselectie",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Groepsnaam (vereist)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Aanmaken",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Leden",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Deze groep kan niet worden aangemaakt. Ga na dat je apparaat internetverbinding heeft en probeer het opnieuw.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Groepsnaam en -afbeelding",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "De groep bijwerken is mislukt. Ga na dat je apparaat internetverbinding heeft en probeer het opnieuw.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "Sms/mms-berichten worden door Signal-Desktop niet ondersteund.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -1922,7 +2056,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Koppel Signal Desktop opnieuw aan je mobiele apparaat om verder te kunnen chatten.",
+        "message": "Koppel Signal-Desktop opnieuw aan je mobiele apparaat om je gesprekken voort te kunnen zetten.",
         "description": ""
     },
     "unlinked": {
@@ -2196,7 +2330,7 @@
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Fout bij het openen van een stickerpakket. Controleer je internetverbinding en probeer het opnieuw.",
+        "message": "Fout bij het openen van een stickerpakket. Ga na dat je apparaat internetverbinding heeft en probeer het opnieuw.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -2353,6 +2487,10 @@
         "message": "Gespreksmenu weergeven",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--new-conversation": {
+        "message": "Een nieuw gesprek beginnen",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--archive-conversation": {
         "message": "Gesprek archiveren",
         "description": "Shown in the shortcuts guide"
@@ -2430,7 +2568,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Concept-voorbeeldweergave verwijderen",
+        "message": "Concept-voorbeeldafbeelding verwijderen",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
@@ -2502,7 +2640,7 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Zet dempen aan of uit",
+        "message": "Dempen aan of uit zetten",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
@@ -2534,7 +2672,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Gesprek als ongelezen gemarkeerd",
+        "message": "Gesprek gemarkeerd als ongelezen",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -2586,7 +2724,7 @@
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Je stickers toevoegen",
+        "message": "Voeg je stickers toe en sleep ze in de gewenste volgorde",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
@@ -2776,7 +2914,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Wil je berichten van $name$ ontvangen en sta je toe dat hij of zij je profielnaam en -foto kan zien? Hij of zij zal totdat je het gespreksverzoek aanvaardt niet kunnen zien dat je zijn of haar berichten hebt gelezen.",
+        "message": "Wil je berichten van $name$ ontvangen en sta je toe dat hij of zij je profielnaam en -foto kan zien? Als je leesbevestigingen hebt ingeschakeld kan hij of zij die nog niet zien totdat je de uitnodiging hebt aanvaard.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -2796,7 +2934,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Wil je berichten van deze groep ontvangen, en sta je toe dat alle leden van deze groep je profielnaam en -foto kunnen zien? De leden van deze groep zullen totdat je het gespreksverzoek aanvaardt niet kunnen zien dat je hun berichten hebt gelezen.",
+        "message": "Wil je lid worden van deze groep, en sta je toe dat alle leden van de groep je profielnaam, -foto en -omschrijving kunnen zien? Als je leesbevestigingen hebt ingeschakeld kunnen andere groepsleden die nog niet zien totdat je de uitnodiging hebt aanvaard.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -2828,7 +2966,7 @@
         }
     },
     "MessageRequests--unblock-direct-confirm-body": {
-        "message": "Jullie zullen elkaar weer berichten aan elkaar kunnen verzenden en elkaar weer kunnen bellen via Signal.",
+        "message": "Jullie zullen weer berichten aan elkaar kunnen verzenden en elkaar weer kunnen bellen via Signal.",
         "description": "Shown as the body in the confirmation modal for unblocking a private message request",
         "placeholders": {
             "name": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "Lid van $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "Lid van $group1$ en $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "Lid van $group1$, $group2$ en $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "Lid van $group1$, $group2$, $group3$ en $remainingCount$ andere groepen. ",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ heeft je toegevoegd aan de groep.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Geen gemeenschappelijke groepen.",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Beantwoorden",
@@ -3242,24 +3336,32 @@
         "description": "Label for the mute notifications drop-down selector"
     },
     "muteHour": {
-        "message": "Dempen voor een uur",
+        "message": "Een uur lang dempen",
+        "description": "Label for muting the conversation"
+    },
+    "muteEightHours": {
+        "message": "Acht uur lang dempen",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "Dempen voor een dag",
+        "message": "Een dag lang dempen",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
-        "message": "Dempen voor een week",
+        "message": "Een week lang dempen",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Dempen voor een jaar",
+    "muteAlways": {
+        "message": "Voor altijd dempen",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Niet langer dempen",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Voor altijd gedempt",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Gedempt tot over $duration$",
@@ -3328,7 +3430,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "Een beheerder van deze groep moet je verzoek om lid te worden eerst goedkeuren voordat je lid kunt worden van deze groep. Wanneer je verzoekt om lid te worden zullen je profielnaam, -foto en -omschrijving direct zichtbaar zijn voor de groepsleden.",
+        "message": "Een beheerder van deze groep moet eerst je verzoek om lid te worden goedkeuren voordat je lid kunt worden van deze groep. Wanneer je verzoekt om lid te worden zullen je profielnaam, -foto en -omschrijving direct zichtbaar zijn voor de groepsleden.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "Beheerder",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Uitsluitend beheerders",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Alle groepsleden",
@@ -3604,7 +3710,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ heeft de beheerderstoestemming-vereiste voor personen wie lid willen worden via de groepsverwijzing ingeschakeld.",
+        "message": "$adminName$ heeft de beheerderstoestemming-vereiste voor personen die lid willen worden via de groepsverwijzing ingeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4044,7 +4150,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "Één persoon, wie door $memberName$ was uitgenodigd, heeft de uitnodiging verworpen.",
+        "message": "Één persoon, die door $memberName$ was uitgenodigd, heeft de uitnodiging verworpen.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4494,7 +4600,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "Je kon niet toegevoegd worden tot de nieuwe groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
+        "message": "Je kon niet toegevoegd worden aan de nieuwe groep en je hebt daarom een uitnodiging gekregen om opnieuw lid te worden.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
@@ -4558,7 +4664,7 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
-        "message": "Tel gedempte gesprekken mee in badge nummers",
+        "message": "Gedempte gesprekken meetellen in badge-getal",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4618,7 +4724,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Kies wie de groepsnaam, groepsafbeelding en de timer voor verlopende berichten mag aanpassen.",
+        "message": "Kies wie de groepsnaam, groepsafbeelding en de tijdsspanne voor verlopende berichten mag aanpassen.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -4640,6 +4746,10 @@
     "ConversationDetailsActions--block-group": {
         "message": "Groep blokkeren en verlaten",
         "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Voor je de groep verlaat moet je tenminste één beheerder aanwijzen voor deze groep.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Wil je de groep echt verlaten?",
@@ -4699,6 +4809,10 @@
             }
         }
     },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Groepsleden toevoegen",
+        "description": "The button that you can click to add new members"
+    },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Alles weergeven",
         "description": "This is a button on the conversation details to show all members"
@@ -4724,7 +4838,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Vereis voor iedere persoon wie via de groepsverwijzing lid wil worden eerst toestemming van een beheerder",
+        "message": "Vereis voor iedere persoon die via de groepsverwijzing lid wil worden eerst toestemming van een beheerder",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -4854,7 +4968,169 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Profielinformatie van personen wie door andere groepsleden zijn uitgenodigd wordt niet weergegeven. Pas als een genodigde er voor kiest de uitnodiging te aanvaarden, dan zullen op dat moment zijn of haar profielnaam, -foto en -omschrijving zichtbaar worden voor de groep. Zolang deze personen de uitnodiging niet aanvaard hebben zullen ze nog geen groepsberichten ontvangen.",
+        "message": "Profielinformatie van personen die door andere groepsleden zijn uitgenodigd wordt niet weergegeven. Pas als een genodigde er voor kiest de uitnodiging te aanvaarden, dan zullen op dat moment zijn of haar profielnaam, -foto en -omschrijving zichtbaar worden voor de groep. Zolang deze personen de uitnodiging niet aanvaard hebben zullen ze nog geen groepsberichten ontvangen.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Een groepsafbeelding toevoegen",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Nieuwe profielfoto uploaden",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Profielfoto uploaden",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Foto verwijderen",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Contactpersoon verwijderen",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Oké",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Uitnodiging verzonden",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ uitnodigingen verzonden",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$ kan door jou niet direct aan deze groep worden toegevoegd.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Deze personen kunnen door jou niet direct aan de groep worden toegevoegd.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "Hij of zij is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat hij of zij de uitnodiging aanvaard.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Meer leren hierover",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Groepsleden toevoegen",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Bijwerken",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "$person$ toevoegen aan “$group$”?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "$count$ leden toevoegen aan  “$group$”?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Voeg groepslid toe",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Groepsleden toevoegen",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Nieuwe groep",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Selecteer contact",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Contactpersoon de-selecteren",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Kan deze contactpersoon niet selecteren",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Is al een groepslid",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Audiobericht afspelen",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Audiobericht pauzeren",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Audiobericht downloaden",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Audiobericht aan het downloaden …",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Afspeellengte van het audiobericht",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Klik op de $composeIcon$ hierboven en zoek een contactpersoon of groep om een bericht naar te verzenden.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "Opstellen-knop",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Doorgaan",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

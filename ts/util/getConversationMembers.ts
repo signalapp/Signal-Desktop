@@ -1,0 +1,57 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+import { compact } from 'lodash';
+import { ConversationAttributesType } from '../model-types.d';
+import { isDirectConversation } from './whatTypeOfConversation';
+
+export function getConversationMembers(
+  conversationAttrs: ConversationAttributesType,
+  options: { includePendingMembers?: boolean } = {}
+): Array<ConversationAttributesType> {
+  if (isDirectConversation(conversationAttrs)) {
+    return [conversationAttrs];
+  }
+
+  if (conversationAttrs.membersV2) {
+    const { includePendingMembers } = options;
+    const members: Array<{ conversationId: string }> = includePendingMembers
+      ? [
+          ...(conversationAttrs.membersV2 || []),
+          ...(conversationAttrs.pendingMembersV2 || []),
+        ]
+      : conversationAttrs.membersV2 || [];
+
+    return compact(
+      members.map(member => {
+        const conversation = window.ConversationController.get(
+          member.conversationId
+        );
+
+        // In groups we won't sent to contacts we believe are unregistered
+        if (conversation && conversation.isUnregistered()) {
+          return null;
+        }
+
+        return conversation?.attributes;
+      })
+    );
+  }
+
+  if (conversationAttrs.members) {
+    return compact(
+      conversationAttrs.members.map(id => {
+        const conversation = window.ConversationController.get(id);
+
+        // In groups we won't send to contacts we believe are unregistered
+        if (conversation && conversation.isUnregistered()) {
+          return null;
+        }
+
+        return conversation?.attributes;
+      })
+    );
+  }
+
+  return [];
+}

@@ -79,6 +79,8 @@ export type PropsType = {
   selectedConversationId: undefined | string;
   selectedMessageId: undefined | string;
   regionCode: string;
+  challengeStatus: 'idle' | 'required' | 'pending';
+  setChallengeStatus: (status: 'idle') => void;
 
   // Action Creators
   cantAddContactToGroup: (conversationId: string) => void;
@@ -110,6 +112,7 @@ export type PropsType = {
   renderNetworkStatus: () => JSX.Element;
   renderRelinkDialog: () => JSX.Element;
   renderUpdateDialog: () => JSX.Element;
+  renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
 };
 
 export const LeftPane: React.FC<PropsType> = ({
@@ -121,6 +124,8 @@ export const LeftPane: React.FC<PropsType> = ({
   createGroup,
   i18n,
   modeSpecificProps,
+  challengeStatus,
+  setChallengeStatus,
   openConversationInternal,
   renderExpiredBuildDialog,
   renderMainHeader,
@@ -128,6 +133,7 @@ export const LeftPane: React.FC<PropsType> = ({
   renderNetworkStatus,
   renderRelinkDialog,
   renderUpdateDialog,
+  renderCaptchaDialog,
   selectedConversationId,
   selectedMessageId,
   setComposeSearchTerm,
@@ -464,6 +470,12 @@ export const LeftPane: React.FC<PropsType> = ({
       {footerContents && (
         <div className="module-left-pane__footer">{footerContents}</div>
       )}
+      {challengeStatus !== 'idle' &&
+        renderCaptchaDialog({
+          onSkip() {
+            setChallengeStatus('idle');
+          },
+        })}
     </div>
   );
 };

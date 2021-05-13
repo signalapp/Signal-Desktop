@@ -6,6 +6,11 @@ import classNames from 'classnames';
 
 import { assert } from '../util/assert';
 
+export enum ButtonSize {
+  Medium,
+  Small,
+}
+
 export enum ButtonVariant {
   Primary,
   Secondary,
@@ -17,6 +22,7 @@ export enum ButtonVariant {
 type PropsType = {
   className?: string;
   disabled?: boolean;
+  size?: ButtonSize;
   variant?: ButtonVariant;
 } & (
   | {
@@ -41,6 +47,11 @@ type PropsType = {
       }
   );
 
+const SIZE_CLASS_NAMES = new Map<ButtonSize, string>([
+  [ButtonSize.Medium, 'module-Button--medium'],
+  [ButtonSize.Small, 'module-Button--small'],
+]);
+
 const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
   [ButtonVariant.Primary, 'module-Button--primary'],
   [ButtonVariant.Secondary, 'module-Button--secondary'],
@@ -61,6 +72,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
       children,
       className,
       disabled = false,
+      size = ButtonSize.Medium,
       variant = ButtonVariant.Primary,
     } = props;
     const ariaLabel = props['aria-label'];
@@ -75,13 +87,21 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
       ({ type } = props);
     }
 
+    const sizeClassName = SIZE_CLASS_NAMES.get(size);
+    assert(sizeClassName, '<Button> size not found');
+
     const variantClassName = VARIANT_CLASS_NAMES.get(variant);
     assert(variantClassName, '<Button> variant not found');
 
     return (
       <button
         aria-label={ariaLabel}
-        className={classNames('module-Button', variantClassName, className)}
+        className={classNames(
+          'module-Button',
+          sizeClassName,
+          variantClassName,
+          className
+        )}
         disabled={disabled}
         onClick={onClick}
         ref={ref}

@@ -5,16 +5,15 @@ import React from 'react';
 
 import { LocalizerType } from '../../../types/Util';
 import { Avatar } from '../../Avatar';
+import { Emojify } from '../Emojify';
 
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 import { ConversationType } from '../../../state/ducks/conversations';
-import { GroupV2MemberType } from '../../../model-types.d';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 
 export type GroupV2Membership = {
   isAdmin: boolean;
-  metadata: GroupV2MemberType;
   member: ConversationType;
 };
 
@@ -110,7 +109,7 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
               {...member}
             />
           }
-          label={member.isMe ? i18n('you') : member.title}
+          label={<Emojify text={member.isMe ? i18n('you') : member.title} />}
           right={isAdmin ? i18n('GroupV2--admin') : ''}
         />
       ))}

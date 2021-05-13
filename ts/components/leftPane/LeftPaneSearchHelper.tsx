@@ -24,9 +24,7 @@ type MaybeLoadedSearchResultsType<T> =
   | { isLoading: false; results: Array<T> };
 
 export type LeftPaneSearchPropsType = {
-  conversationResults: MaybeLoadedSearchResultsType<
-    ConversationListItemPropsType
-  >;
+  conversationResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
   contactResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
   messageResults: MaybeLoadedSearchResultsType<{
     id: string;
@@ -40,16 +38,10 @@ const searchResultKeys: Array<
   'conversationResults' | 'contactResults' | 'messageResults'
 > = ['conversationResults', 'contactResults', 'messageResults'];
 
-export class LeftPaneSearchHelper extends LeftPaneHelper<
-  LeftPaneSearchPropsType
-> {
-  private readonly conversationResults: MaybeLoadedSearchResultsType<
-    ConversationListItemPropsType
-  >;
+export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType> {
+  private readonly conversationResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
 
-  private readonly contactResults: MaybeLoadedSearchResultsType<
-    ConversationListItemPropsType
-  >;
+  private readonly contactResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
 
   private readonly messageResults: MaybeLoadedSearchResultsType<{
     id: string;

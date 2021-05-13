@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {
   ConversationAttributesType,
   ConversationModelCollectionType,
@@ -13,6 +12,8 @@ import {
 } from '../model-types.d';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
+import { StoredJob } from '../jobs/types';
+import { ReactionType } from '../types/Reactions';
 
 export type AttachmentDownloadJobType = {
   id: string;
@@ -70,6 +71,7 @@ export type SessionType = {
   conversationId: string;
   deviceId: number;
   record: string;
+  version?: number;
 };
 export type SignedPreKeyType = {
   confirmed: boolean;
@@ -121,6 +123,14 @@ export type UnprocessedType = {
   attempts: number;
   envelope: string;
 
+  source?: string;
+  sourceUuid?: string;
+  sourceDevice?: string;
+  serverTimestamp?: number;
+  decrypted?: string;
+};
+
+export type UnprocessedUpdateType = {
   source?: string;
   sourceUuid?: string;
   sourceDevice?: string;
@@ -210,10 +220,10 @@ export type DataInterface = {
   updateUnprocessedAttempts: (id: string, attempts: number) => Promise<void>;
   updateUnprocessedWithData: (
     id: string,
-    data: UnprocessedType
+    data: UnprocessedUpdateType
   ) => Promise<void>;
   updateUnprocessedsWithData: (
-    array: Array<{ id: string; data: UnprocessedType }>
+    array: Array<{ id: string; data: UnprocessedUpdateType }>
   ) => Promise<void>;
   getUnprocessedById: (id: string) => Promise<UnprocessedType | undefined>;
   saveUnprocesseds: (
@@ -280,6 +290,10 @@ export type DataInterface = {
     conversationId: string,
     options: { limit: number }
   ) => Promise<Array<MessageType>>;
+
+  getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
+  insertJob(job: Readonly<StoredJob>): Promise<void>;
+  deleteJob(id: string): Promise<void>;
 };
 
 // The reason for client/server divergence is the need to inject Backbone models and
@@ -329,9 +343,33 @@ export type ServerInterface = DataInterface & {
   getNextTapToViewMessageToAgeOut: () => Promise<MessageType | undefined>;
   getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
-  getUnreadByConversation: (
-    conversationId: string
-  ) => Promise<Array<MessageType>>;
+  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
+  getUnreadByConversationAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number,
+    readAt?: number
+  ) => Promise<
+    Array<
+      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
+    >
+  >;
+  getUnreadReactionsAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number
+  ) => Promise<
+    Array<Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp'>>
+  >;
+  markReactionAsRead: (
+    targetAuthorUuid: string,
+    targetTimestamp: number
+  ) => Promise<ReactionType | undefined>;
+  removeReactionFromConversation: (reaction: {
+    emoji: string;
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+  }) => Promise<void>;
+  addReaction: (reactionObj: ReactionType) => Promise<void>;
   removeConversation: (id: Array<string> | string) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
   removeMessages: (ids: Array<string>) => Promise<void>;
@@ -449,10 +487,33 @@ export type ClientInterface = DataInterface & {
   getTapToViewMessagesNeedingErase: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
-  getUnreadByConversation: (
+  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
+  getUnreadByConversationAndMarkRead: (
     conversationId: string,
-    options: { MessageCollection: typeof MessageModelCollectionType }
-  ) => Promise<MessageModelCollectionType>;
+    newestUnreadId: number,
+    readAt?: number
+  ) => Promise<
+    Array<
+      Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
+    >
+  >;
+  getUnreadReactionsAndMarkRead: (
+    conversationId: string,
+    newestUnreadId: number
+  ) => Promise<
+    Array<Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp'>>
+  >;
+  markReactionAsRead: (
+    targetAuthorUuid: string,
+    targetTimestamp: number
+  ) => Promise<ReactionType | undefined>;
+  removeReactionFromConversation: (reaction: {
+    emoji: string;
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+  }) => Promise<void>;
+  addReaction: (reactionObj: ReactionType) => Promise<void>;
   removeConversation: (
     id: string,
     options: { Conversation: typeof ConversationModel }

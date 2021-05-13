@@ -1,7 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import { times } from 'lodash';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -26,50 +27,16 @@ const sortedGroupMembers = Array.from(Array(32)).map((_, i) =>
 );
 
 const conversation: ConversationType = {
+  acceptedMessageRequest: true,
   areWeAdmin: true,
   id: '',
   lastUpdated: 0,
   markedUnread: false,
-  memberships: sortedGroupMembers.map(member => ({
-    isAdmin: false,
-    member,
-    metadata: {
-      conversationId: 'abc123',
-      joinedAtVersion: 1,
-      role: 1,
-    },
-  })),
-  pendingMemberships: Array.from(Array(4))
-    .map(() => ({
-      member: getDefaultConversation({}),
-      metadata: {
-        addedByUserId: 'abc123',
-        conversationId: 'xyz789',
-        role: 1,
-        timestamp: Date.now(),
-      },
-    }))
-    .concat(
-      Array.from(Array(8)).map(() => ({
-        member: getDefaultConversation({}),
-        metadata: {
-          addedByUserId: 'def456',
-          conversationId: 'xyz789',
-          role: 1,
-          timestamp: Date.now(),
-        },
-      }))
-    ),
-  pendingApprovalMemberships: Array.from(Array(5)).map(() => ({
-    member: getDefaultConversation({}),
-    metadata: {
-      conversationId: 'xyz789',
-      timestamp: Date.now(),
-    },
-  })),
+  isMe: false,
   sortedGroupMembers,
   title: 'Some Conversation',
   type: 'group',
+  sharedGroupNames: [],
 };
 
 const createProps = (): PropsType => ({
@@ -77,6 +44,23 @@ const createProps = (): PropsType => ({
   conversation,
   i18n,
   ourConversationId: 'abc123',
+  pendingApprovalMemberships: times(5, () => ({
+    member: getDefaultConversation(),
+  })),
+  pendingMemberships: [
+    ...times(4, () => ({
+      member: getDefaultConversation(),
+      metadata: {
+        addedByUserId: 'abc123',
+      },
+    })),
+    ...times(8, () => ({
+      member: getDefaultConversation(),
+      metadata: {
+        addedByUserId: 'def456',
+      },
+    })),
+  ],
   revokePendingMemberships: action('revokePendingMemberships'),
 });
 

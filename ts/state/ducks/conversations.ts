@@ -25,11 +25,6 @@ import { AttachmentType } from '../../types/Attachment';
 import { ColorType } from '../../types/Colors';
 import { BodyRangeType } from '../../types/Util';
 import { CallMode, CallHistoryDetailsFromDiskType } from '../../types/Calling';
-import {
-  GroupV2PendingMembership,
-  GroupV2RequestingMembership,
-} from '../../components/conversation/conversation-details/PendingInvites';
-import { GroupV2Membership } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { MediaItemType } from '../../components/LightboxGallery';
 import {
   getGroupSizeRecommendedLimit,
@@ -47,6 +42,7 @@ export type DBConversationType = {
 };
 
 export type LastMessageStatus =
+  | 'paused'
   | 'error'
   | 'partial-sent'
   | 'sending'
@@ -65,6 +61,7 @@ export type ConversationType = {
   profileName?: string;
   about?: string;
   avatarPath?: string;
+  unblurredAvatarPath?: string;
   areWeAdmin?: boolean;
   areWePending?: boolean;
   areWePendingApproval?: boolean;
@@ -96,14 +93,20 @@ export type ConversationType = {
   accessControlAttributes?: number;
   accessControlMembers?: number;
   expireTimer?: number;
-  // This is used by the ConversationDetails set of components, it includes the
-  // membersV2 data and also has some extra metadata attached to the object
-  memberships?: Array<GroupV2Membership>;
-  pendingMemberships?: Array<GroupV2PendingMembership>;
-  pendingApprovalMemberships?: Array<GroupV2RequestingMembership>;
+  memberships?: Array<{
+    conversationId: string;
+    isAdmin: boolean;
+  }>;
+  pendingMemberships?: Array<{
+    conversationId: string;
+    addedByUserId?: string;
+  }>;
+  pendingApprovalMemberships?: Array<{
+    conversationId: string;
+  }>;
   muteExpiresAt?: number;
   type: ConversationTypeType;
-  isMe?: boolean;
+  isMe: boolean;
   lastUpdated?: number;
   // This is used by the CompositionInput for @mentions
   sortedGroupMembers?: Array<ConversationType>;
@@ -126,12 +129,12 @@ export type ConversationType = {
   draftBodyRanges?: Array<BodyRangeType>;
   draftPreview?: string;
 
-  sharedGroupNames?: Array<string>;
+  sharedGroupNames: Array<string>;
   groupVersion?: 1 | 2;
   groupId?: string;
   groupLink?: string;
   messageRequestsEnabled?: boolean;
-  acceptedMessageRequest?: boolean;
+  acceptedMessageRequest: boolean;
   secretParams?: string;
   publicParams?: string;
 };
@@ -275,6 +278,10 @@ type ComposerStateType =
         | { isCreating: true; hasError: false }
       ));
 
+type ContactSpoofingReviewStateType = {
+  safeConversationId: string;
+};
+
 export type ConversationsStateType = {
   preJoinConversation?: PreJoinConversationType;
   invitedConversationIdsForNewlyCreatedGroup?: Array<string>;
@@ -289,6 +296,7 @@ export type ConversationsStateType = {
   selectedConversationPanelDepth: number;
   showArchived: boolean;
   composer?: ComposerStateType;
+  contactSpoofingReview?: ContactSpoofingReviewStateType;
 
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
@@ -334,6 +342,9 @@ type ClearInvitedConversationsForNewlyCreatedGroupActionType = {
 };
 type CloseCantAddContactToGroupModalActionType = {
   type: 'CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL';
+};
+type CloseContactSpoofingReviewActionType = {
+  type: 'CLOSE_CONTACT_SPOOFING_REVIEW';
 };
 type CloseMaximumGroupSizeModalActionType = {
   type: 'CLOSE_MAXIMUM_GROUP_SIZE_MODAL';
@@ -512,6 +523,12 @@ export type SelectedConversationChangedActionType = {
     messageId?: string;
   };
 };
+type ReviewMessageRequestNameCollisionActionType = {
+  type: 'REVIEW_MESSAGE_REQUEST_NAME_COLLISION';
+  payload: {
+    safeConversationId: string;
+  };
+};
 type ShowInboxActionType = {
   type: 'SHOW_INBOX';
   payload: null;
@@ -569,6 +586,7 @@ export type ConversationActionType =
   | ClearSelectedMessageActionType
   | ClearUnreadMetricsActionType
   | CloseCantAddContactToGroupModalActionType
+  | CloseContactSpoofingReviewActionType
   | CloseMaximumGroupSizeModalActionType
   | CloseRecommendedGroupSizeModalActionType
   | ConversationAddedActionType
@@ -587,6 +605,7 @@ export type ConversationActionType =
   | RemoveAllConversationsActionType
   | RepairNewestMessageActionType
   | RepairOldestMessageActionType
+  | ReviewMessageRequestNameCollisionActionType
   | ScrollToMessageActionType
   | SelectedConversationChangedActionType
   | SetComposeGroupAvatarActionType
@@ -617,6 +636,7 @@ export const actions = {
   clearSelectedMessage,
   clearUnreadMetrics,
   closeCantAddContactToGroupModal,
+  closeContactSpoofingReview,
   closeRecommendedGroupSizeModal,
   closeMaximumGroupSizeModal,
   conversationAdded,
@@ -634,6 +654,7 @@ export const actions = {
   removeAllConversations,
   repairNewestMessage,
   repairOldestMessage,
+  reviewMessageRequestNameCollision,
   scrollToMessage,
   selectMessage,
   setComposeGroupAvatar,
@@ -863,6 +884,14 @@ function repairOldestMessage(
   };
 }
 
+function reviewMessageRequestNameCollision(
+  payload: Readonly<{
+    safeConversationId: string;
+  }>
+): ReviewMessageRequestNameCollisionActionType {
+  return { type: 'REVIEW_MESSAGE_REQUEST_NAME_COLLISION', payload };
+}
+
 function messagesReset(
   conversationId: string,
   messages: Array<MessageType>,
@@ -976,6 +1005,9 @@ function clearUnreadMetrics(
 }
 function closeCantAddContactToGroupModal(): CloseCantAddContactToGroupModalActionType {
   return { type: 'CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL' };
+}
+function closeContactSpoofingReview(): CloseContactSpoofingReviewActionType {
+  return { type: 'CLOSE_CONTACT_SPOOFING_REVIEW' };
 }
 function closeMaximumGroupSizeModal(): CloseMaximumGroupSizeModalActionType {
   return { type: 'CLOSE_MAXIMUM_GROUP_SIZE_MODAL' };
@@ -1343,6 +1375,10 @@ export function reducer(
     };
   }
 
+  if (action.type === 'CLOSE_CONTACT_SPOOFING_REVIEW') {
+    return omit(state, 'contactSpoofingReview');
+  }
+
   if (action.type === 'CLOSE_MAXIMUM_GROUP_SIZE_MODAL') {
     return closeComposerModal(state, 'maximumGroupSizeModalState' as const);
   }
@@ -1379,13 +1415,16 @@ export function reducer(
     const { id, data } = payload;
     const { conversationLookup } = state;
 
-    let { showArchived, selectedConversationId } = state;
+    const { selectedConversationId } = state;
+    let { showArchived } = state;
 
     const existing = conversationLookup[id];
     // In the change case we only modify the lookup if we already had that conversation
     if (!existing) {
       return state;
     }
+
+    const keysToOmit: Array<keyof ConversationsStateType> = [];
 
     if (selectedConversationId === id) {
       // Archived -> Inbox: we go back to the normal inbox view
@@ -1397,12 +1436,16 @@ export function reducer(
       //   behavior - no selected conversation in the left pane, but a conversation show
       //   in the right pane.
       if (!existing.isArchived && data.isArchived) {
-        selectedConversationId = undefined;
+        keysToOmit.push('selectedConversationId');
+      }
+
+      if (!existing.isBlocked && data.isBlocked) {
+        keysToOmit.push('contactSpoofingReview');
       }
     }
 
     return {
-      ...state,
+      ...omit(state, keysToOmit),
       selectedConversationId,
       showArchived,
       conversationLookup: {
@@ -1444,7 +1487,7 @@ export function reducer(
         : undefined;
 
     return {
-      ...state,
+      ...omit(state, 'contactSpoofingReview'),
       selectedConversationId,
       selectedConversationPanelDepth: 0,
       messagesLookup: omit(state.messagesLookup, messageIds),
@@ -1879,6 +1922,13 @@ export function reducer(
     };
   }
 
+  if (action.type === 'REVIEW_MESSAGE_REQUEST_NAME_COLLISION') {
+    return {
+      ...state,
+      contactSpoofingReview: action.payload,
+    };
+  }
+
   if (action.type === 'MESSAGES_ADDED') {
     const { conversationId, isActive, isNewMessage, messages } = action.payload;
     const { messagesByConversation, messagesLookup } = state;
@@ -2059,7 +2109,7 @@ export function reducer(
     const { id } = payload;
 
     return {
-      ...state,
+      ...omit(state, 'contactSpoofingReview'),
       selectedConversationId: id,
     };
   }

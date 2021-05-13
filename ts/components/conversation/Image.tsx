@@ -7,7 +7,11 @@ import { Blurhash } from 'react-blurhash';
 
 import { Spinner } from '../Spinner';
 import { LocalizerType, ThemeType } from '../../types/Util';
-import { AttachmentType, hasNotDownloaded } from '../../types/Attachment';
+import {
+  AttachmentType,
+  hasNotDownloaded,
+  defaultBlurHash,
+} from '../../types/Attachment';
 
 export type Props = {
   alt: string;
@@ -160,11 +164,7 @@ export class Image extends React.Component<Props> {
     const canClick = this.canClick();
     const imgNotDownloaded = hasNotDownloaded(attachment);
 
-    const defaulBlurHash =
-      theme === ThemeType.dark
-        ? 'L05OQnoffQofoffQfQfQfQfQfQfQ'
-        : 'L1Q]+w-;fQ-;~qfQfQfQfQfQfQfQ';
-    const resolvedBlurHash = blurHash || defaulBlurHash;
+    const resolvedBlurHash = blurHash || defaultBlurHash(theme);
 
     const overlayClassName = classNames('module-image__border-overlay', {
       'module-image__border-overlay--with-border': !noBorder,
@@ -189,7 +189,7 @@ export class Image extends React.Component<Props> {
         onKeyDown={this.handleKeyDown}
         tabIndex={tabIndex}
       >
-        {imgNotDownloaded ? <i /> : null}
+        {imgNotDownloaded ? <span /> : null}
       </button>
     ) : null;
 

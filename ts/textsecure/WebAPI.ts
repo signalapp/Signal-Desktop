@@ -39,11 +39,13 @@ import {
   concatenateBytes,
   constantTimeEqual,
   decryptAesGcm,
+  deriveSecrets,
   encryptCdsDiscoveryRequest,
   getBytes,
   getRandomValue,
   splitUuids,
 } from '../Crypto';
+import { calculateAgreement, generateKeyPair } from '../Curve';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 
 import {
@@ -304,7 +306,8 @@ function getContentType(response: Response) {
   return null;
 }
 
-type HeaderListType = { [name: string]: string };
+type FetchHeaderListType = { [name: string]: string };
+type HeaderListType = { [name: string]: string | ReadonlyArray<string> };
 type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 type RedactUrl = (url: string) => string;
@@ -395,7 +398,7 @@ async function _promiseAjax(
         'User-Agent': getUserAgent(options.version),
         'X-Signal-Agent': 'OWD',
         ...options.headers,
-      } as HeaderListType,
+      } as FetchHeaderListType,
       redirect: options.redirect,
       agent,
       ca: options.certificateAuthority,
@@ -498,6 +501,7 @@ async function _promiseAjax(
                     makeHTTPError(
                       'promiseAjax: invalid response',
                       response.status,
+                      response.headers.raw(),
                       result,
                       options.stack
                     )
@@ -561,6 +565,7 @@ async function _promiseAjax(
             makeHTTPError(
               'promiseAjax: error response',
               response.status,
+              response.headers.raw(),
               result,
               options.stack
             )
@@ -574,7 +579,7 @@ async function _promiseAjax(
           window.log.error(options.type, url, 0, 'Error');
         }
         const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
-        reject(makeHTTPError('promiseAjax catch', 0, e.toString(), stack));
+        reject(makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack));
       });
   });
 }
@@ -612,6 +617,7 @@ declare global {
   interface Error {
     code?: number | string;
     response?: any;
+    responseHeaders?: HeaderListType;
     warn?: boolean;
   }
 }
@@ -619,6 +625,7 @@ declare global {
 function makeHTTPError(
   message: string,
   providedCode: number,
+  headers: HeaderListType,
   response: any,
   stack?: string
 ) {
@@ -626,6 +633,7 @@ function makeHTTPError(
   const e = new Error(`${message}; code: ${code}`);
   e.name = 'HTTPError';
   e.code = code;
+  e.responseHeaders = headers;
   if (DEBUG && response) {
     e.stack += `\nresponse: ${response}`;
   }
@@ -668,6 +676,7 @@ const URL_CALLS = {
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
   whoami: 'v1/accounts/whoami',
+  challenge: 'v1/challenge',
 };
 
 type InitializeOptionsType = {
@@ -873,6 +882,7 @@ export type WebAPIType = {
     options: GroupCredentialsType
   ) => Promise<string>;
   whoami: () => Promise<any>;
+  sendChallengeResponse: (challengeResponse: ChallengeType) => Promise<any>;
   getConfig: () => Promise<
     Array<{ name: string; enabled: boolean; value: string | null }>
   >;
@@ -908,6 +918,12 @@ export type ServerKeysType = {
     };
   }>;
   identityKey: ArrayBuffer;
+};
+
+export type ChallengeType = {
+  readonly type: 'recaptcha';
+  readonly token: string;
+  readonly captcha: string;
 };
 
 export type ProxiedRequestOptionsType = {
@@ -1033,6 +1049,7 @@ export function initialize({
       updateDeviceName,
       uploadGroupAvatar,
       whoami,
+      sendChallengeResponse,
     };
 
     async function _ajax(param: AjaxOptionsType): Promise<any> {
@@ -1100,6 +1117,14 @@ export function initialize({
         call: 'whoami',
         httpType: 'GET',
         responseType: 'json',
+      });
+    }
+
+    async function sendChallengeResponse(challengeResponse: ChallengeType) {
+      return _ajax({
+        call: 'challenge',
+        httpType: 'PUT',
+        jsonData: challengeResponse,
       });
     }
 
@@ -2094,6 +2119,7 @@ export function initialize({
         auth.groupPublicParamsHex,
         auth.authCredentialPresentationHex
       );
+      const safeInviteLinkPassword = toWebSafeBase64(inviteLinkPassword);
 
       const response: ArrayBuffer = await _ajax({
         basicAuth,
@@ -2102,7 +2128,8 @@ export function initialize({
         host: storageUrl,
         httpType: 'GET',
         responseType: 'arraybuffer',
-        urlParameters: `/${toWebSafeBase64(inviteLinkPassword)}`,
+        urlParameters: `/${safeInviteLinkPassword}`,
+        redactUrl: _createRedactor(safeInviteLinkPassword),
       });
 
       return window.textsecure.protobuf.GroupJoinInfo.decode(response);
@@ -2118,6 +2145,9 @@ export function initialize({
         options.authCredentialPresentationHex
       );
       const data = changes.toArrayBuffer();
+      const safeInviteLinkPassword = inviteLinkBase64
+        ? toWebSafeBase64(inviteLinkBase64)
+        : undefined;
 
       const response: ArrayBuffer = await _ajax({
         basicAuth,
@@ -2127,8 +2157,11 @@ export function initialize({
         host: storageUrl,
         httpType: 'PATCH',
         responseType: 'arraybuffer',
-        urlParameters: inviteLinkBase64
-          ? `?inviteLinkPassword=${toWebSafeBase64(inviteLinkBase64)}`
+        urlParameters: safeInviteLinkPassword
+          ? `?inviteLinkPassword=${safeInviteLinkPassword}`
+          : undefined,
+        redactUrl: safeInviteLinkPassword
+          ? _createRedactor(safeInviteLinkPassword)
           : undefined,
       });
 
@@ -2406,7 +2439,7 @@ export function initialize({
       username: string;
       password: string;
     }) {
-      const keyPair = await window.libsignal.externalCurveAsync.generateKeyPair();
+      const keyPair = generateKeyPair();
       const { privKey, pubKey } = keyPair;
       // Remove first "key type" byte from public key
       const slicedPubKey = pubKey.slice(1);
@@ -2476,11 +2509,11 @@ export function initialize({
             );
 
             // Derive key
-            const ephemeralToEphemeral = await window.libsignal.externalCurveAsync.calculateAgreement(
+            const ephemeralToEphemeral = calculateAgreement(
               decoded.serverEphemeralPublic,
               privKey
             );
-            const ephemeralToStatic = await window.libsignal.externalCurveAsync.calculateAgreement(
+            const ephemeralToStatic = calculateAgreement(
               decoded.serverStaticPublic,
               privKey
             );
@@ -2493,10 +2526,7 @@ export function initialize({
               decoded.serverEphemeralPublic,
               decoded.serverStaticPublic
             );
-            const [
-              clientKey,
-              serverKey,
-            ] = await window.libsignal.HKDF.deriveSecrets(
+            const [clientKey, serverKey] = await deriveSecrets(
               masterSecret,
               publicKeys,
               new ArrayBuffer(0)

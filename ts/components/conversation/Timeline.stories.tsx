@@ -11,6 +11,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import { PropsType, Timeline } from './Timeline';
 import { TimelineItem, TimelineItemType } from './TimelineItem';
 import { ConversationHero } from './ConversationHero';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { TimelineLoadingRow } from './TimelineLoadingRow';
 import { TypingBubble } from './TypingBubble';
@@ -34,8 +35,10 @@ const items: Record<string, TimelineItemType> = {
       id: 'id-1',
       direction: 'incoming',
       timestamp: Date.now(),
-      authorPhoneNumber: '(202) 555-2001',
-      authorColor: 'green',
+      author: {
+        phoneNumber: '(202) 555-2001',
+        color: 'green',
+      },
       text: '🔥',
     },
   },
@@ -46,7 +49,9 @@ const items: Record<string, TimelineItemType> = {
       conversationType: 'group',
       direction: 'incoming',
       timestamp: Date.now(),
-      authorColor: 'green',
+      author: {
+        color: 'green',
+      },
       text: 'Hello there from the new world! http://somewhere.com',
     },
   },
@@ -69,7 +74,9 @@ const items: Record<string, TimelineItemType> = {
       collapseMetadata: true,
       direction: 'incoming',
       timestamp: Date.now(),
-      authorColor: 'red',
+      author: {
+        color: 'red',
+      },
       text: 'Hello there from the new world!',
     },
   },
@@ -153,7 +160,9 @@ const items: Record<string, TimelineItemType> = {
       direction: 'outgoing',
       timestamp: Date.now(),
       status: 'sent',
-      authorColor: 'pink',
+      author: {
+        color: 'pink',
+      },
       text: '🔥',
     },
   },
@@ -164,7 +173,9 @@ const items: Record<string, TimelineItemType> = {
       direction: 'outgoing',
       timestamp: Date.now(),
       status: 'read',
-      authorColor: 'pink',
+      author: {
+        color: 'pink',
+      },
       text: 'Hello there from the new world! http://somewhere.com',
     },
   },
@@ -186,7 +197,9 @@ const items: Record<string, TimelineItemType> = {
       direction: 'outgoing',
       status: 'sent',
       timestamp: Date.now(),
-      authorColor: 'blue',
+      author: {
+        color: 'blue',
+      },
       text:
         'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
     },
@@ -260,6 +273,18 @@ const actions = () => ({
   returnToActiveCall: action('returnToActiveCall'),
 
   contactSupport: action('contactSupport'),
+
+  closeContactSpoofingReview: action('closeContactSpoofingReview'),
+  reviewMessageRequestNameCollision: action(
+    'reviewMessageRequestNameCollision'
+  ),
+
+  onBlock: action('onBlock'),
+  onBlockAndDelete: action('onBlockAndDelete'),
+  onDelete: action('onDelete'),
+  onUnblock: action('onUnblock'),
+
+  unblurAvatar: action('unblurAvatar'),
 });
 
 const renderItem = (id: string) => (
@@ -293,7 +318,9 @@ const getPhoneNumber = () => text('phoneNumber', '+1 (808) 555-1234');
 const renderHeroRow = () => (
   <ConversationHero
     about={getAbout()}
+    acceptedMessageRequest
     i18n={i18n}
+    isMe={false}
     title={getTitle()}
     avatarPath={getAvatarPath()}
     name={getName()}
@@ -301,16 +328,21 @@ const renderHeroRow = () => (
     phoneNumber={getPhoneNumber()}
     conversationType="direct"
     sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
+    unblurAvatar={action('unblurAvatar')}
+    updateSharedGroups={noop}
   />
 );
 const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;
 const renderTypingBubble = () => (
   <TypingBubble
+    acceptedMessageRequest
     color="red"
     conversationType="direct"
     phoneNumber="+18005552222"
     i18n={i18n}
+    isMe={false}
     title="title"
+    sharedGroupNames={[]}
   />
 );
 
@@ -319,7 +351,14 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
   haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),
   haveOldest: boolean('haveOldest', overrideProps.haveOldest !== false),
-  isLoadingMessages: false,
+  isIncomingMessageRequest: boolean(
+    'isIncomingMessageRequest',
+    overrideProps.isIncomingMessageRequest === true
+  ),
+  isLoadingMessages: boolean(
+    'isLoadingMessages',
+    overrideProps.isLoadingMessages === false
+  ),
   items: overrideProps.items || Object.keys(items),
   resetCounter: 0,
   scrollToIndex: overrideProps.scrollToIndex,
@@ -330,6 +369,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     undefined,
   invitedContactsForNewlyCreatedGroup:
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
+  warning: overrideProps.warning,
 
   id: '',
   renderItem,
@@ -347,6 +387,40 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 story.add('Oldest and Newest', () => {
   const props = createProps();
+
+  return <Timeline {...props} />;
+});
+
+story.add('With active message request', () => {
+  const props = createProps({
+    isIncomingMessageRequest: true,
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('Without Newest Message', () => {
+  const props = createProps({
+    haveNewest: false,
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('Without newest message, active message request', () => {
+  const props = createProps({
+    haveOldest: false,
+    isIncomingMessageRequest: true,
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('Without Oldest Message', () => {
+  const props = createProps({
+    haveOldest: false,
+    scrollToIndex: -1,
+  });
 
   return <Timeline {...props} />;
 });
@@ -384,37 +458,29 @@ story.add('Typing Indicator', () => {
   return <Timeline {...props} />;
 });
 
-story.add('Without Newest Message', () => {
-  const props = createProps({
-    haveNewest: false,
-  });
-
-  return <Timeline {...props} />;
-});
-
-story.add('Without Oldest Message', () => {
-  const props = createProps({
-    haveOldest: false,
-    scrollToIndex: -1,
-  });
-
-  return <Timeline {...props} />;
-});
-
 story.add('With invited contacts for a newly-created group', () => {
   const props = createProps({
     invitedContactsForNewlyCreatedGroup: [
-      {
+      getDefaultConversation({
         id: 'abc123',
         title: 'John Bon Bon Jovi',
-        type: 'direct',
-      },
-      {
+      }),
+      getDefaultConversation({
         id: 'def456',
         title: 'Bon John Bon Jovi',
-        type: 'direct',
-      },
+      }),
     ],
+  });
+
+  return <Timeline {...props} />;
+});
+
+story.add('With "same name" warning', () => {
+  const props = createProps({
+    warning: {
+      safeConversation: getDefaultConversation(),
+    },
+    items: [],
   });
 
   return <Timeline {...props} />;

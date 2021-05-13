@@ -218,7 +218,7 @@
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
-        "message": "Til indbakke",
+        "message": "Afarkivér",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -426,7 +426,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Fortsæt samtale",
+        "message": "Fortsæt samtalen",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
@@ -614,7 +614,7 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Når det vedhæftede ikke er et billed, er grænsen én vedhæftet fil pr. besked.",
+        "message": "Når det vedhæftede ikke er et billede, er grænsen én vedhæftet fil pr. besked.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
@@ -769,6 +769,10 @@
     },
     "contactsHeader": {
         "message": "Kontakter",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "Grupper",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -994,15 +998,15 @@
         "description": ""
     },
     "on": {
-        "message": "Aktivér",
+        "message": "Til",
         "description": "Label for when something is turned on"
     },
     "off": {
-        "message": "Deaktiveret",
+        "message": "Fra",
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Tap på 'slet' fjerner beskeden permanent fra dine enheder",
+        "message": "Beskeden vil blive slettet fra enheden.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1075,10 @@
         "message": "Du har ikke udvekslet nogen beskeder med kontaktpersonen endnu. Dit sikkerhedsnummer med vedkommende vil være tilgængeligt efter den første besked",
         "description": ""
     },
+    "back": {
+        "message": "Tilbage",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Gå tilbage",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "Prøv igen at sende",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Videresend besked",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Slet besked for mig",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "Nulstilling af sikker session",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Chatsession genopfrisket",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Lær mere",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal bruger end-to-end kryptering, og det kan undertiden være nødvendigt at opdatere din chatsession. Dette påvirker ikke din chats sikkerhed, men du har muligvis gået glip af en besked fra denne kontakt, og du kan bede dem om at sende det igen",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Kontakt Support",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "Miniature af billede fra citeret besked",
@@ -1216,7 +1244,7 @@
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
-        "message": "Tilbage til samtale",
+        "message": "Tilbage til samtalen",
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__call-is-full": {
@@ -1240,11 +1268,11 @@
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
-        "message": "Deaktivér mikrofon",
+        "message": "Fraslå mikrofon",
         "description": "Button tooltip label for turning off the microphone"
     },
     "calling__button--audio-on": {
-        "message": "Aktivér mikrofon",
+        "message": "Tilslå mikrofon",
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__your-video-is-off": {
@@ -1252,11 +1280,11 @@
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "Ingen andre deltager",
+        "message": "Ingen andre er her",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
-        "message": "$first$ deltager i samtalen",
+        "message": "$first$ er med i samtalen",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1270,7 +1298,7 @@
         "description": "Shown in the calling lobby to describe when it is just you"
     },
     "calling__lobby-summary--double": {
-        "message": "$first$ og $second$ deltager i samtalen",
+        "message": "$first$ og $second$ er med i samtalen",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1284,7 +1312,7 @@
         }
     },
     "calling__lobby-summary--triple": {
-        "message": "$first$, $second$ og $third$ deltager i samtalen",
+        "message": "$first$, $second$ og $third$ er med i samtalen",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1302,7 +1330,7 @@
         }
     },
     "calling__lobby-summary--many": {
-        "message": "$first$, $second$ og $others$ andre deltager i samtalen",
+        "message": "$first$, $second$ og $others$ andre er med i samtalen",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1320,15 +1348,15 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "Ingen andre deltager",
+        "message": "Ingen andre er her",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "I dette opkald · 1 person",
+        "message": "I denne samtale · 1 person",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
-        "message": "I dette opkald · $people$ personer",
+        "message": "I denne samtale · $people$ personer",
         "description": "Shown in the participants list to describe how many people are in the call",
         "placeholders": {
             "people": {
@@ -1909,6 +1937,112 @@
         "message": "Start ny samtale...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "Ny samtale",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Søg via navn eller telefonnummer",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Ingen fundne kontakter",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Ingen fundne samtaler",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Vælg medlemmer",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Tilbage",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Spring over",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Næste",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Maks. grænse for gruppe størrelse nået",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signal-grupper kan maksimalt have $max$ medlemmer",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Anbefalet antal medlemmer nået",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal-grupper klarer sig bedst med $max$ medlemmer eller færre. Tilføjelse af flere vil det medføre forsinkelser i afsendelse og modtagelse af beskeder.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Medlemmet kan ikke tilføjes",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "\"$name$\" kan ikke føjes til gruppen, fordi de anvender en ældre version af Signal. Du kan føje dem til gruppen, når de har opdateret Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Navngiv gruppen",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Tilbage til medlemsvalg",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Gruppenavn (påkrævet)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Opret",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Medlemmer",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Gruppen kunne ikke oprettes. Tjek din forbindelse og prøv igen.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Rediger gruppenavn og foto",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Gruppen kunne ikke opdateres. Tjek din forbindelse og prøv igen.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "SMS/MMS-beskeder understøttes ikke.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -2351,6 +2485,10 @@
     },
     "Keyboard--open-conversation-menu": {
         "message": "Åbn samtalemenuen",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Start ny samtale",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "Medlem af $group$",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "Medlem af $group1$ og $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "Medlem af $group1$, $group2$ og $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "Medlem af $group1$, $group2$, $group3$ og $remainingCount$ andre",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ tilføjede dig til gruppen",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Ingen grupper til fælles",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Svar",
@@ -3214,7 +3308,7 @@
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Forlad samtale",
+        "message": "Forlad samtalen",
         "description": "Title for hang up button"
     },
     "callingDeviceSelection__label--video": {
@@ -3245,6 +3339,10 @@
         "message": "Udsæt én time",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Udsæt i otte timer",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "Udsæt én dag",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "Udsæt én uge",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Udsæt ét år",
+    "muteAlways": {
+        "message": "Altid udsæt",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Aktivér lyd",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Altid udsat",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Udsæt indtil $duration$",
@@ -3300,7 +3402,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Vil du deltage i gruppen, og dele dit navn og foto med dens medlemmer?",
+        "message": "Vil du deltage i gruppen, og dele dit navn og billede med dens medlemmer?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -3320,7 +3422,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "Kan ikke deltage i gruppen",
+        "message": "Deltagelse i gruppen er ikke mulig",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "Administrator",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Kun administratorer",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Alle medlemmer",
@@ -3752,7 +3858,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "Du deltager i gruppen via gruppelinket",
+        "message": "Du deltog i gruppen via gruppelinket.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
@@ -3776,7 +3882,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "Din anmodning om at deltage i gruppen blev godkendt",
+        "message": "Din anmodning om at deltage i gruppen blev godkendt.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
@@ -4296,7 +4402,7 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "Du sendte en anmodning om at deltage i gruppen",
+        "message": "Du sendte en anmodning om at deltage i gruppen.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
@@ -4310,15 +4416,15 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "Du annullerede din anmodning om at deltage i gruppen",
+        "message": "Du annullerede din anmodning om at deltage i gruppen.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Din anmodning om at deltage i gruppen, blev afvist af en administrator",
+        "message": "Din anmodning om at deltage i gruppen blev afvist af en administrator.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "Du afviste en anmodning fra $joinerName$ om at deltage i gruppen",
+        "message": "Du afviste en anmodning fra $joinerName$ om at deltage i gruppen.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4388,7 +4494,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "Du deaktiverede gruppelinket",
+        "message": "Du deaktiverede gruppelinket.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
@@ -4402,11 +4508,11 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "Gruppelinket blev deaktiveret",
+        "message": "Gruppelinket er blevet deaktiveret.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "Du nulstiller gruppelinket",
+        "message": "Du nulstiller gruppelinket.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
@@ -4420,7 +4526,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "Gruppelinket blev nulstillet",
+        "message": "Gruppelinket er blevet nulstillet.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4462,19 +4568,19 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "Besked historikken og medier vil blive gemt, som før opgraderingen",
+        "message": "Al beskedhistorik og medier vil blive bevaret fra før opgraderingen.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "Du skal godkende en invitation for, at deltage i denne gruppe igen og vil ikke modtage gruppebeskeder indtil da.",
+        "message": "Du skal acceptere en invitation til at deltage i denne gruppe igen, og vil ikke modtage gruppebeskeder indtil da.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "Disse medlemmer skal acceptere en invitation for at tilslutte sig gruppen igen, og modtager ikke gruppebeskeder før de accepterer:",
+        "message": "Disse medlemmer skal acceptere en invitation for at deltage i gruppen igen, og modtager ikke gruppebeskeder indtil da:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Dette medlem skal acceptere en invitation for at tilslutte sig gruppen igen, og modtager ikke gruppebeskeder før de accepterer:",
+        "message": "Dette medlem skal acceptere en invitation for at deltage i gruppen igen, og modtager ikke gruppebeskeder indtil da:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
@@ -4494,7 +4600,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
-        "message": "Du kunne ikke blive tilføjet til gruppen og er blevet inviteret til at deltage.",
+        "message": "Du kunne ikke tilføjes den nye gruppe, og er blevet inviteret til at deltage.",
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
@@ -4598,7 +4704,7 @@
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showConversationDetails": {
-        "message": "Gruppe indstillinger",
+        "message": "Gruppeindstillinger",
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "ConversationDetails--group-link": {
@@ -4606,7 +4712,7 @@
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
-        "message": "Beskeder med tidsudløb",
+        "message": "Forsvindende beskeder",
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
@@ -4618,7 +4724,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Vælg hvem som kan redigere gruppennavn, avatar og tidsindstille forsvindende beskeder.",
+        "message": "Vælg hvem som kan redigere gruppennavn, avatar og tidsindstilling af forsvindende beskeder.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -4640,6 +4746,10 @@
     "ConversationDetailsActions--block-group": {
         "message": "Blokér gruppe",
         "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Før du forlader gruppen, skal du vælge mindst én ny administrator",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Sikker på du vil forlade gruppen?",
@@ -4682,7 +4792,7 @@
         }
     },
     "ConversationDetailsMediaList--shared-media": {
-        "message": "Delt medie",
+        "message": "Delte medier",
         "description": "Title for the media thumbnails in the conversation details screen"
     },
     "ConversationDetailsMediaList--show-all": {
@@ -4698,6 +4808,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Tilføj medlemmer",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Se alle",
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "Detaljer om inviterede personer til denne gruppe, vises først indtil de deltager. Inviterede vil kun se beskeder efter deltagelse i gruppen.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Tilføj gruppebillede",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Skift billede",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Udsend billede",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Fjern billede",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Fjern kontakt",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Okay",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Invitation afsendt",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ invitationer afsendt",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$ kan ikke blive automatisk tilføjet gruppen af dig.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Disse brugere kan ikke blive automatisk tilføjet gruppen af dig.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "De er blevet inviteret til at deltage, og kan ikke se nogen gruppebeskeder, før de accepterer.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Læs mere",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Tilføj medlemmer",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Opdatér",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Tilføj $person$ til $group$?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Føj $count$ medlemmer til $group$?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Tilføj medlem",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Tilføj medlemmer",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Opret ny gruppe",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Vælg kontakt",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Fravælg kontakt",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Kontakten kan ikke vælges",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Allerede medlem",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Afspil vedhæftet lydfil",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Pause vedhæftet lydfil",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Hent vedhæftet lydfil",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Henter vedhæftet lydfil...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Afspilningstid for vedhæftet lydfil",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Klik på $composeIcon$ ovenstående for at skrive en besked, og søg efter dine kontakter eller grupper.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "skriv-knappen",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Fortsæt",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

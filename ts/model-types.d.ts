@@ -13,6 +13,7 @@ import {
   LastMessageStatus,
 } from './state/ducks/conversations';
 import { SendOptionsType } from './textsecure/SendMessage';
+import { SendMessageChallengeData } from './textsecure/Errors';
 import {
   AccessRequiredEnum,
   MemberRoleEnum,
@@ -32,9 +33,7 @@ type DeletesAttributesType = {
   targetSentTimestamp: number;
 };
 
-export declare class DeletesModelType extends Backbone.Model<
-  DeletesAttributesType
-> {
+export declare class DeletesModelType extends Backbone.Model<DeletesAttributesType> {
   forMessage(message: MessageModel): Array<DeletesModelType>;
   onDelete(doe: DeletesAttributesType): Promise<void>;
 }
@@ -44,6 +43,8 @@ type TaskResultType = any;
 export type CustomError = Error & {
   identifier?: string;
   number?: string;
+  data?: object;
+  retryAfter?: number;
 };
 
 export type GroupMigrationType = {
@@ -63,6 +64,13 @@ export type QuotedMessageType = {
   referencedMessageNotFound: boolean;
   text: string;
 };
+
+export type RetryOptions = Readonly<{
+  type: 'session-reset';
+  uuid: string;
+  e164: string;
+  now: number;
+}>;
 
 export type MessageAttributesType = {
   bodyPending: boolean;
@@ -101,8 +109,6 @@ export type MessageAttributesType = {
   quote?: QuotedMessageType;
   reactions?: Array<{
     emoji: string;
-    timestamp: number;
-    fromId: string;
     from: {
       id: string;
       color?: string;
@@ -112,9 +118,14 @@ export type MessageAttributesType = {
       isMe?: boolean;
       phoneNumber?: string;
     };
+    fromId: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+    timestamp: number;
   }>;
   read_by: Array<string | null>;
   requiredProtocolVersion: number;
+  retryOptions?: RetryOptions;
   sent: boolean;
   sourceDevice: string | number;
   snippet: unknown;
@@ -142,12 +153,12 @@ export type MessageAttributesType = {
   attachments: Array<WhatIsThis>;
   preview: Array<WhatIsThis>;
   sticker: WhatIsThis;
-  sent_at: WhatIsThis;
+  sent_at: number;
   sent_to: Array<string>;
   unidentifiedDeliveries: Array<string>;
   contact: Array<WhatIsThis>;
   conversationId: string;
-  recipients: Array<WhatIsThis>;
+  recipients: Array<string>;
   reaction: WhatIsThis;
   destination?: WhatIsThis;
   destinationUuid?: string;
@@ -203,7 +214,10 @@ export type ConversationAttributesType = {
   messageCountBeforeMessageRequests?: number | null;
   messageRequestResponseType?: number;
   muteExpiresAt?: number;
-  profileAvatar?: WhatIsThis;
+  profileAvatar?: null | {
+    hash: string;
+    path: string;
+  };
   profileKeyCredential?: string | null;
   profileKeyVersion?: string | null;
   quotedMessageId?: string | null;
@@ -282,6 +296,15 @@ export type ConversationAttributesType = {
   // Used only when user is waiting for approval to join via link
   isTemporary?: boolean;
   temporaryMemberCount?: number;
+
+  // Avatars are blurred for some unapproved conversations, but users can manually unblur
+  //   them. If the avatar was unblurred and then changed, we don't update this value so
+  //   the new avatar gets blurred.
+  //
+  // This value is useless once the message request has been approved. We don't clean it
+  //   up but could. We don't persist it but could (though we'd probably want to clean it
+  //   up in that case).
+  unblurredAvatarPath?: string;
 };
 
 export type GroupV2MemberType = {
@@ -315,12 +338,13 @@ export type VerificationOptions = {
   viaSyncMessage?: boolean;
 };
 
-export declare class ConversationModelCollectionType extends Backbone.Collection<
-  ConversationModel
-> {
+export type ShallowChallengeError = CustomError & {
+  readonly retryAfter: number;
+  readonly data: SendMessageChallengeData;
+};
+
+export declare class ConversationModelCollectionType extends Backbone.Collection<ConversationModel> {
   resetLookups(): void;
 }
 
-export declare class MessageModelCollectionType extends Backbone.Collection<
-  MessageModel
-> {}
+export declare class MessageModelCollectionType extends Backbone.Collection<MessageModel> {}

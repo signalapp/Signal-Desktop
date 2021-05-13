@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global libsignal, textsecure */
+/* global textsecure */
 
 describe('encrypting and decrypting profile data', () => {
   const NAME_PADDED_LENGTH = 53;
@@ -9,7 +9,7 @@ describe('encrypting and decrypting profile data', () => {
     it('pads, encrypts, decrypts, and unpads a short string', () => {
       const name = 'Alice';
       const buffer = dcodeIO.ByteBuffer.wrap(name).toArrayBuffer();
-      const key = libsignal.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
       return textsecure.crypto
         .encryptProfileName(buffer, key)
@@ -29,7 +29,7 @@ describe('encrypting and decrypting profile data', () => {
     it('handles a given name of the max, 53 characters', () => {
       const name = '01234567890123456789012345678901234567890123456789123';
       const buffer = dcodeIO.ByteBuffer.wrap(name).toArrayBuffer();
-      const key = libsignal.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
       return textsecure.crypto
         .encryptProfileName(buffer, key)
@@ -49,7 +49,7 @@ describe('encrypting and decrypting profile data', () => {
     it('handles family/given name of the max, 53 characters', () => {
       const name = '01234567890123456789\u000001234567890123456789012345678912';
       const buffer = dcodeIO.ByteBuffer.wrap(name).toArrayBuffer();
-      const key = libsignal.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
       return textsecure.crypto
         .encryptProfileName(buffer, key)
@@ -72,7 +72,7 @@ describe('encrypting and decrypting profile data', () => {
     it('handles a string with family/given name', () => {
       const name = 'Alice\0Jones';
       const buffer = dcodeIO.ByteBuffer.wrap(name).toArrayBuffer();
-      const key = libsignal.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
       return textsecure.crypto
         .encryptProfileName(buffer, key)
@@ -92,25 +92,20 @@ describe('encrypting and decrypting profile data', () => {
             });
         });
     });
-    it('works for empty string', () => {
+    it('works for empty string', async () => {
       const name = dcodeIO.ByteBuffer.wrap('').toArrayBuffer();
-      const key = libsignal.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
-      return textsecure.crypto
-        .encryptProfileName(name.buffer, key)
-        .then(encrypted => {
-          assert(encrypted.byteLength === NAME_PADDED_LENGTH + 16 + 12);
-          return textsecure.crypto
-            .decryptProfileName(encrypted, key)
-            .then(({ given, family }) => {
-              assert.strictEqual(family, null);
-              assert.strictEqual(given.byteLength, 0);
-              assert.strictEqual(
-                dcodeIO.ByteBuffer.wrap(given).toString('utf8'),
-                ''
-              );
-            });
-        });
+      const encrypted = await textsecure.crypto.encryptProfileName(name, key);
+      assert(encrypted.byteLength === NAME_PADDED_LENGTH + 16 + 12);
+
+      const { given, family } = await textsecure.crypto.decryptProfileName(
+        encrypted,
+        key
+      );
+      assert.strictEqual(family, null);
+      assert.strictEqual(given.byteLength, 0);
+      assert.strictEqual(dcodeIO.ByteBuffer.wrap(given).toString('utf8'), '');
     });
   });
   describe('encrypting and decrypting profile avatars', () => {
@@ -118,7 +113,7 @@ describe('encrypting and decrypting profile data', () => {
       const buffer = dcodeIO.ByteBuffer.wrap(
         'This is an avatar'
       ).toArrayBuffer();
-      const key = libsignal.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
 
       return textsecure.crypto.encryptProfile(buffer, key).then(encrypted => {
         assert(encrypted.byteLength === buffer.byteLength + 16 + 12);
@@ -133,8 +128,8 @@ describe('encrypting and decrypting profile data', () => {
       const buffer = dcodeIO.ByteBuffer.wrap(
         'This is an avatar'
       ).toArrayBuffer();
-      const key = libsignal.crypto.getRandomBytes(32);
-      const badKey = libsignal.crypto.getRandomBytes(32);
+      const key = window.Signal.Crypto.getRandomBytes(32);
+      const badKey = window.Signal.Crypto.getRandomBytes(32);
 
       return textsecure.crypto.encryptProfile(buffer, key).then(encrypted => {
         assert(encrypted.byteLength === buffer.byteLength + 16 + 12);

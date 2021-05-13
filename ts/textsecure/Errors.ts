@@ -4,6 +4,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-classes-per-file */
 
+import { parseRetryAfter } from '../util/parseRetryAfter';
+
 function appendStack(newError: Error, originalError: Error) {
   // eslint-disable-next-line no-param-reassign
   newError.stack += `\nOriginal stack:\n${originalError.stack}`;
@@ -33,25 +35,6 @@ export class ReplayableError extends Error {
     }
 
     this.functionCode = options.functionCode;
-  }
-}
-
-export class IncomingIdentityKeyError extends ReplayableError {
-  identifier: string;
-
-  identityKey: ArrayBuffer;
-
-  // Note: Data to resend message is no longer captured
-  constructor(incomingIdentifier: string, _m: ArrayBuffer, key: ArrayBuffer) {
-    const identifer = incomingIdentifier.split('.')[0];
-
-    super({
-      name: 'IncomingIdentityKeyError',
-      message: `The identity of ${identifer} has changed.`,
-    });
-
-    this.identifier = identifer;
-    this.identityKey = key;
   }
 }
 
@@ -118,6 +101,37 @@ export class SendMessageNetworkError extends ReplayableError {
 
     [this.identifier] = identifier.split('.');
     this.code = httpError.code;
+
+    appendStack(this, httpError);
+  }
+}
+
+export type SendMessageChallengeData = {
+  readonly token?: string;
+  readonly options?: ReadonlyArray<string>;
+};
+
+export class SendMessageChallengeError extends ReplayableError {
+  public identifier: string;
+
+  public readonly data: SendMessageChallengeData | undefined;
+
+  public readonly retryAfter: number;
+
+  constructor(identifier: string, httpError: Error) {
+    super({
+      name: 'SendMessageChallengeError',
+      message: httpError.message,
+    });
+
+    [this.identifier] = identifier.split('.');
+    this.code = httpError.code;
+    this.data = httpError.response;
+
+    const headers = httpError.responseHeaders || {};
+
+    this.retryAfter =
+      Date.now() + parseRetryAfter(headers['retry-after'].toString());
 
     appendStack(this, httpError);
   }

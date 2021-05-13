@@ -85,6 +85,18 @@ Whisper.BlockedGroupToast = Whisper.ToastView.extend({
   },
 });
 
+Whisper.CaptchaSolvedToast = Whisper.ToastView.extend({
+  render_attributes() {
+    return { toastMessage: window.i18n('verificationComplete') };
+  },
+});
+
+Whisper.CaptchaFailedToast = Whisper.ToastView.extend({
+  render_attributes() {
+    return { toastMessage: window.i18n('verificationFailed') };
+  },
+});
+
 Whisper.LeftGroupToast = Whisper.ToastView.extend({
   render_attributes() {
     return { toastMessage: window.i18n('youLeftTheGroup') };
@@ -237,6 +249,12 @@ Whisper.ReactionFailedToast = Whisper.ToastView.extend({
   },
 });
 
+Whisper.DeleteForEveryoneFailedToast = Whisper.ToastView.extend({
+  render_attributes() {
+    return { toastMessage: window.i18n('deleteForEveryoneFailed') };
+  },
+});
+
 Whisper.GroupLinkCopiedToast = Whisper.ToastView.extend({
   render_attributes() {
     return { toastMessage: window.i18n('GroupLinkManagement--clipboard') };
@@ -371,12 +389,6 @@ Whisper.ConversationView = Whisper.View.extend({
       this.model.throttledUpdateSharedGroups ||
       window._.throttle(
         this.model.updateSharedGroups.bind(this.model),
-        FIVE_MINUTES
-      );
-    this.model.throttledFetchLatestGroupV2Data =
-      this.model.throttledFetchLatestGroupV2Data ||
-      window._.throttle(
-        this.model.fetchLatestGroupV2Data.bind(this.model),
         FIVE_MINUTES
       );
     this.model.throttledMaybeMigrateV1Group =
@@ -613,6 +625,9 @@ Whisper.ConversationView = Whisper.View.extend({
         bodyRanges: Array<typeof window.Whisper.BodyRangeType>,
         caretLocation?: number
       ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
+      setSecureInput: (enabled: boolean) => {
+        window.setSecureInput(enabled);
+      },
       onTextTooLong: () => this.showToast(Whisper.MessageBodyTooLongToast),
       onChooseAttachment: this.onChooseAttachment.bind(this),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
@@ -620,49 +635,22 @@ Whisper.ConversationView = Whisper.View.extend({
       micCellEl,
       attachmentListEl,
       onAccept: () => {
-        this.longRunningTaskWrapper({
-          name: 'onAccept',
-          task: this.model.syncMessageRequestResponse.bind(
-            this.model,
-            messageRequestEnum.ACCEPT
-          ),
-        });
+        this.syncMessageRequestResponse('onAccept', messageRequestEnum.ACCEPT);
       },
       onBlock: () => {
-        this.longRunningTaskWrapper({
-          name: 'onBlock',
-          task: this.model.syncMessageRequestResponse.bind(
-            this.model,
-            messageRequestEnum.BLOCK
-          ),
-        });
+        this.syncMessageRequestResponse('onBlock', messageRequestEnum.BLOCK);
       },
       onUnblock: () => {
-        this.longRunningTaskWrapper({
-          name: 'onUnblock',
-          task: this.model.syncMessageRequestResponse.bind(
-            this.model,
-            messageRequestEnum.ACCEPT
-          ),
-        });
+        this.syncMessageRequestResponse('onUnblock', messageRequestEnum.ACCEPT);
       },
       onDelete: () => {
-        this.longRunningTaskWrapper({
-          name: 'onDelete',
-          task: this.model.syncMessageRequestResponse.bind(
-            this.model,
-            messageRequestEnum.DELETE
-          ),
-        });
+        this.syncMessageRequestResponse('onDelete', messageRequestEnum.DELETE);
       },
       onBlockAndDelete: () => {
-        this.longRunningTaskWrapper({
-          name: 'onBlockAndDelete',
-          task: this.model.syncMessageRequestResponse.bind(
-            this.model,
-            messageRequestEnum.BLOCK_AND_DELETE
-          ),
-        });
+        this.syncMessageRequestResponse(
+          'onBlockAndDelete',
+          messageRequestEnum.BLOCK_AND_DELETE
+        );
       },
       onStartGroupMigration: () => this.startMigrationToGV2(),
       onCancelJoinRequest: async () => {
@@ -805,6 +793,9 @@ Whisper.ConversationView = Whisper.View.extend({
 
   setupTimeline() {
     const { id } = this.model;
+
+    const messageRequestEnum =
+      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
 
     const contactSupport = () => {
       const baseUrl =
@@ -977,7 +968,32 @@ Whisper.ConversationView = Whisper.View.extend({
         loadAndScroll: this.loadAndScroll.bind(this),
         loadOlderMessages,
         markMessageRead,
+        onBlock: () => {
+          this.syncMessageRequestResponse('onBlock', messageRequestEnum.BLOCK);
+        },
+        onBlockAndDelete: () => {
+          this.syncMessageRequestResponse(
+            'onBlockAndDelete',
+            messageRequestEnum.BLOCK_AND_DELETE
+          );
+        },
+        onDelete: () => {
+          this.syncMessageRequestResponse(
+            'onDelete',
+            messageRequestEnum.DELETE
+          );
+        },
+        onUnblock: () => {
+          this.syncMessageRequestResponse(
+            'onUnblock',
+            messageRequestEnum.ACCEPT
+          );
+        },
+        onShowContactModal: this.showContactModal.bind(this),
         scrollToQuotedMessage,
+        unblurAvatar: () => {
+          this.model.unblurAvatar();
+        },
         updateSharedGroups: this.model.throttledUpdateSharedGroups,
       }),
     });
@@ -1067,8 +1083,10 @@ Whisper.ConversationView = Whisper.View.extend({
     return finish;
   },
 
-  async loadAndScroll(messageId: any, options: any) {
-    const { disableScroll } = options || {};
+  async loadAndScroll(
+    messageId: string,
+    options?: { disableScroll?: boolean }
+  ) {
     const {
       messagesReset,
       setMessagesLoading,
@@ -1109,7 +1127,8 @@ Whisper.ConversationView = Whisper.View.extend({
 
       const cleaned = await this.cleanModels(all);
       this.model.messageCollection.reset(cleaned);
-      const scrollToMessageId = disableScroll ? undefined : messageId;
+      const scrollToMessageId =
+        options && options.disableScroll ? undefined : messageId;
 
       messagesReset(
         conversationId,
@@ -1125,12 +1144,17 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  async loadNewestMessages(newestMessageId: any, setFocus: any) {
+  async loadNewestMessages(
+    newestMessageId: string | undefined,
+    setFocus: boolean | undefined
+  ): Promise<void> {
     const {
       messagesReset,
       setMessagesLoading,
     } = window.reduxActions.conversations;
-    const conversationId = this.model.id;
+    const { model }: { model: ConversationModel } = this;
+
+    const conversationId = model.id;
 
     setMessagesLoading(conversationId, true);
     const finish = this.setInProgressFetch();
@@ -1157,6 +1181,15 @@ Whisper.ConversationView = Whisper.View.extend({
 
       const metrics = await getMessageMetricsForConversation(conversationId);
 
+      // If this is a message request that has not yet been accepted, we always show the
+      //   oldest messages, to ensure that the ConversationHero is shown. We don't want to
+      //   scroll directly to the oldest message, because that could scroll the hero off
+      //   the screen.
+      if (!newestMessageId && !model.getAccepted() && metrics.oldest) {
+        this.loadAndScroll(metrics.oldest.id, { disableScroll: true });
+        return;
+      }
+
       if (scrollToLatestUnread && metrics.oldestUnread) {
         this.loadAndScroll(metrics.oldestUnread.id, {
           disableScroll: !setFocus,
@@ -1170,7 +1203,12 @@ Whisper.ConversationView = Whisper.View.extend({
       });
 
       const cleaned = await this.cleanModels(messages);
-      this.model.messageCollection.reset(cleaned);
+      assert(
+        model.messageCollection,
+        'loadNewestMessages: model must have messageCollection'
+      );
+
+      model.messageCollection.reset(cleaned);
       const scrollToMessageId =
         setFocus && metrics.newest ? metrics.newest.id : undefined;
 
@@ -1182,7 +1220,7 @@ Whisper.ConversationView = Whisper.View.extend({
       const unboundedFetch = true;
       messagesReset(
         conversationId,
-        cleaned.map((model: any) => model.getReduxData()),
+        cleaned.map((messageModel: any) => messageModel.getReduxData()),
         metrics,
         scrollToMessageId,
         unboundedFetch
@@ -1419,6 +1457,17 @@ Whisper.ConversationView = Whisper.View.extend({
       e.stopPropagation();
       e.preventDefault();
     }
+  },
+
+  syncMessageRequestResponse(
+    name: string,
+    messageRequestType: number
+  ): Promise<void> {
+    const { model }: { model: ConversationModel } = this;
+    return this.longRunningTaskWrapper({
+      name,
+      task: model.syncMessageRequestResponse.bind(model, messageRequestType),
+    });
   },
 
   getPropsForAttachmentList() {
@@ -2126,7 +2175,7 @@ Whisper.ConversationView = Whisper.View.extend({
       this.setQuoteMessage(quotedMessageId);
     }
 
-    this.model.throttledFetchLatestGroupV2Data();
+    this.model.fetchLatestGroupV2Data();
     this.model.throttledMaybeMigrateV1Group();
 
     const statusPromise = this.model.throttledGetProfiles();
@@ -2203,6 +2252,9 @@ Whisper.ConversationView = Whisper.View.extend({
               {},
               document.querySelector('.module-ForwardMessageModal')
             ),
+          setSecureInput: (enabled: boolean) => {
+            window.setSecureInput(enabled);
+          },
         }
       ),
     });
@@ -2331,9 +2383,8 @@ Whisper.ConversationView = Whisper.View.extend({
       })
     );
 
-    if (linkPreview) {
-      this.resetLinkPreview();
-    }
+    // Cancel any link still pending, even if it didn't make it into the message
+    this.resetLinkPreview();
 
     return true;
   },
@@ -2755,7 +2806,16 @@ Whisper.ConversationView = Whisper.View.extend({
       message: window.i18n('deleteForEveryoneWarning'),
       okText: window.i18n('delete'),
       resolve: async () => {
-        await this.model.sendDeleteForEveryoneMessage(message.get('sent_at'));
+        try {
+          await this.model.sendDeleteForEveryoneMessage(message.get('sent_at'));
+        } catch (error) {
+          window.log.error(
+            'Error sending delete-for-everyone',
+            error,
+            messageId
+          );
+          this.showToast(Whisper.DeleteForEveryoneFailedToast);
+        }
         this.resetPanel();
       },
     });
@@ -3075,13 +3135,7 @@ Whisper.ConversationView = Whisper.View.extend({
     };
 
     const onBlock = () => {
-      this.longRunningTaskWrapper({
-        name: 'onBlock',
-        task: this.model.syncMessageRequestResponse.bind(
-          this.model,
-          messageRequestEnum.BLOCK
-        ),
-      });
+      this.syncMessageRequestResponse('onBlock', messageRequestEnum.BLOCK);
     };
 
     const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;

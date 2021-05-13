@@ -67,6 +67,7 @@ export type Props = Pick<
   | 'draftBodyRanges'
   | 'clearQuotedMessage'
   | 'getQuotedMessage'
+  | 'setSecureInput'
 > &
   Pick<
     EmojiButtonProps,
@@ -113,6 +114,7 @@ export const CompositionArea = ({
   clearQuotedMessage,
   getQuotedMessage,
   sortedGroupMembers,
+  setSecureInput,
   // EmojiButton
   onPickEmoji,
   onSetSkinTone,
@@ -470,6 +472,7 @@ export const CompositionArea = ({
             clearQuotedMessage={clearQuotedMessage}
             getQuotedMessage={getQuotedMessage}
             sortedGroupMembers={sortedGroupMembers}
+            setSecureInput={setSecureInput}
           />
         </div>
         {!large ? (

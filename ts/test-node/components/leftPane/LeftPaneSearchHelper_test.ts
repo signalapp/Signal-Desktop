@@ -5,16 +5,11 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper';
 
 describe('LeftPaneSearchHelper', () => {
-  const fakeConversation = () => ({
-    id: uuid(),
-    title: uuid(),
-    type: 'direct' as const,
-  });
-
   const fakeMessage = () => ({
     id: uuid(),
     conversationId: uuid(),
@@ -54,7 +49,7 @@ describe('LeftPaneSearchHelper', () => {
         new LeftPaneSearchHelper({
           conversationResults: {
             isLoading: false,
-            results: [fakeConversation(), fakeConversation()],
+            results: [getDefaultConversation(), getDefaultConversation()],
           },
           contactResults: { isLoading: true },
           messageResults: { isLoading: true },
@@ -88,7 +83,7 @@ describe('LeftPaneSearchHelper', () => {
       const helper = new LeftPaneSearchHelper({
         conversationResults: {
           isLoading: false,
-          results: [fakeConversation(), fakeConversation()],
+          results: [getDefaultConversation(), getDefaultConversation()],
         },
         contactResults: { isLoading: false, results: [] },
         messageResults: { isLoading: false, results: [fakeMessage()] },
@@ -111,7 +106,7 @@ describe('LeftPaneSearchHelper', () => {
         new LeftPaneSearchHelper({
           conversationResults: {
             isLoading: false,
-            results: [fakeConversation(), fakeConversation()],
+            results: [getDefaultConversation(), getDefaultConversation()],
           },
           contactResults: { isLoading: true },
           messageResults: { isLoading: true },
@@ -139,8 +134,11 @@ describe('LeftPaneSearchHelper', () => {
     });
 
     it('returns header + results when all sections have loaded with results', () => {
-      const conversations = [fakeConversation(), fakeConversation()];
-      const contacts = [fakeConversation()];
+      const conversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
+      const contacts = [getDefaultConversation()];
       const messages = [fakeMessage(), fakeMessage()];
 
       const helper = new LeftPaneSearchHelper({
@@ -188,7 +186,7 @@ describe('LeftPaneSearchHelper', () => {
     });
 
     it('omits conversations when there are no conversation results', () => {
-      const contacts = [fakeConversation()];
+      const contacts = [getDefaultConversation()];
       const messages = [fakeMessage(), fakeMessage()];
 
       const helper = new LeftPaneSearchHelper({
@@ -224,7 +222,10 @@ describe('LeftPaneSearchHelper', () => {
     });
 
     it('omits contacts when there are no contact results', () => {
-      const conversations = [fakeConversation(), fakeConversation()];
+      const conversations = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+      ];
       const messages = [fakeMessage(), fakeMessage()];
 
       const helper = new LeftPaneSearchHelper({
@@ -265,8 +266,8 @@ describe('LeftPaneSearchHelper', () => {
   });
 
   it('omits messages when there are no message results', () => {
-    const conversations = [fakeConversation(), fakeConversation()];
-    const contacts = [fakeConversation()];
+    const conversations = [getDefaultConversation(), getDefaultConversation()];
+    const contacts = [getDefaultConversation()];
 
     const helper = new LeftPaneSearchHelper({
       conversationResults: {
@@ -313,7 +314,7 @@ describe('LeftPaneSearchHelper', () => {
         new LeftPaneSearchHelper({
           conversationResults: {
             isLoading: false,
-            results: [fakeConversation(), fakeConversation()],
+            results: [getDefaultConversation(), getDefaultConversation()],
           },
           contactResults: { isLoading: true },
           messageResults: { isLoading: true },
@@ -336,7 +337,7 @@ describe('LeftPaneSearchHelper', () => {
       const helper = new LeftPaneSearchHelper({
         conversationResults: {
           isLoading: false,
-          results: [fakeConversation(), fakeConversation()],
+          results: [getDefaultConversation(), getDefaultConversation()],
         },
         contactResults: { isLoading: false, results: [] },
         messageResults: {
@@ -354,7 +355,7 @@ describe('LeftPaneSearchHelper', () => {
       const helper = new LeftPaneSearchHelper({
         conversationResults: {
           isLoading: false,
-          results: [fakeConversation(), fakeConversation()],
+          results: [getDefaultConversation(), getDefaultConversation()],
         },
         contactResults: { isLoading: false, results: [] },
         messageResults: {
@@ -368,7 +369,7 @@ describe('LeftPaneSearchHelper', () => {
         helper.shouldRecomputeRowHeights({
           conversationResults: {
             isLoading: false,
-            results: [fakeConversation(), fakeConversation()],
+            results: [getDefaultConversation(), getDefaultConversation()],
           },
           contactResults: { isLoading: false, results: [] },
           messageResults: {
@@ -392,7 +393,7 @@ describe('LeftPaneSearchHelper', () => {
         helper.shouldRecomputeRowHeights({
           conversationResults: {
             isLoading: false,
-            results: [fakeConversation()],
+            results: [getDefaultConversation()],
           },
           contactResults: { isLoading: true },
           messageResults: { isLoading: true },
@@ -413,7 +414,7 @@ describe('LeftPaneSearchHelper', () => {
         helper.shouldRecomputeRowHeights({
           conversationResults: {
             isLoading: false,
-            results: [fakeConversation(), fakeConversation()],
+            results: [getDefaultConversation(), getDefaultConversation()],
           },
           contactResults: { isLoading: false, results: [] },
           messageResults: { isLoading: false, results: [fakeMessage()] },
@@ -426,7 +427,7 @@ describe('LeftPaneSearchHelper', () => {
       const helper = new LeftPaneSearchHelper({
         conversationResults: {
           isLoading: false,
-          results: [fakeConversation(), fakeConversation()],
+          results: [getDefaultConversation(), getDefaultConversation()],
         },
         contactResults: { isLoading: false, results: [] },
         messageResults: { isLoading: false, results: [] },
@@ -437,7 +438,7 @@ describe('LeftPaneSearchHelper', () => {
         helper.shouldRecomputeRowHeights({
           conversationResults: {
             isLoading: false,
-            results: [fakeConversation()],
+            results: [getDefaultConversation()],
           },
           contactResults: { isLoading: true },
           messageResults: { isLoading: true },

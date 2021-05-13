@@ -11,16 +11,29 @@ import PQueue from 'p-queue';
 import EventTarget from './EventTarget';
 import { WebAPIType } from './WebAPI';
 import MessageReceiver from './MessageReceiver';
-import { KeyPairType, SignedPreKeyType } from '../libsignal.d';
+import { KeyPairType, CompatSignedPreKeyType } from './Types.d';
 import utils from './Helpers';
 import ProvisioningCipher from './ProvisioningCipher';
 import WebSocketResource, {
   IncomingWebSocketRequest,
 } from './WebsocketResources';
+import {
+  deriveAccessKey,
+  generateRegistrationId,
+  getRandomBytes,
+} from '../Crypto';
+import {
+  generateKeyPair,
+  generateSignedPreKey,
+  generatePreKey,
+} from '../Curve';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
+import { ourProfileKeyService } from '../services/ourProfileKey';
 
 const ARCHIVE_AGE = 30 * 24 * 60 * 60 * 1000;
 const PREKEY_ROTATION_AGE = 24 * 60 * 60 * 1000;
+const PROFILE_KEY_LENGTH = 32;
+const SIGNED_KEY_GEN_BATCH_SIZE = 100;
 
 function getIdentifier(id: string) {
   if (!id || !id.length) {
@@ -97,6 +110,9 @@ export default class AccountManager extends EventTarget {
 
   async decryptDeviceName(base64: string) {
     const identityKey = await window.textsecure.storage.protocol.getIdentityKeyPair();
+    if (!identityKey) {
+      throw new Error('decryptDeviceName: No identity key pair!');
+    }
 
     const arrayBuffer = MessageReceiver.stringToArrayBufferBase64(base64);
     const proto = window.textsecure.protobuf.DeviceName.decode(arrayBuffer);
@@ -139,39 +155,28 @@ export default class AccountManager extends EventTarget {
   }
 
   async registerSingleDevice(number: string, verificationCode: string) {
-    const registerKeys = this.server.registerKeys.bind(this.server);
-    const createAccount = this.createAccount.bind(this);
-    const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
-    const generateKeys = this.generateKeys.bind(this, 100);
-    const confirmKeys = this.confirmKeys.bind(this);
-    const registrationDone = this.registrationDone.bind(this);
-    return this.queueTask(async () =>
-      window.libsignal.KeyHelper.generateIdentityKeyPair().then(
-        async identityKeyPair => {
-          const profileKey = window.libsignal.crypto.getRandomBytes(32);
-          const accessKey = await window.Signal.Crypto.deriveAccessKey(
-            profileKey
-          );
+    return this.queueTask(async () => {
+      const identityKeyPair = generateKeyPair();
+      const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
+      const accessKey = await deriveAccessKey(profileKey);
 
-          return createAccount(
-            number,
-            verificationCode,
-            identityKeyPair,
-            profileKey,
-            null,
-            null,
-            null,
-            { accessKey }
-          )
-            .then(clearSessionsAndPreKeys)
-            .then(async () => generateKeys())
-            .then(async (keys: GeneratedKeysType) =>
-              registerKeys(keys).then(async () => confirmKeys(keys))
-            )
-            .then(async () => registrationDone());
-        }
-      )
-    );
+      await this.createAccount(
+        number,
+        verificationCode,
+        identityKeyPair,
+        profileKey,
+        null,
+        null,
+        null,
+        { accessKey }
+      );
+
+      await this.clearSessionsAndPreKeys();
+      const keys = await this.generateKeys(SIGNED_KEY_GEN_BATCH_SIZE);
+      await this.server.registerKeys(keys);
+      await this.confirmKeys(keys);
+      await this.registrationDone();
+    });
   }
 
   async registerSecondDevice(
@@ -181,7 +186,11 @@ export default class AccountManager extends EventTarget {
   ) {
     const createAccount = this.createAccount.bind(this);
     const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
-    const generateKeys = this.generateKeys.bind(this, 100, progressCallback);
+    const generateKeys = this.generateKeys.bind(
+      this,
+      SIGNED_KEY_GEN_BATCH_SIZE,
+      progressCallback
+    );
     const confirmKeys = this.confirmKeys.bind(this);
     const registrationDone = this.registrationDone.bind(this);
     const registerKeys = this.server.registerKeys.bind(this.server);
@@ -296,7 +305,10 @@ export default class AccountManager extends EventTarget {
   }
 
   async refreshPreKeys() {
-    const generateKeys = this.generateKeys.bind(this, 100);
+    const generateKeys = this.generateKeys.bind(
+      this,
+      SIGNED_KEY_GEN_BATCH_SIZE
+    );
     const registerKeys = this.server.registerKeys.bind(this.server);
 
     return this.queueTask(async () =>
@@ -338,11 +350,13 @@ export default class AccountManager extends EventTarget {
       return store
         .getIdentityKeyPair()
         .then(
-          async (identityKey: KeyPairType) =>
-            window.libsignal.KeyHelper.generateSignedPreKey(
-              identityKey,
-              signedKeyId
-            ),
+          async (identityKey: KeyPairType | undefined) => {
+            if (!identityKey) {
+              throw new Error('rotateSignedPreKey: No identity key pair!');
+            }
+
+            return generateSignedPreKey(identityKey, signedKeyId);
+          },
           () => {
             // We swallow any error here, because we don't want to get into
             //   a loop of repeated retries.
@@ -352,7 +366,7 @@ export default class AccountManager extends EventTarget {
             return null;
           }
         )
-        .then(async (res: SignedPreKeyType | null) => {
+        .then(async (res: CompatSignedPreKeyType | null) => {
           if (!res) {
             return null;
           }
@@ -489,11 +503,9 @@ export default class AccountManager extends EventTarget {
     options: { accessKey?: ArrayBuffer; uuid?: string } = {}
   ): Promise<void> {
     const { accessKey, uuid } = options;
-    let password = btoa(
-      utils.getString(window.libsignal.crypto.getRandomBytes(16))
-    );
+    let password = btoa(utils.getString(getRandomBytes(16)));
     password = password.substring(0, password.length - 2);
-    const registrationId = window.libsignal.KeyHelper.generateRegistrationId();
+    const registrationId = generateRegistrationId();
 
     const previousNumber = getIdentifier(
       window.textsecure.storage.get('number_id')
@@ -613,7 +625,7 @@ export default class AccountManager extends EventTarget {
     await window.textsecure.storage.put('password', password);
     await window.textsecure.storage.put('registrationId', registrationId);
     if (profileKey) {
-      await window.textsecure.storage.put('profileKey', profileKey);
+      await ourProfileKeyService.set(profileKey);
     }
     if (userAgent) {
       await window.textsecure.storage.put('userAgent', userAgent);
@@ -677,6 +689,10 @@ export default class AccountManager extends EventTarget {
 
     const store = window.textsecure.storage.protocol;
     return store.getIdentityKeyPair().then(async identityKey => {
+      if (!identityKey) {
+        throw new Error('generateKeys: No identity key pair!');
+      }
+
       const result: any = {
         preKeys: [],
         identityKey: identityKey.pubKey,
@@ -685,7 +701,7 @@ export default class AccountManager extends EventTarget {
 
       for (let keyId = startId; keyId < startId + count; keyId += 1) {
         promises.push(
-          window.libsignal.KeyHelper.generatePreKey(keyId).then(async res => {
+          Promise.resolve(generatePreKey(keyId)).then(async res => {
             await store.storePreKey(res.keyId, res.keyPair);
             result.preKeys.push({
               keyId: res.keyId,
@@ -699,19 +715,18 @@ export default class AccountManager extends EventTarget {
       }
 
       promises.push(
-        window.libsignal.KeyHelper.generateSignedPreKey(
-          identityKey,
-          signedKeyId
-        ).then(async res => {
-          await store.storeSignedPreKey(res.keyId, res.keyPair);
-          result.signedPreKey = {
-            keyId: res.keyId,
-            publicKey: res.keyPair.pubKey,
-            signature: res.signature,
-            // server.registerKeys doesn't use keyPair, confirmKeys does
-            keyPair: res.keyPair,
-          };
-        })
+        Promise.resolve(generateSignedPreKey(identityKey, signedKeyId)).then(
+          async res => {
+            await store.storeSignedPreKey(res.keyId, res.keyPair);
+            result.signedPreKey = {
+              keyId: res.keyId,
+              publicKey: res.keyPair.pubKey,
+              signature: res.signature,
+              // server.registerKeys doesn't use keyPair, confirmKeys does
+              keyPair: res.keyPair,
+            };
+          }
+        )
       );
 
       promises.push(

@@ -1,12 +1,6 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  KeyPairType,
-  SessionRecordType,
-  SignedPreKeyType,
-  StorageType,
-} from './libsignal.d';
 import Crypto from './textsecure/Crypto';
 import MessageReceiver from './textsecure/MessageReceiver';
 import MessageSender from './textsecure/SendMessage';
@@ -18,6 +12,7 @@ import { WebAPIType } from './textsecure/WebAPI';
 import utils from './textsecure/Helpers';
 import { CallingMessage as CallingMessageClass } from 'ringrtc';
 import { WhatIsThis } from './window.d';
+import { SignalProtocolStore } from './SignalProtocolStore';
 
 export type UnprocessedType = {
   attempts: number;
@@ -79,7 +74,7 @@ export type TextSecureType = {
     get: (key: string, defaultValue?: any) => any;
     put: (key: string, value: any) => Promise<void>;
     remove: (key: string | Array<string>) => Promise<void>;
-    protocol: StorageProtocolType;
+    protocol: SignalProtocolStore;
   };
   messageReceiver: MessageReceiver;
   messageSender: MessageSender;
@@ -90,69 +85,8 @@ export type TextSecureType = {
   EventTarget: typeof EventTarget;
   MessageReceiver: typeof MessageReceiver;
   AccountManager: WhatIsThis;
-  MessageSender: WhatIsThis;
+  MessageSender: typeof MessageSender;
   SyncRequest: typeof SyncRequest;
-};
-
-type StoredSignedPreKeyType = SignedPreKeyType & {
-  confirmed?: boolean;
-  created_at: number;
-};
-
-type IdentityKeyRecord = {
-  publicKey: ArrayBuffer;
-  firstUse: boolean;
-  timestamp: number;
-  verified: number;
-  nonblockingApproval: boolean;
-};
-
-export type StorageProtocolType = StorageType & {
-  VerifiedStatus: {
-    DEFAULT: number;
-    VERIFIED: number;
-    UNVERIFIED: number;
-  };
-  archiveSiblingSessions: (identifier: string) => Promise<void>;
-  removeSession: (identifier: string) => Promise<void>;
-  getDeviceIds: (identifier: string) => Promise<Array<number>>;
-  getIdentityRecord: (identifier: string) => IdentityKeyRecord | undefined;
-  getVerified: (id: string) => Promise<number>;
-  hydrateCaches: () => Promise<void>;
-  clearPreKeyStore: () => Promise<void>;
-  clearSignedPreKeysStore: () => Promise<void>;
-  clearSessionStore: () => Promise<void>;
-  isTrustedIdentity: () => void;
-  isUntrusted: (id: string) => boolean;
-  storePreKey: (keyId: number, keyPair: KeyPairType) => Promise<void>;
-  storeSignedPreKey: (
-    keyId: number,
-    keyPair: KeyPairType,
-    confirmed?: boolean
-  ) => Promise<void>;
-  loadIdentityKey: (identifier: string) => Promise<ArrayBuffer | undefined>;
-  loadSignedPreKeys: () => Promise<Array<StoredSignedPreKeyType>>;
-  processVerifiedMessage: (
-    identifier: string,
-    verifiedStatus: number,
-    publicKey: ArrayBuffer
-  ) => Promise<boolean>;
-  removeIdentityKey: (identifier: string) => Promise<void>;
-  saveIdentityWithAttributes: (
-    number: string,
-    options: IdentityKeyRecord
-  ) => Promise<void>;
-  setApproval: (id: string, something: boolean) => void;
-  setVerified: (
-    encodedAddress: string,
-    verifiedStatus: number,
-    publicKey?: ArrayBuffer
-  ) => Promise<void>;
-  removeSignedPreKey: (keyId: number) => Promise<void>;
-  removeAllSessions: (identifier: string) => Promise<void>;
-  removeAllData: () => Promise<void>;
-  on: (key: string, callback: () => void) => WhatIsThis;
-  removeAllConfiguration: () => Promise<void>;
 };
 
 // Protobufs
@@ -375,33 +309,19 @@ export declare namespace GroupChangeClass {
     addMembers?: Array<GroupChangeClass.Actions.AddMemberAction>;
     deleteMembers?: Array<GroupChangeClass.Actions.DeleteMemberAction>;
     modifyMemberRoles?: Array<GroupChangeClass.Actions.ModifyMemberRoleAction>;
-    modifyMemberProfileKeys?: Array<
-      GroupChangeClass.Actions.ModifyMemberProfileKeyAction
-    >;
-    addPendingMembers?: Array<
-      GroupChangeClass.Actions.AddMemberPendingProfileKeyAction
-    >;
-    deletePendingMembers?: Array<
-      GroupChangeClass.Actions.DeleteMemberPendingProfileKeyAction
-    >;
-    promotePendingMembers?: Array<
-      GroupChangeClass.Actions.PromoteMemberPendingProfileKeyAction
-    >;
+    modifyMemberProfileKeys?: Array<GroupChangeClass.Actions.ModifyMemberProfileKeyAction>;
+    addPendingMembers?: Array<GroupChangeClass.Actions.AddMemberPendingProfileKeyAction>;
+    deletePendingMembers?: Array<GroupChangeClass.Actions.DeleteMemberPendingProfileKeyAction>;
+    promotePendingMembers?: Array<GroupChangeClass.Actions.PromoteMemberPendingProfileKeyAction>;
     modifyTitle?: GroupChangeClass.Actions.ModifyTitleAction;
     modifyAvatar?: GroupChangeClass.Actions.ModifyAvatarAction;
     modifyDisappearingMessagesTimer?: GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
     modifyAttributesAccess?: GroupChangeClass.Actions.ModifyAttributesAccessControlAction;
     modifyMemberAccess?: GroupChangeClass.Actions.ModifyMembersAccessControlAction;
     modifyAddFromInviteLinkAccess?: GroupChangeClass.Actions.ModifyAddFromInviteLinkAccessControlAction;
-    addMemberPendingAdminApprovals?: Array<
-      GroupChangeClass.Actions.AddMemberPendingAdminApprovalAction
-    >;
-    deleteMemberPendingAdminApprovals?: Array<
-      GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction
-    >;
-    promoteMemberPendingAdminApprovals?: Array<
-      GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction
-    >;
+    addMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.AddMemberPendingAdminApprovalAction>;
+    deleteMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction>;
+    promoteMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction>;
     modifyInviteLinkPassword?: GroupChangeClass.Actions.ModifyInviteLinkPasswordAction;
   }
 }
@@ -1226,9 +1146,7 @@ export declare namespace SyncMessageClass {
     timestamp?: ProtoBigNumberType;
     message?: DataMessageClass;
     expirationStartTimestamp?: ProtoBigNumberType;
-    unidentifiedStatus?: Array<
-      SyncMessageClass.Sent.UnidentifiedDeliveryStatus
-    >;
+    unidentifiedStatus?: Array<SyncMessageClass.Sent.UnidentifiedDeliveryStatus>;
     isRecipientUpdate?: boolean;
   }
   class StickerPackOperation {

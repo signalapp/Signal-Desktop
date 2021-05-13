@@ -4,8 +4,15 @@
 /* eslint-disable more/no-then */
 /* eslint-disable max-classes-per-file */
 
-import { KeyPairType } from '../libsignal.d';
+import { KeyPairType } from './Types.d';
 import { ProvisionEnvelopeClass } from '../textsecure.d';
+import {
+  decryptAes256CbcPkcsPadding,
+  deriveSecrets,
+  bytesFromString,
+  verifyHmacSha256,
+} from '../Crypto';
+import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 
 type ProvisionDecryptResult = {
   identityKeyPair: KeyPairType;
@@ -38,73 +45,55 @@ class ProvisioningCipherInner {
       throw new Error('ProvisioningCipher.decrypt: No keypair!');
     }
 
-    return window.libsignal.Curve.async
-      .calculateAgreement(masterEphemeral, this.keyPair.privKey)
-      .then(async ecRes =>
-        window.libsignal.HKDF.deriveSecrets(
-          ecRes,
-          new ArrayBuffer(32),
-          'TextSecure Provisioning Message'
-        )
-      )
-      .then(async keys =>
-        window.libsignal.crypto
-          .verifyMAC(ivAndCiphertext, keys[1], mac, 32)
-          .then(async () =>
-            window.libsignal.crypto.decrypt(keys[0], ciphertext, iv)
-          )
-      )
-      .then(async plaintext => {
-        const provisionMessage = window.textsecure.protobuf.ProvisionMessage.decode(
-          plaintext
-        );
-        const privKey = provisionMessage.identityKeyPrivate.toArrayBuffer();
+    const ecRes = calculateAgreement(masterEphemeral, this.keyPair.privKey);
+    const keys = deriveSecrets(
+      ecRes,
+      new ArrayBuffer(32),
+      bytesFromString('TextSecure Provisioning Message')
+    );
+    await verifyHmacSha256(ivAndCiphertext, keys[1], mac, 32);
 
-        return window.libsignal.Curve.async
-          .createKeyPair(privKey)
-          .then(keyPair => {
-            window.normalizeUuids(
-              provisionMessage,
-              ['uuid'],
-              'ProvisioningCipher.decrypt'
-            );
+    const plaintext = await decryptAes256CbcPkcsPadding(
+      keys[0],
+      ciphertext,
+      iv
+    );
+    const provisionMessage = window.textsecure.protobuf.ProvisionMessage.decode(
+      plaintext
+    );
+    const privKey = provisionMessage.identityKeyPrivate.toArrayBuffer();
 
-            const ret: ProvisionDecryptResult = {
-              identityKeyPair: keyPair,
-              number: provisionMessage.number,
-              uuid: provisionMessage.uuid,
-              provisioningCode: provisionMessage.provisioningCode,
-              userAgent: provisionMessage.userAgent,
-              readReceipts: provisionMessage.readReceipts,
-            };
-            if (provisionMessage.profileKey) {
-              ret.profileKey = provisionMessage.profileKey.toArrayBuffer();
-            }
-            return ret;
-          });
-      });
+    const keyPair = createKeyPair(privKey);
+    window.normalizeUuids(
+      provisionMessage,
+      ['uuid'],
+      'ProvisioningCipher.decrypt'
+    );
+
+    const ret: ProvisionDecryptResult = {
+      identityKeyPair: keyPair,
+      number: provisionMessage.number,
+      uuid: provisionMessage.uuid,
+      provisioningCode: provisionMessage.provisioningCode,
+      userAgent: provisionMessage.userAgent,
+      readReceipts: provisionMessage.readReceipts,
+    };
+    if (provisionMessage.profileKey) {
+      ret.profileKey = provisionMessage.profileKey.toArrayBuffer();
+    }
+    return ret;
   }
 
   async getPublicKey(): Promise<ArrayBuffer> {
-    return Promise.resolve()
-      .then(async () => {
-        if (!this.keyPair) {
-          return window.libsignal.Curve.async
-            .generateKeyPair()
-            .then(keyPair => {
-              this.keyPair = keyPair;
-            });
-        }
+    if (!this.keyPair) {
+      this.keyPair = generateKeyPair();
+    }
 
-        return null;
-      })
-      .then(() => {
-        if (!this.keyPair) {
-          throw new Error('ProvisioningCipher.decrypt: No keypair!');
-        }
+    if (!this.keyPair) {
+      throw new Error('ProvisioningCipher.decrypt: No keypair!');
+    }
 
-        return this.keyPair.pubKey;
-      });
+    return this.keyPair.pubKey;
   }
 }
 

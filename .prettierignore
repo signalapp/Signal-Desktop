@@ -7,7 +7,6 @@ config/local.json
 dist/**
 js/components.js
 js/util_worker.js
-js/libtextsecure.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 stylesheets/*.css
@@ -25,7 +24,6 @@ components/**
 js/curve/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
-libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js
 

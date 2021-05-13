@@ -9,8 +9,8 @@ import { Avatar, AvatarSize } from '../Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { isConversationUnread } from '../../util/isConversationUnread';
 import { cleanId } from '../_util';
-import { ColorType } from '../../types/Colors';
 import { LocalizerType } from '../../types/Util';
+import { ConversationType } from '../../state/ducks/conversations';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
@@ -23,33 +23,40 @@ export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
 const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
 
 type PropsType = {
-  avatarPath?: string;
   checked?: boolean;
-  color?: ColorType;
   conversationType: 'group' | 'direct';
   disabled?: boolean;
   headerDate?: number;
   headerName: ReactNode;
-  i18n: LocalizerType;
   id?: string;
-  isMe?: boolean;
+  i18n: LocalizerType;
   isNoteToSelf?: boolean;
   isSelected: boolean;
   markedUnread?: boolean;
   messageId?: string;
   messageStatusIcon?: ReactNode;
   messageText?: ReactNode;
-  name?: string;
   onClick?: () => void;
-  phoneNumber?: string;
-  profileName?: string;
   style: CSSProperties;
-  title: string;
   unreadCount?: number;
-};
+} & Pick<
+  ConversationType,
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'isMe'
+  | 'markedUnread'
+  | 'name'
+  | 'phoneNumber'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+  | 'unblurredAvatarPath'
+>;
 
 export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo(
   ({
+    acceptedMessageRequest,
     avatarPath,
     checked,
     color,
@@ -69,8 +76,10 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     onClick,
     phoneNumber,
     profileName,
+    sharedGroupNames,
     style,
     title,
+    unblurredAvatarPath,
     unreadCount,
   }) => {
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
@@ -112,16 +121,20 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
       <>
         <div className={`${BASE_CLASS_NAME}__avatar-container`}>
           <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
             avatarPath={avatarPath}
             color={color}
-            noteToSelf={isAvatarNoteToSelf}
             conversationType={conversationType}
+            noteToSelf={isAvatarNoteToSelf}
             i18n={i18n}
+            isMe={isMe}
             name={name}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}
+            sharedGroupNames={sharedGroupNames}
             size={AvatarSize.FIFTY_TWO}
+            unblurredAvatarPath={unblurredAvatarPath}
           />
           {isUnread && (
             <div className={`${BASE_CLASS_NAME}__unread-count`}>

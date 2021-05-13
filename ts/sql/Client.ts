@@ -28,11 +28,13 @@ import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
 import { assert } from '../util/assert';
 import { cleanDataForIpc } from './cleanDataForIpc';
+import { ReactionType } from '../types/Reactions';
 
 import {
   ConversationModelCollectionType,
   MessageModelCollectionType,
 } from '../model-types.d';
+import { StoredJob } from '../jobs/types';
 
 import {
   AttachmentDownloadJobType,
@@ -53,6 +55,7 @@ import {
   StickerPackType,
   StickerType,
   UnprocessedType,
+  UnprocessedUpdateType,
 } from './Interface';
 import Server from './Server';
 import { MessageModel } from '../models/messages';
@@ -164,7 +167,12 @@ const dataInterface: ClientInterface = {
   saveMessages,
   removeMessage,
   removeMessages,
-  getUnreadByConversation,
+  getUnreadCountForConversation,
+  getUnreadByConversationAndMarkRead,
+  getUnreadReactionsAndMarkRead,
+  markReactionAsRead,
+  removeReactionFromConversation,
+  addReaction,
 
   getMessageBySender,
   getMessageById,
@@ -223,6 +231,10 @@ const dataInterface: ClientInterface = {
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
+
+  getJobsInQueue,
+  insertJob,
+  deleteJob,
 
   // Test-only
 
@@ -1035,15 +1047,47 @@ async function getMessageBySender(
   return new Message(messages[0]);
 }
 
-async function getUnreadByConversation(
-  conversationId: string,
-  {
-    MessageCollection,
-  }: { MessageCollection: typeof MessageModelCollectionType }
-) {
-  const messages = await channels.getUnreadByConversation(conversationId);
+async function getUnreadCountForConversation(conversationId: string) {
+  return channels.getUnreadCountForConversation(conversationId);
+}
 
-  return new MessageCollection(messages);
+async function getUnreadByConversationAndMarkRead(
+  conversationId: string,
+  newestUnreadId: number,
+  readAt?: number
+) {
+  return channels.getUnreadByConversationAndMarkRead(
+    conversationId,
+    newestUnreadId,
+    readAt
+  );
+}
+
+async function getUnreadReactionsAndMarkRead(
+  conversationId: string,
+  newestUnreadId: number
+) {
+  return channels.getUnreadReactionsAndMarkRead(conversationId, newestUnreadId);
+}
+
+async function markReactionAsRead(
+  targetAuthorUuid: string,
+  targetTimestamp: number
+) {
+  return channels.markReactionAsRead(targetAuthorUuid, targetTimestamp);
+}
+
+async function removeReactionFromConversation(reaction: {
+  emoji: string;
+  fromId: string;
+  targetAuthorUuid: string;
+  targetTimestamp: number;
+}) {
+  return channels.removeReactionFromConversation(reaction);
+}
+
+async function addReaction(reactionObj: ReactionType) {
+  return channels.addReaction(reactionObj);
 }
 
 function handleMessageJSON(messages: Array<MessageTypeUnhydrated>) {
@@ -1304,11 +1348,14 @@ async function saveUnprocesseds(
 async function updateUnprocessedAttempts(id: string, attempts: number) {
   await channels.updateUnprocessedAttempts(id, attempts);
 }
-async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
+async function updateUnprocessedWithData(
+  id: string,
+  data: UnprocessedUpdateType
+) {
   await channels.updateUnprocessedWithData(id, data);
 }
 async function updateUnprocessedsWithData(
-  array: Array<{ id: string; data: UnprocessedType }>
+  array: Array<{ id: string; data: UnprocessedUpdateType }>
 ) {
   await channels.updateUnprocessedsWithData(array);
 }
@@ -1486,4 +1533,16 @@ async function getMessagesWithFileAttachments(
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit,
   });
+}
+
+function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
+  return channels.getJobsInQueue(queueType);
+}
+
+function insertJob(job: Readonly<StoredJob>): Promise<void> {
+  return channels.insertJob(job);
+}
+
+function deleteJob(id: string): Promise<void> {
+  return channels.deleteJob(id);
 }

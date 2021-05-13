@@ -22,6 +22,7 @@ import { isStorageWriteFeatureEnabled } from './storage/isFeatureEnabled';
 import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assert } from './util/assert';
+import { isMoreRecentThan } from './util/timestamp';
 import {
   ConversationAttributesType,
   GroupV2MemberType,
@@ -75,6 +76,7 @@ import MessageSender, { CallbackResultType } from './textsecure/SendMessage';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
 import { ConversationModel } from './models/conversations';
 import { getGroupSizeHardLimit } from './groups/limits';
+import { ourProfileKeyService } from './services/ourProfileKey';
 
 export { joinViaLink } from './groups/joinViaLink';
 
@@ -1251,7 +1253,7 @@ export async function modifyGroupV2({
 
         // Send message to notify group members (including pending members) of change
         const profileKey = conversation.get('profileSharing')
-          ? window.storage.get('profileKey')
+          ? await ourProfileKeyService.get()
           : undefined;
 
         const sendOptions = await conversation.getSendOptions();
@@ -1620,7 +1622,7 @@ export async function createGroupV2({
   });
 
   const timestamp = Date.now();
-  const profileKey = ourConversation.get('profileKey');
+  const profileKey = await ourProfileKeyService.get();
 
   const groupV2Info = conversation.getGroupV2Info({
     includePendingMembers: true,
@@ -1633,7 +1635,7 @@ export async function createGroupV2({
       sender.sendMessageToGroup({
         groupV2: groupV2Info,
         timestamp,
-        profileKey: profileKey ? base64ToArrayBuffer(profileKey) : undefined,
+        profileKey,
       }),
     timestamp,
   });
@@ -1953,8 +1955,6 @@ export async function initiateMigrationToGroupV2(
   // Ensure we have the credentials we need before attempting GroupsV2 operations
   await maybeFetchNewCredentials();
 
-  let ourProfileKey: undefined | string;
-
   try {
     await conversation.queueJob(async () => {
       const ACCESS_ENUM =
@@ -1997,7 +1997,6 @@ export async function initiateMigrationToGroupV2(
           `initiateMigrationToGroupV2/${logId}: cannot get our own conversation. Cannot migrate`
         );
       }
-      ourProfileKey = ourConversation.get('profileKey');
 
       const {
         membersV2,
@@ -2137,6 +2136,10 @@ export async function initiateMigrationToGroupV2(
   const logId = conversation.idForLogging();
   const timestamp = Date.now();
 
+  const ourProfileKey:
+    | ArrayBuffer
+    | undefined = await ourProfileKeyService.get();
+
   await wrapWithSyncMessageSend({
     conversation,
     logId: `sendMessageToGroup/${logId}`,
@@ -2147,9 +2150,7 @@ export async function initiateMigrationToGroupV2(
           includePendingMembers: true,
         }),
         timestamp,
-        profileKey: ourProfileKey
-          ? base64ToArrayBuffer(ourProfileKey)
-          : undefined,
+        profileKey: ourProfileKey,
       }),
     timestamp,
   });
@@ -2597,6 +2598,8 @@ type MaybeUpdatePropsType = {
   dropInitialJoinMessage?: boolean;
 };
 
+const FIVE_MINUTES = 1000 * 60 * 5;
+
 export async function waitThenMaybeUpdateGroup(
   options: MaybeUpdatePropsType,
   { viaSync = false } = {}
@@ -2607,10 +2610,23 @@ export async function waitThenMaybeUpdateGroup(
   // Then wait to process all outstanding messages for this conversation
   const { conversation } = options;
 
+  const { lastSuccessfulGroupFetch = 0 } = conversation;
+
+  if (isMoreRecentThan(lastSuccessfulGroupFetch, FIVE_MINUTES)) {
+    const waitTime = lastSuccessfulGroupFetch + FIVE_MINUTES - Date.now();
+    window.log.info(
+      `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: group update ` +
+        `was fetched recently, skipping for ${waitTime}ms`
+    );
+    return;
+  }
+
   await conversation.queueJob(async () => {
     try {
       // And finally try to update the group
       await maybeUpdateGroup(options, { viaSync });
+
+      conversation.lastSuccessfulGroupFetch = Date.now();
     } catch (error) {
       window.log.error(
         `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: maybeUpdateGroup failure:`,
@@ -3436,7 +3452,7 @@ async function getCurrentGroupState({
     logId
   );
 
-  const oldVersion = group.version;
+  const oldVersion = group.revision;
   const newVersion = decryptedGroupState.version;
   window.log.info(
     `getCurrentGroupState/${logId}: Applying full group state, from version ${oldVersion} to ${newVersion}.`

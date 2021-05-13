@@ -99,12 +99,8 @@ type GenericMediaItemWithSection<T> = {
   type: T;
   mediaItem: MediaItemType;
 };
-type MediaItemWithStaticSection = GenericMediaItemWithSection<
-  StaticSectionType
->;
-type MediaItemWithYearMonthSection = GenericMediaItemWithSection<
-  YearMonthSectionType
-> & {
+type MediaItemWithStaticSection = GenericMediaItemWithSection<StaticSectionType>;
+type MediaItemWithYearMonthSection = GenericMediaItemWithSection<YearMonthSectionType> & {
   year: number;
   month: number;
 };

@@ -9,6 +9,7 @@ import { storiesOf } from '@storybook/react';
 
 import { PropsData as MessageDataPropsType } from './Message';
 import { MessageDetail, Props } from './MessageDetail';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 
@@ -17,8 +18,10 @@ const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/Conversation/MessageDetail', module);
 
 const defaultMessage: MessageDataPropsType = {
-  authorId: 'some-id',
-  authorTitle: 'Max',
+  author: getDefaultConversation({
+    id: 'some-id',
+    title: 'Max',
+  }),
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,
@@ -37,13 +40,15 @@ const defaultMessage: MessageDataPropsType = {
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contacts: overrideProps.contacts || [
     {
-      color: 'green',
+      ...getDefaultConversation({
+        color: 'green',
+        title: 'Just Max',
+      }),
       isOutgoingKeyError: false,
       isUnidentifiedDelivery: false,
       onSendAnyway: action('onSendAnyway'),
       onShowSafetyNumber: action('onShowSafetyNumber'),
       status: 'delivered',
-      title: 'Just Max',
     },
   ],
   errors: overrideProps.errors || [],
@@ -96,49 +101,59 @@ story.add('Message Statuses', () => {
   const props = createProps({
     contacts: [
       {
-        color: 'green',
+        ...getDefaultConversation({
+          color: 'green',
+          title: 'Max',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
         onSendAnyway: action('onSendAnyway'),
         onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'sent',
-        title: 'Max',
       },
       {
-        color: 'blue',
+        ...getDefaultConversation({
+          color: 'blue',
+          title: 'Sally',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
         onSendAnyway: action('onSendAnyway'),
         onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'sending',
-        title: 'Sally',
       },
       {
-        color: 'brown',
+        ...getDefaultConversation({
+          color: 'brown',
+          title: 'Terry',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
         onSendAnyway: action('onSendAnyway'),
         onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'partial-sent',
-        title: 'Terry',
       },
       {
-        color: 'light_green',
+        ...getDefaultConversation({
+          color: 'light_green',
+          title: 'Theo',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
         onSendAnyway: action('onSendAnyway'),
         onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'delivered',
-        title: 'Theo',
       },
       {
-        color: 'blue_grey',
+        ...getDefaultConversation({
+          color: 'blue_grey',
+          title: 'Nikki',
+        }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
         onSendAnyway: action('onSendAnyway'),
         onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'read',
-        title: 'Nikki',
       },
     ],
     message: {
@@ -189,16 +204,21 @@ story.add('All Errors', () => {
     },
     contacts: [
       {
-        color: 'green',
+        ...getDefaultConversation({
+          color: 'green',
+          title: 'Max',
+        }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: false,
         onSendAnyway: action('onSendAnyway'),
         onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'error',
-        title: 'Max',
       },
       {
-        color: 'blue',
+        ...getDefaultConversation({
+          color: 'blue',
+          title: 'Sally',
+        }),
         errors: [
           {
             name: 'Big Error',
@@ -210,16 +230,17 @@ story.add('All Errors', () => {
         onSendAnyway: action('onSendAnyway'),
         onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'error',
-        title: 'Sally',
       },
       {
-        color: 'brown',
+        ...getDefaultConversation({
+          color: 'brown',
+          title: 'Terry',
+        }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: true,
         onSendAnyway: action('onSendAnyway'),
         onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'error',
-        title: 'Terry',
       },
     ],
   });

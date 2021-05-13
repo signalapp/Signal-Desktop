@@ -148,6 +148,8 @@ describe('Link previews', () => {
     describe('auth', () => {
       it('returns true for hrefs with auth (or pretend auth)', () => {
         assert.isTrue(isLinkSneaky('https://user:pass@example.com'));
+        assert.isTrue(isLinkSneaky('https://user:@example.com'));
+        assert.isTrue(isLinkSneaky('https://:pass@example.com'));
         assert.isTrue(
           isLinkSneaky('http://whatever.com&login=someuser@77777777')
         );

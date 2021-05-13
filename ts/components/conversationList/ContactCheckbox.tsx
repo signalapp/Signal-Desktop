@@ -4,7 +4,7 @@
 import React, { CSSProperties, FunctionComponent, ReactNode } from 'react';
 
 import { BaseConversationListItem } from './BaseConversationListItem';
-import { ColorType } from '../../types/Colors';
+import { ConversationType } from '../../state/ducks/conversations';
 import { LocalizerType } from '../../types/Util';
 import { ContactName } from '../conversation/ContactName';
 import { About } from '../conversation/About';
@@ -17,18 +17,24 @@ export enum ContactCheckboxDisabledReason {
 }
 
 export type PropsDataType = {
-  about?: string;
-  avatarPath?: string;
-  color?: ColorType;
   disabledReason?: ContactCheckboxDisabledReason;
-  id: string;
-  isMe?: boolean;
   isChecked: boolean;
-  name?: string;
-  phoneNumber?: string;
-  profileName?: string;
-  title: string;
-};
+} & Pick<
+  ConversationType,
+  | 'about'
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'id'
+  | 'isMe'
+  | 'name'
+  | 'phoneNumber'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+  | 'type'
+  | 'unblurredAvatarPath'
+>;
 
 type PropsHousekeepingType = {
   i18n: LocalizerType;
@@ -44,6 +50,7 @@ type PropsType = PropsDataType & PropsHousekeepingType;
 export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
   ({
     about,
+    acceptedMessageRequest,
     avatarPath,
     color,
     disabledReason,
@@ -55,8 +62,11 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     onClick,
     phoneNumber,
     profileName,
+    sharedGroupNames,
     style,
     title,
+    type,
+    unblurredAvatarPath,
   }) => {
     const disabled = Boolean(disabledReason);
 
@@ -87,10 +97,11 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
 
     return (
       <BaseConversationListItem
+        acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         checked={isChecked}
         color={color}
-        conversationType="direct"
+        conversationType={type}
         disabled={disabled}
         headerName={headerName}
         i18n={i18n}
@@ -102,8 +113,10 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
         onClick={onClickItem}
         phoneNumber={phoneNumber}
         profileName={profileName}
+        sharedGroupNames={sharedGroupNames}
         style={style}
         title={title}
+        unblurredAvatarPath={unblurredAvatarPath}
       />
     );
   }

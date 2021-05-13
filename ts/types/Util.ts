@@ -20,10 +20,10 @@ export type ReplacementValuesType = {
   [key: string]: string | undefined;
 };
 
-export type LocalizerType = (
-  key: string,
-  values?: Array<string | null> | ReplacementValuesType
-) => string;
+export type LocalizerType = {
+  (key: string, values?: Array<string | null> | ReplacementValuesType): string;
+  getLocale(): string;
+};
 
 export enum ThemeType {
   'light' = 'light',

@@ -18,6 +18,8 @@ import { renderEmojiPicker } from './renderEmojiPicker';
 
 type MessageDetailProps = ComponentProps<typeof MessageDetail>;
 
+export { Contact } from '../../components/conversation/MessageDetail';
+
 export type OwnProps = {
   contacts: Array<Contact>;
   errors: Array<Error>;

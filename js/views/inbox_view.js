@@ -52,6 +52,14 @@
       // Make sure poppers are positioned properly
       window.dispatchEvent(new Event('resize'));
     },
+    unload() {
+      const { lastConversation } = this;
+      if (!lastConversation) {
+        return;
+      }
+
+      lastConversation.trigger('unload', 'force unload requested');
+    },
     onUnload(conversation) {
       if (this.lastConversation === conversation) {
         this.stopListening(this.lastConversation);
@@ -91,6 +99,12 @@
         if (convo && convo.get('id') === oldId) {
           this.conversation_stack.open(newId);
         }
+      });
+
+      // Close current opened conversation to reload the group information once
+      // linked.
+      Whisper.events.on('setupAsNewDevice', () => {
+        this.conversation_stack.unload();
       });
 
       if (!options.initialLoadComplete) {

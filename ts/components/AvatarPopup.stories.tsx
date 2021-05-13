@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -28,6 +28,7 @@ const conversationTypeMap: Record<string, Props['conversationType']> = {
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  acceptedMessageRequest: true,
   avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
   color: select('color', colorMap, overrideProps.color || 'blue'),
   conversationType: select(
@@ -36,6 +37,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.conversationType || 'direct'
   ),
   i18n,
+  isMe: true,
   name: text('name', overrideProps.name || ''),
   noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
   onClick: action('onClick'),
@@ -43,6 +45,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onViewPreferences: action('onViewPreferences'),
   phoneNumber: text('phoneNumber', overrideProps.phoneNumber || ''),
   profileName: text('profileName', overrideProps.profileName || ''),
+  sharedGroupNames: [],
   size: 80,
   style: {},
   title: text('title', overrideProps.title || ''),

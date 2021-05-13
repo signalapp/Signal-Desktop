@@ -17,17 +17,17 @@ import {
   MessageModelCollectionType,
   MessageAttributesType,
 } from './model-types.d';
-import {
-  LibSignalType,
-  SignalProtocolAddressClass,
-  StorageType,
-} from './libsignal.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
+import {
+  ChallengeHandler,
+  IPCRequest as IPCChallengeRequest,
+} from './challenge';
 import { WebAPIConnectType } from './textsecure/WebAPI';
 import { uploadDebugLogs } from './logging/debuglogs';
 import { CallingClass } from './services/calling';
 import * as Groups from './groups';
 import * as Crypto from './Crypto';
+import * as Curve from './Curve';
 import * as RemoteConfig from './RemoteConfig';
 import * as OS from './OS';
 import { getEnvironment } from './environment';
@@ -96,7 +96,7 @@ import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { MIMEType } from './types/MIME';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
-import { SignalProtocolStore } from './LibSignalStore';
+import { SignalProtocolStore } from './SignalProtocolStore';
 import { StartupQueue } from './util/StartupQueue';
 import * as synchronousCrypto from './util/synchronousCrypto';
 import SyncRequest from './textsecure/SyncRequest';
@@ -133,6 +133,8 @@ declare global {
     dataURLToBlobSync: any;
     loadImage: any;
     isBehindProxy: () => boolean;
+    getAutoLaunch: () => boolean;
+    setAutoLaunch: (value: boolean) => void;
 
     PQueue: typeof PQueue;
     PQueueType: PQueue;
@@ -154,7 +156,7 @@ declare global {
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager | undefined;
     getAlwaysRelayCalls: () => Promise<boolean>;
-    getBuiltInImages: () => Promise<Array<WhatIsThis>>;
+    getBuiltInImages: () => Promise<Array<string>>;
     getCallRingtoneNotification: () => Promise<boolean>;
     getCallSystemNotification: () => Promise<boolean>;
     getConversations: () => ConversationModelCollectionType;
@@ -179,8 +181,8 @@ declare global {
     showCallingPermissionsPopup: (forCamera: boolean) => Promise<void>;
     i18n: LocalizerType;
     isActive: () => boolean;
-    isAfterVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
-    isBeforeVersion: (version: WhatIsThis, anotherVersion: string) => boolean;
+    isAfterVersion: (version: string, anotherVersion: string) => boolean;
+    isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
     isValidGuid: (maybeGuid: string | null) => boolean;
     isValidE164: (maybeE164: unknown) => boolean;
@@ -196,7 +198,6 @@ declare global {
       getRegionCodeForNumber: (number: string) => string;
       format: (number: string, format: PhoneNumberFormat) => string;
     };
-    libsignal: LibSignalType;
     log: {
       fatal: LoggerType;
       info: LoggerType;
@@ -221,9 +222,11 @@ declare global {
     showWindow: () => void;
     showSettings: () => void;
     shutdown: () => void;
+    sendChallengeRequest: (request: IPCChallengeRequest) => void;
     setAutoHideMenuBar: (value: WhatIsThis) => void;
     setBadgeCount: (count: number) => void;
     setMenuBarVisibility: (value: WhatIsThis) => void;
+    setSecureInput: (enabled: boolean) => void;
     showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
     storage: {
@@ -268,6 +271,9 @@ declare global {
           deviceName: string;
         }
       | undefined;
+    Accessibility: {
+      reducedMotionSetting: boolean;
+    };
     Signal: {
       Backbone: any;
       AttachmentDownloads: {
@@ -279,14 +285,9 @@ declare global {
         stop: () => void;
       };
       Crypto: typeof Crypto;
+      Curve: typeof Curve;
       Data: typeof Data;
       Groups: typeof Groups;
-      Metadata: {
-        SecretSessionCipher: typeof SecretSessionCipherClass;
-        createCertificateValidator: (
-          trustRoot: ArrayBuffer
-        ) => CertificateValidatorType;
-      };
       RemoteConfig: typeof RemoteConfig;
       Services: {
         calling: CallingClass;
@@ -335,10 +336,7 @@ declare global {
           stickerId: number
         ) => Promise<typeof window.Signal.Types.Sticker>;
         deletePackReference: (id: string, packId: string) => Promise<void>;
-        downloadEphemeralPack: (
-          packId: string,
-          key: WhatIsThis
-        ) => Promise<void>;
+        downloadEphemeralPack: (packId: string, key: string) => Promise<void>;
         downloadQueuedPacks: () => void;
         downloadStickerPack: (
           id: string,
@@ -386,6 +384,7 @@ declare global {
 
           isVoiceMessage: (attachments: unknown) => boolean;
           isImage: typeof Attachment.isImage;
+          isGIF: typeof Attachment.isGIF;
           isVideo: typeof Attachment.isVideo;
           isAudio: typeof Attachment.isAudio;
 
@@ -531,6 +530,7 @@ declare global {
         getInitialState: () => WhatIsThis;
         load: () => void;
       };
+      challengeHandler: ChallengeHandler;
     };
 
     ConversationController: ConversationController;
@@ -591,41 +591,13 @@ export type DCodeIOType = {
 type MessageControllerType = {
   findBySender: (sender: string) => MessageModel | null;
   findBySentAt: (sentAt: number) => MessageModel | null;
+  getById: (id: string) => MessageModel | undefined;
   register: (id: string, model: MessageModel) => MessageModel;
   unregister: (id: string) => void;
 };
 
 export class CertificateValidatorType {
   validate: (cerficate: any, certificateTime: number) => Promise<void>;
-}
-
-export class SecretSessionCipherClass {
-  constructor(
-    storage: StorageType,
-    options?: { messageKeysLimit?: number | boolean }
-  );
-  decrypt: (
-    validator: CertificateValidatorType,
-    ciphertext: ArrayBuffer,
-    serverTimestamp: number,
-    me: any
-  ) => Promise<{
-    isMe: boolean;
-    sender: SignalProtocolAddressClass;
-    senderUuid: SignalProtocolAddressClass;
-    content: ArrayBuffer;
-  }>;
-  getRemoteRegistrationId: (
-    address: SignalProtocolAddressClass
-  ) => Promise<number>;
-  closeOpenSessionForDevice: (
-    address: SignalProtocolAddressClass
-  ) => Promise<void>;
-  encrypt: (
-    address: SignalProtocolAddressClass,
-    senderCertificate: any,
-    plaintext: ArrayBuffer | Uint8Array
-  ) => Promise<ArrayBuffer>;
 }
 
 export class ByteBufferClass {
@@ -647,6 +619,7 @@ export class ByteBufferClass {
   readLong: (offset: number) => Long;
   readShort: (offset: number) => number;
   readVarint32: () => number;
+  reset: () => void;
   writeLong: (l: Long) => void;
   skip: (length: number) => void;
 }
@@ -776,6 +749,8 @@ export type WhisperType = {
   BlockedGroupToast: typeof window.Whisper.ToastView;
   BlockedToast: typeof window.Whisper.ToastView;
   CannotMixImageAndNonImageAttachmentsToast: typeof window.Whisper.ToastView;
+  CaptchaSolvedToast: typeof window.Whisper.ToastView;
+  CaptchaFailedToast: typeof window.Whisper.ToastView;
   DangerousFileTypeToast: typeof window.Whisper.ToastView;
   ExpiredToast: typeof window.Whisper.ToastView;
   FileSavedToast: typeof window.Whisper.ToastView;
@@ -790,6 +765,7 @@ export type WhisperType = {
   OriginalNotFoundToast: typeof window.Whisper.ToastView;
   PinnedConversationsFullToast: typeof window.Whisper.ToastView;
   ReactionFailedToast: typeof window.Whisper.ToastView;
+  DeleteForEveryoneFailedToast: typeof window.Whisper.ToastView;
   TapToViewExpiredIncomingToast: typeof window.Whisper.ToastView;
   TapToViewExpiredOutgoingToast: typeof window.Whisper.ToastView;
   TimerConflictToast: typeof window.Whisper.ToastView;

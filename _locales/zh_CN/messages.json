@@ -52,7 +52,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "偏好设置...",
+        "message": "首选项...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
@@ -72,7 +72,7 @@
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "撤销",
+        "message": "撤消",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
@@ -210,7 +210,7 @@
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "归档",
+        "message": "存档",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
@@ -218,19 +218,19 @@
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
-        "message": "未存档",
+        "message": "取消存档",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
-        "message": "标记对话",
+        "message": "置顶对话",
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "取消标记对话",
+        "message": "取消置顶对话",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "您最多只能标记 4 个对话。",
+        "message": "您最多只能置顶 4 个对话。",
         "description": ""
     },
     "chooseDirectory": {
@@ -480,11 +480,11 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "标记为已确认",
+        "message": "标记为已验证",
         "description": ""
     },
     "unverify": {
-        "message": "标记为未确认",
+        "message": "标记为未验证",
         "description": ""
     },
     "isVerified": {
@@ -508,7 +508,7 @@
         }
     },
     "verified": {
-        "message": "确认",
+        "message": "已验证",
         "description": ""
     },
     "newIdentity": {
@@ -532,7 +532,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
-        "message": "所有媒体",
+        "message": "全部媒体",
         "description": "Header for the media gallery"
     },
     "documents": {
@@ -690,7 +690,7 @@
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop 偏好",
+        "message": "Signal Desktop 首选项",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
@@ -718,7 +718,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "桌面版Signal",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -769,6 +769,10 @@
     },
     "contactsHeader": {
         "message": "联系人",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "群组",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "点击“删除”将仅从您的设备中永久删除此消息。",
+        "message": "该消息将从设备上删除。",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1034,7 +1038,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "发送一条消息",
+        "message": "发送消息",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -1071,6 +1075,10 @@
         "message": "您还未与该联系人有任何通讯，您的安全代码将会在您对其发送第一条消息后显示。",
         "description": ""
     },
+    "back": {
+        "message": "返回",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "返回",
         "description": "Label for back button in a conversation"
@@ -1083,12 +1091,16 @@
         "message": "重试发送",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
+    "forwardMessage": {
+        "message": "转发消息",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
+    },
     "deleteMessage": {
-        "message": "为我删除消息",
+        "message": "对我删除消息",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "为所有人删除消息",
+        "message": "对每个人删除消息",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "安全会话已重置",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "聊天会话已刷新",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "了解更多",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal 使用端对端加密，有时可能需刷新聊天会话。虽然这并不影响聊天的安全性，但可能漏掉该联系人的消息。您可要求他们重新发送。",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "联系支持",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "引用消息图片的缩略图",
@@ -1120,7 +1148,7 @@
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "显示图片带有描述的图标",
+        "message": "表示该图片带有描述的图标",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
@@ -1196,7 +1224,7 @@
         "description": ""
     },
     "installTryAgain": {
-        "message": "再试",
+        "message": "重试",
         "description": ""
     },
     "theme": {
@@ -1204,7 +1232,7 @@
         "description": "Header for theme settings"
     },
     "calling": {
-        "message": "拨号中",
+        "message": "呼叫时",
         "description": "Header for calling options on the settings screen"
     },
     "calling__start": {
@@ -1212,7 +1240,7 @@
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "加入呼叫",
+        "message": "加入通话",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
@@ -1232,7 +1260,7 @@
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "打开摄像头",
+        "message": "开启摄像头",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio-disabled": {
@@ -1352,11 +1380,11 @@
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
-        "message": "Scroll up",
+        "message": "向上滚动",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Scroll down",
+        "message": "向下滚动",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "alwaysRelayCallsDescription": {
@@ -1444,7 +1472,7 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "名字，内容，操作",
+        "message": "名字、内容和操作",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
@@ -1554,11 +1582,11 @@
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "已导入",
+        "message": "现在导入",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "导入中...",
+        "message": "正在导入…",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
@@ -1794,15 +1822,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "播放语音提醒",
+        "message": "播放语音通知",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "播放来电音效",
+        "message": "播放通话铃声",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "显示来电通知",
+        "message": "显示通话通知",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
@@ -1908,6 +1936,112 @@
     "startConversation": {
         "message": "开始新会话...",
         "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newConversation": {
+        "message": "新对话",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "搜索姓名或手机号码",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "未找到联系人",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "No conversations found",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "选择成员",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "返回",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "跳过",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "下一步",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "已达到群组人数上限",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signal 群组最多可有 $max$ 个成员。",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "已达到建议成员数上限",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "成员不多于 $max$ 时 Signal 群组性能最佳。添加更多成员可造成消息收发延迟。",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "无法添加成员",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "无法将“$name$”添加至群组，因为他们使用的 Signal 是旧版本。他们升级 Signal 之后，您可将其添加至群组。",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "命名该群组",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "返回成员选择",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "群组名称（必填）",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "创建",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "成员",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "无法创建该群组，请检查连接并重试。",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "编辑群昵称和头像",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "无法升级该群组，请检查连接并重试。",
+        "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
         "message": "不支持短信/彩信。",
@@ -2346,19 +2480,23 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "偏好",
+        "message": "首选项",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
         "message": "打开对话菜单",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--new-conversation": {
+        "message": "开始新对话",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--archive-conversation": {
-        "message": "收藏消息",
+        "message": "存档对话",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "取消收藏对话",
+        "message": "取消存档对话",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
@@ -2366,7 +2504,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "在消息中搜索",
+        "message": "在对话中搜索",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
@@ -2374,7 +2512,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "打开全媒体视图",
+        "message": "查看全部媒体",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -2394,7 +2532,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "查看选中的消息详细信息",
+        "message": "查看选中消息详情",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
@@ -2498,7 +2636,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
-        "message": "拨号中",
+        "message": "通话时",
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "$group$ 的成员。",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "$group1$ 和 $group2$ 的成员。",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "$group1$、$group2$ 和 $group3$ 的成员。",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "$group1$、$group2$、$group3$ 以及其他 $remainingCount$ 个群组的成员。",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ 已将您添加至群组。",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "无共同群组。",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "接听",
@@ -3104,7 +3198,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
-        "message": "拨号中...",
+        "message": "呼叫中…",
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
@@ -3112,11 +3206,11 @@
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "开启通话",
+        "message": "开始通话",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "开启视频通话",
+        "message": "开始视频通话",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3206,11 +3300,11 @@
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "Switch to grid view",
+        "message": "切换至网格视图",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Switch to speaker view",
+        "message": "切换至发言人视图",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
@@ -3245,6 +3339,10 @@
         "message": "静音一小时",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Mute for eight hours",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "静音一天",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "静音一星期",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "静音一年",
+    "muteAlways": {
+        "message": "Mute always",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "取消静音",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Muted always",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "静音至 $duration$",
@@ -3288,7 +3390,7 @@
         "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Sorry, that sgnl:// link didn't make sense!",
+        "message": "抱歉， sgnl:// 链接无法解析！",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--join--invalid-link--title": {
@@ -3304,23 +3406,23 @@
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "You're already in this group.",
+        "message": "已加入了该群组。",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
-        "message": "You have already requested approval to join this group.",
+        "message": "已请求该群组加入审批。",
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Unknown link version",
+        "message": "未知链接版本",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "This link is not supported by this version of Signal Desktop.",
+        "message": "Signal Desktop 这个版本不支持该链接。",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
-        "message": "Can’t Join Group",
+        "message": "无法加入群组",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
@@ -3328,7 +3430,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "An admin of this group must approve your request before you can join this group. If approved, your name and photo will be shared with its members.",
+        "message": "该群组管理员批准您的请求之后，方可加入群组。如果已批准，您的名字与头像将与其成员分享。",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
@@ -3336,7 +3438,7 @@
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "Request to Join",
+        "message": "请求加入",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
@@ -3370,7 +3472,7 @@
         }
     },
     "GroupV2--join--group-metadata": {
-        "message": "Group · $memberCount$",
+        "message": "群组· $memberCount$",
         "description": "A holder for two pieces of information - the type of conversation, and the member count",
         "placeholders": {
             "memberCount": {
@@ -3384,19 +3486,23 @@
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Link Error",
+        "message": "链接错误",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Joining via this link failed. Try joining again later.",
+        "message": "通过该链接加入失败，请稍后尝试再次加入。",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
         "message": "管理员",
         "description": "Label for a group administrator"
     },
+    "GroupV2--only-admins": {
+        "message": "仅限管理员",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
+    },
     "GroupV2--all-members": {
-        "message": "所有群成员",
+        "message": "全部成员",
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
@@ -3582,11 +3688,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "You disabled admin approval for the group link.",
+        "message": "您已禁用群组链接管理员审批。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ disabled admin approval for the group link.",
+        "message": "$adminName$ 已禁用群组链接管理员审批。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3596,15 +3702,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "Admin approval for the group link has been disabled.",
+        "message": "群组链接管理员审批已禁用。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "You enabled admin approval for the group link.",
+        "message": "您已启用群组链接管理员审批。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ enabled admin approval for the group link.",
+        "message": "$adminName$ 已启用群组链接管理员审批。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3614,7 +3720,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Admin approval for the group link has been enabled.",
+        "message": "群组链接管理员审批已启用。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -3756,7 +3862,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
-        "message": "$memberName$ joined the group via the group link.",
+        "message": "$memberName$ 已通过群组链接加入群组。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3766,7 +3872,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$ approved your request to join the group.",
+        "message": "$adminName$ 已批准您的群组加入请求。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3780,7 +3886,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": "You approved a request to join the group from $joinerName$.",
+        "message": "您已批准 $joinerName$ 的入群请求。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -3790,7 +3896,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$ approved a request to join the group from $joinerName$.",
+        "message": "$adminName$ 已批准 $joinerName$ 的入群请求。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3804,7 +3910,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": "A request to join the group from $joinerName$ has been approved.",
+        "message": "$joinerName$ 的入群请求已批准。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -3858,7 +3964,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ 已将您从群组移除。",
+        "message": "$adminName$ 已将您移除。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3872,7 +3978,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
-        "message": "你已被移出群组。",
+        "message": "已从群组将您移除。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
@@ -4300,7 +4406,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$ requested to join via the group link.",
+        "message": "$joinerName$ 通过群组链接请求加入。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4318,7 +4424,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "You denied a request to join the group from $joinerName$.",
+        "message": "您已拒绝 $joinerName$ 的入群请求。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4328,7 +4434,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$ canceled their request to join the group.",
+        "message": "$joinerName$ 已取消入群请求。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4338,7 +4444,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ denied a request to join the group from $joinerName$.",
+        "message": "$adminName$ 已拒绝 $joinerName$ 的入群请求。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4352,11 +4458,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "You turned on the group link with admin approval disabled.",
+        "message": "您已开启群组链接，并禁用管理员批准。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ turned on the group link with admin approval disabled.",
+        "message": "$adminName$ 已开启群组链接，并禁用管理员批准。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4366,15 +4472,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "The group link has been turned on with admin approval disabled.",
+        "message": "群组链接已开启，并禁用管理员批准。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "You turned on the group link with admin approval enabled.",
+        "message": "您已开启群组链接，并启用管理员批准。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ turned on the group link with admin approval enabled.",
+        "message": "$adminName$ 已开启群组链接，并启用管理员批准。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4384,7 +4490,7 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "The group link has been turned on with admin approval enabled.",
+        "message": "群组链接已开启，并启用管理员批准。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
@@ -4392,7 +4498,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$ turned off the group link.",
+        "message": "$adminName$ 已关闭群组链接。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4410,7 +4516,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ reset the group link.",
+        "message": "$adminName$ 已重置群组链接。",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4518,7 +4624,7 @@
         }
     },
     "GroupV1--Migration--removed--one": {
-        "message": "$contact$ 已从群组删除。",
+        "message": "已从群组移除 $contact$。",
         "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4528,7 +4634,7 @@
         }
     },
     "GroupV1--Migration--removed--many": {
-        "message": "$count$ 个成员已从群组删除。",
+        "message": "已从群组移除 $count$ 个成员。",
         "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
         "placeholders": {
             "contact": {
@@ -4558,7 +4664,7 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
-        "message": "在徽章计数中显示静音对话数量",
+        "message": "在标记计数中显示静音对话数量",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4574,7 +4680,7 @@
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
-        "message": "$contact$ will be able to edit this group and its members.",
+        "message": "$contact$ 将可编辑该群组及其成员。",
         "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
         "placeholders": {
             "contact": {
@@ -4584,7 +4690,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin",
+        "message": "移除 $contact$ 的群组管理员权限",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4594,11 +4700,11 @@
         }
     },
     "ContactModal--remove-from-group": {
-        "message": "移出群组",
+        "message": "从群组移除",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showConversationDetails": {
-        "message": "组群设置",
+        "message": "群组设置",
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "ConversationDetails--group-link": {
@@ -4606,31 +4712,31 @@
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
-        "message": "阅后即焚",
+        "message": "限时消息",
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "When enabled, messages sent and received in this group will disappear after they've been seen.",
+        "message": "启用时，该群组收发的消息将在查看之后消失。",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--group-info-label": {
-        "message": "Who can edit group info",
+        "message": "谁可以编辑群组信息",
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+        "message": "选择谁可以编辑群组名称、头像和限时消息计时器。",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
-        "message": "Who can add members",
+        "message": "谁可以添加成员",
         "description": "This is the label for the 'who can add members' panel"
     },
     "ConversationDetails--add-members-info": {
-        "message": "Choose who can add members to this group.",
+        "message": "选择谁可以添加群组成员。",
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--requests-and-invites": {
-        "message": "Requests & Invites",
+        "message": "请求与邀请",
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
@@ -4640,6 +4746,10 @@
     "ConversationDetailsActions--block-group": {
         "message": "屏蔽群组",
         "description": "This is a button to block a group"
+    },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "在你退出群组前，你必须为群组选择一名新的管理员。",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "确定离开群聊？",
@@ -4654,7 +4764,7 @@
         "description": "This is the modal button to confirm leaving a group"
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "Block and Leave the \"$groupName$\" Group?",
+        "message": "屏蔽并离开“$groupName$”群组？",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -4672,7 +4782,7 @@
         "description": "This is the modal button to confirm blocking a group"
     },
     "ConversationDetailsHeader--members": {
-        "message": "$number$ members",
+        "message": "$number$ 个成员",
         "description": "This is the number of members in a group",
         "placeholders": {
             "number": {
@@ -4690,7 +4800,7 @@
         "description": "This is a button on the conversation details to show all media"
     },
     "ConversationDetailsMembershipList--title": {
-        "message": "$number$ members",
+        "message": "$number$ 个成员",
         "description": "The title of the membership list panel",
         "placeholders": {
             "number": {
@@ -4699,16 +4809,20 @@
             }
         }
     },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "添加成员",
+        "description": "The button that you can click to add new members"
+    },
     "ConversationDetailsMembershipList--show-all": {
         "message": "查看全部",
         "description": "This is a button on the conversation details to show all members"
     },
     "GroupLinkManagement--clipboard": {
-        "message": "Group link copied.",
+        "message": "群组链接已复制。",
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
-        "message": "Copy link",
+        "message": "复制链接",
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
@@ -4720,15 +4834,15 @@
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
-        "message": "审核新成员",
+        "message": "批准新成员",
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Require an admin to approve new members joining via the group link",
+        "message": "新成员通过群组链接加入时，需管理员批准。",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
-        "message": "Requests ($count$)",
+        "message": "请求 ($count$)",
         "description": "Label for the tab to view pending requests",
         "placeholders": {
             "name": {
@@ -4738,7 +4852,7 @@
         }
     },
     "PendingInvites--tab-invites": {
-        "message": "Invites ($count$)",
+        "message": "邀请 ($count$)",
         "description": "Label for the tab to view pending invites",
         "placeholders": {
             "name": {
@@ -4748,7 +4862,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "Approve request from \"$name$\"?",
+        "message": "批准“$name$”的请求？",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -4758,7 +4872,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Deny request from \"$name$\"?",
+        "message": "解决“$name$”的请求？",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -4768,19 +4882,19 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "Invited by you",
+        "message": "您邀请",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Invited by you",
+        "message": "您邀请",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Invited by others",
+        "message": "其他人邀请",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
-        "message": "Invited $number$",
+        "message": "已邀请人数 $number$",
         "description": "This is the label for the number of members someone has invited",
         "placeholders": {
             "number": {
@@ -4790,11 +4904,11 @@
         }
     },
     "PendingInvites--revoke-for-label": {
-        "message": "Revoke group invite",
+        "message": "撤销群组邀请",
         "description": "This is aria label for revoking a group invite icon"
     },
     "PendingInvites--revoke-for": {
-        "message": "Revoke group invite for \"$name$\"?",
+        "message": "撤销对“$name$”的群组邀请？",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "number": {
@@ -4808,7 +4922,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "Revoke 1 invite sent by \"$name$\"?",
+        "message": "撤销“$name$”发送的 1 个邀请？",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -4818,7 +4932,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"",
+        "message": "撤销“$name$”发送的 $number$ 个邀请？",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -4832,19 +4946,19 @@
         }
     },
     "PendingInvites--revoke": {
-        "message": "Revoke",
+        "message": "撤销",
         "description": "This is the modal button to confirm revoking invites"
     },
     "PendingRequests--approve": {
-        "message": "Approve Request",
+        "message": "批准请求",
         "description": "This is the modal button to approve group request to join"
     },
     "PendingRequests--deny": {
-        "message": "拒绝入群申请",
+        "message": "解决请求",
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "People on this list are attempting to join \"$name$\" via the group link.",
+        "message": "该列表人员尝试通过群组链接加入“$name$”。",
         "description": "Inforamtion shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -4854,7 +4968,169 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
+        "message": "加入群组之前，不显示受邀者详情。加入之后，受邀者方可查看消息。",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "添加群组头像",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "更改头像",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "上传头像",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "删除图片",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "移除联系人",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "好的",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "已发送邀请",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ 个邀请已发送",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "您无法将 $name$ 自动添加至该群组。",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "您无法将这些用户自动添加至该群组。",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "已邀请他们加入。在接收邀请之前，他们不能查看任何群组消息。",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "了解更多",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "添加成员",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "更新",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "是否将 $person$ 添加至“$group$”？",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "是否添加 $count$ 个成员至“$group$”？",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "添加成员",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "添加成员",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "新建群组",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "选择联系人",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "取消选择联系人",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "无法选择联系人",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "已是成员",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "播放音频附件",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "暂停音频附件",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "下载音频附件",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "正在下载音频附件...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "音频附件播放时间...",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "compose button",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "继续",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

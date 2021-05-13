@@ -13,10 +13,27 @@ import { isNumber, map, omit, noop } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 
-import { SessionCipherClass, SignalProtocolAddressClass } from '../libsignal.d';
+import {
+  PreKeySignalMessage,
+  ProtocolAddress,
+  PublicKey,
+  SealedSenderDecryptionResult,
+  sealedSenderDecryptMessage,
+  sealedSenderDecryptToUsmc,
+  signalDecrypt,
+  signalDecryptPreKey,
+  SignalMessage,
+} from 'libsignal-client';
+
+import {
+  IdentityKeys,
+  PreKeys,
+  Sessions,
+  SignedPreKeys,
+} from '../LibSignalStores';
 import { BatcherType, createBatcher } from '../util/batcher';
 import { assert } from '../util/assert';
-
+import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import EventTarget from './EventTarget';
 import { WebAPIType } from './WebAPI';
 import utils from './Helpers';
@@ -24,13 +41,8 @@ import WebSocketResource, {
   IncomingWebSocketRequest,
 } from './WebsocketResources';
 import Crypto from './Crypto';
-import { deriveMasterKeyFromGroupV1 } from '../Crypto';
+import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
-import { IncomingIdentityKeyError } from './Errors';
-import {
-  createCertificateValidator,
-  SecretSessionCipher,
-} from '../metadata/SecretSessionCipher';
 
 import {
   AttachmentPointerClass,
@@ -93,8 +105,6 @@ declare global {
   interface Error {
     reason?: any;
     stackForLog?: string;
-    sender?: SignalProtocolAddressClass;
-    senderUuid?: SignalProtocolAddressClass;
   }
 }
 
@@ -196,7 +206,10 @@ class MessageReceiverInner extends EventTarget {
     this.uuid_id = username ? utils.unencodeNumber(username)[0] : undefined;
     this.deviceId =
       username || oldUsername
-        ? parseInt(utils.unencodeNumber(username || oldUsername)[1], 10)
+        ? parseIntOrThrow(
+            utils.unencodeNumber(username || oldUsername)[1],
+            'MessageReceiver.constructor: username || oldUsername'
+          )
         : undefined;
 
     this.incomingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
@@ -611,9 +624,12 @@ class MessageReceiverInner extends EventTarget {
       envelope.source = envelope.source || item.source;
       envelope.sourceUuid = envelope.sourceUuid || item.sourceUuid;
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
-      envelope.serverTimestamp = envelope.serverTimestamp
-        ? envelope.serverTimestamp.toNumber()
-        : item.serverTimestamp;
+      envelope.serverTimestamp =
+        item.serverTimestamp || envelope.serverTimestamp;
+
+      if (envelope.serverTimestamp && envelope.serverTimestamp.toNumber) {
+        envelope.serverTimestamp = envelope.serverTimestamp.toNumber();
+      }
 
       const { decrypted } = item;
       if (decrypted) {
@@ -947,195 +963,214 @@ class MessageReceiverInner extends EventTarget {
   async decrypt(
     envelope: EnvelopeClass,
     ciphertext: any
-  ): Promise<ArrayBuffer> {
+  ): Promise<ArrayBuffer | null> {
     const { serverTrustRoot } = this;
 
-    let promise;
     const identifier = envelope.sourceUuid || envelope.source;
+    const { sourceDevice } = envelope;
 
-    const address = new window.libsignal.SignalProtocolAddress(
-      // Using source as opposed to sourceUuid allows us to get the existing
-      // session if we haven't yet harvested the incoming uuid
-      identifier as any,
-      envelope.sourceDevice as any
+    const localE164 = window.textsecure.storage.user.getNumber();
+    const localUuid = window.textsecure.storage.user.getUuid();
+    const localDeviceId = parseIntOrThrow(
+      window.textsecure.storage.user.getDeviceId(),
+      'MessageReceiver.decrypt: localDeviceId'
     );
 
-    const ourNumber = window.textsecure.storage.user.getNumber();
-    const ourUuid = window.textsecure.storage.user.getUuid();
-    const options: any = {};
-
-    // No limit on message keys if we're communicating with our other devices
-    if (
-      (envelope.source && ourNumber && ourNumber === envelope.source) ||
-      (envelope.sourceUuid && ourUuid && ourUuid === envelope.sourceUuid)
-    ) {
-      options.messageKeysLimit = false;
+    if (!localUuid) {
+      throw new Error('MessageReceiver.decrypt: Failed to fetch local UUID');
     }
 
-    const sessionCipher = new window.libsignal.SessionCipher(
-      window.textsecure.storage.protocol,
-      address,
-      options
-    );
-    const secretSessionCipher = new SecretSessionCipher(
-      window.textsecure.storage.protocol,
-      options
-    );
+    const sessionStore = new Sessions();
+    const identityKeyStore = new IdentityKeys();
+    const preKeyStore = new PreKeys();
+    const signedPreKeyStore = new SignedPreKeys();
 
-    const me = {
-      number: ourNumber,
-      uuid: ourUuid,
-      deviceId: parseInt(
-        window.textsecure.storage.user.getDeviceId() as string,
-        10
-      ),
-    };
+    let promise: Promise<
+      ArrayBuffer | { isMe: boolean } | { isBlocked: boolean } | undefined
+    >;
 
-    switch (envelope.type) {
-      case window.textsecure.protobuf.Envelope.Type.CIPHERTEXT:
-        window.log.info('message from', this.getEnvelopeId(envelope));
-        promise = sessionCipher
-          .decryptWhisperMessage(ciphertext)
-          .then(this.unpad);
-        break;
-      case window.textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
-        window.log.info('prekey message from', this.getEnvelopeId(envelope));
-        promise = this.decryptPreKeyWhisperMessage(
-          ciphertext,
-          sessionCipher,
-          address
+    if (envelope.type === window.textsecure.protobuf.Envelope.Type.CIPHERTEXT) {
+      window.log.info('message from', this.getEnvelopeId(envelope));
+      if (!identifier) {
+        throw new Error(
+          'MessageReceiver.decrypt: No identifier for CIPHERTEXT message'
         );
-        break;
-      case window.textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER:
-        window.log.info('received unidentified sender message');
-        promise = secretSessionCipher
-          .decrypt(
-            createCertificateValidator(serverTrustRoot),
-            ciphertext.toArrayBuffer(),
-            Math.min(envelope.serverTimestamp || Date.now(), Date.now()),
-            me
-          )
-          .then(
-            result => {
-              const { isMe, sender, senderUuid, content } = result;
+      }
+      if (!sourceDevice) {
+        throw new Error(
+          'MessageReceiver.decrypt: No sourceDevice for CIPHERTEXT message'
+        );
+      }
+      const signalMessage = SignalMessage.deserialize(
+        Buffer.from(ciphertext.toArrayBuffer())
+      );
 
-              // We need to drop incoming messages from ourself since server can't
-              //   do it for us
-              if (isMe) {
-                return { isMe: true };
-              }
+      const address = `${identifier}.${sourceDevice}`;
+      promise = window.textsecure.storage.protocol.enqueueSessionJob(
+        address,
+        () =>
+          signalDecrypt(
+            signalMessage,
+            ProtocolAddress.new(identifier, sourceDevice),
+            sessionStore,
+            identityKeyStore
+          ).then(plaintext => this.unpad(typedArrayToArrayBuffer(plaintext)))
+      );
+    } else if (
+      envelope.type === window.textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE
+    ) {
+      window.log.info('prekey message from', this.getEnvelopeId(envelope));
+      if (!identifier) {
+        throw new Error(
+          'MessageReceiver.decrypt: No identifier for PREKEY_BUNDLE message'
+        );
+      }
+      if (!sourceDevice) {
+        throw new Error(
+          'MessageReceiver.decrypt: No sourceDevice for PREKEY_BUNDLE message'
+        );
+      }
+      const preKeySignalMessage = PreKeySignalMessage.deserialize(
+        Buffer.from(ciphertext.toArrayBuffer())
+      );
 
-              if (
-                (sender && this.isBlocked(sender.getName())) ||
-                (senderUuid && this.isUuidBlocked(senderUuid.getName()))
-              ) {
-                window.log.info(
-                  'Dropping blocked message after sealed sender decryption'
-                );
-                return { isBlocked: true };
-              }
+      const address = `${identifier}.${sourceDevice}`;
+      promise = window.textsecure.storage.protocol.enqueueSessionJob(
+        address,
+        () =>
+          signalDecryptPreKey(
+            preKeySignalMessage,
+            ProtocolAddress.new(identifier, sourceDevice),
+            sessionStore,
+            identityKeyStore,
+            preKeyStore,
+            signedPreKeyStore
+          ).then(plaintext => this.unpad(typedArrayToArrayBuffer(plaintext)))
+      );
+    } else if (
+      envelope.type ===
+      window.textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER
+    ) {
+      window.log.info('received unidentified sender message');
+      const buffer = Buffer.from(ciphertext.toArrayBuffer());
 
-              // Here we take this sender information and attach it back to the envelope
-              //   to make the rest of the app work properly.
+      const decryptSealedSender = async (): Promise<
+        SealedSenderDecryptionResult | null | { isBlocked: true }
+      > => {
+        const messageContent = await sealedSenderDecryptToUsmc(
+          buffer,
+          identityKeyStore
+        );
 
-              const originalSource = envelope.source;
-              const originalSourceUuid = envelope.sourceUuid;
+        // Here we take this sender information and attach it back to the envelope
+        //   to make the rest of the app work properly.
+        const certificate = messageContent.senderCertificate();
 
-              // eslint-disable-next-line no-param-reassign
-              envelope.source = sender && sender.getName();
-              // eslint-disable-next-line no-param-reassign
-              envelope.sourceUuid = senderUuid && senderUuid.getName();
-              window.normalizeUuids(
-                envelope,
-                ['sourceUuid'],
-                'message_receiver::decrypt::UNIDENTIFIED_SENDER'
-              );
-              // eslint-disable-next-line no-param-reassign
-              envelope.sourceDevice =
-                (sender && sender.getDeviceId()) ||
-                (senderUuid && senderUuid.getDeviceId());
-              // eslint-disable-next-line no-param-reassign
-              envelope.unidentifiedDeliveryReceived = !(
-                originalSource || originalSourceUuid
-              );
+        const originalSource = envelope.source;
+        const originalSourceUuid = envelope.sourceUuid;
 
-              if (!content) {
-                throw new Error(
-                  'MessageReceiver.decrypt: Content returned was falsey!'
-                );
-              }
+        // eslint-disable-next-line no-param-reassign
+        envelope.source = certificate.senderE164() || undefined;
+        // eslint-disable-next-line no-param-reassign
+        envelope.sourceUuid = certificate.senderUuid();
+        window.normalizeUuids(
+          envelope,
+          ['sourceUuid'],
+          'message_receiver::decrypt::UNIDENTIFIED_SENDER'
+        );
+        // eslint-disable-next-line no-param-reassign
+        envelope.sourceDevice = certificate.senderDeviceId();
+        // eslint-disable-next-line no-param-reassign
+        envelope.unidentifiedDeliveryReceived = !(
+          originalSource || originalSourceUuid
+        );
 
-              // Return just the content because that matches the signature of the other
-              //   decrypt methods used above.
-              return this.unpad(content);
-            },
-            (error: Error) => {
-              const { sender, senderUuid } = error || {};
-
-              if (sender || senderUuid) {
-                const originalSource = envelope.source;
-                const originalSourceUuid = envelope.sourceUuid;
-
-                if (
-                  (sender && this.isBlocked(sender.getName())) ||
-                  (senderUuid && this.isUuidBlocked(senderUuid.getName()))
-                ) {
-                  window.log.info(
-                    'Dropping blocked message with error after sealed sender decryption'
-                  );
-                  return { isBlocked: true };
-                }
-
-                // eslint-disable-next-line no-param-reassign
-                envelope.source = sender && sender.getName();
-                // eslint-disable-next-line no-param-reassign
-                envelope.sourceUuid =
-                  senderUuid && senderUuid.getName().toLowerCase();
-                window.normalizeUuids(
-                  envelope,
-                  ['sourceUuid'],
-                  'message_receiver::decrypt::UNIDENTIFIED_SENDER::error'
-                );
-                // eslint-disable-next-line no-param-reassign
-                envelope.sourceDevice =
-                  (sender && sender.getDeviceId()) ||
-                  (senderUuid && senderUuid.getDeviceId());
-                // eslint-disable-next-line no-param-reassign
-                envelope.unidentifiedDeliveryReceived = !(
-                  originalSource || originalSourceUuid
-                );
-
-                throw error;
-              }
-
-              this.removeFromCache(envelope);
-              throw error;
-            }
+        if (
+          (envelope.source && this.isBlocked(envelope.source)) ||
+          (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid))
+        ) {
+          window.log.info(
+            'MessageReceiver.decrypt: Dropping blocked message after partial sealed sender decryption'
           );
-        break;
-      default:
-        promise = Promise.reject(new Error('Unknown message type'));
+          return { isBlocked: true };
+        }
+
+        if (!envelope.serverTimestamp) {
+          throw new Error(
+            'MessageReceiver.decrypt: Sealed sender message was missing serverTimestamp'
+          );
+        }
+
+        const sealedSenderIdentifier = envelope.sourceUuid || envelope.source;
+        const address = `${sealedSenderIdentifier}.${envelope.sourceDevice}`;
+        return window.textsecure.storage.protocol.enqueueSessionJob(
+          address,
+          () =>
+            sealedSenderDecryptMessage(
+              buffer,
+              PublicKey.deserialize(Buffer.from(serverTrustRoot)),
+              envelope.serverTimestamp,
+              localE164,
+              localUuid,
+              localDeviceId,
+              sessionStore,
+              identityKeyStore,
+              preKeyStore,
+              signedPreKeyStore
+            )
+        );
+      };
+
+      promise = decryptSealedSender().then(result => {
+        if (result === null) {
+          return { isMe: true };
+        }
+        if ('isBlocked' in result) {
+          return result;
+        }
+
+        const content = typedArrayToArrayBuffer(result.message());
+
+        if (!content) {
+          throw new Error(
+            'MessageReceiver.decrypt: Content returned was falsey!'
+          );
+        }
+
+        // Return just the content because that matches the signature of the other
+        //   decrypt methods used above.
+        return this.unpad(content);
+      });
+    } else {
+      promise = Promise.reject(new Error('Unknown message type'));
     }
 
     return promise
-      .then((plaintext: any) => {
-        const { isMe, isBlocked } = plaintext || {};
-        if (isMe || isBlocked) {
-          this.removeFromCache(envelope);
-          return null;
-        }
+      .then(
+        (
+          plaintext:
+            | ArrayBuffer
+            | { isMe: boolean }
+            | { isBlocked: boolean }
+            | undefined
+        ) => {
+          if (!plaintext || 'isMe' in plaintext || 'isBlocked' in plaintext) {
+            this.removeFromCache(envelope);
+            return null;
+          }
 
-        // Note: this is an out of band update; there are cases where the item in the
-        //   cache has already been deleted by the time this runs. That's okay.
-        try {
-          this.updateCache(envelope, plaintext);
-        } catch (error) {
-          const errorString = error && error.stack ? error.stack : error;
-          window.log.error(`decrypt: updateCache failed: ${errorString}`);
-        }
+          // Note: this is an out of band update; there are cases where the item in the
+          //   cache has already been deleted by the time this runs. That's okay.
+          try {
+            this.updateCache(envelope, plaintext);
+          } catch (error) {
+            const errorString = error && error.stack ? error.stack : error;
+            window.log.error(`decrypt: updateCache failed: ${errorString}`);
+          }
 
-        return plaintext;
-      })
+          return plaintext;
+        }
+      )
       .catch(async error => {
         this.removeFromCache(envelope);
 
@@ -1143,7 +1178,10 @@ class MessageReceiverInner extends EventTarget {
         const deviceId = envelope.sourceDevice;
 
         // We don't do a light session reset if it's just a duplicated message
-        if (error && error.name === 'MessageCounterError') {
+        if (
+          error?.message?.includes &&
+          error.message.includes('message with old counter')
+        ) {
           throw error;
         }
 
@@ -1248,41 +1286,13 @@ class MessageReceiverInner extends EventTarget {
     window.log.warn(`lightSessionReset/${id}: Resetting session`);
 
     // Archive open session with this device
-    const address = new window.libsignal.SignalProtocolAddress(uuid, deviceId);
-    const sessionCipher = new window.libsignal.SessionCipher(
-      window.textsecure.storage.protocol,
-      address
+    await window.textsecure.storage.protocol.archiveSession(
+      `${uuid}.${deviceId}`
     );
-
-    await sessionCipher.closeOpenSessionForDevice();
 
     // Send a null message with newly-created session
     const sendOptions = await conversation.getSendOptions();
     await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
-  }
-
-  async decryptPreKeyWhisperMessage(
-    ciphertext: ArrayBuffer,
-    sessionCipher: SessionCipherClass,
-    address: SignalProtocolAddressClass
-  ) {
-    const padded = await sessionCipher.decryptPreKeyWhisperMessage(ciphertext);
-
-    try {
-      return this.unpad(padded);
-    } catch (e) {
-      if (e.message === 'Unknown identity key') {
-        // create an error that the UI will pick up and ask the
-        // user if they want to re-negotiate
-        const buffer = window.dcodeIO.ByteBuffer.wrap(ciphertext);
-        throw new IncomingIdentityKeyError(
-          address.toString(),
-          buffer.toArrayBuffer(),
-          e.identityKey
-        );
-      }
-      throw e;
-    }
   }
 
   async handleSentMessage(
@@ -1866,7 +1876,10 @@ class MessageReceiverInner extends EventTarget {
     }
 
     this.removeFromCache(envelope);
-    throw new Error('Got empty SyncMessage');
+    window.log.warn(
+      `handleSyncMessage/${this.getEnvelopeId(envelope)}: Got empty SyncMessage`
+    );
+    return Promise.resolve();
   }
 
   async handleConfiguration(
@@ -2213,29 +2226,8 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async handleEndSession(identifier: string) {
-    window.log.info('got end session');
-    const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-      identifier
-    );
-
-    return Promise.all(
-      deviceIds.map(async deviceId => {
-        const address = new window.libsignal.SignalProtocolAddress(
-          identifier,
-          deviceId
-        );
-        const sessionCipher = new window.libsignal.SessionCipher(
-          window.textsecure.storage.protocol,
-          address
-        );
-
-        window.log.info(
-          'handleEndSession: closing sessions for',
-          address.toString()
-        );
-        return sessionCipher.closeOpenSessionForDevice();
-      })
-    );
+    window.log.info(`handleEndSession: closing sessions for ${identifier}`);
+    await window.textsecure.storage.protocol.archiveAllSessions(identifier);
   }
 
   async processDecrypted(envelope: EnvelopeClass, decrypted: DataMessageClass) {

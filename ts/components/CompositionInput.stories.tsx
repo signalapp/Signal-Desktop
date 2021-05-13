@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -8,6 +8,7 @@ import { boolean, select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { CompositionInput, Props } from './CompositionInput';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -28,6 +29,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   getQuotedMessage: action('getQuotedMessage'),
   onPickEmoji: action('onPickEmoji'),
   large: boolean('large', overrideProps.large || false),
+  setSecureInput: action('setSecureInput'),
   sortedGroupMembers: overrideProps.sortedGroupMembers || [],
   skinTone: select(
     'skinTone',
@@ -104,20 +106,12 @@ story.add('Emojis', () => {
 story.add('Mentions', () => {
   const props = createProps({
     sortedGroupMembers: [
-      {
-        id: '0',
-        type: 'direct',
-        lastUpdated: 0,
+      getDefaultConversation({
         title: 'Kate Beaton',
-        markedUnread: false,
-      },
-      {
-        id: '0',
-        type: 'direct',
-        lastUpdated: 0,
+      }),
+      getDefaultConversation({
         title: 'Parry Gripp',
-        markedUnread: false,
-      },
+      }),
     ],
     draftText: 'send _ a message',
     draftBodyRanges: [

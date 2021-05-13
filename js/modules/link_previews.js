@@ -117,7 +117,7 @@ function isLinkSneaky(href) {
   }
 
   // Any links which contain auth are considered sneaky
-  if (url.username) {
+  if (url.username || url.password) {
     return true;
   }
 

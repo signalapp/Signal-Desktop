@@ -1,7 +1,7 @@
 // Copyright 2017-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Signal, Whisper, textsecure, _, libsignal */
+/* global Signal, Whisper, textsecure, _ */
 
 /* eslint-disable no-console */
 
@@ -292,7 +292,7 @@ describe('Backup', () => {
         loadAttachmentData,
       } = window.Signal.Migrations;
 
-      const staticKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const staticKeyPair = window.Signal.Curve.generateKeyPair();
       const attachmentsPattern = normalizePath(
         path.join(attachmentsPath, '**')
       );
@@ -303,13 +303,8 @@ describe('Backup', () => {
 
       const CONVERSATION_ID = 'bdaa7f4f-e9bd-493e-ab0d-8331ad604269';
 
-      const toArrayBuffer = nodeBuffer =>
-        nodeBuffer.buffer.slice(
-          nodeBuffer.byteOffset,
-          nodeBuffer.byteOffset + nodeBuffer.byteLength
-        );
-
-      const getFixture = target => toArrayBuffer(fse.readFileSync(target));
+      const getFixture = target =>
+        window.Signal.Crypto.typedArrayToArrayBuffer(fse.readFileSync(target));
 
       const FIXTURES = {
         gif: getFixture('fixtures/giphy-7GFfijngKbeNy.gif'),

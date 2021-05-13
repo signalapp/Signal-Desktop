@@ -5,6 +5,7 @@ import { DataMessageClass } from './textsecure.d';
 import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
+import { ChallengeHandler } from './challenge';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
 import { senderCertificateService } from './services/senderCertificate';
@@ -12,7 +13,14 @@ import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import { ConversationModel } from './models/conversations';
+import { getMessageById } from './models/messages';
 import { createBatcher } from './util/batcher';
+import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
+import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
+import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
+import { ourProfileKeyService } from './services/ourProfileKey';
+import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
+import { setToExpire } from './services/MessageUpdater';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -29,6 +37,10 @@ export async function startApp(): Promise<void> {
       err && err.stack ? err.stack : err
     );
   }
+
+  initializeAllJobQueues();
+
+  ourProfileKeyService.initialize(window.storage);
 
   let resolveOnAppView: (() => void) | undefined;
   const onAppView = new Promise<void>(resolve => {
@@ -51,6 +63,10 @@ export async function startApp(): Promise<void> {
     concurrency: 1,
     timeout: 1000 * 60 * 2,
   });
+
+  const profileKeyResponseQueue = new window.PQueue();
+  profileKeyResponseQueue.pause();
+
   window.Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -152,9 +168,7 @@ export async function startApp(): Promise<void> {
       clearSelectedMessage();
     }
     if (userChanged) {
-      userChanged({
-        interactionMode,
-      } as WhatIsThis);
+      userChanged({ interactionMode });
     }
   };
   window.enterMouseMode = () => {
@@ -170,7 +184,7 @@ export async function startApp(): Promise<void> {
       clearSelectedMessage();
     }
     if (userChanged) {
-      userChanged({ interactionMode } as WhatIsThis);
+      userChanged({ interactionMode });
     }
   };
 
@@ -190,7 +204,7 @@ export async function startApp(): Promise<void> {
 
   // Load these images now to ensure that they don't flicker on first use
   window.preloadedImages = [];
-  function preload(list: Array<WhatIsThis>) {
+  function preload(list: ReadonlyArray<string>) {
     for (let index = 0, max = list.length; index < max; index += 1) {
       const image = new Image();
       image.src = `./images/${list[index]}`;
@@ -334,7 +348,7 @@ export async function startApp(): Promise<void> {
   window.log.info('Storage fetch');
   window.storage.fetch();
 
-  function mapOldThemeToNew(theme: WhatIsThis) {
+  function mapOldThemeToNew(theme: Readonly<unknown>) {
     switch (theme) {
       case 'dark':
       case 'light':
@@ -367,7 +381,7 @@ export async function startApp(): Promise<void> {
           'theme-setting',
           window.platform === 'darwin' ? 'system' : 'light'
         ),
-      setThemeSetting: (value: WhatIsThis) => {
+      setThemeSetting: (value: 'light' | 'dark' | 'system') => {
         window.storage.put('theme-setting', value);
         onChangeTheme();
       },
@@ -416,6 +430,9 @@ export async function startApp(): Promise<void> {
       getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
       setAlwaysRelayCalls: (value: boolean) =>
         window.storage.put('always-relay-calls', value),
+
+      getAutoLaunch: () => window.getAutoLaunch(),
+      setAutoLaunch: (value: boolean) => window.setAutoLaunch(value),
 
       // eslint-disable-next-line eqeqeq
       isPrimary: () => window.textsecure.storage.user.getDeviceId() == '1',
@@ -653,6 +670,13 @@ export async function startApp(): Promise<void> {
         await window.Signal.Data.clearAllErrorStickerPackAttempts();
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v5.2.0')) {
+        const legacySenderCertificateStorageKey = 'senderCertificateWithUuid';
+        await removeStorageKeyJobQueue.add({
+          key: legacySenderCertificateStorageKey,
+        });
+      }
+
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
         await window.Signal.Logs.deleteAll();
@@ -879,10 +903,10 @@ export async function startApp(): Promise<void> {
     const changedConvoBatcher = createBatcher<ConversationModel>({
       name: 'changedConvoBatcher',
       processBatch(batch) {
-        const deduped = Array.from(new Set(batch));
+        const deduped = new Set(batch);
         window.log.info(
           'changedConvoBatcher: deduped ' +
-            `${batch.length} into ${deduped.length}`
+            `${batch.length} into ${deduped.size}`
         );
 
         deduped.forEach(conversation => {
@@ -1133,7 +1157,7 @@ export async function startApp(): Promise<void> {
         (key === 'l' || key === 'L')
       ) {
         const button = document.querySelector(
-          '.module-ConversationHeader__more-button'
+          '.module-ConversationHeader__button--more'
         );
         if (!button) {
           return;
@@ -1421,7 +1445,62 @@ export async function startApp(): Promise<void> {
     window.textsecure.messaging.sendRequestKeySyncMessage();
   }
 
+  let challengeHandler: ChallengeHandler | undefined;
+
   async function start() {
+    challengeHandler = new ChallengeHandler({
+      storage: window.storage,
+
+      getMessageById,
+
+      requestChallenge(request) {
+        window.sendChallengeRequest(request);
+      },
+
+      async sendChallengeResponse(data) {
+        await window.textsecure.messaging.sendChallengeResponse(data);
+      },
+
+      onChallengeFailed() {
+        // TODO: DESKTOP-1530
+        // Display humanized `retryAfter`
+        window.Whisper.ToastView.show(
+          window.Whisper.CaptchaFailedToast,
+          document.getElementsByClassName('conversation-stack')[0] ||
+            document.body
+        );
+      },
+
+      onChallengeSolved() {
+        window.Whisper.ToastView.show(
+          window.Whisper.CaptchaSolvedToast,
+          document.getElementsByClassName('conversation-stack')[0] ||
+            document.body
+        );
+      },
+
+      setChallengeStatus(challengeStatus) {
+        window.reduxActions.network.setChallengeStatus(challengeStatus);
+      },
+    });
+    window.Whisper.events.on('challengeResponse', response => {
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be there');
+      }
+
+      challengeHandler.onResponse(response);
+    });
+
+    window.storage.onready(async () => {
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be there');
+      }
+
+      await challengeHandler.load();
+    });
+
+    window.Signal.challengeHandler = challengeHandler;
+
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('Cleanup: starting...');
@@ -1450,10 +1529,11 @@ export async function startApp(): Promise<void> {
             `Cleanup: Starting timer for delivered message ${sentAt}`
           );
           message.set(
-            'expirationStartTimestamp',
-            expirationStartTimestamp || sentAt
+            setToExpire({
+              ...message.attributes,
+              expirationStartTimestamp: expirationStartTimestamp || sentAt,
+            })
           );
-          await message.setToExpire();
           return;
         }
 
@@ -1643,6 +1723,10 @@ export async function startApp(): Promise<void> {
     //   we get an online event. This waits a bit after getting an 'offline' event
     //   before disconnecting the socket manually.
     disconnectTimer = setTimeout(disconnect, 1000);
+
+    if (challengeHandler) {
+      challengeHandler.onOffline();
+    }
   }
 
   function onOnline() {
@@ -1755,41 +1839,21 @@ export async function startApp(): Promise<void> {
         }
 
         try {
-          if (window.Signal.RemoteConfig.isEnabled('desktop.cds')) {
-            const lonelyE164s = window
-              .getConversations()
-              .filter(c =>
-                Boolean(
-                  c.isPrivate() &&
-                    c.get('e164') &&
-                    !c.get('uuid') &&
-                    !c.isEverUnregistered()
-                )
+          const lonelyE164Conversations = window
+            .getConversations()
+            .filter(c =>
+              Boolean(
+                c.isPrivate() &&
+                  c.get('e164') &&
+                  !c.get('uuid') &&
+                  !c.isEverUnregistered()
               )
-              .map(c => c.get('e164'))
-              .filter(Boolean) as Array<string>;
-
-            if (lonelyE164s.length > 0) {
-              const lookup = await window.textsecure.messaging.getUuidsForE164s(
-                lonelyE164s
-              );
-              const e164s = Object.keys(lookup);
-              e164s.forEach(e164 => {
-                const uuid = lookup[e164];
-                if (!uuid) {
-                  const byE164 = window.ConversationController.get(e164);
-                  if (byE164) {
-                    byE164.setUnregistered();
-                  }
-                }
-                window.ConversationController.ensureContactIds({
-                  e164,
-                  uuid,
-                  highTrust: true,
-                });
-              });
-            }
-          }
+            );
+          await updateConversationsWithUuidLookup({
+            conversationController: window.ConversationController,
+            conversations: lonelyE164Conversations,
+            messaging: window.textsecure.messaging,
+          });
         } catch (error) {
           window.log.error(
             'connect: Error fetching UUIDs for lonely e164s:',
@@ -1800,8 +1864,10 @@ export async function startApp(): Promise<void> {
 
       connectCount += 1;
 
-      window.Whisper.deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
-      window.Whisper.Notifications.disable(); // avoid notification flood until empty
+      // To avoid a flood of operations before we catch up, we pause some queues.
+      profileKeyResponseQueue.pause();
+      window.Whisper.deliveryReceiptQueue.pause();
+      window.Whisper.Notifications.disable();
 
       // initialize the socket and start listening for messages
       window.log.info('Initializing socket and listening for messages');
@@ -1813,7 +1879,7 @@ export async function startApp(): Promise<void> {
         USERNAME,
         PASSWORD,
         mySignalingKey,
-        messageReceiverOptions as WhatIsThis
+        messageReceiverOptions
       );
       window.textsecure.messageReceiver = messageReceiver;
 
@@ -1822,7 +1888,7 @@ export async function startApp(): Promise<void> {
       preMessageReceiverStatus = null;
 
       // eslint-disable-next-line no-inner-declarations
-      function addQueuedEventListener(name: WhatIsThis, handler: WhatIsThis) {
+      function addQueuedEventListener(name: string, handler: WhatIsThis) {
         messageReceiver.addEventListener(name, (...args: Array<WhatIsThis>) =>
           eventHandlerQueue.add(async () => {
             try {
@@ -2046,6 +2112,13 @@ export async function startApp(): Promise<void> {
           );
         }
       });
+
+      if (!challengeHandler) {
+        throw new Error('Expected challenge handler to be initialized');
+      }
+
+      // Intentionally not awaiting
+      challengeHandler.onOnline();
     } finally {
       connecting = false;
     }
@@ -2122,6 +2195,7 @@ export async function startApp(): Promise<void> {
       newVersion
     );
 
+    profileKeyResponseQueue.start();
     window.Whisper.deliveryReceiptQueue.start();
     window.Whisper.Notifications.enable();
 
@@ -2193,6 +2267,7 @@ export async function startApp(): Promise<void> {
     //   scenarios where we're coming back from sleep, we can get offline/online events
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
+    profileKeyResponseQueue.pause();
     window.Whisper.deliveryReceiptQueue.pause();
     window.Whisper.Notifications.disable();
   }
@@ -2376,7 +2451,7 @@ export async function startApp(): Promise<void> {
       // special case for syncing details about ourselves
       if (details.profileKey) {
         window.log.info('Got sync message with our own profile key');
-        window.storage.put('profileKey', details.profileKey);
+        ourProfileKeyService.set(details.profileKey);
       }
     }
 
@@ -2603,6 +2678,30 @@ export async function startApp(): Promise<void> {
     return confirm();
   }
 
+  const respondWithProfileKeyBatcher = createBatcher<ConversationModel>({
+    name: 'respondWithProfileKeyBatcher',
+    processBatch(batch) {
+      const deduped = new Set(batch);
+      deduped.forEach(async sender => {
+        try {
+          if (!(await shouldRespondWithProfileKey(sender))) {
+            return;
+          }
+        } catch (error) {
+          window.log.error(
+            'respondWithProfileKeyBatcher error',
+            error && error.stack
+          );
+        }
+
+        sender.queueJob(() => sender.sendProfileKeyUpdate());
+      });
+    },
+
+    wait: 200,
+    maxSize: Infinity,
+  });
+
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
@@ -2628,6 +2727,18 @@ export async function startApp(): Promise<void> {
     }
 
     const message = initIncomingMessage(data, messageDescriptor);
+
+    if (message.isIncoming() && message.get('unidentifiedDeliveryReceived')) {
+      const sender = message.getContact();
+
+      if (!sender) {
+        throw new Error('MessageModel has no sender.');
+      }
+
+      profileKeyResponseQueue.add(() => {
+        respondWithProfileKeyBatcher.add(sender);
+      });
+    }
 
     if (data.message.reaction) {
       window.normalizeUuids(

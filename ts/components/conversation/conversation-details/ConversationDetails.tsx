@@ -5,10 +5,8 @@ import React, { useState, ReactNode } from 'react';
 
 import { ConversationType } from '../../../state/ducks/conversations';
 import { assert } from '../../../util/assert';
-import {
-  ExpirationTimerOptions,
-  TimerOption,
-} from '../../../util/ExpirationTimerOptions';
+import * as expirationTimer from '../../../util/expirationTimer';
+
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
@@ -20,7 +18,10 @@ import { ConversationDetailsActions } from './ConversationDetailsActions';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 import { ConversationDetailsMediaList } from './ConversationDetailsMediaList';
-import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
+import {
+  ConversationDetailsMembershipList,
+  GroupV2Membership,
+} from './ConversationDetailsMembershipList';
 import { EditConversationAttributesModal } from './EditConversationAttributesModal';
 import { RequestState } from './util';
 
@@ -39,6 +40,7 @@ export type StateProps = {
   i18n: LocalizerType;
   isAdmin: boolean;
   loadRecentMediaItems: (limit: number) => void;
+  memberships: Array<GroupV2Membership>;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
   showContactModal: (conversationId: string) => void;
@@ -61,6 +63,10 @@ export type StateProps = {
 
 export type Props = StateProps;
 
+const expirationTimerDefaultSet = new Set<number>(
+  expirationTimer.DEFAULT_DURATIONS_IN_SECONDS
+);
+
 export const ConversationDetails: React.ComponentType<Props> = ({
   addMembers,
   canEditGroupInfo,
@@ -70,6 +76,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   i18n,
   isAdmin,
   loadRecentMediaItems,
+  memberships,
   setDisappearingMessages,
   showAllMedia,
   showContactModal,
@@ -101,7 +108,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     throw new Error('ConversationDetails rendered without a conversation');
   }
 
-  const memberships = conversation.memberships || [];
   const pendingMemberships = conversation.pendingMemberships || [];
   const pendingApprovalMemberships =
     conversation.pendingApprovalMemberships || [];
@@ -194,6 +200,13 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       throw missingCaseError(modalState);
   }
 
+  const expireTimer = conversation.expireTimer || 0;
+
+  let expirationTimerDurations = expirationTimer.DEFAULT_DURATIONS_IN_SECONDS;
+  if (!expirationTimerDefaultSet.has(expireTimer)) {
+    expirationTimerDurations = [...expirationTimerDurations, expireTimer];
+  }
+
   return (
     <div className="conversation-details-panel">
       <ConversationDetailsHeader
@@ -220,19 +233,15 @@ export const ConversationDetails: React.ComponentType<Props> = ({
             label={i18n('ConversationDetails--disappearing-messages-label')}
             right={
               <div className="module-conversation-details-select">
-                <select
-                  onChange={updateExpireTimer}
-                  value={conversation.expireTimer || 0}
-                >
-                  {ExpirationTimerOptions.map((item: typeof TimerOption) => (
-                    <option
-                      value={item.get('seconds')}
-                      key={item.get('seconds')}
-                      aria-label={item.getName(i18n)}
-                    >
-                      {item.getName(i18n)}
-                    </option>
-                  ))}
+                <select onChange={updateExpireTimer} value={expireTimer}>
+                  {expirationTimerDurations.map((seconds: number) => {
+                    const label = expirationTimer.format(i18n, seconds);
+                    return (
+                      <option value={seconds} key={seconds} aria-label={label}>
+                        {label}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             }

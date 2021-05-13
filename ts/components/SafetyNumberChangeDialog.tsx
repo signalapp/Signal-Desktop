@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -86,15 +86,19 @@ export const SafetyNumberChangeDialog = ({
               key={contact.id}
             >
               <Avatar
+                acceptedMessageRequest={contact.acceptedMessageRequest}
                 avatarPath={contact.avatarPath}
                 color={contact.color}
                 conversationType="direct"
                 i18n={i18n}
+                isMe={contact.isMe}
                 name={contact.name}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
                 title={contact.title}
+                sharedGroupNames={contact.sharedGroupNames}
                 size={52}
+                unblurredAvatarPath={contact.unblurredAvatarPath}
               />
               <div className="module-SafetyNumberChangeDialog__contact--wrapper">
                 <div className="module-SafetyNumberChangeDialog__contact--name">

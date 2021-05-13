@@ -4,6 +4,7 @@
 import React from 'react';
 
 import { Avatar } from '../../Avatar';
+import { Emojify } from '../Emojify';
 import { LocalizerType } from '../../../types/Util';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { bemGenerator } from './util';
@@ -32,9 +33,12 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
         i18n={i18n}
         size={80}
         {...conversation}
+        sharedGroupNames={[]}
       />
       <div>
-        <div className={bem('title')}>{conversation.title}</div>
+        <div className={bem('title')}>
+          <Emojify text={conversation.title} />
+        </div>
         <div className={bem('subtitle')}>
           {i18n('ConversationDetailsHeader--members', [
             memberships.length.toString(),

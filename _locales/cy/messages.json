@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Creu/llwytho pecyn sticeri",
+        "message": "Creu/uwchlwytho pecyn sticeri",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -448,7 +448,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Aeth rhywbeth o'i le gyda'r llwytho! Ystyriwch ychwanegu eich cofnod â llaw at y gwall rydych chi'n ei ffeilio.",
+        "message": "Aeth rhywbeth o'i le wrth uwchlwytho! Ystyriwch ychwanegu eich cofnod â llaw at y gwall rydych chi'n ei ffeilio.",
         "description": ""
     },
     "debugLogCopy": {
@@ -771,6 +771,10 @@
         "message": "Cysylltiadau",
         "description": "Shown to separate the types of search results"
     },
+    "groupsHeader": {
+        "message": "Grwpiau",
+        "description": "Shown to separate the types of search results"
+    },
     "messagesHeader": {
         "message": "Negeseuon",
         "description": "Shown to separate the types of search results"
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Bydd clicio 'dileu' yn tynnu'r neges hon yn barhaol o'ch dyfeisiau chi yn unig.",
+        "message": "Bydd y neges hon yn cael ei dileu o'r ddyfais hon.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1075,10 @@
         "message": "Nid ydych wedi cyfnewid unrhyw negeseuon gyda'r cyswllt hwn eto. Bydd eich rhif diogelwch gyda nhw ar gael ar ôl y neges gyntaf.",
         "description": ""
     },
+    "back": {
+        "message": "Nôl",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Nôl",
         "description": "Label for back button in a conversation"
@@ -1082,6 +1090,10 @@
     "retrySend": {
         "message": "Ailgynnig Anfon",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
+    },
+    "forwardMessage": {
+        "message": "Anfon ymlaen",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
         "message": "Dileu neges i mi",
@@ -1102,6 +1114,22 @@
     "sessionEnded": {
         "message": "Ailosodwyd sesiwn ddiogel",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Adnewyddwyd sesiwn sgwrsio",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Dysgu Rhagor",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Defnyddir Signal amgryptio dechrau-i'r-diwedd ac efallai bydd rhaid iddo adnewyddu eich sesiwn sgwrsio o dro i dro. Nid yw hyn yn cael effaith ar ddiogelwch eich sgyrsiau ond efallai byddwch wedi methu neges gan y cysylltiad yma a gallwch ofyn iddynt ail-anfon.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Cysylltu â Chymorth Signal",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "Llun bach delwedd o'r neges a ddyfynnwyd",
@@ -1909,6 +1937,112 @@
         "message": "Cychwyn sgwrs newydd...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "newConversation": {
+        "message": "Sgwrs newydd",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "Chwilio yn ôl enw neu rif ffôn",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Heb ganfod cysylltiadau",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Heb ganfod sgyrsiau",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Dewis aelodau",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Nôl",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Hepgor",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "Nesaf",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Uchafswm maint y grŵp wedi'i gyrraedd",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Gall grwpiau Signal fod ag uchafswm o $max$ aelod.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Mae'r terfyn aelodaeth a argymhellir wedi'i gyrraedd",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Mae grwpiau Signal yn gweithio orau gydag $max$ aelod neu lai. Bydd ychwanegu mwy o aelodau yn achosi oedi wrth anfon a derbyn negeseuon.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Methu ychwanegu rhif",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "Nid oes modd ychwanegu \"$name$\" i'r grŵp oherwydd maen nhw'n defnyddio fersiwn hen o Signal. Gallwch ychwanegu nhw i'r grŵp ar ôl iddyn nhw ddiweddaru Signal.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Enwi'r grŵp hwn",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Nôl i'r dewisiad aelod",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Enw'r grŵp (angenrheidiol)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Creu",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Aelodau",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Methwyd creu grŵp hyn. Gwiriwch eich cysylltiad rhyngrwyd a rhowch gynnig arall arni.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Golygu enw a llun grŵp",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Wedi methu diweddaru'r grŵp. Gwiriwch eich cysylltiad rhyngrwyd a rhowch gynnig arall arni.",
+        "description": "Shown in the modal when we can't update a group"
+    },
     "notSupportedSMS": {
         "message": "Nid yw negeseuon SMS/MMS yn cael eu cefnogi.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
@@ -2353,6 +2487,10 @@
         "message": "Agor y ddewislen sgwrsio",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--new-conversation": {
+        "message": "Cychwyn sgwrs newydd",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--archive-conversation": {
         "message": "Archifio'r sgwrs",
         "description": "Shown in the shortcuts guide"
@@ -2636,11 +2774,11 @@
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Ydych chi'n siŵr eich bod chi am lwytho'ch pecyn sticeri?",
+        "message": "Ydych chi'n siŵr eich bod chi am uwchlwytho'ch pecyn sticeri?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Llwytho",
+        "message": "Uwchlwytho",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
@@ -2652,7 +2790,7 @@
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ o $total$ wedi'i llwytho",
+        "message": "$count$ o $total$ wedi'i uwchlwytho",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "Aelod o $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "Aelod o $group1$ a $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "Aelod o $group1$, $group2$, a $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "Aelod o $group1$, $group2$, $group3$ a $remainingCount$ arall.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "Ychwanegodd $name$ chi at y grŵp.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Dim grwpiau'n gyffredin",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Ateb",
@@ -3245,6 +3339,10 @@
         "message": "Tewi am awr",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "Tewi am wyth awr",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "Tewi am ddiwrnod",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "Tewi am wythnos",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Tewi am flwyddyn",
+    "muteAlways": {
+        "message": "Tewi am byth",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Dad-dewi",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Wedi tewi am byth",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "Tawyd am $duration$",
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "Gweinyddwr",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Gweinyddwyr yn Unig",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Pob aelod",
@@ -3614,7 +3720,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "Mae cymeradwyaeth weinyddol ar gyfer y cyswllt grŵp wedi'i analluogi.",
+        "message": "Galluogwyd cymeradwyaeth weinyddol ar gyfer y ddolen grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -4641,6 +4747,10 @@
         "message": "Rhwystro'r grŵp",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Cyn i chi adael, rhaid i chi ddewis o leiaf un gweinyddwr newydd ar gyfer y grŵp hwn.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Ydych chi wir eisiau gadael?",
         "description": "This is the modal title for confirming leaving a group"
@@ -4698,6 +4808,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Ychwanegu aelodau",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Gweld y cyfan",
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "Nid yw manylion am bobl sydd wedi'u gwahodd i'r grŵp hwn nes iddyn nhw ymuno. Dim ond ar ôl iddyn nhw ymuno â'r grŵp y bydd gwahoddedigion yn gweld negeseuon.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Ychwanegu llun grŵp",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Newid llun",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Uwchlwytho llun",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Tynnu llun",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Tynnu cysylltiad",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Iawn",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Gwahoddiad wedi'i anfon",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ gwahoddiad wedi'u hanfon",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "Nid oes modd i ti ychwanegu $name$ yn awtomatig i'r grŵp.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Nid oes modd i ti ychwanegu'r defnyddiwr hwn i'r grŵp yn awtomatig.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "Maent nhw wedi eu gwahodd, a ni fyddent yn gweld unrhyw negeseuon grŵp nes iddynt dderbyn.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Dysgu rhagor",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Ychwanegu aelodau",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Diweddaru",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "Ychwanegu 1$person$ i \"2$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "Ychwanegu 1$count$ aelod i \"2$group$\"?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Ychwanegu aelod",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Ychwanegu aelodau",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Grŵp newydd",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Dewiswch cysylltiad",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Dad-ddewis cysylltiad",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Methu dewis cysylltiad",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Rydyn nhw eisoes yn aelod",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Chwarae atodiad sain",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Seibi atodiad sain",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Llwytho atodiad sain i lawr",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Yn llwytho atodiad sain i lawr...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Amser chwarae nôl atodiad sain",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Cliciwch y $composeIcon$ uchod a chwilio am gysylltiadau neu grwpiau i anfon negeseuon atynt.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "botwm cyfansoddi",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Parhau",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

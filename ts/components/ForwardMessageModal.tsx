@@ -25,6 +25,7 @@ import { EmojiPickDataType } from './emoji/EmojiPicker';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
 import { BodyRangeType, LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
+import { SearchInput } from './SearchInput';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { assert } from '../util/assert';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
@@ -49,6 +50,7 @@ export type DataPropsType = {
     caretLocation?: number
   ) => unknown;
   onTextTooLong: () => void;
+  setSecureInput: (enabled: boolean) => void;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
 
 type ActionPropsType = Pick<
@@ -78,6 +80,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   recentEmojis,
   removeLinkPreview,
   skinTone,
+  setSecureInput,
 }) => {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const inputApiRef = React.useRef<InputApi | undefined>();
@@ -250,13 +253,11 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
             </button>
           ) : (
             <button
-              aria-label={i18n('cancel')}
-              className="module-ForwardMessageModal__header--cancel"
+              aria-label={i18n('close')}
+              className="module-ForwardMessageModal__header--close"
               onClick={onClose}
               type="button"
-            >
-              {i18n('cancel')}
-            </button>
+            />
           )}
           <h1>{i18n('forwardMessage')}</h1>
         </div>
@@ -308,6 +309,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                 onPickEmoji={onPickEmoji}
                 onSubmit={forwardMessage}
                 onTextTooLong={onTextTooLong}
+                setSecureInput={setSecureInput}
               />
               <div className="module-ForwardMessageModal__emoji">
                 <EmojiButton
@@ -324,20 +326,15 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
           </div>
         ) : (
           <div className="module-ForwardMessageModal__main-body">
-            <div className="module-ForwardMessageModal__search">
-              <i className="module-ForwardMessageModal__search--icon" />
-              <input
-                type="text"
-                className="module-ForwardMessageModal__search--input"
-                disabled={candidateConversations.length === 0}
-                placeholder={i18n('contactSearchPlaceholder')}
-                onChange={event => {
-                  setSearchTerm(event.target.value);
-                }}
-                ref={inputRef}
-                value={searchTerm}
-              />
-            </div>
+            <SearchInput
+              disabled={candidateConversations.length === 0}
+              placeholder={i18n('contactSearchPlaceholder')}
+              onChange={event => {
+                setSearchTerm(event.target.value);
+              }}
+              ref={inputRef}
+              value={searchTerm}
+            />
             {candidateConversations.length ? (
               <Measure bounds>
                 {({ contentRect, measureRef }: MeasuredComponentProps) => {

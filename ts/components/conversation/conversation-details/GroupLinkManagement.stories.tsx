@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -35,20 +35,20 @@ function getConversation(
   groupLink?: string,
   accessControlAddFromInviteLink?: number
 ): ConversationType {
-  return {
+  return getDefaultConversation({
     id: '',
     lastUpdated: 0,
-    markedUnread: false,
     memberships: Array(32).fill({ member: getDefaultConversation({}) }),
     pendingMemberships: Array(16).fill({ member: getDefaultConversation({}) }),
     title: 'Some Conversation',
     type: 'group',
+    sharedGroupNames: [],
     groupLink,
     accessControlAddFromInviteLink:
       accessControlAddFromInviteLink !== undefined
         ? accessControlAddFromInviteLink
         : AccessEnum.UNSATISFIABLE,
-  };
+  });
 }
 
 const createProps = (

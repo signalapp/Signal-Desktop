@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -8,15 +8,20 @@ import { TypingAnimation } from './TypingAnimation';
 import { Avatar } from '../Avatar';
 
 import { LocalizerType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
+import { ConversationType } from '../../state/ducks/conversations';
 
-export type Props = {
-  avatarPath?: string;
-  color: ColorType;
-  name?: string;
-  phoneNumber?: string;
-  profileName?: string;
-  title: string;
+export type Props = Pick<
+  ConversationType,
+  | 'acceptedMessageRequest'
+  | 'avatarPath'
+  | 'color'
+  | 'isMe'
+  | 'name'
+  | 'phoneNumber'
+  | 'profileName'
+  | 'sharedGroupNames'
+  | 'title'
+> & {
   conversationType: 'group' | 'direct';
   i18n: LocalizerType;
 };
@@ -24,14 +29,17 @@ export type Props = {
 export class TypingBubble extends React.PureComponent<Props> {
   public renderAvatar(): JSX.Element | null {
     const {
+      acceptedMessageRequest,
       avatarPath,
       color,
+      conversationType,
+      i18n,
+      isMe,
       name,
       phoneNumber,
       profileName,
+      sharedGroupNames,
       title,
-      conversationType,
-      i18n,
     } = this.props;
 
     if (conversationType !== 'group') {
@@ -42,14 +50,17 @@ export class TypingBubble extends React.PureComponent<Props> {
       <div className="module-message__author-avatar-container">
         <div className="module-message__author-avatar">
           <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
             avatarPath={avatarPath}
             color={color}
             conversationType="direct"
             i18n={i18n}
+            isMe={isMe}
             name={name}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}
+            sharedGroupNames={sharedGroupNames}
             size={28}
           />
         </div>

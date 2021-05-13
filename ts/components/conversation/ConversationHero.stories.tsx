@@ -1,9 +1,10 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { number as numberKnob, text } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 
 import { ConversationHero } from './ConversationHero';
 import { setup as setupI18n } from '../../../js/modules/i18n';
@@ -19,20 +20,26 @@ const getAvatarPath = () =>
   text('avatarPath', '/fixtures/kitten-4-112-112.jpg');
 const getPhoneNumber = () => text('phoneNumber', '+1 (646) 327-2700');
 
+const updateSharedGroups = action('updateSharedGroups');
+
 storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (Three Other Groups)', () => {
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={getTitle()}
           avatarPath={getAvatarPath()}
           name={getName()}
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={['NYC Rock Climbers', 'Dinner Party', 'Friends 🌿']}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -42,14 +49,18 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={getTitle()}
           avatarPath={getAvatarPath()}
           name={getName()}
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -59,14 +70,18 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={getTitle()}
           avatarPath={getAvatarPath()}
           name={getName()}
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={['NYC Rock Climbers']}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -76,14 +91,18 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={getTitle()}
           avatarPath={getAvatarPath()}
           name={getName()}
           profileName={text('profileName', '')}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -93,14 +112,18 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'Cayce Bollard (profile)')}
           avatarPath={getAvatarPath()}
           name={text('name', '')}
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -110,14 +133,18 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           about={getAbout()}
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', '+1 (646) 327-2700')}
           avatarPath={getAvatarPath()}
           name={text('name', '')}
           profileName={text('profileName', '')}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
+          updateSharedGroups={updateSharedGroups}
           sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
         />
       </div>
     );
@@ -127,13 +154,37 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           i18n={i18n}
+          isMe={false}
           title={text('title', 'Unknown contact')}
+          acceptedMessageRequest
           avatarPath={getAvatarPath()}
           name={text('name', '')}
           profileName={text('profileName', '')}
           phoneNumber={text('phoneNumber', '')}
           conversationType="direct"
           sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
+        />
+      </div>
+    );
+  })
+  .add('Direct (No Groups, No Data, Not Accepted)', () => {
+    return (
+      <div style={{ width: '480px' }}>
+        <ConversationHero
+          i18n={i18n}
+          isMe={false}
+          title={text('title', 'Unknown contact')}
+          acceptedMessageRequest={false}
+          avatarPath={getAvatarPath()}
+          name={text('name', '')}
+          profileName={text('profileName', '')}
+          phoneNumber={text('phoneNumber', '')}
+          conversationType="direct"
+          sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -142,11 +193,16 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={numberKnob('membersCount', 22)}
+          sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -155,11 +211,16 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={1}
+          sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -168,11 +229,16 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
           membersCount={0}
+          sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -181,11 +247,16 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
+          isMe={false}
           title={text('title', 'Unknown group')}
           name={text('groupName', '')}
           conversationType="group"
           membersCount={0}
+          sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );
@@ -194,11 +265,15 @@ storiesOf('Components/Conversation/ConversationHero', module)
     return (
       <div style={{ width: '480px' }}>
         <ConversationHero
+          acceptedMessageRequest
           i18n={i18n}
           isMe
           title={getTitle()}
           conversationType="direct"
           phoneNumber={getPhoneNumber()}
+          sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
         />
       </div>
     );

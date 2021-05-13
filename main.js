@@ -42,6 +42,8 @@ const {
   systemPreferences,
 } = electron;
 
+const animationSettings = systemPreferences.getAnimationSettings();
+
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
 console.log('Set Windows Application User Model ID (AUMID)', {
   appUserModelId,
@@ -106,8 +108,10 @@ const OS = require('./ts/OS');
 const { isBeta } = require('./ts/util/version');
 const {
   isSgnlHref,
+  isCaptchaHref,
   isSignalHttpsLink,
   parseSgnlHref,
+  parseCaptchaHref,
   parseSignalHttpsLink,
 } = require('./ts/util/sgnlHref');
 const {
@@ -118,8 +122,10 @@ const {
   TitleBarVisibility,
 } = require('./ts/types/Settings');
 const { Environment } = require('./ts/environment');
+const { ChallengeMainHandler } = require('./ts/main/challengeMain');
 
 const sql = new MainSQL();
+const challengeHandler = new ChallengeMainHandler();
 
 let sqlInitTimeStart = 0;
 let sqlInitTimeEnd = 0;
@@ -191,6 +197,12 @@ if (!process.mas) {
 
         showWindow();
       }
+      const incomingCaptchaHref = getIncomingCaptchaHref(argv);
+      if (incomingCaptchaHref) {
+        const { captcha } = parseCaptchaHref(incomingCaptchaHref, logger);
+        challengeHandler.handleCaptcha(captcha);
+        return true;
+      }
       // Are they trying to open a sgnl:// href?
       const incomingHref = getIncomingHref(argv);
       if (incomingHref) {
@@ -245,6 +257,9 @@ function prepareURL(pathSegments, moreKeys) {
       contentProxyUrl: config.contentProxyUrl,
       sfuUrl: config.get('sfuUrl'),
       importMode: importMode ? true : undefined, // for stringify()
+      reducedMotionSetting: animationSettings.prefersReducedMotion
+        ? true
+        : undefined,
       serverPublicParams: config.get('serverPublicParams'),
       serverTrustRoot: config.get('serverTrustRoot'),
       appStartInitialSpellcheckSetting,
@@ -540,15 +555,8 @@ async function createWindow() {
   mainWindow.once('ready-to-show', async () => {
     console.log('main window is ready-to-show');
 
-    try {
-      await sqlInitPromise;
-    } catch (error) {
-      console.log(
-        'main window is ready, but sql has errored',
-        error && error.stack
-      );
-      return;
-    }
+    // Ignore sql errors and show the window anyway
+    await sqlInitPromise;
 
     if (!mainWindow) {
       return;
@@ -564,9 +572,12 @@ async function createWindow() {
 
 // Renderer asks if we are done with the database
 ipc.on('database-ready', async event => {
-  try {
-    await sqlInitPromise;
-  } catch (error) {
+  const { error } = await sqlInitPromise;
+  if (error) {
+    console.log(
+      'database-ready requested, but got sql error',
+      error && error.stack
+    );
     return;
   }
 
@@ -576,6 +587,12 @@ ipc.on('database-ready', async event => {
 
 ipc.on('show-window', () => {
   showWindow();
+});
+
+ipc.on('set-secure-input', (_sender, enabled) => {
+  if (app.setSecureKeyboardEntryEnabled) {
+    app.setSecureKeyboardEntryEnabled(enabled);
+  }
 });
 
 ipc.on('title-bar-double-click', () => {
@@ -1018,11 +1035,18 @@ async function initializeSQL() {
   }
 
   sqlInitTimeStart = Date.now();
-  await sql.initialize({
-    configDir: userDataPath,
-    key,
-  });
-  sqlInitTimeEnd = Date.now();
+  try {
+    await sql.initialize({
+      configDir: userDataPath,
+      key,
+    });
+  } catch (error) {
+    return { ok: false, error };
+  } finally {
+    sqlInitTimeEnd = Date.now();
+  }
+
+  return { ok: true };
 }
 
 const sqlInitPromise = initializeSQL();
@@ -1145,7 +1169,7 @@ app.on('ready', async () => {
 
     loadingWindow.once('ready-to-show', async () => {
       loadingWindow.show();
-      // Wait for sql initialization to complete
+      // Wait for sql initialization to complete, but ignore errors
       await sqlInitPromise;
       loadingWindow.destroy();
       loadingWindow = null;
@@ -1157,9 +1181,8 @@ app.on('ready', async () => {
   // Run window preloading in parallel with database initialization.
   await createWindow();
 
-  try {
-    await sqlInitPromise;
-  } catch (error) {
+  const { error: sqlError } = await sqlInitPromise;
+  if (sqlError) {
     console.log('sql.initialize was unsuccessful; returning early');
     const buttonIndex = dialog.showMessageBoxSync({
       buttons: [
@@ -1167,7 +1190,7 @@ app.on('ready', async () => {
         locale.messages.deleteAndRestart.message,
       ],
       defaultId: 0,
-      detail: redactAll(error.stack),
+      detail: redactAll(sqlError.stack),
       message: locale.messages.databaseError.message,
       noLink: true,
       type: 'error',
@@ -1175,7 +1198,7 @@ app.on('ready', async () => {
 
     if (buttonIndex === 0) {
       clipboard.writeText(
-        `Database startup error:\n\n${redactAll(error.stack)}`
+        `Database startup error:\n\n${redactAll(sqlError.stack)}`
       );
     } else {
       await sql.sqlCall('removeDB', []);
@@ -1386,11 +1409,19 @@ app.on('web-contents-created', (createEvent, contents) => {
 });
 
 app.setAsDefaultProtocolClient('sgnl');
+app.setAsDefaultProtocolClient('signalcaptcha');
 app.on('will-finish-launching', () => {
   // open-url must be set from within will-finish-launching for macOS
   // https://stackoverflow.com/a/43949291
   app.on('open-url', (event, incomingHref) => {
     event.preventDefault();
+
+    if (isCaptchaHref(incomingHref, logger)) {
+      const { captcha } = parseCaptchaHref(incomingHref, logger);
+      challengeHandler.handleCaptcha(captcha);
+      return;
+    }
+
     handleSgnlHref(incomingHref);
   });
 });
@@ -1523,6 +1554,9 @@ installSettingsSetter('badge-count-muted-conversations');
 installSettingsGetter('spell-check');
 installSettingsSetter('spell-check', true);
 
+installSettingsGetter('auto-launch');
+installSettingsSetter('auto-launch');
+
 installSettingsGetter('always-relay-calls');
 installSettingsSetter('always-relay-calls');
 installSettingsGetter('call-ringtone-notification');
@@ -1649,6 +1683,10 @@ function installSettingsSetter(name, isEphemeral = false) {
 
 function getIncomingHref(argv) {
   return argv.find(arg => isSgnlHref(arg, logger));
+}
+
+function getIncomingCaptchaHref(argv) {
+  return argv.find(arg => isCaptchaHref(arg, logger));
 }
 
 function handleSgnlHref(incomingHref) {

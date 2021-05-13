@@ -93,12 +93,17 @@ export const CallingParticipantsList = React.memo(
                 >
                   <div>
                     <Avatar
+                      acceptedMessageRequest={
+                        participant.acceptedMessageRequest
+                      }
                       avatarPath={participant.avatarPath}
                       color={participant.color}
                       conversationType="direct"
                       i18n={i18n}
+                      isMe={participant.isMe}
                       profileName={participant.profileName}
                       title={participant.title}
+                      sharedGroupNames={participant.sharedGroupNames}
                       size={32}
                     />
                     {participant.uuid === ourUuid ? (

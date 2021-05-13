@@ -18,8 +18,6 @@
   }
 
   @include button-reset;
-  @include font-body-1-bold;
-
   border-radius: 4px;
   padding: 8px 16px;
   text-align: center;
@@ -35,6 +33,16 @@
 
   &:disabled {
     cursor: not-allowed;
+  }
+
+  &--medium {
+    @include font-body-1-bold;
+  }
+
+  &--small {
+    @include font-body-2;
+    @include rounded-corners;
+    padding: 6px 12px;
   }
 
   &--primary {

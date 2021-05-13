@@ -30,7 +30,9 @@ describe('WebSocket-Resource', () => {
           assert.strictEqual(request.path, '/some/path');
           assertEqualArrayBuffers(
             request.body.toArrayBuffer(),
-            new Uint8Array([1, 2, 3]).buffer
+            window.Signal.Crypto.typedArrayToArrayBuffer(
+              new Uint8Array([1, 2, 3])
+            )
           );
           request.respond(200, 'OK');
         },
@@ -45,7 +47,9 @@ describe('WebSocket-Resource', () => {
               id: requestId,
               verb: 'PUT',
               path: '/some/path',
-              body: new Uint8Array([1, 2, 3]).buffer,
+              body: window.Signal.Crypto.typedArrayToArrayBuffer(
+                new Uint8Array([1, 2, 3])
+              ),
             },
           })
             .encode()
@@ -70,7 +74,9 @@ describe('WebSocket-Resource', () => {
           assert.strictEqual(message.request.path, '/some/path');
           assertEqualArrayBuffers(
             message.request.body.toArrayBuffer(),
-            new Uint8Array([1, 2, 3]).buffer
+            window.Signal.Crypto.typedArrayToArrayBuffer(
+              new Uint8Array([1, 2, 3])
+            )
           );
           requestId = message.request.id;
         },
@@ -82,7 +88,9 @@ describe('WebSocket-Resource', () => {
       resource.sendRequest({
         verb: 'PUT',
         path: '/some/path',
-        body: new Uint8Array([1, 2, 3]).buffer,
+        body: window.Signal.Crypto.typedArrayToArrayBuffer(
+          new Uint8Array([1, 2, 3])
+        ),
         error: done,
         success(message, status) {
           assert.strictEqual(message, 'OK');

@@ -160,7 +160,7 @@
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "Bağlantıyı kopyalayın.",
+        "message": "Bağlantıyı Kopyala",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
@@ -194,11 +194,11 @@
         }
     },
     "archivedConversations": {
-        "message": "Arşivlenmiş Sohbetler",
+        "message": "Arşivlenmiş Konuşmalar",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Sabitlendi",
+        "message": "Sabit",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -206,11 +206,11 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Bu sohbetler arşivlendi ve sadece yeni iletiler alınırsa gelen kutusunda görünecekler.",
+        "message": "Bu konuşmalar arşivlendi ve sadece yeni iletiler alınırsa gelen kutusunda görünecekler.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arşiv",
+        "message": "Arşivle",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "markUnread": {
@@ -316,7 +316,7 @@
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
-        "message": "Sohbetin en altına kaydır",
+        "message": "Konuşmanın en altına kaydır",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
@@ -338,7 +338,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "Güvenliğiniz için sohbet geçmişi yeni bağlanan cihazlara aktarılmaz. ",
+        "message": "Güvenliğiniz için konuşmanın geçmişi yeni bağlanan cihazlara aktarılmaz. ",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -528,7 +528,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Bu sohbette hiç içerik yok",
+        "message": "Bu konuşmada hiç içerik yok",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
@@ -540,7 +540,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Bu sohbette hiç belge yok",
+        "message": "Bu konuşmada hiç belge yok",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -730,7 +730,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "$conversationName$ sohbetinde ara",
+        "message": "$conversationName$ konuşmasında ara",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -750,7 +750,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "$conversationName$ sohbetinde \"$searchTerm$\" için sonuç bulunamadı",
+        "message": "$conversationName$ konuşması \"$searchTerm$\" için sonuç bulunamadı",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -764,11 +764,15 @@
         }
     },
     "conversationsHeader": {
-        "message": "Sohbetler",
+        "message": "Konuşmalar",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
         "message": "Kişiler",
+        "description": "Shown to separate the types of search results"
+    },
+    "groupsHeader": {
+        "message": "Gruplar",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -780,11 +784,11 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Sohbete başlamak için bir kişi veya grup seçin.",
+        "message": "Konuşmaya başlamak için bir kişi veya grup seçin.",
         "description": ""
     },
     "typingAlt": {
-        "message": "Bu sohbet için yazma animasyonu",
+        "message": "Bu konuşma için yazma animasyonu",
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
@@ -1002,7 +1006,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "'Sil'i tıkladığınızda bu mesaj kalıcı olarak yalnızca cihazlarınızdan kaldırılır.",
+        "message": "Bu ileti bu cihazdan silinecektir.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1071,6 +1075,10 @@
         "message": "Bu kişiyle herhangi bir iletişimde bulunmadınız. Güvenlik numaralarınız ilk iletiden sonra oluşturulacaktır.",
         "description": ""
     },
+    "back": {
+        "message": "Geri",
+        "description": "Generic label for back"
+    },
     "goBack": {
         "message": "Geri git",
         "description": "Label for back button in a conversation"
@@ -1083,12 +1091,16 @@
         "message": "Tekrar Gönder",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
+    "forwardMessage": {
+        "message": "İletiyi yönlendir",
+        "description": "Shown on the drop-down menu for an individual message, forwards a message"
+    },
     "deleteMessage": {
-        "message": "Mesajı benden sil",
+        "message": "İletiyi benden sil",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Mesajı herkesten sil",
+        "message": "İletiyi herkesten sil",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -1096,12 +1108,28 @@
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Bu sohbeti kalıcı olarak sil?",
+        "message": "Bu konuşmayı kalıcı olarak sil?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
         "message": "Güvenli oturumu sıfırla",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "ChatRefresh--notification": {
+        "message": "Konuşma oturumu yenilendi",
+        "description": "Shown in timeline when a error happened, and the session was automatically reset."
+    },
+    "ChatRefresh--learnMore": {
+        "message": "Dahasını Öğrenin",
+        "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
+    },
+    "ChatRefresh--summary": {
+        "message": "Signal uçtan uca şifreleme kullanır ve bazen konuşma oturumunuzu yenilemesi gerekebilir. Bu, konuşmanızın güvenliğini etkilemez, ancak bu kişiden gelen bir iletiyi kaçırmış olabilirsiniz ve ondan tekrar göndermesini isteyebilirsiniz.",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "ChatRefresh--contactSupport": {
+        "message": "Destekle İletişime Geçin",
+        "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "quoteThumbnailAlt": {
         "message": "Alıntılanmış iletideki görüntünün önizlemesi",
@@ -1116,7 +1144,7 @@
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Sohbete gönderilen görüntü",
+        "message": "Konuşmaya gönderilen görüntü",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
@@ -1906,8 +1934,114 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Yeni sohbet başlat…",
+        "message": "Yeni konuşma başlat…",
         "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newConversation": {
+        "message": "Yeni konuşma",
+        "description": "Label for header when starting a new conversation"
+    },
+    "contactSearchPlaceholder": {
+        "message": "İsim veya numara ara",
+        "description": "Placeholder to use when searching for contacts in the composer"
+    },
+    "noContactsFound": {
+        "message": "Kişi bulunamadı",
+        "description": "Label shown when there are no contacts to compose to"
+    },
+    "noConversationsFound": {
+        "message": "Konuşma yok",
+        "description": "Label shown when there are no conversations to compose to"
+    },
+    "chooseGroupMembers__title": {
+        "message": "Üyeleri seçin",
+        "description": "The title for the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__back-button": {
+        "message": "Geri",
+        "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__skip": {
+        "message": "Atla",
+        "description": "The 'skip' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__next": {
+        "message": "İleri",
+        "description": "The 'next' button text in the 'choose group members' left pane screen"
+    },
+    "chooseGroupMembers__maximum-group-size__title": {
+        "message": "Grup üye sınırına ulaşıldı",
+        "description": "Shown in the alert when you add the maximum number of group members"
+    },
+    "chooseGroupMembers__maximum-group-size__body": {
+        "message": "Signal grupları en fazla $max$ üyeye sahip olabilir.",
+        "description": "Shown in the alert when you add the maximum number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "1000"
+            }
+        }
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__title": {
+        "message": "Önerilen üye sınırına ulaşıldı.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members"
+    },
+    "chooseGroupMembers__maximum-recommended-group-size__body": {
+        "message": "Signal grupları en iyi $max$ veya daha az üyeyle çalışır. Daha fazla üye eklenmesi iletilerin alımı ve gönderiminde gecikmelere yol açabilir.",
+        "description": "Shown in the alert when you add the maximum recommended number of group members",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "150"
+            }
+        }
+    },
+    "chooseGroupMembers__cant-add-member__title": {
+        "message": "Üye eklenemedi",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group"
+    },
+    "chooseGroupMembers__cant-add-member__body": {
+        "message": "\"$name$\" Signal'in eski bir sürümünü kullandığı için gruba eklenemez. Signal'i güncelledikten sonra gruba ekleyebilirsiniz.",
+        "description": "Shown in the alert when you try to add someone who can't be added to a group",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "setGroupMetadata__title": {
+        "message": "Bu grubu adlandır",
+        "description": "The title for the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__back-button": {
+        "message": "Üye seçimine geri dön",
+        "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__group-name-placeholder": {
+        "message": "Grup adı (gereklidir)",
+        "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__create-group": {
+        "message": "Oluştur",
+        "description": "The 'create group' button text in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__members-header": {
+        "message": "Üyeler",
+        "description": "The header for the members list in the 'set group metadata' left pane screen"
+    },
+    "setGroupMetadata__error-message": {
+        "message": "Grup oluşturulamadı. Bağlantınızı kontrol edip tekrar deneyin.",
+        "description": "Shown in the modal when we can't create a group"
+    },
+    "updateGroupAttributes__title": {
+        "message": "Grup adını ve resmini düzenleyin",
+        "description": "Shown in the modal when we want to update a group"
+    },
+    "updateGroupAttributes__error-message": {
+        "message": "Grup güncellenemedi. Bağlantınızı kontrol edip tekrar deneyin.",
+        "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
         "message": "SMS/MMS iletileri desteklenmemektedir.",
@@ -2120,7 +2254,7 @@
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Gelen mesajlardan aldığınız çıkartmalar burada gözükecektir",
+        "message": "Gelen iletilerden aldığınız çıkartmalar burada gözükecektir",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -2268,7 +2402,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Signal'in güncel sürümünü kullandığınıza göre $contact$ kişisinin mesajı tekrar göndermesini isteyebilirsiniz.",
+        "message": "Signal'in güncel sürümünü kullandığınıza göre $contact$ kişisinin iletiyi tekrar göndermesini isteyebilirsiniz.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2282,7 +2416,7 @@
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Signal'in güncel sürümünü kullandığınıza göre gelecekteki buna benzer mesajlar artık eşitlenecektir.",
+        "message": "Signal'in güncel sürümünü kullandığınıza göre gelecekteki buna benzer iletiler artık eşitlenecektir.",
         "description": ""
     },
     "Message--update-signal": {
@@ -2302,7 +2436,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "Tek görümlük iletiler sohbet geçmişinizde saklanmaz.",
+        "message": "Tek görümlük iletiler konuşma geçmişinizde saklanmaz.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -2330,19 +2464,19 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
-        "message": "Önceki sohbet",
+        "message": "Önceki konuşma",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-conversation": {
-        "message": "Sonraki sohbet",
+        "message": "Sonraki konuşma",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Önceki okunmamış sohbet",
+        "message": "Önceki okunmamış konuşma",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
-        "message": "Sonraki okunmamış sohbet",
+        "message": "Sonraki okunmamış konuşma",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
@@ -2350,15 +2484,19 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Sohbet menüsünü aç",
+        "message": "Konuşma menüsünü aç",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--new-conversation": {
+        "message": "Yeni konuşma başlat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Sohbeti arşivle",
+        "message": "Konuşmayı arşivle",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Sohbeti arşivden çıkart",
+        "message": "Konuşmayı arşivden çıkart",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
@@ -2366,7 +2504,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Sohbette ara",
+        "message": "Konuşmada ara",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
@@ -2438,7 +2576,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Sohbete atla",
+        "message": "Konuşmaya atla",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -2494,7 +2632,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Mevcut sohbeti kapat",
+        "message": "Mevcut konuşmayı kapat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
@@ -2526,11 +2664,11 @@
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "Sohbet arşivlendi",
+        "message": "Konuşma arşivlendi",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Sohbet gelen kutusuna gönderildi",
+        "message": "Konuşma gelen kutusuna gönderildi",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
@@ -2796,7 +2934,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Bu gruba katılmak ve adınızla fotonuzu üyeleri ile paylaşmak istiyor musunuz? Kabul edene kadar mesajlarını gördüğünüzü bilmeyecekler.",
+        "message": "Bu gruba katılmak ve adınızla fotonuzu üyeleri ile paylaşmak istiyor musunuz? Kabul edene kadar iletilerini gördüğünüzü bilmeyecekler.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -2884,11 +3022,11 @@
         "description": "Shown as a button to let the user delete any message request"
     },
     "MessageRequests--delete-direct-confirm-title": {
-        "message": "Sohbet silinsin mi?",
+        "message": "Konuşma silinsin mi?",
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Bu sohbet tüm cihazlarınızdan silinecektir.",
+        "message": "Bu konuşma tüm cihazlarınızdan silinecektir.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
@@ -2971,67 +3109,19 @@
     },
     "ConversationHero--membership-1": {
         "message": "$group$ grubuna üye.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-        "placeholders": {
-            "group": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
     },
     "ConversationHero--membership-2": {
         "message": "$group1$ ve $group2$ gruplarına üye.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
     },
     "ConversationHero--membership-3": {
         "message": "$group1$, $group2$ ve $group3$ gruplarına üye.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-extra": {
         "message": "$group1$, $group2$, $group3$ ve $remainingCount$ diğer gruba üye.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ sizi gruba ekledi.",
@@ -3042,6 +3132,10 @@
                 "example": "Jeff Smith"
             }
         }
+    },
+    "no-groups-in-common": {
+        "message": "Ortak grup yok.",
+        "description": "Shown to indicate this user is not a member of any groups"
     },
     "acceptCall": {
         "message": "Yanıtla",
@@ -3245,6 +3339,10 @@
         "message": "Bir saatliğine sessize al",
         "description": "Label for muting the conversation"
     },
+    "muteEightHours": {
+        "message": "8 saatliğine sustur",
+        "description": "Label for muting the conversation"
+    },
     "muteDay": {
         "message": "Bir günlüğüne sessize al",
         "description": "Label for muting the conversation"
@@ -3253,13 +3351,17 @@
         "message": "Bir haftalığına sessize al",
         "description": "Label for muting the conversation"
     },
-    "muteYear": {
-        "message": "Bir yıllığına sessize al",
+    "muteAlways": {
+        "message": "Kalıcı olarak sustur",
         "description": "Label for muting the conversation"
     },
     "unmute": {
         "message": "Sesi aç",
         "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabelAlways": {
+        "message": "Kalıcı olarak susturulmuş",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
         "message": "$duration$ süresince susturuldu ",
@@ -3394,6 +3496,10 @@
     "GroupV2--admin": {
         "message": "Yönetici",
         "description": "Label for a group administrator"
+    },
+    "GroupV2--only-admins": {
+        "message": "Yalnızca Yöneticiler",
+        "description": "Label for group administrators -- used in drop-downs to select permissions that apply to admins"
     },
     "GroupV2--all-members": {
         "message": "Tüm üyeler",
@@ -4466,7 +4572,7 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "Bu gruba tekrar katılmak için bir daveti kabul etmeniz gerekecek ve kabul edene kadar grup mesajlarını almayacaksınız.",
+        "message": "Bu gruba tekrar katılmak için bir daveti kabul etmeniz gerekecek ve kabul edene kadar grup iletilerini almayacaksınız.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -4558,7 +4664,7 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "countMutedConversationsDescription": {
-        "message": "Sessize alınan sohbetleri rozet sayacına kat",
+        "message": "Sessize alınan konuşmaları rozet sayacına kat",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4641,6 +4747,10 @@
         "message": "Grubu engelle",
         "description": "This is a button to block a group"
     },
+    "ConversationDetailsActions--leave-group-must-choose-new-admin": {
+        "message": "Ayrılmadan önce, bu gruba yeni bir yönetici seçmek zorundasınız.",
+        "description": "Shown if, before leaving a group, you need to choose an admin"
+    },
     "ConversationDetailsActions--leave-group-modal-title": {
         "message": "Gerçekten ayrılmak istiyor musunuz?",
         "description": "This is the modal title for confirming leaving a group"
@@ -4698,6 +4808,10 @@
                 "example": "10"
             }
         }
+    },
+    "ConversationDetailsMembershipList--add-members": {
+        "message": "Üye ekle",
+        "description": "The button that you can click to add new members"
     },
     "ConversationDetailsMembershipList--show-all": {
         "message": "Tümünü gör",
@@ -4856,5 +4970,167 @@
     "PendingInvites--info": {
         "message": "Bu gruba davet edilen kişilerin ayrıntıları, onlar gruba katılana kadar gösterilmez. Davet edilenler sadece gruba katıldıktan sonraki iletileri görecekler.",
         "description": "Information shown below the invite list"
+    },
+    "AvatarInput--no-photo-label--group": {
+        "message": "Grup fotoğrafı ekle",
+        "description": "The label for the avatar uploader when no group photo is selected"
+    },
+    "AvatarInput--change-photo-label": {
+        "message": "Fotoğrafı değiştir",
+        "description": "The label for the avatar uploader when a photo is selected"
+    },
+    "AvatarInput--upload-photo-choice": {
+        "message": "Fotoğraf yükle",
+        "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    },
+    "AvatarInput--remove-photo-choice": {
+        "message": "Fotoğrafı kaldır",
+        "description": "The button text when you click on an uploaded avatar and want to remove it"
+    },
+    "ContactPill--remove": {
+        "message": "Kişiyi sil",
+        "description": "The label for the 'remove' button on the contact pill"
+    },
+    "ComposeErrorDialog--close": {
+        "message": "Tamam",
+        "description": "The text on the button when there's an error in the composer"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--one": {
+        "message": "Davet gönderildi",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--title--many": {
+        "message": "$count$ davet gönderildi",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
+        "message": "$name$, bu gruba sizin tarafınızdan eklenemez.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
+        "message": "Bu kullanıcılar gruba sizin tarafınızdan eklenemez.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
+        "message": "Katılmaları için davet gönderildi, kabul edene kadar hiçbir iletiyi görmeyecekler.",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
+        "message": "Dahasını öğrenin",
+        "description": "When creating a new group and inviting users, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--title": {
+        "message": "Üye ekle",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--continue-to-confirm": {
+        "message": "Güncelle",
+        "description": "When adding new members to an existing group, this is shown in the dialog"
+    },
+    "AddGroupMembersModal--confirm-title--one": {
+        "message": "$person$, \"$group$\" grubuna eklensin mi? ",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-title--many": {
+        "message": "$count$ üye \"$group$\" grubuna eklensin mi?",
+        "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "group": {
+                "content": "$2",
+                "example": "Tahoe Trip"
+            }
+        }
+    },
+    "AddGroupMembersModal--confirm-button--one": {
+        "message": "Üye ekle",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "AddGroupMembersModal--confirm-button--many": {
+        "message": "Üye ekle",
+        "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
+    },
+    "createNewGroupButton": {
+        "message": "Yeni grup",
+        "description": "The text of the button to create new groups"
+    },
+    "selectContact": {
+        "message": "Kişi seç",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+    },
+    "deselectContact": {
+        "message": "Kişi seçimini kaldır",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+    },
+    "cannotSelectContact": {
+        "message": "Kişi seçilemiyor",
+        "description": "The label for contact checkboxes that are disabled"
+    },
+    "alreadyAMember": {
+        "message": "Zaten üye",
+        "description": "The label for contact checkboxes that are disabled because they're already a member"
+    },
+    "MessageAudio--play": {
+        "message": "Ses eklentisini oynat",
+        "description": "Aria label for audio attachment's Play button"
+    },
+    "MessageAudio--pause": {
+        "message": "Ses eklentisini durdur",
+        "description": "Aria label for audio attachment's Pause button"
+    },
+    "MessageAudio--download": {
+        "message": "Ses eklentisini indir",
+        "description": "Aria label for audio attachment's Download button"
+    },
+    "MessageAudio--pending": {
+        "message": "Ses eklentisi indiriliyor...",
+        "description": "Aria label for pending audio attachment spinner"
+    },
+    "MessageAudio--slider": {
+        "message": "Ses eklentisinin oynatılma süresi",
+        "description": "Aria label for audio attachment's playback time slider"
+    },
+    "emptyInboxMessage": {
+        "message": "Yukarıdaki $composeIcon$ simgesine tıklayın ve ileti göndermek için kişilerinizi veya gruplarınızı arayın.",
+        "description": "Shown in the left-pane when the inbox is empty",
+        "placeholders": {
+            "composeIcon": {
+                "content": "$1",
+                "example": "compose button"
+            }
+        }
+    },
+    "composeIcon": {
+        "message": "oluştur butonu",
+        "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    },
+    "ForwardMessageModal--continue": {
+        "message": "Devam Et",
+        "description": "aria-label for the 'next' button in the forward a message modal dialog"
     }
 }

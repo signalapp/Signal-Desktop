@@ -49,22 +49,6 @@ module.exports = grunt => {
         ],
         dest: 'test/test.js',
       },
-      // TODO: Move errors back down?
-      libtextsecure: {
-        options: {
-          banner: ';(function() {\n',
-          footer: '})();\n',
-        },
-        src: [
-          'libtextsecure/libsignal-protocol.js',
-          'libtextsecure/protocol_wrapper.js',
-
-          'libtextsecure/storage/user.js',
-          'libtextsecure/storage/unprocessed.js',
-          'libtextsecure/protobufs.js',
-        ],
-        dest: 'js/libtextsecure.js',
-      },
       libtextsecuretest: {
         src: [
           'node_modules/jquery/dist/jquery.js',

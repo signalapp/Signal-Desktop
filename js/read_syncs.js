@@ -11,6 +11,31 @@
 
 // eslint-disable-next-line func-names
 (function () {
+  async function maybeItIsAReactionReadSync(receipt) {
+    const readReaction = await window.Signal.Data.markReactionAsRead(
+      receipt.get('senderUuid'),
+      Number(receipt.get('timestamp'))
+    );
+
+    if (!readReaction) {
+      window.log.info(
+        'Nothing found for read sync',
+        receipt.get('senderId'),
+        receipt.get('sender'),
+        receipt.get('senderUuid'),
+        receipt.get('timestamp')
+      );
+      return;
+    }
+
+    Whisper.Notifications.removeBy({
+      conversationId: readReaction.conversationId,
+      emoji: readReaction.emoji,
+      targetAuthorUuid: readReaction.targetAuthorUuid,
+      targetTimestamp: readReaction.targetTimestamp,
+    });
+  }
+
   window.Whisper = window.Whisper || {};
   Whisper.ReadSyncs = new (Backbone.Collection.extend({
     forMessage(message) {
@@ -47,18 +72,13 @@
 
           return item.isIncoming() && senderId === receipt.get('senderId');
         });
-        if (found) {
-          Whisper.Notifications.removeBy({ messageId: found.id });
-        } else {
-          window.log.info(
-            'No message for read sync',
-            receipt.get('senderId'),
-            receipt.get('sender'),
-            receipt.get('senderUuid'),
-            receipt.get('timestamp')
-          );
+
+        if (!found) {
+          await maybeItIsAReactionReadSync(receipt);
           return;
         }
+
+        Whisper.Notifications.removeBy({ messageId: found.id });
 
         const message = MessageController.register(found.id, found);
         const readAt = receipt.get('read_at');
@@ -67,7 +87,8 @@
         //   timer to the time specified by the read sync if it's earlier than
         //   the previous read time.
         if (message.isUnread()) {
-          await message.markRead(readAt, { skipSave: true });
+          // TODO DESKTOP-1509: use MessageUpdater.markRead once this is TS
+          message.markRead(readAt, { skipSave: true });
 
           const updateConversation = () => {
             // onReadMessage may result in messages older than this one being
@@ -100,6 +121,7 @@
           message.set({ expirationStartTimestamp });
 
           const force = true;
+          // TODO DESKTOP-1509: use setToExpire once this is TS
           await message.setToExpire(force, { skipSave: true });
 
           const conversation = message.getConversation();

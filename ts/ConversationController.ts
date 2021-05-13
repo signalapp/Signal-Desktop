@@ -7,7 +7,6 @@ import PQueue from 'p-queue';
 import dataInterface from './sql/Client';
 import {
   ConversationModelCollectionType,
-  WhatIsThis,
   ConversationAttributesTypeType,
 } from './model-types.d';
 import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
@@ -724,7 +723,7 @@ export class ConversationController {
 
   async prepareForSend(
     id: string | undefined,
-    options?: WhatIsThis
+    options?: { syncMessage?: boolean }
   ): Promise<{
     wrap: (
       promise: Promise<CallbackResultType | void | null>
