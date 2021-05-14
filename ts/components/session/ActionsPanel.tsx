@@ -70,7 +70,7 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     } else if (type === SectionType.PathIndicator) {
       // Show Path Indicator Modal
       console.log("status clicked")
-      // window.showOnionStatusDialog();
+      window.showOnionStatusDialog();
     }
     else {
       dispatch(clearSearch());

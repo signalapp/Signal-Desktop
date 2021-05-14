@@ -69,6 +69,7 @@ declare global {
     setSettingValue: any;
     showEditProfileDialog: any;
     showNicknameDialog: (options: { convoId: string }) => void;
+    showOnionStatusDialog: any;
     showResetSessionIdDialog: any;
     storage: any;
     textsecure: LibTextsecure;

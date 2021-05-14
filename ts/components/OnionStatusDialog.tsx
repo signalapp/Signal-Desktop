@@ -14,15 +14,6 @@ import { DefaultTheme } from 'styled-components';
 import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 import { SessionSpinner } from './session/SessionSpinner';
 
-// interface Props {
-//   i18n: any;
-//   profileName: string;
-//   avatarPath: string;
-//   pubkey: string;
-//   onClose: any;
-//   onOk: any;
-//   theme: DefaultTheme;
-// }
 
 interface State {
   profileName: string;
@@ -35,7 +26,7 @@ interface State {
 interface Props {
   i18n: any;
   theme: DefaultTheme;
-  nodes: Array<string>;
+  nodes?: Array<string>;
   onClose: any;
 }
 

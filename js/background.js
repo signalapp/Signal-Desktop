@@ -527,6 +527,10 @@
       }
     };
 
+    window.showOnionStatusDialog = () => {
+      appView.showOnionStatusDialog();
+    }
+
     // Set user's launch count.
     const prevLaunchCount = window.getSettingValue('launch-count');
     const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
