@@ -3854,9 +3854,6 @@ export class ConversationModel extends window.Backbone
     if (this.isPrivate()) {
       model.set({ destination: this.getSendTarget() });
     }
-    if (model.isOutgoing()) {
-      model.set({ recipients: this.getRecipients() });
-    }
     const id = await window.Signal.Data.saveMessage(model.attributes, {
       Message: window.Whisper.Message,
     });
@@ -3943,7 +3940,6 @@ export class ConversationModel extends window.Backbone
       //   indicator above it. We set it to 'unread' to trigger that placement.
       unread: 1,
       conversationId: this.id,
-      // No type; 'incoming' messages are specially treated by conversation.markRead()
       sent_at: timestamp,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
@@ -3952,9 +3948,6 @@ export class ConversationModel extends window.Backbone
 
     if (this.isPrivate()) {
       model.set({ destination: this.id });
-    }
-    if (model.isOutgoing()) {
-      model.set({ recipients: this.getRecipients() });
     }
     const id = await window.Signal.Data.saveMessage(model.attributes, {
       Message: window.Whisper.Message,
