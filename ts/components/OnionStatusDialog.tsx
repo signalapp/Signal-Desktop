@@ -61,6 +61,7 @@ export const OnionStatusDialog = (props: OnionStatusDialogProps) => {
   }
 
   const buildOnionPath = () => {
+    // TODO: Add i18n to onion path
     // Default path values
     let path = [
       {
