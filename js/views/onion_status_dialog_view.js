@@ -6,7 +6,7 @@
   
     window.Whisper = window.Whisper || {};
   
-    Whisper.EditProfileDialogView = Whisper.View.extend({
+    Whisper.OnionStatusDialogView = Whisper.View.extend({
       className: 'loki-dialog modal',
       initialize({ theme }) {
         this.close = this.close.bind(this);

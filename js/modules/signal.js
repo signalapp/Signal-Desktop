@@ -13,6 +13,7 @@ const { Message } = require('../../ts/components/conversation/Message');
 
 // Components
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
+const { OnionStatusDialog } = require('../../ts/components/OnionStatusDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const { SessionSeedModal } = require('../../ts/components/session/SessionSeedModal');
 const { SessionNicknameDialog } = require('../../ts/components/session/SessionNicknameDialog');
@@ -141,6 +142,7 @@ exports.setup = (options = {}) => {
 
   const Components = {
     EditProfileDialog,
+    OnionStatusDialog,
     UserDetailsDialog,
     SessionInboxView,
     UpdateGroupNameDialog,

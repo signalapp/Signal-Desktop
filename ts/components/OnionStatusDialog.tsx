@@ -24,7 +24,6 @@ interface State {
 }
 
 interface Props {
-  i18n: any;
   theme: DefaultTheme;
   nodes?: Array<string>;
   onClose: any;
@@ -33,17 +32,17 @@ interface Props {
 
 
 export const OnionStatusDialog = (props: Props) => {
-    const {i18n, theme, onClose} = props.i18n;
+    const { theme, onClose} = props;
   
     return (
       <SessionModal
-        title={i18n('onionPathIndicatorTitle')}
+        title={window.i18n('onionPathIndicatorTitle')}
         theme={theme}
         onClose={onClose}
       >
         <div className="spacer-md">
 
-        {i18n('onionPathIndicatorDescription')}
+        {window.i18n('onionPathIndicatorDescription')}
         </div>
       </SessionModal>
     );
