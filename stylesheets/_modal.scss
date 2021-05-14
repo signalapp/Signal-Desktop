@@ -338,19 +338,6 @@
 
       .dotContainer:not(:last-child) {
         padding-bottom: 2em;
-
-        // .dot:after {
-        //   z-index: 1;
-        //   content: '';
-        //   position: relative;
-        //   top: 15px;
-        //   bottom: 0;
-        //   left: 7px;
-        //   @include themify($themes) {
-        //     border-left: 1px solid themed('textColor');
-        //   }
-        //   height: 2em;
-        // }
       }
 
       .dotContainer {
@@ -358,7 +345,7 @@
         align-items: center;
         width: 100%;
 
-        .nodeText {
+        p {
           margin-bottom: 0 !important;
           margin-top: 0;
           margin-left: 2em;
