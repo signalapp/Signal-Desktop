@@ -104,9 +104,13 @@ export class OnionPaths {
     return otherPaths[0].path;
   }
 
-  public hasOnionPath() :boolean {
+  public hasOnionPath(): boolean {
     // returns true if there exists a valid onion path
     return this.onionPaths.length !== 0 && this.onionPaths[0].path.length !== 0;
+  }
+
+  public getOnionPathNoRebuild() {
+    return this.onionPaths ? this.onionPaths[0].path : [];
   }
 
   public markPathAsBad(path: Array<Snode>) {

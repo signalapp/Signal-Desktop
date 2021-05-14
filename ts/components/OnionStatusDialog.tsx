@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import { SessionModal } from './session/SessionModal';
 import { DefaultTheme } from 'styled-components';
+import { getPathNodesIPAddresses } from '../session/onions/onionSend';
+import { useInterval } from '../hooks/useInterval';
+
 import electron from 'electron';
 const { shell } = electron;
 
@@ -46,33 +49,61 @@ const OnionPath = (props: { nodes: IPathNode[] }) => {
 export const OnionStatusDialog = (props: Props) => {
   const { theme, onClose } = props;
 
+  const [onionPathAddresses, setOnionPathAddresses] = useState<string[]>([])
+  const [pathNodes, setPathNodes] = useState<IPathNode[]>([])
+
+  const getOnionPathAddresses = () => {
+    const onionPathAddresses = getPathNodesIPAddresses();
+    console.log("Current Onion Path - ", onionPathAddresses);
+    setOnionPathAddresses(onionPathAddresses)
+  }
+
+  const buildOnionPath = () => {
+    // Default path values
+    let path = [
+      {
+        label: 'You'
+      },
+      {
+        ip: 'Connecting...',
+        label: 'Entry Node'
+      },
+      {
+        ip: 'Connecting...',
+        label: 'Service Node'
+      },
+      {
+        ip: 'Connecting...',
+        label: 'Service Node'
+      },
+      {
+        label: 'Destination'
+      },
+    ]
+
+    // if there is a onion path, update the addresses
+    if (onionPathAddresses.length) {
+      onionPathAddresses.forEach((ipAddress, index) => {
+        const pathIndex = index + 1;
+        path[pathIndex].ip = ipAddress;
+      })
+    }
+    setPathNodes(path);
+  }
+
+  useInterval(() => {
+    getOnionPathAddresses()
+  }, 1000)
+
+  useEffect(() => {
+    buildOnionPath()
+  }, [onionPathAddresses])
+
   const openFAQPage = () => {
     console.log("Opening FAQ Page")
     shell.openExternal('https://getsession.org/faq/#onion-routing');
   }
-
-  const nodes: IPathNode[] = [
-    {
-      label: 'You'
-    },
-    {
-      ip: '100',
-      label: 'Entry Node'
-    },
-    {
-      ip: '100',
-      label: 'Service Node'
-    },
-    {
-      ip: '100',
-      label: 'Service Node'
-    },
-    {
-      ip: '100',
-      label: 'Destination'
-    },
-  ]
-
+  
   return (
     <SessionModal
       title={window.i18n('onionPathIndicatorTitle')}
@@ -84,7 +115,7 @@ export const OnionStatusDialog = (props: Props) => {
         <p>{window.i18n('onionPathIndicatorDescription')}</p>
       </div>
 
-      <OnionPath nodes={nodes} />
+      <OnionPath nodes={pathNodes} />
 
       <SessionButton
         text={window.i18n('learnMore')}
