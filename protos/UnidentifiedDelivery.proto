@@ -15,12 +15,12 @@ message ServerCertificate {
 
 message SenderCertificate {
     message Certificate {
-        optional string            sender       = 1;
-        optional string            senderUuid   = 6;
-        optional uint32            senderDevice = 2;
-        optional fixed64           expires      = 3;
-        optional bytes             identityKey  = 4;
-        optional ServerCertificate signer       = 5;
+        optional string            senderE164    = 1;
+        optional string            senderUuid    = 6;
+        optional uint32            senderDevice  = 2;
+        optional fixed64           expires       = 3;
+        optional bytes             identityKey   = 4;
+        optional ServerCertificate signer        = 5;
     }
 
     optional bytes certificate = 1;
@@ -31,13 +31,31 @@ message UnidentifiedSenderMessage {
 
     message Message {
         enum Type {
-            PREKEY_MESSAGE = 1;
-            MESSAGE        = 2;
+            PREKEY_MESSAGE         = 1;
+            MESSAGE                = 2;
+            // Further cases should line up with Envelope.Type, even though old cases don't.
+            
+            // Our parser does not handle reserved in enums: DESKTOP-1569
+            // reserved 3 to 6;
+            
+            SENDERKEY_MESSAGE      = 7;
+        }
+
+        enum ContentHint {
+            // Commented out here, even though it is correct syntax. Our parser cannot handle it.
+            
+            // Our parser does not handle reserved in enums: DESKTOP-1569
+            // reserved 0; // A content hint of "default" should never be encoded.
+            
+            SUPPLEMENTARY = 1;
+            RETRY         = 2;
         }
 
         optional Type              type              = 1;
         optional SenderCertificate senderCertificate = 2;
         optional bytes             content           = 3;
+        optional ContentHint       contentHint       = 4;
+        optional bytes             groupId           = 5;
     }
 
     optional bytes ephemeralPublic  = 1;

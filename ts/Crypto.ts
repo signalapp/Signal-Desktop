@@ -3,7 +3,7 @@
 
 import pProps from 'p-props';
 import { chunk } from 'lodash';
-import { HKDF } from 'libsignal-client';
+import { HKDF } from '@signalapp/signal-client';
 import { calculateAgreement, generateKeyPair } from './Curve';
 
 import {

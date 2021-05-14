@@ -3,11 +3,12 @@
 
 export {
   IdentityKeyType,
-  SignedPreKeyType,
   PreKeyType,
+  SenderKeyType,
+  SessionType,
+  SignedPreKeyType,
   UnprocessedType,
   UnprocessedUpdateType,
-  SessionType,
 } from '../sql/Interface';
 
 // How the legacy APIs generate these types

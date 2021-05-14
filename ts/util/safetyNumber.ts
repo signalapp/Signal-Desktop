@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { PublicKey, Fingerprint } from 'libsignal-client';
+import { PublicKey, Fingerprint } from '@signalapp/signal-client';
 import { ConversationType } from '../state/ducks/conversations';
 
 export async function generateSecurityNumber(

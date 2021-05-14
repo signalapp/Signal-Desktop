@@ -17,7 +17,7 @@ const EXTERNAL_MODULE = new Set([
   'fsevents',
   'got',
   'jquery',
-  'libsignal-client',
+  '@signalapp/signal-client',
   'node-fetch',
   'node-sass',
   'pino',

@@ -68,6 +68,7 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
+    "@signalapp/signal-client": "0.5.1",
     "@sindresorhus/is": "0.8.0",
     "@types/pino": "6.3.6",
     "@types/pino-multi-stream": "5.1.0",
@@ -102,7 +103,6 @@
     "intl-tel-input": "12.1.15",
     "jquery": "3.5.0",
     "js-yaml": "3.13.1",
-    "libsignal-client": "https://github.com/signalapp/libsignal-client-node.git#afa8f40eaa218b7fff94278d9b2ab2e13a2ee04b",
     "linkify-it": "2.2.0",
     "lodash": "4.17.21",
     "lru-cache": "6.0.0",
@@ -294,7 +294,7 @@
       "asarUnpack": [
         "**/*.node",
         "node_modules/zkgroup/libzkgroup.*",
-        "node_modules/libsignal-client/build/*.node"
+        "node_modules/@signalapp/signal-client/build/*.node"
       ],
       "artifactName": "${name}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
@@ -320,7 +320,7 @@
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
         "node_modules/sharp",
         "node_modules/zkgroup/libzkgroup.*",
-        "node_modules/libsignal-client/build/*.node"
+        "node_modules/@signalapp/signal-client/build/*.node"
       ],
       "artifactName": "${name}-win-${version}.${ext}",
       "certificateSubjectName": "Signal (Quiet Riddle Ventures, LLC)",
@@ -350,7 +350,7 @@
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
         "node_modules/sharp",
         "node_modules/zkgroup/libzkgroup.*",
-        "node_modules/libsignal-client/build/*.node"
+        "node_modules/@signalapp/signal-client/build/*.node"
       ],
       "target": [
         "deb"
@@ -438,7 +438,7 @@
       "!node_modules/better-sqlite3/deps/*",
       "!node_modules/better-sqlite3/src/*",
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
-      "node_modules/libsignal-client/build/*${platform}*.node",
+      "node_modules/@signalapp/signal-client/build/*${platform}*.node",
       "node_modules/ringrtc/build/${platform}/**",
       "!**/node_modules/ffi-napi/deps",
       "!**/node_modules/react-dom/*/*.development.js",

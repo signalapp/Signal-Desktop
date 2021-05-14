@@ -1467,6 +1467,14 @@
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
 
+"@signalapp/signal-client@0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.5.1.tgz#b893a658db92f7fe3d3657ac9a4f83909ac1d09d"
+  integrity sha512-d3wM2vS4IcPGmBzcjigD1Y14J3j4rP+dTpE1J5xrPfknLgGPXLR+dX4I6RU9nFVe5toCyrRnTSBjQbBn/SixKA==
+  dependencies:
+    node-gyp-build "^4.2.3"
+    uuid "^8.3.0"
+
 "@sindresorhus/is@0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.8.0.tgz#073aee40b0aab2d4ace33c0a2a2672a37da6fa12"
@@ -11134,12 +11142,6 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"libsignal-client@https://github.com/signalapp/libsignal-client-node.git#afa8f40eaa218b7fff94278d9b2ab2e13a2ee04b":
-  version "0.3.3"
-  resolved "https://github.com/signalapp/libsignal-client-node.git#afa8f40eaa218b7fff94278d9b2ab2e13a2ee04b"
-  dependencies:
-    bindings "^1.5.0"
-
 lie@*:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/lie/-/lie-3.2.0.tgz#4f13f2f8bbb027d383db338c43043545791aa8dc"
@@ -12339,7 +12341,7 @@ node-forge@0.10.0, node-forge@^0.10.0:
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
   integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
 
-node-gyp-build@^4.2.1:
+node-gyp-build@^4.2.1, node-gyp-build@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.2.3.tgz#ce6277f853835f718829efb47db20f3e4d9c4739"
   integrity sha512-MN6ZpzmfNCRM+3t57PTJHgHyw/h4OWnZ6mR8P5j/uZtqQr46RRuDE/P+g3n0YR/AiYXeWixZZzaip77gdICfRg==
@@ -18024,6 +18026,11 @@ uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^8.3.0:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache@^2.0.3:
   version "2.1.1"

@@ -4,7 +4,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { assert } from 'chai';
-import { Direction, SessionRecord } from 'libsignal-client';
+import {
+  Direction,
+  SenderKeyRecord,
+  SessionRecord,
+} from '@signalapp/signal-client';
 
 import { signal } from '../protobuf/compiled';
 import { sessionStructureToArrayBuffer } from '../util/sessionTranslation';
@@ -14,7 +18,12 @@ import { clampPrivateKey, setPublicKeyTypeByte } from '../Curve';
 import { SignalProtocolStore } from '../SignalProtocolStore';
 import { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
 
-const { RecordStructure, SessionStructure } = signal.proto.storage;
+const {
+  RecordStructure,
+  SessionStructure,
+  SenderKeyRecordStructure,
+  SenderKeyStateStructure,
+} = signal.proto.storage;
 
 describe('SignalProtocolStore', () => {
   const number = '+5558675309';
@@ -44,6 +53,41 @@ describe('SignalProtocolStore', () => {
 
     return SessionRecord.deserialize(
       Buffer.from(sessionStructureToArrayBuffer(proto))
+    );
+  }
+
+  function getSenderKeyRecord(): SenderKeyRecord {
+    const proto = new SenderKeyRecordStructure();
+
+    const state = new SenderKeyStateStructure();
+
+    state.senderKeyId = 4;
+
+    const senderChainKey = new SenderKeyStateStructure.SenderChainKey();
+
+    senderChainKey.iteration = 10;
+    senderChainKey.seed = toUint8Array(getPublicKey());
+    state.senderChainKey = senderChainKey;
+
+    const senderSigningKey = new SenderKeyStateStructure.SenderSigningKey();
+    senderSigningKey.public = toUint8Array(getPublicKey());
+    senderSigningKey.private = toUint8Array(getPrivateKey());
+
+    state.senderSigningKey = senderSigningKey;
+
+    state.senderMessageKeys = [];
+    const messageKey = new SenderKeyStateStructure.SenderMessageKey();
+    messageKey.iteration = 234;
+    messageKey.seed = toUint8Array(getPublicKey());
+    state.senderMessageKeys.push(messageKey);
+
+    proto.senderKeyStates = [];
+    proto.senderKeyStates.push(state);
+
+    return SenderKeyRecord.deserialize(
+      Buffer.from(
+        signal.proto.storage.SenderKeyRecordStructure.encode(proto).finish()
+      )
     );
   }
 
@@ -106,6 +150,49 @@ describe('SignalProtocolStore', () => {
 
       assert.isTrue(constantTimeEqual(key.pubKey, identityKey.pubKey));
       assert.isTrue(constantTimeEqual(key.privKey, identityKey.privKey));
+    });
+  });
+
+  describe('senderKeys', () => {
+    it('roundtrips in memory', async () => {
+      const distributionId = window.getGuid();
+      const expected = getSenderKeyRecord();
+
+      const deviceId = 1;
+      const encodedAddress = `${number}.${deviceId}`;
+
+      await store.saveSenderKey(encodedAddress, distributionId, expected);
+
+      const actual = await store.getSenderKey(encodedAddress, distributionId);
+      if (!actual) {
+        throw new Error('getSenderKey returned nothing!');
+      }
+
+      assert.isTrue(
+        constantTimeEqual(expected.serialize(), actual.serialize())
+      );
+    });
+
+    it('roundtrips through database', async () => {
+      const distributionId = window.getGuid();
+      const expected = getSenderKeyRecord();
+
+      const deviceId = 1;
+      const encodedAddress = `${number}.${deviceId}`;
+
+      await store.saveSenderKey(encodedAddress, distributionId, expected);
+
+      // Re-fetch from the database to ensure we get the latest database value
+      await store.hydrateCaches();
+
+      const actual = await store.getSenderKey(encodedAddress, distributionId);
+      if (!actual) {
+        throw new Error('getSenderKey returned nothing!');
+      }
+
+      assert.isTrue(
+        constantTimeEqual(expected.serialize(), actual.serialize())
+      );
     });
   });
 

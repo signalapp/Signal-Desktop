@@ -66,6 +66,16 @@ export type ClientSearchResultMessageType = MessageType & {
   bodyRanges: [];
   snippet: string;
 };
+export type SenderKeyType = {
+  // Primary key
+  id: string;
+  // These two are combined into one string to give us the final id
+  senderId: string;
+  distributionId: string;
+  // Raw data to serialize/deserialize into signal-client SenderKeyRecord
+  data: Buffer;
+  lastUpdatedDate: number;
+};
 export type SessionType = {
   id: string;
   conversationId: string;
@@ -170,6 +180,11 @@ export type DataInterface = {
   removeItemById: (id: string) => Promise<void>;
   removeAllItems: () => Promise<void>;
   getAllItems: () => Promise<Array<ItemType>>;
+
+  createOrUpdateSenderKey: (key: SenderKeyType) => Promise<void>;
+  getSenderKeyById: (id: string) => Promise<SenderKeyType | undefined>;
+  removeAllSenderKeys: () => Promise<void>;
+  getAllSenderKeys: () => Promise<Array<SenderKeyType>>;
 
   createOrUpdateSession: (data: SessionType) => Promise<void>;
   createOrUpdateSessions: (array: Array<SessionType>) => Promise<void>;

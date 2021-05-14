@@ -48,6 +48,7 @@ import {
   MessageTypeUnhydrated,
   PreKeyType,
   SearchResultMessageType,
+  SenderKeyType,
   ServerInterface,
   SessionType,
   SignedPreKeyType,
@@ -133,6 +134,11 @@ const dataInterface: ClientInterface = {
   bulkAddItems,
   removeItemById,
   removeAllItems,
+
+  createOrUpdateSenderKey,
+  getSenderKeyById,
+  removeAllSenderKeys,
+  getAllSenderKeys,
 
   createOrUpdateSession,
   createOrUpdateSessions,
@@ -734,6 +740,23 @@ async function removeItemById(id: string) {
 }
 async function removeAllItems() {
   await channels.removeAllItems();
+}
+
+// Sender Keys
+
+async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
+  await channels.createOrUpdateSenderKey(key);
+}
+async function getSenderKeyById(
+  id: string
+): Promise<SenderKeyType | undefined> {
+  return channels.getSenderKeyById(id);
+}
+async function removeAllSenderKeys(): Promise<void> {
+  await channels.removeAllSenderKeys();
+}
+async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
+  return channels.getAllSenderKeys();
 }
 
 // Sessions

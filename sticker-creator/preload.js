@@ -9,7 +9,7 @@ const { readFile } = require('fs');
 const config = require('url').parse(window.location.toString(), true).query;
 const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
-const client = require('libsignal-client');
+const client = require('@signalapp/signal-client');
 const { deriveStickerPackKey } = require('../ts/Crypto');
 const {
   getEnvironment,

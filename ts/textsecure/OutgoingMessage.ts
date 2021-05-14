@@ -20,7 +20,7 @@ import {
   sealedSenderEncryptMessage,
   SenderCertificate,
   signalEncrypt,
-} from 'libsignal-client';
+} from '@signalapp/signal-client';
 
 import { ServerKeysType, WebAPIType } from './WebAPI';
 import { ContentClass, DataMessageClass } from '../textsecure.d';

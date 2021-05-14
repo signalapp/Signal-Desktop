@@ -8,17 +8,20 @@ import { isNumber } from 'lodash';
 
 import {
   Direction,
-  ProtocolAddress,
-  SessionStore,
-  SessionRecord,
   IdentityKeyStore,
   PreKeyRecord,
   PreKeyStore,
   PrivateKey,
+  ProtocolAddress,
   PublicKey,
-  SignedPreKeyStore,
+  SenderKeyRecord,
+  SenderKeyStore,
+  SessionRecord,
+  SessionStore,
   SignedPreKeyRecord,
-} from 'libsignal-client';
+  SignedPreKeyStore,
+  Uuid,
+} from '@signalapp/signal-client';
 import { freezePreKey, freezeSignedPreKey } from './SignalProtocolStore';
 
 import { typedArrayToArrayBuffer } from './Crypto';
@@ -128,6 +131,36 @@ export class PreKeys extends PreKeyStore {
 
   async removePreKey(id: number): Promise<void> {
     await window.textsecure.storage.protocol.removePreKey(id);
+  }
+}
+
+export class SenderKeys extends SenderKeyStore {
+  async saveSenderKey(
+    sender: ProtocolAddress,
+    distributionId: Uuid,
+    record: SenderKeyRecord
+  ): Promise<void> {
+    const encodedAddress = encodedNameFromAddress(sender);
+
+    await window.textsecure.storage.protocol.saveSenderKey(
+      encodedAddress,
+      distributionId,
+      record
+    );
+  }
+
+  async getSenderKey(
+    sender: ProtocolAddress,
+    distributionId: Uuid
+  ): Promise<SenderKeyRecord | null> {
+    const encodedAddress = encodedNameFromAddress(sender);
+
+    const senderKey = await window.textsecure.storage.protocol.getSenderKey(
+      encodedAddress,
+      distributionId
+    );
+
+    return senderKey || null;
   }
 }
 

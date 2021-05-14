@@ -8,13 +8,14 @@ import { isNumber } from 'lodash';
 import * as z from 'zod';
 
 import {
-  SessionRecord,
+  Direction,
   PreKeyRecord,
   PrivateKey,
   PublicKey,
+  SenderKeyRecord,
+  SessionRecord,
   SignedPreKeyRecord,
-  Direction,
-} from 'libsignal-client';
+} from '@signalapp/signal-client';
 
 import {
   constantTimeEqual,
@@ -30,6 +31,7 @@ import {
 import {
   KeyPairType,
   IdentityKeyType,
+  SenderKeyType,
   SessionType,
   SignedPreKeyType,
   OuterSignedPrekeyType,
@@ -90,8 +92,8 @@ async function normalizeEncodedAddress(
   }
 }
 
-type HasIdType = {
-  id: string | number;
+type HasIdType<T> = {
+  id: T;
 };
 type CacheEntryType<DBType, HydratedType> =
   | {
@@ -100,24 +102,22 @@ type CacheEntryType<DBType, HydratedType> =
     }
   | { hydrated: true; fromDB: DBType; item: HydratedType };
 
-async function _fillCaches<T extends HasIdType, HydratedType>(
+async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
   object: SignalProtocolStore,
   field: keyof SignalProtocolStore,
   itemsPromise: Promise<Array<T>>
 ): Promise<void> {
   const items = await itemsPromise;
 
-  const cache: Record<string, CacheEntryType<T, HydratedType>> = Object.create(
-    null
-  );
+  const cache = new Map<ID, CacheEntryType<T, HydratedType>>();
   for (let i = 0, max = items.length; i < max; i += 1) {
     const fromDB = items[i];
     const { id } = fromDB;
 
-    cache[id] = {
+    cache.set(id, {
       fromDB,
       hydrated: false,
-    };
+    });
   }
 
   window.log.info(`SignalProtocolStore: Finished caching ${field} data`);
@@ -193,16 +193,20 @@ export class SignalProtocolStore extends EventsMixin {
 
   ourRegistrationId?: number;
 
-  identityKeys?: Record<string, CacheEntryType<IdentityKeyType, PublicKey>>;
+  identityKeys?: Map<string, CacheEntryType<IdentityKeyType, PublicKey>>;
 
-  sessions?: Record<string, CacheEntryType<SessionType, SessionRecord>>;
+  senderKeys?: Map<string, CacheEntryType<SenderKeyType, SenderKeyRecord>>;
 
-  preKeys?: Record<string, CacheEntryType<PreKeyType, PreKeyRecord>>;
+  sessions?: Map<string, CacheEntryType<SessionType, SessionRecord>>;
 
-  signedPreKeys?: Record<
-    string,
+  preKeys?: Map<number, CacheEntryType<PreKeyType, PreKeyRecord>>;
+
+  signedPreKeys?: Map<
+    number,
     CacheEntryType<SignedPreKeyType, SignedPreKeyRecord>
   >;
+
+  senderKeyQueues: Map<string, PQueue> = new Map<string, PQueue>();
 
   sessionQueues: Map<string, PQueue> = new Map<string, PQueue>();
 
@@ -216,22 +220,27 @@ export class SignalProtocolStore extends EventsMixin {
         const item = await window.Signal.Data.getItemById('registrationId');
         this.ourRegistrationId = item ? item.value : undefined;
       })(),
-      _fillCaches<IdentityKeyType, PublicKey>(
+      _fillCaches<string, IdentityKeyType, PublicKey>(
         this,
         'identityKeys',
         window.Signal.Data.getAllIdentityKeys()
       ),
-      _fillCaches<SessionType, SessionRecord>(
+      _fillCaches<string, SessionType, SessionRecord>(
         this,
         'sessions',
         window.Signal.Data.getAllSessions()
       ),
-      _fillCaches<PreKeyType, PreKeyRecord>(
+      _fillCaches<number, PreKeyType, PreKeyRecord>(
         this,
         'preKeys',
         window.Signal.Data.getAllPreKeys()
       ),
-      _fillCaches<SignedPreKeyType, SignedPreKeyRecord>(
+      _fillCaches<string, SenderKeyType, SenderKeyRecord>(
+        this,
+        'senderKeys',
+        window.Signal.Data.getAllSenderKeys()
+      ),
+      _fillCaches<number, SignedPreKeyType, SignedPreKeyRecord>(
         this,
         'signedPreKeys',
         window.Signal.Data.getAllSignedPreKeys()
@@ -249,12 +258,12 @@ export class SignalProtocolStore extends EventsMixin {
 
   // PreKeys
 
-  async loadPreKey(keyId: string | number): Promise<PreKeyRecord | undefined> {
+  async loadPreKey(keyId: number): Promise<PreKeyRecord | undefined> {
     if (!this.preKeys) {
       throw new Error('loadPreKey: this.preKeys not yet cached!');
     }
 
-    const entry = this.preKeys[keyId];
+    const entry = this.preKeys.get(keyId);
     if (!entry) {
       window.log.error('Failed to fetch prekey:', keyId);
       return undefined;
@@ -266,11 +275,11 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     const item = hydratePreKey(entry.fromDB);
-    this.preKeys[keyId] = {
+    this.preKeys.set(keyId, {
       hydrated: true,
       fromDB: entry.fromDB,
       item,
-    };
+    });
     window.log.info('Successfully fetched prekey (cache miss):', keyId);
     return item;
   }
@@ -279,7 +288,7 @@ export class SignalProtocolStore extends EventsMixin {
     if (!this.preKeys) {
       throw new Error('storePreKey: this.preKeys not yet cached!');
     }
-    if (this.preKeys[keyId]) {
+    if (this.preKeys.has(keyId)) {
       throw new Error(`storePreKey: prekey ${keyId} already exists!`);
     }
 
@@ -290,10 +299,10 @@ export class SignalProtocolStore extends EventsMixin {
     };
 
     await window.Signal.Data.createOrUpdatePreKey(fromDB);
-    this.preKeys[keyId] = {
+    this.preKeys.set(keyId, {
       hydrated: false,
       fromDB,
-    };
+    });
   }
 
   async removePreKey(keyId: number): Promise<void> {
@@ -310,12 +319,14 @@ export class SignalProtocolStore extends EventsMixin {
       );
     }
 
-    delete this.preKeys[keyId];
+    this.preKeys.delete(keyId);
     await window.Signal.Data.removePreKeyById(keyId);
   }
 
   async clearPreKeyStore(): Promise<void> {
-    this.preKeys = Object.create(null);
+    if (this.preKeys) {
+      this.preKeys.clear();
+    }
     await window.Signal.Data.removeAllPreKeys();
   }
 
@@ -328,7 +339,7 @@ export class SignalProtocolStore extends EventsMixin {
       throw new Error('loadSignedPreKey: this.signedPreKeys not yet cached!');
     }
 
-    const entry = this.signedPreKeys[keyId];
+    const entry = this.signedPreKeys.get(keyId);
     if (!entry) {
       window.log.error('Failed to fetch signed prekey:', keyId);
       return undefined;
@@ -340,11 +351,11 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     const item = hydrateSignedPreKey(entry.fromDB);
-    this.signedPreKeys[keyId] = {
+    this.signedPreKeys.set(keyId, {
       hydrated: true,
       item,
       fromDB: entry.fromDB,
-    };
+    });
     window.log.info('Successfully fetched signed prekey (cache miss):', keyId);
     return item;
   }
@@ -358,7 +369,7 @@ export class SignalProtocolStore extends EventsMixin {
       throw new Error('loadSignedPreKeys takes no arguments');
     }
 
-    const entries = Object.values(this.signedPreKeys);
+    const entries = Array.from(this.signedPreKeys.values());
     return entries.map(entry => {
       const preKey = entry.fromDB;
       return {
@@ -391,10 +402,10 @@ export class SignalProtocolStore extends EventsMixin {
     };
 
     await window.Signal.Data.createOrUpdateSignedPreKey(fromDB);
-    this.signedPreKeys[keyId] = {
+    this.signedPreKeys.set(keyId, {
       hydrated: false,
       fromDB,
-    };
+    });
   }
 
   async removeSignedPreKey(keyId: number): Promise<void> {
@@ -402,13 +413,124 @@ export class SignalProtocolStore extends EventsMixin {
       throw new Error('removeSignedPreKey: this.signedPreKeys not yet cached!');
     }
 
-    delete this.signedPreKeys[keyId];
+    this.signedPreKeys.delete(keyId);
     await window.Signal.Data.removeSignedPreKeyById(keyId);
   }
 
   async clearSignedPreKeysStore(): Promise<void> {
-    this.signedPreKeys = Object.create(null);
+    if (this.signedPreKeys) {
+      this.signedPreKeys.clear();
+    }
     await window.Signal.Data.removeAllSignedPreKeys();
+  }
+
+  // Sender Key Queue
+
+  async enqueueSenderKeyJob<T>(
+    encodedAddress: string,
+    task: () => Promise<T>
+  ): Promise<T> {
+    const senderId = await normalizeEncodedAddress(encodedAddress);
+    const queue = this._getSenderKeyQueue(senderId);
+
+    return queue.add<T>(task);
+  }
+
+  private _createSenderKeyQueue(): PQueue {
+    return new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+  }
+
+  private _getSenderKeyQueue(senderId: string): PQueue {
+    const cachedQueue = this.senderKeyQueues.get(senderId);
+    if (cachedQueue) {
+      return cachedQueue;
+    }
+
+    const freshQueue = this._createSenderKeyQueue();
+    this.senderKeyQueues.set(senderId, freshQueue);
+    return freshQueue;
+  }
+
+  // Sender Keys
+
+  private getSenderKeyId(senderKeyId: string, distributionId: string): string {
+    return `${senderKeyId}--${distributionId}`;
+  }
+
+  async saveSenderKey(
+    encodedAddress: string,
+    distributionId: string,
+    record: SenderKeyRecord
+  ): Promise<void> {
+    if (!this.senderKeys) {
+      throw new Error('saveSenderKey: this.senderKeys not yet cached!');
+    }
+
+    try {
+      const senderId = await normalizeEncodedAddress(encodedAddress);
+      const id = this.getSenderKeyId(senderId, distributionId);
+
+      const fromDB: SenderKeyType = {
+        id,
+        senderId,
+        distributionId,
+        data: record.serialize(),
+        lastUpdatedDate: Date.now(),
+      };
+
+      await window.Signal.Data.createOrUpdateSenderKey(fromDB);
+
+      this.senderKeys.set(id, {
+        hydrated: true,
+        fromDB,
+        item: record,
+      });
+    } catch (error) {
+      const errorString = error && error.stack ? error.stack : error;
+      window.log.error(
+        `saveSenderKey: failed to save senderKey ${encodedAddress}/${distributionId}: ${errorString}`
+      );
+    }
+  }
+
+  async getSenderKey(
+    encodedAddress: string,
+    distributionId: string
+  ): Promise<SenderKeyRecord | undefined> {
+    if (!this.senderKeys) {
+      throw new Error('getSenderKey: this.senderKeys not yet cached!');
+    }
+
+    try {
+      const senderId = await normalizeEncodedAddress(encodedAddress);
+      const id = this.getSenderKeyId(senderId, distributionId);
+
+      const entry = this.senderKeys.get(id);
+      if (!entry) {
+        window.log.error('Failed to fetch sender key:', id);
+        return undefined;
+      }
+
+      if (entry.hydrated) {
+        window.log.info('Successfully fetched signed prekey (cache hit):', id);
+        return entry.item;
+      }
+
+      const item = SenderKeyRecord.deserialize(entry.fromDB.data);
+      this.senderKeys.set(id, {
+        hydrated: true,
+        item,
+        fromDB: entry.fromDB,
+      });
+      window.log.info('Successfully fetched signed prekey (cache miss):', id);
+      return item;
+    } catch (error) {
+      const errorString = error && error.stack ? error.stack : error;
+      window.log.error(
+        `getSenderKey: failed to load senderKey ${encodedAddress}/${distributionId}: ${errorString}`
+      );
+      return undefined;
+    }
   }
 
   // Session Queue
@@ -453,7 +575,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     try {
       const id = await normalizeEncodedAddress(encodedAddress);
-      const entry = this.sessions[id];
+      const entry = this.sessions.get(id);
 
       if (!entry) {
         return undefined;
@@ -464,11 +586,11 @@ export class SignalProtocolStore extends EventsMixin {
       }
 
       const item = await this._maybeMigrateSession(entry.fromDB);
-      this.sessions[id] = {
+      this.sessions.set(id, {
         hydrated: true,
         item,
         fromDB: entry.fromDB,
-      };
+      });
       return item;
     } catch (error) {
       const errorString = error && error.stack ? error.stack : error;
@@ -544,11 +666,11 @@ export class SignalProtocolStore extends EventsMixin {
       };
 
       await window.Signal.Data.createOrUpdateSession(fromDB);
-      this.sessions[id] = {
+      this.sessions.set(id, {
         hydrated: true,
         fromDB,
         item: record,
-      };
+      });
     } catch (error) {
       const errorString = error && error.stack ? error.stack : error;
       window.log.error(
@@ -574,7 +696,7 @@ export class SignalProtocolStore extends EventsMixin {
         );
       }
 
-      const allSessions = Object.values(this.sessions);
+      const allSessions = Array.from(this.sessions.values());
       const entries = allSessions.filter(
         session => session.fromDB.conversationId === id
       );
@@ -618,7 +740,7 @@ export class SignalProtocolStore extends EventsMixin {
     try {
       const id = await normalizeEncodedAddress(encodedAddress);
       await window.Signal.Data.removeSessionById(id);
-      delete this.sessions[id];
+      this.sessions.delete(id);
     } catch (e) {
       window.log.error(
         `removeSession: Failed to delete session for ${encodedAddress}`
@@ -639,12 +761,12 @@ export class SignalProtocolStore extends EventsMixin {
 
     const id = window.ConversationController.getConversationId(identifier);
 
-    const entries = Object.values(this.sessions);
+    const entries = Array.from(this.sessions.values());
 
     for (let i = 0, max = entries.length; i < max; i += 1) {
       const entry = entries[i];
       if (entry.fromDB.conversationId === id) {
-        delete this.sessions[entry.fromDB.id];
+        this.sessions.delete(entry.fromDB.id);
       }
     }
 
@@ -681,7 +803,7 @@ export class SignalProtocolStore extends EventsMixin {
     window.log.info(`archiveSession: session for ${encodedAddress}`);
 
     const id = await normalizeEncodedAddress(encodedAddress);
-    const entry = this.sessions[id];
+    const entry = this.sessions.get(id);
 
     await this._archiveSession(entry);
   }
@@ -700,7 +822,7 @@ export class SignalProtocolStore extends EventsMixin {
     const [identifier, deviceId] = window.textsecure.utils.unencodeNumber(id);
     const deviceIdNumber = parseInt(deviceId, 10);
 
-    const allEntries = Object.values(this.sessions);
+    const allEntries = Array.from(this.sessions.values());
     const entries = allEntries.filter(
       entry =>
         entry.fromDB.conversationId === identifier &&
@@ -725,7 +847,7 @@ export class SignalProtocolStore extends EventsMixin {
     );
 
     const id = window.ConversationController.getConversationId(identifier);
-    const allEntries = Object.values(this.sessions);
+    const allEntries = Array.from(this.sessions.values());
     const entries = allEntries.filter(
       entry => entry.fromDB.conversationId === id
     );
@@ -738,7 +860,9 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async clearSessionStore(): Promise<void> {
-    this.sessions = Object.create(null);
+    if (this.sessions) {
+      this.sessions.clear();
+    }
     window.Signal.Data.removeAllSessions();
   }
 
@@ -757,7 +881,7 @@ export class SignalProtocolStore extends EventsMixin {
         );
       }
 
-      const entry = this.identityKeys[id];
+      const entry = this.identityKeys.get(id);
       if (!entry) {
         return undefined;
       }
@@ -869,10 +993,10 @@ export class SignalProtocolStore extends EventsMixin {
     const { id } = data;
 
     await window.Signal.Data.createOrUpdateIdentityKey(data);
-    this.identityKeys[id] = {
+    this.identityKeys.set(id, {
       hydrated: false,
       fromDB: data,
-    };
+    });
   }
 
   async saveIdentity(
@@ -1271,7 +1395,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     const id = window.ConversationController.getConversationId(identifier);
     if (id) {
-      delete this.identityKeys[id];
+      this.identityKeys.delete(id);
       await window.Signal.Data.removeIdentityKeyById(id);
       await this.removeAllSessions(id);
     }

@@ -11,7 +11,10 @@ import * as path from 'path';
 import pino from 'pino';
 import { createStream } from 'rotating-file-stream';
 
-import { initLogger, LogLevel as SignalClientLogLevel } from 'libsignal-client';
+import {
+  initLogger,
+  LogLevel as SignalClientLogLevel,
+} from '@signalapp/signal-client';
 
 import { uploadDebugLogs } from './debuglogs';
 import { redactAll } from '../../js/modules/privacy';
@@ -204,7 +207,7 @@ initLogger(
     } else if (file) {
       fileString = ` ${file}`;
     }
-    const logString = `libsignal-client ${message} ${target}${fileString}`;
+    const logString = `@signalapp/signal-client ${message} ${target}${fileString}`;
 
     if (level === SignalClientLogLevel.Trace) {
       log.trace(logString);

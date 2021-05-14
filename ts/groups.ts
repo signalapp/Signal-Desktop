@@ -23,6 +23,7 @@ import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assert } from './util/assert';
 import { isMoreRecentThan } from './util/timestamp';
+import { isByteBufferEmpty } from './util/isByteBufferEmpty';
 import {
   ConversationAttributesType,
   GroupV2MemberType,
@@ -321,10 +322,10 @@ export function parseGroupLink(
     throw error;
   }
 
-  if (!hasData(inviteLinkProto.v1Contents.groupMasterKey)) {
+  if (isByteBufferEmpty(inviteLinkProto.v1Contents.groupMasterKey)) {
     throw new Error('v1Contents.groupMasterKey had no data!');
   }
-  if (!hasData(inviteLinkProto.v1Contents.inviteLinkPassword)) {
+  if (isByteBufferEmpty(inviteLinkProto.v1Contents.inviteLinkPassword)) {
     throw new Error('v1Contents.inviteLinkPassword had no data!');
   }
 
@@ -4673,10 +4674,6 @@ function isValidProfileKey(buffer?: ArrayBuffer): boolean {
   return Boolean(buffer && buffer.byteLength === 32);
 }
 
-function hasData(data: ProtoBinaryType): boolean {
-  return data && data.limit > 0;
-}
-
 function normalizeTimestamp(
   timestamp: ProtoBigNumberType
 ): number | ProtoBigNumberType {
@@ -4703,7 +4700,7 @@ function decryptGroupChange(
 ): GroupChangeClass.Actions {
   const clientZkGroupCipher = getClientZkGroupCipher(groupSecretParams);
 
-  if (hasData(actions.sourceUuid)) {
+  if (!isByteBufferEmpty(actions.sourceUuid)) {
     try {
       actions.sourceUuid = decryptUuid(
         clientZkGroupCipher,
@@ -4752,7 +4749,7 @@ function decryptGroupChange(
   // deleteMembers?: Array<GroupChangeClass.Actions.DeleteMemberAction>;
   actions.deleteMembers = compact(
     (actions.deleteMembers || []).map(deleteMember => {
-      if (hasData(deleteMember.deletedUserId)) {
+      if (!isByteBufferEmpty(deleteMember.deletedUserId)) {
         try {
           deleteMember.deletedUserId = decryptUuid(
             clientZkGroupCipher,
@@ -4792,7 +4789,7 @@ function decryptGroupChange(
   // modifyMemberRoles?: Array<GroupChangeClass.Actions.ModifyMemberRoleAction>;
   actions.modifyMemberRoles = compact(
     (actions.modifyMemberRoles || []).map(modifyMember => {
-      if (hasData(modifyMember.userId)) {
+      if (!isByteBufferEmpty(modifyMember.userId)) {
         try {
           modifyMember.userId = decryptUuid(
             clientZkGroupCipher,
@@ -4840,7 +4837,7 @@ function decryptGroupChange(
   // >;
   actions.modifyMemberProfileKeys = compact(
     (actions.modifyMemberProfileKeys || []).map(modifyMemberProfileKey => {
-      if (hasData(modifyMemberProfileKey.presentation)) {
+      if (!isByteBufferEmpty(modifyMemberProfileKey.presentation)) {
         const { profileKey, uuid } = decryptProfileKeyCredentialPresentation(
           clientZkGroupCipher,
           modifyMemberProfileKey.presentation.toArrayBuffer()
@@ -4910,7 +4907,7 @@ function decryptGroupChange(
   // >;
   actions.deletePendingMembers = compact(
     (actions.deletePendingMembers || []).map(deletePendingMember => {
-      if (hasData(deletePendingMember.deletedUserId)) {
+      if (!isByteBufferEmpty(deletePendingMember.deletedUserId)) {
         try {
           deletePendingMember.deletedUserId = decryptUuid(
             clientZkGroupCipher,
@@ -4952,7 +4949,7 @@ function decryptGroupChange(
   // >;
   actions.promotePendingMembers = compact(
     (actions.promotePendingMembers || []).map(promotePendingMember => {
-      if (hasData(promotePendingMember.presentation)) {
+      if (!isByteBufferEmpty(promotePendingMember.presentation)) {
         const { profileKey, uuid } = decryptProfileKeyCredentialPresentation(
           clientZkGroupCipher,
           promotePendingMember.presentation.toArrayBuffer()
@@ -4991,7 +4988,7 @@ function decryptGroupChange(
   );
 
   // modifyTitle?: GroupChangeClass.Actions.ModifyTitleAction;
-  if (actions.modifyTitle && hasData(actions.modifyTitle.title)) {
+  if (actions.modifyTitle && !isByteBufferEmpty(actions.modifyTitle.title)) {
     try {
       actions.modifyTitle.title = window.textsecure.protobuf.GroupAttributeBlob.decode(
         decryptGroupBlob(
@@ -5017,7 +5014,7 @@ function decryptGroupChange(
   // GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
   if (
     actions.modifyDisappearingMessagesTimer &&
-    hasData(actions.modifyDisappearingMessagesTimer.timer)
+    !isByteBufferEmpty(actions.modifyDisappearingMessagesTimer.timer)
   ) {
     try {
       actions.modifyDisappearingMessagesTimer.timer = window.textsecure.protobuf.GroupAttributeBlob.decode(
@@ -5106,7 +5103,7 @@ function decryptGroupChange(
   actions.deleteMemberPendingAdminApprovals = compact(
     (actions.deleteMemberPendingAdminApprovals || []).map(
       deletePendingApproval => {
-        if (hasData(deletePendingApproval.deletedUserId)) {
+        if (!isByteBufferEmpty(deletePendingApproval.deletedUserId)) {
           try {
             deletePendingApproval.deletedUserId = decryptUuid(
               clientZkGroupCipher,
@@ -5150,7 +5147,7 @@ function decryptGroupChange(
   actions.promoteMemberPendingAdminApprovals = compact(
     (actions.promoteMemberPendingAdminApprovals || []).map(
       promoteAdminApproval => {
-        if (hasData(promoteAdminApproval.userId)) {
+        if (!isByteBufferEmpty(promoteAdminApproval.userId)) {
           try {
             promoteAdminApproval.userId = decryptUuid(
               clientZkGroupCipher,
@@ -5183,7 +5180,7 @@ function decryptGroupChange(
   // modifyInviteLinkPassword?: GroupChangeClass.Actions.ModifyInviteLinkPasswordAction;
   if (
     actions.modifyInviteLinkPassword &&
-    hasData(actions.modifyInviteLinkPassword.inviteLinkPassword)
+    !isByteBufferEmpty(actions.modifyInviteLinkPassword.inviteLinkPassword)
   ) {
     actions.modifyInviteLinkPassword.inviteLinkPassword = actions.modifyInviteLinkPassword.inviteLinkPassword.toString(
       'base64'
@@ -5200,7 +5197,7 @@ export function decryptGroupTitle(
   secretParams: string
 ): string | undefined {
   const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
-  if (hasData(title)) {
+  if (!isByteBufferEmpty(title)) {
     const blob = window.textsecure.protobuf.GroupAttributeBlob.decode(
       decryptGroupBlob(clientZkGroupCipher, title.toArrayBuffer())
     );
@@ -5221,7 +5218,7 @@ function decryptGroupState(
   const clientZkGroupCipher = getClientZkGroupCipher(groupSecretParams);
 
   // title
-  if (hasData(groupState.title)) {
+  if (!isByteBufferEmpty(groupState.title)) {
     try {
       groupState.title = window.textsecure.protobuf.GroupAttributeBlob.decode(
         decryptGroupBlob(clientZkGroupCipher, groupState.title.toArrayBuffer())
@@ -5241,7 +5238,7 @@ function decryptGroupState(
   // Note: decryption happens during application of the change, on download of the avatar
 
   // disappearing message timer
-  if (hasData(groupState.disappearingMessagesTimer)) {
+  if (!isByteBufferEmpty(groupState.disappearingMessagesTimer)) {
     try {
       groupState.disappearingMessagesTimer = window.textsecure.protobuf.GroupAttributeBlob.decode(
         decryptGroupBlob(
@@ -5314,7 +5311,7 @@ function decryptGroupState(
   }
 
   // inviteLinkPassword
-  if (hasData(groupState.inviteLinkPassword)) {
+  if (!isByteBufferEmpty(groupState.inviteLinkPassword)) {
     groupState.inviteLinkPassword = groupState.inviteLinkPassword.toString(
       'base64'
     );
@@ -5331,7 +5328,7 @@ function decryptMember(
   logId: string
 ) {
   // userId
-  if (hasData(member.userId)) {
+  if (!isByteBufferEmpty(member.userId)) {
     try {
       member.userId = decryptUuid(
         clientZkGroupCipher,
@@ -5359,7 +5356,7 @@ function decryptMember(
   }
 
   // profileKey
-  if (hasData(member.profileKey)) {
+  if (!isByteBufferEmpty(member.profileKey)) {
     member.profileKey = decryptProfileKey(
       clientZkGroupCipher,
       member.profileKey.toArrayBuffer(),
@@ -5387,7 +5384,7 @@ function decryptMemberPendingProfileKey(
   logId: string
 ) {
   // addedByUserId
-  if (hasData(member.addedByUserId)) {
+  if (!isByteBufferEmpty(member.addedByUserId)) {
     try {
       member.addedByUserId = decryptUuid(
         clientZkGroupCipher,
@@ -5433,7 +5430,7 @@ function decryptMemberPendingProfileKey(
   const { userId, profileKey, role } = member.member;
 
   // userId
-  if (hasData(userId)) {
+  if (!isByteBufferEmpty(userId)) {
     try {
       member.member.userId = decryptUuid(
         clientZkGroupCipher,
@@ -5467,7 +5464,7 @@ function decryptMemberPendingProfileKey(
   }
 
   // profileKey
-  if (hasData(profileKey)) {
+  if (!isByteBufferEmpty(profileKey)) {
     try {
       member.member.profileKey = decryptProfileKey(
         clientZkGroupCipher,
@@ -5512,7 +5509,7 @@ function decryptMemberPendingAdminApproval(
   const { userId, profileKey } = member;
 
   // userId
-  if (hasData(userId)) {
+  if (!isByteBufferEmpty(userId)) {
     try {
       member.userId = decryptUuid(clientZkGroupCipher, userId.toArrayBuffer());
     } catch (error) {
@@ -5541,7 +5538,7 @@ function decryptMemberPendingAdminApproval(
   }
 
   // profileKey
-  if (hasData(profileKey)) {
+  if (!isByteBufferEmpty(profileKey)) {
     try {
       member.profileKey = decryptProfileKey(
         clientZkGroupCipher,

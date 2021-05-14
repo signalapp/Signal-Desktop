@@ -49,6 +49,7 @@ import {
   MessageMetricsType,
   PreKeyType,
   SearchResultMessageType,
+  SenderKeyType,
   ServerInterface,
   SessionType,
   SignedPreKeyType,
@@ -86,7 +87,7 @@ type StickerRow = Readonly<{
 
 type EmptyQuery = [];
 type ArrayQuery = Array<Array<null | number | string>>;
-type Query = { [key: string]: null | number | string };
+type Query = { [key: string]: null | number | string | Buffer };
 
 // Because we can't force this module to conform to an interface, we narrow our exports
 //   to this one default export, which does conform to the interface.
@@ -124,6 +125,11 @@ const dataInterface: ServerInterface = {
   bulkAddItems,
   removeItemById,
   removeAllItems,
+
+  createOrUpdateSenderKey,
+  getSenderKeyById,
+  removeAllSenderKeys,
+  getAllSenderKeys,
 
   createOrUpdateSession,
   createOrUpdateSessions,
@@ -1625,6 +1631,7 @@ async function updateToSchemaVersion25(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 25');
   })();
+  console.log('updateToSchemaVersion25: success!');
 }
 
 async function updateToSchemaVersion26(currentVersion: number, db: Database) {
@@ -1660,6 +1667,7 @@ async function updateToSchemaVersion26(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 26');
   })();
+  console.log('updateToSchemaVersion26: success!');
 }
 
 async function updateToSchemaVersion27(currentVersion: number, db: Database) {
@@ -1697,6 +1705,7 @@ async function updateToSchemaVersion27(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 27');
   })();
+  console.log('updateToSchemaVersion27: success!');
 }
 
 function updateToSchemaVersion28(currentVersion: number, db: Database) {
@@ -1718,6 +1727,7 @@ function updateToSchemaVersion28(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 28');
   })();
+  console.log('updateToSchemaVersion28: success!');
 }
 
 function updateToSchemaVersion29(currentVersion: number, db: Database) {
@@ -1751,6 +1761,28 @@ function updateToSchemaVersion29(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 29');
   })();
+  console.log('updateToSchemaVersion29: success!');
+}
+
+function updateToSchemaVersion30(currentVersion: number, db: Database) {
+  if (currentVersion >= 30) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE senderKeys(
+        id TEXT PRIMARY KEY NOT NULL,
+        senderId TEXT NOT NULL,
+        distributionId TEXT NOT NULL,
+        data BLOB NOT NULL,
+        lastUpdatedDate NUMBER NOT NULL
+      );
+    `);
+
+    db.pragma('user_version = 30');
+  })();
+  console.log('updateToSchemaVersion30: success!');
 }
 
 const SCHEMA_VERSIONS = [
@@ -1783,6 +1815,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion27,
   updateToSchemaVersion28,
   updateToSchemaVersion29,
+  updateToSchemaVersion30,
 ];
 
 function updateSchema(db: Database): void {
@@ -2085,6 +2118,49 @@ function removeItemById(id: string): Promise<void> {
 }
 function removeAllItems(): Promise<void> {
   return removeAllFromTable(ITEMS_TABLE);
+}
+
+async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
+  const db = getInstance();
+
+  prepare(
+    db,
+    `
+    INSERT OR REPLACE INTO senderKeys (
+      id,
+      senderId,
+      distributionId,
+      data,
+      lastUpdatedDate
+    ) values (
+      $id,
+      $senderId,
+      $distributionId,
+      $data,
+      $lastUpdatedDate
+    )
+    `
+  ).run(key);
+}
+async function getSenderKeyById(
+  id: string
+): Promise<SenderKeyType | undefined> {
+  const db = getInstance();
+  const row = prepare(db, 'SELECT * FROM senderKeys WHERE id = $id').get({
+    id,
+  });
+
+  return row;
+}
+async function removeAllSenderKeys(): Promise<void> {
+  const db = getInstance();
+  prepare(db, 'DELETE FROM senderKeys').run({});
+}
+async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
+  const db = getInstance();
+  const rows = prepare(db, 'SELECT * FROM senderKeys').all({});
+
+  return rows;
 }
 
 const SESSIONS_TABLE = 'sessions';
@@ -4635,6 +4711,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM items;
       DELETE FROM messages;
       DELETE FROM preKeys;
+      DELETE FROM senderKeys;
       DELETE FROM sessions;
       DELETE FROM signedPreKeys;
       DELETE FROM unprocessed;
@@ -4657,6 +4734,7 @@ async function removeAllConfiguration(): Promise<void> {
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM preKeys;
+      DELETE FROM senderKeys;
       DELETE FROM sessions;
       DELETE FROM signedPreKeys;
       DELETE FROM unprocessed;

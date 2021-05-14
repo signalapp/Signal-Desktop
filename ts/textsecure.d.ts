@@ -573,6 +573,7 @@ export declare class ContentClass {
   nullMessage?: NullMessageClass;
   receiptMessage?: ReceiptMessageClass;
   typingMessage?: TypingMessageClass;
+  senderKeyDistributionMessage?: ByteBufferClass;
 }
 
 export declare class DataMessageClass {
@@ -733,6 +734,7 @@ export declare namespace EnvelopeClass {
     static PREKEY_BUNDLE: number;
     static RECEIPT: number;
     static UNIDENTIFIED_SENDER: number;
+    static SENDERKEY: number;
   }
 }
 
@@ -1345,7 +1347,7 @@ export declare namespace SenderCertificateClass {
     ) => Certificate;
     toArrayBuffer: () => ArrayBuffer;
 
-    sender?: string;
+    senderE164?: string;
     senderUuid?: string;
     senderDevice?: number;
     expires?: ProtoBigNumberType;
@@ -1377,6 +1379,8 @@ export declare namespace UnidentifiedSenderMessageClass {
     type?: number;
     senderCertificate?: SenderCertificateClass;
     content?: ProtoBinaryType;
+    contentHint?: number;
+    groupId?: ProtoBinaryType;
   }
 }
 
@@ -1384,5 +1388,11 @@ export declare namespace UnidentifiedSenderMessageClass.Message {
   class Type {
     static PREKEY_MESSAGE: number;
     static MESSAGE: number;
+    static SENDERKEY_MESSAGE: number;
+  }
+
+  class ContentHint {
+    static SUPPLEMENTARY: number;
+    static RETRY: number;
   }
 }
