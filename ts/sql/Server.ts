@@ -263,6 +263,10 @@ function prepare(db: Database, query: string): Statement<Query> {
   return result;
 }
 
+function assertSync<T, X>(value: T extends Promise<X> ? never : T): T {
+  return value;
+}
+
 function objectToJSON(data: any) {
   return JSON.stringify(data);
 }
@@ -2164,7 +2168,7 @@ async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
 }
 
 const SESSIONS_TABLE = 'sessions';
-async function createOrUpdateSession(data: SessionType): Promise<void> {
+function createOrUpdateSessionSync(data: SessionType): void {
   const db = getInstance();
   const { id, conversationId } = data;
   if (!id) {
@@ -2197,6 +2201,10 @@ async function createOrUpdateSession(data: SessionType): Promise<void> {
     json: objectToJSON(data),
   });
 }
+async function createOrUpdateSession(data: SessionType): Promise<void> {
+  return createOrUpdateSessionSync(data);
+}
+
 async function createOrUpdateSessions(
   array: Array<SessionType>
 ): Promise<void> {
@@ -2204,7 +2212,7 @@ async function createOrUpdateSessions(
 
   db.transaction(() => {
     for (const item of array) {
-      createOrUpdateSession(item);
+      assertSync(createOrUpdateSessionSync(item));
     }
   })();
 }
@@ -2256,10 +2264,10 @@ function getAllSessions(): Promise<Array<SessionType>> {
   return getAllFromTable(SESSIONS_TABLE);
 }
 
-async function createOrUpdate(
+function createOrUpdateSync(
   table: string,
   data: Record<string, unknown> & { id: string | number }
-): Promise<void> {
+): void {
   const db = getInstance();
   const { id } = data;
   if (!id) {
@@ -2282,6 +2290,13 @@ async function createOrUpdate(
   });
 }
 
+async function createOrUpdate(
+  table: string,
+  data: Record<string, unknown> & { id: string | number }
+): Promise<void> {
+  return createOrUpdateSync(table, data);
+}
+
 async function bulkAdd(
   table: string,
   array: Array<Record<string, unknown> & { id: string | number }>
@@ -2290,7 +2305,7 @@ async function bulkAdd(
 
   db.transaction(() => {
     for (const data of array) {
-      createOrUpdate(table, data);
+      assertSync(createOrUpdateSync(table, data));
     }
   })();
 }
@@ -2378,10 +2393,10 @@ async function getConversationCount(): Promise<number> {
   return row['count(*)'];
 }
 
-async function saveConversation(
+function saveConversationSync(
   data: ConversationType,
   db = getInstance()
-): Promise<void> {
+): void {
   const {
     active_at,
     e164,
@@ -2461,6 +2476,13 @@ async function saveConversation(
   });
 }
 
+async function saveConversation(
+  data: ConversationType,
+  db = getInstance()
+): Promise<void> {
+  return saveConversationSync(data, db);
+}
+
 async function saveConversations(
   arrayOfConversations: Array<ConversationType>
 ): Promise<void> {
@@ -2468,12 +2490,12 @@ async function saveConversations(
 
   db.transaction(() => {
     for (const conversation of arrayOfConversations) {
-      saveConversation(conversation);
+      assertSync(saveConversationSync(conversation));
     }
   })();
 }
 
-async function updateConversation(data: ConversationType): Promise<void> {
+function updateConversationSync(data: ConversationType): void {
   const db = getInstance();
   const {
     id,
@@ -2535,6 +2557,10 @@ async function updateConversation(data: ConversationType): Promise<void> {
   });
 }
 
+async function updateConversation(data: ConversationType): Promise<void> {
+  return updateConversationSync(data);
+}
+
 async function updateConversations(
   array: Array<ConversationType>
 ): Promise<void> {
@@ -2542,7 +2568,7 @@ async function updateConversations(
 
   db.transaction(() => {
     for (const item of array) {
-      updateConversation(item);
+      assertSync(updateConversationSync(item));
     }
   })();
 }
@@ -2827,20 +2853,22 @@ async function getMessageCount(conversationId?: string): Promise<number> {
   return row['count(*)'];
 }
 
-async function saveMessage(
+function saveMessageSync(
   data: MessageType,
   options: { forceSave?: boolean; alreadyInTransaction?: boolean } = {}
-): Promise<string> {
+): string {
   const db = getInstance();
 
   const { forceSave, alreadyInTransaction } = options;
 
   if (!alreadyInTransaction) {
     return db.transaction(() => {
-      return saveMessage(data, {
-        ...options,
-        alreadyInTransaction: true,
-      });
+      return assertSync(
+        saveMessageSync(data, {
+          ...options,
+          alreadyInTransaction: true,
+        })
+      );
     })();
   }
 
@@ -2986,6 +3014,13 @@ async function saveMessage(
   return toCreate.id;
 }
 
+async function saveMessage(
+  data: MessageType,
+  options: { forceSave?: boolean; alreadyInTransaction?: boolean }
+): Promise<string> {
+  return saveMessageSync(data, options);
+}
+
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
   { forceSave }: { forceSave?: boolean } = {}
@@ -2994,7 +3029,9 @@ async function saveMessages(
 
   db.transaction(() => {
     for (const message of arrayOfMessages) {
-      saveMessage(message, { forceSave, alreadyInTransaction: true });
+      assertSync(
+        saveMessageSync(message, { forceSave, alreadyInTransaction: true })
+      );
     }
   })();
 }
@@ -3905,10 +3942,10 @@ async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
   return rows.map(row => jsonToObject(row.json));
 }
 
-async function saveUnprocessed(
+function saveUnprocessedSync(
   data: UnprocessedType,
   { forceSave }: { forceSave?: boolean } = {}
-): Promise<string> {
+): string {
   const db = getInstance();
   const { id, timestamp, version, attempts, envelope } = data;
   if (!id) {
@@ -3965,6 +4002,13 @@ async function saveUnprocessed(
   return id;
 }
 
+async function saveUnprocessed(
+  data: UnprocessedType,
+  options: { forceSave?: boolean } = {}
+): Promise<string> {
+  return saveUnprocessedSync(data, options);
+}
+
 async function saveUnprocesseds(
   arrayOfUnprocessed: Array<UnprocessedType>,
   { forceSave }: { forceSave?: boolean } = {}
@@ -3973,7 +4017,7 @@ async function saveUnprocesseds(
 
   db.transaction(() => {
     for (const unprocessed of arrayOfUnprocessed) {
-      saveUnprocessed(unprocessed, { forceSave });
+      assertSync(saveUnprocessedSync(unprocessed, { forceSave }));
     }
   })();
 }
@@ -3994,10 +4038,11 @@ async function updateUnprocessedAttempts(
     attempts,
   });
 }
-async function updateUnprocessedWithData(
+
+function updateUnprocessedWithDataSync(
   id: string,
   data: UnprocessedUpdateType
-): Promise<void> {
+): void {
   const db = getInstance();
   const { source, sourceUuid, sourceDevice, serverTimestamp, decrypted } = data;
 
@@ -4021,6 +4066,14 @@ async function updateUnprocessedWithData(
     decrypted: decrypted || null,
   });
 }
+
+async function updateUnprocessedWithData(
+  id: string,
+  data: UnprocessedUpdateType
+): Promise<void> {
+  return updateUnprocessedWithDataSync(id, data);
+}
+
 async function updateUnprocessedsWithData(
   arrayOfUnprocessed: Array<{ id: string; data: UnprocessedUpdateType }>
 ): Promise<void> {
@@ -4028,7 +4081,7 @@ async function updateUnprocessedsWithData(
 
   db.transaction(() => {
     for (const { id, data } of arrayOfUnprocessed) {
-      updateUnprocessedWithData(id, data);
+      assertSync(updateUnprocessedWithDataSync(id, data));
     }
   })();
 }
