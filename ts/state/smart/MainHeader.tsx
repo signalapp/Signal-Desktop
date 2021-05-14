@@ -11,6 +11,7 @@ import {
   getQuery,
   getSearchConversationId,
   getSearchConversationName,
+  getSearchConversationAvatarPath,
   getStartSearchCounter,
 } from '../selectors/search';
 import {
@@ -28,6 +29,7 @@ const mapStateToProps = (state: StateType) => {
     searchTerm: getQuery(state),
     searchConversationId: getSearchConversationId(state),
     searchConversationName: getSearchConversationName(state),
+    searchConversationAvatarPath: getSearchConversationAvatarPath(state),
     selectedConversation: getSelectedConversation(state),
     startSearchCounter: getStartSearchCounter(state),
     regionCode: getRegionCode(state),

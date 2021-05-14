@@ -52,6 +52,12 @@ export const getSearchConversationName = createSelector(
   (state: SearchStateType): string | undefined => state.searchConversationName
 );
 
+export const getSearchConversationAvatarPath = createSelector(
+  getSearch,
+  (state: SearchStateType): string | undefined =>
+    state.searchConversationAvatarPath
+);
+
 export const getStartSearchCounter = createSelector(
   getSearch,
   (state: SearchStateType): number => state.startSearchCounter

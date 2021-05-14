@@ -18,6 +18,7 @@ export type PropsType = {
   searchTerm: string;
   searchConversationName?: string;
   searchConversationId?: string;
+  searchConversationAvatarPath?: string;
   startSearchCounter: number;
   selectedConversation: undefined | ConversationType;
 
@@ -42,7 +43,7 @@ export type PropsType = {
 
   updateSearchTerm: (searchTerm: string) => void;
   startSearch: () => void;
-  searchInConversation: (id: string, name: string) => void;
+  searchInConversation: (id: string, name: string, avatarPath?: string) => void;
   searchMessages: (
     query: string,
     options: {
@@ -301,7 +302,11 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       const name = selectedConversation.isMe
         ? i18n('noteToSelf')
         : selectedConversation.title;
-      searchInConversation(selectedConversation.id, name);
+      searchInConversation(
+        selectedConversation.id,
+        name,
+        selectedConversation.avatarPath
+      );
 
       event.preventDefault();
       event.stopPropagation();
@@ -349,6 +354,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       title,
       searchConversationId,
       searchConversationName,
+      searchConversationAvatarPath,
       searchTerm,
       showArchivedConversations,
     } = this.props;
@@ -433,7 +439,21 @@ export class MainHeader extends React.Component<PropsType, StateType> {
               aria-label={i18n('clearSearch')}
             >
               <div className="module-main-header__search__in-conversation-pill__avatar-container">
-                <div className="module-main-header__search__in-conversation-pill__avatar" />
+                {searchConversationAvatarPath ? (
+                  <Avatar
+                    acceptedMessageRequest
+                    avatarPath={searchConversationAvatarPath}
+                    className="module-main-header__search__in-conversation-pill__avatar"
+                    conversationType="direct"
+                    i18n={i18n}
+                    isMe={false}
+                    title=""
+                    sharedGroupNames={[]}
+                    size={16}
+                  />
+                ) : (
+                  <div className="module-main-header__search__in-conversation-pill__avatar-placeholder" />
+                )}
               </div>
               <div className="module-main-header__search__in-conversation-pill__x-button" />
             </button>

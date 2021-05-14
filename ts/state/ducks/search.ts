@@ -45,6 +45,7 @@ export type SearchStateType = {
   startSearchCounter: number;
   searchConversationId?: string;
   searchConversationName?: string;
+  searchConversationAvatarPath?: string;
   contactIds: Array<string>;
   conversationIds: Array<string>;
   query: string;
@@ -111,6 +112,7 @@ type SearchInConversationActionType = {
   payload: {
     searchConversationId: string;
     searchConversationName: string;
+    searchConversationAvatarPath?: string;
   };
 };
 
@@ -228,13 +230,15 @@ function clearConversationSearch(): ClearConversationSearchActionType {
 }
 function searchInConversation(
   searchConversationId: string,
-  searchConversationName: string
+  searchConversationName: string,
+  searchConversationAvatarPath?: string
 ): SearchInConversationActionType {
   return {
     type: 'SEARCH_IN_CONVERSATION',
     payload: {
       searchConversationId,
       searchConversationName,
+      searchConversationAvatarPath,
     },
   };
 }
@@ -379,7 +383,11 @@ export function reducer(
 
   if (action.type === 'SEARCH_IN_CONVERSATION') {
     const { payload } = action;
-    const { searchConversationId, searchConversationName } = payload;
+    const {
+      searchConversationId,
+      searchConversationName,
+      searchConversationAvatarPath,
+    } = payload;
 
     if (searchConversationId === state.searchConversationId) {
       return {
@@ -392,6 +400,7 @@ export function reducer(
       ...getEmptyState(),
       searchConversationId,
       searchConversationName,
+      searchConversationAvatarPath,
       startSearchCounter: state.startSearchCounter + 1,
     };
   }

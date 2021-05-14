@@ -4157,6 +4157,7 @@ button.module-conversation-details__action-button {
       }
 
       &__avatar-container {
+        display: flex;
         margin-left: 4px;
         height: 16px;
         width: 16px;
@@ -4165,7 +4166,7 @@ button.module-conversation-details__action-button {
         background-color: $ultramarine-ui-light;
       }
 
-      &__avatar {
+      &__avatar-placeholder {
         height: 16px;
         width: 16px;
 

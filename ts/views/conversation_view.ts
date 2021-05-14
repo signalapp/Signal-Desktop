@@ -491,7 +491,11 @@ Whisper.ConversationView = Whisper.View.extend({
             const name = this.model.isMe()
               ? window.i18n('noteToSelf')
               : this.model.getTitle();
-            searchInConversation(this.model.id, name);
+            searchInConversation(
+              this.model.id,
+              name,
+              this.model.getAbsoluteAvatarPath()
+            );
           },
           onSetMuteNotifications: (ms: number) =>
             this.model.setMuteExpiration(
