@@ -121,6 +121,16 @@ export const getOnionPathForSending = async (requestNumber: number) => {
   return pathNodes;
 };
 
+export const getOnionPathStatus = () => {
+  let hasOnionPath: boolean = false;
+  try {
+    hasOnionPath =  OnionPaths.getInstance().hasOnionPath();
+  } catch (e) {
+    window.log.error(`getOnionPathStatus Error ${e.code} ${e.message}`);
+  }
+  return hasOnionPath;
+}
+
 const initOptionsWithDefaults = (options: OnionFetchBasicOptions) => {
   const defaultFetchBasicOptions = {
     retry: 0,

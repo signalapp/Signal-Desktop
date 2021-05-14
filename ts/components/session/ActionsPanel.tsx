@@ -34,6 +34,9 @@ import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManager
 import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
+import { getOnionPathStatus } from '../../session/onions/onionSend';
+import { Constants } from '../../session';
+
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -46,12 +49,12 @@ export enum SectionType {
   PathIndicator,
 }
 
-const Section = (props: { type: SectionType; avatarPath?: string }) => {
+const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?: boolean }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
   const theme = useSelector(getTheme);
   const dispatch = useDispatch();
-  const { type, avatarPath } = props;
+  const { type, avatarPath, hasOnionPath } = props;
 
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
@@ -69,7 +72,6 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
       dispatch(applyTheme(newThemeObject));
     } else if (type === SectionType.PathIndicator) {
       // Show Path Indicator Modal
-      console.log("status clicked")
       window.showOnionStatusDialog();
     }
     else {
@@ -96,12 +98,9 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
 
   let iconColor = undefined;
   if (type === SectionType.PathIndicator) {
-    // Query Status from backend
-    // const connectionStatus = queryFunction()
     // Set icon color based on result
-
-    // TODO: store colors somewhere
-    iconColor = 'green'
+    iconColor = hasOnionPath ? Constants.UI.COLORS.GREEN : Constants.UI.COLORS.DANGER
+    console.log("Status Indicator Color", iconColor)
   }
 
   let iconType: SessionIconType;
@@ -168,6 +167,8 @@ const triggerSyncIfNeeded = async () => {
   }
 };
 
+
+
 /**
  * This function is called only once: on app startup with a logged in user
  */
@@ -210,7 +211,7 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
 export const ActionsPanel = () => {
   const dispatch = useDispatch();
   const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
-
+  const [hasOnionPath, setHasOnionPath] = useState<boolean>(false)
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
 
   // this maxi useEffect is called only once: when the component is mounted.
@@ -226,6 +227,16 @@ export const ActionsPanel = () => {
 
     return () => global.clearTimeout(timeout);
   }, []);
+
+  const getOnionPathIndicator =  () => {
+    const hasOnionPath =  getOnionPathStatus();
+    console.log("Is Onion Path found -", hasOnionPath)
+    setHasOnionPath(hasOnionPath)
+  }
+
+  useInterval(() => {
+    getOnionPathIndicator();
+  }, 1000);
 
   useInterval(
     () => {
@@ -256,7 +267,7 @@ export const ActionsPanel = () => {
 
       <SessionToastContainer />
 
-      <Section type={SectionType.PathIndicator} />
+      <Section type={SectionType.PathIndicator} hasOnionPath={hasOnionPath} />
       <Section type={SectionType.Moon} />
     </div>
   );

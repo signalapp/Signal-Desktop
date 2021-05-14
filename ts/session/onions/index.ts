@@ -104,6 +104,11 @@ export class OnionPaths {
     return otherPaths[0].path;
   }
 
+  public hasOnionPath() :boolean {
+    // returns true if there exists a valid onion path
+    return this.onionPaths.length !== 0 && this.onionPaths[0].path.length !== 0;
+  }
+
   public markPathAsBad(path: Array<Snode>) {
     // TODO: we might want to remove the nodes from the
     // node pool (but we don't know which node on the path
