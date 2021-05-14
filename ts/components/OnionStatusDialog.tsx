@@ -4,11 +4,12 @@ import { SessionModal } from './session/SessionModal';
 import { DefaultTheme } from 'styled-components';
 import { getPathNodesIPAddresses } from '../session/onions/onionSend';
 import { useInterval } from '../hooks/useInterval';
+import classNames from 'classnames';
 
 import electron from 'electron';
 const { shell } = electron;
 
-interface Props {
+interface OnionStatusDialogProps {
   theme: DefaultTheme;
   nodes?: Array<string>;
   onClose: any;
@@ -19,8 +20,8 @@ interface IPathNode {
   label: string;
 }
 
-const OnionPath = (props: { nodes: IPathNode[] }) => {
-  const { nodes } = props;
+const OnionPath = (props: { nodes: IPathNode[], hasPath: boolean }) => {
+  const { nodes, hasPath } = props;
 
   return (
     <div className='onionPath'>
@@ -28,7 +29,7 @@ const OnionPath = (props: { nodes: IPathNode[] }) => {
         nodes.map((node) => {
           return (
             <div className='dotContainer'>
-              <div className='dot'></div>
+              <div className={classNames('dot', hasPath ? 'green' : 'red')}></div>
               <p>
                 <b>{node.label}</b>
                 {node.ip && (
@@ -46,11 +47,12 @@ const OnionPath = (props: { nodes: IPathNode[] }) => {
   )
 }
 
-export const OnionStatusDialog = (props: Props) => {
+export const OnionStatusDialog = (props: OnionStatusDialogProps) => {
   const { theme, onClose } = props;
 
   const [onionPathAddresses, setOnionPathAddresses] = useState<string[]>([])
   const [pathNodes, setPathNodes] = useState<IPathNode[]>([])
+  const [hasPath, setHasPath] = useState<boolean>(false)
 
   const getOnionPathAddresses = () => {
     const onionPathAddresses = getPathNodesIPAddresses();
@@ -81,6 +83,9 @@ export const OnionStatusDialog = (props: Props) => {
       },
     ]
 
+    // FIXME call function to check if an onion path exists
+    setHasPath(onionPathAddresses.length !== 0);
+
     // if there is a onion path, update the addresses
     if (onionPathAddresses.length) {
       onionPathAddresses.forEach((ipAddress, index) => {
@@ -103,7 +108,7 @@ export const OnionStatusDialog = (props: Props) => {
     console.log("Opening FAQ Page")
     shell.openExternal('https://getsession.org/faq/#onion-routing');
   }
-  
+
   return (
     <SessionModal
       title={window.i18n('onionPathIndicatorTitle')}
@@ -115,7 +120,7 @@ export const OnionStatusDialog = (props: Props) => {
         <p>{window.i18n('onionPathIndicatorDescription')}</p>
       </div>
 
-      <OnionPath nodes={pathNodes} />
+      <OnionPath nodes={pathNodes} hasPath={hasPath} />
 
       <SessionButton
         text={window.i18n('learnMore')}

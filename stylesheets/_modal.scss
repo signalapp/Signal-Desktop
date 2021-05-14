@@ -355,18 +355,23 @@
         .dot {
           height: 15px;
           width: 15px;
-          background-color: $color-loki-green;
           border-radius: 50%;
           display: inline-block;
         }
 
+        // TODO: Use colors defined in UI constants
+        .green {
+          background-color: $color-loki-green;
+        }
 
+        .red {
+          background-color: #FF453A;
+        }
       }
     }
 
     .lineContainer {
-      height: 50px
-
+      height: 50px;
     }
 
     // .line {
