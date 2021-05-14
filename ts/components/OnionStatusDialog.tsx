@@ -11,12 +11,12 @@ interface Props {
   onClose: any;
 }
 
-interface Node {
+interface IPathNode {
   ip?: string;
   label: string;
 }
 
-const OnionPath = (props: { nodes: Node[] }) => {
+const OnionPath = (props: { nodes: IPathNode[] }) => {
   const { nodes } = props;
 
   return (
@@ -51,7 +51,7 @@ export const OnionStatusDialog = (props: Props) => {
     shell.openExternal('https://getsession.org/faq/#onion-routing');
   }
 
-  const nodes: Node[] = [
+  const nodes: IPathNode[] = [
     {
       label: 'You'
     },
