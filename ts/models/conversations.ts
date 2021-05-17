@@ -4053,21 +4053,17 @@ export class ConversationModel extends window.Backbone
       sendReadReceipts: true,
     }
   ): Promise<void> {
-    const markedUnread = await markConversationRead(
-      this.attributes,
-      newestUnreadId,
-      options
-    );
-
-    if (!markedUnread) {
-      return;
-    }
+    await markConversationRead(this.attributes, newestUnreadId, options);
 
     const unreadCount = await window.Signal.Data.getUnreadCountForConversation(
       this.id
     );
-    this.set({ unreadCount });
-    window.Signal.Data.updateConversation(this.attributes);
+
+    const prevUnreadCount = this.get('unreadCount');
+    if (prevUnreadCount !== unreadCount) {
+      this.set({ unreadCount });
+      window.Signal.Data.updateConversation(this.attributes);
+    }
   }
 
   // This is an expensive operation we use to populate the message request hero row. It
