@@ -50,8 +50,8 @@ export async function getSendOptions(
 
   const { accessKey, sealedSender } = conversationAttrs;
 
-  // We never send sync messages as sealed sender
-  if (syncMessage && isMe(conversationAttrs)) {
+  // We never send sync messages or to our own account as sealed sender
+  if (syncMessage || isMe(conversationAttrs)) {
     return {
       sendMetadata: undefined,
     };
