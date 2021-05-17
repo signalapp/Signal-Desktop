@@ -330,6 +330,7 @@ type PromiseAjaxOptionsType = {
     | 'jsonwithdetails'
     | 'arraybuffer'
     | 'arraybufferwithdetails';
+  serverUrl?: string;
   stack?: string;
   timeout?: number;
   type: HTTPCodeType;
@@ -352,6 +353,11 @@ type ArrayBufferWithDetailsType = {
 
 function isSuccess(status: number): boolean {
   return status >= 0 && status < 400;
+}
+
+function getHostname(url: string): string {
+  const urlObject = new URL(url);
+  return urlObject.hostname;
 }
 
 async function _promiseAjax(
@@ -438,11 +444,25 @@ async function _promiseAjax(
 
     fetch(url, fetchOptions)
       .then(async response => {
-        // Build expired!
-        if (response.status === 499) {
-          window.log.error('Error: build expired');
-          await window.storage.put('remoteBuildExpiration', Date.now());
-          window.reduxActions.expiration.hydrateExpirationStatus(true);
+        if (options.serverUrl) {
+          if (
+            response.status === 499 &&
+            getHostname(options.serverUrl) === getHostname(url)
+          ) {
+            window.log.error('Got 499 from Signal Server. Build is expired.');
+            await window.storage.put('remoteBuildExpiration', Date.now());
+            window.reduxActions.expiration.hydrateExpirationStatus(true);
+          }
+          if (
+            !unauthenticated &&
+            response.status === 401 &&
+            getHostname(options.serverUrl) === getHostname(url)
+          ) {
+            window.log.error(
+              'Got 401 from Signal Server. We might be unlinked.'
+            );
+            window.Whisper.events.trigger('mightBeUnlinked');
+          }
         }
 
         let resultPromise;
@@ -1071,6 +1091,7 @@ export function initialize({
         type: param.httpType,
         user: param.username || username,
         redactUrl: param.redactUrl,
+        serverUrl: url,
         validateResponse: param.validateResponse,
         version,
         unauthenticated: param.unauthenticated,

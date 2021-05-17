@@ -21,6 +21,7 @@ import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 import { ourProfileKeyService } from './services/ourProfileKey';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
 import { setToExpire } from './services/MessageUpdater';
+import { LatestQueue } from './util/LatestQueue';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1442,6 +1443,29 @@ export async function startApp(): Promise<void> {
     }
   });
 
+  const reconnectToWebSocketQueue = new LatestQueue();
+
+  const enqueueReconnectToWebSocket = () => {
+    reconnectToWebSocketQueue.add(async () => {
+      if (!messageReceiver) {
+        window.log.info(
+          'reconnectToWebSocket: No messageReceiver. Early return.'
+        );
+        return;
+      }
+
+      window.log.info('reconnectToWebSocket starting...');
+      await disconnect();
+      connect();
+      window.log.info('reconnectToWebSocket complete.');
+    });
+  };
+
+  window.Whisper.events.on(
+    'mightBeUnlinked',
+    window._.debounce(enqueueReconnectToWebSocket, 1000, { maxWait: 5000 })
+  );
+
   function runStorageService() {
     window.Signal.Services.enableStorageService();
     window.textsecure.messaging.sendRequestKeySyncMessage();
@@ -1758,16 +1782,16 @@ export async function startApp(): Promise<void> {
     );
   }
 
-  function disconnect() {
+  async function disconnect() {
     window.log.info('disconnect');
 
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = null;
 
-    if (messageReceiver) {
-      messageReceiver.close();
-    }
     window.Signal.AttachmentDownloads.stop();
+    if (messageReceiver) {
+      await messageReceiver.close();
+    }
   }
 
   let connectCount = 0;
