@@ -3076,9 +3076,11 @@ async function removeMessages(ids: Array<string>): Promise<void> {
 
 async function getMessageById(id: string): Promise<MessageType | undefined> {
   const db = getInstance();
-  const row = db.prepare<Query>('SELECT * FROM messages WHERE id = $id;').get({
-    id,
-  });
+  const row = db
+    .prepare<Query>('SELECT json FROM messages WHERE id = $id;')
+    .get({
+      id,
+    });
 
   if (!row) {
     return undefined;
