@@ -12980,22 +12980,6 @@
     "updated": "2019-07-31T00:19:18.696Z"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/thenify/index.js",
-    "line": "  return eval(createWrapper($$__fn__$$.name, options))",
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Add rule. multiArgs are the only way to get arbitrary information into string returned by createWrapper"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/thenify/index.js",
-    "line": "  return eval(createWrapper($$__fn__$$.name, options))",
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Add rule. multiArgs are the only way to get arbitrary information into string returned by createWrapper"
-  },
-  {
     "rule": "jQuery-after(",
     "path": "node_modules/traverse/examples/stringify.js",
     "line": "        this.after(function () { s += ']' });",
