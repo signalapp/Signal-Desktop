@@ -3,7 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { assert } from 'chai';
+import chai, { assert } from 'chai';
+import chaiAsPromised from 'chai-as-promised';
 import {
   Direction,
   SenderKeyRecord,
@@ -12,11 +13,14 @@ import {
 
 import { signal } from '../protobuf/compiled';
 import { sessionStructureToArrayBuffer } from '../util/sessionTranslation';
+import { Lock } from '../util/Lock';
 
 import { getRandomBytes, constantTimeEqual } from '../Crypto';
 import { clampPrivateKey, setPublicKeyTypeByte } from '../Curve';
 import { SignalProtocolStore } from '../SignalProtocolStore';
 import { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
+
+chai.use(chaiAsPromised);
 
 const {
   RecordStructure,
@@ -1233,7 +1237,7 @@ describe('SignalProtocolStore', () => {
       await store.removeAllSessions(number);
 
       const records = await Promise.all(
-        devices.map(store.loadSession.bind(store))
+        devices.map(device => store.loadSession(device))
       );
 
       for (let i = 0, max = records.length; i < max; i += 1) {
@@ -1273,6 +1277,96 @@ describe('SignalProtocolStore', () => {
     it('returns empty array for a number with no device ids', async () => {
       const deviceIds = await store.getDeviceIds('foo');
       assert.sameMembers(deviceIds, []);
+    });
+  });
+
+  describe('sessionTransaction', () => {
+    beforeEach(async () => {
+      await store.removeAllUnprocessed();
+      await store.removeAllSessions(number);
+    });
+
+    it('commits session stores and unprocessed on success', async () => {
+      const id = `${number}.1`;
+      const testRecord = getSessionRecord();
+
+      await store.sessionTransaction('test', async () => {
+        await store.storeSession(id, testRecord);
+
+        await store.addUnprocessed({
+          id: '2-two',
+          envelope: 'second',
+          timestamp: 2,
+          version: 2,
+          attempts: 0,
+        });
+        assert.equal(await store.loadSession(id), testRecord);
+      });
+
+      assert.equal(await store.loadSession(id), testRecord);
+
+      const allUnprocessed = await store.getAllUnprocessed();
+      assert.deepEqual(
+        allUnprocessed.map(({ envelope }) => envelope),
+        ['second']
+      );
+    });
+
+    it('reverts session stores and unprocessed on error', async () => {
+      const id = `${number}.1`;
+      const testRecord = getSessionRecord();
+      const failedRecord = getSessionRecord();
+
+      await store.storeSession(id, testRecord);
+      assert.equal(await store.loadSession(id), testRecord);
+
+      await assert.isRejected(
+        store.sessionTransaction('test', async () => {
+          await store.storeSession(id, failedRecord);
+          assert.equal(await store.loadSession(id), failedRecord);
+
+          await store.addUnprocessed({
+            id: '2-two',
+            envelope: 'second',
+            timestamp: 2,
+            version: 2,
+            attempts: 0,
+          });
+
+          throw new Error('Failure');
+        }),
+        'Failure'
+      );
+
+      assert.equal(await store.loadSession(id), testRecord);
+      assert.deepEqual(await store.getAllUnprocessed(), []);
+    });
+
+    it('can be re-entered', async () => {
+      const id = `${number}.1`;
+      const testRecord = getSessionRecord();
+
+      const lock = new Lock();
+
+      await store.sessionTransaction(
+        'test',
+        async () => {
+          await store.sessionTransaction(
+            'nested',
+            async () => {
+              await store.storeSession(id, testRecord, { lock });
+
+              assert.equal(await store.loadSession(id, { lock }), testRecord);
+            },
+            lock
+          );
+
+          assert.equal(await store.loadSession(id, { lock }), testRecord);
+        },
+        lock
+      );
+
+      assert.equal(await store.loadSession(id), testRecord);
     });
   });
 

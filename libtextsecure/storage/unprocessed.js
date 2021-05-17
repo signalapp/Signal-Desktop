@@ -21,12 +21,6 @@
     get(id) {
       return textsecure.storage.protocol.getUnprocessedById(id);
     },
-    add(data) {
-      return textsecure.storage.protocol.addUnprocessed(data);
-    },
-    batchAdd(array) {
-      return textsecure.storage.protocol.addMultipleUnprocessed(array);
-    },
     updateAttempts(id, attempts) {
       return textsecure.storage.protocol.updateUnprocessedAttempts(
         id,

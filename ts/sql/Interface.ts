@@ -131,11 +131,11 @@ export type UnprocessedType = {
   timestamp: number;
   version: number;
   attempts: number;
-  envelope: string;
+  envelope?: string;
 
   source?: string;
   sourceUuid?: string;
-  sourceDevice?: string;
+  sourceDevice?: number;
   serverTimestamp?: number;
   decrypted?: string;
 };
@@ -188,6 +188,10 @@ export type DataInterface = {
 
   createOrUpdateSession: (data: SessionType) => Promise<void>;
   createOrUpdateSessions: (array: Array<SessionType>) => Promise<void>;
+  commitSessionsAndUnprocessed(options: {
+    sessions: Array<SessionType>;
+    unprocessed: Array<UnprocessedType>;
+  }): Promise<void>;
   getSessionById: (id: string) => Promise<SessionType | undefined>;
   getSessionsById: (conversationId: string) => Promise<Array<SessionType>>;
   bulkAddSessions: (array: Array<SessionType>) => Promise<void>;

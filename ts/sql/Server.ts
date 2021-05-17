@@ -133,6 +133,7 @@ const dataInterface: ServerInterface = {
 
   createOrUpdateSession,
   createOrUpdateSessions,
+  commitSessionsAndUnprocessed,
   getSessionById,
   getSessionsById,
   bulkAddSessions,
@@ -2217,6 +2218,26 @@ async function createOrUpdateSessions(
   })();
 }
 
+async function commitSessionsAndUnprocessed({
+  sessions,
+  unprocessed,
+}: {
+  sessions: Array<SessionType>;
+  unprocessed: Array<UnprocessedType>;
+}): Promise<void> {
+  const db = getInstance();
+
+  db.transaction(() => {
+    for (const item of sessions) {
+      createOrUpdateSession(item);
+    }
+
+    for (const item of unprocessed) {
+      saveUnprocessedSync(item);
+    }
+  })();
+}
+
 async function getSessionById(id: string): Promise<SessionType | undefined> {
   return getById(SESSIONS_TABLE, id);
 }
@@ -3948,82 +3969,79 @@ async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
   return rows.map(row => jsonToObject(row.json));
 }
 
-function saveUnprocessedSync(
-  data: UnprocessedType,
-  { forceSave }: { forceSave?: boolean } = {}
-): string {
+function saveUnprocessedSync(data: UnprocessedType): string {
   const db = getInstance();
-  const { id, timestamp, version, attempts, envelope } = data;
+  const {
+    id,
+    timestamp,
+    version,
+    attempts,
+    envelope,
+    source,
+    sourceUuid,
+    sourceDevice,
+    serverTimestamp,
+    decrypted,
+  } = data;
   if (!id) {
     throw new Error('saveUnprocessed: id was falsey');
-  }
-
-  if (forceSave) {
-    prepare(
-      db,
-      `
-      INSERT INTO unprocessed (
-        id,
-        timestamp,
-        version,
-        attempts,
-        envelope
-      ) values (
-        $id,
-        $timestamp,
-        $version,
-        $attempts,
-        $envelope
-      );
-      `
-    ).run({
-      id,
-      timestamp,
-      version,
-      attempts,
-      envelope,
-    });
-
-    return id;
   }
 
   prepare(
     db,
     `
-    UPDATE unprocessed SET
-      timestamp = $timestamp,
-      version = $version,
-      attempts = $attempts,
-      envelope = $envelope
-    WHERE id = $id;
+    INSERT OR REPLACE INTO unprocessed (
+      id,
+      timestamp,
+      version,
+      attempts,
+      envelope,
+      source,
+      sourceUuid,
+      sourceDevice,
+      serverTimestamp,
+      decrypted
+    ) values (
+      $id,
+      $timestamp,
+      $version,
+      $attempts,
+      $envelope,
+      $source,
+      $sourceUuid,
+      $sourceDevice,
+      $serverTimestamp,
+      $decrypted
+    );
     `
   ).run({
     id,
     timestamp,
     version,
     attempts,
-    envelope,
+    envelope: envelope || null,
+    source: source || null,
+    sourceUuid: sourceUuid || null,
+    sourceDevice: sourceDevice || null,
+    serverTimestamp: serverTimestamp || null,
+    decrypted: decrypted || null,
   });
 
   return id;
 }
 
-async function saveUnprocessed(
-  data: UnprocessedType,
-  options: { forceSave?: boolean } = {}
-): Promise<string> {
-  return saveUnprocessedSync(data, options);
+async function saveUnprocessed(data: UnprocessedType): Promise<string> {
+  return saveUnprocessedSync(data);
 }
 
 async function saveUnprocesseds(
-  arrayOfUnprocessed: Array<UnprocessedType>,
-  { forceSave }: { forceSave?: boolean } = {}
+  arrayOfUnprocessed: Array<UnprocessedType>
 ): Promise<void> {
   const db = getInstance();
 
   db.transaction(() => {
     for (const unprocessed of arrayOfUnprocessed) {
-      assertSync(saveUnprocessedSync(unprocessed, { forceSave }));
+      assertSync(saveUnprocessedSync(unprocessed));
     }
   })();
 }

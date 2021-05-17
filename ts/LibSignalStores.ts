@@ -24,7 +24,12 @@ import {
 } from '@signalapp/signal-client';
 import { freezePreKey, freezeSignedPreKey } from './SignalProtocolStore';
 
+import { UnprocessedType } from './textsecure/Types.d';
+
 import { typedArrayToArrayBuffer } from './Crypto';
+
+import { assert } from './util/assert';
+import { Lock } from './util/Lock';
 
 function encodedNameFromAddress(address: ProtocolAddress): string {
   const name = address.name();
@@ -33,24 +38,74 @@ function encodedNameFromAddress(address: ProtocolAddress): string {
   return encodedName;
 }
 
+export type SessionsOptions = {
+  readonly transactionOnly?: boolean;
+};
+
 export class Sessions extends SessionStore {
+  private readonly lock = new Lock();
+
+  private inTransaction = false;
+
+  constructor(private readonly options: SessionsOptions = {}) {
+    super();
+  }
+
+  public async transaction<T>(fn: () => Promise<T>): Promise<T> {
+    assert(!this.inTransaction, 'Already in transaction');
+    this.inTransaction = true;
+
+    try {
+      return await window.textsecure.storage.protocol.sessionTransaction(
+        'Sessions.transaction',
+        fn,
+        this.lock
+      );
+    } finally {
+      this.inTransaction = false;
+    }
+  }
+
+  public async addUnprocessed(array: Array<UnprocessedType>): Promise<void> {
+    await window.textsecure.storage.protocol.addMultipleUnprocessed(array, {
+      lock: this.lock,
+    });
+  }
+
+  // SessionStore overrides
+
   async saveSession(
     address: ProtocolAddress,
     record: SessionRecord
   ): Promise<void> {
+    this.checkInTransaction();
+
     await window.textsecure.storage.protocol.storeSession(
       encodedNameFromAddress(address),
-      record
+      record,
+      { lock: this.lock }
     );
   }
 
   async getSession(name: ProtocolAddress): Promise<SessionRecord | null> {
+    this.checkInTransaction();
+
     const encodedName = encodedNameFromAddress(name);
     const record = await window.textsecure.storage.protocol.loadSession(
-      encodedName
+      encodedName,
+      { lock: this.lock }
     );
 
     return record || null;
+  }
+
+  // Private
+
+  private checkInTransaction(): void {
+    assert(
+      this.inTransaction || !this.options.transactionOnly,
+      'Accessing session store outside of transaction'
+    );
   }
 }
 

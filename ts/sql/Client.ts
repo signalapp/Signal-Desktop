@@ -142,6 +142,7 @@ const dataInterface: ClientInterface = {
 
   createOrUpdateSession,
   createOrUpdateSessions,
+  commitSessionsAndUnprocessed,
   getSessionById,
   getSessionsById,
   bulkAddSessions,
@@ -767,6 +768,12 @@ async function createOrUpdateSession(data: SessionType) {
 async function createOrUpdateSessions(array: Array<SessionType>) {
   await channels.createOrUpdateSessions(array);
 }
+async function commitSessionsAndUnprocessed(options: {
+  sessions: Array<SessionType>;
+  unprocessed: Array<UnprocessedType>;
+}) {
+  await channels.commitSessionsAndUnprocessed(options);
+}
 async function getSessionById(id: string) {
   const session = await channels.getSessionById(id);
 
@@ -1353,22 +1360,14 @@ async function getUnprocessedById(id: string) {
   return channels.getUnprocessedById(id);
 }
 
-async function saveUnprocessed(
-  data: UnprocessedType,
-  { forceSave }: { forceSave?: boolean } = {}
-) {
-  const id = await channels.saveUnprocessed(_cleanData(data), { forceSave });
+async function saveUnprocessed(data: UnprocessedType) {
+  const id = await channels.saveUnprocessed(_cleanData(data));
 
   return id;
 }
 
-async function saveUnprocesseds(
-  arrayOfUnprocessed: Array<UnprocessedType>,
-  { forceSave }: { forceSave?: boolean } = {}
-) {
-  await channels.saveUnprocesseds(_cleanData(arrayOfUnprocessed), {
-    forceSave,
-  });
+async function saveUnprocesseds(arrayOfUnprocessed: Array<UnprocessedType>) {
+  await channels.saveUnprocesseds(_cleanData(arrayOfUnprocessed));
 }
 
 async function updateUnprocessedAttempts(id: string, attempts: number) {

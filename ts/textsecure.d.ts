@@ -61,15 +61,11 @@ export type TextSecureType = {
       setUuidAndDeviceId: (uuid: string, deviceId: number) => Promise<void>;
     };
     unprocessed: {
-      batchAdd: (dataArray: Array<UnprocessedType>) => Promise<void>;
       remove: (id: string | Array<string>) => Promise<void>;
       getCount: () => Promise<number>;
       removeAll: () => Promise<void>;
       getAll: () => Promise<Array<UnprocessedType>>;
       updateAttempts: (id: string, attempts: number) => Promise<void>;
-      addDecryptedDataToList: (
-        array: Array<Partial<UnprocessedType>>
-      ) => Promise<void>;
     };
     get: (key: string, defaultValue?: any) => any;
     put: (key: string, value: any) => Promise<void>;
