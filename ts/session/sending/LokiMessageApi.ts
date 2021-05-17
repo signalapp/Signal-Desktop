@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { SendParams, storeOnNode } from '../snode_api/SNodeAPI';
-import { getSwarm, Snode } from '../snode_api/snodePool';
+import { getSwarmFor, Snode } from '../snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 
 const DEFAULT_CONNECTIONS = 3;
@@ -45,7 +45,7 @@ export async function sendMessage(
   const data64 = window.dcodeIO.ByteBuffer.wrap(data).toString('base64');
 
   // Using timestamp as a unique identifier
-  const swarm = await getSwarm(pubKey);
+  const swarm = await getSwarmFor(pubKey);
 
   // send parameters
   const params = {

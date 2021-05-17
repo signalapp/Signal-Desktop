@@ -45,10 +45,7 @@ const handleSendViaOnionRetry = async (
   fetchOptions: OnionFetchOptions,
   abortSignal?: AbortSignal
 ) => {
-  window.log.error(
-    'sendOnionRequestLsrpcDest() returned a number indicating an error: ',
-    result === RequestError.BAD_PATH ? 'BAD_PATH' : 'OTHER'
-  );
+  window.log.error('sendOnionRequestLsrpcDest() returned a RequestError: ', result);
 
   if (options.retry && options.retry >= MAX_SEND_ONION_RETRIES) {
     window.log.error(`sendViaOnion too many retries: ${options.retry}. Stopping retries.`);
@@ -192,6 +189,7 @@ export const sendViaOnion = async (
 
   // RequestError return type is seen as number (as it is an enum)
   if (typeof result === 'string') {
+    console.warn('above string type is not correct');
     if (result === RequestError.ABORTED) {
       window.log.info('sendViaOnion aborted. not retrying');
       return null;

@@ -11,14 +11,14 @@ import Electron from 'electron';
 const { remote } = Electron;
 
 import { snodeRpc } from './lokiRpc';
-import { sendOnionRequestLsrpcDest, snodeHttpsAgent, SnodeResponse } from './onions';
+import { sendOnionRequestLsrpcDest, SnodeResponse } from './onions';
 
 export { sendOnionRequestLsrpcDest };
 
 import {
-  getRandomSnodeAddress,
+  getRandomSnode,
   getRandomSnodePool,
-  getSwarm,
+  getSwarmFor,
   markNodeUnreachable,
   requiredSnodesForAgreement,
   Snode,
@@ -200,13 +200,14 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
 
   let targetNode;
   try {
-    targetNode = await getRandomSnodeAddress();
+    targetNode = await getRandomSnode();
     const result = await snodeRpc(
       'get_snodes_for_pubkey',
       {
         pubKey,
       },
-      targetNode
+      targetNode,
+      pubKey
     );
 
     if (!result) {
@@ -241,7 +242,7 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
       return [];
     }
   } catch (e) {
-    log.error('LokiSnodeAPI::requestSnodesForPubkey - error', e.code, e.message);
+    log.error('LokiSnodeAPI::requestSnodesForPubkey - error', e);
 
     if (targetNode) {
       markNodeUnreachable(targetNode);
@@ -407,13 +408,13 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
     // but that may chew up the bandwidth...
     await sleepFor(successiveFailures * 500);
     try {
-      const result = await snodeRpc('store', params, targetNode);
+      const result = await snodeRpc('store', params, targetNode, params.pubKey);
 
       // do not return true if we get false here...
       if (!result) {
         // this means the node we asked for is likely down
         log.warn(
-          `loki_message:::storeOnNode - Try #${successiveFailures}/${maxAcceptableFailuresStoreOnNode} ${targetNode.ip}:${targetNode.port} failed`
+          `loki_message:::store - Try #${successiveFailures}/${maxAcceptableFailuresStoreOnNode} ${targetNode.ip}:${targetNode.port} failed`
         );
         successiveFailures += 1;
         // eslint-disable-next-line no-continue
@@ -431,7 +432,7 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
       return true;
     } catch (e) {
       log.warn(
-        'loki_message:::storeOnNode - send error:',
+        'loki_message:::store - send error:',
         e.code,
         e.message,
         `destination ${targetNode.ip}:${targetNode.port}`
@@ -443,17 +444,17 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
       } else if (e instanceof textsecure.NotFoundError) {
         // TODO: Handle resolution error
       } else if (e instanceof textsecure.TimestampError) {
-        log.warn('loki_message:::storeOnNode - Timestamp is invalid');
+        log.warn('loki_message:::store - Timestamp is invalid');
         throw e;
       } else if (e instanceof textsecure.HTTPError) {
         // TODO: Handle working connection but error response
         const body = await e.response.text();
-        log.warn('loki_message:::storeOnNode - HTTPError body:', body);
+        log.warn('loki_message:::store - HTTPError body:', body);
       } else if (e instanceof window.textsecure.InvalidateSwarm) {
         window.log.warn(
           'Got an `InvalidateSwarm` error, removing this node from this swarm of this pubkey'
         );
-        const existingSwarm = await getSwarm(params.pubKey);
+        const existingSwarm = await getSwarmFor(params.pubKey);
         const updatedSwarm = existingSwarm.filter(
           node => node.pubkey_ed25519 !== targetNode.pubkey_ed25519
         );
@@ -465,7 +466,7 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
   }
   markNodeUnreachable(targetNode);
   log.error(
-    `loki_message:::storeOnNode - Too many successive failures trying to send to node ${targetNode.ip}:${targetNode.port}`
+    `loki_message:::store - Too many successive failures trying to send to node ${targetNode.ip}:${targetNode.port}`
   );
   return false;
 }
@@ -481,7 +482,7 @@ export async function retrieveNextMessages(
   };
 
   // let exceptions bubble up
-  const result = await snodeRpc('retrieve', params, targetNode);
+  const result = await snodeRpc('retrieve', params, targetNode, pubkey);
 
   if (!result) {
     window.log.warn(
@@ -500,7 +501,7 @@ export async function retrieveNextMessages(
       await updateSwarmFor(params.pubKey, newSwarm);
       return [];
     } else if (e instanceof window.textsecure.InvalidateSwarm) {
-      const existingSwarm = await getSwarm(params.pubKey);
+      const existingSwarm = await getSwarmFor(params.pubKey);
       const updatedSwarm = existingSwarm.filter(
         node => node.pubkey_ed25519 !== targetNode.pubkey_ed25519
       );

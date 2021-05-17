@@ -39,7 +39,7 @@ export interface Snode {
 let randomSnodePool: Array<Snode> = [];
 
 // We only store nodes' identifiers here,
-const nodesForPubkey: Map<string, Array<string>> = new Map();
+const swarmCache: Map<string, Array<string>> = new Map();
 
 export type SeedNode = {
   url: string;
@@ -108,9 +108,11 @@ async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Pro
 
 export function markNodeUnreachable(snode: Snode): void {
   const { log } = window;
+  debugger;
+  // we should probably get rid of this call
   _.remove(randomSnodePool, x => x.pubkey_ed25519 === snode.pubkey_ed25519);
 
-  for (const [pubkey, nodes] of nodesForPubkey) {
+  for (const [pubkey, nodes] of swarmCache) {
     const edkeys = _.filter(nodes, edkey => edkey !== snode.pubkey_ed25519);
 
     void internalUpdateSwarmFor(pubkey, edkeys);
@@ -121,7 +123,24 @@ export function markNodeUnreachable(snode: Snode): void {
   );
 }
 
-export async function getRandomSnodeAddress(): Promise<Snode> {
+/**
+ * Drop a snode from the snode pool. This does not update the swarm containing this snode.
+ * Use `dropSnodeFromSwarmIfNeeded` for that
+ * @param snodeEd25519 the snode ed25519 to drop from the snode pool
+ */
+export function dropSnodeFromSnodePool(snodeEd25519: string) {
+  _.remove(randomSnodePool, x => x.pubkey_ed25519 === snodeEd25519);
+
+  window.log.warn(
+    `Marking ${snodeEd25519} as unreachable, ${randomSnodePool.length} snodes remaining in randomPool`
+  );
+}
+
+/**
+ *
+ * @param excluding can be used to exclude some nodes from the random list. Useful to rebuild a path excluding existing node already in a path
+ */
+export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Promise<Snode> {
   // resolve random snode
   if (randomSnodePool.length === 0) {
     // TODO: ensure that we only call this once at a time
@@ -132,9 +151,23 @@ export async function getRandomSnodeAddress(): Promise<Snode> {
       throw new window.textsecure.SeedNodeError('Invalid seed node response');
     }
   }
-
   // We know the pool can't be empty at this point
-  return _.sample(randomSnodePool) as Snode;
+
+  if (!excludingEd25519Snode) {
+    return _.sample(randomSnodePool) as Snode;
+  }
+
+  // we have to double check even after removing the nodes to exclude we still have some nodes in the list
+  const snodePoolExcluding = randomSnodePool.filter(
+    e => !excludingEd25519Snode.includes(e.pubkey_ed25519)
+  );
+  if (!snodePoolExcluding) {
+    throw new window.textsecure.SeedNodeError(
+      'Not enough snodes with excluding length',
+      excludingEd25519Snode.length
+    );
+  }
+  return _.sample(snodePoolExcluding) as Snode;
 }
 
 /**
@@ -283,6 +316,26 @@ export async function refreshRandomPool(): Promise<void> {
   });
 }
 
+/**
+ * Drop a snode from the list of swarm for that specific publicKey
+ * @param pubkey the associatedWith publicKey
+ * @param snodeToDropEd25519 the snode pubkey to drop
+ */
+export async function dropSnodeFromSwarmIfNeeded(
+  pubkey: string,
+  snodeToDropEd25519: string
+): Promise<void> {
+  // this call either used the cache or fetch the swarm from the db
+  const existingSwarm = await getSwarmFromCacheOrDb(pubkey);
+
+  if (!existingSwarm.includes(snodeToDropEd25519)) {
+    return;
+  }
+
+  const updatedSwarm = existingSwarm.filter(ed25519 => ed25519 !== snodeToDropEd25519);
+  await internalUpdateSwarmFor(pubkey, updatedSwarm);
+}
+
 export async function updateSwarmFor(pubkey: string, snodes: Array<Snode>): Promise<void> {
   const edkeys = snodes.map((sn: Snode) => sn.pubkey_ed25519);
   await internalUpdateSwarmFor(pubkey, edkeys);
@@ -290,36 +343,44 @@ export async function updateSwarmFor(pubkey: string, snodes: Array<Snode>): Prom
 
 async function internalUpdateSwarmFor(pubkey: string, edkeys: Array<string>) {
   // update our in-memory cache
-  nodesForPubkey.set(pubkey, edkeys);
+  swarmCache.set(pubkey, edkeys);
   // write this change to the db
   await Data.updateSwarmNodesForPubkey(pubkey, edkeys);
 }
 
-export async function getSwarm(pubkey: string): Promise<Array<Snode>> {
-  const maybeNodes = nodesForPubkey.get(pubkey);
-  let nodes: Array<string>;
-
+export async function getSwarmFromCacheOrDb(pubkey: string): Promise<Array<string>> {
   // NOTE: important that maybeNodes is not [] here
-  if (maybeNodes === undefined) {
+  const existingCache = swarmCache.get(pubkey);
+  if (existingCache === undefined) {
     // First time access, no cache yet, let's try the database.
-    nodes = await Data.getSwarmNodesForPubkey(pubkey);
-    nodesForPubkey.set(pubkey, nodes);
-  } else {
-    nodes = maybeNodes;
+    const nodes = await Data.getSwarmNodesForPubkey(pubkey);
+    // if no db entry, this returns []
+    swarmCache.set(pubkey, nodes);
+    return nodes;
   }
+  // cache already set, use it
+  return existingCache;
+}
+
+/**
+ * This call fetch from cache or db the swarm and extract only the one currently reachable.
+ * If not enough snodes valid are in the swarm, if fetches new snodes for this pubkey from the network.
+ */
+export async function getSwarmFor(pubkey: string): Promise<Array<Snode>> {
+  const nodes = await getSwarmFromCacheOrDb(pubkey);
 
   // See how many are actually still reachable
   const goodNodes = randomSnodePool.filter((n: Snode) => nodes.indexOf(n.pubkey_ed25519) !== -1);
 
-  if (goodNodes.length < minSwarmSnodeCount) {
-    // Request new node list from the network
-    const freshNodes = _.shuffle(await requestSnodesForPubkey(pubkey));
-
-    const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
-    await internalUpdateSwarmFor(pubkey, edkeys);
-
-    return freshNodes;
-  } else {
+  if (goodNodes.length >= minSwarmSnodeCount) {
     return goodNodes;
   }
+
+  // Request new node list from the network
+  const freshNodes = _.shuffle(await requestSnodesForPubkey(pubkey));
+
+  const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
+  await internalUpdateSwarmFor(pubkey, edkeys);
+
+  return freshNodes;
 }

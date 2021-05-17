@@ -3,18 +3,22 @@ import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
-import { snodeHttpsAgent } from '../snode_api/onions';
+import { getPathString, incrementBadSnodeCountOrDrop, snodeHttpsAgent } from '../snode_api/onions';
 import { allowOnlyOneAtATime } from '../utils/Promise';
 
 const desiredGuardCount = 3;
 const minimumGuardCount = 2;
-interface SnodePath {
-  path: Array<SnodePool.Snode>;
-  bad: boolean;
-}
+
+type SnodePath = Array<SnodePool.Snode>;
 
 const onionRequestHops = 3;
 let onionPaths: Array<SnodePath> = [];
+
+// hold the failure count of the path starting with the snode ed25519 pubkey
+const pathFailureCount: Record<string, number> = {};
+
+// The number of times a path can fail before it's replaced.
+const pathFailureThreshold = 3;
 
 // This array is meant to store nodes will full info,
 // so using GuardNode would not be correct (there is
@@ -29,15 +33,59 @@ export async function buildNewOnionPaths() {
   });
 }
 
+/**
+ * Once a snode is causing too much trouble, we remove it from the path it is used in.
+ * If we can rebuild a new path right away (in sync) we do it, otherwise we throw an error.
+ *
+ * The process to rebuild a path is easy:
+ * 1. remove the snode causing issue in the path where it is used
+ * 2. get a random snode from the pool excluding all current snodes in use in all paths
+ * 3. append the random snode to the old path which was failing
+ * 4. you have rebuilt path
+ *
+ * @param snodeEd25519 the snode pubkey to drop
+ */
+export async function dropSnodeFromPath(snodeEd25519: string) {
+  const pathWithSnodeIndex = onionPaths.findIndex(path =>
+    path.some(snode => snode.pubkey_ed25519 === snodeEd25519)
+  );
+
+  if (pathWithSnodeIndex === -1) {
+    return;
+  }
+
+  // make a copy now so we don't alter the real one while doing stuff here
+  const oldPaths = _.cloneDeep(onionPaths);
+
+  let pathtoPatchUp = oldPaths[pathWithSnodeIndex];
+  // remove the snode causing issue from this path
+  const nodeToRemoveIndex = pathtoPatchUp.findIndex(snode => snode.pubkey_ed25519 === snodeEd25519);
+
+  // this should not happen, but well...
+  if (nodeToRemoveIndex === -1) {
+    return;
+  }
+  console.warn('removing ', snodeEd25519, ' from path ', getPathString(pathtoPatchUp));
+
+  pathtoPatchUp = pathtoPatchUp.filter(snode => snode.pubkey_ed25519 !== snodeEd25519);
+  console.warn('removed:', getPathString(pathtoPatchUp));
+
+  const pubKeyToExclude = _.flatten(oldPaths.map(p => p.map(m => m.pubkey_ed25519)));
+  // this call throws if it cannot return a valid snode.
+  const snodeToAppendToPath = await SnodePool.getRandomSnode(pubKeyToExclude);
+  // Don't test the new snode as this would reveal the user's IP
+  pathtoPatchUp.push(snodeToAppendToPath);
+  console.warn('Updated path:', getPathString(pathtoPatchUp));
+  onionPaths[pathWithSnodeIndex] = pathtoPatchUp;
+}
+
 export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<SnodePool.Snode>> {
   const { log } = window;
 
-  let goodPaths = onionPaths.filter(x => !x.bad);
-
   let attemptNumber = 0;
-  while (goodPaths.length < minimumGuardCount) {
+  while (onionPaths.length < minimumGuardCount) {
     log.error(
-      `Must have at least 2 good onion paths, actual: ${goodPaths.length}, attempt #${attemptNumber} fetching more...`
+      `Must have at least 2 good onion paths, actual: ${onionPaths.length}, attempt #${attemptNumber} fetching more...`
     );
     // eslint-disable-next-line no-await-in-loop
     await buildNewOnionPaths();
@@ -45,26 +93,25 @@ export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<S
 
     // reload goodPaths now
     attemptNumber += 1;
-    goodPaths = onionPaths.filter(x => !x.bad);
   }
 
-  const paths = _.shuffle(goodPaths);
+  const paths = _.shuffle(onionPaths);
 
   if (!toExclude) {
     if (!paths[0]) {
       log.error('LokiSnodeAPI::getOnionPath - no path in', paths);
       return [];
     }
-    if (!paths[0].path) {
+    if (!paths[0]) {
       log.error('LokiSnodeAPI::getOnionPath - no path in', paths[0]);
     }
 
-    return paths[0].path;
+    return paths[0];
   }
 
   // Select a path that doesn't contain `toExclude`
   const otherPaths = paths.filter(
-    path => !_.some(path.path, node => node.pubkey_ed25519 === toExclude.pubkey_ed25519)
+    path => !_.some(path, node => node.pubkey_ed25519 === toExclude.pubkey_ed25519)
   );
 
   if (otherPaths.length === 0) {
@@ -78,31 +125,67 @@ export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<S
       'path count',
       paths.length,
       'goodPath count',
-      goodPaths.length,
+      onionPaths.length,
       'paths',
       paths
     );
     throw new Error('No onion paths available after filtering');
   }
 
-  if (!otherPaths[0].path) {
+  if (!otherPaths[0]) {
     log.error('LokiSnodeAPI::getOnionPath - otherPaths no path in', otherPaths[0]);
   }
 
-  return otherPaths[0].path;
+  return otherPaths[0];
 }
 
-export function markPathAsBad(path: Array<SnodePool.Snode>) {
-  // TODO: we might want to remove the nodes from the
-  // node pool (but we don't know which node on the path
-  // is causing issues)
+/**
+ * If we don't know which nodes is causing trouble, increment the issue with this full path.
+ */
+export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
+  const pathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === guardNodeEd25519);
 
-  onionPaths.forEach(p => {
-    if (_.isEqual(p.path, path)) {
-      // eslint-disable-next-line no-param-reassign
-      p.bad = true;
+  if (pathIndex === -1) {
+    window.log.info('Did not find path with this guard node');
+    return;
+  }
+
+  const pathFailing = onionPaths[pathIndex];
+
+  console.warn('handling bad path for path index', pathIndex);
+  const oldPathFailureCount = pathFailureCount[guardNodeEd25519] || 0;
+  const newPathFailureCount = oldPathFailureCount + 1;
+  if (newPathFailureCount >= pathFailureThreshold) {
+    // tslint:disable-next-line: prefer-for-of
+    for (let index = 0; index < pathFailing.length; index++) {
+      const snode = pathFailing[index];
+      await incrementBadSnodeCountOrDrop(snode.pubkey_ed25519);
     }
-  });
+
+    return dropPathStartingWithGuardNode(guardNodeEd25519);
+  }
+  // the path is not yet THAT bad. keep it for now
+  pathFailureCount[guardNodeEd25519] = newPathFailureCount;
+}
+
+/**
+ * This function is used to drop a path and its corresponding guard node.
+ * It writes to the db the updated list of guardNodes.
+ * @param ed25519Key the guard node ed25519 pubkey
+ */
+async function dropPathStartingWithGuardNode(ed25519Key: string) {
+  // we are dropping it. Reset the counter in case this same guard gets used later
+  pathFailureCount[ed25519Key] = 0;
+  const failingPathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === ed25519Key);
+  if (failingPathIndex === -1) {
+    console.warn('No such path starts with this guard node ');
+    return;
+  }
+  onionPaths = onionPaths.filter(p => p[0].pubkey_ed25519 !== ed25519Key);
+
+  const edKeys = guardNodes.filter(g => g.pubkey_ed25519 !== ed25519Key).map(n => n.pubkey_ed25519);
+
+  await updateGuardNodes(edKeys);
 }
 
 export function assignOnionRequestNumber() {
@@ -247,7 +330,7 @@ async function buildNewOnionPathsWorker() {
   }
 
   // TODO: select one guard node and 2 other nodes randomly
-  let otherNodes = _.difference(allNodes, guardNodes);
+  let otherNodes = _.differenceBy(allNodes, guardNodes, 'pubkey_ed25519');
 
   if (otherNodes.length < 2) {
     log.warn(
@@ -280,7 +363,7 @@ async function buildNewOnionPathsWorker() {
     for (let j = 0; j < nodesNeededPerPaths; j += 1) {
       path.push(otherNodes[i * nodesNeededPerPaths + j]);
     }
-    onionPaths.push({ path, bad: false });
+    onionPaths.push(path);
   }
 
   log.info(`Built ${onionPaths.length} onion paths`);
