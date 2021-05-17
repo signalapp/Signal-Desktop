@@ -19,7 +19,6 @@ import {
   getRandomSnode,
   getRandomSnodePool,
   getSwarmFor,
-  markNodeUnreachable,
   requiredSnodesForAgreement,
   Snode,
   updateSwarmFor,
@@ -244,10 +243,6 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
   } catch (e) {
     log.error('LokiSnodeAPI::requestSnodesForPubkey - error', e);
 
-    if (targetNode) {
-      markNodeUnreachable(targetNode);
-    }
-
     return [];
   }
 }
@@ -369,105 +364,24 @@ async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
   }
 }
 
-function checkResponse(response: SnodeResponse): void {
-  if (response.status === 406) {
-    throw new window.textsecure.TimestampError('Invalid Timestamp (check your clock)');
-  }
-
-  // Wrong/invalid swarm
-  if (response.status === 421) {
-    let json;
-    try {
-      json = JSON.parse(response.body);
-    } catch (e) {
-      // could not parse result. Consider that snode as invalid
-      throw new window.textsecure.InvalidateSwarm();
-    }
-
-    // The snode isn't associated with the given public key anymore
-    window.log.warn('Wrong swarm, now looking at snodes', json.snodes);
-    if (json.snodes?.length) {
-      throw new window.textsecure.WrongSwarmError(json.snodes);
-    }
-    // remove this node from the swarm of this pubkey
-    throw new window.textsecure.InvalidateSwarm();
-  }
-}
-
 export async function storeOnNode(targetNode: Snode, params: SendParams): Promise<boolean> {
-  const { log, textsecure } = window;
+  const { log } = window;
 
-  let successiveFailures = 0;
+  try {
+    const result = await snodeRpc('store', params, targetNode, params.pubKey);
 
-  while (successiveFailures < maxAcceptableFailuresStoreOnNode) {
-    // the higher this is, the longer the user delay is
-    // we don't want to burn through all our retries quickly
-    // we need to give the node a chance to heal
-    // also failed the user quickly, just means they pound the retry faster
-    // this favors a lot more retries and lower delays
-    // but that may chew up the bandwidth...
-    await sleepFor(successiveFailures * 500);
-    try {
-      const result = await snodeRpc('store', params, targetNode, params.pubKey);
-
-      // do not return true if we get false here...
-      if (!result) {
-        // this means the node we asked for is likely down
-        log.warn(
-          `loki_message:::store - Try #${successiveFailures}/${maxAcceptableFailuresStoreOnNode} ${targetNode.ip}:${targetNode.port} failed`
-        );
-        successiveFailures += 1;
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      const snodeRes = result;
-
-      checkResponse(snodeRes);
-
-      if (snodeRes.status !== 200) {
-        return false;
-      }
-
-      return true;
-    } catch (e) {
-      log.warn(
-        'loki_message:::store - send error:',
-        e.code,
-        e.message,
-        `destination ${targetNode.ip}:${targetNode.port}`
-      );
-      if (e instanceof textsecure.WrongSwarmError) {
-        const { newSwarm } = e;
-        await updateSwarmFor(params.pubKey, newSwarm);
-        return false;
-      } else if (e instanceof textsecure.NotFoundError) {
-        // TODO: Handle resolution error
-      } else if (e instanceof textsecure.TimestampError) {
-        log.warn('loki_message:::store - Timestamp is invalid');
-        throw e;
-      } else if (e instanceof textsecure.HTTPError) {
-        // TODO: Handle working connection but error response
-        const body = await e.response.text();
-        log.warn('loki_message:::store - HTTPError body:', body);
-      } else if (e instanceof window.textsecure.InvalidateSwarm) {
-        window.log.warn(
-          'Got an `InvalidateSwarm` error, removing this node from this swarm of this pubkey'
-        );
-        const existingSwarm = await getSwarmFor(params.pubKey);
-        const updatedSwarm = existingSwarm.filter(
-          node => node.pubkey_ed25519 !== targetNode.pubkey_ed25519
-        );
-
-        await updateSwarmFor(params.pubKey, updatedSwarm);
-      }
-      successiveFailures += 1;
+    if (!result || result.status !== 200) {
+      return false;
     }
+
+    return true;
+  } catch (e) {
+    log.warn(
+      'loki_message:::store - send error:',
+      e,
+      `destination ${targetNode.ip}:${targetNode.port}`
+    );
   }
-  markNodeUnreachable(targetNode);
-  log.error(
-    `loki_message:::store - Too many successive failures trying to send to node ${targetNode.ip}:${targetNode.port}`
-  );
   return false;
 }
 
@@ -489,26 +403,6 @@ export async function retrieveNextMessages(
       `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
     );
     return [];
-  }
-
-  // NOTE: we call `checkResponse` to check for "wrong swarm"
-  try {
-    checkResponse(result);
-  } catch (e) {
-    window.log.warn('loki_message:::retrieveNextMessages - send error:', e.code, e.message);
-    if (e instanceof window.textsecure.WrongSwarmError) {
-      const { newSwarm } = e;
-      await updateSwarmFor(params.pubKey, newSwarm);
-      return [];
-    } else if (e instanceof window.textsecure.InvalidateSwarm) {
-      const existingSwarm = await getSwarmFor(params.pubKey);
-      const updatedSwarm = existingSwarm.filter(
-        node => node.pubkey_ed25519 !== targetNode.pubkey_ed25519
-      );
-
-      await updateSwarmFor(params.pubKey, updatedSwarm);
-      return [];
-    }
   }
 
   if (result.status !== 200) {

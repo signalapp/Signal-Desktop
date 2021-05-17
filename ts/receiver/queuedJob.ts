@@ -342,7 +342,6 @@ async function handleRegularMessage(
     message.set({ expirationStartTimestamp: now });
   }
 
-  conversation.set({ active_at: now });
   // Expire timer updates are now explicit.
   // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.
 
@@ -470,7 +469,7 @@ export async function handleMessageJob(
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
 
-    await queueAttachmentDownloads(message, conversation);
+    void queueAttachmentDownloads(message, conversation);
 
     const unreadCount = await conversation.getUnreadCount();
     conversation.set({ unreadCount });

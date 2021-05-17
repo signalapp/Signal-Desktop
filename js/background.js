@@ -77,7 +77,6 @@
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
   const restartReason = localStorage.getItem('restart-reason');
-  window.log.info('restartReason:', restartReason);
 
   if (restartReason === 'unlink') {
     setTimeout(() => {

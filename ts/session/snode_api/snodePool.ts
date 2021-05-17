@@ -106,23 +106,6 @@ async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Pro
   return [];
 }
 
-export function markNodeUnreachable(snode: Snode): void {
-  const { log } = window;
-  debugger;
-  // we should probably get rid of this call
-  _.remove(randomSnodePool, x => x.pubkey_ed25519 === snode.pubkey_ed25519);
-
-  for (const [pubkey, nodes] of swarmCache) {
-    const edkeys = _.filter(nodes, edkey => edkey !== snode.pubkey_ed25519);
-
-    void internalUpdateSwarmFor(pubkey, edkeys);
-  }
-
-  log.warn(
-    `Marking ${snode.ip}:${snode.port} as unreachable, ${randomSnodePool.length} snodes remaining in randomPool`
-  );
-}
-
 /**
  * Drop a snode from the snode pool. This does not update the swarm containing this snode.
  * Use `dropSnodeFromSwarmIfNeeded` for that
@@ -143,7 +126,6 @@ export function dropSnodeFromSnodePool(snodeEd25519: string) {
 export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Promise<Snode> {
   // resolve random snode
   if (randomSnodePool.length === 0) {
-    // TODO: ensure that we only call this once at a time
     // Should not this be saved to the database?
     await refreshRandomPool();
 
@@ -152,7 +134,6 @@ export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Pro
     }
   }
   // We know the pool can't be empty at this point
-
   if (!excludingEd25519Snode) {
     return _.sample(randomSnodePool) as Snode;
   }
@@ -370,6 +351,7 @@ export async function getSwarmFor(pubkey: string): Promise<Array<Snode>> {
   const nodes = await getSwarmFromCacheOrDb(pubkey);
 
   // See how many are actually still reachable
+  // the nodes still reachable are the one still present in the snode pool
   const goodNodes = randomSnodePool.filter((n: Snode) => nodes.indexOf(n.pubkey_ed25519) !== -1);
 
   if (goodNodes.length >= minSwarmSnodeCount) {

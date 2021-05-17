@@ -399,7 +399,7 @@ window.addEventListener('contextmenu', e => {
 
 window.NewReceiver = require('./ts/receiver/receiver');
 window.DataMessageReceiver = require('./ts/receiver/dataMessage');
-window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
+window.NewSnodeAPI = require('./ts/session/snode_api/SNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
 // eslint-disable-next-line no-extend-native,func-names

@@ -3,7 +3,7 @@ import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
-import { getPathString, incrementBadSnodeCountOrDrop, snodeHttpsAgent } from '../snode_api/onions';
+import { incrementBadSnodeCountOrDrop, snodeHttpsAgent } from '../snode_api/onions';
 import { allowOnlyOneAtATime } from '../utils/Promise';
 
 const desiredGuardCount = 3;
@@ -53,7 +53,9 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
   if (pathWithSnodeIndex === -1) {
     return;
   }
-
+  window.log.info(
+    `dropping snode (...${snodeEd25519.substr(58)}) from path index: ${pathWithSnodeIndex}`
+  );
   // make a copy now so we don't alter the real one while doing stuff here
   const oldPaths = _.cloneDeep(onionPaths);
 
@@ -65,17 +67,14 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
   if (nodeToRemoveIndex === -1) {
     return;
   }
-  console.warn('removing ', snodeEd25519, ' from path ', getPathString(pathtoPatchUp));
 
   pathtoPatchUp = pathtoPatchUp.filter(snode => snode.pubkey_ed25519 !== snodeEd25519);
-  console.warn('removed:', getPathString(pathtoPatchUp));
 
-  const pubKeyToExclude = _.flatten(oldPaths.map(p => p.map(m => m.pubkey_ed25519)));
+  const ed25519KeysToExclude = _.flatten(oldPaths.map(p => p.map(m => m.pubkey_ed25519)));
   // this call throws if it cannot return a valid snode.
-  const snodeToAppendToPath = await SnodePool.getRandomSnode(pubKeyToExclude);
+  const snodeToAppendToPath = await SnodePool.getRandomSnode(ed25519KeysToExclude);
   // Don't test the new snode as this would reveal the user's IP
   pathtoPatchUp.push(snodeToAppendToPath);
-  console.warn('Updated path:', getPathString(pathtoPatchUp));
   onionPaths[pathWithSnodeIndex] = pathtoPatchUp;
 }
 
@@ -95,48 +94,24 @@ export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<S
     attemptNumber += 1;
   }
 
-  const paths = _.shuffle(onionPaths);
+  const onionPathsWithoutExcluded = toExclude
+    ? onionPaths.filter(
+        path => !_.some(path, node => node.pubkey_ed25519 === toExclude.pubkey_ed25519)
+      )
+    : onionPaths;
 
-  if (!toExclude) {
-    if (!paths[0]) {
-      log.error('LokiSnodeAPI::getOnionPath - no path in', paths);
-      return [];
-    }
-    if (!paths[0]) {
-      log.error('LokiSnodeAPI::getOnionPath - no path in', paths[0]);
-    }
-
-    return paths[0];
+  if (!onionPathsWithoutExcluded) {
+    log.error('LokiSnodeAPI::getOnionPath - no path in', onionPathsWithoutExcluded);
+    return [];
   }
 
-  // Select a path that doesn't contain `toExclude`
-  const otherPaths = paths.filter(
-    path => !_.some(path, node => node.pubkey_ed25519 === toExclude.pubkey_ed25519)
-  );
+  const randomPath = _.sample(onionPathsWithoutExcluded);
 
-  if (otherPaths.length === 0) {
-    // This should never happen!
-    // well it did happen, should we
-    // await this.buildNewOnionPaths();
-    // and restart call?
-    log.error(
-      'LokiSnodeAPI::getOnionPath - no paths without',
-      toExclude.pubkey_ed25519,
-      'path count',
-      paths.length,
-      'goodPath count',
-      onionPaths.length,
-      'paths',
-      paths
-    );
+  if (!randomPath) {
     throw new Error('No onion paths available after filtering');
   }
 
-  if (!otherPaths[0]) {
-    log.error('LokiSnodeAPI::getOnionPath - otherPaths no path in', otherPaths[0]);
-  }
-
-  return otherPaths[0];
+  return randomPath;
 }
 
 /**
@@ -144,24 +119,25 @@ export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<S
  */
 export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
   const pathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === guardNodeEd25519);
+  window.log.info('\t\tincrementBadPathCountOrDrop starting with guard', guardNodeEd25519);
 
   if (pathIndex === -1) {
     window.log.info('Did not find path with this guard node');
     return;
   }
 
-  const pathFailing = onionPaths[pathIndex];
+  const pathWithIssues = onionPaths[pathIndex];
 
-  console.warn('handling bad path for path index', pathIndex);
+  window.log.info('handling bad path for path index', pathIndex);
   const oldPathFailureCount = pathFailureCount[guardNodeEd25519] || 0;
   const newPathFailureCount = oldPathFailureCount + 1;
-  if (newPathFailureCount >= pathFailureThreshold) {
-    // tslint:disable-next-line: prefer-for-of
-    for (let index = 0; index < pathFailing.length; index++) {
-      const snode = pathFailing[index];
-      await incrementBadSnodeCountOrDrop(snode.pubkey_ed25519);
-    }
+  // tslint:disable-next-line: prefer-for-of
+  for (let index = 0; index < pathWithIssues.length; index++) {
+    const snode = pathWithIssues[index];
+    await incrementBadSnodeCountOrDrop(snode.pubkey_ed25519);
+  }
 
+  if (newPathFailureCount >= pathFailureThreshold) {
     return dropPathStartingWithGuardNode(guardNodeEd25519);
   }
   // the path is not yet THAT bad. keep it for now
@@ -174,8 +150,7 @@ export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
  * @param ed25519Key the guard node ed25519 pubkey
  */
 async function dropPathStartingWithGuardNode(ed25519Key: string) {
-  // we are dropping it. Reset the counter in case this same guard gets used later
-  pathFailureCount[ed25519Key] = 0;
+  // we are dropping it. Reset the counter in case this same guard gets choosen later
   const failingPathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === ed25519Key);
   if (failingPathIndex === -1) {
     console.warn('No such path starts with this guard node ');
@@ -185,6 +160,11 @@ async function dropPathStartingWithGuardNode(ed25519Key: string) {
 
   const edKeys = guardNodes.filter(g => g.pubkey_ed25519 !== ed25519Key).map(n => n.pubkey_ed25519);
 
+  guardNodes = guardNodes.filter(g => g.pubkey_ed25519 !== ed25519Key);
+  pathFailureCount[ed25519Key] = 0;
+
+  // write the updates guard nodes to the db.
+  // the next call to getOnionPath will trigger a rebuild of the path
   await updateGuardNodes(edKeys);
 }
 

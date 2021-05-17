@@ -59,17 +59,6 @@
   }
   inherit(ReplayableError, EmptySwarmError);
 
-  function InvalidateSwarm(number, message) {
-    // eslint-disable-next-line prefer-destructuring
-    this.number = number.split('.')[0];
-
-    ReplayableError.call(this, {
-      name: 'InvalidateSwarm',
-      message,
-    });
-  }
-  inherit(ReplayableError, InvalidateSwarm);
-
   function NotFoundError(message, error) {
     this.name = 'NotFoundError';
     this.message = message;
@@ -112,19 +101,6 @@
     }
   }
 
-  function WrongSwarmError(newSwarm) {
-    this.name = 'WrongSwarmError';
-    this.newSwarm = newSwarm;
-
-    Error.call(this, this.name);
-
-    // Maintains proper stack trace, where our error was thrown (only available on V8)
-    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this);
-    }
-  }
-
   function TimestampError(message) {
     this.name = 'TimeStampError';
 
@@ -153,7 +129,6 @@
   window.textsecure.SeedNodeError = SeedNodeError;
   window.textsecure.HTTPError = HTTPError;
   window.textsecure.NotFoundError = NotFoundError;
-  window.textsecure.WrongSwarmError = WrongSwarmError;
   window.textsecure.TimestampError = TimestampError;
   window.textsecure.PublicChatError = PublicChatError;
 })();

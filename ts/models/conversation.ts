@@ -800,7 +800,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     if (!this.get('active_at')) {
-      window.log.info('Skipping update last message as active_at is falsy');
       return;
     }
     const messages = await getMessagesByConversation(this.id, {

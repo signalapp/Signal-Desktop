@@ -10,6 +10,7 @@ import {
 import ByteBuffer from 'bytebuffer';
 import { OnionPaths } from '../onions';
 import { fromBase64ToArrayBuffer, toHex } from '../utils/String';
+import pRetry from 'p-retry';
 
 export enum RequestError {
   BAD_PATH = 'BAD_PATH',
@@ -197,16 +198,15 @@ async function buildOnionGuardNodePayload(
 // Process a response as it arrives from `fetch`, handling
 // http errors and attempting to decrypt the body with `sharedKey`
 // May return false BAD_PATH, indicating that we should try a new path.
+// tslint:disable-next-line: cyclomatic-complexity
 async function processOnionResponse(
   reqIdx: number,
   response: Response,
   symmetricKey: ArrayBuffer,
   debug: boolean,
-  abortSignal?: AbortSignal
-): Promise<
-  | SnodeResponse
-  | { requestError: RequestError; nodeInFault?: string; statusCode?: number; body?: string }
-> {
+  abortSignal?: AbortSignal,
+  associatedWith?: string
+): Promise<SnodeResponse> {
   let ciphertext = '';
 
   try {
@@ -217,13 +217,15 @@ async function processOnionResponse(
 
   if (abortSignal?.aborted) {
     window.log.warn(`(${reqIdx}) [path] Call aborted`);
-    return { requestError: RequestError.ABORTED };
+    // this will make the pRetry stop
+    throw new pRetry.AbortError('Request got aborted');
   }
-  console.warn('clocko ut of sync todo');
 
   if (response.status === 406) {
     // clock out of sync
     console.warn('clocko ut of sync todo');
+    // this will make the pRetry stop
+    throw new pRetry.AbortError('You clock is out of sync with the network. Check your clock.');
   }
 
   if (response.status === 421) {
@@ -231,35 +233,32 @@ async function processOnionResponse(
     window.log.info('Invalidating swarm');
   }
 
-  // detect SNode is deregisted, or SNode is not ready (not in swarm; not done syncing, ...)
+  // this test checks for on error in your path.
   if (
-    response.status === 502 ||
-    response.status === 503 ||
-    response.status === 504 ||
-    response.status === 404 ||
+    // response.status === 502 ||
+    // response.status === 503 ||
+    // response.status === 504 ||
+    // response.status === 404 ||
     response.status !== 200 // this is pretty strong. a 400 (Oxen server error) will be handled as a bad path.
   ) {
     window.log.warn(`(${reqIdx}) [path] Got status: ${response.status}`);
+    //
     const prefix = 'Next node not found: ';
     let nodeNotFound;
-    if (ciphertext && ciphertext.startsWith(prefix)) {
+    if (ciphertext?.startsWith(prefix)) {
       nodeNotFound = ciphertext.substr(prefix.length);
-      console.warn('nodeNotFound', nodeNotFound);
     }
 
-    return {
-      requestError: RequestError.BAD_PATH,
-      nodeInFault: nodeNotFound,
-      statusCode: response.status,
-      body: ciphertext,
-    };
+    // If we have a specific node in fault we can exclude just this node.
+    // Otherwise we increment the whole path failure count
+    await handleOnionRequestErrors(response.status, nodeNotFound, body || '', associatedWith);
   }
 
   if (!ciphertext) {
     window.log.warn(
       `(${reqIdx}) [path] lokiRpc::processingOnionResponse - Target node return empty ciphertext`
     );
-    return { requestError: RequestError.OTHER };
+    throw new Error('Target node return empty ciphertext');
   }
 
   let plaintext;
@@ -290,7 +289,7 @@ async function processOnionResponse(
         toHex(ciphertextBuffer)
       );
     }
-    return { requestError: RequestError.OTHER };
+    throw new Error('Ciphertext decode error');
   }
 
   if (debug) {
@@ -298,19 +297,23 @@ async function processOnionResponse(
   }
 
   try {
-    const jsonRes: SnodeResponse = JSON.parse(plaintext, (key, value) => {
+    const jsonRes = JSON.parse(plaintext, (key, value) => {
       if (typeof value === 'number' && value > Number.MAX_SAFE_INTEGER) {
         window.log.warn('Received an out of bounds js number');
       }
       return value;
     });
 
-    return jsonRes;
+    if (jsonRes.status_code) {
+      jsonRes.status = jsonRes.status_code;
+    }
+
+    return jsonRes as SnodeResponse;
   } catch (e) {
     window.log.error(
       `(${reqIdx}) [path] lokiRpc::processingOnionResponse - parse error outer json ${e.code} ${e.message} json: '${plaintext}'`
     );
-    return { requestError: RequestError.OTHER };
+    throw new Error('Parsing error on outer json');
   }
 }
 
@@ -378,7 +381,7 @@ async function handle421InvalidSwarm(snodeEd25519: string, body: string, associa
  * 421 => swarm changed for this associatedWith publicKey
  * 500, 502, 503, AND default => bad snode.
  */
-export async function handleOnionRequestErrors(
+async function handleOnionRequestErrors(
   statusCode: number,
   snodeEd25519: string,
   body: string,
@@ -389,7 +392,6 @@ export async function handleOnionRequestErrors(
       // FIXME audric
       console.warn('Clockoutofsync TODO');
       window.log.warn('The users clock is out of sync with the service node network.');
-      debugger;
       throw new Error('ClockOutOfSync TODO');
     // return ClockOutOfSync;
     case 421:
@@ -414,7 +416,7 @@ export async function incrementBadSnodeCountOrDrop(snodeEd25519: string, associa
   const newFailureCount = oldFailureCount + 1;
   snodeFailureCount[snodeEd25519] = newFailureCount;
   window.log.warn(
-    `Couldn't reach snode at: ${snodeEd25519}; setting failure count to ${newFailureCount}`
+    `Couldn't reach snode at: ${snodeEd25519}; setting his failure count to ${newFailureCount}`
   );
 
   if (newFailureCount >= snodeFailureThreshold) {
@@ -434,7 +436,7 @@ export async function incrementBadSnodeCountOrDrop(snodeEd25519: string, associa
       await OnionPaths.dropSnodeFromPath(snodeEd25519);
     } catch (e) {
       console.warn('dropSnodeFromPath, patchingup', e);
-      // if dropSnodeFromPath throws, it means there is an issue patching up the path, increment the whole path issues
+      // if dropSnodeFromPath throws, it means there is an issue patching up the path, increment the whole path issues count
       await OnionPaths.incrementBadPathCountOrDrop(snodeEd25519);
     }
   }
@@ -466,7 +468,7 @@ const sendOnionRequestHandlingSnodeEject = async ({
   lsrpcIdx?: number;
   abortSignal?: AbortSignal;
   associatedWith?: string;
-}): Promise<SnodeResponse | RequestError> => {
+}): Promise<SnodeResponse> => {
   const { response, decodingSymmetricKey } = await sendOnionRequest({
     reqIdx,
     nodePath,
@@ -476,34 +478,19 @@ const sendOnionRequestHandlingSnodeEject = async ({
     lsrpcIdx,
     abortSignal,
   });
+
+  // this call will handle the common onion failure logic.
+  // if an error is not retryable a AbortError is triggered, which is handled by pRetry and retries are stopped
   const processed = await processOnionResponse(
     reqIdx,
     response,
     decodingSymmetricKey,
     false,
-    abortSignal
+    abortSignal,
+    associatedWith
   );
 
-  if (isSnodeResponse(processed)) {
-    return processed;
-  } else {
-    // If we get a bad path here, do what we gotta do to invalidate/increment the failure count of the node/path.
-    // This does not retry, it just takes care of ejecting a node if needed. It is to the caller to do the retry
-    const { nodeInFault: nodeInFaultEd25519, requestError, statusCode, body } = processed;
-    if (requestError === RequestError.BAD_PATH) {
-      if (nodeInFaultEd25519) {
-        // we have a specific node in fault. This a `Next node not found :` suffix returned by a snode.
-        // we can exclude just this node
-        await handleOnionRequestErrors(
-          statusCode || 0,
-          nodeInFaultEd25519,
-          body || '',
-          associatedWith
-        );
-      }
-    }
-    return requestError;
-  }
+  return processed;
 };
 
 /**
@@ -674,55 +661,47 @@ export function getPathString(pathObjArr: Array<{ ip: string; port: number }>): 
   return pathObjArr.map(node => `${node.ip}:${node.port}`).join(', ');
 }
 
-export async function lokiOnionFetch(
+async function onionFetchRetryable(
   targetNode: Snode,
+  requestId: number,
   body?: string,
   associatedWith?: string
-): Promise<SnodeResponse | false> {
+): Promise<SnodeResponse> {
   const { log } = window;
 
   // Get a path excluding `targetNode`:
   // eslint-disable no-await-in-loop
   const path = await OnionPaths.getOnionPath(targetNode);
+  const result = await sendOnionRequestSnodeDest(requestId, path, targetNode, body, associatedWith);
+  return result;
+}
+
+/**
+ * If the fetch returnes BAD_PATH we retry this call with a new path at most 3 times. If another error happens, we return it. If we have a result we just return it.
+ */
+export async function lokiOnionFetch(
+  targetNode: Snode,
+  body?: string,
+  associatedWith?: string
+): Promise<SnodeResponse | undefined> {
+  // Get a path excluding `targetNode`:
   const thisIdx = OnionPaths.assignOnionRequestNumber();
 
-  // At this point I only care about BAD_PATH
-  console.warn('lokiOnionFetch with path', path);
-  // FIXME audric to remove, just used to break onion routing
-  path[2].pubkey_ed25519 = '11edd12a6f29011a1beb5b245a06b16548f2796eec4057a6c191700ffa780f5c';
-  console.warn('FIXME audric to remove, just used to break onion routing');
+  try {
+    const retriedResult = await pRetry(
+      async () => {
+        return onionFetchRetryable(targetNode, thisIdx, body, associatedWith);
+      },
+      {
+        retries: 5,
+        factor: 1,
+        minTimeout: 1000,
+      }
+    );
 
-  const result = await sendOnionRequestSnodeDest(thisIdx, path, targetNode, body, associatedWith);
-
-  if (result === RequestError.BAD_PATH) {
-    log.error(
-      `[path] Error on the path: ${getPathString(path)} to ${targetNode.ip}:${targetNode.port}`
-    );
-    // BAD_PATH are now handled in sendOnionRequest directly
-    return false;
-  } else if (result === RequestError.OTHER) {
-    // could mean, fail to parse results
-    // or status code wasn't 200
-    // or can't decrypt
-    // it's not a bad_path, so we don't need to mark the path as bad
-    log.error(
-      `[path] sendOnionRequest gave false for path: ${getPathString(path)} to ${targetNode.ip}:${
-        targetNode.port
-      }`
-    );
-    return false;
-  } else if (result === RequestError.ABORTED) {
-    // could mean, fail to parse results
-    // or status code wasn't 200
-    // or can't decrypt
-    // it's not a bad_path, so we don't need to mark the path as bad
-    log.error(
-      `[path] sendOnionRequest gave aborted for path: ${getPathString(path)} to ${targetNode.ip}:${
-        targetNode.port
-      }`
-    );
-    return false;
-  } else {
-    return result;
+    return retriedResult;
+  } catch (e) {
+    window.log.warn('onionFetchRetryable failed ');
+    return undefined;
   }
 }

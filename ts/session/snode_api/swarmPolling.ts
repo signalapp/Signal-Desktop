@@ -195,9 +195,6 @@ export class SwarmPolling {
     const groupPromises = this.groupPubkeys.map(async pk => {
       return this.pollOnceForKey(pk, true);
     });
-    // if a WrongSwarmError has been triggered, we have to forward it (and in fact we must forward any errors)
-    // but, we also need to make sure the next pollForAllKeys runs no matter if an error is triggered or not
-    // the finally here will be invoked even if the catch is throwing an exception
     try {
       await Promise.all(_.concat(directPromises, groupPromises));
     } catch (e) {
