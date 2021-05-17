@@ -104,13 +104,11 @@ export class IncomingWebSocketRequest {
   }
 }
 
-const outgoing: {
-  [id: number]: Request;
-} = {};
+const outgoing = new Map<string, Request>();
 class OutgoingWebSocketRequest {
   constructor(options: any, socket: WebSocket) {
     const request = new Request(options);
-    outgoing[request.id] = request;
+    outgoing.set(request.id.toString(), request);
     socket.send(
       new window.textsecure.protobuf.WebSocketMessage({
         type: window.textsecure.protobuf.WebSocketMessage.Type.REQUEST,
@@ -176,8 +174,10 @@ export default class WebSocketResource extends EventTarget {
           message.response
         ) {
           const { response } = message;
-          const request = outgoing[response.id];
+          const responseId = response.id.toString();
+          const request = outgoing.get(responseId);
           if (request) {
+            outgoing.delete(responseId);
             request.response = response;
             let callback = request.error;
             if (
@@ -193,7 +193,7 @@ export default class WebSocketResource extends EventTarget {
             }
           } else {
             throw new Error(
-              `Received response for unknown request ${message.response.id}`
+              `Received response for unknown request ${responseId}`
             );
           }
         }
@@ -227,6 +227,7 @@ export default class WebSocketResource extends EventTarget {
 
     socket.addEventListener('close', () => {
       this.closed = true;
+      outgoing.clear();
     });
 
     this.close = (code = 3000, reason) => {
