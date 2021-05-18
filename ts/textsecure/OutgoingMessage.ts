@@ -430,7 +430,7 @@ export default class OutgoingMessage {
 
     const sealedSender = Boolean(accessKey && senderCertificate);
 
-    // We don't send to ourselves if unless sealedSender is enabled
+    // We don't send to ourselves unless sealedSender is enabled
     const ourNumber = window.textsecure.storage.user.getNumber();
     const ourUuid = window.textsecure.storage.user.getUuid();
     const ourDeviceId = window.textsecure.storage.user.getDeviceId();
