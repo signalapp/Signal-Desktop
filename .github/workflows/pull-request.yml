@@ -46,6 +46,7 @@ jobs:
         run: |
           npm install --global node-gyp@latest
           npm config set python python2.7
+          npm config set msvs_version 2017
 
       - uses: actions/cache@v2
         id: yarn-cache

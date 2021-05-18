@@ -43,6 +43,7 @@ jobs:
         run: |
           npm install --global node-gyp@latest
           npm config set python python2.7
+          npm config set msvs_version 2017
 
       - name: Install yarn
         run: npm install yarn --no-save
