@@ -112,11 +112,14 @@ async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Pro
  * @param snodeEd25519 the snode ed25519 to drop from the snode pool
  */
 export function dropSnodeFromSnodePool(snodeEd25519: string) {
-  _.remove(randomSnodePool, x => x.pubkey_ed25519 === snodeEd25519);
+  const exists = _.some(randomSnodePool, x => x.pubkey_ed25519 === snodeEd25519);
+  if (exists) {
+    _.remove(randomSnodePool, x => x.pubkey_ed25519 === snodeEd25519);
 
-  window.log.warn(
-    `Marking ${snodeEd25519} as unreachable, ${randomSnodePool.length} snodes remaining in randomPool`
-  );
+    window.log.warn(
+      `Marking ${snodeEd25519} as unreachable, ${randomSnodePool.length} snodes remaining in randomPool`
+    );
+  }
 }
 
 /**
@@ -284,6 +287,11 @@ export async function refreshRandomPool(): Promise<void> {
           retries: 2,
           factor: 1,
           minTimeout: 1000,
+          onFailedAttempt: e => {
+            window.log.warn(
+              `getSnodePoolFromSnodes attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+            );
+          },
         }
       );
     } catch (e) {

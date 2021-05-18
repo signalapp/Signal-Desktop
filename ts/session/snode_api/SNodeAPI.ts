@@ -1,7 +1,6 @@
 // we don't throw or catch here
 import { default as insecureNodeFetch } from 'node-fetch';
 import https from 'https';
-import crypto from 'crypto';
 
 import fs from 'fs';
 import path from 'path';
@@ -11,25 +10,12 @@ import Electron from 'electron';
 const { remote } = Electron;
 
 import { snodeRpc } from './lokiRpc';
-import { sendOnionRequestLsrpcDest, SnodeResponse } from './onions';
 
-export { sendOnionRequestLsrpcDest };
-
-import {
-  getRandomSnode,
-  getRandomSnodePool,
-  getSwarmFor,
-  requiredSnodesForAgreement,
-  Snode,
-  updateSwarmFor,
-} from './snodePool';
+import { getRandomSnode, getRandomSnodePool, requiredSnodesForAgreement, Snode } from './snodePool';
 import { Constants } from '..';
-import { sleepFor } from '../utils/Promise';
 import { sha256 } from '../crypto';
 import pRetry from 'p-retry';
 import _ from 'lodash';
-
-const maxAcceptableFailuresStoreOnNode = 10;
 
 const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   let filePrefix = '';
@@ -290,6 +276,11 @@ export async function getSnodePoolFromSnodes() {
           retries: 3,
           factor: 1,
           minTimeout: 1000,
+          onFailedAttempt: e => {
+            window.log.warn(
+              `getSnodePoolFromSnode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+            );
+          },
         }
       );
     })

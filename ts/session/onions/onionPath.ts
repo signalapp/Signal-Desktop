@@ -24,9 +24,8 @@ const pathFailureThreshold = 3;
 // so using GuardNode would not be correct (there is
 // some naming issue here it seems)
 let guardNodes: Array<SnodePool.Snode> = [];
-let onionRequestCounter = 0; // Request index for debugging
 
-export async function buildNewOnionPaths() {
+export async function buildNewOnionPathsOneAtATime() {
   // this function may be called concurrently make sure we only have one inflight
   return allowOnlyOneAtATime('buildNewOnionPaths', async () => {
     await buildNewOnionPathsWorker();
@@ -53,9 +52,7 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
   if (pathWithSnodeIndex === -1) {
     return;
   }
-  window.log.info(
-    `dropping snode (...${snodeEd25519.substr(58)}) from path index: ${pathWithSnodeIndex}`
-  );
+  window.log.info(`dropping snode ${snodeEd25519} from path index: ${pathWithSnodeIndex}`);
   // make a copy now so we don't alter the real one while doing stuff here
   const oldPaths = _.cloneDeep(onionPaths);
 
@@ -84,11 +81,11 @@ export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<S
   let attemptNumber = 0;
   while (onionPaths.length < minimumGuardCount) {
     log.error(
-      `Must have at least 2 good onion paths, actual: ${onionPaths.length}, attempt #${attemptNumber} fetching more...`
+      `Must have at least ${minimumGuardCount} good onion paths, actual: ${onionPaths.length}, attempt #${attemptNumber} fetching more...`
     );
     // eslint-disable-next-line no-await-in-loop
-    await buildNewOnionPaths();
-    // should we add a delay? buildNewOnionPaths should act as one
+    await buildNewOnionPathsOneAtATime();
+    // should we add a delay? buildNewOnionPathsOneAtATime should act as one
 
     // reload goodPaths now
     attemptNumber += 1;
@@ -130,9 +127,13 @@ export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
 
   window.log.info('handling bad path for path index', pathIndex);
   const oldPathFailureCount = pathFailureCount[guardNodeEd25519] || 0;
+
+  // tslint:disable: prefer-for-of
+
   const newPathFailureCount = oldPathFailureCount + 1;
-  // tslint:disable-next-line: prefer-for-of
-  for (let index = 0; index < pathWithIssues.length; index++) {
+  // skip the first one as the first one is the guard node.
+  // a guard node is dropped when the path is dropped completely (in dropPathStartingWithGuardNode)
+  for (let index = 1; index < pathWithIssues.length; index++) {
     const snode = pathWithIssues[index];
     await incrementBadSnodeCountOrDrop(snode.pubkey_ed25519);
   }
@@ -149,28 +150,26 @@ export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
  * It writes to the db the updated list of guardNodes.
  * @param ed25519Key the guard node ed25519 pubkey
  */
-async function dropPathStartingWithGuardNode(ed25519Key: string) {
+async function dropPathStartingWithGuardNode(guardNodeEd25519: string) {
   // we are dropping it. Reset the counter in case this same guard gets choosen later
-  const failingPathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === ed25519Key);
+  const failingPathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === guardNodeEd25519);
   if (failingPathIndex === -1) {
-    console.warn('No such path starts with this guard node ');
+    debugger;
+    window.log.warn('No such path starts with this guard node ');
     return;
   }
-  onionPaths = onionPaths.filter(p => p[0].pubkey_ed25519 !== ed25519Key);
+  onionPaths = onionPaths.filter(p => p[0].pubkey_ed25519 !== guardNodeEd25519);
 
-  const edKeys = guardNodes.filter(g => g.pubkey_ed25519 !== ed25519Key).map(n => n.pubkey_ed25519);
+  const edKeys = guardNodes
+    .filter(g => g.pubkey_ed25519 !== guardNodeEd25519)
+    .map(n => n.pubkey_ed25519);
 
-  guardNodes = guardNodes.filter(g => g.pubkey_ed25519 !== ed25519Key);
-  pathFailureCount[ed25519Key] = 0;
+  guardNodes = guardNodes.filter(g => g.pubkey_ed25519 !== guardNodeEd25519);
+  pathFailureCount[guardNodeEd25519] = 0;
 
   // write the updates guard nodes to the db.
   // the next call to getOnionPath will trigger a rebuild of the path
   await updateGuardNodes(edKeys);
-}
-
-export function assignOnionRequestNumber() {
-  onionRequestCounter += 1;
-  return onionRequestCounter;
 }
 
 async function testGuardNode(snode: SnodePool.Snode) {
@@ -317,7 +316,8 @@ async function buildNewOnionPathsWorker() {
       'LokiSnodeAPI::buildNewOnionPaths - Too few nodes to build an onion path! Refreshing pool and retrying'
     );
     await SnodePool.refreshRandomPool();
-    await buildNewOnionPaths();
+    debugger;
+    await buildNewOnionPathsOneAtATime();
     return;
   }
 
@@ -345,6 +345,8 @@ async function buildNewOnionPathsWorker() {
     }
     onionPaths.push(path);
   }
+  console.warn('guards', guards);
+  console.warn('onionPaths', onionPaths);
 
   log.info(`Built ${onionPaths.length} onion paths`);
 }

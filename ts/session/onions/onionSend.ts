@@ -13,6 +13,7 @@ import _, { toNumber } from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { PROTOCOLS } from '../constants';
 import { toHex } from '../utils/String';
+import pRetry from 'p-retry';
 
 // FIXME: replace with something on urlPubkeyMap...
 const FILESERVER_HOSTS = [
@@ -22,8 +23,6 @@ const FILESERVER_HOSTS = [
   'file.getsession.org',
 ];
 
-const MAX_SEND_ONION_RETRIES = 3;
-
 type OnionFetchOptions = {
   method: string;
   body?: string;
@@ -32,45 +31,17 @@ type OnionFetchOptions = {
 
 type OnionFetchBasicOptions = {
   retry?: number;
-  requestNumber?: number;
   noJson?: boolean;
-  counter?: number;
 };
 
-const handleSendViaOnionRetry = async (
-  result: RequestError,
-  options: OnionFetchBasicOptions,
-  srvPubKey: string,
-  url: URL,
-  fetchOptions: OnionFetchOptions,
-  abortSignal?: AbortSignal
-) => {
-  window.log.error('sendOnionRequestLsrpcDest() returned a RequestError: ', result);
-
-  if (options.retry && options.retry >= MAX_SEND_ONION_RETRIES) {
-    window.log.error(`sendViaOnion too many retries: ${options.retry}. Stopping retries.`);
-    return null;
-  } else {
-    // handle error/retries, this is a RequestError
-    window.log.error(
-      `sendViaOnion #${options.requestNumber} - Retry #${options.retry} Couldnt handle onion request, retrying`
-    );
-  }
-  // retry the same request, and increment the counter
-  return sendViaOnion(
-    srvPubKey,
-    url,
-    fetchOptions,
-    {
-      ...options,
-      retry: (options.retry as number) + 1,
-      counter: options.requestNumber,
-    },
-    abortSignal
-  );
+type OnionPayloadObj = {
+  method: string;
+  endpoint: string;
+  body: any;
+  headers: Record<string, any>;
 };
 
-const buildSendViaOnionPayload = (url: URL, fetchOptions: OnionFetchOptions) => {
+const buildSendViaOnionPayload = (url: URL, fetchOptions: OnionFetchOptions): OnionPayloadObj => {
   let tempHeaders = fetchOptions.headers || {};
   const payloadObj = {
     method: fetchOptions.method || 'GET',
@@ -103,15 +74,15 @@ const buildSendViaOnionPayload = (url: URL, fetchOptions: OnionFetchOptions) => 
   return payloadObj;
 };
 
-export const getOnionPathForSending = async (requestNumber: number) => {
+export const getOnionPathForSending = async () => {
   let pathNodes: Array<Snode> = [];
   try {
     pathNodes = await OnionPaths.getOnionPath();
   } catch (e) {
-    window.log.error(`sendViaOnion #${requestNumber} - getOnionPath Error ${e.code} ${e.message}`);
+    window.log.error(`sendViaOnion - getOnionPath Error ${e.code} ${e.message}`);
   }
   if (!pathNodes?.length) {
-    window.log.warn(`sendViaOnion #${requestNumber} - failing, no path available`);
+    window.log.warn('sendViaOnion - failing, no path available');
     // should we retry?
     return null;
   }
@@ -121,9 +92,38 @@ export const getOnionPathForSending = async (requestNumber: number) => {
 const initOptionsWithDefaults = (options: OnionFetchBasicOptions) => {
   const defaultFetchBasicOptions = {
     retry: 0,
-    requestNumber: OnionPaths.assignOnionRequestNumber(),
   };
   return _.defaults(options, defaultFetchBasicOptions);
+};
+
+const sendViaOnionRetryable = async ({
+  castedDestinationX25519Key,
+  finalRelayOptions,
+  payloadObj,
+  abortSignal,
+}: {
+  castedDestinationX25519Key: string;
+  finalRelayOptions: FinalRelayOptions;
+  payloadObj: OnionPayloadObj;
+  abortSignal?: AbortSignal;
+}) => {
+  const pathNodes = await getOnionPathForSending();
+
+  if (!pathNodes) {
+    throw new Error('getOnionPathForSending is emtpy');
+  }
+
+  // this call throws a normal error (which will trigger a retry) if a retryable is got (bad path or whatever)
+  // it throws an AbortError in case the retry should not be retried again (aborted, or )
+  const result = await sendOnionRequestLsrpcDest(
+    pathNodes,
+    castedDestinationX25519Key,
+    finalRelayOptions,
+    payloadObj,
+    abortSignal
+  );
+
+  return result;
 };
 
 /**
@@ -151,59 +151,46 @@ export const sendViaOnion = async (
   const defaultedOptions = initOptionsWithDefaults(options);
 
   const payloadObj = buildSendViaOnionPayload(url, fetchOptions);
-  const pathNodes = await getOnionPathForSending(defaultedOptions.requestNumber);
-  if (!pathNodes) {
-    return null;
+  // if protocol is forced to 'http:' => just use http (without the ':').
+  // otherwise use https as protocol (this is the default)
+  const forcedHttp = url.protocol === PROTOCOLS.HTTP;
+  const finalRelayOptions: FinalRelayOptions = {
+    host: url.hostname,
+  };
+
+  if (forcedHttp) {
+    finalRelayOptions.protocol = 'http';
+  }
+  if (forcedHttp) {
+    finalRelayOptions.port = url.port ? toNumber(url.port) : 80;
   }
 
-  // do the request
-  let result: SnodeResponse | RequestError;
+  let result: SnodeResponse;
   try {
-    // if protocol is forced to 'http:' => just use http (without the ':').
-    // otherwise use https as protocol (this is the default)
-    const forcedHttp = url.protocol === PROTOCOLS.HTTP;
-    const finalRelayOptions: FinalRelayOptions = {
-      host: url.hostname,
-    };
-
-    if (forcedHttp) {
-      finalRelayOptions.protocol = 'http';
-    }
-    if (forcedHttp) {
-      finalRelayOptions.port = url.port ? toNumber(url.port) : 80;
-    }
-
-    result = await sendOnionRequestLsrpcDest(
-      0,
-      pathNodes,
-      castedDestinationX25519Key,
-      finalRelayOptions,
-      payloadObj,
-      defaultedOptions.requestNumber,
-      abortSignal
+    result = await pRetry(
+      async () => {
+        return sendViaOnionRetryable({
+          castedDestinationX25519Key,
+          finalRelayOptions,
+          payloadObj,
+          abortSignal,
+        });
+      },
+      {
+        retries: 5,
+        factor: 1,
+        minTimeout: 1000,
+        onFailedAttempt: e => {
+          window.log.warn(
+            `sendViaOnionRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+          );
+        },
+      }
     );
   } catch (e) {
-    window.log.error('sendViaOnion - lokiRpcUtils error', e.code, e.message);
+    window.log.warn('sendViaOnionRetryable failed ', e);
+    console.warn('error to show to user', e);
     return null;
-  }
-
-  // RequestError return type is seen as number (as it is an enum)
-  if (typeof result === 'string') {
-    console.warn('above string type is not correct');
-    if (result === RequestError.ABORTED) {
-      window.log.info('sendViaOnion aborted. not retrying');
-      return null;
-    }
-    const retriedResult = await handleSendViaOnionRetry(
-      result,
-      defaultedOptions,
-      castedDestinationX25519Key,
-      url,
-      fetchOptions,
-      abortSignal
-    );
-    // keep the await separate so we can log it easily
-    return retriedResult;
   }
 
   // If we expect something which is not json, just return the body we got.
@@ -226,11 +213,7 @@ export const sendViaOnion = async (
     try {
       body = JSON.parse(result.body);
     } catch (e) {
-      window.log.error(
-        `sendViaOnion #${defaultedOptions.requestNumber} - Can't decode JSON body`,
-        typeof result.body,
-        result.body
-      );
+      window.log.error("sendViaOnion Can't decode JSON body", typeof result.body, result.body);
     }
   }
   // result.status has the http response code
@@ -251,9 +234,7 @@ type ServerRequestOptionsType = {
   forceFreshToken?: boolean;
 
   retry?: number;
-  requestNumber?: number;
   noJson?: boolean;
-  counter?: number;
 };
 
 // tslint:disable-next-line: max-func-body-length

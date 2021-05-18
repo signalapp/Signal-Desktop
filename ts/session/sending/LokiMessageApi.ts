@@ -50,8 +50,8 @@ export async function sendMessage(
   // send parameters
   const params = {
     pubKey,
-    ttl: ttl.toString(),
-    timestamp: messageTimeStamp.toString(),
+    ttl: `${ttl}`,
+    timestamp: `${messageTimeStamp}`,
     data: data64,
   };
 
