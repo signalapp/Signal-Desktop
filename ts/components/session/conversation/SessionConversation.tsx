@@ -359,6 +359,8 @@ export class SessionConversation extends React.Component<Props, State> {
       onSetDisappearingMessages: conversation.updateExpirationTimer,
       onDeleteMessages: conversation.deleteMessages,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
+      onChangeNickname: conversation.changeNickname,
+      onClearNickname: conversation.clearNickname,
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
       },
@@ -486,7 +488,20 @@ export class SessionConversation extends React.Component<Props, State> {
       onUpdateGroupName: () => {
         window.Whisper.events.trigger('updateGroupName', conversation);
       },
-      onUpdateGroupMembers: () => {
+      onUpdateGroupMembers: async () => {
+        if (conversation.isMediumGroup()) {
+          // make sure all the members' convo exists so we can add or remove them
+          await Promise.all(
+            conversation
+              .get('members')
+              .map(m =>
+                ConversationController.getInstance().getOrCreateAndWait(
+                  m,
+                  ConversationTypeEnum.PRIVATE
+                )
+              )
+          );
+        }
         window.Whisper.events.trigger('updateGroupMembers', conversation);
       },
       onInviteContacts: () => {
@@ -628,11 +643,22 @@ export class SessionConversation extends React.Component<Props, State> {
       this.setState({ selectedMessages: [] }, ToastUtils.pushDeleted);
     };
 
-    // If removable from server, we "Unsend" - otherwise "Delete"
-    const pluralSuffix = multiple ? 's' : '';
-    const title = window.i18n(
-      isServerDeletable ? `deleteMessage${pluralSuffix}ForEveryone` : `deleteMessage${pluralSuffix}`
-    );
+    let title = '';
+
+    // Note:  keep that i18n logic separated so the scripts in tools/ find the usage of those
+    if (isServerDeletable) {
+      if (multiple) {
+        title = window.i18n('deleteMessagesForEveryone');
+      } else {
+        title = window.i18n('deleteMessageForEveryone');
+      }
+    } else {
+      if (multiple) {
+        title = window.i18n('deleteMessages');
+      } else {
+        title = window.i18n('deleteMessage');
+      }
+    }
 
     const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
     if (askUserForConfirmation) {

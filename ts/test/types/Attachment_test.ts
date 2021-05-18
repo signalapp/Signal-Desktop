@@ -27,6 +27,15 @@ describe('Attachment', () => {
       };
       assert.strictEqual(Attachment.getFileExtension(input), 'mov');
     });
+
+    it('should return file extension for application files', () => {
+      const input: Attachment.AttachmentType = {
+        fileName: 'funny-cat.odt',
+        url: 'funny-cat.odt',
+        contentType: MIME.ODT,
+      };
+      assert.strictEqual(Attachment.getFileExtension(input), 'odt');
+    });
   });
 
   describe('getSuggestedFilename', () => {

@@ -20,7 +20,7 @@ const FILES_ENDPOINT = 'files';
 
 // Disable this if you don't want to use the file server v2 for sending
 // Receiving is always enabled if the attachments url matches a fsv2 url
-export const useFileServerAPIV2Sending = false;
+export const useFileServerAPIV2Sending = true;
 
 /**
  * Upload a file to the file server v2
@@ -63,13 +63,21 @@ export const uploadFileToFsV2 = async (
 
 /**
  * Download a file given the fileId from the fileserver v2
- * @param fileId the fileId to download
+ * @param fileIdOrCompleteUrl the fileId to download or the completeUrl to the fileitself
  * @returns the data as an Uint8Array or null
  */
-export const downloadFileFromFSv2 = async (fileId: string): Promise<ArrayBuffer | null> => {
-  if (!fileId) {
-    window.log.warn('');
+export const downloadFileFromFSv2 = async (
+  fileIdOrCompleteUrl: string
+): Promise<ArrayBuffer | null> => {
+  let fileId = fileIdOrCompleteUrl;
+  if (!fileIdOrCompleteUrl) {
+    window.log.warn('Empty url to download for file v2');
     return null;
+  }
+
+  const completeUrlPrefix = `${fileServerV2URL}/${FILES_ENDPOINT}/`;
+  if (fileIdOrCompleteUrl.startsWith(completeUrlPrefix)) {
+    fileId = fileId.substr(completeUrlPrefix.length);
   }
   const request: FileServerV2Request = {
     method: 'GET',

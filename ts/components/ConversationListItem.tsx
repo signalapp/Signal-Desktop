@@ -42,6 +42,7 @@ type PropsHousekeeping = {
   onUnblockContact?: () => void;
   onInviteContacts?: () => void;
   onClearNickname?: () => void;
+  onChangeNickname?: () => void;
   onMarkAllRead: () => void;
   theme: DefaultTheme;
 };

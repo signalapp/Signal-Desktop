@@ -10,10 +10,10 @@ import { UserUtils } from '../utils';
 import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
 import { postMessage } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import { OpenGroupMessageV2 } from '../../opengroup/opengroupV2/OpenGroupMessageV2';
-import { padPlainTextBuffer } from '../crypto/MessageEncrypter';
 import { fromUInt8ArrayToBase64 } from '../utils/String';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import * as LokiMessageApi from './LokiMessageApi';
+import { addMessagePadding } from '../crypto/BufferPadding';
 
 // ================ Regular ================
 
@@ -136,7 +136,8 @@ export async function sendToOpenGroupV2(
   rawMessage: OpenGroupVisibleMessage,
   roomInfos: OpenGroupRequestCommonType
 ): Promise<OpenGroupMessageV2> {
-  const paddedBody = padPlainTextBuffer(rawMessage.plainTextBuffer());
+  // we agreed to pad message for opengroupv2
+  const paddedBody = addMessagePadding(rawMessage.plainTextBuffer());
   const v2Message = new OpenGroupMessageV2({
     sentTimestamp: Date.now(),
     sender: UserUtils.getOurPubKeyStrFromCache(),

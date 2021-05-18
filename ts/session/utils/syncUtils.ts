@@ -65,10 +65,13 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
   new Promise(resolve => {
     const allConvos = ConversationController.getInstance().getConversations();
 
+    // if we hang for more than 10sec, force resolve this promise.
+    setTimeout(() => {
+      resolve(false);
+    }, 10000);
+
     void getCurrentConfigurationMessage(allConvos)
       .then(configMessage => {
-        // console.warn('forceSyncConfigurationNowIfNeeded with', configMessage);
-
         // this just adds the message to the sending queue.
         // if waitForMessageSent is set, we need to effectively wait until then
         // tslint:disable-next-line: no-void-expression
@@ -194,8 +197,6 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
   const displayName = ourConvo?.getLokiProfile()?.displayName || undefined;
 
   const activeOpenGroups = [...openGroupsV1Ids, ...opengroupV2CompleteUrls];
-
-  // console.warn('SyncConfiguration', activeOpenGroups);
 
   return new ConfigurationMessage({
     identifier: uuid(),

@@ -58,7 +58,6 @@ window.lokiFeatureFlags = {
   useOnionRequests: true,
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
-  onionRequestHops: 3,
   useRequestEncryptionKeyPair: false,
   padOutgoingAttachments: true,
 };
@@ -83,8 +82,6 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 
 // eslint-disable-next-line func-names
 window.CONSTANTS = new (function() {
-  this.MAX_GROUP_NAME_LENGTH = 64;
-  this.CLOSED_GROUP_SIZE_LIMIT = 100;
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
 
@@ -94,8 +91,6 @@ window.CONSTANTS = new (function() {
   // Conforms to naming rules here
   // https://loki.network/2020/03/25/loki-name-system-the-facts/
   this.LNS_REGEX = `^[a-zA-Z0-9_]([a-zA-Z0-9_-]{0,${this.LNS_MAX_LENGTH - 2}}[a-zA-Z0-9_]){0,1}$`;
-  this.MIN_GUARD_COUNT = 2;
-  this.DESIRED_GUARD_COUNT = 3;
 })();
 
 window.versionInfo = {
@@ -358,8 +353,6 @@ window.clipboard = clipboard;
 
 window.seedNodeList = JSON.parse(config.seedNodeList);
 
-const { OnionPaths } = require('./ts/session/onions');
-
 const { locale: localFromEnv } = config;
 window.i18n = i18n.setup(localFromEnv, localeMessages);
 
@@ -379,8 +372,6 @@ window.moment.updateLocale(localeSetForMoment, {
     h: window.i18n('timestamp_h'),
   },
 });
-
-window.OnionPaths = OnionPaths;
 
 window.libsession = require('./ts/session');
 window.models = require('./ts/models');

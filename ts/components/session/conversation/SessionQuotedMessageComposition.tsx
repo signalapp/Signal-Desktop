@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import { Flex } from '../../basic/Flex';
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { ReplyingToMessageProps } from './SessionCompositionBox';
 import styled, { DefaultTheme, ThemeContext } from 'styled-components';
+import { getAlt, isAudio, isImageAttachment } from '../../../types/Attachment';
+import { Image } from '../../conversation/Image';
 
 // tslint:disable: react-unused-props-and-state
 interface Props {
@@ -44,6 +46,18 @@ export const SessionQuotedMessageComposition = (props: Props) => {
 
   const { text: body, attachments } = quotedMessageProps;
   const hasAttachments = attachments && attachments.length > 0;
+
+  let hasImageAttachment = false;
+
+  let firstImageAttachment;
+  if (attachments && attachments.length > 0) {
+    firstImageAttachment = attachments[0];
+    hasImageAttachment = true;
+  }
+
+  const hasAudioAttachment =
+    hasAttachments && attachments && attachments.length > 0 && isAudio(attachments);
+
   return (
     <QuotedMessageComposition theme={theme}>
       <Flex
@@ -61,7 +75,32 @@ export const SessionQuotedMessageComposition = (props: Props) => {
         />
       </Flex>
       <QuotedMessageCompositionReply>
-        <Subtle>{(hasAttachments && window.i18n('mediaMessage')) || body}</Subtle>
+        <Flex container={true} justifyContent="space-between" margin={theme.common.margins.xs}>
+          <Subtle>{(hasAttachments && window.i18n('mediaMessage')) || body}</Subtle>
+
+          {hasImageAttachment && (
+            <Image
+              alt={getAlt(firstImageAttachment, window.i18n)}
+              i18n={window.i18n}
+              attachment={firstImageAttachment}
+              height={100}
+              width={100}
+              curveTopLeft={true}
+              curveTopRight={true}
+              curveBottomLeft={true}
+              curveBottomRight={true}
+              url={firstImageAttachment.thumbnail.objectUrl}
+            />
+          )}
+
+          {hasAudioAttachment && (
+            <SessionIcon
+              iconType={SessionIconType.Microphone}
+              iconSize={SessionIconSize.Huge}
+              theme={theme}
+            />
+          )}
+        </Flex>
       </QuotedMessageCompositionReply>
     </QuotedMessageComposition>
   );

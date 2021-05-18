@@ -241,17 +241,21 @@ async function acceptOpenGroupInvitationV1(serverAddress: string) {
   }
 }
 
-const acceptOpenGroupInvitationV2 = async (completeUrl: string) => {
+const acceptOpenGroupInvitationV2 = (completeUrl: string, roomName?: string) => {
+  window.confirmationDialog({
+    title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', roomName),
+    message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', roomName),
+    resolve: () => joinOpenGroupV2WithUIEvents(completeUrl, true),
+  });
   // this function does not throw, and will showToasts if anything happens
-  await joinOpenGroupV2WithUIEvents(completeUrl, true);
 };
 
 /**
  * Accepts a v1 (channelid defaults to 1) url or a v2 url (with pubkey)
  */
-export const acceptOpenGroupInvitation = async (completeUrl: string) => {
+export const acceptOpenGroupInvitation = async (completeUrl: string, roomName?: string) => {
   if (completeUrl.match(openGroupV2CompleteURLRegex)) {
-    await acceptOpenGroupInvitationV2(completeUrl);
+    acceptOpenGroupInvitationV2(completeUrl, roomName);
   } else {
     await acceptOpenGroupInvitationV1(completeUrl);
   }

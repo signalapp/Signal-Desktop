@@ -128,6 +128,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public getDescription() {
     if (this.isGroupUpdate()) {
       const groupUpdate = this.get('group_update');
+
       const ourPrimary = window.textsecure.storage.get('primaryDevicePubKey');
       if (
         groupUpdate.left === 'You' ||
@@ -136,7 +137,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           groupUpdate.left[0] === ourPrimary)
       ) {
         return window.i18n('youLeftTheGroup');
-      } else if (groupUpdate.left) {
+      } else if (
+        (groupUpdate.left && Array.isArray(groupUpdate.left) && groupUpdate.left.length === 1) ||
+        typeof groupUpdate.left === 'string'
+      ) {
         return window.i18n(
           'leftTheGroup',
           ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
@@ -144,7 +148,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           )
         );
       }
-
       if (groupUpdate.kicked === 'You') {
         return window.i18n('youGotKickedFromGroup');
       }
@@ -186,7 +189,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return window.i18n('incomingError');
     }
     if (this.isGroupInvitation()) {
-      return `<${window.i18n('groupInvitation')}>`;
+      return `😎 ${window.i18n('openGroupInvitation')}`;
     }
     return this.get('body');
   }
@@ -281,16 +284,21 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (!direction) {
       direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
     }
-    const serverAddress = invitation.serverAddress?.length
-      ? `${invitation.serverAddress.slice(0, 30)}...`
-      : '';
+
+    let serverAddress = '';
+    try {
+      const url = new URL(invitation.serverAddress);
+      serverAddress = url.origin;
+    } catch (e) {
+      window.log.warn('failed to get hostname from opengroupv2 invitation', invitation);
+    }
 
     return {
       serverName: invitation.serverName,
       serverAddress,
       direction,
-      onClick: () => {
-        void acceptOpenGroupInvitation(invitation.serverAddress);
+      onJoinClick: () => {
+        void acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
       },
     };
   }
@@ -368,7 +376,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           type: 'remove',
           isMe: true,
         });
-      } else {
+      } else if (
+        typeof groupUpdate.left === 'string' ||
+        (Array.isArray(groupUpdate.left) && groupUpdate.left.length === 1)
+      ) {
         changes.push({
           type: 'remove',
           contacts: _.map(

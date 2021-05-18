@@ -47,7 +47,12 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     let contacts = this.props.contactList;
     contacts = contacts.map(d => {
       const lokiProfile = d.getLokiProfile();
-      const name = lokiProfile ? lokiProfile.displayName : window.i18n('anonymous');
+      const nickname = d.getNickname();
+      const name = nickname
+        ? nickname
+        : lokiProfile
+        ? lokiProfile.displayName
+        : window.i18n('anonymous');
 
       const existingMember = this.props.existingMembers.includes(d.id);
 

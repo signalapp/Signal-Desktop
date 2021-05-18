@@ -123,10 +123,6 @@
         "message": "Nastavit importem",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsStandalone": {
-        "message": "Nastavit jako samostatné zařízení",
-        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
-    },
     "loading": {
         "message": "Nahrávání...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -134,16 +130,6 @@
     "optimizingApplication": {
         "message": "Optimalizace aplikace...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
-    },
-    "migratingToSQLCipher": {
-        "message": "Optimalizace zpráv... $status$ dokončeno.",
-        "description": "Message shown on the loading screen while we are doing application optimizations",
-        "placeholders": {
-            "status": {
-                "content": "$1",
-                "example": "45/200"
-            }
-        }
     },
     "chooseDirectory": {
         "message": "Vybrat složku",
@@ -219,112 +205,6 @@
             }
         }
     },
-    "youMarkedAsVerified": {
-        "message": "Označili jste bezpečnostní kód s $name$ jako ověřený.",
-        "description": "Shown in the conversation history when the user marks a contact as verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "youMarkedAsNotVerified": {
-        "message": "Označili jste bezpečnostní kód s $name$ jako neověřený.",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "youMarkedAsVerifiedOtherDevice": {
-        "message": "Označili jste bezpečnostní kód s $name$ jako ověřený z jiného zařízení",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Označili jste bezpečnostní kód s $name$ jako neověřený z jiného zařízení.",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
-        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
-    },
-    "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedSinceVerified": {
-        "message": "Bezpečnostní číslo s $name$ se změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name$ prostě znovu nainstaloval Session.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "changedRightAfterVerify": {
-        "message": "Bezpečnostní číslo, které se pokoušíte ověřit se změnilo. Prosím zkontrolujte s $name$ své nové bezpečnostní číslo . Pamatujte, tato změna může znamenat, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name$ prostě znovu nainstaloval Session.",
-        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedRecently": {
-        "message": "Bezpečnostní číslo s $name$ se změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name$ prostě znovu nainstaloval Session.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "identityKeyErrorOnSend": {
-        "message": "Bezpečnostní číslo s $name$ se vám změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name$ prostě znovu nainstaloval Session. Možná si budete chtít bezpečnostní číslo níže ověřit.",
-        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "noLongerVerified": {
-        "message": "Bezpečnostní číslo $name$ bylo změněno a nebylo ověřeno. Klikněte pro zobrazení.",
-        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "multipleNoLongerVerified": {
-        "message": "Bezpečnostní kódy s více uživateli této skupiny byly změněny, a nebyly dlouho ověřeny. Klikněte pro zobrazení.",
-        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
-    },
     "debugLogExplanation": {
         "message": "Tento záznam bude přispěvatelům veřejně zpřístupněn k prohlížení. Můžete si jej před odesláním zkontrolovat a upravit.",
         "description": ""
@@ -344,42 +224,6 @@
     "submit": {
         "message": "Odeslat",
         "description": ""
-    },
-    "verify": {
-        "message": "Označit jako ověřené",
-        "description": ""
-    },
-    "unverify": {
-        "message": "Označit jako neověřené",
-        "description": ""
-    },
-    "isVerified": {
-        "message": "Ověřili jste bezpečnostní kód s $name$.",
-        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "isNotVerified": {
-        "message": "Bezpečnostní kód s $name$ nebyl ověřen.",
-        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "verified": {
-        "message": "Ověřeno",
-        "description": ""
-    },
-    "newIdentity": {
-        "message": "Nový bezpečnostní kód",
-        "description": "Header for a key change dialog"
     },
     "incomingError": {
         "message": "Chyba při zpracování příchozí zprávy",
@@ -475,10 +319,6 @@
         "message": "Nelze načít vybranou přílohu.",
         "description": ""
     },
-    "connecting": {
-        "message": "Připojování",
-        "description": "Displayed when the desktop client is currently connecting to the server."
-    },
     "offline": {
         "message": "Offline",
         "description": "Displayed when the desktop client has no network connection."
@@ -551,10 +391,6 @@
         "message": "Zprávy",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSession": {
-        "message": "Vítejte v Signalu",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Typing animation for this conversation",
         "description": "Used as the 'title' attibute for the typing animation"
@@ -568,38 +404,6 @@
                 "example": "John"
             }
         }
-    },
-    "home": {
-        "message": "domov",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "work": {
-        "message": "práce",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "mobile": {
-        "message": "mobil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
-    },
-    "email": {
-        "message": "email",
-        "description": "Generic label shown if contact email has custom type but no label"
-    },
-    "phone": {
-        "message": "telefon",
-        "description": "Generic label shown if contact phone has custom type but no label"
-    },
-    "address": {
-        "message": "adresa",
-        "description": "Generic label shown if contact address has custom type but no label"
-    },
-    "poBox": {
-        "message": "P. O. BOX",
-        "description": "When rendering an address, used to provide context to a post office box"
-    },
-    "downloading": {
-        "message": "Downloading",
-        "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
         "message": "Stáhnout přílohu",
@@ -621,10 +425,6 @@
         "message": "Původní zpráva byla nalezena, ale nebyla načtena. Posuňte nahoru pro načtení.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
-    "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice note must be the only attachment included in a message.",
-        "description": "Shown in toast if tries to record a voice note with any staged attachments"
-    },
     "you": {
         "message": "Vy",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
@@ -632,10 +432,6 @@
     "audioPermissionNeeded": {
         "message": "Pro posílání audio zpráv potřebuje Session Desktop přístup k mikrofonu.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
-    },
-    "allowAccess": {
-        "message": "Povolit přístup",
-        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "audio": {
         "message": "Zvuk",
@@ -701,28 +497,6 @@
         "message": "Členové skupiny",
         "description": ""
     },
-    "resetSession": {
-        "message": "Resetovat sezení",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
-    },
-    "showSafetyNumber": {
-        "message": "Zobrazit bezpečnostní kód",
-        "description": ""
-    },
-    "verifyHelp": {
-        "message": "Pokud chcete zkontrolovat bezpečnost šifrované komunikace s $name$, porovnejte čísla nahoře s čísly na zařízení vašeho kontaktu.",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "theirIdentityUnknown": {
-        "message": "S tímto kontaktem jste si ještě nevyměnili žádné zprávy. Bezpečnostní číslo k němu bude dostupné po první zprávě.",
-        "description": ""
-    },
     "deleteMessage": {
         "message": "Smazat zprávu",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
@@ -734,10 +508,6 @@
     "deleteConversationConfirmation": {
         "message": "Trvale smazat tuto konverzaci?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "sessionEnded": {
-        "message": "Bezpečné sezení resetováno",
-        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
         "message": "Thumbnail of image from quoted message",
@@ -766,20 +536,6 @@
     "save": {
         "message": "Uložit",
         "description": ""
-    },
-    "emojiAlt": {
-        "message": "Emoji image of '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
-    "linkNewDevice": {
-        "message": "Propojit nové zařízení",
-        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Oprávnění",
@@ -844,10 +600,6 @@
     "sendFailed": {
         "message": "Odeslání selhalo",
         "description": "Shown on outgoing message if it fails to send"
-    },
-    "learnMore": {
-        "message": "Dozvědět se více o ověřování bezpečnostních čísel",
-        "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
         "message": "Tato verze aplikace Session Desktop je zastaralá. Abyste mohli dále komunikovat, aktualizujte ji prosím na nejnovější verzi.",
@@ -1044,34 +796,6 @@
             "time": {
                 "content": "$1",
                 "example": "1w"
-            }
-        }
-    },
-    "safetyNumberChanged": {
-        "message": "Bezpečnostní kód se změnil",
-        "description": "A notification shown in the conversation when a contact reinstalls"
-    },
-    "safetyNumberChangedGroup": {
-        "message": "Bezpečností kód s $name$ se změnil",
-        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "verifyNewNumber": {
-        "message": "Ověřit bezpečností kód",
-        "description": "Label on button included with safety number change notification in the conversation"
-    },
-    "yourSafetyNumberWith": {
-        "message": "Váš bezpečnostní kód s $name$:",
-        "description": "Heading for safety number view",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
             }
         }
     },

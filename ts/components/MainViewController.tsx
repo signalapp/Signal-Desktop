@@ -3,6 +3,7 @@ import React from 'react';
 import { ContactType } from './session/SessionMemberListItem';
 import { ToastUtils } from '../session/utils';
 import { createClosedGroup as createClosedGroupV2 } from '../receiver/closedGroups';
+import { VALIDATION } from '../session/constants';
 
 export class MessageView extends React.Component {
   public render() {
@@ -44,7 +45,7 @@ async function createClosedGroup(
     ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooShort'));
 
     return false;
-  } else if (groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH) {
+  } else if (groupName.length > VALIDATION.MAX_GROUP_NAME_LENGTH) {
     ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooLong'));
     return false;
   }
@@ -55,7 +56,7 @@ async function createClosedGroup(
   if (groupMembers.length < 1) {
     ToastUtils.pushToastError('pickClosedGroupMember', window.i18n('pickClosedGroupMember'));
     return false;
-  } else if (groupMembers.length >= window.CONSTANTS.CLOSED_GROUP_SIZE_LIMIT) {
+  } else if (groupMembers.length >= VALIDATION.CLOSED_GROUP_SIZE_LIMIT) {
     ToastUtils.pushToastError('closedGroupMaxSize', window.i18n('closedGroupMaxSize'));
     return false;
   }

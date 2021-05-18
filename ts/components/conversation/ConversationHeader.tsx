@@ -58,6 +58,8 @@ interface Props {
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onDeleteContact: () => void;
+  onChangeNickname?: () => void;
+  onClearNickname?: () => void;
 
   onCloseOverlay: () => void;
   onDeleteSelectedMessages: () => void;

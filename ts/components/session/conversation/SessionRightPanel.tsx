@@ -252,7 +252,7 @@ class SessionRightPanel extends React.Component<Props, State> {
     const showUpdateGroupNameButton = isAdmin && !commonNoShow;
     const showAddRemoveModeratorsButton = isAdmin && !commonNoShow && isPublic;
 
-    const showUpdateGroupMembersButton = !isPublic && !commonNoShow;
+    const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
 
     return (
       <div className="group-settings">

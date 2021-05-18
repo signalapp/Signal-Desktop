@@ -31,7 +31,6 @@
 }
 
 .check-box-container {
-  // background-color: blue;
   align-items: center;
   flex-direction: row;
   display: inline-flex;
@@ -52,15 +51,19 @@
 }
 
 .group-invitation {
-  background-color: #f4f4f0;
+  @include themify($themes) {
+    background: themed('receivedMessageBackground');
+  }
+  &.invitation-outgoing {
+    @include themify($themes) {
+      background: themed('sentMessageBackground');
+    }
+  }
   display: inline-block;
   margin: 4px 16px;
   padding: 4px;
 
-  border: solid;
-  border-width: 0.5px;
-  border-radius: 4px;
-  border-color: #e0e0e0;
+  border-radius: 15px;
 
   align-self: flex-start;
 
@@ -87,11 +90,11 @@
       display: inline-flex;
       flex-direction: column;
 
-      padding: 8px;
+      padding: 0px 12px;
 
       .group-name {
-        font-weight: lighter;
-        padding-bottom: 4px;
+        font-weight: bold;
+        font-size: 18px;
       }
 
       .group-address {
@@ -99,19 +102,18 @@
       }
     }
 
-    .join-btn {
-      background-color: #00f782;
-      color: white;
-      padding: 6px 10px;
-      margin-inline-start: 6px;
-      border-radius: 2px;
-      box-shadow: none;
-      user-select: none;
-      cursor: pointer;
-      transition: $session-transition-duration;
-
-      &:hover {
-        background-color: #00d672;
+    .session-icon-button {
+      @include themify($themes) {
+        background-color: themed('accent');
+        box-shadow: none;
+      }
+      filter: brightness(1.05);
+      svg path {
+        transition: $session-transition-duration;
+        opacity: 0.6;
+        @include themify($themes) {
+          fill: themed('textColorOpposite');
+        }
       }
     }
   }

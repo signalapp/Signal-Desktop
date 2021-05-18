@@ -8,6 +8,8 @@ import { allowOnlyOneAtATime } from '../utils/Promise';
 
 export type Snode = SnodePool.Snode;
 
+const desiredGuardCount = 3;
+const minimumGuardCount = 2;
 interface SnodePath {
   path: Array<Snode>;
   bad: boolean;
@@ -15,7 +17,7 @@ interface SnodePath {
 
 export class OnionPaths {
   private static instance: OnionPaths | null;
-
+  private static readonly onionRequestHops = 3;
   private onionPaths: Array<SnodePath> = [];
 
   // This array is meant to store nodes will full info,
@@ -46,7 +48,7 @@ export class OnionPaths {
     let goodPaths = this.onionPaths.filter(x => !x.bad);
 
     let attemptNumber = 0;
-    while (goodPaths.length < CONSTANTS.MIN_GUARD_COUNT) {
+    while (goodPaths.length < minimumGuardCount) {
       log.error(
         `Must have at least 2 good onion paths, actual: ${goodPaths.length}, attempt #${attemptNumber} fetching more...`
       );
@@ -174,11 +176,11 @@ export class OnionPaths {
   }
 
   private async selectGuardNodes(): Promise<Array<Snode>> {
-    const { CONSTANTS, log } = window;
+    const { log } = window;
 
     // `getRandomSnodePool` is expected to refresh itself on low nodes
     const nodePool = await SnodePool.getRandomSnodePool();
-    if (nodePool.length < CONSTANTS.DESIRED_GUARD_COUNT) {
+    if (nodePool.length < desiredGuardCount) {
       log.error('Could not select guard nodes. Not enough nodes in the pool: ', nodePool.length);
       return [];
     }
@@ -191,12 +193,12 @@ export class OnionPaths {
     // we only want to repeat if the await fails
     // eslint-disable-next-line-no-await-in-loop
     while (guardNodes.length < 3) {
-      if (shuffled.length < CONSTANTS.DESIRED_GUARD_COUNT) {
+      if (shuffled.length < desiredGuardCount) {
         log.error('Not enought nodes in the pool');
         break;
       }
 
-      const candidateNodes = shuffled.splice(0, CONSTANTS.DESIRED_GUARD_COUNT);
+      const candidateNodes = shuffled.splice(0, desiredGuardCount);
 
       // Test all three nodes at once
       // eslint-disable-next-line no-await-in-loop
@@ -209,7 +211,7 @@ export class OnionPaths {
       guardNodes = _.concat(guardNodes, goodNodes);
     }
 
-    if (guardNodes.length < CONSTANTS.DESIRED_GUARD_COUNT) {
+    if (guardNodes.length < desiredGuardCount) {
       log.error(`COULD NOT get enough guard nodes, only have: ${guardNodes.length}`);
     }
 
@@ -223,7 +225,7 @@ export class OnionPaths {
   }
 
   private async buildNewOnionPathsWorker() {
-    const { CONSTANTS, log } = window;
+    const { log } = window;
 
     log.info('LokiSnodeAPI::buildNewOnionPaths - building new onion paths');
 
@@ -250,7 +252,7 @@ export class OnionPaths {
       }
 
       // If guard nodes is still empty (the old nodes are now invalid), select new ones:
-      if (this.guardNodes.length < CONSTANTS.MIN_GUARD_COUNT) {
+      if (this.guardNodes.length < minimumGuardCount) {
         // TODO: don't throw away potentially good guard nodes
         this.guardNodes = await this.selectGuardNodes();
       }
@@ -272,7 +274,7 @@ export class OnionPaths {
     const guards = _.shuffle(this.guardNodes);
 
     // Create path for every guard node:
-    const nodesNeededPerPaths = window.lokiFeatureFlags.onionRequestHops - 1;
+    const nodesNeededPerPaths = OnionPaths.onionRequestHops - 1;
 
     // Each path needs X (nodesNeededPerPaths) nodes in addition to the guard node:
     const maxPath = Math.floor(

@@ -11,6 +11,7 @@ import { StringUtils, UserUtils } from '../../../../session/utils';
 import chaiBytes from 'chai-bytes';
 import { PubKey } from '../../../../session/types';
 import { fromHex, toHex } from '../../../../session/utils/String';
+import { addMessagePadding } from '../../../../session/crypto/BufferPadding';
 
 chai.use(chaiBytes);
 
@@ -187,7 +188,7 @@ describe('MessageEncrypter', () => {
       const spy = sinon.spy(MessageEncrypter, 'encryptUsingSessionProtocol');
       await MessageEncrypter.encrypt(TestUtils.generateFakePubKey(), data, EncryptionType.Fallback);
       chai.expect(spy.callCount).to.be.equal(1);
-      const paddedData = MessageEncrypter.padPlainTextBuffer(data);
+      const paddedData = addMessagePadding(data);
       const firstArgument = new Uint8Array(spy.args[0][1]);
       chai.expect(firstArgument).to.deep.equal(paddedData);
       spy.restore();

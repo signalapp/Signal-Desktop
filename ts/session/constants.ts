@@ -25,6 +25,11 @@ export const CONVERSATION = {
   MAX_ATTACHMENT_FILESIZE_BYTES: 6 * 1000 * 1000,
 };
 
+export const VALIDATION = {
+  MAX_GROUP_NAME_LENGTH: 64,
+  CLOSED_GROUP_SIZE_LIMIT: 100,
+};
+
 export const UI = {
   // Pixels (scroll) from the top of the top of message container
   // at which more messages should be loaded

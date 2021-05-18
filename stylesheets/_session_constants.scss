@@ -2,7 +2,7 @@
 // /////////////////// Fonts ////////////////////
 // //////////////////////////////////////////////
 
-$session-font-default: 'Public Sans';
+$session-font-default: 'Roboto';
 $session-font-accent: 'Loor';
 $session-font-mono: 'SpaceMono';
 
@@ -27,36 +27,36 @@ $session-font-mono: 'SpaceMono';
   font-style: italic;
 }
 
-// Public Sans is an open replacement for $session-font-default
+// Roboto is an open replacement for $session-font-default
 @font-face {
   font-family: $session-font-default;
-  src: url('../fonts/PublicSans-Regular.woff') format('woff');
+  src: url('../fonts/Roboto-Regular.ttf') format('truetype');
 }
 @font-face {
   font-family: $session-font-default;
-  src: url('../fonts/PublicSans-Italic.woff') format('woff');
+  src: url('../fonts/Roboto-Italic.ttf') format('truetype');
   font-style: italic;
 }
 @font-face {
   font-family: $session-font-default;
-  src: url('../fonts/PublicSans-Bold.woff') format('woff');
-  font-weight: bold;
+  src: url('../fonts/Roboto-Bold.ttf') format('truetype');
+  font-weight: 600;
 }
 @font-face {
   font-family: $session-font-default;
-  src: url('../fonts/PublicSans-BoldItalic.woff') format('woff');
-  font-weight: bold;
+  src: url('../fonts/Roboto-BoldItalic.ttf') format('truetype');
+  font-weight: 600;
   font-style: italic;
 }
 @font-face {
   font-family: $session-font-default;
-  src: url('../fonts/PublicSans-Light.woff') format('woff');
-  font-weight: lighter;
+  src: url('../fonts/Roboto-Light.ttf') format('truetype');
+  font-weight: 200;
 }
 @font-face {
   font-family: $session-font-default;
-  src: url('../fonts/PublicSans-LightItalic.woff') format('woff');
-  font-weight: lighter;
+  src: url('../fonts/Roboto-LightItalic.ttf') format('truetype');
+  font-weight: 200;
   font-style: italic;
 }
 

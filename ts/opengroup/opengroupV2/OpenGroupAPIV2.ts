@@ -96,14 +96,17 @@ export async function sendApiV2Request(
     // this call will either return the token on the db,
     // or the promise currently fetching a new token for that same room
     // or fetch from the open group a new token for that room.
+
     const token = await getAuthToken({
       roomId: request.room,
       serverUrl: request.server,
     });
+
     if (!token) {
       window.log.error('Failed to get token for open group v2');
       return null;
     }
+
     headers.Authorization = token;
     const res = await sendViaOnion(
       destinationX25519Key,

@@ -153,12 +153,19 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   public componentDidMount() {
     setTimeout(this.focusCompositionBox, 100);
+
+    const div = this.container;
+    div?.addEventListener('paste', this.handlePaste);
   }
 
   public componentWillUnmount() {
     this.abortLinkPreviewFetch();
     this.linkPreviewAbortController = undefined;
+
+    const div = this.container;
+    div?.removeEventListener('paste', this.handlePaste);
   }
+
   public componentDidUpdate(prevProps: Props, _prevState: State) {
     // reset the state on new conversation key
     if (prevProps.selectedConversationKey !== this.props.selectedConversationKey) {
@@ -191,6 +198,24 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
 
     this.hideEmojiPanel();
+  }
+
+  private handlePaste(e: any) {
+    const { items } = e.clipboardData;
+    let imgBlob = null;
+    for (const item of items) {
+      if (item.type.split('/')[0] === 'image') {
+        imgBlob = item.getAsFile();
+      }
+    }
+    if (imgBlob !== null) {
+      const file = imgBlob;
+      window.log.info('Adding attachment from clipboard', file);
+      this.props.onChoseAttachments([file]);
+
+      e.preventDefault();
+      e.stopPropagation();
+    }
   }
 
   private showEmojiPanel() {
