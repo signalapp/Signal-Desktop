@@ -28,6 +28,49 @@ export function size(iterable: Iterable<unknown>): number {
   return result;
 }
 
+export function filter<T, S extends T>(
+  iterable: Iterable<T>,
+  predicate: (value: T) => value is S
+): Iterable<S>;
+export function filter<T>(
+  iterable: Iterable<T>,
+  predicate: (value: T) => unknown
+): Iterable<T>;
+export function filter<T>(
+  iterable: Iterable<T>,
+  predicate: (value: T) => unknown
+): Iterable<T> {
+  return new FilterIterable(iterable, predicate);
+}
+
+class FilterIterable<T> implements Iterable<T> {
+  constructor(
+    private readonly iterable: Iterable<T>,
+    private readonly predicate: (value: T) => unknown
+  ) {}
+
+  [Symbol.iterator](): Iterator<T> {
+    return new FilterIterator(this.iterable[Symbol.iterator](), this.predicate);
+  }
+}
+
+class FilterIterator<T> implements Iterator<T> {
+  constructor(
+    private readonly iterator: Iterator<T>,
+    private readonly predicate: (value: T) => unknown
+  ) {}
+
+  next(): IteratorResult<T> {
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const nextIteration = this.iterator.next();
+      if (nextIteration.done || this.predicate(nextIteration.value)) {
+        return nextIteration;
+      }
+    }
+  }
+}
+
 export function map<T, ResultT>(
   iterable: Iterable<T>,
   fn: (value: T) => ResultT

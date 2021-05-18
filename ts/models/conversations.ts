@@ -50,6 +50,7 @@ import { handleMessageSend } from '../util/handleMessageSend';
 import { getConversationMembers } from '../util/getConversationMembers';
 import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
+import { filter, map, take } from '../util/iterables';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -2855,53 +2856,54 @@ export class ConversationModel extends window.Backbone
     sticker: WhatIsThis
   ): Promise<WhatIsThis> {
     if (attachments && attachments.length) {
-      return Promise.all(
-        attachments
-          .filter(
-            attachment => attachment && !attachment.pending && !attachment.error
-          )
-          .slice(0, 1)
-          .map(async attachment => {
-            const { fileName, thumbnail, contentType } = attachment;
+      const validAttachments = filter(
+        attachments,
+        attachment => attachment && !attachment.pending && !attachment.error
+      );
+      const attachmentsToUse = take(validAttachments, 1);
 
-            return {
-              contentType,
-              // Our protos library complains about this field being undefined, so we
-              //   force it to null
-              fileName: fileName || null,
-              thumbnail: thumbnail
-                ? {
-                    ...(await loadAttachmentData(thumbnail)),
-                    objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-                  }
-                : null,
-            };
-          })
+      return Promise.all(
+        map(attachmentsToUse, async attachment => {
+          const { fileName, thumbnail, contentType } = attachment;
+
+          return {
+            contentType,
+            // Our protos library complains about this field being undefined, so we force
+            //   it to null
+            fileName: fileName || null,
+            thumbnail: thumbnail
+              ? {
+                  ...(await loadAttachmentData(thumbnail)),
+                  objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+                }
+              : null,
+          };
+        })
       );
     }
 
     if (preview && preview.length) {
-      return Promise.all(
-        preview
-          .filter(item => item && item.image)
-          .slice(0, 1)
-          .map(async attachment => {
-            const { image } = attachment;
-            const { contentType } = image;
+      const validPreviews = filter(preview, item => item && item.image);
+      const previewsToUse = take(validPreviews, 1);
 
-            return {
-              contentType,
-              // Our protos library complains about this field being undefined, so we
-              //   force it to null
-              fileName: null,
-              thumbnail: image
-                ? {
-                    ...(await loadAttachmentData(image)),
-                    objectUrl: getAbsoluteAttachmentPath(image.path),
-                  }
-                : null,
-            };
-          })
+      return Promise.all(
+        map(previewsToUse, async attachment => {
+          const { image } = attachment;
+          const { contentType } = image;
+
+          return {
+            contentType,
+            // Our protos library complains about this field being undefined, so we
+            //   force it to null
+            fileName: null,
+            thumbnail: image
+              ? {
+                  ...(await loadAttachmentData(image)),
+                  objectUrl: getAbsoluteAttachmentPath(image.path),
+                }
+              : null,
+          };
+        })
       );
     }
 

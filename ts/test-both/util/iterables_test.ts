@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { isIterable, size, map, take } from '../../util/iterables';
+import { isIterable, size, filter, map, take } from '../../util/iterables';
 
 describe('iterable utilities', () => {
   describe('isIterable', () => {
@@ -79,6 +79,61 @@ describe('iterable utilities', () => {
         yield 9;
       }
       assert.strictEqual(size(someNumbers()), 3);
+    });
+  });
+
+  describe('filter', () => {
+    it('returns an empty iterable when passed an empty iterable', () => {
+      const fn = sinon.fake();
+
+      assert.deepEqual([...filter([], fn)], []);
+      assert.deepEqual([...filter(new Set(), fn)], []);
+      assert.deepEqual([...filter(new Map(), fn)], []);
+
+      sinon.assert.notCalled(fn);
+    });
+
+    it('returns a new iterator with some values removed', () => {
+      const isOdd = sinon.fake((n: number) => Boolean(n % 2));
+      const result = filter([1, 2, 3, 4], isOdd);
+
+      sinon.assert.notCalled(isOdd);
+
+      assert.deepEqual([...result], [1, 3]);
+      assert.notInstanceOf(result, Array);
+
+      sinon.assert.callCount(isOdd, 4);
+    });
+
+    it('can filter an infinite iterable', () => {
+      const everyNumber = {
+        *[Symbol.iterator]() {
+          for (let i = 0; true; i += 1) {
+            yield i;
+          }
+        },
+      };
+
+      const isOdd = (n: number) => Boolean(n % 2);
+      const result = filter(everyNumber, isOdd);
+      const iterator = result[Symbol.iterator]();
+
+      assert.deepEqual(iterator.next(), { value: 1, done: false });
+      assert.deepEqual(iterator.next(), { value: 3, done: false });
+      assert.deepEqual(iterator.next(), { value: 5, done: false });
+      assert.deepEqual(iterator.next(), { value: 7, done: false });
+    });
+
+    it('respects TypeScript type assertion signatures', () => {
+      // This tests TypeScript, not the actual runtime behavior.
+      function isString(value: unknown): value is string {
+        return typeof value === 'string';
+      }
+
+      const input: Array<unknown> = [1, 'two', 3, 'four'];
+      const result: Iterable<string> = filter(input, isString);
+
+      assert.deepEqual([...result], ['two', 'four']);
     });
   });
 
