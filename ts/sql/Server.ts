@@ -3102,7 +3102,8 @@ async function getUnreadCountForConversation(
       `
       SELECT COUNT(*) AS unreadCount FROM messages
       WHERE unread = 1 AND
-      conversationId = $conversationId
+      conversationId = $conversationId AND
+      type = 'incoming';
       `
     )
     .get({
@@ -3233,12 +3234,17 @@ async function getUnreadReactionsAndMarkRead(
         newestUnreadId,
       });
 
-    db.exec(`
+    db.prepare(
+      `
       UPDATE reactions SET
       unread = 0 WHERE
-      $conversationId = conversationId AND
-      $messageReceivedAt <= messageReceivedAt;
-    `);
+      conversationId = $conversationId AND
+      messageReceivedAt <= $newestUnreadId;
+    `
+    ).run({
+      conversationId,
+      newestUnreadId,
+    });
 
     return unreadMessages;
   })();
@@ -3272,8 +3278,8 @@ async function markReactionAsRead(
       `
         UPDATE reactions SET
         unread = 0 WHERE
-        $targetAuthorUuid = targetAuthorUuid AND
-        $targetTimestamp = targetTimestamp;
+        targetAuthorUuid = $targetAuthorUuid AND
+        targetTimestamp = $targetTimestamp;
       `
     ).run({
       targetAuthorUuid,

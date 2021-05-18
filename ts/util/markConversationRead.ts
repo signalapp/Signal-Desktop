@@ -13,7 +13,6 @@ export async function markConversationRead(
   }
 ): Promise<boolean> {
   const { id: conversationId } = conversationAttrs;
-  window.Whisper.Notifications.removeBy({ conversationId });
 
   const [unreadMessages, unreadReactions] = await Promise.all([
     window.Signal.Data.getUnreadByConversationAndMarkRead(
@@ -27,9 +26,18 @@ export async function markConversationRead(
     ),
   ]);
 
+  window.log.info('markConversationRead', {
+    conversationId,
+    newestUnreadId,
+    unreadMessages: unreadMessages.length,
+    unreadReactions: unreadReactions.length,
+  });
+
   if (!unreadMessages.length && !unreadReactions.length) {
     return false;
   }
+
+  window.Whisper.Notifications.removeBy({ conversationId });
 
   const unreadReactionSyncData = new Map<
     string,
