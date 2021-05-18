@@ -1387,6 +1387,38 @@
     "description": "Button action that the user can click to edit a group name (open)",
     "androidKey": "conversation__menu_edit_group"
   },
+  "closedGroupInviteFailTitle": {
+    "message": "Group Invitation Failed",
+    "description": "Title for the dialog of a failed group invite modal"
+  },
+  "closedGroupInviteFailTitlePlural": {
+    "message": "Group Invitations Failed",
+    "description": "Title for the dialog of a failed group invite modal plural"
+  },
+  "closedGroupInviteFailMessage": {
+    "message": "Unable to successfully invite a group member",
+    "description": "Message for the dialog of a failed group invite modal"
+  },
+  "closedGroupInviteFailMessagePlural": {
+    "message": "Unable to successfully invite all group members",
+    "description": "Message for the dialog of a failed group invite modal plural"
+  },
+  "closedGroupInviteOkText": {
+    "message": "Retry invitations",
+    "description": "Text for the OK button of a closed group invite failure"
+  },
+  "closedGroupInviteSuccessTitlePlural": {
+    "message": "Group Invitations Completed",
+    "description": "The title for the modal dialog when a closed group invite retry succeeds"
+  },
+  "closedGroupInviteSuccessTitle": {
+    "message": "Group Invitation Succeeded",
+    "description": "The title for the modal dialog when a closed group invite retry succeeds"
+  },
+  "closedGroupInviteSuccessMessage": {
+    "message": "Successfully invited closed group members",
+    "description": "The message for the modal dialog when a closed group invite retry succeeds"
+  },
   "editGroupName": {
     "message": "Edit group name",
     "description": "Button action that the user can click to edit a group name (closed)"
