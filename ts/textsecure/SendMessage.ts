@@ -1251,7 +1251,7 @@ export default class MessageSender {
   }
 
   async syncViewOnceOpen(
-    sender: string,
+    sender: string | undefined,
     senderUuid: string,
     timestamp: number,
     options?: SendOptionsType
@@ -1266,9 +1266,9 @@ export default class MessageSender {
     const syncMessage = this.createSyncMessage();
 
     const viewOnceOpen = new window.textsecure.protobuf.SyncMessage.ViewOnceOpen();
-    viewOnceOpen.sender = sender;
-    viewOnceOpen.senderUuid = senderUuid;
-    viewOnceOpen.timestamp = timestamp;
+    viewOnceOpen.sender = sender || null;
+    viewOnceOpen.senderUuid = senderUuid || null;
+    viewOnceOpen.timestamp = timestamp || null;
     syncMessage.viewOnceOpen = viewOnceOpen;
 
     const contentMessage = new window.textsecure.protobuf.Content();

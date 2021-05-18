@@ -1801,11 +1801,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     if (!fromSync) {
       const sender = this.getSource();
-
-      if (sender === undefined) {
-        throw new Error('sender is undefined');
-      }
-
       const senderUuid = this.getSourceUuid();
 
       if (senderUuid === undefined) {
