@@ -40,7 +40,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock', 'patches/**') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
