@@ -39,16 +39,19 @@ function encodedNameFromAddress(address: ProtocolAddress): string {
 }
 
 export type SessionsOptions = {
+  readonly lock?: Lock;
   readonly transactionOnly?: boolean;
 };
 
 export class Sessions extends SessionStore {
-  private readonly lock = new Lock();
+  private readonly lock: Lock;
 
   private inTransaction = false;
 
   constructor(private readonly options: SessionsOptions = {}) {
     super();
+
+    this.lock = options.lock || new Lock();
   }
 
   public async transaction<T>(fn: () => Promise<T>): Promise<T> {
@@ -109,7 +112,18 @@ export class Sessions extends SessionStore {
   }
 }
 
+export type IdentityKeysOptions = {
+  readonly lock?: Lock;
+};
+
 export class IdentityKeys extends IdentityKeyStore {
+  private readonly lock: Lock;
+
+  constructor({ lock = new Lock() }: IdentityKeysOptions = {}) {
+    super();
+    this.lock = lock;
+  }
+
   async getIdentityKey(): Promise<PrivateKey> {
     const keyPair = await window.textsecure.storage.protocol.getIdentityKeyPair();
     if (!keyPair) {
@@ -144,9 +158,14 @@ export class IdentityKeys extends IdentityKeyStore {
   async saveIdentity(name: ProtocolAddress, key: PublicKey): Promise<boolean> {
     const encodedName = encodedNameFromAddress(name);
     const publicKey = typedArrayToArrayBuffer(key.serialize());
+
+    // Pass `lock` to let `saveIdentity` archive sibling sessions when identity
+    // key changes.
     return window.textsecure.storage.protocol.saveIdentity(
       encodedName,
-      publicKey
+      publicKey,
+      false,
+      { lock: this.lock }
     );
   }
 

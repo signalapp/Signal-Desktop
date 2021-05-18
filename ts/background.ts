@@ -68,6 +68,9 @@ export async function startApp(): Promise<void> {
   const profileKeyResponseQueue = new window.PQueue();
   profileKeyResponseQueue.pause();
 
+  const lightSessionResetQueue = new window.PQueue();
+  lightSessionResetQueue.pause();
+
   window.Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
     timeout: 1000 * 60 * 2,
@@ -1892,6 +1895,7 @@ export async function startApp(): Promise<void> {
 
       // To avoid a flood of operations before we catch up, we pause some queues.
       profileKeyResponseQueue.pause();
+      lightSessionResetQueue.pause();
       window.Whisper.deliveryReceiptQueue.pause();
       window.Whisper.Notifications.disable();
 
@@ -2222,6 +2226,7 @@ export async function startApp(): Promise<void> {
     );
 
     profileKeyResponseQueue.start();
+    lightSessionResetQueue.start();
     window.Whisper.deliveryReceiptQueue.start();
     window.Whisper.Notifications.enable();
 
@@ -2294,6 +2299,7 @@ export async function startApp(): Promise<void> {
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
     profileKeyResponseQueue.pause();
+    lightSessionResetQueue.pause();
     window.Whisper.deliveryReceiptQueue.pause();
     window.Whisper.Notifications.disable();
   }
@@ -3266,13 +3272,28 @@ export async function startApp(): Promise<void> {
     window.log.warn('background onError: Doing nothing with incoming error');
   }
 
-  type LightSessionResetEventType = {
+  type LightSessionResetEventType = Event & {
     senderUuid: string;
+    senderDevice: number;
   };
 
   function onLightSessionReset(event: LightSessionResetEventType) {
+    const { senderUuid, senderDevice } = event;
+
+    if (event.confirm) {
+      event.confirm();
+    }
+
+    // Postpone sending light session resets until the queue is empty
+    lightSessionResetQueue.add(() => {
+      window.textsecure.storage.protocol.lightSessionReset(
+        senderUuid,
+        senderDevice
+      );
+    });
+
     const conversationId = window.ConversationController.ensureContactIds({
-      uuid: event.senderUuid,
+      uuid: senderUuid,
     });
 
     if (!conversationId) {

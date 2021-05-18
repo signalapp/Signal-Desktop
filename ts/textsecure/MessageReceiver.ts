@@ -38,8 +38,8 @@ import {
   SignedPreKeys,
 } from '../LibSignalStores';
 import { BatcherType, createBatcher } from '../util/batcher';
-import { assert } from '../util/assert';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import { Lock } from '../util/Lock';
 import EventTarget from './EventTarget';
 import { WebAPIType } from './WebAPI';
 import utils from './Helpers';
@@ -126,6 +126,11 @@ type DecryptedEnvelope = {
   readonly plaintext: ArrayBuffer;
   readonly data: UnprocessedType;
   readonly envelope: EnvelopeClass;
+};
+
+type LockedStores = {
+  readonly sessionStore: Sessions;
+  readonly identityKeyStore: IdentityKeys;
 };
 
 class MessageReceiverInner extends EventTarget {
@@ -647,7 +652,13 @@ class MessageReceiverInner extends EventTarget {
         }
         this.queueDecryptedEnvelope(envelope, payloadPlaintext);
       } else {
-        this.queueEnvelope(new Sessions(), envelope);
+        this.queueEnvelope(
+          {
+            sessionStore: new Sessions(),
+            identityKeyStore: new IdentityKeys(),
+          },
+          envelope
+        );
       }
     } catch (error) {
       window.log.error(
@@ -751,8 +762,13 @@ class MessageReceiverInner extends EventTarget {
     const decrypted: Array<DecryptedEnvelope> = [];
 
     try {
+      const lock = new Lock();
       const sessionStore = new Sessions({
         transactionOnly: true,
+        lock,
+      });
+      const identityKeyStore = new IdentityKeys({
+        lock,
       });
       const failed: Array<UnprocessedType> = [];
 
@@ -770,7 +786,7 @@ class MessageReceiverInner extends EventTarget {
           items.map(async ({ data, envelope }) => {
             try {
               const plaintext = await this.queueEnvelope(
-                sessionStore,
+                { sessionStore, identityKeyStore },
                 envelope
               );
               if (plaintext) {
@@ -912,13 +928,13 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async queueEnvelope(
-    sessionStore: Sessions,
+    stores: LockedStores,
     envelope: EnvelopeClass
   ): Promise<ArrayBuffer | undefined> {
     const id = this.getEnvelopeId(envelope);
     window.log.info('queueing envelope', id);
 
-    const task = this.decryptEnvelope.bind(this, sessionStore, envelope);
+    const task = this.decryptEnvelope.bind(this, stores, envelope);
     const taskWithTimeout = window.textsecure.createTaskWithTimeout(
       task,
       `queueEnvelope ${id}`
@@ -970,7 +986,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async decryptEnvelope(
-    sessionStore: Sessions,
+    stores: LockedStores,
     envelope: EnvelopeClass
   ): Promise<ArrayBuffer | undefined> {
     if (this.stoppingProcessing) {
@@ -983,10 +999,10 @@ class MessageReceiverInner extends EventTarget {
     }
 
     if (envelope.content) {
-      return this.decryptContentMessage(sessionStore, envelope);
+      return this.decryptContentMessage(stores, envelope);
     }
     if (envelope.legacyMessage) {
-      return this.decryptLegacyMessage(sessionStore, envelope);
+      return this.decryptLegacyMessage(stores, envelope);
     }
 
     this.removeFromCache(envelope);
@@ -1036,7 +1052,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async decrypt(
-    sessionStore: Sessions,
+    { sessionStore, identityKeyStore }: LockedStores,
     envelope: EnvelopeClass,
     ciphertext: ByteBufferClass
   ): Promise<ArrayBuffer | null> {
@@ -1059,7 +1075,6 @@ class MessageReceiverInner extends EventTarget {
       throw new Error('MessageReceiver.decrypt: Failed to fetch local UUID');
     }
 
-    const identityKeyStore = new IdentityKeys();
     const preKeyStore = new PreKeys();
     const signedPreKeyStore = new SignedPreKeys();
 
@@ -1311,7 +1326,10 @@ class MessageReceiverInner extends EventTarget {
         }
 
         if (uuid && deviceId) {
-          await this.maybeLightSessionReset(uuid, deviceId);
+          // It is safe (from deadlocks) to await this call because the session
+          // reset is going to be scheduled on a separate p-queue in
+          // ts/background.ts
+          await this.lightSessionReset(uuid, deviceId);
         } else {
           const envelopeId = this.getEnvelopeId(envelope);
           window.log.error(
@@ -1350,74 +1368,11 @@ class MessageReceiverInner extends EventTarget {
     window.storage.put('sessionResets', sessionResets);
   }
 
-  async maybeLightSessionReset(uuid: string, deviceId: number): Promise<void> {
-    const id = `${uuid}.${deviceId}`;
-
-    try {
-      const sessionResets = window.storage.get(
-        'sessionResets',
-        {}
-      ) as SessionResetsType;
-      const lastReset = sessionResets[id];
-
-      // We emit this event every time we encounter an error, not just when we reset the
-      //   session. This is because a message might have been lost with every decryption
-      //   failure.
-      const event = new Event('light-session-reset');
-      event.senderUuid = uuid;
-      this.dispatchAndWait(event);
-
-      if (lastReset && !this.isOverHourIntoPast(lastReset)) {
-        window.log.warn(
-          `maybeLightSessionReset/${id}: Skipping session reset, last reset at ${lastReset}`
-        );
-        return;
-      }
-
-      sessionResets[id] = Date.now();
-      window.storage.put('sessionResets', sessionResets);
-
-      await this.lightSessionReset(uuid, deviceId);
-    } catch (error) {
-      // If we failed to do the session reset, then we'll allow another attempt sooner
-      //   than one hour from now.
-      const sessionResets = window.storage.get(
-        'sessionResets',
-        {}
-      ) as SessionResetsType;
-      delete sessionResets[id];
-      window.storage.put('sessionResets', sessionResets);
-
-      const errorString = error && error.stack ? error.stack : error;
-      window.log.error(
-        `maybeLightSessionReset/${id}: Encountered error`,
-        errorString
-      );
-    }
-  }
-
   async lightSessionReset(uuid: string, deviceId: number): Promise<void> {
-    const id = `${uuid}.${deviceId}`;
-
-    // First, fetch this conversation
-    const conversationId = window.ConversationController.ensureContactIds({
-      uuid,
-    });
-    assert(conversationId, `lightSessionReset/${id}: missing conversationId`);
-
-    const conversation = window.ConversationController.get(conversationId);
-    assert(conversation, `lightSessionReset/${id}: missing conversation`);
-
-    window.log.warn(`lightSessionReset/${id}: Resetting session`);
-
-    // Archive open session with this device
-    await window.textsecure.storage.protocol.archiveSession(
-      `${uuid}.${deviceId}`
-    );
-
-    // Send a null message with newly-created session
-    const sendOptions = await conversation.getSendOptions();
-    await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
+    const event = new Event('light-session-reset');
+    event.senderUuid = uuid;
+    event.senderDevice = deviceId;
+    await this.dispatchAndWait(event);
   }
 
   async handleSentMessage(
@@ -1600,7 +1555,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async decryptLegacyMessage(
-    sessionStore: Sessions,
+    stores: LockedStores,
     envelope: EnvelopeClass
   ): Promise<ArrayBuffer | undefined> {
     window.log.info(
@@ -1608,7 +1563,7 @@ class MessageReceiverInner extends EventTarget {
       this.getEnvelopeId(envelope)
     );
     const plaintext = await this.decrypt(
-      sessionStore,
+      stores,
       envelope,
       envelope.legacyMessage
     );
@@ -1629,18 +1584,14 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async decryptContentMessage(
-    sessionStore: Sessions,
+    stores: LockedStores,
     envelope: EnvelopeClass
   ): Promise<ArrayBuffer | undefined> {
     window.log.info(
       'MessageReceiver.decryptContentMessage',
       this.getEnvelopeId(envelope)
     );
-    const plaintext = await this.decrypt(
-      sessionStore,
-      envelope,
-      envelope.content
-    );
+    const plaintext = await this.decrypt(stores, envelope, envelope.content);
     if (!plaintext) {
       window.log.warn('decryptContentMessage: plaintext was falsey');
       return undefined;

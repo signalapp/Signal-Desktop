@@ -112,6 +112,8 @@ type MapFields =
   | 'sessions'
   | 'signedPreKeys';
 
+type SessionResetsType = Record<string, number>;
+
 export type SessionTransactionOptions = {
   readonly lock?: Lock;
 };
@@ -964,36 +966,45 @@ export class SignalProtocolStore extends EventsMixin {
     });
   }
 
-  async archiveSiblingSessions(encodedAddress: string): Promise<void> {
-    return this.sessionTransaction('archiveSiblingSessions', async () => {
-      if (!this.sessions) {
-        throw new Error(
-          'archiveSiblingSessions: this.sessions not yet cached!'
+  async archiveSiblingSessions(
+    encodedAddress: string,
+    { lock }: SessionTransactionOptions = {}
+  ): Promise<void> {
+    return this.sessionTransaction(
+      'archiveSiblingSessions',
+      async () => {
+        if (!this.sessions) {
+          throw new Error(
+            'archiveSiblingSessions: this.sessions not yet cached!'
+          );
+        }
+
+        window.log.info(
+          'archiveSiblingSessions: archiving sibling sessions for',
+          encodedAddress
         );
-      }
 
-      window.log.info(
-        'archiveSiblingSessions: archiving sibling sessions for',
-        encodedAddress
-      );
+        const id = await normalizeEncodedAddress(encodedAddress);
+        const [identifier, deviceId] = window.textsecure.utils.unencodeNumber(
+          id
+        );
+        const deviceIdNumber = parseInt(deviceId, 10);
 
-      const id = await normalizeEncodedAddress(encodedAddress);
-      const [identifier, deviceId] = window.textsecure.utils.unencodeNumber(id);
-      const deviceIdNumber = parseInt(deviceId, 10);
+        const allEntries = this._getAllSessions();
+        const entries = allEntries.filter(
+          entry =>
+            entry.fromDB.conversationId === identifier &&
+            entry.fromDB.deviceId !== deviceIdNumber
+        );
 
-      const allEntries = this._getAllSessions();
-      const entries = allEntries.filter(
-        entry =>
-          entry.fromDB.conversationId === identifier &&
-          entry.fromDB.deviceId !== deviceIdNumber
-      );
-
-      await Promise.all(
-        entries.map(async entry => {
-          await this._archiveSession(entry);
-        })
-      );
-    });
+        await Promise.all(
+          entries.map(async entry => {
+            await this._archiveSession(entry);
+          })
+        );
+      },
+      lock
+    );
   }
 
   async archiveAllSessions(identifier: string): Promise<void> {
@@ -1030,6 +1041,59 @@ export class SignalProtocolStore extends EventsMixin {
       this.pendingSessions.clear();
       await window.Signal.Data.removeAllSessions();
     });
+  }
+
+  async lightSessionReset(uuid: string, deviceId: number): Promise<void> {
+    const id = `${uuid}.${deviceId}`;
+
+    const sessionResets = window.storage.get(
+      'sessionResets',
+      {}
+    ) as SessionResetsType;
+
+    const lastReset = sessionResets[id];
+
+    const ONE_HOUR = 60 * 60 * 1000;
+    if (lastReset && isMoreRecentThan(lastReset, ONE_HOUR)) {
+      window.log.warn(
+        `lightSessionReset/${id}: Skipping session reset, last reset at ${lastReset}`
+      );
+      return;
+    }
+
+    sessionResets[id] = Date.now();
+    window.storage.put('sessionResets', sessionResets);
+
+    try {
+      // First, fetch this conversation
+      const conversationId = window.ConversationController.ensureContactIds({
+        uuid,
+      });
+      assert(conversationId, `lightSessionReset/${id}: missing conversationId`);
+
+      const conversation = window.ConversationController.get(conversationId);
+      assert(conversation, `lightSessionReset/${id}: missing conversation`);
+
+      window.log.warn(`lightSessionReset/${id}: Resetting session`);
+
+      // Archive open session with this device
+      await this.archiveSession(id);
+
+      // Send a null message with newly-created session
+      const sendOptions = await conversation.getSendOptions();
+      await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
+    } catch (error) {
+      // If we failed to do the session reset, then we'll allow another attempt sooner
+      //   than one hour from now.
+      delete sessionResets[id];
+      window.storage.put('sessionResets', sessionResets);
+
+      const errorString = error && error.stack ? error.stack : error;
+      window.log.error(
+        `lightSessionReset/${id}: Encountered error`,
+        errorString
+      );
+    }
   }
 
   // Identity Keys
@@ -1168,7 +1232,8 @@ export class SignalProtocolStore extends EventsMixin {
   async saveIdentity(
     encodedAddress: string,
     publicKey: ArrayBuffer,
-    nonblockingApproval = false
+    nonblockingApproval = false,
+    { lock }: SessionTransactionOptions = {}
   ): Promise<boolean> {
     if (!this.identityKeys) {
       throw new Error('saveIdentity: this.identityKeys not yet cached!');
@@ -1241,7 +1306,10 @@ export class SignalProtocolStore extends EventsMixin {
           error && error.stack ? error.stack : error
         );
       }
-      await this.archiveSiblingSessions(encodedAddress);
+
+      // Pass the lock to facilitate transactional session use in
+      // MessageReceiver.ts
+      await this.archiveSiblingSessions(encodedAddress, { lock });
 
       return true;
     }
