@@ -34,6 +34,7 @@ import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgo
 import { queueAllCachedFromSource } from './receiver';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { SwarmPolling } from '../session/snode_api/swarmPolling';
+import { MessageModel } from '../models/message';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -885,7 +886,122 @@ export async function createClosedGroup(groupName: string, members: Array<string
   convo.updateLastMessage();
 
   // Send a closed group update message to all members individually
-  const promises = listOfMembers.map(async m => {
+  const allInvitesSent = await sendToGroupMembers(
+    listOfMembers,
+    groupPublicKey,
+    groupName,
+    admins,
+    encryptionKeyPair,
+    dbMessage
+  );
+
+  if (allInvitesSent) {
+    const newHexKeypair = encryptionKeyPair.toHexKeyPair();
+
+    const isHexKeyPairSaved = await isKeyPairAlreadySaved(groupPublicKey, newHexKeypair);
+
+    if (!isHexKeyPairSaved) {
+      // tslint:disable-next-line: no-non-null-assertion
+      await addClosedGroupEncryptionKeyPair(groupPublicKey, encryptionKeyPair.toHexKeyPair());
+    } else {
+      window.log.info('Dropping already saved keypair for group', groupPublicKey);
+    }
+
+    // Subscribe to this group id
+    SwarmPolling.getInstance().addGroupId(new PubKey(groupPublicKey));
+  }
+
+  await forceSyncConfigurationNowIfNeeded();
+
+  window.inboxStore?.dispatch(conversationActions.openConversationExternal(groupPublicKey));
+}
+
+/**
+ * Sends a group invite message to each member of the group.
+ * @returns Array of promises for group invite messages sent to group members
+ */
+async function sendToGroupMembers(
+  listOfMembers: Array<string>,
+  groupPublicKey: string,
+  groupName: string,
+  admins: Array<string>,
+  encryptionKeyPair: ECKeyPair,
+  dbMessage: MessageModel,
+  isRetry: boolean = false
+): Promise<any> {
+  const promises = createInvitePromises(
+    listOfMembers,
+    groupPublicKey,
+    groupName,
+    admins,
+    encryptionKeyPair,
+    dbMessage
+  );
+  window.log.info(`Creating a new group and an encryptionKeyPair for group ${groupPublicKey}`);
+  // evaluating if all invites sent, if failed give the option to retry failed invites via modal dialog
+  const inviteResults = await Promise.all(promises);
+  const allInvitesSent = _.every(inviteResults, Boolean);
+
+  if (allInvitesSent) {
+    if (isRetry) {
+      const invitesTitle =
+        inviteResults.length > 1
+          ? window.i18n('closedGroupInviteSuccessTitlePlural')
+          : window.i18n('closedGroupInviteSuccessTitle');
+      window.confirmationDialog({
+        title: invitesTitle,
+        message: window.i18n('closedGroupInviteSuccessMessage'),
+      });
+    }
+    return allInvitesSent;
+  } else {
+    // Confirmation dialog that recursively calls sendToGroupMembers on resolve
+    window.confirmationDialog({
+      title:
+        inviteResults.length > 1
+          ? window.i18n('closedGroupInviteFailTitlePlural')
+          : window.i18n('closedGroupInviteFailTitle'),
+      message:
+        inviteResults.length > 1
+          ? window.i18n('closedGroupInviteFailMessagePlural')
+          : window.i18n('closedGroupInviteFailMessage'),
+      okText: window.i18n('closedGroupInviteOkText'),
+      resolve: async () => {
+        const membersToResend: Array<string> = new Array<string>();
+        inviteResults.forEach((result, index) => {
+          const member = listOfMembers[index];
+          // group invite must always contain the admin member.
+          if (result !== true || admins.includes(member)) {
+            membersToResend.push(member);
+          }
+        });
+        if (membersToResend.length > 0) {
+          const isRetrySend = true;
+          await sendToGroupMembers(
+            membersToResend,
+            groupPublicKey,
+            groupName,
+            admins,
+            encryptionKeyPair,
+            dbMessage,
+            isRetrySend
+          );
+        }
+      },
+    });
+  }
+  return allInvitesSent;
+}
+
+function createInvitePromises(
+  listOfMembers: Array<string>,
+  groupPublicKey: string,
+  groupName: string,
+  admins: Array<string>,
+  encryptionKeyPair: ECKeyPair,
+  dbMessage: MessageModel
+) {
+  return listOfMembers.map(async m => {
     const messageParams: ClosedGroupNewMessageParams = {
       groupId: groupPublicKey,
       name: groupName,
@@ -897,19 +1013,6 @@ export async function createClosedGroup(groupName: string, members: Array<string
       expireTimer: 0,
     };
     const message = new ClosedGroupNewMessage(messageParams);
-
-    return getMessageQueue().sendToPubKey(PubKey.cast(m), message);
+    return getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(m), message);
   });
-  window.log.info(`Creating a new group and an encryptionKeyPair for group ${groupPublicKey}`);
-  // tslint:disable-next-line: no-non-null-assertion
-  await addClosedGroupEncryptionKeyPair(groupPublicKey, encryptionKeyPair.toHexKeyPair());
-
-  // Subscribe to this group id
-  SwarmPolling.getInstance().addGroupId(new PubKey(groupPublicKey));
-
-  await Promise.all(promises);
-
-  await forceSyncConfigurationNowIfNeeded();
-
-  window.inboxStore?.dispatch(conversationActions.openConversationExternal(groupPublicKey));
 }

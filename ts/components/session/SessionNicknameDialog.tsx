@@ -59,7 +59,7 @@ const SessionNicknameInner = (props: Props) => {
         type="nickname"
         id="nickname-modal-input"
         placeholder={window.i18n('nicknamePlaceholder')}
-        onKeyPress={e => {
+        onKeyUp={e => {
           void onNicknameInput(_.cloneDeep(e));
         }}
       />

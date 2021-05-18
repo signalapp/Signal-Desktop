@@ -33,32 +33,39 @@
 
     unregisterEvents() {
       document.removeEventListener('keyup', this.props.onClickClose, false);
+      if (this.confirmView && this.confirmView.el) {
+        window.ReactDOM.unmountComponentAtNode(this.confirmView.el);
+      }
+
       this.$('.session-confirm-wrapper').remove();
     },
 
     render() {
       this.$('.session-confirm-wrapper').remove();
+      this.registerEvents();
 
       this.confirmView = new Whisper.ReactWrapperView({
         className: 'loki-dialog modal session-confirm-wrapper',
         Component: window.Signal.Components.SessionConfirm,
         props: this.props,
       });
-      this.registerEvents();
 
       this.$el.prepend(this.confirmView.el);
     },
 
     ok() {
-      this.$('.session-confirm-wrapper').remove();
       this.unregisterEvents();
+
+      this.$('.session-confirm-wrapper').remove();
       if (this.props.resolve) {
         this.props.resolve();
       }
     },
     cancel() {
-      this.$('.session-confirm-wrapper').remove();
       this.unregisterEvents();
+
+      this.$('.session-confirm-wrapper').remove();
+
       if (this.props.reject) {
         this.props.reject();
       }
