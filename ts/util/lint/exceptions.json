@@ -1228,7 +1228,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.auto-launch-setting'),",
+    "line": "          el: this.$('.auto-launch-setting'),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-05-11T20:38:03.542Z",
     "reasonDetail": "Protected from arbitrary input"

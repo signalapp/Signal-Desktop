@@ -102,6 +102,24 @@ describe('Settings', () => {
     });
   });
 
+  describe('isAutoLaunchSupported', () => {
+    it('returns true on Windows', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      assert.isTrue(Settings.isAutoLaunchSupported());
+    });
+
+    it('returns true on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      assert.isTrue(Settings.isAutoLaunchSupported());
+    });
+
+    it('returns false on Linux', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isFalse(Settings.isAutoLaunchSupported());
+    });
+  });
+
   describe('isHideMenuBarSupported', () => {
     it('returns false on macOS', () => {
       sandbox.stub(process, 'platform').value('darwin');
