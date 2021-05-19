@@ -216,7 +216,7 @@ export const ActionsPanel = () => {
   );
 
   if (!ourPrimaryConversation) {
-    window.log.warn('ActionsPanel: ourPrimaryConversation is not set');
+    window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
     return <></>;
   }
 

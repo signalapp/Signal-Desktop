@@ -290,7 +290,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const url = new URL(invitation.serverAddress);
       serverAddress = url.origin;
     } catch (e) {
-      window.log.warn('failed to get hostname from opengroupv2 invitation', invitation);
+      window?.log?.warn('failed to get hostname from opengroupv2 invitation', invitation);
     }
 
     return {
@@ -572,7 +572,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           image = this.getPropsForAttachment(preview.image);
         }
       } catch (e) {
-        window.log.info('Failed to show preview');
+        window?.log?.info('Failed to show preview');
       }
 
       return {
@@ -798,7 +798,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   // One caller today: event handler for the 'Retry Send' entry on right click of a failed send message
   public async retrySend() {
     if (!window.textsecure.messaging) {
-      window.log.error('retrySend: Cannot retry since we are offline!');
+      window?.log?.error('retrySend: Cannot retry since we are offline!');
       return null;
     }
 
@@ -807,7 +807,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     try {
       const conversation: ConversationModel | undefined = this.getConversation();
       if (!conversation) {
-        window.log.info('cannot retry send message, the corresponding conversation was not found.');
+        window?.log?.info(
+          'cannot retry send message, the corresponding conversation was not found.'
+        );
         return;
       }
 
@@ -1005,7 +1007,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       errors = [errors];
     }
     errors.forEach((e: any) => {
-      window.log.error(
+      window?.log?.error(
         'Message.saveErrors:',
         e && e.reason ? e.reason : null,
         e && e.stack ? e.stack : e
@@ -1097,7 +1099,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         await this.commit();
       }
 
-      window.log.info('Set message expiration', {
+      window?.log?.info('Set message expiration', {
         expiresAt,
         sentAt: this.get('sent_at'),
       });

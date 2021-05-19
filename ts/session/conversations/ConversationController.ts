@@ -96,7 +96,7 @@ export class ConversationController {
       try {
         await saveConversation(conversation.attributes);
       } catch (error) {
-        window.log.error(
+        window?.log?.error(
           'Conversation save failed! ',
           id,
           type,
@@ -195,13 +195,13 @@ export class ConversationController {
     } else if (conversation.isPublic() && !conversation.isOpenGroupV2()) {
       const channelAPI = await conversation.getPublicSendData();
       if (channelAPI === null) {
-        window.log.warn(`Could not get API for public conversation ${id}`);
+        window?.log?.warn(`Could not get API for public conversation ${id}`);
       } else {
         channelAPI.serverAPI.partChannel((channelAPI as any).channelId);
       }
       // open group v2
     } else if (conversation.isOpenGroupV2()) {
-      window.log.info('leaving open group v2', conversation.id);
+      window?.log?.info('leaving open group v2', conversation.id);
       const roomInfos = await getV2OpenGroupRoom(conversation.id);
       if (roomInfos) {
         OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(roomInfos);
@@ -209,13 +209,13 @@ export class ConversationController {
         try {
           await deleteAuthToken(_.pick(roomInfos, 'serverUrl', 'roomId'));
         } catch (e) {
-          window.log.info('deleteAuthToken failed:', e);
+          window?.log?.info('deleteAuthToken failed:', e);
         }
         // remove the roomInfos locally for this open group room
         try {
           await removeV2OpenGroupRoom(conversation.id);
         } catch (e) {
-          window.log.info('removeV2OpenGroupRoom failed:', e);
+          window?.log?.info('removeV2OpenGroupRoom failed:', e);
         }
       }
     }
@@ -246,7 +246,7 @@ export class ConversationController {
   }
 
   public async load() {
-    window.log.info('ConversationController: starting initial fetch');
+    window?.log?.info('ConversationController: starting initial fetch');
 
     if (this.conversations.length) {
       throw new Error('ConversationController: Already loaded!');
@@ -273,9 +273,9 @@ export class ConversationController {
 
         // Remove any unused images
         window.profileImages.removeImagesNotInArray(this.conversations.map((c: any) => c.id));
-        window.log.info('ConversationController: done with initial fetch');
+        window?.log?.info('ConversationController: done with initial fetch');
       } catch (error) {
-        window.log.error(
+        window?.log?.error(
           'ConversationController: initial fetch failed',
           error && error.stack ? error.stack : error
         );

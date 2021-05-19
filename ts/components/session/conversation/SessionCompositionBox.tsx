@@ -210,7 +210,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
     if (imgBlob !== null) {
       const file = imgBlob;
-      window.log.info('Adding attachment from clipboard', file);
+      window?.log?.info('Adding attachment from clipboard', file);
       this.props.onChoseAttachments([file]);
 
       e.preventDefault();
@@ -583,7 +583,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         }
       })
       .catch(err => {
-        window.log.warn('fetch link preview: ', err);
+        window?.log?.warn('fetch link preview: ', err);
         const aborted = this.linkPreviewAbortController?.signal.aborted;
         this.linkPreviewAbortController = undefined;
         // if we were aborted, it either means the UI was unmount, or more probably,
@@ -836,7 +836,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       });
     } catch (e) {
       // Message sending failed
-      window.log.error(e);
+      window?.log?.error(e);
       this.props.onMessageFailure();
     }
   }

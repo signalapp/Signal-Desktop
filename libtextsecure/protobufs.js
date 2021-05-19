@@ -13,13 +13,13 @@
           const text = `Error loading protos from ${filename} (root: ${window.PROTO_ROOT}) ${
             error && error.stack ? error.stack : error
           }`;
-          window.log.error(text);
+          window?.log?.error(text);
           throw error;
         }
         const protos = result.build('signalservice');
         if (!protos) {
           const text = `Error loading protos from ${filename} (root: ${window.PROTO_ROOT})`;
-          window.log.error(text);
+          window?.log?.error(text);
           throw new Error(text);
         }
         // eslint-disable-next-line no-restricted-syntax, guard-for-in

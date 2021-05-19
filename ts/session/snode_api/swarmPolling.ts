@@ -36,7 +36,7 @@ export function processMessage(message: string, options: any = {}) {
       message,
       error: error.message,
     };
-    window.log.warn('HTTP-Resources Failed to handle message:', info);
+    window?.log?.warn('HTTP-Resources Failed to handle message:', info);
   }
 }
 
@@ -66,7 +66,7 @@ export class SwarmPolling {
 
   public addGroupId(pubkey: PubKey) {
     if (this.groupPubkeys.findIndex(m => m.key === pubkey.key) === -1) {
-      window.log.info('Swarm addGroupId: adding pubkey to polling', pubkey.key);
+      window?.log?.info('Swarm addGroupId: adding pubkey to polling', pubkey.key);
       this.groupPubkeys.push(pubkey);
     }
   }
@@ -80,7 +80,7 @@ export class SwarmPolling {
 
   public removePubkey(pk: PubKey | string) {
     const pubkey = PubKey.cast(pk);
-    window.log.info('Swarm removePubkey: removing pubkey from polling', pubkey.key);
+    window?.log?.info('Swarm removePubkey: removing pubkey from polling', pubkey.key);
 
     this.pubkeys = this.pubkeys.filter(key => !pubkey.isEqual(key));
     this.groupPubkeys = this.groupPubkeys.filter(key => !pubkey.isEqual(key));
@@ -198,7 +198,7 @@ export class SwarmPolling {
     try {
       await Promise.all(_.concat(directPromises, groupPromises));
     } catch (e) {
-      window.log.warn('pollForAllKeys swallowing exception: ', e);
+      window?.log?.warn('pollForAllKeys swallowing exception: ', e);
       throw e;
     } finally {
       setTimeout(this.pollForAllKeys.bind(this), 2000);

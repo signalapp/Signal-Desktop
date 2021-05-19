@@ -111,7 +111,7 @@ export class OpenGroupServerPoller {
       throw new Error('All rooms must be for the same serverUrl');
     }
     if (this.roomIdsToPoll.has(room.roomId)) {
-      window.log.info('skipping addRoomToPoll of already polled room:', room);
+      window?.log?.info('skipping addRoomToPoll of already polled room:', room);
       return;
     }
     this.roomIdsToPoll.add(room.roomId);
@@ -122,14 +122,14 @@ export class OpenGroupServerPoller {
 
   public removeRoomFromPoll(room: OpenGroupRequestCommonType) {
     if (room.serverUrl !== this.serverUrl) {
-      window.log.info('this is not the correct ServerPoller');
+      window?.log?.info('this is not the correct ServerPoller');
       return;
     }
     if (this.roomIdsToPoll.has(room.roomId)) {
-      window.log.info(`Removing ${room.roomId} from polling for ${this.serverUrl}`);
+      window?.log?.info(`Removing ${room.roomId} from polling for ${this.serverUrl}`);
       this.roomIdsToPoll.delete(room.roomId);
     } else {
-      window.log.info(
+      window?.log?.info(
         `Cannot remove polling of ${room.roomId} as it is not polled on ${this.serverUrl}`
       );
     }
@@ -182,7 +182,7 @@ export class OpenGroupServerPoller {
 
   private shouldPoll() {
     if (this.wasStopped) {
-      window.log.error('Serverpoller was stopped. CompactPoll should not happen');
+      window?.log?.error('Serverpoller was stopped. CompactPoll should not happen');
       return false;
     }
     if (!this.roomIdsToPoll.size) {
@@ -197,7 +197,7 @@ export class OpenGroupServerPoller {
 
   private shouldPollPreview() {
     if (this.wasStopped) {
-      window.log.error('Serverpoller was stopped. PollPreview should not happen');
+      window?.log?.error('Serverpoller was stopped. PollPreview should not happen');
       return false;
     }
     if (!this.roomIdsToPoll.size) {
@@ -212,7 +212,7 @@ export class OpenGroupServerPoller {
 
   private shouldPollForMemberCount() {
     if (this.wasStopped) {
-      window.log.error('Serverpoller was stopped. PolLForMemberCount should not happen');
+      window?.log?.error('Serverpoller was stopped. PolLForMemberCount should not happen');
       return false;
     }
     if (!this.roomIdsToPoll.size) {
@@ -258,7 +258,7 @@ export class OpenGroupServerPoller {
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleBase64AvatarUpdate(this.serverUrl, previewGotResults);
     } catch (e) {
-      window.log.warn('Got error while preview fetch:', e);
+      window?.log?.warn('Got error while preview fetch:', e);
     } finally {
       this.isPreviewPolling = false;
     }
@@ -298,7 +298,7 @@ export class OpenGroupServerPoller {
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleAllMemberCount(this.serverUrl, memberCountGotResults);
     } catch (e) {
-      window.log.warn('Got error while memberCount fetch:', e);
+      window?.log?.warn('Got error while memberCount fetch:', e);
     } finally {
       this.isMemberCountPolling = false;
     }
@@ -339,7 +339,7 @@ export class OpenGroupServerPoller {
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleCompactPollResults(this.serverUrl, compactFetchResults);
     } catch (e) {
-      window.log.warn('Got error while compact fetch:', e);
+      window?.log?.warn('Got error while compact fetch:', e);
     } finally {
       this.isPolling = false;
     }
@@ -367,7 +367,7 @@ const handleDeletions = async (
     );
     //
   } catch (e) {
-    window.log.warn('handleDeletions failed:', e);
+    window?.log?.warn('handleDeletions failed:', e);
   } finally {
     try {
       const roomInfos = await getV2OpenGroupRoom(conversationId);
@@ -377,7 +377,7 @@ const handleDeletions = async (
         await saveV2OpenGroupRoom(roomInfos);
       }
     } catch (e) {
-      window.log.warn('handleDeletions updating roomInfos failed:', e);
+      window?.log?.warn('handleDeletions updating roomInfos failed:', e);
     }
   }
 };
@@ -404,7 +404,7 @@ const handleNewMessages = async (
       try {
         await handleOpenGroupV2Message(newMessage, roomDetails);
       } catch (e) {
-        window.log.warn('handleOpenGroupV2Message', e);
+        window?.log?.warn('handleOpenGroupV2Message', e);
       }
     }
 
@@ -413,7 +413,7 @@ const handleNewMessages = async (
       await saveV2OpenGroupRoom(roomInfos);
     }
   } catch (e) {
-    window.log.warn('handleNewMessages failed:', e);
+    window?.log?.warn('handleNewMessages failed:', e);
   }
 };
 
@@ -438,7 +438,7 @@ const handleCompactPollResults = async (
       }
 
       if (!convo) {
-        window.log.warn('Could not find convo for compactPoll', convoId);
+        window?.log?.warn('Could not find convo for compactPoll', convoId);
         return;
       }
       const existingModerators = convo.get('moderators') || [];
@@ -464,11 +464,11 @@ const handleBase64AvatarUpdate = async (
       const convoId = getOpenGroupV2ConversationId(serverUrl, res.roomId);
       const convo = ConversationController.getInstance().get(convoId);
       if (!convo) {
-        window.log.warn('Could not find convo for compactPoll', convoId);
+        window?.log?.warn('Could not find convo for compactPoll', convoId);
         return;
       }
       if (!res.base64) {
-        window.log.info('getPreview: no base64 data. skipping');
+        window?.log?.info('getPreview: no base64 data. skipping');
         return;
       }
       const existingHash = convo.get('avatarHash');
@@ -513,7 +513,7 @@ async function handleAllMemberCount(
 
       const convo = ConversationController.getInstance().get(conversationId);
       if (!convo) {
-        window.log.warn('cannot update conversation memberCount as it does not exist');
+        window?.log?.warn('cannot update conversation memberCount as it does not exist');
         return;
       }
       if (convo.get('subscriberCount') !== roomCount.memberCount) {

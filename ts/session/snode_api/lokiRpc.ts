@@ -42,7 +42,7 @@ async function lokiFetch(
       // import that this does not get set in lokiFetch fetchOptions
       fetchOptions.agent = snodeHttpsAgent;
     }
-    window.log.warn(`insecureNodeFetch => lokiFetch of ${url}`);
+    window?.log?.warn(`insecureNodeFetch => lokiFetch of ${url}`);
 
     const response = await insecureNodeFetch(url, fetchOptions);
 

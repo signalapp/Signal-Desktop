@@ -97,8 +97,6 @@ const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
 };
 
 export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
-  const { log } = window;
-
   // Removed limit until there is a way to get snode info
   // for individual nodes (needed for guard nodes);  this way
   // we get all active nodes
@@ -134,12 +132,12 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
 
     agent: sslAgent,
   };
-  window.log.info('insecureNodeFetch => plaintext for getSnodesFromSeedUrl');
+  window?.log?.info('insecureNodeFetch => plaintext for getSnodesFromSeedUrl');
 
   const response = await insecureNodeFetch(url, fetchOptions);
 
   if (response.status !== 200) {
-    log.error(
+    window?.log?.error(
       `loki_snode_api:::getSnodesFromSeedUrl - invalid response from seed ${urlObj.toString()}:`,
       response
     );
@@ -147,7 +145,7 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
   }
 
   if (response.headers.get('Content-Type') !== 'application/json') {
-    log.error('Response is not json');
+    window?.log?.error('Response is not json');
     return [];
   }
 
@@ -158,7 +156,7 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     const result = json.result;
 
     if (!result) {
-      log.error(
+      window?.log?.error(
         `loki_snode_api:::getSnodesFromSeedUrl - invalid result from seed ${urlObj.toString()}:`,
         response
       );
@@ -167,7 +165,7 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
     return result.service_node_states.filter((snode: any) => snode.public_ip !== '0.0.0.0');
   } catch (e) {
-    log.error('Invalid json response');
+    window?.log?.error('Invalid json response');
     return [];
   }
 }
@@ -181,8 +179,6 @@ export type SendParams = {
 
 // get snodes for pubkey from random snode. Uses an existing snode
 export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snode>> {
-  const { log } = window;
-
   let targetNode;
   try {
     targetNode = await getRandomSnode();
@@ -196,7 +192,7 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
     );
 
     if (!result) {
-      log.warn(
+      window?.log?.warn(
         `LokiSnodeAPI::requestSnodesForPubkey - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
         result
       );
@@ -204,7 +200,7 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
     }
 
     if (result.status !== 200) {
-      log.warn('Status is not 200 for get_snodes_for_pubkey');
+      window?.log?.warn('Status is not 200 for get_snodes_for_pubkey');
       return [];
     }
 
@@ -213,7 +209,7 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
 
       if (!json.snodes) {
         // we hit this when snode gives 500s
-        log.warn(
+        window?.log?.warn(
           `LokiSnodeAPI::requestSnodesForPubkey - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value for snodes`,
           result
         );
@@ -223,20 +219,18 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
       const snodes = json.snodes.filter((tSnode: any) => tSnode.ip !== '0.0.0.0');
       return snodes;
     } catch (e) {
-      log.warn('Invalid json');
+      window?.log?.warn('Invalid json');
       return [];
     }
   } catch (e) {
-    log.error('LokiSnodeAPI::requestSnodesForPubkey - error', e);
+    window?.log?.error('LokiSnodeAPI::requestSnodesForPubkey - error', e);
 
     return [];
   }
 }
 
 export async function requestLnsMapping(targetNode: Snode, nameHash: any) {
-  const { log } = window;
-
-  log.debug('[lns] lns requests to {}:{}', targetNode.ip, targetNode);
+  window?.log?.debug('[lns] lns requests to {}:{}', targetNode.ip, targetNode);
   try {
     // TODO: Check response status
     return snodeRpc(
@@ -247,7 +241,7 @@ export async function requestLnsMapping(targetNode: Snode, nameHash: any) {
       targetNode
     );
   } catch (e) {
-    log.warn('exception caught making lns requests to a node', targetNode, e);
+    window?.log?.warn('exception caught making lns requests to a node', targetNode, e);
     return false;
   }
 }
@@ -260,7 +254,7 @@ export async function requestLnsMapping(targetNode: Snode, nameHash: any) {
 export async function getSnodePoolFromSnodes() {
   const existingSnodePool = await getRandomSnodePool();
   if (existingSnodePool.length < 3) {
-    window.log.warn('cannot get snodes from snodes; not enough snodes', existingSnodePool.length);
+    window?.log?.warn('cannot get snodes from snodes; not enough snodes', existingSnodePool.length);
     return;
   }
 
@@ -291,9 +285,10 @@ export async function getSnodePoolFromSnodes() {
 }
 
 /**
- * Returns a list of uniq snodes got from the specified targetNode
+ * Returns a list of uniq snodes got from the specified targetNode.
+ * This is exported for testing purpose only
  */
-async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
+export async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
   const params = {
     endpoint: 'get_service_nodes',
     params: {
@@ -317,7 +312,7 @@ async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
     const json = JSON.parse(result.body);
 
     if (!json || !json.result || !json.result.service_node_states?.length) {
-      window.log.error(
+      window?.log?.error(
         'loki_snode_api:::getSnodePoolFromSnode - invalid result from seed',
         result.body
       );
@@ -338,14 +333,12 @@ async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
     // we the return list by the snode is already made of uniq snodes
     return _.compact(snodes);
   } catch (e) {
-    window.log.error('Invalid json response');
+    window?.log?.error('Invalid json response');
     return [];
   }
 }
 
 export async function storeOnNode(targetNode: Snode, params: SendParams): Promise<boolean> {
-  const { log } = window;
-
   try {
     const result = await snodeRpc('store', params, targetNode, params.pubKey);
 
@@ -355,7 +348,7 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
 
     return true;
   } catch (e) {
-    log.warn(
+    window?.log?.warn(
       'loki_message:::store - send error:',
       e,
       `destination ${targetNode.ip}:${targetNode.port}`
@@ -378,7 +371,7 @@ export async function retrieveNextMessages(
   const result = await snodeRpc('retrieve', params, targetNode, pubkey);
 
   if (!result) {
-    window.log.warn(
+    window?.log?.warn(
       `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
     );
     return [];
@@ -393,7 +386,7 @@ export async function retrieveNextMessages(
     const json = JSON.parse(result.body);
     return json.messages || [];
   } catch (e) {
-    window.log.warn('exception while parsing json of nextMessage:', e);
+    window?.log?.warn('exception while parsing json of nextMessage:', e);
 
     return [];
   }

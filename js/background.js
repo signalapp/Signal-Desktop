@@ -72,10 +72,10 @@
   // Implicitly used in `indexeddb-backbonejs-adapter`:
   // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
   window.onInvalidStateError = error =>
-    window.log.error(error && error.stack ? error.stack : error);
+    window?.log?.error(error && error.stack ? error.stack : error);
 
-  window.log.info('background page reloaded');
-  window.log.info('environment:', window.getEnvironment());
+  window?.log?.info('background page reloaded');
+  window?.log?.info('environment:', window.getEnvironment());
   const restartReason = localStorage.getItem('restart-reason');
 
   if (restartReason === 'unlink') {
@@ -97,7 +97,7 @@
     Whisper.events._events ? !!Whisper.events._events[eventName] : false;
   const cancelInitializationMessage = Views.Initialization.setMessage();
 
-  window.log.info('Storage fetch');
+  window?.log?.info('Storage fetch');
   storage.fetch();
 
   let specialConvInited = false;
@@ -216,7 +216,7 @@
     await storage.put('version', currentVersion);
 
     if (newVersion) {
-      window.log.info(`New version detected: ${currentVersion}; previous: ${lastVersion}`);
+      window?.log?.info(`New version detected: ${currentVersion}; previous: ${lastVersion}`);
 
       await window.Signal.Data.cleanupOrphanedAttachments();
 
@@ -237,7 +237,7 @@
         BlockedNumberController.load(),
       ]);
     } catch (error) {
-      window.log.error(
+      window?.log?.error(
         'background.js: ConversationController failed to load:',
         error && error.stack ? error.stack : error
       );
@@ -284,7 +284,7 @@
     manageExpiringData();
     window.dispatchEvent(new Event('storage_ready'));
 
-    window.log.info('Cleanup: starting...');
+    window?.log?.info('Cleanup: starting...');
 
     const results = await Promise.all([window.Signal.Data.getOutgoingWithoutExpiresAt()]);
 
@@ -294,7 +294,7 @@
       []
     );
 
-    window.log.info(`Cleanup: Found ${messagesForCleanup.length} messages for cleanup`);
+    window?.log?.info(`Cleanup: Found ${messagesForCleanup.length} messages for cleanup`);
     await Promise.all(
       messagesForCleanup.map(async message => {
         const delivered = message.get('delivered');
@@ -306,21 +306,21 @@
         }
 
         if (delivered) {
-          window.log.info(`Cleanup: Starting timer for delivered message ${sentAt}`);
+          window?.log?.info(`Cleanup: Starting timer for delivered message ${sentAt}`);
           message.set('expirationStartTimestamp', expirationStartTimestamp || sentAt);
           await message.setToExpire();
           return;
         }
 
-        window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
+        window?.log?.info(`Cleanup: Deleting unsent message ${sentAt}`);
         await window.Signal.Data.removeMessage(message.id);
       })
     );
-    window.log.info('Cleanup: complete');
+    window?.log?.info('Cleanup: complete');
 
-    window.log.info('listening for registration events');
+    window?.log?.info('listening for registration events');
     Whisper.events.on('registration_done', async () => {
-      window.log.info('handling registration event');
+      window?.log?.info('handling registration event');
 
       // Disable link previews as default per Kee
       storage.onready(async () => {
@@ -339,7 +339,7 @@
     Whisper.ExpiringMessagesListener.init(Whisper.events);
 
     if (Whisper.Import.isIncomplete()) {
-      window.log.info('Import was interrupted, showing import error screen');
+      window?.log?.info('Import was interrupted, showing import error screen');
       appView.openImporter();
     } else if (
       Whisper.Registration.isDone() &&
@@ -491,7 +491,7 @@
                 window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(Date.now());
                 await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(true);
               } catch (error) {
-                window.log.error(
+                window?.log?.error(
                   'showEditProfileDialog Error ensuring that image is properly sized:',
                   error && error.stack ? error.stack : error
                 );
@@ -673,7 +673,7 @@
 
   let disconnectTimer = null;
   function onOffline() {
-    window.log.info('offline');
+    window?.log?.info('offline');
 
     window.removeEventListener('offline', onOffline);
     window.addEventListener('online', onOnline);
@@ -685,13 +685,13 @@
   }
 
   function onOnline() {
-    window.log.info('online');
+    window?.log?.info('online');
 
     window.removeEventListener('online', onOnline);
     window.addEventListener('offline', onOffline);
 
     if (disconnectTimer) {
-      window.log.warn('Already online. Had a blip in online/offline status.');
+      window?.log?.warn('Already online. Had a blip in online/offline status.');
       clearTimeout(disconnectTimer);
       disconnectTimer = null;
       return;
@@ -705,7 +705,7 @@
   }
 
   async function disconnect() {
-    window.log.info('disconnect');
+    window?.log?.info('disconnect');
 
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = null;
@@ -718,14 +718,14 @@
 
   let connectCount = 0;
   async function connect(firstRun) {
-    window.log.info('connect');
+    window?.log?.info('connect');
 
     // Bootstrap our online/offline detection, only the first time we connect
     if (connectCount === 0 && navigator.onLine) {
       window.addEventListener('offline', onOffline);
     }
     if (connectCount === 0 && !navigator.onLine) {
-      window.log.warn('Starting up offline; will connect when we have network access');
+      window?.log?.warn('Starting up offline; will connect when we have network access');
       window.addEventListener('online', onOnline);
       onEmpty(); // this ensures that the loading screen is dismissed
       return;

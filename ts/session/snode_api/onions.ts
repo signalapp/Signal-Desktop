@@ -56,10 +56,8 @@ async function encryptForRelayV2(
   destination: DestinationRelayV2,
   ctx: DestinationContext
 ) {
-  const { log } = window;
-
   if (!destination.host && !destination.destination) {
-    log.warn('loki_rpc::encryptForRelayV2 - no destination', destination);
+    window?.log?.warn('loki_rpc::encryptForRelayV2 - no destination', destination);
   }
 
   const reqObj = {
@@ -99,8 +97,6 @@ async function buildOnionCtxs(
   targetED25519Hex?: string,
   finalRelayOptions?: FinalRelayOptions
 ) {
-  const { log } = window;
-
   const ctxes = [destCtx];
   // from (3) 2 to 0
   const firstPos = nodePath.length - 1;
@@ -135,7 +131,7 @@ async function buildOnionCtxs(
       if (!relayingToFinalDestination) {
         pubkeyHex = nodePath[i + 1].pubkey_ed25519;
         if (!pubkeyHex) {
-          log.error(
+          window?.log?.error(
             'loki_rpc:::buildOnionGuardNodePayload - no ed25519 for',
             nodePath[i + 1],
             'path node',
@@ -153,7 +149,7 @@ async function buildOnionCtxs(
       const ctx = await encryptForRelayV2(nodePath[i].pubkey_x25519, dest, ctxes[ctxes.length - 1]);
       ctxes.push(ctx);
     } catch (e) {
-      log.error(
+      window?.log?.error(
         'loki_rpc:::buildOnionGuardNodePayload - encryptForRelayV2 failure',
         e.code,
         e.message
@@ -207,7 +203,7 @@ async function process421Error(
     if (!lsrpcEd25519Key || !associatedWith) {
       throw new Error('status 421 without a final destination or no associatedWith makes no sense');
     }
-    window.log.info('Invalidating swarm');
+    window?.log?.info('Invalidating swarm');
     await handle421InvalidSwarm(lsrpcEd25519Key, body, associatedWith);
   }
 }
@@ -230,7 +226,7 @@ async function processOnionRequestErrorAtDestination({
   associatedWith?: string;
 }) {
   if (statusCode === 200) {
-    window.log.info('processOnionRequestErrorAtDestination. statusCode ok:', statusCode);
+    window?.log?.info('processOnionRequestErrorAtDestination. statusCode ok:', statusCode);
     return;
   }
   process406Error(statusCode);
@@ -259,7 +255,7 @@ async function processAnyOtherErrorOnPath(
     // response.status === 404 ||
     status !== 200 // this is pretty strong. a 400 (Oxen server error) will be handled as a bad path.
   ) {
-    window.log.warn(`[path] Got status: ${status}`);
+    window?.log?.warn(`[path] Got status: ${status}`);
     //
     const prefix = 'Next node not found: ';
     let nodeNotFound;
@@ -291,7 +287,7 @@ async function processAnyOtherErrorAtDestination(
     // response.status === 404 ||
     status !== 200 // this is pretty strong. a 400 (Oxen server error) will be handled as a bad path.
   ) {
-    window.log.warn(`[path] Got status at destination: ${status}`);
+    window?.log?.warn(`[path] Got status at destination: ${status}`);
 
     await incrementBadSnodeCountOrDrop(destinationEd25519, associatedWith);
 
@@ -316,7 +312,7 @@ async function processOnionRequestErrorOnPath(
 
 function processAbortedRequest(abortSignal?: AbortSignal) {
   if (abortSignal?.aborted) {
-    window.log.warn('[path] Call aborted');
+    window?.log?.warn('[path] Call aborted');
     // this will make the pRetry stop
     throw new pRetry.AbortError('Request got aborted');
   }
@@ -342,7 +338,7 @@ async function processOnionResponse(
   try {
     ciphertext = await response.text();
   } catch (e) {
-    window.log.warn(e);
+    window?.log?.warn(e);
   }
 
   await processOnionRequestErrorOnPath(
@@ -354,7 +350,7 @@ async function processOnionResponse(
   );
 
   if (!ciphertext) {
-    window.log.warn(
+    window?.log?.warn(
       '[path] lokiRpc::processingOnionResponse - Target node return empty ciphertext'
     );
     throw new Error('Target node return empty ciphertext');
@@ -377,10 +373,13 @@ async function processOnionResponse(
     );
     plaintext = new TextDecoder().decode(plaintextBuffer);
   } catch (e) {
-    window.log.error('[path] lokiRpc::processingOnionResponse - decode error', e);
-    window.log.error('[path] lokiRpc::processingOnionResponse - symmetricKey', toHex(symmetricKey));
+    window?.log?.error('[path] lokiRpc::processingOnionResponse - decode error', e);
+    window?.log?.error(
+      '[path] lokiRpc::processingOnionResponse - symmetricKey',
+      toHex(symmetricKey)
+    );
     if (ciphertextBuffer) {
-      window.log.error(
+      window?.log?.error(
         '[path] lokiRpc::processingOnionResponse - ciphertextBuffer',
         toHex(ciphertextBuffer)
       );
@@ -389,13 +388,13 @@ async function processOnionResponse(
   }
 
   if (debug) {
-    window.log.debug('lokiRpc::processingOnionResponse - plaintext', plaintext);
+    window?.log?.debug('lokiRpc::processingOnionResponse - plaintext', plaintext);
   }
 
   try {
     const jsonRes = JSON.parse(plaintext, (key, value) => {
       if (typeof value === 'number' && value > Number.MAX_SAFE_INTEGER) {
-        window.log.warn('Received an out of bounds js number');
+        window?.log?.warn('Received an out of bounds js number');
       }
       return value;
     }) as Record<string, any>;
@@ -410,7 +409,7 @@ async function processOnionResponse(
 
     return jsonRes as SnodeResponse;
   } catch (e) {
-    window.log.error(
+    window?.log?.error(
       `[path] lokiRpc::processingOnionResponse - parse error outer json ${e.code} ${e.message} json: '${plaintext}'`
     );
     throw e;
@@ -458,14 +457,14 @@ async function handle421InvalidSwarm(snodeEd25519: string, body: string, associa
       // The snode isn't associated with the given public key anymore
       if (json.snodes?.length) {
         // the snode gave us the new swarm. Save it for the next retry
-        window.log.warn('Wrong swarm, now looking at snodes', json.snodes);
+        window?.log?.warn('Wrong swarm, now looking at snodes', json.snodes);
 
         return updateSwarmFor(associatedWith, json.snodes);
       }
       // remove this node from the swarm of this pubkey
       return dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
     } catch (e) {
-      window.log.warn(
+      window?.log?.warn(
         'Got error while parsing 421 result. Dropping this snode from the swarm of this pubkey',
         e
       );
@@ -473,7 +472,7 @@ async function handle421InvalidSwarm(snodeEd25519: string, body: string, associa
       return dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
     }
   }
-  window.log.warn('Got a 421 without an associatedWith publickey');
+  window?.log?.warn('Got a 421 without an associatedWith publickey');
 }
 
 /**
@@ -492,12 +491,12 @@ export async function incrementBadSnodeCountOrDrop(snodeEd25519: string, associa
   snodeFailureCount[snodeEd25519] = newFailureCount;
 
   if (newFailureCount >= snodeFailureThreshold) {
-    window.log.warn(`Failure threshold reached for: ${snodeEd25519}; dropping it.`);
+    window?.log?.warn(`Failure threshold reached for: ${snodeEd25519}; dropping it.`);
     if (associatedWith) {
-      window.log.info(`Dropping ${snodeEd25519} from swarm of ${associatedWith}`);
+      window?.log?.info(`Dropping ${snodeEd25519} from swarm of ${associatedWith}`);
       await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
     }
-    window.log.info(`Dropping ${snodeEd25519} from snodepool`);
+    window?.log?.info(`Dropping ${snodeEd25519} from snodepool`);
 
     dropSnodeFromSnodePool(snodeEd25519);
     // the snode was ejected from the pool so it won't be used again.
@@ -507,7 +506,7 @@ export async function incrementBadSnodeCountOrDrop(snodeEd25519: string, associa
     try {
       await OnionPaths.dropSnodeFromPath(snodeEd25519);
     } catch (e) {
-      window.log.warn(
+      window?.log?.warn(
         'dropSnodeFromPath, got error while patchingup... incrementing the whole path as bad',
         e
       );
@@ -515,7 +514,7 @@ export async function incrementBadSnodeCountOrDrop(snodeEd25519: string, associa
       await OnionPaths.incrementBadPathCountOrDrop(snodeEd25519);
     }
   } else {
-    window.log.warn(
+    window?.log?.warn(
       `Couldn't reach snode at: ${snodeEd25519}; setting his failure count to ${newFailureCount}`
     );
   }
@@ -594,13 +593,11 @@ const sendOnionRequest = async ({
   finalRelayOptions?: FinalRelayOptions;
   abortSignal?: AbortSignal;
 }) => {
-  const { log } = window;
-
   // get destination pubkey in array buffer format
   let destX25519hex = destX25519Any;
   if (typeof destX25519hex !== 'string') {
     // convert AB to hex
-    window.log.warn('destX25519hex was not a string');
+    window?.log?.warn('destX25519hex was not a string');
     destX25519hex = toHex(destX25519Any as any);
   }
 
@@ -635,7 +632,7 @@ const sendOnionRequest = async ({
       destCtx = await encryptForPubKey(destX25519hex, options);
     }
   } catch (e) {
-    log.error(
+    window?.log?.error(
       'loki_rpc::sendOnionRequest - encryptForPubKey failure [',
       e.code,
       e.message,
@@ -668,7 +665,7 @@ const sendOnionRequest = async ({
 
   const guardUrl = `https://${guardNode.ip}:${guardNode.port}/onion_req/v2`;
   // no logs for that one insecureNodeFetch as we do need to call insecureNodeFetch to our guardNode
-  // window.log.info('insecureNodeFetch => plaintext for sendOnionRequest');
+  // window?.log?.info('insecureNodeFetch => plaintext for sendOnionRequest');
 
   const response = await insecureNodeFetch(guardUrl, guardFetchOptions);
   return { response, decodingSymmetricKey: destCtx.symmetricKey };
@@ -744,7 +741,7 @@ export async function lokiOnionFetch(
         factor: 1,
         minTimeout: 1000,
         onFailedAttempt: e => {
-          window.log.warn(
+          window?.log?.warn(
             `onionFetchRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
           );
         },
@@ -753,7 +750,7 @@ export async function lokiOnionFetch(
 
     return retriedResult;
   } catch (e) {
-    window.log.warn('onionFetchRetryable failed ', e);
+    window?.log?.warn('onionFetchRetryable failed ', e);
     console.warn('error to show to user');
     return undefined;
   }

@@ -30,7 +30,7 @@
           _.contains(ids, receipt.get('reader'))
       );
       if (receipts.length) {
-        window.log.info('Found early read receipts for message');
+        window?.log?.info('Found early read receipts for message');
         this.remove(receipts);
       }
       return receipts;
@@ -66,7 +66,7 @@
         const message = await this.getTargetMessage(receipt.get('reader'), messages);
 
         if (!message) {
-          window.log.info(
+          window?.log?.info(
             'No message for read receipt',
             receipt.get('reader'),
             receipt.get('timestamp')
@@ -99,7 +99,7 @@
 
         this.remove(receipt);
       } catch (error) {
-        window.log.error(
+        window?.log?.error(
           'ReadReceipts.onReceipt error:',
           error && error.stack ? error.stack : error
         );

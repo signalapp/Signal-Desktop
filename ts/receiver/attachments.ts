@@ -33,7 +33,7 @@ export async function downloadAttachment(attachment: any) {
       // try to get the fileId from the end of the URL
       attachmentId = attachment.url;
     }
-    window.log.info('Download v2 file server attachment');
+    window?.log?.info('Download v2 file server attachment');
     res = await FSv2.downloadFileFromFSv2(attachmentId);
   } else if (!defaultFileserver) {
     // TODO: we need attachments to remember which API should be used to retrieve them
@@ -50,7 +50,7 @@ export async function downloadAttachment(attachment: any) {
   }
 
   if (res.byteLength === 0) {
-    window.log.error('Failed to download attachment. Length is 0');
+    window?.log?.error('Failed to download attachment. Length is 0');
     throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
   }
 
@@ -106,7 +106,7 @@ export async function downloadAttachmentOpenGroupV2(
     const dataUintFromUrl = await downloadFileOpenGroupV2ByUrl(attachment, roomInfos);
 
     if (!dataUintFromUrl?.length) {
-      window.log.error('Failed to download attachment. Length is 0');
+      window?.log?.error('Failed to download attachment. Length is 0');
       throw new Error(`Failed to download attachment. Length is 0 for ${attachment}`);
     }
     return dataUintFromUrl;
@@ -114,7 +114,7 @@ export async function downloadAttachmentOpenGroupV2(
   const dataUint = await downloadFileOpenGroupV2(attachment.id, roomInfos);
 
   if (!dataUint?.length) {
-    window.log.error('Failed to download attachment. Length is 0');
+    window?.log?.error('Failed to download attachment. Length is 0');
     throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
   }
 
@@ -132,7 +132,7 @@ export async function downloadAttachmentOpenGroupV2(
   } else {
     // nothing to do, the attachment has already the correct size.
     // There is just no padding included, which is what we agreed on
-    window.log.info('Received opengroupv2 unpadded attachment');
+    window?.log?.info('Received opengroupv2 unpadded attachment');
   }
 
   return {

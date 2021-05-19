@@ -132,11 +132,11 @@ window.log = {
 
 window.onerror = (message, script, line, col, error) => {
   const errorInfo = error && error.stack ? error.stack : JSON.stringify(error);
-  window.log.error(`Top-level unhandled error: ${errorInfo}`);
+  window?.log?.error(`Top-level unhandled error: ${errorInfo}`);
 };
 
 window.addEventListener('unhandledrejection', rejectionEvent => {
   const error = rejectionEvent.reason;
   const errorInfo = error && error.stack ? error.stack : error;
-  window.log.error('Top-level unhandled promise rejection:', errorInfo);
+  window?.log?.error('Top-level unhandled promise rejection:', errorInfo);
 });

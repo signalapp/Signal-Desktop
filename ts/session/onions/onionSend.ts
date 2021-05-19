@@ -78,10 +78,10 @@ export const getOnionPathForSending = async () => {
   try {
     pathNodes = await OnionPaths.getOnionPath();
   } catch (e) {
-    window.log.error(`sendViaOnion - getOnionPath Error ${e.code} ${e.message}`);
+    window?.log?.error(`sendViaOnion - getOnionPath Error ${e.code} ${e.message}`);
   }
   if (!pathNodes?.length) {
-    window.log.warn('sendViaOnion - failing, no path available');
+    window?.log?.warn('sendViaOnion - failing, no path available');
     // should we retry?
     return null;
   }
@@ -145,7 +145,7 @@ export const sendViaOnion = async (
     typeof destinationX25519Key !== 'string' ? toHex(destinationX25519Key) : destinationX25519Key;
   // FIXME audric looks like this might happen for opengroupv1
   if (!destinationX25519Key || typeof destinationX25519Key !== 'string') {
-    window.log.error('sendViaOnion - called without a server public key or not a string key');
+    window?.log?.error('sendViaOnion - called without a server public key or not a string key');
   }
 
   const defaultedOptions = initOptionsWithDefaults(options);
@@ -178,17 +178,18 @@ export const sendViaOnion = async (
       },
       {
         retries: 10, // each path can fail 3 times before being dropped, we have 3 paths at most
-        factor: 1,
-        minTimeout: 1000,
+        factor: 2,
+        minTimeout: 200,
+        maxTimeout: 4000,
         onFailedAttempt: e => {
-          window.log.warn(
+          window?.log?.warn(
             `sendViaOnionRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
           );
         },
       }
     );
   } catch (e) {
-    window.log.warn('sendViaOnionRetryable failed ', e);
+    window?.log?.warn('sendViaOnionRetryable failed ', e);
     console.warn('error to show to user', e);
     return null;
   }
@@ -213,7 +214,7 @@ export const sendViaOnion = async (
     try {
       body = JSON.parse(result.body);
     } catch (e) {
-      window.log.error("sendViaOnion Can't decode JSON body", typeof result.body, result.body);
+      window?.log?.error("sendViaOnion Can't decode JSON body", typeof result.body, result.body);
     }
   }
   // result.status has the http response code
@@ -279,7 +280,7 @@ export const serverRequest = async (
       fetchOptions.agent = snodeHttpsAgent;
     }
   } catch (e) {
-    window.log.error('loki_app_dot_net:::serverRequest - set up error:', e.code, e.message);
+    window?.log?.error('loki_app_dot_net:::serverRequest - set up error:', e.code, e.message);
     return {
       err: e,
       ok: false,
@@ -313,7 +314,7 @@ export const serverRequest = async (
       }
     } else {
       // we end up here only if window.lokiFeatureFlags.useFileOnionRequests is false
-      window.log.info(`insecureNodeFetch => plaintext for ${url}`);
+      window?.log?.info(`insecureNodeFetch => plaintext for ${url}`);
       result = await insecureNodeFetch(url, fetchOptions);
 
       txtResponse = await result.text();
@@ -328,7 +329,7 @@ export const serverRequest = async (
     }
   } catch (e) {
     if (txtResponse) {
-      window.log.error(
+      window?.log?.error(
         `loki_app_dot_net:::serverRequest - ${mode} error`,
         e.code,
         e.message,
@@ -337,7 +338,7 @@ export const serverRequest = async (
         url.toString()
       );
     } else {
-      window.log.error(
+      window?.log?.error(
         `loki_app_dot_net:::serverRequest - ${mode} error`,
         e.code,
         e.message,

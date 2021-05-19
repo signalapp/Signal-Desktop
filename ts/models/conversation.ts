@@ -351,7 +351,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const device = new PubKey(recipientId);
     getMessageQueue()
       .sendToPubKey(device, typingMessage)
-      .catch(window.log.error);
+      .catch(window?.log?.error);
   }
 
   public async cleanup() {
@@ -442,7 +442,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const newAdmins = _.sortBy(groupAdmins);
 
     if (_.isEqual(existingAdmins, newAdmins)) {
-      // window.log.info(
+      // window?.log?.info(
       //   'Skipping updates of groupAdmins/moderators. No change detected.'
       // );
       return;
@@ -720,7 +720,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const now = Date.now();
 
-    window.log.info('Sending message to conversation', this.idForLogging(), 'with timestamp', now);
+    window?.log?.info(
+      'Sending message to conversation',
+      this.idForLogging(),
+      'with timestamp',
+      now
+    );
     // be sure an empty quote is marked as undefined rather than being empty
     // otherwise upgradeMessageSchema() will return an object with an empty array
     // and this.get('quote') will be true, even if there is no quote.
@@ -845,7 +850,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return null;
     }
 
-    window.log.info("Update conversation 'expireTimer'", {
+    window?.log?.info("Update conversation 'expireTimer'", {
       id: this.idForLogging(),
       expireTimer,
       source,
@@ -910,7 +915,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);
     } else {
-      window.log.warn('TODO: Expiration update for closed groups are to be updated');
+      window?.log?.warn('TODO: Expiration update for closed groups are to be updated');
       const expireUpdateForGroup = {
         ...expireUpdate,
         groupId: this.get('id'),
@@ -958,7 +963,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isMediumGroup()) {
       await leaveClosedGroup(this.id);
     } else {
-      window.log.error('Cannot leave a non-medium group conversation');
+      window?.log?.error('Cannot leave a non-medium group conversation');
       throw new Error(
         'Legacy group are not supported anymore. You need to create this group again.'
       );
@@ -1014,7 +1019,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         this.set({ unreadCount: 0 });
         await this.commit();
       } else {
-        // window.log.info('markRead(): nothing newly read.');
+        // window?.log?.info('markRead(): nothing newly read.');
       }
       return;
     }
@@ -1053,7 +1058,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     if (this.isPrivate() && read.length && options.sendReadReceipts) {
-      window.log.info(`Sending ${read.length} read receipts`);
+      window?.log?.info(`Sending ${read.length} read receipts`);
       if (window.storage.get('read-receipt-setting')) {
         await Promise.all(
           _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
@@ -1119,7 +1124,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   // maybe "Backend" instead of "Source"?
   public async setPublicSource(newServer: any, newChannelId: any) {
     if (!this.isPublic()) {
-      window.log.warn(`trying to setPublicSource on non public chat conversation ${this.id}`);
+      window?.log?.warn(`trying to setPublicSource on non public chat conversation ${this.id}`);
       return;
     }
     if (this.get('server') !== newServer || this.get('channelId') !== newChannelId) {
@@ -1134,7 +1139,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
   public getPublicSource() {
     if (!this.isPublic()) {
-      window.log.warn(`trying to getPublicSource on non public chat conversation ${this.id}`);
+      window?.log?.warn(`trying to getPublicSource on non public chat conversation ${this.id}`);
       return null;
     }
     return {
@@ -1269,7 +1274,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const accessKey = fromArrayBufferToBase64(accessKeyBuffer);
       this.set({ accessKey });
     } catch (e) {
-      window.log.warn(`Failed to derive access key for ${this.id}`);
+      window?.log?.warn(`Failed to derive access key for ${this.id}`);
     }
   }
 
@@ -1509,7 +1514,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageId = message.id;
     const isExpiringMessage = this.isExpiringMessage(messageJSON);
 
-    // window.log.info('Add notification', {
+    // window?.log?.info('Add notification', {
     //   conversationId: this.idForLogging(),
     //   isExpiringMessage,
     //   messageSentAt,

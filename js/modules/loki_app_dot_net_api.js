@@ -436,7 +436,7 @@ class LokiAppDotNetServerAPI {
 
     const anyFailures = results.some(test => !test);
     if (anyFailures) {
-      window.log.info('failed to add moderator:', results);
+      window?.log?.info('failed to add moderator:', results);
     }
     return !anyFailures;
   }
@@ -460,7 +460,7 @@ class LokiAppDotNetServerAPI {
     );
     const anyFailures = results.some(test => !test);
     if (anyFailures) {
-      window.log.info('failed to remove moderator:', results);
+      window?.log?.info('failed to remove moderator:', results);
     }
     return !anyFailures;
   }
@@ -716,7 +716,7 @@ class LokiPublicChannelAPI {
       const item = await window.Signal.Data.getItemById('identityKey');
       const keyPair = (item && item.value) || undefined;
       if (!keyPair) {
-        window.log.error('Could not get our Keypair from getItemById');
+        window?.log?.error('Could not get our Keypair from getItemById');
       }
       this.myPrivateKey = keyPair.privKey;
     }
@@ -1409,7 +1409,7 @@ class LokiPublicChannelAPI {
           // - update their conversation with a potentially new avatar
           return messageData;
         } catch (e) {
-          window.log.error('pollOnceForMessages: caught error:', e);
+          window?.log?.error('pollOnceForMessages: caught error:', e);
           return false;
         }
       })

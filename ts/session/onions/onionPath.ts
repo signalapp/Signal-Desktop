@@ -14,8 +14,29 @@ type SnodePath = Array<SnodePool.Snode>;
 const onionRequestHops = 3;
 let onionPaths: Array<SnodePath> = [];
 
-// hold the failure count of the path starting with the snode ed25519 pubkey
-const pathFailureCount: Record<string, number> = {};
+/**
+ * Used for testing only
+ * @returns a copy of the onion path currently used by the app.
+ *
+ */
+export const getTestOnionPath = () => {
+  return _.cloneDeep(onionPaths);
+};
+
+/**
+ * Used for testing only. Clears the saved onion paths
+ *
+ */
+export const clearTestOnionPath = () => {
+  onionPaths = [];
+};
+
+//
+/**
+ * hold the failure count of the path starting with the snode ed25519 pubkey.
+ * exported just for tests. do not interact with this directly
+ */
+export const pathFailureCount: Record<string, number> = {};
 
 // The number of times a path can fail before it's replaced.
 const pathFailureThreshold = 3;
@@ -52,13 +73,13 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
   );
 
   if (pathWithSnodeIndex === -1) {
-    window.log.warn(
+    window?.log?.warn(
       `Could not drop ${ed25519Str(snodeEd25519)} from path index: ${pathWithSnodeIndex}`
     );
 
     return;
   }
-  window.log.info(
+  window?.log?.info(
     `dropping snode ${ed25519Str(snodeEd25519)} from path index: ${pathWithSnodeIndex}`
   );
   // make a copy now so we don't alter the real one while doing stuff here
@@ -75,7 +96,7 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
 
   pathtoPatchUp = pathtoPatchUp.filter(snode => snode.pubkey_ed25519 !== snodeEd25519);
 
-  const ed25519KeysToExclude = _.flatten(oldPaths.map(p => p.map(m => m.pubkey_ed25519)));
+  const ed25519KeysToExclude = _.flattenDeep(oldPaths).map(m => m.pubkey_ed25519);
   // this call throws if it cannot return a valid snode.
   const snodeToAppendToPath = await SnodePool.getRandomSnode(ed25519KeysToExclude);
   // Don't test the new snode as this would reveal the user's IP
@@ -84,11 +105,9 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
 }
 
 export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<SnodePool.Snode>> {
-  const { log } = window;
-
   let attemptNumber = 0;
   while (onionPaths.length < minimumGuardCount) {
-    log.error(
+    window?.log?.error(
       `Must have at least ${minimumGuardCount} good onion paths, actual: ${onionPaths.length}, attempt #${attemptNumber} fetching more...`
     );
     // eslint-disable-next-line no-await-in-loop
@@ -106,7 +125,7 @@ export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<S
     : onionPaths;
 
   if (!onionPathsWithoutExcluded) {
-    log.error('LokiSnodeAPI::getOnionPath - no path in', onionPathsWithoutExcluded);
+    window?.log?.error('LokiSnodeAPI::getOnionPath - no path in', onionPathsWithoutExcluded);
     return [];
   }
 
@@ -124,18 +143,18 @@ export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<S
  */
 export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
   const pathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === guardNodeEd25519);
-  window.log.info(
+  window?.log?.info(
     `\t\tincrementBadPathCountOrDrop starting with guard ${ed25519Str(guardNodeEd25519)}`
   );
 
   if (pathIndex === -1) {
-    window.log.info('Did not find path with this guard node');
+    window?.log?.info('Did not find path with this guard node');
     return;
   }
 
   const pathWithIssues = onionPaths[pathIndex];
 
-  window.log.info('handling bad path for path index', pathIndex);
+  window?.log?.info('handling bad path for path index', pathIndex);
   const oldPathFailureCount = pathFailureCount[guardNodeEd25519] || 0;
 
   // tslint:disable: prefer-for-of
@@ -164,11 +183,10 @@ async function dropPathStartingWithGuardNode(guardNodeEd25519: string) {
   // we are dropping it. Reset the counter in case this same guard gets choosen later
   const failingPathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === guardNodeEd25519);
   if (failingPathIndex === -1) {
-    debugger;
-    window.log.warn('No such path starts with this guard node ');
+    window?.log?.warn('No such path starts with this guard node ');
     return;
   }
-  window.log.info(
+  window?.log?.info(
     `Dropping path starting with guard node ${ed25519Str(
       guardNodeEd25519
     )}; index:${failingPathIndex}`
@@ -188,9 +206,7 @@ async function dropPathStartingWithGuardNode(guardNodeEd25519: string) {
 }
 
 async function testGuardNode(snode: SnodePool.Snode) {
-  const { log } = window;
-
-  log.info(`Testing a candidate guard node ${ed25519Str(snode.pubkey_ed25519)}`);
+  window?.log?.info(`Testing a candidate guard node ${ed25519Str(snode.pubkey_ed25519)}`);
 
   // Send a post request and make sure it is OK
   const endpoint = '/storage_rpc/v1';
@@ -222,31 +238,35 @@ async function testGuardNode(snode: SnodePool.Snode) {
   try {
     // Log this line for testing
     // curl -k -X POST -H 'Content-Type: application/json' -d '"+fetchOptions.body.replace(/"/g, "\\'")+"'", url
-    window.log.info('insecureNodeFetch => plaintext for testGuardNode');
+    window?.log?.info('insecureNodeFetch => plaintext for testGuardNode');
 
     response = await insecureNodeFetch(url, fetchOptions);
   } catch (e) {
     if (e.type === 'request-timeout') {
-      log.warn('test timeout for node,', snode);
+      window?.log?.warn('test timeout for node,', snode);
     }
     return false;
   }
 
   if (!response.ok) {
     const tg = await response.text();
-    log.info('Node failed the guard test:', snode);
+    window?.log?.info('Node failed the guard test:', snode);
   }
 
   return response.ok;
 }
 
-async function selectGuardNodes(): Promise<Array<SnodePool.Snode>> {
-  const { log } = window;
-
+/**
+ * Only exported for testing purpose. DO NOT use this directly
+ */
+export async function selectGuardNodes(): Promise<Array<SnodePool.Snode>> {
   // `getRandomSnodePool` is expected to refresh itself on low nodes
   const nodePool = await SnodePool.getRandomSnodePool();
   if (nodePool.length < desiredGuardCount) {
-    log.error('Could not select guard nodes. Not enough nodes in the pool: ', nodePool.length);
+    window?.log?.error(
+      'Could not select guard nodes. Not enough nodes in the pool: ',
+      nodePool.length
+    );
     return [];
   }
 
@@ -259,7 +279,7 @@ async function selectGuardNodes(): Promise<Array<SnodePool.Snode>> {
   // eslint-disable-next-line-no-await-in-loop
   while (selectedGuardNodes.length < desiredGuardCount) {
     if (shuffled.length < desiredGuardCount) {
-      log.error('Not enought nodes in the pool');
+      window?.log?.error('Not enought nodes in the pool');
       break;
     }
 
@@ -277,7 +297,7 @@ async function selectGuardNodes(): Promise<Array<SnodePool.Snode>> {
   }
 
   if (selectedGuardNodes.length < desiredGuardCount) {
-    log.error(`Cound't get enough guard nodes, only have: ${guardNodes.length}`);
+    window?.log?.error(`Cound't get enough guard nodes, only have: ${guardNodes.length}`);
   }
   guardNodes = selectedGuardNodes;
 
@@ -289,9 +309,7 @@ async function selectGuardNodes(): Promise<Array<SnodePool.Snode>> {
 }
 
 async function buildNewOnionPathsWorker() {
-  const { log } = window;
-
-  log.info('LokiSnodeAPI::buildNewOnionPaths - building new onion paths...');
+  window?.log?.info('LokiSnodeAPI::buildNewOnionPaths - building new onion paths...');
 
   const allNodes = await SnodePool.getRandomSnodePool();
 
@@ -300,7 +318,7 @@ async function buildNewOnionPathsWorker() {
     const nodes = await getGuardNodes();
 
     if (nodes.length === 0) {
-      log.warn(
+      window?.log?.warn(
         'LokiSnodeAPI::buildNewOnionPaths - no guard nodes in DB. Will be selecting new guards nodes...'
       );
     } else {
@@ -309,7 +327,7 @@ async function buildNewOnionPathsWorker() {
       guardNodes = allNodes.filter(x => edKeys.indexOf(x.pubkey_ed25519) !== -1);
 
       if (guardNodes.length < edKeys.length) {
-        log.warn(
+        window?.log?.warn(
           `LokiSnodeAPI::buildNewOnionPaths - could not find some guard nodes: ${guardNodes.length}/${edKeys.length} left`
         );
       }
@@ -318,17 +336,17 @@ async function buildNewOnionPathsWorker() {
   // If guard nodes is still empty (the old nodes are now invalid), select new ones:
   if (guardNodes.length < minimumGuardCount) {
     // TODO: don't throw away potentially good guard nodes
-    guardNodes = await selectGuardNodes();
+    guardNodes = await exports.selectGuardNodes();
   }
 
   // TODO: select one guard node and 2 other nodes randomly
   let otherNodes = _.differenceBy(allNodes, guardNodes, 'pubkey_ed25519');
-
   if (otherNodes.length < 2) {
-    log.warn(
+    window?.log?.warn(
       'LokiSnodeAPI::buildNewOnionPaths - Too few nodes to build an onion path! Refreshing pool and retrying'
     );
     await SnodePool.refreshRandomPool();
+    // FIXME this is a recursive call limited to only one call at a time. This cannot work
     await buildNewOnionPathsOneAtATime();
     return;
   }
@@ -358,5 +376,5 @@ async function buildNewOnionPathsWorker() {
     onionPaths.push(path);
   }
 
-  log.info(`Built ${onionPaths.length} onion paths`);
+  window?.log?.info(`Built ${onionPaths.length} onion paths`);
 }

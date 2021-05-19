@@ -15,12 +15,12 @@ function MessageReceiver() {
 
   // only do this once to prevent duplicates
   if (lokiPublicChatAPI) {
-    window.log.info('Binding open group events handler', openGroupBound);
+    window?.log?.info('Binding open group events handler', openGroupBound);
     if (!openGroupBound) {
       openGroupBound = true;
     }
   } else {
-    window.log.warn('Can not handle open group data, API is not available');
+    window?.log?.warn('Can not handle open group data, API is not available');
   }
 }
 
@@ -57,13 +57,13 @@ MessageReceiver.prototype.extend({
     this.incoming = [this.pending];
   },
   stopProcessing() {
-    window.log.info('MessageReceiver: stopProcessing requested');
+    window?.log?.info('MessageReceiver: stopProcessing requested');
     this.stoppingProcessing = true;
     return this.close();
   },
   shutdown() {},
   async close() {
-    window.log.info('MessageReceiver.close()');
+    window?.log?.info('MessageReceiver.close()');
     this.calledClose = true;
 
     // stop polling all open group rooms

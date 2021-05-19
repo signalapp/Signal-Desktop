@@ -61,7 +61,7 @@
 
         const message = await this.getTargetMessage(receipt.get('source'), messages);
         if (!message) {
-          window.log.info(
+          window?.log?.info(
             'No message for delivery receipt',
             receipt.get('source'),
             receipt.get('timestamp')
@@ -94,7 +94,7 @@
 
         this.remove(receipt);
       } catch (error) {
-        window.log.error(
+        window?.log?.error(
           'DeliveryReceipts.onReceipt error:',
           error && error.stack ? error.stack : error
         );

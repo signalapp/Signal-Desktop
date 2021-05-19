@@ -102,7 +102,7 @@ export class AttachmentUtils {
         pointer.id = uploadToV2Result.fileId;
         pointer.url = uploadToV2Result.fileUrl;
       } else {
-        window.log.warn('upload to file server v2 failed');
+        window?.log?.warn('upload to file server v2 failed');
       }
     } else {
       const result = isAvatar

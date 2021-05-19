@@ -24,24 +24,24 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
     const plaintext = await decrypt(envelope, envelope.content);
 
     if (!plaintext) {
-      // window.log.warn('handleContentMessage: plaintext was falsey');
+      // window?.log?.warn('handleContentMessage: plaintext was falsey');
       return;
     } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;
     }
     await innerHandleContentMessage(envelope, plaintext);
   } catch (e) {
-    window.log.warn(e);
+    window?.log?.warn(e);
   }
 }
 
 async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBuffer) {
   // case .closedGroupCiphertext: for ios
-  window.log.info('received closed group message');
+  window?.log?.info('received closed group message');
   try {
     const hexEncodedGroupPublicKey = envelope.source;
     if (!GroupUtils.isMediumGroup(PubKey.cast(hexEncodedGroupPublicKey))) {
-      window.log.warn('received medium group message but not for an existing medium group');
+      window?.log?.warn('received medium group message but not for an existing medium group');
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }
     const encryptionKeyPairs = await getAllEncryptionKeyPairsForGroup(hexEncodedGroupPublicKey);
@@ -77,7 +77,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
         }
         keyIndex++;
       } catch (e) {
-        window.log.info(
+        window?.log?.info(
           `Failed to decrypt closed group with key index ${keyIndex}. We have ${encryptionKeyPairs.length} keys to try left.`
         );
       }
@@ -89,11 +89,11 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
       );
     }
     if (keyIndex !== 0) {
-      window.log.warn(
+      window?.log?.warn(
         'Decrypted a closed group message with not the latest encryptionkeypair we have'
       );
     }
-    window.log.info('ClosedGroup Message decrypted successfully with keyIndex:', keyIndex);
+    window?.log?.info('ClosedGroup Message decrypted successfully with keyIndex:', keyIndex);
 
     return removeMessagePadding(decryptedContent);
   } catch (e) {
@@ -104,7 +104,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
      *
      */
 
-    window.log.warn('decryptWithSessionProtocol for medium group message throw:', e);
+    window?.log?.warn('decryptWithSessionProtocol for medium group message throw:', e);
     const groupPubKey = PubKey.cast(envelope.source);
 
     // To enable back if we decide to enable encryption key pair request work again
@@ -200,7 +200,7 @@ async function decryptUnidentifiedSender(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ): Promise<ArrayBuffer | null> {
-  window.log.info('received unidentified sender message');
+  window?.log?.info('received unidentified sender message');
   try {
     const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
     if (!userX25519KeyPair) {
@@ -214,7 +214,7 @@ async function decryptUnidentifiedSender(
     const retSessionProtocol = await decryptWithSessionProtocol(envelope, ciphertext, ecKeyPair);
     return removeMessagePadding(retSessionProtocol);
   } catch (e) {
-    window.log.warn('decryptWithSessionProtocol for unidentified message throw:', e);
+    window?.log?.warn('decryptWithSessionProtocol for unidentified message throw:', e);
     return null;
   }
 }
@@ -250,7 +250,7 @@ async function decrypt(envelope: EnvelopePlus, ciphertext: ArrayBuffer): Promise
     }
 
     await updateCache(envelope, plaintext).catch((error: any) => {
-      window.log.error(
+      window?.log?.error(
         'decrypt failed to save decrypted message contents to cache:',
         error && error.stack ? error.stack : error
       );
@@ -317,10 +317,10 @@ export async function innerHandleContentMessage(
     if (blocked) {
       // We want to allow a blocked user message if that's a control message for a known group and the group is not blocked
       if (shouldDropBlockedUserMessage(content)) {
-        window.log.info('Dropping blocked user message');
+        window?.log?.info('Dropping blocked user message');
         return;
       } else {
-        window.log.info('Allowing group-control message only from blocked user');
+        window?.log?.info('Allowing group-control message only from blocked user');
       }
     }
 
@@ -354,14 +354,14 @@ export async function innerHandleContentMessage(
       return;
     }
   } catch (e) {
-    window.log.warn(e);
+    window?.log?.warn(e);
   }
 }
 
 function onReadReceipt(readAt: any, timestamp: any, reader: any) {
   const { storage, Whisper } = window;
 
-  window.log.info('read receipt', reader, timestamp);
+  window?.log?.info('read receipt', reader, timestamp);
 
   if (!storage.get('read-receipt-setting')) {
     return;
@@ -380,7 +380,7 @@ function onReadReceipt(readAt: any, timestamp: any, reader: any) {
 export function onDeliveryReceipt(source: any, timestamp: any) {
   const { Whisper } = window;
 
-  window.log.info('delivery receipt from', `${source}.${1}`, timestamp);
+  window?.log?.info('delivery receipt from', `${source}.${1}`, timestamp);
 
   const receipt = Whisper.DeliveryReceipts.add({
     timestamp,
@@ -438,7 +438,7 @@ async function handleTypingMessage(
     const typingTimestamp = Lodash.toNumber(timestamp);
 
     if (typingTimestamp !== envelopeTimestamp) {
-      window.log.warn(
+      window?.log?.warn(
         `Typing message envelope timestamp (${envelopeTimestamp}) did not match typing timestamp (${typingTimestamp})`
       );
       return;

@@ -18,7 +18,7 @@
         timestamp: message.get('sent_at'),
       });
       if (receipt) {
-        window.log.info('Found early read sync for message');
+        window?.log?.info('Found early read sync for message');
         this.remove(receipt);
         return receipt;
       }
@@ -41,7 +41,7 @@
         const wasMessageFound = Boolean(found);
         const wasNotificationFound = Boolean(notificationForMessage);
         const wasNotificationRemoved = Boolean(removedNotification);
-        window.log.info('Receive read sync:', {
+        window?.log?.info('Receive read sync:', {
           receiptSender,
           receiptTimestamp,
           wasMessageFound,
@@ -84,7 +84,10 @@
 
         this.remove(receipt);
       } catch (error) {
-        window.log.error('ReadSyncs.onReceipt error:', error && error.stack ? error.stack : error);
+        window?.log?.error(
+          'ReadSyncs.onReceipt error:',
+          error && error.stack ? error.stack : error
+        );
       }
     },
   }))();

@@ -224,7 +224,7 @@ function _cleanData(data: any): any {
       typeof value !== 'number' &&
       typeof value !== 'boolean'
     ) {
-      window.log.info(`_cleanData: key ${key} had type ${typeof value}`);
+      window?.log?.info(`_cleanData: key ${key} had type ${typeof value}`);
     }
   }
   return data;
@@ -238,7 +238,7 @@ async function _shutdown() {
   _shuttingDown = true;
 
   const jobKeys = Object.keys(_jobs);
-  window.log.info(`data.shutdown: starting process. ${jobKeys.length} jobs outstanding`);
+  window?.log?.info(`data.shutdown: starting process. ${jobKeys.length} jobs outstanding`);
 
   // No outstanding jobs, return immediately
   if (jobKeys.length === 0) {
@@ -248,7 +248,7 @@ async function _shutdown() {
   // Outstanding jobs; we need to wait until the last one is done
   _shutdownPromise = new Promise((resolve, reject) => {
     _shutdownCallback = (error: any) => {
-      window.log.info('data.shutdown: process complete');
+      window?.log?.info('data.shutdown: process complete');
       if (error) {
         return reject(error);
       }
@@ -269,7 +269,7 @@ function _makeJob(fnName: string) {
   const id = _jobCounter;
 
   if (_DEBUG) {
-    window.log.debug(`SQL channel job ${id} (${fnName}) started`);
+    window?.log?.debug(`SQL channel job ${id} (${fnName}) started`);
   }
   _jobs[id] = {
     fnName,
@@ -292,7 +292,7 @@ function _updateJob(id: number, data: any) {
         const end = Date.now();
         const delta = end - start;
         if (delta > 10) {
-          window.log.debug(`SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`);
+          window?.log?.debug(`SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`);
         }
       }
       return resolve(value);
@@ -300,7 +300,7 @@ function _updateJob(id: number, data: any) {
     reject: (error: any) => {
       _removeJob(id);
       const end = Date.now();
-      window.log.warn(`SQL channel job ${id} (${fnName}) failed in ${end - start}ms`);
+      window?.log?.warn(`SQL channel job ${id} (${fnName}) failed in ${end - start}ms`);
       return reject(error);
     },
   };

@@ -71,7 +71,7 @@ export const downloadFileFromFSv2 = async (
 ): Promise<ArrayBuffer | null> => {
   let fileId = fileIdOrCompleteUrl;
   if (!fileIdOrCompleteUrl) {
-    window.log.warn('Empty url to download for file v2');
+    window?.log?.warn('Empty url to download for file v2');
     return null;
   }
 

@@ -25,7 +25,7 @@ async function claimAuthToken(
   const result = await sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
-    window.log.warn(`Could not claim token, status code: ${statusCode}`);
+    window?.log?.warn(`Could not claim token, status code: ${statusCode}`);
     return null;
   }
   return authToken;
@@ -38,7 +38,7 @@ export async function getAuthToken({
   // first try to fetch from db a saved token.
   const roomDetails = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
   if (!roomDetails) {
-    window.log.warn('getAuthToken Room does not exist.');
+    window?.log?.warn('getAuthToken Room does not exist.');
     return null;
   }
   if (roomDetails?.token) {
@@ -47,21 +47,21 @@ export async function getAuthToken({
 
   await allowOnlyOneAtATime(`getAuthTokenV2${serverUrl}:${roomId}`, async () => {
     try {
-      window.log.info('TRIGGERING NEW AUTH TOKEN WITH', { serverUrl, roomId });
+      window?.log?.info('TRIGGERING NEW AUTH TOKEN WITH', { serverUrl, roomId });
       const token = await requestNewAuthToken({ serverUrl, roomId });
       if (!token) {
-        window.log.warn('invalid new auth token', token);
+        window?.log?.warn('invalid new auth token', token);
         return;
       }
       const claimedToken = await claimAuthToken(token, serverUrl, roomId);
       if (!claimedToken) {
-        window.log.warn('invalid claimed token', claimedToken);
+        window?.log?.warn('invalid claimed token', claimedToken);
       }
       // still save it to the db. just to mark it as to be refreshed later
       roomDetails.token = claimedToken || '';
       await saveV2OpenGroupRoom(roomDetails);
     } catch (e) {
-      window.log.error('Failed to getAuthToken', e);
+      window?.log?.error('Failed to getAuthToken', e);
       throw e;
     }
   });
@@ -71,7 +71,7 @@ export async function getAuthToken({
     roomId,
   });
   if (!refreshedRoomDetails) {
-    window.log.warn('getAuthToken Room does not exist.');
+    window?.log?.warn('getAuthToken Room does not exist.');
     return null;
   }
   if (refreshedRoomDetails?.token) {
@@ -95,12 +95,12 @@ export const deleteAuthToken = async ({
     const result = await sendApiV2Request(request);
     const statusCode = parseStatusCodeFromOnionRequest(result);
     if (statusCode !== 200) {
-      window.log.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
+      window?.log?.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
       return false;
     }
     return true;
   } catch (e) {
-    window.log.error('deleteAuthToken failed:', e);
+    window?.log?.error('deleteAuthToken failed:', e);
     return false;
   }
 };
@@ -129,7 +129,7 @@ export async function requestNewAuthToken({
   const json = (await sendApiV2Request(request)) as any;
   // parse the json
   if (!json || !json?.result?.challenge) {
-    window.log.warn('Parsing failed');
+    window?.log?.warn('Parsing failed');
     return null;
   }
   const {
@@ -138,7 +138,7 @@ export async function requestNewAuthToken({
   } = json?.result?.challenge;
 
   if (!base64EncodedCiphertext || !base64EncodedEphemeralPublicKey) {
-    window.log.warn('Parsing failed');
+    window?.log?.warn('Parsing failed');
     return null;
   }
   const ciphertext = fromBase64ToArrayBuffer(base64EncodedCiphertext);
@@ -155,7 +155,7 @@ export async function requestNewAuthToken({
 
     return token;
   } catch (e) {
-    window.log.error('Failed to decrypt token open group v2');
+    window?.log?.error('Failed to decrypt token open group v2');
     return null;
   }
 }

@@ -45,7 +45,7 @@ async function handleGroups(
     if (conversation.get('left')) {
       // TODO: Maybe we shouldn't assume this message adds us:
       // we could maybe still get this message by mistake
-      window.log.warn('re-added to a left group');
+      window?.log?.warn('re-added to a left group');
       attributes.left = false;
     }
 
@@ -114,18 +114,18 @@ async function copyFromQuotedMessage(
     // Exponential backoff, giving up after 5 attempts:
     if (attemptCount < 5) {
       setTimeout(() => {
-        window.log.info(`Looking for the message id : ${id}, attempt: ${attemptCount + 1}`);
+        window?.log?.info(`Looking for the message id : ${id}, attempt: ${attemptCount + 1}`);
         void copyFromQuotedMessage(msg, quote, attemptCount + 1);
       }, attemptCount * attemptCount * 500);
     } else {
-      window.log.warn(`We did not found quoted message ${id} after ${attemptCount} attempts.`);
+      window?.log?.warn(`We did not found quoted message ${id} after ${attemptCount} attempts.`);
     }
 
     quote.referencedMessageNotFound = true;
     return;
   }
 
-  window.log.info(`Found quoted message id: ${id}`);
+  window?.log?.info(`Found quoted message id: ${id}`);
   quote.referencedMessageNotFound = false;
 
   const queryMessage = MessageController.getInstance().register(found.id, found);
@@ -152,7 +152,7 @@ async function copyFromQuotedMessage(
       await upgradedMessage.commit();
     }
   } catch (error) {
-    window.log.error(
+    window?.log?.error(
       'Problem upgrading message quoted message from database',
       Errors.toLogFormat(error)
     );
@@ -194,7 +194,7 @@ function handleLinkPreviews(messageBody: string, messagePreview: any, message: M
     (item: any) => (item.image || item.title) && urls.includes(item.url)
   );
   if (preview.length < incomingPreview.length) {
-    window.log.info(
+    window?.log?.info(
       `${message.idForLogging()}: Eliminated ${preview.length -
         incomingPreview.length} previews with invalid urls'`
     );
@@ -413,7 +413,7 @@ async function handleExpirationTimerUpdate(
   });
   conversation.set({ expireTimer });
 
-  window.log.info("Update conversation 'expireTimer'", {
+  window?.log?.info("Update conversation 'expireTimer'", {
     id: conversation.idForLogging(),
     expireTimer,
     source: 'handleDataMessage',
@@ -430,7 +430,7 @@ export async function handleMessageJob(
   confirm: () => void,
   source: string
 ) {
-  window.log.info(
+  window?.log?.info(
     `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
   );
 
@@ -443,7 +443,9 @@ export async function handleMessageJob(
         if (confirm) {
           confirm();
         }
-        window.log.info('Dropping ExpireTimerUpdate message as we already have the same one set.');
+        window?.log?.info(
+          'Dropping ExpireTimerUpdate message as we already have the same one set.'
+        );
         return;
       }
       await handleExpirationTimerUpdate(conversation, message, source, expireTimer);
@@ -489,7 +491,7 @@ export async function handleMessageJob(
       message.merge(fetched);
 
       if (previousUnread !== message.get('unread')) {
-        window.log.warn(
+        window?.log?.warn(
           'Caught race condition on new message read state! ' + 'Manually starting timers.'
         );
         // We call markRead() even though the message is already
@@ -498,7 +500,7 @@ export async function handleMessageJob(
         await message.markRead(Date.now());
       }
     } catch (error) {
-      window.log.warn('handleDataMessage: Message', message.idForLogging(), 'was deleted');
+      window?.log?.warn('handleDataMessage: Message', message.idForLogging(), 'was deleted');
     }
 
     if (message.get('unread')) {
@@ -510,7 +512,7 @@ export async function handleMessageJob(
     }
   } catch (error) {
     const errorForLog = error && error.stack ? error.stack : error;
-    window.log.error('handleDataMessage', message.idForLogging(), 'error:', errorForLog);
+    window?.log?.error('handleDataMessage', message.idForLogging(), 'error:', errorForLog);
 
     throw error;
   }

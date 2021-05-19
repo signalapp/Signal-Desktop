@@ -146,7 +146,7 @@
       const allMembersAfterUpdate = window.Lodash.concat(newMembers, [ourPK]);
 
       if (!this.isAdmin) {
-        window.log.warn('Skipping update of members, we are not the admin');
+        window?.log?.warn('Skipping update of members, we are not the admin');
         return;
       }
       // new members won't include the zombies. We are the admin and we want to remove them not matter what
@@ -171,7 +171,7 @@
 
       const xor = _.xor(membersToRemove, notPresentInOld);
       if (xor.length === 0) {
-        window.log.info('skipping group update: no detected changes in group member list');
+        window?.log?.info('skipping group update: no detected changes in group member list');
 
         return;
       }

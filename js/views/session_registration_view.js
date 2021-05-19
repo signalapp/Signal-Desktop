@@ -28,7 +28,7 @@
     },
 
     log(s) {
-      window.log.info(s);
+      window?.log?.info(s);
       this.$('#status').text(s);
     },
     displayError(error) {

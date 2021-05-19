@@ -49,7 +49,7 @@ class WorkerInterface {
     const id = this._jobCounter;
 
     if (this._DEBUG) {
-      window.log.info(`Worker job ${id} (${fnName}) started`);
+      window?.log?.info(`Worker job ${id} (${fnName}) started`);
     }
     this._jobs[id] = {
       fnName,
@@ -70,14 +70,14 @@ class WorkerInterface {
         this._removeJob(id);
         const end = Date.now();
         if (this._DEBUG) {
-          window.log.info(`Worker job ${id} (${fnName}) succeeded in ${end - start}ms`);
+          window?.log?.info(`Worker job ${id} (${fnName}) succeeded in ${end - start}ms`);
         }
         return resolve(value);
       },
       reject: error => {
         this._removeJob(id);
         const end = Date.now();
-        window.log.info(`Worker job ${id} (${fnName}) failed in ${end - start}ms`);
+        window?.log?.info(`Worker job ${id} (${fnName}) failed in ${end - start}ms`);
         return reject(error);
       },
     };

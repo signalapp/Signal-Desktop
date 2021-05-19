@@ -21,7 +21,7 @@ const defaultRoomsSlice = createSlice({
   initialState,
   reducers: {
     updateDefaultRooms(state, action) {
-      window.log.warn('updating default rooms', action.payload);
+      window?.log?.warn('updating default rooms', action.payload);
       return action.payload as DefaultRoomsState;
     },
     updateDefaultBase64RoomData(state, action: PayloadAction<Base64Update>) {

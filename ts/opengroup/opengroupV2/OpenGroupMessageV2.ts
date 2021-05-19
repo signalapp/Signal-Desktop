@@ -47,7 +47,7 @@ export class OpenGroupMessageV2 {
     } = json;
 
     if (!base64EncodedData || !sentTimestamp) {
-      window.log.info('invalid json to build OpenGroupMessageV2');
+      window?.log?.info('invalid json to build OpenGroupMessageV2');
       throw new Error('OpengroupV2Message fromJson() failed');
     }
     return new OpenGroupMessageV2({
@@ -62,7 +62,7 @@ export class OpenGroupMessageV2 {
   public async sign(): Promise<OpenGroupMessageV2> {
     const ourKeyPair = await UserUtils.getIdentityKeyPair();
     if (!ourKeyPair) {
-      window.log.warn("Couldn't find user X25519 key pair.");
+      window?.log?.warn("Couldn't find user X25519 key pair.");
       throw new Error("Couldn't sign message");
     }
 

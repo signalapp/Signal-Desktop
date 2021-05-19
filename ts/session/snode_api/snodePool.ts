@@ -49,16 +49,14 @@ export type SeedNode = {
 
 // just get the filtered list
 async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Promise<Array<Snode>> {
-  const { log } = window;
-
   if (!seedNodes.length) {
-    log.info('loki_snode_api::tryGetSnodeListFromLokidSeednode - seedNodes are empty');
+    window?.log?.info('loki_snode_api::tryGetSnodeListFromLokidSeednode - seedNodes are empty');
     return [];
   }
 
   const seedNode = _.sample(seedNodes);
   if (!seedNode) {
-    log.warn(
+    window?.log?.warn(
       'loki_snode_api::tryGetSnodeListFromLokidSeednode - Could not select random snodes from',
       seedNodes
     );
@@ -71,7 +69,7 @@ async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Pro
     snodes = await getSnodesFromSeedUrl(tryUrl);
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
-      log.warn(
+      window?.log?.warn(
         `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} did not return any snodes, falling back to IP`,
         seedNode.ip_url
       );
@@ -79,7 +77,7 @@ async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Pro
       const tryIpUrl = new URL(seedNode.ip_url);
       snodes = await getSnodesFromSeedUrl(tryIpUrl);
       if (snodes.length === 0) {
-        log.warn(
+        window?.log?.warn(
           `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.ip_url} did not return any snodes`
         );
         // does this error message need to be exactly this?
@@ -87,13 +85,13 @@ async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Pro
       }
     }
     if (snodes.length) {
-      log.info(
+      window?.log?.info(
         `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} returned ${snodes.length} snodes`
       );
     }
     return snodes;
   } catch (e) {
-    log.warn(
+    window?.log?.warn(
       'LokiSnodeAPI::tryGetSnodeListFromLokidSeednode - error',
       e.code,
       e.message,
@@ -117,7 +115,7 @@ export function dropSnodeFromSnodePool(snodeEd25519: string) {
   if (exists) {
     _.remove(randomSnodePool, x => x.pubkey_ed25519 === snodeEd25519);
 
-    window.log.warn(
+    window?.log?.warn(
       `Marking ${ed25519Str(snodeEd25519)} as unreachable, ${
         randomSnodePool.length
       } snodes remaining in randomPool`
@@ -148,12 +146,19 @@ export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Pro
   const snodePoolExcluding = randomSnodePool.filter(
     e => !excludingEd25519Snode.includes(e.pubkey_ed25519)
   );
-  if (!snodePoolExcluding) {
-    throw new window.textsecure.SeedNodeError(
-      'Not enough snodes with excluding length',
-      excludingEd25519Snode.length
-    );
+  if (!snodePoolExcluding || !snodePoolExcluding.length) {
+    if (window?.textsecure) {
+      throw new window.textsecure.SeedNodeError(
+        'Not enough snodes with excluding length',
+        excludingEd25519Snode.length
+      );
+    }
+    // used for tests
+    throw new Error('SeedNodeError');
   }
+  console.warn('randomSnodePool', randomSnodePool.length);
+  console.warn('excludingEd25519Snode', excludingEd25519Snode.length);
+  console.warn('snodePoolExcluding', snodePoolExcluding.length);
   return _.sample(snodePoolExcluding) as Snode;
 }
 
@@ -185,21 +190,19 @@ async function getSnodeListFromLokidSeednode(
 ): Promise<Array<Snode>> {
   const SEED_NODE_RETRIES = 3;
 
-  const { log } = window;
-
   if (!seedNodes.length) {
-    log.info('loki_snode_api::getSnodeListFromLokidSeednode - seedNodes are empty');
+    window?.log?.info('loki_snode_api::getSnodeListFromLokidSeednode - seedNodes are empty');
     return [];
   }
   let snodes: Array<Snode> = [];
   try {
     snodes = await tryGetSnodeListFromLokidSeednode(seedNodes);
   } catch (e) {
-    log.warn('loki_snode_api::getSnodeListFromLokidSeednode - error', e.code, e.message);
+    window?.log?.warn('loki_snode_api::getSnodeListFromLokidSeednode - error', e.code, e.message);
     // handle retries in case of temporary hiccups
     if (retries < SEED_NODE_RETRIES) {
       setTimeout(() => {
-        log.info(
+        window?.log?.info(
           'loki_snode_api::getSnodeListFromLokidSeednode - Retrying initialising random snode pool, try #',
           retries,
           'seed nodes total',
@@ -208,7 +211,7 @@ async function getSnodeListFromLokidSeednode(
         void getSnodeListFromLokidSeednode(seedNodes, retries + 1);
       }, retries * retries * 5000);
     } else {
-      log.error('loki_snode_api::getSnodeListFromLokidSeednode - failing');
+      window?.log?.error('loki_snode_api::getSnodeListFromLokidSeednode - failing');
       throw new window.textsecure.SeedNodeError('Failed to contact seed node');
     }
   }
@@ -216,33 +219,34 @@ async function getSnodeListFromLokidSeednode(
 }
 
 /**
- * Fetch all snodes from a seed nodes if we don't have enough snodes to make the request ourself
+ * Fetch all snodes from a seed nodes if we don't have enough snodes to make the request ourself.
+ * Exported only for tests. This is not to be used by the app directly
  * @param seedNodes the seednodes to use to fetch snodes details
  */
-async function refreshRandomPoolDetail(seedNodes: Array<SeedNode>): Promise<void> {
-  const { log } = window;
-
+export async function refreshRandomPoolDetail(seedNodes: Array<SeedNode>): Promise<Array<Snode>> {
   let snodes = [];
   try {
+    throw new Error('this should be stubed');
     snodes = await getSnodeListFromLokidSeednode(seedNodes);
     // make sure order of the list is random, so we get version in a non-deterministic way
     snodes = _.shuffle(snodes);
     // commit changes to be live
     // we'll update the version (in case they upgrade) every cycle
-    randomSnodePool = snodes.map((snode: any) => ({
+    const fetchSnodePool = snodes.map((snode: any) => ({
       ip: snode.public_ip,
       port: snode.storage_port,
       pubkey_x25519: snode.pubkey_x25519,
       pubkey_ed25519: snode.pubkey_ed25519,
       version: '',
     }));
-    log.info(
+    window?.log?.info(
       'LokiSnodeAPI::refreshRandomPool - Refreshed random snode pool with',
       randomSnodePool.length,
       'snodes'
     );
+    return fetchSnodePool;
   } catch (e) {
-    log.warn('LokiSnodeAPI::refreshRandomPool - error', e.code, e.message);
+    window?.log?.warn('LokiSnodeAPI::refreshRandomPool - error', e.code, e.message);
     /*
         log.error(
           'LokiSnodeAPI:::refreshRandomPoolPromise -  Giving up trying to contact seed node'
@@ -251,6 +255,7 @@ async function refreshRandomPoolDetail(seedNodes: Array<SeedNode>): Promise<void
     if (snodes.length === 0) {
       throw new window.textsecure.SeedNodeError('Failed to contact seed node');
     }
+    return [];
   }
 }
 /**
@@ -258,19 +263,21 @@ async function refreshRandomPoolDetail(seedNodes: Array<SeedNode>): Promise<void
  *  or if we have enough snodes, fetches the snode pool from one of the snode.
  */
 export async function refreshRandomPool(): Promise<void> {
-  const { log } = window;
+  if (!window.getSeedNodeList() || !window.getSeedNodeList().length) {
+    window?.log?.error(
+      'LokiSnodeAPI:::refreshRandomPool - getSeedNodeList has not been loaded yet'
+    );
 
-  if (!window.seedNodeList || !window.seedNodeList.length) {
-    log.error('LokiSnodeAPI:::refreshRandomPool - seedNodeList has not been loaded yet');
     return;
   }
   // tslint:disable-next-line:no-parameter-reassignment
-  const seedNodes = window.seedNodeList;
+  const seedNodes = window.getSeedNodeList();
 
   return allowOnlyOneAtATime('refreshRandomPool', async () => {
     // we don't have nodes to fetch the pool from them, so call the seed node instead.
     if (randomSnodePool.length < minSnodePoolCount) {
-      await refreshRandomPoolDetail(seedNodes);
+      randomSnodePool = await exports.refreshRandomPoolDetail(seedNodes);
+
       return;
     }
     try {
@@ -279,11 +286,12 @@ export async function refreshRandomPool(): Promise<void> {
       await pRetry(
         async () => {
           const commonNodes = await getSnodePoolFromSnodes();
+
           if (!commonNodes || commonNodes.length < requiredSnodesForAgreement) {
             // throwing makes trigger a retry if we have some left.
             throw new Error('Not enough common nodes.');
           }
-          window.log.info('updating snode list with snode pool length:', commonNodes.length);
+          window?.log?.info('updating snode list with snode pool length:', commonNodes.length);
           randomSnodePool = commonNodes;
         },
         {
@@ -291,19 +299,20 @@ export async function refreshRandomPool(): Promise<void> {
           factor: 1,
           minTimeout: 1000,
           onFailedAttempt: e => {
-            window.log.warn(
+            window?.log?.warn(
               `getSnodePoolFromSnodes attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
             );
           },
         }
       );
     } catch (e) {
-      window.log.warn(
+      window?.log?.warn(
         'Failed to fetch snode pool from snodes. Fetching from seed node instead:',
         e
       );
+
       // fallback to a seed node fetch of the snode pool
-      await refreshRandomPoolDetail(seedNodes);
+      randomSnodePool = await exports.refreshRandomPoolDetail(seedNodes);
     }
   });
 }

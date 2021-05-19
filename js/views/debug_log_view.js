@@ -27,7 +27,7 @@
       this.$('textarea').val(i18n('loading'));
 
       // eslint-disable-next-line more/no-then
-      window.log.fetch().then(text => {
+      window?.log?.fetch().then(text => {
         this.$('textarea').val(text);
       });
     },
@@ -56,7 +56,7 @@
       this.$('.result').addClass('loading');
 
       try {
-        const publishedLogURL = await window.log.publish(text);
+        const publishedLogURL = await window?.log?.publish(text);
         const view = new Whisper.DebugLogLinkView({
           url: publishedLogURL,
           el: this.$('.result'),
@@ -67,7 +67,7 @@
           .focus()
           .select();
       } catch (error) {
-        window.log.error('DebugLogView error:', error && error.stack ? error.stack : error);
+        window?.log?.error('DebugLogView error:', error && error.stack ? error.stack : error);
         this.$('.loading').removeClass('loading');
         this.$('.result').text(i18n('debugLogError'));
       }

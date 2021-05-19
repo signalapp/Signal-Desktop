@@ -38,7 +38,7 @@ export async function sendMessage(
   const { isPublic = false } = options;
 
   if (isPublic) {
-    window.log.warn('this sendMessage() should not be called anymore with an open group message');
+    window?.log?.warn('this sendMessage() should not be called anymore with an open group message');
     return;
   }
 
@@ -64,7 +64,7 @@ export async function sendMessage(
     snode = await firstTrue(promises);
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
-    window.log.warn(
+    window?.log?.warn(
       `loki_message:::sendMessage - ${e.code} ${e.message} to ${pubKey} via snode:${snodeStr}`
     );
     throw e;
@@ -72,7 +72,7 @@ export async function sendMessage(
   if (!snode) {
     throw new window.textsecure.EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
   } else {
-    window.log.info(
+    window?.log?.info(
       `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${snode.ip}:${snode.port}`
     );
   }

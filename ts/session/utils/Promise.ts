@@ -31,7 +31,7 @@ export async function allowOnlyOneAtATime(
       let timeoutTimer = null;
       if (timeoutMs) {
         timeoutTimer = setTimeout(() => {
-          window.log.warn(`allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}s`);
+          window?.log?.warn(`allowOnlyOneAtATime - TIMEDOUT after ${timeoutMs}s`);
           // tslint:disable-next-line: no-dynamic-delete
           delete snodeGlobalLocks[name]; // clear lock
           reject();
@@ -43,9 +43,9 @@ export async function allowOnlyOneAtATime(
         innerRetVal = await process();
       } catch (e) {
         if (typeof e === 'string') {
-          window.log.error(`allowOnlyOneAtATime - error ${e}`);
+          window?.log?.error(`allowOnlyOneAtATime - error ${e}`);
         } else {
-          window.log.error(`allowOnlyOneAtATime - error ${e.code} ${e.message}`);
+          window?.log?.error(`allowOnlyOneAtATime - error ${e.code} ${e.message}`);
         }
 
         // clear timeout timer

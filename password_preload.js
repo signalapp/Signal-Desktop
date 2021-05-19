@@ -35,12 +35,12 @@ window.Signal = {
 window.Signal.Logs = require('./js/modules/logs');
 
 window.resetDatabase = () => {
-  window.log.info('reset database');
+  window?.log?.info('reset database');
   ipcRenderer.send('resetDatabase');
 };
 
 window.restart = () => {
-  window.log.info('restart');
+  window?.log?.info('restart');
   ipc.send('restart');
 };
 
