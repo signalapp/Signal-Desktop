@@ -65,13 +65,7 @@ export function getUnpaddedAttachment(
   if (data.byteLength <= unpaddedExpectedSize) {
     return null;
   }
-  const dataUint = new Uint8Array(data);
-  for (let i = unpaddedExpectedSize; i < data.byteLength; i++) {
-    if (dataUint[i] !== PADDING_BYTE) {
-      return null;
-    }
-  }
-
+  // we know consider that anything coming after the expected size is padding, no matter what there is there
   return data.slice(0, unpaddedExpectedSize);
 }
 
