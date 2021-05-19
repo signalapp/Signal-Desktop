@@ -12,14 +12,14 @@ const PADDING_BYTE = 0x00;
  */
 export function removeMessagePadding(paddedData: ArrayBuffer): ArrayBuffer {
   const paddedPlaintext = new Uint8Array(paddedData);
-  window.log.info('Removing message padding...');
+  window?.log.info('Removing message padding...');
   for (let i = paddedPlaintext.length - 1; i >= 0; i -= 1) {
     if (paddedPlaintext[i] === 0x80) {
       const plaintext = new Uint8Array(i);
       plaintext.set(paddedPlaintext.subarray(0, i));
       return plaintext.buffer;
     } else if (paddedPlaintext[i] !== PADDING_BYTE) {
-      window.log.warn('got a message without padding... Letting it through for now');
+      window?.log.warn('got a message without padding... Letting it through for now');
       return paddedPlaintext;
     }
   }
@@ -32,7 +32,7 @@ export function removeMessagePadding(paddedData: ArrayBuffer): ArrayBuffer {
  * @param messageBuffer The buffer to add padding to.
  */
 export function addMessagePadding(messageBuffer: Uint8Array): Uint8Array {
-  window.log?.info('Adding message padding...');
+  window?.log?.info('Adding message padding...');
 
   const plaintext = new Uint8Array(getPaddedMessageLength(messageBuffer.byteLength + 1) - 1);
   plaintext.set(new Uint8Array(messageBuffer));
@@ -59,19 +59,19 @@ export function getUnpaddedAttachment(
   data: ArrayBuffer,
   unpaddedExpectedSize: number
 ): ArrayBuffer | null {
-  window.log?.info('Removing attachment padding...');
+  window?.log?.info('Removing attachment padding...');
 
   // to have a padding we must have a strictly longer length expected
   if (data.byteLength <= unpaddedExpectedSize) {
     return null;
   }
-  // we know consider that anything coming after the expected size is padding, no matter what there is there
+  // we now consider that anything coming after the expected size is padding, no matter what there is there
   return data.slice(0, unpaddedExpectedSize);
 }
 
 export function addAttachmentPadding(data: ArrayBuffer): ArrayBuffer {
   const originalUInt = new Uint8Array(data);
-  window.log.info('Adding attchment padding...');
+  window?.log.info('Adding attchment padding...');
 
   const paddedSize = Math.max(
     541,
