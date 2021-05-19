@@ -60,7 +60,9 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
       callType = 'video';
       break;
     default:
-      window.log.error(missingCaseError(props));
+      window.log.error(
+        `CallingNotification missing case: ${missingCaseError(props)}`
+      );
       return null;
   }
 

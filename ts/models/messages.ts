@@ -865,7 +865,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         };
       }
       default:
-        window.log.error(missingCaseError(callHistoryDetails));
+        window.log.error(
+          `getPropsForCallHistory: missing case ${missingCaseError(
+            callHistoryDetails
+          )}`
+        );
         return undefined;
     }
   }

@@ -16,6 +16,6 @@ export function assert(condition: unknown, message: string): asserts condition {
       }
       throw err;
     }
-    log.error(err);
+    log.error('assert failure:', err && err.stack ? err.stack : err);
   }
 }

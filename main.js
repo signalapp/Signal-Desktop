@@ -1527,7 +1527,10 @@ ipc.handle('show-calling-permissions-popup', async (event, forCamera) => {
   try {
     await showPermissionsPopupWindow(true, forCamera);
   } catch (error) {
-    console.error(error);
+    console.error(
+      'show-calling-permissions-popup error:',
+      error && error.stack ? error.stack : error
+    );
   }
 });
 ipc.on('close-permissions-popup', () => {

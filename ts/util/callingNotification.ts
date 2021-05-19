@@ -102,7 +102,11 @@ export function getCallingNotificationText(
     case CallMode.Group:
       return getGroupCallNotificationText(notification, i18n);
     default:
-      window.log.error(missingCaseError(notification));
+      window.log.error(
+        `getCallingNotificationText: missing case ${missingCaseError(
+          notification
+        )}`
+      );
       return '';
   }
 }
