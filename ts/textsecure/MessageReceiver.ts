@@ -39,7 +39,7 @@ import {
 } from '../LibSignalStores';
 import { BatcherType, createBatcher } from '../util/batcher';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
-import { Lock } from '../util/Lock';
+import { Zone } from '../util/Zone';
 import EventTarget from './EventTarget';
 import { WebAPIType } from './WebAPI';
 import utils from './Helpers';
@@ -765,28 +765,27 @@ class MessageReceiverInner extends EventTarget {
     window.log.info('MessageReceiver.cacheAndQueueBatch', items.length);
 
     const decrypted: Array<DecryptedEnvelope> = [];
+    const storageProtocol = window.textsecure.storage.protocol;
 
     try {
-      const lock = new Lock('cacheAndQueueBatch');
-      const sessionStore = new Sessions({
-        transactionOnly: true,
-        lock,
+      const zone = new Zone('cacheAndQueueBatch', {
+        pendingSessions: true,
+        pendingUnprocessed: true,
       });
-      const identityKeyStore = new IdentityKeys({
-        lock,
-      });
+      const sessionStore = new Sessions({ zone });
+      const identityKeyStore = new IdentityKeys({ zone });
       const failed: Array<UnprocessedType> = [];
 
       // Below we:
       //
-      // 1. Enter session transaction
+      // 1. Enter zone
       // 2. Decrypt all batched envelopes
       // 3. Persist both decrypted envelopes and envelopes that we failed to
       //    decrypt (for future retries, see `attempts` field)
-      // 4. Leave session transaction and commit all pending session updates
+      // 4. Leave zone and commit all pending sessions and unprocesseds
       // 5. Acknowledge envelopes (can't fail)
       // 6. Finally process decrypted envelopes
-      await sessionStore.transaction(async () => {
+      await storageProtocol.withZone(zone, 'MessageReceiver', async () => {
         await Promise.all<void>(
           items.map(async ({ data, envelope }) => {
             try {
@@ -833,7 +832,10 @@ class MessageReceiverInner extends EventTarget {
           }
         );
 
-        await sessionStore.addUnprocessed(unprocesseds.concat(failed));
+        await storageProtocol.addMultipleUnprocessed(
+          unprocesseds.concat(failed),
+          { zone }
+        );
       });
 
       window.log.info(

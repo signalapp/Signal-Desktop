@@ -25,7 +25,7 @@ import {
 } from './Crypto';
 import { assert } from './util/assert';
 import { isNotNil } from './util/isNotNil';
-import { Lock } from './util/Lock';
+import { Zone } from './util/Zone';
 import { isMoreRecentThan } from './util/timestamp';
 import {
   sessionRecordToProtobuf,
@@ -115,10 +115,10 @@ type MapFields =
 type SessionResetsType = Record<string, number>;
 
 export type SessionTransactionOptions = {
-  readonly lock?: Lock;
+  readonly zone?: Zone;
 };
 
-const GLOBAL_LOCK = new Lock('GLOBAL_LOCK');
+export const GLOBAL_ZONE = new Zone('GLOBAL_ZONE');
 
 async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
   object: SignalProtocolStore,
@@ -219,14 +219,6 @@ export class SignalProtocolStore extends EventsMixin {
 
   sessions?: Map<string, SessionCacheEntry>;
 
-  sessionLock?: Lock;
-
-  sessionLockQueue: Array<() => void> = [];
-
-  pendingSessions = new Map<string, SessionCacheEntry>();
-
-  pendingUnprocessed = new Map<string, UnprocessedType>();
-
   preKeys?: Map<number, CacheEntryType<PreKeyType, PreKeyRecord>>;
 
   signedPreKeys?: Map<
@@ -237,6 +229,16 @@ export class SignalProtocolStore extends EventsMixin {
   senderKeyQueues: Map<string, PQueue> = new Map<string, PQueue>();
 
   sessionQueues: Map<string, PQueue> = new Map<string, PQueue>();
+
+  private currentZone?: Zone;
+
+  private currentZoneDepth = 0;
+
+  private readonly zoneQueue: Array<() => void> = [];
+
+  private pendingSessions = new Map<string, SessionCacheEntry>();
+
+  private pendingUnprocessed = new Map<string, UnprocessedType>();
 
   async hydrateCaches(): Promise<void> {
     await Promise.all([
@@ -603,54 +605,48 @@ export class SignalProtocolStore extends EventsMixin {
   //
   // - successfully: pending session stores are batched into the database
   // - with an error: pending session stores are reverted
-  async sessionTransaction<T>(
+  public async withZone<T>(
+    zone: Zone,
     name: string,
-    body: () => Promise<T>,
-    lock: Lock = GLOBAL_LOCK
+    body: () => Promise<T>
   ): Promise<T> {
-    const debugName = `sessionTransaction(${lock.name}:${name})`;
+    const debugName = `withZone(${zone.name}:${name})`;
 
     // Allow re-entering from LibSignalStores
-    const isNested = this.sessionLock === lock;
-    if (this.sessionLock && !isNested) {
+    if (this.currentZone && this.currentZone !== zone) {
       const start = Date.now();
 
       window.log.info(
-        `${debugName}: locked by ${this.sessionLock.name}, waiting`
+        `${debugName}: locked by ${this.currentZone.name}, waiting`
       );
-      await new Promise<void>(resolve => this.sessionLockQueue.push(resolve));
+      await new Promise<void>(resolve => this.zoneQueue.push(resolve));
 
       const duration = Date.now() - start;
       window.log.info(`${debugName}: unlocked after ${duration}ms`);
     }
 
-    if (!isNested) {
-      if (lock !== GLOBAL_LOCK) {
-        window.log.info(`${debugName}: enter`);
-      }
-      this.sessionLock = lock;
-    }
+    this.enterZone(zone, name);
 
     let result: T;
     try {
       result = await body();
     } catch (error) {
-      if (!isNested) {
-        await this.revertSessions(name, error);
-        this.releaseSessionLock();
+      if (this.isInTopLevelZone()) {
+        await this.revertZoneChanges(name, error);
       }
+      this.leaveZone(zone);
       throw error;
     }
 
-    if (!isNested) {
-      await this.commitSessions(name);
-      this.releaseSessionLock();
+    if (this.isInTopLevelZone()) {
+      await this.commitZoneChanges(name);
     }
+    this.leaveZone(zone);
 
     return result;
   }
 
-  private async commitSessions(name: string): Promise<void> {
+  private async commitZoneChanges(name: string): Promise<void> {
     const { pendingSessions, pendingUnprocessed } = this;
 
     if (pendingSessions.size === 0 && pendingUnprocessed.size === 0) {
@@ -658,7 +654,7 @@ export class SignalProtocolStore extends EventsMixin {
     }
 
     window.log.info(
-      `commitSessions(${name}): pending sessions ${pendingSessions.size} ` +
+      `commitZoneChanges(${name}): pending sessions ${pendingSessions.size} ` +
         `pending unprocessed ${pendingUnprocessed.size}`
     );
 
@@ -683,18 +679,52 @@ export class SignalProtocolStore extends EventsMixin {
     });
   }
 
-  private async revertSessions(name: string, error: Error): Promise<void> {
+  private async revertZoneChanges(name: string, error: Error): Promise<void> {
     window.log.info(
-      `revertSessions(${name}): pending size ${this.pendingSessions.size}`,
+      `revertZoneChanges(${name}): ` +
+        `pending sessions size ${this.pendingSessions.size} ` +
+        `pending unprocessed size ${this.pendingUnprocessed.size}`,
       error && error.stack
     );
     this.pendingSessions.clear();
     this.pendingUnprocessed.clear();
   }
 
-  private releaseSessionLock(): void {
-    this.sessionLock = undefined;
-    const next = this.sessionLockQueue.shift();
+  private isInTopLevelZone(): boolean {
+    return this.currentZoneDepth === 1;
+  }
+
+  private enterZone(zone: Zone, name: string): void {
+    this.currentZoneDepth += 1;
+    if (this.currentZoneDepth === 1) {
+      assert(this.currentZone === undefined, 'Should not be in the zone');
+      this.currentZone = zone;
+
+      if (zone !== GLOBAL_ZONE) {
+        window.log.info(`enterZone(${zone.name}:${name})`);
+      }
+    }
+  }
+
+  private leaveZone(zone: Zone): void {
+    assert(this.currentZone === zone, 'Should be in the correct zone');
+
+    this.currentZoneDepth -= 1;
+    assert(this.currentZoneDepth >= 0, 'Unmatched number of leaveZone calls');
+
+    // Since we allow re-entering zones we might actually be in two overlapping
+    // async calls. Leave the zone and yield to another one only if there are
+    // no active zone users anymore.
+    if (this.currentZoneDepth !== 0) {
+      return;
+    }
+
+    if (zone !== GLOBAL_ZONE) {
+      window.log.info(`leaveZone(${zone.name})`);
+    }
+
+    this.currentZone = undefined;
+    const next = this.zoneQueue.shift();
     if (next) {
       next();
     }
@@ -702,51 +732,47 @@ export class SignalProtocolStore extends EventsMixin {
 
   async loadSession(
     encodedAddress: string,
-    { lock }: SessionTransactionOptions = {}
+    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<SessionRecord | undefined> {
-    return this.sessionTransaction(
-      'loadSession',
-      async () => {
-        if (!this.sessions) {
-          throw new Error('loadSession: this.sessions not yet cached!');
-        }
+    return this.withZone(zone, 'loadSession', async () => {
+      if (!this.sessions) {
+        throw new Error('loadSession: this.sessions not yet cached!');
+      }
 
-        if (encodedAddress === null || encodedAddress === undefined) {
-          throw new Error('loadSession: encodedAddress was undefined/null');
-        }
+      if (encodedAddress === null || encodedAddress === undefined) {
+        throw new Error('loadSession: encodedAddress was undefined/null');
+      }
 
-        try {
-          const id = await normalizeEncodedAddress(encodedAddress);
-          const map = this.pendingSessions.has(id)
-            ? this.pendingSessions
-            : this.sessions;
-          const entry = map.get(id);
+      try {
+        const id = await normalizeEncodedAddress(encodedAddress);
+        const map = this.pendingSessions.has(id)
+          ? this.pendingSessions
+          : this.sessions;
+        const entry = map.get(id);
 
-          if (!entry) {
-            return undefined;
-          }
-
-          if (entry.hydrated) {
-            return entry.item;
-          }
-
-          const item = await this._maybeMigrateSession(entry.fromDB);
-          map.set(id, {
-            hydrated: true,
-            item,
-            fromDB: entry.fromDB,
-          });
-          return item;
-        } catch (error) {
-          const errorString = error && error.stack ? error.stack : error;
-          window.log.error(
-            `loadSession: failed to load session ${encodedAddress}: ${errorString}`
-          );
+        if (!entry) {
           return undefined;
         }
-      },
-      lock
-    );
+
+        if (entry.hydrated) {
+          return entry.item;
+        }
+
+        const item = await this._maybeMigrateSession(entry.fromDB);
+        map.set(id, {
+          hydrated: true,
+          item,
+          fromDB: entry.fromDB,
+        });
+        return item;
+      } catch (error) {
+        const errorString = error && error.stack ? error.stack : error;
+        window.log.error(
+          `loadSession: failed to load session ${encodedAddress}: ${errorString}`
+        );
+        return undefined;
+      }
+    });
   }
 
   private async _maybeMigrateSession(
@@ -792,54 +818,55 @@ export class SignalProtocolStore extends EventsMixin {
   async storeSession(
     encodedAddress: string,
     record: SessionRecord,
-    { lock }: SessionTransactionOptions = {}
+    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<void> {
-    await this.sessionTransaction(
-      'storeSession',
-      async () => {
-        if (!this.sessions) {
-          throw new Error('storeSession: this.sessions not yet cached!');
-        }
+    await this.withZone(zone, 'storeSession', async () => {
+      if (!this.sessions) {
+        throw new Error('storeSession: this.sessions not yet cached!');
+      }
 
-        if (encodedAddress === null || encodedAddress === undefined) {
-          throw new Error('storeSession: encodedAddress was undefined/null');
+      if (encodedAddress === null || encodedAddress === undefined) {
+        throw new Error('storeSession: encodedAddress was undefined/null');
+      }
+      const unencoded = window.textsecure.utils.unencodeNumber(encodedAddress);
+      const deviceId = parseInt(unencoded[1], 10);
+
+      try {
+        const id = await normalizeEncodedAddress(encodedAddress);
+        const fromDB = {
+          id,
+          version: 2,
+          conversationId: window.textsecure.utils.unencodeNumber(id)[0],
+          deviceId,
+          record: record.serialize().toString('base64'),
+        };
+
+        const newSession = {
+          hydrated: true,
+          fromDB,
+          item: record,
+        };
+
+        assert(this.currentZone, 'Must run in the zone');
+
+        this.pendingSessions.set(id, newSession);
+
+        // Current zone doesn't support pending sessions - commit immediately
+        if (!zone.supportsPendingSessions()) {
+          await this.commitZoneChanges('storeSession');
         }
-        const unencoded = window.textsecure.utils.unencodeNumber(
-          encodedAddress
+      } catch (error) {
+        const errorString = error && error.stack ? error.stack : error;
+        window.log.error(
+          `storeSession: Save failed fo ${encodedAddress}: ${errorString}`
         );
-        const deviceId = parseInt(unencoded[1], 10);
-
-        try {
-          const id = await normalizeEncodedAddress(encodedAddress);
-          const fromDB = {
-            id,
-            version: 2,
-            conversationId: window.textsecure.utils.unencodeNumber(id)[0],
-            deviceId,
-            record: record.serialize().toString('base64'),
-          };
-
-          const newSession = {
-            hydrated: true,
-            fromDB,
-            item: record,
-          };
-
-          this.pendingSessions.set(id, newSession);
-        } catch (error) {
-          const errorString = error && error.stack ? error.stack : error;
-          window.log.error(
-            `storeSession: Save failed fo ${encodedAddress}: ${errorString}`
-          );
-          throw error;
-        }
-      },
-      lock
-    );
+        throw error;
+      }
+    });
   }
 
   async getDeviceIds(identifier: string): Promise<Array<number>> {
-    return this.sessionTransaction('getDeviceIds', async () => {
+    return this.withZone(GLOBAL_ZONE, 'getDeviceIds', async () => {
       if (!this.sessions) {
         throw new Error('getDeviceIds: this.sessions not yet cached!');
       }
@@ -892,7 +919,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async removeSession(encodedAddress: string): Promise<void> {
-    return this.sessionTransaction('removeSession', async () => {
+    return this.withZone(GLOBAL_ZONE, 'removeSession', async () => {
       if (!this.sessions) {
         throw new Error('removeSession: this.sessions not yet cached!');
       }
@@ -912,7 +939,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async removeAllSessions(identifier: string): Promise<void> {
-    return this.sessionTransaction('removeAllSessions', async () => {
+    return this.withZone(GLOBAL_ZONE, 'removeAllSessions', async () => {
       if (!this.sessions) {
         throw new Error('removeAllSessions: this.sessions not yet cached!');
       }
@@ -960,7 +987,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async archiveSession(encodedAddress: string): Promise<void> {
-    return this.sessionTransaction('archiveSession', async () => {
+    return this.withZone(GLOBAL_ZONE, 'archiveSession', async () => {
       if (!this.sessions) {
         throw new Error('archiveSession: this.sessions not yet cached!');
       }
@@ -977,47 +1004,41 @@ export class SignalProtocolStore extends EventsMixin {
 
   async archiveSiblingSessions(
     encodedAddress: string,
-    { lock }: SessionTransactionOptions = {}
+    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<void> {
-    return this.sessionTransaction(
-      'archiveSiblingSessions',
-      async () => {
-        if (!this.sessions) {
-          throw new Error(
-            'archiveSiblingSessions: this.sessions not yet cached!'
-          );
-        }
-
-        window.log.info(
-          'archiveSiblingSessions: archiving sibling sessions for',
-          encodedAddress
+    return this.withZone(zone, 'archiveSiblingSessions', async () => {
+      if (!this.sessions) {
+        throw new Error(
+          'archiveSiblingSessions: this.sessions not yet cached!'
         );
+      }
 
-        const id = await normalizeEncodedAddress(encodedAddress);
-        const [identifier, deviceId] = window.textsecure.utils.unencodeNumber(
-          id
-        );
-        const deviceIdNumber = parseInt(deviceId, 10);
+      window.log.info(
+        'archiveSiblingSessions: archiving sibling sessions for',
+        encodedAddress
+      );
 
-        const allEntries = this._getAllSessions();
-        const entries = allEntries.filter(
-          entry =>
-            entry.fromDB.conversationId === identifier &&
-            entry.fromDB.deviceId !== deviceIdNumber
-        );
+      const id = await normalizeEncodedAddress(encodedAddress);
+      const [identifier, deviceId] = window.textsecure.utils.unencodeNumber(id);
+      const deviceIdNumber = parseInt(deviceId, 10);
 
-        await Promise.all(
-          entries.map(async entry => {
-            await this._archiveSession(entry);
-          })
-        );
-      },
-      lock
-    );
+      const allEntries = this._getAllSessions();
+      const entries = allEntries.filter(
+        entry =>
+          entry.fromDB.conversationId === identifier &&
+          entry.fromDB.deviceId !== deviceIdNumber
+      );
+
+      await Promise.all(
+        entries.map(async entry => {
+          await this._archiveSession(entry);
+        })
+      );
+    });
   }
 
   async archiveAllSessions(identifier: string): Promise<void> {
-    return this.sessionTransaction('archiveAllSessions', async () => {
+    return this.withZone(GLOBAL_ZONE, 'archiveAllSessions', async () => {
       if (!this.sessions) {
         throw new Error('archiveAllSessions: this.sessions not yet cached!');
       }
@@ -1043,7 +1064,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async clearSessionStore(): Promise<void> {
-    return this.sessionTransaction('clearSessionStore', async () => {
+    return this.withZone(GLOBAL_ZONE, 'clearSessionStore', async () => {
       if (this.sessions) {
         this.sessions.clear();
       }
@@ -1242,7 +1263,7 @@ export class SignalProtocolStore extends EventsMixin {
     encodedAddress: string,
     publicKey: ArrayBuffer,
     nonblockingApproval = false,
-    { lock }: SessionTransactionOptions = {}
+    { zone }: SessionTransactionOptions = {}
   ): Promise<boolean> {
     if (!this.identityKeys) {
       throw new Error('saveIdentity: this.identityKeys not yet cached!');
@@ -1316,9 +1337,9 @@ export class SignalProtocolStore extends EventsMixin {
         );
       }
 
-      // Pass the lock to facilitate transactional session use in
+      // Pass the zone to facilitate transactional session use in
       // MessageReceiver.ts
-      await this.archiveSiblingSessions(encodedAddress, { lock });
+      await this.archiveSiblingSessions(encodedAddress, { zone });
 
       return true;
     }
@@ -1646,57 +1667,54 @@ export class SignalProtocolStore extends EventsMixin {
 
   // Not yet processed messages - for resiliency
   getUnprocessedCount(): Promise<number> {
-    return this.sessionTransaction('getUnprocessedCount', async () => {
-      this._checkNoPendingUnprocessed();
+    return this.withZone(GLOBAL_ZONE, 'getUnprocessedCount', async () => {
       return window.Signal.Data.getUnprocessedCount();
     });
   }
 
   getAllUnprocessed(): Promise<Array<UnprocessedType>> {
-    return this.sessionTransaction('getAllUnprocessed', async () => {
-      this._checkNoPendingUnprocessed();
+    return this.withZone(GLOBAL_ZONE, 'getAllUnprocessed', async () => {
       return window.Signal.Data.getAllUnprocessed();
     });
   }
 
   getUnprocessedById(id: string): Promise<UnprocessedType | undefined> {
-    return this.sessionTransaction('getUnprocessedById', async () => {
-      this._checkNoPendingUnprocessed();
+    return this.withZone(GLOBAL_ZONE, 'getUnprocessedById', async () => {
       return window.Signal.Data.getUnprocessedById(id);
     });
   }
 
   addUnprocessed(
     data: UnprocessedType,
-    { lock }: SessionTransactionOptions = {}
+    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<void> {
-    return this.sessionTransaction(
-      'addUnprocessed',
-      async () => {
-        this.pendingUnprocessed.set(data.id, data);
-      },
-      lock
-    );
+    return this.withZone(zone, 'addUnprocessed', async () => {
+      this.pendingUnprocessed.set(data.id, data);
+
+      // Current zone doesn't support pending unprocessed - commit immediately
+      if (!zone.supportsPendingUnprocessed()) {
+        await this.commitZoneChanges('addUnprocessed');
+      }
+    });
   }
 
   addMultipleUnprocessed(
     array: Array<UnprocessedType>,
-    { lock }: SessionTransactionOptions = {}
+    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<void> {
-    return this.sessionTransaction(
-      'addMultipleUnprocessed',
-      async () => {
-        for (const elem of array) {
-          this.pendingUnprocessed.set(elem.id, elem);
-        }
-      },
-      lock
-    );
+    return this.withZone(zone, 'addMultipleUnprocessed', async () => {
+      for (const elem of array) {
+        this.pendingUnprocessed.set(elem.id, elem);
+      }
+      // Current zone doesn't support pending unprocessed - commit immediately
+      if (!zone.supportsPendingUnprocessed()) {
+        await this.commitZoneChanges('addMultipleUnprocessed');
+      }
+    });
   }
 
   updateUnprocessedAttempts(id: string, attempts: number): Promise<void> {
-    return this.sessionTransaction('updateUnprocessedAttempts', async () => {
-      this._checkNoPendingUnprocessed();
+    return this.withZone(GLOBAL_ZONE, 'updateUnprocessedAttempts', async () => {
       await window.Signal.Data.updateUnprocessedAttempts(id, attempts);
     });
   }
@@ -1705,8 +1723,7 @@ export class SignalProtocolStore extends EventsMixin {
     id: string,
     data: UnprocessedUpdateType
   ): Promise<void> {
-    return this.sessionTransaction('updateUnprocessedWithData', async () => {
-      this._checkNoPendingUnprocessed();
+    return this.withZone(GLOBAL_ZONE, 'updateUnprocessedWithData', async () => {
       await window.Signal.Data.updateUnprocessedWithData(id, data);
     });
   }
@@ -1714,22 +1731,23 @@ export class SignalProtocolStore extends EventsMixin {
   updateUnprocessedsWithData(
     items: Array<{ id: string; data: UnprocessedUpdateType }>
   ): Promise<void> {
-    return this.sessionTransaction('updateUnprocessedsWithData', async () => {
-      this._checkNoPendingUnprocessed();
-      await window.Signal.Data.updateUnprocessedsWithData(items);
-    });
+    return this.withZone(
+      GLOBAL_ZONE,
+      'updateUnprocessedsWithData',
+      async () => {
+        await window.Signal.Data.updateUnprocessedsWithData(items);
+      }
+    );
   }
 
   removeUnprocessed(idOrArray: string | Array<string>): Promise<void> {
-    return this.sessionTransaction('removeUnprocessed', async () => {
-      this._checkNoPendingUnprocessed();
+    return this.withZone(GLOBAL_ZONE, 'removeUnprocessed', async () => {
       await window.Signal.Data.removeUnprocessed(idOrArray);
     });
   }
 
   removeAllUnprocessed(): Promise<void> {
-    return this.sessionTransaction('removeAllUnprocessed', async () => {
-      this._checkNoPendingUnprocessed();
+    return this.withZone(GLOBAL_ZONE, 'removeAllUnprocessed', async () => {
       await window.Signal.Data.removeAllUnprocessed();
     });
   }
@@ -1764,17 +1782,6 @@ export class SignalProtocolStore extends EventsMixin {
     });
 
     return Array.from(union.values());
-  }
-
-  private _checkNoPendingUnprocessed(): void {
-    assert(
-      !this.sessionLock || this.sessionLock === GLOBAL_LOCK,
-      "Can't use this function with a global lock"
-    );
-    assert(
-      this.pendingUnprocessed.size === 0,
-      'Missing support for pending unprocessed'
-    );
   }
 }
 

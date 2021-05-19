@@ -13,11 +13,11 @@ import {
 
 import { signal } from '../protobuf/compiled';
 import { sessionStructureToArrayBuffer } from '../util/sessionTranslation';
-import { Lock } from '../util/Lock';
+import { Zone } from '../util/Zone';
 
 import { getRandomBytes, constantTimeEqual } from '../Crypto';
 import { clampPrivateKey, setPublicKeyTypeByte } from '../Curve';
-import { SignalProtocolStore } from '../SignalProtocolStore';
+import { SignalProtocolStore, GLOBAL_ZONE } from '../SignalProtocolStore';
 import { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
 
 chai.use(chaiAsPromised);
@@ -1280,27 +1280,50 @@ describe('SignalProtocolStore', () => {
     });
   });
 
-  describe('sessionTransaction', () => {
+  describe('zones', () => {
+    const zone = new Zone('zone', {
+      pendingSessions: true,
+      pendingUnprocessed: true,
+    });
+
     beforeEach(async () => {
       await store.removeAllUnprocessed();
       await store.removeAllSessions(number);
+    });
+
+    it('should not store pending sessions in global zone', async () => {
+      const id = `${number}.1`;
+      const testRecord = getSessionRecord();
+
+      await assert.isRejected(
+        store.withZone(GLOBAL_ZONE, 'test', async () => {
+          await store.storeSession(id, testRecord);
+          throw new Error('Failure');
+        }),
+        'Failure'
+      );
+
+      assert.equal(await store.loadSession(id), testRecord);
     });
 
     it('commits session stores and unprocessed on success', async () => {
       const id = `${number}.1`;
       const testRecord = getSessionRecord();
 
-      await store.sessionTransaction('test', async () => {
-        await store.storeSession(id, testRecord);
+      await store.withZone(zone, 'test', async () => {
+        await store.storeSession(id, testRecord, { zone });
 
-        await store.addUnprocessed({
-          id: '2-two',
-          envelope: 'second',
-          timestamp: 2,
-          version: 2,
-          attempts: 0,
-        });
-        assert.equal(await store.loadSession(id), testRecord);
+        await store.addUnprocessed(
+          {
+            id: '2-two',
+            envelope: 'second',
+            timestamp: 2,
+            version: 2,
+            attempts: 0,
+          },
+          { zone }
+        );
+        assert.equal(await store.loadSession(id, { zone }), testRecord);
       });
 
       assert.equal(await store.loadSession(id), testRecord);
@@ -1321,17 +1344,20 @@ describe('SignalProtocolStore', () => {
       assert.equal(await store.loadSession(id), testRecord);
 
       await assert.isRejected(
-        store.sessionTransaction('test', async () => {
-          await store.storeSession(id, failedRecord);
-          assert.equal(await store.loadSession(id), failedRecord);
+        store.withZone(zone, 'test', async () => {
+          await store.storeSession(id, failedRecord, { zone });
+          assert.equal(await store.loadSession(id, { zone }), failedRecord);
 
-          await store.addUnprocessed({
-            id: '2-two',
-            envelope: 'second',
-            timestamp: 2,
-            version: 2,
-            attempts: 0,
-          });
+          await store.addUnprocessed(
+            {
+              id: '2-two',
+              envelope: 'second',
+              timestamp: 2,
+              version: 2,
+              attempts: 0,
+            },
+            { zone }
+          );
 
           throw new Error('Failure');
         }),
@@ -1346,25 +1372,15 @@ describe('SignalProtocolStore', () => {
       const id = `${number}.1`;
       const testRecord = getSessionRecord();
 
-      const lock = new Lock('lock');
+      await store.withZone(zone, 'test', async () => {
+        await store.withZone(zone, 'nested', async () => {
+          await store.storeSession(id, testRecord, { zone });
 
-      await store.sessionTransaction(
-        'test',
-        async () => {
-          await store.sessionTransaction(
-            'nested',
-            async () => {
-              await store.storeSession(id, testRecord, { lock });
+          assert.equal(await store.loadSession(id, { zone }), testRecord);
+        });
 
-              assert.equal(await store.loadSession(id, { lock }), testRecord);
-            },
-            lock
-          );
-
-          assert.equal(await store.loadSession(id, { lock }), testRecord);
-        },
-        lock
-      );
+        assert.equal(await store.loadSession(id, { zone }), testRecord);
+      });
 
       assert.equal(await store.loadSession(id), testRecord);
     });

@@ -24,12 +24,9 @@ import {
 } from '@signalapp/signal-client';
 import { freezePreKey, freezeSignedPreKey } from './SignalProtocolStore';
 
-import { UnprocessedType } from './textsecure/Types.d';
-
 import { typedArrayToArrayBuffer } from './Crypto';
 
-import { assert } from './util/assert';
-import { Lock } from './util/Lock';
+import { Zone } from './util/Zone';
 
 function encodedNameFromAddress(address: ProtocolAddress): string {
   const name = address.name();
@@ -39,91 +36,49 @@ function encodedNameFromAddress(address: ProtocolAddress): string {
 }
 
 export type SessionsOptions = {
-  readonly lock?: Lock;
-  readonly transactionOnly?: boolean;
+  readonly zone?: Zone;
 };
 
 export class Sessions extends SessionStore {
-  private readonly lock: Lock | undefined;
+  private readonly zone: Zone | undefined;
 
-  private inTransaction = false;
-
-  constructor(private readonly options: SessionsOptions = {}) {
+  constructor(options: SessionsOptions = {}) {
     super();
-
-    this.lock = options.lock;
+    this.zone = options.zone;
   }
-
-  public async transaction<T>(fn: () => Promise<T>): Promise<T> {
-    assert(!this.inTransaction, 'Already in transaction');
-    this.inTransaction = true;
-
-    assert(this.lock, "Can't start transaction without lock");
-
-    try {
-      return await window.textsecure.storage.protocol.sessionTransaction(
-        'Sessions.transaction',
-        fn,
-        this.lock
-      );
-    } finally {
-      this.inTransaction = false;
-    }
-  }
-
-  public async addUnprocessed(array: Array<UnprocessedType>): Promise<void> {
-    await window.textsecure.storage.protocol.addMultipleUnprocessed(array, {
-      lock: this.lock,
-    });
-  }
-
-  // SessionStore overrides
 
   async saveSession(
     address: ProtocolAddress,
     record: SessionRecord
   ): Promise<void> {
-    this.checkInTransaction();
-
     await window.textsecure.storage.protocol.storeSession(
       encodedNameFromAddress(address),
       record,
-      { lock: this.lock }
+      { zone: this.zone }
     );
   }
 
   async getSession(name: ProtocolAddress): Promise<SessionRecord | null> {
-    this.checkInTransaction();
-
     const encodedName = encodedNameFromAddress(name);
     const record = await window.textsecure.storage.protocol.loadSession(
       encodedName,
-      { lock: this.lock }
+      { zone: this.zone }
     );
 
     return record || null;
   }
-
-  // Private
-
-  private checkInTransaction(): void {
-    assert(
-      this.inTransaction || !this.options.transactionOnly,
-      'Accessing session store outside of transaction'
-    );
-  }
 }
 
 export type IdentityKeysOptions = {
-  readonly lock?: Lock;
+  readonly zone?: Zone;
 };
 
 export class IdentityKeys extends IdentityKeyStore {
-  private readonly lock: Lock | undefined;
+  private readonly zone: Zone | undefined;
 
-  constructor({ lock }: IdentityKeysOptions = {}) {
+  constructor({ zone }: IdentityKeysOptions = {}) {
     super();
-    this.lock = lock;
+    this.zone = zone;
   }
 
   async getIdentityKey(): Promise<PrivateKey> {
@@ -161,13 +116,13 @@ export class IdentityKeys extends IdentityKeyStore {
     const encodedName = encodedNameFromAddress(name);
     const publicKey = typedArrayToArrayBuffer(key.serialize());
 
-    // Pass `lock` to let `saveIdentity` archive sibling sessions when identity
+    // Pass `zone` to let `saveIdentity` archive sibling sessions when identity
     // key changes.
     return window.textsecure.storage.protocol.saveIdentity(
       encodedName,
       publicKey,
       false,
-      { lock: this.lock }
+      { zone: this.zone }
     );
   }
 
