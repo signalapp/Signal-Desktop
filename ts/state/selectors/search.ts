@@ -72,7 +72,7 @@ export const getSearchResults = createSelector(
   (
     state: SearchStateType,
     conversationLookup: ConversationLookupType
-  ): LeftPaneSearchPropsType => {
+  ): Omit<LeftPaneSearchPropsType, 'primarySendsSms'> => {
     const {
       contactIds,
       conversationIds,

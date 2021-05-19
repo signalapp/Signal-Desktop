@@ -31,6 +31,7 @@ export type LeftPaneSearchPropsType = {
     conversationId: string;
   }>;
   searchConversationName?: string;
+  primarySendsSms: boolean;
   searchTerm: string;
 };
 
@@ -50,6 +51,8 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
 
   private readonly searchConversationName?: string;
 
+  private readonly primarySendsSms: boolean;
+
   private readonly searchTerm: string;
 
   constructor({
@@ -57,6 +60,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     contactResults,
     messageResults,
     searchConversationName,
+    primarySendsSms,
     searchTerm,
   }: Readonly<LeftPaneSearchPropsType>) {
     super();
@@ -65,6 +69,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     this.contactResults = contactResults;
     this.messageResults = messageResults;
     this.searchConversationName = searchConversationName;
+    this.primarySendsSms = primarySendsSms;
     this.searchTerm = searchTerm;
   }
 
@@ -78,7 +83,34 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       return null;
     }
 
-    const { searchConversationName, searchTerm } = this;
+    const { searchConversationName, primarySendsSms, searchTerm } = this;
+
+    let noResults: ReactChild;
+    if (searchConversationName) {
+      noResults = (
+        <Intl
+          id="noSearchResultsInConversation"
+          i18n={i18n}
+          components={{
+            searchTerm,
+            conversationName: (
+              <Emojify key="item-1" text={searchConversationName} />
+            ),
+          }}
+        />
+      );
+    } else {
+      noResults = (
+        <>
+          <div>{i18n('noSearchResults', [searchTerm])}</div>
+          {primarySendsSms && (
+            <div className="module-left-pane__no-search-results__sms-only">
+              {i18n('noSearchResults--sms-only')}
+            </div>
+          )}
+        </>
+      );
+    }
 
     return !searchConversationName || searchTerm ? (
       <div
@@ -87,20 +119,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
         className="module-left-pane__no-search-results"
         key={searchTerm}
       >
-        {searchConversationName ? (
-          <Intl
-            id="noSearchResultsInConversation"
-            i18n={i18n}
-            components={{
-              searchTerm,
-              conversationName: (
-                <Emojify key="item-1" text={searchConversationName} />
-              ),
-            }}
-          />
-        ) : (
-          i18n('noSearchResults', [searchTerm])
-        )}
+        {noResults}
       </div>
     ) : null;
   }

@@ -249,6 +249,22 @@ story.add('Search: no results when searching everywhere', () => (
         contactResults: emptySearchResultsGroup,
         messageResults: emptySearchResultsGroup,
         searchTerm: 'foo bar',
+        primarySendsSms: false,
+      },
+    })}
+  />
+));
+
+story.add('Search: no results when searching everywhere (SMS)', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Search,
+        conversationResults: emptySearchResultsGroup,
+        contactResults: emptySearchResultsGroup,
+        messageResults: emptySearchResultsGroup,
+        searchTerm: 'foo bar',
+        primarySendsSms: true,
       },
     })}
   />
@@ -264,6 +280,7 @@ story.add('Search: no results when searching in a conversation', () => (
         messageResults: emptySearchResultsGroup,
         searchConversationName: 'Bing Bong',
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />
@@ -278,6 +295,7 @@ story.add('Search: all results loading', () => (
         contactResults: { isLoading: true },
         messageResults: { isLoading: true },
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />
@@ -295,6 +313,7 @@ story.add('Search: some results loading', () => (
         contactResults: { isLoading: true },
         messageResults: { isLoading: true },
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />
@@ -312,6 +331,7 @@ story.add('Search: has conversations and contacts, but not messages', () => (
         contactResults: { isLoading: false, results: defaultConversations },
         messageResults: { isLoading: false, results: [] },
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />
@@ -335,6 +355,7 @@ story.add('Search: all results', () => (
           ],
         },
         searchTerm: 'foo bar',
+        primarySendsSms: false,
       },
     })}
   />

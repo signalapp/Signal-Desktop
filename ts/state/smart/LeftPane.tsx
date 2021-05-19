@@ -3,6 +3,7 @@
 
 import React, { CSSProperties } from 'react';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import {
   LeftPane,
@@ -88,8 +89,13 @@ const getModeSpecificProps = (
         };
       }
       if (isSearching(state)) {
+        const primarySendsSms = Boolean(
+          get(state.items, ['primarySendsSms'], false)
+        );
+
         return {
           mode: LeftPaneMode.Search,
+          primarySendsSms,
           ...getSearchResults(state),
         };
       }

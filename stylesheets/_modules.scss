@@ -7331,6 +7331,16 @@ button.module-image__border-overlay:focus {
   outline: none;
 }
 
+.module-left-pane__no-search-results__sms-only {
+  margin-top: 12px;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
 .module-left-pane__compose-search-form {
   &__input {
     flex-grow: 1;

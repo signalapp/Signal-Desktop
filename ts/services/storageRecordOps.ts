@@ -177,6 +177,11 @@ export async function toAccountRecord(
   );
   accountRecord.linkPreviews = Boolean(window.storage.get('linkPreviews'));
 
+  const primarySendsSms = window.storage.get('primarySendsSms');
+  if (primarySendsSms !== undefined) {
+    accountRecord.primarySendsSms = Boolean(primarySendsSms);
+  }
+
   const PHONE_NUMBER_SHARING_MODE_ENUM =
     window.textsecure.protobuf.AccountRecord.PhoneNumberSharingMode;
   const phoneNumberSharingMode = parsePhoneNumberSharingMode(
@@ -805,6 +810,7 @@ export async function mergeAccountRecord(
     readReceipts,
     sealedSenderIndicators,
     typingIndicators,
+    primarySendsSms,
   } = accountRecord;
 
   window.storage.put('read-receipt-setting', readReceipts);
@@ -819,6 +825,10 @@ export async function mergeAccountRecord(
 
   if (typeof linkPreviews === 'boolean') {
     window.storage.put('linkPreviews', linkPreviews);
+  }
+
+  if (typeof primarySendsSms === 'boolean') {
+    window.storage.put('primarySendsSms', primarySendsSms);
   }
 
   const PHONE_NUMBER_SHARING_MODE_ENUM =

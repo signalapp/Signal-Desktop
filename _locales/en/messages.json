@@ -739,6 +739,10 @@
       }
     }
   },
+  "noSearchResults--sms-only": {
+    "message": "SMS/MMS contacts are not available on Desktop.",
+    "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
+  },
   "noSearchResultsInConversation": {
     "message": "No results for \"$searchTerm$\" in $conversationName$",
     "description": "Shown in the search left pane when no results were found",
