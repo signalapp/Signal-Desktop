@@ -1,4 +1,4 @@
-import { default as insecureNodeFetch, Response } from 'node-fetch';
+import { default as insecureNodeFetch } from 'node-fetch';
 import https from 'https';
 
 import {
@@ -296,18 +296,18 @@ async function processAnyOtherErrorAtDestination(
 }
 
 async function processOnionRequestErrorOnPath(
-  response: Response,
+  httpStatusCode: number, // this is the one on the response object, not inside the json response
   ciphertext: string,
   guardNodeEd25519: string,
   lsrpcEd25519Key?: string,
   associatedWith?: string
 ) {
-  if (response.status !== 200) {
+  if (httpStatusCode !== 200) {
     console.warn('errorONpath:', ciphertext);
   }
-  process406Error(response.status);
-  await process421Error(response.status, ciphertext, associatedWith, lsrpcEd25519Key);
-  await processAnyOtherErrorOnPath(response.status, guardNodeEd25519, ciphertext, associatedWith);
+  process406Error(httpStatusCode);
+  await process421Error(httpStatusCode, ciphertext, associatedWith, lsrpcEd25519Key);
+  await processAnyOtherErrorOnPath(httpStatusCode, guardNodeEd25519, ciphertext, associatedWith);
 }
 
 function processAbortedRequest(abortSignal?: AbortSignal) {
@@ -320,11 +320,22 @@ function processAbortedRequest(abortSignal?: AbortSignal) {
 
 const debug = false;
 
-// Process a response as it arrives from `fetch`, handling
-// http errors and attempting to decrypt the body with `sharedKey`
-// tslint:disable-next-line: cyclomatic-complexity
-async function processOnionResponse(
-  response: Response,
+/**
+ * Only exported for testing purpose
+ */
+export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: string) {
+  const ciphertextBuffer = fromBase64ToArrayBuffer(ciphertext);
+
+  const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(symmetricKey, ciphertextBuffer);
+
+  return { plaintext: new TextDecoder().decode(plaintextBuffer), ciphertextBuffer };
+}
+
+/**
+ * Only exported for testing purpose
+ */
+export async function processOnionResponse(
+  response: { text: () => Promise<string>; status: number },
   symmetricKey: ArrayBuffer,
   guardNode: Snode,
   lsrpcEd25519Key?: string,
@@ -342,7 +353,7 @@ async function processOnionResponse(
   }
 
   await processOnionRequestErrorOnPath(
-    response,
+    response.status,
     ciphertext,
     guardNode.pubkey_ed25519,
     lsrpcEd25519Key,
@@ -366,13 +377,11 @@ async function processOnionResponse(
     // just try to get a json object from what is inside (for PN requests), if it fails, continue ()
   }
   try {
-    ciphertextBuffer = fromBase64ToArrayBuffer(ciphertext);
-    const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(
-      symmetricKey,
-      ciphertextBuffer
-    );
-    plaintext = new TextDecoder().decode(plaintextBuffer);
+    const decoded = await exports.decodeOnionResult(symmetricKey, ciphertext);
+    plaintext = decoded.plaintext;
+    ciphertextBuffer = decoded.ciphertextBuffer;
   } catch (e) {
+    console.warn(e);
     window?.log?.error('[path] lokiRpc::processingOnionResponse - decode error', e);
     window?.log?.error(
       '[path] lokiRpc::processingOnionResponse - symmetricKey',
@@ -402,7 +411,7 @@ async function processOnionResponse(
     const status = jsonRes.status_code || jsonRes.status;
     await processOnionRequestErrorAtDestination({
       statusCode: status,
-      body: ciphertext,
+      body: plaintext,
       destinationEd25519: lsrpcEd25519Key,
       associatedWith,
     });
@@ -451,28 +460,31 @@ function isSnodeResponse(arg: any): arg is SnodeResponse {
 async function handle421InvalidSwarm(snodeEd25519: string, body: string, associatedWith?: string) {
   // The snode isn't associated with the given public key anymore
   // this does not make much sense to have a 421 without a publicKey set.
-  if (associatedWith) {
-    try {
-      const json = JSON.parse(body);
-      // The snode isn't associated with the given public key anymore
-      if (json.snodes?.length) {
-        // the snode gave us the new swarm. Save it for the next retry
-        window?.log?.warn('Wrong swarm, now looking at snodes', json.snodes);
-
-        return updateSwarmFor(associatedWith, json.snodes);
-      }
-      // remove this node from the swarm of this pubkey
-      return dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
-    } catch (e) {
-      window?.log?.warn(
-        'Got error while parsing 421 result. Dropping this snode from the swarm of this pubkey',
-        e
-      );
-      // could not parse result. Consider that this snode as invalid
-      return dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
-    }
+  if (!associatedWith) {
+    window?.log?.warn('Got a 421 without an associatedWith publickey');
+    return;
   }
-  window?.log?.warn('Got a 421 without an associatedWith publickey');
+  try {
+    const json = JSON.parse(body);
+
+    // The snode isn't associated with the given public key anymore
+    if (json.snodes?.length) {
+      // the snode gave us the new swarm. Save it for the next retry
+      window?.log?.warn('Wrong swarm, now looking at snodes', json.snodes);
+
+      return updateSwarmFor(associatedWith, json.snodes);
+    }
+    // remove this node from the swarm of this pubkey
+    return dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
+  } catch (e) {
+    console.warn('dropSnodeFromSwarmIfNeeded', snodeEd25519);
+    window?.log?.warn(
+      'Got error while parsing 421 result. Dropping this snode from the swarm of this pubkey',
+      e
+    );
+    // could not parse result. Consider that this snode as invalid
+    return dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
+  }
 }
 
 /**
@@ -543,6 +555,8 @@ const sendOnionRequestHandlingSnodeEject = async ({
   abortSignal?: AbortSignal;
   associatedWith?: string;
 }): Promise<SnodeResponse> => {
+  // this sendOnionRequest() call has to be the only one like this.
+  // If you need to call it, call it through sendOnionRequestHandlingSnodeEject because this is the one handling path rebuilding and known errors
   const { response, decodingSymmetricKey } = await sendOnionRequest({
     nodePath,
     destX25519Any,

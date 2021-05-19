@@ -156,9 +156,6 @@ export async function getRandomSnode(excludingEd25519Snode?: Array<string>): Pro
     // used for tests
     throw new Error('SeedNodeError');
   }
-  console.warn('randomSnodePool', randomSnodePool.length);
-  console.warn('excludingEd25519Snode', excludingEd25519Snode.length);
-  console.warn('snodePoolExcluding', snodePoolExcluding.length);
   return _.sample(snodePoolExcluding) as Snode;
 }
 
