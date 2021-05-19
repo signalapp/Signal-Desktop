@@ -3,7 +3,6 @@
 import { OnionPaths } from '.';
 import {
   FinalRelayOptions,
-  RequestError,
   sendOnionRequestLsrpcDest,
   snodeHttpsAgent,
   SnodeResponse,
@@ -92,6 +91,7 @@ export const getOnionPathForSending = async () => {
 const initOptionsWithDefaults = (options: OnionFetchBasicOptions) => {
   const defaultFetchBasicOptions = {
     retry: 0,
+    noJson: false,
   };
   return _.defaults(options, defaultFetchBasicOptions);
 };
@@ -177,7 +177,7 @@ export const sendViaOnion = async (
         });
       },
       {
-        retries: 5,
+        retries: 10, // each path can fail 3 times before being dropped, we have 3 paths at most
         factor: 1,
         minTimeout: 1000,
         onFailedAttempt: e => {

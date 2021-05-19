@@ -13,12 +13,6 @@ import { fromBase64ToArrayBuffer, toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { incrementBadPathCountOrDrop } from '../onions/onionPath';
 
-export enum RequestError {
-  BAD_PATH = 'BAD_PATH',
-  OTHER = 'OTHER',
-  ABORTED = 'ABORTED',
-}
-
 // hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
 const snodeFailureCount: Record<string, number> = {};
 
@@ -332,7 +326,6 @@ const debug = false;
 
 // Process a response as it arrives from `fetch`, handling
 // http errors and attempting to decrypt the body with `sharedKey`
-// May return false BAD_PATH, indicating that we should try a new path.
 // tslint:disable-next-line: cyclomatic-complexity
 async function processOnionResponse(
   response: Response,
@@ -497,9 +490,6 @@ export async function incrementBadSnodeCountOrDrop(snodeEd25519: string, associa
   const oldFailureCount = snodeFailureCount[snodeEd25519] || 0;
   const newFailureCount = oldFailureCount + 1;
   snodeFailureCount[snodeEd25519] = newFailureCount;
-  window.log.warn(
-    `Couldn't reach snode at: ${snodeEd25519}; setting his failure count to ${newFailureCount}`
-  );
 
   if (newFailureCount >= snodeFailureThreshold) {
     window.log.warn(`Failure threshold reached for: ${snodeEd25519}; dropping it.`);
@@ -524,6 +514,10 @@ export async function incrementBadSnodeCountOrDrop(snodeEd25519: string, associa
       // if dropSnodeFromPath throws, it means there is an issue patching up the path, increment the whole path issues count
       await OnionPaths.incrementBadPathCountOrDrop(snodeEd25519);
     }
+  } else {
+    window.log.warn(
+      `Couldn't reach snode at: ${snodeEd25519}; setting his failure count to ${newFailureCount}`
+    );
   }
 }
 
@@ -733,7 +727,7 @@ async function onionFetchRetryable(
 }
 
 /**
- * If the fetch returnes BAD_PATH we retry this call with a new path at most 3 times. If another error happens, we return it. If we have a result we just return it.
+ * If the fetch throws a retryable error we retry this call with a new path at most 3 times. If another error happens, we return it. If we have a result we just return it.
  */
 export async function lokiOnionFetch(
   targetNode: Snode,
@@ -746,7 +740,7 @@ export async function lokiOnionFetch(
         return onionFetchRetryable(targetNode, body, associatedWith);
       },
       {
-        retries: 5,
+        retries: 10,
         factor: 1,
         minTimeout: 1000,
         onFailedAttempt: e => {

@@ -268,21 +268,9 @@ export async function getSnodePoolFromSnodes() {
   const nodesToRequest = _.sampleSize(existingSnodePool, 3);
   const results = await Promise.all(
     nodesToRequest.map(async node => {
-      return pRetry(
-        async () => {
-          return getSnodePoolFromSnode(node);
-        },
-        {
-          retries: 3,
-          factor: 1,
-          minTimeout: 1000,
-          onFailedAttempt: e => {
-            window.log.warn(
-              `getSnodePoolFromSnode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
-            );
-          },
-        }
-      );
+      // this call is already retried if the snode does not reply
+      // at least when onion requests enabled
+      return getSnodePoolFromSnode(node);
     })
   );
 

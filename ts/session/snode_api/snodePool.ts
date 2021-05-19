@@ -7,6 +7,7 @@ import * as Data from '../../../ts/data/data';
 
 import { allowOnlyOneAtATime } from '../utils/Promise';
 import pRetry from 'p-retry';
+import { ed25519Str } from '../onions/onionPath';
 
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
@@ -117,7 +118,9 @@ export function dropSnodeFromSnodePool(snodeEd25519: string) {
     _.remove(randomSnodePool, x => x.pubkey_ed25519 === snodeEd25519);
 
     window.log.warn(
-      `Marking ${snodeEd25519} as unreachable, ${randomSnodePool.length} snodes remaining in randomPool`
+      `Marking ${ed25519Str(snodeEd25519)} as unreachable, ${
+        randomSnodePool.length
+      } snodes remaining in randomPool`
     );
   }
 }
@@ -271,7 +274,7 @@ export async function refreshRandomPool(): Promise<void> {
       return;
     }
     try {
-      // let this request try 3 (2+1) times. If all those requests end up without having a consensus,
+      // let this request try 3 (3+1) times. If all those requests end up without having a consensus,
       // fetch the snode pool from one of the seed nodes (see the catch).
       await pRetry(
         async () => {
@@ -284,7 +287,7 @@ export async function refreshRandomPool(): Promise<void> {
           randomSnodePool = commonNodes;
         },
         {
-          retries: 2,
+          retries: 3,
           factor: 1,
           minTimeout: 1000,
           onFailedAttempt: e => {
