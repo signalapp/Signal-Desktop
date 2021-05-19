@@ -44,19 +44,21 @@ export type SessionsOptions = {
 };
 
 export class Sessions extends SessionStore {
-  private readonly lock: Lock;
+  private readonly lock: Lock | undefined;
 
   private inTransaction = false;
 
   constructor(private readonly options: SessionsOptions = {}) {
     super();
 
-    this.lock = options.lock || new Lock();
+    this.lock = options.lock;
   }
 
   public async transaction<T>(fn: () => Promise<T>): Promise<T> {
     assert(!this.inTransaction, 'Already in transaction');
     this.inTransaction = true;
+
+    assert(this.lock, "Can't start transaction without lock");
 
     try {
       return await window.textsecure.storage.protocol.sessionTransaction(
@@ -117,9 +119,9 @@ export type IdentityKeysOptions = {
 };
 
 export class IdentityKeys extends IdentityKeyStore {
-  private readonly lock: Lock;
+  private readonly lock: Lock | undefined;
 
-  constructor({ lock = new Lock() }: IdentityKeysOptions = {}) {
+  constructor({ lock }: IdentityKeysOptions = {}) {
     super();
     this.lock = lock;
   }

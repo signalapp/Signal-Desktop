@@ -118,7 +118,7 @@ export type SessionTransactionOptions = {
   readonly lock?: Lock;
 };
 
-const GLOBAL_LOCK = new Lock();
+const GLOBAL_LOCK = new Lock('GLOBAL_LOCK');
 
 async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
   object: SignalProtocolStore,
@@ -608,16 +608,25 @@ export class SignalProtocolStore extends EventsMixin {
     body: () => Promise<T>,
     lock: Lock = GLOBAL_LOCK
   ): Promise<T> {
+    const debugName = `sessionTransaction(${lock.name}:${name})`;
+
     // Allow re-entering from LibSignalStores
     const isNested = this.sessionLock === lock;
     if (this.sessionLock && !isNested) {
-      window.log.info(`sessionTransaction(${name}): sessions locked, waiting`);
+      const start = Date.now();
+
+      window.log.info(
+        `${debugName}: locked by ${this.sessionLock.name}, waiting`
+      );
       await new Promise<void>(resolve => this.sessionLockQueue.push(resolve));
+
+      const duration = Date.now() - start;
+      window.log.info(`${debugName}: unlocked after ${duration}ms`);
     }
 
     if (!isNested) {
       if (lock !== GLOBAL_LOCK) {
-        window.log.info(`sessionTransaction(${name}): enter`);
+        window.log.info(`${debugName}: enter`);
       }
       this.sessionLock = lock;
     }

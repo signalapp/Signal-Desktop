@@ -49,6 +49,7 @@ import WebSocketResource, {
 import Crypto from './Crypto';
 import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
+import { assert } from '../util/assert';
 import { isByteBufferEmpty } from '../util/isByteBufferEmpty';
 
 import {
@@ -609,7 +610,11 @@ class MessageReceiverInner extends EventTarget {
         envelopePlaintext = MessageReceiverInner.stringToArrayBufferBase64(
           item.envelope
         );
-      } else if (item.envelope && typeof item.envelope === 'string') {
+      } else if (typeof item.envelope === 'string') {
+        assert(
+          item.envelope || item.decrypted,
+          'MessageReceiver.queueCached: empty envelope without decrypted data'
+        );
         envelopePlaintext = MessageReceiverInner.stringToArrayBuffer(
           item.envelope
         );
@@ -762,7 +767,7 @@ class MessageReceiverInner extends EventTarget {
     const decrypted: Array<DecryptedEnvelope> = [];
 
     try {
-      const lock = new Lock();
+      const lock = new Lock('cacheAndQueueBatch');
       const sessionStore = new Sessions({
         transactionOnly: true,
         lock,

@@ -1346,7 +1346,7 @@ describe('SignalProtocolStore', () => {
       const id = `${number}.1`;
       const testRecord = getSessionRecord();
 
-      const lock = new Lock();
+      const lock = new Lock('lock');
 
       await store.sessionTransaction(
         'test',
