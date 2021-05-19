@@ -14,6 +14,7 @@ export const IMAGE_WEBP = 'image/webp' as MIMEType;
 export const IMAGE_PNG = 'image/png' as MIMEType;
 export const VIDEO_MP4 = 'video/mp4' as MIMEType;
 export const VIDEO_QUICKTIME = 'video/quicktime' as MIMEType;
+export const ODT = 'application/vnd.oasis.opendocument.spreadsheet' as MIMEType;
 
 export const isJPEG = (value: MIMEType): boolean => value === 'image/jpeg';
 export const isImage = (value: MIMEType): boolean =>
