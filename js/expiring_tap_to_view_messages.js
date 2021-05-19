@@ -50,16 +50,11 @@
     const HOUR = 60 * MINUTE;
     const THIRTY_DAYS = 30 * 24 * HOUR;
 
-    const toAgeOut = await window.Signal.Data.getNextTapToViewMessageToAgeOut({
-      Message: Whisper.Message,
-    });
-
-    if (!toAgeOut) {
+    const receivedAt = await window.Signal.Data.getNextTapToViewMessageTimestampToAgeOut();
+    if (!receivedAt) {
       return;
     }
 
-    const receivedAt =
-      toAgeOut.get('received_at_ms') || toAgeOut.get('received_at');
     const nextCheck = receivedAt + THIRTY_DAYS;
 
     Whisper.TapToViewMessagesListener.nextCheck = nextCheck;

@@ -178,7 +178,7 @@ const dataInterface: ServerInterface = {
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
-  getNextTapToViewMessageToAgeOut,
+  getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
@@ -3924,11 +3924,11 @@ async function getNextExpiringMessage(): Promise<MessageType | undefined> {
   return jsonToObject(rows[0].json);
 }
 
-async function getNextTapToViewMessageToAgeOut(): Promise<
-  MessageType | undefined
+async function getNextTapToViewMessageTimestampToAgeOut(): Promise<
+  undefined | number
 > {
   const db = getInstance();
-  const rows = db
+  const row = db
     .prepare<EmptyQuery>(
       `
       SELECT json FROM messages
@@ -3939,13 +3939,15 @@ async function getNextTapToViewMessageToAgeOut(): Promise<
       LIMIT 1;
       `
     )
-    .all();
+    .get();
 
-  if (!rows || rows.length < 1) {
+  if (!row) {
     return undefined;
   }
 
-  return jsonToObject(rows[0].json);
+  const data = jsonToObject(row.json);
+  const result = data.received_at_ms || data.received_at;
+  return isNormalNumber(result) ? result : undefined;
 }
 
 async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {

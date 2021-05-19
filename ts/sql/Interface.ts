@@ -229,6 +229,7 @@ export type DataInterface = {
     obsoleteId: string,
     currentId: string
   ) => Promise<void>;
+  getNextTapToViewMessageTimestampToAgeOut: () => Promise<undefined | number>;
 
   getUnprocessedCount: () => Promise<number>;
   getAllUnprocessed: () => Promise<Array<UnprocessedType>>;
@@ -359,7 +360,6 @@ export type ServerInterface = DataInterface & {
     ourConversationId: string;
   }) => Promise<MessageType | undefined>;
   getNextExpiringMessage: () => Promise<MessageType | undefined>;
-  getNextTapToViewMessageToAgeOut: () => Promise<MessageType | undefined>;
   getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
   getUnreadCountForConversation: (conversationId: string) => Promise<number>;
@@ -495,9 +495,6 @@ export type ClientInterface = DataInterface & {
     Message: typeof MessageModel;
   }) => Promise<MessageModel | undefined>;
   getNextExpiringMessage: (options: {
-    Message: typeof MessageModel;
-  }) => Promise<MessageModel | null>;
-  getNextTapToViewMessageToAgeOut: (options: {
     Message: typeof MessageModel;
   }) => Promise<MessageModel | null>;
   getOutgoingWithoutExpiresAt: (options: {

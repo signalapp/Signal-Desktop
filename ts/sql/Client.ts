@@ -188,7 +188,7 @@ const dataInterface: ClientInterface = {
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
-  getNextTapToViewMessageToAgeOut,
+  getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
@@ -1324,17 +1324,8 @@ async function getNextExpiringMessage({
   return null;
 }
 
-async function getNextTapToViewMessageToAgeOut({
-  Message,
-}: {
-  Message: typeof MessageModel;
-}) {
-  const message = await channels.getNextTapToViewMessageToAgeOut();
-  if (!message) {
-    return null;
-  }
-
-  return new Message(message);
+async function getNextTapToViewMessageTimestampToAgeOut() {
+  return channels.getNextTapToViewMessageTimestampToAgeOut();
 }
 async function getTapToViewMessagesNeedingErase({
   MessageCollection,
