@@ -118,10 +118,12 @@
           {{ spellCheckDirtyText }}
         </p>
       </div>
+      {{ #isAutoLaunchSupported }}
       <div class='auto-launch-setting'>
         <input type='checkbox' name='auto-launch-setting' id='auto-launch-setting' />
         <label for='auto-launch-setting'>{{ autoLaunchDescription }}</label>
       </div>
+      {{ /isAutoLaunchSupported }}
     <hr>
     <div class='calling-setting'>
       <h3>{{ calling }}</h3>

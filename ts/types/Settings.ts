@@ -29,6 +29,12 @@ export const isAudioNotificationSupported = (): boolean =>
 export const isNotificationGroupingSupported = (): boolean =>
   !OS.isWindows() || OS.isWindows(MIN_WINDOWS_VERSION);
 
+// Login item settings are only supported on macOS and Windows, according to [Electron's
+//   docs][0].
+// [0]: https://www.electronjs.org/docs/api/app#appsetloginitemsettingssettings-macos-windows
+export const isAutoLaunchSupported = (): boolean =>
+  OS.isWindows() || OS.isMacOS();
+
 // the "hide menu bar" option is specific to Windows and Linux
 export const isHideMenuBarSupported = (): boolean => !OS.isMacOS();
 
