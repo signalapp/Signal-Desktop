@@ -26,6 +26,6 @@ export async function initialize(isTesting = false): Promise<void> {
   await sql.initializeRenderer({ configDir, key });
 }
 
-export function goBackToMainProcess(): void {
-  window.Signal.Data.goBackToMainProcess();
+export async function goBackToMainProcess(): Promise<void> {
+  return window.Signal.Data.goBackToMainProcess();
 }
