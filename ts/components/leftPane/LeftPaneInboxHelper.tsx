@@ -38,10 +38,6 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     this.pinnedConversations = pinnedConversations;
   }
 
-  shouldRenderNetworkStatusAndUpdateDialog(): boolean {
-    return true;
-  }
-
   getRowCount(): number {
     const headerCount = this.hasPinnedAndNonpinned() ? 2 : 0;
     const buttonCount = this.archivedConversations.length ? 1 : 0;

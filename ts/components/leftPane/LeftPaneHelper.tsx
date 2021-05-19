@@ -40,10 +40,6 @@ export abstract class LeftPaneHelper<T> {
     return undefined;
   }
 
-  shouldRenderNetworkStatusAndUpdateDialog(): boolean {
-    return false;
-  }
-
   getPreRowsNode(
     _: Readonly<{
       clearGroupCreationError: () => void;

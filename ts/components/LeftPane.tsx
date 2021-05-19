@@ -244,6 +244,20 @@ export const LeftPane: React.FC<PropsType> = ({
       const { ctrlKey, shiftKey, altKey, metaKey, key } = event;
       const commandOrCtrl = OS.isMacOS() ? metaKey : ctrlKey;
 
+      if (event.key === 'Escape') {
+        const backAction = helper.getBackAction({
+          showInbox,
+          startComposing,
+          showChooseGroupMembers,
+        });
+        if (backAction) {
+          event.preventDefault();
+          event.stopPropagation();
+          backAction();
+          return;
+        }
+      }
+
       if (
         commandOrCtrl &&
         !shiftKey &&
@@ -314,6 +328,8 @@ export const LeftPane: React.FC<PropsType> = ({
     openConversationInternal,
     selectedConversationId,
     selectedMessageId,
+    showChooseGroupMembers,
+    showInbox,
     startComposing,
   ]);
 
@@ -371,23 +387,7 @@ export const LeftPane: React.FC<PropsType> = ({
   // [0]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/645900a0e296ca7053dbf6cd9e12cc85849de2d5/docs/rules/no-static-element-interactions.md#case-the-event-handler-is-only-being-used-to-capture-bubbled-events
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (
-    <div
-      className="module-left-pane"
-      onKeyDown={event => {
-        if (event.key === 'Escape') {
-          const backAction = helper.getBackAction({
-            showInbox,
-            startComposing,
-            showChooseGroupMembers,
-          });
-          if (backAction) {
-            event.preventDefault();
-            event.stopPropagation();
-            backAction();
-          }
-        }
-      }}
-    >
+    <div className="module-left-pane">
       {/* eslint-enable jsx-a11y/no-static-element-interactions */}
       <div className="module-left-pane__header">
         {helper.getHeaderContents({
@@ -399,12 +399,8 @@ export const LeftPane: React.FC<PropsType> = ({
       </div>
       {renderExpiredBuildDialog()}
       {renderRelinkDialog()}
-      {helper.shouldRenderNetworkStatusAndUpdateDialog() && (
-        <>
-          {renderNetworkStatus()}
-          {renderUpdateDialog()}
-        </>
-      )}
+      {renderNetworkStatus()}
+      {renderUpdateDialog()}
       {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
       <Measure bounds>
         {({ contentRect, measureRef }: MeasuredComponentProps) => (
