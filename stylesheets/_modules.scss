@@ -5989,6 +5989,19 @@ button.module-image__border-overlay:focus {
       $color-white
     );
   }
+
+  &--presenting {
+    $icon: '../images/icons/v2/share-screen-solid-28.svg';
+    &--on {
+      @include calling-button-icon-on($icon);
+    }
+    &--off {
+      @include calling-button-icon-off($icon);
+    }
+    &--disabled {
+      @include calling-button-icon-disabled($icon);
+    }
+  }
 }
 
 @keyframes module-ongoing-call__controls--fade-in {
@@ -6286,6 +6299,10 @@ button.module-image__border-overlay:focus {
         height: 100%;
         transform: rotateY(180deg);
         width: 100%;
+
+        &--presenting {
+          transform: inherit;
+        }
       }
 
       &--audio-muted::before {
@@ -6323,6 +6340,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__toast {
+    @include button-reset();
     @include font-body-1-bold;
     background-color: $color-gray-75;
     border-radius: 8px;
@@ -6648,6 +6666,17 @@ button.module-image__border-overlay:focus {
       height: 16px;
       width: 16px;
     }
+  }
+
+  &__presenting {
+    @include color-svg(
+      '../images/icons/v2/share-screen-solid-28.svg',
+      $color-white
+    );
+    display: inline-block;
+    margin-left: 18px;
+    height: 16px;
+    width: 16px;
   }
 }
 

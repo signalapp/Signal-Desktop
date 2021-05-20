@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -12,6 +12,9 @@ export enum CallingButtonType {
   AUDIO_OFF = 'AUDIO_OFF',
   AUDIO_ON = 'AUDIO_ON',
   HANG_UP = 'HANG_UP',
+  PRESENTING_DISABLED = 'PRESENTING_DISABLED',
+  PRESENTING_OFF = 'PRESENTING_OFF',
+  PRESENTING_ON = 'PRESENTING_ON',
   VIDEO_DISABLED = 'VIDEO_DISABLED',
   VIDEO_OFF = 'VIDEO_OFF',
   VIDEO_ON = 'VIDEO_ON',
@@ -32,9 +35,11 @@ export const CallingButton = ({
 }: PropsType): JSX.Element => {
   let classNameSuffix = '';
   let tooltipContent = '';
+  let disabled = false;
   if (buttonType === CallingButtonType.AUDIO_DISABLED) {
     classNameSuffix = 'audio--disabled';
     tooltipContent = i18n('calling__button--audio-disabled');
+    disabled = true;
   } else if (buttonType === CallingButtonType.AUDIO_OFF) {
     classNameSuffix = 'audio--off';
     tooltipContent = i18n('calling__button--audio-on');
@@ -44,6 +49,7 @@ export const CallingButton = ({
   } else if (buttonType === CallingButtonType.VIDEO_DISABLED) {
     classNameSuffix = 'video--disabled';
     tooltipContent = i18n('calling__button--video-disabled');
+    disabled = true;
   } else if (buttonType === CallingButtonType.VIDEO_OFF) {
     classNameSuffix = 'video--off';
     tooltipContent = i18n('calling__button--video-on');
@@ -53,6 +59,16 @@ export const CallingButton = ({
   } else if (buttonType === CallingButtonType.HANG_UP) {
     classNameSuffix = 'hangup';
     tooltipContent = i18n('calling__hangup');
+  } else if (buttonType === CallingButtonType.PRESENTING_DISABLED) {
+    classNameSuffix = 'presenting--disabled';
+    tooltipContent = i18n('calling__button--presenting-disabled');
+    disabled = true;
+  } else if (buttonType === CallingButtonType.PRESENTING_ON) {
+    classNameSuffix = 'presenting--on';
+    tooltipContent = i18n('calling__button--presenting-off');
+  } else if (buttonType === CallingButtonType.PRESENTING_OFF) {
+    classNameSuffix = 'presenting--off';
+    tooltipContent = i18n('calling__button--presenting-on');
   }
 
   const className = classNames(
@@ -68,9 +84,10 @@ export const CallingButton = ({
     >
       <button
         aria-label={tooltipContent}
-        type="button"
         className={className}
+        disabled={disabled}
         onClick={onClick}
+        type="button"
       >
         <div />
       </button>

@@ -753,6 +753,61 @@ function setupAsStandalone() {
   }
 }
 
+let screenShareWindow;
+function showScreenShareWindow(sourceName) {
+  if (screenShareWindow) {
+    screenShareWindow.show();
+    return;
+  }
+
+  const width = 480;
+
+  const { screen } = electron;
+  const display = screen.getPrimaryDisplay();
+  const options = {
+    alwaysOnTop: true,
+    autoHideMenuBar: true,
+    backgroundColor: '#2e2e2e',
+    darkTheme: true,
+    frame: false,
+    fullscreenable: false,
+    height: 44,
+    maximizable: false,
+    minimizable: false,
+    resizable: false,
+    show: false,
+    title: locale.messages.screenShareWindow.message,
+    width,
+    webPreferences: {
+      ...defaultWebPrefs,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'screenShare_preload.js'),
+    },
+    x: Math.floor(display.size.width / 2) - width / 2,
+    y: 24,
+  };
+
+  screenShareWindow = new BrowserWindow(options);
+
+  handleCommonWindowEvents(screenShareWindow);
+
+  screenShareWindow.loadURL(prepareFileUrl([__dirname, 'screenShare.html']));
+
+  screenShareWindow.on('closed', () => {
+    screenShareWindow = null;
+  });
+
+  screenShareWindow.once('ready-to-show', () => {
+    screenShareWindow.show();
+    screenShareWindow.webContents.send(
+      'render-screen-sharing-controller',
+      sourceName
+    );
+  });
+}
+
 let aboutWindow;
 function showAbout() {
   if (aboutWindow) {
@@ -1501,6 +1556,22 @@ ipc.on('close-about', () => {
   if (aboutWindow) {
     aboutWindow.close();
   }
+});
+
+ipc.on('close-screen-share-controller', () => {
+  if (screenShareWindow) {
+    screenShareWindow.close();
+  }
+});
+
+ipc.on('stop-screen-share', () => {
+  if (mainWindow) {
+    mainWindow.webContents.send('stop-screen-share');
+  }
+});
+
+ipc.on('show-screen-share', (event, sourceName) => {
+  showScreenShareWindow(sourceName);
 });
 
 ipc.on('update-tray-icon', (event, unreadCount) => {

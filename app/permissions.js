@@ -23,18 +23,29 @@ function _createPermissionHandler(userConfig) {
   return (webContents, permission, callback, details) => {
     // We default 'media' permission to false, but the user can override that for
     // the microphone and camera.
-    if (
-      permission === 'media' &&
-      details.mediaTypes.includes('audio') &&
-      userConfig.get('mediaPermissions')
-    ) {
-      return callback(true);
-    }
-    if (
-      permission === 'media' &&
-      details.mediaTypes.includes('video') &&
-      userConfig.get('mediaCameraPermissions')
-    ) {
+    if (permission === 'media') {
+      if (
+        details.mediaTypes.includes('audio') ||
+        details.mediaTypes.includes('video')
+      ) {
+        if (
+          details.mediaTypes.includes('audio') &&
+          userConfig.get('mediaPermissions')
+        ) {
+          return callback(true);
+        }
+        if (
+          details.mediaTypes.includes('video') &&
+          userConfig.get('mediaCameraPermissions')
+        ) {
+          return callback(true);
+        }
+
+        return callback(false);
+      }
+
+      // If it doesn't have 'video' or 'audio', it's probably screenshare.
+      // TODO: DESKTOP-1611
       return callback(true);
     }
 

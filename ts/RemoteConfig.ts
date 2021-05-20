@@ -11,8 +11,10 @@ export type ConfigKeyType =
   | 'desktop.gv2'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.messageRequests'
+  | 'desktop.screensharing'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
+  | 'desktop.worksAtSignal'
   | 'global.groupsv2.maxGroupSize'
   | 'global.groupsv2.groupSizeHardLimit';
 type ConfigValueType = {

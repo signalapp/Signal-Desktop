@@ -78,7 +78,12 @@ const mapStateToActiveCallProp = (
     isInSpeakerView: activeCallState.isInSpeakerView,
     joinedAt: activeCallState.joinedAt,
     pip: activeCallState.pip,
+    presentingSource: activeCallState.presentingSource,
+    presentingSourcesAvailable: activeCallState.presentingSourcesAvailable,
     settingsDialogOpen: activeCallState.settingsDialogOpen,
+    showNeedsScreenRecordingPermissionsWarning: Boolean(
+      activeCallState.showNeedsScreenRecordingPermissionsWarning
+    ),
     showParticipantsList: activeCallState.showParticipantsList,
   };
 
@@ -93,6 +98,9 @@ const mapStateToActiveCallProp = (
         remoteParticipants: [
           {
             hasRemoteVideo: Boolean(call.hasRemoteVideo),
+            presenting: Boolean(call.isSharingScreen),
+            title: conversation.title,
+            uuid: conversation.uuid,
           },
         ],
       };
@@ -119,6 +127,8 @@ const mapStateToActiveCallProp = (
           demuxId: remoteParticipant.demuxId,
           hasRemoteAudio: remoteParticipant.hasRemoteAudio,
           hasRemoteVideo: remoteParticipant.hasRemoteVideo,
+          presenting: remoteParticipant.presenting,
+          sharingScreen: remoteParticipant.sharingScreen,
           speakerTime: remoteParticipant.speakerTime,
           videoAspectRatio: remoteParticipant.videoAspectRatio,
         });

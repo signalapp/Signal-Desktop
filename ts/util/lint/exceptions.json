@@ -2727,6 +2727,13 @@
     "reasonDetail": "isn't react"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/execa/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-20T20:01:50.505Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/expand-range/node_modules/fill-range/index.js",
     "line": "      return wrap([origA, origB], sep, opts);",
@@ -2860,6 +2867,13 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/foreground-child/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-20T20:01:50.505Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/form-data/lib/form_data.js",
     "line": "  append(header);",
@@ -2879,6 +2893,13 @@
     "line": "  append(value);",
     "reasonCategory": "falseMatch",
     "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/gauge/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-20T20:01:50.505Z"
   },
   {
     "rule": "jQuery-$(",
@@ -8703,6 +8724,13 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/loud-rejection/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-20T20:01:50.505Z"
+  },
+  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/make-dir/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
@@ -9406,6 +9434,13 @@
     "reasonCategory": "falseMatch",
     "updated": "2021-05-07T20:07:48.358Z",
     "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/os-locale/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-20T20:01:50.505Z"
   },
   {
     "rule": "jQuery-append(",
@@ -11101,13 +11136,6 @@
     "updated": "2020-09-11T17:24:56.124Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proper-lockfile/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T04:01:59.934Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -12620,13 +12648,6 @@
     "updated": "2020-04-30T22:45:07.878Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/restore-cursor/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/rx-lite-aggregates/rx.lite.aggregates.min.js",
     "reasonCategory": "falseMatch",
@@ -12867,13 +12888,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/spawn-wrap/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
     "rule": "jQuery-before(",
     "path": "node_modules/sshpk/lib/dhe.js",
     "line": "\t\tvar secret = nacl.box.before(new Uint8Array(pub),",
@@ -12929,6 +12943,13 @@
     "line": "    b.append(data)",
     "reasonCategory": "falseMatch",
     "updated": "2021-01-20T22:42:00.662Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/term-size/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-20T20:01:50.505Z"
   },
   {
     "rule": "jQuery-after(",
@@ -13264,13 +13285,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/write-file-atomic/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/xregexp/xregexp-all.js",
     "line": "        replacementToken = /\\$(?:{([\\w$]+)}|(\\d\\d?|[\\s\\S]))/g,",
@@ -13516,6 +13530,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Used to get the local video element for rendering."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingToastManager.js",
+    "line": "    const timeoutRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-13T19:40:31.751Z"
   },
   {
     "rule": "React-useRef",

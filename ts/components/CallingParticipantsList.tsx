@@ -13,8 +13,9 @@ import { sortByTitle } from '../util/sortByTitle';
 import { ConversationType } from '../state/ducks/conversations';
 
 type ParticipantType = ConversationType & {
-  hasAudio?: boolean;
-  hasVideo?: boolean;
+  hasRemoteAudio?: boolean;
+  hasRemoteVideo?: boolean;
+  presenting?: boolean;
 };
 
 export type PropsType = {
@@ -130,11 +131,14 @@ export const CallingParticipantsList = React.memo(
                     )}
                   </div>
                   <div>
-                    {participant.hasAudio === false ? (
+                    {participant.hasRemoteAudio === false ? (
                       <span className="module-calling-participants-list__muted--audio" />
                     ) : null}
-                    {participant.hasVideo === false ? (
+                    {participant.hasRemoteVideo === false ? (
                       <span className="module-calling-participants-list__muted--video" />
+                    ) : null}
+                    {participant.presenting ? (
+                      <span className="module-calling-participants-list__presenting" />
                     ) : null}
                   </div>
                 </li>

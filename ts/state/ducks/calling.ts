@@ -1,10 +1,16 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ipcRenderer } from 'electron';
 import { ThunkAction } from 'redux-thunk';
 import { CallEndedReason } from 'ringrtc';
+import {
+  hasScreenCapturePermission,
+  openSystemPreferences,
+} from 'mac-screen-capture-permissions';
 import { has, omit } from 'lodash';
 import { getOwn } from '../../util/getOwn';
+import { getPlatform } from '../selectors/user';
 import { missingCaseError } from '../../util/missingCaseError';
 import { notify } from '../../services/notify';
 import { calling } from '../../services/calling';
@@ -18,6 +24,8 @@ import {
   GroupCallJoinState,
   GroupCallVideoRequest,
   MediaDeviceSettings,
+  PresentedSource,
+  PresentableSource,
 } from '../../types/Calling';
 import { callingTones } from '../../util/callingTones';
 import { requestCameraPermissions } from '../../util/callingPermissions';
@@ -43,6 +51,8 @@ export type GroupCallParticipantInfoType = {
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
+  presenting: boolean;
+  sharingScreen: boolean;
   speakerTime?: number;
   videoAspectRatio: number;
 };
@@ -53,6 +63,7 @@ export type DirectCallStateType = {
   callState?: CallState;
   callEndedReason?: CallEndedReason;
   isIncoming: boolean;
+  isSharingScreen?: boolean;
   isVideoCall: boolean;
   hasRemoteVideo?: boolean;
 };
@@ -73,8 +84,11 @@ export type ActiveCallStateType = {
   isInSpeakerView: boolean;
   joinedAt?: number;
   pip: boolean;
+  presentingSource?: PresentedSource;
+  presentingSourcesAvailable?: Array<PresentableSource>;
   safetyNumberChangedUuids: Array<string>;
   settingsDialogOpen: boolean;
+  showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
 };
 
@@ -160,6 +174,11 @@ export type RemoteVideoChangeType = {
   hasVideo: boolean;
 };
 
+type RemoteSharingScreenChangeType = {
+  conversationId: string;
+  isSharingScreen: boolean;
+};
+
 export type SetLocalAudioType = {
   enabled: boolean;
 };
@@ -236,10 +255,15 @@ const OUTGOING_CALL = 'calling/OUTGOING_CALL';
 const PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED =
   'calling/PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED';
 const REFRESH_IO_DEVICES = 'calling/REFRESH_IO_DEVICES';
+const REMOTE_SHARING_SCREEN_CHANGE = 'calling/REMOTE_SHARING_SCREEN_CHANGE';
 const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
 const RETURN_TO_ACTIVE_CALL = 'calling/RETURN_TO_ACTIVE_CALL';
 const SET_LOCAL_AUDIO_FULFILLED = 'calling/SET_LOCAL_AUDIO_FULFILLED';
 const SET_LOCAL_VIDEO_FULFILLED = 'calling/SET_LOCAL_VIDEO_FULFILLED';
+const SET_PRESENTING = 'calling/SET_PRESENTING';
+const SET_PRESENTING_SOURCES = 'calling/SET_PRESENTING_SOURCES';
+const TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS =
+  'calling/TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS';
 const START_DIRECT_CALL = 'calling/START_DIRECT_CALL';
 const TOGGLE_PARTICIPANTS = 'calling/TOGGLE_PARTICIPANTS';
 const TOGGLE_PIP = 'calling/TOGGLE_PIP';
@@ -326,6 +350,11 @@ type RefreshIODevicesActionType = {
   payload: MediaDeviceSettings;
 };
 
+type RemoteSharingScreenChangeActionType = {
+  type: 'calling/REMOTE_SHARING_SCREEN_CHANGE';
+  payload: RemoteSharingScreenChangeType;
+};
+
 type RemoteVideoChangeActionType = {
   type: 'calling/REMOTE_VIDEO_CHANGE';
   payload: RemoteVideoChangeType;
@@ -345,6 +374,16 @@ type SetLocalVideoFulfilledActionType = {
   payload: SetLocalVideoType;
 };
 
+type SetPresentingFulfilledActionType = {
+  type: 'calling/SET_PRESENTING';
+  payload?: PresentedSource;
+};
+
+type SetPresentingSourcesActionType = {
+  type: 'calling/SET_PRESENTING_SOURCES';
+  payload: Array<PresentableSource>;
+};
+
 type ShowCallLobbyActionType = {
   type: 'calling/SHOW_CALL_LOBBY';
   payload: ShowCallLobbyType;
@@ -353,6 +392,10 @@ type ShowCallLobbyActionType = {
 type StartDirectCallActionType = {
   type: 'calling/START_DIRECT_CALL';
   payload: StartDirectCallType;
+};
+
+type ToggleNeedsScreenRecordingPermissionsActionType = {
+  type: 'calling/TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS';
 };
 
 type ToggleParticipantsActionType = {
@@ -387,14 +430,18 @@ export type CallingActionType =
   | OutgoingCallActionType
   | PeekNotConnectedGroupCallFulfilledActionType
   | RefreshIODevicesActionType
+  | RemoteSharingScreenChangeActionType
   | RemoteVideoChangeActionType
   | ReturnToActiveCallActionType
   | SetLocalAudioActionType
   | SetLocalVideoFulfilledActionType
+  | SetPresentingSourcesActionType
   | ShowCallLobbyActionType
   | StartDirectCallActionType
+  | ToggleNeedsScreenRecordingPermissionsActionType
   | ToggleParticipantsActionType
   | TogglePipActionType
+  | SetPresentingFulfilledActionType
   | ToggleSettingsActionType
   | ToggleSpeakerViewActionType;
 
@@ -438,6 +485,7 @@ function callStateChange(
     }
     if (callState === CallState.Ended) {
       await callingTones.playEndCall();
+      ipcRenderer.send('close-screen-share-controller');
     }
 
     dispatch({
@@ -519,10 +567,59 @@ function declineCall(payload: DeclineCallType): DeclineCallActionType {
   };
 }
 
+function getPresentingSources(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | SetPresentingSourcesActionType
+  | ToggleNeedsScreenRecordingPermissionsActionType
+> {
+  return async (dispatch, getState) => {
+    // We check if the user has permissions first before calling desktopCapturer
+    // Next we call getPresentingSources so that one gets the prompt for permissions,
+    // if necessary.
+    // Finally, we have the if statement which shows the modal, if needed.
+    // It is in this exact order so that during first-time-use one will be
+    // prompted for permissions and if they so happen to deny we can still
+    // capture that state correctly.
+    const platform = getPlatform(getState());
+    const needsPermission =
+      platform === 'darwin' && !hasScreenCapturePermission();
+
+    const sources = await calling.getPresentingSources();
+
+    if (needsPermission) {
+      dispatch({
+        type: TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS,
+      });
+      return;
+    }
+
+    dispatch({
+      type: SET_PRESENTING_SOURCES,
+      payload: sources,
+    });
+  };
+}
+
 function groupCallStateChange(
   payload: GroupCallStateChangeArgumentType
 ): ThunkAction<void, RootStateType, unknown, GroupCallStateChangeActionType> {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
+    let didSomeoneStartPresenting: boolean;
+    const activeCall = getActiveCall(getState().calling);
+    if (activeCall?.callMode === CallMode.Group) {
+      const wasSomeonePresenting = activeCall.remoteParticipants.some(
+        participant => participant.presenting
+      );
+      const isSomeonePresenting = payload.remoteParticipants.some(
+        participant => participant.presenting
+      );
+      didSomeoneStartPresenting = !wasSomeonePresenting && isSomeonePresenting;
+    } else {
+      didSomeoneStartPresenting = false;
+    }
+
     dispatch({
       type: GROUP_CALL_STATE_CHANGE,
       payload: {
@@ -530,6 +627,10 @@ function groupCallStateChange(
         ourUuid: getState().user.ourUuid,
       },
     });
+
+    if (didSomeoneStartPresenting) {
+      callingTones.someonePresenting();
+    }
   };
 }
 
@@ -598,6 +699,17 @@ function receiveIncomingCall(
   return {
     type: INCOMING_CALL,
     payload,
+  };
+}
+
+function openSystemPreferencesAction(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  never
+> {
+  return () => {
+    openSystemPreferences();
   };
 }
 
@@ -694,6 +806,15 @@ function refreshIODevices(
   };
 }
 
+function remoteSharingScreenChange(
+  payload: RemoteSharingScreenChangeType
+): RemoteSharingScreenChangeActionType {
+  return {
+    type: REMOTE_SHARING_SCREEN_CHANGE,
+    payload,
+  };
+}
+
 function remoteVideoChange(
   payload: RemoteVideoChangeType
 ): RemoteVideoChangeActionType {
@@ -764,7 +885,7 @@ function setLocalVideo(
       } else if (payload.enabled) {
         calling.enableLocalCamera();
       } else {
-        calling.disableLocalCamera();
+        calling.disableLocalVideo();
       }
       ({ enabled } = payload);
     } else {
@@ -794,6 +915,35 @@ function setGroupCallVideoRequest(
         framerate: undefined,
       }))
     );
+  };
+}
+
+function setPresenting(
+  sourceToPresent?: PresentedSource
+): ThunkAction<void, RootStateType, unknown, SetPresentingFulfilledActionType> {
+  return async (dispatch, getState) => {
+    const callingState = getState().calling;
+    const { activeCallState } = callingState;
+    const activeCall = getActiveCall(callingState);
+    if (!activeCall || !activeCallState) {
+      window.log.warn('Trying to present when no call is active');
+      return;
+    }
+
+    calling.setPresenting(
+      activeCall.conversationId,
+      activeCallState.hasLocalVideo,
+      sourceToPresent
+    );
+
+    dispatch({
+      type: SET_PRESENTING,
+      payload: sourceToPresent,
+    });
+
+    if (sourceToPresent) {
+      await callingTones.someonePresenting();
+    }
   };
 }
 
@@ -857,6 +1007,12 @@ function togglePip(): TogglePipActionType {
   };
 }
 
+function toggleScreenRecordingPermissionsDialog(): ToggleNeedsScreenRecordingPermissionsActionType {
+  return {
+    type: TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS,
+  };
+}
+
 function toggleSettings(): ToggleSettingsActionType {
   return {
     type: TOGGLE_SETTINGS,
@@ -871,31 +1027,36 @@ function toggleSpeakerView(): ToggleSpeakerViewActionType {
 
 export const actions = {
   acceptCall,
-  cancelCall,
   callStateChange,
+  cancelCall,
   changeIODevice,
   closeNeedPermissionScreen,
   declineCall,
+  getPresentingSources,
   groupCallStateChange,
   hangUp,
-  keyChanged,
   keyChangeOk,
-  receiveIncomingCall,
+  keyChanged,
+  openSystemPreferencesAction,
   outgoingCall,
   peekNotConnectedGroupCall,
+  receiveIncomingCall,
   refreshIODevices,
+  remoteSharingScreenChange,
   remoteVideoChange,
   returnToActiveCall,
-  setLocalPreview,
-  setRendererCanvas,
-  setLocalAudio,
-  setLocalVideo,
   setGroupCallVideoRequest,
-  startCallingLobby,
+  setLocalAudio,
+  setLocalPreview,
+  setLocalVideo,
+  setPresenting,
+  setRendererCanvas,
   showCallLobby,
   startCall,
+  startCallingLobby,
   toggleParticipants,
   togglePip,
+  toggleScreenRecordingPermissionsDialog,
   toggleSettings,
   toggleSpeakerView,
 };
@@ -1270,6 +1431,26 @@ export function reducer(
     };
   }
 
+  if (action.type === REMOTE_SHARING_SCREEN_CHANGE) {
+    const { conversationId, isSharingScreen } = action.payload;
+    const call = getOwn(state.callsByConversation, conversationId);
+    if (call?.callMode !== CallMode.Direct) {
+      window.log.warn('Cannot update remote video for a non-direct call');
+      return state;
+    }
+
+    return {
+      ...state,
+      callsByConversation: {
+        ...callsByConversation,
+        [conversationId]: {
+          ...call,
+          isSharingScreen,
+        },
+      },
+    };
+  }
+
   if (action.type === REMOTE_VIDEO_CHANGE) {
     const { conversationId, hasVideo } = action.payload;
     const call = getOwn(state.callsByConversation, conversationId);
@@ -1423,6 +1604,59 @@ export function reducer(
       activeCallState: {
         ...activeCallState,
         pip: !activeCallState.pip,
+      },
+    };
+  }
+
+  if (action.type === SET_PRESENTING) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn('Cannot toggle presenting when there is no active call');
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        presentingSource: action.payload,
+        presentingSourcesAvailable: undefined,
+      },
+    };
+  }
+
+  if (action.type === SET_PRESENTING_SOURCES) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn(
+        'Cannot set presenting sources when there is no active call'
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        presentingSourcesAvailable: action.payload,
+      },
+    };
+  }
+
+  if (action.type === TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS) {
+    const { activeCallState } = state;
+    if (!activeCallState) {
+      window.log.warn(
+        'Cannot set presenting sources when there is no active call'
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        showNeedsScreenRecordingPermissionsWarning: !activeCallState.showNeedsScreenRecordingPermissionsWarning,
       },
     };
   }

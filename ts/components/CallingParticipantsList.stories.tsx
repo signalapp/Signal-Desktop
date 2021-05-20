@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -23,6 +23,8 @@ function createParticipant(
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
+    presenting: Boolean(participantProps.presenting),
+    sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
     ...getDefaultConversation({
       avatarPath: participantProps.avatarPath,
@@ -69,7 +71,7 @@ story.add('Many Participants', () => {
       }),
       createParticipant({
         hasRemoteAudio: true,
-        hasRemoteVideo: true,
+        presenting: true,
         name: 'Rage Trunks',
         title: 'Rage Trunks',
       }),

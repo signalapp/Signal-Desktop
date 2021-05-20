@@ -1,8 +1,9 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable class-methods-use-this */
 
+import { desktopCapturer, ipcRenderer } from 'electron';
 import {
   Call,
   CallEndedReason,
@@ -44,6 +45,8 @@ import {
   MediaDeviceSettings,
   GroupCallConnectionState,
   GroupCallJoinState,
+  PresentableSource,
+  PresentedSource,
 } from '../types/Calling';
 import { ConversationModel } from '../models/conversations';
 import {
@@ -64,6 +67,7 @@ import {
   REQUESTED_VIDEO_HEIGHT,
   REQUESTED_VIDEO_FRAMERATE,
 } from '../calling/constants';
+import { notify } from './notify';
 
 const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   HttpMethod,
@@ -100,12 +104,14 @@ export class CallingClass {
 
   private callsByConversation: { [conversationId: string]: Call | GroupCall };
 
+  private hadLocalVideoBeforePresenting?: boolean;
+
   constructor() {
-    this.videoCapturer = new GumVideoCapturer(
-      REQUESTED_VIDEO_WIDTH,
-      REQUESTED_VIDEO_HEIGHT,
-      REQUESTED_VIDEO_FRAMERATE
-    );
+    this.videoCapturer = new GumVideoCapturer({
+      maxWidth: REQUESTED_VIDEO_WIDTH,
+      maxHeight: REQUESTED_VIDEO_HEIGHT,
+      maxFramerate: REQUESTED_VIDEO_FRAMERATE,
+    });
     this.videoRenderer = new CanvasVideoRenderer();
 
     this.callsByConversation = {};
@@ -127,6 +133,10 @@ export class CallingClass {
     RingRTC.handleLogMessage = this.handleLogMessage.bind(this);
     RingRTC.handleSendHttpRequest = this.handleSendHttpRequest.bind(this);
     RingRTC.handleSendCallMessage = this.handleSendCallMessage.bind(this);
+
+    ipcRenderer.on('stop-screen-share', () => {
+      uxActions.setPresenting();
+    });
   }
 
   async startCallingLobby(
@@ -247,7 +257,7 @@ export class CallingClass {
   }
 
   stopCallingLobby(conversationId?: string): void {
-    this.disableLocalCamera();
+    this.disableLocalVideo();
     this.stopDeviceReselectionTimer();
     this.lastMediaDeviceSettings = undefined;
 
@@ -441,7 +451,7 @@ export class CallingClass {
           // NOTE: This assumes that only one call is active at a time. For example, if
           //   there are two calls using the camera, this will disable both of them.
           //   That's fine for now, but this will break if that assumption changes.
-          this.disableLocalCamera();
+          this.disableLocalVideo();
 
           delete this.callsByConversation[conversationId];
 
@@ -457,7 +467,7 @@ export class CallingClass {
 
           // NOTE: This assumes only one active call at a time. See comment above.
           if (localDeviceState.videoMuted) {
-            this.disableLocalCamera();
+            this.disableLocalVideo();
           } else {
             this.videoCapturer.enableCaptureAndSend(groupCall);
           }
@@ -689,6 +699,8 @@ export class CallingClass {
           demuxId: remoteDeviceState.demuxId,
           hasRemoteAudio: !remoteDeviceState.audioMuted,
           hasRemoteVideo: !remoteDeviceState.videoMuted,
+          presenting: Boolean(remoteDeviceState.presenting),
+          sharingScreen: Boolean(remoteDeviceState.sharingScreen),
           speakerTime: normalizeGroupCallTimestamp(
             remoteDeviceState.speakerTime
           ),
@@ -807,6 +819,8 @@ export class CallingClass {
       return;
     }
 
+    ipcRenderer.send('close-screen-share-controller');
+
     if (call instanceof Call) {
       RingRTC.hangup(call.callId);
     } else if (call instanceof GroupCall) {
@@ -848,6 +862,101 @@ export class CallingClass {
       call.setOutgoingVideoMuted(!enabled);
     } else {
       throw missingCaseError(call);
+    }
+  }
+
+  private setOutgoingVideoIsScreenShare(
+    call: Call | GroupCall,
+    enabled: boolean
+  ): void {
+    if (call instanceof Call) {
+      RingRTC.setOutgoingVideoIsScreenShare(call.callId, enabled);
+      // Note: there is no "presenting" API for direct calls.
+    } else if (call instanceof GroupCall) {
+      call.setOutgoingVideoIsScreenShare(enabled);
+      call.setPresenting(enabled);
+    } else {
+      throw missingCaseError(call);
+    }
+  }
+
+  async getPresentingSources(): Promise<Array<PresentableSource>> {
+    const sources = await desktopCapturer.getSources({
+      fetchWindowIcons: true,
+      thumbnailSize: { height: 102, width: 184 },
+      types: ['window', 'screen'],
+    });
+
+    const presentableSources: Array<PresentableSource> = [];
+
+    sources.forEach(source => {
+      // If electron can't retrieve a thumbnail then it won't be able to
+      // present this source so we filter these out.
+      if (source.thumbnail.isEmpty()) {
+        return;
+      }
+      presentableSources.push({
+        appIcon:
+          source.appIcon && !source.appIcon.isEmpty()
+            ? source.appIcon.toDataURL()
+            : undefined,
+        id: source.id,
+        name: source.name,
+        thumbnail: source.thumbnail.toDataURL(),
+      });
+    });
+
+    return presentableSources;
+  }
+
+  setPresenting(
+    conversationId: string,
+    hasLocalVideo: boolean,
+    source?: PresentedSource
+  ): void {
+    const call = getOwn(this.callsByConversation, conversationId);
+    if (!call) {
+      window.log.warn('Trying to set presenting for a non-existent call');
+      return;
+    }
+
+    this.videoCapturer.disable();
+    if (source) {
+      this.hadLocalVideoBeforePresenting = hasLocalVideo;
+      this.videoCapturer.enableCaptureAndSend(call, {
+        // 15fps is much nicer but takes up a lot more CPU.
+        maxFramerate: 5,
+        maxHeight: 1080,
+        maxWidth: 1920,
+        screenShareSourceId: source.id,
+      });
+      this.setOutgoingVideo(conversationId, true);
+    } else {
+      this.setOutgoingVideo(
+        conversationId,
+        Boolean(this.hadLocalVideoBeforePresenting) || hasLocalVideo
+      );
+      this.hadLocalVideoBeforePresenting = undefined;
+    }
+
+    const isPresenting = Boolean(source);
+    this.setOutgoingVideoIsScreenShare(call, isPresenting);
+
+    if (source) {
+      ipcRenderer.send('show-screen-share', source.name);
+      notify({
+        icon: 'images/icons/v2/video-solid-24.svg',
+        message: window.i18n('calling__presenting--notification-body'),
+        onNotificationClick: () => {
+          if (this.uxActions) {
+            this.uxActions.setPresenting();
+          }
+        },
+        silent: true,
+        title: window.i18n('calling__presenting--notification-title'),
+      });
+    } else {
+      ipcRenderer.send('close-screen-share-controller');
     }
   }
 
@@ -1066,7 +1175,7 @@ export class CallingClass {
     this.videoCapturer.enableCapture();
   }
 
-  disableLocalCamera(): void {
+  disableLocalVideo(): void {
     this.videoCapturer.disable();
   }
 
@@ -1385,6 +1494,14 @@ export class CallingClass {
       uxActions.remoteVideoChange({
         conversationId: conversation.id,
         hasVideo: call.remoteVideoEnabled,
+      });
+    };
+
+    // eslint-disable-next-line no-param-reassign
+    call.handleRemoteSharingScreen = () => {
+      uxActions.remoteSharingScreenChange({
+        conversationId: conversation.id,
+        isSharingScreen: Boolean(call.remoteSharingScreen),
       });
     };
   }

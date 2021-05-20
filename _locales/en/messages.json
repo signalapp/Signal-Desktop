@@ -691,6 +691,10 @@
     "message": "About Signal Desktop",
     "description": "Item under the Help menu, which opens a small about window"
   },
+  "screenShareWindow": {
+    "message": "Sharing screen",
+    "description": "Title for screen sharing window"
+  },
   "speech": {
     "message": "Speech",
     "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -1249,6 +1253,18 @@
     "message": "Unmute mic",
     "description": "Button tooltip label for turning on the microphone"
   },
+  "calling__button--presenting-disabled": {
+    "message": "Presenting disabled",
+    "description": "Button tooltip label for when screen sharing is disabled"
+  },
+  "calling__button--presenting-on": {
+    "message": "Start presenting",
+    "description": "Button tooltip label for starting to share screen"
+  },
+  "calling__button--presenting-off": {
+    "message": "Stop presenting",
+    "description": "Button tooltip label for stopping screen sharing"
+  },
   "calling__your-video-is-off": {
     "message": "Your camera is off",
     "description": "Label in the calling lobby indicating that your camera is off"
@@ -1360,6 +1376,84 @@
   "calling__overflow__scroll-down": {
     "message": "Scroll down",
     "description": "Label for the \"scroll down\" button in a call's overflow area"
+  },
+  "calling__presenting--notification-title": {
+    "message": "You're presenting to everyone.",
+    "description": "Title for the share screen notification"
+  },
+  "calling__presenting--notification-body": {
+    "message": "Click here to return to the call when you're ready to stop presenting.",
+    "description": "Body text for the share screen notification"
+  },
+  "calling__presenting--info": {
+    "message": "Signal is sharing $window$.",
+    "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Application"
+      }
+    }
+  },
+  "calling__presenting--stop": {
+    "message": "Stop sharing",
+    "description": "Button for stopping screen sharing"
+  },
+  "calling__presenting--you-stopped": {
+    "message": "You stopped presenting",
+    "description": "Toast that appears when someone stops presenting"
+  },
+  "calling__presenting--person-ongoing": {
+    "message": "$name$ is presenting",
+    "description": "Title of call when someone is presenting",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Maddie"
+      }
+    }
+  },
+  "calling__presenting--person-stopped": {
+    "message": "$name$ stopped presenting",
+    "description": "Toast that appears when someone stops presenting",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Maddie"
+      }
+    }
+  },
+  "calling__presenting--permission-title": {
+    "message": "Permission needed",
+    "description": "Shown as the title for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--macos-permission-description": {
+    "message": "On an Apple Mac computer using macOS Catalina version 10.15 or later, Signal needs permission to access your computer's screen recording.",
+    "description": "Shown as the description for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--permission-instruction-step1": {
+    "message": "Go to System Preferences and then click Security & Privacy.",
+    "description": "Shown as the description for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--permission-instruction-step2": {
+    "message": "Click Privacy.",
+    "description": "Shown as the description for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--permission-instruction-step3": {
+    "message": "On the left, click Screen Recording.",
+    "description": "Shown as the description for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--permission-instruction-step4": {
+    "message": "On the right, check the Signal box.",
+    "description": "Shown as the description for the modal that requests screen recording permissions"
+  },
+  "calling__presenting--permission-open": {
+    "message": "Open System Preferences",
+    "description": "The button that opens your system preferences for the needs screen record permissions modal"
+  },
+  "calling__presenting--permission-cancel": {
+    "message": "Dismiss",
+    "description": "The cancel button for the needs screen record permissions modal"
   },
   "alwaysRelayCallsDescription": {
     "message": "Always relay calls",
@@ -3239,6 +3333,22 @@
   "calling__hangup": {
     "message": "Leave call",
     "description": "Title for hang up button"
+  },
+  "calling__SelectPresentingSourcesModal--title": {
+    "message": "Share your screen",
+    "description": "Title for the select your screen sharing sources modal"
+  },
+  "calling__SelectPresentingSourcesModal--confirm": {
+    "message": "Share screen",
+    "description": "Confirm button for sharing screen modal"
+  },
+  "calling__SelectPresentingSourcesModal--entireScreen": {
+    "message": "Entire screen",
+    "description": "Title for the select your screen sharing sources modal"
+  },
+  "calling__SelectPresentingSourcesModal--window": {
+    "message": "A window",
+    "description": "Title for the select your screen sharing sources modal"
   },
   "callingDeviceSelection__label--video": {
     "message": "Video",

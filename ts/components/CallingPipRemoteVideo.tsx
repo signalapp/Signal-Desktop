@@ -96,9 +96,8 @@ export const CallingPipRemoteVideo = ({
       return undefined;
     }
 
-    return maxBy(
-      activeCall.remoteParticipants,
-      participant => participant.speakerTime || -Infinity
+    return maxBy(activeCall.remoteParticipants, participant =>
+      participant.presenting ? Infinity : participant.speakerTime || -Infinity
     );
   }, [activeCall.callMode, activeCall.remoteParticipants]);
 

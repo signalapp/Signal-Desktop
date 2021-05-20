@@ -84,6 +84,10 @@ import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
 import { AttachmentList } from './components/conversation/AttachmentList';
+import {
+  CallingScreenSharingController,
+  PropsType as CallingScreenSharingControllerProps,
+} from './components/CallingScreenSharingController';
 import { CaptionEditor } from './components/CaptionEditor';
 import { ConfirmationDialog } from './components/ConfirmationDialog';
 import { ContactDetail } from './components/conversation/ContactDetail';
@@ -146,6 +150,13 @@ declare global {
     };
 
     WhatIsThis: WhatIsThis;
+
+    registerScreenShareControllerRenderer: (
+      f: (
+        component: typeof CallingScreenSharingController,
+        props: CallingScreenSharingControllerProps
+      ) => void
+    ) => void;
 
     attachmentDownloadQueue: Array<MessageModel> | undefined;
     startupProcessingQueue: StartupQueue | undefined;

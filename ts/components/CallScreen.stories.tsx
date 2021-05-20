@@ -74,10 +74,14 @@ const createActiveDirectCallProp = (
         'hasRemoteVideo',
         Boolean(overrideProps.hasRemoteVideo)
       ),
+      presenting: false,
+      title: 'test',
     },
   ] as [
     {
       hasRemoteVideo: boolean;
+      presenting: boolean;
+      title: string;
     }
   ],
 });
@@ -137,6 +141,7 @@ const createProps = (
 ): PropsType => ({
   activeCall: createActiveCallProp(overrideProps),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
+  getPresentingSources: action('get-presenting-sources'),
   hangUp: action('hang-up'),
   i18n,
   me: {
@@ -145,14 +150,19 @@ const createProps = (
     profileName: 'Morty Smith',
     title: 'Morty Smith',
   },
+  openSystemPreferencesAction: action('open-system-preferences-action'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
+  setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
   stickyControls: boolean('stickyControls', false),
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
+  toggleScreenRecordingPermissionsDialog: action(
+    'toggle-screen-recording-permissions-dialog'
+  ),
   toggleSettings: action('toggle-settings'),
   toggleSpeakerView: action('toggle-speaker-view'),
 });
@@ -249,6 +259,8 @@ story.add('Group call - 1', () => (
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
+          presenting: false,
+          sharingScreen: false,
           videoAspectRatio: 1.3,
           ...getDefaultConversation({
             isBlocked: false,
@@ -266,6 +278,8 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   demuxId: index,
   hasRemoteAudio: index % 3 !== 0,
   hasRemoteVideo: index % 4 !== 0,
+  presenting: false,
+  sharingScreen: false,
   videoAspectRatio: 1.3,
   ...getDefaultConversation({
     isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
@@ -303,6 +317,8 @@ story.add('Group call - reconnecting', () => (
           demuxId: 0,
           hasRemoteAudio: true,
           hasRemoteVideo: true,
+          presenting: false,
+          sharingScreen: false,
           videoAspectRatio: 1.3,
           ...getDefaultConversation({
             isBlocked: false,

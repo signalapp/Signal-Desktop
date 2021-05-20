@@ -54,6 +54,20 @@ class CallingTones {
       }
     });
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  async someonePresenting() {
+    const canPlayTone = await window.getCallRingtoneNotification();
+    if (!canPlayTone) {
+      return;
+    }
+
+    const tone = new Sound({
+      src: 'sounds/navigation_selection-complete-celebration.ogg',
+    });
+
+    await tone.play();
+  }
 }
 
 export const callingTones = new CallingTones();

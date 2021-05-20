@@ -1,0 +1,22 @@
+<!-- Copyright 2021 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
+<html>
+<head>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none';
+            font-src 'self';
+            img-src 'self' blob: data:;
+            media-src 'self' blob:;
+            object-src 'none';
+            script-src 'self';
+            style-src 'self' 'unsafe-inline';"
+  >
+  <link href="node_modules/sanitize.css/sanitize.css" rel="stylesheet" type="text/css" />
+  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div id="app"></div>
+  <script type='application/javascript' src='ts/windows/screenShare.js'></script>
+</body>
+</html>

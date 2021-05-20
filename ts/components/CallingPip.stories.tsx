@@ -49,7 +49,9 @@ const defaultCall: ActiveCallType = {
   callMode: CallMode.Direct as CallMode.Direct,
   callState: CallState.Accepted,
   peekedParticipants: [],
-  remoteParticipants: [{ hasRemoteVideo: true }],
+  remoteParticipants: [
+    { hasRemoteVideo: true, presenting: false, title: 'Arsene' },
+  ],
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
@@ -79,7 +81,9 @@ story.add('Contact (with avatar and no video)', () => {
         ...conversation,
         avatarPath: 'https://www.fillmurray.com/64/64',
       },
-      remoteParticipants: [{ hasRemoteVideo: false }],
+      remoteParticipants: [
+        { hasRemoteVideo: false, presenting: false, title: 'Julian' },
+      ],
     },
   });
   return <CallingPip {...props} />;
