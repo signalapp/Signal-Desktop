@@ -1467,10 +1467,10 @@
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
 
-"@signalapp/signal-client@0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.5.1.tgz#b893a658db92f7fe3d3657ac9a4f83909ac1d09d"
-  integrity sha512-d3wM2vS4IcPGmBzcjigD1Y14J3j4rP+dTpE1J5xrPfknLgGPXLR+dX4I6RU9nFVe5toCyrRnTSBjQbBn/SixKA==
+"@signalapp/signal-client@0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.5.2.tgz#c618fff993e4becbaba36ac77ab818d073259ac5"
+  integrity sha512-gfNCKb1z38oKok+JhwX18ed99DRPXyYWOTUveINNPsSwMrvSbTDwL3yM/oYLipj7GhXO68MR9ojg72df3N2nNg==
   dependencies:
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"
