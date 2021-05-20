@@ -4,7 +4,14 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { isIterable, size, filter, map, take } from '../../util/iterables';
+import {
+  concat,
+  filter,
+  isIterable,
+  map,
+  size,
+  take,
+} from '../../util/iterables';
 
 describe('iterable utilities', () => {
   describe('isIterable', () => {
@@ -79,6 +86,72 @@ describe('iterable utilities', () => {
         yield 9;
       }
       assert.strictEqual(size(someNumbers()), 3);
+    });
+  });
+
+  describe('concat', () => {
+    it('returns an empty iterable when passed nothing', () => {
+      assert.deepEqual([...concat()], []);
+    });
+
+    it('returns an empty iterable when passed empty iterables', () => {
+      assert.deepEqual([...concat([])], []);
+      assert.deepEqual([...concat(new Set())], []);
+      assert.deepEqual([...concat(new Set(), [], new Map())], []);
+    });
+
+    it('concatenates multiple iterables', () => {
+      const everyNumber = {
+        *[Symbol.iterator]() {
+          for (let i = 4; true; i += 1) {
+            yield i;
+          }
+        },
+      };
+
+      const result = concat([1, 2], new Set([3]), [], everyNumber);
+      const iterator = result[Symbol.iterator]();
+
+      assert.deepEqual(iterator.next(), { value: 1, done: false });
+      assert.deepEqual(iterator.next(), { value: 2, done: false });
+      assert.deepEqual(iterator.next(), { value: 3, done: false });
+      assert.deepEqual(iterator.next(), { value: 4, done: false });
+      assert.deepEqual(iterator.next(), { value: 5, done: false });
+      assert.deepEqual(iterator.next(), { value: 6, done: false });
+      assert.deepEqual(iterator.next(), { value: 7, done: false });
+    });
+
+    it("doesn't start the iterable until the last minute", () => {
+      const oneTwoThree = {
+        [Symbol.iterator]: sinon.fake(() => {
+          let n = 0;
+          return {
+            next() {
+              if (n > 3) {
+                return { done: true };
+              }
+              n += 1;
+              return { value: n, done: false };
+            },
+          };
+        }),
+      };
+
+      const result = concat([1, 2], oneTwoThree);
+      const iterator = result[Symbol.iterator]();
+
+      sinon.assert.notCalled(oneTwoThree[Symbol.iterator]);
+
+      iterator.next();
+      sinon.assert.notCalled(oneTwoThree[Symbol.iterator]);
+      iterator.next();
+      sinon.assert.notCalled(oneTwoThree[Symbol.iterator]);
+
+      iterator.next();
+      sinon.assert.calledOnce(oneTwoThree[Symbol.iterator]);
+
+      iterator.next();
+      sinon.assert.calledOnce(oneTwoThree[Symbol.iterator]);
     });
   });
 

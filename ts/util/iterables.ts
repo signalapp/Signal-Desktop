@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
+/* eslint-disable no-restricted-syntax */
 
 export function isIterable(value: unknown): value is Iterable<unknown> {
   return (
@@ -26,6 +27,22 @@ export function size(iterable: Iterable<unknown>): number {
     done = Boolean(iterator.next().done);
   }
   return result;
+}
+
+export function concat<T>(
+  ...iterables: ReadonlyArray<Iterable<T>>
+): Iterable<T> {
+  return new ConcatIterable(iterables);
+}
+
+class ConcatIterable<T> implements Iterable<T> {
+  constructor(private readonly iterables: ReadonlyArray<Iterable<T>>) {}
+
+  *[Symbol.iterator](): Iterator<T> {
+    for (const iterable of this.iterables) {
+      yield* iterable;
+    }
+  }
 }
 
 export function filter<T, S extends T>(

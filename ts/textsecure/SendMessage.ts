@@ -48,6 +48,7 @@ import {
   LinkPreviewImage,
   LinkPreviewMetadata,
 } from '../linkPreviews/linkPreviewFetch';
+import { concat } from '../util/iterables';
 
 function stringToArrayBuffer(str: string): ArrayBuffer {
   if (typeof str !== 'string') {
@@ -1706,10 +1707,12 @@ export default class MessageSender {
       isNotMe = r => r !== myE164;
     }
 
-    const blockedIdentifiers = new Set([
-      ...window.storage.getBlockedUuids(),
-      ...window.storage.getBlockedNumbers(),
-    ]);
+    const blockedIdentifiers = new Set(
+      concat(
+        window.storage.getBlockedUuids(),
+        window.storage.getBlockedNumbers()
+      )
+    );
 
     const recipients = groupMembers.filter(
       recipient => isNotMe(recipient) && !blockedIdentifiers.has(recipient)
