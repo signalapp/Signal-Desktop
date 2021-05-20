@@ -1102,7 +1102,7 @@ export function initialize({
           // Happens sometimes when we get no response. Might be nice to get 204 instead.
           return null;
         }
-        let message;
+        let message: string;
         switch (code) {
           case -1:
             message =
