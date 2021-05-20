@@ -132,6 +132,7 @@ type DecryptedEnvelope = {
 type LockedStores = {
   readonly sessionStore: Sessions;
   readonly identityKeyStore: IdentityKeys;
+  readonly zone?: Zone;
 };
 
 class MessageReceiverInner extends EventTarget {
@@ -790,7 +791,7 @@ class MessageReceiverInner extends EventTarget {
           items.map(async ({ data, envelope }) => {
             try {
               const plaintext = await this.queueEnvelope(
-                { sessionStore, identityKeyStore },
+                { sessionStore, identityKeyStore, zone },
                 envelope
               );
               if (plaintext) {
@@ -1059,7 +1060,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async decrypt(
-    { sessionStore, identityKeyStore }: LockedStores,
+    { sessionStore, identityKeyStore, zone }: LockedStores,
     envelope: EnvelopeClass,
     ciphertext: ByteBufferClass
   ): Promise<ArrayBuffer | null> {
@@ -1112,7 +1113,8 @@ class MessageReceiverInner extends EventTarget {
             ProtocolAddress.new(identifier, sourceDevice),
             senderKeyStore,
             messageBuffer
-          ).then(plaintext => this.unpad(typedArrayToArrayBuffer(plaintext)))
+          ).then(plaintext => this.unpad(typedArrayToArrayBuffer(plaintext))),
+        zone
       );
     } else if (envelope.type === envelopeTypeEnum.CIPHERTEXT) {
       window.log.info('message from', this.getEnvelopeId(envelope));
@@ -1139,7 +1141,8 @@ class MessageReceiverInner extends EventTarget {
             ProtocolAddress.new(identifier, sourceDevice),
             sessionStore,
             identityKeyStore
-          ).then(plaintext => this.unpad(typedArrayToArrayBuffer(plaintext)))
+          ).then(plaintext => this.unpad(typedArrayToArrayBuffer(plaintext))),
+        zone
       );
     } else if (envelope.type === envelopeTypeEnum.PREKEY_BUNDLE) {
       window.log.info('prekey message from', this.getEnvelopeId(envelope));
@@ -1168,7 +1171,8 @@ class MessageReceiverInner extends EventTarget {
             identityKeyStore,
             preKeyStore,
             signedPreKeyStore
-          ).then(plaintext => this.unpad(typedArrayToArrayBuffer(plaintext)))
+          ).then(plaintext => this.unpad(typedArrayToArrayBuffer(plaintext))),
+        zone
       );
     } else if (envelope.type === envelopeTypeEnum.UNIDENTIFIED_SENDER) {
       window.log.info('received unidentified sender message');
@@ -1241,7 +1245,8 @@ class MessageReceiverInner extends EventTarget {
                 ),
                 senderKeyStore,
                 buffer
-              )
+              ),
+            zone
           );
         }
 
@@ -1261,7 +1266,8 @@ class MessageReceiverInner extends EventTarget {
               identityKeyStore,
               preKeyStore,
               signedPreKeyStore
-            )
+            ),
+          zone
         );
       };
 

@@ -458,12 +458,15 @@ export class SignalProtocolStore extends EventsMixin {
 
   async enqueueSenderKeyJob<T>(
     encodedAddress: string,
-    task: () => Promise<T>
+    task: () => Promise<T>,
+    zone = GLOBAL_ZONE
   ): Promise<T> {
-    const senderId = await normalizeEncodedAddress(encodedAddress);
-    const queue = this._getSenderKeyQueue(senderId);
+    return this.withZone(zone, 'enqueueSenderKeyJob', async () => {
+      const senderId = await normalizeEncodedAddress(encodedAddress);
+      const queue = this._getSenderKeyQueue(senderId);
 
-    return queue.add<T>(task);
+      return queue.add<T>(task);
+    });
   }
 
   private _createSenderKeyQueue(): PQueue {
@@ -567,12 +570,15 @@ export class SignalProtocolStore extends EventsMixin {
 
   async enqueueSessionJob<T>(
     encodedAddress: string,
-    task: () => Promise<T>
+    task: () => Promise<T>,
+    zone: Zone = GLOBAL_ZONE
   ): Promise<T> {
-    const id = await normalizeEncodedAddress(encodedAddress);
-    const queue = this._getSessionQueue(id);
+    return this.withZone(zone, 'enqueueSessionJob', async () => {
+      const id = await normalizeEncodedAddress(encodedAddress);
+      const queue = this._getSessionQueue(id);
 
-    return queue.add<T>(task);
+      return queue.add<T>(task);
+    });
   }
 
   private _createSessionQueue(): PQueue {
