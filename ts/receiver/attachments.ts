@@ -23,18 +23,19 @@ export async function downloadAttachment(attachment: any) {
     serverUrl
   );
   // is it an attachment hosted on the file server v2 ?
+  const defaultFsOldV2 = _.startsWith(serverUrl, FSv2.oldFileServerV2URL);
   const defaultFsV2 = _.startsWith(serverUrl, FSv2.fileServerV2URL);
 
   let res: ArrayBuffer | null = null;
 
-  if (defaultFsV2) {
+  if (defaultFsV2 || defaultFsOldV2) {
     let attachmentId = attachment.id;
     if (!attachmentId) {
       // try to get the fileId from the end of the URL
       attachmentId = attachment.url;
     }
     window.log.info('Download v2 file server attachment');
-    res = await FSv2.downloadFileFromFSv2(attachmentId);
+    res = await FSv2.downloadFileFromFSv2(attachmentId, defaultFsOldV2);
   } else if (!defaultFileserver) {
     // TODO: we need attachments to remember which API should be used to retrieve them
     const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(serverUrl);

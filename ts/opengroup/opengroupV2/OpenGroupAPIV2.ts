@@ -57,7 +57,7 @@ const getDestinationPubKey = async (
     }
   } else {
     // this is a fileServer call
-    return FSv2.fileServerV2PubKey;
+    return request.isOldV2server ? FSv2.oldFileServerV2PubKey : FSv2.fileServerV2PubKey;
   }
 };
 
