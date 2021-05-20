@@ -1155,9 +1155,9 @@ export declare namespace SyncMessageClass {
     type?: number;
   }
   class ViewOnceOpen {
-    sender?: string;
-    senderUuid?: string;
-    timestamp?: ProtoBinaryType;
+    sender: string | null;
+    senderUuid: string | null;
+    timestamp?: ProtoBinaryType | null;
   }
   class FetchLatest {
     static Type: {
