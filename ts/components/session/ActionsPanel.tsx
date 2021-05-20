@@ -36,6 +36,11 @@ import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
 import { getOnionPathStatus } from '../../session/onions/onionSend';
 import { Constants } from '../../session';
+import { IPathNode, OnionPathNode, StatusLight } from '../OnionStatusDialog';
+import { OnionUpdate, updateOnionPaths, OnionPathNodeType } from '../../state/ducks/onion';
+import { StateType } from '../../state/reducer';
+import _ from 'lodash';
+import { constants } from 'original-fs';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -73,8 +78,7 @@ const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?:
     } else if (type === SectionType.PathIndicator) {
       // Show Path Indicator Modal
       window.showOnionStatusDialog();
-    }
-    else {
+    } else {
       dispatch(clearSearch());
       dispatch(showLeftPaneSection(type));
     }
@@ -99,9 +103,11 @@ const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?:
   let iconColor = undefined;
   if (type === SectionType.PathIndicator) {
     // Set icon color based on result
-    iconColor = hasOnionPath ? Constants.UI.COLORS.GREEN : Constants.UI.COLORS.DANGER
-    console.log("Status Indicator Color", iconColor)
+    iconColor = hasOnionPath ? Constants.UI.COLORS.GREEN : Constants.UI.COLORS.DANGER;
+    console.log('Status Indicator Color', iconColor);
   }
+
+  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
 
   let iconType: SessionIconType;
   switch (type) {
@@ -124,7 +130,28 @@ const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?:
       iconType = SessionIconType.Moon;
   }
 
-  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
+  // calculate light status.
+  // TODO: Refactor this so this logic is reusable elsewhere.
+  if (type === SectionType.PathIndicator) {
+    const onionPaths = useSelector((state: StateType) => state.onionPaths);
+    console.log('@@@ state onion path node', onionPaths);
+    let connectedNodesCount = _.sumBy(onionPaths.nodes, (node: OnionPathNodeType) => {
+      return node.isConnected ? 1 : 0;
+    });
+
+    console.log('@@@@@ is connected count: ', connectedNodesCount);
+
+    const statusColor =
+      connectedNodesCount > 2
+        ? Constants.UI.COLORS.GREEN
+        : connectedNodesCount > 1
+        ? Constants.UI.COLORS.WARNING
+        : Constants.UI.COLORS.DANGER;
+
+    console.log('@@@@@ is connected color: ', statusColor);
+
+    return <StatusLight isSelected={isSelected} color={statusColor}></StatusLight>;
+  }
 
   return (
     <SessionIconButton
@@ -166,8 +193,6 @@ const triggerSyncIfNeeded = async () => {
     await syncConfigurationIfNeeded();
   }
 };
-
-
 
 /**
  * This function is called only once: on app startup with a logged in user
@@ -211,7 +236,7 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
 export const ActionsPanel = () => {
   const dispatch = useDispatch();
   const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
-  const [hasOnionPath, setHasOnionPath] = useState<boolean>(false)
+  const [hasOnionPath, setHasOnionPath] = useState<boolean>(false);
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
 
   // this maxi useEffect is called only once: when the component is mounted.
@@ -228,11 +253,37 @@ export const ActionsPanel = () => {
     return () => global.clearTimeout(timeout);
   }, []);
 
-  const getOnionPathIndicator =  () => {
-    const hasOnionPath =  getOnionPathStatus();
-    console.log("Is Onion Path found -", hasOnionPath)
-    setHasOnionPath(hasOnionPath)
-  }
+  const getOnionPathIndicator = () => {
+    const hasOnionPath = getOnionPathStatus();
+
+    const update: OnionUpdate = {
+      nodes: [
+        {
+          ip: 'hi',
+          label: 'hi',
+          isConnected: Math.random() > 0.5,
+          isAttemptingConnect: Math.random() > 0.7,
+        },
+        {
+          ip: 'hi2',
+          label: 'hi2',
+          isConnected: Math.random() > 0.5,
+          isAttemptingConnect: Math.random() > 0.7,
+        },
+        {
+          ip: 'hi3',
+          label: 'hi3',
+          isConnected: Math.random() > 0.5,
+          isAttemptingConnect: Math.random() > 0.7,
+        },
+      ],
+    };
+
+    dispatch(updateOnionPaths(update));
+
+    console.log('Is Onion Path found -', hasOnionPath);
+    setHasOnionPath(hasOnionPath);
+  };
 
   useInterval(() => {
     getOnionPathIndicator();

@@ -41,6 +41,9 @@ export const UI = {
     WHITE_PALE: '#AFAFAF',
     GREEN: '#00F782',
 
+    // CAUTION
+    WARNING: '#FFC02E',
+
     // SEMANTIC COLORS
     DANGER: '#FF453A',
     DANGER_ALT: '#FF4538',

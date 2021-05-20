@@ -198,6 +198,8 @@ export class OnionPaths {
 
     let guardNodes: Array<Snode> = [];
 
+    console.log('@@@@ guardNodes: ', guardNodes);
+
     // The use of await inside while is intentional:
     // we only want to repeat if the await fails
     // eslint-disable-next-line-no-await-in-loop

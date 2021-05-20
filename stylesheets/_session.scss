@@ -1198,6 +1198,48 @@ input {
   }
 }
 
+// .session-onion-path-wrapper {
+
+  .onion-node-list {
+    display: flex;
+    flex-direction: column;
+    margin: $session-margin-sm;
+
+    // .onion-node__vertical-line {
+    //   border-left: 3px solid green;
+    //   left: 50%;
+    //   position: absolute;
+    //   margin-left: -3px;
+    //   top: 0;
+    //   height: 100%
+    // }
+
+    .onion__node {
+      display: flex;
+      flex-grow: 1;
+      align-items: center;
+      margin: $session-margin-xs;
+
+      // unsure
+      position: relative;
+
+      .line {
+        width: 50%;
+        height: 100%;
+        position: absolute;
+        left: 25%;
+        top: 40%;
+        border-left: 3px solid green;
+      }
+
+      * {
+        margin: $session-margin-sm;
+      }
+    }
+  }
+
+// }
+
 .session-nickname-wrapper {
   position: absolute;
   height: 100%;

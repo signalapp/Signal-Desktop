@@ -129,7 +129,7 @@
     showOnionStatusDialog() {
       // eslint-disable-next-line no-param-reassign
       const theme = this.getThemeObject();
-      const dialog = new Whisper.OnionStatusDialogView({theme});
+      const dialog = new Whisper.OnionStatusDialogView({ theme });
       this.el.prepend(dialog.el);
     },
     showResetSessionIdDialog() {

@@ -133,7 +133,7 @@ export const getOnionPathStatus = () => {
 
 export const getPathNodesIPAddresses = () => {
   let pathNodes: Array<Snode> = [];
-  let displayNode: Array<string> = []
+  let displayNode: Array<string> = [];
   try {
     pathNodes = OnionPaths.getInstance().getOnionPathNoRebuild();
     displayNode = pathNodes.map(node => node.ip);

@@ -7,6 +7,8 @@ import { reducer as theme, ThemeStateType } from './ducks/theme';
 import { reducer as section, SectionStateType } from './ducks/section';
 import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
 
+import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
+
 export type StateType = {
   search: SearchStateType;
   // messages: MessagesStateType;
@@ -15,6 +17,8 @@ export type StateType = {
   theme: ThemeStateType;
   section: SectionStateType;
   defaultRooms: DefaultRoomsState;
+
+  onionPaths: OnionState;
 };
 
 export const reducers = {
@@ -27,6 +31,8 @@ export const reducers = {
   theme,
   section,
   defaultRooms,
+
+  onionPaths,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not
