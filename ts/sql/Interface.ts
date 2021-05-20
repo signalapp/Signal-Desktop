@@ -569,7 +569,7 @@ export type ClientInterface = DataInterface & {
   // These are defined on the server-only and used in the client to determine
   // whether we should use IPC to use the database in the main process or
   // use the db already running in the renderer.
-  goBackToMainProcess: () => void;
+  goBackToMainProcess: () => Promise<void>;
 };
 
 export type ClientJobType = {

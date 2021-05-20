@@ -180,7 +180,7 @@ window.encryptAndUpload = async (
   cover,
   onProgress = noop
 ) => {
-  window.sqlInitializer.goBackToMainProcess();
+  await window.sqlInitializer.goBackToMainProcess();
   const usernameItem = await window.Signal.Data.getItemById('uuid_id');
   const oldUsernameItem = await window.Signal.Data.getItemById('number_id');
   const passwordItem = await window.Signal.Data.getItemById('password');
