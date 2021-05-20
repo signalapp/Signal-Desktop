@@ -181,10 +181,12 @@ export class SystemTrayService {
       if (!browserWindow) {
         return;
       }
-      if (!browserWindow.isVisible()) {
+      if (browserWindow.isVisible()) {
+        browserWindow.hide();
+      } else {
         browserWindow.show();
+        forceOnTop(browserWindow);
       }
-      forceOnTop(browserWindow);
     });
 
     result.setToolTip(this.messages.signalDesktop.message);
