@@ -2225,6 +2225,9 @@ export async function startApp(): Promise<void> {
       newVersion
     );
 
+    // Go back to main process before processing delayed actions
+    await window.sqlInitializer.goBackToMainProcess();
+
     profileKeyResponseQueue.start();
     lightSessionResetQueue.start();
     window.Whisper.deliveryReceiptQueue.start();
@@ -2249,7 +2252,6 @@ export async function startApp(): Promise<void> {
       );
     }
 
-    await window.sqlInitializer.goBackToMainProcess();
     window.Signal.Util.setBatchingStrategy(false);
 
     const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
