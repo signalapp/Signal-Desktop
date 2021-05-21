@@ -25,18 +25,17 @@
       this.start();
     },
     events: {
-      'click .close': 'close',
+      'click .close': 'remove',
       'click .finish': 'finish',
-      close: 'close',
+      close: 'remove',
     },
     onSwitchAway() {
       this.lostFocus = true;
       this.recorder.finishRecording();
-      this.close();
     },
     handleKeyDown(event) {
       if (event.key === 'Escape') {
-        this.close();
+        this.remove();
 
         event.preventDefault();
         event.stopPropagation();
@@ -51,7 +50,7 @@
       }
       this.$('.time').text(`${minutes}:${seconds}`);
     },
-    close() {
+    remove() {
       // Note: the 'close' event can be triggered by InboxView, when the user clicks
       //   anywhere outside the recording pane.
 
@@ -81,7 +80,7 @@
       }
       this.context = null;
 
-      this.remove();
+      Whisper.View.prototype.remove.call(this);
       this.trigger('closed');
 
       $(window).off('blur', this.onSwitchAwayBound);
@@ -91,16 +90,14 @@
     finish() {
       this.clickedFinish = true;
       this.recorder.finishRecording();
-      this.close();
     },
     handleBlob(recorder, blob) {
       if (blob && this.clickedFinish) {
         this.trigger('send', blob);
       } else if (blob) {
         this.trigger('confirm', blob, this.lostFocus);
-      } else {
-        this.close();
       }
+      this.remove();
     },
     start() {
       this.lostFocus = false;
@@ -126,7 +123,6 @@
     },
     onTimeout() {
       this.recorder.finishRecording();
-      this.close();
     },
     onError(error) {
       // Protect against out-of-band errors, which can happen if the user revokes media
@@ -135,7 +131,7 @@
         return;
       }
 
-      this.close();
+      this.remove();
 
       if (error && error.name === 'NotAllowedError') {
         window.log.warn(
