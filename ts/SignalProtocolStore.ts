@@ -972,24 +972,28 @@ export class SignalProtocolStore extends EventsMixin {
     });
   }
 
-  private async _archiveSession(entry?: SessionCacheEntry) {
+  private async _archiveSession(entry?: SessionCacheEntry, zone?: Zone) {
     if (!entry) {
       return;
     }
 
-    await this.enqueueSessionJob(entry.fromDB.id, async () => {
-      const item = entry.hydrated
-        ? entry.item
-        : await this._maybeMigrateSession(entry.fromDB);
+    await this.enqueueSessionJob(
+      entry.fromDB.id,
+      async () => {
+        const item = entry.hydrated
+          ? entry.item
+          : await this._maybeMigrateSession(entry.fromDB);
 
-      if (!item.hasCurrentState()) {
-        return;
-      }
+        if (!item.hasCurrentState()) {
+          return;
+        }
 
-      item.archiveCurrentState();
+        item.archiveCurrentState();
 
-      await this.storeSession(entry.fromDB.id, item);
-    });
+        await this.storeSession(entry.fromDB.id, item);
+      },
+      zone
+    );
   }
 
   async archiveSession(encodedAddress: string): Promise<void> {
@@ -1037,7 +1041,7 @@ export class SignalProtocolStore extends EventsMixin {
 
       await Promise.all(
         entries.map(async entry => {
-          await this._archiveSession(entry);
+          await this._archiveSession(entry, zone);
         })
       );
     });
