@@ -21,6 +21,7 @@ export type PropsType = {
   removeMember: (conversationId: string) => void;
   showSafetyNumber: (conversationId: string) => void;
   toggleAdmin: (conversationId: string) => void;
+  updateSharedGroups: () => void;
 };
 
 export const ContactModal = ({
@@ -34,6 +35,7 @@ export const ContactModal = ({
   removeMember,
   showSafetyNumber,
   toggleAdmin,
+  updateSharedGroups,
 }: PropsType): ReactPortal | null => {
   if (!contact) {
     throw new Error('Contact modal opened without a matching contact');
@@ -53,6 +55,11 @@ export const ContactModal = ({
       setRoot(null);
     };
   }, []);
+
+  React.useEffect(() => {
+    // Kick off the expensive hydration of the current sharedGroupNames
+    updateSharedGroups();
+  }, [updateSharedGroups]);
 
   React.useEffect(() => {
     if (root !== null && closeButtonRef.current) {

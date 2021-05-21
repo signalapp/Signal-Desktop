@@ -386,12 +386,6 @@ Whisper.ConversationView = Whisper.View.extend({
     this.model.throttledGetProfiles =
       this.model.throttledGetProfiles ||
       window._.throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
-    this.model.throttledUpdateSharedGroups =
-      this.model.throttledUpdateSharedGroups ||
-      window._.throttle(
-        this.model.updateSharedGroups.bind(this.model),
-        FIVE_MINUTES
-      );
     this.model.throttledMaybeMigrateV1Group =
       this.model.throttledMaybeMigrateV1Group ||
       window._.throttle(
@@ -3052,6 +3046,12 @@ Whisper.ConversationView = Whisper.View.extend({
             resolve: () => this.model.toggleAdmin(conversationId),
           });
         },
+        updateSharedGroups: () => {
+          const conversation = window.ConversationController.get(contactId);
+          if (conversation && conversation.throttledUpdateSharedGroups) {
+            conversation.throttledUpdateSharedGroups();
+          }
+        },
       }),
     });
 
@@ -3625,10 +3625,6 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const props = message.getPropsForQuote();
 
-    this.listenTo(message, 'scroll-to-message', () => {
-      this.scrollToMessage(message.quotedMessage.id);
-    });
-
     const contact = this.quotedMessage.getContact();
     if (contact) {
       this.listenTo(contact, 'change', this.renderQuotedMessage);
@@ -3642,6 +3638,7 @@ Whisper.ConversationView = Whisper.View.extend({
       props: {
         ...props,
         withContentAbove: true,
+        onClick: () => this.scrollToMessage(message.quotedMessage.id),
         onClose: () => {
           // This can't be the normal 'onClose' because that is always run when this
           //   view is removed from the DOM, and would clear the draft quote.

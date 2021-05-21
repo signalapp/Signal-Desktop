@@ -20,6 +20,7 @@ export type SmartContactModalProps = {
   readonly removeMember: (conversationId: string) => void;
   readonly showSafetyNumber: (conversationId: string) => void;
   readonly toggleAdmin: (conversationId: string) => void;
+  readonly updateSharedGroups: () => void;
 };
 
 const mapStateToProps = (

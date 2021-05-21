@@ -36,6 +36,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   removeMember: action('removeMember'),
   showSafetyNumber: action('showSafetyNumber'),
   toggleAdmin: action('toggleAdmin'),
+  updateSharedGroups: action('updateSharedGroups'),
 });
 
 story.add('As non-admin', () => {

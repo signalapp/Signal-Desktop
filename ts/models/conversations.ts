@@ -156,6 +156,8 @@ export class ConversationModel extends window.Backbone
 
   lastSuccessfulGroupFetch?: number;
 
+  throttledUpdateSharedGroups?: () => Promise<void>;
+
   private cachedLatestGroupCallEraId?: string;
 
   private cachedIdenticon?: CachedIdenticon;
@@ -229,6 +231,9 @@ export class ConversationModel extends window.Backbone
       this.updateLastMessage.bind(this),
       200
     );
+    this.throttledUpdateSharedGroups =
+      this.throttledUpdateSharedGroups ||
+      window._.throttle(this.updateSharedGroups.bind(this), FIVE_MINUTES);
 
     this.contactCollection = this.getContactCollection();
     this.contactCollection.on(
