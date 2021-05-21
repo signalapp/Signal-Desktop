@@ -142,9 +142,6 @@ try {
     window.log.info('show window');
     ipc.send('show-window');
   };
-  window.setSecureInput = enabled => {
-    ipc.send('set-secure-input', enabled);
-  };
 
   window.titleBarDoubleClick = () => {
     ipc.send('title-bar-double-click');

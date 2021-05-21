@@ -34,7 +34,6 @@ export type SmartForwardMessageModalProps = {
     caretLocation?: number
   ) => unknown;
   onTextTooLong: () => void;
-  setSecureInput: (enabled: boolean) => void;
 };
 
 const mapStateToProps = (
@@ -49,7 +48,6 @@ const mapStateToProps = (
     onClose,
     onEditorStateChange,
     onTextTooLong,
-    setSecureInput,
   } = props;
 
   const candidateConversations = getAllComposableConversations(state);
@@ -70,7 +68,6 @@ const mapStateToProps = (
     recentEmojis,
     skinTone,
     onTextTooLong,
-    setSecureInput,
   };
 };
 
