@@ -77,7 +77,6 @@ export type Props = {
   onSubmit(message: string, mentions: Array<BodyRangeType>): unknown;
   getQuotedMessage(): unknown;
   clearQuotedMessage(): unknown;
-  setSecureInput(enabled: boolean): unknown;
 };
 
 const MAX_LENGTH = 64 * 1024;
@@ -95,7 +94,6 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     skinTone,
     draftText,
     draftBodyRanges,
-    setSecureInput,
     getQuotedMessage,
     clearQuotedMessage,
     sortedGroupMembers,
@@ -251,20 +249,6 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     submit();
     return false;
   };
-
-  const onFocus = (): void => {
-    setSecureInput(true);
-  };
-
-  const onBlur = (): void => {
-    setSecureInput(false);
-  };
-
-  React.useEffect(() => {
-    return () => {
-      setSecureInput(false);
-    };
-  }, [setSecureInput]);
 
   const onEnter = (): boolean => {
     const quill = quillRef.current;
@@ -501,8 +485,6 @@ export const CompositionInput: React.ComponentType<Props> = props => {
     onChange,
     onEnter,
     onEscape,
-    onFocus,
-    onBlur,
     onPickEmoji,
     onShortKeyEnter,
     onTab,
@@ -517,8 +499,6 @@ export const CompositionInput: React.ComponentType<Props> = props => {
       return (
         <ReactQuill
           className={`${BASE_CLASS_NAME}__quill`}
-          onFocus={() => callbacksRef.current.onFocus()}
-          onBlur={() => callbacksRef.current.onBlur()}
           onChange={() => callbacksRef.current.onChange()}
           defaultValue={delta}
           modules={{
