@@ -626,9 +626,6 @@ Whisper.ConversationView = Whisper.View.extend({
         bodyRanges: Array<typeof window.Whisper.BodyRangeType>,
         caretLocation?: number
       ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
-      setSecureInput: (enabled: boolean) => {
-        window.setSecureInput(enabled);
-      },
       onTextTooLong: () => this.showToast(Whisper.MessageBodyTooLongToast),
       onChooseAttachment: this.onChooseAttachment.bind(this),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
@@ -2258,9 +2255,6 @@ Whisper.ConversationView = Whisper.View.extend({
               {},
               document.querySelector('.module-ForwardMessageModal')
             ),
-          setSecureInput: (enabled: boolean) => {
-            window.setSecureInput(enabled);
-          },
         }
       ),
     });
