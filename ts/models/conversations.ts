@@ -93,6 +93,10 @@ const COLORS = [
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 const FIVE_MINUTES = 1000 * 60 * 5;
 
+const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
+  'profileLastFetchedAt',
+]);
+
 type CustomError = Error & {
   identifier?: string;
   number?: string;
@@ -284,6 +288,13 @@ export class ConversationModel extends window.Backbone
     // We clear our cached props whenever we change so that the next call to format() will
     //   result in refresh via a getProps() call. See format() below.
     this.on('change', () => {
+      const isPropsCacheStillValid = Object.keys(this.changed).every(key =>
+        ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE.has(key)
+      );
+      if (isPropsCacheStillValid) {
+        return;
+      }
+
       if (this.cachedProps) {
         this.oldCachedProps = this.cachedProps;
       }
@@ -1337,6 +1348,8 @@ export class ConversationModel extends window.Backbone
   //   maintains a cache, and protects against reentrant calls.
   // Note: When writing code inside this function, do not call .format() on a conversation
   //   unless you are sure that it's not this very same conversation.
+  // Note: If you start relying on an attribute that is in
+  //   `ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE`, remove it from that list.
   private getProps(): ConversationType {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const color = this.getColor()!;

@@ -1,13 +1,17 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// We use `for ... of` to deal with iterables in several places in this file.
+/* eslint-disable no-restricted-syntax */
+
 import { isNil, sortBy } from 'lodash';
+import PQueue from 'p-queue';
 
 import * as log from './logging/log';
 import { assert } from './util/assert';
 import { missingCaseError } from './util/missingCaseError';
 import { isNormalNumber } from './util/isNormalNumber';
-import { map, take } from './util/iterables';
+import { take } from './util/iterables';
 import { isOlderThan } from './util/timestamp';
 import { ConversationModel } from './models/conversations';
 
@@ -52,23 +56,37 @@ export async function routineProfileRefresh({
 
   let totalCount = 0;
   let successCount = 0;
-  await Promise.all(
-    map(conversationsToRefresh, async (conversation: ConversationModel) => {
-      totalCount += 1;
-      try {
-        await conversation.getProfile(
-          conversation.get('uuid'),
-          conversation.get('e164')
-        );
-        successCount += 1;
-      } catch (err) {
-        window.log.error(
-          'routineProfileRefresh: failed to fetch a profile',
-          err?.stack || err
-        );
-      }
-    })
-  );
+
+  async function refreshConversation(
+    conversation: ConversationModel
+  ): Promise<void> {
+    window.log.info(
+      `routineProfileRefresh: refreshing profile for ${conversation.idForLogging()}`
+    );
+
+    totalCount += 1;
+    try {
+      await conversation.getProfile(
+        conversation.get('uuid'),
+        conversation.get('e164')
+      );
+      window.log.info(
+        `routineProfileRefresh: refreshed profile for ${conversation.idForLogging()}`
+      );
+      successCount += 1;
+    } catch (err) {
+      window.log.error(
+        `routineProfileRefresh: refreshed profile for ${conversation.idForLogging()}`,
+        err?.stack || err
+      );
+    }
+  }
+
+  const refreshQueue = new PQueue({ concurrency: 5, timeout: 1000 * 60 * 2 });
+  for (const conversation of conversationsToRefresh) {
+    refreshQueue.add(() => refreshConversation(conversation));
+  }
+  await refreshQueue.onIdle();
 
   log.info(
     `routineProfileRefresh: successfully refreshed ${successCount} out of ${totalCount} conversation(s)`
@@ -112,9 +130,6 @@ function* getFilteredConversations(
 
   const conversationIdsSeen = new Set<string>([ourConversationId]);
 
-  // We use a `for` loop (instead of something like `forEach`) because we want to be able
-  //   to yield. We use `for ... of` for readability.
-  // eslint-disable-next-line no-restricted-syntax
   for (const conversation of sorted) {
     const type = conversation.get('type');
     switch (type) {
@@ -129,7 +144,6 @@ function* getFilteredConversations(
         }
         break;
       case 'group':
-        // eslint-disable-next-line no-restricted-syntax
         for (const member of conversation.getMembers()) {
           if (
             !conversationIdsSeen.has(member.id) &&
