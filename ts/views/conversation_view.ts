@@ -3624,9 +3624,6 @@ Whisper.ConversationView = Whisper.View.extend({
     });
 
     const contact = this.quotedMessage.getContact();
-    if (contact) {
-      this.listenTo(contact, 'change', this.renderQuotedMesage);
-    }
 
     this.quoteView = new Whisper.ReactWrapperView({
       className: 'quote-wrapper',
@@ -3643,6 +3640,12 @@ Whisper.ConversationView = Whisper.View.extend({
         },
       },
     });
+
+    if (contact) {
+      this.quoteView.listenTo(contact, 'change', () => {
+        this.renderQuotedMessage();
+      });
+    }
   },
 
   showInvalidMessageToast(messageText?: string): boolean {
