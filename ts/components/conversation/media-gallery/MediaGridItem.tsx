@@ -73,6 +73,7 @@ export class MediaGridItem extends React.Component<Props, State> {
         />
       );
     }
+
     if (contentType && isVideoTypeSupported(contentType)) {
       if (imageBroken || !mediaItem.thumbnailObjectUrl) {
         return (
