@@ -102,13 +102,12 @@ describe('OnionPathsErrors', () => {
       const abortController = new AbortController();
       abortController.abort();
       try {
-        await processOnionResponse(
-          getFakeResponse(),
-          new Uint8Array(),
-          guardSnode1,
-          undefined,
-          abortController.signal
-        );
+        await processOnionResponse({
+          response: getFakeResponse(),
+          symmetricKey: new Uint8Array(),
+          guardNode: guardSnode1,
+          abortSignal: abortController.signal,
+        });
         throw new Error('Error expected');
       } catch (e) {
         expect(e.message).to.equal('Request got aborted');
@@ -119,7 +118,11 @@ describe('OnionPathsErrors', () => {
 
     it('throws an non retryable error we get a 406 status code', async () => {
       try {
-        await processOnionResponse(getFakeResponse(406), new Uint8Array(), guardSnode1, undefined);
+        await processOnionResponse({
+          response: getFakeResponse(406),
+          symmetricKey: new Uint8Array(),
+          guardNode: guardSnode1,
+        });
         throw new Error('Error expected');
       } catch (e) {
         expect(e.message).to.equal('You clock is out of sync with the network. Check your clock.');
@@ -135,14 +138,14 @@ describe('OnionPathsErrors', () => {
         const targetNode = otherNodesPubkeys[0];
 
         try {
-          await processOnionResponse(
-            getFakeResponse(421),
-            new Uint8Array(),
-            guardSnode1,
-            targetNode,
-            undefined,
-            associatedWith
-          );
+          await processOnionResponse({
+            response: getFakeResponse(421),
+            symmetricKey: new Uint8Array(),
+            guardNode: guardSnode1,
+            lsrpcEd25519Key: targetNode,
+
+            associatedWith,
+          });
           throw new Error('Error expected');
         } catch (e) {
           expect(e.message).to.equal('Bad Path handled. Retry this request. Status: 421');
@@ -165,14 +168,13 @@ describe('OnionPathsErrors', () => {
           otherNodesArray[6],
         ];
         try {
-          await processOnionResponse(
-            getFakeResponse(421, JSON.stringify({ snodes: resultExpected })),
-            new Uint8Array(),
-            guardSnode1,
-            targetNode,
-            undefined,
-            associatedWith
-          );
+          await processOnionResponse({
+            response: getFakeResponse(421, JSON.stringify({ snodes: resultExpected })),
+            symmetricKey: new Uint8Array(),
+            guardNode: guardSnode1,
+            lsrpcEd25519Key: targetNode,
+            associatedWith,
+          });
           throw new Error('Error expected');
         } catch (e) {
           expect(e.message).to.equal('Bad Path handled. Retry this request. Status: 421');
@@ -188,14 +190,14 @@ describe('OnionPathsErrors', () => {
         const targetNode = otherNodesPubkeys[0];
 
         try {
-          await processOnionResponse(
-            getFakeResponse(421, 'THIS IS SOME INVALID JSON'),
-            new Uint8Array(),
-            guardSnode1,
-            targetNode,
-            undefined,
-            associatedWith
-          );
+          await processOnionResponse({
+            response: getFakeResponse(421, 'THIS IS SOME INVALID JSON'),
+            symmetricKey: new Uint8Array(),
+            guardNode: guardSnode1,
+            lsrpcEd25519Key: targetNode,
+
+            associatedWith,
+          });
           throw new Error('Error expected');
         } catch (e) {
           expect(e.message).to.equal('Bad Path handled. Retry this request. Status: 421');
@@ -223,14 +225,13 @@ describe('OnionPathsErrors', () => {
           .resolves({ plaintext: json, ciphertextBuffer: new Uint8Array() });
 
         try {
-          await processOnionResponse(
-            getFakeResponse(200, fromArrayBufferToBase64(Buffer.from(json))),
-            new Uint8Array(),
-            guardSnode1,
-            targetNode,
-            undefined,
-            associatedWith
-          );
+          await processOnionResponse({
+            response: getFakeResponse(200, fromArrayBufferToBase64(Buffer.from(json))),
+            symmetricKey: new Uint8Array(),
+            guardNode: guardSnode1,
+            lsrpcEd25519Key: targetNode,
+            associatedWith,
+          });
           throw new Error('Error expected');
         } catch (e) {
           expect(e.message).to.equal('Bad Path handled. Retry this request. Status: 421');
@@ -263,14 +264,13 @@ describe('OnionPathsErrors', () => {
           .resolves({ plaintext: json, ciphertextBuffer: new Uint8Array() });
 
         try {
-          await processOnionResponse(
-            getFakeResponse(200, json),
-            new Uint8Array(),
-            guardSnode1,
-            targetNode,
-            undefined,
-            associatedWith
-          );
+          await processOnionResponse({
+            response: getFakeResponse(200, json),
+            symmetricKey: new Uint8Array(),
+            guardNode: guardSnode1,
+            lsrpcEd25519Key: targetNode,
+            associatedWith,
+          });
           throw new Error('Error expected');
         } catch (e) {
           expect(e.message).to.equal('Bad Path handled. Retry this request. Status: 421');

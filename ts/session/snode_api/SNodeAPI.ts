@@ -380,17 +380,17 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
 export async function retrieveNextMessages(
   targetNode: Snode,
   lastHash: string,
-  pubkey: string
+  associatedWith: string
 ): Promise<Array<any>> {
   const params = {
-    pubKey: pubkey,
+    pubKey: associatedWith,
     lastHash: lastHash || '',
   };
 
   // let exceptions bubble up
   try {
     // no retry for this one as this a call we do every few seconds while polling for messages
-    const result = await snodeRpc('retrieve', params, targetNode, pubkey);
+    const result = await snodeRpc('retrieve', params, targetNode, associatedWith);
 
     if (!result) {
       window?.log?.warn(

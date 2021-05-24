@@ -12,7 +12,7 @@ import { OnionPaths } from '../onions';
 import { fromBase64ToArrayBuffer, toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { incrementBadPathCountOrDrop } from '../onions/onionPath';
-
+import _ from 'lodash';
 // hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
 const snodeFailureCount: Record<string, number> = {};
 
@@ -205,7 +205,7 @@ async function process421Error(
     if (!lsrpcEd25519Key || !associatedWith) {
       throw new Error('status 421 without a final destination or no associatedWith makes no sense');
     }
-    window?.log?.info('Invalidating swarm');
+    window?.log?.info(`Invalidating swarm for ${associatedWith}`);
     await handle421InvalidSwarm(lsrpcEd25519Key, body, associatedWith);
   }
 }
@@ -293,7 +293,9 @@ async function processAnyOtherErrorAtDestination(
     // response.status === 503 ||
     // response.status === 504 ||
     // response.status === 404 ||
-    status !== 200 // this is pretty strong. a 400 (Oxen server error) will be handled as a bad path.
+    status !== 400 &&
+    status !== 406 && // handled in process406Error
+    status !== 421 // handled in process421Error
   ) {
     window?.log?.warn(`[path] Got status at destination: ${status}`);
 
@@ -360,14 +362,21 @@ export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: s
 /**
  * Only exported for testing purpose
  */
-export async function processOnionResponse(
-  response: { text: () => Promise<string>; status: number },
-  symmetricKey: ArrayBuffer,
-  guardNode: Snode,
-  lsrpcEd25519Key?: string,
-  abortSignal?: AbortSignal,
-  associatedWith?: string
-): Promise<SnodeResponse> {
+export async function processOnionResponse({
+  response,
+  symmetricKey,
+  guardNode,
+  abortSignal,
+  associatedWith,
+  lsrpcEd25519Key,
+}: {
+  response: { text: () => Promise<string>; status: number };
+  symmetricKey: ArrayBuffer;
+  guardNode: Snode;
+  lsrpcEd25519Key?: string;
+  abortSignal?: AbortSignal;
+  associatedWith?: string;
+}): Promise<SnodeResponse> {
   let ciphertext = '';
 
   processAbortedRequest(abortSignal);
@@ -437,16 +446,14 @@ export async function processOnionResponse(
     const status = jsonRes.status_code || jsonRes.status;
     await processOnionRequestErrorAtDestination({
       statusCode: status,
-      body: plaintext,
+      body: jsonRes?.body, // this is really important.
       destinationEd25519: lsrpcEd25519Key,
       associatedWith,
     });
 
     return jsonRes as SnodeResponse;
   } catch (e) {
-    window?.log?.error(
-      `[path] lokiRpc::processingOnionResponse - parse error outer json ${e.code} ${e.message} json: '${plaintext}'`
-    );
+    window?.log?.error(`[path] lokiRpc::processingOnionResponse - Rethrowing error ${e.message}'`);
     throw e;
   }
 }
@@ -490,27 +497,36 @@ async function handle421InvalidSwarm(snodeEd25519: string, body: string, associa
     window?.log?.warn('Got a 421 without an associatedWith publickey');
     return;
   }
+  const exceptionMessage = '421 handled. Retry this request with a new targetNode';
   try {
     const json = JSON.parse(body);
 
     // The snode isn't associated with the given public key anymore
     if (json.snodes?.length) {
       // the snode gave us the new swarm. Save it for the next retry
-      window?.log?.warn('Wrong swarm, now looking at snodes', json.snodes);
+      window?.log?.warn(
+        'Wrong swarm, now looking at snodes',
+        json.snodes.map((s: any) => s.pubkey_ed25519)
+      );
 
-      return updateSwarmFor(associatedWith, json.snodes);
+      await updateSwarmFor(associatedWith, json.snodes);
+      throw new pRetry.AbortError(exceptionMessage);
     }
     // remove this node from the swarm of this pubkey
-    return dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
+    await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
   } catch (e) {
-    console.warn('dropSnodeFromSwarmIfNeeded', snodeEd25519);
-    window?.log?.warn(
-      'Got error while parsing 421 result. Dropping this snode from the swarm of this pubkey',
-      e
-    );
-    // could not parse result. Consider that this snode as invalid
-    return dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
+    if (e.message !== exceptionMessage) {
+      console.warn('dropSnodeFromSwarmIfNeeded', snodeEd25519);
+      window?.log?.warn(
+        'Got error while parsing 421 result. Dropping this snode from the swarm of this pubkey',
+        e
+      );
+      // could not parse result. Consider that this snode as invalid
+      await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
+    }
   }
+  // this is important we throw so another retry is made and we exit the handling of that reponse
+  throw new pRetry.AbortError(exceptionMessage);
 }
 
 /**
@@ -604,24 +620,23 @@ const sendOnionRequestHandlingSnodeEject = async ({
     finalRelayOptions,
     abortSignal,
   });
-
   // this call will handle the common onion failure logic.
   // if an error is not retryable a AbortError is triggered, which is handled by pRetry and retries are stopped
-  const processed = await processOnionResponse(
+  const processed = await processOnionResponse({
     response,
-    decodingSymmetricKey,
-    nodePath[0],
-    finalDestOptions?.destination_ed25519_hex,
+    symmetricKey: decodingSymmetricKey,
+    guardNode: nodePath[0],
+    lsrpcEd25519Key: finalDestOptions?.destination_ed25519_hex,
     abortSignal,
-    associatedWith
-  );
+    associatedWith,
+  });
 
   return processed;
 };
 
 /**
  *
- * Onion request looks like this
+ * Onion requests looks like this
  * Sender -> 1 -> 2 -> 3 -> Receiver
  * 1, 2, 3 = onion Snodes
  *
@@ -649,6 +664,9 @@ const sendOnionRequest = async ({
 }) => {
   // get destination pubkey in array buffer format
   let destX25519hex = destX25519Any;
+
+  // Warning be sure to do a copy otherwise the delete below creates issue with retries
+  const copyFinalDestOptions = _.cloneDeep(finalDestOptions);
   if (typeof destX25519hex !== 'string') {
     // convert AB to hex
     window?.log?.warn('destX25519hex was not a string');
@@ -658,14 +676,14 @@ const sendOnionRequest = async ({
   // safely build destination
   let targetEd25519hex;
 
-  if (finalDestOptions.destination_ed25519_hex) {
+  if (copyFinalDestOptions.destination_ed25519_hex) {
     // snode destination
-    targetEd25519hex = finalDestOptions.destination_ed25519_hex;
+    targetEd25519hex = copyFinalDestOptions.destination_ed25519_hex;
     // eslint-disable-next-line no-param-reassign
-    delete finalDestOptions.destination_ed25519_hex;
+    delete copyFinalDestOptions.destination_ed25519_hex;
   }
 
-  const options = finalDestOptions; // lint
+  const options = copyFinalDestOptions; // lint
   // do we need this?
   options.headers = options.headers || {};
 
@@ -791,7 +809,7 @@ export async function lokiOnionFetch(
         return onionFetchRetryable(targetNode, body, associatedWith);
       },
       {
-        retries: 10,
+        retries: 9,
         factor: 1,
         minTimeout: 200,
         maxTimeout: 2000,
