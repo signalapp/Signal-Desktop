@@ -112,7 +112,7 @@
         },
         error => {
           if (error.name !== 'ChooseError') {
-            window?.log?.error(
+            window.log.error(
               'Error choosing directory:',
               error && error.stack ? error.stack : error
             );
@@ -155,7 +155,7 @@
           return this.finishLightImport(directory);
         })
         .catch(error => {
-          window?.log?.error('Error importing:', error && error.stack ? error.stack : error);
+          window.log.error('Error importing:', error && error.stack ? error.stack : error);
 
           this.error = error || new Error('Something went wrong!');
           this.state = null;

@@ -17,7 +17,7 @@
       throw new Error('Tried to store undefined');
     }
     if (!ready) {
-      window?.log?.warn('Called storage.put before storage is ready. key:', key);
+      window.log.warn('Called storage.put before storage is ready. key:', key);
     }
 
     const data = { id: key, value };
@@ -28,7 +28,7 @@
 
   function get(key, defaultValue) {
     if (!ready) {
-      window?.log?.warn('Called storage.get before storage is ready. key:', key);
+      window.log.warn('Called storage.get before storage is ready. key:', key);
     }
 
     const item = items[key];
@@ -41,7 +41,7 @@
 
   async function remove(key) {
     if (!ready) {
-      window?.log?.warn('Called storage.get before storage is ready. key:', key);
+      window.log.warn('Called storage.get before storage is ready. key:', key);
     }
 
     delete items[key];

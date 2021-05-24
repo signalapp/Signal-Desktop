@@ -72,7 +72,7 @@
         userSetting,
       });
 
-      // window?.log?.info(
+      // window.log.info(
       //   'Update notifications:',
       //   Object.assign({}, status, {
       //     isNotificationGroupingSupported,
@@ -138,7 +138,7 @@
           iconUrl = last.iconUrl;
           break;
         default:
-          window?.log?.error(`Error: Unknown user notification setting: '${userSetting}'`);
+          window.log.error(`Error: Unknown user notification setting: '${userSetting}'`);
           break;
       }
 
@@ -166,11 +166,11 @@
       return storage.get('notification-setting') || SettingNames.MESSAGE;
     },
     onRemove() {
-      // window?.log?.info('Remove notification');
+      // window.log.info('Remove notification');
       this.update();
     },
     clear() {
-      // window?.log?.info('Remove all notifications');
+      // window.log.info('Remove all notifications');
       this.reset([]);
       this.update();
     },

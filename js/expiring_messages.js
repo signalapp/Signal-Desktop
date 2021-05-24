@@ -15,14 +15,14 @@
 
   async function destroyExpiredMessages() {
     try {
-      window?.log?.info('destroyExpiredMessages: Loading messages...');
+      window.log.info('destroyExpiredMessages: Loading messages...');
       const messages = await window.Signal.Data.getExpiredMessages();
 
       await Promise.all(
         messages.map(async fromDB => {
           const message = getMessageController().register(fromDB.id, fromDB);
 
-          window?.log?.info('Message expired', {
+          window.log.info('Message expired', {
             sentAt: message.get('sent_at'),
           });
 
@@ -42,13 +42,13 @@
         })
       );
     } catch (error) {
-      window?.log?.error(
+      window.log.error(
         'destroyExpiredMessages: Error deleting expired messages',
         error && error.stack ? error.stack : error
       );
     }
 
-    window?.log?.info('destroyExpiredMessages: complete');
+    window.log.info('destroyExpiredMessages: complete');
     checkExpiringMessages();
   }
 
@@ -64,7 +64,7 @@
 
     const expiresAt = next.get('expires_at');
     Whisper.ExpiringMessagesListener.nextExpiration = expiresAt;
-    window?.log?.info('next message expires', new Date(expiresAt).toISOString());
+    window.log.info('next message expires', new Date(expiresAt).toISOString());
 
     let wait = expiresAt - Date.now();
 

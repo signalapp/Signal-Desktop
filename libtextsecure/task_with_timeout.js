@@ -19,7 +19,7 @@
               errorForStack.stack
             }`;
 
-            window?.log?.error(message);
+            window.log.error(message);
             return reject(new Error(message));
           }
 
@@ -33,7 +33,7 @@
               clearTimeout(localTimer);
             }
           } catch (error) {
-            window?.log?.error(
+            window.log.error(
               id || '',
               'task ran into problem canceling timer. Calling stack:',
               errorForStack.stack

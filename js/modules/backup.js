@@ -142,7 +142,7 @@ async function exportConversationList(fileWriter) {
 
   stream.write('"conversations": ');
   const conversations = await window.Signal.Data.getAllConversations();
-  window?.log?.info(`Exporting ${conversations.length} conversations`);
+  window.log.info(`Exporting ${conversations.length} conversations`);
   writeArray(stream, getPlainJS(conversations));
 
   stream.write('}');
@@ -157,11 +157,11 @@ async function importNonMessages(parent, options) {
 
 function eliminateClientConfigInBackup(data, targetPath) {
   const cleaned = _.pick(data, 'conversations');
-  window?.log?.info('Writing configuration-free backup file back to disk');
+  window.log.info('Writing configuration-free backup file back to disk');
   try {
     fs.writeFileSync(targetPath, JSON.stringify(cleaned));
   } catch (error) {
-    window?.log?.error('Error writing cleaned-up backup to disk: ', error.stack);
+    window.log.error('Error writing cleaned-up backup to disk: ', error.stack);
   }
 }
 
@@ -192,7 +192,7 @@ async function importConversationsFromJSON(conversations, options) {
     await window.Signal.Data.saveConversation(migrated);
   }
 
-  window?.log?.info('Done importing conversations:', 'Total count:', count, 'Skipped:', skipCount);
+  window.log.info('Done importing conversations:', 'Total count:', count, 'Skipped:', skipCount);
 }
 
 async function importFromJsonString(jsonString, targetPath, options) {
@@ -219,7 +219,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
     delete importObject.sessions;
     delete importObject.unprocessed;
 
-    window?.log?.info('This is a light import; contacts, groups and messages only');
+    window.log.info('This is a light import; contacts, groups and messages only');
   }
 
   // We mutate the on-disk backup to prevent the user from importing client
@@ -228,7 +228,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
   eliminateClientConfigInBackup(importObject, targetPath);
 
   const storeNames = _.keys(importObject);
-  window?.log?.info('Importing to these stores:', storeNames.join(', '));
+  window.log.info('Importing to these stores:', storeNames.join(', '));
 
   // Special-case conversations key here, going to SQLCipher
   const { conversations } = importObject;
@@ -251,11 +251,11 @@ async function importFromJsonString(jsonString, targetPath, options) {
         throw new Error(`importFromJsonString: Didn't have save function for store ${storeName}`);
       }
 
-      window?.log?.info(`Importing items for store ${storeName}`);
+      window.log.info(`Importing items for store ${storeName}`);
       const toImport = importObject[storeName];
 
       if (!toImport || !toImport.length) {
-        window?.log?.info(`No items in ${storeName} store`);
+        window.log.info(`No items in ${storeName} store`);
         return;
       }
 
@@ -265,11 +265,11 @@ async function importFromJsonString(jsonString, targetPath, options) {
         await save(toAdd);
       }
 
-      window?.log?.info('Done importing to store', storeName, 'Total count:', toImport.length);
+      window.log.info('Done importing to store', storeName, 'Total count:', toImport.length);
     })
   );
 
-  window?.log?.info('DB import complete');
+  window.log.info('DB import complete');
   return result;
 }
 
@@ -380,7 +380,7 @@ async function readEncryptedAttachment(dir, attachment, name, options) {
   const targetPath = path.join(dir, sanitizedName);
 
   if (!fs.existsSync(targetPath)) {
-    window?.log?.warn(`Warning: attachment ${sanitizedName} not found`);
+    window.log.warn(`Warning: attachment ${sanitizedName} not found`);
     return;
   }
 
@@ -427,7 +427,7 @@ async function writeQuoteThumbnails(quotedAttachments, options) {
       )
     );
   } catch (error) {
-    window?.log?.error(
+    window.log.error(
       'writeThumbnails: error exporting conversation',
       name,
       ':',
@@ -490,7 +490,7 @@ async function writeAttachments(attachments, options) {
   try {
     await Promise.all(promises);
   } catch (error) {
-    window?.log?.error(
+    window.log.error(
       'writeAttachments: error exporting conversation',
       name,
       ':',
@@ -534,7 +534,7 @@ async function writeContactAvatars(contact, options) {
       )
     );
   } catch (error) {
-    window?.log?.error(
+    window.log.error(
       'writeContactAvatars: error exporting conversation',
       name,
       ':',
@@ -578,7 +578,7 @@ async function writePreviews(preview, options) {
       )
     );
   } catch (error) {
-    window?.log?.error(
+    window.log.error(
       'writePreviews: error exporting conversation',
       name,
       ':',
@@ -593,10 +593,10 @@ async function writeEncryptedAttachment(target, source, options = {}) {
 
   if (fs.existsSync(target)) {
     if (newKey) {
-      window?.log?.info(`Deleting attachment ${filename}; key has changed`);
+      window.log.info(`Deleting attachment ${filename}; key has changed`);
       fs.unlinkSync(target);
     } else {
-      window?.log?.info(`Skipping attachment ${filename}; already exists`);
+      window.log.info(`Skipping attachment ${filename}; already exists`);
       return;
     }
   }
@@ -631,7 +631,7 @@ async function exportConversation(conversation, options = {}) {
     throw new Error('Need a key to encrypt with!');
   }
 
-  window?.log?.info('exporting conversation', name);
+  window.log.info('exporting conversation', name);
   const writer = await createFileAndWriter(dir, 'messages.json');
   const stream = createOutputStream(writer);
   stream.write('{"messages":[');
@@ -804,7 +804,7 @@ async function exportConversations(options) {
     });
   }
 
-  window?.log?.info('Done exporting conversations!');
+  window.log.info('Done exporting conversations!');
 }
 
 function getDirectory(options = {}) {
@@ -925,7 +925,7 @@ async function saveAllMessages(rawMessages) {
 
     await window.Signal.Data.saveMessages(messages);
 
-    window?.log?.info(
+    window.log.info(
       'Saved',
       messages.length,
       'messages for conversation',
@@ -933,7 +933,7 @@ async function saveAllMessages(rawMessages) {
       `[REDACTED]${conversationId.slice(-3)}`
     );
   } catch (error) {
-    window?.log?.error('saveAllMessages error', error && error.message ? error.message : error);
+    window.log.error('saveAllMessages error', error && error.message ? error.message : error);
   }
 }
 
@@ -956,7 +956,7 @@ async function importConversation(dir, options) {
   try {
     contents = await readFileAsText(dir, 'messages.json');
   } catch (error) {
-    window?.log?.error(`Warning: could not access messages.json in directory: ${dir}`);
+    window.log.error(`Warning: could not access messages.json in directory: ${dir}`);
   }
 
   let promiseChain = Promise.resolve();
@@ -1007,7 +1007,7 @@ async function importConversation(dir, options) {
   await saveAllMessages(messages);
 
   await promiseChain;
-  window?.log?.info(
+  window.log.info(
     'Finished importing conversation',
     conversationId,
     'Total:',
@@ -1160,10 +1160,10 @@ async function exportToDirectory(directory, options) {
     await compressArchive(archivePath, stagingDir);
     await encryptFile(archivePath, path.join(directory, ARCHIVE_NAME), options);
 
-    window?.log?.info('done backing up!');
+    window.log.info('done backing up!');
     return directory;
   } catch (error) {
-    window?.log?.error('The backup went wrong!', error && error.stack ? error.stack : error);
+    window.log.error('The backup went wrong!', error && error.stack ? error.stack : error);
     throw error;
   } finally {
     if (stagingDir) {
@@ -1223,7 +1223,7 @@ async function importFromDirectory(directory, options) {
         const result = await importNonMessages(stagingDir, options);
         await importConversations(stagingDir, Object.assign({}, options));
 
-        window?.log?.info('Done importing from backup!');
+        window.log.info('Done importing from backup!');
         return result;
       } finally {
         if (stagingDir) {
@@ -1238,10 +1238,10 @@ async function importFromDirectory(directory, options) {
     const result = await importNonMessages(directory, options);
     await importConversations(directory, options);
 
-    window?.log?.info('Done importing!');
+    window.log.info('Done importing!');
     return result;
   } catch (error) {
-    window?.log?.error('The import went wrong!', error && error.stack ? error.stack : error);
+    window.log.error('The import went wrong!', error && error.stack ? error.stack : error);
     throw error;
   }
 }
