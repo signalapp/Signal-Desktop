@@ -18,7 +18,7 @@
     "start": "cross-env NODE_APP_INSTANCE=$MULTI electron .",
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",
     "start-swarm-test": "cross-env NODE_ENV=swarm-testing NODE_APP_INSTANCE=$MULTI electron .",
-    "grunt": "grunt",
+    "grunt": "yarn clean-transpile; grunt",
     "grunt:dev": "yarn clean-transpile; yarn grunt dev --force",
     "icon-gen": "electron-icon-maker --input=images/session/session_icon_1024.png --output=./build",
     "generate": "yarn icon-gen && yarn grunt --force",
@@ -41,7 +41,7 @@
     "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
     "transpile": "tsc --incremental",
     "transpile:watch": "tsc -w",
-    "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js && rimraf tsconfig.tsbuildinfo;",
+    "clean-transpile": "rimraf ts/**/*.js ts/*.js ts/*.js.map ts/**/*.js.map && rimraf tsconfig.tsbuildinfo;",
     "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test"
   },
   "dependencies": {
@@ -148,7 +148,7 @@
     "@types/rc-slider": "^8.6.5",
     "@types/react": "16.8.5",
     "@types/react-dom": "16.8.2",
-    "@types/react-mentions": "^4.1.0",
+    "@types/react-mentions": "^4.1.1",
     "@types/react-mic": "^12.4.1",
     "@types/react-portal": "^4.0.2",
     "@types/react-redux": "7.1.9",
