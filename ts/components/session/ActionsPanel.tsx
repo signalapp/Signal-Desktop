@@ -8,11 +8,9 @@ import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS, MINUTES } from '../../session/utils/Number';
 import {
-  createOrUpdateItem,
   generateAttachmentKeyIfEmpty,
   getItemById,
   hasSyncedInitialConfigurationItem,
-  removeItemById,
 } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
@@ -45,20 +43,6 @@ export enum SectionType {
   Settings,
   Moon,
 }
-
-const showUnstableAttachmentsDialogIfNeeded = async () => {
-  const alreadyShown = (await getItemById('showUnstableAttachmentsDialog'))?.value;
-
-  if (!alreadyShown) {
-    window.confirmationDialog({
-      title: 'File server update',
-      message:
-        "We're upgrading the way files are stored. File transfer may be unstable for the next 24-48 hours.",
-    });
-
-    await createOrUpdateItem({ id: 'showUnstableAttachmentsDialog', value: true });
-  }
-};
 
 const Section = (props: { type: SectionType; avatarPath?: string }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -173,7 +157,6 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
     void OnionPaths.getInstance().buildNewOnionPaths();
   }
 
-  void showUnstableAttachmentsDialogIfNeeded();
   // init the messageQueue. In the constructor, we add all not send messages
   // this call does nothing except calling the constructor, which will continue sending message in the pipeline
   void getMessageQueue().processAllPending();
