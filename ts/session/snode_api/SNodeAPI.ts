@@ -15,6 +15,7 @@ import { getRandomSnode, getRandomSnodePool, requiredSnodesForAgreement, Snode }
 import { Constants } from '..';
 import { sha256 } from '../crypto';
 import _ from 'lodash';
+import pRetry from 'p-retry';
 
 const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   let filePrefix = '';
@@ -177,50 +178,68 @@ export type SendParams = {
 };
 
 // get snodes for pubkey from random snode. Uses an existing snode
-export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snode>> {
-  let targetNode;
-  try {
-    targetNode = await getRandomSnode();
-    const result = await snodeRpc(
-      'get_snodes_for_pubkey',
-      {
-        pubKey,
-      },
-      targetNode,
-      pubKey
-    );
 
-    if (!result) {
+async function requestSnodesForPubkeyRetryable(
+  pubKey: string,
+  targetNode: Snode
+): Promise<Array<Snode>> {
+  const params = {
+    pubKey,
+  };
+  const result = await snodeRpc('get_snodes_for_pubkey', params, targetNode, pubKey);
+
+  if (!result) {
+    window?.log?.warn(
+      `LokiSnodeAPI::requestSnodesForPubkeyRetryable - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
+      result
+    );
+    throw new Error('requestSnodesForPubkeyRetryable: Invalid result');
+  }
+
+  if (result.status !== 200) {
+    window?.log?.warn('Status is not 200 for get_snodes_for_pubkey');
+    throw new Error('requestSnodesForPubkeyRetryable: Invalid status code');
+  }
+
+  try {
+    const json = JSON.parse(result.body);
+
+    if (!json.snodes) {
+      // we hit this when snode gives 500s
       window?.log?.warn(
-        `LokiSnodeAPI::requestSnodesForPubkey - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
+        `LokiSnodeAPI::requestSnodesForPubkeyRetryable - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value for snodes`,
         result
       );
-      return [];
+      throw new Error('Invalid json (empty)');
     }
 
-    if (result.status !== 200) {
-      window?.log?.warn('Status is not 200 for get_snodes_for_pubkey');
-      return [];
-    }
+    const snodes = json.snodes.filter((tSnode: any) => tSnode.ip !== '0.0.0.0');
+    return snodes;
+  } catch (e) {
+    throw new Error('Invalid json');
+  }
+}
 
-    try {
-      const json = JSON.parse(result.body);
+export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snode>> {
+  try {
+    const targetNode = await getRandomSnode();
 
-      if (!json.snodes) {
-        // we hit this when snode gives 500s
-        window?.log?.warn(
-          `LokiSnodeAPI::requestSnodesForPubkey - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value for snodes`,
-          result
-        );
-        return [];
+    return await pRetry(
+      async () => {
+        return requestSnodesForPubkeyRetryable(pubKey, targetNode);
+      },
+      {
+        retries: 10, // each path can fail 3 times before being dropped, we have 3 paths at most
+        factor: 2,
+        minTimeout: 200,
+        maxTimeout: 4000,
+        onFailedAttempt: e => {
+          window?.log?.warn(
+            `requestSnodesForPubkey attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+          );
+        },
       }
-
-      const snodes = json.snodes.filter((tSnode: any) => tSnode.ip !== '0.0.0.0');
-      return snodes;
-    } catch (e) {
-      window?.log?.warn('Invalid json');
-      return [];
-    }
+    );
   } catch (e) {
     window?.log?.error('LokiSnodeAPI::requestSnodesForPubkey - error', e);
 
@@ -301,8 +320,7 @@ export async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Sn
       },
     },
   };
-  const method = 'oxend_request';
-  const result = await snodeRpc(method, params, targetNode);
+  const result = await snodeRpc('oxend_request', params, targetNode);
   if (!result || result.status !== 200) {
     throw new Error('Invalid result');
   }
@@ -339,6 +357,8 @@ export async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Sn
 
 export async function storeOnNode(targetNode: Snode, params: SendParams): Promise<boolean> {
   try {
+    // no retry here. If an issue is with the path this is handled in lokiOnionFetch
+    // if there is an issue with the targetNode, we still send a few times this request to a few snodes in // already so it's handled
     const result = await snodeRpc('store', params, targetNode, params.pubKey);
 
     if (!result || result.status !== 200) {
@@ -356,6 +376,7 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
   return false;
 }
 
+/** */
 export async function retrieveNextMessages(
   targetNode: Snode,
   lastHash: string,
@@ -367,26 +388,32 @@ export async function retrieveNextMessages(
   };
 
   // let exceptions bubble up
-  const result = await snodeRpc('retrieve', params, targetNode, pubkey);
-
-  if (!result) {
-    window?.log?.warn(
-      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
-    );
-    return [];
-  }
-
-  if (result.status !== 200) {
-    window.log('retrieve result is not 200');
-    return [];
-  }
-
   try {
-    const json = JSON.parse(result.body);
-    return json.messages || [];
-  } catch (e) {
-    window?.log?.warn('exception while parsing json of nextMessage:', e);
+    // no retry for this one as this a call we do every few seconds while polling for messages
+    const result = await snodeRpc('retrieve', params, targetNode, pubkey);
 
+    if (!result) {
+      window?.log?.warn(
+        `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+      );
+      return [];
+    }
+
+    if (result.status !== 200) {
+      window.log('retrieve result is not 200');
+      return [];
+    }
+
+    try {
+      const json = JSON.parse(result.body);
+      return json.messages || [];
+    } catch (e) {
+      window?.log?.warn('exception while parsing json of nextMessage:', e);
+
+      return [];
+    }
+  } catch (e) {
+    window?.log?.warn('Got an error while retrieving next messages:', e);
     return [];
   }
 }

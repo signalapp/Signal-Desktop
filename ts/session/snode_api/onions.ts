@@ -30,6 +30,8 @@ export interface SnodeResponse {
   status: number;
 }
 
+const NEXT_NODE_NOT_FOUND_PREFIX = 'Next node not found: ';
+
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
 async function encryptForPubKey(pubKeyX25519hex: string, reqObj: any): Promise<DestinationContext> {
@@ -232,10 +234,10 @@ async function processOnionRequestErrorAtDestination({
   process406Error(statusCode);
   await process421Error(statusCode, body, associatedWith, destinationEd25519);
   if (destinationEd25519) {
-    await processAnyOtherErrorAtDestination(statusCode, destinationEd25519, associatedWith);
+    await processAnyOtherErrorAtDestination(statusCode, body, destinationEd25519, associatedWith);
   } else {
     console.warn(
-      'processOnionRequestErrorAtDestination: destinationEd25519 unset. was it a group call?',
+      'processOnionRequestErrorAtDestination: destinationEd25519 unset. was it an open group call?',
       statusCode
     );
   }
@@ -257,16 +259,21 @@ async function processAnyOtherErrorOnPath(
   ) {
     window?.log?.warn(`[path] Got status: ${status}`);
     //
-    const prefix = 'Next node not found: ';
     let nodeNotFound;
-    if (ciphertext?.startsWith(prefix)) {
-      nodeNotFound = ciphertext.substr(prefix.length);
+    if (ciphertext?.startsWith(NEXT_NODE_NOT_FOUND_PREFIX)) {
+      nodeNotFound = ciphertext.substr(NEXT_NODE_NOT_FOUND_PREFIX.length);
     }
 
     // If we have a specific node in fault we can exclude just this node.
     // Otherwise we increment the whole path failure count
     if (nodeNotFound) {
-      await incrementBadSnodeCountOrDrop(nodeNotFound, associatedWith);
+      await incrementBadSnodeCountOrDrop({
+        snodeEd25519: nodeNotFound,
+        associatedWith,
+        isNodeNotFound: true,
+      });
+
+      // we are checking errors on the path, a nodeNotFound on the path should trigger a rebuild
     } else {
       await incrementBadPathCountOrDrop(guardNodeEd25519);
     }
@@ -276,6 +283,7 @@ async function processAnyOtherErrorOnPath(
 
 async function processAnyOtherErrorAtDestination(
   status: number,
+  body: string,
   destinationEd25519: string,
   associatedWith?: string
 ) {
@@ -289,7 +297,25 @@ async function processAnyOtherErrorAtDestination(
   ) {
     window?.log?.warn(`[path] Got status at destination: ${status}`);
 
-    await incrementBadSnodeCountOrDrop(destinationEd25519, associatedWith);
+    let nodeNotFound;
+    if (body?.startsWith(NEXT_NODE_NOT_FOUND_PREFIX)) {
+      nodeNotFound = body.substr(NEXT_NODE_NOT_FOUND_PREFIX.length);
+
+      if (nodeNotFound) {
+        await incrementBadSnodeCountOrDrop({ snodeEd25519: destinationEd25519, associatedWith });
+        // if we get a nodeNotFound at the desitnation. it means the targetNode to which we made the request is not found.
+        // We have to retry with another targetNode so it's not just rebuilding the path. We have to go one lever higher (lokiOnionFetch).
+        // status is 502 for a node not found
+        throw new pRetry.AbortError(
+          `Bad Path handled. Retry this request with another targetNode. Status: ${status}`
+        );
+      }
+    }
+
+    // If we have a specific node in fault we can exclude just this node.
+    // Otherwise we increment the whole path failure count
+    // if (nodeNotFound) {
+    await incrementBadSnodeCountOrDrop({ snodeEd25519: destinationEd25519, associatedWith });
 
     throw new Error(`Bad Path handled. Retry this request. Status: ${status}`);
   }
@@ -496,14 +522,28 @@ async function handle421InvalidSwarm(snodeEd25519: string, body: string, associa
  *
  * @param snodeEd25519 the snode ed25519 which cause issues
  * @param associatedWith if set, we will drop this snode from the swarm of the pubkey too
+ * @param isNodeNotFound if set, we will drop this snode right now as this is an invalid node for the network.
  */
-export async function incrementBadSnodeCountOrDrop(snodeEd25519: string, associatedWith?: string) {
+export async function incrementBadSnodeCountOrDrop({
+  snodeEd25519,
+  associatedWith,
+  isNodeNotFound,
+}: {
+  snodeEd25519: string;
+  associatedWith?: string;
+  isNodeNotFound?: boolean;
+}) {
   const oldFailureCount = snodeFailureCount[snodeEd25519] || 0;
   const newFailureCount = oldFailureCount + 1;
   snodeFailureCount[snodeEd25519] = newFailureCount;
 
-  if (newFailureCount >= snodeFailureThreshold) {
-    window?.log?.warn(`Failure threshold reached for: ${snodeEd25519}; dropping it.`);
+  if (newFailureCount >= snodeFailureThreshold || isNodeNotFound) {
+    if (isNodeNotFound) {
+      window?.log?.warn(`Node not found reported for: ${snodeEd25519}; dropping it.`);
+    } else {
+      window?.log?.warn(`Failure threshold reached for: ${snodeEd25519}; dropping it.`);
+    }
+
     if (associatedWith) {
       window?.log?.info(`Dropping ${snodeEd25519} from swarm of ${associatedWith}`);
       await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
@@ -753,7 +793,8 @@ export async function lokiOnionFetch(
       {
         retries: 10,
         factor: 1,
-        minTimeout: 1000,
+        minTimeout: 200,
+        maxTimeout: 2000,
         onFailedAttempt: e => {
           window?.log?.warn(
             `onionFetchRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
@@ -766,6 +807,6 @@ export async function lokiOnionFetch(
   } catch (e) {
     window?.log?.warn('onionFetchRetryable failed ', e);
     console.warn('error to show to user');
-    return undefined;
+    throw e;
   }
 }

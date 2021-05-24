@@ -63,8 +63,13 @@ async function lokiFetch(
   }
 }
 
-// Wrapper for a JSON RPC request
-// Annoyngly, this is used for Lokid requests too
+/**
+ * This function will throw for a few reasons.
+ * The loki-important ones are
+ *  -> if we try to make a request to a path which fails too many times => user will need to retry himself
+ *  -> if the targetNode gets too many errors => we will need to try do to this request again with anoter target node
+ * The
+ */
 export async function snodeRpc(
   method: string,
   params: any,

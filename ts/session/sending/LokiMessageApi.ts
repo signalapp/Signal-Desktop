@@ -1,19 +1,9 @@
 import _ from 'lodash';
-import { SendParams, storeOnNode } from '../snode_api/SNodeAPI';
-import { getSwarmFor, Snode } from '../snode_api/snodePool';
+import { storeOnNode } from '../snode_api/SNodeAPI';
+import { getSwarmFor } from '../snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 
 const DEFAULT_CONNECTIONS = 3;
-
-async function openSendConnection(snode: Snode, params: SendParams) {
-  // TODO: Revert back to using snode address instead of IP
-  const successfulSend = await storeOnNode(snode, params);
-  if (successfulSend) {
-    return snode;
-  }
-  // should we mark snode as bad if it can't store our message?
-  return undefined;
-}
 
 /**
  * Refactor note: We should really clean this up ... it's very messy
@@ -57,7 +47,18 @@ export async function sendMessage(
 
   const usedNodes = _.slice(swarm, 0, DEFAULT_CONNECTIONS);
 
-  const promises = usedNodes.map(snodeConnection => openSendConnection(snodeConnection, params));
+  const promises = usedNodes.map(async usedNode => {
+    // TODO: Revert back to using snode address instead of IP
+    // No pRetry here as if this is a bad path it will be handled and retried in lokiOnionFetch.
+    // the only case we could care about a retry would be when the usedNode is not correct,
+    // but considering we trigger this request with a few snode in //, this should be fine.
+    const successfulSend = await storeOnNode(usedNode, params);
+    if (successfulSend) {
+      return usedNode;
+    }
+    // should we mark snode as bad if it can't store our message?
+    return undefined;
+  });
 
   let snode;
   try {

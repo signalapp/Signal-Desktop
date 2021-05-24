@@ -72,7 +72,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
     return semver.lt(toCheck, baseVersion);
   } catch (error) {
-    window?.log?.error(
+    window.log.error(
       `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
       error && error.stack ? error.stack : error
     );
@@ -164,11 +164,11 @@ window.open = () => null;
 window.eval = global.eval = () => null;
 
 window.drawAttention = () => {
-  // window?.log?.debug('draw attention');
+  // window.log.debug('draw attention');
   ipc.send('draw-attention');
 };
 window.showWindow = () => {
-  window?.log?.info('show window');
+  window.log.info('show window');
   ipc.send('show-window');
 };
 
@@ -177,12 +177,12 @@ window.setAutoHideMenuBar = autoHide => ipc.send('set-auto-hide-menu-bar', autoH
 window.setMenuBarVisibility = visibility => ipc.send('set-menu-bar-visibility', visibility);
 
 window.restart = () => {
-  window?.log?.info('restart');
+  window.log.info('restart');
   ipc.send('restart');
 };
 
 window.resetDatabase = () => {
-  window?.log?.info('reset database');
+  window.log.info('reset database');
   ipc.send('resetDatabase');
 };
 
@@ -198,7 +198,7 @@ window.onUnblockNumber = async number => {
       const conversation = window.getConversationController().get(number);
       await conversation.unblock();
     } catch (e) {
-      window?.log?.info('IPC on unblock: failed to fetch conversation for number: ', number);
+      window.log.info('IPC on unblock: failed to fetch conversation for number: ', number);
     }
   }
 };
@@ -278,7 +278,7 @@ window.setAutoUpdateEnabled = value => ipc.send('set-auto-update-setting', !!val
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};
   if (!shutdown) {
-    window?.log?.error('preload shutdown handler: shutdown method not found');
+    window.log.error('preload shutdown handler: shutdown method not found');
     ipc.send('now-ready-for-shutdown');
     return;
   }
@@ -299,7 +299,7 @@ window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');
 require('./js/logging');
 
 if (config.proxyUrl) {
-  window?.log?.info('Using provided proxy url');
+  window.log.info('Using provided proxy url');
 }
 window.nodeSetImmediate = setImmediate;
 

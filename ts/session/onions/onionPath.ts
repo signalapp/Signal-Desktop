@@ -164,7 +164,7 @@ export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
   // a guard node is dropped when the path is dropped completely (in dropPathStartingWithGuardNode)
   for (let index = 1; index < pathWithIssues.length; index++) {
     const snode = pathWithIssues[index];
-    await incrementBadSnodeCountOrDrop(snode.pubkey_ed25519);
+    await incrementBadSnodeCountOrDrop({ snodeEd25519: snode.pubkey_ed25519 });
   }
 
   if (newPathFailureCount >= pathFailureThreshold) {
