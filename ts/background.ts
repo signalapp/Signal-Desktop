@@ -3116,6 +3116,7 @@ export async function startApp(): Promise<void> {
     }
 
     if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
+      event.confirm();
       return Promise.resolve();
     }
 
