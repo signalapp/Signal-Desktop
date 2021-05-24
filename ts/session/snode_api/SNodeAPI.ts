@@ -14,7 +14,6 @@ import { snodeRpc } from './lokiRpc';
 import { getRandomSnode, getRandomSnodePool, requiredSnodesForAgreement, Snode } from './snodePool';
 import { Constants } from '..';
 import { sha256 } from '../crypto';
-import pRetry from 'p-retry';
 import _ from 'lodash';
 
 const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {

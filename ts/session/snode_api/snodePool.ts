@@ -223,7 +223,6 @@ async function getSnodeListFromLokidSeednode(
 export async function refreshRandomPoolDetail(seedNodes: Array<SeedNode>): Promise<Array<Snode>> {
   let snodes = [];
   try {
-    throw new Error('this should be stubed');
     snodes = await getSnodeListFromLokidSeednode(seedNodes);
     // make sure order of the list is random, so we get version in a non-deterministic way
     snodes = _.shuffle(snodes);

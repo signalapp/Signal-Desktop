@@ -15,7 +15,6 @@ import AbortController from 'abort-controller';
 import * as Data from '../../../../../ts/data/data';
 import { Snode } from '../../../../session/snode_api/snodePool';
 import { fromArrayBufferToBase64 } from '../../../../session/utils/String';
-import { Onions } from '../../../../../ts/session/snode_api/';
 
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -220,7 +219,7 @@ describe('OnionPathsErrors', () => {
           } as any,
         });
         sandbox
-          .stub(Onions, 'decodeOnionResult')
+          .stub(SNodeAPI.Onions, 'decodeOnionResult')
           .resolves({ plaintext: json, ciphertextBuffer: new Uint8Array() });
 
         try {
@@ -260,7 +259,7 @@ describe('OnionPathsErrors', () => {
           } as any,
         });
         sandbox
-          .stub(Onions, 'decodeOnionResult')
+          .stub(SNodeAPI.Onions, 'decodeOnionResult')
           .resolves({ plaintext: json, ciphertextBuffer: new Uint8Array() });
 
         try {
