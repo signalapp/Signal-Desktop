@@ -1128,33 +1128,7 @@ class MessageReceiverInner extends EventTarget {
       ArrayBuffer | { isMe: boolean } | { isBlocked: boolean } | undefined
     >;
 
-    if (envelope.type === envelopeTypeEnum.SENDERKEY) {
-      window.log.info('sender key message from', this.getEnvelopeId(envelope));
-      if (!identifier) {
-        throw new Error(
-          'MessageReceiver.decrypt: No identifier for SENDERKEY message'
-        );
-      }
-      if (!sourceDevice) {
-        throw new Error(
-          'MessageReceiver.decrypt: No sourceDevice for SENDERKEY message'
-        );
-      }
-
-      const senderKeyStore = new SenderKeys();
-      const address = `${identifier}.${sourceDevice}`;
-      const messageBuffer = Buffer.from(ciphertext.toArrayBuffer());
-      promise = window.textsecure.storage.protocol.enqueueSenderKeyJob(
-        address,
-        () =>
-          groupDecrypt(
-            ProtocolAddress.new(identifier, sourceDevice),
-            senderKeyStore,
-            messageBuffer
-          ).then(plaintext => this.unpad(typedArrayToArrayBuffer(plaintext))),
-        zone
-      );
-    } else if (envelope.type === envelopeTypeEnum.CIPHERTEXT) {
+    if (envelope.type === envelopeTypeEnum.CIPHERTEXT) {
       window.log.info('message from', this.getEnvelopeId(envelope));
       if (!identifier) {
         throw new Error(
@@ -1282,7 +1256,7 @@ class MessageReceiverInner extends EventTarget {
                   sealedSenderSourceDevice
                 ),
                 senderKeyStore,
-                buffer
+                messageContent.contents()
               ),
             zone
           );
@@ -1317,7 +1291,7 @@ class MessageReceiverInner extends EventTarget {
           return result;
         }
         if (result instanceof Buffer) {
-          return this.unpad(typedArrayToArrayBuffer(result));
+          return typedArrayToArrayBuffer(result);
         }
 
         const content = typedArrayToArrayBuffer(result.message());
