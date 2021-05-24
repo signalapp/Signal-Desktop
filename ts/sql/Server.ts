@@ -1790,6 +1790,50 @@ function updateToSchemaVersion30(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion30: success!');
 }
 
+function updateToSchemaVersion31(currentVersion: number, db: Database): void {
+  if (currentVersion >= 31) {
+    return;
+  }
+  console.log('updateToSchemaVersion10: starting...');
+  db.transaction(() => {
+    db.exec(`
+      DROP INDEX unprocessed_id;
+      DROP INDEX unprocessed_timestamp;
+      ALTER TABLE unprocessed RENAME TO unprocessed_old;
+
+      CREATE TABLE unprocessed(
+        id STRING PRIMARY KEY ASC,
+        timestamp INTEGER,
+        version INTEGER,
+        attempts INTEGER,
+        envelope TEXT,
+        decrypted TEXT,
+        source TEXT,
+        sourceDevice TEXT,
+        serverTimestamp INTEGER,
+        sourceUuid STRING
+      );
+
+      CREATE INDEX unprocessed_timestamp ON unprocessed (
+        timestamp
+      );
+
+      INSERT OR REPLACE INTO unprocessed
+        (id, timestamp, version, attempts, envelope, decrypted, source,
+         sourceDevice, serverTimestamp, sourceUuid)
+      SELECT
+        id, timestamp, version, attempts, envelope, decrypted, source,
+         sourceDevice, serverTimestamp, sourceUuid
+      FROM unprocessed_old;
+
+      DROP TABLE unprocessed_old;
+    `);
+
+    db.pragma('user_version = 31');
+  })();
+  console.log('updateToSchemaVersion31: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1821,6 +1865,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion28,
   updateToSchemaVersion29,
   updateToSchemaVersion30,
+  updateToSchemaVersion31,
 ];
 
 function updateSchema(db: Database): void {
@@ -2229,11 +2274,11 @@ async function commitSessionsAndUnprocessed({
 
   db.transaction(() => {
     for (const item of sessions) {
-      createOrUpdateSession(item);
+      assertSync(createOrUpdateSessionSync(item));
     }
 
     for (const item of unprocessed) {
-      saveUnprocessedSync(item);
+      assertSync(saveUnprocessedSync(item));
     }
   })();
 }
