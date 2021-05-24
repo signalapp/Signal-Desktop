@@ -1840,8 +1840,10 @@ export async function startApp(): Promise<void> {
         await messageReceiver.stopProcessing();
 
         await window.waitForAllBatchers();
-        messageReceiver.unregisterBatchers();
+      }
 
+      if (messageReceiver) {
+        messageReceiver.unregisterBatchers();
         messageReceiver = null;
       }
 
@@ -3185,8 +3187,10 @@ export async function startApp(): Promise<void> {
       await messageReceiver.stopProcessing();
 
       await window.waitForAllBatchers();
-      messageReceiver.unregisterBatchers();
+    }
 
+    if (messageReceiver) {
+      messageReceiver.unregisterBatchers();
       messageReceiver = null;
     }
 
