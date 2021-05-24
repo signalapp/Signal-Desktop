@@ -188,6 +188,7 @@ const getCompactPollRequest = async (
       try {
         const {
           lastMessageFetchedServerID,
+          lastFetchTimestamp,
           lastMessageDeletedServerID,
           token,
           roomId,
@@ -197,7 +198,13 @@ const getCompactPollRequest = async (
           auth_token: token || '',
         };
         roomRequestContent.from_deletion_server_id = lastMessageDeletedServerID;
-        roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
+        if (Date.now() - (lastFetchTimestamp || 0) <= DURATION.DAYS * 14) {
+          roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
+        } else {
+          window?.log?.info(
+            "We've been away for a long time... Only fetching last messages of room"
+          );
+        }
 
         return roomRequestContent;
       } catch (e) {
@@ -276,7 +283,7 @@ async function sendOpenGroupV2RequestCompactPoll(
         roomDetails.token = undefined;
         // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
         await saveV2OpenGroupRoom(roomDetails);
-        // do not await for that. We have a only one at a time logic on a per room basis
+        // we should not await for that. We have a only one at a time logic on a per room basis
         await getAuthToken({ serverUrl, roomId });
       })
     );
