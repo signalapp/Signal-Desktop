@@ -293,8 +293,12 @@ export class ConversationModel extends window.Backbone
     // We clear our cached props whenever we change so that the next call to format() will
     //   result in refresh via a getProps() call. See format() below.
     this.on('change', () => {
-      const isPropsCacheStillValid = Object.keys(this.changed).every(key =>
-        ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE.has(key)
+      const changedKeys = Object.keys(this.changed || {});
+      const isPropsCacheStillValid = Boolean(
+        changedKeys.length &&
+          changedKeys.every(key =>
+            ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE.has(key)
+          )
       );
       if (isPropsCacheStillValid) {
         return;
