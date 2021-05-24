@@ -625,10 +625,21 @@ export class SignalProtocolStore extends EventsMixin {
       window.log.info(
         `${debugName}: locked by ${this.currentZone.name}, waiting`
       );
-      await new Promise<void>(resolve => this.zoneQueue.push(resolve));
 
-      const duration = Date.now() - start;
-      window.log.info(`${debugName}: unlocked after ${duration}ms`);
+      return new Promise<T>((resolve, reject) => {
+        this.zoneQueue.push(async () => {
+          const duration = Date.now() - start;
+          window.log.info(`${debugName}: unlocked after ${duration}ms`);
+
+          // Call `.withZone` synchronously from `this.zoneQueue` to avoid
+          // extra in-between ticks while we are on microtasks queue.
+          try {
+            resolve(await this.withZone(zone, name, body));
+          } catch (error) {
+            reject(error);
+          }
+        });
+      });
     }
 
     this.enterZone(zone, name);

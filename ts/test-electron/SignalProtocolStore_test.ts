@@ -1384,6 +1384,32 @@ describe('SignalProtocolStore', () => {
 
       assert.equal(await store.loadSession(id), testRecord);
     });
+
+    it('can be re-entered after waiting', async () => {
+      const a = new Zone('a');
+      const b = new Zone('b');
+
+      const order: Array<number> = [];
+      const promises: Array<Promise<unknown>> = [];
+
+      // What happens below is briefly following:
+      // 1. We enter zone "a"
+      // 2. We wait for zone "a" to be left to enter zone "b"
+      // 3. Skip few ticks to trigger leave of zone "a" and resolve the waiting
+      //    queue promise for zone "b"
+      // 4. Enter zone "a" while resolution was the promise above is queued in
+      //    microtasks queue.
+
+      promises.push(store.withZone(a, 'a', async () => order.push(1)));
+      promises.push(store.withZone(b, 'b', async () => order.push(2)));
+      await Promise.resolve();
+      await Promise.resolve();
+      promises.push(store.withZone(a, 'a again', async () => order.push(3)));
+
+      await Promise.all(promises);
+
+      assert.deepEqual(order, [1, 2, 3]);
+    });
   });
 
   describe('Not yet processed messages', () => {
