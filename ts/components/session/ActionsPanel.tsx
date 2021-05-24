@@ -12,7 +12,6 @@ import {
   generateAttachmentKeyIfEmpty,
   getItemById,
   hasSyncedInitialConfigurationItem,
-  removeItemById,
 } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
