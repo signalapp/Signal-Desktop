@@ -268,14 +268,24 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       audio.currentTime = currentTime;
     };
 
+    const onDurationChange = () => {
+      window.log.info('MessageAudio: `durationchange` event', id);
+
+      if (!Number.isNaN(audio.duration)) {
+        setDuration(Math.max(audio.duration, 1e-23));
+      }
+    };
+
     audio.addEventListener('timeupdate', onTimeUpdate);
     audio.addEventListener('ended', onEnded);
     audio.addEventListener('loadedmetadata', onLoadedMetadata);
+    audio.addEventListener('durationchange', onDurationChange);
 
     return () => {
       audio.removeEventListener('timeupdate', onTimeUpdate);
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
+      audio.removeEventListener('durationchange', onDurationChange);
     };
   }, [id, audio, isActive, currentTime]);
 
