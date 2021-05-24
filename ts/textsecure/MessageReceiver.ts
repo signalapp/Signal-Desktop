@@ -284,7 +284,7 @@ class MessageReceiverInner extends EventTarget {
     }
 
     // We always process our cache before processing a new websocket message
-    this.encryptedQueue.add(async () => this.queueAllCached());
+    this.incomingQueue.add(async () => this.queueAllCached());
 
     this.count = 0;
     if (this.hasConnected) {
@@ -735,7 +735,7 @@ class MessageReceiverInner extends EventTarget {
     if (this.isEmptied) {
       this.clearRetryTimeout();
       this.retryCachedTimeout = setTimeout(() => {
-        this.encryptedQueue.add(async () => this.queueAllCached());
+        this.incomingQueue.add(async () => this.queueAllCached());
       }, RETRY_TIMEOUT);
     }
   }
