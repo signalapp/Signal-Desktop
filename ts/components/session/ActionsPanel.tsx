@@ -7,7 +7,6 @@ import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS, MINUTES } from '../../session/utils/Number';
-import fse from 'fs-extra';
 
 import {
   createOrUpdateItem,
@@ -176,12 +175,10 @@ const triggerSyncIfNeeded = async () => {
 const triggerAvatarReUploadIfNeeded = async () => {
   const lastTimeStampAvatarUpload = (await getItemById(lastAvatarUploadTimestamp))?.value || 0;
 
-  if (Date.now() - lastTimeStampAvatarUpload > 14 * DAYS) {
+  if (Date.now() - lastTimeStampAvatarUpload > DAYS * 14) {
     window.log.info('Reuploading avatar...');
     // reupload the avatar
-    const ourConvo = await ConversationController.getInstance().get(
-      UserUtils.getOurPubKeyStrFromCache()
-    );
+    const ourConvo = ConversationController.getInstance().get(UserUtils.getOurPubKeyStrFromCache());
     if (!ourConvo) {
       window.log.warn('ourConvo not found... This is not a valid case');
       return;
