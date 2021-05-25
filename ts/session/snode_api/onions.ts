@@ -14,7 +14,12 @@ import pRetry from 'p-retry';
 import { incrementBadPathCountOrDrop } from '../onions/onionPath';
 import _ from 'lodash';
 // hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
-const snodeFailureCount: Record<string, number> = {};
+let snodeFailureCount: Record<string, number> = {};
+
+// tslint:disable-next-line: variable-name
+export const TEST_resetSnodeFailureCount = () => {
+  snodeFailureCount = {};
+};
 
 // The number of times a snode can fail before it's replaced.
 const snodeFailureThreshold = 3;
@@ -32,7 +37,7 @@ export interface SnodeResponse {
   status: number;
 }
 
-const NEXT_NODE_NOT_FOUND_PREFIX = 'Next node not found: ';
+export const NEXT_NODE_NOT_FOUND_PREFIX = 'Next node not found: ';
 
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop

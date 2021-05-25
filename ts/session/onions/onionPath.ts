@@ -9,7 +9,7 @@ import { allowOnlyOneAtATime } from '../utils/Promise';
 const desiredGuardCount = 3;
 const minimumGuardCount = 2;
 
-type SnodePath = Array<SnodePool.Snode>;
+export type SnodePath = Array<SnodePool.Snode>;
 
 const onionRequestHops = 3;
 let onionPaths: Array<SnodePath> = [];
@@ -19,7 +19,8 @@ let onionPaths: Array<SnodePath> = [];
  * @returns a copy of the onion path currently used by the app.
  *
  */
-export const getTestOnionPath = () => {
+// tslint:disable-next-line: variable-name
+export const TEST_getTestOnionPath = () => {
   return _.cloneDeep(onionPaths);
 };
 
@@ -36,7 +37,12 @@ export const clearTestOnionPath = () => {
  * hold the failure count of the path starting with the snode ed25519 pubkey.
  * exported just for tests. do not interact with this directly
  */
-export const pathFailureCount: Record<string, number> = {};
+export let pathFailureCount: Record<string, number> = {};
+
+// tslint:disable-next-line: variable-name
+export const TEST_resetPathFailureCount = () => {
+  pathFailureCount = {};
+};
 
 // The number of times a path can fail before it's replaced.
 const pathFailureThreshold = 3;

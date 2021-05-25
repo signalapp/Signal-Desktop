@@ -142,6 +142,8 @@ describe('OnionPaths', () => {
 
       beforeEach(() => {
         sandbox2.stub(SNodeAPI.SnodePool, 'refreshRandomPoolDetail').resolves(fakeSnodePool);
+        SNodeAPI.Onions.TEST_resetSnodeFailureCount();
+        OnionPaths.TEST_resetPathFailureCount();
         // this just triggers a build of the onionPaths
       });
       afterEach(() => {
@@ -152,10 +154,10 @@ describe('OnionPaths', () => {
         // get a copy of what old ones look like
         await OnionPaths.getOnionPath();
 
-        const oldOnionPath = OnionPaths.getTestOnionPath();
+        const oldOnionPath = OnionPaths.TEST_getTestOnionPath();
 
         await OnionPaths.dropSnodeFromPath(oldOnionPath[2][2].pubkey_ed25519);
-        const newOnionPath = OnionPaths.getTestOnionPath();
+        const newOnionPath = OnionPaths.TEST_getTestOnionPath();
 
         // only the last snode should have been updated
         expect(newOnionPath).to.be.not.deep.equal(oldOnionPath);
@@ -170,9 +172,9 @@ describe('OnionPaths', () => {
         // get a copy of what old ones look like
         await OnionPaths.getOnionPath();
 
-        const oldOnionPath = OnionPaths.getTestOnionPath();
+        const oldOnionPath = OnionPaths.TEST_getTestOnionPath();
         await OnionPaths.dropSnodeFromPath(oldOnionPath[2][1].pubkey_ed25519);
-        const newOnionPath = OnionPaths.getTestOnionPath();
+        const newOnionPath = OnionPaths.TEST_getTestOnionPath();
 
         const allEd25519Keys = _.flattenDeep(oldOnionPath).map(m => m.pubkey_ed25519);
 
