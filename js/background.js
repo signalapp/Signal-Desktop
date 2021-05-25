@@ -426,7 +426,7 @@
           avatarPath,
           onOk: async (newName, avatar) => {
             let newAvatarPath = '';
-            let url = null;
+            let fileUrl = null;
             let profileKey = null;
             if (avatar) {
               const data = await readFile({ file: avatar });
@@ -464,22 +464,18 @@
                   profileKey
                 );
 
-                const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatarV1({
-                  ...dataResized,
-                  data: encryptedData,
-                  size: encryptedData.byteLength,
-                });
+                const avatarPointer = await window.Fsv2.uploadFileToFsV2(encryptedData);
 
-                ({ url } = avatarPointer);
+                ({ fileUrl } = avatarPointer);
 
                 storage.put('profileKey', profileKey);
 
-                conversation.set('avatarPointer', url);
+                conversation.set('avatarPointer', fileUrl);
 
                 const upgraded = await Signal.Migrations.processNewAttachment({
                   isRaw: true,
                   data: data.data,
-                  url,
+                  url: fileUrl,
                 });
                 newAvatarPath = upgraded.path;
                 // Replace our temporary image with the attachment pointer from the server:
@@ -514,14 +510,6 @@
             // so we could disable this here
             // or least it enable for the quickest response
             window.lokiPublicChatAPI.setProfileName(newName);
-
-            if (avatar) {
-              window
-                .getConversationController()
-                .getConversations()
-                .filter(convo => convo.isPublic())
-                .forEach(convo => convo.trigger('ourAvatarChanged', { url, profileKey }));
-            }
           },
         });
       }
