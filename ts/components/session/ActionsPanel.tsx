@@ -7,11 +7,14 @@ import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import { DAYS, MINUTES } from '../../session/utils/Number';
+import fse from 'fs-extra';
+
 import {
   createOrUpdateItem,
   generateAttachmentKeyIfEmpty,
   getItemById,
   hasSyncedInitialConfigurationItem,
+  lastAvatarUploadTimestamp,
 } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
@@ -29,11 +32,18 @@ import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
 import { showLeftPaneSection } from '../../state/ducks/section';
 
-import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
+import {
+  cleanUpOldDecryptedMedias,
+  getDecryptedMediaUrl,
+} from '../../session/crypto/DecryptedAttachmentsManager';
 import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
+import { IMAGE_JPEG } from '../../types/MIME';
+import { FSv2 } from '../../fileserver';
+import { stringToArrayBuffer } from '../../session/utils/String';
+import { debounce } from 'underscore';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -163,6 +173,83 @@ const triggerSyncIfNeeded = async () => {
   }
 };
 
+const triggerAvatarReUploadIfNeeded = async () => {
+  const lastTimeStampAvatarUpload = (await getItemById(lastAvatarUploadTimestamp))?.value || 0;
+
+  if (Date.now() - lastTimeStampAvatarUpload > 14 * DAYS) {
+    window.log.info('Reuploading avatar...');
+    // reupload the avatar
+    const ourConvo = await ConversationController.getInstance().get(
+      UserUtils.getOurPubKeyStrFromCache()
+    );
+    if (!ourConvo) {
+      window.log.warn('ourConvo not found... This is not a valid case');
+      return;
+    }
+    const profileKey = window.textsecure.storage.get('profileKey');
+    if (!profileKey) {
+      window.log.warn('our profileKey not found... This is not a valid case');
+      return;
+    }
+
+    const currentAttachmentPath = ourConvo.getAvatarPath();
+
+    if (!currentAttachmentPath) {
+      window.log.warn('No attachment currently set for our convo.. Nothing to do.');
+      return;
+    }
+
+    const decryptedAvatarUrl = await getDecryptedMediaUrl(currentAttachmentPath, IMAGE_JPEG);
+
+    if (!decryptedAvatarUrl) {
+      window.log.warn('Could not decrypt avatar stored locally..');
+      return;
+    }
+    const response = await fetch(decryptedAvatarUrl);
+    const blob = await response.blob();
+    const decryptedAvatarData = await blob.arrayBuffer();
+
+    if (!decryptedAvatarData?.byteLength) {
+      window.log.warn('Could not read blob of avatar locally..');
+      return;
+    }
+
+    const encryptedData = await window.textsecure.crypto.encryptProfile(
+      decryptedAvatarData,
+      profileKey
+    );
+
+    const avatarPointer = await FSv2.uploadFileToFsV2(encryptedData);
+    let fileUrl;
+    if (!avatarPointer) {
+      window.log.warn('failed to reupload avatar to fsv2');
+      return;
+    }
+    ({ fileUrl } = avatarPointer);
+
+    ourConvo.set('avatarPointer', fileUrl);
+
+    // this encrypts and save the new avatar and returns a new attachment path
+    const upgraded = await window.Signal.Migrations.processNewAttachment({
+      isRaw: true,
+      data: decryptedAvatarData,
+      url: fileUrl,
+    });
+    const newAvatarPath = upgraded.path;
+    // Replace our temporary image with the attachment pointer from the server:
+    ourConvo.set('avatar', null);
+    const existingHash = ourConvo.get('avatarHash');
+    const displayName = ourConvo.get('profileName');
+    // this commits already
+    await ourConvo.setLokiProfile({ avatar: newAvatarPath, displayName, avatarHash: existingHash });
+    const newTimestampReupload = Date.now();
+    await createOrUpdateItem({ id: lastAvatarUploadTimestamp, value: newTimestampReupload });
+    window.log.info(
+      `Reuploading avatar finished at ${newTimestampReupload}, newAttachmentPointer ${fileUrl}`
+    );
+  }
+};
+
 /**
  * This function is called only once: on app startup with a logged in user
  */
@@ -192,6 +279,8 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
   void triggerSyncIfNeeded();
 
   void loadDefaultRooms();
+
+  debounce(triggerAvatarReUploadIfNeeded, 200);
 
   // TODO: Investigate the case where we reconnect
   const ourKey = UserUtils.getOurPubKeyStrFromCache();
@@ -241,6 +330,11 @@ export const ActionsPanel = () => {
 
   useInterval(() => {
     void forceRefreshRandomSnodePool();
+  }, DAYS * 1);
+
+  useInterval(() => {
+    // this won't be run every days, but if the app stays open for more than 10 days
+    void triggerAvatarReUploadIfNeeded();
   }, DAYS * 1);
 
   return (

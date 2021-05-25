@@ -91,7 +91,11 @@ export const Avatar = (props: Props) => {
   // contentType is not important
   const { urlToLoad } = useEncryptedFileFetch(avatarPath || '', '');
   const handleImageError = () => {
-    window.log.warn('Avatar: Image failed to load; failing over to placeholder', urlToLoad);
+    window.log.warn(
+      'Avatar: Image failed to load; failing over to placeholder',
+      urlToLoad,
+      avatarPath
+    );
     setImageBroken(true);
   };
 
