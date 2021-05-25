@@ -39,6 +39,7 @@ import { Constants } from '../../session';
 import { StatusLight } from '../OnionStatusDialog';
 import { StateType } from '../../state/reducer';
 import _ from 'lodash';
+import { useNetwork } from '../../hooks/useNetwork';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -102,7 +103,6 @@ const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?:
   if (type === SectionType.PathIndicator) {
     // Set icon color based on result
     iconColor = hasOnionPath ? Constants.UI.COLORS.GREEN : Constants.UI.COLORS.DANGER;
-    console.log('Status Indicator Color', iconColor);
   }
 
   const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
@@ -137,7 +137,8 @@ const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?:
     const onionState = useSelector((state: StateType) => state.onionPaths);
 
     let statusColor = Constants.UI.COLORS.DANGER;
-    if (!(onionState && onionState.snodePath)) {
+    const isOnline = useNetwork();
+    if (!(onionState && onionState.snodePath) || !isOnline) {
       return <StatusLight isSelected={isSelected} color={Constants.UI.COLORS.DANGER}></StatusLight>;
     } else {
 
@@ -293,7 +294,7 @@ export const ActionsPanel = () => {
 
     //   dispatch(updateOnionPaths(testNode));
 
-    console.log('Is Onion Path found -', hasOnionPath);
+    // console.log('Is Onion Path found -', hasOnionPath);
     setHasOnionPath(hasOnionPath);
   };
 

@@ -187,6 +187,12 @@ export const StatusLight = (props: any) => {
   const [showModal, toggleShowModal] = useState(false);
   const { isSelected, color } = props;
   const theme = useSelector(getTheme);
+
+  const openFAQPage = () => {
+    console.log('Opening FAQ Page');
+    shell.openExternal('https://getsession.org/faq/#onion-routing');
+  };
+
   const onClick = () => {
     toggleShowModal(!showModal);
   };
@@ -194,7 +200,7 @@ export const StatusLight = (props: any) => {
   return (
     <>
       <SessionIconButton
-        iconSize={SessionIconSize.Small}
+        iconSize={SessionIconSize.Medium}
         iconType={SessionIconType.Circle}
         iconColor={color}
         theme={theme}
@@ -203,7 +209,7 @@ export const StatusLight = (props: any) => {
       />
 
       {showModal ? (
-        <SessionWrapperModal onclick={onClick} showModal={showModal}>
+        <SessionWrapperModal title={"Onion Path"} onclick={onClick} showModal={showModal}>
           <OnionPathModalInner></OnionPathModalInner>
         </SessionWrapperModal>
       ) : null}

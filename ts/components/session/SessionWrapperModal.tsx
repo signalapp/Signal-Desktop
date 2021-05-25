@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon/';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { DefaultTheme } from 'styled-components';
+
+import { useKeyPress } from "use-hooks";
 
 interface Props {
   title: string;
@@ -31,7 +33,23 @@ interface State {
 }
 
 export const SessionWrapperModal = (props: any) => {
-  const { onclick, showModal } = props;
+  const { onclick, showModal, title, onConfirm  } = props;
+
+  useEffect(() => {
+    window.addEventListener('keyup', upHandler);
+
+    return () => {
+      window.removeEventListener('keyup', upHandler);
+    }
+  }, [])
+
+  // TODO: warrick: typing
+  const upHandler = ({key}: any ) => {
+    if (key === 'Escape') {
+      props.onclick();
+    }
+  }
+
 
   return (
     <div className="loki-dialog session-confirm-wrapper modal">
@@ -39,7 +57,8 @@ export const SessionWrapperModal = (props: any) => {
         <div className="session-modal">
           <div className="session-modal__header">
             <div className="session-modal__header__title">
-              Onion Nodes / Generic Title
+              {/* Onion Nodes / Generic Title {title} */}
+              {title}
             </div>
           </div>
           <div className="session-modal__body">

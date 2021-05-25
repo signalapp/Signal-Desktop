@@ -121,6 +121,7 @@
     "to-arraybuffer": "1.0.1",
     "typings-for-css-modules-loader": "^1.7.0",
     "underscore": "1.9.0",
+    "use-hooks": "^2.0.0-rc.5",
     "uuid": "3.3.2"
   },
   "devDependencies": {

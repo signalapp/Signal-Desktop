@@ -28,7 +28,6 @@ const onionSlice = createSlice({
   reducers: {
     // updateOnionPaths(state, action: PayloadAction<OnionUpdate>) {
     updateOnionPaths(state, action: PayloadAction<SnodePath>) {
-      console.log('@@@@ dispatching:: ', action);
       return {
         snodePath: action.payload
       }
