@@ -179,7 +179,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     //start right away the function is called, and wait 1sec before calling it again
     this.markRead = _.debounce(this.markReadBouncy, 1000, { leading: true });
     // Listening for out-of-band data updates
-    this.on('ourAvatarChanged', avatar => this.updateAvatarOnPublicChat(avatar));
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
@@ -778,23 +777,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return null;
   }
 
-  public async updateAvatarOnPublicChat({ url, profileKey }: any) {
-    if (!this.isPublic()) {
-      return;
-    }
-    // Always share avatars on PublicChat
-
-    if (profileKey && typeof profileKey !== 'string') {
-      // eslint-disable-next-line no-param-reassign
-      // tslint:disable-next-line: no-parameter-reassignment
-      profileKey = fromArrayBufferToBase64(profileKey);
-    }
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(this.get('server'));
-    if (!serverAPI) {
-      return;
-    }
-    await serverAPI.setAvatar(url, profileKey);
-  }
   public async bouncyUpdateLastMessage() {
     if (!this.id) {
       return;
@@ -1223,11 +1205,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // Not sure if we care about updating the database
   }
 
-  public async setProfileAvatar(avatar: any, avatarHash?: string) {
+  public async setProfileAvatar(avatar: null | { path: string }, avatarHash?: string) {
     const profileAvatar = this.get('avatar');
     const existingHash = this.get('avatarHash');
     let shouldCommit = false;
-    if (profileAvatar !== avatar) {
+    if (!_.isEqual(profileAvatar, avatar)) {
       this.set({ avatar });
       shouldCommit = true;
     }

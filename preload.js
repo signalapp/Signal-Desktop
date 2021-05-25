@@ -398,6 +398,7 @@ window.addEventListener('contextmenu', e => {
 });
 
 window.NewReceiver = require('./ts/receiver/receiver');
+window.Fsv2 = require('./ts/fileserver/FileServerApiV2');
 window.DataMessageReceiver = require('./ts/receiver/dataMessage');
 window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
