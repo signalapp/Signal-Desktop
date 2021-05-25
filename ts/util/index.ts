@@ -35,6 +35,7 @@ import {
 import * as zkgroup from './zkgroup';
 import { StartupQueue } from './StartupQueue';
 import { postLinkExperience } from './postLinkExperience';
+import { sendToGroup, sendContentMessageToGroup } from './sendToGroup';
 
 export {
   GoogleChrome,
@@ -62,6 +63,8 @@ export {
   postLinkExperience,
   queueUpdateMessage,
   saveNewMessageBatcher,
+  sendContentMessageToGroup,
+  sendToGroup,
   setBatchingStrategy,
   sessionRecordToProtobuf,
   sessionStructureToArrayBuffer,

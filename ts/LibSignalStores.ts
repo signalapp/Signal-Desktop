@@ -67,6 +67,15 @@ export class Sessions extends SessionStore {
 
     return record || null;
   }
+
+  async getExistingSessions(
+    addresses: Array<ProtocolAddress>
+  ): Promise<Array<SessionRecord>> {
+    const encodedAddresses = addresses.map(encodedNameFromAddress);
+    return window.textsecure.storage.protocol.loadSessions(encodedAddresses, {
+      zone: this.zone,
+    });
+  }
 }
 
 export type IdentityKeysOptions = {

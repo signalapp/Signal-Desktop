@@ -130,6 +130,7 @@ const dataInterface: ServerInterface = {
   getSenderKeyById,
   removeAllSenderKeys,
   getAllSenderKeys,
+  removeSenderKeyById,
 
   createOrUpdateSession,
   createOrUpdateSessions,
@@ -2214,6 +2215,10 @@ async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
   const rows = prepare(db, 'SELECT * FROM senderKeys').all({});
 
   return rows;
+}
+async function removeSenderKeyById(id: string): Promise<void> {
+  const db = getInstance();
+  prepare(db, 'DELETE FROM senderKeys WHERE id = $id').run({ id });
 }
 
 const SESSIONS_TABLE = 'sessions';
@@ -4857,9 +4862,11 @@ async function removeAll(): Promise<void> {
 // Anything that isn't user-visible data
 async function removeAllConfiguration(): Promise<void> {
   const db = getInstance();
+  const patch: Partial<ConversationType> = { senderKeyInfo: undefined };
 
   db.transaction(() => {
-    db.exec(`
+    db.prepare(
+      `
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM preKeys;
@@ -4868,7 +4875,11 @@ async function removeAllConfiguration(): Promise<void> {
       DELETE FROM signedPreKeys;
       DELETE FROM unprocessed;
       DELETE FROM jobs;
-    `);
+      UPDATE conversations SET json = json_patch(json, $patch);
+    `
+    ).run({
+      $patch: patch,
+    });
   })();
 }
 

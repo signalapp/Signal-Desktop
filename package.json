@@ -68,7 +68,7 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
-    "@signalapp/signal-client": "0.5.2",
+    "@signalapp/signal-client": "0.6.0",
     "@sindresorhus/is": "0.8.0",
     "@types/pino": "6.3.6",
     "@types/pino-multi-stream": "5.1.0",
@@ -163,7 +163,7 @@
     "uuid": "3.3.2",
     "websocket": "1.0.28",
     "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#7ecf70be85e5a485ec870c1723b1c6247b9d549e",
-    "zod": "1.11.13"
+    "zod": "3.0.2"
   },
   "devDependencies": {
     "@babel/core": "7.7.7",

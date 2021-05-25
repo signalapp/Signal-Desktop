@@ -2190,22 +2190,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       recipients.length === 1 &&
       (recipients[0] === this.OUR_NUMBER || recipients[0] === this.OUR_UUID)
     ) {
-      const [identifier] = recipients;
-      const dataMessage = await window.textsecure.messaging.getMessageProto(
-        identifier,
-        body,
+      const dataMessage = await window.textsecure.messaging.getDataMessage({
         attachments,
-        quoteWithData,
-        previewWithData,
-        stickerWithData,
-        null,
-        this.get('deletedForEveryoneTimestamp'),
-        this.get('sent_at'),
-        this.get('expireTimer'),
+        body,
+        deletedForEveryoneTimestamp: this.get('deletedForEveryoneTimestamp'),
+        expireTimer: this.get('expireTimer'),
+        // flags
+        mentions: this.get('bodyRanges'),
+        preview: previewWithData,
         profileKey,
-        undefined, // flags
-        this.get('bodyRanges')
-      );
+        quote: quoteWithData,
+        reaction: null,
+        recipients,
+        sticker: stickerWithData,
+        timestamp: this.get('sent_at'),
+      });
       return this.sendSyncMessageOnly(dataMessage);
     }
 
@@ -2229,15 +2228,32 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         options
       );
     } else {
-      // Because this is a partial group send, we manually construct the request like
-      //   sendMessageToGroup does.
+      const initialGroupV2 = conversation.getGroupV2Info();
+      const groupId = conversation.get('groupId');
+      if (!groupId) {
+        throw new Error("retrySend: Conversation didn't have groupId");
+      }
 
-      const groupV2 = conversation.getGroupV2Info();
+      const groupV2 = initialGroupV2
+        ? {
+            ...initialGroupV2,
+            members: recipients,
+          }
+        : undefined;
+      const groupV1 = groupV2
+        ? undefined
+        : {
+            id: groupId,
+            members: recipients,
+          };
 
-      promise = window.textsecure.messaging.sendMessage(
+      // Important to ensure that we don't consider this receipient list to be the entire
+      //   member list.
+      const partialSend = true;
+
+      promise = window.Signal.Util.sendToGroup(
         {
-          recipients,
-          body,
+          messageText: body,
           timestamp: this.get('sent_at'),
           attachments,
           quote: quoteWithData,
@@ -2247,15 +2263,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           mentions: this.get('bodyRanges'),
           profileKey,
           groupV2,
-          group: groupV2
-            ? undefined
-            : {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                id: this.getConversation()!.get('groupId')!,
-                type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
-              },
+          groupV1,
         },
-        options
+        conversation,
+        options,
+        partialSend
       );
     }
 
@@ -2409,21 +2421,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // Special-case the self-send case - we send only a sync message
     if (identifier === this.OUR_NUMBER || identifier === this.OUR_UUID) {
-      const dataMessage = await window.textsecure.messaging.getMessageProto(
-        identifier,
-        body,
+      const dataMessage = await window.textsecure.messaging.getDataMessage({
         attachments,
-        quoteWithData,
-        previewWithData,
-        stickerWithData,
-        null,
-        this.get('deletedForEveryoneTimestamp'),
-        this.get('sent_at'),
-        this.get('expireTimer'),
+        body,
+        deletedForEveryoneTimestamp: this.get('deletedForEveryoneTimestamp'),
+        expireTimer: this.get('expireTimer'),
+        // flags
+        mentions: this.get('bodyRanges'),
+        preview: previewWithData,
         profileKey,
-        undefined, // flags
-        this.get('bodyRanges')
-      );
+        quote: quoteWithData,
+        reaction: null,
+        recipients: [identifier],
+        sticker: stickerWithData,
+        timestamp: this.get('sent_at'),
+      });
       return this.sendSyncMessageOnly(dataMessage);
     }
 

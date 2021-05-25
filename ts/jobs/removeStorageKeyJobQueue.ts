@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as z from 'zod';
+import { z } from 'zod';
 
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';

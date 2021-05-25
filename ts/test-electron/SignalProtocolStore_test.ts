@@ -175,6 +175,14 @@ describe('SignalProtocolStore', () => {
       assert.isTrue(
         constantTimeEqual(expected.serialize(), actual.serialize())
       );
+
+      await store.removeSenderKey(encodedAddress, distributionId);
+
+      const postDeleteGet = await store.getSenderKey(
+        encodedAddress,
+        distributionId
+      );
+      assert.isUndefined(postDeleteGet);
     });
 
     it('roundtrips through database', async () => {
@@ -197,6 +205,17 @@ describe('SignalProtocolStore', () => {
       assert.isTrue(
         constantTimeEqual(expected.serialize(), actual.serialize())
       );
+
+      await store.removeSenderKey(encodedAddress, distributionId);
+
+      // Re-fetch from the database to ensure we get the latest database value
+      await store.hydrateCaches();
+
+      const postDeleteGet = await store.getSenderKey(
+        encodedAddress,
+        distributionId
+      );
+      assert.isUndefined(postDeleteGet);
     });
   });
 
@@ -1277,6 +1296,54 @@ describe('SignalProtocolStore', () => {
     it('returns empty array for a number with no device ids', async () => {
       const deviceIds = await store.getDeviceIds('foo');
       assert.sameMembers(deviceIds, []);
+    });
+  });
+
+  describe('getOpenDevices', () => {
+    it('returns all open devices for a number', async () => {
+      const openRecord = getSessionRecord(true);
+      const openDevices = [1, 2, 3, 10].map(deviceId => {
+        return [number, deviceId].join('.');
+      });
+      await Promise.all(
+        openDevices.map(async encodedNumber => {
+          await store.storeSession(encodedNumber, openRecord);
+        })
+      );
+
+      const closedRecord = getSessionRecord(false);
+      await store.storeSession([number, 11].join('.'), closedRecord);
+
+      const result = await store.getOpenDevices([number, 'blah', 'blah2']);
+      assert.deepEqual(result, {
+        devices: [
+          {
+            id: 1,
+            identifier: number,
+          },
+          {
+            id: 2,
+            identifier: number,
+          },
+          {
+            id: 3,
+            identifier: number,
+          },
+          {
+            id: 10,
+            identifier: number,
+          },
+        ],
+        emptyIdentifiers: ['blah', 'blah2'],
+      });
+    });
+
+    it('returns empty array for a number with no device ids', async () => {
+      const result = await store.getOpenDevices(['foo']);
+      assert.deepEqual(result, {
+        devices: [],
+        emptyIdentifiers: ['foo'],
+      });
     });
   });
 

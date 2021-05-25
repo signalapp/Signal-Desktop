@@ -1177,27 +1177,55 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const recipientId = this.isPrivate() ? this.getSendTarget() : undefined;
-    const groupId = this.getGroupIdBuffer();
-    const groupMembers = this.getRecipients();
+    await this.queueJob(async () => {
+      const recipientId = this.isPrivate() ? this.getSendTarget() : undefined;
+      const groupId = this.getGroupIdBuffer();
+      const groupMembers = this.getRecipients();
 
-    // We don't send typing messages if our recipients list is empty
-    if (!this.isPrivate() && !groupMembers.length) {
-      return;
-    }
+      // We don't send typing messages if our recipients list is empty
+      if (!this.isPrivate() && !groupMembers.length) {
+        return;
+      }
 
-    const sendOptions = await this.getSendOptions();
-    this.wrapSend(
-      window.textsecure.messaging.sendTypingMessage(
+      const timestamp = Date.now();
+      const contentMessage = window.textsecure.messaging.getTypingContentMessage(
         {
-          isTyping,
           recipientId,
           groupId,
           groupMembers,
-        },
-        sendOptions
-      )
-    );
+          isTyping,
+          timestamp,
+        }
+      );
+
+      const sendOptions = await this.getSendOptions();
+      if (this.isPrivate()) {
+        const silent = true;
+        this.wrapSend(
+          window.textsecure.messaging.sendMessageProtoAndWait(
+            timestamp,
+            groupMembers,
+            contentMessage,
+            silent,
+            {
+              ...sendOptions,
+              online: true,
+            }
+          )
+        );
+      } else {
+        this.wrapSend(
+          window.Signal.Util.sendContentMessageToGroup({
+            contentMessage,
+            conversation: this,
+            online: true,
+            recipients: groupMembers,
+            sendOptions,
+            timestamp,
+          })
+        );
+      }
+    });
   }
 
   async cleanup(): Promise<void> {
@@ -3099,7 +3127,7 @@ export class ConversationModel extends window.Backbone
           );
         }
 
-        return window.textsecure.messaging.sendMessageToGroup(
+        return window.Signal.Util.sendToGroup(
           {
             groupV1: this.getGroupV1Info(),
             groupV2: this.getGroupV2Info(),
@@ -3107,6 +3135,7 @@ export class ConversationModel extends window.Backbone
             timestamp,
             profileKey,
           },
+          this,
           options
         );
       })();
@@ -3208,19 +3237,19 @@ export class ConversationModel extends window.Backbone
 
       // Special-case the self-send case - we send only a sync message
       if (this.isMe()) {
-        const dataMessage = await window.textsecure.messaging.getMessageProto(
-          destination,
-          undefined, // body
-          [], // attachments
-          undefined, // quote
-          [], // preview
-          undefined, // sticker
-          outgoingReaction,
-          undefined, // deletedForEveryoneTimestamp
-          timestamp,
+        const dataMessage = await window.textsecure.messaging.getDataMessage({
+          attachments: [],
+          // body
+          // deletedForEveryoneTimestamp
           expireTimer,
-          profileKey
-        );
+          preview: [],
+          profileKey,
+          // quote
+          reaction: outgoingReaction,
+          recipients: [destination],
+          // sticker
+          timestamp,
+        });
         const result = await message.sendSyncMessageOnly(dataMessage);
         window.Whisper.Reactions.onReaction(reactionModel);
         return result;
@@ -3246,7 +3275,7 @@ export class ConversationModel extends window.Backbone
           );
         }
 
-        return window.textsecure.messaging.sendMessageToGroup(
+        return window.Signal.Util.sendToGroup(
           {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             groupV1: this.getGroupV1Info()!,
@@ -3257,6 +3286,7 @@ export class ConversationModel extends window.Backbone
             expireTimer,
             profileKey,
           },
+          this,
           options
         );
       })();
@@ -3446,19 +3476,19 @@ export class ConversationModel extends window.Backbone
 
       // Special-case the self-send case - we send only a sync message
       if (this.isMe()) {
-        const dataMessage = await window.textsecure.messaging.getMessageProto(
-          destination,
-          messageBody,
-          finalAttachments,
-          quote,
-          preview,
-          sticker,
-          null, // reaction
-          undefined, // deletedForEveryoneTimestamp
-          now,
+        const dataMessage = await window.textsecure.messaging.getDataMessage({
+          attachments: finalAttachments,
+          body: messageBody,
+          // deletedForEveryoneTimestamp
           expireTimer,
-          profileKey
-        );
+          preview,
+          profileKey,
+          quote,
+          // reaction
+          recipients: [destination],
+          sticker,
+          timestamp: now,
+        });
         return message.sendSyncMessageOnly(dataMessage);
       }
 
@@ -3467,7 +3497,7 @@ export class ConversationModel extends window.Backbone
 
       let promise;
       if (conversationType === Message.GROUP) {
-        promise = window.textsecure.messaging.sendMessageToGroup(
+        promise = window.Signal.Util.sendToGroup(
           {
             attachments: finalAttachments,
             expireTimer,
@@ -3481,6 +3511,7 @@ export class ConversationModel extends window.Backbone
             timestamp: now,
             mentions,
           },
+          this,
           options
         );
       } else {
@@ -3904,21 +3935,21 @@ export class ConversationModel extends window.Backbone
     if (this.isMe()) {
       const flags =
         window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-      const dataMessage = await window.textsecure.messaging.getMessageProto(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.getSendTarget()!,
-        undefined, // body
-        [], // attachments
-        undefined, // quote
-        [], // preview
-        undefined, // sticker
-        undefined, // reaction
-        undefined, // deletedForEveryoneTimestamp
-        message.get('sent_at'),
+      const dataMessage = await window.textsecure.messaging.getDataMessage({
+        attachments: [],
+        // body
+        // deletedForEveryoneTimestamp
         expireTimer,
+        flags,
+        preview: [],
         profileKey,
-        flags
-      );
+        // quote
+        // reaction
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        recipients: [this.getSendTarget()!],
+        // sticker
+        timestamp: message.get('sent_at'),
+      });
       return message.sendSyncMessageOnly(dataMessage);
     }
 

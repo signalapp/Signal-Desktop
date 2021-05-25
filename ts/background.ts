@@ -2060,6 +2060,7 @@ export async function startApp(): Promise<void> {
           await server.registerCapabilities({
             'gv2-3': true,
             'gv1-migration': true,
+            senderKey: false,
           });
         } catch (error) {
           window.log.error(

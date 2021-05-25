@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import EventEmitter, { once } from 'events';
-import * as z from 'zod';
+import { z } from 'zod';
 import { identity, noop, groupBy } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { JobError } from '../../jobs/JobError';

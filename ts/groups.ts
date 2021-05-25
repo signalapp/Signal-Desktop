@@ -1261,7 +1261,7 @@ export async function modifyGroupV2({
         const timestamp = Date.now();
 
         const promise = conversation.wrapSend(
-          window.textsecure.messaging.sendMessageToGroup(
+          window.Signal.Util.sendToGroup(
             {
               groupV2: conversation.getGroupV2Info({
                 groupChange: groupChangeBuffer,
@@ -1271,6 +1271,7 @@ export async function modifyGroupV2({
               timestamp,
               profileKey,
             },
+            conversation,
             sendOptions
           )
         );
@@ -1631,13 +1632,16 @@ export async function createGroupV2({
 
   await wrapWithSyncMessageSend({
     conversation,
-    logId: `sendMessageToGroup/${logId}`,
-    send: async sender =>
-      sender.sendMessageToGroup({
-        groupV2: groupV2Info,
-        timestamp,
-        profileKey,
-      }),
+    logId: `sendToGroup/${logId}`,
+    send: async () =>
+      window.Signal.Util.sendToGroup(
+        {
+          groupV2: groupV2Info,
+          timestamp,
+          profileKey,
+        },
+        conversation
+      ),
     timestamp,
   });
 
@@ -2143,16 +2147,19 @@ export async function initiateMigrationToGroupV2(
 
   await wrapWithSyncMessageSend({
     conversation,
-    logId: `sendMessageToGroup/${logId}`,
-    send: async sender =>
+    logId: `sendToGroup/${logId}`,
+    send: async () =>
       // Minimal message to notify group members about migration
-      sender.sendMessageToGroup({
-        groupV2: conversation.getGroupV2Info({
-          includePendingMembers: true,
-        }),
-        timestamp,
-        profileKey: ourProfileKey,
-      }),
+      window.Signal.Util.sendToGroup(
+        {
+          groupV2: conversation.getGroupV2Info({
+            includePendingMembers: true,
+          }),
+          timestamp,
+          profileKey: ourProfileKey,
+        },
+        conversation
+      ),
     timestamp,
   });
 }

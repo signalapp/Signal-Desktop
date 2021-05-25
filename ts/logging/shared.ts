@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as z from 'zod';
+import { z } from 'zod';
 import * as pino from 'pino';
 import { redactAll } from '../../js/modules/privacy';
 import { missingCaseError } from '../util/missingCaseError';
@@ -27,7 +27,8 @@ const logEntrySchema = z.object({
 });
 export type LogEntryType = z.infer<typeof logEntrySchema>;
 
-export const isLogEntry = logEntrySchema.check.bind(logEntrySchema);
+export const isLogEntry = (data: unknown): data is LogEntryType =>
+  logEntrySchema.safeParse(data).success;
 
 export function getLogLevelString(value: LogLevel): pino.Level {
   switch (value) {

@@ -1,7 +1,7 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as z from 'zod';
+import { z } from 'zod';
 import FormData from 'form-data';
 import { gzip } from 'zlib';
 import pify from 'pify';

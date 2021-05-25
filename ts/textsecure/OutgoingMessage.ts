@@ -10,19 +10,16 @@
 
 import { reject } from 'lodash';
 
-import * as z from 'zod';
+import { z } from 'zod';
 import {
   CiphertextMessageType,
-  PreKeyBundle,
-  processPreKeyBundle,
   ProtocolAddress,
-  PublicKey,
   sealedSenderEncryptMessage,
   SenderCertificate,
   signalEncrypt,
 } from '@signalapp/signal-client';
 
-import { ServerKeysType, WebAPIType } from './WebAPI';
+import { WebAPIType } from './WebAPI';
 import { ContentClass, DataMessageClass } from '../textsecure.d';
 import {
   CallbackResultType,
@@ -40,6 +37,7 @@ import {
 import { isValidNumber } from '../types/PhoneNumber';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
+import { getKeysForIdentifier } from './getKeysForIdentifier';
 
 export const enum SenderCertificateMode {
   WithE164,
@@ -78,6 +76,27 @@ function ciphertextMessageTypeToEnvelopeType(type: number) {
   throw new Error(
     `ciphertextMessageTypeToEnvelopeType: Unrecognized type ${type}`
   );
+}
+
+function getPaddedMessageLength(messageLength: number): number {
+  const messageLengthWithTerminator = messageLength + 1;
+  let messagePartCount = Math.floor(messageLengthWithTerminator / 160);
+
+  if (messageLengthWithTerminator % 160 !== 0) {
+    messagePartCount += 1;
+  }
+
+  return messagePartCount * 160;
+}
+
+export function padMessage(messageBuffer: ArrayBuffer): Uint8Array {
+  const plaintext = new Uint8Array(
+    getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
+  );
+  plaintext.set(new Uint8Array(messageBuffer));
+  plaintext[messageBuffer.byteLength] = 0x80;
+
+  return plaintext;
 }
 
 export default class OutgoingMessage {
@@ -187,95 +206,26 @@ export default class OutgoingMessage {
     identifier: string,
     recurse?: boolean
   ): () => Promise<void> {
-    return async () =>
-      window.textsecure.storage.protocol
-        .getDeviceIds(identifier)
-        .then(async deviceIds => {
-          if (deviceIds.length === 0) {
-            this.registerError(
-              identifier,
-              'reloadDevicesAndSend: Got empty device list when loading device keys',
-              undefined
-            );
-            return undefined;
-          }
-          return this.doSendMessage(identifier, deviceIds, recurse);
-        });
+    return async () => {
+      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
+        identifier
+      );
+      if (deviceIds.length === 0) {
+        this.registerError(
+          identifier,
+          'reloadDevicesAndSend: Got empty device list when loading device keys',
+          undefined
+        );
+        return undefined;
+      }
+      return this.doSendMessage(identifier, deviceIds, recurse);
+    };
   }
 
   async getKeysForIdentifier(
     identifier: string,
-    updateDevices: Array<number> | undefined
+    updateDevices?: Array<number>
   ): Promise<void | Array<void | null>> {
-    const handleResult = async (response: ServerKeysType) => {
-      const sessionStore = new Sessions();
-      const identityKeyStore = new IdentityKeys();
-
-      return Promise.all(
-        response.devices.map(async device => {
-          const { deviceId, registrationId, preKey, signedPreKey } = device;
-          if (
-            updateDevices === undefined ||
-            updateDevices.indexOf(deviceId) > -1
-          ) {
-            if (device.registrationId === 0) {
-              window.log.info('device registrationId 0!');
-            }
-            if (!signedPreKey) {
-              throw new Error(
-                `getKeysForIdentifier/${identifier}: Missing signed prekey for deviceId ${deviceId}`
-              );
-            }
-            const protocolAddress = ProtocolAddress.new(identifier, deviceId);
-            const preKeyId = preKey?.keyId || null;
-            const preKeyObject = preKey
-              ? PublicKey.deserialize(Buffer.from(preKey.publicKey))
-              : null;
-            const signedPreKeyObject = PublicKey.deserialize(
-              Buffer.from(signedPreKey.publicKey)
-            );
-            const identityKey = PublicKey.deserialize(
-              Buffer.from(response.identityKey)
-            );
-
-            const preKeyBundle = PreKeyBundle.new(
-              registrationId,
-              deviceId,
-              preKeyId,
-              preKeyObject,
-              signedPreKey.keyId,
-              signedPreKeyObject,
-              Buffer.from(signedPreKey.signature),
-              identityKey
-            );
-
-            const address = `${identifier}.${deviceId}`;
-            await window.textsecure.storage.protocol
-              .enqueueSessionJob(address, () =>
-                processPreKeyBundle(
-                  preKeyBundle,
-                  protocolAddress,
-                  sessionStore,
-                  identityKeyStore
-                )
-              )
-              .catch(error => {
-                if (
-                  error?.message?.includes('untrusted identity for address')
-                ) {
-                  error.timestamp = this.timestamp;
-                  error.originalMessage = this.message.toArrayBuffer();
-                  error.identityKey = response.identityKey;
-                }
-                throw error;
-              });
-          }
-
-          return null;
-        })
-      );
-    };
-
     const { sendMetadata } = this;
     const info =
       sendMetadata && sendMetadata[identifier]
@@ -283,65 +233,23 @@ export default class OutgoingMessage {
         : { accessKey: undefined };
     const { accessKey } = info;
 
-    if (updateDevices === undefined) {
-      if (accessKey) {
-        return this.server
-          .getKeysForIdentifierUnauth(identifier, undefined, { accessKey })
-          .catch(async (error: Error) => {
-            if (error.code === 401 || error.code === 403) {
-              if (this.failoverIdentifiers.indexOf(identifier) === -1) {
-                this.failoverIdentifiers.push(identifier);
-              }
-              return this.server.getKeysForIdentifier(identifier);
-            }
-            throw error;
-          })
-          .then(handleResult);
+    try {
+      const { accessKeyFailed } = await getKeysForIdentifier(
+        identifier,
+        this.server,
+        updateDevices,
+        accessKey
+      );
+      if (accessKeyFailed && !this.failoverIdentifiers.includes(identifier)) {
+        this.failoverIdentifiers.push(identifier);
       }
-
-      return this.server.getKeysForIdentifier(identifier).then(handleResult);
+    } catch (error) {
+      if (error?.message?.includes('untrusted identity for address')) {
+        error.timestamp = this.timestamp;
+        error.originalMessage = this.message.toArrayBuffer();
+      }
+      throw error;
     }
-
-    let promise: Promise<void | Array<void | null>> = Promise.resolve();
-    updateDevices.forEach(deviceId => {
-      promise = promise.then(async () => {
-        let innerPromise;
-
-        if (accessKey) {
-          innerPromise = this.server
-            .getKeysForIdentifierUnauth(identifier, deviceId, { accessKey })
-            .then(handleResult)
-            .catch(async error => {
-              if (error.code === 401 || error.code === 403) {
-                if (this.failoverIdentifiers.indexOf(identifier) === -1) {
-                  this.failoverIdentifiers.push(identifier);
-                }
-                return this.server
-                  .getKeysForIdentifier(identifier, deviceId)
-                  .then(handleResult);
-              }
-              throw error;
-            });
-        } else {
-          innerPromise = this.server
-            .getKeysForIdentifier(identifier, deviceId)
-            .then(handleResult);
-        }
-
-        return innerPromise.catch(async e => {
-          if (e.name === 'HTTPError' && e.code === 404) {
-            if (deviceId !== 1) {
-              return this.removeDeviceIdsForIdentifier(identifier, [deviceId]);
-            }
-            throw new UnregisteredUserError(identifier, e);
-          } else {
-            throw e;
-          }
-        });
-      });
-    });
-
-    return promise;
   }
 
   async transmitMessage(
@@ -389,25 +297,9 @@ export default class OutgoingMessage {
     });
   }
 
-  getPaddedMessageLength(messageLength: number): number {
-    const messageLengthWithTerminator = messageLength + 1;
-    let messagePartCount = Math.floor(messageLengthWithTerminator / 160);
-
-    if (messageLengthWithTerminator % 160 !== 0) {
-      messagePartCount += 1;
-    }
-
-    return messagePartCount * 160;
-  }
-
   getPlaintext(): ArrayBuffer {
     if (!this.plaintext) {
-      const messageBuffer = this.message.toArrayBuffer();
-      this.plaintext = new Uint8Array(
-        this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
-      );
-      this.plaintext.set(new Uint8Array(messageBuffer));
-      this.plaintext[messageBuffer.byteLength] = 0x80;
+      this.plaintext = padMessage(this.message.toArrayBuffer());
     }
     return this.plaintext;
   }
@@ -629,34 +521,6 @@ export default class OutgoingMessage {
       });
   }
 
-  async getStaleDeviceIdsForIdentifier(
-    identifier: string
-  ): Promise<Array<number> | undefined> {
-    const sessionStore = new Sessions();
-
-    const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-      identifier
-    );
-    if (deviceIds.length === 0) {
-      return undefined;
-    }
-
-    const updateDevices: Array<number> = [];
-    await Promise.all(
-      deviceIds.map(async deviceId => {
-        const record = await sessionStore.getSession(
-          ProtocolAddress.new(identifier, deviceId)
-        );
-
-        if (!record || !record.hasCurrentState()) {
-          updateDevices.push(deviceId);
-        }
-      })
-    );
-
-    return updateDevices;
-  }
-
   async removeDeviceIdsForIdentifier(
     identifier: string,
     deviceIdsToRemove: Array<number>
@@ -713,10 +577,12 @@ export default class OutgoingMessage {
         );
       }
 
-      const updateDevices = await this.getStaleDeviceIdsForIdentifier(
+      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
         identifier
       );
-      await this.getKeysForIdentifier(identifier, updateDevices);
+      if (deviceIds.length === 0) {
+        await this.getKeysForIdentifier(identifier);
+      }
       await this.reloadDevicesAndSend(identifier, true)();
     } catch (error) {
       if (error?.message?.includes('untrusted identity for address')) {

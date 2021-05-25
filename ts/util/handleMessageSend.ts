@@ -3,7 +3,7 @@
 
 import { CallbackResultType } from '../textsecure/SendMessage';
 
-const SEALED_SENDER = {
+export const SEALED_SENDER = {
   UNKNOWN: 0,
   ENABLED: 1,
   DISABLED: 2,

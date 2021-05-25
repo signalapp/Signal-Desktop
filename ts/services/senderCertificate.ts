@@ -20,6 +20,10 @@ type Storage = {
   remove(key: string): Promise<void>;
 };
 
+function isWellFormed(data: unknown): data is SerializedCertificateType {
+  return serializedCertificateSchema.safeParse(data).success;
+}
+
 // In case your clock is different from the server's, we "fake" expire certificates early.
 const CLOCK_SKEW_THRESHOLD = 15 * 60 * 1000;
 
@@ -88,10 +92,14 @@ export class SenderCertificateService {
     );
 
     const valueInStorage = storage.get(modeToStorageKey(mode));
-    return serializedCertificateSchema.check(valueInStorage) &&
+    if (
+      isWellFormed(valueInStorage) &&
       isExpirationValid(valueInStorage.expires)
-      ? valueInStorage
-      : undefined;
+    ) {
+      return valueInStorage;
+    }
+
+    return undefined;
   }
 
   private fetchCertificate(

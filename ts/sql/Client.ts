@@ -139,6 +139,7 @@ const dataInterface: ClientInterface = {
   getSenderKeyById,
   removeAllSenderKeys,
   getAllSenderKeys,
+  removeSenderKeyById,
 
   createOrUpdateSession,
   createOrUpdateSessions,
@@ -758,6 +759,9 @@ async function removeAllSenderKeys(): Promise<void> {
 }
 async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
   return channels.getAllSenderKeys();
+}
+async function removeSenderKeyById(id: string): Promise<void> {
+  return channels.removeSenderKeyById(id);
 }
 
 // Sessions

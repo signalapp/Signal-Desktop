@@ -12,6 +12,7 @@ import {
   MessageType,
   LastMessageStatus,
 } from './state/ducks/conversations';
+import { DeviceType } from './textsecure/Types';
 import { SendOptionsType } from './textsecure/SendMessage';
 import { SendMessageChallengeData } from './textsecure/Errors';
 import {
@@ -264,6 +265,11 @@ export type ConversationAttributesType = {
   secretParams?: string;
   publicParams?: string;
   revision?: number;
+  senderKeyInfo?: {
+    createdAtDate: number;
+    distributionId: string;
+    memberDevices: Array<DeviceType>;
+  };
 
   // GroupV2 other fields
   accessControl?: {

@@ -12,7 +12,6 @@ message Envelope {
     PREKEY_BUNDLE       = 3;
     RECEIPT             = 5;
     UNIDENTIFIED_SENDER = 6;
-    SENDERKEY           = 7;
   }
 
   optional Type   type            = 1;

@@ -730,7 +730,6 @@ export declare namespace EnvelopeClass {
     static PREKEY_BUNDLE: number;
     static RECEIPT: number;
     static UNIDENTIFIED_SENDER: number;
-    static SENDERKEY: number;
   }
 }
 

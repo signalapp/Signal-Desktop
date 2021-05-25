@@ -11,6 +11,11 @@ export {
   UnprocessedUpdateType,
 } from '../sql/Interface';
 
+export type DeviceType = {
+  id: number;
+  identifier: string;
+};
+
 // How the legacy APIs generate these types
 
 export type CompatSignedPreKeyType = {

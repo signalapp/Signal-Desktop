@@ -185,6 +185,7 @@ export type DataInterface = {
   getSenderKeyById: (id: string) => Promise<SenderKeyType | undefined>;
   removeAllSenderKeys: () => Promise<void>;
   getAllSenderKeys: () => Promise<Array<SenderKeyType>>;
+  removeSenderKeyById: (id: string) => Promise<void>;
 
   createOrUpdateSession: (data: SessionType) => Promise<void>;
   createOrUpdateSessions: (array: Array<SessionType>) => Promise<void>;
