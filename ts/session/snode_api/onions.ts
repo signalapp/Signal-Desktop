@@ -264,13 +264,17 @@ async function processAnyOtherErrorOnPath(
       nodeNotFound = ciphertext.substr(NEXT_NODE_NOT_FOUND_PREFIX.length);
     }
 
+    if (ciphertext === 'Oxen Server error') {
+      window?.log?.warn('[path] Got Oxen server Error. Not much to do if the server has troubles.');
+      throw new pRetry.AbortError('Oxen Server error');
+    }
+
     // If we have a specific node in fault we can exclude just this node.
     // Otherwise we increment the whole path failure count
     if (nodeNotFound) {
       await incrementBadSnodeCountOrDrop({
         snodeEd25519: nodeNotFound,
         associatedWith,
-        isNodeNotFound: true,
       });
 
       // we are checking errors on the path, a nodeNotFound on the path should trigger a rebuild
@@ -543,22 +547,16 @@ async function handle421InvalidSwarm(snodeEd25519: string, body: string, associa
 export async function incrementBadSnodeCountOrDrop({
   snodeEd25519,
   associatedWith,
-  isNodeNotFound,
 }: {
   snodeEd25519: string;
   associatedWith?: string;
-  isNodeNotFound?: boolean;
 }) {
   const oldFailureCount = snodeFailureCount[snodeEd25519] || 0;
   const newFailureCount = oldFailureCount + 1;
   snodeFailureCount[snodeEd25519] = newFailureCount;
 
-  if (newFailureCount >= snodeFailureThreshold || isNodeNotFound) {
-    if (isNodeNotFound) {
-      window?.log?.warn(`Node not found reported for: ${snodeEd25519}; dropping it.`);
-    } else {
-      window?.log?.warn(`Failure threshold reached for: ${snodeEd25519}; dropping it.`);
-    }
+  if (newFailureCount >= snodeFailureThreshold) {
+    window?.log?.warn(`Failure threshold reached for: ${snodeEd25519}; dropping it.`);
 
     if (associatedWith) {
       window?.log?.info(`Dropping ${snodeEd25519} from swarm of ${associatedWith}`);
