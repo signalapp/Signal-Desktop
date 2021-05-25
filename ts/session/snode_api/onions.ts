@@ -202,11 +202,7 @@ async function process421Error(
   lsrpcEd25519Key?: string
 ) {
   if (statusCode === 421) {
-    if (!lsrpcEd25519Key || !associatedWith) {
-      throw new Error('status 421 without a final destination or no associatedWith makes no sense');
-    }
-    window?.log?.info(`Invalidating swarm for ${associatedWith}`);
-    await handle421InvalidSwarm(lsrpcEd25519Key, body, associatedWith);
+    await handle421InvalidSwarm({ snodeEd25519: lsrpcEd25519Key, body, associatedWith });
   }
 }
 
@@ -291,12 +287,8 @@ async function processAnyOtherErrorAtDestination(
   destinationEd25519: string,
   associatedWith?: string
 ) {
-  // this test checks for on error in your path.
+  // this test checks for error at the destination.
   if (
-    // response.status === 502 ||
-    // response.status === 503 ||
-    // response.status === 504 ||
-    // response.status === 404 ||
     status !== 400 &&
     status !== 406 && // handled in process406Error
     status !== 421 // handled in process421Error
@@ -356,7 +348,14 @@ const debug = false;
  * Only exported for testing purpose
  */
 export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: string) {
-  const ciphertextBuffer = fromBase64ToArrayBuffer(ciphertext);
+  let parsedCiphertext = ciphertext;
+  try {
+    const jsonRes = JSON.parse(ciphertext);
+    parsedCiphertext = jsonRes.result;
+  } catch (e) {
+    // just try to get a json object from what is inside (for PN requests), if it fails, continue ()
+  }
+  const ciphertextBuffer = fromBase64ToArrayBuffer(parsedCiphertext);
 
   const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(symmetricKey, ciphertextBuffer);
 
@@ -410,17 +409,11 @@ export async function processOnionResponse({
   let ciphertextBuffer;
 
   try {
-    const jsonRes = JSON.parse(ciphertext);
-    ciphertext = jsonRes.result;
-  } catch (e) {
-    // just try to get a json object from what is inside (for PN requests), if it fails, continue ()
-  }
-  try {
     const decoded = await exports.decodeOnionResult(symmetricKey, ciphertext);
+
     plaintext = decoded.plaintext;
     ciphertextBuffer = decoded.ciphertextBuffer;
   } catch (e) {
-    console.warn(e);
     window?.log?.error('[path] lokiRpc::processingOnionResponse - decode error', e);
     window?.log?.error(
       '[path] lokiRpc::processingOnionResponse - symmetricKey',
@@ -450,7 +443,7 @@ export async function processOnionResponse({
     const status = jsonRes.status_code || jsonRes.status;
     await processOnionRequestErrorAtDestination({
       statusCode: status,
-      body: jsonRes?.body, // this is really important.
+      body: jsonRes?.body, // this is really important. the `.body`. the .body should be a string. for isntance for nodeNotFound but is most likely a dict (Record<string,any>))
       destinationEd25519: lsrpcEd25519Key,
       associatedWith,
     });
@@ -494,26 +487,35 @@ function isSnodeResponse(arg: any): arg is SnodeResponse {
  * @param body the new swarm not parsed. If an error happens while parsing this we will drop the snode.
  * @param associatedWith the specific publickey associated with this call
  */
-async function handle421InvalidSwarm(snodeEd25519: string, body: string, associatedWith?: string) {
-  // The snode isn't associated with the given public key anymore
-  // this does not make much sense to have a 421 without a publicKey set.
-  if (!associatedWith) {
-    window?.log?.warn('Got a 421 without an associatedWith publickey');
-    return;
+async function handle421InvalidSwarm({
+  body,
+  snodeEd25519,
+  associatedWith,
+}: {
+  body: string;
+  snodeEd25519?: string;
+  associatedWith?: string;
+}) {
+  if (!snodeEd25519 || !associatedWith) {
+    // The snode isn't associated with the given public key anymore
+    // this does not make much sense to have a 421 without a publicKey set.
+    throw new Error('status 421 without a final destination or no associatedWith makes no sense');
   }
+  window?.log?.info(`Invalidating swarm for ${associatedWith}`);
+
   const exceptionMessage = '421 handled. Retry this request with a new targetNode';
   try {
-    const json = JSON.parse(body);
+    const parsedBody = JSON.parse(body);
 
     // The snode isn't associated with the given public key anymore
-    if (json.snodes?.length) {
+    if (parsedBody?.snodes?.length) {
       // the snode gave us the new swarm. Save it for the next retry
       window?.log?.warn(
         'Wrong swarm, now looking at snodes',
-        json.snodes.map((s: any) => s.pubkey_ed25519)
+        parsedBody.snodes.map((s: any) => s.pubkey_ed25519)
       );
 
-      await updateSwarmFor(associatedWith, json.snodes);
+      await updateSwarmFor(associatedWith, parsedBody.snodes);
       throw new pRetry.AbortError(exceptionMessage);
     }
     // remove this node from the swarm of this pubkey
