@@ -188,6 +188,19 @@ const stories: Array<ConversationHeaderStory> = [
           muteExpiresAt: new Date('3000-10-18T11:11:11Z').valueOf(),
         },
       },
+      {
+        title: 'SMS-only conversation',
+        props: {
+          ...commonProps,
+          color: 'ultramarine',
+          title: '(202) 555-0006',
+          phoneNumber: '(202) 555-0006',
+          type: 'direct',
+          id: '6',
+          acceptedMessageRequest: true,
+          isSMSOnly: true,
+        },
+      },
     ],
   },
   {

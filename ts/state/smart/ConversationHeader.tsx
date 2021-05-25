@@ -18,6 +18,7 @@ import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
 import { getUserConversationId, getIntl } from '../selectors/user';
 import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { isGroupCallingEnabled } from '../../util/isGroupCallingEnabled';
 
 export type OwnProps = {
@@ -117,6 +118,7 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
         conversation.messageCount &&
         conversation.messageCount > 0
     ),
+    isSMSOnly: isConversationSMSOnly(conversation),
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),
