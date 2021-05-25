@@ -329,7 +329,8 @@ function setUserVersion(db: Database, version: number): void {
 function keyDatabase(db: Database, key: string): void {
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
   db.pragma(`key = "x'${key}'"`);
-
+}
+function switchToWAL(db: Database): void {
   // https://sqlite.org/wal.html
   db.pragma('journal_mode = WAL');
   db.pragma('synchronous = NORMAL');
@@ -384,6 +385,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
   try {
     db = new SQL(filePath);
     keyDatabase(db, key);
+    switchToWAL(db);
     migrateSchemaVersion(db);
 
     return db;
@@ -410,6 +412,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
   keyDatabase(db, key);
 
   db.pragma('cipher_migrate');
+  switchToWAL(db);
 
   return db;
 }
