@@ -18,6 +18,7 @@ import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
 import { isOpenGroupV2Request } from '../../fileserver/FileServerApiV2';
 import { getAuthToken } from './ApiAuth';
+import pRetry from 'p-retry';
 
 /**
  * This function returns a base url to this room
@@ -195,7 +196,8 @@ export async function openGroupV2GetRoomInfo({
  * If an error happens, this function throws it
  *
  */
-export const postMessage = async (
+
+const postMessageRetryable = async (
   message: OpenGroupMessageV2,
   room: OpenGroupRequestCommonType
 ) => {
@@ -210,7 +212,9 @@ export const postMessage = async (
     isAuthRequired: true,
     endpoint: 'messages',
   };
+
   const result = await sendApiV2Request(request);
+
   const statusCode = parseStatusCodeFromOnionRequest(result);
 
   if (statusCode !== 200) {
@@ -222,6 +226,30 @@ export const postMessage = async (
   }
   // this will throw if the json is not valid
   return OpenGroupMessageV2.fromJson(rawMessage);
+};
+
+export const postMessage = async (
+  message: OpenGroupMessageV2,
+  room: OpenGroupRequestCommonType
+) => {
+  const result = await pRetry(
+    async () => {
+      return postMessageRetryable(message, room);
+    },
+    {
+      retries: 3, // each path can fail 3 times before being dropped, we have 3 paths at most
+      factor: 2,
+      minTimeout: 1000,
+      maxTimeout: 4000,
+      onFailedAttempt: e => {
+        window?.log?.warn(
+          `postMessageRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+        );
+      },
+    }
+  );
+  return result;
+  // errors are saved on the message itself if this pRetry fails too many times
 };
 
 export const banUser = async (
