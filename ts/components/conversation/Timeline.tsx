@@ -504,6 +504,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       const {
         unreadCount,
         haveNewest,
+        haveOldest,
         isLoadingMessages,
         items,
         loadNewerMessages,
@@ -519,22 +520,36 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         return;
       }
 
-      const { newest } = this.visibleRows;
-      if (!newest || !newest.id) {
+      const { newest, oldest } = this.visibleRows;
+      if (!newest || !oldest) {
         return;
       }
 
       markMessageRead(newest.id);
 
-      const rowCount = this.getRowCount();
+      const newestRow = this.getRowCount() - 1;
+      const oldestRow = this.fromItemIndexToRow(0);
 
-      const lastId = items[items.length - 1];
+      // Loading newer messages (that go below current messages) is pain-free and quick
+      //   we'll just kick these off immediately.
       if (
         !isLoadingMessages &&
         !haveNewest &&
-        newest.row > rowCount - LOAD_MORE_THRESHOLD
+        newest.row > newestRow - LOAD_MORE_THRESHOLD
       ) {
+        const lastId = items[items.length - 1];
         loadNewerMessages(lastId);
+      }
+
+      // Loading older messages is more destructive, as they requires a recalculation of
+      //   all locations of things below. So we need to be careful with these loads.
+      //   Generally we hid this behind a countdown spinner at the top of the window, but
+      //   this is a special-case for the situation where the window is so large and that
+      //   all the messages are visible.
+      const oldestVisible = oldestRow === oldest.row;
+      const newestVisible = newestRow === newest.row;
+      if (oldestVisible && newestVisible && !haveOldest) {
+        this.loadOlderMessages();
       }
 
       const lastIndex = items.length - 1;
@@ -548,7 +563,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       const shouldShowScrollDownButton = Boolean(
         !haveNewest ||
           areUnreadBelowCurrentPosition ||
-          newest.row < rowCount - SCROLL_DOWN_BUTTON_THRESHOLD
+          newest.row < newestRow - SCROLL_DOWN_BUTTON_THRESHOLD
       );
 
       this.setState({
