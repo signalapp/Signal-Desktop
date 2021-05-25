@@ -13,7 +13,7 @@ import {
   hasSyncedInitialConfigurationItem,
   removeItemById,
 } from '../../data/data';
-import { OnionPaths } from '../../session/onions';
+import { OnionPaths, Snode, SnodePath } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
 import { clearSessionsAndPreKeys } from '../../util/accountManager';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,11 +36,9 @@ import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
 import { getOnionPathStatus } from '../../session/onions/onionSend';
 import { Constants } from '../../session';
-import { IPathNode, OnionPathNode, StatusLight } from '../OnionStatusDialog';
-import { OnionUpdate, updateOnionPaths, OnionPathNodeType } from '../../state/ducks/onion';
+import { StatusLight } from '../OnionStatusDialog';
 import { StateType } from '../../state/reducer';
 import _ from 'lodash';
-import { constants } from 'original-fs';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -132,23 +130,28 @@ const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?:
 
   // calculate light status.
   // TODO: Refactor this so this logic is reusable elsewhere.
+
+
+  // TEST:
   if (type === SectionType.PathIndicator) {
-    const onionPaths = useSelector((state: StateType) => state.onionPaths);
-    console.log('@@@ state onion path node', onionPaths);
-    let connectedNodesCount = _.sumBy(onionPaths.nodes, (node: OnionPathNodeType) => {
-      return node.isConnected ? 1 : 0;
-    });
+    const onionState = useSelector((state: StateType) => state.onionPaths);
 
-    console.log('@@@@@ is connected count: ', connectedNodesCount);
+    let statusColor = Constants.UI.COLORS.DANGER;
+    if (!(onionState && onionState.snodePath)) {
+      return <StatusLight isSelected={isSelected} color={Constants.UI.COLORS.DANGER}></StatusLight>;
+    } else {
 
-    const statusColor =
-      connectedNodesCount > 2
-        ? Constants.UI.COLORS.GREEN
-        : connectedNodesCount > 1
-        ? Constants.UI.COLORS.WARNING
-        : Constants.UI.COLORS.DANGER;
-
-    console.log('@@@@@ is connected color: ', statusColor);
+      const onionSnodePath = onionState.snodePath;
+      if (onionState && onionSnodePath && onionSnodePath.path.length > 0) {
+        let onionNodeCount = onionSnodePath.path.length;
+        statusColor =
+          onionNodeCount > 2
+            ? Constants.UI.COLORS.GREEN
+            : onionNodeCount > 1
+              ? Constants.UI.COLORS.WARNING
+              : Constants.UI.COLORS.DANGER;
+      }
+    }
 
     return <StatusLight isSelected={isSelected} color={statusColor}></StatusLight>;
   }
@@ -256,30 +259,39 @@ export const ActionsPanel = () => {
   const getOnionPathIndicator = () => {
     const hasOnionPath = getOnionPathStatus();
 
-    const update: OnionUpdate = {
-      nodes: [
-        {
-          ip: 'hi',
-          label: 'hi',
-          isConnected: Math.random() > 0.5,
-          isAttemptingConnect: Math.random() > 0.7,
-        },
-        {
-          ip: 'hi2',
-          label: 'hi2',
-          isConnected: Math.random() > 0.5,
-          isAttemptingConnect: Math.random() > 0.7,
-        },
-        {
-          ip: 'hi3',
-          label: 'hi3',
-          isConnected: Math.random() > 0.5,
-          isAttemptingConnect: Math.random() > 0.7,
-        },
-      ],
-    };
+    // const update: OnionUpdate = {
+    //   nodes: [
+    //     {
+    //       ip: 'hi',
+    //       label: 'hi',
+    //       isConnected: Math.random() > 0.5,
+    //       isAttemptingConnect: Math.random() > 0.7,
+    //     },
+    //     {
+    //       ip: 'hi2',
+    //       label: 'hi2',
+    //       isConnected: Math.random() > 0.5,
+    //       isAttemptingConnect: Math.random() > 0.7,
+    //     },
+    //     {
+    //       ip: 'hi3',
+    //       label: 'hi3',
+    //       isConnected: Math.random() > 0.5,
+    //       isAttemptingConnect: Math.random() > 0.7,
+    //     },
+    //   ],
+    // };
 
-    dispatch(updateOnionPaths(update));
+
+    // dispatch(updateOnionPaths(update));
+
+    // TEST: Stuff
+    //  let testNode: SnodePath = {
+    //     bad: false,
+    //     path: new Array<Snode>()
+    //   }
+
+    //   dispatch(updateOnionPaths(testNode));
 
     console.log('Is Onion Path found -', hasOnionPath);
     setHasOnionPath(hasOnionPath);

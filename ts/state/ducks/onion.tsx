@@ -1,51 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import { OpenGroupV2InfoJoinable } from '../../opengroup/opengroupV2/ApiUtil';
-
-// export type DefaultRoomsState = Array<OpenGroupV2InfoJoinable>;
+import { SnodePath, Snode } from "../../session/onions/index";
 
 export type OnionState = {
-  nodes: Array<OnionPathNodeType>;
-  // ip?: string;
-  // label?: string;
-  // isConnected?: boolean;
-  // isAttemptingConnect?: boolean;
-};
-
-const initialState: OnionState = {
-  nodes: new Array<OnionPathNodeType>(),
+  // nodes: Array<OnionPathNodeType>;
+  // path: SnodePath;
+  snodePath: SnodePath;
 };
 
 // const initialState: OnionState = {
-//   ip: '',
-//   label: '',
-//   isConnected: false,
-//   isAttemptingConnect: false
+//   // nodes: new Array<OnionPathNodeType>(),
+//   nodes: new Array<Snode>(),
 // };
 
-/**
- * Payload to dispatch to update the base64 data of a default room
- */
-export type Base64Update = {
-  base64Data: string;
-  roomId: string;
-};
-
-/**
- * Type for a singular onion node to be used in the onion redux state.
- */
-export type OnionPathNodeType = {
-  ip?: string;
-  label?: string;
-  isConnected?: boolean;
-  isAttemptingConnect?: boolean;
-};
-
-/**
- * Payload to dispatch an update of the onion node paths
- */
-export type OnionUpdate = {
-  nodes: Array<OnionPathNodeType>;
-};
+const initialState = {
+  snodePath: {
+    path: new Array<Snode>(),
+    bad: false
+  }
+}
 
 /**
  * This slice is the one holding the default joinable rooms fetched once in a while from the default opengroup v2 server.
@@ -54,9 +26,12 @@ const onionSlice = createSlice({
   name: 'onionPaths',
   initialState,
   reducers: {
-    updateOnionPaths(state, action: PayloadAction<OnionUpdate>) {
-      window.log.warn('updating default rooms', action.payload);
-      return action.payload as OnionState;
+    // updateOnionPaths(state, action: PayloadAction<OnionUpdate>) {
+    updateOnionPaths(state, action: PayloadAction<SnodePath>) {
+      console.log('@@@@ dispatching:: ', action);
+      return {
+        snodePath: action.payload
+      }
     },
   },
 });

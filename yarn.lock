@@ -1254,6 +1254,13 @@ asar@0.14.0:
     mksnapshot "^0.3.0"
     tmp "0.0.28"
 
+asbycountry@^1.2.0:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/asbycountry/-/asbycountry-1.4.1.tgz#9fd71094edbd0d740d67b0cf75c9a6ecf47eea09"
+  integrity sha512-742TViobYfarc5bJd6l57/i2YURi7g87t6VgzShubyt2it1r0yWWRvezVPcGF4/fTuNnjizgX6dW4ReJhn8vMw==
+  dependencies:
+    chalk "^1.1.3"
+
 asn1.js@^4.0.0:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/asn1.js/-/asn1.js-4.10.1.tgz#b9c2bf5805f1e64aadeed6df3a2bfafb5a73f5a0"
@@ -2770,6 +2777,11 @@ cosmiconfig@^7.0.0:
     parse-json "^5.0.0"
     path-type "^4.0.0"
     yaml "^1.10.0"
+
+country-code-lookup@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/country-code-lookup/-/country-code-lookup-0.0.19.tgz#3fbf0192758ecf0d5eee0efbc220d62706c50fd6"
+  integrity sha512-lpvgdPyj8RuP0CSZhACNf5ueKlLbv/IQUAQfg7yr/qJbFrdcWV7Y+aDN9K/u/bx3MXRfcsjuW+TdIc0AEj7kDw==
 
 crc32-stream@^2.0.0:
   version "2.0.0"
@@ -5706,6 +5718,13 @@ ip-regex@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-1.0.3.tgz#dc589076f659f419c222039a33316f1c7387effd"
   integrity sha1-3FiQdvZZ9BnCIgOaMzFvHHOH7/0=
+
+ip2country@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ip2country/-/ip2country-1.0.0.tgz#dc5b3ffb50862e7b452d43f6cce7e5ddc1b8951d"
+  integrity sha1-3Fs/+1CGLntFLUP2zOfl3cG4lR0=
+  dependencies:
+    asbycountry "^1.2.0"
 
 ip@^1.1.0, ip@^1.1.5:
   version "1.1.5"

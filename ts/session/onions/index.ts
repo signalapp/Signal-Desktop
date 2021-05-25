@@ -6,11 +6,13 @@ import { UserUtils } from '../utils';
 import { snodeHttpsAgent } from '../snode_api/onions';
 import { allowOnlyOneAtATime } from '../utils/Promise';
 
+import { updateOnionPaths } from '../../state/ducks/onion';
+
 export type Snode = SnodePool.Snode;
 
 const desiredGuardCount = 3;
 const minimumGuardCount = 2;
-interface SnodePath {
+export interface SnodePath {
   path: Array<Snode>;
   bad: boolean;
 }
@@ -61,6 +63,8 @@ export class OnionPaths {
       goodPaths = this.onionPaths.filter(x => !x.bad);
     }
 
+    window.inboxStore?.dispatch(updateOnionPaths(goodPaths[0]));
+
     const paths = _.shuffle(goodPaths);
 
     if (!toExclude) {
@@ -100,6 +104,8 @@ export class OnionPaths {
     if (!otherPaths[0].path) {
       log.error('LokiSnodeAPI::getOnionPath - otherPaths no path in', otherPaths[0]);
     }
+
+    // window.inboxStore?.dispatch(updateOnionPaths(otherPaths[0]));
 
     return otherPaths[0].path;
   }

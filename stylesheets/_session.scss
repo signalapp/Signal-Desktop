@@ -1200,19 +1200,11 @@ input {
 
 // .session-onion-path-wrapper {
 
-  .onion-node-list {
+  .onion__node-list {
     display: flex;
     flex-direction: column;
     margin: $session-margin-sm;
-
-    // .onion-node__vertical-line {
-    //   border-left: 3px solid green;
-    //   left: 50%;
-    //   position: absolute;
-    //   margin-left: -3px;
-    //   top: 0;
-    //   height: 100%
-    // }
+    align-items: flex-start;
 
     .onion__node {
       display: flex;
@@ -1220,21 +1212,24 @@ input {
       align-items: center;
       margin: $session-margin-xs;
 
-      // unsure
-      position: relative;
-
-      .line {
-        width: 50%;
-        height: 100%;
-        position: absolute;
-        left: 25%;
-        top: 40%;
-        border-left: 3px solid green;
-      }
-
       * {
         margin: $session-margin-sm;
       }
+
+      svg {
+        animation: glow 1s ease-in-out infinite alternate;
+      }
+    }
+  }
+
+  @keyframes glow {
+    from {
+    -webkit-filter: drop-shadow( 0px 0px 3px rgba(0,0,0,0));
+        filter: drop-shadow( 0px 0px 3px rgba(0,0,0,0));
+    }
+    to {
+    -webkit-filter: drop-shadow( 0px 0px 5px rgba(46, 247, 28, 0.7));
+        filter: drop-shadow( 0px 0px 5px rgba(68, 236, 2, 0.7));
     }
   }
 
