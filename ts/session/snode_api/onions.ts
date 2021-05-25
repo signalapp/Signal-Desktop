@@ -18,6 +18,8 @@ const snodeFailureCount: Record<string, number> = {};
 
 // The number of times a snode can fail before it's replaced.
 const snodeFailureThreshold = 3;
+
+export const OXEN_SERVER_ERROR = 'Oxen Server error';
 /**
  * When sending a request over onion, we might get two status.
  * The first one, on the request itself, the other one in the json returned.
@@ -195,6 +197,13 @@ function process406Error(statusCode: number) {
   }
 }
 
+function processOxenServerError(statusCode: number, body?: string) {
+  if (body === OXEN_SERVER_ERROR) {
+    window?.log?.warn('[path] Got Oxen server Error. Not much to do if the server has troubles.');
+    throw new pRetry.AbortError(OXEN_SERVER_ERROR);
+  }
+}
+
 async function process421Error(
   statusCode: number,
   body: string,
@@ -229,6 +238,7 @@ async function processOnionRequestErrorAtDestination({
   }
   process406Error(statusCode);
   await process421Error(statusCode, body, associatedWith, destinationEd25519);
+  processOxenServerError(statusCode, body);
   if (destinationEd25519) {
     await processAnyOtherErrorAtDestination(statusCode, body, destinationEd25519, associatedWith);
   } else {
@@ -260,15 +270,12 @@ async function processAnyOtherErrorOnPath(
       nodeNotFound = ciphertext.substr(NEXT_NODE_NOT_FOUND_PREFIX.length);
     }
 
-    if (ciphertext === 'Oxen Server error') {
-      window?.log?.warn('[path] Got Oxen server Error. Not much to do if the server has troubles.');
-      throw new pRetry.AbortError('Oxen Server error');
-    }
+    processOxenServerError(status, ciphertext);
 
     // If we have a specific node in fault we can exclude just this node.
     // Otherwise we increment the whole path failure count
     if (nodeNotFound) {
-      await incrementBadSnodeCountOrDrop({
+      await exports.incrementBadSnodeCountOrDrop({
         snodeEd25519: nodeNotFound,
         associatedWith,
       });
@@ -300,7 +307,10 @@ async function processAnyOtherErrorAtDestination(
       nodeNotFound = body.substr(NEXT_NODE_NOT_FOUND_PREFIX.length);
 
       if (nodeNotFound) {
-        await incrementBadSnodeCountOrDrop({ snodeEd25519: destinationEd25519, associatedWith });
+        await exports.incrementBadSnodeCountOrDrop({
+          snodeEd25519: destinationEd25519,
+          associatedWith,
+        });
         // if we get a nodeNotFound at the desitnation. it means the targetNode to which we made the request is not found.
         // We have to retry with another targetNode so it's not just rebuilding the path. We have to go one lever higher (lokiOnionFetch).
         // status is 502 for a node not found
@@ -313,7 +323,10 @@ async function processAnyOtherErrorAtDestination(
     // If we have a specific node in fault we can exclude just this node.
     // Otherwise we increment the whole path failure count
     // if (nodeNotFound) {
-    await incrementBadSnodeCountOrDrop({ snodeEd25519: destinationEd25519, associatedWith });
+    await exports.incrementBadSnodeCountOrDrop({
+      snodeEd25519: destinationEd25519,
+      associatedWith,
+    });
 
     throw new Error(`Bad Path handled. Retry this request. Status: ${status}`);
   }
@@ -531,6 +544,8 @@ async function handle421InvalidSwarm({
       await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
     }
   }
+  await exports.incrementBadSnodeCountOrDrop({ snodeEd25519, associatedWith });
+
   // this is important we throw so another retry is made and we exit the handling of that reponse
   throw new pRetry.AbortError(exceptionMessage);
 }

@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { describe } from 'mocha';
 
 import { TestUtils } from '../../../test-utils';
-import * as SNodeAPI from '../../../../../ts/session/snode_api/';
+import * as SNodeAPI from '../../../../session/snode_api';
 
 import chaiAsPromised from 'chai-as-promised';
 import * as OnionPaths from '../../../../session/onions/onionPath';

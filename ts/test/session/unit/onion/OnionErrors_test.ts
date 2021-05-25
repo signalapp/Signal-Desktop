@@ -10,7 +10,7 @@ import * as SNodeAPI from '../../../../../ts/session/snode_api/';
 
 import chaiAsPromised from 'chai-as-promised';
 import { OnionPaths } from '../../../../session/onions/';
-import { processOnionResponse } from '../../../../session/snode_api/onions';
+import { OXEN_SERVER_ERROR, processOnionResponse } from '../../../../session/snode_api/onions';
 import AbortController from 'abort-controller';
 import * as Data from '../../../../../ts/data/data';
 import { Snode } from '../../../../session/snode_api/snodePool';
@@ -43,6 +43,9 @@ describe('OnionPathsErrors', () => {
   let updateSwarmSpy: sinon.SinonStub;
   let dropSnodeFromSwarmSpy: sinon.SinonSpy;
   let dropSnodeFromSnodePool: sinon.SinonSpy;
+  let dropSnodeFromPathSpy: sinon.SinonSpy;
+  let incrementBadPathCountOrDropSpy: sinon.SinonSpy;
+  let incrementBadSnodeCountOrDropSpy: sinon.SinonSpy;
   // tslint:disable-next-line: one-variable-per-declaration
   let guardPubkeys: Array<string>,
     otherNodesPubkeys: Array<string>,
@@ -104,6 +107,9 @@ describe('OnionPathsErrors', () => {
     updateSwarmSpy = sandbox.stub(Data, 'updateSwarmNodesForPubkey').resolves();
     dropSnodeFromSnodePool = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSnodePool');
     dropSnodeFromSwarmSpy = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSwarmIfNeeded');
+    dropSnodeFromPathSpy = sandbox.spy(OnionPaths, 'dropSnodeFromPath');
+    incrementBadPathCountOrDropSpy = sandbox.spy(OnionPaths, 'incrementBadPathCountOrDrop');
+    incrementBadSnodeCountOrDropSpy = sandbox.spy(SNodeAPI.Onions, 'incrementBadSnodeCountOrDrop');
 
     OnionPaths.clearTestOnionPath();
 
@@ -154,6 +160,11 @@ describe('OnionPathsErrors', () => {
       } catch (e) {
         expect(e.message).to.equal('Did not throw');
       }
+      expect(dropSnodeFromSnodePool.callCount).to.eq(0);
+      expect(dropSnodeFromSwarmSpy.callCount).to.eq(0);
+      expect(dropSnodeFromPathSpy.callCount).to.eq(0);
+      expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
+      expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(0);
     });
 
     it('does not throw if we get 200 on path but no status code on destination', async () => {
@@ -167,6 +178,11 @@ describe('OnionPathsErrors', () => {
       } catch (e) {
         expect(e.message).to.equal('Did not throw');
       }
+      expect(dropSnodeFromSnodePool.callCount).to.eq(0);
+      expect(dropSnodeFromSwarmSpy.callCount).to.eq(0);
+      expect(dropSnodeFromPathSpy.callCount).to.eq(0);
+      expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
+      expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(0);
     });
 
     describe('processOnionResponse - 406', () => {
@@ -185,6 +201,11 @@ describe('OnionPathsErrors', () => {
           // this makes sure that this call would not be retried
           expect(e.name).to.equal('AbortError');
         }
+        expect(dropSnodeFromSnodePool.callCount).to.eq(0);
+        expect(dropSnodeFromSwarmSpy.callCount).to.eq(0);
+        expect(dropSnodeFromPathSpy.callCount).to.eq(0);
+        expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
+        expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(0);
       });
       it('throws an non retryable error we get a 406 on destination', async () => {
         try {
@@ -201,12 +222,17 @@ describe('OnionPathsErrors', () => {
           // this makes sure that this call would not be retried
           expect(e.name).to.equal('AbortError');
         }
+        expect(dropSnodeFromSnodePool.callCount).to.eq(0);
+        expect(dropSnodeFromSwarmSpy.callCount).to.eq(0);
+        expect(dropSnodeFromPathSpy.callCount).to.eq(0);
+        expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
+        expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(0);
       });
     });
 
     describe('processOnionResponse - 421', () => {
       describe('processOnionResponse - 421 - on path', () => {
-        it('throws a retryable error if we get a 421 status code without a new swarm', async () => {
+        it('throws a non-retryable error if we get a 421 status code without new swarm', async () => {
           const targetNode = otherNodesPubkeys[0];
 
           try {
@@ -221,6 +247,7 @@ describe('OnionPathsErrors', () => {
             throw new Error('Error expected');
           } catch (e) {
             expect(e.message).to.equal('421 handled. Retry this request with a new targetNode');
+            expect(e.name).to.equal('AbortError');
           }
           expect(updateSwarmSpy.callCount).to.eq(1);
           // if we don't get a new swarm in the returned json, we drop the target node considering it is a bad snode
@@ -235,11 +262,18 @@ describe('OnionPathsErrors', () => {
 
           // this node failed only once. it should not be dropped yet from the snodepool
           expect(dropSnodeFromSnodePool.callCount).to.eq(0);
+          expect(dropSnodeFromPathSpy.callCount).to.eq(0);
+          expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
+          expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
+          expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
+            snodeEd25519: targetNode,
+            associatedWith,
+          });
         });
       });
 
       describe('processOnionResponse - 421 - on destination', () => {
-        it('throws a retryable error we get a 421 status code with a new swarm', async () => {
+        it('throws a non-retryable error we get a 421 status code with a new swarm', async () => {
           const targetNode = otherNodesPubkeys[0];
 
           const resultExpected: Array<Snode> = [
@@ -261,6 +295,7 @@ describe('OnionPathsErrors', () => {
             throw new Error('Error expected');
           } catch (e) {
             expect(e.message).to.equal('421 handled. Retry this request with a new targetNode');
+            expect(e.name).to.equal('AbortError');
           }
           expect(updateSwarmSpy.callCount).to.eq(1);
           // we got 3 snode in the results, this is our new swarm for this associated with pubkey
@@ -269,10 +304,18 @@ describe('OnionPathsErrors', () => {
           // we got a new swarm for this pubkey. so it's OK that dropSnodeFromSwarm was not called for this pubkey
 
           // this node failed only once. it should not be dropped yet from the snodepool
+          // this node failed only once. it should not be dropped yet from the snodepool
           expect(dropSnodeFromSnodePool.callCount).to.eq(0);
+          expect(dropSnodeFromPathSpy.callCount).to.eq(0);
+          expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
+          expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
+          expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
+            snodeEd25519: targetNode,
+            associatedWith,
+          });
         });
 
-        it('throws a retryable error we get a 421 status code with invalid json body', async () => {
+        it('throws a non-retryable error we get a 421 status code with invalid json body', async () => {
           const targetNode = otherNodesPubkeys[0];
 
           try {
@@ -287,6 +330,7 @@ describe('OnionPathsErrors', () => {
             throw new Error('Error expected');
           } catch (e) {
             expect(e.message).to.equal('421 handled. Retry this request with a new targetNode');
+            expect(e.name).to.equal('AbortError');
           }
           expect(updateSwarmSpy.callCount).to.eq(1);
           // we have an invalid json content. just remove the targetNode from the list
@@ -299,9 +343,16 @@ describe('OnionPathsErrors', () => {
           expect(dropSnodeFromSwarmSpy.firstCall.args[1]).to.eq(targetNode);
           // this node failed only once. it should not be dropped yet from the snodepool
           expect(dropSnodeFromSnodePool.callCount).to.eq(0);
+          expect(dropSnodeFromPathSpy.callCount).to.eq(0);
+          expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
+          expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
+          expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
+            snodeEd25519: targetNode,
+            associatedWith,
+          });
         });
 
-        it('throws a retryable on destination 421 without new swarm ', async () => {
+        it('throws a non-retryable on destination 421 without new swarm ', async () => {
           const targetNode = otherNodesPubkeys[0];
           const json = JSON.stringify({ status: 421 });
 
@@ -316,6 +367,7 @@ describe('OnionPathsErrors', () => {
             throw new Error('Error expected');
           } catch (e) {
             expect(e.message).to.equal('421 handled. Retry this request with a new targetNode');
+            expect(e.name).to.equal('AbortError');
           }
           expect(updateSwarmSpy.callCount).to.eq(1);
           // 421 without swarm included means drop the target node only
@@ -330,8 +382,49 @@ describe('OnionPathsErrors', () => {
 
           // this node failed only once. it should not be dropped yet from the snodepool
           expect(dropSnodeFromSnodePool.callCount).to.eq(0);
+          expect(dropSnodeFromPathSpy.callCount).to.eq(0);
+          expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
+          expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
+          expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
+            snodeEd25519: targetNode,
+            associatedWith,
+          });
         });
       });
+    });
+  });
+
+  /**
+   * processOnionResponse OXEN SERVER ERROR
+   */
+  describe('processOnionResponse - OXEN_SERVER_ERROR', () => {
+    // open group server v2 only talkes onion routing request. So errors can only happen at destination
+    it('throws a non-retryable error on oxen server errors on destination', async () => {
+      const targetNode = otherNodesPubkeys[0];
+
+      try {
+        await processOnionResponse({
+          response: getFakeResponseOnDestination(400, OXEN_SERVER_ERROR),
+          symmetricKey: new Uint8Array(),
+          guardNode: guardSnode1,
+          lsrpcEd25519Key: targetNode,
+
+          associatedWith,
+        });
+        throw new Error('Error expected');
+      } catch (e) {
+        expect(e.message).to.equal(OXEN_SERVER_ERROR);
+        expect(e.name).to.equal('AbortError');
+      }
+      expect(updateSwarmSpy.callCount).to.eq(0);
+      // now we make sure that this bad snode was dropped from this pubkey's swarm
+      expect(dropSnodeFromSwarmSpy.callCount).to.eq(0);
+
+      // this node did not really failed
+      expect(dropSnodeFromSnodePool.callCount).to.eq(0);
+      expect(dropSnodeFromPathSpy.callCount).to.eq(0);
+      expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
+      expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(0);
     });
   });
 });
