@@ -239,7 +239,7 @@ window.encryptAndUpload = async (
   );
   const encryptedStickers = await pMap(
     uniqueStickers,
-    ({ imageData }) => encrypt(imageData, encryptionKey, iv),
+    ({ imageData }) => encrypt(imageData.buffer, encryptionKey, iv),
     {
       concurrency: 3,
       timeout: 1000 * 60 * 2,
