@@ -701,6 +701,10 @@
         "message": "درباره سیگنال Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Sharing screen",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "صحبت",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -748,6 +752,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS contacts are not available on Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "هیچ نتیجه ای برای$searchTerm$در $conversationName$",
@@ -1006,7 +1014,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "This message will be deleted from this device.",
+        "message": "این پیام از روی این دستگها پاک خواهد شد.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1275,6 +1283,18 @@
         "message": "باز کردن صدا",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Presenting disabled",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Start presenting",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Stop presenting",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "دوربین شما خاموش است",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1386,6 +1406,84 @@
     "calling__overflow__scroll-down": {
         "message": "پایین بکشید",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
+    },
+    "calling__presenting--notification-title": {
+        "message": "You're presenting to everyone.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal is sharing $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Stop sharing",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "You stopped presenting",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ is presenting",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ stopped presenting",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Permission needed",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "On an Apple Mac computer using macOS Catalina version 10.15 or later, Signal needs permission to access your computer's screen recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Go to System Preferences and then click Security & Privacy.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Click Privacy.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "On the left, click Screen Recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step4": {
+        "message": "On the right, check the Signal box.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Open System Preferences",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "رد",
+        "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
         "message": "عبور تمامی تماس‌ها از سرور سیگنال",
@@ -1858,11 +1956,11 @@
         "description": "Label for header when starting a new conversation"
     },
     "contactSearchPlaceholder": {
-        "message": "Search by name or phone number",
+        "message": "جستجو از طریق نام یا شماره تلفن",
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
-        "message": "No contacts found",
+        "message": "هیچ مخاطبی یافت نشد",
         "description": "Label shown when there are no contacts to compose to"
     },
     "noConversationsFound": {
@@ -1870,7 +1968,7 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "chooseGroupMembers__title": {
-        "message": "Choose members",
+        "message": "انتخاب اعضا",
         "description": "The title for the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__back-button": {
@@ -1890,7 +1988,7 @@
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
-        "message": "Signal groups can have a maximum of $max$ members.",
+        "message": "گروه های سیگنال می توانند حداکثر $max$ عضو داشته باشند.",
         "description": "Shown in the alert when you add the maximum number of group members",
         "placeholders": {
             "max": {
@@ -1932,7 +2030,7 @@
         "description": "The title for the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__back-button": {
-        "message": "Back to member selection",
+        "message": "برگشت به انتخاب اعضا",
         "description": "Used as alt-text of the back button on the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__group-name-placeholder": {
@@ -2404,7 +2502,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--new-conversation": {
-        "message": "Start new conversation",
+        "message": "شروع مکالمه جدید",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
@@ -2706,7 +2804,7 @@
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ of $total$ uploaded",
+        "message": "$count$ از $total$ آپلود شد ",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -2772,7 +2870,7 @@
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Error processing image",
+        "message": "خطا در پردازش تصویر",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
@@ -2818,7 +2916,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "Failed to send reaction. Please try again.",
+        "message": "ناموفقیت در ارسال واکنش. لطفاً دوباره تلاش کنید.",
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
@@ -3142,11 +3240,11 @@
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Outgoing audio call",
+        "message": "تماس صوتی خروجی",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Outgoing video call",
+        "message": "تماس تصویری خروجی",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
@@ -3158,7 +3256,7 @@
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Incoming audio call...",
+        "message": "تماس صوتی دریافتی...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
@@ -3279,6 +3377,22 @@
         "message": "ترک کردن تماس",
         "description": "Title for hang up button"
     },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Share your screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Share screen",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Entire screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "A window",
+        "description": "Title for the select your screen sharing sources modal"
+    },
     "callingDeviceSelection__label--video": {
         "message": "ویدئو",
         "description": "Label for video input selector"
@@ -3292,7 +3406,7 @@
         "description": "Label for audio output selector"
     },
     "callingDeviceSelection__select--no-device": {
-        "message": "No devices available",
+        "message": "هیچ دستگاهی موجود نیست",
         "description": "Message for when there are no available devices to select for input/output audio or video"
     },
     "callingDeviceSelection__select--default": {
@@ -3350,7 +3464,7 @@
         "description": "Title of pop-up dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Please try again or contact support.",
+        "message": "لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.",
         "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3374,7 +3488,7 @@
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "You're already in this group.",
+        "message": "شما هم اکنون بخشی از این گروه هستید.",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
@@ -3382,7 +3496,7 @@
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Unknown link version",
+        "message": "نسخه پیوند ناشناخته",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
@@ -3394,7 +3508,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "This group link is no longer valid.",
+        "message": "این پیوند گروه دیگر معتبر نیست.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -3406,7 +3520,7 @@
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "Request to Join",
+        "message": "درخواست برای عضویت",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
@@ -3440,7 +3554,7 @@
         }
     },
     "GroupV2--join--group-metadata": {
-        "message": "Group · $memberCount$",
+        "message": "گروه · $memberCount$",
         "description": "A holder for two pieces of information - the type of conversation, and the member count",
         "placeholders": {
             "memberCount": {
@@ -3454,7 +3568,7 @@
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Link Error",
+        "message": "خطا پیوند",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
@@ -3580,7 +3694,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "A member removed the group avatar.",
+        "message": "یک عضو نمایه گروه را حذف کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
@@ -3788,7 +3902,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "You added $memberName$.",
+        "message": "شما $memberName$ را اضافه کردید.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3798,7 +3912,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "A member added $memberName$.",
+        "message": "یک عضو $memberName$ را اضافه کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3808,7 +3922,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ added you to the group.",
+        "message": "$memberName$ شما را به گروه اضافه کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3922,7 +4036,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "A member removed $memberName$.",
+        "message": "یک عضو $memberName$ را حذف کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3964,7 +4078,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "You made $memberName$ an admin.",
+        "message": "شما $memberName$ را مدیر کردید.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3984,7 +4098,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ made you an admin.",
+        "message": "$adminName$ شما را مدیر کرد.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4630,6 +4744,18 @@
     "CompositionArea--attach-file": {
         "message": "پیوست فایل",
         "description": "Aria label for file attachment button in composition area"
+    },
+    "CompositionArea--sms-only__title": {
+        "message": "This person isn’t using Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Checking contact's registration status",
+        "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",

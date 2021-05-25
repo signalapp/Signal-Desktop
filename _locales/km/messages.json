@@ -701,6 +701,10 @@
         "message": "អំពី Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Sharing screen",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "សម្តី",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -748,6 +752,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS contacts are not available on Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "គ្មានលទ្ធផលសម្រាប់ \"$searchTerm$\" ក្នុង $conversationName$",
@@ -1275,6 +1283,18 @@
         "message": "Unmute mic",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Presenting disabled",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Start presenting",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Stop presenting",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "Your camera is off",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1386,6 +1406,84 @@
     "calling__overflow__scroll-down": {
         "message": "Scroll down",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
+    },
+    "calling__presenting--notification-title": {
+        "message": "You're presenting to everyone.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal is sharing $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Stop sharing",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "You stopped presenting",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ is presenting",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ stopped presenting",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Permission needed",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "On an Apple Mac computer using macOS Catalina version 10.15 or later, Signal needs permission to access your computer's screen recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Go to System Preferences and then click Security & Privacy.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Click Privacy.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "On the left, click Screen Recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step4": {
+        "message": "On the right, check the Signal box.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Open System Preferences",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "ច្រានចោល",
+        "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
         "message": "តែងតែបញ្ជូនការហៅចេញ",
@@ -3279,6 +3377,22 @@
         "message": "Leave call",
         "description": "Title for hang up button"
     },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Share your screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Share screen",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Entire screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "A window",
+        "description": "Title for the select your screen sharing sources modal"
+    },
     "callingDeviceSelection__label--video": {
         "message": "វីដេអូ",
         "description": "Label for video input selector"
@@ -4631,6 +4745,18 @@
         "message": "ភ្ជាប់ឯកសារ",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "This person isn’t using Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Checking contact's registration status",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
@@ -4716,7 +4842,7 @@
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Before you leave, you must choose at least one new admin for this group.",
+        "message": "មុនពេលអ្នកចាកចេញ អ្នកត្រូវជ្រើសរើសអ្នកគ្រប់គ្រងយ៉ាងហោចណាស់ម្នាក់សម្រាប់ក្រុមនេះ។",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {

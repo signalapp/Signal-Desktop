@@ -206,7 +206,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Dessa konversationerna är arkiverade och kommer endast att visas i inkorgen om nya meddelanden tas emot.",
+        "message": "Dessa konversationerna är arkiverade och visas endast i inkorgen om nya meddelanden tas emot.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -444,7 +444,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Den här loggen kommer att publiceras offentligt på nätet så att våra medarbetare kan se. Du kan granska och redigera den innan du skickar in.",
+        "message": "Den här loggen publiceras offentligt på nätet så att våra medarbetare kan se. Du kan granska och redigera den innan du skickar in.",
         "description": ""
     },
     "debugLogError": {
@@ -701,6 +701,10 @@
         "message": "Om Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Delar skärm",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "Tal",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -748,6 +752,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS-kontakter är inte tillgängliga på Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "Inga resultat för \"$searchTerm$\" i $conversationName$",
@@ -874,7 +882,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Röstmeddelanden är begränsade till fem minuter. Inspelningen kommer att stoppas om du byter till en annan app.",
+        "message": "Röstmeddelanden är begränsade till fem minuter. Inspelningen stoppas om du byter till en annan app.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -952,7 +960,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop är sannolikt i en MacOS-karantän och kommer inte att kunna uppdateras automatiskt. Vänligen försök att flytta $app$ till $folder$ med Finder.",
+        "message": "Signal Desktop är sannolikt i en MacOS-karantän och kan inte uppdateras automatiskt. Vänligen försök att flytta $app$ till $folder$ med Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1006,11 +1014,11 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Detta meddelande kommer att tas bort från denna enhet.",
+        "message": "Detta meddelande tas bort från denna enhet.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Detta meddelande tas bort för alla i konversationen om de har en ny version av Signal. De kommer att kunna se att du har tagit bort ett meddelande.",
+        "message": "Detta meddelande tas bort för alla i konversationen om de har en ny version av Signal. De kan se att du har tagit bort ett meddelande.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1072,7 +1080,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med kontakten kommer att vara tillgängligt efter det första meddelandet.",
+        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med kontakten är tillgänglig efter det första meddelandet.",
         "description": ""
     },
     "back": {
@@ -1275,6 +1283,18 @@
         "message": "Slå på mikrofonen",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Presentera inaktiverat",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Börja presentera",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Sluta presentera",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "Din kamera är avstängd",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1387,6 +1407,84 @@
         "message": "Rulla ner",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
+    "calling__presenting--notification-title": {
+        "message": "Du presenterar för alla.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Klicka här för att återgå till samtalet när du är redo att sluta presentera.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal delar $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Sluta dela",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "Du slutade presentera",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ presenterar",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ slutade presentera",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Behörighet behövs",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "På en Apple Mac-dator som använder macOS Catalina version 10.15 eller senare behöver Signal behörighet för att komma åt datorns skärminspelning.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Gå till systeminställningar och klicka sedan på Säkerhet & integritet.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Klicka på Integritet.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "Klicka på Skärminspelning till vänster.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step4": {
+        "message": "Markera rutan Signal till höger.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Öppna systeminställningar",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "Avfärda",
+        "description": "The cancel button for the needs screen record permissions modal"
+    },
     "alwaysRelayCallsDescription": {
         "message": "Slussa alltid samtal",
         "description": "Description of the always relay calls setting"
@@ -1416,11 +1514,11 @@
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Stavningskontrollen kommer att aktiveras nästa gång Signal startas.",
+        "message": "Stavningskontrollen aktiveras nästa gång Signal startas.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Stavningskontrollen kommer att inaktiveras nästa gång Signal startas.",
+        "message": "Stavningskontrollen inaktiveras nästa gång Signal startas.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "autoLaunchDescription": {
@@ -1432,7 +1530,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Detta kommer att rensa alla data i programmet, ta bort alla meddelanden och sparad kontoinformation.",
+        "message": "Detta rensar alla data i programmet, ta bort alla meddelanden och sparad kontoinformation.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1444,7 +1542,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Du är på väg att ta bort allt av detta programs sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan alltid länka din mobila enhet igen, men det kommer inte att återställa de borttagna meddelande.",
+        "message": "Du är på väg att ta bort allt av detta programs sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan alltid länka din mobila enhet igen, men det återställer inte borttagna meddelanden.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -2158,11 +2256,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Signal Artist Serier",
+        "message": "Signal-artistserier",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Inga Signal Artist klistermärken tillgängliga",
+        "message": "Inga Signal-artistklistermärken tillgängliga",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2170,7 +2268,7 @@
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Klistermärken från inkommande meddelanden kommer att visas här",
+        "message": "Klistermärken från inkommande meddelanden visas här",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -2238,7 +2336,7 @@
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Nyligen använda klistermärken kommer att visas här.",
+        "message": "Nyligen använda klistermärken visas här.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
@@ -2332,7 +2430,7 @@
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Framtida meddelanden som detta kommer att synkroniseras nu när du använder en uppdaterad version av Signal.",
+        "message": "Framtida meddelanden som detta synkroniseras nu när du använder en uppdaterad version av Signal.",
         "description": ""
     },
     "Message--update-signal": {
@@ -2686,7 +2784,7 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "Detta är den bild som kommer att dyka upp när du delar ditt klistermärkepaket",
+        "message": "Detta är den bild som dyker upp när du delar ditt klistermärkepaket",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
@@ -2942,7 +3040,7 @@
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Denna konversation kommer att tas bort från alla dina enheter.",
+        "message": "Denna konversation tas bort från alla dina enheter.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
@@ -2964,7 +3062,7 @@
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Du kommer att lämna denna grupp och den kommer att tas bort från alla dina enheter.",
+        "message": "Du kommer lämnar denna grupp och den tas bort från alla dina enheter.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
@@ -3278,6 +3376,22 @@
     "calling__hangup": {
         "message": "Lämna samtalet",
         "description": "Title for hang up button"
+    },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Dela din skärm",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Dela skärm",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Hela skärmen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "Ett fönster",
+        "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
         "message": "Video",
@@ -4536,7 +4650,7 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All meddelandehistorik och media kommer att sparas före uppgraderingen.",
+        "message": "All meddelandehistorik och media sparas före uppgraderingen.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
@@ -4630,6 +4744,18 @@
     "CompositionArea--attach-file": {
         "message": "Bifoga fil",
         "description": "Aria label for file attachment button in composition area"
+    },
+    "CompositionArea--sms-only__title": {
+        "message": "Den här personen använder inte Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop stöder inte sändning av meddelanden till Signal-kontakter. Be den här personen att installera Signal för en säkrare meddelandeupplevelse.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Kontrollerar kontaktens registreringsstatus",
+        "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
         "message": "Antal tystade konversationer i märkesräkning",
