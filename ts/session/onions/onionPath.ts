@@ -23,6 +23,11 @@ let onionPaths: Array<SnodePath> = [];
 export const TEST_getTestOnionPath = () => {
   return _.cloneDeep(onionPaths);
 };
+// tslint:disable-next-line: variable-name
+
+export const TEST_getTestguardNodes = () => {
+  return _.cloneDeep(guardNodes);
+};
 
 /**
  * Used for testing only. Clears the saved onion paths
@@ -30,6 +35,7 @@ export const TEST_getTestOnionPath = () => {
  */
 export const clearTestOnionPath = () => {
   onionPaths = [];
+  guardNodes = [];
 };
 
 //
@@ -154,7 +160,7 @@ export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
   );
 
   if (pathIndex === -1) {
-    window?.log?.info('Did not find path with this guard node');
+    (window?.log?.info || console.warn)('Did not find path with this guard node');
     return;
   }
 
@@ -205,6 +211,8 @@ async function dropPathStartingWithGuardNode(guardNodeEd25519: string) {
 
   guardNodes = guardNodes.filter(g => g.pubkey_ed25519 !== guardNodeEd25519);
   pathFailureCount[guardNodeEd25519] = 0;
+
+  SnodePool.dropSnodeFromSnodePool(guardNodeEd25519);
 
   // write the updates guard nodes to the db.
   // the next call to getOnionPath will trigger a rebuild of the path

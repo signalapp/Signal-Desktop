@@ -24,7 +24,7 @@ const fakeSnodePool = [
     ip: '136.243.103.171',
     port: 22116,
     pubkey_x25519: '0f78775bf189a6eaca2f9c873524832aae8e87a5bf792fb394df97b21173f50c',
-    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f9161534e',
+    pubkey_ed25519: 'e3ec6fcc79e64c2af6a48a9865d4bf4b739ec7708d75f35acc3d478f9161534d',
     version: '',
   },
   {
@@ -120,15 +120,28 @@ const fakeGuardNodes = fakeSnodePool.filter(m => fakeGuardNodesEd25519.includes(
 describe('OnionPaths', () => {
   // Initialize new stubbed cache
   const sandbox = sinon.createSandbox();
+  let oldOnionPaths: Array<OnionPaths.SnodePath>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Utils Stubs
+    OnionPaths.clearTestOnionPath();
+
     sandbox.stub(OnionPaths, 'selectGuardNodes').resolves(fakeGuardNodes);
     sandbox.stub(SNodeAPI.SNodeAPI, 'getSnodePoolFromSnode').resolves(fakeGuardNodes);
-    TestUtils.stubData('getGuardNodes').resolves([guard1ed, guard2ed, guard3ed]);
+    TestUtils.stubData('getGuardNodes').resolves(fakeGuardNodesEd25519);
     TestUtils.stubWindow('getSeedNodeList', () => ['seednode1']);
 
-    OnionPaths.clearTestOnionPath();
+    sandbox.stub(SNodeAPI.SnodePool, 'refreshRandomPoolDetail').resolves(fakeSnodePool);
+    SNodeAPI.Onions.TEST_resetSnodeFailureCount();
+    OnionPaths.TEST_resetPathFailureCount();
+    // get a copy of what old ones look like
+    await OnionPaths.getOnionPath();
+
+    oldOnionPaths = OnionPaths.TEST_getTestOnionPath();
+    if (oldOnionPaths.length !== 3) {
+      throw new Error(`onion path length not enough ${oldOnionPaths.length}`);
+    }
+    // this just triggers a build of the onionPaths
   });
 
   afterEach(() => {
@@ -138,53 +151,32 @@ describe('OnionPaths', () => {
 
   describe('dropSnodeFromPath', () => {
     describe('with valid snode pool', () => {
-      const sandbox2 = sinon.createSandbox();
-
-      beforeEach(() => {
-        sandbox2.stub(SNodeAPI.SnodePool, 'refreshRandomPoolDetail').resolves(fakeSnodePool);
-        SNodeAPI.Onions.TEST_resetSnodeFailureCount();
-        OnionPaths.TEST_resetPathFailureCount();
-        // this just triggers a build of the onionPaths
-      });
-      afterEach(() => {
-        sandbox2.restore();
-      });
-
       it('rebuilds after removing last snode on path', async () => {
-        // get a copy of what old ones look like
-        await OnionPaths.getOnionPath();
-
-        const oldOnionPath = OnionPaths.TEST_getTestOnionPath();
-
-        await OnionPaths.dropSnodeFromPath(oldOnionPath[2][2].pubkey_ed25519);
+        await OnionPaths.dropSnodeFromPath(oldOnionPaths[2][2].pubkey_ed25519);
         const newOnionPath = OnionPaths.TEST_getTestOnionPath();
 
         // only the last snode should have been updated
-        expect(newOnionPath).to.be.not.deep.equal(oldOnionPath);
-        expect(newOnionPath[0]).to.be.deep.equal(oldOnionPath[0]);
-        expect(newOnionPath[1]).to.be.deep.equal(oldOnionPath[1]);
-        expect(newOnionPath[2][0]).to.be.deep.equal(oldOnionPath[2][0]);
-        expect(newOnionPath[2][1]).to.be.deep.equal(oldOnionPath[2][1]);
-        expect(newOnionPath[2][2]).to.be.not.deep.equal(oldOnionPath[2][2]);
+        expect(newOnionPath).to.be.not.deep.equal(oldOnionPaths);
+        expect(newOnionPath[0]).to.be.deep.equal(oldOnionPaths[0]);
+        expect(newOnionPath[1]).to.be.deep.equal(oldOnionPaths[1]);
+        expect(newOnionPath[2][0]).to.be.deep.equal(oldOnionPaths[2][0]);
+        expect(newOnionPath[2][1]).to.be.deep.equal(oldOnionPaths[2][1]);
+        expect(newOnionPath[2][2]).to.be.not.deep.equal(oldOnionPaths[2][2]);
       });
 
       it('rebuilds after removing middle snode on path', async () => {
-        // get a copy of what old ones look like
-        await OnionPaths.getOnionPath();
-
-        const oldOnionPath = OnionPaths.TEST_getTestOnionPath();
-        await OnionPaths.dropSnodeFromPath(oldOnionPath[2][1].pubkey_ed25519);
+        await OnionPaths.dropSnodeFromPath(oldOnionPaths[2][1].pubkey_ed25519);
         const newOnionPath = OnionPaths.TEST_getTestOnionPath();
 
-        const allEd25519Keys = _.flattenDeep(oldOnionPath).map(m => m.pubkey_ed25519);
+        const allEd25519Keys = _.flattenDeep(oldOnionPaths).map(m => m.pubkey_ed25519);
 
         // only the last snode should have been updated
-        expect(newOnionPath).to.be.not.deep.equal(oldOnionPath);
-        expect(newOnionPath[0]).to.be.deep.equal(oldOnionPath[0]);
-        expect(newOnionPath[1]).to.be.deep.equal(oldOnionPath[1]);
-        expect(newOnionPath[2][0]).to.be.deep.equal(oldOnionPath[2][0]);
+        expect(newOnionPath).to.be.not.deep.equal(oldOnionPaths);
+        expect(newOnionPath[0]).to.be.deep.equal(oldOnionPaths[0]);
+        expect(newOnionPath[1]).to.be.deep.equal(oldOnionPaths[1]);
+        expect(newOnionPath[2][0]).to.be.deep.equal(oldOnionPaths[2][0]);
         // last item moved to the position one as we removed item 1 and happened one after it
-        expect(newOnionPath[2][1]).to.be.deep.equal(oldOnionPath[2][2]);
+        expect(newOnionPath[2][1]).to.be.deep.equal(oldOnionPaths[2][2]);
         // the last item we happened must not be any of the new path nodes.
         // actually, we remove the nodes causing issues from the snode pool so we shouldn't find this one neither
         expect(allEd25519Keys).to.not.include(newOnionPath[2][2].pubkey_ed25519);

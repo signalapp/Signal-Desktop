@@ -345,7 +345,7 @@ async function processOnionRequestErrorOnPath(
   associatedWith?: string
 ) {
   if (httpStatusCode !== 200) {
-    console.warn('errorONpath:', ciphertext);
+    window?.log?.warn('errorONpath:', ciphertext);
   }
   process406Error(httpStatusCode);
   await process421Error(httpStatusCode, ciphertext, associatedWith, lsrpcEd25519Key);
@@ -576,12 +576,13 @@ export async function incrementBadSnodeCountOrDrop({
   const oldFailureCount = snodeFailureCount[snodeEd25519] || 0;
   const newFailureCount = oldFailureCount + 1;
   snodeFailureCount[snodeEd25519] = newFailureCount;
-
   if (newFailureCount >= snodeFailureThreshold) {
     window?.log?.warn(`Failure threshold reached for: ${snodeEd25519}; dropping it.`);
 
     if (associatedWith) {
-      window?.log?.info(`Dropping ${snodeEd25519} from swarm of ${associatedWith}`);
+      (window?.log?.info || console.warn)(
+        `Dropping ${snodeEd25519} from swarm of ${associatedWith}`
+      );
       await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
     }
     window?.log?.info(`Dropping ${snodeEd25519} from snodepool`);
