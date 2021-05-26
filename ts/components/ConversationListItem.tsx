@@ -229,7 +229,7 @@ class ConversationListItem extends React.PureComponent<Props> {
     const displayName = isMe ? i18n('noteToSelf') : profileName;
 
     let shouldShowPubkey = false;
-    if (!name || name.length === 0) {
+    if ((!name || name.length === 0) && (!displayName || displayName.length === 0)) {
       shouldShowPubkey = true;
     }
 

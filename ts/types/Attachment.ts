@@ -334,6 +334,9 @@ export const getSuggestedFilename = ({
   timestamp?: number | Date;
   index?: number;
 }): string => {
+  if (attachment.fileName?.length > 3) {
+    return attachment.fileName;
+  }
   const prefix = 'session-attachment';
   const suffix = timestamp ? moment(timestamp).format('-YYYY-MM-DD-HHmmss') : '';
   const fileType = getFileExtension(attachment);

@@ -60,6 +60,7 @@ export type ServerToken = {
 };
 
 export const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
+export const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
 
 const channelsToMake = {
   shutdown,

@@ -47,7 +47,7 @@ describe('Attachment', () => {
           contentType: MIME.VIDEO_QUICKTIME,
         };
         const actual = Attachment.getSuggestedFilename({ attachment });
-        const expected = 'session-attachment.mov';
+        const expected = 'funny-cat.mov';
         assert.strictEqual(actual, expected);
       });
       it('should generate a filename without timestamp but with an index', () => {
@@ -60,7 +60,7 @@ describe('Attachment', () => {
           attachment,
           index: 3,
         });
-        const expected = 'session-attachment_003.mov';
+        const expected = 'funny-cat.mov';
         assert.strictEqual(actual, expected);
       });
       it('should generate a filename with an extension if contentType is not setup', () => {
@@ -73,7 +73,7 @@ describe('Attachment', () => {
           attachment,
           index: 3,
         });
-        const expected = 'session-attachment_003.ini';
+        const expected = 'funny-cat.ini';
         assert.strictEqual(actual, expected);
       });
 
@@ -87,7 +87,7 @@ describe('Attachment', () => {
           attachment,
           index: 3,
         });
-        const expected = 'session-attachment_003.txt';
+        const expected = 'funny-cat.txt';
         assert.strictEqual(actual, expected);
       });
       it('should generate a filename with an extension if contentType is json', () => {
@@ -100,7 +100,7 @@ describe('Attachment', () => {
           attachment,
           index: 3,
         });
-        const expected = 'session-attachment_003.json';
+        const expected = 'funny-cat.json';
         assert.strictEqual(actual, expected);
       });
     });
@@ -116,12 +116,28 @@ describe('Attachment', () => {
           attachment,
           timestamp,
         });
-        const expected = 'session-attachment-2000-01-01-000000.mov';
+        const expected = 'funny-cat.mov';
         assert.strictEqual(actual, expected);
       });
     });
     context('for attachment with index', () => {
-      it('should generate a filename based on timestamp', () => {
+      it('should generate a filename based on timestamp if filename is not set', () => {
+        const attachment: Attachment.AttachmentType = {
+          fileName: '',
+          url: 'funny-cat.mov',
+          contentType: MIME.VIDEO_QUICKTIME,
+        };
+        const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
+        const actual = Attachment.getSuggestedFilename({
+          attachment,
+          timestamp,
+          index: 3,
+        });
+        const expected = 'session-attachment-1970-01-01-000000_003.mov';
+        assert.strictEqual(actual, expected);
+      });
+
+      it('should generate a filename based on filename if present', () => {
         const attachment: Attachment.AttachmentType = {
           fileName: 'funny-cat.mov',
           url: 'funny-cat.mov',
@@ -133,7 +149,7 @@ describe('Attachment', () => {
           timestamp,
           index: 3,
         });
-        const expected = 'session-attachment-1970-01-01-000000_003.mov';
+        const expected = 'funny-cat.mov';
         assert.strictEqual(actual, expected);
       });
     });
