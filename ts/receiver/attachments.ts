@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { MessageModel } from '../models/message';
 import { saveMessage } from '../../ts/data/data';
 import { fromBase64ToArrayBuffer } from '../session/utils/String';
-import { AttachmentDownloads, AttachmentUtils } from '../session/utils';
+import { AttachmentDownloads } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
 import {
   downloadFileOpenGroupV2,
@@ -17,11 +17,6 @@ export async function downloadAttachment(attachment: any) {
   const asURL = new URL(attachment.url);
   const serverUrl = asURL.origin;
 
-  // The fileserver adds the `-static` part for some reason
-  const defaultFileserver = _.includes(
-    ['https://file-static.lokinet.org', 'https://file.getsession.org'],
-    serverUrl
-  );
   // is it an attachment hosted on the file server v2 ?
   const defaultFsOldV2 = _.startsWith(serverUrl, FSv2.oldFileServerV2URL);
   const defaultFsV2 = _.startsWith(serverUrl, FSv2.fileServerV2URL);

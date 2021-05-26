@@ -760,7 +760,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     let attachmentPromise;
     let linkPreviewPromise;
     let quotePromise;
-    const { AttachmentUtils } = Utils;
+    const { AttachmentFsV2Utils } = Utils;
 
     // we want to go for the v1, if this is an OpenGroupV1 or not an open group at all
     if (conversation?.isOpenGroupV2()) {
@@ -773,12 +773,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // because there is a fallback invoked on uploadV1() for attachments for not open groups attachments
 
       const openGroupV1 = conversation?.isOpenGroupV1() ? conversation?.toOpenGroupV1() : undefined;
-      attachmentPromise = AttachmentUtils.uploadAttachmentsV1(
+      attachmentPromise = AttachmentFsV2Utils.uploadAttachmentsToFsV2(
         filenameOverridenAttachments,
         openGroupV1
       );
-      linkPreviewPromise = AttachmentUtils.uploadLinkPreviewsV1(previewWithData, openGroupV1);
-      quotePromise = AttachmentUtils.uploadQuoteThumbnailsV1(quoteWithData, openGroupV1);
+      linkPreviewPromise = AttachmentFsV2Utils.uploadLinkPreviewsToFsV2(
+        previewWithData,
+        openGroupV1
+      );
+      quotePromise = AttachmentFsV2Utils.uploadQuoteThumbnailsToFsV2(quoteWithData, openGroupV1);
     }
 
     const [attachments, preview, quote] = await Promise.all([

@@ -23,8 +23,8 @@ let onionPaths: Array<SnodePath> = [];
 export const TEST_getTestOnionPath = () => {
   return _.cloneDeep(onionPaths);
 };
-// tslint:disable-next-line: variable-name
 
+// tslint:disable-next-line: variable-name
 export const TEST_getTestguardNodes = () => {
   return _.cloneDeep(guardNodes);
 };
