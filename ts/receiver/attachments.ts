@@ -35,21 +35,14 @@ export async function downloadAttachment(attachment: any) {
     }
     window?.log?.info('Download v2 file server attachment');
     res = await FSv2.downloadFileFromFSv2(attachmentId);
-  } else if (!defaultFileserver) {
-    // TODO: we need attachments to remember which API should be used to retrieve them
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(serverUrl);
-
-    if (serverAPI) {
-      res = await serverAPI.downloadAttachment(attachment.url);
-    }
+  } else {
+    window.log.warn(
+      'downloadAttachment attachment is neither opengroup attachment nor fsv2... Dropping it'
+    );
+    throw new Error('Attachment url is not opengroupv2 nor fileserver v2. Unsupported');
   }
 
-  // Fallback to using the default fileserver
-  if (defaultFileserver || !res || res.byteLength === 0) {
-    res = await window.lokiFileServerAPI.downloadAttachment(attachment.url);
-  }
-
-  if (res.byteLength === 0) {
+  if (!res?.byteLength) {
     window?.log?.error('Failed to download attachment. Length is 0');
     throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
   }

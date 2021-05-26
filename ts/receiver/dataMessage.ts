@@ -50,38 +50,43 @@ async function updateProfile(
     const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
 
     if (needsUpdate) {
-      const downloaded = await downloadAttachment({
-        url: profile.profilePicture,
-        isRaw: true,
-      });
+      try {
+        const downloaded = await downloadAttachment({
+          url: profile.profilePicture,
+          isRaw: true,
+        });
 
-      // null => use placeholder with color and first letter
-      let path = null;
-      if (profileKey) {
-        // Convert profileKey to ArrayBuffer, if needed
-        const encoding = typeof profileKey === 'string' ? 'base64' : null;
-        try {
-          const profileKeyArrayBuffer = dcodeIO.ByteBuffer.wrap(
-            profileKey,
-            encoding
-          ).toArrayBuffer();
-          const decryptedData = await textsecure.crypto.decryptProfile(
-            downloaded.data,
-            profileKeyArrayBuffer
-          );
-          const upgraded = await Signal.Migrations.processNewAttachment({
-            ...downloaded,
-            data: decryptedData,
-          });
-          // Only update the convo if the download and decrypt is a success
-          conversation.set('avatarPointer', profile.profilePicture);
-          conversation.set('profileKey', profileKey);
-          ({ path } = upgraded);
-        } catch (e) {
-          window?.log?.error(`Could not decrypt profile image: ${e}`);
+        // null => use placeholder with color and first letter
+        let path = null;
+        if (profileKey) {
+          // Convert profileKey to ArrayBuffer, if needed
+          const encoding = typeof profileKey === 'string' ? 'base64' : null;
+          try {
+            const profileKeyArrayBuffer = dcodeIO.ByteBuffer.wrap(
+              profileKey,
+              encoding
+            ).toArrayBuffer();
+            const decryptedData = await textsecure.crypto.decryptProfile(
+              downloaded.data,
+              profileKeyArrayBuffer
+            );
+            const upgraded = await Signal.Migrations.processNewAttachment({
+              ...downloaded,
+              data: decryptedData,
+            });
+            // Only update the convo if the download and decrypt is a success
+            conversation.set('avatarPointer', profile.profilePicture);
+            conversation.set('profileKey', profileKey);
+            ({ path } = upgraded);
+          } catch (e) {
+            window?.log?.error(`Could not decrypt profile image: ${e}`);
+          }
         }
+        newProfile.avatar = path;
+      } catch (e) {
+        window.log.warn('Failed to download attachment at', profile.profilePicture);
+        return;
       }
-      newProfile.avatar = path;
     }
   } else {
     newProfile.avatar = null;
