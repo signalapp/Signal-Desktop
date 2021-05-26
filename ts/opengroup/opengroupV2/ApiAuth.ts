@@ -83,7 +83,7 @@ export async function getAuthToken({
 export const deleteAuthToken = async ({
   serverUrl,
   roomId,
-}: OpenGroupRequestCommonType): Promise<boolean> => {
+}: OpenGroupRequestCommonType): Promise<void> => {
   const request: OpenGroupV2Request = {
     method: 'DELETE',
     room: roomId,
@@ -95,13 +95,14 @@ export const deleteAuthToken = async ({
     const result = await sendApiV2Request(request);
     const statusCode = parseStatusCodeFromOnionRequest(result);
     if (statusCode !== 200) {
-      window?.log?.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
-      return false;
+      // FIXME not yet sure why this call always return 401
+      // window?.log?.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
+      return;
     }
-    return true;
+    return;
   } catch (e) {
     window?.log?.error('deleteAuthToken failed:', e);
-    return false;
+    return;
   }
 };
 

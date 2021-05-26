@@ -238,9 +238,10 @@ async function processOnionRequestErrorAtDestination({
   associatedWith?: string;
 }) {
   if (statusCode === 200) {
-    window?.log?.info('processOnionRequestErrorAtDestination. statusCode ok:', statusCode);
     return;
   }
+  window?.log?.info('processOnionRequestErrorAtDestination. statusCode ok:', statusCode);
+
   process406Error(statusCode);
   await process421Error(statusCode, body, associatedWith, destinationEd25519);
   processOxenServerError(statusCode, body);
