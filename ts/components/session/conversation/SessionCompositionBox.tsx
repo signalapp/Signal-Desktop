@@ -135,7 +135,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private emojiPanel: any;
   private linkPreviewAbortController?: AbortController;
   private container: any;
-  private readonly mentionsRegex = /@\u{FFD2}05[0-9a-f]{64}:[^\u{FFD2}]+\u{FFD2}/gu;
+  private readonly mentionsRegex = /@\uFFD205[0-9a-f]{64}\uFFD7[^\uFFD2]+\uFFD2/gu;
   private lastBumpTypingMessageLength: number = 0;
 
   constructor(props: any) {
@@ -366,7 +366,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         <Mention
           appendSpaceOnAdd={true}
           // this will be cleaned on cleanMentions()
-          markup="@ￒ__id__:__display__ￒ" // ￒ = \uFFD2 is one of the forbidden char for a display name (check displayNameRegex)
+          markup="@ￒ__id__ￗ__display__ￒ" // ￒ = \uFFD2 is one of the forbidden char for a display name (check displayNameRegex)
           trigger="@"
           // this is only for the composition box visible content. The real stuff on the backend box is the @markup
           displayTransform={(_id, display) => `@${display}`}
@@ -751,7 +751,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       const matches = text.match(this.mentionsRegex);
       let replacedMentions = text;
       (matches || []).forEach(match => {
-        const replacedMention = match.substring(2, match.indexOf(':'));
+        const replacedMention = match.substring(2, match.indexOf('\uFFD7'));
         replacedMentions = replacedMentions.replace(match, `@${replacedMention}`);
       });
 
