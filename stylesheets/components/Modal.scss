@@ -91,13 +91,15 @@
     padding: 16px;
   }
 
-  &__footer {
+  &__button-footer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
-    margin-top: 16px;
+    margin-top: 8px;
 
     .module-Button {
       margin-left: 8px;
+      margin-top: 8px;
     }
   }
 

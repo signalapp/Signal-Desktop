@@ -43,14 +43,14 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
         <section>
           <p>{i18n('CaptchaDialog--can-close__body')}</p>
         </section>
-        <Modal.Footer>
+        <Modal.ButtonFooter>
           <Button onClick={onCancelClick} variant={ButtonVariant.Secondary}>
             {i18n('cancel')}
           </Button>
           <Button onClick={onSkipClick} variant={ButtonVariant.Destructive}>
             {i18n('CaptchaDialog--can_close__skip-verification')}
           </Button>
-        </Modal.Footer>
+        </Modal.ButtonFooter>
       </Modal>
     );
   }
@@ -80,7 +80,7 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
         <p>{i18n('CaptchaDialog__first-paragraph')}</p>
         <p>{i18n('CaptchaDialog__second-paragraph')}</p>
       </section>
-      <Modal.Footer>
+      <Modal.ButtonFooter>
         <Button
           disabled={isPending}
           onClick={onContinueClick}
@@ -93,7 +93,7 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
             'Continue'
           )}
         </Button>
-      </Modal.Footer>
+      </Modal.ButtonFooter>
     </Modal>
   );
 }

@@ -85,7 +85,7 @@ export function Modal({
   );
 }
 
-Modal.Footer = ({
+Modal.ButtonFooter = ({
   children,
   moduleClassName,
 }: Readonly<{
@@ -93,7 +93,10 @@ Modal.Footer = ({
   moduleClassName?: string;
 }>): ReactElement => (
   <div
-    className={getClassNamesFor(BASE_CLASS_NAME, moduleClassName)('__footer')}
+    className={getClassNamesFor(
+      BASE_CLASS_NAME,
+      moduleClassName
+    )('__button-footer')}
   >
     {children}
   </div>

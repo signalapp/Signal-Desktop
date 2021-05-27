@@ -118,7 +118,7 @@ export const CallingSelectPresentingSourcesModal = ({
           />
         ))}
       </div>
-      <Modal.Footer moduleClassName="module-CallingSelectPresentingSourcesModal">
+      <Modal.ButtonFooter moduleClassName="module-CallingSelectPresentingSourcesModal">
         <Button
           onClick={() => setPresenting()}
           variant={ButtonVariant.Secondary}
@@ -131,7 +131,7 @@ export const CallingSelectPresentingSourcesModal = ({
         >
           {i18n('calling__SelectPresentingSourcesModal--confirm')}
         </Button>
-      </Modal.Footer>
+      </Modal.ButtonFooter>
     </Modal>
   );
 };

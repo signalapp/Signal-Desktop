@@ -37,7 +37,7 @@ export const NeedsScreenRecordingPermissionsModal = ({
         <li>{i18n('calling__presenting--permission-instruction-step3')}</li>
         <li>{i18n('calling__presenting--permission-instruction-step4')}</li>
       </ol>
-      <Modal.Footer>
+      <Modal.ButtonFooter>
         <Button
           onClick={toggleScreenRecordingPermissionsDialog}
           ref={focusRef}
@@ -54,7 +54,7 @@ export const NeedsScreenRecordingPermissionsModal = ({
         >
           {i18n('calling__presenting--permission-open')}
         </Button>
-      </Modal.Footer>
+      </Modal.ButtonFooter>
     </Modal>
   );
 };

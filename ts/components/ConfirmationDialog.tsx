@@ -78,7 +78,7 @@ export const ConfirmationDialog = React.memo(
     return (
       <Modal i18n={i18n} onClose={cancelAndClose} title={title} theme={theme}>
         {children}
-        <Modal.Footer>
+        <Modal.ButtonFooter>
           <Button
             onClick={handleCancel}
             ref={focusRef}
@@ -101,7 +101,7 @@ export const ConfirmationDialog = React.memo(
               {action.text}
             </Button>
           ))}
-        </Modal.Footer>
+        </Modal.ButtonFooter>
       </Modal>
     );
   }
