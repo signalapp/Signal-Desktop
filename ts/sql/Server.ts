@@ -4863,7 +4863,7 @@ async function removeAllConfiguration(): Promise<void> {
   const patch: Partial<ConversationType> = { senderKeyInfo: undefined };
 
   db.transaction(() => {
-    db.prepare(
+    db.exec(
       `
       DELETE FROM identityKeys;
       DELETE FROM items;
@@ -4873,11 +4873,13 @@ async function removeAllConfiguration(): Promise<void> {
       DELETE FROM signedPreKeys;
       DELETE FROM unprocessed;
       DELETE FROM jobs;
-      UPDATE conversations SET json = json_patch(json, $patch);
     `
-    ).run({
-      $patch: patch,
-    });
+    );
+    db.prepare('UPDATE conversations SET json = json_patch(json, $patch);').run(
+      {
+        patch: JSON.stringify(patch),
+      }
+    );
   })();
 }
 

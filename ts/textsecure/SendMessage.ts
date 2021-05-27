@@ -1637,7 +1637,7 @@ export default class MessageSender {
   // No functions should really call this; since most group sends are now via Sender Key
   async sendGroupProto(
     providedIdentifiers: Array<string>,
-    proto: ContentClass | DataMessageClass,
+    proto: ContentClass,
     timestamp = Date.now(),
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
@@ -1660,7 +1660,7 @@ export default class MessageSender {
     return new Promise((resolve, reject) => {
       const silent = true;
       const callback = (res: CallbackResultType) => {
-        res.dataMessage = proto.toArrayBuffer();
+        res.dataMessage = proto.dataMessage?.toArrayBuffer();
         if (res.errors && res.errors.length > 0) {
           reject(res);
         } else {

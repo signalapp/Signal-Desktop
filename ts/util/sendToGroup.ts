@@ -249,7 +249,15 @@ export async function sendToGroupViaSenderKey(options: {
     `sendToGroupViaSenderKey/${logId}: ${devicesForSenderKey.length} devices for sender key, ${devicesForNormalSend.length} devices for normal send`
   );
 
-  // 5. Analyze target devices for sender key, determine which have been added or removed
+  // 5. Ensure we have enough recipients
+  const senderKeyRecipients = getUuidsFromDevices(devicesForSenderKey);
+  if (senderKeyRecipients.length < 2) {
+    throw new Error(
+      `sendToGroupViaSenderKey/${logId}: Not enough recipients for Sender Key message. Failing over.`
+    );
+  }
+
+  // 6. Analyze target devices for sender key, determine which have been added or removed
   const {
     newToMemberDevices,
     newToMemberUuids,
@@ -261,7 +269,7 @@ export async function sendToGroupViaSenderKey(options: {
     isPartialSend
   );
 
-  // 6. If members have been removed from the group, we need to reset our sender key, then
+  // 7. If members have been removed from the group, we need to reset our sender key, then
   //   start over to get a fresh set of target devices.
   const keyNeedsReset = Array.from(removedFromMemberUuids).some(
     uuid => !conversation.hasMember(uuid)
@@ -277,7 +285,7 @@ export async function sendToGroupViaSenderKey(options: {
     });
   }
 
-  // 7. If there are new members or new devices in the group, we need to ensure that they
+  // 8. If there are new members or new devices in the group, we need to ensure that they
   //   have our sender key before we send sender key messages to them.
   if (newToMemberUuids.length > 0) {
     window.log.info(
@@ -291,7 +299,7 @@ export async function sendToGroupViaSenderKey(options: {
     });
   }
 
-  // 8. Update memberDevices with both adds and the removals which didn't require a reset.
+  // 9. Update memberDevices with both adds and the removals which didn't require a reset.
   if (removedFromMemberDevices.length > 0 || newToMemberDevices.length > 0) {
     const updatedMemberDevices = [
       ...differenceWith<DeviceType, DeviceType>(
@@ -310,14 +318,6 @@ export async function sendToGroupViaSenderKey(options: {
       },
     });
     await window.Signal.Data.updateConversation(conversation.attributes);
-  }
-
-  // 9. Ensure we have enough recipients
-  const senderKeyRecipients = getUuidsFromDevices(devicesForSenderKey);
-  if (senderKeyRecipients.length < 2) {
-    throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Not enough recipients for Sender Key message. Failing over.`
-    );
   }
 
   // 10. Send the Sender Key message!

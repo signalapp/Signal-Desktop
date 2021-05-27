@@ -3221,6 +3221,13 @@ export async function startApp(): Promise<void> {
     try {
       await window.textsecure.storage.protocol.removeAllConfiguration();
 
+      // This was already done in the database with removeAllConfiguration; this does it
+      //   for all the conversation models in memory.
+      window.getConversations().forEach(conversation => {
+        // eslint-disable-next-line no-param-reassign
+        delete conversation.attributes.senderKeyInfo;
+      });
+
       // These two bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
       window.Signal.Util.Registration.markEverDone();
