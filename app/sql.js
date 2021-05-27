@@ -207,6 +207,14 @@ async function setSQLPassword(password) {
   await db.run(`PRAGMA rekey = ${value};`);
 }
 
+async function vacuumDatabase(instance) {
+  if (!instance) {
+    throw new Error('vacuum: db is not initialized');
+  }
+  console.warn('Vacuuming DB. This might take a while.');
+  await instance.run('VACUUM;');
+}
+
 async function updateToSchemaVersion1(currentVersion, instance) {
   if (currentVersion >= 1) {
     return;
@@ -761,6 +769,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion10,
   updateToLokiSchemaVersion11,
   updateToLokiSchemaVersion12,
+  updateToLokiSchemaVersion13,
 ];
 
 const SERVERS_TOKEN_TABLE = 'servers';
@@ -1094,6 +1103,28 @@ async function updateToLokiSchemaVersion12(currentVersion, instance) {
   console.log('updateToLokiSchemaVersion12: success!');
 }
 
+async function updateToLokiSchemaVersion13(currentVersion, instance) {
+  if (currentVersion >= 13) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion13: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // Clear any already deleted db entries.
+  // secure_delete = ON will make sure next deleted entries are overwritten with 0 right away
+  await instance.run('PRAGMA secure_delete = ON;');
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        13
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+
+  console.log('updateToLokiSchemaVersion13: success!');
+}
+
 async function updateLokiSchema(instance) {
   const result = await instance.get(
     "SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';"
@@ -1200,6 +1231,8 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
       throw new Error(`Integrity check failed: ${result}`);
     }
 
+    // Clear any already deleted db entries on each app start.
+    await vacuumDatabase(db);
     await getMessageCount();
   } catch (error) {
     if (passwordAttempt) {
