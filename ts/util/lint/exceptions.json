@@ -4892,12 +4892,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "node_modules/history/node_modules/js-tokens/index.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "node_modules/history/umd/history.min.js",
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
@@ -8724,6 +8718,13 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/loose-envify/node_modules/js-tokens/index.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-05-24T17:14:21.037Z",
+    "reasonDetail": "This is inside of a regular expression and is not jQuery."
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/loud-rejection/node_modules/signal-exit/index.js",
     "line": "    load()",
@@ -12486,12 +12487,6 @@
     "line": "                load(exts.slice(1), x, pkg);",
     "reasonCategory": "falseMatch",
     "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/redux/node_modules/js-tokens/index.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
