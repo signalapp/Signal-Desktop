@@ -1,5 +1,5 @@
+import { DURATION } from '../session/constants';
 import { PubKey } from '../session/types';
-import { SECONDS } from '../session/utils/Number';
 
 /**
  * Singleton handling the logic behing requesting EncryptionKeypair for a closed group we need.
@@ -7,7 +7,7 @@ import { SECONDS } from '../session/utils/Number';
  * Nothing is read/written to the db, it's all on memory for now.
  */
 export class KeyPairRequestManager {
-  public static DELAY_BETWEEN_TWO_REQUEST_MS = SECONDS * 30;
+  public static DELAY_BETWEEN_TWO_REQUEST_MS = DURATION.SECONDS * 30;
   private static instance: KeyPairRequestManager | null;
   private readonly requestTimestamps: Map<string, number>;
 

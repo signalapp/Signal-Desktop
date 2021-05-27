@@ -6,7 +6,6 @@ import { SessionToastContainer } from './SessionToastContainer';
 import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
-import { DAYS, MINUTES } from '../../session/utils/Number';
 
 import {
   createOrUpdateItem,
@@ -43,6 +42,7 @@ import { IMAGE_JPEG } from '../../types/MIME';
 import { FSv2 } from '../../fileserver';
 import { stringToArrayBuffer } from '../../session/utils/String';
 import { debounce } from 'underscore';
+import { DURATION } from '../../session/constants';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -153,7 +153,7 @@ const showResetSessionIDDialogIfNeeded = async () => {
   window.showResetSessionIdDialog();
 };
 
-const cleanUpMediasInterval = MINUTES * 30;
+const cleanUpMediasInterval = DURATION.MINUTES * 30;
 
 const setupTheme = (dispatch: Dispatch<any>) => {
   const theme = window.Events.getThemeSetting();
@@ -175,7 +175,7 @@ const triggerSyncIfNeeded = async () => {
 const triggerAvatarReUploadIfNeeded = async () => {
   const lastTimeStampAvatarUpload = (await getItemById(lastAvatarUploadTimestamp))?.value || 0;
 
-  if (Date.now() - lastTimeStampAvatarUpload > DAYS * 14) {
+  if (Date.now() - lastTimeStampAvatarUpload > DURATION.DAYS * 14) {
     window.log.info('Reuploading avatar...');
     // reupload the avatar
     const ourConvo = ConversationController.getInstance().get(UserUtils.getOurPubKeyStrFromCache());
@@ -323,16 +323,16 @@ export const ActionsPanel = () => {
 
   useInterval(() => {
     void syncConfigurationIfNeeded();
-  }, DAYS * 2);
+  }, DURATION.DAYS * 2);
 
   useInterval(() => {
     void forceRefreshRandomSnodePool();
-  }, DAYS * 1);
+  }, DURATION.DAYS * 1);
 
   useInterval(() => {
     // this won't be run every days, but if the app stays open for more than 10 days
     void triggerAvatarReUploadIfNeeded();
-  }, DAYS * 1);
+  }, DURATION.DAYS * 1);
 
   return (
     <div className="module-left-pane__sections-container">
