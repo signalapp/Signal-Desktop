@@ -135,8 +135,6 @@ const dataInterface: ServerInterface = {
   createOrUpdateSession,
   createOrUpdateSessions,
   commitSessionsAndUnprocessed,
-  getSessionById,
-  getSessionsById,
   bulkAddSessions,
   removeSessionById,
   removeSessionsByConversation,
@@ -191,12 +189,10 @@ const dataInterface: ServerInterface = {
 
   getUnprocessedCount,
   getAllUnprocessed,
-  saveUnprocessed,
   updateUnprocessedAttempts,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   getUnprocessedById,
-  saveUnprocesseds,
   removeUnprocessed,
   removeAllUnprocessed,
 
@@ -2291,27 +2287,6 @@ async function commitSessionsAndUnprocessed({
   })();
 }
 
-async function getSessionById(id: string): Promise<SessionType | undefined> {
-  return getById(SESSIONS_TABLE, id);
-}
-async function getSessionsById(
-  conversationId: string
-): Promise<Array<SessionType>> {
-  const db = getInstance();
-  const rows: JSONRows = db
-    .prepare<Query>(
-      `
-      SELECT json
-      FROM sessions
-      WHERE conversationId = $conversationId;
-      `
-    )
-    .all({
-      conversationId,
-    });
-
-  return rows.map(row => jsonToObject(row.json));
-}
 function bulkAddSessions(array: Array<SessionType>): Promise<void> {
   return bulkAdd(SESSIONS_TABLE, array);
 }
@@ -4041,7 +4016,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     decrypted,
   } = data;
   if (!id) {
-    throw new Error('saveUnprocessed: id was falsey');
+    throw new Error('saveUnprocessedSync: id was falsey');
   }
 
   prepare(
@@ -4085,22 +4060,6 @@ function saveUnprocessedSync(data: UnprocessedType): string {
   });
 
   return id;
-}
-
-async function saveUnprocessed(data: UnprocessedType): Promise<string> {
-  return saveUnprocessedSync(data);
-}
-
-async function saveUnprocesseds(
-  arrayOfUnprocessed: Array<UnprocessedType>
-): Promise<void> {
-  const db = getInstance();
-
-  db.transaction(() => {
-    for (const unprocessed of arrayOfUnprocessed) {
-      assertSync(saveUnprocessedSync(unprocessed));
-    }
-  })();
 }
 
 async function updateUnprocessedAttempts(

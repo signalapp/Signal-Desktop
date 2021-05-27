@@ -193,8 +193,6 @@ export type DataInterface = {
     sessions: Array<SessionType>;
     unprocessed: Array<UnprocessedType>;
   }): Promise<void>;
-  getSessionById: (id: string) => Promise<SessionType | undefined>;
-  getSessionsById: (conversationId: string) => Promise<Array<SessionType>>;
   bulkAddSessions: (array: Array<SessionType>) => Promise<void>;
   removeSessionById: (id: string) => Promise<void>;
   removeSessionsByConversation: (conversationId: string) => Promise<void>;
@@ -234,10 +232,6 @@ export type DataInterface = {
 
   getUnprocessedCount: () => Promise<number>;
   getAllUnprocessed: () => Promise<Array<UnprocessedType>>;
-  saveUnprocessed: (
-    data: UnprocessedType,
-    options?: { forceSave?: boolean }
-  ) => Promise<string>;
   updateUnprocessedAttempts: (id: string, attempts: number) => Promise<void>;
   updateUnprocessedWithData: (
     id: string,
@@ -247,10 +241,6 @@ export type DataInterface = {
     array: Array<{ id: string; data: UnprocessedUpdateType }>
   ) => Promise<void>;
   getUnprocessedById: (id: string) => Promise<UnprocessedType | undefined>;
-  saveUnprocesseds: (
-    arrayOfUnprocessed: Array<UnprocessedType>,
-    options?: { forceSave?: boolean }
-  ) => Promise<void>;
   removeUnprocessed: (id: string | Array<string>) => Promise<void>;
   removeAllUnprocessed: () => Promise<void>;
 

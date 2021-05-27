@@ -1520,7 +1520,7 @@ describe('SignalProtocolStore', () => {
       assert.strictEqual(items[2].envelope, 'third');
     });
 
-    it('saveUnprocessed successfully updates item', async () => {
+    it('can updates items', async () => {
       const id = '1-one';
       await store.addUnprocessed({
         id,
