@@ -178,11 +178,6 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   const ourConvo = convos.find(convo => convo.id === ourPubKey);
 
-  // Filter open groups v1
-  const openGroupsV1Ids = convos
-    .filter(c => !!c.get('active_at') && c.isOpenGroupV1() && !c.get('left'))
-    .map(c => c.id.substring((c.id as string).lastIndexOf('@') + 1)) as Array<string>;
-
   const opengroupV2CompleteUrls = await getActiveOpenGroupV2CompleteUrls(convos);
   const onlyValidClosedGroup = await getValidClosedGroups(convos);
   const validContacts = getValidContacts(convos);
@@ -196,7 +191,7 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
   const profilePicture = ourConvo?.get('avatarPointer') || undefined;
   const displayName = ourConvo?.getLokiProfile()?.displayName || undefined;
 
-  const activeOpenGroups = [...openGroupsV1Ids, ...opengroupV2CompleteUrls];
+  const activeOpenGroups = [...opengroupV2CompleteUrls];
 
   return new ConfigurationMessage({
     identifier: uuid(),

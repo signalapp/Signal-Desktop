@@ -40,11 +40,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     };
   }
 
-  public async componentDidMount() {
-    if (this.props.convo.isOpenGroupV1()) {
-      this.channelAPI = await this.props.convo.getPublicSendData();
-    }
-
+  public componentDidMount() {
     void this.refreshModList();
   }
 
@@ -137,14 +133,10 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     });
   }
 
-  private async refreshModList() {
+  private refreshModList() {
     let modPubKeys: Array<string> = [];
-    if (this.props.convo.isOpenGroupV1()) {
-      // get current list of moderators
-      modPubKeys = (await this.channelAPI.getModerators()) as Array<string>;
-    } else if (this.props.convo.isOpenGroupV2()) {
-      modPubKeys = this.props.convo.getGroupAdmins() || [];
-    }
+    modPubKeys = this.props.convo.getGroupAdmins() || [];
+
     const convos = ConversationController.getInstance().getConversations();
     const moderatorsConvos = modPubKeys
       .map(
@@ -197,19 +189,16 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         removingInProgress: true,
       });
       let res;
-      if (this.props.convo.isOpenGroupV1()) {
-        res = await this.channelAPI.serverAPI.removeModerators(removedMods);
-      } else if (this.props.convo.isOpenGroupV2()) {
-        const roomInfos = this.props.convo.toOpenGroupV2();
-        const modsToRemove = _.compact(removedMods.map(m => PubKey.from(m)));
-        res = await Promise.all(
-          modsToRemove.map(async m => {
-            return ApiV2.removeModerator(m, roomInfos);
-          })
-        );
-        // all moderators are removed means all promise resolved with bool= true
-        res = res.every(r => !!r);
-      }
+      const roomInfos = this.props.convo.toOpenGroupV2();
+      const modsToRemove = _.compact(removedMods.map(m => PubKey.from(m)));
+      res = await Promise.all(
+        modsToRemove.map(async m => {
+          return ApiV2.removeModerator(m, roomInfos);
+        })
+      );
+      // all moderators are removed means all promise resolved with bool= true
+      res = res.every(r => !!r);
+
       if (!res) {
         window?.log?.warn('failed to remove moderators:', res);
 

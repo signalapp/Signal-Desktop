@@ -93,8 +93,8 @@ export async function initiateGroupUpdate(
   );
 
   if (convo.isPublic()) {
-    if (convo.isOpenGroupV1()) {
-      await updateOpenGroupV1(convo, groupName, avatar);
+    if (!convo.isOpenGroupV2()) {
+      throw new Error('Only opengroupv2 are supported');
     } else {
       await updateOpenGroupV2(convo, groupName, avatar);
     }

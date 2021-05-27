@@ -27,7 +27,6 @@ import {
   ConversationType as ReduxConversationType,
   LastMessageStatusType,
 } from '../state/ducks/conversations';
-import { OpenGroupMessage } from '../session/messages/outgoing';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
 import {
@@ -202,9 +201,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
   public isOpenGroupV2(): boolean {
     return OpenGroupUtils.isOpenGroupV2(this.id);
-  }
-  public isOpenGroupV1(): boolean {
-    return OpenGroupUtils.isOpenGroupV1(this.id);
   }
   public isClosedGroup() {
     return this.get('type') === ConversationTypeEnum.GROUP && !this.isPublic();
@@ -587,17 +583,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return getOpenGroupV2FromConversationId(this.id);
   }
 
-  public toOpenGroupV1(): OpenGroup {
-    if (!this.isOpenGroupV1()) {
-      throw new Error('tried to run toOpenGroup for not public group v1');
-    }
-
-    return new OpenGroup({
-      server: this.get('server'),
-      channel: this.get('channelId'),
-      conversationId: this.id,
-    });
-  }
   public async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
     try {
       const uploads = await message.uploadData();
@@ -611,22 +596,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isPublic() && !this.isOpenGroupV2()) {
-        const openGroup = this.toOpenGroupV1();
-
-        const openGroupParams = {
-          body: uploads.body,
-          timestamp: sentAt,
-          group: openGroup,
-          attachments: uploads.attachments,
-          preview: uploads.preview,
-          quote: uploads.quote,
-          identifier: id,
-        };
-        const openGroupMessage = new OpenGroupMessage(openGroupParams);
-        // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToOpenGroup(openGroupMessage);
-
-        return;
+        throw new Error('Only opengroupv2 are supported now');
       }
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {

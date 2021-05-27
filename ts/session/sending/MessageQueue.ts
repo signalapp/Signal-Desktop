@@ -8,7 +8,7 @@ import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessag
 
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { MessageSentHandler } from './MessageSentHandler';
-import { ContentMessage, OpenGroupMessage } from '../messages/outgoing';
+import { ContentMessage } from '../messages/outgoing';
 import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
@@ -54,35 +54,6 @@ export class MessageQueue {
   }
 
   /**
-   * DEPRECATED This function is synced. It will wait for the message to be delivered to the open
-   * group to return.
-   * So there is no need for a sendCb callback
-   *
-   */
-  public async sendToOpenGroup(message: OpenGroupMessage) {
-    // Open groups
-    if (!(message instanceof OpenGroupMessage)) {
-      throw new Error('sendToOpenGroup can only be used with OpenGroupMessage');
-    }
-    // No queue needed for Open Groups; send directly
-    const error = new Error('Failed to send message to open group.');
-
-    // This is absolutely yucky ... we need to make it not use Promise<boolean>
-    try {
-      const result = await MessageSender.sendToOpenGroup(message);
-      // sendToOpenGroup returns -1 if failed or an id if succeeded
-      if (result.serverId < 0) {
-        void MessageSentHandler.handleMessageSentFailure(message, error);
-      } else {
-        void MessageSentHandler.handlePublicMessageSentSuccess(message, result);
-      }
-    } catch (e) {
-      window?.log?.warn(`Failed to send message to open group: ${message.group.server}`, e);
-      void MessageSentHandler.handleMessageSentFailure(message, error);
-    }
-  }
-
-  /**
    * This function is synced. It will wait for the message to be delivered to the open
    * group to return.
    * So there is no need for a sendCb callback
@@ -97,7 +68,7 @@ export class MessageQueue {
 
     try {
       const { sentTimestamp, serverId } = await MessageSender.sendToOpenGroupV2(message, roomInfos);
-      if (!serverId) {
+      if (!serverId || serverId === -1) {
         throw new Error(`Invalid serverId returned by server: ${serverId}`);
       }
       void MessageSentHandler.handlePublicMessageSentSuccess(message, {

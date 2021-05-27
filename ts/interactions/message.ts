@@ -114,36 +114,17 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
   try {
     const pubKeyToRemove = PubKey.cast(sender);
     const convo = ConversationController.getInstance().getOrThrow(convoId);
-    if (convo.isOpenGroupV1()) {
-      const channelAPI = await convo.getPublicSendData();
-      if (!channelAPI) {
-        throw new Error('No channelAPI');
-      }
-      const res = await channelAPI.serverAPI.removeModerators([pubKeyToRemove.key]);
-      if (!res) {
-        window?.log?.warn('failed to remove moderators:', res);
 
-        ToastUtils.pushErrorHappenedWhileRemovingModerator();
-      } else {
-        // refresh the moderator list. Will trigger a refresh
-        const modPubKeys = await channelAPI.getModerators();
-        await convo.updateGroupAdmins(modPubKeys);
+    // FXIME audric removeModerator not working serverside
+    const roomInfo = convo.toOpenGroupV2();
+    const res = await ApiV2.removeModerator(pubKeyToRemove, roomInfo);
+    if (!res) {
+      window?.log?.warn('failed to remove moderator:', res);
 
-        window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
-        ToastUtils.pushUserRemovedFromModerators();
-      }
-    } else if (convo.isOpenGroupV2()) {
-      // FXIME audric removeModerator not working serverside
-      const roomInfo = convo.toOpenGroupV2();
-      const res = await ApiV2.removeModerator(pubKeyToRemove, roomInfo);
-      if (!res) {
-        window?.log?.warn('failed to remove moderator:', res);
-
-        ToastUtils.pushErrorHappenedWhileRemovingModerator();
-      } else {
-        window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
-        ToastUtils.pushUserRemovedFromModerators();
-      }
+      ToastUtils.pushErrorHappenedWhileRemovingModerator();
+    } else {
+      window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
+      ToastUtils.pushUserRemovedFromModerators();
     }
   } catch (e) {
     window?.log?.error('Got error while removing moderator:', e);
@@ -153,41 +134,18 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
 export async function addSenderAsModerator(sender: string, convoId: string) {
   try {
     const pubKeyToRemove = PubKey.cast(sender);
-
     const convo = ConversationController.getInstance().getOrThrow(convoId);
-    if (convo.isOpenGroupV1()) {
-      const channelAPI = await convo.getPublicSendData();
-      if (!channelAPI) {
-        throw new Error('No channelAPI');
-      }
-      if (!channelAPI.serverAPI) {
-        throw new Error('No serverAPI');
-      }
-      const res = await channelAPI.serverAPI.addModerator([pubKeyToRemove.key]);
-      if (!res) {
-        window?.log?.warn('failed to add moderators:', res);
 
-        ToastUtils.pushUserNeedsToHaveJoined();
-      } else {
-        window?.log?.info(`${pubKeyToRemove.key} added as moderator...`);
-        // refresh the moderator list. Will trigger a refresh
-        const modPubKeys = await channelAPI.getModerators();
-        await convo.updateGroupAdmins(modPubKeys);
+    // FXIME audric addModerator not working serverside
+    const roomInfo = convo.toOpenGroupV2();
+    const res = await ApiV2.addModerator(pubKeyToRemove, roomInfo);
+    if (!res) {
+      window?.log?.warn('failed to add moderator:', res);
 
-        ToastUtils.pushUserAddedToModerators();
-      }
-    } else if (convo.isOpenGroupV2()) {
-      // FXIME audric addModerator not working serverside
-      const roomInfo = convo.toOpenGroupV2();
-      const res = await ApiV2.addModerator(pubKeyToRemove, roomInfo);
-      if (!res) {
-        window?.log?.warn('failed to add moderator:', res);
-
-        ToastUtils.pushUserNeedsToHaveJoined();
-      } else {
-        window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
-        ToastUtils.pushUserAddedToModerators();
-      }
+      ToastUtils.pushUserNeedsToHaveJoined();
+    } else {
+      window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
+      ToastUtils.pushUserAddedToModerators();
     }
   } catch (e) {
     window?.log?.error('Got error while adding moderator:', e);

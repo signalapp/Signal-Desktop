@@ -7,13 +7,11 @@ import {
   Quote,
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
-import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 import { FSv2 } from '../../fileserver';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
 
 interface UploadParams {
   attachment: Attachment;
-  openGroup?: OpenGroup;
   isAvatar?: boolean;
   isRaw?: boolean;
   shouldPad?: boolean;
@@ -43,7 +41,7 @@ export class AttachmentFsV2Utils {
   private constructor() {}
 
   public static async uploadToFsV2(params: UploadParams): Promise<AttachmentPointer> {
-    const { attachment, openGroup, isRaw = false, shouldPad = false } = params;
+    const { attachment, isRaw = false, shouldPad = false } = params;
     if (typeof attachment !== 'object' || attachment == null) {
       throw new Error('Invalid attachment passed.');
     }
@@ -52,10 +50,6 @@ export class AttachmentFsV2Utils {
       throw new TypeError(
         `\`attachment.data\` must be an \`ArrayBuffer\`; got: ${typeof attachment.data}`
       );
-    }
-    // this can only be an opengroupv1
-    if (openGroup) {
-      throw new Error('opengroupv1 attachments are not supported anymore');
     }
     const pointer: AttachmentPointer = {
       contentType: attachment.contentType || undefined,
@@ -67,8 +61,7 @@ export class AttachmentFsV2Utils {
 
     let attachmentData: ArrayBuffer;
 
-    // We don't pad attachments for opengroup as they are unencrypted
-    if (isRaw || openGroup) {
+    if (isRaw) {
       attachmentData = attachment.data;
     } else {
       pointer.key = new Uint8Array(crypto.randomBytes(64));
@@ -103,13 +96,11 @@ export class AttachmentFsV2Utils {
   }
 
   public static async uploadAttachmentsToFsV2(
-    attachments: Array<Attachment>,
-    openGroup?: OpenGroup
+    attachments: Array<Attachment>
   ): Promise<Array<AttachmentPointer>> {
     const promises = (attachments || []).map(async attachment =>
       this.uploadToFsV2({
         attachment,
-        openGroup,
         shouldPad: true,
       })
     );
@@ -118,8 +109,7 @@ export class AttachmentFsV2Utils {
   }
 
   public static async uploadLinkPreviewsToFsV2(
-    previews: Array<RawPreview>,
-    openGroup?: OpenGroup
+    previews: Array<RawPreview>
   ): Promise<Array<Preview>> {
     const promises = (previews || []).map(async item => {
       // some links does not have an image associated, and it makes the whole message fail to send
@@ -130,17 +120,13 @@ export class AttachmentFsV2Utils {
         ...item,
         image: await this.uploadToFsV2({
           attachment: item.image,
-          openGroup,
         }),
       };
     });
     return Promise.all(promises);
   }
 
-  public static async uploadQuoteThumbnailsToFsV2(
-    quote?: RawQuote,
-    openGroup?: OpenGroup
-  ): Promise<Quote | undefined> {
+  public static async uploadQuoteThumbnailsToFsV2(quote?: RawQuote): Promise<Quote | undefined> {
     if (!quote) {
       return undefined;
     }
@@ -150,7 +136,6 @@ export class AttachmentFsV2Utils {
       if (attachment.thumbnail) {
         thumbnail = await this.uploadToFsV2({
           attachment: attachment.thumbnail,
-          openGroup,
         });
       }
       return {

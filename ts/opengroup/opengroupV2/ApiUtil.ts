@@ -49,27 +49,27 @@ export const parseMessages = async (
   const messages = await Promise.all(
     rawMessages.map(async r => {
       try {
-        const opengroupMessage = OpenGroupMessageV2.fromJson(r);
+        const opengroupv2Message = OpenGroupMessageV2.fromJson(r);
         if (
-          !opengroupMessage?.serverId ||
-          !opengroupMessage.sentTimestamp ||
-          !opengroupMessage.base64EncodedData ||
-          !opengroupMessage.base64EncodedSignature
+          !opengroupv2Message?.serverId ||
+          !opengroupv2Message.sentTimestamp ||
+          !opengroupv2Message.base64EncodedData ||
+          !opengroupv2Message.base64EncodedSignature
         ) {
           window?.log?.warn('invalid open group message received');
           return null;
         }
         // Validate the message signature
-        const senderPubKey = PubKey.cast(opengroupMessage.sender).withoutPrefix();
-        const signature = fromBase64ToArrayBuffer(opengroupMessage.base64EncodedSignature);
-        const messageData = fromBase64ToArrayBuffer(opengroupMessage.base64EncodedData);
+        const senderPubKey = PubKey.cast(opengroupv2Message.sender).withoutPrefix();
+        const signature = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedSignature);
+        const messageData = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedData);
         // throws if signature failed
         await window.libsignal.Curve.async.verifySignature(
           fromHex(senderPubKey),
           messageData,
           signature
         );
-        return opengroupMessage;
+        return opengroupv2Message;
       } catch (e) {
         window?.log?.error('An error happened while fetching getMessages output:', e);
         return null;

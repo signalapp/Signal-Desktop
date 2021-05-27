@@ -20,6 +20,9 @@ import { isOpenGroupV2Request } from '../../fileserver/FileServerApiV2';
 import { getAuthToken } from './ApiAuth';
 import pRetry from 'p-retry';
 
+// used to be overwritten by testing
+export const getMinTimeout = () => 1000;
+
 /**
  * This function returns a base url to this room
  * This is basically used for building url after posting an attachment
@@ -171,7 +174,7 @@ export async function openGroupV2GetRoomInfo({
     isAuthRequired: false,
     endpoint: `rooms/${roomId}`,
   };
-  const result = (await sendApiV2Request(request)) as any;
+  const result = (await exports.sendApiV2Request(request)) as any;
   if (result?.result?.room) {
     const { id, name, image_id: imageId } = result?.result?.room;
 
@@ -194,10 +197,9 @@ export async function openGroupV2GetRoomInfo({
 /**
  * Send the specified message to the specified room.
  * If an error happens, this function throws it
- *
+ * Exported only for testing
  */
-
-const postMessageRetryable = async (
+export const postMessageRetryable = async (
   message: OpenGroupMessageV2,
   room: OpenGroupRequestCommonType
 ) => {
@@ -213,7 +215,7 @@ const postMessageRetryable = async (
     endpoint: 'messages',
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
 
   const statusCode = parseStatusCodeFromOnionRequest(result);
 
@@ -234,12 +236,12 @@ export const postMessage = async (
 ) => {
   const result = await pRetry(
     async () => {
-      return postMessageRetryable(message, room);
+      return exports.postMessageRetryable(message, room);
     },
     {
       retries: 3, // each path can fail 3 times before being dropped, we have 3 paths at most
       factor: 2,
-      minTimeout: 1000,
+      minTimeout: exports.getMinTimeout(),
       maxTimeout: 4000,
       onFailedAttempt: e => {
         window?.log?.warn(
@@ -265,7 +267,7 @@ export const banUser = async (
     queryParams,
     endpoint: 'block_list',
   };
-  const banResult = await sendApiV2Request(request);
+  const banResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(banResult) === 200;
   return isOk;
 };
@@ -281,7 +283,7 @@ export const unbanUser = async (
     isAuthRequired: true,
     endpoint: `block_list/${userToBan.key}`,
   };
-  const unbanResult = await sendApiV2Request(request);
+  const unbanResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(unbanResult) === 200;
   return isOk;
 };
@@ -298,7 +300,7 @@ export const deleteMessageByServerIds = async (
     endpoint: 'delete_messages',
     queryParams: { ids: idsToRemove },
   };
-  const messageDeletedResult = await sendApiV2Request(request);
+  const messageDeletedResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(messageDeletedResult) === 200;
   return isOk;
 };
@@ -313,7 +315,7 @@ export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
     endpoint: 'rooms',
     serverPublicKey: roomInfos.serverPublicKey,
   };
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
 
   if (statusCode !== 200) {
@@ -334,7 +336,7 @@ export const getMemberCount = async (
     isAuthRequired: true,
     endpoint: 'member_count',
   };
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   if (parseStatusCodeFromOnionRequest(result) !== 200) {
     window?.log?.warn('getMemberCount failed invalid status code');
     return;
@@ -368,7 +370,7 @@ export const downloadFileOpenGroupV2 = async (
     endpoint: `files/${fileId}`,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -395,7 +397,7 @@ export const downloadFileOpenGroupV2ByUrl = async (
     endpoint: pathName,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -427,7 +429,7 @@ export const downloadPreviewOpenGroupV2 = async (
     serverPublicKey: roomInfos.serverPublicKey,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -466,7 +468,7 @@ export const uploadFileOpenGroupV2 = async (
     queryParams,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -506,7 +508,7 @@ export const uploadImageForRoomOpenGroupV2 = async (
     queryParams,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -531,7 +533,7 @@ export const addModerator = async (
     queryParams: { public_key: userToAddAsMods.key, room_id: roomInfos.roomId },
     endpoint: 'moderators',
   };
-  const addModResult = await sendApiV2Request(request);
+  const addModResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(addModResult) === 200;
   return isOk;
 };
@@ -547,7 +549,7 @@ export const removeModerator = async (
     isAuthRequired: true,
     endpoint: `moderators/${userToAddAsMods.key}`,
   };
-  const removeModResult = await sendApiV2Request(request);
+  const removeModResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(removeModResult) === 200;
   return isOk;
 };

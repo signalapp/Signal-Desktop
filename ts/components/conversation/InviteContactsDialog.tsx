@@ -100,41 +100,22 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
 
   private async submitForOpenGroup(pubkeys: Array<string>) {
     const { convo } = this.props;
-    if (convo.isOpenGroupV1()) {
-      const v1 = convo.toOpenGroupV1();
-      const groupInvitation = {
-        serverAddress: v1.server,
-        serverName: convo.getName(),
-        channelId: 1, // always 1
-      };
-      pubkeys.forEach(async pubkeyStr => {
-        const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
-          pubkeyStr,
-          ConversationTypeEnum.PRIVATE
-        );
 
-        if (privateConvo) {
-          void privateConvo.sendMessage('', null, null, null, groupInvitation);
-        }
-      });
-    } else if (convo.isOpenGroupV2()) {
-      const v2 = convo.toOpenGroupV2();
-      const completeUrl = await getCompleteUrlForV2ConvoId(convo.id);
-      const groupInvitation = {
-        serverAddress: completeUrl,
-        serverName: convo.getName(),
-      };
-      pubkeys.forEach(async pubkeyStr => {
-        const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
-          pubkeyStr,
-          ConversationTypeEnum.PRIVATE
-        );
+    const completeUrl = await getCompleteUrlForV2ConvoId(convo.id);
+    const groupInvitation = {
+      serverAddress: completeUrl,
+      serverName: convo.getName(),
+    };
+    pubkeys.forEach(async pubkeyStr => {
+      const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
+        pubkeyStr,
+        ConversationTypeEnum.PRIVATE
+      );
 
-        if (privateConvo) {
-          void privateConvo.sendMessage('', null, null, null, groupInvitation);
-        }
-      });
-    }
+      if (privateConvo) {
+        void privateConvo.sendMessage('', null, null, null, groupInvitation);
+      }
+    });
   }
 
   private async submitForClosedGroup(pubkeys: Array<string>) {

@@ -100,19 +100,6 @@
   window.log.info('Storage fetch');
   storage.fetch();
 
-  let specialConvInited = false;
-  const initSpecialConversations = async () => {
-    if (specialConvInited) {
-      return;
-    }
-    const publicConversations = await window.Signal.Data.getAllOpenGroupV1Conversations();
-    publicConversations.forEach(conversation => {
-      // weird but create the object and does everything we need
-      conversation.getPublicSendData();
-    });
-    specialConvInited = true;
-  };
-
   const initAPIs = () => {
     if (window.initialisedAPI) {
       return;
@@ -743,7 +730,6 @@
     window.NewReceiver.queueAllCached();
 
     initAPIs();
-    await initSpecialConversations();
     messageReceiver = new textsecure.MessageReceiver();
     // those handleMessageEvent calls are only used by opengroupv1
     messageReceiver.addEventListener('message', window.DataMessageReceiver.handleMessageEvent);

@@ -44,13 +44,6 @@ export const openGroupPrefix = 'publicChat:';
  */
 export const openGroupPrefixRegex = new RegExp(`^${openGroupPrefix}`);
 
-/**
- * An open group v1 conversation id can only have the char '1' as roomId
- */
-export const openGroupV1ConversationIdRegex = new RegExp(
-  `${openGroupPrefix}1@${protocolRegex.source}${hostnameRegex.source}`
-);
-
 export const openGroupV2ConversationIdRegex = new RegExp(
   `${openGroupPrefix}${roomIdV2Regex}@${protocolRegex.source}${hostnameRegex.source}${portRegex}`
 );
@@ -191,26 +184,11 @@ export function getOpenGroupV2FromConversationId(
 }
 
 /**
- * Check if this conversation id corresponds to an OpenGroupV1 conversation.
- * No access to database are made. Only regex matches
- * @param conversationId the convo id to evaluate
- * @returns true if this conversation id matches the Opengroupv1 conversation id regex
- */
-export function isOpenGroupV1(conversationId: string) {
-  return openGroupV1ConversationIdRegex.test(conversationId);
-}
-
-/**
  * Check if this conversation id corresponds to an OpenGroupV2 conversation.
  * No access to database are made. Only regex matches
  * @param conversationId the convo id to evaluate
  * @returns true if this conversation id matches the Opengroupv2 conversation id regex
  */
 export function isOpenGroupV2(conversationId: string) {
-  if (openGroupV1ConversationIdRegex.test(conversationId)) {
-    // this is an open group v1
-    return false;
-  }
-
   return openGroupV2ConversationIdRegex.test(conversationId);
 }

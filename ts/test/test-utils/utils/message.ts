@@ -2,10 +2,12 @@ import { v4 as uuid } from 'uuid';
 import { generateFakePubKey, generateFakePubKeys } from './pubkey';
 import { ClosedGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { ConversationAttributes, ConversationTypeEnum } from '../../../models/conversation';
-import { OpenGroupMessage } from '../../../session/messages/outgoing';
 import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessage/VisibleMessage';
-import { OpenGroup } from '../../../opengroup/opengroupV1/OpenGroup';
 import { openGroupPrefixRegex } from '../../../opengroup/utils/OpenGroupUtils';
+import { OpenGroupMessageV2 } from '../../../opengroup/opengroupV2/OpenGroupMessageV2';
+import { TestUtils } from '..';
+import { OpenGroupRequestCommonType } from '../../../opengroup/opengroupV2/ApiUtil';
+import { OpenGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 
 export function generateVisibleMessage(identifier?: string): VisibleMessage {
   return new VisibleMessage({
@@ -20,21 +22,22 @@ export function generateVisibleMessage(identifier?: string): VisibleMessage {
   });
 }
 
-export function generateOpenGroupMessage(): OpenGroupMessage {
-  const group = new OpenGroup({
-    server: 'chat.example.server',
-    channel: 0,
-    conversationId: '0',
+export function generateOpenGroupMessageV2(): OpenGroupMessageV2 {
+  return new OpenGroupMessageV2({
+    sentTimestamp: Date.now(),
+    sender: TestUtils.generateFakePubKey().key,
+    base64EncodedData: 'whatever',
   });
+}
 
-  return new OpenGroupMessage({
+export function generateOpenGroupVisibleMessage(): OpenGroupVisibleMessage {
+  return new OpenGroupVisibleMessage({
     timestamp: Date.now(),
-    group,
-    attachments: undefined,
-    preview: undefined,
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    quote: undefined,
   });
+}
+
+export function generateOpenGroupV2RoomInfos(): OpenGroupRequestCommonType {
+  return { roomId: 'main', serverUrl: 'http://116.203.70.33' };
 }
 
 export function generateClosedGroupMessage(groupId?: string): ClosedGroupVisibleMessage {

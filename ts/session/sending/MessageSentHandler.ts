@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { getMessageById } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import { MessageController } from '../messages';
-import { OpenGroupMessage } from '../messages/outgoing';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { EncryptionType, RawMessage } from '../types';
 import { UserUtils } from '../utils';
@@ -10,7 +9,7 @@ import { UserUtils } from '../utils';
 // tslint:disable-next-line no-unnecessary-class
 export class MessageSentHandler {
   public static async handlePublicMessageSentSuccess(
-    sentMessage: OpenGroupMessage | OpenGroupVisibleMessage,
+    sentMessage: OpenGroupVisibleMessage,
     result: { serverId: number; serverTimestamp: number }
   ) {
     const { serverId, serverTimestamp } = result;
@@ -44,7 +43,7 @@ export class MessageSentHandler {
     sentMessage: RawMessage,
     wrappedEnvelope?: Uint8Array
   ) {
-    // The wrappedEnvelope will be set only if the message is not one of OpenGroupMessage type.
+    // The wrappedEnvelope will be set only if the message is not one of OpenGroupV2Message type.
     const fetchedMessage = await MessageSentHandler.fetchHandleMessageSentData(sentMessage);
     if (!fetchedMessage) {
       return;
@@ -131,7 +130,7 @@ export class MessageSentHandler {
   }
 
   public static async handleMessageSentFailure(
-    sentMessage: RawMessage | OpenGroupMessage | OpenGroupVisibleMessage,
+    sentMessage: RawMessage | OpenGroupVisibleMessage,
     error: any
   ) {
     const fetchedMessage = await MessageSentHandler.fetchHandleMessageSentData(sentMessage);
@@ -143,10 +142,7 @@ export class MessageSentHandler {
       await fetchedMessage.saveErrors(error);
     }
 
-    if (
-      !(sentMessage instanceof OpenGroupMessage) &&
-      !(sentMessage instanceof OpenGroupVisibleMessage)
-    ) {
+    if (!(sentMessage instanceof OpenGroupVisibleMessage)) {
       const isOurDevice = UserUtils.isUsFromCache(sentMessage.device);
       // if this message was for ourself, and it was not already synced,
       // it means that we failed to sync it.
@@ -179,9 +175,7 @@ export class MessageSentHandler {
    * In this case, this function will look for it in the database and return it.
    * If the message is found on the db, it will also register it to the MessageController so our subsequent calls are quicker.
    */
-  private static async fetchHandleMessageSentData(
-    m: RawMessage | OpenGroupMessage | OpenGroupVisibleMessage
-  ) {
+  private static async fetchHandleMessageSentData(m: RawMessage | OpenGroupVisibleMessage) {
     // if a message was sent and this message was sent after the last app restart,
     // this message is still in memory in the MessageController
     const msg = MessageController.getInstance().get(m.identifier);
