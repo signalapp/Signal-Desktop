@@ -34,7 +34,6 @@ import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessag
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { SwarmPolling } from '../snode_api/swarmPolling';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
-import { updateOpenGroupV1 } from '../../opengroup/opengroupV1/OpenGroup';
 import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
 
 export type GroupInfo = {

@@ -23,6 +23,7 @@ export type FileServerV2Request = {
 };
 
 const FILES_ENDPOINT = 'files';
+const RELEASE_VERSION_ENDPOINT = 'session_version';
 
 // Disable this if you don't want to use the file server v2 for sending
 // Receiving is always enabled if the attachments url matches a fsv2 url
@@ -153,4 +154,34 @@ export const buildUrl = (request: FileServerV2Request | OpenGroupV2Request): URL
   } catch (error) {
     return null;
   }
+};
+
+/**
+ * Upload a file to the file server v2
+ * @param fileContent the data to send
+ * @returns null or the fileID and complete URL to share this file
+ */
+export const getLatestDesktopReleaseFileToFsV2 = async (): Promise<string | null> => {
+  const queryParams = {
+    platform: 'desktop',
+  };
+
+  const request: FileServerV2Request = {
+    method: 'GET',
+    endpoint: RELEASE_VERSION_ENDPOINT,
+    queryParams,
+  };
+
+  const result = await sendApiV2Request(request);
+  const statusCode = parseStatusCodeFromOnionRequest(result);
+  if (statusCode !== 200) {
+    return null;
+  }
+
+  // we should probably change the logic of sendOnionRequest to not have all those levels
+  const latestVersionWithV = (result as any)?.result?.result as string | undefined;
+  if (!latestVersionWithV) {
+    return null;
+  }
+  return latestVersionWithV;
 };

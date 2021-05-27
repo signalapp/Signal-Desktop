@@ -6,10 +6,8 @@
   storage,
   textsecure,
   Whisper,
-  libsession,
   libsignal,
   BlockedNumberController,
-  libsession,
 */
 
 // eslint-disable-next-line func-names
@@ -91,7 +89,6 @@
 
   window.document.title = window.getTitle();
 
-  let messageReceiver;
   Whisper.events = _.clone(Backbone.Events);
   Whisper.events.isListenedTo = eventName =>
     Whisper.events._events ? !!Whisper.events._events[eventName] : false;
@@ -99,26 +96,6 @@
 
   window.log.info('Storage fetch');
   storage.fetch();
-
-  const initAPIs = () => {
-    if (window.initialisedAPI) {
-      return;
-    }
-    const ourKey = libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
-    // singleton to relay events to libtextsecure/message_receiver
-    window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
-
-    // singleton to interface the File server
-    // If already exists we registered as a secondary device
-    if (!window.lokiFileServerAPI) {
-      window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
-      window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
-        window.getDefaultFileServer()
-      );
-    }
-
-    window.initialisedAPI = true;
-  };
 
   function mapOldThemeToNew(theme) {
     switch (theme) {
@@ -187,10 +164,7 @@
         window.libsession.Utils.AttachmentDownloads.stop();
 
         // Stop processing incoming messages
-        if (messageReceiver) {
-          await messageReceiver.stopProcessing();
-          messageReceiver = null;
-        }
+        // FIXME audric stop polling opengroupv2 and swarm nodes
 
         // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
@@ -489,13 +463,6 @@
               window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(Date.now());
               await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(true);
             }
-
-            // inform all your registered public servers
-            // could put load on all the servers
-            // if they just keep changing their names without sending messages
-            // so we could disable this here
-            // or least it enable for the quickest response
-            window.lokiPublicChatAPI.setProfileName(newName);
           },
         });
       }
@@ -513,8 +480,6 @@
       window.setSettingValue('link-preview-setting', false);
     }
 
-    // Get memberlist. This function is not accurate >>
-    // window.getMemberList = window.lokiPublicChatAPI.getListOfMembers();
     window.setTheme = newTheme => {
       $(document.body)
         .removeClass('dark-theme')
@@ -685,9 +650,8 @@
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = null;
 
-    if (messageReceiver) {
-      await messageReceiver.close();
-    }
+    // FIXME audric stop polling opengroupv2 and swarm nodes
+
     window.libsession.Utils.AttachmentDownloads.stop();
   }
 
@@ -717,10 +681,6 @@
       return;
     }
 
-    if (messageReceiver) {
-      await messageReceiver.close();
-    }
-
     connectCount += 1;
     Whisper.Notifications.disable(); // avoid notification flood until empty
     setTimeout(() => {
@@ -728,14 +688,6 @@
     }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
 
     window.NewReceiver.queueAllCached();
-
-    initAPIs();
-    messageReceiver = new textsecure.MessageReceiver();
-    // those handleMessageEvent calls are only used by opengroupv1
-    messageReceiver.addEventListener('message', window.DataMessageReceiver.handleMessageEvent);
-    messageReceiver.addEventListener('sent', window.DataMessageReceiver.handleMessageEvent);
-    messageReceiver.addEventListener('reconnect', onReconnect);
-    messageReceiver.addEventListener('configuration', onConfiguration);
     window.SwarmPolling.addPubkey(window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache());
 
     window.SwarmPolling.start();
@@ -752,33 +704,5 @@
     window.readyForUpdates();
 
     Whisper.Notifications.enable();
-  }
-  function onReconnect() {
-    // We disable notifications on first connect, but the same applies to reconnect. In
-    //   scenarios where we're coming back from sleep, we can get offline/online events
-    //   very fast, and it looks like a network blip. But we need to suppress
-    //   notifications in these scenarios too. So we listen for 'reconnect' events.
-    Whisper.Notifications.disable();
-
-    // Enable back notifications once most messages have been fetched
-    setTimeout(() => {
-      Whisper.Notifications.enable();
-    }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
-  }
-  function onConfiguration(ev) {
-    const { configuration } = ev;
-    const { readReceipts, typingIndicators, linkPreviews } = configuration;
-
-    storage.put('read-receipt-setting', readReceipts);
-
-    if (typingIndicators === true || typingIndicators === false) {
-      storage.put('typing-indicators-setting', typingIndicators);
-    }
-
-    if (linkPreviews === true || linkPreviews === false) {
-      storage.put('link-preview-setting', linkPreviews);
-    }
-
-    ev.confirm();
   }
 })();

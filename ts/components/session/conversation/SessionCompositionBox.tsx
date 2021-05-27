@@ -399,33 +399,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       overridenQuery = '';
     }
     if (this.props.isPublic) {
-      this.fetchUsersForOpenGroup(overridenQuery, callback);
+      window.log.warn('mentions users for opengroup v2 todo');
       return;
     }
     if (!this.props.isPrivate) {
       this.fetchUsersForClosedGroup(overridenQuery, callback);
       return;
     }
-  }
-
-  private fetchUsersForOpenGroup(query: any, callback: any) {
-    void window.lokiPublicChatAPI
-      .getListOfMembers()
-      .then(members =>
-        members
-          .filter(d => !!d)
-          .filter(d => d.authorProfileName !== 'Anonymous')
-          .filter(d => d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase()))
-      )
-      // Transform the users to what react-mentions expects
-      .then(members => {
-        const toRet = members.map(user => ({
-          display: user.authorProfileName,
-          id: user.authorPhoneNumber,
-        }));
-        return toRet;
-      })
-      .then(callback);
   }
 
   private fetchUsersForClosedGroup(query: any, callback: any) {

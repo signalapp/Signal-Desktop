@@ -1,14 +1,12 @@
 import _ from 'lodash';
 import { getV2OpenGroupRoom } from '../data/opengroups';
-import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
-import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
+import { ConversationModel } from '../models/conversation';
 import { ApiV2 } from '../opengroup/opengroupV2';
 import { joinOpenGroupV2WithUIEvents } from '../opengroup/opengroupV2/JoinOpenGroupV2';
 import { isOpenGroupV2, openGroupV2CompleteURLRegex } from '../opengroup/utils/OpenGroupUtils';
 import { ConversationController } from '../session/conversations';
 import { PubKey } from '../session/types';
 import { ToastUtils } from '../session/utils';
-import { openConversationExternal } from '../state/ducks/conversations';
 
 export function banUser(userToBan: string, conversation?: ConversationModel) {
   let pubKeyToBan: PubKey;
@@ -36,12 +34,8 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
           success = await ApiV2.banUser(pubKeyToBan, _.pick(roomInfos, 'serverUrl', 'roomId'));
         }
       } else {
-        const channelAPI = await conversation.getPublicSendData();
-        if (!channelAPI) {
-          window?.log?.info('cannot ban user, the corresponding channelAPI was not found.');
-          return;
-        }
-        success = await channelAPI.banUser(userToBan);
+        window?.log?.info('cannot ban user, the not an opengroupv2.');
+        return;
       }
       if (success) {
         ToastUtils.pushUserBanSuccess();
@@ -152,69 +146,22 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
   }
 }
 
-async function acceptOpenGroupInvitationV1(serverAddress: string) {
-  try {
-    if (serverAddress.length === 0 || !OpenGroup.validate(serverAddress)) {
-      ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
-      return;
-    }
-
-    // Already connected?
-    if (OpenGroup.getConversation(serverAddress)) {
-      ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
-      return;
-    }
-    // To some degree this has been copy-pasted from LeftPaneMessageSection
-    const rawServerUrl = serverAddress.replace(/^https?:\/\//i, '').replace(/[/\\]+$/i, '');
-    const sslServerUrl = `https://${rawServerUrl}`;
-    const conversationId = `publicChat:1@${rawServerUrl}`;
-
-    const conversationExists = ConversationController.getInstance().get(conversationId);
-    if (conversationExists) {
-      window?.log?.warn('We are already a member of this public chat');
-      ToastUtils.pushAlreadyMemberOpenGroup();
-
-      return;
-    }
-
-    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
-      conversationId,
-      ConversationTypeEnum.GROUP
-    );
-    await conversation.setPublicSource(sslServerUrl, 1);
-
-    const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
-      sslServerUrl,
-      1,
-      conversationId
-    );
-    if (!channelAPI) {
-      window?.log?.warn(`Could not connect to ${serverAddress}`);
-      return;
-    }
-    openConversationExternal(conversationId);
-  } catch (e) {
-    window?.log?.warn('failed to join opengroupv1 from invitation', e);
-    ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
-  }
-}
-
 const acceptOpenGroupInvitationV2 = (completeUrl: string, roomName?: string) => {
   window.confirmationDialog({
     title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', roomName),
     message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', roomName),
-    resolve: () => joinOpenGroupV2WithUIEvents(completeUrl, true),
+    resolve: () => joinOpenGroupV2WithUIEvents(completeUrl, true, false),
   });
   // this function does not throw, and will showToasts if anything happens
 };
 
 /**
- * Accepts a v1 (channelid defaults to 1) url or a v2 url (with pubkey)
+ * Accepts a v2 url open group invitation (with pubkey) or just log an error
  */
-export const acceptOpenGroupInvitation = async (completeUrl: string, roomName?: string) => {
+export const acceptOpenGroupInvitation = (completeUrl: string, roomName?: string) => {
   if (completeUrl.match(openGroupV2CompleteURLRegex)) {
     acceptOpenGroupInvitationV2(completeUrl, roomName);
   } else {
-    await acceptOpenGroupInvitationV1(completeUrl);
+    window?.log?.warn('Invalid opengroup url:', completeUrl);
   }
 };

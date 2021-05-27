@@ -40,7 +40,6 @@ import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
 import { IMAGE_JPEG } from '../../types/MIME';
 import { FSv2 } from '../../fileserver';
-import { stringToArrayBuffer } from '../../session/utils/String';
 import { debounce } from 'underscore';
 import { DURATION } from '../../session/constants';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports

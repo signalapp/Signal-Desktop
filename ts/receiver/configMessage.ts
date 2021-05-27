@@ -1,7 +1,11 @@
 import _ from 'lodash';
 import { createOrUpdateItem, getItemById, hasSyncedInitialConfigurationItem } from '../data/data';
 import { ConversationTypeEnum } from '../models/conversation';
-import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
+import {
+  joinOpenGroupV2WithUIEvents,
+  parseOpenGroupV2,
+} from '../opengroup/opengroupV2/JoinOpenGroupV2';
+import { getOpenGroupV2ConversationId } from '../opengroup/utils/OpenGroupUtils';
 import { SignalService } from '../protobuf';
 import { ConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';
@@ -91,16 +95,22 @@ async function handleGroupsAndContactsFromConfigMessage(
     })
   );
 
-  const allOpenGroups = OpenGroup.getAllAlreadyJoinedOpenGroupsUrl();
   const numberOpenGroup = configMessage.openGroups?.length || 0;
 
   // Trigger a join for all open groups we are not already in.
   // Currently, if you left an open group but kept the conversation, you won't rejoin it here.
   for (let i = 0; i < numberOpenGroup; i++) {
-    const current = configMessage.openGroups[i];
-    if (!allOpenGroups.includes(current)) {
-      window?.log?.info(`triggering join of public chat '${current}' from ConfigurationMessage`);
-      void OpenGroup.join(current);
+    const currentOpenGroupUrl = configMessage.openGroups[i];
+    const parsedRoom = parseOpenGroupV2(currentOpenGroupUrl);
+    if (!parsedRoom) {
+      continue;
+    }
+    const roomConvoId = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
+    if (!ConversationController.getInstance().get(roomConvoId)) {
+      window?.log?.info(
+        `triggering join of public chat '${currentOpenGroupUrl}' from ConfigurationMessage`
+      );
+      void joinOpenGroupV2WithUIEvents(currentOpenGroupUrl, false, true);
     }
   }
   if (configMessage.contacts?.length) {

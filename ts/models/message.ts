@@ -301,7 +301,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       serverAddress,
       direction,
       onJoinClick: () => {
-        void acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
+        acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
       },
     };
   }
