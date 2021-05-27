@@ -733,6 +733,7 @@ const URL_CALLS = {
   profile: 'v1/profile',
   registerCapabilities: 'v1/devices/capabilities',
   removeSignalingKey: 'v1/accounts/signaling_key',
+  reportMessage: 'v1/messages/report',
   signed: 'v2/keys/signed',
   storageManifest: 'v1/storage/manifest',
   storageModify: 'v1/storage/',
@@ -926,6 +927,7 @@ export type WebAPIType = {
   registerKeys: (genKeys: KeysType) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<any>;
   removeSignalingKey: () => Promise<void>;
+  reportMessage: (senderE164: string, serverGuid: string) => Promise<void>;
   requestVerificationSMS: (number: string) => Promise<any>;
   requestVerificationVoice: (number: string) => Promise<any>;
   sendMessages: (
@@ -1115,6 +1117,7 @@ export function initialize({
       registerKeys,
       registerSupportForUnauthenticatedDelivery,
       removeSignalingKey,
+      reportMessage,
       requestVerificationSMS,
       requestVerificationVoice,
       sendMessages,
@@ -1401,6 +1404,18 @@ export function initialize({
           return href.replace(pattern, `[REDACTED]${path.slice(-3)}`);
         },
         version,
+      });
+    }
+
+    async function reportMessage(
+      senderE164: string,
+      serverGuid: string
+    ): Promise<void> {
+      await _ajax({
+        call: 'reportMessage',
+        httpType: 'POST',
+        urlParameters: `/${senderE164}/${serverGuid}`,
+        responseType: 'arraybuffer',
       });
     }
 

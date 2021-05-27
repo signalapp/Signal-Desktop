@@ -838,6 +838,7 @@ class MessageReceiverInner extends EventTarget {
               source: envelope.source,
               sourceUuid: envelope.sourceUuid,
               sourceDevice: envelope.sourceDevice,
+              serverGuid: envelope.serverGuid,
               serverTimestamp: envelope.serverTimestamp,
               decrypted: MessageReceiverInner.arrayBufferToStringBase64(
                 plaintext
@@ -1561,6 +1562,7 @@ class MessageReceiverInner extends EventTarget {
           sourceUuid: envelope.sourceUuid,
           sourceDevice: envelope.sourceDevice,
           timestamp: envelope.timestamp.toNumber(),
+          serverGuid: envelope.serverGuid,
           serverTimestamp: envelope.serverTimestamp,
           unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
           message,

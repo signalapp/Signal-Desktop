@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { get, throttle } from 'lodash';
-import { WebAPIType } from './textsecure/WebAPI';
+import { connectToServerWithStoredCredentials } from './util/connectToServerWithStoredCredentials';
 
 export type ConfigKeyType =
   | 'desktop.clientExpiration'
@@ -29,17 +29,6 @@ type ConfigListenersMapType = {
   [key: string]: Array<ConfigListenerType>;
 };
 
-function getServer(): WebAPIType {
-  const OLD_USERNAME = window.storage.get<string>('number_id');
-  const USERNAME = window.storage.get<string>('uuid_id');
-  const PASSWORD = window.storage.get<string>('password');
-
-  return window.WebAPI.connect({
-    username: (USERNAME || OLD_USERNAME) as string,
-    password: PASSWORD as string,
-  });
-}
-
 let config: ConfigMapType = {};
 const listeners: ConfigListenersMapType = {};
 
@@ -63,7 +52,10 @@ export function onChange(
 
 export const refreshRemoteConfig = async (): Promise<void> => {
   const now = Date.now();
-  const server = getServer();
+  const server = connectToServerWithStoredCredentials(
+    window.WebAPI,
+    window.storage
+  );
   const newConfig = await server.getConfig();
 
   // Process new configuration in light of the old configuration

@@ -20,6 +20,7 @@ export type UnprocessedType = {
   envelope?: string;
   id: string;
   timestamp: number;
+  serverGuid?: string;
   serverTimestamp?: number;
   source?: string;
   sourceDevice?: number;

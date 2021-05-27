@@ -280,7 +280,7 @@ const actions = () => ({
   ),
 
   onBlock: action('onBlock'),
-  onBlockAndDelete: action('onBlockAndDelete'),
+  onBlockAndReportSpam: action('onBlockAndReportSpam'),
   onDelete: action('onDelete'),
   onUnblock: action('onUnblock'),
 

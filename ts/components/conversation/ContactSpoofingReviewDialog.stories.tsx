@@ -21,7 +21,7 @@ story.add('Default', () => (
   <ContactSpoofingReviewDialog
     i18n={i18n}
     onBlock={action('onBlock')}
-    onBlockAndDelete={action('onBlockAndDelete')}
+    onBlockAndReportSpam={action('onBlockAndReportSpam')}
     onClose={action('onClose')}
     onDelete={action('onDelete')}
     onShowContactModal={action('onShowContactModal')}

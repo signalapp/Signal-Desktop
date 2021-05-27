@@ -136,6 +136,7 @@ export type UnprocessedType = {
   source?: string;
   sourceUuid?: string;
   sourceDevice?: number;
+  serverGuid?: string;
   serverTimestamp?: number;
   decrypted?: string;
 };
@@ -144,6 +145,7 @@ export type UnprocessedUpdateType = {
   source?: string;
   sourceUuid?: string;
   sourceDevice?: string;
+  serverGuid?: string;
   serverTimestamp?: number;
   decrypted?: string;
 };
@@ -301,6 +303,9 @@ export type DataInterface = {
     conversationId: string,
     options: { limit: number }
   ) => Promise<Array<MessageType>>;
+  getMessageServerGuidsForSpam: (
+    conversationId: string
+  ) => Promise<Array<string>>;
 
   getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
   insertJob(job: Readonly<StoredJob>): Promise<void>;

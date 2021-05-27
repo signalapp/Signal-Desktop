@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -61,7 +61,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   conversationType: 'direct',
   onAccept: action('onAccept'),
   onBlock: action('onBlock'),
-  onBlockAndDelete: action('onBlockAndDelete'),
+  onBlockAndReportSpam: action('onBlockAndReportSpam'),
   onDelete: action('onDelete'),
   onUnblock: action('onUnblock'),
   messageRequestsEnabled: boolean(

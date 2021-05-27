@@ -110,7 +110,7 @@ type PropsActionsType = {
   loadNewestMessages: (messageId: string, setFocus?: boolean) => unknown;
   markMessageRead: (messageId: string) => unknown;
   onBlock: () => unknown;
-  onBlockAndDelete: () => unknown;
+  onBlockAndReportSpam: () => unknown;
   onDelete: () => unknown;
   onUnblock: () => unknown;
   selectMessage: (messageId: string, conversationId: string) => unknown;
@@ -1168,7 +1168,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       isGroupV1AndDisabled,
       items,
       onBlock,
-      onBlockAndDelete,
+      onBlockAndReportSpam,
       onDelete,
       onUnblock,
       showContactModal,
@@ -1314,7 +1314,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           <ContactSpoofingReviewDialog
             i18n={i18n}
             onBlock={onBlock}
-            onBlockAndDelete={onBlockAndDelete}
+            onBlockAndReportSpam={onBlockAndReportSpam}
             onClose={closeContactSpoofingReview}
             onDelete={onDelete}
             onShowContactModal={showContactModal}

@@ -18,7 +18,7 @@ import { assert } from '../../util/assert';
 type PropsType = {
   i18n: LocalizerType;
   onBlock: () => unknown;
-  onBlockAndDelete: () => unknown;
+  onBlockAndReportSpam: () => unknown;
   onClose: () => void;
   onDelete: () => unknown;
   onShowContactModal: (contactId: string) => unknown;
@@ -30,7 +30,7 @@ type PropsType = {
 export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> = ({
   i18n,
   onBlock,
-  onBlockAndDelete,
+  onBlockAndReportSpam,
   onClose,
   onDelete,
   onShowContactModal,
@@ -56,7 +56,7 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> = ({
       <MessageRequestActionsConfirmation
         i18n={i18n}
         onBlock={onBlock}
-        onBlockAndDelete={onBlockAndDelete}
+        onBlockAndReportSpam={onBlockAndReportSpam}
         onUnblock={onUnblock}
         onDelete={onDelete}
         name={possiblyUnsafeConversation.name}

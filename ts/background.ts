@@ -22,6 +22,7 @@ import { ourProfileKeyService } from './services/ourProfileKey';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
 import { setToExpire } from './services/MessageUpdater';
 import { LatestQueue } from './util/LatestQueue';
+import { connectToServerWithStoredCredentials } from './util/connectToServerWithStoredCredentials';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -2006,10 +2007,10 @@ export async function startApp(): Promise<void> {
 
       const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
       if (!window.storage.get(udSupportKey)) {
-        const server = window.WebAPI.connect({
-          username: USERNAME || OLD_USERNAME,
-          password: PASSWORD,
-        });
+        const server = connectToServerWithStoredCredentials(
+          window.WebAPI,
+          window.storage
+        );
         try {
           await server.registerSupportForUnauthenticatedDelivery();
           window.storage.put(udSupportKey, true);
@@ -2050,10 +2051,10 @@ export async function startApp(): Promise<void> {
       }
 
       if (connectCount === 1) {
-        const server = window.WebAPI.connect({
-          username: USERNAME || OLD_USERNAME,
-          password: PASSWORD,
-        });
+        const server = connectToServerWithStoredCredentials(
+          window.WebAPI,
+          window.storage
+        );
         try {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
@@ -3151,6 +3152,7 @@ export async function startApp(): Promise<void> {
       sourceUuid: data.sourceUuid,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
+      serverGuid: data.serverGuid,
       serverTimestamp: data.serverTimestamp,
       received_at: data.receivedAtCounter,
       received_at_ms: data.receivedAtDate,

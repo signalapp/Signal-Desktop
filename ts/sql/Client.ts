@@ -235,6 +235,7 @@ const dataInterface: ClientInterface = {
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
+  getMessageServerGuidsForSpam,
 
   getJobsInQueue,
   insertJob,
@@ -1529,6 +1530,12 @@ async function getMessagesWithFileAttachments(
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit,
   });
+}
+
+function getMessageServerGuidsForSpam(
+  conversationId: string
+): Promise<Array<string>> {
+  return channels.getMessageServerGuidsForSpam(conversationId);
 }
 
 function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {

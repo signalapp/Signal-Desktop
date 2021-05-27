@@ -12,6 +12,8 @@ import { MessageModel } from '../models/messages';
 import { MessageType } from '../state/ducks/conversations';
 import { assert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
+import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
+import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -315,6 +317,11 @@ Whisper.AlreadyGroupMemberToast = Whisper.ToastView.extend({
 
 Whisper.AlreadyRequestedToJoinToast = Whisper.ToastView.extend({
   template: () => window.i18n('GroupV2--join--already-awaiting-approval'),
+});
+
+const ReportedSpamAndBlockedToast = Whisper.ToastView.extend({
+  template: () =>
+    window.i18n('MessageRequests--block-and-report-spam-success-toast'),
 });
 
 Whisper.ConversationLoadingScreen = Whisper.View.extend({
@@ -638,11 +645,8 @@ Whisper.ConversationView = Whisper.View.extend({
       onDelete: () => {
         this.syncMessageRequestResponse('onDelete', messageRequestEnum.DELETE);
       },
-      onBlockAndDelete: () => {
-        this.syncMessageRequestResponse(
-          'onBlockAndDelete',
-          messageRequestEnum.BLOCK_AND_DELETE
-        );
+      onBlockAndReportSpam: () => {
+        this.blockAndReportSpam();
       },
       onStartGroupMigration: () => this.startMigrationToGV2(),
       onCancelJoinRequest: async () => {
@@ -963,11 +967,8 @@ Whisper.ConversationView = Whisper.View.extend({
         onBlock: () => {
           this.syncMessageRequestResponse('onBlock', messageRequestEnum.BLOCK);
         },
-        onBlockAndDelete: () => {
-          this.syncMessageRequestResponse(
-            'onBlockAndDelete',
-            messageRequestEnum.BLOCK_AND_DELETE
-          );
+        onBlockAndReportSpam: () => {
+          this.blockAndReportSpam();
         },
         onDelete: () => {
           this.syncMessageRequestResponse(
@@ -1459,6 +1460,28 @@ Whisper.ConversationView = Whisper.View.extend({
     return this.longRunningTaskWrapper({
       name,
       task: model.syncMessageRequestResponse.bind(model, messageRequestType),
+    });
+  },
+
+  blockAndReportSpam(): Promise<void> {
+    const messageRequestEnum =
+      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+    const { model }: { model: ConversationModel } = this;
+
+    return this.longRunningTaskWrapper({
+      name: 'blockAndReportSpam',
+      task: async () => {
+        await Promise.all([
+          model.syncMessageRequestResponse(messageRequestEnum.BLOCK),
+          addReportSpamJob({
+            conversation: model.format(),
+            getMessageServerGuidsForSpam:
+              window.Signal.Data.getMessageServerGuidsForSpam,
+            jobQueue: reportSpamJobQueue,
+          }),
+        ]);
+        this.showToast(ReportedSpamAndBlockedToast);
+      },
     });
   },
 

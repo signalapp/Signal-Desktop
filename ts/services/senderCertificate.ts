@@ -12,6 +12,7 @@ import { assert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { waitForOnline } from '../util/waitForOnline';
 import * as log from '../logging/log';
+import { connectToServerWithStoredCredentials } from '../util/connectToServerWithStoredCredentials';
 
 // We define a stricter storage here that returns `unknown` instead of `any`.
 type Storage = {
@@ -200,20 +201,7 @@ export class SenderCertificateService {
       'Sender certificate service method was called before it was initialized'
     );
 
-    const username = storage.get('uuid_id') || storage.get('number_id');
-    const password = storage.get('password');
-    if (typeof username !== 'string') {
-      throw new Error(
-        'Sender certificate service: username in storage was not a string. Cannot connect'
-      );
-    }
-    if (typeof password !== 'string') {
-      throw new Error(
-        'Sender certificate service: password in storage was not a string. Cannot connect'
-      );
-    }
-
-    const server = WebAPI.connect({ username, password });
+    const server = connectToServerWithStoredCredentials(WebAPI, storage);
     const omitE164 = mode === SenderCertificateMode.WithoutE164;
     const { certificate } = await server.getSenderCertificate(omitE164);
     return certificate;

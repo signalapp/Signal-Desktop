@@ -636,7 +636,7 @@ describe('Backup', () => {
           'Backup test: Check that all attachments were successfully imported'
         );
         const messageWithAttachmentsFromDB = await loadAllFilesFromDisk(
-          messageFromDB
+          omitUndefinedKeys(messageFromDB)
         );
         const expectedMessageWithAttachments = await loadAllFilesFromDisk(
           omitUndefinedKeys(message)

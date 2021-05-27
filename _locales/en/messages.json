@@ -2956,9 +2956,13 @@
       }
     }
   },
-  "MessageRequests--block-and-delete": {
-    "message": "Block and Delete",
-    "description": "Shown as a button to let the user block and delete a message request"
+  "MessageRequests--block-and-report-spam": {
+    "message": "Report Spam and Block",
+    "description": "Shown as a button to let the user block a message request and report spam"
+  },
+  "MessageRequests--block-and-report-spam-success-toast": {
+    "message": "Reported as spam and blocked.",
+    "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
     "message": "Block $name$?",

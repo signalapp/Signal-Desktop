@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -19,7 +19,7 @@ export type Props = {
   conversationType: 'group' | 'direct';
   isBlocked?: boolean;
   onBlock(): unknown;
-  onBlockAndDelete(): unknown;
+  onBlockAndReportSpam(): unknown;
   onUnblock(): unknown;
   onDelete(): unknown;
   state: MessageRequestState;
@@ -31,7 +31,7 @@ export const MessageRequestActionsConfirmation = ({
   i18n,
   name,
   onBlock,
-  onBlockAndDelete,
+  onBlockAndReportSpam,
   onChangeState,
   onDelete,
   onUnblock,
@@ -64,14 +64,18 @@ export const MessageRequestActionsConfirmation = ({
           />
         }
         actions={[
+          ...(conversationType === 'direct'
+            ? [
+                {
+                  text: i18n('MessageRequests--block-and-report-spam'),
+                  action: onBlockAndReportSpam,
+                  style: 'negative' as const,
+                },
+              ]
+            : []),
           {
             text: i18n('MessageRequests--block'),
             action: onBlock,
-            style: 'negative',
-          },
-          {
-            text: i18n('MessageRequests--block-and-delete'),
-            action: onBlockAndDelete,
             style: 'negative',
           },
         ]}

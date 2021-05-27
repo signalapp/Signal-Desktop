@@ -101,6 +101,11 @@
       margin-left: 8px;
       margin-top: 8px;
     }
+
+    &--one-button-per-line {
+      flex-direction: column;
+      align-items: flex-end;
+    }
   }
 
   // Overrides for a modal with important message

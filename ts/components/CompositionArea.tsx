@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -147,7 +147,7 @@ export const CompositionArea = ({
   name,
   onAccept,
   onBlock,
-  onBlockAndDelete,
+  onBlockAndReportSpam,
   onDelete,
   onUnblock,
   phoneNumber,
@@ -374,7 +374,7 @@ export const CompositionArea = ({
         conversationType={conversationType}
         isBlocked={isBlocked}
         onBlock={onBlock}
-        onBlockAndDelete={onBlockAndDelete}
+        onBlockAndReportSpam={onBlockAndReportSpam}
         onUnblock={onUnblock}
         onDelete={onDelete}
         onAccept={onAccept}
@@ -428,7 +428,7 @@ export const CompositionArea = ({
         i18n={i18n}
         conversationType={conversationType}
         onBlock={onBlock}
-        onBlockAndDelete={onBlockAndDelete}
+        onBlockAndReportSpam={onBlockAndReportSpam}
         onDelete={onDelete}
         onAccept={onAccept}
         name={name}

@@ -225,6 +225,7 @@ const dataInterface: ServerInterface = {
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
+  getMessageServerGuidsForSpam,
 
   getJobsInQueue,
   insertJob,
@@ -1834,6 +1835,25 @@ function updateToSchemaVersion31(currentVersion: number, db: Database): void {
   console.log('updateToSchemaVersion31: success!');
 }
 
+function updateToSchemaVersion32(currentVersion: number, db: Database) {
+  if (currentVersion >= 32) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      ALTER TABLE messages
+      ADD COLUMN serverGuid STRING NULL;
+
+      ALTER TABLE unprocessed
+      ADD COLUMN serverGuid STRING NULL;
+    `);
+
+    db.pragma('user_version = 32');
+  })();
+  console.log('updateToSchemaVersion32: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1866,6 +1886,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion29,
   updateToSchemaVersion30,
   updateToSchemaVersion31,
+  updateToSchemaVersion32,
 ];
 
 function updateSchema(db: Database): void {
@@ -2934,6 +2955,7 @@ function saveMessageSync(
     received_at,
     schemaVersion,
     sent_at,
+    serverGuid,
     source,
     sourceUuid,
     sourceDevice,
@@ -2959,6 +2981,7 @@ function saveMessageSync(
     isViewOnce: isViewOnce ? 1 : 0,
     received_at: received_at || null,
     schemaVersion,
+    serverGuid: serverGuid || null,
     sent_at: sent_at || null,
     source: source || null,
     sourceUuid: sourceUuid || null,
@@ -2987,6 +3010,7 @@ function saveMessageSync(
         isViewOnce = $isViewOnce,
         received_at = $received_at,
         schemaVersion = $schemaVersion,
+        serverGuid = $serverGuid,
         sent_at = $sent_at,
         source = $source,
         sourceUuid = $sourceUuid,
@@ -3024,6 +3048,7 @@ function saveMessageSync(
       isViewOnce,
       received_at,
       schemaVersion,
+      serverGuid,
       sent_at,
       source,
       sourceUuid,
@@ -3046,6 +3071,7 @@ function saveMessageSync(
       $isViewOnce,
       $received_at,
       $schemaVersion,
+      $serverGuid,
       $sent_at,
       $source,
       $sourceUuid,
@@ -4012,6 +4038,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     source,
     sourceUuid,
     sourceDevice,
+    serverGuid,
     serverTimestamp,
     decrypted,
   } = data;
@@ -4031,6 +4058,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
       source,
       sourceUuid,
       sourceDevice,
+      serverGuid,
       serverTimestamp,
       decrypted
     ) values (
@@ -4042,6 +4070,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
       $source,
       $sourceUuid,
       $sourceDevice,
+      $serverGuid,
       $serverTimestamp,
       $decrypted
     );
@@ -4055,6 +4084,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     source: source || null,
     sourceUuid: sourceUuid || null,
     sourceDevice: sourceDevice || null,
+    serverGuid: serverGuid || null,
     serverTimestamp: serverTimestamp || null,
     decrypted: decrypted || null,
   });
@@ -4084,7 +4114,14 @@ function updateUnprocessedWithDataSync(
   data: UnprocessedUpdateType
 ): void {
   const db = getInstance();
-  const { source, sourceUuid, sourceDevice, serverTimestamp, decrypted } = data;
+  const {
+    source,
+    sourceUuid,
+    sourceDevice,
+    serverGuid,
+    serverTimestamp,
+    decrypted,
+  } = data;
 
   prepare(
     db,
@@ -4093,6 +4130,7 @@ function updateUnprocessedWithDataSync(
       source = $source,
       sourceUuid = $sourceUuid,
       sourceDevice = $sourceDevice,
+      serverGuid = $serverGuid,
       serverTimestamp = $serverTimestamp,
       decrypted = $decrypted
     WHERE id = $id;
@@ -4102,6 +4140,7 @@ function updateUnprocessedWithDataSync(
     source: source || null,
     sourceUuid: sourceUuid || null,
     sourceDevice: sourceDevice || null,
+    serverGuid: serverGuid || null,
     serverTimestamp: serverTimestamp || null,
     decrypted: decrypted || null,
   });
@@ -4908,6 +4947,29 @@ async function getMessagesWithFileAttachments(
     });
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getMessageServerGuidsForSpam(
+  conversationId: string
+): Promise<Array<string>> {
+  const db = getInstance();
+
+  // The server's maximum is 3, which is why you see `LIMIT 3` in this query. Note that we
+  //   use `pluck` here to only get the first column!
+  return db
+    .prepare<Query>(
+      `
+      SELECT serverGuid
+      FROM messages
+      WHERE conversationId = $conversationId
+      AND type = 'incoming'
+      AND serverGuid IS NOT NULL
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT 3;
+      `
+    )
+    .pluck(true)
+    .all({ conversationId });
 }
 
 function getExternalFilesForMessage(message: MessageType): Array<string> {
