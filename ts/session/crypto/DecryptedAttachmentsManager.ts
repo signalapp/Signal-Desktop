@@ -9,7 +9,7 @@
 import toArrayBuffer from 'to-arraybuffer';
 import * as fse from 'fs-extra';
 import { decryptAttachmentBuffer } from '../../types/Attachment';
-import { HOURS } from '../utils/Number';
+import { DURATION } from '../constants';
 
 // FIXME.
 // add a way to remove the blob when the attachment file path is removed (message removed?)
@@ -23,7 +23,7 @@ export const cleanUpOldDecryptedMedias = () => {
   window?.log?.info('Starting cleaning of medias blobs...');
   for (const iterator of urlToDecryptedBlobMap) {
     // if the last access is older than one hour, revoke the url and remove it.
-    if (iterator[1].lastAccessTimestamp < currentTimestamp - HOURS * 1) {
+    if (iterator[1].lastAccessTimestamp < currentTimestamp - DURATION.HOURS * 1) {
       URL.revokeObjectURL(iterator[1].decrypted);
       urlToDecryptedBlobMap.delete(iterator[0]);
       countCleaned++;

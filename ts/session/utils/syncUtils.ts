@@ -5,7 +5,6 @@ import {
 } from '../../../ts/data/data';
 import { getMessageQueue } from '..';
 import { ConversationController } from '../conversations';
-import { DAYS } from './Number';
 import uuid from 'uuid';
 import { UserUtils } from '.';
 import { ECKeyPair } from '../../receiver/keypairs';
@@ -28,6 +27,7 @@ import {
 import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { getV2OpenGroupRoom } from '../../data/opengroups';
 import { getCompleteUrlFromRoom } from '../../opengroup/utils/OpenGroupUtils';
+import { DURATION } from '../constants';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -42,7 +42,7 @@ export const syncConfigurationIfNeeded = async () => {
   const now = Date.now();
 
   // if the last sync was less than 2 days before, return early.
-  if (Math.abs(now - lastSyncedTimestamp) < DAYS * 7) {
+  if (Math.abs(now - lastSyncedTimestamp) < DURATION.DAYS * 7) {
     return;
   }
 

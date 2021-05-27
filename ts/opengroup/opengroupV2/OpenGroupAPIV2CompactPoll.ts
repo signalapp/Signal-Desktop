@@ -10,6 +10,7 @@ import { sendViaOnion } from '../../session/onions/onionSend';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { downloadPreviewOpenGroupV2, getMemberCount } from './OpenGroupAPIV2';
 import { getAuthToken } from './ApiAuth';
+import { DURATION } from '../../session/constants';
 
 const COMPACT_POLL_ENDPOINT = 'compact_poll';
 

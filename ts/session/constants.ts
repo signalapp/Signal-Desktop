@@ -1,9 +1,20 @@
-import { DAYS, SECONDS } from './utils/Number';
 // tslint:disable: binary-expression-operand-order
 
+const seconds = 1000;
+const minutes = seconds * 60;
+const hours = minutes * 60;
+const days = hours * 24;
+
+export const DURATION = {
+  SECONDS: seconds, // in ms
+  MINUTES: minutes, // in ms
+  HOURS: hours, // in ms
+  DAYS: days, // in ms
+};
+
 export const TTL_DEFAULT = {
-  TYPING_MESSAGE: 20 * SECONDS,
-  TTL_MAX: 14 * DAYS,
+  TYPING_MESSAGE: 20 * DURATION.SECONDS,
+  TTL_MAX: 14 * DURATION.DAYS,
 };
 
 export const PROTOCOLS = {

@@ -17,15 +17,15 @@ import { getMessageIdsFromServerIds, removeMessage } from '../../data/data';
 import { getV2OpenGroupRoom, OpenGroupV2Room, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
-import { DAYS, MINUTES, SECONDS } from '../../session/utils/Number';
 import autoBind from 'auto-bind';
 import { sha256 } from '../../session/crypto';
 import { fromBase64ToArrayBuffer } from '../../session/utils/String';
 import { getAuthToken } from './ApiAuth';
+import { DURATION } from '../../session/constants';
 
-const pollForEverythingInterval = SECONDS * 4;
-const pollForRoomAvatarInterval = DAYS * 1;
-const pollForMemberCountInterval = MINUTES * 10;
+const pollForEverythingInterval = DURATION.SECONDS * 4;
+const pollForRoomAvatarInterval = DURATION.DAYS * 1;
+const pollForMemberCountInterval = DURATION.MINUTES * 10;
 
 /**
  * An OpenGroupServerPollerV2 polls for everything for a particular server. We should
