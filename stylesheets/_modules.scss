@@ -8970,6 +8970,7 @@ button.module-image__border-overlay:focus {
       caret-color: transparent;
       padding: 0;
       text-align: start;
+      white-space: break-spaces;
 
       &--loaded {
         caret-color: auto;
