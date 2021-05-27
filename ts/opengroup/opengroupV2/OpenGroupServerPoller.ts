@@ -410,6 +410,7 @@ const handleNewMessages = async (
 
     if (roomInfos && roomInfos.lastMessageFetchedServerID !== maxNewMessageId) {
       roomInfos.lastMessageFetchedServerID = maxNewMessageId;
+      roomInfos.lastFetchTimestamp = Date.now();
       await saveV2OpenGroupRoom(roomInfos);
     }
   } catch (e) {
