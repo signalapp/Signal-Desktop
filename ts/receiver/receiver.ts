@@ -89,7 +89,7 @@ const envelopeQueue = new EnvelopeQueue();
 
 function queueEnvelope(envelope: EnvelopePlus) {
   const id = getEnvelopeId(envelope);
-  window.log.info('queueing envelope', id);
+  window?.log?.info('queueing envelope', id);
 
   const task = handleEnvelope.bind(null, envelope);
   const taskWithTimeout = window.textsecure.createTaskWithTimeout(task, `queueEnvelope ${id}`);
@@ -97,7 +97,7 @@ function queueEnvelope(envelope: EnvelopePlus) {
   try {
     envelopeQueue.add(taskWithTimeout);
   } catch (error) {
-    window.log.error(
+    window?.log?.error(
       'queueEnvelope error handling envelope',
       id,
       ':',
@@ -153,7 +153,7 @@ async function handleRequestDetail(
 
     queueEnvelope(envelope);
   } catch (error) {
-    window.log.error(
+    window?.log?.error(
       'handleRequest error trying to add message to cache:',
       error && error.stack ? error.stack : error
     );
@@ -167,7 +167,7 @@ export function handleRequest(body: any, options: ReqOptions): void {
   const plaintext = body;
 
   const promise = handleRequestDetail(plaintext, options, lastPromise).catch(e => {
-    window.log.error('Error handling incoming message:', e && e.stack ? e.stack : e);
+    window?.log?.error('Error handling incoming message:', e && e.stack ? e.stack : e);
 
     void onError(e);
   });
@@ -221,7 +221,7 @@ async function queueCached(item: any) {
       queueEnvelope(envelope);
     }
   } catch (error) {
-    window.log.error(
+    window?.log?.error(
       'queueCached error handling item',
       item.id,
       'removing it. Error:',
@@ -232,7 +232,7 @@ async function queueCached(item: any) {
       const { id } = item;
       await removeUnprocessed(id);
     } catch (deleteError) {
-      window.log.error(
+      window?.log?.error(
         'queueCached error deleting item',
         item.id,
         'Error:',
@@ -244,7 +244,7 @@ async function queueCached(item: any) {
 
 function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
   const id = getEnvelopeId(envelope);
-  window.log.info('queueing decrypted envelope', id);
+  window?.log?.info('queueing decrypted envelope', id);
 
   const task = handleDecryptedEnvelope.bind(null, envelope, plaintext);
   const taskWithTimeout = window.textsecure.createTaskWithTimeout(
@@ -254,7 +254,7 @@ function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
   try {
     envelopeQueue.add(taskWithTimeout);
   } catch (error) {
-    window.log.error(
+    window?.log?.error(
       `queueDecryptedEnvelope error handling envelope ${id}:`,
       error && error.stack ? error.stack : error
     );
@@ -316,7 +316,7 @@ export async function handleOpenGroupV2Message(
   const { base64EncodedData, sentTimestamp, sender, serverId } = message;
   const { serverUrl, roomId } = roomInfos;
   if (!base64EncodedData || !sentTimestamp || !sender || !serverId) {
-    window.log.warn('Invalid data passed to handleMessageEvent.', message);
+    window?.log?.warn('Invalid data passed to handleMessageEvent.', message);
     return;
   }
 
@@ -327,17 +327,17 @@ export async function handleOpenGroupV2Message(
 
   const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
   if (!conversationId) {
-    window.log.error('We cannot handle a message without a conversationId');
+    window?.log?.error('We cannot handle a message without a conversationId');
     return;
   }
   const dataMessage = decoded?.dataMessage;
   if (!dataMessage) {
-    window.log.error('Invalid decoded opengroup message: no dataMessage');
+    window?.log?.error('Invalid decoded opengroup message: no dataMessage');
     return;
   }
 
   if (!ConversationController.getInstance().get(conversationId)) {
-    window.log.error('Received a message for an unknown convo. Skipping');
+    window?.log?.error('Received a message for an unknown convo. Skipping');
     return;
   }
   const isMe = UserUtils.isUsFromCache(sender);
@@ -357,7 +357,7 @@ export async function handleOpenGroupV2Message(
   };
 
   if (await isMessageDuplicate(messageCreationData)) {
-    window.log.info('Received duplicate message. Dropping it.');
+    window?.log?.info('Received duplicate message. Dropping it.');
     return;
   }
 
@@ -375,7 +375,7 @@ export async function handleOpenGroupV2Message(
   );
 
   if (!conversation) {
-    window.log.warn('Skipping handleJob for unknown convo: ', conversationId);
+    window?.log?.warn('Skipping handleJob for unknown convo: ', conversationId);
     return;
   }
 

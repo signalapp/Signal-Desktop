@@ -34,6 +34,7 @@ import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgo
 import { queueAllCachedFromSource } from './receiver';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { SwarmPolling } from '../session/snode_api/swarmPolling';
+import { MessageModel } from '../models/message';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -43,20 +44,20 @@ export async function handleClosedGroupControlMessage(
 ) {
   const { type } = groupUpdate;
   const { Type } = SignalService.DataMessage.ClosedGroupControlMessage;
-  window.log.info(
+  window?.log?.info(
     ` handle closed group update from ${envelope.senderIdentity || envelope.source} about group ${
       envelope.source
     }`
   );
 
   if (BlockedNumberController.isGroupBlocked(PubKey.cast(envelope.source))) {
-    window.log.warn('Message ignored; destined for blocked group');
+    window?.log?.warn('Message ignored; destined for blocked group');
     await removeFromCache(envelope);
     return;
   }
 
   if (type === Type.UPDATE) {
-    window.log.error('ClosedGroup: Got a non explicit group update. dropping it ', type);
+    window?.log?.error('ClosedGroup: Got a non explicit group update. dropping it ', type);
     await removeFromCache(envelope);
     return;
   }
@@ -84,7 +85,7 @@ export async function handleClosedGroupControlMessage(
     return;
   }
 
-  window.log.error('Unknown group update type: ', type);
+  window?.log?.error('Unknown group update type: ', type);
   await removeFromCache(envelope);
 }
 
@@ -93,56 +94,58 @@ function sanityCheckNewGroup(
 ): boolean {
   // for a new group message, we need everything to be set
   const { name, publicKey, members, admins, encryptionKeyPair } = groupUpdate;
-  const { log } = window;
 
   if (!name?.length) {
-    log.warn('groupUpdate: name is empty');
+    window?.log?.warn('groupUpdate: name is empty');
     return false;
   }
 
   if (!name?.length) {
-    log.warn('groupUpdate: name is empty');
+    window?.log?.warn('groupUpdate: name is empty');
     return false;
   }
 
   if (!publicKey?.length) {
-    log.warn('groupUpdate: publicKey is empty');
+    window?.log?.warn('groupUpdate: publicKey is empty');
     return false;
   }
 
   const hexGroupPublicKey = toHex(publicKey);
   if (!PubKey.from(hexGroupPublicKey)) {
-    log.warn('groupUpdate: publicKey is not recognized as a valid pubkey', hexGroupPublicKey);
+    window?.log?.warn(
+      'groupUpdate: publicKey is not recognized as a valid pubkey',
+      hexGroupPublicKey
+    );
     return false;
   }
 
   if (!members?.length) {
-    log.warn('groupUpdate: members is empty');
+    window?.log?.warn('groupUpdate: members is empty');
     return false;
   }
 
   if (members.some(m => m.length === 0)) {
-    log.warn('groupUpdate: one of the member pubkey is empty');
+    window?.log?.warn('groupUpdate: one of the member pubkey is empty');
     return false;
   }
 
   if (!admins?.length) {
-    log.warn('groupUpdate: admins is empty');
+    window?.log?.warn('groupUpdate: admins is empty');
     return false;
   }
 
   if (admins.some(a => a.length === 0)) {
-    log.warn('groupUpdate: one of the admins pubkey is empty');
+    window?.log?.warn('groupUpdate: one of the admins pubkey is empty');
     return false;
   }
 
   if (!encryptionKeyPair?.publicKey?.length) {
-    log.warn('groupUpdate: keypair publicKey is empty');
+    window?.log?.warn('groupUpdate: keypair publicKey is empty');
     return false;
   }
 
   if (!encryptionKeyPair?.privateKey?.length) {
-    log.warn('groupUpdate: keypair privateKey is empty');
+    window?.log?.warn('groupUpdate: keypair privateKey is empty');
     return false;
   }
   return true;
@@ -152,20 +155,18 @@ export async function handleNewClosedGroup(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
-  const { log } = window;
-
   if (groupUpdate.type !== SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW) {
     return;
   }
   if (!sanityCheckNewGroup(groupUpdate)) {
-    log.warn('Sanity check for newGroup failed, dropping the message...');
+    window?.log?.warn('Sanity check for newGroup failed, dropping the message...');
     await removeFromCache(envelope);
     return;
   }
   const ourNumber = UserUtils.getOurPubKeyFromCache();
 
   if (envelope.senderIdentity === ourNumber.key) {
-    window.log.warn('Dropping new closed group updatemessage from our other device.');
+    window?.log?.warn('Dropping new closed group updatemessage from our other device.');
     return removeFromCache(envelope);
   }
 
@@ -182,7 +183,9 @@ export async function handleNewClosedGroup(
   const admins = adminsAsData.map(toHex);
 
   if (!members.includes(ourNumber.key)) {
-    log.info('Got a new group message but apparently we are not a member of it. Dropping it.');
+    window?.log?.info(
+      'Got a new group message but apparently we are not a member of it. Dropping it.'
+    );
     await removeFromCache(envelope);
     return;
   }
@@ -221,7 +224,7 @@ export async function handleNewClosedGroup(
 
       await addClosedGroupEncryptionKeyPair(groupId, ecKeyPairAlreadyExistingConvo.toHexKeyPair());
       await removeFromCache(envelope);
-      log.warn(
+      window.log.warn(
         'Closed group message of type NEW: the conversation already exists, but we saved the new encryption keypair'
       );
       return;
@@ -235,7 +238,7 @@ export async function handleNewClosedGroup(
       ConversationTypeEnum.GROUP
     ));
   // ***** Creating a new group *****
-  log.info('Received a new ClosedGroup of id:', groupId);
+  window?.log?.info('Received a new ClosedGroup of id:', groupId);
 
   await ClosedGroup.addUpdateMessage(
     convo,
@@ -269,7 +272,7 @@ export async function handleNewClosedGroup(
   // sanity checks validate this
   // tslint:disable: no-non-null-assertion
   const ecKeyPair = new ECKeyPair(encryptionKeyPair!.publicKey, encryptionKeyPair!.privateKey);
-  window.log.info(`Received the encryptionKeyPair for new group ${groupId}`);
+  window?.log?.info(`Received the encryptionKeyPair for new group ${groupId}`);
 
   await addClosedGroupEncryptionKeyPair(groupId, ecKeyPair.toHexKeyPair());
 
@@ -323,32 +326,34 @@ async function handleClosedGroupEncryptionKeyPair(
   // in the case of an encryption key pair coming as a reply to a request we made
   // senderIdentity will be unset as the message is not encoded for medium groups
   const sender = isComingFromGroupPubkey ? envelope.senderIdentity : envelope.source;
-  window.log.info(`Got a group update for group ${groupPublicKey}, type: ENCRYPTION_KEY_PAIR`);
+  window?.log?.info(`Got a group update for group ${groupPublicKey}, type: ENCRYPTION_KEY_PAIR`);
   const ourKeyPair = await UserUtils.getIdentityKeyPair();
 
   if (!ourKeyPair) {
-    window.log.warn("Couldn't find user X25519 key pair.");
+    window?.log?.warn("Couldn't find user X25519 key pair.");
     await removeFromCache(envelope);
     return;
   }
 
   const groupConvo = ConversationController.getInstance().get(groupPublicKey);
   if (!groupConvo) {
-    window.log.warn(
+    window?.log?.warn(
       `Ignoring closed group encryption key pair for nonexistent group. ${groupPublicKey}`
     );
     await removeFromCache(envelope);
     return;
   }
   if (!groupConvo.isMediumGroup()) {
-    window.log.warn(
+    window?.log?.warn(
       `Ignoring closed group encryption key pair for nonexistent medium group. ${groupPublicKey}`
     );
     await removeFromCache(envelope);
     return;
   }
   if (!groupConvo.get('groupAdmins')?.includes(sender)) {
-    window.log.warn(`Ignoring closed group encryption key pair from non-admin. ${groupPublicKey}`);
+    window?.log?.warn(
+      `Ignoring closed group encryption key pair from non-admin. ${groupPublicKey}`
+    );
     await removeFromCache(envelope);
     return;
   }
@@ -356,7 +361,7 @@ async function handleClosedGroupEncryptionKeyPair(
   // Find our wrapper and decrypt it if possible
   const ourWrapper = groupUpdate.wrappers.find(w => toHex(w.publicKey) === ourNumber.key);
   if (!ourWrapper) {
-    window.log.warn(
+    window?.log?.warn(
       `Couldn\'t find our wrapper in the encryption keypairs wrappers for group ${groupPublicKey}`
     );
     await removeFromCache(envelope);
@@ -374,7 +379,7 @@ async function handleClosedGroupEncryptionKeyPair(
     }
     plaintext = new Uint8Array(buffer);
   } catch (e) {
-    window.log.warn("Couldn't decrypt closed group encryption key pair.", e);
+    window?.log?.warn("Couldn't decrypt closed group encryption key pair.", e);
     await removeFromCache(envelope);
     return;
   }
@@ -387,7 +392,7 @@ async function handleClosedGroupEncryptionKeyPair(
       throw new Error();
     }
   } catch (e) {
-    window.log.warn("Couldn't parse closed group encryption key pair.");
+    window?.log?.warn("Couldn't parse closed group encryption key pair.");
     await removeFromCache(envelope);
     return;
   }
@@ -396,11 +401,11 @@ async function handleClosedGroupEncryptionKeyPair(
   try {
     keyPair = new ECKeyPair(proto.publicKey, proto.privateKey);
   } catch (e) {
-    window.log.warn("Couldn't parse closed group encryption key pair.");
+    window?.log?.warn("Couldn't parse closed group encryption key pair.");
     await removeFromCache(envelope);
     return;
   }
-  window.log.info(`Received a new encryptionKeyPair for group ${groupPublicKey}`);
+  window?.log?.info(`Received a new encryptionKeyPair for group ${groupPublicKey}`);
 
   // Store it if needed
   const newKeyPairInHex = keyPair.toHexKeyPair();
@@ -409,11 +414,11 @@ async function handleClosedGroupEncryptionKeyPair(
 
   if (isKeyPairAlreadyHere) {
     const existingKeyPairs = await getAllEncryptionKeyPairsForGroup(groupPublicKey);
-    window.log.info('Dropping already saved keypair for group', groupPublicKey);
+    window?.log?.info('Dropping already saved keypair for group', groupPublicKey);
     await removeFromCache(envelope);
     return;
   }
-  window.log.info('Got a new encryption keypair for group', groupPublicKey);
+  window?.log?.info('Got a new encryption keypair for group', groupPublicKey);
 
   await addClosedGroupEncryptionKeyPair(groupPublicKey, keyPair.toHexKeyPair());
   await removeFromCache(envelope);
@@ -432,12 +437,12 @@ async function performIfValid(
 
   const convo = ConversationController.getInstance().get(groupPublicKey);
   if (!convo) {
-    window.log.warn('dropping message for nonexistent group');
+    window?.log?.warn('dropping message for nonexistent group');
     return;
   }
 
   if (!convo) {
-    window.log.warn('Ignoring a closed group update message (INFO) for a non-existing group');
+    window?.log?.warn('Ignoring a closed group update message (INFO) for a non-existing group');
     return removeFromCache(envelope);
   }
 
@@ -454,7 +459,7 @@ async function performIfValid(
 
   const envelopeTimestamp = _.toNumber(envelope.timestamp);
   if (envelopeTimestamp <= lastJoinedTimestamp) {
-    window.log.warn(
+    window?.log?.warn(
       'Got a group update with an older timestamp than when we joined this group last time. Dropping it.'
     );
     return removeFromCache(envelope);
@@ -463,7 +468,7 @@ async function performIfValid(
   // Check that the sender is a member of the group (before the update)
   const oldMembers = convo.get('members') || [];
   if (!oldMembers.includes(sender)) {
-    window.log.error(
+    window?.log?.error(
       `Error: closed group: ignoring closed group update message from non-member. ${sender} is not a current member.`
     );
     await removeFromCache(envelope);
@@ -487,7 +492,7 @@ async function performIfValid(
     if (window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
       await handleClosedGroupEncryptionKeyPairRequest(envelope, groupUpdate, convo);
     } else {
-      window.log.warn(
+      window?.log?.warn(
         'Received ENCRYPTION_KEY_PAIR_REQUEST message but it is not enabled for now.'
       );
       await removeFromCache(envelope);
@@ -505,7 +510,7 @@ async function handleClosedGroupNameChanged(
 ) {
   // Only add update message if we have something to show
   const newName = groupUpdate.name;
-  window.log.info(`Got a group update for group ${envelope.source}, type: NAME_CHANGED`);
+  window?.log?.info(`Got a group update for group ${envelope.source}, type: NAME_CHANGED`);
 
   if (newName !== convo.get('name')) {
     const groupDiff: ClosedGroup.GroupDiff = {
@@ -534,13 +539,13 @@ async function handleClosedGroupMembersAdded(
   const addedMembers = (addedMembersBinary || []).map(toHex);
   const oldMembers = convo.get('members') || [];
   const membersNotAlreadyPresent = addedMembers.filter(m => !oldMembers.includes(m));
-  window.log.info(`Got a group update for group ${envelope.source}, type: MEMBERS_ADDED`);
+  window?.log?.info(`Got a group update for group ${envelope.source}, type: MEMBERS_ADDED`);
 
   // make sure those members are not on our zombie list
   addedMembers.forEach(added => removeMemberFromZombies(envelope, PubKey.cast(added), convo));
 
   if (membersNotAlreadyPresent.length === 0) {
-    window.log.info(
+    window?.log?.info(
       'no new members in this group update compared to what we have already. Skipping update'
     );
     // this is just to make sure that the zombie list got written to the db.
@@ -599,7 +604,7 @@ async function handleClosedGroupMembersRemoved(
   // and is used for the group update message only
   const effectivelyRemovedMembers = removedMembers.filter(m => currentMembers.includes(m));
   const groupPubKey = envelope.source;
-  window.log.info(`Got a group update for group ${envelope.source}, type: MEMBERS_REMOVED`);
+  window?.log?.info(`Got a group update for group ${envelope.source}, type: MEMBERS_REMOVED`);
 
   const membersAfterUpdate = _.difference(currentMembers, removedMembers);
   const groupAdmins = convo.get('groupAdmins');
@@ -609,14 +614,14 @@ async function handleClosedGroupMembersRemoved(
   const firstAdmin = groupAdmins[0];
 
   if (removedMembers.includes(firstAdmin)) {
-    window.log.warn('Ignoring invalid closed group update: trying to remove the admin.');
+    window?.log?.warn('Ignoring invalid closed group update: trying to remove the admin.');
     await removeFromCache(envelope);
     throw new Error('Admins cannot be removed. They can only leave');
   }
 
   // The MEMBERS_REMOVED message type can only come from an admin.
   if (!groupAdmins.includes(envelope.senderIdentity)) {
-    window.log.warn('Ignoring invalid closed group update. Only admins can remove members.');
+    window?.log?.warn('Ignoring invalid closed group update. Only admins can remove members.');
     await removeFromCache(envelope);
     throw new Error('Only admins can remove members.');
   }
@@ -752,11 +757,11 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
   // otherwise, we remove the sender from the list of current members in this group
   const oldMembers = convo.get('members') || [];
   const newMembers = oldMembers.filter(s => s !== sender);
-  window.log.info(`Got a group update for group ${envelope.source}, type: MEMBER_LEFT`);
+  window?.log?.info(`Got a group update for group ${envelope.source}, type: MEMBER_LEFT`);
 
   // Show log if we sent this message ourself (from another device or not)
   if (UserUtils.isUsFromCache(sender)) {
-    window.log.info('Got self-sent group update member left...');
+    window?.log?.info('Got self-sent group update member left...');
   }
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
 
@@ -805,7 +810,7 @@ async function sendLatestKeyPairToUsers(
   // Get the latest encryption key pair
   const latestKeyPair = await getLatestClosedGroupEncryptionKeyPair(groupPubKey);
   if (!inMemoryKeyPair && !latestKeyPair) {
-    window.log.info('We do not have the keypair ourself, so dropping this message.');
+    window?.log?.info('We do not have the keypair ourself, so dropping this message.');
     return;
   }
 
@@ -815,7 +820,7 @@ async function sendLatestKeyPairToUsers(
 
   await Promise.all(
     targetUsers.map(async member => {
-      window.log.info(`Sending latest closed group encryption key pair to: ${member}`);
+      window?.log?.info(`Sending latest closed group encryption key pair to: ${member}`);
       await ConversationController.getInstance().getOrCreateAndWait(
         member,
         ConversationTypeEnum.PRIVATE
@@ -848,7 +853,7 @@ async function handleClosedGroupEncryptionKeyPairRequest(
   const groupPublicKey = envelope.source;
   // Guard against self-sends
   if (UserUtils.isUsFromCache(sender)) {
-    window.log.info('Dropping self send message of type ENCRYPTION_KEYPAIR_REQUEST');
+    window?.log?.info('Dropping self send message of type ENCRYPTION_KEYPAIR_REQUEST');
     await removeFromCache(envelope);
     return;
   }
@@ -905,7 +910,122 @@ export async function createClosedGroup(groupName: string, members: Array<string
   convo.updateLastMessage();
 
   // Send a closed group update message to all members individually
-  const promises = listOfMembers.map(async m => {
+  const allInvitesSent = await sendToGroupMembers(
+    listOfMembers,
+    groupPublicKey,
+    groupName,
+    admins,
+    encryptionKeyPair,
+    dbMessage
+  );
+
+  if (allInvitesSent) {
+    const newHexKeypair = encryptionKeyPair.toHexKeyPair();
+
+    const isHexKeyPairSaved = await isKeyPairAlreadySaved(groupPublicKey, newHexKeypair);
+
+    if (!isHexKeyPairSaved) {
+      // tslint:disable-next-line: no-non-null-assertion
+      await addClosedGroupEncryptionKeyPair(groupPublicKey, encryptionKeyPair.toHexKeyPair());
+    } else {
+      window?.log?.info('Dropping already saved keypair for group', groupPublicKey);
+    }
+
+    // Subscribe to this group id
+    SwarmPolling.getInstance().addGroupId(new PubKey(groupPublicKey));
+  }
+
+  await forceSyncConfigurationNowIfNeeded();
+
+  window.inboxStore?.dispatch(conversationActions.openConversationExternal(groupPublicKey));
+}
+
+/**
+ * Sends a group invite message to each member of the group.
+ * @returns Array of promises for group invite messages sent to group members
+ */
+async function sendToGroupMembers(
+  listOfMembers: Array<string>,
+  groupPublicKey: string,
+  groupName: string,
+  admins: Array<string>,
+  encryptionKeyPair: ECKeyPair,
+  dbMessage: MessageModel,
+  isRetry: boolean = false
+): Promise<any> {
+  const promises = createInvitePromises(
+    listOfMembers,
+    groupPublicKey,
+    groupName,
+    admins,
+    encryptionKeyPair,
+    dbMessage
+  );
+  window?.log?.info(`Creating a new group and an encryptionKeyPair for group ${groupPublicKey}`);
+  // evaluating if all invites sent, if failed give the option to retry failed invites via modal dialog
+  const inviteResults = await Promise.all(promises);
+  const allInvitesSent = _.every(inviteResults, Boolean);
+
+  if (allInvitesSent) {
+    if (isRetry) {
+      const invitesTitle =
+        inviteResults.length > 1
+          ? window.i18n('closedGroupInviteSuccessTitlePlural')
+          : window.i18n('closedGroupInviteSuccessTitle');
+      window.confirmationDialog({
+        title: invitesTitle,
+        message: window.i18n('closedGroupInviteSuccessMessage'),
+      });
+    }
+    return allInvitesSent;
+  } else {
+    // Confirmation dialog that recursively calls sendToGroupMembers on resolve
+    window.confirmationDialog({
+      title:
+        inviteResults.length > 1
+          ? window.i18n('closedGroupInviteFailTitlePlural')
+          : window.i18n('closedGroupInviteFailTitle'),
+      message:
+        inviteResults.length > 1
+          ? window.i18n('closedGroupInviteFailMessagePlural')
+          : window.i18n('closedGroupInviteFailMessage'),
+      okText: window.i18n('closedGroupInviteOkText'),
+      resolve: async () => {
+        const membersToResend: Array<string> = new Array<string>();
+        inviteResults.forEach((result, index) => {
+          const member = listOfMembers[index];
+          // group invite must always contain the admin member.
+          if (result !== true || admins.includes(member)) {
+            membersToResend.push(member);
+          }
+        });
+        if (membersToResend.length > 0) {
+          const isRetrySend = true;
+          await sendToGroupMembers(
+            membersToResend,
+            groupPublicKey,
+            groupName,
+            admins,
+            encryptionKeyPair,
+            dbMessage,
+            isRetrySend
+          );
+        }
+      },
+    });
+  }
+  return allInvitesSent;
+}
+
+function createInvitePromises(
+  listOfMembers: Array<string>,
+  groupPublicKey: string,
+  groupName: string,
+  admins: Array<string>,
+  encryptionKeyPair: ECKeyPair,
+  dbMessage: MessageModel
+) {
+  return listOfMembers.map(async m => {
     const messageParams: ClosedGroupNewMessageParams = {
       groupId: groupPublicKey,
       name: groupName,
@@ -917,19 +1037,6 @@ export async function createClosedGroup(groupName: string, members: Array<string
       expireTimer: 0,
     };
     const message = new ClosedGroupNewMessage(messageParams);
-
-    return getMessageQueue().sendToPubKey(PubKey.cast(m), message);
+    return getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(m), message);
   });
-  window.log.info(`Creating a new group and an encryptionKeyPair for group ${groupPublicKey}`);
-  // tslint:disable-next-line: no-non-null-assertion
-  await addClosedGroupEncryptionKeyPair(groupPublicKey, encryptionKeyPair.toHexKeyPair());
-
-  // Subscribe to this group id
-  SwarmPolling.getInstance().addGroupId(new PubKey(groupPublicKey));
-
-  await Promise.all(promises);
-
-  await forceSyncConfigurationNowIfNeeded();
-
-  window.inboxStore?.dispatch(conversationActions.openConversationExternal(groupPublicKey));
 }

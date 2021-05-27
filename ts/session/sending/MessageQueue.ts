@@ -1,5 +1,5 @@
 import { PendingMessageCache } from './PendingMessageCache';
-import { JobQueue, UserUtils } from '../utils';
+import { JobQueue, MessageUtils, UserUtils } from '../utils';
 import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
 import { ClosedGroupMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMessage';
@@ -146,6 +146,29 @@ export class MessageQueue {
     await this.process(PubKey.cast(ourPubKey), message, sentCb);
   }
 
+  /**
+   * Sends a message that awaits until the message is completed sending
+   * @param user user pub key to send to
+   * @param message Message to be sent
+   */
+  public async sendToPubKeyNonDurably(
+    user: PubKey,
+    message: ClosedGroupNewMessage
+  ): Promise<boolean> {
+    let rawMessage;
+    try {
+      rawMessage = await MessageUtils.toRawMessage(user, message);
+      const wrappedEnvelope = await MessageSender.send(rawMessage);
+      await MessageSentHandler.handleMessageSentSuccess(rawMessage, wrappedEnvelope);
+      return !!wrappedEnvelope;
+    } catch (error) {
+      if (rawMessage) {
+        await MessageSentHandler.handleMessageSentFailure(rawMessage, error);
+      }
+      return false;
+    }
+  }
+
   public async processPending(device: PubKey) {
     const messages = await this.pendingMessageCache.getForDevice(device);
 
@@ -207,9 +230,9 @@ export class MessageQueue {
         message instanceof ClosedGroupNewMessage ||
         (message as any).syncTarget?.length > 0
       ) {
-        window.log.warn('Processing sync message');
+        window?.log?.warn('Processing sync message');
       } else {
-        window.log.warn('Dropping message in process() to be sent to ourself');
+        window?.log?.warn('Dropping message in process() to be sent to ourself');
         return;
       }
     }

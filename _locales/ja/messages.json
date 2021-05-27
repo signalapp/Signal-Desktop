@@ -1,10 +1,10 @@
 {
     "copyErrorAndQuit": {
-        "message": "Copy error and quit",
+        "message": "エラーの文章をコピーして終了",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "databaseError": {
-        "message": "Database Error",
+        "message": "データベースエラー",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "mainMenuFile": {
@@ -270,7 +270,7 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "stagedPreviewThumbnail": {
-        "message": "Draft thumbnail link preview for $domain$",
+        "message": "$domain$ のサムネイルリンクプレビュー（下書き）",
         "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -280,7 +280,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Thumbnail link preview for $domain$",
+        "message": "$domain$ のサムネイルリンクプレビュー",
         "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -290,7 +290,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "添付画像（下書き）： $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -300,15 +300,15 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "When including a non-image attachment, the limit is one attachment per message.",
+        "message": "画像でないファイルを添付する場合、メッセージに添付できるファイルは1つのみです。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "You cannot mix non-image and image attachments in one message.",
+        "message": "画像ファイルと画像でないファイルを合わせてメッセージに添付できません。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "You cannot add any more attachments to this message.",
+        "message": "メッセージに添付できるファイルの数の上限に達しています。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -446,7 +446,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "更新できませんでした",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "ok": {
@@ -466,7 +466,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only.",
+        "message": "「削除」を選択したら自分の端末からのみメッセージが永久削除されます。よろしいですか？",
         "description": ""
     },
     "deleteThisMessage": {
@@ -562,7 +562,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "通知をミュート",
+        "message": "通知を無効にする",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
@@ -985,7 +985,7 @@
         "message": "削除"
     },
     "invalidSessionId": {
-        "message": "Session ID が不正です"
+        "message": "Session ID が正しくありません"
     },
     "emptyGroupNameError": {
         "message": "グループ名を入力してください"
@@ -1024,7 +1024,7 @@
         "message": "アカウントを復元する"
     },
     "newSession": {
-        "message": "新しい Session"
+        "message": "新しいセッション"
     },
     "searchFor...": {
         "message": "会話やメッセージ、連絡先を検索します。"
@@ -1088,5 +1088,142 @@
     },
     "noBlockedContacts": {
         "message": "ブロックしている連絡先はありません"
+    },
+    "add": {
+        "message": "追加",
+        "androidKey": "fragment_add_public_chat_add_button_title_1"
+    },
+    "addContact": {
+        "message": "連絡先を追加する"
+    },
+    "autoUpdateSettingTitle": {
+        "message": "自動更新"
+    },
+    "autoUpdateSettingDescription": {
+        "message": "起動時に自動的に更新の有無を確認する"
+    },
+    "ByUsingThisService...": {
+        "comment": "By the way the terms of use and privacy policy are presented and the implied consent, there is a risk the terms of use and privacy policy may not legally apply to users in Japan. https://topcourt-law.com/terms_of_service/how-to-get-consent",
+        "message": "本サービスを利用する場合、<a href=\"https://getsession.org/legal/#tos\">利用規約</a>および<a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">プライバシーポリシー</a>に同意するものとします"
+    },
+    "copySessionID": {
+        "message": "Session ID をコピー",
+        "description": "Copy to clipboard session ID",
+        "androidKey": "activity_conversation_menu_copy_session_id"
+    },
+    "createAccount": {
+        "message": "アカウントを作成"
+    },
+    "deleted": {
+        "message": "メッセージが削除されました",
+        "description": "Toast validation when a single or several messages were deleted"
+    },
+    "deleteForEveryone": {
+        "message": "全員から削除",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteMessageForEveryone": {
+        "message": "全員からメッセージを削除",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteMessagesForEveryone": {
+        "comment": "Same content as in \"deleteMessageForEveryone\".",
+        "message": "全員からメッセージを削除",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteMultiplePublicWarning": {
+        "comment": "Same content as in \"deletePublicWarning\".",
+        "message": "「削除」を選択したら公開グループからメッセージが永久削除されます。よろしいですか？"
+    },
+    "deleteMultipleWarning": {
+        "comment": "Same content as in \"deleteWarning\".",
+        "message": "「削除」を選択したら自分の端末からのみメッセージが永久削除されます。よろしいですか？"
+    },
+    "deletePublicConversationConfirmation": {
+        "message": "「削除」を選択したら自分の端末からのみ公開グループのメッセージが永久削除されます。よろしいですか？",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the open group messages locally. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "deletePublicWarning": {
+        "comment": "Does deletion apply to just the open group or does it extend to all members' devices?",
+        "message": "「削除」を選択したら公開グループからメッセージが永久削除されます。よろしいですか？"
+    },
+    "editProfileModalTitle": {
+      "message": "プロフィール",
+      "description": "Title for the Edit Profile modal"
+    },
+    "enterOptionalPassword": {
+        "message": "パスワード入力（任意）"
+    },
+    "hideMenuBarDescription": {
+        "message": "メニューバーの表示を切り替える",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "hideMenuBarTitle": {
+        "message": "メニューバーを隠す",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "mediaPermissionsTitle": {
+        "message": "マイクとカメラ"
+    },
+    "password": {
+        "message": "パスワード",
+        "description": "Placeholder for password input"
+    },
+    "passwordCharacterError": {
+        "message": "パスワードには英数字と記号の文字しか使えません",
+        "description": "Error string shown to the user when password contains an invalid character"
+    },
+    "passwordLengthError": {
+        "message": "パスワードの長さを6文字から64文字にしてください",
+        "description": "Error string shown to the user when password doesn't meet length criteria"
+    },
+    "passwordsDoNotMatch": {
+        "message": "パスワードが一致しません"
+    },
+    "passwordTypeError": {
+        "message": "パスワードは文字列でなければいけません",
+        "description": "Error string shown to the user when password is not a string"
+    },
+    "passwordViewTitle": {
+        "message": "パスワード入力",
+        "description": "The title shown when user needs to type in a password to unlock the messenger"
+    },
+    "readReceiptSettingDescription": {
+        "message": "メッセージが読まれた状態の表示と送信をする（すべてのセッションに既読通知を有功にする）。",
+        "description": "Description of the read receipts setting"
+    },
+    "replyingToMessage": {
+        "message": "このメッセージへの返信："
+    },
+    "selectMessage": {
+        "message": "メッセージを選択",
+        "description": "Button action that the user can click to select the message"
+    },
+    "setAccountPasswordDescription": {
+        "message": "Session のスクリーンのロック解除にパスワードを要求する。スクリーンロック中にもメッセージの通知が受信できます。Session の通知設定でメッセージの通知に表示される情報を調整できます。",
+        "description": "Description for set account password setting view"
+    },
+    "setAccountPasswordTitle": {
+        "message": "アカウントのパスワード設定",
+        "description": "Prompt for user to set account password in settings view"
+    },
+    "signIn": {
+        "message": "ログイン"
+    },
+    "spellCheckTitle": {
+        "message": "スペルチェック",
+        "description": "Description of the media permission description"
+    },
+    "typingIndicatorsSettingDescription": {
+        "message": "メッセージが入力中である状態の表示と送信をする（すべてのセッションに適用される）。",
+        "description": "Description of the typing indicators setting"
+    },
+    "unpairDeviceWarning": {
+        "message": "この端末をリンク解除してもよろしいですか？",
+        "description": "Warning for device unlinking in settings view"
+    },
+    "zoomFactorSettingTitle": {
+        "message": "ズーム",
+        "description": "Title of the Zoom Factor setting"
     }
 }

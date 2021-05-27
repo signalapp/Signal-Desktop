@@ -15,7 +15,7 @@ const borderAvatarColor = '#00000059';
 
 const common = {
   fonts: {
-    sessionFontDefault: 'Public Sans',
+    sessionFontDefault: 'Roboto',
     sessionFontAccent: 'Loor',
     sessionFontMono: 'SpaceMono',
     xs: '11px',

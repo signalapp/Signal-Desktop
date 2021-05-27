@@ -26,12 +26,12 @@ async function handleOurProfileUpdate(
 
     const ourConversation = ConversationController.getInstance().get(ourPubkey);
     if (!ourConversation) {
-      window.log.error('We need a convo with ourself at all times');
+      window?.log?.error('We need a convo with ourself at all times');
       return;
     }
 
     if (profileKey?.length) {
-      window.log.info('Saving our profileKey from configuration message');
+      window?.log?.info('Saving our profileKey from configuration message');
       // TODO not sure why we keep our profileKey in storage AND in our conversaio
       window.textsecure.storage.put('profileKey', profileKey);
     }
@@ -45,7 +45,7 @@ async function handleOurProfileUpdate(
     if (displayName) {
       trigger(configurationMessageReceived, displayName);
     } else {
-      window.log.warn('Got a configuration message but the display name is empty');
+      window?.log?.warn('Got a configuration message but the display name is empty');
     }
   }
 }

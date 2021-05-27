@@ -173,7 +173,7 @@ function getUnixMillisecondsTimestamp(timestamp: string): number {
 
       return new Date(timestamp).getTime();
     } catch (error) {
-      window.log.warn('Advanced Search: ', error);
+      window?.log?.warn('Advanced Search: ', error);
 
       return 0;
     }

@@ -187,10 +187,10 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     const removedMods = this.state.modList.filter(d => !d.checkmarked).map(d => d.id);
 
     if (removedMods.length === 0) {
-      window.log.info('No moderators removed. Nothing todo');
+      window?.log?.info('No moderators removed. Nothing todo');
       return;
     }
-    window.log.info(`asked to remove moderator: ${removedMods}`);
+    window?.log?.info(`asked to remove moderator: ${removedMods}`);
 
     try {
       this.setState({
@@ -211,15 +211,15 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         res = res.every(r => !!r);
       }
       if (!res) {
-        window.log.warn('failed to remove moderators:', res);
+        window?.log?.warn('failed to remove moderators:', res);
 
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {
-        window.log.info(`${removedMods} removed from moderators...`);
+        window?.log?.info(`${removedMods} removed from moderators...`);
         ToastUtils.pushUserRemovedFromModerators();
       }
     } catch (e) {
-      window.log.error('Got error while adding moderator:', e);
+      window?.log?.error('Got error while adding moderator:', e);
     } finally {
       await this.refreshModList();
     }

@@ -36,7 +36,7 @@ export async function copyPublicKey(convoId: string) {
         ToastUtils.pushCopiedToClipBoard();
         return;
       }
-      window.log.warn('copy to pubkey no roomInfo');
+      window?.log?.warn('copy to pubkey no roomInfo');
       return;
     }
 
@@ -91,10 +91,10 @@ export async function deleteOpenGroupMessages(
     }
     // remove only the messages we managed to remove on the server
     if (allMessagesAreDeleted) {
-      window.log.info('Removed all those serverIds messages successfully');
+      window?.log?.info('Removed all those serverIds messages successfully');
       return validMessageModelsToRemove;
     } else {
-      window.log.info(
+      window?.log?.info(
         'failed to remove all those serverIds message. not removing them locally neither'
       );
       return [];

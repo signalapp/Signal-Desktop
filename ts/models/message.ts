@@ -290,7 +290,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const url = new URL(invitation.serverAddress);
       serverAddress = url.origin;
     } catch (e) {
-      window.log.warn('failed to get hostname from opengroupv2 invitation', invitation);
+      window?.log?.warn('failed to get hostname from opengroupv2 invitation', invitation);
     }
 
     return {
@@ -572,7 +572,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           image = this.getPropsForAttachment(preview.image);
         }
       } catch (e) {
-        window.log.info('Failed to show preview');
+        window?.log?.info('Failed to show preview');
       }
 
       return {
@@ -760,7 +760,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     let attachmentPromise;
     let linkPreviewPromise;
     let quotePromise;
-    const { AttachmentUtils } = Utils;
+    const { AttachmentFsV2Utils } = Utils;
 
     // we want to go for the v1, if this is an OpenGroupV1 or not an open group at all
     if (conversation?.isOpenGroupV2()) {
@@ -773,12 +773,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // because there is a fallback invoked on uploadV1() for attachments for not open groups attachments
 
       const openGroupV1 = conversation?.isOpenGroupV1() ? conversation?.toOpenGroupV1() : undefined;
-      attachmentPromise = AttachmentUtils.uploadAttachmentsV1(
+      attachmentPromise = AttachmentFsV2Utils.uploadAttachmentsToFsV2(
         filenameOverridenAttachments,
         openGroupV1
       );
-      linkPreviewPromise = AttachmentUtils.uploadLinkPreviewsV1(previewWithData, openGroupV1);
-      quotePromise = AttachmentUtils.uploadQuoteThumbnailsV1(quoteWithData, openGroupV1);
+      linkPreviewPromise = AttachmentFsV2Utils.uploadLinkPreviewsToFsV2(
+        previewWithData,
+        openGroupV1
+      );
+      quotePromise = AttachmentFsV2Utils.uploadQuoteThumbnailsToFsV2(quoteWithData, openGroupV1);
     }
 
     const [attachments, preview, quote] = await Promise.all([
@@ -798,7 +801,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   // One caller today: event handler for the 'Retry Send' entry on right click of a failed send message
   public async retrySend() {
     if (!window.textsecure.messaging) {
-      window.log.error('retrySend: Cannot retry since we are offline!');
+      window?.log?.error('retrySend: Cannot retry since we are offline!');
       return null;
     }
 
@@ -807,7 +810,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     try {
       const conversation: ConversationModel | undefined = this.getConversation();
       if (!conversation) {
-        window.log.info('cannot retry send message, the corresponding conversation was not found.');
+        window?.log?.info(
+          'cannot retry send message, the corresponding conversation was not found.'
+        );
         return;
       }
 
@@ -1005,7 +1010,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       errors = [errors];
     }
     errors.forEach((e: any) => {
-      window.log.error(
+      window?.log?.error(
         'Message.saveErrors:',
         e && e.reason ? e.reason : null,
         e && e.stack ? e.stack : e
@@ -1097,7 +1102,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         await this.commit();
       }
 
-      window.log.info('Set message expiration', {
+      window?.log?.info('Set message expiration', {
         expiresAt,
         sentAt: this.get('sent_at'),
       });

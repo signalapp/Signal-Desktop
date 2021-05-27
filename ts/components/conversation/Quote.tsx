@@ -1,6 +1,6 @@
 // tslint:disable:react-this-binding-issue
 
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import * as MIME from '../../../ts/types/MIME';
@@ -12,7 +12,9 @@ import { ContactName } from './ContactName';
 import { PubKey } from '../../session/types';
 import { ConversationTypeEnum } from '../../models/conversation';
 
-interface Props {
+import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
+
+interface QuoteProps {
   attachment?: QuotedAttachmentType;
   authorPhoneNumber: string;
   authorProfileName?: string;
@@ -25,13 +27,8 @@ interface Props {
   isPublic?: boolean;
   withContentAbove: boolean;
   onClick?: (e: any) => void;
-  onClose?: () => void;
   text: string;
   referencedMessageNotFound: boolean;
-}
-
-interface State {
-  imageBroken: boolean;
 }
 
 export interface QuotedAttachmentType {
@@ -48,7 +45,7 @@ interface Attachment {
   objectUrl?: string;
 }
 
-function validateQuote(quote: Props): boolean {
+function validateQuote(quote: QuoteProps): boolean {
   if (quote.text) {
     return true;
   }
@@ -92,30 +89,11 @@ function getTypeLabel({
 
   return;
 }
+export const QuoteIcon = (props: any) => {
+  const { icon } = props;
 
-export class Quote extends React.Component<Props, State> {
-  public handleImageErrorBound: () => void;
-
-  public constructor(props: Props) {
-    super(props);
-
-    this.handleImageErrorBound = this.handleImageError.bind(this);
-
-    this.state = {
-      imageBroken: false,
-    };
-  }
-
-  public handleImageError() {
-    // tslint:disable-next-line no-console
-    console.log('Message: Image failed to load; failing over to placeholder');
-    this.setState({
-      imageBroken: true,
-    });
-  }
-
-  public renderImage(url: string, i18n: LocalizerType, icon?: string) {
-    const iconElement = icon ? (
+  return (
+    <div className="module-quote__icon-container">
       <div className="module-quote__icon-container__inner">
         <div className="module-quote__icon-container__circle-background">
           <div
@@ -126,235 +104,236 @@ export class Quote extends React.Component<Props, State> {
           />
         </div>
       </div>
-    ) : null;
+    </div>
+  );
+};
 
-    return (
-      <div className="module-quote__icon-container">
-        <img src={url} alt={i18n('quoteThumbnailAlt')} onError={this.handleImageErrorBound} />
-        {iconElement}
-      </div>
-    );
-  }
+export const QuoteImage = (props: any) => {
+  const { url, i18n, icon, contentType, handleImageErrorBound } = props;
 
-  public renderIcon(icon: string) {
-    return (
-      <div className="module-quote__icon-container">
-        <div className="module-quote__icon-container__inner">
-          <div className="module-quote__icon-container__circle-background">
-            <div
-              className={classNames(
-                'module-quote__icon-container__icon',
-                `module-quote__icon-container__icon--${icon}`
-              )}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const { loading, urlToLoad } = useEncryptedFileFetch(url, contentType);
+  const srcData = !loading ? urlToLoad : '';
 
-  public renderGenericFile() {
-    const { attachment, isIncoming } = this.props;
-
-    if (!attachment) {
-      return;
-    }
-
-    const { fileName, contentType } = attachment;
-    const isGenericFile =
-      !GoogleChrome.isVideoTypeSupported(contentType) &&
-      !GoogleChrome.isImageTypeSupported(contentType) &&
-      !MIME.isAudio(contentType);
-
-    if (!isGenericFile) {
-      return null;
-    }
-
-    return (
-      <div className="module-quote__generic-file">
-        <div className="module-quote__generic-file__icon" />
+  const iconElement = icon ? (
+    <div className="module-quote__icon-container__inner">
+      <div className="module-quote__icon-container__circle-background">
         <div
           className={classNames(
-            'module-quote__generic-file__text',
-            isIncoming ? 'module-quote__generic-file__text--incoming' : null
-          )}
-        >
-          {fileName}
-        </div>
-      </div>
-    );
-  }
-
-  public renderIconContainer() {
-    const { attachment, i18n } = this.props;
-    const { imageBroken } = this.state;
-
-    if (!attachment) {
-      return null;
-    }
-
-    const { contentType, thumbnail } = attachment;
-    const objectUrl = getObjectUrl(thumbnail);
-
-    if (GoogleChrome.isVideoTypeSupported(contentType)) {
-      return objectUrl && !imageBroken
-        ? this.renderImage(objectUrl, i18n, 'play')
-        : this.renderIcon('movie');
-    }
-    if (GoogleChrome.isImageTypeSupported(contentType)) {
-      return objectUrl && !imageBroken
-        ? this.renderImage(objectUrl, i18n)
-        : this.renderIcon('image');
-    }
-    if (MIME.isAudio(contentType)) {
-      return this.renderIcon('microphone');
-    }
-
-    return null;
-  }
-
-  public renderText() {
-    const { i18n, text, attachment, isIncoming, conversationType, convoId } = this.props;
-
-    if (text) {
-      return (
-        <div
-          dir="auto"
-          className={classNames(
-            'module-quote__primary__text',
-            isIncoming ? 'module-quote__primary__text--incoming' : null
-          )}
-        >
-          <MessageBody
-            isGroup={conversationType === 'group'}
-            convoId={convoId}
-            text={text}
-            disableLinks={true}
-            i18n={i18n}
-          />
-        </div>
-      );
-    }
-
-    if (!attachment) {
-      return null;
-    }
-
-    const { contentType, isVoiceMessage } = attachment;
-
-    const typeLabel = getTypeLabel({ i18n, contentType, isVoiceMessage });
-    if (typeLabel) {
-      return (
-        <div
-          className={classNames(
-            'module-quote__primary__type-label',
-            isIncoming ? 'module-quote__primary__type-label--incoming' : null
-          )}
-        >
-          {typeLabel}
-        </div>
-      );
-    }
-
-    return null;
-  }
-
-  public renderClose() {
-    const { onClose } = this.props;
-
-    if (!onClose) {
-      return null;
-    }
-
-    // We don't want the overall click handler for the quote to fire, so we stop
-    //   propagation before handing control to the caller's callback.
-    const onClick = (e: any): void => {
-      e.stopPropagation();
-      onClose();
-    };
-
-    // We need the container to give us the flexibility to implement the iOS design.
-    return (
-      <div className="module-quote__close-container">
-        <div className="module-quote__close-button" role="button" onClick={onClick} />
-      </div>
-    );
-  }
-
-  public renderAuthor() {
-    const {
-      authorProfileName,
-      authorPhoneNumber,
-      authorName,
-      i18n,
-      isFromMe,
-      isIncoming,
-      isPublic,
-    } = this.props;
-
-    return (
-      <div
-        className={classNames(
-          'module-quote__primary__author',
-          isIncoming ? 'module-quote__primary__author--incoming' : null
-        )}
-      >
-        {isFromMe ? (
-          i18n('you')
-        ) : (
-          <ContactName
-            phoneNumber={PubKey.shorten(authorPhoneNumber)}
-            name={authorName}
-            profileName={authorProfileName}
-            i18n={i18n}
-            compact={true}
-            shouldShowPubkey={Boolean(isPublic)}
-          />
-        )}
-      </div>
-    );
-  }
-
-  public renderReferenceWarning() {
-    const { i18n, isIncoming, referencedMessageNotFound } = this.props;
-
-    if (!referencedMessageNotFound) {
-      return null;
-    }
-
-    return (
-      <div
-        className={classNames(
-          'module-quote__reference-warning',
-          isIncoming ? 'module-quote__reference-warning--incoming' : null
-        )}
-      >
-        <div
-          className={classNames(
-            'module-quote__reference-warning__icon',
-            isIncoming ? 'module-quote__reference-warning__icon--incoming' : null
+            'module-quote__icon-container__icon',
+            `module-quote__icon-container__icon--${icon}`
           )}
         />
-        <div
-          className={classNames(
-            'module-quote__reference-warning__text',
-            isIncoming ? 'module-quote__reference-warning__text--incoming' : null
-          )}
-        >
-          {i18n('originalMessageNotFound')}
-        </div>
+      </div>
+    </div>
+  ) : null;
+
+  return (
+    <div className="module-quote__icon-container">
+      <img src={srcData} alt={i18n('quoteThumbnailAlt')} onError={handleImageErrorBound} />
+      {iconElement}
+    </div>
+  );
+};
+
+export const QuoteGenericFile = (props: any) => {
+  const { attachment, isIncoming } = props;
+
+  if (!attachment) {
+    return <></>;
+  }
+
+  const { fileName, contentType } = attachment;
+  const isGenericFile =
+    !GoogleChrome.isVideoTypeSupported(contentType) &&
+    !GoogleChrome.isImageTypeSupported(contentType) &&
+    !MIME.isAudio(contentType);
+
+  if (!isGenericFile) {
+    return <></>;
+  }
+
+  return (
+    <div className="module-quote__generic-file">
+      <div className="module-quote__generic-file__icon" />
+      <div
+        className={classNames(
+          'module-quote__generic-file__text',
+          isIncoming ? 'module-quote__generic-file__text--incoming' : null
+        )}
+      >
+        {fileName}
+      </div>
+    </div>
+  );
+};
+
+export const QuoteIconContainer = (props: any) => {
+  const { attachment, i18n, imageBroken, handleImageErrorBound } = props;
+
+  if (!attachment) {
+    return null;
+  }
+
+  const { contentType, thumbnail } = attachment;
+  const objectUrl = getObjectUrl(thumbnail);
+
+  if (GoogleChrome.isVideoTypeSupported(contentType)) {
+    return objectUrl && !imageBroken ? (
+      <QuoteImage url={objectUrl} i18n={i18n} icon={'play'} />
+    ) : (
+      <QuoteIcon icon="movie" />
+    );
+  }
+  if (GoogleChrome.isImageTypeSupported(contentType)) {
+    return objectUrl && !imageBroken ? (
+      <QuoteImage
+        url={objectUrl}
+        i18n={i18n}
+        contentType={contentType}
+        handleImageErrorBound={handleImageErrorBound}
+      />
+    ) : (
+      <QuoteIcon icon="image" />
+    );
+  }
+  if (MIME.isAudio(contentType)) {
+    return <QuoteIcon icon="microphone" />;
+  }
+  return null;
+};
+
+export const QuoteText = (props: any) => {
+  const { i18n, text, attachment, isIncoming, conversationType, convoId } = props;
+  const isGroup = conversationType === ConversationTypeEnum.GROUP;
+
+  if (text) {
+    return (
+      <div
+        dir="auto"
+        className={classNames(
+          'module-quote__primary__text',
+          isIncoming ? 'module-quote__primary__text--incoming' : null
+        )}
+      >
+        <MessageBody
+          isGroup={isGroup}
+          convoId={convoId}
+          text={text}
+          disableLinks={true}
+          i18n={i18n}
+        />
       </div>
     );
   }
 
-  public render() {
-    const { isIncoming, onClick, referencedMessageNotFound, withContentAbove } = this.props;
+  if (!attachment) {
+    return null;
+  }
 
-    if (!validateQuote(this.props)) {
-      return null;
-    }
+  const { contentType, isVoiceMessage } = attachment;
 
+  const typeLabel = getTypeLabel({ i18n, contentType, isVoiceMessage });
+  if (typeLabel) {
     return (
+      <div
+        className={classNames(
+          'module-quote__primary__type-label',
+          isIncoming ? 'module-quote__primary__type-label--incoming' : null
+        )}
+      >
+        {typeLabel}
+      </div>
+    );
+  }
+
+  return null;
+};
+
+export const QuoteAuthor = (props: any) => {
+  const {
+    authorProfileName,
+    authorPhoneNumber,
+    authorName,
+    i18n,
+    isFromMe,
+    isIncoming,
+    isPublic,
+  } = props;
+
+  return (
+    <div
+      className={classNames(
+        'module-quote__primary__author',
+        isIncoming ? 'module-quote__primary__author--incoming' : null
+      )}
+    >
+      {isFromMe ? (
+        i18n('you')
+      ) : (
+        <ContactName
+          phoneNumber={PubKey.shorten(authorPhoneNumber)}
+          name={authorName}
+          profileName={authorProfileName}
+          i18n={i18n}
+          compact={true}
+          shouldShowPubkey={Boolean(isPublic)}
+        />
+      )}
+    </div>
+  );
+};
+
+export const QuoteReferenceWarning = (props: any) => {
+  const { i18n, isIncoming, referencedMessageNotFound } = props;
+
+  if (!referencedMessageNotFound) {
+    return null;
+  }
+
+  return (
+    <div
+      className={classNames(
+        'module-quote__reference-warning',
+        isIncoming ? 'module-quote__reference-warning--incoming' : null
+      )}
+    >
+      <div
+        className={classNames(
+          'module-quote__reference-warning__icon',
+          isIncoming ? 'module-quote__reference-warning__icon--incoming' : null
+        )}
+      />
+      <div
+        className={classNames(
+          'module-quote__reference-warning__text',
+          isIncoming ? 'module-quote__reference-warning__text--incoming' : null
+        )}
+      >
+        {i18n('originalMessageNotFound')}
+      </div>
+    </div>
+  );
+};
+
+export const Quote = (props: QuoteProps) => {
+  const [imageBroken, setImageBroken] = useState(false);
+
+  const handleImageErrorBound = null;
+
+  const handleImageError = () => {
+    // tslint:disable-next-line no-console
+    console.log('Message: Image failed to load; failing over to placeholder');
+    setImageBroken(true);
+  };
+
+  const { isIncoming, onClick, referencedMessageNotFound, withContentAbove } = props;
+
+  if (!validateQuote(props)) {
+    return null;
+  }
+
+  return (
+    <>
       <div
         className={classNames(
           'module-quote-container',
@@ -373,15 +352,14 @@ export class Quote extends React.Component<Props, State> {
           )}
         >
           <div className="module-quote__primary">
-            {this.renderAuthor()}
-            {this.renderGenericFile()}
-            {this.renderText()}
+            <QuoteAuthor {...props} />
+            <QuoteGenericFile {...props} />
+            <QuoteText {...props} />
           </div>
-          {this.renderIconContainer()}
-          {this.renderClose()}
+          <QuoteIconContainer {...props} handleImageErrorBound={handleImageErrorBound} />
         </div>
-        {this.renderReferenceWarning()}
+        <QuoteReferenceWarning {...props} />
       </div>
-    );
-  }
-}
+    </>
+  );
+};

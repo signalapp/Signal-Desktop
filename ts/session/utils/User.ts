@@ -101,7 +101,7 @@ export function getOurProfile(): OurLokiProfile | undefined {
       profileKey: profileKey.length ? profileKey : null,
     };
   } catch (e) {
-    window.log.error(`Failed to get our profile: ${e}`);
+    window?.log?.error(`Failed to get our profile: ${e}`);
     return undefined;
   }
 }

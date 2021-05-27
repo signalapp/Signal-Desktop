@@ -54,7 +54,7 @@ export async function updateOpenGroupV1(convo: any, groupName: string, avatar: a
     const fileObj = await API.serverAPI.putAttachment(dataResized);
     if (fileObj === null) {
       // problem
-      window.log.warn('File upload failed');
+      window?.log?.warn('File upload failed');
       return;
     }
 

@@ -359,6 +359,8 @@ export class SessionConversation extends React.Component<Props, State> {
       onSetDisappearingMessages: conversation.updateExpirationTimer,
       onDeleteMessages: conversation.deleteMessages,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
+      onChangeNickname: conversation.changeNickname,
+      onClearNickname: conversation.clearNickname,
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
       },
@@ -577,7 +579,7 @@ export class SessionConversation extends React.Component<Props, State> {
       selectedConversationKey
     );
     if (!selectedConversation) {
-      window.log.info('No valid selected conversation.');
+      window?.log?.info('No valid selected conversation.');
       return;
     }
     const selectedMessages = messages.filter(message =>
@@ -1017,7 +1019,7 @@ export class SessionConversation extends React.Component<Props, State> {
         return;
       }
     } catch (error) {
-      window.log.error(
+      window?.log?.error(
         'Error ensuring that image is properly sized:',
         error && error.stack ? error.stack : error
       );
@@ -1048,7 +1050,7 @@ export class SessionConversation extends React.Component<Props, State> {
         ]);
       }
     } catch (e) {
-      window.log.error(
+      window?.log?.error(
         `Was unable to generate thumbnail for file type ${contentType}`,
         e && e.stack ? e.stack : e
       );

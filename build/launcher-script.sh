@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -e
+
+# do not set -x here because it will fail on non-debian  based distrib
+# set -e
 
 # Some distributions do not have unprivileged_userns_clone disabled.
 # If that's the case, and we run an AppImage (deb is not impacted by this),

@@ -101,7 +101,7 @@ export const SessionIcon = (props: SessionIconProps) => {
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
   if (!theme) {
-    window.log.error('Missing theme props in SessionIcon');
+    window?.log?.error('Missing theme props in SessionIcon');
   }
 
   return (

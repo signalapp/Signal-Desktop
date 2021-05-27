@@ -11,6 +11,7 @@ import { ConversationModel, ConversationTypeEnum } from '../../models/conversati
 import { getCompleteUrlForV2ConvoId } from '../../interactions/conversation';
 import _ from 'lodash';
 import autoBind from 'auto-bind';
+import { VALIDATION } from '../../session/constants';
 interface Props {
   contactList: Array<any>;
   chatName: string;
@@ -33,7 +34,12 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
 
     contacts = contacts.map(d => {
       const lokiProfile = d.getLokiProfile();
-      const name = lokiProfile ? lokiProfile.displayName : window.i18n('anonymous');
+      const nickname = d.getNickname();
+      const name = nickname
+        ? nickname
+        : lokiProfile
+        ? lokiProfile.displayName
+        : window.i18n('anonymous');
 
       // TODO: should take existing members into account
       const existingMember = false;
@@ -151,7 +157,7 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
       // be sure to include current zombies in this count
       if (
         newMembers.length + existingMembers.length + existingZombies.length >
-        window.CONSTANTS.CLOSED_GROUP_SIZE_LIMIT
+        VALIDATION.CLOSED_GROUP_SIZE_LIMIT
       ) {
         ToastUtils.pushTooManyMembers();
         return;

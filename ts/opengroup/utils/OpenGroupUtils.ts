@@ -85,7 +85,7 @@ export const validOpenGroupServer = async (serverUrl: string) => {
     if (!window.lokiFeatureFlags.useFileOnionRequests) {
       // we are not running with onion request
       // this is an insecure insecureNodeFetch. It will expose the user ip to the serverUrl (not onion routed)
-      window.log.info(`insecureNodeFetch => plaintext for ${url.toString()}`);
+      window?.log?.info(`insecureNodeFetch => plaintext for ${url.toString()}`);
 
       // we probably have to check the response here
       await insecureNodeFetch(serverUrl);
@@ -117,7 +117,7 @@ export const validOpenGroupServer = async (serverUrl: string) => {
       // get around the FILESERVER_HOSTS filter by not using serverRequest
       const res = await sendViaOnion(pubKeyHex, url, { method: 'GET' }, { noJson: true });
       if (res && res.result && res.result.status === 200) {
-        window.log.info(
+        window?.log?.info(
           `loki_public_chat::validOpenGroupServer - onion routing enabled on ${url.toString()}`
         );
         // save pubkey for use...
@@ -128,14 +128,14 @@ export const validOpenGroupServer = async (serverUrl: string) => {
       return false;
     } else if (result.response.meta.code !== 404) {
       // unknown error code
-      window.log.warn(
+      window?.log?.warn(
         'loki_public_chat::validOpenGroupServer - unknown error code',
         result.response.meta
       );
     }
     return false;
   } catch (e) {
-    window.log.warn(
+    window?.log?.warn(
       `loki_public_chat::validOpenGroupServer - failing to create ${serverUrl}`,
       e.code,
       e.message

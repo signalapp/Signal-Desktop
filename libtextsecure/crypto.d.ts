@@ -13,4 +13,5 @@ export interface LibTextsecureCryptoInterface {
     theirDigest: ArrayBuffer
   ): Promise<ArrayBuffer>;
   decryptProfile(data: ArrayBuffer, key: ArrayBuffer): Promise<ArrayBuffer>;
+  encryptProfile(data: ArrayBuffer, key: ArrayBuffer): Promise<ArrayBuffer>;
 }

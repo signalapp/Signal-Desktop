@@ -36,7 +36,7 @@ export class MessageSentHandler {
       await foundMessage.commit();
       foundMessage.getConversation()?.updateLastMessage();
     } catch (e) {
-      window.log.error('Error setting public on message');
+      window?.log?.error('Error setting public on message');
     }
   }
 
@@ -91,7 +91,7 @@ export class MessageSentHandler {
     if (shouldNotifyPushServer) {
       // notify the push notification server if needed
       if (!wrappedEnvelope) {
-        window.log.warn('Should send PN notify but no wrapped envelope set.');
+        window?.log?.warn('Should send PN notify but no wrapped envelope set.');
       } else {
         if (!window.LokiPushNotificationServer) {
           window.LokiPushNotificationServer = new window.LokiPushNotificationServerApi();
@@ -110,7 +110,7 @@ export class MessageSentHandler {
             sentMessage.timestamp
           );
         } catch (e) {
-          window.log.warn('Got an error while trying to sendSyncMessage():', e);
+          window?.log?.warn('Got an error while trying to sendSyncMessage():', e);
         }
       }
     } else if (shouldMarkMessageAsSynced) {

@@ -39,7 +39,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
             window.inboxStore?.dispatch(updateDefaultBase64RoomData(payload));
           })
           .catch(e => {
-            window.log.warn('downloadPreviewOpenGroupV2 failed', e);
+            window?.log?.warn('downloadPreviewOpenGroupV2 failed', e);
             const payload = {
               roomId: props.roomId,
               base64Data: '',
@@ -48,7 +48,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
           });
       }
     } catch (e) {
-      window.log.warn(e);
+      window?.log?.warn(e);
     }
   }, [props.imageId, props.completeUrl]);
   return (
@@ -84,7 +84,7 @@ export const SessionJoinableRooms = () => {
   const joinableRooms = useSelector((state: StateType) => state.defaultRooms);
 
   if (!joinableRooms?.length) {
-    window.log.info('no default joinable rooms yet');
+    window?.log?.info('no default joinable rooms yet');
     return <></>;
   }
 

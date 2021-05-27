@@ -334,6 +334,9 @@ export const getSuggestedFilename = ({
   timestamp?: number | Date;
   index?: number;
 }): string => {
+  if (attachment.fileName?.length > 3) {
+    return attachment.fileName;
+  }
   const prefix = 'session-attachment';
   const suffix = timestamp ? moment(timestamp).format('-YYYY-MM-DD-HHmmss') : '';
   const fileType = getFileExtension(attachment);
@@ -361,7 +364,12 @@ export const getSuggestedFilenameSending = ({
 
 export const getFileExtension = (attachment: AttachmentType): string | undefined => {
   // we override textplain to the extension of the file
-  if (!attachment.contentType || attachment.contentType === 'text/plain') {
+  // for contenttype starting with application, the mimetype is probably wrong so just use the extension of the file instead
+  if (
+    !attachment.contentType ||
+    attachment.contentType === 'text/plain' ||
+    attachment.contentType.startsWith('application')
+  ) {
     if (attachment.fileName?.length) {
       const dotLastIndex = attachment.fileName.lastIndexOf('.');
       if (dotLastIndex !== -1) {

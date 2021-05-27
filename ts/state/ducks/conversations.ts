@@ -92,6 +92,7 @@ export interface ConversationType {
   onInviteContacts?: () => void;
   onMarkAllRead?: () => void;
   onClearNickname?: () => void;
+  onChangeNickname?: () => void;
 }
 
 export type ConversationLookupType = {
@@ -111,7 +112,7 @@ async function getMessages(
   const conversation = ConversationController.getInstance().get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
-    window.log.error('Failed to get convo on reducer.');
+    window?.log?.error('Failed to get convo on reducer.');
     return [];
   }
   const unreadCount = await conversation.getUnreadCount();
@@ -175,7 +176,7 @@ const fetchMessagesForConversation = createAsyncThunk(
     const afterTimestamp = Date.now();
 
     const time = afterTimestamp - beforeTimestamp;
-    window.log.info(`Loading ${messages.length} messages took ${time}ms to load.`);
+    window?.log?.info(`Loading ${messages.length} messages took ${time}ms to load.`);
 
     return {
       conversationKey,
