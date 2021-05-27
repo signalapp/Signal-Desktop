@@ -351,7 +351,7 @@ window.ReactDOM = require('react-dom');
 
 window.clipboard = clipboard;
 
-window.seedNodeList = JSON.parse(config.seedNodeList);
+window.getSeedNodeList = () => JSON.parse(config.seedNodeList);
 
 const { locale: localFromEnv } = config;
 window.i18n = i18n.setup(localFromEnv, localeMessages);
@@ -400,7 +400,7 @@ window.addEventListener('contextmenu', e => {
 window.NewReceiver = require('./ts/receiver/receiver');
 window.Fsv2 = require('./ts/fileserver/FileServerApiV2');
 window.DataMessageReceiver = require('./ts/receiver/dataMessage');
-window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
+window.NewSnodeAPI = require('./ts/session/snode_api/SNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
 // eslint-disable-next-line no-extend-native,func-names

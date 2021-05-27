@@ -72,7 +72,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       this.props.existingZombies.map(d => {
         const convo = ConversationController.getInstance().get(d);
         if (!convo) {
-          window.log.warn('Zombie convo not found');
+          window?.log?.warn('Zombie convo not found');
           return null;
         }
         const lokiProfile = convo.getLokiProfile();
@@ -254,12 +254,12 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     }
 
     if (selected.existingMember && !isAdmin) {
-      window.log.warn('Only group admin can remove members!');
+      window?.log?.warn('Only group admin can remove members!');
       return;
     }
 
     if (selected.existingMember && admins.includes(selected.id)) {
-      window.log.warn(
+      window?.log?.warn(
         `User ${selected.id} cannot be removed as they are the creator of the closed group.`
       );
       ToastUtils.pushCannotRemoveCreatorFromGroup();

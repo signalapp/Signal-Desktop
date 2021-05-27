@@ -70,12 +70,12 @@ export async function resetRegistration() {
 const passwordsAreValid = (password: string, verifyPassword: string) => {
   const passwordErrors = validatePassword(password, verifyPassword);
   if (passwordErrors.passwordErrorString) {
-    window.log.warn('invalid password for registration');
+    window?.log?.warn('invalid password for registration');
     ToastUtils.pushToastError('invalidPassword', window.i18n('invalidPassword'));
     return false;
   }
   if (!!password && !passwordErrors.passwordFieldsMatch) {
-    window.log.warn('passwords does not match for registration');
+    window?.log?.warn('passwords does not match for registration');
     ToastUtils.pushToastError('invalidPassword', window.i18n('passwordsDoNotMatch'));
     return false;
   }
@@ -92,7 +92,7 @@ const displayNameIsValid = (displayName: string): undefined | string => {
   const trimName = displayName.trim();
 
   if (!trimName) {
-    window.log.warn('invalid trimmed name for registration');
+    window?.log?.warn('invalid trimmed name for registration');
     ToastUtils.pushToastError('invalidDisplayName', window.i18n('displayNameEmpty'));
     return undefined;
   }
@@ -106,7 +106,7 @@ export async function signUp(signUpDetails: {
   verifyPassword: string;
 }) {
   const { displayName, password, verifyPassword, generatedRecoveryPhrase } = signUpDetails;
-  window.log.info('SIGNING UP');
+  window?.log?.info('SIGNING UP');
 
   const trimName = displayNameIsValid(displayName);
   // shows toast to user about the error
@@ -132,7 +132,7 @@ export async function signUp(signUpDetails: {
     await resetRegistration();
 
     ToastUtils.pushToastError('registrationError', `Error: ${e.message || 'Something went wrong'}`);
-    window.log.warn('exception during registration:', e);
+    window?.log?.warn('exception during registration:', e);
   }
 }
 
@@ -148,7 +148,7 @@ export async function signInWithRecovery(signInDetails: {
   verifyPassword: string;
 }) {
   const { displayName, password, verifyPassword, userRecoveryPhrase } = signInDetails;
-  window.log.info('RESTORING FROM SEED');
+  window?.log?.info('RESTORING FROM SEED');
   const trimName = displayNameIsValid(displayName);
   // shows toast to user about the error
   if (!trimName) {
@@ -168,7 +168,7 @@ export async function signInWithRecovery(signInDetails: {
   } catch (e) {
     await resetRegistration();
     ToastUtils.pushToastError('registrationError', `Error: ${e.message || 'Something went wrong'}`);
-    window.log.warn('exception during registration:', e);
+    window?.log?.warn('exception during registration:', e);
   }
 }
 
@@ -182,7 +182,7 @@ export async function signInWithLinking(signInDetails: {
   verifyPassword: string;
 }) {
   const { password, verifyPassword, userRecoveryPhrase } = signInDetails;
-  window.log.info('LINKING DEVICE');
+  window?.log?.info('LINKING DEVICE');
   // This will show a toast with the error
   if (!passwordsAreValid(password, verifyPassword)) {
     return;
@@ -205,9 +205,9 @@ export async function signInWithLinking(signInDetails: {
     }, 60000);
     if (displayNameFromNetwork.length) {
       // display name, avatars, groups and contacts should already be handled when this event was triggered.
-      window.log.info('We got a displayName from network: ');
+      window?.log?.info('We got a displayName from network: ');
     } else {
-      window.log.info('Got a config message from network but without a displayName...');
+      window?.log?.info('Got a config message from network but without a displayName...');
       throw new Error('Got a config message from network but without a displayName...');
     }
     // Do not set the lastProfileUpdateTimestamp.
@@ -226,7 +226,7 @@ export async function signInWithLinking(signInDetails: {
         `Error: ${e.message || 'Something went wrong'}`
       );
     }
-    window.log.warn('exception during registration:', e);
+    window?.log?.warn('exception during registration:', e);
   }
 }
 export class RegistrationTabs extends React.Component<any, State> {

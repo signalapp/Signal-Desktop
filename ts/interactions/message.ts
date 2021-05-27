@@ -15,7 +15,7 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
   try {
     pubKeyToBan = PubKey.cast(userToBan);
   } catch (e) {
-    window.log.warn(e);
+    window?.log?.warn(e);
     ToastUtils.pushUserBanFailure();
     return;
   }
@@ -24,21 +24,21 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
     message: window.i18n('banUserConfirm'),
     resolve: async () => {
       if (!conversation) {
-        window.log.info('cannot ban user, the corresponding conversation was not found.');
+        window?.log?.info('cannot ban user, the corresponding conversation was not found.');
         return;
       }
       let success = false;
       if (isOpenGroupV2(conversation.id)) {
         const roomInfos = await getV2OpenGroupRoom(conversation.id);
         if (!roomInfos) {
-          window.log.warn('banUser room not found');
+          window?.log?.warn('banUser room not found');
         } else {
           success = await ApiV2.banUser(pubKeyToBan, _.pick(roomInfos, 'serverUrl', 'roomId'));
         }
       } else {
         const channelAPI = await conversation.getPublicSendData();
         if (!channelAPI) {
-          window.log.info('cannot ban user, the corresponding channelAPI was not found.');
+          window?.log?.info('cannot ban user, the corresponding channelAPI was not found.');
           return;
         }
         success = await channelAPI.banUser(userToBan);
@@ -61,12 +61,12 @@ export function unbanUser(userToUnBan: string, conversation?: ConversationModel)
   try {
     pubKeyToUnban = PubKey.cast(userToUnBan);
   } catch (e) {
-    window.log.warn(e);
+    window?.log?.warn(e);
     ToastUtils.pushUserBanFailure();
     return;
   }
   if (!isOpenGroupV2(conversation?.id || '')) {
-    window.log.warn('no way to unban on a opengroupv1');
+    window?.log?.warn('no way to unban on a opengroupv1');
     ToastUtils.pushUserBanFailure();
     return;
   }
@@ -76,14 +76,14 @@ export function unbanUser(userToUnBan: string, conversation?: ConversationModel)
     resolve: async () => {
       if (!conversation) {
         // double check here. the convo might have been removed since the dialog was opened
-        window.log.info('cannot unban user, the corresponding conversation was not found.');
+        window?.log?.info('cannot unban user, the corresponding conversation was not found.');
         return;
       }
       let success = false;
       if (isOpenGroupV2(conversation.id)) {
         const roomInfos = await getV2OpenGroupRoom(conversation.id);
         if (!roomInfos) {
-          window.log.warn('unbanUser room not found');
+          window?.log?.warn('unbanUser room not found');
         } else {
           success = await ApiV2.unbanUser(pubKeyToUnban, _.pick(roomInfos, 'serverUrl', 'roomId'));
         }
@@ -121,7 +121,7 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
       }
       const res = await channelAPI.serverAPI.removeModerators([pubKeyToRemove.key]);
       if (!res) {
-        window.log.warn('failed to remove moderators:', res);
+        window?.log?.warn('failed to remove moderators:', res);
 
         ToastUtils.pushErrorHappenedWhileRemovingModerator();
       } else {
@@ -129,7 +129,7 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
         const modPubKeys = await channelAPI.getModerators();
         await convo.updateGroupAdmins(modPubKeys);
 
-        window.log.info(`${pubKeyToRemove.key} removed from moderators...`);
+        window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
         ToastUtils.pushUserRemovedFromModerators();
       }
     } else if (convo.isOpenGroupV2()) {
@@ -137,16 +137,16 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
       const roomInfo = convo.toOpenGroupV2();
       const res = await ApiV2.removeModerator(pubKeyToRemove, roomInfo);
       if (!res) {
-        window.log.warn('failed to remove moderator:', res);
+        window?.log?.warn('failed to remove moderator:', res);
 
         ToastUtils.pushErrorHappenedWhileRemovingModerator();
       } else {
-        window.log.info(`${pubKeyToRemove.key} removed from moderators...`);
+        window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
         ToastUtils.pushUserRemovedFromModerators();
       }
     }
   } catch (e) {
-    window.log.error('Got error while removing moderator:', e);
+    window?.log?.error('Got error while removing moderator:', e);
   }
 }
 
@@ -165,11 +165,11 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
       }
       const res = await channelAPI.serverAPI.addModerator([pubKeyToRemove.key]);
       if (!res) {
-        window.log.warn('failed to add moderators:', res);
+        window?.log?.warn('failed to add moderators:', res);
 
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {
-        window.log.info(`${pubKeyToRemove.key} added as moderator...`);
+        window?.log?.info(`${pubKeyToRemove.key} added as moderator...`);
         // refresh the moderator list. Will trigger a refresh
         const modPubKeys = await channelAPI.getModerators();
         await convo.updateGroupAdmins(modPubKeys);
@@ -181,16 +181,16 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
       const roomInfo = convo.toOpenGroupV2();
       const res = await ApiV2.addModerator(pubKeyToRemove, roomInfo);
       if (!res) {
-        window.log.warn('failed to add moderator:', res);
+        window?.log?.warn('failed to add moderator:', res);
 
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {
-        window.log.info(`${pubKeyToRemove.key} removed from moderators...`);
+        window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
         ToastUtils.pushUserAddedToModerators();
       }
     }
   } catch (e) {
-    window.log.error('Got error while adding moderator:', e);
+    window?.log?.error('Got error while adding moderator:', e);
   }
 }
 
@@ -213,7 +213,7 @@ async function acceptOpenGroupInvitationV1(serverAddress: string) {
 
     const conversationExists = ConversationController.getInstance().get(conversationId);
     if (conversationExists) {
-      window.log.warn('We are already a member of this public chat');
+      window?.log?.warn('We are already a member of this public chat');
       ToastUtils.pushAlreadyMemberOpenGroup();
 
       return;
@@ -231,12 +231,12 @@ async function acceptOpenGroupInvitationV1(serverAddress: string) {
       conversationId
     );
     if (!channelAPI) {
-      window.log.warn(`Could not connect to ${serverAddress}`);
+      window?.log?.warn(`Could not connect to ${serverAddress}`);
       return;
     }
     openConversationExternal(conversationId);
   } catch (e) {
-    window.log.warn('failed to join opengroupv1 from invitation', e);
+    window?.log?.warn('failed to join opengroupv1 from invitation', e);
     ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
   }
 }

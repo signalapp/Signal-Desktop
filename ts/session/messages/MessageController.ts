@@ -55,7 +55,7 @@ export class MessageController {
   }
 
   public cleanup() {
-    window.log.warn('Cleaning up MessageController singleton oldest messages...');
+    window?.log?.warn('Cleaning up MessageController singleton oldest messages...');
     const now = Date.now();
 
     (this.messageLookup || []).forEach(messageEntry => {

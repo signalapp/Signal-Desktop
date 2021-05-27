@@ -43,7 +43,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
     };
     return room;
   } catch (e) {
-    window.log.error('Invalid Opengroup v2 join URL:', lowerCased, e);
+    window?.log?.error('Invalid Opengroup v2 join URL:', lowerCased, e);
   }
   return undefined;
 }
@@ -72,11 +72,11 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromSyncMessage: boolean):
   const existingConvo = ConversationController.getInstance().get(conversationId);
 
   if (alreadyExist && existingConvo) {
-    window.log.warn('Skipping join opengroupv2: already exists');
+    window?.log?.warn('Skipping join opengroupv2: already exists');
     return;
   } else if (existingConvo) {
     // we already have a convo associated with it. Remove everything related to it so we start fresh
-    window.log.warn('leaving before rejoining open group v2 room', conversationId);
+    window?.log?.warn('leaving before rejoining open group v2 room', conversationId);
     await ConversationController.getInstance().deleteContact(conversationId);
   }
 
@@ -92,7 +92,7 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromSyncMessage: boolean):
     );
 
     if (!conversation) {
-      window.log.warn('Failed to join open group v2');
+      window?.log?.warn('Failed to join open group v2');
       throw new Error(window.i18n('connectToServerFail'));
     }
 
@@ -102,7 +102,7 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromSyncMessage: boolean):
       await forceSyncConfigurationNowIfNeeded();
     }
   } catch (e) {
-    window.log.error('Could not join open group v2', e);
+    window?.log?.error('Could not join open group v2', e);
     throw new Error(e);
   }
 }
@@ -164,7 +164,7 @@ export async function joinOpenGroupV2WithUIEvents(
       }
     }
   } catch (error) {
-    window.log.warn('got error while joining open group:', error);
+    window?.log?.warn('got error while joining open group:', error);
     if (showToasts) {
       ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
     }

@@ -8,7 +8,6 @@ import {
   Quote,
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
-import { AttachmentUtils } from './Attachments';
 import { uploadFileOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
 

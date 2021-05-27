@@ -43,7 +43,7 @@ export const parseMessages = async (
   rawMessages: Array<Record<string, any>>
 ): Promise<Array<OpenGroupMessageV2>> => {
   if (!rawMessages) {
-    window.log.info('no new messages');
+    window?.log?.info('no new messages');
     return [];
   }
   const messages = await Promise.all(
@@ -56,7 +56,7 @@ export const parseMessages = async (
           !opengroupMessage.base64EncodedData ||
           !opengroupMessage.base64EncodedSignature
         ) {
-          window.log.warn('invalid open group message received');
+          window?.log?.warn('invalid open group message received');
           return null;
         }
         // Validate the message signature
@@ -71,7 +71,7 @@ export const parseMessages = async (
         );
         return opengroupMessage;
       } catch (e) {
-        window.log.error('An error happened while fetching getMessages output:', e);
+        window?.log?.error('An error happened while fetching getMessages output:', e);
         return null;
       }
     })
@@ -107,7 +107,7 @@ const loadDefaultRoomsSingle = () =>
             };
           });
         } catch (e) {
-          window.log.warn('loadDefaultRoomloadDefaultRoomssIfNeeded failed', e);
+          window?.log?.warn('loadDefaultRoomloadDefaultRoomssIfNeeded failed', e);
         }
         return [];
       }

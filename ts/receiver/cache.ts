@@ -15,14 +15,14 @@ import {
 
 export async function removeFromCache(envelope: EnvelopePlus) {
   const { id } = envelope;
-  window.log.info(`removing from cache envelope: ${id}`);
+  window?.log?.info(`removing from cache envelope: ${id}`);
 
   return removeUnprocessed(id);
 }
 
 export async function addToCache(envelope: EnvelopePlus, plaintext: ArrayBuffer) {
   const { id } = envelope;
-  window.log.info(`adding to cache envelope: ${id}`);
+  window?.log?.info(`adding to cache envelope: ${id}`);
 
   const encodedEnvelope = StringUtils.decode(plaintext, 'base64');
   const data: UnprocessedParameter = {
@@ -44,7 +44,7 @@ async function fetchAllFromCache(): Promise<Array<any>> {
 
   if (count > 1500) {
     await removeAllUnprocessed();
-    window.log.warn(`There were ${count} messages in cache. Deleted all instead of reprocessing`);
+    window?.log?.warn(`There were ${count} messages in cache. Deleted all instead of reprocessing`);
     return [];
   }
 
@@ -53,10 +53,10 @@ async function fetchAllFromCache(): Promise<Array<any>> {
 }
 
 export async function getAllFromCache() {
-  window.log.info('getAllFromCache');
+  window?.log?.info('getAllFromCache');
   const items = await fetchAllFromCache();
 
-  window.log.info('getAllFromCache loaded', items.length, 'saved envelopes');
+  window?.log?.info('getAllFromCache loaded', items.length, 'saved envelopes');
 
   return Promise.all(
     _.map(items, async (item: any) => {
@@ -64,13 +64,13 @@ export async function getAllFromCache() {
 
       try {
         if (attempts >= 10) {
-          window.log.warn('getAllFromCache final attempt for envelope', item.id);
+          window?.log?.warn('getAllFromCache final attempt for envelope', item.id);
           await removeUnprocessed(item.id);
         } else {
           await updateUnprocessedAttempts(item.id, attempts);
         }
       } catch (error) {
-        window.log.error(
+        window?.log?.error(
           'getAllFromCache error updating item after load:',
           error && error.stack ? error.stack : error
         );
@@ -89,7 +89,7 @@ export async function getAllFromCacheForSource(source: string) {
     item => !!item.senderIdentity || item.senderIdentity === source
   );
 
-  window.log.info('getAllFromCacheForSource loaded', itemsFromSource.length, 'saved envelopes');
+  window?.log?.info('getAllFromCacheForSource loaded', itemsFromSource.length, 'saved envelopes');
 
   return Promise.all(
     _.map(items, async (item: any) => {
@@ -97,13 +97,13 @@ export async function getAllFromCacheForSource(source: string) {
 
       try {
         if (attempts >= 10) {
-          window.log.warn('getAllFromCache final attempt for envelope', item.id);
+          window?.log?.warn('getAllFromCache final attempt for envelope', item.id);
           await removeUnprocessed(item.id);
         } else {
           await updateUnprocessedAttempts(item.id, attempts);
         }
       } catch (error) {
-        window.log.error(
+        window?.log?.error(
           'getAllFromCache error updating item after load:',
           error && error.stack ? error.stack : error
         );
@@ -118,7 +118,7 @@ export async function updateCache(envelope: EnvelopePlus, plaintext: ArrayBuffer
   const { id } = envelope;
   const item = await getUnprocessedById(id);
   if (!item) {
-    window.log.error(`updateCache: Didn't find item ${id} in cache to update`);
+    window?.log?.error(`updateCache: Didn't find item ${id} in cache to update`);
     return;
   }
 

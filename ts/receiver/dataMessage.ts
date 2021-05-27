@@ -24,7 +24,7 @@ export async function updateProfileOneAtATime(
   profileKey: any
 ) {
   if (!conversation?.id) {
-    window.log.warn('Cannot update profile with empty convoid');
+    window?.log?.warn('Cannot update profile with empty convoid');
     return;
   }
   const oneAtaTimeStr = `updateProfileOneAtATime:${conversation.id}`;
@@ -50,38 +50,43 @@ async function updateProfile(
     const needsUpdate = !prevPointer || !_.isEqual(prevPointer, profile.profilePicture);
 
     if (needsUpdate) {
-      const downloaded = await downloadAttachment({
-        url: profile.profilePicture,
-        isRaw: true,
-      });
+      try {
+        const downloaded = await downloadAttachment({
+          url: profile.profilePicture,
+          isRaw: true,
+        });
 
-      // null => use placeholder with color and first letter
-      let path = null;
-      if (profileKey) {
-        // Convert profileKey to ArrayBuffer, if needed
-        const encoding = typeof profileKey === 'string' ? 'base64' : null;
-        try {
-          const profileKeyArrayBuffer = dcodeIO.ByteBuffer.wrap(
-            profileKey,
-            encoding
-          ).toArrayBuffer();
-          const decryptedData = await textsecure.crypto.decryptProfile(
-            downloaded.data,
-            profileKeyArrayBuffer
-          );
-          const upgraded = await Signal.Migrations.processNewAttachment({
-            ...downloaded,
-            data: decryptedData,
-          });
-          // Only update the convo if the download and decrypt is a success
-          conversation.set('avatarPointer', profile.profilePicture);
-          conversation.set('profileKey', profileKey);
-          ({ path } = upgraded);
-        } catch (e) {
-          window.log.error(`Could not decrypt profile image: ${e}`);
+        // null => use placeholder with color and first letter
+        let path = null;
+        if (profileKey) {
+          // Convert profileKey to ArrayBuffer, if needed
+          const encoding = typeof profileKey === 'string' ? 'base64' : null;
+          try {
+            const profileKeyArrayBuffer = dcodeIO.ByteBuffer.wrap(
+              profileKey,
+              encoding
+            ).toArrayBuffer();
+            const decryptedData = await textsecure.crypto.decryptProfile(
+              downloaded.data,
+              profileKeyArrayBuffer
+            );
+            const upgraded = await Signal.Migrations.processNewAttachment({
+              ...downloaded,
+              data: decryptedData,
+            });
+            // Only update the convo if the download and decrypt is a success
+            conversation.set('avatarPointer', profile.profilePicture);
+            conversation.set('profileKey', profileKey);
+            ({ path } = upgraded);
+          } catch (e) {
+            window?.log?.error(`Could not decrypt profile image: ${e}`);
+          }
         }
+        newProfile.avatar = path;
+      } catch (e) {
+        window.log.warn('Failed to download attachment at', profile.profilePicture);
+        return;
       }
-      newProfile.avatar = path;
     }
   } else {
     newProfile.avatar = null;
@@ -289,10 +294,10 @@ export async function handleDataMessage(
   const isMe = UserUtils.isUsFromCache(senderPubKey);
   const isSyncMessage = Boolean(dataMessage.syncTarget?.length);
 
-  window.log.info(`Handle dataMessage from ${source} `);
+  window?.log?.info(`Handle dataMessage from ${source} `);
 
   if (isSyncMessage && !isMe) {
-    window.log.warn('Got a sync message from someone else than me. Dropping it.');
+    window?.log?.warn('Got a sync message from someone else than me. Dropping it.');
     return removeFromCache(envelope);
   } else if (isSyncMessage && dataMessage.syncTarget) {
     // override the envelope source
@@ -309,7 +314,7 @@ export async function handleDataMessage(
     await updateProfileOneAtATime(senderConversation, message.profile, message.profileKey);
   }
   if (isMessageEmpty(message)) {
-    window.log.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
+    window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     return removeFromCache(envelope);
   }
 
@@ -391,7 +396,7 @@ export async function isMessageDuplicate({
     }
     return filteredResult.some(m => isDuplicate(m, message, source));
   } catch (error) {
-    window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
+    window?.log?.error('isMessageDuplicate error:', Errors.toLogFormat(error));
     return false;
   }
 }
@@ -586,7 +591,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   const isIncoming = event.type === 'message';
 
   if (!data || !data.message) {
-    window.log.warn('Invalid data passed to handleMessageEvent.', event);
+    window?.log?.warn('Invalid data passed to handleMessageEvent.', event);
     confirm();
     return;
   }
@@ -601,7 +606,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   let conversationId = isIncoming ? source : destination || source; // for synced message
   if (!conversationId) {
-    window.log.error('We cannot handle a message without a conversationId');
+    window?.log?.error('We cannot handle a message without a conversationId');
     confirm();
     return;
   }
@@ -615,7 +620,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   source = source || msg.get('source');
 
   if (await isMessageDuplicate(data)) {
-    window.log.info('Received duplicate message. Dropping it.');
+    window?.log?.info('Received duplicate message. Dropping it.');
     confirm();
     return;
   }
@@ -640,7 +645,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   if (!conversationId) {
-    window.log.warn('Invalid conversation id for incoming message', conversationId);
+    window?.log?.warn('Invalid conversation id for incoming message', conversationId);
   }
   const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
@@ -657,7 +662,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   );
 
   if (!conversation) {
-    window.log.warn('Skipping handleJob for unknown convo: ', conversationId);
+    window?.log?.warn('Skipping handleJob for unknown convo: ', conversationId);
     return;
   }
 

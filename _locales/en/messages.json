@@ -776,7 +776,7 @@
     "ignoreCase": true
   },
   "linkPreviewDescription": {
-    "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links",
+    "message": "Previews are supported for most urls",
     "description": "Description shown for the Link Preview option ",
     "androidKey": "preferences__previews_are_supported_for"
   },

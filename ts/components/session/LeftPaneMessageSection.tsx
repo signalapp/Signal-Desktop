@@ -390,11 +390,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       const openGroupConversation = OpenGroup.getConversation(serverUrlV1);
 
       if (!openGroupConversation) {
-        window.log.error('Joined an opengroup but did not find ther corresponding conversation');
+        window?.log?.error('Joined an opengroup but did not find ther corresponding conversation');
       }
       this.handleToggleOverlay(undefined);
     } catch (e) {
-      window.log.error('Failed to connect to server:', e);
+      window?.log?.error('Failed to connect to server:', e);
       ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
       this.setState({ loading: false });
     }
@@ -430,7 +430,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   private async onCreateClosedGroup(groupName: string, groupMembers: Array<ContactType>) {
     if (this.state.loading) {
-      window.log.warn('Closed group creation already in progress');
+      window?.log?.warn('Closed group creation already in progress');
       return;
     }
     this.setState({ loading: true }, async () => {

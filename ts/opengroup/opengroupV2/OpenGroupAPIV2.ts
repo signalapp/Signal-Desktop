@@ -18,6 +18,7 @@ import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
 import { isOpenGroupV2Request } from '../../fileserver/FileServerApiV2';
 import { getAuthToken } from './ApiAuth';
+import pRetry from 'p-retry';
 
 /**
  * This function returns a base url to this room
@@ -103,7 +104,7 @@ export async function sendApiV2Request(
     });
 
     if (!token) {
-      window.log.error('Failed to get token for open group v2');
+      window?.log?.error('Failed to get token for open group v2');
       return null;
     }
 
@@ -121,7 +122,7 @@ export async function sendApiV2Request(
 
     const statusCode = parseStatusCodeFromOnionRequest(res);
     if (!statusCode) {
-      window.log.warn('sendOpenGroupV2Request Got unknown status code; res:', res);
+      window?.log?.warn('sendOpenGroupV2Request Got unknown status code; res:', res);
       return res as object;
     }
     // A 401 means that we didn't provide a (valid) auth token for a route that required one. We use this as an
@@ -134,7 +135,7 @@ export async function sendApiV2Request(
         roomId: request.room,
       });
       if (!roomDetails) {
-        window.log.warn('Got 401, but this room does not exist');
+        window?.log?.warn('Got 401, but this room does not exist');
         return null;
       }
       roomDetails.token = undefined;
@@ -175,7 +176,7 @@ export async function openGroupV2GetRoomInfo({
     const { id, name, image_id: imageId } = result?.result?.room;
 
     if (!id || !name) {
-      window.log.warn('getRoominfo Parsing failed');
+      window?.log?.warn('getRoominfo Parsing failed');
       return null;
     }
     const info: OpenGroupV2Info = {
@@ -186,7 +187,7 @@ export async function openGroupV2GetRoomInfo({
 
     return info;
   }
-  window.log.warn('getInfo failed');
+  window?.log?.warn('getInfo failed');
   return null;
 }
 
@@ -195,7 +196,8 @@ export async function openGroupV2GetRoomInfo({
  * If an error happens, this function throws it
  *
  */
-export const postMessage = async (
+
+const postMessageRetryable = async (
   message: OpenGroupMessageV2,
   room: OpenGroupRequestCommonType
 ) => {
@@ -210,7 +212,9 @@ export const postMessage = async (
     isAuthRequired: true,
     endpoint: 'messages',
   };
+
   const result = await sendApiV2Request(request);
+
   const statusCode = parseStatusCodeFromOnionRequest(result);
 
   if (statusCode !== 200) {
@@ -222,6 +226,30 @@ export const postMessage = async (
   }
   // this will throw if the json is not valid
   return OpenGroupMessageV2.fromJson(rawMessage);
+};
+
+export const postMessage = async (
+  message: OpenGroupMessageV2,
+  room: OpenGroupRequestCommonType
+) => {
+  const result = await pRetry(
+    async () => {
+      return postMessageRetryable(message, room);
+    },
+    {
+      retries: 3, // each path can fail 3 times before being dropped, we have 3 paths at most
+      factor: 2,
+      minTimeout: 1000,
+      maxTimeout: 4000,
+      onFailedAttempt: e => {
+        window?.log?.warn(
+          `postMessageRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+        );
+      },
+    }
+  );
+  return result;
+  // errors are saved on the message itself if this pRetry fails too many times
 };
 
 export const banUser = async (
@@ -289,7 +317,7 @@ export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
   const statusCode = parseStatusCodeFromOnionRequest(result);
 
   if (statusCode !== 200) {
-    window.log.warn('getAllRoomInfos failed invalid status code');
+    window?.log?.warn('getAllRoomInfos failed invalid status code');
     return;
   }
 
@@ -308,12 +336,12 @@ export const getMemberCount = async (
   };
   const result = await sendApiV2Request(request);
   if (parseStatusCodeFromOnionRequest(result) !== 200) {
-    window.log.warn('getMemberCount failed invalid status code');
+    window?.log?.warn('getMemberCount failed invalid status code');
     return;
   }
   const count = parseMemberCount(result);
   if (count === undefined) {
-    window.log.warn('getMemberCount failed invalid count');
+    window?.log?.warn('getMemberCount failed invalid count');
     return;
   }
 
@@ -329,7 +357,7 @@ export const downloadFileOpenGroupV2 = async (
   roomInfos: OpenGroupRequestCommonType
 ): Promise<Uint8Array | null> => {
   if (!fileId) {
-    window.log.warn('downloadFileOpenGroupV2: FileId cannot be unset. returning null');
+    window?.log?.warn('downloadFileOpenGroupV2: FileId cannot be unset. returning null');
     return null;
   }
   const request: OpenGroupV2Request = {

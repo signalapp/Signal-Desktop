@@ -64,7 +64,7 @@ declare global {
     onLogin: any;
     resetDatabase: any;
     restart: any;
-    seedNodeList: any;
+    getSeedNodeList: () => any;
     setPassword: any;
     setSettingValue: any;
     showEditProfileDialog: any;

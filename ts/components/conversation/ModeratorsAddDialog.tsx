@@ -48,12 +48,12 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     // if we don't have valid data entered by the user
     const pubkey = PubKey.from(this.state.inputBoxValue);
     if (!pubkey) {
-      window.log.info('invalid pubkey for adding as moderator:', this.state.inputBoxValue);
+      window?.log?.info('invalid pubkey for adding as moderator:', this.state.inputBoxValue);
       ToastUtils.pushInvalidPubKey();
       return;
     }
 
-    window.log.info(`asked to add moderator: ${pubkey.key}`);
+    window?.log?.info(`asked to add moderator: ${pubkey.key}`);
 
     try {
       this.setState({
@@ -68,11 +68,11 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
         isAdded = await ApiV2.addModerator(pubkey, roomInfos);
       }
       if (!isAdded) {
-        window.log.warn('failed to add moderators:', isAdded);
+        window?.log?.warn('failed to add moderators:', isAdded);
 
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {
-        window.log.info(`${pubkey.key} added as moderator...`);
+        window?.log?.info(`${pubkey.key} added as moderator...`);
         ToastUtils.pushUserAddedToModerators();
 
         // clear input box
@@ -81,7 +81,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
         });
       }
     } catch (e) {
-      window.log.error('Got error while adding moderator:', e);
+      window?.log?.error('Got error while adding moderator:', e);
     } finally {
       this.setState({
         addingInProgress: false,

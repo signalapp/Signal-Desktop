@@ -49,11 +49,11 @@ export const syncConfigurationIfNeeded = async () => {
   const allConvos = ConversationController.getInstance().getConversations();
   const configMessage = await getCurrentConfigurationMessage(allConvos);
   try {
-    // window.log.info('syncConfigurationIfNeeded with', configMessage);
+    // window?.log?.info('syncConfigurationIfNeeded with', configMessage);
 
     await getMessageQueue().sendSyncMessage(configMessage);
   } catch (e) {
-    window.log.warn('Caught an error while sending our ConfigurationMessage:', e);
+    window?.log?.warn('Caught an error while sending our ConfigurationMessage:', e);
     // we do return early so that next time we use the old timestamp again
     // and so try again to trigger a sync
     return;
@@ -88,7 +88,7 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
         }
       })
       .catch(e => {
-        window.log.warn('Caught an error while building our ConfigurationMessage:', e);
+        window?.log?.warn('Caught an error while building our ConfigurationMessage:', e);
         resolve(false);
       });
   });
@@ -188,7 +188,7 @@ export const getCurrentConfigurationMessage = async (convos: Array<ConversationM
   const validContacts = getValidContacts(convos);
 
   if (!ourConvo) {
-    window.log.error('Could not find our convo while building a configuration message.');
+    window?.log?.error('Could not find our convo while building a configuration message.');
   }
   const profileKeyFromStorage = window.storage.get('profileKey');
   const profileKey = profileKeyFromStorage ? new Uint8Array(profileKeyFromStorage) : undefined;
@@ -282,7 +282,7 @@ export const buildSyncMessage = (
     (dataMessage as any).constructor.name !== 'DataMessage' &&
     !(dataMessage instanceof SignalService.DataMessage)
   ) {
-    window.log.warn('buildSyncMessage with something else than a DataMessage');
+    window?.log?.warn('buildSyncMessage with something else than a DataMessage');
   }
 
   if (!sentTimestamp || !_.isNumber(sentTimestamp)) {

@@ -1,7 +1,6 @@
 // we don't throw or catch here
 import { default as insecureNodeFetch } from 'node-fetch';
 import https from 'https';
-import crypto from 'crypto';
 
 import fs from 'fs';
 import path from 'path';
@@ -11,26 +10,12 @@ import Electron from 'electron';
 const { remote } = Electron;
 
 import { snodeRpc } from './lokiRpc';
-import { sendOnionRequestLsrpcDest, snodeHttpsAgent, SnodeResponse } from './onions';
 
-export { sendOnionRequestLsrpcDest };
-
-import {
-  getRandomSnodeAddress,
-  getRandomSnodePool,
-  getSwarm,
-  markNodeUnreachable,
-  requiredSnodesForAgreement,
-  Snode,
-  updateSnodesFor,
-} from './snodePool';
+import { getRandomSnode, getRandomSnodePool, requiredSnodesForAgreement, Snode } from './snodePool';
 import { Constants } from '..';
-import { sleepFor } from '../utils/Promise';
 import { sha256 } from '../crypto';
-import pRetry from 'p-retry';
 import _ from 'lodash';
-
-const maxAcceptableFailuresStoreOnNode = 10;
+import pRetry from 'p-retry';
 
 const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   let filePrefix = '';
@@ -112,8 +97,6 @@ const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
 };
 
 export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
-  const { log } = window;
-
   // Removed limit until there is a way to get snode info
   // for individual nodes (needed for guard nodes);  this way
   // we get all active nodes
@@ -149,12 +132,12 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
 
     agent: sslAgent,
   };
-  window.log.info('insecureNodeFetch => plaintext for getSnodesFromSeedUrl');
+  window?.log?.info('insecureNodeFetch => plaintext for getSnodesFromSeedUrl');
 
   const response = await insecureNodeFetch(url, fetchOptions);
 
   if (response.status !== 200) {
-    log.error(
+    window?.log?.error(
       `loki_snode_api:::getSnodesFromSeedUrl - invalid response from seed ${urlObj.toString()}:`,
       response
     );
@@ -162,7 +145,7 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
   }
 
   if (response.headers.get('Content-Type') !== 'application/json') {
-    log.error('Response is not json');
+    window?.log?.error('Response is not json');
     return [];
   }
 
@@ -173,7 +156,7 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     const result = json.result;
 
     if (!result) {
-      log.error(
+      window?.log?.error(
         `loki_snode_api:::getSnodesFromSeedUrl - invalid result from seed ${urlObj.toString()}:`,
         response
       );
@@ -182,7 +165,7 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
     return result.service_node_states.filter((snode: any) => snode.public_ip !== '0.0.0.0');
   } catch (e) {
-    log.error('Invalid json response');
+    window?.log?.error('Invalid json response');
     return [];
   }
 }
@@ -195,66 +178,77 @@ export type SendParams = {
 };
 
 // get snodes for pubkey from random snode. Uses an existing snode
-export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snode>> {
-  const { log } = window;
 
-  let targetNode;
-  try {
-    targetNode = await getRandomSnodeAddress();
-    const result = await snodeRpc(
-      'get_snodes_for_pubkey',
-      {
-        pubKey,
-      },
-      targetNode
+async function requestSnodesForPubkeyRetryable(
+  pubKey: string,
+  targetNode: Snode
+): Promise<Array<Snode>> {
+  const params = {
+    pubKey,
+  };
+  const result = await snodeRpc('get_snodes_for_pubkey', params, targetNode, pubKey);
+
+  if (!result) {
+    window?.log?.warn(
+      `LokiSnodeAPI::requestSnodesForPubkeyRetryable - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
+      result
     );
+    throw new Error('requestSnodesForPubkeyRetryable: Invalid result');
+  }
 
-    if (!result) {
-      log.warn(
-        `LokiSnodeAPI::requestSnodesForPubkey - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value`,
+  if (result.status !== 200) {
+    window?.log?.warn('Status is not 200 for get_snodes_for_pubkey');
+    throw new Error('requestSnodesForPubkeyRetryable: Invalid status code');
+  }
+
+  try {
+    const json = JSON.parse(result.body);
+
+    if (!json.snodes) {
+      // we hit this when snode gives 500s
+      window?.log?.warn(
+        `LokiSnodeAPI::requestSnodesForPubkeyRetryable - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value for snodes`,
         result
       );
-      return [];
+      throw new Error('Invalid json (empty)');
     }
 
-    if (result.status !== 200) {
-      log.warn('Status is not 200 for get_snodes_for_pubkey');
-      return [];
-    }
-
-    try {
-      const json = JSON.parse(result.body);
-
-      if (!json.snodes) {
-        // we hit this when snode gives 500s
-        log.warn(
-          `LokiSnodeAPI::requestSnodesForPubkey - lokiRpc on ${targetNode.ip}:${targetNode.port} returned falsish value for snodes`,
-          result
-        );
-        return [];
-      }
-
-      const snodes = json.snodes.filter((tSnode: any) => tSnode.ip !== '0.0.0.0');
-      return snodes;
-    } catch (e) {
-      log.warn('Invalid json');
-      return [];
-    }
+    const snodes = json.snodes.filter((tSnode: any) => tSnode.ip !== '0.0.0.0');
+    return snodes;
   } catch (e) {
-    log.error('LokiSnodeAPI::requestSnodesForPubkey - error', e.code, e.message);
+    throw new Error('Invalid json');
+  }
+}
 
-    if (targetNode) {
-      markNodeUnreachable(targetNode);
-    }
+export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snode>> {
+  try {
+    const targetNode = await getRandomSnode();
+
+    return await pRetry(
+      async () => {
+        return requestSnodesForPubkeyRetryable(pubKey, targetNode);
+      },
+      {
+        retries: 10, // each path can fail 3 times before being dropped, we have 3 paths at most
+        factor: 2,
+        minTimeout: 200,
+        maxTimeout: 4000,
+        onFailedAttempt: e => {
+          window?.log?.warn(
+            `requestSnodesForPubkey attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+          );
+        },
+      }
+    );
+  } catch (e) {
+    window?.log?.error('LokiSnodeAPI::requestSnodesForPubkey - error', e);
 
     return [];
   }
 }
 
 export async function requestLnsMapping(targetNode: Snode, nameHash: any) {
-  const { log } = window;
-
-  log.debug('[lns] lns requests to {}:{}', targetNode.ip, targetNode);
+  window?.log?.debug('[lns] lns requests to {}:{}', targetNode.ip, targetNode);
   try {
     // TODO: Check response status
     return snodeRpc(
@@ -265,7 +259,7 @@ export async function requestLnsMapping(targetNode: Snode, nameHash: any) {
       targetNode
     );
   } catch (e) {
-    log.warn('exception caught making lns requests to a node', targetNode, e);
+    window?.log?.warn('exception caught making lns requests to a node', targetNode, e);
     return false;
   }
 }
@@ -278,7 +272,7 @@ export async function requestLnsMapping(targetNode: Snode, nameHash: any) {
 export async function getSnodePoolFromSnodes() {
   const existingSnodePool = await getRandomSnodePool();
   if (existingSnodePool.length < 3) {
-    window.log.warn('cannot get snodes from snodes; not enough snodes', existingSnodePool.length);
+    window?.log?.warn('cannot get snodes from snodes; not enough snodes', existingSnodePool.length);
     return;
   }
 
@@ -286,16 +280,9 @@ export async function getSnodePoolFromSnodes() {
   const nodesToRequest = _.sampleSize(existingSnodePool, 3);
   const results = await Promise.all(
     nodesToRequest.map(async node => {
-      return pRetry(
-        async () => {
-          return getSnodePoolFromSnode(node);
-        },
-        {
-          retries: 3,
-          factor: 1,
-          minTimeout: 1000,
-        }
-      );
+      // this call is already retried if the snode does not reply
+      // at least when onion requests enabled
+      return getSnodePoolFromSnode(node);
     })
   );
 
@@ -316,9 +303,10 @@ export async function getSnodePoolFromSnodes() {
 }
 
 /**
- * Returns a list of uniq snodes got from the specified targetNode
+ * Returns a list of uniq snodes got from the specified targetNode.
+ * This is exported for testing purpose only
  */
-async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
+export async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
   const params = {
     endpoint: 'get_service_nodes',
     params: {
@@ -332,8 +320,7 @@ async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
       },
     },
   };
-  const method = 'oxend_request';
-  const result = await snodeRpc(method, params, targetNode);
+  const result = await snodeRpc('oxend_request', params, targetNode);
   if (!result || result.status !== 200) {
     throw new Error('Invalid result');
   }
@@ -342,7 +329,7 @@ async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
     const json = JSON.parse(result.body);
 
     if (!json || !json.result || !json.result.service_node_states?.length) {
-      window.log.error(
+      window?.log?.error(
         'loki_snode_api:::getSnodePoolFromSnode - invalid result from seed',
         result.body
       );
@@ -363,164 +350,70 @@ async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
     // we the return list by the snode is already made of uniq snodes
     return _.compact(snodes);
   } catch (e) {
-    window.log.error('Invalid json response');
+    window?.log?.error('Invalid json response');
     return [];
-  }
-}
-
-function checkResponse(response: SnodeResponse): void {
-  if (response.status === 406) {
-    throw new window.textsecure.TimestampError('Invalid Timestamp (check your clock)');
-  }
-
-  // Wrong/invalid swarm
-  if (response.status === 421) {
-    let json;
-    try {
-      json = JSON.parse(response.body);
-    } catch (e) {
-      // could not parse result. Consider that snode as invalid
-      throw new window.textsecure.InvalidateSwarm();
-    }
-
-    // The snode isn't associated with the given public key anymore
-    window.log.warn('Wrong swarm, now looking at snodes', json.snodes);
-    if (json.snodes?.length) {
-      throw new window.textsecure.WrongSwarmError(json.snodes);
-    }
-    // remove this node from the swarm of this pubkey
-    throw new window.textsecure.InvalidateSwarm();
   }
 }
 
 export async function storeOnNode(targetNode: Snode, params: SendParams): Promise<boolean> {
-  const { log, textsecure } = window;
+  try {
+    // no retry here. If an issue is with the path this is handled in lokiOnionFetch
+    // if there is an issue with the targetNode, we still send a few times this request to a few snodes in // already so it's handled
+    const result = await snodeRpc('store', params, targetNode, params.pubKey);
 
-  let successiveFailures = 0;
-
-  while (successiveFailures < maxAcceptableFailuresStoreOnNode) {
-    // the higher this is, the longer the user delay is
-    // we don't want to burn through all our retries quickly
-    // we need to give the node a chance to heal
-    // also failed the user quickly, just means they pound the retry faster
-    // this favors a lot more retries and lower delays
-    // but that may chew up the bandwidth...
-    await sleepFor(successiveFailures * 500);
-    try {
-      const result = await snodeRpc('store', params, targetNode);
-
-      // do not return true if we get false here...
-      if (!result) {
-        // this means the node we asked for is likely down
-        log.warn(
-          `loki_message:::storeOnNode - Try #${successiveFailures}/${maxAcceptableFailuresStoreOnNode} ${targetNode.ip}:${targetNode.port} failed`
-        );
-        successiveFailures += 1;
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      const snodeRes = result;
-
-      checkResponse(snodeRes);
-
-      if (snodeRes.status !== 200) {
-        return false;
-      }
-
-      return true;
-    } catch (e) {
-      log.warn(
-        'loki_message:::storeOnNode - send error:',
-        e.code,
-        e.message,
-        `destination ${targetNode.ip}:${targetNode.port}`
-      );
-      if (e instanceof textsecure.WrongSwarmError) {
-        const { newSwarm } = e;
-        await updateSnodesFor(params.pubKey, newSwarm);
-        return false;
-      } else if (e instanceof textsecure.NotFoundError) {
-        // TODO: Handle resolution error
-      } else if (e instanceof textsecure.TimestampError) {
-        log.warn('loki_message:::storeOnNode - Timestamp is invalid');
-        throw e;
-      } else if (e instanceof textsecure.HTTPError) {
-        // TODO: Handle working connection but error response
-        const body = await e.response.text();
-        log.warn('loki_message:::storeOnNode - HTTPError body:', body);
-      } else if (e instanceof window.textsecure.InvalidateSwarm) {
-        window.log.warn(
-          'Got an `InvalidateSwarm` error, removing this node from this swarm of this pubkey'
-        );
-        const existingSwarm = await getSwarm(params.pubKey);
-        const updatedSwarm = existingSwarm.filter(
-          node => node.pubkey_ed25519 !== targetNode.pubkey_ed25519
-        );
-
-        await updateSnodesFor(params.pubKey, updatedSwarm);
-      }
-      successiveFailures += 1;
+    if (!result || result.status !== 200) {
+      return false;
     }
+
+    return true;
+  } catch (e) {
+    window?.log?.warn(
+      'loki_message:::store - send error:',
+      e,
+      `destination ${targetNode.ip}:${targetNode.port}`
+    );
   }
-  markNodeUnreachable(targetNode);
-  log.error(
-    `loki_message:::storeOnNode - Too many successive failures trying to send to node ${targetNode.ip}:${targetNode.port}`
-  );
   return false;
 }
 
+/** */
 export async function retrieveNextMessages(
   targetNode: Snode,
   lastHash: string,
-  pubkey: string
+  associatedWith: string
 ): Promise<Array<any>> {
   const params = {
-    pubKey: pubkey,
+    pubKey: associatedWith,
     lastHash: lastHash || '',
   };
 
   // let exceptions bubble up
-  const result = await snodeRpc('retrieve', params, targetNode);
-
-  if (!result) {
-    window.log.warn(
-      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
-    );
-    return [];
-  }
-
-  // NOTE: we call `checkResponse` to check for "wrong swarm"
   try {
-    checkResponse(result);
-  } catch (e) {
-    window.log.warn('loki_message:::retrieveNextMessages - send error:', e.code, e.message);
-    if (e instanceof window.textsecure.WrongSwarmError) {
-      const { newSwarm } = e;
-      await updateSnodesFor(params.pubKey, newSwarm);
-      return [];
-    } else if (e instanceof window.textsecure.InvalidateSwarm) {
-      const existingSwarm = await getSwarm(params.pubKey);
-      const updatedSwarm = existingSwarm.filter(
-        node => node.pubkey_ed25519 !== targetNode.pubkey_ed25519
-      );
+    // no retry for this one as this a call we do every few seconds while polling for messages
+    const result = await snodeRpc('retrieve', params, targetNode, associatedWith);
 
-      await updateSnodesFor(params.pubKey, updatedSwarm);
+    if (!result) {
+      window?.log?.warn(
+        `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+      );
       return [];
     }
-  }
 
-  if (result.status !== 200) {
-    window.log('retrieve result is not 200');
-    return [];
-  }
+    if (result.status !== 200) {
+      window.log('retrieve result is not 200');
+      return [];
+    }
 
-  try {
-    const json = JSON.parse(result.body);
-    return json.messages || [];
+    try {
+      const json = JSON.parse(result.body);
+      return json.messages || [];
+    } catch (e) {
+      window?.log?.warn('exception while parsing json of nextMessage:', e);
+
+      return [];
+    }
   } catch (e) {
-    window.log.warn('exception while parsing json of nextMessage:', e);
-
+    window?.log?.warn('Got an error while retrieving next messages:', e);
     return [];
   }
 }

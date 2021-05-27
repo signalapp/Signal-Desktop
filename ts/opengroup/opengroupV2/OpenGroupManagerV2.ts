@@ -131,7 +131,7 @@ export class OpenGroupManagerV2 {
               // no need to remove it from the ConversationController, the convo is already not there
             }
           } catch (e) {
-            window.log.warn('cleanup roomInfos error', e);
+            window?.log?.warn('cleanup roomInfos error', e);
           }
         })
       );
@@ -202,7 +202,7 @@ export class OpenGroupManagerV2 {
 
       return conversation;
     } catch (e) {
-      window.log.warn('Failed to join open group v2', e);
+      window?.log?.warn('Failed to join open group v2', e);
       await removeV2OpenGroupRoom(conversationId);
       // throw new Error(window.i18n('connectToServerFail'));
       return undefined;

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { MessageModel } from '../models/message';
 import { saveMessage } from '../../ts/data/data';
 import { fromBase64ToArrayBuffer } from '../session/utils/String';
-import { AttachmentDownloads, AttachmentUtils } from '../session/utils';
+import { AttachmentDownloads } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
 import {
   downloadFileOpenGroupV2,
@@ -17,11 +17,6 @@ export async function downloadAttachment(attachment: any) {
   const asURL = new URL(attachment.url);
   const serverUrl = asURL.origin;
 
-  // The fileserver adds the `-static` part for some reason
-  const defaultFileserver = _.includes(
-    ['https://file-static.lokinet.org', 'https://file.getsession.org'],
-    serverUrl
-  );
   // is it an attachment hosted on the file server v2 ?
   const defaultFsOldV2 = _.startsWith(serverUrl, FSv2.oldFileServerV2URL);
   const defaultFsV2 = _.startsWith(serverUrl, FSv2.fileServerV2URL);
@@ -34,24 +29,17 @@ export async function downloadAttachment(attachment: any) {
       // try to get the fileId from the end of the URL
       attachmentId = attachment.url;
     }
-    window.log.info('Download v2 file server attachment');
+    window?.log?.info('Download v2 file server attachment');
     res = await FSv2.downloadFileFromFSv2(attachmentId, defaultFsOldV2);
-  } else if (!defaultFileserver) {
-    // TODO: we need attachments to remember which API should be used to retrieve them
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(serverUrl);
-
-    if (serverAPI) {
-      res = await serverAPI.downloadAttachment(attachment.url);
-    }
+  } else {
+    window.log.warn(
+      'downloadAttachment attachment is neither opengroup attachment nor fsv2... Dropping it'
+    );
+    throw new Error('Attachment url is not opengroupv2 nor fileserver v2. Unsupported');
   }
 
-  // Fallback to using the default fileserver
-  if (defaultFileserver || !res || res.byteLength === 0) {
-    res = await window.lokiFileServerAPI.downloadAttachment(attachment.url);
-  }
-
-  if (res.byteLength === 0) {
-    window.log.error('Failed to download attachment. Length is 0');
+  if (!res?.byteLength) {
+    window?.log?.error('Failed to download attachment. Length is 0');
     throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
   }
 
@@ -107,7 +95,7 @@ export async function downloadAttachmentOpenGroupV2(
     const dataUintFromUrl = await downloadFileOpenGroupV2ByUrl(attachment, roomInfos);
 
     if (!dataUintFromUrl?.length) {
-      window.log.error('Failed to download attachment. Length is 0');
+      window?.log?.error('Failed to download attachment. Length is 0');
       throw new Error(`Failed to download attachment. Length is 0 for ${attachment}`);
     }
     return dataUintFromUrl;
@@ -115,7 +103,7 @@ export async function downloadAttachmentOpenGroupV2(
   const dataUint = await downloadFileOpenGroupV2(attachment.id, roomInfos);
 
   if (!dataUint?.length) {
-    window.log.error('Failed to download attachment. Length is 0');
+    window?.log?.error('Failed to download attachment. Length is 0');
     throw new Error(`Failed to download attachment. Length is 0 for ${attachment.url}`);
   }
 
@@ -133,7 +121,7 @@ export async function downloadAttachmentOpenGroupV2(
   } else {
     // nothing to do, the attachment has already the correct size.
     // There is just no padding included, which is what we agreed on
-    window.log.info('Received opengroupv2 unpadded attachment');
+    window?.log?.info('Received opengroupv2 unpadded attachment');
   }
 
   return {

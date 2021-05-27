@@ -253,7 +253,7 @@ const triggerAvatarReUploadIfNeeded = async () => {
 const doAppStartUp = (dispatch: Dispatch<any>) => {
   if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
     // Initialize paths for onion requests
-    void OnionPaths.getInstance().buildNewOnionPaths();
+    void OnionPaths.buildNewOnionPathsOneAtATime();
   }
 
   void showUnstableAttachmentsDialogIfNeeded();
@@ -317,7 +317,7 @@ export const ActionsPanel = () => {
   );
 
   if (!ourPrimaryConversation) {
-    window.log.warn('ActionsPanel: ourPrimaryConversation is not set');
+    window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
     return <></>;
   }
 
