@@ -3491,6 +3491,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
   async destroyMessages() {
     window.showConfirmationDialog({
+      confirmStyle: 'negative',
       message: window.i18n('deleteConversationConfirmation'),
       okText: window.i18n('delete'),
       resolve: () => {
