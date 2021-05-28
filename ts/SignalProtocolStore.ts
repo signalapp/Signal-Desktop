@@ -820,7 +820,7 @@ export class SignalProtocolStore extends EventsMixin {
     encodedAddresses: Array<string>,
     { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<Array<SessionRecord>> {
-    return this.withZone(zone, 'loadSession', async () => {
+    return this.withZone(zone, 'loadSessions', async () => {
       const sessions = await Promise.all(
         encodedAddresses.map(async address =>
           this.loadSession(address, { zone })
@@ -1100,7 +1100,7 @@ export class SignalProtocolStore extends EventsMixin {
 
         item.archiveCurrentState();
 
-        await this.storeSession(entry.fromDB.id, item);
+        await this.storeSession(entry.fromDB.id, item, { zone });
       },
       zone
     );

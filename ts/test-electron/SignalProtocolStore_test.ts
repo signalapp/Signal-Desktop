@@ -1477,6 +1477,16 @@ describe('SignalProtocolStore', () => {
 
       assert.deepEqual(order, [1, 2, 3]);
     });
+
+    it('should not deadlock in archiveSiblingSessions', async () => {
+      const id = `${number}.1`;
+      const sibling = `${number}.2`;
+
+      await store.storeSession(id, getSessionRecord(true));
+      await store.storeSession(sibling, getSessionRecord(true));
+
+      await store.archiveSiblingSessions(id, { zone });
+    });
   });
 
   describe('Not yet processed messages', () => {
