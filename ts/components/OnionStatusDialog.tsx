@@ -1,10 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
-import { SessionModal } from './session/SessionModal';
-import { DefaultTheme } from 'styled-components';
-import { getPathNodesIPAddresses } from '../session/onions/onionSend';
-import { useInterval } from '../hooks/useInterval';
-import classNames from 'classnames';
+import React from 'react';
 
 import _ from 'lodash';
 
@@ -13,206 +7,136 @@ import { getTheme } from '../state/selectors/theme';
 import electron from 'electron';
 import { useSelector } from 'react-redux';
 import { StateType } from '../state/reducer';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
-import { Constants } from '../session';
+import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
 const { shell } = electron;
 
 import { SessionWrapperModal } from '../components/session/SessionWrapperModal';
 import { Snode } from '../session/onions';
 
-import ip2country from "ip2country";
-import countryLookup from "country-code-lookup";
+import ip2country from 'ip2country';
+import countryLookup from 'country-code-lookup';
+import { useTheme } from 'styled-components';
 
-// import ipLocation = require('ip-location');
+export type OnionPathModalType = {
+  onConfirm?: () => void;
+  onClose?: () => void;
+  confirmText?: string;
+  cancelText?: string;
+  title?: string;
+};
 
-
-// interface OnionStatusDialogProps {
-//   theme: DefaultTheme;
-//   nodes?: Array<string>;
-//   onClose: any;
-// }
-
-// export interface IPathNode {
-//   ip?: string;
-//   label: string;
-// }
-
-// export const OnionPath = (props: { nodes: IPathNode[]; hasPath: boolean }) => {
-//   const { nodes, hasPath } = props;
-
-//   return (
-//     <div className="onionPath">
-//       {nodes.map(node => {
-//         return OnionPathNode({ hasPath, node });
-//       })}
-//     </div>
-//   );
-// };
-
-// export const OnionStatusDialog = (props: OnionStatusDialogProps) => {
-//   const { theme, onClose } = props;
-
-//   const [onionPathAddresses, setOnionPathAddresses] = useState<string[]>([]);
-//   const [pathNodes, setPathNodes] = useState<IPathNode[]>([]);
-//   const [hasPath, setHasPath] = useState<boolean>(false);
-
-//   const getOnionPathAddresses = () => {
-//     const onionPathAddresses = getPathNodesIPAddresses();
-//     console.log('Current Onion Path - ', onionPathAddresses);
-//     setOnionPathAddresses(onionPathAddresses);
-//   };
-
-//   const buildOnionPath = () => {
-//     // TODO: Add i18n to onion path
-//     // Default path values
-//     let path = [
-//       {
-//         label: 'You',
-//       },
-//       {
-//         ip: 'Connecting...',
-//         label: 'Entry Node',
-//       },
-//       {
-//         ip: 'Connecting...',
-//         label: 'Service Node',
-//       },
-//       {
-//         ip: 'Connecting...',
-//         label: 'Service Node',
-//       },
-//       {
-//         label: 'Destination',
-//       },
-//     ];
-
-//     // FIXME call function to check if an onion path exists
-//     setHasPath(onionPathAddresses.length !== 0);
-
-//     // if there is a onion path, update the addresses
-//     if (onionPathAddresses.length) {
-//       onionPathAddresses.forEach((ipAddress, index) => {
-//         const pathIndex = index + 1;
-//         path[pathIndex].ip = ipAddress;
-//       });
-//     }
-//     setPathNodes(path);
-//   };
-
-//   useInterval(() => {
-//     getOnionPathAddresses();
-//   }, 1000);
-
-//   useEffect(() => {
-//     buildOnionPath();
-//   }, [onionPathAddresses]);
-
-//   const openFAQPage = () => {
-//     console.log('Opening FAQ Page');
-//     shell.openExternal('https://getsession.org/faq/#onion-routing');
-//   };
-
-//   return (
-//     <SessionModal title={window.i18n('onionPathIndicatorTitle')} theme={theme} onClose={onClose}>
-//       <div className="spacer-sm" />
-//       <div className="onionDescriptionContainer">
-//         <p>{window.i18n('onionPathIndicatorDescription')}</p>
-//       </div>
-
-//       <OnionPath nodes={pathNodes} hasPath={hasPath} />
-
-//       <SessionButton
-//         text={window.i18n('learnMore')}
-//         buttonType={SessionButtonType.BrandOutline}
-//         buttonColor={SessionButtonColor.Green}
-//         onClick={openFAQPage}
-//       />
-//     </SessionModal>
-//   );
-// };
+export type StatusLightType = {
+  glowStartDelay: number;
+  glowDuration: number;
+  color?: string;
+};
 
 const OnionPathModalInner = (props: any) => {
-  const onionPath = useSelector((state: StateType) => state.onionPaths.snodePath);
+  const onionNodes = useSelector((state: StateType) => state.onionPaths.snodePath);
+  const onionPath = onionNodes.path;
+  // including the device and destination in calculation
+  const glowDuration = onionPath.length + 2;
 
-  
+  const nodes = [
+    {
+      label: window.i18n('device'),
+    },
+    ...onionNodes.path,
+    ,
+    {
+      label: window.i18n('destination'),
+    },
+  ];
+
   return (
     <div className="onion__node-list">
-      {onionPath.path.map((snode: Snode, index: number) => {
+      {nodes.map((snode: Snode | any, index: number) => {
         return (
           <>
-            <LabelledStatusLight snode={snode} ></LabelledStatusLight>
+            <OnionNodeStatusLight
+              glowDuration={glowDuration}
+              glowStartDelay={index}
+              label={snode.label}
+              snode={snode}
+            ></OnionNodeStatusLight>
           </>
         );
       })}
-  {/* TODO: Destination node maybe pass in light colour maybe changes based on if 3 nodes are connected similar to the action panel light? */}
-      <LabelledStatusLight label={'Destination'}></LabelledStatusLight>
     </div>
   );
 };
 
+export type OnionNodeStatusLightType = {
+  snode: Snode;
+  label?: string;
+  glowStartDelay: number;
+  glowDuration: number;
+};
 
 /**
  * Component containing a coloured status light and an adjacent country label.
- * @param props 
- * @returns 
+ * @param props
+ * @returns
  */
-export const LabelledStatusLight = (props: any): JSX.Element => {
-  let { snode, label } = props;
+export const OnionNodeStatusLight = (props: OnionNodeStatusLightType): JSX.Element => {
+  const { snode, label, glowStartDelay, glowDuration } = props;
+  const theme = useTheme();
 
   let labelText = label ? label : countryLookup.byIso(ip2country(snode.ip))?.country;
-  console.log('@@@@ country data:: ', labelText);
   if (!labelText) {
-    labelText = `${snode.ip} - Destination unknown`;
-    console.log(`@@@@ country data failure on code:: ${ip2country(snode.ip)} and ip ${snode.ip}`);
+    labelText = window.i18n('unknownCountry');
   }
   return (
     <div className="onion__node">
-      <StatusLight color={Constants.UI.COLORS.GREEN}></StatusLight>
-      {labelText ?
+      <StatusLight
+        glowDuration={glowDuration}
+        glowStartDelay={glowStartDelay}
+        color={theme.colors.accent}
+      ></StatusLight>
+      {labelText ? (
         <>
           <div className="onion-node__country">{labelText}</div>
         </>
-        :
-        null
-      }
+      ) : null}
     </div>
-  )
-}
+  );
+};
 
-export const OnionNodeLight = (props: any) => {
-
-}
-
-export const StatusLight = (props: any) => {
-  const [showModal, toggleShowModal] = useState(false);
-  const { isSelected, color } = props;
+/**
+ * An icon with a pulsating glow emission.
+ */
+export const StatusLight = (props: StatusLightType) => {
+  const { glowStartDelay, glowDuration, color } = props;
   const theme = useSelector(getTheme);
-
-  const openFAQPage = () => {
-    console.log('Opening FAQ Page');
-    shell.openExternal('https://getsession.org/faq/#onion-routing');
-  };
-
-  const onClick = () => {
-    toggleShowModal(!showModal);
-  };
 
   return (
     <>
-      <SessionIconButton
-        iconSize={SessionIconSize.Medium}
-        iconType={SessionIconType.Circle}
+      <SessionIcon
+        borderRadius={50}
         iconColor={color}
+        glowDuration={glowDuration}
+        glowStartDelay={glowStartDelay}
+        iconType={SessionIconType.Circle}
+        iconSize={SessionIconSize.Medium}
         theme={theme}
-        isSelected={isSelected}
-        onClick={onClick}
       />
-
-      {showModal ? (
-        <SessionWrapperModal title={"Onion Path"} onclick={onClick} showModal={showModal}>
-          <OnionPathModalInner></OnionPathModalInner>
-        </SessionWrapperModal>
-      ) : null}
     </>
+  );
+};
+
+export const OnionPathModal = (props: OnionPathModalType) => {
+  const onConfirm = () => {
+    shell.openExternal('https://getsession.org/faq/#onion-routing');
+  };
+  return (
+    <SessionWrapperModal
+      title={props.title || window.i18n('onionPathIndicatorTitle')}
+      confirmText={props.confirmText || window.i18n('learnMore')}
+      cancelText={props.cancelText || window.i18n('cancel')}
+      onConfirm={onConfirm}
+      onClose={props.onClose}
+    >
+      <OnionPathModalInner {...props}></OnionPathModalInner>
+    </SessionWrapperModal>
   );
 };

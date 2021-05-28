@@ -36,10 +36,12 @@ import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
 import { getOnionPathStatus } from '../../session/onions/onionSend';
 import { Constants } from '../../session';
-import { StatusLight } from '../OnionStatusDialog';
 import { StateType } from '../../state/reducer';
 import _ from 'lodash';
 import { useNetwork } from '../../hooks/useNetwork';
+import { OnionPathModal } from '../OnionStatusDialog';
+import { EditProfileDialog } from '../EditProfileDialog';
+import { useTheme } from 'styled-components';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -53,20 +55,33 @@ export enum SectionType {
   PathIndicator,
 }
 
-const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?: boolean }) => {
+const Section = (props: {
+  setModal?: any;
+  type: SectionType;
+  avatarPath?: string;
+  hasOnionPath?: boolean;
+}) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
   const theme = useSelector(getTheme);
   const dispatch = useDispatch();
-  const { type, avatarPath, hasOnionPath } = props;
+  const { setModal, type, avatarPath, hasOnionPath } = props;
 
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
+
+  const handleModalClose = () => {
+    setModal(null);
+  }
+
   const handleClick = () => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
-      window.showEditProfileDialog();
+      // window.showEditProfileDialog();
+
+      // setModal(<EditProfileDialog2 onClose={() => setModal(null)}></EditProfileDialog2>);
+      setModal(<EditProfileDialog onClose={handleModalClose} theme={theme} ></EditProfileDialog>);
     } else if (type === SectionType.Moon) {
       const themeFromSettings = window.Events.getThemeSetting();
       const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
@@ -76,7 +91,7 @@ const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?:
       dispatch(applyTheme(newThemeObject));
     } else if (type === SectionType.PathIndicator) {
       // Show Path Indicator Modal
-      window.showOnionStatusDialog();
+      setModal(<OnionPathModal onClose={handleModalClose}></OnionPathModal>);
     } else {
       dispatch(clearSearch());
       dispatch(showLeftPaneSection(type));
@@ -102,7 +117,24 @@ const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?:
   let iconColor = undefined;
   if (type === SectionType.PathIndicator) {
     // Set icon color based on result
-    iconColor = hasOnionPath ? Constants.UI.COLORS.GREEN : Constants.UI.COLORS.DANGER;
+    const red = theme.colors.destructive;
+    const green = theme.colors.accent;
+    const orange = theme.colors.warning;
+
+    iconColor = hasOnionPath ? theme.colors.accent : theme.colors.destructive;
+    const onionState = useSelector((state: StateType) => state.onionPaths);
+
+    iconColor = red;
+    const isOnline = useNetwork();
+    if (!(onionState && onionState.snodePath) || !isOnline) {
+      iconColor = Constants.UI.COLORS.DANGER;
+    } else {
+      const onionSnodePath = onionState.snodePath;
+      if (onionState && onionSnodePath && onionSnodePath.path.length > 0) {
+        let onionNodeCount = onionSnodePath.path.length;
+        iconColor = onionNodeCount > 2 ? green : onionNodeCount > 1 ? orange : red;
+      }
+    }
   }
 
   const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
@@ -128,45 +160,18 @@ const Section = (props: { type: SectionType; avatarPath?: string; hasOnionPath?:
       iconType = SessionIconType.Moon;
   }
 
-  // calculate light status.
-  // TODO: Refactor this so this logic is reusable elsewhere.
-
-
-  // TEST:
-  if (type === SectionType.PathIndicator) {
-    const onionState = useSelector((state: StateType) => state.onionPaths);
-
-    let statusColor = Constants.UI.COLORS.DANGER;
-    const isOnline = useNetwork();
-    if (!(onionState && onionState.snodePath) || !isOnline) {
-      return <StatusLight isSelected={isSelected} color={Constants.UI.COLORS.DANGER}></StatusLight>;
-    } else {
-
-      const onionSnodePath = onionState.snodePath;
-      if (onionState && onionSnodePath && onionSnodePath.path.length > 0) {
-        let onionNodeCount = onionSnodePath.path.length;
-        statusColor =
-          onionNodeCount > 2
-            ? Constants.UI.COLORS.GREEN
-            : onionNodeCount > 1
-              ? Constants.UI.COLORS.WARNING
-              : Constants.UI.COLORS.DANGER;
-      }
-    }
-
-    return <StatusLight isSelected={isSelected} color={statusColor}></StatusLight>;
-  }
-
   return (
-    <SessionIconButton
-      iconSize={SessionIconSize.Medium}
-      iconType={iconType}
-      iconColor={iconColor}
-      notificationCount={unreadToShow}
-      onClick={handleClick}
-      isSelected={isSelected}
-      theme={theme}
-    />
+    <>
+      <SessionIconButton
+        iconSize={SessionIconSize.Medium}
+        iconType={iconType}
+        iconColor={iconColor}
+        notificationCount={unreadToShow}
+        onClick={handleClick}
+        isSelected={isSelected}
+        theme={theme}
+      />
+    </>
   );
 };
 
@@ -243,6 +248,8 @@ export const ActionsPanel = () => {
   const [hasOnionPath, setHasOnionPath] = useState<boolean>(false);
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
 
+  const [modal, setModal] = useState<any>(null);
+
   // this maxi useEffect is called only once: when the component is mounted.
   // For the action panel, it means this is called only one per app start/with a user loggedin
   useEffect(() => {
@@ -259,42 +266,6 @@ export const ActionsPanel = () => {
 
   const getOnionPathIndicator = () => {
     const hasOnionPath = getOnionPathStatus();
-
-    // const update: OnionUpdate = {
-    //   nodes: [
-    //     {
-    //       ip: 'hi',
-    //       label: 'hi',
-    //       isConnected: Math.random() > 0.5,
-    //       isAttemptingConnect: Math.random() > 0.7,
-    //     },
-    //     {
-    //       ip: 'hi2',
-    //       label: 'hi2',
-    //       isConnected: Math.random() > 0.5,
-    //       isAttemptingConnect: Math.random() > 0.7,
-    //     },
-    //     {
-    //       ip: 'hi3',
-    //       label: 'hi3',
-    //       isConnected: Math.random() > 0.5,
-    //       isAttemptingConnect: Math.random() > 0.7,
-    //     },
-    //   ],
-    // };
-
-
-    // dispatch(updateOnionPaths(update));
-
-    // TEST: Stuff
-    //  let testNode: SnodePath = {
-    //     bad: false,
-    //     path: new Array<Snode>()
-    //   }
-
-    //   dispatch(updateOnionPaths(testNode));
-
-    // console.log('Is Onion Path found -', hasOnionPath);
     setHasOnionPath(hasOnionPath);
   };
 
@@ -324,15 +295,20 @@ export const ActionsPanel = () => {
 
   return (
     <div className="module-left-pane__sections-container">
-      <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
-      <Section type={SectionType.Message} />
-      <Section type={SectionType.Contact} />
-      <Section type={SectionType.Settings} />
+      <Section
+        setModal={setModal}
+        type={SectionType.Profile}
+        avatarPath={ourPrimaryConversation.avatarPath}
+      />
+      <Section setModal={setModal} type={SectionType.Message} />
+      <Section setModal={setModal} type={SectionType.Contact} />
+      <Section setModal={setModal} type={SectionType.Settings} />
+      {modal ? modal : null}
 
       <SessionToastContainer />
 
-      <Section type={SectionType.PathIndicator} hasOnionPath={hasOnionPath} />
-      <Section type={SectionType.Moon} />
+      <Section setModal={setModal} type={SectionType.PathIndicator} hasOnionPath={hasOnionPath} />
+      <Section setModal={setModal} type={SectionType.Moon} />
     </div>
   );
 };

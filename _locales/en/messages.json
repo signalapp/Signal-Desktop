@@ -1868,5 +1868,17 @@
   },
   "learnMore": {
     "message": "Learn More"
+  },
+  "unknownCountry": {
+    "message": "Unknown Country",
+    "description": "When an onion path node is unable to find the country for an IP address."
+  },
+  "device": {
+    "message": "Device",
+    "description": "The device of the client running Session"
+  },
+  "destination": {
+    "message": "Destination",
+    "description": "The destination that the message is being sent to"
   }
 }

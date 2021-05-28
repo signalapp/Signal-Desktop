@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
@@ -10,17 +10,24 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './session/i
 import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
 import { ToastUtils, UserUtils } from '../session/utils';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme, useTheme } from 'styled-components';
 import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 import { SessionSpinner } from './session/SessionSpinner';
+import { ConversationTypeEnum } from '../models/conversation';
+
+import { ConversationController } from '../session/conversations';
+import { useSelector } from 'react-redux';
+import { getOurNumber } from '../state/selectors/user';
+import { SessionWrapperModal } from './session/SessionWrapperModal';
+import { times } from 'underscore';
 
 interface Props {
-  i18n: any;
-  profileName: string;
-  avatarPath: string;
-  pubkey: string;
-  onClose: any;
-  onOk: any;
+  i18n?: any;
+  profileName?: string;
+  avatarPath?: string;
+  pubkey?: string;
+  onClose?: any;
+  onOk?: any;
   theme: DefaultTheme;
 }
 
@@ -46,9 +53,9 @@ export class EditProfileDialog extends React.Component<Props, State> {
     this.fireInputEvent = this.fireInputEvent.bind(this);
 
     this.state = {
-      profileName: this.props.profileName,
-      setProfileName: this.props.profileName,
-      avatar: this.props.avatarPath,
+      profileName: this.props.profileName || '',
+      setProfileName: this.props.profileName || '',
+      avatar: this.props.avatarPath || '',
       mode: 'default',
       loading: false,
     };
@@ -58,8 +65,44 @@ export class EditProfileDialog extends React.Component<Props, State> {
     window.addEventListener('keyup', this.onKeyUp);
   }
 
+  async componentDidMount() {
+    const ourNumber = window.storage.get('primaryDevicePubKey');
+    const conversation = await window
+      .getConversationController()
+      .getOrCreateAndWait(ourNumber, ConversationTypeEnum.PRIVATE);
+
+    const readFile = (attachment: any) =>
+      new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = (e: any) => {
+          const data = e.target.result;
+          resolve({
+            ...attachment,
+            data,
+            size: data.byteLength,
+          });
+        };
+        fileReader.onerror = reject;
+        fileReader.onabort = reject;
+        fileReader.readAsArrayBuffer(attachment.file);
+      });
+
+    const avatarPath = conversation.getAvatarPath();
+    const profile = conversation.getLokiProfile();
+    const displayName = profile && profile.displayName;
+
+    this.setState({
+      ...this.state,
+      profileName: profile.profileName,
+      avatar: avatarPath || '',
+      setProfileName: profile.profileName
+    })
+
+  }
+
   public render() {
-    const i18n = this.props.i18n;
+    // const i18n = this.props.i18n;
+    const i18n = window.i18n;
 
     const viewDefault = this.state.mode === 'default';
     const viewEdit = this.state.mode === 'edit';
@@ -70,61 +113,67 @@ export class EditProfileDialog extends React.Component<Props, State> {
     const backButton =
       viewEdit || viewQR
         ? [
-            {
-              iconType: SessionIconType.Chevron,
-              iconRotation: 90,
-              onClick: () => {
-                this.setState({ mode: 'default' });
-              },
+          {
+            iconType: SessionIconType.Chevron,
+            iconRotation: 90,
+            onClick: () => {
+              this.setState({ mode: 'default' });
             },
-          ]
+          },
+        ]
         : undefined;
 
     return (
-      <SessionModal
-        title={i18n('editProfileModalTitle')}
-        onClose={this.closeDialog}
-        headerReverse={viewEdit || viewQR}
-        headerIconButtons={backButton}
-        theme={this.props.theme}
-      >
-        <div className="spacer-md" />
+      // <SessionModal
+      //   title={i18n('editProfileModalTitle')}
+      //   onClose={this.closeDialog}
+      //   headerReverse={viewEdit || viewQR}
+      //   headerIconButtons={backButton}
+      //   theme={this.props.theme}
+      // >
+      <div className="edit-profile-dialog">
 
-        {viewQR && this.renderQRView(sessionID)}
-        {viewDefault && this.renderDefaultView()}
-        {viewEdit && this.renderEditView()}
+        <SessionWrapperModal
+        >
+          <div className="spacer-md" />
 
-        <div className="session-id-section">
-          <PillDivider text={window.i18n('yourSessionID')} />
-          <p className={classNames('text-selectable', 'session-id-section-display')}>{sessionID}</p>
+          {viewQR && this.renderQRView(sessionID)}
+          {viewDefault && this.renderDefaultView()}
+          {viewEdit && this.renderEditView()}
 
-          <div className="spacer-lg" />
-          <SessionSpinner loading={this.state.loading} />
+          <div className="session-id-section">
+            <PillDivider text={window.i18n('yourSessionID')} />
+            <p className={classNames('text-selectable', 'session-id-section-display')}>{sessionID}</p>
 
-          {viewDefault || viewQR ? (
-            <SessionButton
-              text={window.i18n('editMenuCopy')}
-              buttonType={SessionButtonType.BrandOutline}
-              buttonColor={SessionButtonColor.Green}
-              onClick={() => {
-                this.copySessionID(sessionID);
-              }}
-            />
-          ) : (
-            !this.state.loading && (
+            <div className="spacer-lg" />
+            <SessionSpinner loading={this.state.loading} />
+
+            {viewDefault || viewQR ? (
               <SessionButton
-                text={window.i18n('save')}
+                text={window.i18n('editMenuCopy')}
                 buttonType={SessionButtonType.BrandOutline}
                 buttonColor={SessionButtonColor.Green}
-                onClick={this.onClickOK}
-                disabled={this.state.loading}
+                onClick={() => {
+                  this.copySessionID(sessionID);
+                }}
               />
-            )
-          )}
+            ) : (
+              !this.state.loading && (
+                <SessionButton
+                  text={window.i18n('save')}
+                  buttonType={SessionButtonType.BrandOutline}
+                  buttonColor={SessionButtonColor.Green}
+                  onClick={this.onClickOK}
+                  disabled={this.state.loading}
+                />
+              )
+            )}
 
-          <div className="spacer-lg" />
-        </div>
-      </SessionModal>
+            <div className="spacer-lg" />
+          </div>
+          {/* </SessionModal> */}
+        </SessionWrapperModal>
+      </div>
     );
   }
 
@@ -280,9 +329,9 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
     const avatar =
       this.inputEl &&
-      this.inputEl.current &&
-      this.inputEl.current.files &&
-      this.inputEl.current.files.length > 0
+        this.inputEl.current &&
+        this.inputEl.current.files &&
+        this.inputEl.current.files.length > 0
         ? this.inputEl.current.files[0]
         : null;
 
@@ -291,7 +340,8 @@ export class EditProfileDialog extends React.Component<Props, State> {
         loading: true,
       },
       async () => {
-        await this.props.onOk(newName, avatar);
+        // await this.props.onOk(newName, avatar);
+        await window.commitProfileEdits(newName, avatar);
         this.setState({
           loading: false,
 

@@ -63,7 +63,11 @@ export class OnionPaths {
       goodPaths = this.onionPaths.filter(x => !x.bad);
     }
 
-    window.inboxStore?.dispatch(updateOnionPaths(goodPaths[0]));
+    if (goodPaths.length <= 0) {
+      window.inboxStore?.dispatch(updateOnionPaths({ path: new Array<Snode>(), bad: true }));
+    } else {
+      window.inboxStore?.dispatch(updateOnionPaths(goodPaths[0]));
+    }
 
     const paths = _.shuffle(goodPaths);
 
@@ -104,8 +108,6 @@ export class OnionPaths {
     if (!otherPaths[0].path) {
       log.error('LokiSnodeAPI::getOnionPath - otherPaths no path in', otherPaths[0]);
     }
-
-    // window.inboxStore?.dispatch(updateOnionPaths(otherPaths[0]));
 
     return otherPaths[0].path;
   }

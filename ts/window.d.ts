@@ -15,8 +15,9 @@ import { Store } from 'redux';
 import { MessageController } from './session/messages/MessageController';
 import { DefaultTheme } from 'styled-components';
 
-import { ConversationCollection } from './models/conversation';
+import { ConversationCollection, ConversationModel } from './models/conversation';
 import { ConversationType } from './state/ducks/conversations';
+import { ConversationController } from './session/conversations';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -99,5 +100,10 @@ declare global {
     darkTheme: DefaultTheme;
     LokiPushNotificationServer: any;
     LokiPushNotificationServerApi: any;
+
+    getConversationController: () => ConversationController;
+    getOrCreateAndWait: () => Promise<ConversationModel>;
+
+    commitProfileEdits: (string, string) => void;
   }
 }

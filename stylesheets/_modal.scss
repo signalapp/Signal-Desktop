@@ -235,6 +235,7 @@
       border-radius: 50%;
       background-color: $session-color-white;
       transition: $session-transition-duration;
+      margin-top: 30px;
 
       &:hover {
         filter: brightness(90%);
@@ -394,15 +395,6 @@
           width: 15px;
           border-radius: 50%;
           display: inline-block;
-        }
-
-        // TODO: Use colors defined in UI constants
-        .green {
-          background-color: $color-loki-green;
-        }
-
-        .red {
-          background-color: #ff453a;
         }
       }
     }
