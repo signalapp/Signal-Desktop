@@ -13,10 +13,13 @@ import { reject } from 'lodash';
 import { z } from 'zod';
 import {
   CiphertextMessageType,
+  CiphertextMessage,
+  PlaintextContent,
   ProtocolAddress,
-  sealedSenderEncryptMessage,
+  sealedSenderEncrypt,
   SenderCertificate,
   signalEncrypt,
+  UnidentifiedSenderMessageContent,
 } from '@signalapp/signal-client';
 
 import { WebAPIType } from './WebAPI';
@@ -73,6 +76,9 @@ function ciphertextMessageTypeToEnvelopeType(type: number) {
   if (type === CiphertextMessageType.Whisper) {
     return window.textsecure.protobuf.Envelope.Type.CIPHERTEXT;
   }
+  if (type === CiphertextMessageType.Plaintext) {
+    return window.textsecure.protobuf.Envelope.Type.PLAINTEXT_CONTENT;
+  }
   throw new Error(
     `ciphertextMessageTypeToEnvelopeType: Unrecognized type ${type}`
   );
@@ -106,11 +112,9 @@ export default class OutgoingMessage {
 
   identifiers: Array<string>;
 
-  message: ContentClass;
+  message: ContentClass | PlaintextContent;
 
   callback: (result: CallbackResultType) => void;
-
-  silent?: boolean;
 
   plaintext?: Uint8Array;
 
@@ -128,12 +132,17 @@ export default class OutgoingMessage {
 
   online?: boolean;
 
+  groupId?: string;
+
+  contentHint: number;
+
   constructor(
     server: WebAPIType,
     timestamp: number,
     identifiers: Array<string>,
-    message: ContentClass | DataMessageClass,
-    silent: boolean | undefined,
+    message: ContentClass | DataMessageClass | PlaintextContent,
+    contentHint: number,
+    groupId: string | undefined,
     callback: (result: CallbackResultType) => void,
     options: OutgoingMessageOptionsType = {}
   ) {
@@ -149,8 +158,9 @@ export default class OutgoingMessage {
     this.server = server;
     this.timestamp = timestamp;
     this.identifiers = identifiers;
+    this.contentHint = contentHint;
+    this.groupId = groupId;
     this.callback = callback;
-    this.silent = silent;
 
     this.identifiersCompleted = 0;
     this.errors = [];
@@ -186,12 +196,7 @@ export default class OutgoingMessage {
       if (error && error.code === 428) {
         error = new SendMessageChallengeError(identifier, error);
       } else {
-        error = new OutgoingMessageError(
-          identifier,
-          this.message.toArrayBuffer(),
-          this.timestamp,
-          error
-        );
+        error = new OutgoingMessageError(identifier, null, null, error);
       }
     }
 
@@ -246,7 +251,6 @@ export default class OutgoingMessage {
     } catch (error) {
       if (error?.message?.includes('untrusted identity for address')) {
         error.timestamp = this.timestamp;
-        error.originalMessage = this.message.toArrayBuffer();
       }
       throw error;
     }
@@ -265,7 +269,6 @@ export default class OutgoingMessage {
         identifier,
         jsonData,
         timestamp,
-        this.silent,
         this.online,
         { accessKey }
       );
@@ -274,7 +277,6 @@ export default class OutgoingMessage {
         identifier,
         jsonData,
         timestamp,
-        this.silent,
         this.online
       );
     }
@@ -299,9 +301,38 @@ export default class OutgoingMessage {
 
   getPlaintext(): ArrayBuffer {
     if (!this.plaintext) {
-      this.plaintext = padMessage(this.message.toArrayBuffer());
+      const { message } = this;
+
+      if (message instanceof window.textsecure.protobuf.Content) {
+        this.plaintext = padMessage(message.toArrayBuffer());
+      } else {
+        this.plaintext = message.serialize();
+      }
     }
     return this.plaintext;
+  }
+
+  async getCiphertextMessage({
+    identityKeyStore,
+    protocolAddress,
+    sessionStore,
+  }: {
+    identityKeyStore: IdentityKeys;
+    protocolAddress: ProtocolAddress;
+    sessionStore: Sessions;
+  }): Promise<CiphertextMessage> {
+    const { message } = this;
+
+    if (message instanceof window.textsecure.protobuf.Content) {
+      return signalEncrypt(
+        Buffer.from(this.getPlaintext()),
+        protocolAddress,
+        sessionStore,
+        identityKeyStore
+      );
+    }
+
+    return message.asCiphertextMessage();
   }
 
   async doSendMessage(
@@ -309,8 +340,6 @@ export default class OutgoingMessage {
     deviceIds: Array<number>,
     recurse?: boolean
   ): Promise<void> {
-    const plaintext = this.getPlaintext();
-
     const { sendMetadata } = this;
     const { accessKey, senderCertificate } = sendMetadata?.[identifier] || {};
 
@@ -364,15 +393,29 @@ export default class OutgoingMessage {
             const destinationRegistrationId = activeSession.remoteRegistrationId();
 
             if (sealedSender && senderCertificate) {
+              const ciphertextMessage = await this.getCiphertextMessage({
+                identityKeyStore,
+                protocolAddress,
+                sessionStore,
+              });
+
               const certificate = SenderCertificate.deserialize(
                 Buffer.from(senderCertificate.serialized)
               );
+              const groupIdBuffer = this.groupId
+                ? Buffer.from(this.groupId, 'base64')
+                : null;
 
-              const buffer = await sealedSenderEncryptMessage(
-                Buffer.from(plaintext),
-                protocolAddress,
+              const content = UnidentifiedSenderMessageContent.new(
+                ciphertextMessage,
                 certificate,
-                sessionStore,
+                this.contentHint,
+                groupIdBuffer
+              );
+
+              const buffer = await sealedSenderEncrypt(
+                content,
+                protocolAddress,
                 identityKeyStore
               );
 
@@ -385,12 +428,11 @@ export default class OutgoingMessage {
               };
             }
 
-            const ciphertextMessage = await signalEncrypt(
-              Buffer.from(plaintext),
+            const ciphertextMessage = await this.getCiphertextMessage({
+              identityKeyStore,
               protocolAddress,
               sessionStore,
-              identityKeyStore
-            );
+            });
             const type = ciphertextMessageTypeToEnvelopeType(
               ciphertextMessage.type()
             );
@@ -487,8 +529,6 @@ export default class OutgoingMessage {
         if (error?.message?.includes('untrusted identity for address')) {
           // eslint-disable-next-line no-param-reassign
           error.timestamp = this.timestamp;
-          // eslint-disable-next-line no-param-reassign
-          error.originalMessage = this.message.toArrayBuffer();
           window.log.error(
             'Got "key changed" error from encrypt - no identityKey for application layer',
             identifier,

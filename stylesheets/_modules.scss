@@ -10385,16 +10385,62 @@ $contact-modal-padding: 18px;
   padding: 5px 12px;
 }
 
-// Module: Chat Session Refreshed Dialog
+// Module: Delivery Issue Notification
 
-.module-chat-session-refreshed-dialog {
-  width: 360px;
-  padding: 16px;
-  padding-top: 28px;
-  border-radius: 8px;
+.module-delivery-issue-notification {
+  @include font-body-2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.module-delivery-issue-notification__first-line {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   margin-left: auto;
   margin-right: auto;
 
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+.module-delivery-issue-notification__icon {
+  height: 14px;
+  width: 14px;
+  display: inline-block;
+  margin-right: 8px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/error-outline-12.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/error-outline-12.svg',
+      $color-gray-25
+    );
+  }
+}
+.module-delivery-issue-notification__button {
+  @include button-reset;
+  @include button-light-blue-text;
+  @include button-small;
+
+  @include font-body-2;
+  padding: 5px 12px;
+}
+
+// Module: Chat Session Refreshed Dialog
+
+.module-chat-session-refreshed-dialog {
   @include light-theme {
     background-color: $color-white;
   }
@@ -10413,6 +10459,7 @@ $contact-modal-padding: 18px;
 .module-chat-session-refreshed-dialog__buttons {
   text-align: right;
   margin-top: 20px;
+  padding: 3px;
 }
 .module-chat-session-refreshed-dialog__button {
   @include font-body-1-bold;
@@ -10425,6 +10472,42 @@ $contact-modal-padding: 18px;
 }
 .module-chat-session-refreshed-dialog__button--secondary {
   @include button-secondary;
+}
+
+// Module: Delivery Issue Dialog
+
+.module-delivery-issue-dialog {
+  // margin-left: auto;
+  // margin-right: auto;
+
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
+}
+.module-delivery-issue-dialog__image {
+  text-align: center;
+}
+.module-delivery-issue-dialog__title {
+  @include font-body-1-bold;
+  margin-top: 10px;
+  margin-bottom: 3px;
+}
+.module-delivery-issue-dialog__buttons {
+  text-align: right;
+  margin-top: 20px;
+  padding: 3px;
+}
+.module-delivery-issue-dialog__button {
+  @include font-body-1-bold;
+  @include button-reset;
+  @include button-primary;
+
+  border-radius: 4px;
+  padding: 7px 14px;
+  margin-left: 12px;
 }
 
 /* Third-party module: react-contextmenu*/

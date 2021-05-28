@@ -68,7 +68,7 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
-    "@signalapp/signal-client": "0.6.0",
+    "@signalapp/signal-client": "0.8.0",
     "@sindresorhus/is": "0.8.0",
     "@types/pino": "6.3.6",
     "@types/pino-multi-stream": "5.1.0",

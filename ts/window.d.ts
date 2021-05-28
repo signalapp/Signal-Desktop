@@ -315,6 +315,7 @@ declare global {
         ) => void;
         onTimeout: (timestamp: number, cb: () => void, id?: string) => string;
         removeTimeout: (uuid: string) => void;
+        retryPlaceholders?: Util.RetryPlaceholders;
         runStorageServiceSyncJob: () => Promise<void>;
         storageServiceUploadJob: () => void;
       };

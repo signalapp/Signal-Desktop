@@ -36,6 +36,7 @@ import * as zkgroup from './zkgroup';
 import { StartupQueue } from './StartupQueue';
 import { postLinkExperience } from './postLinkExperience';
 import { sendToGroup, sendContentMessageToGroup } from './sendToGroup';
+import { RetryPlaceholders } from './retryPlaceholders';
 
 export {
   GoogleChrome,
@@ -62,6 +63,7 @@ export {
   parseRemoteClientExpiration,
   postLinkExperience,
   queueUpdateMessage,
+  RetryPlaceholders,
   saveNewMessageBatcher,
   sendContentMessageToGroup,
   sendToGroup,

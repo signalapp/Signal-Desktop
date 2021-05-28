@@ -3,11 +3,18 @@
 
 /* eslint-disable no-console */
 
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+
 const ByteBuffer = require('../components/bytebuffer/dist/ByteBufferAB.js');
 const Long = require('../components/long/dist/Long.js');
 const { setEnvironment, Environment } = require('../ts/environment');
 
+chai.use(chaiAsPromised);
+
 setEnvironment(Environment.Test);
+
+const storageMap = new Map();
 
 // To replicate logic we have on the client side
 global.window = {
@@ -20,6 +27,10 @@ global.window = {
   dcodeIO: {
     ByteBuffer,
     Long,
+  },
+  storage: {
+    get: key => storageMap.get(key),
+    put: async (key, value) => storageMap.set(key, value),
   },
 };
 

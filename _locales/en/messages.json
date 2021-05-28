@@ -1117,6 +1117,38 @@
     "message": "Contact Support",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
+  "DeliveryIssue--preview": {
+    "message": "Delivery issue",
+    "description": "Shown in left pane preview when message delivery issue happens"
+  },
+  "DeliveryIssue--notification": {
+    "message": "A message from $sender$ couldn’t be delivered",
+    "description": "Shown in timeline when message delivery issue happens",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "DeliveryIssue--learnMore": {
+    "message": "Learn More",
+    "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+  },
+  "DeliveryIssue--title": {
+    "message": "Delivery Issue",
+    "description": "Shown on explainer dialog available from delivery issue timeline events"
+  },
+  "DeliveryIssue--summary": {
+    "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+    "description": "Shown on explainer dialog available from delivery issue timeline events",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
     "description": "Used in alt tag of thumbnail images inside of an embedded message quote"

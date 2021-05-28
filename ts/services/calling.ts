@@ -766,6 +766,9 @@ export class CallingClass {
     const timestamp = Date.now();
 
     // We "fire and forget" because sending this message is non-essential.
+    const {
+      ContentHint,
+    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
     wrapWithSyncMessageSend({
       conversation,
       logId: `sendToGroup/groupCallUpdate/${conversationId}-${eraId}`,
@@ -773,6 +776,7 @@ export class CallingClass {
         window.Signal.Util.sendToGroup(
           { groupCallUpdate: { eraId }, groupV2, timestamp },
           conversation,
+          ContentHint.SUPPLEMENTARY,
           sendOptions
         ),
       timestamp,

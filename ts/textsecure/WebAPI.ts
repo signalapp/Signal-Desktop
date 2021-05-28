@@ -934,14 +934,12 @@ export type WebAPIType = {
     destination: string,
     messageArray: Array<MessageType>,
     timestamp: number,
-    silent?: boolean,
     online?: boolean
   ) => Promise<void>;
   sendMessagesUnauth: (
     destination: string,
     messageArray: Array<MessageType>,
     timestamp: number,
-    silent?: boolean,
     online?: boolean,
     options?: { accessKey?: string }
   ) => Promise<void>;
@@ -1446,7 +1444,7 @@ export function initialize({
       const capabilities: CapabilitiesUploadType = {
         'gv2-3': true,
         'gv1-migration': true,
-        senderKey: false,
+        senderKey: true,
       };
 
       const { accessKey } = options;
@@ -1684,15 +1682,11 @@ export function initialize({
       destination: string,
       messageArray: Array<MessageType>,
       timestamp: number,
-      silent?: boolean,
       online?: boolean,
       { accessKey }: { accessKey?: string } = {}
     ) {
       const jsonData: any = { messages: messageArray, timestamp };
 
-      if (silent) {
-        jsonData.silent = true;
-      }
       if (online) {
         jsonData.online = true;
       }
@@ -1712,14 +1706,10 @@ export function initialize({
       destination: string,
       messageArray: Array<MessageType>,
       timestamp: number,
-      silent?: boolean,
       online?: boolean
     ) {
       const jsonData: any = { messages: messageArray, timestamp };
 
-      if (silent) {
-        jsonData.silent = true;
-      }
       if (online) {
         jsonData.online = true;
       }

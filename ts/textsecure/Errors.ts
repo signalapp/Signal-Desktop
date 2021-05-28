@@ -70,8 +70,8 @@ export class OutgoingMessageError extends ReplayableError {
   // Note: Data to resend message is no longer captured
   constructor(
     incomingIdentifier: string,
-    _m: ArrayBuffer,
-    _t: number,
+    _m: unknown,
+    _t: unknown,
     httpError?: Error
   ) {
     const identifier = incomingIdentifier.split('.')[0];

@@ -1,6 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { UnidentifiedSenderMessageContent } from '@signalapp/signal-client';
+
 import Crypto from './textsecure/Crypto';
 import MessageReceiver from './textsecure/MessageReceiver';
 import MessageSender from './textsecure/SendMessage';
@@ -571,6 +573,7 @@ export declare class ContentClass {
   receiptMessage?: ReceiptMessageClass;
   typingMessage?: TypingMessageClass;
   senderKeyDistributionMessage?: ByteBufferClass;
+  decryptionErrorMessage?: ByteBufferClass;
 }
 
 export declare class DataMessageClass {
@@ -722,6 +725,9 @@ export declare class EnvelopeClass {
   receivedAtDate: number;
   unidentifiedDeliveryReceived?: boolean;
   messageAgeSec?: number;
+  contentHint?: number;
+  groupId?: string;
+  usmc?: UnidentifiedSenderMessageContent;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -731,6 +737,7 @@ export declare namespace EnvelopeClass {
     static PREKEY_BUNDLE: number;
     static RECEIPT: number;
     static UNIDENTIFIED_SENDER: number;
+    static PLAINTEXT_CONTENT: number;
   }
 }
 
@@ -1386,10 +1393,11 @@ export declare namespace UnidentifiedSenderMessageClass.Message {
     static PREKEY_MESSAGE: number;
     static MESSAGE: number;
     static SENDERKEY_MESSAGE: number;
+    static PLAINTEXT_CONTENT: number;
   }
 
   class ContentHint {
     static SUPPLEMENTARY: number;
-    static RETRY: number;
+    static RESENDABLE: number;
   }
 }

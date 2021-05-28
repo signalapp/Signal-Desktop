@@ -139,6 +139,8 @@ export class ConversationModel extends window.Backbone
 
   throttledFetchSMSOnlyUUID?: () => Promise<void> | void;
 
+  throttledMaybeMigrateV1Group?: () => Promise<void> | void;
+
   typingRefreshTimer?: NodeJS.Timer | null;
 
   typingPauseTimer?: NodeJS.Timer | null;
@@ -304,7 +306,11 @@ export class ConversationModel extends window.Backbone
     this.isFetchingUUID = this.isSMSOnly();
 
     this.throttledFetchSMSOnlyUUID = window._.throttle(
-      this.fetchSMSOnlyUUID,
+      this.fetchSMSOnlyUUID.bind(this),
+      FIVE_MINUTES
+    );
+    this.throttledMaybeMigrateV1Group = window._.throttle(
+      this.maybeMigrateV1Group.bind(this),
       FIVE_MINUTES
     );
 
@@ -811,6 +817,10 @@ export class ConversationModel extends window.Backbone
   }
 
   setRegistered(): void {
+    if (this.get('discoveredUnregisteredAt') === undefined) {
+      return;
+    }
+
     window.log.info(
       `Conversation ${this.idForLogging()} is registered once again`
     );
@@ -1193,15 +1203,18 @@ export class ConversationModel extends window.Backbone
         }
       );
 
+      const {
+        ContentHint,
+      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
       const sendOptions = await this.getSendOptions();
       if (this.isPrivate()) {
-        const silent = true;
         this.wrapSend(
           window.textsecure.messaging.sendMessageProtoAndWait(
             timestamp,
             groupMembers,
             contentMessage,
-            silent,
+            ContentHint.SUPPLEMENTARY,
+            undefined,
             {
               ...sendOptions,
               online: true,
@@ -1211,6 +1224,7 @@ export class ConversationModel extends window.Backbone
       } else {
         this.wrapSend(
           window.Signal.Util.sendContentMessageToGroup({
+            contentHint: ContentHint.SUPPLEMENTARY,
             contentMessage,
             conversation: this,
             online: true,
@@ -2438,7 +2452,8 @@ export class ConversationModel extends window.Backbone
 
   async addChatSessionRefreshed(receivedAt: number): Promise<void> {
     window.log.info(
-      `addChatSessionRefreshed: adding for ${this.idForLogging()}`
+      `addChatSessionRefreshed: adding for ${this.idForLogging()}`,
+      { receivedAt }
     );
 
     const message = ({
@@ -2464,6 +2479,43 @@ export class ConversationModel extends window.Backbone
     );
 
     this.trigger('newmessage', model);
+  }
+
+  async addDeliveryIssue(
+    receivedAt: number,
+    senderUuid: string
+  ): Promise<void> {
+    window.log.info(`addDeliveryIssue: adding for ${this.idForLogging()}`, {
+      receivedAt,
+      senderUuid,
+    });
+
+    const message = ({
+      conversationId: this.id,
+      type: 'delivery-issue',
+      sourceUuid: senderUuid,
+      sent_at: receivedAt,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: receivedAt,
+      unread: 1,
+      // TODO: DESKTOP-722
+      // this type does not fully implement the interface it is expected to
+    } as unknown) as typeof window.Whisper.MessageAttributesType;
+
+    const id = await window.Signal.Data.saveMessage(message, {
+      Message: window.Whisper.Message,
+    });
+    const model = window.MessageController.register(
+      id,
+      new window.Whisper.Message({
+        ...message,
+        id,
+      })
+    );
+
+    this.trigger('newmessage', model);
+
+    await this.notify(model);
   }
 
   async addKeyChange(keyChangedId: string): Promise<void> {
@@ -3108,6 +3160,10 @@ export class ConversationModel extends window.Backbone
           profileKey = await ourProfileKeyService.get();
         }
 
+        const {
+          ContentHint,
+        } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+
         if (this.isPrivate()) {
           return window.textsecure.messaging.sendMessageToIdentifier(
             destination,
@@ -3120,6 +3176,8 @@ export class ConversationModel extends window.Backbone
             targetTimestamp,
             timestamp,
             undefined, // expireTimer
+            ContentHint.SUPPLEMENTARY,
+            undefined, // groupId
             profileKey,
             options
           );
@@ -3134,6 +3192,7 @@ export class ConversationModel extends window.Backbone
             profileKey,
           },
           this,
+          ContentHint.SUPPLEMENTARY,
           options
         );
       })();
@@ -3254,6 +3313,9 @@ export class ConversationModel extends window.Backbone
       }
 
       const options = await this.getSendOptions();
+      const {
+        ContentHint,
+      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
 
       const promise = (() => {
         if (this.isPrivate()) {
@@ -3268,6 +3330,8 @@ export class ConversationModel extends window.Backbone
             undefined, // deletedForEveryoneTimestamp
             timestamp,
             expireTimer,
+            ContentHint.SUPPLEMENTARY,
+            undefined, // groupId
             profileKey,
             options
           );
@@ -3285,6 +3349,7 @@ export class ConversationModel extends window.Backbone
             profileKey,
           },
           this,
+          ContentHint.SUPPLEMENTARY,
           options
         );
       })();
@@ -3492,6 +3557,9 @@ export class ConversationModel extends window.Backbone
 
       const conversationType = this.get('type');
       const options = await this.getSendOptions();
+      const {
+        ContentHint,
+      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
 
       let promise;
       if (conversationType === Message.GROUP) {
@@ -3510,6 +3578,7 @@ export class ConversationModel extends window.Backbone
             mentions,
           },
           this,
+          ContentHint.RESENDABLE,
           options
         );
       } else {
@@ -3524,6 +3593,8 @@ export class ConversationModel extends window.Backbone
           undefined, // deletedForEveryoneTimestamp
           now,
           expireTimer,
+          ContentHint.RESENDABLE,
+          undefined, // groupId
           profileKey,
           options
         );

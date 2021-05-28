@@ -11,6 +11,7 @@ import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { PropsType as TimelineItemProps, TimelineItem } from './TimelineItem';
 import { CallMode } from '../../types/Calling';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -99,9 +100,19 @@ storiesOf('Components/Conversation/TimelineItem', module)
       {
         type: 'timerNotification',
         data: {
-          type: 'fromOther',
           phoneNumber: '(202) 555-0000',
-          timespan: '1 hour',
+          expireTimer: 60,
+          ...getDefaultConversation(),
+          type: 'fromOther',
+        },
+      },
+      {
+        type: 'chatSessionRefreshed',
+      },
+      {
+        type: 'deliveryIssue',
+        data: {
+          sender: getDefaultConversation(),
         },
       },
       {
@@ -367,7 +378,6 @@ storiesOf('Components/Conversation/TimelineItem', module)
               item={item as TimelineItemProps['item']}
               i18n={i18n}
             />
-            <hr />
           </React.Fragment>
         ))}
       </>

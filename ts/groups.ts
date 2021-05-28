@@ -1259,6 +1259,9 @@ export async function modifyGroupV2({
 
         const sendOptions = await conversation.getSendOptions();
         const timestamp = Date.now();
+        const {
+          ContentHint,
+        } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
 
         const promise = conversation.wrapSend(
           window.Signal.Util.sendToGroup(
@@ -1272,6 +1275,7 @@ export async function modifyGroupV2({
               profileKey,
             },
             conversation,
+            ContentHint.SUPPLEMENTARY,
             sendOptions
           )
         );
@@ -1629,6 +1633,10 @@ export async function createGroupV2({
   const groupV2Info = conversation.getGroupV2Info({
     includePendingMembers: true,
   });
+  const {
+    ContentHint,
+  } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+  const sendOptions = await conversation.getSendOptions();
 
   await wrapWithSyncMessageSend({
     conversation,
@@ -1640,7 +1648,9 @@ export async function createGroupV2({
           timestamp,
           profileKey,
         },
-        conversation
+        conversation,
+        ContentHint.SUPPLEMENTARY,
+        sendOptions
       ),
     timestamp,
   });
@@ -2145,6 +2155,11 @@ export async function initiateMigrationToGroupV2(
     | ArrayBuffer
     | undefined = await ourProfileKeyService.get();
 
+  const {
+    ContentHint,
+  } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+  const sendOptions = await conversation.getSendOptions();
+
   await wrapWithSyncMessageSend({
     conversation,
     logId: `sendToGroup/${logId}`,
@@ -2158,7 +2173,9 @@ export async function initiateMigrationToGroupV2(
           timestamp,
           profileKey: ourProfileKey,
         },
-        conversation
+        conversation,
+        ContentHint.SUPPLEMENTARY,
+        sendOptions
       ),
     timestamp,
   });

@@ -41,6 +41,7 @@ import {
 import { PropsData as SafetyNumberNotificationProps } from '../components/conversation/SafetyNumberNotification';
 import { PropsData as VerificationNotificationProps } from '../components/conversation/VerificationNotification';
 import { PropsDataType as GroupV1MigrationPropsType } from '../components/conversation/GroupV1Migration';
+import { PropsDataType as DeliveryIssuePropsType } from '../components/conversation/DeliveryIssueNotification';
 import {
   PropsData as GroupNotificationProps,
   ChangeType,
@@ -131,6 +132,10 @@ type MessageBubbleProps =
   | {
       type: 'chatSessionRefreshed';
       data: null;
+    }
+  | {
+      type: 'deliveryIssue';
+      data: DeliveryIssuePropsType;
     }
   | {
       type: 'message';
@@ -407,6 +412,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         data: null,
       };
     }
+    if (this.isDeliveryIssue()) {
+      return {
+        type: 'deliveryIssue',
+        data: this.getPropsForDeliveryIssue(),
+      };
+    }
 
     return {
       type: 'message',
@@ -579,6 +590,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isChatSessionRefreshed(): boolean {
     return this.get('type') === 'chat-session-refreshed';
+  }
+
+  isDeliveryIssue(): boolean {
+    return this.get('type') === 'delivery-issue';
   }
 
   isProfileChange(): boolean {
@@ -872,6 +887,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
         return undefined;
     }
+  }
+
+  getPropsForDeliveryIssue(): DeliveryIssuePropsType {
+    const sender = this.getContact()?.format();
+
+    return {
+      sender,
+    };
   }
 
   getPropsForProfileChange(): ProfileChangeNotificationPropsType {
@@ -1359,6 +1382,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   getNotificationData(): { emoji?: string; text: string } {
+    if (this.isDeliveryIssue()) {
+      return {
+        emoji: '⚠️',
+        text: window.i18n('DeliveryIssue--preview'),
+      };
+    }
+
     if (this.isChatSessionRefreshed()) {
       return {
         emoji: '🔁',
@@ -1893,6 +1923,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // Rendered sync messages
     const isCallHistory = this.isCallHistory();
     const isChatSessionRefreshed = this.isChatSessionRefreshed();
+    const isDeliveryIssue = this.isDeliveryIssue();
     const isGroupUpdate = this.isGroupUpdate();
     const isGroupV2Change = this.isGroupV2Change();
     const isEndSession = this.isEndSession();
@@ -1922,6 +1953,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // Rendered sync messages
       isCallHistory ||
       isChatSessionRefreshed ||
+      isDeliveryIssue ||
       isGroupUpdate ||
       isGroupV2Change ||
       isEndSession ||
@@ -2216,6 +2248,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     let promise;
     const options = await conversation.getSendOptions();
 
+    const {
+      ContentHint,
+    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+
     if (conversation.isPrivate()) {
       const [identifier] = recipients;
       promise = window.textsecure.messaging.sendMessageToIdentifier(
@@ -2229,6 +2265,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         this.get('deletedForEveryoneTimestamp'),
         this.get('sent_at'),
         this.get('expireTimer'),
+        ContentHint.RESENDABLE,
+        undefined, // groupId
         profileKey,
         options
       );
@@ -2271,6 +2309,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           groupV1,
         },
         conversation,
+        ContentHint.RESENDABLE,
         options,
         partialSend
       );
@@ -2403,7 +2442,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async resend(identifier: string): Promise<void | null | Array<void>> {
     const error = this.removeOutgoingErrors(identifier);
     if (!error) {
-      window.log.warn('resend: requested number was not present in errors');
+      window.log.warn(
+        'resend: requested number was not present in errors. continuing.'
+      );
+    }
+
+    if (this.isErased()) {
+      window.log.warn('resend: message is erased; refusing to resend');
       return null;
     }
 
@@ -2431,7 +2476,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         body,
         deletedForEveryoneTimestamp: this.get('deletedForEveryoneTimestamp'),
         expireTimer: this.get('expireTimer'),
-        // flags
         mentions: this.get('bodyRanges'),
         preview: previewWithData,
         profileKey,
@@ -2445,21 +2489,58 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const {
+      ContentHint,
+    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const parentConversation = this.getConversation();
+    const groupId = parentConversation?.get('groupId');
+    const {
       wrap,
       sendOptions,
     } = await window.ConversationController.prepareForSend(identifier);
-    const promise = window.textsecure.messaging.sendMessageToIdentifier(
-      identifier,
-      body,
+    const group =
+      groupId && parentConversation?.isGroupV1()
+        ? {
+            id: groupId,
+            type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
+          }
+        : undefined;
+
+    const timestamp = this.get('sent_at');
+    const contentMessage = await window.textsecure.messaging.getContentMessage({
       attachments,
-      quoteWithData,
-      previewWithData,
-      stickerWithData,
-      null,
-      this.get('deletedForEveryoneTimestamp'),
-      this.get('sent_at'),
-      this.get('expireTimer'),
-      profileKey,
+      body,
+      expireTimer: this.get('expireTimer'),
+      group,
+      groupV2: parentConversation?.getGroupV2Info(),
+      preview: previewWithData,
+      quote: quoteWithData,
+      mentions: this.get('bodyRanges'),
+      recipients: [identifier],
+      sticker: stickerWithData,
+      timestamp,
+    });
+
+    if (parentConversation) {
+      const senderKeyInfo = parentConversation.get('senderKeyInfo');
+      if (senderKeyInfo && senderKeyInfo.distributionId) {
+        const senderKeyDistributionMessage = await window.textsecure.messaging.getSenderKeyDistributionMessage(
+          senderKeyInfo.distributionId
+        );
+
+        window.dcodeIO.ByteBuffer.wrap(
+          window.Signal.Crypto.typedArrayToArrayBuffer(
+            senderKeyDistributionMessage.serialize()
+          )
+        );
+      }
+    }
+
+    const promise = window.textsecure.messaging.sendMessageProtoAndWait(
+      timestamp,
+      [identifier],
+      contentMessage,
+      ContentHint.RESENDABLE,
+      groupId && parentConversation?.isGroupV2() ? groupId : undefined,
       sendOptions
     );
 
@@ -2506,7 +2587,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           sent_to: _.union(sentTo, result.successfulIdentifiers),
           sent: true,
           expirationStartTimestamp: Date.now(),
-          unidentifiedDeliveries: result.unidentifiedDeliveries,
+          unidentifiedDeliveries: _.union(
+            this.get('unidentifiedDeliveries') || [],
+            result.unidentifiedDeliveries
+          ),
         });
 
         if (!this.doNotSave) {
@@ -2595,7 +2679,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               sent_to: _.union(sentTo, result.successfulIdentifiers),
               sent: true,
               expirationStartTimestamp,
-              unidentifiedDeliveries: result.unidentifiedDeliveries,
+              unidentifiedDeliveries: _.union(
+                this.get('unidentifiedDeliveries') || [],
+                result.unidentifiedDeliveries
+              ),
             });
             promises.push(this.sendSyncMessage());
           } else if (result.errors) {
@@ -3449,6 +3536,24 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
           confirm();
           return;
+        }
+      }
+
+      // Now check for decryption error placeholders
+      const { retryPlaceholders } = window.Signal.Services;
+      if (retryPlaceholders) {
+        const item = await retryPlaceholders.findByMessageAndRemove(
+          conversationId,
+          message.get('sent_at')
+        );
+        if (item) {
+          window.log.info(
+            `handleDataMessage: found retry placeholder. Updating ${message.idForLogging()} received_at/received_at_ms`
+          );
+          message.set({
+            received_at: item.receivedAtCounter,
+            received_at_ms: item.receivedAt,
+          });
         }
       }
 

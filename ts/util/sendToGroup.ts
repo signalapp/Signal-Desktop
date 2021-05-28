@@ -55,6 +55,7 @@ const MAX_RECURSION = 5;
 export async function sendToGroup(
   groupSendOptions: GroupSendOptionsType,
   conversation: ConversationModel,
+  contentHint: number,
   sendOptions?: SendOptionsType,
   isPartialSend?: boolean
 ): Promise<CallbackResultType> {
@@ -75,6 +76,7 @@ export async function sendToGroup(
   );
 
   return sendContentMessageToGroup({
+    contentHint,
     contentMessage,
     conversation,
     isPartialSend,
@@ -85,6 +87,7 @@ export async function sendToGroup(
 }
 
 export async function sendContentMessageToGroup({
+  contentHint,
   contentMessage,
   conversation,
   isPartialSend,
@@ -93,6 +96,7 @@ export async function sendContentMessageToGroup({
   sendOptions,
   timestamp,
 }: {
+  contentHint: number;
   contentMessage: ContentClass;
   conversation: ConversationModel;
   isPartialSend?: boolean;
@@ -110,6 +114,7 @@ export async function sendContentMessageToGroup({
   if (conversation.isGroupV2()) {
     try {
       return await sendToGroupViaSenderKey({
+        contentHint,
         contentMessage,
         conversation,
         isPartialSend,
@@ -127,10 +132,15 @@ export async function sendContentMessageToGroup({
     }
   }
 
+  const groupId = conversation.isGroupV2()
+    ? conversation.get('groupId')
+    : undefined;
   return window.textsecure.messaging.sendGroupProto(
     recipients,
     contentMessage,
     timestamp,
+    contentHint,
+    groupId,
     sendOptions
   );
 }
@@ -138,6 +148,7 @@ export async function sendContentMessageToGroup({
 // The Primary Sender Key workflow
 
 export async function sendToGroupViaSenderKey(options: {
+  contentHint: number;
   contentMessage: ContentClass;
   conversation: ConversationModel;
   isPartialSend?: boolean;
@@ -148,6 +159,7 @@ export async function sendToGroupViaSenderKey(options: {
   timestamp: number;
 }): Promise<CallbackResultType> {
   const {
+    contentHint,
     contentMessage,
     conversation,
     isPartialSend,
@@ -157,6 +169,9 @@ export async function sendToGroupViaSenderKey(options: {
     sendOptions,
     timestamp,
   } = options;
+  const {
+    ContentHint,
+  } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
 
   const logId = conversation.idForLogging();
   window.log.info(
@@ -173,6 +188,15 @@ export async function sendToGroupViaSenderKey(options: {
   if (!groupId || !conversation.isGroupV2()) {
     throw new Error(
       `sendToGroupViaSenderKey/${logId}: Missing groupId or group is not GV2`
+    );
+  }
+
+  if (
+    contentHint !== ContentHint.RESENDABLE &&
+    contentHint !== ContentHint.SUPPLEMENTARY
+  ) {
+    throw new Error(
+      `sendToGroupViaSenderKey/${logId}: Invalid contentHint ${contentHint}`
     );
   }
 
@@ -293,10 +317,15 @@ export async function sendToGroupViaSenderKey(options: {
         newToMemberUuids.length
       } members: ${JSON.stringify(newToMemberUuids)}`
     );
-    await window.textsecure.messaging.sendSenderKeyDistributionMessage({
-      distributionId,
-      identifiers: newToMemberUuids,
-    });
+    await window.textsecure.messaging.sendSenderKeyDistributionMessage(
+      {
+        contentHint: ContentHint.SUPPLEMENTARY,
+        distributionId,
+        groupId,
+        identifiers: newToMemberUuids,
+      },
+      sendOptions
+    );
   }
 
   // 9. Update memberDevices with both adds and the removals which didn't require a reset.
@@ -323,6 +352,7 @@ export async function sendToGroupViaSenderKey(options: {
   // 10. Send the Sender Key message!
   try {
     const messageBuffer = await encryptForSenderKey({
+      contentHint,
       devices: devicesForSenderKey,
       distributionId,
       contentMessage: contentMessage.toArrayBuffer(),
@@ -396,6 +426,8 @@ export async function sendToGroupViaSenderKey(options: {
     normalRecipients,
     contentMessage,
     timestamp,
+    contentHint,
+    groupId,
     sendOptions
   );
 
@@ -594,14 +626,16 @@ function getXorOfAccessKeys(devices: Array<DeviceType>): Buffer {
 }
 
 async function encryptForSenderKey({
+  contentHint,
+  contentMessage,
   devices,
   distributionId,
-  contentMessage,
   groupId,
 }: {
+  contentHint: number;
+  contentMessage: ArrayBuffer;
   devices: Array<DeviceType>;
   distributionId: string;
-  contentMessage: ArrayBuffer;
   groupId: string;
 }): Promise<Buffer> {
   const ourUuid = window.textsecure.storage.user.getUuid();
@@ -625,7 +659,6 @@ async function encryptForSenderKey({
     () => groupEncrypt(sender, distributionId, senderKeyStore, message)
   );
 
-  const contentHint = 1;
   const groupIdBuffer = Buffer.from(groupId, 'base64');
   const senderCertificateObject = await senderCertificateService.get(
     SenderCertificateMode.WithoutE164
@@ -676,8 +709,8 @@ function isValidSenderKeyRecipient(
     return false;
   }
 
-  const { capabilities } = memberConversation.attributes;
-  if (!capabilities.senderKey) {
+  const capabilities = memberConversation.get('capabilities');
+  if (!capabilities?.senderKey) {
     window.log.info(
       `isValidSenderKeyRecipient: Missing senderKey capability for member ${uuid}`
     );

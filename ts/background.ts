@@ -1,6 +1,12 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { isNumber } from 'lodash';
+import {
+  DecryptionErrorMessage,
+  PlaintextContent,
+} from '@signalapp/signal-client';
+
 import { DataMessageClass } from './textsecure.d';
 import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
@@ -22,9 +28,37 @@ import { ourProfileKeyService } from './services/ourProfileKey';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
 import { setToExpire } from './services/MessageUpdater';
 import { LatestQueue } from './util/LatestQueue';
+import { parseIntOrThrow } from './util/parseIntOrThrow';
+import {
+  DecryptionErrorType,
+  RetryRequestType,
+} from './textsecure/MessageReceiver';
 import { connectToServerWithStoredCredentials } from './util/connectToServerWithStoredCredentials';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
+
+export function isOverHourIntoPast(timestamp: number): boolean {
+  const HOUR = 1000 * 60 * 60;
+  return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
+}
+
+type SessionResetsType = Record<string, number>;
+export async function cleanupSessionResets(): Promise<void> {
+  const sessionResets = window.storage.get<SessionResetsType>(
+    'sessionResets',
+    {}
+  );
+
+  const keys = Object.keys(sessionResets);
+  keys.forEach(key => {
+    const timestamp = sessionResets[key];
+    if (!timestamp || isOverHourIntoPast(timestamp)) {
+      delete sessionResets[key];
+    }
+  });
+
+  await window.storage.put('sessionResets', sessionResets);
+}
 
 export async function startApp(): Promise<void> {
   window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
@@ -376,6 +410,27 @@ export async function startApp(): Promise<void> {
       return;
     }
     first = false;
+
+    cleanupSessionResets();
+    const retryPlaceholders = new window.Signal.Util.RetryPlaceholders();
+    window.Signal.Services.retryPlaceholders = retryPlaceholders;
+
+    setInterval(async () => {
+      const expired = await retryPlaceholders.getExpiredAndRemove();
+      window.log.info(
+        `retryPlaceholders/interval: Found ${expired.length} expired items`
+      );
+      expired.forEach(item => {
+        const { conversationId, senderUuid } = item;
+        const conversation = window.ConversationController.get(conversationId);
+        if (conversation) {
+          const now = Date.now();
+          conversation.queueJob(() =>
+            conversation.addDeliveryIssue(now, senderUuid)
+          );
+        }
+      });
+    }, 5 * 60 * 1000);
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
@@ -1949,7 +2004,8 @@ export async function startApp(): Promise<void> {
       addQueuedEventListener('read', onReadReceipt);
       addQueuedEventListener('verified', onVerified);
       addQueuedEventListener('error', onError);
-      addQueuedEventListener('light-session-reset', onLightSessionReset);
+      addQueuedEventListener('decryption-error', onDecryptionError);
+      addQueuedEventListener('retry-request', onRetryRequest);
       addQueuedEventListener('empty', onEmpty);
       addQueuedEventListener('reconnect', onReconnect);
       addQueuedEventListener('configuration', onConfiguration);
@@ -2061,7 +2117,7 @@ export async function startApp(): Promise<void> {
           await server.registerCapabilities({
             'gv2-3': true,
             'gv1-migration': true,
-            senderKey: false,
+            senderKey: true,
           });
         } catch (error) {
           window.log.error(
@@ -3287,18 +3343,271 @@ export async function startApp(): Promise<void> {
     window.log.warn('background onError: Doing nothing with incoming error');
   }
 
-  type LightSessionResetEventType = Event & {
-    senderUuid: string;
-    senderDevice: number;
+  type RetryRequestEventType = Event & {
+    retryRequest: RetryRequestType;
   };
 
-  function onLightSessionReset(event: LightSessionResetEventType) {
-    const { senderUuid, senderDevice } = event;
+  function isInList(
+    conversation: ConversationModel,
+    list: Array<string | undefined | null> | undefined
+  ): boolean {
+    const uuid = conversation.get('uuid');
+    const e164 = conversation.get('e164');
+    const id = conversation.get('id');
 
-    if (event.confirm) {
-      event.confirm();
+    if (!list) {
+      return false;
     }
 
+    if (list.includes(id)) {
+      return true;
+    }
+
+    if (uuid && list.includes(uuid)) {
+      return true;
+    }
+
+    if (e164 && list.includes(e164)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  async function onRetryRequest(event: RetryRequestEventType) {
+    const { retryRequest } = event;
+    const {
+      requesterUuid,
+      requesterDevice,
+      sentAt,
+      senderDevice,
+    } = retryRequest;
+
+    window.log.info('onRetryRequest:', {
+      requesterUuid,
+      requesterDevice,
+      sentAt,
+      senderDevice,
+    });
+
+    const requesterConversation = window.ConversationController.getOrCreate(
+      requesterUuid,
+      'private'
+    );
+
+    const messages = await window.Signal.Data.getMessagesBySentAt(sentAt, {
+      MessageCollection: window.Whisper.MessageCollection,
+    });
+
+    const targetMessage = messages.find(message => {
+      if (message.get('sent_at') !== sentAt) {
+        return false;
+      }
+
+      if (message.get('type') !== 'outgoing') {
+        return false;
+      }
+
+      if (!isInList(requesterConversation, message.get('sent_to'))) {
+        return false;
+      }
+
+      return true;
+    });
+
+    if (!targetMessage) {
+      window.log.info(
+        `onRetryRequest: Did not find message sent at ${sentAt}, sent to ${requesterUuid}`
+      );
+      return;
+    }
+
+    if (targetMessage.isErased()) {
+      window.log.info(
+        `onRetryRequest: Message sent at ${sentAt} is erased, refusing to send again.`
+      );
+      return;
+    }
+
+    const HOUR = 60 * 60 * 1000;
+    const ONE_DAY = 24 * HOUR;
+    if (isOlderThan(sentAt, ONE_DAY)) {
+      window.log.info(
+        `onRetryRequest: Message sent at ${sentAt} is too old, refusing to send again.`
+      );
+      return;
+    }
+
+    const sentUnidentified = isInList(
+      requesterConversation,
+      targetMessage.get('unidentifiedDeliveries')
+    );
+    const wasDelivered = isInList(
+      requesterConversation,
+      targetMessage.get('delivered_to')
+    );
+    if (sentUnidentified && wasDelivered) {
+      window.log.info(
+        `onRetryRequest: Message sent at ${sentAt} was sent sealed sender and was delivered, refusing to send again.`
+      );
+      return;
+    }
+
+    window.log.info(
+      `onRetryRequest: Resending message ${sentAt} to user ${requesterUuid}`
+    );
+
+    const ourDeviceId = parseIntOrThrow(
+      window.textsecure.storage.user.getDeviceId(),
+      'onRetryRequest/getDeviceId'
+    );
+    if (ourDeviceId === senderDevice) {
+      const address = `${requesterUuid}.${requesterDevice}`;
+      window.log.info(
+        `onRetryRequest: Devices match, archiving session with ${address}`
+      );
+      await window.textsecure.storage.protocol.archiveSession(address);
+    }
+
+    targetMessage.resend(requesterUuid);
+  }
+
+  type DecryptionErrorEventType = Event & {
+    decryptionError: DecryptionErrorType;
+  };
+
+  async function onDecryptionError(event: DecryptionErrorEventType) {
+    const { decryptionError } = event;
+    const { senderUuid, senderDevice } = decryptionError;
+
+    window.log.info(`onDecryptionError: ${senderUuid}.${senderDevice}`);
+
+    const conversation = window.ConversationController.getOrCreate(
+      senderUuid,
+      'private'
+    );
+    const capabilities = conversation.get('capabilities');
+    if (!capabilities) {
+      await conversation.getProfiles();
+    }
+
+    if (conversation.get('capabilities')?.senderKey) {
+      requestResend(decryptionError);
+      return;
+    }
+
+    await startAutomaticSessionReset(decryptionError);
+  }
+
+  async function requestResend(decryptionError: DecryptionErrorType) {
+    const {
+      cipherTextBytes,
+      cipherTextType,
+      contentHint,
+      groupId,
+      receivedAtCounter,
+      receivedAtDate,
+      senderDevice,
+      senderUuid,
+      timestamp,
+    } = decryptionError;
+
+    window.log.info(`requestResend: ${senderUuid}.${senderDevice}`, {
+      cipherTextBytesLength: cipherTextBytes?.byteLength,
+      cipherTextType,
+      contentHint,
+      groupId: groupId ? `groupv2(${groupId})` : undefined,
+      timestamp,
+    });
+
+    // 1. Find the target conversation
+
+    const group = groupId
+      ? window.ConversationController.get(groupId)
+      : undefined;
+    const sender = window.ConversationController.getOrCreate(
+      senderUuid,
+      'private'
+    );
+    const conversation = group || sender;
+
+    function immediatelyAddError() {
+      const receivedAt = Date.now();
+      conversation.queueJob(async () => {
+        conversation.addDeliveryIssue(receivedAt, senderUuid);
+      });
+    }
+
+    // 2. Send resend request
+
+    if (!cipherTextBytes || !isNumber(cipherTextType)) {
+      window.log.warn(
+        'requestResend: Missing cipherText information, failing over to automatic reset'
+      );
+      startAutomaticSessionReset(decryptionError);
+      return;
+    }
+
+    try {
+      const message = DecryptionErrorMessage.forOriginal(
+        Buffer.from(cipherTextBytes),
+        cipherTextType,
+        timestamp,
+        senderDevice
+      );
+
+      const plaintext = PlaintextContent.from(message);
+      const options = await conversation.getSendOptions();
+      const result = await window.textsecure.messaging.sendRetryRequest({
+        plaintext,
+        options,
+        uuid: senderUuid,
+      });
+      if (result.errors && result.errors.length > 0) {
+        throw result.errors[0];
+      }
+    } catch (error) {
+      window.log.error(
+        'requestResend: Failed to send retry request, failing over to automatic reset',
+        error && error.stack ? error.stack : error
+      );
+      startAutomaticSessionReset(decryptionError);
+      return;
+    }
+
+    const {
+      ContentHint,
+    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+
+    // 3. Determine how to represent this to the user. Three different options.
+
+    // This is a sync message of some kind that cannot be resent. Don't do anything.
+    if (contentHint === ContentHint.SUPPLEMENTARY) {
+      scheduleSessionReset(senderUuid, senderDevice);
+      return;
+    }
+
+    // If we request a re-send, it might just work out for us!
+    if (contentHint === ContentHint.RESENDABLE) {
+      const { retryPlaceholders } = window.Signal.Services;
+      assert(retryPlaceholders, 'requestResend: adding placeholder');
+
+      window.log.warn('requestResend: Adding placeholder');
+      await retryPlaceholders.add({
+        conversationId: conversation.get('id'),
+        receivedAt: receivedAtDate,
+        receivedAtCounter,
+        sentAt: timestamp,
+        senderUuid,
+      });
+
+      return;
+    }
+
+    immediatelyAddError();
+  }
+
+  function scheduleSessionReset(senderUuid: string, senderDevice: number) {
     // Postpone sending light session resets until the queue is empty
     lightSessionResetQueue.add(() => {
       window.textsecure.storage.protocol.lightSessionReset(
@@ -3306,6 +3615,12 @@ export async function startApp(): Promise<void> {
         senderDevice
       );
     });
+  }
+
+  function startAutomaticSessionReset(decryptionError: DecryptionErrorType) {
+    const { senderUuid, senderDevice } = decryptionError;
+
+    scheduleSessionReset(senderUuid, senderDevice);
 
     const conversationId = window.ConversationController.ensureContactIds({
       uuid: senderUuid,

@@ -129,18 +129,19 @@ export type MessageAttributesType = {
 
   id: string;
   type?:
-    | 'incoming'
-    | 'outgoing'
-    | 'group'
-    | 'keychange'
-    | 'verified-change'
-    | 'message-history-unsynced'
     | 'call-history'
     | 'chat-session-refreshed'
+    | 'delivery-issue'
+    | 'group'
     | 'group-v1-migration'
     | 'group-v2-change'
+    | 'incoming'
+    | 'keychange'
+    | 'message-history-unsynced'
+    | 'outgoing'
     | 'profile-change'
-    | 'timer-notification';
+    | 'timer-notification'
+    | 'verified-change';
   body: string;
   attachments: Array<WhatIsThis>;
   preview: Array<WhatIsThis>;

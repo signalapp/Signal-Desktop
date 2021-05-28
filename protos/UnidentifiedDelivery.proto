@@ -39,16 +39,18 @@ message UnidentifiedSenderMessage {
             // reserved 3 to 6;
             
             SENDERKEY_MESSAGE      = 7;
+            PLAINTEXT_CONTENT      = 8;
         }
 
         enum ContentHint {
-            // Commented out here, even though it is correct syntax. Our parser cannot handle it.
-            
             // Our parser does not handle reserved in enums: DESKTOP-1569
             // reserved 0; // A content hint of "default" should never be encoded.
-            
-            SUPPLEMENTARY = 1;
-            RETRY         = 2;
+        
+            // Do not insert an error.
+            SUPPLEMENTARY = 1; 
+
+            // Put an invisible placeholder in the chat (using the groupId from the sealed sender envelope if available) and delay showing an error until later.
+            RESENDABLE    = 2;
         }
 
         optional Type              type              = 1;

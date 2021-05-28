@@ -394,12 +394,6 @@ Whisper.ConversationView = Whisper.View.extend({
     this.model.throttledGetProfiles =
       this.model.throttledGetProfiles ||
       window._.throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
-    this.model.throttledMaybeMigrateV1Group =
-      this.model.throttledMaybeMigrateV1Group ||
-      window._.throttle(
-        this.model.maybeMigrateV1Group.bind(this.model),
-        FIVE_MINUTES
-      );
 
     this.debouncedMaybeGrabLinkPreview = window._.debounce(
       this.maybeGrabLinkPreview.bind(this),
@@ -2171,6 +2165,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async onOpened(messageId: any) {
+    const { model }: { model: ConversationModel } = this;
+
     if (messageId) {
       const message = await getMessageById(messageId, {
         Message: Whisper.Message,
@@ -2184,29 +2180,41 @@ Whisper.ConversationView = Whisper.View.extend({
       window.log.warn(`onOpened: Did not find message ${messageId}`);
     }
 
+    const { retryPlaceholders } = window.Signal.Services;
+    if (retryPlaceholders) {
+      const placeholders = await retryPlaceholders.findByConversationAndRemove(
+        model.id
+      );
+      window.log.info(`onOpened: Found ${placeholders.length} placeholders`);
+    }
+
     this.loadNewestMessages();
-    this.model.updateLastMessage();
+    model.updateLastMessage();
 
     this.focusMessageField();
 
-    const quotedMessageId = this.model.get('quotedMessageId');
+    const quotedMessageId = model.get('quotedMessageId');
     if (quotedMessageId) {
       this.setQuoteMessage(quotedMessageId);
     }
 
-    this.model.fetchLatestGroupV2Data();
-    this.model.throttledMaybeMigrateV1Group();
+    model.fetchLatestGroupV2Data();
     assert(
-      this.model.throttledFetchSMSOnlyUUID !== undefined,
+      model.throttledMaybeMigrateV1Group !== undefined,
       'Conversation model should be initialized'
     );
-    this.model.throttledFetchSMSOnlyUUID();
+    model.throttledMaybeMigrateV1Group();
+    assert(
+      model.throttledFetchSMSOnlyUUID !== undefined,
+      'Conversation model should be initialized'
+    );
+    model.throttledFetchSMSOnlyUUID();
 
     const statusPromise = this.model.throttledGetProfiles();
     // eslint-disable-next-line more/no-then
     this.statusFetch = statusPromise.then(() =>
       // eslint-disable-next-line more/no-then
-      this.model.updateVerified().then(() => {
+      model.updateVerified().then(() => {
         this.onVerifiedChange();
         this.statusFetch = null;
       })

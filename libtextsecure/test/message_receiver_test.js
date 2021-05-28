@@ -44,7 +44,7 @@ describe('MessageReceiver', () => {
       });
     });
 
-    it('generates light-session-reset event when it cannot decrypt', done => {
+    it('generates decryption-error event when it cannot decrypt', done => {
       const mockServer = new MockServer('ws://localhost:8081/');
 
       mockServer.on('connection', server => {
@@ -63,82 +63,33 @@ describe('MessageReceiver', () => {
         }
       );
 
-      messageReceiver.addEventListener('light-session-reset', done());
+      messageReceiver.addEventListener('decrytion-error', done());
     });
   });
 
-  describe('methods', () => {
-    let messageReceiver;
-    let mockServer;
+  // For when we start testing individual MessageReceiver methods
 
-    beforeEach(() => {
-      // Necessary to populate the server property inside of MockSocket. Without it, we
-      //   crash when doing any number of things to a MockSocket instance.
-      mockServer = new MockServer('ws://localhost:8081');
+  // describe('methods', () => {
+  //   let messageReceiver;
+  //   let mockServer;
 
-      messageReceiver = new textsecure.MessageReceiver(
-        'oldUsername.3',
-        'username.3',
-        'password',
-        'signalingKey',
-        {
-          serverTrustRoot: 'AAAAAAAA',
-        }
-      );
-    });
-    afterEach(() => {
-      mockServer.close();
-    });
+  //   beforeEach(() => {
+  //     // Necessary to populate the server property inside of MockSocket. Without it, we
+  //     //   crash when doing any number of things to a MockSocket instance.
+  //     mockServer = new MockServer('ws://localhost:8081');
 
-    describe('#isOverHourIntoPast', () => {
-      it('returns false for now', () => {
-        assert.isFalse(messageReceiver.isOverHourIntoPast(Date.now()));
-      });
-      it('returns false for 5 minutes ago', () => {
-        const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
-        assert.isFalse(messageReceiver.isOverHourIntoPast(fiveMinutesAgo));
-      });
-      it('returns true for 65 minutes ago', () => {
-        const sixtyFiveMinutesAgo = Date.now() - 65 * 60 * 1000;
-        assert.isTrue(messageReceiver.isOverHourIntoPast(sixtyFiveMinutesAgo));
-      });
-    });
-
-    describe('#cleanupSessionResets', () => {
-      it('leaves empty object alone', () => {
-        window.storage.put('sessionResets', {});
-        messageReceiver.cleanupSessionResets();
-        const actual = window.storage.get('sessionResets');
-
-        const expected = {};
-        assert.deepEqual(actual, expected);
-      });
-      it('filters out any timestamp older than one hour', () => {
-        const startValue = {
-          one: Date.now() - 1,
-          two: Date.now(),
-          three: Date.now() - 65 * 60 * 1000,
-        };
-        window.storage.put('sessionResets', startValue);
-        messageReceiver.cleanupSessionResets();
-        const actual = window.storage.get('sessionResets');
-
-        const expected = window._.pick(startValue, ['one', 'two']);
-        assert.deepEqual(actual, expected);
-      });
-      it('filters out falsey items', () => {
-        const startValue = {
-          one: 0,
-          two: false,
-          three: Date.now(),
-        };
-        window.storage.put('sessionResets', startValue);
-        messageReceiver.cleanupSessionResets();
-        const actual = window.storage.get('sessionResets');
-
-        const expected = window._.pick(startValue, ['three']);
-        assert.deepEqual(actual, expected);
-      });
-    });
-  });
+  //     messageReceiver = new textsecure.MessageReceiver(
+  //       'oldUsername.3',
+  //       'username.3',
+  //       'password',
+  //       'signalingKey',
+  //       {
+  //         serverTrustRoot: 'AAAAAAAA',
+  //       }
+  //     );
+  //   });
+  //   afterEach(() => {
+  //     mockServer.close();
+  //   });
+  // });
 });

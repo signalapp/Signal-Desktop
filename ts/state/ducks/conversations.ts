@@ -159,18 +159,19 @@ export type MessageType = {
   source?: string;
   sourceUuid?: string;
   type?:
-    | 'incoming'
-    | 'outgoing'
-    | 'group'
-    | 'keychange'
-    | 'verified-change'
-    | 'message-history-unsynced'
     | 'call-history'
     | 'chat-session-refreshed'
+    | 'delivery-issue'
+    | 'group'
     | 'group-v1-migration'
     | 'group-v2-change'
+    | 'incoming'
+    | 'keychange'
+    | 'message-history-unsynced'
+    | 'outgoing'
     | 'profile-change'
-    | 'timer-notification';
+    | 'timer-notification'
+    | 'verified-change';
   quote?: { author?: string; authorUuid?: string };
   received_at: number;
   sent_at?: number;
