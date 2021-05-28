@@ -1285,7 +1285,7 @@ class MessageReceiverInner extends EventTarget {
           return result;
         }
         if (result instanceof Buffer) {
-          return typedArrayToArrayBuffer(result);
+          return this.unpad(typedArrayToArrayBuffer(result));
         }
 
         const content = typedArrayToArrayBuffer(result.message());
