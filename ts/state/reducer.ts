@@ -8,6 +8,7 @@ import { reducer as calling } from './ducks/calling';
 import { reducer as conversations } from './ducks/conversations';
 import { reducer as emojis } from './ducks/emojis';
 import { reducer as expiration } from './ducks/expiration';
+import { reducer as globalModals } from './ducks/globalModals';
 import { reducer as items } from './ducks/items';
 import { reducer as linkPreviews } from './ducks/linkPreviews';
 import { reducer as network } from './ducks/network';
@@ -23,6 +24,7 @@ export const reducer = combineReducers({
   conversations,
   emojis,
   expiration,
+  globalModals,
   items,
   linkPreviews,
   network,

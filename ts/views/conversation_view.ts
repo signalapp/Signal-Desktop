@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { AttachmentType } from '../types/Attachment';
+import { ConversationColorType, CustomColorType } from '../types/Colors';
 import { ConversationModel } from '../models/conversations';
 import { GroupV2PendingMemberType } from '../model-types.d';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
@@ -551,6 +552,9 @@ Whisper.ConversationView = Whisper.View.extend({
             }
           },
 
+          onShowChatColorEditor: () => {
+            this.showChatColorEditor();
+          },
           onShowConversationDetails: () => {
             this.showConversationDetails();
           },
@@ -3141,6 +3145,44 @@ Whisper.ConversationView = Whisper.View.extend({
     view.render();
   },
 
+  showChatColorEditor() {
+    const conversation: ConversationModel = this.model;
+
+    const view = new Whisper.ReactWrapperView({
+      className: 'panel',
+      JSX: window.Signal.State.Roots.createChatColorPicker(window.reduxStore, {
+        conversationId: conversation.get('id'),
+        onSelectColor: (
+          color: ConversationColorType,
+          customColorData?: {
+            id: string;
+            value: CustomColorType;
+          }
+        ) => {
+          conversation.set('conversationColor', color);
+          if (customColorData) {
+            conversation.set('customColor', customColorData.value);
+            conversation.set('customColorId', customColorData.id);
+          } else {
+            conversation.unset('customColor');
+            conversation.unset('customColorId');
+          }
+          window.Signal.Data.updateConversation(conversation.attributes);
+        },
+        onChatColorReset: () => {
+          conversation.set('conversationColor', undefined);
+          conversation.unset('customColor');
+          window.Signal.Data.updateConversation(conversation.attributes);
+        },
+      }),
+    });
+
+    view.headerTitle = window.i18n('ChatColorPicker__menu-title');
+
+    this.listenBack(view);
+    view.render();
+  },
+
   showConversationDetails() {
     const conversation: ConversationModel = this.model;
 
@@ -3177,6 +3219,7 @@ Whisper.ConversationView = Whisper.View.extend({
       setDisappearingMessages: this.setDisappearingMessages.bind(this),
       showAllMedia: this.showAllMedia.bind(this),
       showContactModal: this.showContactModal.bind(this),
+      showGroupChatColorEditor: this.showChatColorEditor.bind(this),
       showGroupLinkManagement: this.showGroupLinkManagement.bind(this),
       showGroupV2Permissions: this.showGroupV2Permissions.bind(this),
       showPendingInvites: this.showPendingInvites.bind(this),

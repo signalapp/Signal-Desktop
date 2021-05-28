@@ -33,7 +33,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
     return (
       <BaseConversationListItem
         acceptedMessageRequest={false}
-        color="grey"
+        color="steel"
         conversationType="direct"
         headerName={phoneNumber}
         i18n={i18n}

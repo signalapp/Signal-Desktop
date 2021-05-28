@@ -28,6 +28,7 @@ import {
 } from './PendingInvites';
 import { EditConversationAttributesModal } from './EditConversationAttributesModal';
 import { RequestState } from './util';
+import { getCustomColorStyle } from '../../../util/getCustomColorStyle';
 
 enum ModalState {
   NothingOpen,
@@ -50,6 +51,7 @@ export type StateProps = {
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
   showContactModal: (conversationId: string) => void;
+  showGroupChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
   showPendingInvites: () => void;
@@ -88,6 +90,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   setDisappearingMessages,
   showAllMedia,
   showContactModal,
+  showGroupChatColorEditor,
   showGroupLinkManagement,
   showGroupV2Permissions,
   showPendingInvites,
@@ -224,8 +227,8 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         }}
       />
 
-      {canEditGroupInfo ? (
-        <PanelSection>
+      <PanelSection>
+        {canEditGroupInfo ? (
           <PanelRow
             icon={
               <ConversationDetailsIcon
@@ -252,8 +255,26 @@ export const ConversationDetails: React.ComponentType<Props> = ({
               </div>
             }
           />
-        </PanelSection>
-      ) : null}
+        ) : null}
+        <PanelRow
+          icon={
+            <ConversationDetailsIcon
+              ariaLabel={i18n('showChatColorEditor')}
+              icon="color"
+            />
+          }
+          label={i18n('showChatColorEditor')}
+          onClick={showGroupChatColorEditor}
+          right={
+            <div
+              className={`module-conversation-details__chat-color module-conversation-details__chat-color--${conversation.conversationColor}`}
+              style={{
+                ...getCustomColorStyle(conversation.customColor),
+              }}
+            />
+          }
+        />
+      </PanelSection>
 
       <ConversationDetailsMembershipList
         canAddNewMembers={canEditGroupInfo}

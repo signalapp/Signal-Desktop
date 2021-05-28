@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { Colors } from '../../types/Colors';
+import { ConversationColors } from '../../types/Colors';
 import { pngUrl } from '../../storybook/Fixtures';
 import { Message, Props as MessagesProps } from './Message';
 import {
@@ -36,6 +36,7 @@ const defaultMessageProps: MessagesProps = {
   canDeleteForEveryone: true,
   canDownload: true,
   clearSelectedMessage: () => null,
+  conversationColor: 'crimson',
   conversationId: 'conversationId',
   conversationType: 'direct', // override
   deleteMessage: () => null,
@@ -73,11 +74,11 @@ const defaultMessageProps: MessagesProps = {
 };
 
 const renderInMessage = ({
-  authorColor,
   authorName,
   authorPhoneNumber,
   authorProfileName,
   authorTitle,
+  conversationColor,
   isFromMe,
   rawAttachment,
   referencedMessageNotFound,
@@ -85,14 +86,14 @@ const renderInMessage = ({
 }: Props) => {
   const messageProps = {
     ...defaultMessageProps,
-    authorColor,
+    conversationColor,
     quote: {
       authorId: 'an-author',
-      authorColor,
       authorName,
       authorPhoneNumber,
       authorProfileName,
       authorTitle,
+      conversationColor,
       isFromMe,
       rawAttachment,
       referencedMessageNotFound,
@@ -111,7 +112,6 @@ const renderInMessage = ({
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  authorColor: overrideProps.authorColor || 'green',
   authorName: text('authorName', overrideProps.authorName || ''),
   authorPhoneNumber: text(
     'authorPhoneNumber',
@@ -122,6 +122,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.authorProfileName || ''
   ),
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
+  conversationColor: overrideProps.conversationColor || 'forest',
   i18n,
   isFromMe: boolean('isFromMe', overrideProps.isFromMe || false),
   isIncoming: boolean('isIncoming', overrideProps.isIncoming || false),
@@ -182,7 +183,9 @@ story.add('Incoming/Outgoing Colors', () => {
   const props = createProps({});
   return (
     <>
-      {Colors.map(color => renderInMessage({ ...props, authorColor: color }))}
+      {ConversationColors.map(color =>
+        renderInMessage({ ...props, conversationColor: color })
+      )}
     </>
   );
 });
@@ -440,3 +443,22 @@ story.add('@mention + incoming + me', () => {
 
   return <Quote {...props} />;
 });
+
+story.add('Custom Color', () => (
+  <>
+    <Quote
+      {...createProps({ isIncoming: true, text: 'Solid + Gradient' })}
+      customColor={{
+        start: { hue: 82, saturation: 35 },
+      }}
+    />
+    <Quote
+      {...createProps()}
+      customColor={{
+        deg: 192,
+        start: { hue: 304, saturation: 85 },
+        end: { hue: 231, saturation: 76 },
+      }}
+    />
+  </>
+));

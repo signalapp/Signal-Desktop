@@ -4,7 +4,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 import { ProfileKeyCredentialRequestContext } from 'zkgroup';
-import { compact } from 'lodash';
+import { compact, sample } from 'lodash';
 import {
   MessageModelCollectionType,
   WhatIsThis,
@@ -20,7 +20,11 @@ import {
   SendOptionsType,
 } from '../textsecure/SendMessage';
 import { ConversationType } from '../state/ducks/conversations';
-import { ColorType } from '../types/Colors';
+import {
+  AvatarColorType,
+  AvatarColors,
+  ConversationColorType,
+} from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
@@ -75,21 +79,6 @@ const {
 } = window.Signal.Migrations;
 const { addStickerPackReference } = window.Signal.Data;
 
-const COLORS = [
-  'red',
-  'deep_orange',
-  'brown',
-  'pink',
-  'purple',
-  'indigo',
-  'blue',
-  'teal',
-  'green',
-  'light_green',
-  'blue_grey',
-  'ultramarine',
-];
-
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 const FIVE_MINUTES = 1000 * 60 * 5;
 
@@ -105,7 +94,7 @@ type CustomError = Error & {
 type CachedIdenticon = {
   readonly url: string;
   readonly content: string;
-  readonly color: ColorType;
+  readonly color: AvatarColorType;
 };
 
 export class ConversationModel extends window.Backbone
@@ -318,6 +307,12 @@ export class ConversationModel extends window.Backbone
       this.fetchSMSOnlyUUID,
       FIVE_MINUTES
     );
+
+    // Ensure each contact has a an avatar color associated with it
+    if (!this.get('color')) {
+      this.set('color', sample(AvatarColors));
+      window.Signal.Data.updateConversation(this.attributes);
+    }
   }
 
   isMe(): boolean {
@@ -1452,6 +1447,9 @@ export class ConversationModel extends window.Backbone
       avatarPath: this.getAbsoluteAvatarPath(),
       unblurredAvatarPath: this.getAbsoluteUnblurredAvatarPath(),
       color,
+      conversationColor: this.getConversationColor(),
+      customColor: this.get('customColor'),
+      customColorId: this.get('customColorId'),
       discoveredUnregisteredAt: this.get('discoveredUnregisteredAt'),
       draftBodyRanges,
       draftPreview,
@@ -4675,12 +4673,17 @@ export class ConversationModel extends window.Backbone
     return this.get('type') === 'private';
   }
 
-  getColor(): ColorType {
+  getColor(): AvatarColorType {
     if (!this.isPrivate()) {
-      return 'signal-blue';
+      return 'ultramarine';
     }
 
     return migrateColor(this.get('color'));
+  }
+
+  getConversationColor(): ConversationColorType {
+    return (this.get('conversationColor') ||
+      'ultramarine') as ConversationColorType;
   }
 
   private getAvatarPath(): undefined | string {
@@ -5186,10 +5189,6 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     return -m.get('timestamp');
   },
 });
-
-window.Whisper.Conversation.COLORS = COLORS.concat(['grey', 'default']).join(
-  ' '
-);
 
 // This is a wrapper model used to display group members in the member list view, within
 //   the world of backbone, but layering another bit of group-specific data top of base

@@ -15,7 +15,7 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import { ConversationTypeType } from '../state/ducks/conversations';
-import { Colors, ColorType } from '../types/Colors';
+import { AvatarColors, AvatarColorType } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setup as setupI18n } from '../../js/modules/i18n';
@@ -28,7 +28,11 @@ const getConversation = () =>
   getDefaultConversation({
     id: '3051234567',
     avatarPath: undefined,
-    color: select('Callee color', Colors, 'ultramarine' as ColorType),
+    color: select(
+      'Callee color',
+      AvatarColors,
+      'ultramarine' as AvatarColorType
+    ),
     title: text('Callee Title', 'Rick Sanchez'),
     name: text('Callee Name', 'Rick Sanchez'),
     phoneNumber: '3051234567',
@@ -74,7 +78,11 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   keyChangeOk: action('key-change-ok'),
   me: {
     ...getDefaultConversation({
-      color: select('Caller color', Colors, 'ultramarine' as ColorType),
+      color: select(
+        'Caller color',
+        AvatarColors,
+        'ultramarine' as AvatarColorType
+      ),
       title: text('Caller Title', 'Morty Smith'),
     }),
     uuid: 'cb0dd0c8-7393-41e9-a0aa-d631c4109541',

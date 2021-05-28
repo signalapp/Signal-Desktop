@@ -27,7 +27,7 @@
       background: $color-white;
 
       @at-root '#{$dark-selector} #{&}' {
-        background: $ultramarine-ui-light;
+        background: $color-ultramarine;
       }
 
       &::before {
@@ -36,7 +36,7 @@
         display: block;
         @include color-svg(
           '../images/icons/v2/camera-outline-24.svg',
-          $ultramarine-ui-light,
+          $color-ultramarine,
           false
         );
         -webkit-mask-size: 24px 24px;
@@ -70,18 +70,18 @@
     padding-top: 4px;
 
     @include light-theme {
-      color: $ultramarine-ui-light;
+      color: $color-ultramarine;
     }
 
     @include dark-theme {
-      color: $ultramarine-ui-dark;
+      color: $color-ultramarine-light;
     }
   }
 
   @include keyboard-mode {
     &:focus {
       .module-AvatarInput__avatar {
-        box-shadow: inset 0 0 0 2px $ultramarine-ui-light;
+        box-shadow: inset 0 0 0 2px $color-ultramarine;
       }
 
       .module-AvatarInput__label {

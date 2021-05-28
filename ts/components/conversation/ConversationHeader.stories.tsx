@@ -48,6 +48,7 @@ const commonProps = {
     'onOutgoingVideoCallInConversation'
   ),
 
+  onShowChatColorEditor: action('onShowChatColorEditor'),
   onShowSafetyNumber: action('onShowSafetyNumber'),
   onShowAllMedia: action('onShowAllMedia'),
   onShowContactModal: action('onShowContactModal'),
@@ -70,7 +71,7 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'With name and profile, verified',
         props: {
           ...commonProps,
-          color: 'red',
+          color: 'crimson',
           isVerified: true,
           avatarPath: gifUrl,
           title: 'Someone 🔥 Somewhere',
@@ -114,7 +115,7 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'Profile, no name',
         props: {
           ...commonProps,
-          color: 'teal',
+          color: 'wintergreen',
           isVerified: false,
           phoneNumber: '(202) 555-0003',
           type: 'direct',
@@ -140,7 +141,7 @@ const stories: Array<ConversationHeaderStory> = [
         props: {
           ...commonProps,
           showBackButton: true,
-          color: 'deep_orange',
+          color: 'vermilion',
           phoneNumber: '(202) 555-0004',
           title: '(202) 555-0004',
           type: 'direct',
@@ -212,7 +213,7 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'Basic',
         props: {
           ...commonProps,
-          color: 'signal-blue',
+          color: 'ultramarine',
           title: 'Typescript support group',
           name: 'Typescript support group',
           phoneNumber: '',
@@ -227,7 +228,7 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'In a group you left - no disappearing messages',
         props: {
           ...commonProps,
-          color: 'signal-blue',
+          color: 'ultramarine',
           title: 'Typescript support group',
           name: 'Typescript support group',
           phoneNumber: '',
@@ -243,7 +244,7 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'In a group with an active group call',
         props: {
           ...commonProps,
-          color: 'signal-blue',
+          color: 'ultramarine',
           title: 'Typescript support group',
           name: 'Typescript support group',
           phoneNumber: '',
@@ -258,7 +259,7 @@ const stories: Array<ConversationHeaderStory> = [
         title: 'In a forever muted group',
         props: {
           ...commonProps,
-          color: 'signal-blue',
+          color: 'ultramarine',
           title: 'Way too many messages',
           name: 'Way too many messages',
           phoneNumber: '',

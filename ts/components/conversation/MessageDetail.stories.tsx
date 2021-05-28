@@ -25,6 +25,7 @@ const defaultMessage: MessageDataPropsType = {
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,
+  conversationColor: 'crimson',
   conversationId: 'my-convo',
   conversationType: 'direct',
   direction: 'incoming',
@@ -41,7 +42,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contacts: overrideProps.contacts || [
     {
       ...getDefaultConversation({
-        color: 'green',
+        color: 'indigo',
         title: 'Just Max',
       }),
       isOutgoingKeyError: false,
@@ -102,7 +103,7 @@ story.add('Message Statuses', () => {
     contacts: [
       {
         ...getDefaultConversation({
-          color: 'green',
+          color: 'forest',
           title: 'Max',
         }),
         isOutgoingKeyError: false,
@@ -124,7 +125,7 @@ story.add('Message Statuses', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'brown',
+          color: 'burlap',
           title: 'Terry',
         }),
         isOutgoingKeyError: false,
@@ -135,7 +136,7 @@ story.add('Message Statuses', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'light_green',
+          color: 'wintergreen',
           title: 'Theo',
         }),
         isOutgoingKeyError: false,
@@ -146,7 +147,7 @@ story.add('Message Statuses', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'blue_grey',
+          color: 'steel',
           title: 'Nikki',
         }),
         isOutgoingKeyError: false,
@@ -205,7 +206,7 @@ story.add('All Errors', () => {
     contacts: [
       {
         ...getDefaultConversation({
-          color: 'green',
+          color: 'forest',
           title: 'Max',
         }),
         isOutgoingKeyError: true,
@@ -233,7 +234,7 @@ story.add('All Errors', () => {
       },
       {
         ...getDefaultConversation({
-          color: 'brown',
+          color: 'taupe',
           title: 'Terry',
         }),
         isOutgoingKeyError: true,

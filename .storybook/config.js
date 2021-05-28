@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -31,17 +31,6 @@ const makeThemeKnob = pane =>
     )
   );
 
-const makeDeviceThemeKnob = pane =>
-  persistKnob(`${pane}-pane-device-theme`)(localValue =>
-    optionsKnob(
-      `${pane} Pane Device Theme`,
-      { Android: '', iOS: 'ios-theme' },
-      localValue || '',
-      optionsConfig,
-      `${pane} Pane`
-    )
-  );
-
 const makeModeKnob = pane =>
   persistKnob(`${pane}-pane-mode`)(localValue =>
     optionsKnob(
@@ -58,7 +47,6 @@ addDecorator(withKnobs);
 addDecorator((storyFn /* , context */) => {
   const contents = storyFn();
   const firstPaneTheme = makeThemeKnob('First');
-  const firstPaneDeviceTheme = makeDeviceThemeKnob('First');
   const firstPaneMode = makeModeKnob('First');
 
   const secondPane = persistKnob('second-pane-active')(localValue =>
@@ -66,7 +54,6 @@ addDecorator((storyFn /* , context */) => {
   );
 
   const secondPaneTheme = makeThemeKnob('Second');
-  const secondPaneDeviceTheme = makeDeviceThemeKnob('Second');
   const secondPaneMode = makeModeKnob('Second');
 
   // Adding it to the body as well so that we can cover modals and other
@@ -75,12 +62,6 @@ addDecorator((storyFn /* , context */) => {
     document.body.classList.remove('dark-theme');
   } else {
     document.body.classList.add('dark-theme');
-  }
-
-  if (firstPaneDeviceTheme === '') {
-    document.body.classList.remove('ios-theme');
-  } else {
-    document.body.classList.add('ios-theme');
   }
 
   if (firstPaneMode === 'mouse-mode') {
@@ -95,24 +76,14 @@ addDecorator((storyFn /* , context */) => {
     <div className={styles.container}>
       <ClassyProvider themes={['dark']}>
         <div
-          className={classnames(
-            styles.panel,
-            firstPaneTheme,
-            firstPaneDeviceTheme,
-            firstPaneMode
-          )}
+          className={classnames(styles.panel, firstPaneTheme, firstPaneMode)}
         >
           {contents}
         </div>
       </ClassyProvider>
       {secondPane ? (
         <div
-          className={classnames(
-            styles.panel,
-            secondPaneTheme,
-            secondPaneDeviceTheme,
-            secondPaneMode
-          )}
+          className={classnames(styles.panel, secondPaneTheme, secondPaneMode)}
         >
           {contents}
         </div>

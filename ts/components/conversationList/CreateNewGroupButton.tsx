@@ -19,7 +19,7 @@ export const CreateNewGroupButton: FunctionComponent<PropsType> = React.memo(
     return (
       <BaseConversationListItem
         acceptedMessageRequest={false}
-        color="grey"
+        color="steel"
         conversationType="group"
         headerName={title}
         i18n={i18n}

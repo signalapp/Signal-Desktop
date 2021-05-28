@@ -10,16 +10,18 @@ import * as GoogleChrome from '../../util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
 import { BodyRangesType, LocalizerType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
+import { ConversationColorType, CustomColorType } from '../../types/Colors';
 import { ContactName } from './ContactName';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 
 export type Props = {
   authorTitle: string;
   authorPhoneNumber?: string;
   authorProfileName?: string;
   authorName?: string;
-  authorColor?: ColorType;
+  conversationColor: ConversationColorType;
+  customColor?: CustomColorType;
   bodyRanges?: BodyRangesType;
   i18n: LocalizerType;
   isFromMe: boolean;
@@ -361,7 +363,13 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderReferenceWarning(): JSX.Element | null {
-    const { i18n, isIncoming, referencedMessageNotFound } = this.props;
+    const {
+      conversationColor,
+      customColor,
+      i18n,
+      isIncoming,
+      referencedMessageNotFound,
+    } = this.props;
 
     if (!referencedMessageNotFound) {
       return null;
@@ -371,8 +379,11 @@ export class Quote extends React.Component<Props, State> {
       <div
         className={classNames(
           'module-quote__reference-warning',
-          isIncoming ? 'module-quote__reference-warning--incoming' : null
+          isIncoming
+            ? `module-quote--incoming-${conversationColor}`
+            : `module-quote--outgoing-${conversationColor}`
         )}
+        style={{ ...getCustomColorStyle(customColor, true) }}
       >
         <div
           className={classNames(
@@ -398,7 +409,8 @@ export class Quote extends React.Component<Props, State> {
 
   public render(): JSX.Element | null {
     const {
-      authorColor,
+      conversationColor,
+      customColor,
       isIncoming,
       onClick,
       referencedMessageNotFound,
@@ -424,14 +436,15 @@ export class Quote extends React.Component<Props, State> {
             'module-quote',
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
             isIncoming
-              ? `module-quote--incoming-${authorColor}`
-              : `module-quote--outgoing-${authorColor}`,
+              ? `module-quote--incoming-${conversationColor}`
+              : `module-quote--outgoing-${conversationColor}`,
             !onClick ? 'module-quote--no-click' : null,
             withContentAbove ? 'module-quote--with-content-above' : null,
             referencedMessageNotFound
               ? 'module-quote--with-reference-warning'
               : null
           )}
+          style={{ ...getCustomColorStyle(customColor, true) }}
         >
           <div className="module-quote__primary">
             {this.renderAuthor()}

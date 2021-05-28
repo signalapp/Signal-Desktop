@@ -29,6 +29,7 @@ import { createBatcher } from '../util/batcher';
 import { assert } from '../util/assert';
 import { cleanDataForIpc } from './cleanDataForIpc';
 import { ReactionType } from '../types/Reactions';
+import { ConversationColorType, CustomColorType } from '../types/Colors';
 
 import {
   ConversationModelCollectionType,
@@ -157,6 +158,7 @@ const dataInterface: ClientInterface = {
   updateConversation,
   updateConversations,
   removeConversation,
+  updateAllConversationColors,
 
   eraseStorageServiceStateFromConversations,
   getAllConversations,
@@ -1548,4 +1550,17 @@ function insertJob(job: Readonly<StoredJob>): Promise<void> {
 
 function deleteJob(id: string): Promise<void> {
   return channels.deleteJob(id);
+}
+
+async function updateAllConversationColors(
+  conversationColor?: ConversationColorType,
+  customColorData?: {
+    id: string;
+    value: CustomColorType;
+  }
+): Promise<void> {
+  return channels.updateAllConversationColors(
+    conversationColor,
+    customColorData
+  );
 }

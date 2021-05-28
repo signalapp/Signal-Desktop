@@ -87,12 +87,12 @@
 
       @include keyboard-mode {
         &:focus {
-          color: $ultramarine-ui-light;
+          color: $color-ultramarine;
         }
       }
       @include dark-keyboard-mode {
         &:focus {
-          color: $ultramarine-ui-dark;
+          color: $color-ultramarine-light;
         }
       }
     }
@@ -216,12 +216,12 @@
 
     @include keyboard-mode {
       &:focus {
-        border-color: $ultramarine-ui-light;
+        border-color: $color-ultramarine;
       }
     }
     @include dark-keyboard-mode {
       &:focus {
-        border-color: $ultramarine-ui-dark;
+        border-color: $color-ultramarine-light;
       }
     }
 

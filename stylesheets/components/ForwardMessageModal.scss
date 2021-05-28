@@ -52,7 +52,7 @@
 
       @include keyboard-mode {
         &:focus-within {
-          border: solid 1px $ultramarine-ui-light;
+          border: solid 1px $color-ultramarine;
         }
       }
     }
@@ -99,7 +99,7 @@
 
       @include keyboard-mode {
         &:focus {
-          background-color: $ultramarine-ui-light;
+          background-color: $color-ultramarine;
         }
       }
     }
@@ -123,7 +123,7 @@
         &:focus {
           @include color-svg(
             '../images/icons/v2/chevron-left-24.svg',
-            $ultramarine-ui-light
+            $color-ultramarine
           );
         }
       }
@@ -138,7 +138,7 @@
         &:hover {
           @include color-svg(
             '../images/icons/v2/chevron-left-24.svg',
-            $ultramarine-ui-dark
+            $color-ultramarine-light
           );
         }
       }

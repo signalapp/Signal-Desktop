@@ -14,7 +14,7 @@ import { Spinner } from './Spinner';
 
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
-import { ColorType } from '../types/Colors';
+import { AvatarColorType } from '../types/Colors';
 import * as log from '../logging/log';
 import { assert } from '../util/assert';
 import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
@@ -37,7 +37,7 @@ export enum AvatarSize {
 export type Props = {
   avatarPath?: string;
   blur?: AvatarBlur;
-  color?: ColorType;
+  color?: AvatarColorType;
   loading?: boolean;
 
   acceptedMessageRequest: boolean;

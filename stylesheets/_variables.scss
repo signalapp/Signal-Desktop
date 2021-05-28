@@ -42,147 +42,143 @@ $color-black-alpha-60: rgba($color-black, 0.6);
 $color-black-alpha-70: rgba($color-black, 0.7);
 $color-black-alpha-80: rgba($color-black, 0.8);
 
-$ultramarine-brand-light: #3a76f0;
-$ultramarine-brand-dark: #1851b4;
-$ultramarine-ui-light: #2c6bed;
-$ultramarine-ui-dark: #6191f3;
+$color-ultramarine-dark: #1851b4;
+$color-ultramarine-icon: #3a76f0;
+$color-ultramarine-light: #6191f3;
+$color-ultramarine: #2c6bed;
 
-$color-crimson: #cc163d;
-$color-vermilion: #c73800;
-$color-burlap: #746c53;
+// Flat colors
+
+$color-crimson: #cf163e;
+$color-vermilion: #c73f0a;
+$color-burlap: #6f6a58;
 $color-forest: #3b7845;
-$color-wintergreen: #1c8260;
-$color-teal: #067589;
+$color-wintergreen: #1d8663;
+$color-teal: #077d92;
 $color-blue: #336ba3;
-$color-indigo: #5951c8;
-$color-violet: #862caf;
-$color-plum: #a23474;
-$color-taupe: #895d66;
-$color-steel: #6b6b78;
+$color-indigo: #6058ca;
+$color-violet: #9932c8;
+$color-plum: #aa377a;
+$color-taupe: #8f616a;
+$color-steel: #71717f;
 
-// Tints and shades
+// Gradient colors
 
-// Used for iOS theme and the safety number change warning banner
-$color-ios-blue-tint: #b0c8f9;
+$color-ultramarine-gradient: (
+  deg: 180deg,
+  start: #0552f0,
+  end: $color-ultramarine,
+);
+$color-basil: (
+  deg: 180deg,
+  start: #2f9373,
+  end: #077343,
+);
+$color-ember: (
+  deg: 168deg,
+  start: #e57c00,
+  end: #5e0000,
+);
+$color-fluorescent: (
+  deg: 192deg,
+  start: #ec13dd,
+  end: #1b36c6,
+);
+$color-infrared: (
+  deg: 192deg,
+  start: #f65560,
+  end: #442ced,
+);
+$color-lagoon: (
+  deg: 180deg,
+  start: #004066,
+  end: #32867d,
+);
+$color-midnight: (
+  deg: 180deg,
+  start: #2c2c3a,
+  end: #787891,
+);
+$color-sea: (
+  deg: 180deg,
+  start: #498fd4,
+  end: #2c66a0,
+);
+$color-sublime: (
+  deg: 180deg,
+  start: #6281d5,
+  end: #974460,
+);
+$color-tangerine: (
+  deg: 192deg,
+  start: #db7133,
+  end: #911231,
+);
 
-// Used for scroll down button hover state when it has new messages
-$color-ios-ref-warning-light: #d2def8;
-$color-ios-ref-warning-dark: #7b97cd;
+// Avatars
 
-$color-crimson-tint: #eda6ae;
-$color-vermilion-tint: #eba78e;
-$color-burlap-tint: #c4b997;
-$color-forest-tint: #8fcc9a;
-$color-wintergreen-tint: #9bcfbd;
-$color-teal-tint: #a5cad5;
-$color-blue-tint: #adc8e1;
-$color-indigo-tint: #c2c1e7;
-$color-violet-tint: #cdaddc;
-$color-plum-tint: #dcb2ca;
-$color-taupe-tint: #cfb5bb;
-$color-steel-tint: #bebec6;
-
-$color-crimson-shade: #8a0f29;
-$color-vermilion-shade: #872600;
-$color-burlap-shade: #58513c;
-$color-forest-shade: #2b5934;
-$color-wintergreen-shade: #36544a;
-$color-teal-shade: #055968;
-$color-blue-shade: #285480;
-$color-indigo-shade: #4840a0;
-$color-violet-shade: #6b248a;
-$color-plum-shade: #881b5b;
-$color-taupe-shade: #6a4e54;
-$color-steel-shade: #5a5a63;
-
-// Semantic conversation colors
-
-$color-conversation-red: $color-crimson;
-$color-conversation-deep_orange: $color-vermilion;
-$color-conversation-brown: $color-burlap;
-$color-conversation-pink: $color-plum;
-$color-conversation-purple: $color-violet;
-$color-conversation-indigo: $color-indigo;
-$color-conversation-blue: $color-blue;
-$color-conversation-teal: $color-teal;
-$color-conversation-green: $color-forest;
-$color-conversation-light_green: $color-wintergreen;
-$color-conversation-blue_grey: $color-taupe;
-$color-conversation-grey: $color-steel;
-$color-conversation-ultramarine: $ultramarine-ui-light;
-
-$color-conversation-red-tint: $color-crimson-tint;
-$color-conversation-deep_orange-tint: $color-vermilion-tint;
-$color-conversation-brown-tint: $color-burlap-tint;
-$color-conversation-pink-tint: $color-plum-tint;
-$color-conversation-purple-tint: $color-violet-tint;
-$color-conversation-indigo-tint: $color-indigo-tint;
-$color-conversation-blue-tint: $color-blue-tint;
-$color-conversation-teal-tint: $color-teal-tint;
-$color-conversation-green-tint: $color-forest-tint;
-$color-conversation-light_green-tint: $color-wintergreen-tint;
-$color-conversation-blue_grey-tint: $color-taupe-tint;
-$color-conversation-grey-tint: $color-steel-tint;
-$color-conversation-ultramarine-tint: $color-ios-blue-tint;
-
-$color-conversation-red-shade: $color-crimson-shade;
-$color-conversation-deep_orange-shade: $color-vermilion-shade;
-$color-conversation-brown-shade: $color-burlap-shade;
-$color-conversation-pink-shade: $color-plum-shade;
-$color-conversation-purple-shade: $color-violet-shade;
-$color-conversation-indigo-shade: $color-indigo-shade;
-$color-conversation-blue-shade: $color-blue-shade;
-$color-conversation-teal-shade: $color-teal-shade;
-$color-conversation-green-shade: $color-forest-shade;
-$color-conversation-light_green-shade: $color-wintergreen-shade;
-$color-conversation-blue_grey-shade: $color-taupe-shade;
-$color-conversation-grey-shade: $color-steel-shade;
-$color-conversation-ultramarine-shade: $ultramarine-brand-dark;
+$avatar-color-crimson: #d00b2c;
+$avatar-color-vermilion: #c72a0a;
+$avatar-color-burlap: #866118;
+$avatar-color-forest: #067919;
+$avatar-color-wintergreen: #067953;
+$avatar-color-teal: #077288;
+$avatar-color-blue: #0a69c7;
+$avatar-color-indigo: #5151f6;
+$avatar-color-violet: #a20ced;
+$avatar-color-plum: #c70a88;
+$avatar-color-taupe: #cb0b6b;
+$avatar-color-steel: $color-gray-60;
+$avatar-color-ultramarine: #0d59f2;
 
 // Maps for easy manipulation
 
+$avatar-colors: (
+  blue: $avatar-color-blue,
+  burlap: $avatar-color-burlap,
+  crimson: $avatar-color-crimson,
+  forest: $avatar-color-forest,
+  indigo: $avatar-color-indigo,
+  plum: $avatar-color-plum,
+  steel: $avatar-color-steel,
+  taupe: $avatar-color-taupe,
+  teal: $avatar-color-teal,
+  ultramarine: $avatar-color-ultramarine,
+  vermilion: $avatar-color-vermilion,
+  violet: $avatar-color-violet,
+  wintergreen: $avatar-color-wintergreen,
+);
+
 $conversation-colors: (
-  'red': $color-conversation-red,
-  'deep_orange': $color-conversation-deep_orange,
-  'brown': $color-conversation-brown,
-  'pink': $color-conversation-pink,
-  'purple': $color-conversation-purple,
-  'indigo': $color-conversation-indigo,
-  'blue': $color-conversation-blue,
-  'teal': $color-conversation-teal,
-  'green': $color-conversation-green,
-  'light_green': $color-conversation-light_green,
-  'blue_grey': $color-conversation-blue_grey,
-  'ultramarine': $color-conversation-ultramarine,
+  blue: $color-blue,
+  burlap: $color-burlap,
+  crimson: $color-crimson,
+  forest: $color-forest,
+  indigo: $color-indigo,
+  plum: $color-plum,
+  steel: $color-steel,
+  taupe: $color-taupe,
+  teal: $color-teal,
+  vermilion: $color-vermilion,
+  violet: $color-violet,
+  wintergreen: $color-wintergreen,
 );
-$conversation-colors-tint: (
-  'red': $color-conversation-red-tint,
-  'deep_orange': $color-conversation-deep_orange-tint,
-  'brown': $color-conversation-brown-tint,
-  'pink': $color-conversation-pink-tint,
-  'purple': $color-conversation-purple-tint,
-  'indigo': $color-conversation-indigo-tint,
-  'blue': $color-conversation-blue-tint,
-  'teal': $color-conversation-teal-tint,
-  'green': $color-conversation-green-tint,
-  'light_green': $color-conversation-light_green-tint,
-  'blue_grey': $color-conversation-blue_grey-tint,
-  'ultramarine': $color-conversation-ultramarine-tint,
+
+$conversation-colors-gradient: (
+  ultramarine: $color-ultramarine-gradient,
+  basil: $color-basil,
+  ember: $color-ember,
+  fluorescent: $color-fluorescent,
+  infrared: $color-infrared,
+  lagoon: $color-lagoon,
+  midnight: $color-midnight,
+  sea: $color-sea,
+  sublime: $color-sublime,
+  tangerine: $color-tangerine,
 );
-$conversation-colors-shade: (
-  'red': $color-conversation-red-shade,
-  'deep_orange': $color-conversation-deep_orange-shade,
-  'brown': $color-conversation-brown-shade,
-  'pink': $color-conversation-pink-shade,
-  'purple': $color-conversation-purple-shade,
-  'indigo': $color-conversation-indigo-shade,
-  'blue': $color-conversation-blue-shade,
-  'teal': $color-conversation-teal-shade,
-  'green': $color-conversation-green-shade,
-  'light_green': $color-conversation-light_green-shade,
-  'blue_grey': $color-conversation-blue_grey-shade,
-  'ultramarine': $color-conversation-ultramarine-shade,
-);
+
+// Used for the safety number change warning banner
+$color-ios-blue-tint: #b0c8f9;
 
 // -- Non-V3 colors
 

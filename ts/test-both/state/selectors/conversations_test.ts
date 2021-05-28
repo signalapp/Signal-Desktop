@@ -23,6 +23,7 @@ import {
   getComposerConversationSearchTerm,
   getComposerStep,
   getComposeSelectedContacts,
+  getContactNameColorSelector,
   getConversationByIdSelector,
   getConversationsByTitleSelector,
   getConversationSelector,
@@ -1211,7 +1212,6 @@ describe('both/state/selectors/conversations', () => {
           isSelected: false,
           typingContact: {
             name: 'Someone There',
-            color: 'blue',
             phoneNumber: '+18005551111',
           },
 
@@ -1236,7 +1236,6 @@ describe('both/state/selectors/conversations', () => {
           isSelected: false,
           typingContact: {
             name: 'Someone There',
-            color: 'blue',
             phoneNumber: '+18005551111',
           },
 
@@ -1261,7 +1260,6 @@ describe('both/state/selectors/conversations', () => {
           isSelected: false,
           typingContact: {
             name: 'Someone There',
-            color: 'blue',
             phoneNumber: '+18005551111',
           },
 
@@ -1286,7 +1284,6 @@ describe('both/state/selectors/conversations', () => {
           isSelected: false,
           typingContact: {
             name: 'Someone There',
-            color: 'blue',
             phoneNumber: '+18005551111',
           },
 
@@ -1311,7 +1308,6 @@ describe('both/state/selectors/conversations', () => {
           isSelected: false,
           typingContact: {
             name: 'Someone There',
-            color: 'blue',
             phoneNumber: '+18005551111',
           },
 
@@ -1360,7 +1356,6 @@ describe('both/state/selectors/conversations', () => {
             isSelected: false,
             typingContact: {
               name: 'Someone There',
-              color: 'blue',
               phoneNumber: '+18005551111',
             },
 
@@ -1386,7 +1381,6 @@ describe('both/state/selectors/conversations', () => {
             isSelected: false,
             typingContact: {
               name: 'Someone There',
-              color: 'blue',
               phoneNumber: '+18005551111',
             },
 
@@ -1412,7 +1406,6 @@ describe('both/state/selectors/conversations', () => {
             isSelected: false,
             typingContact: {
               name: 'Someone There',
-              color: 'blue',
               phoneNumber: '+18005551111',
             },
 
@@ -1463,7 +1456,6 @@ describe('both/state/selectors/conversations', () => {
             isSelected: false,
             typingContact: {
               name: 'Someone There',
-              color: 'blue',
               phoneNumber: '+18005551111',
             },
 
@@ -1488,7 +1480,6 @@ describe('both/state/selectors/conversations', () => {
             isSelected: false,
             typingContact: {
               name: 'Someone There',
-              color: 'blue',
               phoneNumber: '+18005551111',
             },
 
@@ -1513,7 +1504,6 @@ describe('both/state/selectors/conversations', () => {
             isSelected: false,
             typingContact: {
               name: 'Someone There',
-              color: 'blue',
               phoneNumber: '+18005551111',
             },
 
@@ -1539,7 +1529,6 @@ describe('both/state/selectors/conversations', () => {
             isSelected: false,
             typingContact: {
               name: 'Someone There',
-              color: 'blue',
               phoneNumber: '+18005551111',
             },
 
@@ -1564,7 +1553,6 @@ describe('both/state/selectors/conversations', () => {
             isSelected: false,
             typingContact: {
               name: 'Someone There',
-              color: 'blue',
               phoneNumber: '+18005551111',
             },
 
@@ -1840,6 +1828,46 @@ describe('both/state/selectors/conversations', () => {
         },
       };
       assert.strictEqual(getSelectedConversation(state), conversation);
+    });
+  });
+
+  describe('#getContactNameColorSelector', () => {
+    function makeConversationWithUuid(id: string): ConversationType {
+      const convo = makeConversation(id);
+      convo.uuid = id;
+      return convo;
+    }
+
+    it('returns the right color order sorted by UUID ASC', () => {
+      const group = makeConversation('group');
+      group.sortedGroupMembers = [
+        makeConversationWithUuid('zyx'),
+        makeConversationWithUuid('vut'),
+        makeConversationWithUuid('srq'),
+        makeConversationWithUuid('pon'),
+        makeConversationWithUuid('mlk'),
+        makeConversationWithUuid('jih'),
+        makeConversationWithUuid('gfe'),
+      ];
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            group,
+          },
+        },
+      };
+
+      const contactNameColorSelector = getContactNameColorSelector(state);
+
+      assert.equal(contactNameColorSelector('group', 'gfe'), '000');
+      assert.equal(contactNameColorSelector('group', 'jih'), '120');
+      assert.equal(contactNameColorSelector('group', 'mlk'), '240');
+      assert.equal(contactNameColorSelector('group', 'pon'), '040');
+      assert.equal(contactNameColorSelector('group', 'srq'), '160');
+      assert.equal(contactNameColorSelector('group', 'vut'), '280');
+      assert.equal(contactNameColorSelector('group', 'zyx'), '080');
     });
   });
 });

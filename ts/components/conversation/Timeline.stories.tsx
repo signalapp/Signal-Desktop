@@ -37,7 +37,7 @@ const items: Record<string, TimelineItemType> = {
       timestamp: Date.now(),
       author: {
         phoneNumber: '(202) 555-2001',
-        color: 'green',
+        color: 'forest',
       },
       text: '🔥',
     },
@@ -50,7 +50,7 @@ const items: Record<string, TimelineItemType> = {
       direction: 'incoming',
       timestamp: Date.now(),
       author: {
-        color: 'green',
+        color: 'forest',
       },
       text: 'Hello there from the new world! http://somewhere.com',
     },
@@ -75,7 +75,7 @@ const items: Record<string, TimelineItemType> = {
       direction: 'incoming',
       timestamp: Date.now(),
       author: {
-        color: 'red',
+        color: 'crimson',
       },
       text: 'Hello there from the new world!',
     },
@@ -161,7 +161,7 @@ const items: Record<string, TimelineItemType> = {
       timestamp: Date.now(),
       status: 'sent',
       author: {
-        color: 'pink',
+        color: 'plum',
       },
       text: '🔥',
     },
@@ -174,7 +174,7 @@ const items: Record<string, TimelineItemType> = {
       timestamp: Date.now(),
       status: 'read',
       author: {
-        color: 'pink',
+        color: 'plum',
       },
       text: 'Hello there from the new world! http://somewhere.com',
     },
@@ -336,7 +336,7 @@ const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;
 const renderTypingBubble = () => (
   <TypingBubble
     acceptedMessageRequest
-    color="red"
+    color="crimson"
     conversationType="direct"
     phoneNumber="+18005552222"
     i18n={i18n}

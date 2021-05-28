@@ -30,6 +30,7 @@ const {
   AttachmentList,
 } = require('../../ts/components/conversation/AttachmentList');
 const { CaptionEditor } = require('../../ts/components/CaptionEditor');
+const { ChatColorPicker } = require('../../ts/components/ChatColorPicker');
 const {
   ConfirmationDialog,
 } = require('../../ts/components/ConfirmationDialog');
@@ -62,6 +63,9 @@ const {
 // State
 const { createTimeline } = require('../../ts/state/roots/createTimeline');
 const {
+  createChatColorPicker,
+} = require('../../ts/state/roots/createChatColorPicker');
+const {
   createCompositionArea,
 } = require('../../ts/state/roots/createCompositionArea');
 const {
@@ -77,6 +81,9 @@ const { createCallManager } = require('../../ts/state/roots/createCallManager');
 const {
   createForwardMessageModal,
 } = require('../../ts/state/roots/createForwardMessageModal');
+const {
+  createGlobalModalContainer,
+} = require('../../ts/state/roots/createGlobalModalContainer');
 const {
   createGroupLinkManagement,
 } = require('../../ts/state/roots/createGroupLinkManagement');
@@ -324,6 +331,7 @@ exports.setup = (options = {}) => {
   const Components = {
     AttachmentList,
     CaptionEditor,
+    ChatColorPicker,
     ConfirmationDialog,
     ContactDetail,
     ContactListItem,
@@ -345,11 +353,13 @@ exports.setup = (options = {}) => {
 
   const Roots = {
     createCallManager,
+    createChatColorPicker,
     createCompositionArea,
     createContactModal,
     createConversationDetails,
     createConversationHeader,
     createForwardMessageModal,
+    createGlobalModalContainer,
     createGroupLinkManagement,
     createGroupV1MigrationModal,
     createGroupV2JoinModal,

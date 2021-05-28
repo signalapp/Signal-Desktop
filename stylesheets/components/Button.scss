@@ -24,11 +24,11 @@
   user-select: none;
 
   @include keyboard-mode {
-    @include focus-box-shadow($color-white, $ultramarine-ui-light);
+    @include focus-box-shadow($color-white, $color-ultramarine);
   }
 
   @include dark-keyboard-mode {
-    @include focus-box-shadow($color-black, $ultramarine-brand-light);
+    @include focus-box-shadow($color-black, $color-ultramarine-icon);
   }
 
   &:disabled {
@@ -47,7 +47,7 @@
 
   &--primary {
     $color: $color-white;
-    $background-color: $ultramarine-ui-light;
+    $background-color: $color-ultramarine;
 
     color: $color;
     background: $background-color;
@@ -80,7 +80,7 @@
       }
 
       &--affirmative {
-        color: $ultramarine-ui-light;
+        color: $color-ultramarine;
       }
 
       &--destructive {
@@ -103,7 +103,7 @@
       }
 
       &--affirmative {
-        color: $ultramarine-ui-dark;
+        color: $color-ultramarine-light;
       }
 
       &--destructive {

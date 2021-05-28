@@ -36,7 +36,6 @@ import { getEnvironment } from './environment';
 import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
 import * as Attachment from './types/Attachment';
-import { ColorType } from './types/Colors';
 import * as MIME from './types/MIME';
 import * as Contact from './types/Contact';
 import * as Errors from '../js/modules/types/errors';
@@ -44,11 +43,13 @@ import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
 import { createCallManager } from './state/roots/createCallManager';
+import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createCompositionArea } from './state/roots/createCompositionArea';
 import { createContactModal } from './state/roots/createContactModal';
 import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createConversationHeader } from './state/roots/createConversationHeader';
 import { createForwardMessageModal } from './state/roots/createForwardMessageModal';
+import { createGlobalModalContainer } from './state/roots/createGlobalModalContainer';
 import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
 import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
@@ -89,6 +90,7 @@ import {
   PropsType as CallingScreenSharingControllerProps,
 } from './components/CallingScreenSharingController';
 import { CaptionEditor } from './components/CaptionEditor';
+import { ChatColorPicker } from './components/ChatColorPicker';
 import { ConfirmationDialog } from './components/ConfirmationDialog';
 import { ContactDetail } from './components/conversation/ContactDetail';
 import { ContactModal } from './components/conversation/ContactModal';
@@ -473,6 +475,7 @@ declare global {
       Components: {
         AttachmentList: typeof AttachmentList;
         CaptionEditor: typeof CaptionEditor;
+        ChatColorPicker: typeof ChatColorPicker;
         ConfirmationDialog: typeof ConfirmationDialog;
         ContactDetail: typeof ContactDetail;
         ContactModal: typeof ContactModal;
@@ -500,11 +503,13 @@ declare global {
         createStore: typeof createStore;
         Roots: {
           createCallManager: typeof createCallManager;
+          createChatColorPicker: typeof createChatColorPicker;
           createCompositionArea: typeof createCompositionArea;
           createContactModal: typeof createContactModal;
           createConversationDetails: typeof createConversationDetails;
           createConversationHeader: typeof createConversationHeader;
           createForwardMessageModal: typeof createForwardMessageModal;
+          createGlobalModalContainer: typeof createGlobalModalContainer;
           createGroupLinkManagement: typeof createGroupLinkManagement;
           createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
           createGroupV2JoinModal: typeof createGroupV2JoinModal;

@@ -16,6 +16,7 @@ type PropsType = {
   hasXButton?: boolean;
   i18n: LocalizerType;
   moduleClassName?: string;
+  noMouseClose?: boolean;
   onClose?: () => void;
   title?: ReactNode;
   theme?: Theme;
@@ -28,6 +29,7 @@ export function Modal({
   hasXButton,
   i18n,
   moduleClassName,
+  noMouseClose,
   onClose = noop,
   title,
   theme,
@@ -38,7 +40,7 @@ export function Modal({
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
   return (
-    <ModalHost onClose={onClose} theme={theme}>
+    <ModalHost noMouseClose={noMouseClose} onClose={onClose} theme={theme}>
       <div
         className={classNames(
           getClassName(''),

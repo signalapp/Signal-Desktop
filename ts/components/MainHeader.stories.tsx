@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -58,6 +58,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
   showArchivedConversations: action('showArchivedConversations'),
   startComposing: action('startComposing'),
+  toggleChatColorEditor: action('toggleChatColorEditor'),
 });
 
 story.add('Basic', () => {

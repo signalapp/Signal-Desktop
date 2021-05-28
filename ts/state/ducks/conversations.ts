@@ -22,7 +22,12 @@ import { getOwn } from '../../util/getOwn';
 import { assert } from '../../util/assert';
 import { trigger } from '../../shims/events';
 import { AttachmentType } from '../../types/Attachment';
-import { ColorType } from '../../types/Colors';
+import {
+  AvatarColorType,
+  ConversationColorType,
+  CustomColorType,
+} from '../../types/Colors';
+import { ConversationAttributesType } from '../../model-types.d';
 import { BodyRangeType } from '../../types/Util';
 import { CallMode, CallHistoryDetailsFromDiskType } from '../../types/Calling';
 import { MediaItemType } from '../../components/LightboxGallery';
@@ -67,7 +72,10 @@ export type ConversationType = {
   areWePendingApproval?: boolean;
   canChangeTimer?: boolean;
   canEditGroupInfo?: boolean;
-  color?: ColorType;
+  color?: AvatarColorType;
+  conversationColor?: ConversationColorType;
+  customColor?: CustomColorType;
+  customColorId?: string;
   discoveredUnregisteredAt?: number;
   isArchived?: boolean;
   isBlocked?: boolean;
@@ -117,7 +125,6 @@ export type ConversationType = {
   isFetchingUUID?: boolean;
   typingContact?: {
     avatarPath?: string;
-    color?: ColorType;
     name?: string;
     phoneNumber?: string;
     profileName?: string;
@@ -322,6 +329,9 @@ export const getConversationCallMode = (
 
 // Actions
 
+const COLORS_CHANGED = 'conversations/COLORS_CHANGED';
+const CUSTOM_COLOR_REMOVED = 'conversations/CUSTOM_COLOR_REMOVED';
+
 type CantAddContactToGroupActionType = {
   type: 'CANT_ADD_CONTACT_TO_GROUP';
   payload: {
@@ -343,6 +353,20 @@ type CloseMaximumGroupSizeModalActionType = {
 };
 type CloseRecommendedGroupSizeModalActionType = {
   type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL';
+};
+type ColorsChangedActionType = {
+  type: typeof COLORS_CHANGED;
+  payload: {
+    conversationColor?: ConversationColorType;
+    customColorData?: {
+      id: string;
+      value: CustomColorType;
+    };
+  };
+};
+type CustomColorRemovedActionType = {
+  type: typeof CUSTOM_COLOR_REMOVED;
+  payload: string;
 };
 type SetPreJoinConversationActionType = {
   type: 'SET_PRE_JOIN_CONVERSATION';
@@ -584,6 +608,8 @@ export type ConversationActionType =
   | ConversationChangedActionType
   | ConversationRemovedActionType
   | ConversationUnloadedActionType
+  | ColorsChangedActionType
+  | CustomColorRemovedActionType
   | CreateGroupFulfilledActionType
   | CreateGroupPendingActionType
   | CreateGroupRejectedActionType
@@ -643,11 +669,14 @@ export const actions = {
   openConversationExternal,
   openConversationInternal,
   removeAllConversations,
+  removeCustomColorOnConversations,
   repairNewestMessage,
   repairOldestMessage,
+  resetAllChatColors,
   reviewMessageRequestNameCollision,
   scrollToMessage,
   selectMessage,
+  setAllConversationColors,
   setComposeGroupAvatar,
   setComposeGroupName,
   setComposeSearchTerm,
@@ -666,6 +695,101 @@ export const actions = {
   startSettingGroupMetadata,
   toggleConversationInChooseMembers,
 };
+
+function removeCustomColorOnConversations(
+  colorId: string
+): ThunkAction<void, RootStateType, unknown, CustomColorRemovedActionType> {
+  return async dispatch => {
+    const conversationsToUpdate: Array<ConversationAttributesType> = [];
+    // We don't want to trigger a model change because we're updating redux
+    // here manually ourselves. Au revoir Backbone!
+    window.getConversations().forEach(conversation => {
+      if (conversation.get('customColorId') === colorId) {
+        // eslint-disable-next-line no-param-reassign
+        delete conversation.attributes.conversationColor;
+        // eslint-disable-next-line no-param-reassign
+        delete conversation.attributes.customColor;
+        // eslint-disable-next-line no-param-reassign
+        delete conversation.attributes.customColorId;
+
+        conversationsToUpdate.push(conversation.attributes);
+      }
+    });
+
+    if (conversationsToUpdate.length) {
+      await window.Signal.Data.updateConversations(conversationsToUpdate);
+    }
+
+    dispatch({
+      type: CUSTOM_COLOR_REMOVED,
+      payload: colorId,
+    });
+  };
+}
+
+function resetAllChatColors(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ColorsChangedActionType
+> {
+  return async dispatch => {
+    // Calling this with no args unsets all the colors in the db
+    await window.Signal.Data.updateAllConversationColors();
+
+    // We don't want to trigger a model change because we're updating redux
+    // here manually ourselves. Au revoir Backbone!
+    window.getConversations().forEach(conversation => {
+      // eslint-disable-next-line no-param-reassign
+      delete conversation.attributes.conversationColor;
+      // eslint-disable-next-line no-param-reassign
+      delete conversation.attributes.customColor;
+      // eslint-disable-next-line no-param-reassign
+      delete conversation.attributes.customColorId;
+    });
+
+    dispatch({
+      type: COLORS_CHANGED,
+      payload: {
+        conversationColor: undefined,
+        customColorData: undefined,
+      },
+    });
+  };
+}
+
+function setAllConversationColors(
+  conversationColor: ConversationColorType,
+  customColorData?: {
+    id: string;
+    value: CustomColorType;
+  }
+): ThunkAction<void, RootStateType, unknown, ColorsChangedActionType> {
+  return async dispatch => {
+    await window.Signal.Data.updateAllConversationColors(
+      conversationColor,
+      customColorData
+    );
+
+    // We don't want to trigger a model change because we're updating redux
+    // here manually ourselves. Au revoir Backbone!
+    window.getConversations().forEach(conversation => {
+      Object.assign(conversation.attributes, {
+        conversationColor,
+        customColor: customColorData?.value,
+        customColorId: customColorData?.id,
+      });
+    });
+
+    dispatch({
+      type: COLORS_CHANGED,
+      payload: {
+        conversationColor,
+        customColorData,
+      },
+    });
+  };
+}
 
 function cantAddContactToGroup(
   conversationId: string
@@ -2344,6 +2468,74 @@ export function reducer(
         ),
       },
     };
+  }
+
+  if (action.type === COLORS_CHANGED) {
+    const { conversationLookup } = state;
+    const { conversationColor, customColorData } = action.payload;
+
+    const nextState = {
+      ...state,
+    };
+
+    Object.keys(conversationLookup).forEach(id => {
+      const existing = conversationLookup[id];
+      const added = {
+        ...existing,
+        conversationColor,
+        customColor: customColorData?.value,
+        customColorId: customColorData?.id,
+      };
+
+      Object.assign(
+        nextState,
+        updateConversationLookups(added, existing, nextState),
+        {
+          conversationLookup: {
+            ...nextState.conversationLookup,
+            [id]: added,
+          },
+        }
+      );
+    });
+
+    return nextState;
+  }
+
+  if (action.type === CUSTOM_COLOR_REMOVED) {
+    const { conversationLookup } = state;
+    const colorId = action.payload;
+
+    const nextState = {
+      ...state,
+    };
+
+    Object.keys(conversationLookup).forEach(id => {
+      const existing = conversationLookup[id];
+
+      if (existing.customColorId !== colorId) {
+        return;
+      }
+
+      const changed = omit(existing, [
+        'conversationColor',
+        'customColor',
+        'customColorId',
+      ]);
+
+      Object.assign(
+        nextState,
+        updateConversationLookups(changed, existing, nextState),
+        {
+          conversationLookup: {
+            ...nextState.conversationLookup,
+            [id]: changed,
+          },
+        }
+      );
+    });
+
+    return nextState;
   }
 
   return state;

@@ -30,5 +30,14 @@ export const SmartContactName: React.ComponentType<ExternalProps> = props => {
     title: i18n('unknownContact'),
   };
 
-  return <ContactName i18n={i18n} {...conversation} />;
+  return (
+    <ContactName
+      firstName={conversation.firstName}
+      i18n={i18n}
+      name={conversation.name}
+      phoneNumber={conversation.phoneNumber}
+      profileName={conversation.profileName}
+      title={conversation.title}
+    />
+  );
 };

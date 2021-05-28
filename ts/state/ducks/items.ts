@@ -2,13 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
+import { v4 as getGuid } from 'uuid';
+import { ThunkAction } from 'redux-thunk';
+import { StateType as RootStateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
 import { useBoundActions } from '../../util/hooks';
+import { CustomColorType } from '../../types/Colors';
 
 // State
 
 export type ItemsStateType = {
   readonly [key: string]: unknown;
+  readonly customColors?: {
+    readonly colors: Record<string, CustomColorType>;
+    readonly version: number;
+  };
 };
 
 // Actions
@@ -50,6 +58,9 @@ export type ItemsActionType =
 // Action Creators
 
 export const actions = {
+  addCustomColor,
+  editCustomColor,
+  removeCustomColor,
   onSetSkinTone,
   putItem,
   putItemExternal,
@@ -101,6 +112,74 @@ function removeItemExternal(key: string): ItemRemoveExternalAction {
 
 function resetItems(): ItemsResetAction {
   return { type: 'items/RESET' };
+}
+
+function getDefaultCustomColorData() {
+  return {
+    colors: {},
+    version: 1,
+  };
+}
+
+function addCustomColor(
+  payload: CustomColorType
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return (dispatch, getState) => {
+    const { customColors = getDefaultCustomColorData() } = getState().items;
+
+    let uuid = getGuid();
+    while (customColors.colors[uuid]) {
+      uuid = getGuid();
+    }
+
+    const nextCustomColors = {
+      ...customColors,
+      colors: {
+        ...customColors.colors,
+        [uuid]: payload,
+      },
+    };
+
+    dispatch(putItem('customColors', nextCustomColors));
+  };
+}
+
+function editCustomColor(
+  colorId: string,
+  color: CustomColorType
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return (dispatch, getState) => {
+    const { customColors = getDefaultCustomColorData() } = getState().items;
+
+    if (!customColors.colors[colorId]) {
+      return;
+    }
+
+    const nextCustomColors = {
+      ...customColors,
+      colors: {
+        ...customColors.colors,
+        [colorId]: color,
+      },
+    };
+
+    dispatch(putItem('customColors', nextCustomColors));
+  };
+}
+
+function removeCustomColor(
+  payload: string
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return (dispatch, getState) => {
+    const { customColors = getDefaultCustomColorData() } = getState().items;
+
+    const nextCustomColors = {
+      ...customColors,
+      colors: omit(customColors.colors, payload),
+    };
+
+    dispatch(putItem('customColors', nextCustomColors));
+  };
 }
 
 // Reducer

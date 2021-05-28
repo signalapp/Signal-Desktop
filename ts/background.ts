@@ -2533,7 +2533,6 @@ export async function startApp(): Promise<void> {
 
       conversation.set({
         name: details.name,
-        color: details.color,
         inbox_position: details.inboxPosition,
       });
 
@@ -2640,7 +2639,6 @@ export async function startApp(): Promise<void> {
     const updates = {
       name: details.name,
       members,
-      color: details.color,
       type: 'group',
       inbox_position: details.inboxPosition,
     } as WhatIsThis;

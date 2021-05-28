@@ -72,6 +72,7 @@ export type PropsActionsType = {
   onOutgoingVideoCallInConversation: () => void;
   onSetPin: (value: boolean) => void;
 
+  onShowChatColorEditor: () => void;
   onShowConversationDetails: () => void;
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -368,6 +369,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onSetDisappearingMessages,
       onSetMuteNotifications,
       onShowAllMedia,
+      onShowChatColorEditor,
       onShowConversationDetails,
       onShowGroupMembers,
       onShowSafetyNumber,
@@ -456,6 +458,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             </MenuItem>
           ))}
         </SubMenu>
+        {!isGroup ? (
+          <MenuItem onClick={onShowChatColorEditor}>
+            {i18n('showChatColorEditor')}
+          </MenuItem>
+        ) : null}
         {hasGV2AdminEnabled ? (
           <MenuItem onClick={onShowConversationDetails}>
             {i18n('showConversationDetails')}

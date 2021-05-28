@@ -26,6 +26,7 @@ const conversation: ConversationType = getDefaultConversation({
   title: 'Some Conversation',
   type: 'group',
   sharedGroupNames: [],
+  conversationColor: 'ultramarine' as const,
 });
 
 const createProps = (hasGroupLink = false): Props => ({
@@ -55,6 +56,7 @@ const createProps = (hasGroupLink = false): Props => ({
   setDisappearingMessages: action('setDisappearingMessages'),
   showAllMedia: action('showAllMedia'),
   showContactModal: action('showContactModal'),
+  showGroupChatColorEditor: action('showGroupChatColorEditor'),
   showGroupLinkManagement: action('showGroupLinkManagement'),
   showGroupV2Permissions: action('showGroupV2Permissions'),
   showPendingInvites: action('showPendingInvites'),

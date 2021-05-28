@@ -50,10 +50,15 @@ import { ContactType } from '../../types/Contact';
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { BodyRangesType, LocalizerType, ThemeType } from '../../types/Util';
-import { ColorType } from '../../types/Colors';
+import {
+  ContactNameColorType,
+  ConversationColorType,
+  CustomColorType,
+} from '../../types/Colors';
 import { createRefMerger } from '../_util';
 import { emojiToData } from '../emoji/lib';
 import { SmartReactionPicker } from '../../state/smart/ReactionPicker';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -100,6 +105,9 @@ export type AudioAttachmentProps = {
 
 export type PropsData = {
   id: string;
+  contactNameColor?: ContactNameColorType;
+  conversationColor: ConversationColorType;
+  customColor?: CustomColorType;
   conversationId: string;
   text?: string;
   textPending?: boolean;
@@ -128,6 +136,8 @@ export type PropsData = {
   conversationType: ConversationTypesType;
   attachments?: Array<AttachmentType>;
   quote?: {
+    conversationColor: ConversationColorType;
+    customColor?: CustomColorType;
     text: string;
     rawAttachment?: QuotedAttachmentType;
     isFromMe: boolean;
@@ -137,7 +147,6 @@ export type PropsData = {
     authorProfileName?: string;
     authorTitle: string;
     authorName?: string;
-    authorColor?: ColorType;
     bodyRanges?: BodyRangesType;
     referencedMessageNotFound: boolean;
   };
@@ -656,6 +665,7 @@ export class Message extends React.Component<Props, State> {
     const {
       author,
       collapseMetadata,
+      contactNameColor,
       conversationType,
       direction,
       i18n,
@@ -687,6 +697,7 @@ export class Message extends React.Component<Props, State> {
     return (
       <div className={moduleName}>
         <ContactName
+          contactNameColor={contactNameColor}
           title={author.title}
           phoneNumber={author.phoneNumber}
           name={author.name}
@@ -1035,8 +1046,9 @@ export class Message extends React.Component<Props, State> {
 
   public renderQuote(): JSX.Element | null {
     const {
-      author,
+      conversationColor,
       conversationType,
+      customColor,
       direction,
       disableScroll,
       i18n,
@@ -1050,8 +1062,6 @@ export class Message extends React.Component<Props, State> {
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
-    const quoteColor =
-      direction === 'incoming' ? author.color : quote.authorColor;
     const { referencedMessageNotFound } = quote;
 
     const clickHandler = disableScroll
@@ -1073,9 +1083,10 @@ export class Message extends React.Component<Props, State> {
         authorPhoneNumber={quote.authorPhoneNumber}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
-        authorColor={quoteColor}
         authorTitle={quote.authorTitle}
         bodyRanges={quote.bodyRanges}
+        conversationColor={conversationColor}
+        customColor={customColor}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
@@ -2250,7 +2261,8 @@ export class Message extends React.Component<Props, State> {
   public renderContainer(): JSX.Element {
     const {
       attachments,
-      author,
+      conversationColor,
+      customColor,
       deletedForEveryone,
       direction,
       isSticker,
@@ -2275,14 +2287,14 @@ export class Message extends React.Component<Props, State> {
       isTapToView && isTapToViewExpired
         ? 'module-message__container--with-tap-to-view-expired'
         : null,
-      !isSticker && direction === 'incoming'
-        ? `module-message__container--incoming-${author.color}`
+      !isSticker && direction === 'outgoing'
+        ? `module-message__container--outgoing-${conversationColor}`
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
         ? 'module-message__container--with-tap-to-view-pending'
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
-        ? `module-message__container--${direction}-${author.color}-tap-to-view-pending`
+        ? `module-message__container--${direction}-${conversationColor}-tap-to-view-pending`
         : null,
       isTapToViewError
         ? 'module-message__container--with-tap-to-view-error'
@@ -2295,6 +2307,9 @@ export class Message extends React.Component<Props, State> {
     const containerStyles = {
       width: isShowingImage ? width : undefined,
     };
+    if (!isSticker && direction === 'outgoing') {
+      Object.assign(containerStyles, getCustomColorStyle(customColor));
+    }
 
     return (
       <div className="module-message__container-outer">

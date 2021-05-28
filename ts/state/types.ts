@@ -6,6 +6,7 @@ import { actions as calling } from './ducks/calling';
 import { actions as conversations } from './ducks/conversations';
 import { actions as emojis } from './ducks/emojis';
 import { actions as expiration } from './ducks/expiration';
+import { actions as globalModals } from './ducks/globalModals';
 import { actions as items } from './ducks/items';
 import { actions as linkPreviews } from './ducks/linkPreviews';
 import { actions as network } from './ducks/network';
@@ -21,6 +22,7 @@ export type ReduxActions = {
   conversations: typeof conversations;
   emojis: typeof emojis;
   expiration: typeof expiration;
+  globalModals: typeof globalModals;
   items: typeof items;
   linkPreviews: typeof linkPreviews;
   network: typeof network;

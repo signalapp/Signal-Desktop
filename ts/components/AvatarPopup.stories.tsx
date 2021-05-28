@@ -8,13 +8,13 @@ import { action } from '@storybook/addon-actions';
 import { boolean, select, text } from '@storybook/addon-knobs';
 
 import { AvatarPopup, Props } from './AvatarPopup';
-import { Colors, ColorType } from '../types/Colors';
+import { AvatarColors, AvatarColorType } from '../types/Colors';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const colorMap: Record<string, ColorType> = Colors.reduce(
+const colorMap: Record<string, AvatarColorType> = AvatarColors.reduce(
   (m, color) => ({
     ...m,
     [color]: color,
@@ -41,6 +41,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   name: text('name', overrideProps.name || ''),
   noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
   onClick: action('onClick'),
+  onSetChatColor: action('onSetChatColor'),
   onViewArchive: action('onViewArchive'),
   onViewPreferences: action('onViewPreferences'),
   phoneNumber: text('phoneNumber', overrideProps.phoneNumber || ''),

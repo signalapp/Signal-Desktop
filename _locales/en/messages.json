@@ -175,6 +175,10 @@
     "message": "View Archive",
     "description": "One of the menu options available in the Avatar Popup menu"
   },
+  "avatarMenuChatColors": {
+    "message": "Chat Color",
+    "description": "One of the menu options available in the Avatar Popup menu"
+  },
   "loading": {
     "message": "Loading...",
     "description": "Message shown on the loading screen before we've loaded any messages"
@@ -4785,6 +4789,10 @@
     "message": "Remove from group",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
+  "showChatColorEditor": {
+    "message": "Chat color",
+    "description": "This is a button in the conversation context menu to show the chat color editor"
+  },
   "showConversationDetails": {
     "message": "Group settings",
     "description": "This is a button in the conversation context menu to show group settings"
@@ -5292,5 +5300,91 @@
   "deleteForEveryoneFailed": {
     "message": "Failed to delete message for everyone. Please retry later.",
     "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+  },
+  "ChatColorPicker__delete--title": {
+    "message": "Delete color",
+    "description": "Confirm title for deleting custom color"
+  },
+  "ChatColorPicker__delete--message": {
+    "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
+    "description": "Confirm message for deleting custom color",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "ChatColorPicker__global-chat-color": {
+    "message": "Global Chat Color",
+    "description": "Modal title for the chat color picker and editor for all conversations"
+  },
+  "ChatColorPicker__menu-title": {
+    "message": "Chat Color",
+    "description": "View title for the chat color picker and editor"
+  },
+  "ChatColorPicker__reset": {
+    "message": "Reset chat color",
+    "description": "Button label for resetting chat colors"
+  },
+  "ChatColorPicker__resetAll": {
+    "message": "Reset all chat colors",
+    "description": "Button label for resetting all chat colors"
+  },
+  "ChatColorPicker__confirm-reset": {
+    "message": "Reset",
+    "description": "Confirm button label for resetting chat colors"
+  },
+  "ChatColorPicker__confirm-reset-message": {
+    "message": "Would you like to override all chat colors?",
+    "description": "Modal message text for confirming resetting of chat colors"
+  },
+  "ChatColorPicker__custom-color--label": {
+    "message": "Show custom color editor",
+    "description": "aria-label for custom color editor button"
+  },
+  "ChatColorPicker__sampleBubble1": {
+    "message": "Here's a preview of the chat color.",
+    "description": "An example message bubble for selecting the chat color"
+  },
+  "ChatColorPicker__sampleBubble2": {
+    "message": "Another bubble.",
+    "description": "An example message bubble for selecting the chat color"
+  },
+  "ChatColorPicker__sampleBubble3": {
+    "message": "The color is visible to only you.",
+    "description": "An example message bubble for selecting the chat color"
+  },
+  "ChatColorPicker__context--edit": {
+    "message": "Edit color",
+    "description": "Option in the custom color bubble context menu"
+  },
+  "ChatColorPicker__context--duplicate": {
+    "message": "Duplicate",
+    "description": "Option in the custom color bubble context menu"
+  },
+  "ChatColorPicker__context--delete": {
+    "message": "Delete",
+    "description": "Option in the custom color bubble context menu"
+  },
+  "CustomColorEditor__solid": {
+    "message": "Solid",
+    "description": "Tab label for selecting solid colors"
+  },
+  "CustomColorEditor__gradient": {
+    "message": "Gradient",
+    "description": "Tab label for selecting a gradient"
+  },
+  "CustomColorEditor__hue": {
+    "message": "Hue",
+    "description": "Label for the hue slider"
+  },
+  "CustomColorEditor__saturation": {
+    "message": "Saturation",
+    "description": "Label for the saturation slider"
+  },
+  "CustomColorEditor__title": {
+    "message": "Custom Color",
+    "description": "Modal title for the custom color editor"
   }
 }

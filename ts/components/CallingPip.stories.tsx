@@ -6,7 +6,7 @@ import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { ColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import { ConversationType } from '../state/ducks/conversations';
 import { CallingPip, PropsType } from './CallingPip';
 import {
@@ -26,7 +26,7 @@ const i18n = setupI18n('en', enMessages);
 const conversation: ConversationType = getDefaultConversation({
   id: '3051234567',
   avatarPath: undefined,
-  color: 'ultramarine' as ColorType,
+  color: AvatarColors[0],
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',
   phoneNumber: '3051234567',

@@ -10,6 +10,8 @@ import { StateType } from '../reducer';
 import { TimelineItem } from '../../components/conversation/TimelineItem';
 import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import {
+  getContactNameColorSelector,
+  getConversationSelector,
   getMessageSelector,
   getSelectedMessage,
 } from '../selectors/conversations';
@@ -37,13 +39,25 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const messageSelector = getMessageSelector(state);
   const item = messageSelector(id);
 
+  if (item?.type === 'message' && item.data.conversationType === 'group') {
+    const { author } = item.data;
+    item.data.contactNameColor = getContactNameColorSelector(state)(
+      conversationId,
+      author.id
+    );
+  }
+
   const selectedMessage = getSelectedMessage(state);
   const isSelected = Boolean(selectedMessage && id === selectedMessage.id);
+
+  const conversation = getConversationSelector(state)(conversationId);
 
   return {
     item,
     id,
     conversationId,
+    conversationColor: conversation?.conversationColor,
+    customColor: conversation?.customColor,
     isSelected,
     renderContact,
     i18n: getIntl(state),

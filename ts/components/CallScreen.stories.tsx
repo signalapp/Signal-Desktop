@@ -16,7 +16,7 @@ import {
   GroupCallRemoteParticipantType,
 } from '../types/Calling';
 import { ConversationType } from '../state/ducks/conversations';
-import { Colors } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import { CallScreen, PropsType } from './CallScreen';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import { missingCaseError } from '../util/missingCaseError';
@@ -31,7 +31,7 @@ const i18n = setupI18n('en', enMessages);
 const conversation = getDefaultConversation({
   id: '3051234567',
   avatarPath: undefined,
-  color: Colors[0],
+  color: AvatarColors[0],
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',
   phoneNumber: '3051234567',
@@ -145,7 +145,7 @@ const createProps = (
   hangUp: action('hang-up'),
   i18n,
   me: {
-    color: Colors[1],
+    color: AvatarColors[1],
     name: 'Morty Smith',
     profileName: 'Morty Smith',
     title: 'Morty Smith',

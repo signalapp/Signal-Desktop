@@ -55,7 +55,7 @@
         background: $color-gray-15;
 
         &::before {
-          @include color-svg($icon, $ultramarine-ui-light);
+          @include color-svg($icon, $color-ultramarine);
         }
       }
     }
@@ -64,7 +64,7 @@
         background: $color-gray-65;
 
         &::before {
-          @include color-svg($icon, $ultramarine-ui-dark);
+          @include color-svg($icon, $color-ultramarine-light);
         }
       }
     }

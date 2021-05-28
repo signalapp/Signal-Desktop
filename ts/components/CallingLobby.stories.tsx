@@ -7,7 +7,7 @@ import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { v4 as generateUuid } from 'uuid';
 
-import { ColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import { ConversationType } from '../state/ducks/conversations';
 import { CallingLobby, PropsType } from './CallingLobby';
 import { setup as setupI18n } from '../../js/modules/i18n';
@@ -37,7 +37,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   isGroupCall: boolean('isGroupCall', overrideProps.isGroupCall || false),
   isCallFull: boolean('isCallFull', overrideProps.isCallFull || false),
   me: overrideProps.me || {
-    color: 'ultramarine' as ColorType,
+    color: AvatarColors[0],
     uuid: generateUuid(),
   },
   onCallCanceled: action('on-call-canceled'),
@@ -79,7 +79,7 @@ story.add('No Camera, local avatar', () => {
     availableCameras: [],
     me: {
       avatarPath: '/fixtures/kitten-4-112-112.jpg',
-      color: 'ultramarine' as ColorType,
+      color: AvatarColors[0],
       uuid: generateUuid(),
     },
   });

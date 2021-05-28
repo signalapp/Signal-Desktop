@@ -13558,6 +13558,13 @@
     "reasonDetail": "Used only to set focus"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/ChatColorPicker.js",
+    "line": "    const menuRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-25T18:25:53.896Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.js",
     "line": "    el.innerHTML = '';",
@@ -13699,6 +13706,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/GradientDial.js",
+    "line": "    const containerRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-25T18:25:53.896Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/GroupCallOverflowArea.js",
     "line": "    const overflowRef = react_1.useRef(null);",
     "reasonCategory": "usageTrusted",
@@ -13813,6 +13827,27 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Only used to focus the element."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Slider.js",
+    "line": "    const diff = react_1.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-25T18:25:53.896Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Slider.js",
+    "line": "    const handleRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-25T18:25:53.896Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Slider.js",
+    "line": "    const sliderRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-25T18:25:53.896Z"
   },
   {
     "rule": "React-useRef",

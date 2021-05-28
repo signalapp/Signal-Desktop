@@ -6,7 +6,7 @@ import * as Backbone from 'backbone';
 import { GroupV2ChangeType } from './groups';
 import { LocalizerType, BodyRangeType, BodyRangesType } from './types/Util';
 import { CallHistoryDetailsFromDiskType } from './types/Calling';
-import { ColorType } from './types/Colors';
+import { CustomColorType } from './types/Colors';
 import {
   ConversationType,
   MessageType,
@@ -193,6 +193,9 @@ export type ConversationAttributesType = {
   addedBy?: string;
   capabilities?: CapabilitiesType;
   color?: string;
+  conversationColor?: string;
+  customColor?: CustomColorType;
+  customColorId?: string;
   discoveredUnregisteredAt?: number;
   draftAttachments?: Array<{
     path?: string;

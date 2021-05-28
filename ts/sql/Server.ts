@@ -36,6 +36,7 @@ import { combineNames } from '../util/combineNames';
 import { getExpiresAt } from '../services/MessageUpdater';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
+import { ConversationColorType, CustomColorType } from '../types/Colors';
 
 import {
   AttachmentDownloadJobType,
@@ -153,6 +154,7 @@ const dataInterface: ServerInterface = {
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
+  updateAllConversationColors,
 
   searchConversations,
   searchMessages,
@@ -5327,4 +5329,27 @@ async function deleteJob(id: string): Promise<void> {
   const db = getInstance();
 
   db.prepare<Query>('DELETE FROM jobs WHERE id = $id').run({ id });
+}
+
+async function updateAllConversationColors(
+  conversationColor?: ConversationColorType,
+  customColorData?: {
+    id: string;
+    value: CustomColorType;
+  }
+): Promise<void> {
+  const db = getInstance();
+
+  db.prepare<Query>(
+    `
+    UPDATE conversations
+    SET json = JSON_PATCH(json, $patch);
+    `
+  ).run({
+    patch: JSON.stringify({
+      conversationColor: conversationColor || null,
+      customColor: customColorData?.value || null,
+      customColorId: customColorData?.id || null,
+    }),
+  });
 }

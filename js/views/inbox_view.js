@@ -1,4 +1,4 @@
-// Copyright 2014-2020 Signal Messenger, LLC
+// Copyright 2014-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global
@@ -115,6 +115,7 @@
       } else {
         this.setupLeftPane();
         this.setupCallManagerUI();
+        this.setupGlobalModalContainer();
       }
 
       Whisper.events.on('pack-install-failed', () => {
@@ -140,6 +141,18 @@
         JSX: Signal.State.Roots.createCallManager(window.reduxStore),
       });
       this.$('.call-manager-placeholder').append(this.callManagerView.el);
+    },
+    setupGlobalModalContainer() {
+      if (this.globalModalContainerView) {
+        return;
+      }
+      this.globalModalContainerView = new Whisper.ReactWrapperView({
+        JSX: Signal.State.Roots.createGlobalModalContainer(window.reduxStore),
+      });
+      const node = document.querySelector('.inbox-container');
+      if (node) {
+        node.appendChild(this.globalModalContainerView.el);
+      }
     },
     setupLeftPane() {
       if (this.leftPaneView) {
@@ -182,6 +195,7 @@
     onEmpty() {
       this.setupLeftPane();
       this.setupCallManagerUI();
+      this.setupGlobalModalContainer();
 
       const view = this.appLoadingScreen;
       if (view) {

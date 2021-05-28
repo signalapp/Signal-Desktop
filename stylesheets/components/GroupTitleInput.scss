@@ -37,10 +37,10 @@
     outline: none;
 
     @include light-theme {
-      border-color: $ultramarine-ui-light;
+      border-color: $color-ultramarine;
     }
     @include dark-theme {
-      border-color: $ultramarine-ui-dark;
+      border-color: $color-ultramarine-light;
     }
   }
 }

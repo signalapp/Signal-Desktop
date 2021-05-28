@@ -23,7 +23,7 @@
 
     @include keyboard-mode {
       &:focus {
-        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+        box-shadow: 0px 0px 0px 2px $color-ultramarine;
       }
     }
   }
@@ -119,27 +119,20 @@
   }
 
   &--no-image {
-    @include light-theme {
-      background-color: $color-conversation-grey;
-    }
-    @include dark-theme {
-      background-color: $color-conversation-grey-shade;
-    }
+    background-color: $avatar-color-steel;
   }
 
   &--signal-blue {
-    background-color: $ultramarine-ui-light;
-  }
-
-  @each $color, $value in $conversation-colors {
-    &--#{$color} {
-      @include light-theme {
-        background-color: $value;
-      }
+    background-color: $avatar-color-ultramarine;
+    @include dark-theme {
+      background-color: $avatar-color-ultramarine;
     }
   }
-  @each $color, $value in $conversation-colors-shade {
+
+  @each $color, $value in $avatar-colors {
     &--#{$color} {
+      background-color: $value;
+
       @include dark-theme {
         background-color: $value;
       }

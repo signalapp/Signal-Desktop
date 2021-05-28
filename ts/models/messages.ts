@@ -29,7 +29,7 @@ import {
 import { CallbackResultType } from '../textsecure/SendMessage';
 import * as expirationTimer from '../util/expirationTimer';
 import { missingCaseError } from '../util/missingCaseError';
-import { ColorType } from '../types/Colors';
+import { ConversationColorType } from '../types/Colors';
 import { CallMode } from '../types/Calling';
 import { BodyRangesType } from '../types/Util';
 import { ReactionType } from '../types/Reactions';
@@ -919,6 +919,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       .map(attachment => this.getPropsForAttachment(attachment));
   }
 
+  getConversationColor(): ConversationColorType {
+    const conversation = this.getConversation();
+    return conversation?.getConversationColor() || ('ultramarine' as const);
+  }
+
   // Note: interactionMode is mixed in via selectors/conversations._messageSelector
   getPropsForMessage(): PropsForMessage {
     const sourceId = this.getContactId();
@@ -958,6 +963,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       text: this.createNonBreakingLastSeparator(this.get('body')),
       textPending: this.get('bodyPending'),
       id: this.id,
+      conversationColor: this.getConversationColor(),
+      customColor: conversation?.get('customColor'),
       conversationId: this.get('conversationId'),
       isSticker: Boolean(sticker),
       direction: this.isIncoming() ? 'incoming' : 'outgoing',
@@ -1252,7 +1259,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
-    let authorColor: ColorType;
     let authorId: string;
     let authorName: undefined | string;
     let authorPhoneNumber: undefined | string;
@@ -1263,7 +1269,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (contact && contact.isPrivate()) {
       const contactPhoneNumber = contact.get('e164');
 
-      authorColor = contact.getColor();
       authorId = contact.id;
       authorName = contact.get('name');
       authorPhoneNumber = contactPhoneNumber
@@ -1279,7 +1284,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         'getPropsForQuote: contact was missing. This may indicate a bookkeeping error or bad data from another client. Returning a placeholder contact.'
       );
 
-      authorColor = 'grey';
       authorId = 'placeholder-contact';
       authorTitle = window.i18n('unknownContact');
       isFromMe = false;
@@ -1288,13 +1292,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const firstAttachment = quote.attachments && quote.attachments[0];
 
     return {
-      authorColor,
       authorId,
       authorName,
       authorPhoneNumber,
       authorProfileName,
       authorTitle,
       bodyRanges: this.processBodyRanges(bodyRanges),
+      conversationColor: this.getConversationColor(),
+      customColor: this.getConversation()?.get('customColor'),
       isFromMe,
       rawAttachment: firstAttachment
         ? this.processQuoteAttachment(firstAttachment)

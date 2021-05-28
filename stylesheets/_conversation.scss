@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Signal Messenger, LLC
+// Copyright 2015-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 @import './mixins';
@@ -130,43 +130,6 @@
   padding-bottom: 40px;
 }
 
-.bottom-bar {
-  .module-quote {
-    margin: 0;
-
-    border-left-style: none;
-    @include ios-dark-theme {
-      background-color: $ultramarine-brand-dark;
-      border-left-color: $color-ios-blue-tint;
-    }
-    @include ios-theme {
-      background-color: $color-ios-blue-tint;
-      border-left-color: $color-white;
-    }
-  }
-
-  @include ios-dark-theme {
-    .module-quote__primary__author {
-      color: $color-gray-05;
-    }
-
-    .module-quote__primary__type-label {
-      color: $color-gray-05;
-    }
-
-    .module-quote__generic-file__text {
-      color: $color-gray-05;
-    }
-
-    .module-quote__primary__text {
-      color: $color-gray-05;
-      a {
-        color: $color-gray-05;
-      }
-    }
-  }
-}
-
 // We need to use the wrapper because the conversation view calculates the height of all
 //   things in the composition area. A margin on an inner div won't be included in that
 //   height calculation.
@@ -189,7 +152,7 @@
 
   form.active {
     textarea {
-      border: solid 1px $ultramarine-ui-light;
+      border: solid 1px $color-ultramarine;
     }
   }
 

@@ -33,13 +33,17 @@
 @import './components/Button.scss';
 @import './components/CallingScreenSharingController.scss';
 @import './components/CallingSelectPresentingSourcesModal.scss';
+@import './components/ChatColorPicker.scss';
+@import './components/ContactName.scss';
 @import './components/ContactPill.scss';
 @import './components/ContactPills.scss';
 @import './components/ContactSpoofingReviewDialog.scss';
 @import './components/ContactSpoofingReviewDialogPerson.scss';
 @import './components/ConversationHeader.scss';
+@import './components/CustomColorEditor.scss';
 @import './components/EditConversationAttributesModal.scss';
 @import './components/ForwardMessageModal.scss';
+@import './components/GradientDial.scss';
 @import './components/GroupDialog.scss';
 @import './components/GroupTitleInput.scss';
 @import './components/MessageAudio.scss';
@@ -49,5 +53,7 @@
 @import './components/SearchInput.scss';
 @import './components/SearchResultsLoadingFakeHeader.scss';
 @import './components/SearchResultsLoadingFakeRow.scss';
+@import './components/Slider.scss';
+@import './components/Tabs.scss';
 @import './components/TimelineWarning.scss';
 @import './components/TimelineWarnings.scss';

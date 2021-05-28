@@ -7,7 +7,7 @@ import { boolean, select, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { IncomingCallBar } from './IncomingCallBar';
-import { Colors, ColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
@@ -25,7 +25,7 @@ const defaultProps = {
   conversation: getDefaultConversation({
     id: '3051234567',
     avatarPath: undefined,
-    color: 'ultramarine' as ColorType,
+    color: AvatarColors[0],
     name: 'Rick Sanchez',
     phoneNumber: '3051234567',
     profileName: 'Rick Sanchez',
@@ -53,7 +53,7 @@ const permutations = [
 
 storiesOf('Components/IncomingCallBar', module)
   .add('Knobs Playground', () => {
-    const color = select('color', Colors, 'ultramarine');
+    const color = select('color', AvatarColors, 'ultramarine');
     const isVideoCall = boolean('isVideoCall', false);
     const name = text(
       'name',

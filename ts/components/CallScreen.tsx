@@ -24,15 +24,15 @@ import {
   PresentedSource,
   VideoFrameSource,
 } from '../types/Calling';
+import { AvatarColorType } from '../types/Colors';
 import { CallingToastManager } from './CallingToastManager';
-import { ColorType } from '../types/Colors';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 import { LocalizerType } from '../types/Util';
+import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
 import { isScreenSharingEnabled } from '../util/isScreenSharingEnabled';
 import { missingCaseError } from '../util/missingCaseError';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
-import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -43,7 +43,7 @@ export type PropsType = {
   joinedAt?: number;
   me: {
     avatarPath?: string;
-    color?: ColorType;
+    color?: AvatarColorType;
     name?: string;
     phoneNumber?: string;
     profileName?: string;

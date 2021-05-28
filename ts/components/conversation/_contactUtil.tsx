@@ -48,7 +48,7 @@ export function renderAvatar({
       acceptedMessageRequest={false}
       avatarPath={avatarPath}
       blur={AvatarBlur.NoBlur}
-      color="grey"
+      color="steel"
       conversationType="direct"
       i18n={i18n}
       isMe

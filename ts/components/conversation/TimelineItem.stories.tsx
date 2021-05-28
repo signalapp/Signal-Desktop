@@ -86,7 +86,7 @@ storiesOf('Components/Conversation/TimelineItem', module)
         timestamp: Date.now(),
         author: {
           phoneNumber: '(202) 555-2001',
-          color: 'green',
+          color: 'forest',
         },
         text: '🔥',
       },

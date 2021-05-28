@@ -34,6 +34,7 @@ export type OwnProps = {
   onSetMuteNotifications: (seconds: number) => void;
   onSetPin: (value: boolean) => void;
   onShowAllMedia: () => void;
+  onShowChatColorEditor: () => void;
   onShowContactModal: (contactId: string) => void;
   onShowGroupMembers: () => void;
 

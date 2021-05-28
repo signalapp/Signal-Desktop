@@ -11,7 +11,7 @@ import { showSettings } from '../shims/Whisper';
 import { Avatar } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
 import { LocalizerType } from '../types/Util';
-import { ColorType } from '../types/Colors';
+import { AvatarColorType } from '../types/Colors';
 import { ConversationType } from '../state/ducks/conversations';
 
 export type PropsType = {
@@ -31,7 +31,7 @@ export type PropsType = {
   phoneNumber?: string;
   isMe?: boolean;
   name?: string;
-  color?: ColorType;
+  color?: AvatarColorType;
   disabled?: boolean;
   isVerified?: boolean;
   profileName?: string;
@@ -64,6 +64,7 @@ export type PropsType = {
 
   showArchivedConversations: () => void;
   startComposing: () => void;
+  toggleChatColorEditor: () => void;
 };
 
 type StateType = {
@@ -351,6 +352,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       searchConversationName,
       searchTerm,
       showArchivedConversations,
+      toggleChatColorEditor,
     } = this.props;
     const { showingAvatarPopup, popperRoot } = this.state;
 
@@ -408,6 +410,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       size={28}
                       // See the comment above about `sharedGroupNames`.
                       sharedGroupNames={[]}
+                      onSetChatColor={() => {
+                        toggleChatColorEditor();
+                        this.hideAvatarPopup();
+                      }}
                       onViewPreferences={() => {
                         showSettings();
                         this.hideAvatarPopup();

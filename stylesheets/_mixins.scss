@@ -94,18 +94,6 @@
   }
 }
 
-@mixin ios-theme() {
-  .ios-theme & {
-    @content;
-  }
-}
-
-@mixin ios-dark-theme() {
-  .dark-theme.ios-theme & {
-    @content;
-  }
-}
-
 // Utilities
 
 @mixin rounded-corners() {
@@ -201,25 +189,9 @@
     @content;
   }
 }
-@mixin ios-keyboard-mode() {
-  .ios-theme.keyboard-mode & {
-    @content;
-  }
-}
 
 @mixin dark-mouse-mode() {
   .dark-theme.mouse-mode & {
-    @content;
-  }
-}
-@mixin ios-mouse-mode() {
-  .ios-theme.mouse-mode & {
-    @content;
-  }
-}
-
-@mixin dark-ios-keyboard-mode() {
-  .dark-theme.ios-theme.keyboard-mode & {
     @content;
   }
 }
@@ -249,27 +221,27 @@
 @mixin button-focus-outline {
   &:focus {
     @include keyboard-mode {
-      box-shadow: 0px 0px 0px 3px $ultramarine-ui-light;
+      box-shadow: 0px 0px 0px 3px $color-ultramarine;
     }
     @include dark-keyboard-mode {
-      box-shadow: 0px 0px 0px 3px $ultramarine-ui-dark;
+      box-shadow: 0px 0px 0px 3px $color-ultramarine-light;
     }
   }
 }
 
 @mixin button-blue-text {
   @include light-theme {
-    color: $ultramarine-ui-light;
+    color: $color-ultramarine;
   }
   @include dark-theme {
-    color: $ultramarine-ui-dark;
+    color: $color-ultramarine-light;
   }
 }
 
 // Complete button styles
 
 @mixin button-primary {
-  background-color: $ultramarine-ui-light;
+  background-color: $color-ultramarine;
 
   // Note: the background colors here need to match the parent component
   @include light-theme {
@@ -283,11 +255,11 @@
 
   &:hover {
     @include mouse-mode {
-      background-color: mix($color-black, $ultramarine-ui-light, 15%);
+      background-color: mix($color-black, $color-ultramarine, 15%);
     }
 
     @include dark-mouse-mode {
-      background-color: mix($color-white, $ultramarine-ui-light, 15%);
+      background-color: mix($color-white, $color-ultramarine, 15%);
     }
   }
 
@@ -295,17 +267,17 @@
     // We need to include all four here for specificity precedence
 
     @include mouse-mode {
-      background-color: mix($color-black, $ultramarine-ui-light, 25%);
+      background-color: mix($color-black, $color-ultramarine, 25%);
     }
     @include dark-mouse-mode {
-      background-color: mix($color-white, $ultramarine-ui-light, 25%);
+      background-color: mix($color-white, $color-ultramarine, 25%);
     }
 
     @include keyboard-mode {
-      background-color: mix($color-black, $ultramarine-ui-light, 25%);
+      background-color: mix($color-black, $color-ultramarine, 25%);
     }
     @include dark-keyboard-mode {
-      background-color: mix($color-black, $ultramarine-ui-light, 25%);
+      background-color: mix($color-black, $color-ultramarine, 25%);
     }
   }
 
@@ -526,10 +498,37 @@
 
   &:focus {
     @include keyboard-mode {
-      background-color: $ultramarine-ui-light;
+      background-color: $color-ultramarine;
     }
     @include dark-keyboard-mode {
-      background-color: $ultramarine-ui-dark;
+      background-color: $color-ultramarine-light;
+    }
+  }
+}
+
+@mixin color-bubble($bubble-size) {
+  background-clip: content-box;
+  border-color: transparent;
+  border-radius: $bubble-size + 12px;
+  border-style: solid;
+  border-width: 4px;
+  cursor: pointer;
+  height: $bubble-size + 12px;
+  padding: 2px;
+  width: $bubble-size + 12px;
+
+  @each $color, $value in $conversation-colors {
+    &--#{$color} {
+      background-color: $value;
+    }
+  }
+  @each $color, $value in $conversation-colors-gradient {
+    &--#{$color} {
+      background-image: linear-gradient(
+        map-get($value, 'deg'),
+        map-get($value, 'start'),
+        map-get($value, 'end')
+      );
     }
   }
 }

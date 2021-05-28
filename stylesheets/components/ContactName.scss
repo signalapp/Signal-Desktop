@@ -1,0 +1,256 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-contact-name {
+  &--000 {
+    color: #d00b0b;
+    @include dark-theme {
+      color: #f76e6e;
+    }
+  }
+
+  &--120 {
+    color: #067906;
+    @include dark-theme {
+      color: #0ab80a;
+    }
+  }
+
+  &--240 {
+    color: #5151f6;
+    @include dark-theme {
+      color: #8b8bf9;
+    }
+  }
+
+  &--040 {
+    color: #866118;
+    @include dark-theme {
+      color: #d08f0b;
+    }
+  }
+
+  &--160 {
+    color: #067953;
+    @include dark-theme {
+      color: #09b37b;
+    }
+  }
+
+  &--280 {
+    color: #a20ced;
+    @include dark-theme {
+      color: #cb72f8;
+    }
+  }
+
+  &--080 {
+    color: #507406;
+    @include dark-theme {
+      color: #77ae09;
+    }
+  }
+
+  &--200 {
+    color: #086da0;
+    @include dark-theme {
+      color: #0da6f2;
+    }
+  }
+
+  &--320 {
+    color: #c70a88;
+    @include dark-theme {
+      color: #f76ec9;
+    }
+  }
+
+  &--020 {
+    color: #b34209;
+    @include dark-theme {
+      color: #f4702f;
+    }
+  }
+
+  &--140 {
+    color: #06792d;
+    @include dark-theme {
+      color: #0ab844;
+    }
+  }
+
+  &--240 {
+    color: #7a3df5;
+    @include dark-theme {
+      color: #ac86f9;
+    }
+  }
+
+  &--060 {
+    color: #6c6c13;
+    @include dark-theme {
+      color: #a5a509;
+    }
+  }
+
+  &--180 {
+    color: #067474;
+    @include dark-theme {
+      color: #09aeae;
+    }
+  }
+
+  &--300 {
+    color: #b80ab8;
+    @include dark-theme {
+      color: #f75ff7;
+    }
+  }
+
+  &--100 {
+    color: #2d7906;
+    @include dark-theme {
+      color: #42b309;
+    }
+  }
+
+  &--220 {
+    color: #0d59f2;
+    @include dark-theme {
+      color: #6495f7;
+    }
+  }
+
+  &--340 {
+    color: #d00b4d;
+    @include dark-theme {
+      color: #f76998;
+    }
+  }
+
+  &--010 {
+    color: #c72a0a;
+    @include dark-theme {
+      color: #f67055;
+    }
+  }
+
+  &--130 {
+    color: #067919;
+    @include dark-theme {
+      color: #0ab827;
+    }
+  }
+
+  &--250 {
+    color: #6447f5;
+    @include dark-theme {
+      color: #9986f9;
+    }
+  }
+
+  &--050 {
+    color: #76681e;
+    @include dark-theme {
+      color: #b89b0a;
+    }
+  }
+
+  &--170 {
+    color: #067462;
+    @include dark-theme {
+      color: #09b397;
+    }
+  }
+
+  &--290 {
+    color: #af0bd0;
+    @include dark-theme {
+      color: #e06ef7;
+    }
+  }
+
+  &--090 {
+    color: #3d7406;
+    @include dark-theme {
+      color: #5eb309;
+    }
+  }
+
+  &--210 {
+    color: #0a69c7;
+    @include dark-theme {
+      color: #429cf5;
+    }
+  }
+
+  &--330 {
+    color: #cb0b6b;
+    @include dark-theme {
+      color: #f76eb2;
+    }
+  }
+
+  &--030 {
+    color: #9c5711;
+    @include dark-theme {
+      color: #e97a0c;
+    }
+  }
+
+  &--150 {
+    color: #067940;
+    @include dark-theme {
+      color: #09b35e;
+    }
+  }
+
+  &--270 {
+    color: #8f2af4;
+    @include dark-theme {
+      color: #bd81f8;
+    }
+  }
+
+  &--070 {
+    color: #5e6e0c;
+    @include dark-theme {
+      color: #8faa09;
+    }
+  }
+
+  &--190 {
+    color: #077288;
+    @include dark-theme {
+      color: #0babcb;
+    }
+  }
+
+  &--310 {
+    color: #c20aa3;
+    @include dark-theme {
+      color: #f75fdd;
+    }
+  }
+
+  &--110 {
+    color: #1a7906;
+    @include dark-theme {
+      color: #27b80a;
+    }
+  }
+
+  &--230 {
+    color: #3454f4;
+    @include dark-theme {
+      color: #778df8;
+    }
+  }
+
+  &--350 {
+    color: #d00b2c;
+    @include dark-theme {
+      color: #f76e85;
+    }
+  }
+}

@@ -69,7 +69,7 @@ export class TypingBubble extends React.PureComponent<Props> {
   }
 
   public render(): JSX.Element {
-    const { i18n, color, conversationType } = this.props;
+    const { i18n, conversationType } = this.props;
     const isGroup = conversationType === 'group';
 
     return (
@@ -85,8 +85,7 @@ export class TypingBubble extends React.PureComponent<Props> {
           <div
             className={classNames(
               'module-message__container',
-              'module-message__container--incoming',
-              `module-message__container--incoming-${color}`
+              'module-message__container--incoming'
             )}
           >
             <div className="module-message__typing-container">

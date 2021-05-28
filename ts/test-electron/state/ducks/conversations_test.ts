@@ -40,6 +40,7 @@ const {
   openConversationInternal,
   repairNewestMessage,
   repairOldestMessage,
+  setAllConversationColors,
   setComposeGroupAvatar,
   setComposeGroupName,
   setComposeSearchTerm,
@@ -49,6 +50,7 @@ const {
   startComposing,
   showChooseGroupMembers,
   startSettingGroupMetadata,
+  resetAllChatColors,
   reviewMessageRequestNameCollision,
   toggleConversationInChooseMembers,
 } = actions;
@@ -1975,6 +1977,135 @@ describe('both/state/ducks/conversations', () => {
 
         assert.strictEqual(action.payload.maxGroupSize, 1235);
       });
+    });
+  });
+
+  describe('COLORS_CHANGED', () => {
+    const abc = getDefaultConversation({
+      id: 'abc',
+      uuid: 'abc',
+      conversationColor: 'wintergreen',
+    });
+    const def = getDefaultConversation({
+      id: 'def',
+      uuid: 'def',
+      conversationColor: 'infrared',
+    });
+    const ghi = getDefaultConversation({
+      id: 'ghi',
+      e164: 'ghi',
+      conversationColor: 'ember',
+    });
+    const jkl = getDefaultConversation({
+      id: 'jkl',
+      groupId: 'jkl',
+      conversationColor: 'plum',
+    });
+    const getState = () => ({
+      ...getEmptyRootState(),
+      conversations: {
+        ...getEmptyState(),
+        conversationLookup: {
+          abc,
+          def,
+          ghi,
+          jkl,
+        },
+        conversationsByUuid: {
+          abc,
+          def,
+        },
+        conversationsByE164: {
+          ghi,
+        },
+        conversationsByGroupId: {
+          jkl,
+        },
+      },
+    });
+
+    it('setAllConversationColors', async () => {
+      const dispatch = sinon.spy();
+      await setAllConversationColors('crimson')(dispatch, getState, null);
+
+      const [action] = dispatch.getCall(0).args;
+      const nextState = reducer(getState().conversations, action);
+
+      sinon.assert.calledOnce(dispatch);
+      assert.equal(
+        nextState.conversationLookup.abc.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationLookup.def.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationLookup.ghi.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationLookup.jkl.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationsByUuid.abc.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationsByUuid.def.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationsByE164.ghi.conversationColor,
+        'crimson'
+      );
+      assert.equal(
+        nextState.conversationsByGroupId.jkl.conversationColor,
+        'crimson'
+      );
+    });
+
+    it('resetAllChatColors', async () => {
+      const dispatch = sinon.spy();
+      await resetAllChatColors()(dispatch, getState, null);
+
+      const [action] = dispatch.getCall(0).args;
+      const nextState = reducer(getState().conversations, action);
+
+      sinon.assert.calledOnce(dispatch);
+      assert.isUndefined(
+        nextState.conversationLookup.abc.conversationColor,
+        'crimson'
+      );
+      assert.isUndefined(
+        nextState.conversationLookup.def.conversationColor,
+        'crimson'
+      );
+      assert.isUndefined(
+        nextState.conversationLookup.ghi.conversationColor,
+        'crimson'
+      );
+      assert.isUndefined(
+        nextState.conversationLookup.jkl.conversationColor,
+        'crimson'
+      );
+      assert.isUndefined(
+        nextState.conversationsByUuid.abc.conversationColor,
+        'crimson'
+      );
+      assert.isUndefined(
+        nextState.conversationsByUuid.def.conversationColor,
+        'crimson'
+      );
+      assert.isUndefined(
+        nextState.conversationsByE164.ghi.conversationColor,
+        'crimson'
+      );
+      assert.isUndefined(
+        nextState.conversationsByGroupId.jkl.conversationColor,
+        'crimson'
+      );
     });
   });
 });

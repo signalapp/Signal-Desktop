@@ -3,12 +3,12 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { ColorType } from '../types/Colors';
+import { AvatarColorType } from '../types/Colors';
 
 export type PropsType = {
   avatarPath?: string;
   children: React.ReactNode;
-  color?: ColorType;
+  color?: AvatarColorType;
 };
 
 export const CallBackgroundBlur = ({

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global Backbone, Whisper, storage, _, ConversationController, $ */
@@ -34,17 +34,10 @@
     },
     applyTheme() {
       const theme = resolveTheme();
-      const iOS = storage.get('userAgent') === 'OWI';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')
         .addClass(`${theme}-theme`);
-
-      if (iOS) {
-        this.$el.addClass('ios-theme');
-      } else {
-        this.$el.removeClass('ios-theme');
-      }
     },
     applyHideMenu() {
       const hideMenuBar = storage.get('hide-menu-bar', false);

@@ -14,6 +14,7 @@ import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
 import { StoredJob } from '../jobs/types';
 import { ReactionType } from '../types/Reactions';
+import { ConversationColorType, CustomColorType } from '../types/Colors';
 
 export type AttachmentDownloadJobType = {
   id: string;
@@ -310,6 +311,14 @@ export type DataInterface = {
   getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
   insertJob(job: Readonly<StoredJob>): Promise<void>;
   deleteJob(id: string): Promise<void>;
+
+  updateAllConversationColors: (
+    conversationColor?: ConversationColorType,
+    customColorData?: {
+      id: string;
+      value: CustomColorType;
+    }
+  ) => Promise<void>;
 };
 
 // The reason for client/server divergence is the need to inject Backbone models and

@@ -11,13 +11,13 @@ import { action } from '@storybook/addon-actions';
 import { Avatar, AvatarBlur, Props } from './Avatar';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
-import { Colors, ColorType } from '../types/Colors';
+import { AvatarColors, AvatarColorType } from '../types/Colors';
 
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Avatar', module);
 
-const colorMap: Record<string, ColorType> = Colors.reduce(
+const colorMap: Record<string, AvatarColorType> = AvatarColors.reduce(
   (m, color) => ({
     ...m,
     [color]: color,
@@ -129,12 +129,14 @@ story.add('Group Icon', () => {
 story.add('Colors', () => {
   const props = createProps();
 
-  return Colors.map(color => <Avatar key={color} {...props} color={color} />);
+  return AvatarColors.map(color => (
+    <Avatar key={color} {...props} color={color} />
+  ));
 });
 
 story.add('Broken Color', () => {
   const props = createProps({
-    color: 'nope' as ColorType,
+    color: 'nope' as AvatarColorType,
   });
 
   return sizes.map(size => <Avatar key={size} {...props} size={size} />);
