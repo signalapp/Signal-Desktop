@@ -24,8 +24,6 @@ interface State {
 }
 
 export class RemoveModeratorsDialog extends React.Component<Props, State> {
-  private channelAPI: any;
-
   constructor(props: any) {
     super(props);
 
@@ -41,7 +39,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    void this.refreshModList();
+    this.refreshModList();
   }
 
   public render() {
@@ -210,7 +208,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     } catch (e) {
       window?.log?.error('Got error while adding moderator:', e);
     } finally {
-      await this.refreshModList();
+      this.refreshModList();
     }
   }
 }

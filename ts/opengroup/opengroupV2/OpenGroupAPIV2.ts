@@ -174,7 +174,7 @@ export async function openGroupV2GetRoomInfo({
     isAuthRequired: false,
     endpoint: `rooms/${roomId}`,
   };
-  const result = (await exports.sendApiV2Request(request)) as any;
+  const result = await exports.sendApiV2Request(request);
   if (result?.result?.room) {
     const { id, name, image_id: imageId } = result?.result?.room;
 
@@ -222,7 +222,7 @@ export const postMessageRetryable = async (
   if (statusCode !== 200) {
     throw new Error(`Could not postMessage, status code: ${statusCode}`);
   }
-  const rawMessage = (result as any)?.result?.message;
+  const rawMessage = result?.result?.message;
   if (!rawMessage) {
     throw new Error('postMessage parsing failed');
   }
@@ -377,7 +377,7 @@ export const downloadFileOpenGroupV2 = async (
   }
 
   // we should probably change the logic of sendOnionRequest to not have all those levels
-  const base64Data = (result as any)?.result?.result as string | undefined;
+  const base64Data = result?.result?.result as string | undefined;
 
   if (!base64Data) {
     return null;
@@ -404,7 +404,7 @@ export const downloadFileOpenGroupV2ByUrl = async (
   }
 
   // we should probably change the logic of sendOnionRequest to not have all those levels
-  const base64Data = (result as any)?.result?.result as string | undefined;
+  const base64Data = result?.result?.result as string | undefined;
 
   if (!base64Data) {
     return null;
@@ -436,7 +436,7 @@ export const downloadPreviewOpenGroupV2 = async (
   }
 
   // we should probably change the logic of sendOnionRequest to not have all those levels
-  const base64Data = (result as any)?.result?.result as string | undefined;
+  const base64Data = result?.result?.result as string | undefined;
 
   if (!base64Data) {
     return null;
@@ -475,7 +475,7 @@ export const uploadFileOpenGroupV2 = async (
   }
 
   // we should probably change the logic of sendOnionRequest to not have all those levels
-  const fileId = (result as any)?.result?.result as number | undefined;
+  const fileId = result?.result?.result as number | undefined;
   if (!fileId) {
     return null;
   }

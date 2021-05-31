@@ -2,7 +2,7 @@ import React from 'react';
 
 import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
-import { FindMember } from '../../util';
+import { FindMember } from '../../util/findMember';
 import { useInterval } from '../../hooks/useInterval';
 import { PubKey } from '../../session/types';
 import { ConversationModel } from '../../models/conversation';

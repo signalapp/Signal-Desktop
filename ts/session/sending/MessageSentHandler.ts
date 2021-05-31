@@ -93,8 +93,8 @@ export class MessageSentHandler {
       if (!wrappedEnvelope) {
         window?.log?.warn('Should send PN notify but no wrapped envelope set.');
       } else {
-        const result = await PnServer.notify(wrappedEnvelope, sentMessage.device);
-        debugger;
+        // we do not really care about the retsult.
+        await PnServer.notify(wrappedEnvelope, sentMessage.device);
       }
     }
 

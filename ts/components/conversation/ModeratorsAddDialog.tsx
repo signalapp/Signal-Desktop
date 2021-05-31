@@ -21,8 +21,6 @@ interface State {
 }
 
 export class AddModeratorsDialog extends React.Component<Props, State> {
-  private channelAPI: any;
-
   constructor(props: Props) {
     super(props);
 
