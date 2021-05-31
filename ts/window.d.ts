@@ -2,7 +2,6 @@ import { LocalizerType } from '../types/Util';
 import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
 import { SignalInterface } from '../../js/modules/signal';
 import { Libloki } from '../libloki';
-import { LokiPublicChatFactoryInterface } from '../js/modules/loki_public_chat_api';
 
 import { LibTextsecure } from '../libtextsecure';
 import { ConfirmationDialogParams } from '../background';
@@ -91,6 +90,5 @@ declare global {
     lightTheme: DefaultTheme;
     darkTheme: DefaultTheme;
     LokiPushNotificationServer: any;
-    LokiPushNotificationServerApi: any;
   }
 }

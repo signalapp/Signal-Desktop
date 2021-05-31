@@ -313,7 +313,6 @@ window.Signal = Signal.setup({
   logger: window.log,
 });
 
-window.LokiPushNotificationServerApi = require('./js/modules/loki_push_notification_server_api');
 window.SwarmPolling = require('./ts/session/snode_api/swarmPolling').SwarmPolling.getInstance();
 
 const WorkerInterface = require('./js/modules/util_worker_interface');

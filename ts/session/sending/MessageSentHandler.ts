@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { getMessageById } from '../../data/data';
 import { SignalService } from '../../protobuf';
+import { PnServer } from '../../pushnotification';
 import { MessageController } from '../messages';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { EncryptionType, RawMessage } from '../types';
@@ -92,11 +93,8 @@ export class MessageSentHandler {
       if (!wrappedEnvelope) {
         window?.log?.warn('Should send PN notify but no wrapped envelope set.');
       } else {
-        if (!window.LokiPushNotificationServer) {
-          window.LokiPushNotificationServer = new window.LokiPushNotificationServerApi();
-        }
-
-        window.LokiPushNotificationServer.notify(wrappedEnvelope, sentMessage.device);
+        const result = await PnServer.notify(wrappedEnvelope, sentMessage.device);
+        debugger;
       }
     }
 

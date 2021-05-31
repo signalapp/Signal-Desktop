@@ -1,7 +1,4 @@
-import { default as insecureNodeFetch } from 'node-fetch';
 import { OpenGroupV2Room } from '../../data/opengroups';
-import { sendViaOnion } from '../../session/onions/onionSend';
-import { toHex } from '../../session/utils/String';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 
 const protocolRegex = new RegExp('(https?://)?');

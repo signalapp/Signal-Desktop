@@ -11,14 +11,10 @@ lokiPublicChatAPI
 
 
 dot_net_api
-loki_public_chat_api
 
 
 
-OpenGroupUtils
-
-OpenGroup
-
+LokiPushNotificationServerApi
 
 
 
@@ -32,6 +28,7 @@ getAllOpenGroupV1Conversations =>  migration to remove opengroupsv1 matching url
 
 
 DELETED
+loki_public_chat_api
 tokenlessFileServerAdnAPI
 channelId
 publicChat with only a cahnnel of 1
