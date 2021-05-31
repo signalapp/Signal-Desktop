@@ -19,7 +19,6 @@ import {
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from './conversation';
-import { getSuggestedFilenameSending } from '../types/Attachment';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
@@ -745,15 +744,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       (this.get('attachments') || []).map(window.Signal.Migrations.loadAttachmentData)
     );
     const body = this.get('body');
-    const finalAttachments = attachmentsWithData;
-
-    const filenameOverridenAttachments = finalAttachments.map((attachment: any) => ({
-      ...attachment,
-      fileName: getSuggestedFilenameSending({
-        attachment,
-        timestamp: Date.now(),
-      }),
-    }));
+    const finalAttachments = attachmentsWithData as Array<any>;
 
     const quoteWithData = await window.Signal.Migrations.loadQuoteData(this.get('quote'));
     const previewWithData = await window.Signal.Migrations.loadPreviewData(this.get('preview'));
@@ -768,13 +759,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // we want to go for the v1, if this is an OpenGroupV1 or not an open group at all
     if (conversation?.isOpenGroupV2()) {
       const openGroupV2 = conversation.toOpenGroupV2();
-      attachmentPromise = uploadAttachmentsV2(filenameOverridenAttachments, openGroupV2);
+      attachmentPromise = uploadAttachmentsV2(finalAttachments, openGroupV2);
       linkPreviewPromise = uploadLinkPreviewsV2(previewWithData, openGroupV2);
       quotePromise = uploadQuoteThumbnailsV2(openGroupV2, quoteWithData);
     } else {
       // NOTE: we want to go for the v1 if this is an OpenGroupV1 or not an open group at all
       // because there is a fallback invoked on uploadV1() for attachments for not open groups attachments
-      attachmentPromise = AttachmentFsV2Utils.uploadAttachmentsToFsV2(filenameOverridenAttachments);
+      attachmentPromise = AttachmentFsV2Utils.uploadAttachmentsToFsV2(finalAttachments);
       linkPreviewPromise = AttachmentFsV2Utils.uploadLinkPreviewsToFsV2(previewWithData);
       quotePromise = AttachmentFsV2Utils.uploadQuoteThumbnailsToFsV2(quoteWithData);
     }
