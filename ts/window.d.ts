@@ -9,7 +9,6 @@ import { LibTextsecure } from '../libtextsecure';
 import { ConfirmationDialogParams } from '../background';
 
 import { ConversationControllerType } from '../js/ConversationController';
-import { any } from 'underscore';
 import { Store } from 'redux';
 import { MessageController } from './session/messages/MessageController';
 import { DefaultTheme } from 'styled-components';

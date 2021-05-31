@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import { FileServerV2Request } from '../../fileserver/FileServerApiV2';
 import { PubKey } from '../../session/types';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
