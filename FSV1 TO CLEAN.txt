@@ -1,33 +1,18 @@
 
 A TESTER
+move mentions user to redux for opengroups
 * MENTIONS opengroupv2
-
-
-
 
 
 lokiPublicChatAPI
 
 
 
-dot_net_api
-
-
-
-LokiPushNotificationServerApi
-
-
-
-
-channelAPI.sendMessage
-
-
-getAllOpenGroupV1Conversations =>  migration to remove opengroupsv1 matching urls
-
-
-
 
 DELETED
+LokiPushNotificationServerApi
+channelAPI.sendMessage
+dot_net_api
 loki_public_chat_api
 tokenlessFileServerAdnAPI
 channelId

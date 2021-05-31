@@ -26,7 +26,6 @@ declare global {
     CONSTANTS: any;
     Events: any;
     Lodash: any;
-    LokiAppDotNetServerAPI: any;
     LokiSnodeAPI: any;
     Session: any;
     Signal: SignalInterface;
