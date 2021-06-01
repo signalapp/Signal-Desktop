@@ -17,7 +17,7 @@ import {
 } from '@signalapp/signal-client';
 
 import { uploadDebugLogs } from './debuglogs';
-import { redactAll } from '../../js/modules/privacy';
+import { redactAll } from '../util/privacy';
 import {
   LogEntryType,
   LogLevel,

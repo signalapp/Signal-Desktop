@@ -1,13 +1,12 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const path = require('path');
+import { assert } from 'chai';
 
-const { assert } = require('chai');
+import * as Privacy from '../../util/privacy';
+import { APP_ROOT_PATH } from '../../util/privacy';
 
-const Privacy = require('../../js/modules/privacy');
-
-const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
+Privacy.addSensitivePath('sensitive-path');
 
 describe('Privacy', () => {
   describe('redactPhoneNumbers', () => {
@@ -86,7 +85,8 @@ describe('Privacy', () => {
         'group1 group(123456789) doloret\n' +
         `path2 file:///${encodedAppRootPath}/js/background.js.` +
         'phone2 +13334445566 lorem\n' +
-        'group2 group(abcdefghij) doloret\n';
+        'group2 group(abcdefghij) doloret\n' +
+        'path3 sensitive-path/attachment.noindex\n';
 
       const actual = Privacy.redactAll(text);
       const expected =
@@ -96,7 +96,8 @@ describe('Privacy', () => {
         'group1 group([REDACTED]789) doloret\n' +
         'path2 file:///[REDACTED]/js/background.js.' +
         'phone2 +[REDACTED]566 lorem\n' +
-        'group2 group([REDACTED]hij) doloret\n';
+        'group2 group([REDACTED]hij) doloret\n' +
+        'path3 [REDACTED]/attachment.noindex\n';
       assert.equal(actual, expected);
     });
   });

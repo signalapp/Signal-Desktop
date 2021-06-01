@@ -19,7 +19,7 @@ const electron = require('electron');
 const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
 const { setup: setupSpellChecker } = require('./app/spell_check');
-const { redactAll } = require('./js/modules/privacy');
+const { redactAll, addSensitivePath } = require('./ts/util/privacy');
 const removeUserConfig = require('./app/user_config').remove;
 
 GlobalErrors.addHandler();
@@ -1162,6 +1162,8 @@ app.on('ready', async () => {
 
   const userDataPath = await getRealPath(app.getPath('userData'));
   const installPath = await getRealPath(app.getAppPath());
+
+  addSensitivePath(userDataPath);
 
   if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'test-lib') {
     installFileHandler({

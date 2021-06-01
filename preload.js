@@ -550,6 +550,11 @@ try {
   window.baseStickersPath = Attachments.getStickersPath(userDataPath);
   window.baseTempPath = Attachments.getTempPath(userDataPath);
   window.baseDraftPath = Attachments.getDraftPath(userDataPath);
+
+  const { addSensitivePath } = require('./ts/util/privacy');
+
+  addSensitivePath(window.baseAttachmentsPath);
+
   window.Signal = Signal.setup({
     Attachments,
     userDataPath,

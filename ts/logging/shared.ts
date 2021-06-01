@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 import * as pino from 'pino';
-import { redactAll } from '../../js/modules/privacy';
+import { redactAll } from '../util/privacy';
 import { missingCaseError } from '../util/missingCaseError';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
 

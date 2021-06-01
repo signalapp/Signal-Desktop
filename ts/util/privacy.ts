@@ -1,30 +1,32 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-env node */
 
-const is = require('@sindresorhus/is');
-const path = require('path');
+import is from '@sindresorhus/is';
+import { join as pathJoin } from 'path';
 
-const { compose } = require('lodash/fp');
-const { escapeRegExp } = require('lodash');
+import { compose } from 'lodash/fp';
+import { escapeRegExp } from 'lodash';
 
-const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
+export const APP_ROOT_PATH = pathJoin(__dirname, '..', '..');
+
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
 const UUID_PATTERN = /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{9}([0-9A-F]{3})/gi;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const GROUP_V2_ID_PATTERN = /(groupv2\()([^=)]+)(=?=?\))/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
-//      _redactPath :: Path -> String -> String
-exports._redactPath = filePath => {
+export type RedactFunction = (value: string) => string;
+
+export const _redactPath = (filePath: string): RedactFunction => {
   if (!is.string(filePath)) {
     throw new TypeError("'filePath' must be a string");
   }
 
   const filePathPattern = exports._pathToRegExp(filePath);
 
-  return text => {
+  return (text: string): string => {
     if (!is.string(text)) {
       throw new TypeError("'text' must be a string");
     }
@@ -37,8 +39,7 @@ exports._redactPath = filePath => {
   };
 };
 
-//      _pathToRegExp :: Path -> Maybe RegExp
-exports._pathToRegExp = filePath => {
+export const _pathToRegExp = (filePath: string): RegExp | undefined => {
   try {
     const pathWithNormalizedSlashes = filePath.replace(/\//g, '\\');
     const pathWithEscapedSlashes = filePath.replace(/\\/g, '\\\\');
@@ -55,13 +56,12 @@ exports._pathToRegExp = filePath => {
       .join('|');
     return new RegExp(patternString, 'g');
   } catch (error) {
-    return null;
+    return undefined;
   }
 };
 
 // Public API
-//      redactPhoneNumbers :: String -> String
-exports.redactPhoneNumbers = text => {
+export const redactPhoneNumbers = (text: string): string => {
   if (!is.string(text)) {
     throw new TypeError("'text' must be a string");
   }
@@ -69,8 +69,7 @@ exports.redactPhoneNumbers = text => {
   return text.replace(PHONE_NUMBER_PATTERN, `+${REDACTION_PLACEHOLDER}$1`);
 };
 
-//      redactUuids :: String -> String
-exports.redactUuids = text => {
+export const redactUuids = (text: string): string => {
   if (!is.string(text)) {
     throw new TypeError("'text' must be a string");
   }
@@ -78,8 +77,7 @@ exports.redactUuids = text => {
   return text.replace(UUID_PATTERN, `${REDACTION_PLACEHOLDER}$1`);
 };
 
-//      redactGroupIds :: String -> String
-exports.redactGroupIds = text => {
+export const redactGroupIds = (text: string): string => {
   if (!is.string(text)) {
     throw new TypeError("'text' must be a string");
   }
@@ -87,29 +85,42 @@ exports.redactGroupIds = text => {
   return text
     .replace(
       GROUP_ID_PATTERN,
-      (match, before, id, after) =>
+      (_, before, id, after) =>
         `${before}${REDACTION_PLACEHOLDER}${removeNewlines(id).slice(
           -3
         )}${after}`
     )
     .replace(
       GROUP_V2_ID_PATTERN,
-      (match, before, id, after) =>
+      (_, before, id, after) =>
         `${before}${REDACTION_PLACEHOLDER}${removeNewlines(id).slice(
           -3
         )}${after}`
     );
 };
 
-//      redactSensitivePaths :: String -> String
-exports.redactSensitivePaths = exports._redactPath(APP_ROOT_PATH);
+const createRedactSensitivePaths = (
+  paths: ReadonlyArray<string>
+): RedactFunction => {
+  return compose(paths.map(filePath => exports._redactPath(filePath)));
+};
 
-//      redactAll :: String -> String
-exports.redactAll = compose(
-  exports.redactSensitivePaths,
-  exports.redactGroupIds,
-  exports.redactPhoneNumbers,
-  exports.redactUuids
+const sensitivePaths: Array<string> = [];
+
+let redactSensitivePaths: RedactFunction = (text: string) => text;
+
+export const addSensitivePath = (filePath: string): void => {
+  sensitivePaths.push(filePath);
+  redactSensitivePaths = createRedactSensitivePaths(sensitivePaths);
+};
+
+addSensitivePath(APP_ROOT_PATH);
+
+export const redactAll: RedactFunction = compose(
+  (text: string) => redactSensitivePaths(text),
+  redactGroupIds,
+  redactPhoneNumbers,
+  redactUuids
 );
 
-const removeNewlines = text => text.replace(/\r?\n|\r/g, '');
+const removeNewlines: RedactFunction = text => text.replace(/\r?\n|\r/g, '');
