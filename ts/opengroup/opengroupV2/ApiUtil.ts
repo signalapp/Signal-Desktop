@@ -3,7 +3,7 @@ import { FileServerV2Request } from '../../fileserver/FileServerApiV2';
 import { PubKey } from '../../session/types';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { fromBase64ToArrayBuffer, fromHex } from '../../session/utils/String';
-import { updateDefaultRooms } from '../../state/ducks/defaultRooms';
+import { updateDefaultRooms, updateDefaultRoomsInProgress } from '../../state/ducks/defaultRooms';
 import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
 import { parseOpenGroupV2 } from './JoinOpenGroupV2';
 import { getAllRoomInfos } from './OpenGroupAPIV2';
@@ -120,7 +120,10 @@ const loadDefaultRoomsSingle = () =>
  * This call will only run once at a time.
  */
 export const loadDefaultRooms = async () => {
+  window.inboxStore?.dispatch(updateDefaultRoomsInProgress(true));
   const allRooms: Array<OpenGroupV2InfoJoinable> = await loadDefaultRoomsSingle();
+  window.inboxStore?.dispatch(updateDefaultRoomsInProgress(false));
+
   if (allRooms !== undefined) {
     window.inboxStore?.dispatch(updateDefaultRooms(allRooms));
   }
