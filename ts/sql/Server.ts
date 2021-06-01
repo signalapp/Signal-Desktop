@@ -4249,7 +4249,7 @@ async function getNextAttachmentDownloadJobs(
       `
       SELECT json
       FROM attachment_downloads
-      WHERE pending = 0 AND timestamp < $timestamp
+      WHERE pending = 0 AND timestamp <= $timestamp
       ORDER BY timestamp DESC
       LIMIT $limit;
       `

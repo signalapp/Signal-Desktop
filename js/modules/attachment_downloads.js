@@ -135,11 +135,17 @@ async function _maybeStartJob() {
   const jobCount = getActiveJobCount();
   const limit = MAX_ATTACHMENT_JOB_PARALLELISM - jobCount;
   if (limit <= 0) {
+    logger.info(
+      'attachment_downloads/_maybeStartJob: reached active job limit, waiting'
+    );
     return;
   }
 
   const nextJobs = await getNextAttachmentDownloadJobs(limit);
   if (nextJobs.length <= 0) {
+    logger.info(
+      'attachment_downloads/_maybeStartJob: no attachment jobs to run'
+    );
     return;
   }
 
@@ -148,10 +154,19 @@ async function _maybeStartJob() {
   const secondJobCount = getActiveJobCount();
   const needed = MAX_ATTACHMENT_JOB_PARALLELISM - secondJobCount;
   if (needed <= 0) {
+    logger.info(
+      'attachment_downloads/_maybeStartJob: reached active job limit after ' +
+        'db query, waiting'
+    );
     return;
   }
 
   const jobs = nextJobs.slice(0, Math.min(needed, nextJobs.length));
+
+  logger.info(
+    `attachment_downloads/_maybeStartJob: starting ${jobs.length} jobs`
+  );
+
   for (let i = 0, max = jobs.length; i < max; i += 1) {
     const job = jobs[i];
     const existing = _activeAttachmentDownloadJobs[job.id];
