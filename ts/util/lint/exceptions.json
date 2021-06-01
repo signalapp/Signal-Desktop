@@ -14138,7 +14138,7 @@
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
-    "line": "    form.append('key', fields.key);",
+    "line": "    form.append('key', uploadKey);",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
@@ -14166,7 +14166,7 @@
   {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.ts",
-    "line": "  form.append('key', fields.key);",
+    "line": "  form.append('key', uploadKey);",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
