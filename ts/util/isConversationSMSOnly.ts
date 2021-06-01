@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isConversationUnregistered } from './isConversationUnregistered';
-
 export type MinimalConversationType = Readonly<{
   type?: string;
   e164?: string;
@@ -23,5 +21,5 @@ export function isConversationSMSOnly(
     return true;
   }
 
-  return isConversationUnregistered(conversation);
+  return conversation.discoveredUnregisteredAt !== undefined;
 }

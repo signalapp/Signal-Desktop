@@ -6,14 +6,32 @@ import { assert } from 'chai';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 
 describe('isConversationSMSOnly', () => {
-  it('returns false if passed an undefined discoveredUnregisteredAt', () => {
-    assert.isFalse(isConversationSMSOnly({}));
+  it('returns false if passed an undefined type', () => {
     assert.isFalse(
-      isConversationSMSOnly({ discoveredUnregisteredAt: undefined })
+      isConversationSMSOnly({
+        type: undefined,
+      })
     );
   });
 
   ['direct', 'private'].forEach(type => {
+    it('returns false if passed an undefined discoveredUnregisteredAt', () => {
+      assert.isFalse(
+        isConversationSMSOnly({ type, discoveredUnregisteredAt: undefined })
+      );
+    });
+
+    it('returns true if passed a very old discoveredUnregisteredAt', () => {
+      assert.isTrue(
+        isConversationSMSOnly({
+          type,
+          e164: 'e164',
+          uuid: 'uuid',
+          discoveredUnregisteredAt: 1,
+        })
+      );
+    });
+
     it(`returns true if passed a time fewer than 6 hours ago and is ${type}`, () => {
       assert.isTrue(
         isConversationSMSOnly({
