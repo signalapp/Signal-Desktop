@@ -6,25 +6,33 @@ import humanizeDuration from 'humanize-duration';
 import { LocalizerType } from '../types/Util';
 
 const SECONDS_PER_WEEK = 604800;
-export const DEFAULT_DURATIONS_IN_SECONDS = [
+export const DEFAULT_DURATIONS_IN_SECONDS: ReadonlyArray<number> = [
   0,
-  5,
-  10,
-  30,
-  moment.duration(1, 'minute').asSeconds(),
-  moment.duration(5, 'minutes').asSeconds(),
-  moment.duration(30, 'minutes').asSeconds(),
-  moment.duration(1, 'hour').asSeconds(),
-  moment.duration(6, 'hours').asSeconds(),
-  moment.duration(12, 'hours').asSeconds(),
-  moment.duration(1, 'day').asSeconds(),
+  moment.duration(4, 'weeks').asSeconds(),
   moment.duration(1, 'week').asSeconds(),
+  moment.duration(1, 'day').asSeconds(),
+  moment.duration(8, 'hours').asSeconds(),
+  moment.duration(1, 'hour').asSeconds(),
+  moment.duration(5, 'minutes').asSeconds(),
+  moment.duration(30, 'seconds').asSeconds(),
 ];
 
-export function format(i18n: LocalizerType, dirtySeconds?: number): string {
+export const DEFAULT_DURATIONS_SET: ReadonlySet<number> = new Set<number>(
+  DEFAULT_DURATIONS_IN_SECONDS
+);
+
+export type FormatOptions = {
+  capitalizeOff?: boolean;
+};
+
+export function format(
+  i18n: LocalizerType,
+  dirtySeconds?: number,
+  { capitalizeOff = false }: FormatOptions = {}
+): string {
   let seconds = Math.abs(dirtySeconds || 0);
   if (!seconds) {
-    return i18n('disappearingMessages__off');
+    return i18n(capitalizeOff ? 'off' : 'disappearingMessages__off');
   }
   seconds = Math.max(Math.floor(seconds), 1);
 

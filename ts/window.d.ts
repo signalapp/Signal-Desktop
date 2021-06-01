@@ -102,6 +102,7 @@ import { MessageDetail } from './components/conversation/MessageDetail';
 import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
+import { DisappearingTimeDialog } from './components/conversation/DisappearingTimeDialog';
 import { MIMEType } from './types/MIME';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
@@ -488,6 +489,7 @@ declare global {
         ProgressModal: typeof ProgressModal;
         Quote: typeof Quote;
         StagedLinkPreview: typeof StagedLinkPreview;
+        DisappearingTimeDialog: typeof DisappearingTimeDialog;
       };
       OS: typeof OS;
       Workflow: {
@@ -796,4 +798,5 @@ export type WhisperType = {
   View: typeof Backbone.View & {
     Templates: Record<string, string>;
   };
+  DisappearingTimeDialog: typeof window.Whisper.View | undefined;
 };

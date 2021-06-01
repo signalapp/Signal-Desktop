@@ -367,6 +367,8 @@ try {
   installGetter('sync-request', 'getSyncRequest');
   installGetter('sync-time', 'getLastSyncTime');
   installSetter('sync-time', 'setLastSyncTime');
+  installGetter('universal-expire-timer', 'getUniversalExpireTimer');
+  installSetter('universal-expire-timer', 'setUniversalExpireTimer');
 
   ipc.on('delete-all-data', async () => {
     const { deleteAllData } = window.Events;

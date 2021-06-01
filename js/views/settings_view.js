@@ -12,6 +12,12 @@
   window.Whisper = window.Whisper || {};
   const { Settings } = window.Signal.Types;
 
+  const {
+    DEFAULT_DURATIONS_IN_SECONDS,
+    DEFAULT_DURATIONS_SET,
+    format: formatExpirationTimer,
+  } = window.Signal.Util.expirationTimer;
+
   const CheckboxView = Whisper.View.extend({
     initialize(options) {
       this.name = options.name;
@@ -67,6 +73,106 @@
     },
     populate() {
       this.$('input').prop('checked', Boolean(this.value));
+    },
+  });
+
+  const DisappearingMessagesView = Whisper.View.extend({
+    template: () => $('#disappearingMessagesSettings').html(),
+    initialize(options) {
+      this.timeDialog = null;
+
+      this.value = options.value || 0;
+
+      this.render();
+    },
+
+    render_attributes() {
+      const isCustomValue = this.isCustomValue();
+
+      return {
+        title: i18n('disappearingMessages'),
+        timerValues: DEFAULT_DURATIONS_IN_SECONDS.map(seconds => {
+          const text = formatExpirationTimer(i18n, seconds, {
+            capitalizeOff: true,
+          });
+          return {
+            selected: seconds === this.value ? 'selected' : undefined,
+            value: seconds,
+            text,
+          };
+        }),
+        customSelected: isCustomValue ? 'selected' : undefined,
+        customText: i18n(
+          isCustomValue
+            ? 'selectedCustomDisappearingTimeOption'
+            : 'customDisappearingTimeOption'
+        ),
+        customInfo: isCustomValue
+          ? {
+              text: formatExpirationTimer(i18n, this.value),
+            }
+          : undefined,
+        timerLabel: i18n('settings__DisappearingMessages__timer__label'),
+        footer: i18n('settings__DisappearingMessages__footer'),
+      };
+    },
+
+    events: {
+      change: 'change',
+    },
+
+    change(e) {
+      const value = parseInt(e.target.value, 10);
+
+      if (value === -1) {
+        this.showDialog();
+        return;
+      }
+
+      this.updateValue(value);
+      window.log.info('disappearing-messages-timer changed to', this.value);
+    },
+
+    isCustomValue() {
+      return this.value && !DEFAULT_DURATIONS_SET.has(this.value);
+    },
+
+    showDialog() {
+      this.closeDialog();
+
+      this.timeDialog = new window.Whisper.ReactWrapperView({
+        className: 'disappearing-time-dialog-wrapper',
+        Component: window.Signal.Components.DisappearingTimeDialog,
+        props: {
+          i18n,
+          initialValue: this.value,
+          onSubmit: newValue => {
+            this.updateValue(newValue);
+            this.closeDialog();
+
+            window.log.info(
+              'disappearing-messages-timer changed to custom value',
+              this.value
+            );
+          },
+          onClose: () => {
+            this.closeDialog();
+          },
+        },
+      });
+    },
+
+    closeDialog() {
+      if (this.timeDialog) {
+        this.timeDialog.remove();
+      }
+      this.timeDialog = null;
+    },
+
+    updateValue(newValue) {
+      this.value = newValue;
+      window.setUniversalExpireTimer(newValue);
+      this.render();
     },
   });
 
@@ -202,6 +308,15 @@
         value: window.initialData.mediaCameraPermissions,
         setFn: window.setMediaCameraPermissions,
       });
+
+      const disappearingMessagesView = new DisappearingMessagesView({
+        value: window.initialData.universalExpireTimer,
+        name: 'disappearing-messages-setting',
+      });
+      this.$('.disappearing-messages-setting').append(
+        disappearingMessagesView.el
+      );
+
       if (!window.initialData.isPrimary) {
         const syncView = new SyncView().render();
         this.$('.sync-setting').append(syncView.el);

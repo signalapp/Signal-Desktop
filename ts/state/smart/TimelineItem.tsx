@@ -17,6 +17,7 @@ import {
 } from '../selectors/conversations';
 
 import { SmartContactName } from './ContactName';
+import { SmartUniversalTimerNotification } from './UniversalTimerNotification';
 
 type ExternalProps = {
   id: string;
@@ -31,6 +32,10 @@ const FilteredSmartContactName = SmartContactName as any;
 
 function renderContact(conversationId: string): JSX.Element {
   return <FilteredSmartContactName conversationId={conversationId} />;
+}
+
+function renderUniversalTimerNotification(): JSX.Element {
+  return <SmartUniversalTimerNotification />;
 }
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
@@ -60,6 +65,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     customColor: conversation?.customColor,
     isSelected,
     renderContact,
+    renderUniversalTimerNotification,
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
     theme: getTheme(state),

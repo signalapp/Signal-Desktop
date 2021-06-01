@@ -37,6 +37,7 @@ import { StartupQueue } from './StartupQueue';
 import { postLinkExperience } from './postLinkExperience';
 import { sendToGroup, sendContentMessageToGroup } from './sendToGroup';
 import { RetryPlaceholders } from './retryPlaceholders';
+import * as expirationTimer from './expirationTimer';
 
 export {
   GoogleChrome,
@@ -73,4 +74,5 @@ export {
   sleep,
   toWebSafeBase64,
   zkgroup,
+  expirationTimer,
 };

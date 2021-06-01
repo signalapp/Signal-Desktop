@@ -10,6 +10,7 @@ import { EmojiPicker } from '../emoji/EmojiPicker';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { PropsType as TimelineItemProps, TimelineItem } from './TimelineItem';
+import { UniversalTimerNotification } from './UniversalTimerNotification';
 import { CallMode } from '../../types/Calling';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
@@ -32,6 +33,10 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
 
 const renderContact = (conversationId: string) => (
   <React.Fragment key={conversationId}>{conversationId}</React.Fragment>
+);
+
+const renderUniversalTimerNotification = () => (
+  <UniversalTimerNotification i18n={i18n} expireTimer={3600} />
 );
 
 const getDefaultProps = () => ({
@@ -73,6 +78,7 @@ const getDefaultProps = () => ({
   returnToActiveCall: action('returnToActiveCall'),
 
   renderContact,
+  renderUniversalTimerNotification,
   renderEmojiPicker,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
 });
@@ -114,6 +120,10 @@ storiesOf('Components/Conversation/TimelineItem', module)
         data: {
           sender: getDefaultConversation(),
         },
+      },
+      {
+        type: 'universalTimerNotification',
+        data: null,
       },
       {
         type: 'callHistory',

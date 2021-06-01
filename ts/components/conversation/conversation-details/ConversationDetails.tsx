@@ -11,6 +11,10 @@ import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
 
+import { Select } from '../../Select';
+
+import { DisappearingTimeDialog } from '../DisappearingTimeDialog';
+
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 import { AddGroupMembersModal } from './AddGroupMembersModal';
@@ -34,6 +38,7 @@ enum ModalState {
   NothingOpen,
   EditingGroupAttributes,
   AddingGroupMembers,
+  CustomDisappearingTimeout,
 }
 
 export type StateProps = {
@@ -71,10 +76,6 @@ export type StateProps = {
 
 export type Props = StateProps;
 
-const expirationTimerDefaultSet = new Set<number>(
-  expirationTimer.DEFAULT_DURATIONS_IN_SECONDS
-);
-
 export const ConversationDetails: React.ComponentType<Props> = ({
   addMembers,
   canEditGroupInfo,
@@ -111,8 +112,13 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     setAddGroupMembersRequestState,
   ] = useState<RequestState>(RequestState.Inactive);
 
-  const updateExpireTimer = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setDisappearingMessages(parseInt(event.target.value, 10));
+  const updateExpireTimer = (value: string) => {
+    const intValue = parseInt(value, 10);
+    if (intValue === -1) {
+      setModalState(ModalState.CustomDisappearingTimeout);
+    } else {
+      setDisappearingMessages(intValue);
+    }
   };
 
   if (conversation === undefined) {
@@ -204,16 +210,54 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         />
       );
       break;
+    case ModalState.CustomDisappearingTimeout:
+      modalNode = (
+        <DisappearingTimeDialog
+          i18n={i18n}
+          initialValue={conversation.expireTimer}
+          onSubmit={value => {
+            setModalState(ModalState.NothingOpen);
+            setDisappearingMessages(value);
+          }}
+          onClose={() => setModalState(ModalState.NothingOpen)}
+        />
+      );
+      break;
     default:
       throw missingCaseError(modalState);
   }
 
-  const expireTimer = conversation.expireTimer || 0;
+  const expireTimer: number = conversation.expireTimer || 0;
 
-  let expirationTimerDurations = expirationTimer.DEFAULT_DURATIONS_IN_SECONDS;
-  if (!expirationTimerDefaultSet.has(expireTimer)) {
-    expirationTimerDurations = [...expirationTimerDurations, expireTimer];
-  }
+  let expirationTimerOptions: ReadonlyArray<{
+    readonly value: number;
+    readonly text: string;
+  }> = expirationTimer.DEFAULT_DURATIONS_IN_SECONDS.map(seconds => {
+    const text = expirationTimer.format(i18n, seconds, {
+      capitalizeOff: true,
+    });
+    return {
+      value: seconds,
+      text,
+    };
+  });
+
+  const isCustomTimeSelected = !expirationTimer.DEFAULT_DURATIONS_SET.has(
+    expireTimer
+  );
+
+  // Custom time...
+  expirationTimerOptions = [
+    ...expirationTimerOptions,
+    {
+      value: -1,
+      text: i18n(
+        isCustomTimeSelected
+          ? 'selectedCustomDisappearingTimeOption'
+          : 'customDisappearingTimeOption'
+      ),
+    },
+  ];
 
   return (
     <div className="conversation-details-panel">
@@ -241,18 +285,16 @@ export const ConversationDetails: React.ComponentType<Props> = ({
             info={i18n('ConversationDetails--disappearing-messages-info')}
             label={i18n('ConversationDetails--disappearing-messages-label')}
             right={
-              <div className="module-conversation-details-select">
-                <select onChange={updateExpireTimer} value={expireTimer}>
-                  {expirationTimerDurations.map((seconds: number) => {
-                    const label = expirationTimer.format(i18n, seconds);
-                    return (
-                      <option value={seconds} key={seconds} aria-label={label}>
-                        {label}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
+              <Select
+                onChange={updateExpireTimer}
+                value={isCustomTimeSelected ? -1 : expireTimer}
+                options={expirationTimerOptions}
+              />
+            }
+            rightInfo={
+              isCustomTimeSelected
+                ? expirationTimer.format(i18n, expireTimer)
+                : undefined
             }
           />
         ) : null}

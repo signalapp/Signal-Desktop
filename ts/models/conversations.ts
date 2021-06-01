@@ -55,6 +55,7 @@ import { getConversationMembers } from '../util/getConversationMembers';
 import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { filter, map, take } from '../util/iterables';
+import * as universalExpireTimer from '../util/universalExpireTimer';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -1069,10 +1070,15 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    // On successful fetch - mark contact as registered.
-    if (this.get('uuid')) {
-      this.setRegistered();
+    if (!this.get('uuid')) {
+      return;
     }
+
+    // On successful fetch - mark contact as registered.
+    this.setRegistered();
+
+    // If we couldn't apply universal timer before - try it again.
+    this.queueJob(() => this.maybeSetPendingUniversalTimer());
   }
 
   isValid(): boolean {
@@ -2749,6 +2755,85 @@ export class ConversationModel extends window.Backbone
     }
   }
 
+  async addUniversalTimerNotification(): Promise<string> {
+    const now = Date.now();
+    const message = ({
+      conversationId: this.id,
+      type: 'universal-timer-notification',
+      sent_at: now,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: now,
+      unread: 0,
+      // TODO: DESKTOP-722
+    } as unknown) as typeof window.Whisper.MessageAttributesType;
+
+    const id = await window.Signal.Data.saveMessage(message, {
+      Message: window.Whisper.Message,
+    });
+    const model = window.MessageController.register(
+      id,
+      new window.Whisper.Message({
+        ...message,
+        id,
+      })
+    );
+
+    this.trigger('newmessage', model);
+
+    return id;
+  }
+
+  async maybeSetPendingUniversalTimer(): Promise<void> {
+    if (!this.isPrivate()) {
+      return;
+    }
+
+    if (this.isSMSOnly()) {
+      return;
+    }
+
+    if (this.get('pendingUniversalTimer') || this.get('expireTimer')) {
+      return;
+    }
+
+    const activeAt = this.get('active_at');
+    if (activeAt) {
+      return;
+    }
+
+    const expireTimer = universalExpireTimer.get();
+    if (!expireTimer) {
+      return;
+    }
+
+    const notificationId = await this.addUniversalTimerNotification();
+    this.set('pendingUniversalTimer', notificationId);
+  }
+
+  async maybeApplyUniversalTimer(): Promise<void> {
+    const notificationId = this.get('pendingUniversalTimer');
+    if (!notificationId) {
+      return;
+    }
+
+    const message = window.MessageController.getById(notificationId);
+    if (message) {
+      message.cleanup();
+    }
+
+    if (this.get('expireTimer')) {
+      this.set('pendingUniversalTimer', undefined);
+      return;
+    }
+
+    const expireTimer = universalExpireTimer.get();
+    if (expireTimer) {
+      await this.updateExpirationTimer(expireTimer);
+    }
+
+    this.set('pendingUniversalTimer', undefined);
+  }
+
   async onReadMessage(
     message: MessageModel,
     readAt?: number
@@ -3243,7 +3328,6 @@ export class ConversationModel extends window.Backbone
   ): Promise<WhatIsThis> {
     const timestamp = Date.now();
     const outgoingReaction = { ...reaction, ...target };
-    const expireTimer = this.get('expireTimer');
 
     const reactionModel = window.Whisper.Reactions.add({
       ...outgoingReaction,
@@ -3268,6 +3352,10 @@ export class ConversationModel extends window.Backbone
         'with timestamp',
         timestamp
       );
+
+      await this.maybeApplyUniversalTimer();
+
+      const expireTimer = this.get('expireTimer');
 
       const attributes = ({
         id: window.getGuid(),
@@ -3447,11 +3535,14 @@ export class ConversationModel extends window.Backbone
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
-    const expireTimer = this.get('expireTimer');
     const recipients = this.getRecipients();
 
     this.queueJob(async () => {
       const now = Date.now();
+
+      await this.maybeApplyUniversalTimer();
+
+      const expireTimer = this.get('expireTimer');
 
       window.log.info(
         'Sending message to conversation',
@@ -3654,6 +3745,8 @@ export class ConversationModel extends window.Backbone
     if (!this.id) {
       return;
     }
+
+    this.queueJob(() => this.maybeSetPendingUniversalTimer());
 
     const ourConversationId = window.ConversationController.getOurConversationId();
     if (!ourConversationId) {
@@ -3915,8 +4008,8 @@ export class ConversationModel extends window.Backbone
 
   async updateExpirationTimer(
     providedExpireTimer: number | undefined,
-    providedSource: unknown,
-    receivedAt: number,
+    providedSource?: unknown,
+    receivedAt?: number,
     options: { fromSync?: unknown; fromGroupUpdate?: unknown } = {}
   ): Promise<boolean | null | MessageModel | void> {
     if (this.isGroupV2()) {
@@ -3964,6 +4057,11 @@ export class ConversationModel extends window.Backbone
     const timestamp = (receivedAt || Date.now()) - 1;
 
     this.set({ expireTimer });
+
+    // This call actually removes universal timer notification and clears
+    // the pending flags.
+    await this.maybeApplyUniversalTimer();
+
     window.Signal.Data.updateConversation(this.attributes);
 
     const model = new window.Whisper.Message(({
@@ -4677,6 +4775,7 @@ export class ConversationModel extends window.Backbone
       lastMessage: null,
       timestamp: null,
       active_at: null,
+      pendingUniversalTimer: undefined,
     });
     window.Signal.Data.updateConversation(this.attributes);
 

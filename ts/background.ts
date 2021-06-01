@@ -34,6 +34,7 @@ import {
   RetryRequestType,
 } from './textsecure/MessageReceiver';
 import { connectToServerWithStoredCredentials } from './util/connectToServerWithStoredCredentials';
+import * as universalExpireTimer from './util/universalExpireTimer';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -513,6 +514,15 @@ export async function startApp(): Promise<void> {
       getLastSyncTime: () => window.storage.get('synced_at'),
       setLastSyncTime: (value: number) =>
         window.storage.put('synced_at', value),
+      getUniversalExpireTimer: (): number | undefined => {
+        return universalExpireTimer.get();
+      },
+      setUniversalExpireTimer: async (
+        newValue: number | undefined
+      ): Promise<void> => {
+        await universalExpireTimer.set(newValue);
+        window.Signal.Services.storageServiceUploadJob();
+      },
 
       addDarkOverlay: () => {
         if ($('.dark-overlay').length) {

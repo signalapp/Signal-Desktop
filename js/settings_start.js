@@ -48,6 +48,7 @@ const getInitialData = async () => ({
 
   isPrimary: await window.isPrimary(),
   lastSyncTime: await window.getLastSyncTime(),
+  universalExpireTimer: await window.getUniversalExpireTimer(),
 });
 
 window.initialRequest = getInitialData();

@@ -1234,11 +1234,35 @@
     "reasonDetail": "Protected from arbitrary input"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "    template: () => $('#disappearingMessagesSettings').html(),",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-27T01:33:06.541Z",
+    "reasonDetail": "Interacting with already-existing DOM nodes"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "      this.$('.disappearing-messages-setting').append(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-27T01:33:06.541Z",
+    "reasonDetail": "Interacting with already-existing DOM nodes"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Interacting with already-existing DOM nodes"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "js/views/settings_view.js",
+    "line": "      this.$('.disappearing-messages-setting').append(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-27T01:33:06.541Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
@@ -1256,6 +1280,14 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, read-only access"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "js/views/settings_view.js",
+    "line": "    template: () => $('#disappearingMessagesSettings').html(),",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-27T01:33:06.541Z",
+    "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",

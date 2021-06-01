@@ -12,6 +12,8 @@ import { CustomColorType } from '../../types/Colors';
 // State
 
 export type ItemsStateType = {
+  readonly universalExpireTimer?: number;
+
   readonly [key: string]: unknown;
   readonly customColors?: {
     readonly colors: Record<string, CustomColorType>;

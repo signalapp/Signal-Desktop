@@ -1067,6 +1067,7 @@ export declare class AccountRecordClass {
   notDiscoverableByPhoneNumber?: boolean;
   pinnedConversations?: PinnedConversationClass[];
   noteToSelfMarkedUnread?: boolean;
+  universalExpireTimer?: number;
   primarySendsSms?: boolean;
 
   __unknownFields?: ArrayBuffer;

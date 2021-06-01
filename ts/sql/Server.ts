@@ -3713,7 +3713,8 @@ async function getLastConversationActivity({
             'verified-change',
             'message-history-unsynced',
             'keychange',
-            'group-v1-migration'
+            'group-v1-migration',
+            'universal-timer-notification'
           )
         ) AND
         (
@@ -3763,7 +3764,8 @@ async function getLastConversationPreview({
             'profile-change',
             'verified-change',
             'message-history-unsynced',
-            'group-v1-migration'
+            'group-v1-migration',
+            'universal-timer-notification'
           )
         ) AND NOT
         (

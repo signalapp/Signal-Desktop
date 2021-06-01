@@ -298,6 +298,9 @@ const renderItem = (id: string) => (
     conversationId=""
     conversationAccepted
     renderContact={() => '*ContactName*'}
+    renderUniversalTimerNotification={() => (
+      <div>*UniversalTimerNotification*</div>
+    )}
     renderAudioAttachment={() => <div>*AudioAttachment*</div>}
     {...actions()}
   />

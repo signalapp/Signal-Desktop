@@ -98,6 +98,8 @@ window.isPrimary = makeGetter('is-primary');
 window.makeSyncRequest = makeGetter('sync-request');
 window.getLastSyncTime = makeGetter('sync-time');
 window.setLastSyncTime = makeSetter('sync-time');
+window.getUniversalExpireTimer = makeGetter('universal-expire-timer');
+window.setUniversalExpireTimer = makeSetter('universal-expire-timer');
 
 window.deleteAllData = () => ipcRenderer.send('delete-all-data');
 
@@ -130,6 +132,9 @@ function makeSetter(name) {
 }
 
 window.Backbone = require('backbone');
+window.React = require('react');
+window.ReactDOM = require('react-dom');
+
 require('./ts/backbone/views/whisper_view');
 require('./ts/backbone/views/toast_view');
 require('./ts/logging/set_up_renderer_logging').initialize();

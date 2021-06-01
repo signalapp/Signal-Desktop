@@ -29,13 +29,18 @@ const conversation: ConversationType = getDefaultConversation({
   conversationColor: 'ultramarine' as const,
 });
 
-const createProps = (hasGroupLink = false): Props => ({
+const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   addMembers: async () => {
     action('addMembers');
   },
   canEditGroupInfo: false,
   candidateContactsToAdd: times(10, () => getDefaultConversation()),
-  conversation,
+  conversation: expireTimer
+    ? {
+        ...conversation,
+        expireTimer,
+      }
+    : conversation,
   hasGroupLink,
   i18n,
   isAdmin: false,
@@ -118,6 +123,12 @@ story.add('as only admin', () => {
 
 story.add('Group Editable', () => {
   const props = createProps();
+
+  return <ConversationDetails {...props} canEditGroupInfo />;
+});
+
+story.add('Group Editable with custom disappearing timeout', () => {
+  const props = createProps(false, 3 * 24 * 60 * 60);
 
   return <ConversationDetails {...props} canEditGroupInfo />;
 });

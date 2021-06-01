@@ -141,6 +141,7 @@ export type MessageAttributesType = {
     | 'outgoing'
     | 'profile-change'
     | 'timer-notification'
+    | 'universal-timer-notification'
     | 'verified-change';
   body: string;
   attachments: Array<WhatIsThis>;
@@ -254,6 +255,7 @@ export type ConversationAttributesType = {
   profileName?: string;
   verified?: number;
   profileLastFetchedAt?: number;
+  pendingUniversalTimer?: string;
 
   // Group-only
   groupId?: string;

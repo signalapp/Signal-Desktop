@@ -3,6 +3,8 @@
 
 import { createSelector } from 'reselect';
 
+import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
+
 import { StateType } from '../reducer';
 import { ItemsStateType } from '../ducks/items';
 
@@ -17,4 +19,9 @@ export const getPinnedConversationIds = createSelector(
   getItems,
   (state: ItemsStateType): Array<string> =>
     (state.pinnedConversationIds || []) as Array<string>
+);
+
+export const getUniversalExpireTimer = createSelector(
+  getItems,
+  (state: ItemsStateType): number => state[UNIVERSAL_EXPIRE_TIMER_ITEM] || 0
 );

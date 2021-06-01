@@ -38,6 +38,10 @@ import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
 } from '../util/timestampLongUtils';
+import {
+  get as getUniversalExpireTimer,
+  set as setUniversalExpireTimer,
+} from '../util/universalExpireTimer';
 import { ourProfileKeyService } from './ourProfileKey';
 
 const { updateConversation } = dataInterface;
@@ -180,6 +184,11 @@ export async function toAccountRecord(
   const primarySendsSms = window.storage.get('primarySendsSms');
   if (primarySendsSms !== undefined) {
     accountRecord.primarySendsSms = Boolean(primarySendsSms);
+  }
+
+  const universalExpireTimer = getUniversalExpireTimer();
+  if (universalExpireTimer) {
+    accountRecord.universalExpireTimer = Number(universalExpireTimer);
   }
 
   const PHONE_NUMBER_SHARING_MODE_ENUM =
@@ -811,6 +820,7 @@ export async function mergeAccountRecord(
     sealedSenderIndicators,
     typingIndicators,
     primarySendsSms,
+    universalExpireTimer,
   } = accountRecord;
 
   window.storage.put('read-receipt-setting', readReceipts);
@@ -829,6 +839,10 @@ export async function mergeAccountRecord(
 
   if (typeof primarySendsSms === 'boolean') {
     window.storage.put('primarySendsSms', primarySendsSms);
+  }
+
+  if (typeof universalExpireTimer === 'number') {
+    setUniversalExpireTimer(universalExpireTimer);
   }
 
   const PHONE_NUMBER_SHARING_MODE_ENUM =

@@ -1697,6 +1697,8 @@ installSettingsGetter('is-primary');
 installSettingsGetter('sync-request');
 installSettingsGetter('sync-time');
 installSettingsSetter('sync-time');
+installSettingsGetter('universal-expire-timer');
+installSettingsSetter('universal-expire-timer');
 
 ipc.on('delete-all-data', () => {
   if (mainWindow && mainWindow.webContents) {

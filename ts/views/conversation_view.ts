@@ -1068,7 +1068,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const finish = () => {
       resolvePromise();
-      this.model.inProgressFinish = null;
+      this.model.inProgressFetch = null;
     };
 
     return finish;

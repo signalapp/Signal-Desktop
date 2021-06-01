@@ -129,5 +129,6 @@ message AccountRecord {
   optional PhoneNumberSharingMode phoneNumberSharingMode       = 12;
   optional bool                   notDiscoverableByPhoneNumber = 13;
   repeated PinnedConversation     pinnedConversations          = 14;
+  optional uint32                 universalExpireTimer         = 17;
   optional bool                   primarySendsSms              = 18;
 }

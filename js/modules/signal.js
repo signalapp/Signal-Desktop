@@ -59,6 +59,9 @@ const {
 const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
+const {
+  DisappearingTimeDialog,
+} = require('../../ts/components/conversation/DisappearingTimeDialog');
 
 // State
 const { createTimeline } = require('../../ts/state/roots/createTimeline');
@@ -346,6 +349,7 @@ exports.setup = (options = {}) => {
     ProgressModal,
     SafetyNumberChangeDialog,
     StagedLinkPreview,
+    DisappearingTimeDialog,
     Types: {
       Message: MediaGalleryMessage,
     },

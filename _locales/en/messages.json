@@ -1801,7 +1801,7 @@
   },
   "disappearingMessages": {
     "message": "Disappearing messages",
-    "description": "Conversation menu option to enable disappearing messages"
+    "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
   },
   "disappearingMessagesDisabled": {
     "message": "Disappearing messages disabled",
@@ -5414,5 +5414,63 @@
   "CustomColorEditor__title": {
     "message": "Custom Color",
     "description": "Modal title for the custom color editor"
+  },
+  "customDisappearingTimeOption": {
+    "message": "Custom time...",
+    "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+  },
+  "selectedCustomDisappearingTimeOption": {
+    "message": "Custom time",
+    "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+  },
+  "DisappearingTimeDialog__title": {
+    "message": "Custom Time",
+    "description": "Title for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__body": {
+    "message": "Choose a custom time for disappearing messages.",
+    "description": "Body for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__set": {
+    "message": "Set",
+    "description": "Text for the dialog button confirming the custom disappearing message timeout"
+  },
+  "DisappearingTimeDialog__seconds": {
+    "message": "Seconds",
+    "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__minutes": {
+    "message": "Minutes",
+    "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__hours": {
+    "message": "Hours",
+    "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__days": {
+    "message": "Days",
+    "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+  },
+  "DisappearingTimeDialog__weeks": {
+    "message": "Weeks",
+    "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+  },
+  "settings__DisappearingMessages__footer": {
+    "message": "Set a default disappearing message timer for all new chats started by you.",
+    "description": "Footer for the Disappearing Messages settings section"
+  },
+  "settings__DisappearingMessages__timer__label": {
+    "message": "Default timer for new chats",
+    "description": "Label for the Disapearring Messages default timer setting"
+  },
+  "UniversalTimerNotification__text": {
+    "message": "The disappearing message time will be set to $timeValue$ when you message them.",
+    "description": "A message displayed when default disappearing message timeout is about to be applied",
+    "placeholders": {
+      "timeValue": {
+        "content": "$1",
+        "example": "1 week"
+      }
+    }
   }
 }

@@ -90,6 +90,10 @@ type TimerNotificationType = {
   type: 'timerNotification';
   data: TimerNotificationProps;
 };
+type UniversalTimerNotificationType = {
+  type: 'universalTimerNotification';
+  data: null;
+};
 type SafetyNumberNotificationType = {
   type: 'safetyNumberNotification';
   data: SafetyNumberNotificationProps;
@@ -132,6 +136,7 @@ export type TimelineItemType =
   | ResetSessionNotificationType
   | SafetyNumberNotificationType
   | TimerNotificationType
+  | UniversalTimerNotificationType
   | UnsupportedMessageType
   | VerificationNotificationType;
 
@@ -143,6 +148,7 @@ type PropsLocalType = {
   isSelected: boolean;
   selectMessage: (messageId: string, conversationId: string) => unknown;
   renderContact: SmartContactRendererType;
+  renderUniversalTimerNotification: () => JSX.Element;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme?: ThemeType;
@@ -169,6 +175,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       theme,
       messageSizeChanged,
       renderContact,
+      renderUniversalTimerNotification,
       returnToActiveCall,
       selectMessage,
       startCallingLobby,
@@ -225,6 +232,8 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       notification = (
         <TimerNotification {...this.props} {...item.data} i18n={i18n} />
       );
+    } else if (item.type === 'universalTimerNotification') {
+      notification = renderUniversalTimerNotification();
     } else if (item.type === 'safetyNumberNotification') {
       notification = (
         <SafetyNumberNotification {...this.props} {...item.data} i18n={i18n} />

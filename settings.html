@@ -1,4 +1,4 @@
-<!-- Copyright 2018-2020 Signal Messenger, LLC -->
+<!-- Copyright 2018-2021 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <html>
@@ -36,6 +36,42 @@
         <div class='sync_failed'>{{ syncFailed }}</div>
         <div class='clearfix'></div>
       </p>
+    </div>
+</script>
+<script type='text/x-tmpl-mustache' id='disappearingMessagesSettings'>
+    <h3>{{ title }}</h3>
+    <div class="disappearing-messages-setting__timer {{#customInfo}}disappearing-messages-setting__timer--with-info{{/customInfo}}">
+      <label
+        class="disappearing-messages-setting__timer__label"
+        for='disappearing-messages-timer'
+      >
+        {{ timerLabel }}
+      </label>
+      <div class="disappearing-messages-setting__timer__right">
+        <div class="module-select">
+          <select
+            name='disappearing-messages-timer'
+            id='disappearing-messages-timer'
+          >
+            {{#timerValues}}
+              <option value="{{value}}" {{selected}}>
+                {{ text }}
+              </option>
+            {{/timerValues}}
+            <option value="-1" {{customSelected}}>
+              {{customText}}
+            </option>
+          </select>
+        </div>
+        {{#customInfo}}
+          <div class="disappearing-messages-setting__timer__right__info">
+            {{text}}
+          </div>
+        {{/customInfo}}
+      </div>
+    </div>
+    <div class='disappearing-messages-setting__footer'>
+      {{ footer }}
     </div>
 </script>
 <script type='text/x-tmpl-mustache' id='settings'>
@@ -163,6 +199,9 @@
     </div>
     <div class='sync-setting'></div>
     <hr>
+    <div class='disappearing-messages-setting'>
+    </div>
+    <hr>
     <div class='clear-data-settings'>
       <h3>{{ clearDataHeader }}</h3>
       <div>
@@ -174,6 +213,7 @@
 </script>
 <script type='text/javascript' src='js/components.js'></script>
 <script type='text/javascript' src='ts/backboneJquery.js'></script>
+<script type='text/javascript' src='js/views/react_wrapper_view.js'></script>
 <script type='text/javascript' src='js/views/settings_view.js'></script>
 <script type='text/javascript' src='js/settings_start.js'></script>
 </html>

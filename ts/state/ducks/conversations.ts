@@ -171,6 +171,7 @@ export type MessageType = {
     | 'outgoing'
     | 'profile-change'
     | 'timer-notification'
+    | 'universal-timer-notification'
     | 'verified-change';
   quote?: { author?: string; authorUuid?: string };
   received_at: number;

@@ -2,6 +2,30 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-ConversationHeader {
+  @mixin icon-element($icon, $margin-right: 4px) {
+    display: flex;
+    align-items: center;
+    user-select: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      width: 13px;
+      height: 13px;
+      display: block;
+      margin-right: $margin-right;
+
+      @include light-theme {
+        @include color-svg($icon, $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg($icon, $color-gray-25);
+      }
+    }
+  }
+
   --button-spacing: 24px;
 
   &.module-ConversationHeader--narrow {
@@ -133,37 +157,13 @@
           color: $color-gray-25;
         }
 
-        @mixin subtitle-element($icon) {
-          display: flex;
-          align-items: center;
-          user-select: none;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-
-          &::before {
-            content: '';
-            width: 13px;
-            height: 13px;
-            display: block;
-            margin-right: 4px;
-
-            @include light-theme {
-              @include color-svg($icon, $color-gray-60);
-            }
-            @include dark-theme {
-              @include color-svg($icon, $color-gray-25);
-            }
-          }
-        }
-
         &__expiration {
-          @include subtitle-element('../images/icons/v2/timer-24.svg');
+          @include icon-element('../images/icons/v2/timer-24.svg');
           margin-right: 12px;
         }
 
         &__verified {
-          @include subtitle-element('../images/icons/v2/check-24.svg');
+          @include icon-element('../images/icons/v2/check-24.svg');
         }
       }
     }
@@ -306,6 +306,15 @@
         min-width: $icon-size;
         width: $icon-size;
       }
+    }
+  }
+
+  &__disappearing-timer__item {
+    padding-left: 25px;
+
+    &--active {
+      padding-left: 0px;
+      @include icon-element('../images/icons/v2/check-24.svg', 12px);
     }
   }
 }

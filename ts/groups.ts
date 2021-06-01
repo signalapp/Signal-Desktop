@@ -47,6 +47,7 @@ import {
   getClientZkGroupCipher,
   getClientZkProfileOperations,
 } from './util/zkgroup';
+import * as universalExpireTimer from './util/universalExpireTimer';
 import {
   arrayBufferToBase64,
   arrayBufferToHex,
@@ -1674,6 +1675,11 @@ export async function createGroupV2({
   const model = new window.Whisper.Message(createdTheGroupMessage);
   window.MessageController.register(model.id, model);
   conversation.trigger('newmessage', model);
+
+  const expireTimer = universalExpireTimer.get();
+  if (expireTimer) {
+    await conversation.updateExpirationTimer(expireTimer);
+  }
 
   return conversation;
 }

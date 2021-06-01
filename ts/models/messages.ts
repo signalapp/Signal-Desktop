@@ -130,6 +130,10 @@ type MessageBubbleProps =
       data: ProfileChangeNotificationPropsType;
     }
   | {
+      type: 'universalTimerNotification';
+      data: null;
+    }
+  | {
       type: 'chatSessionRefreshed';
       data: null;
     }
@@ -333,6 +337,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !this.isKeyChange() &&
       !this.isMessageHistoryUnsynced() &&
       !this.isProfileChange() &&
+      !this.isUniversalTimerNotification() &&
       !this.isUnsupportedMessage() &&
       !this.isVerifiedChange()
     );
@@ -404,6 +409,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return {
         type: 'profileChange',
         data: this.getPropsForProfileChange(),
+      };
+    }
+    if (this.isUniversalTimerNotification()) {
+      return {
+        type: 'universalTimerNotification',
+        data: null,
       };
     }
     if (this.isChatSessionRefreshed()) {
@@ -598,6 +609,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isProfileChange(): boolean {
     return this.get('type') === 'profile-change';
+  }
+
+  isUniversalTimerNotification(): boolean {
+    return this.get('type') === 'universal-timer-notification';
   }
 
   // Props for each message type
@@ -1941,6 +1956,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isKeyChange = this.isKeyChange();
     const isMessageHistoryUnsynced = this.isMessageHistoryUnsynced();
     const isProfileChange = this.isProfileChange();
+    const isUniversalTimerNotification = this.isUniversalTimerNotification();
 
     // Note: not all of these message types go through message.handleDataMessage
 
@@ -1967,7 +1983,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // Locally-generated notifications
       isKeyChange ||
       isMessageHistoryUnsynced ||
-      isProfileChange;
+      isProfileChange ||
+      isUniversalTimerNotification;
 
     return !hasSomethingToDisplay;
   }

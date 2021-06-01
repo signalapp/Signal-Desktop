@@ -13,6 +13,7 @@ export type Props = {
   label: string | React.ReactNode;
   info?: string;
   right?: string | React.ReactNode;
+  rightInfo?: string;
   actions?: React.ReactNode;
   onClick?: () => void;
 };
@@ -27,6 +28,7 @@ export const PanelRow: React.ComponentType<Props> = ({
   label,
   info,
   right,
+  rightInfo,
   actions,
   onClick,
 }) => {
@@ -37,7 +39,14 @@ export const PanelRow: React.ComponentType<Props> = ({
         <div>{label}</div>
         {info !== undefined ? <div className={bem('info')}>{info}</div> : null}
       </div>
-      {right !== undefined ? <div className={bem('right')}>{right}</div> : null}
+      {right !== undefined ? (
+        <div className={bem('right')}>
+          {right}
+          {rightInfo !== undefined ? (
+            <div className={bem('right-info')}>{rightInfo}</div>
+          ) : null}
+        </div>
+      ) : null}
       {actions !== undefined ? (
         <div className={alwaysShowActions ? '' : bem('actions')}>{actions}</div>
       ) : null}
