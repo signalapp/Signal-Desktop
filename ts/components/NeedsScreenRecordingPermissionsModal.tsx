@@ -35,7 +35,6 @@ export const NeedsScreenRecordingPermissionsModal = ({
         <li>{i18n('calling__presenting--permission-instruction-step1')}</li>
         <li>{i18n('calling__presenting--permission-instruction-step2')}</li>
         <li>{i18n('calling__presenting--permission-instruction-step3')}</li>
-        <li>{i18n('calling__presenting--permission-instruction-step4')}</li>
       </ol>
       <Modal.ButtonFooter>
         <Button

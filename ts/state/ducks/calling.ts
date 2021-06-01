@@ -631,6 +631,10 @@ function groupCallStateChange(
     if (didSomeoneStartPresenting) {
       callingTones.someonePresenting();
     }
+
+    if (payload.connectionState === GroupCallConnectionState.NotConnected) {
+      ipcRenderer.send('close-screen-share-controller');
+    }
   };
 }
 

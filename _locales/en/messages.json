@@ -1464,23 +1464,19 @@
     "description": "Shown as the title for the modal that requests screen recording permissions"
   },
   "calling__presenting--macos-permission-description": {
-    "message": "On an Apple Mac computer using macOS Catalina version 10.15 or later, Signal needs permission to access your computer's screen recording.",
+    "message": "Signal needs permission to access your computer's screen recording.",
     "description": "Shown as the description for the modal that requests screen recording permissions"
   },
   "calling__presenting--permission-instruction-step1": {
-    "message": "Go to System Preferences and then click Security & Privacy.",
+    "message": "Go to System Preferences.",
     "description": "Shown as the description for the modal that requests screen recording permissions"
   },
   "calling__presenting--permission-instruction-step2": {
-    "message": "Click Privacy.",
+    "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
     "description": "Shown as the description for the modal that requests screen recording permissions"
   },
   "calling__presenting--permission-instruction-step3": {
-    "message": "On the left, click Screen Recording.",
-    "description": "Shown as the description for the modal that requests screen recording permissions"
-  },
-  "calling__presenting--permission-instruction-step4": {
-    "message": "On the right, check the Signal box.",
+    "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
     "description": "Shown as the description for the modal that requests screen recording permissions"
   },
   "calling__presenting--permission-open": {
