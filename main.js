@@ -1247,6 +1247,23 @@ app.on('ready', async () => {
     loadingWindow.loadURL(prepareFileUrl([__dirname, 'loading.html']));
   });
 
+  try {
+    await attachments.clearTempPath(userDataPath);
+  } catch (err) {
+    logger.error(
+      'main/ready: Error deleting temp dir:',
+      err && err.stack ? err.stack : err
+    );
+  }
+
+  // Initialize IPC channels before creating the window
+
+  attachmentChannel.initialize({
+    configDir: userDataPath,
+    cleanupOrphanedAttachments,
+  });
+  sqlChannels.initialize(sql);
+
   // Run window preloading in parallel with database initialization.
   await createWindow();
 
@@ -1282,7 +1299,6 @@ app.on('ready', async () => {
 
   // eslint-disable-next-line more/no-then
   appStartInitialSpellcheckSetting = await getSpellCheckSetting();
-  await sqlChannels.initialize(sql);
 
   try {
     const IDB_KEY = 'indexeddb-delete-needed';
@@ -1329,19 +1345,6 @@ app.on('ready', async () => {
       stickers: orphanedDraftAttachments,
     });
   }
-
-  try {
-    await attachments.clearTempPath(userDataPath);
-  } catch (err) {
-    logger.error(
-      'main/ready: Error deleting temp dir:',
-      err && err.stack ? err.stack : err
-    );
-  }
-  await attachmentChannel.initialize({
-    configDir: userDataPath,
-    cleanupOrphanedAttachments,
-  });
 
   ready = true;
 

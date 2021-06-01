@@ -19,7 +19,7 @@ const ERASE_TEMP_KEY = 'erase-temp';
 const ERASE_DRAFTS_KEY = 'erase-drafts';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
-async function initialize({ configDir, cleanupOrphanedAttachments }) {
+function initialize({ configDir, cleanupOrphanedAttachments }) {
   if (initialized) {
     throw new Error('initialze: Already initialized!');
   }
