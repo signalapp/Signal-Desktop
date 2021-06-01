@@ -24,7 +24,7 @@ export const _redactPath = (filePath: string): RedactFunction => {
     throw new TypeError("'filePath' must be a string");
   }
 
-  const filePathPattern = exports._pathToRegExp(filePath);
+  const filePathPattern = _pathToRegExp(filePath);
 
   return (text: string): string => {
     if (!is.string(text)) {
@@ -102,7 +102,7 @@ export const redactGroupIds = (text: string): string => {
 const createRedactSensitivePaths = (
   paths: ReadonlyArray<string>
 ): RedactFunction => {
-  return compose(paths.map(filePath => exports._redactPath(filePath)));
+  return compose(paths.map(filePath => _redactPath(filePath)));
 };
 
 const sensitivePaths: Array<string> = [];
