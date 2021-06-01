@@ -36,6 +36,8 @@ import {
   getGroupSizeHardLimit,
 } from '../../groups/limits';
 import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition';
+import { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
+import { ContactSpoofingType } from '../../util/contactSpoofing';
 
 // State
 
@@ -145,6 +147,7 @@ export type ConversationType = {
   acceptedMessageRequest: boolean;
   secretParams?: string;
   publicParams?: string;
+  acknowledgedGroupNameCollisions?: GroupNameCollisionsWithIdsByTitle;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;
@@ -279,9 +282,15 @@ type ComposerStateType =
         | { isCreating: true; hasError: false }
       ));
 
-type ContactSpoofingReviewStateType = {
-  safeConversationId: string;
-};
+type ContactSpoofingReviewStateType =
+  | {
+      type: ContactSpoofingType.DirectConversationWithSameTitle;
+      safeConversationId: string;
+    }
+  | {
+      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
+      groupConversationId: string;
+    };
 
 export type ConversationsStateType = {
   preJoinConversation?: PreJoinConversationType;
@@ -541,6 +550,12 @@ export type SelectedConversationChangedActionType = {
     messageId?: string;
   };
 };
+type ReviewGroupMemberNameCollisionActionType = {
+  type: 'REVIEW_GROUP_MEMBER_NAME_COLLISION';
+  payload: {
+    groupConversationId: string;
+  };
+};
 type ReviewMessageRequestNameCollisionActionType = {
   type: 'REVIEW_MESSAGE_REQUEST_NAME_COLLISION';
   payload: {
@@ -624,6 +639,7 @@ export type ConversationActionType =
   | RemoveAllConversationsActionType
   | RepairNewestMessageActionType
   | RepairOldestMessageActionType
+  | ReviewGroupMemberNameCollisionActionType
   | ReviewMessageRequestNameCollisionActionType
   | ScrollToMessageActionType
   | SelectedConversationChangedActionType
@@ -675,6 +691,7 @@ export const actions = {
   repairNewestMessage,
   repairOldestMessage,
   resetAllChatColors,
+  reviewGroupMemberNameCollision,
   reviewMessageRequestNameCollision,
   scrollToMessage,
   selectMessage,
@@ -998,6 +1015,15 @@ function repairOldestMessage(
     payload: {
       conversationId,
     },
+  };
+}
+
+function reviewGroupMemberNameCollision(
+  groupConversationId: string
+): ReviewGroupMemberNameCollisionActionType {
+  return {
+    type: 'REVIEW_GROUP_MEMBER_NAME_COLLISION',
+    payload: { groupConversationId },
   };
 }
 
@@ -2040,10 +2066,23 @@ export function reducer(
     };
   }
 
+  if (action.type === 'REVIEW_GROUP_MEMBER_NAME_COLLISION') {
+    return {
+      ...state,
+      contactSpoofingReview: {
+        type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
+        ...action.payload,
+      },
+    };
+  }
+
   if (action.type === 'REVIEW_MESSAGE_REQUEST_NAME_COLLISION') {
     return {
       ...state,
-      contactSpoofingReview: action.payload,
+      contactSpoofingReview: {
+        type: ContactSpoofingType.DirectConversationWithSameTitle,
+        ...action.payload,
+      },
     };
   }
 

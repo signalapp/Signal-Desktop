@@ -23,6 +23,7 @@ import {
   reducer,
   updateConversationLookups,
 } from '../../../state/ducks/conversations';
+import { ContactSpoofingType } from '../../../util/contactSpoofing';
 import { CallMode } from '../../../types/Calling';
 import * as groups from '../../../groups';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
@@ -51,6 +52,7 @@ const {
   showChooseGroupMembers,
   startSettingGroupMetadata,
   resetAllChatColors,
+  reviewGroupMemberNameCollision,
   reviewMessageRequestNameCollision,
   toggleConversationInChooseMembers,
 } = actions;
@@ -537,6 +539,7 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
           contactSpoofingReview: {
+            type: ContactSpoofingType.DirectConversationWithSameTitle as const,
             safeConversationId: 'abc123',
           },
         };
@@ -1156,6 +1159,19 @@ describe('both/state/ducks/conversations', () => {
       });
     });
 
+    describe('REVIEW_GROUP_MEMBER_NAME_COLLISION', () => {
+      it('starts reviewing a group member name collision', () => {
+        const state = getEmptyState();
+        const action = reviewGroupMemberNameCollision('abc123');
+        const actual = reducer(state, action);
+
+        assert.deepEqual(actual.contactSpoofingReview, {
+          type: ContactSpoofingType.MultipleGroupMembersWithSameTitle as const,
+          groupConversationId: 'abc123',
+        });
+      });
+    });
+
     describe('REVIEW_MESSAGE_REQUEST_NAME_COLLISION', () => {
       it('starts reviewing a message request name collision', () => {
         const state = getEmptyState();
@@ -1165,6 +1181,7 @@ describe('both/state/ducks/conversations', () => {
         const actual = reducer(state, action);
 
         assert.deepEqual(actual.contactSpoofingReview, {
+          type: ContactSpoofingType.DirectConversationWithSameTitle as const,
           safeConversationId: 'def',
         });
       });

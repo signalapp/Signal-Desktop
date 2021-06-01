@@ -3,7 +3,7 @@
 
 import { debounce, get, isNumber } from 'lodash';
 import classNames from 'classnames';
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, ReactChild, ReactNode } from 'react';
 import {
   AutoSizer,
   CellMeasurer,
@@ -20,6 +20,7 @@ import { GlobalAudioProvider } from '../GlobalAudioContext';
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
+import { missingCaseError } from '../../util/missingCaseError';
 
 import { PropsActions as MessageActionsType } from './Message';
 import { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
@@ -27,7 +28,12 @@ import { Intl } from '../Intl';
 import { TimelineWarning } from './TimelineWarning';
 import { TimelineWarnings } from './TimelineWarnings';
 import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog';
+import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
+import {
+  GroupNameCollisionsWithIdsByTitle,
+  hasUnacknowledgedCollisions,
+} from '../../util/groupMemberNameCollisions';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const NEAR_BOTTOM_THRESHOLD = 15;
@@ -36,9 +42,33 @@ const LOAD_MORE_THRESHOLD = 30;
 const SCROLL_DOWN_BUTTON_THRESHOLD = 8;
 export const LOAD_COUNTDOWN = 1;
 
-export type WarningType = {
-  safeConversation: ConversationType;
-};
+export type WarningType =
+  | {
+      type: ContactSpoofingType.DirectConversationWithSameTitle;
+      safeConversation: ConversationType;
+    }
+  | {
+      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
+      acknowledgedGroupNameCollisions: GroupNameCollisionsWithIdsByTitle;
+      groupNameCollisions: GroupNameCollisionsWithIdsByTitle;
+    };
+
+export type ContactSpoofingReviewPropType =
+  | {
+      type: ContactSpoofingType.DirectConversationWithSameTitle;
+      possiblyUnsafeConversation: ConversationType;
+      safeConversation: ConversationType;
+    }
+  | {
+      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
+      collisionInfoByTitle: Record<
+        string,
+        Array<{
+          oldName?: string;
+          conversation: ConversationType;
+        }>
+      >;
+    };
 
 export type PropsDataType = {
   haveNewest: boolean;
@@ -57,6 +87,7 @@ export type PropsDataType = {
 
 type PropsHousekeepingType = {
   id: string;
+  areWeAdmin?: boolean;
   isGroupV1AndDisabled?: boolean;
   isIncomingMessageRequest: boolean;
   typingContact?: unknown;
@@ -66,10 +97,7 @@ type PropsHousekeepingType = {
   invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
 
   warning?: WarningType;
-  contactSpoofingReview?: {
-    possiblyUnsafeConversation: ConversationType;
-    safeConversation: ConversationType;
-  };
+  contactSpoofingReview?: ContactSpoofingReviewPropType;
 
   i18n: LocalizerType;
 
@@ -90,6 +118,9 @@ type PropsHousekeepingType = {
 };
 
 type PropsActionsType = {
+  acknowledgeGroupMemberNameCollisions: (
+    groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
+  ) => void;
   clearChangedMessages: (conversationId: string) => unknown;
   clearInvitedConversationsForNewlyCreatedGroup: () => void;
   closeContactSpoofingReview: () => void;
@@ -98,6 +129,7 @@ type PropsActionsType = {
     loadCountdownStart?: number
   ) => unknown;
   setIsNearBottom: (conversationId: string, isNearBottom: boolean) => unknown;
+  reviewGroupMemberNameCollision: (groupConversationId: string) => void;
   reviewMessageRequestNameCollision: (
     _: Readonly<{
       safeConversationId: string;
@@ -109,10 +141,11 @@ type PropsActionsType = {
   loadNewerMessages: (messageId: string) => unknown;
   loadNewestMessages: (messageId: string, setFocus?: boolean) => unknown;
   markMessageRead: (messageId: string) => unknown;
-  onBlock: () => unknown;
-  onBlockAndReportSpam: () => unknown;
-  onDelete: () => unknown;
-  onUnblock: () => unknown;
+  onBlock: (conversationId: string) => unknown;
+  onBlockAndReportSpam: (conversationId: string) => unknown;
+  onDelete: (conversationId: string) => unknown;
+  onUnblock: (conversationId: string) => unknown;
+  removeMember: (conversationId: string) => unknown;
   selectMessage: (messageId: string, conversationId: string) => unknown;
   clearSelectedMessage: () => unknown;
   unblurAvatar: () => void;
@@ -172,7 +205,7 @@ type StateType = {
   shouldShowScrollDownButton: boolean;
   areUnreadBelowCurrentPosition: boolean;
 
-  hasDismissedWarning: boolean;
+  hasDismissedDirectContactSpoofingWarning: boolean;
   lastMeasuredWarningHeight: number;
 };
 
@@ -215,7 +248,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       prevPropScrollToIndex: scrollToIndex,
       shouldShowScrollDownButton: false,
       areUnreadBelowCurrentPosition: false,
-      hasDismissedWarning: false,
+      hasDismissedDirectContactSpoofingWarning: false,
       lastMeasuredWarningHeight: 0,
     };
   }
@@ -892,7 +925,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     // Warnings can increase the size of the first row (adding padding for the floating
     //   warning), so we recompute it when the warnings change.
     const hadWarning = Boolean(
-      prevProps.warning && !prevState.hasDismissedWarning
+      prevProps.warning && !prevState.hasDismissedDirectContactSpoofingWarning
     );
     if (hadWarning !== Boolean(this.getWarning())) {
       this.recomputeRowHeights(0);
@@ -1159,6 +1192,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
   public render(): JSX.Element | null {
     const {
+      acknowledgeGroupMemberNameCollisions,
+      areWeAdmin,
       clearInvitedConversationsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       contactSpoofingReview,
@@ -1172,6 +1207,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       onDelete,
       onUnblock,
       showContactModal,
+      removeMember,
+      reviewGroupMemberNameCollision,
       reviewMessageRequestNameCollision,
     } = this.props;
     const {
@@ -1227,6 +1264,69 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const warning = this.getWarning();
     let timelineWarning: ReactNode;
     if (warning) {
+      let text: ReactChild;
+      let onClose: () => void;
+      switch (warning.type) {
+        case ContactSpoofingType.DirectConversationWithSameTitle:
+          text = (
+            <Intl
+              i18n={i18n}
+              id="ContactSpoofing__same-name"
+              components={{
+                link: (
+                  <TimelineWarning.Link
+                    onClick={() => {
+                      reviewMessageRequestNameCollision({
+                        safeConversationId: warning.safeConversation.id,
+                      });
+                    }}
+                  >
+                    {i18n('ContactSpoofing__same-name__link')}
+                  </TimelineWarning.Link>
+                ),
+              }}
+            />
+          );
+          onClose = () => {
+            this.setState({
+              hasDismissedDirectContactSpoofingWarning: true,
+            });
+          };
+          break;
+        case ContactSpoofingType.MultipleGroupMembersWithSameTitle: {
+          const { groupNameCollisions } = warning;
+          text = (
+            <Intl
+              i18n={i18n}
+              id="ContactSpoofing__same-name-in-group"
+              components={{
+                count: Object.values(groupNameCollisions)
+                  .reduce(
+                    (result, conversations) => result + conversations.length,
+                    0
+                  )
+                  .toString(),
+                link: (
+                  <TimelineWarning.Link
+                    onClick={() => {
+                      reviewGroupMemberNameCollision(id);
+                    }}
+                  >
+                    {i18n('ContactSpoofing__same-name-in-group__link')}
+                  </TimelineWarning.Link>
+                ),
+              }}
+            />
+          );
+          onClose = () => {
+            acknowledgeGroupMemberNameCollisions(groupNameCollisions);
+          };
+          break;
+        }
+        default:
+          throw missingCaseError(warning);
+      }
+
       timelineWarning = (
         <Measure
           bounds
@@ -1240,39 +1340,57 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         >
           {({ measureRef }) => (
             <TimelineWarnings ref={measureRef}>
-              <TimelineWarning
-                i18n={i18n}
-                onClose={() => {
-                  this.setState({ hasDismissedWarning: true });
-                }}
-              >
+              <TimelineWarning i18n={i18n} onClose={onClose}>
                 <TimelineWarning.IconContainer>
                   <TimelineWarning.GenericIcon />
                 </TimelineWarning.IconContainer>
-                <TimelineWarning.Text>
-                  <Intl
-                    i18n={i18n}
-                    id="ContactSpoofing__same-name"
-                    components={{
-                      link: (
-                        <TimelineWarning.Link
-                          onClick={() => {
-                            reviewMessageRequestNameCollision({
-                              safeConversationId: warning.safeConversation.id,
-                            });
-                          }}
-                        >
-                          {i18n('ContactSpoofing__same-name__link')}
-                        </TimelineWarning.Link>
-                      ),
-                    }}
-                  />
-                </TimelineWarning.Text>
+                <TimelineWarning.Text>{text}</TimelineWarning.Text>
               </TimelineWarning>
             </TimelineWarnings>
           )}
         </Measure>
       );
+    }
+
+    let contactSpoofingReviewDialog: ReactNode;
+    if (contactSpoofingReview) {
+      const commonProps = {
+        i18n,
+        onBlock,
+        onBlockAndReportSpam,
+        onClose: closeContactSpoofingReview,
+        onDelete,
+        onShowContactModal: showContactModal,
+        onUnblock,
+        removeMember,
+      };
+
+      switch (contactSpoofingReview.type) {
+        case ContactSpoofingType.DirectConversationWithSameTitle:
+          contactSpoofingReviewDialog = (
+            <ContactSpoofingReviewDialog
+              {...commonProps}
+              type={ContactSpoofingType.DirectConversationWithSameTitle}
+              possiblyUnsafeConversation={
+                contactSpoofingReview.possiblyUnsafeConversation
+              }
+              safeConversation={contactSpoofingReview.safeConversation}
+            />
+          );
+          break;
+        case ContactSpoofingType.MultipleGroupMembersWithSameTitle:
+          contactSpoofingReviewDialog = (
+            <ContactSpoofingReviewDialog
+              {...commonProps}
+              type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
+              areWeAdmin={Boolean(areWeAdmin)}
+              collisionInfoByTitle={contactSpoofingReview.collisionInfoByTitle}
+            />
+          );
+          break;
+        default:
+          throw missingCaseError(contactSpoofingReview);
+      }
     }
 
     return (
@@ -1310,32 +1428,31 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           />
         )}
 
-        {contactSpoofingReview && (
-          <ContactSpoofingReviewDialog
-            i18n={i18n}
-            onBlock={onBlock}
-            onBlockAndReportSpam={onBlockAndReportSpam}
-            onClose={closeContactSpoofingReview}
-            onDelete={onDelete}
-            onShowContactModal={showContactModal}
-            onUnblock={onUnblock}
-            possiblyUnsafeConversation={
-              contactSpoofingReview.possiblyUnsafeConversation
-            }
-            safeConversation={contactSpoofingReview.safeConversation}
-          />
-        )}
+        {contactSpoofingReviewDialog}
       </>
     );
   }
 
   private getWarning(): undefined | WarningType {
-    const { hasDismissedWarning } = this.state;
-    if (hasDismissedWarning) {
+    const { warning } = this.props;
+    if (!warning) {
       return undefined;
     }
 
-    const { warning } = this.props;
-    return warning;
+    switch (warning.type) {
+      case ContactSpoofingType.DirectConversationWithSameTitle: {
+        const { hasDismissedDirectContactSpoofingWarning } = this.state;
+        return hasDismissedDirectContactSpoofingWarning ? undefined : warning;
+      }
+      case ContactSpoofingType.MultipleGroupMembersWithSameTitle:
+        return hasUnacknowledgedCollisions(
+          warning.acknowledgedGroupNameCollisions,
+          warning.groupNameCollisions
+        )
+          ? warning
+          : undefined;
+      default:
+        throw missingCaseError(warning);
+    }
   }
 }

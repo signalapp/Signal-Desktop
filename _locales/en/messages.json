@@ -5273,9 +5273,27 @@
       }
     }
   },
+  "ContactSpoofing__same-name-in-group": {
+    "message": "$count$ group members have the same name. $link$",
+    "description": "Shown in the timeline warning when you multiple group members have the same name",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "link": {
+        "content": "$2",
+        "example": "Tap to review"
+      }
+    }
+  },
   "ContactSpoofing__same-name__link": {
     "message": "Review request",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+  },
+  "ContactSpoofing__same-name-in-group__link": {
+    "message": "Click to review",
+    "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofingReviewDialog__title": {
     "message": "Review request",
@@ -5292,6 +5310,46 @@
   "ContactSpoofingReviewDialog__safe-title": {
     "message": "Your contact",
     "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+  },
+  "ContactSpoofingReviewDialog__group__title": {
+    "message": "Review members",
+    "description": "Title for the contact name spoofing review dialog in groups"
+  },
+  "ContactSpoofingReviewDialog__group__description": {
+    "message": "$count$ group members have similar names. Review the members below or choose to take action.",
+    "description": "Description for the group contact spoofing review dialog"
+  },
+  "ContactSpoofingReviewDialog__group__members-header": {
+    "message": "Members",
+    "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+  },
+  "ContactSpoofingReviewDialog__group__name-change-info": {
+    "message": "Recently changed their profile name from $oldName$ to $newName$",
+    "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+    "placeholders": {
+      "oldName": {
+        "content": "$1",
+        "example": "Jane Doe"
+      },
+      "newName": {
+        "content": "$2",
+        "example": "Doe Jane"
+      }
+    }
+  },
+  "RemoveGroupMemberConfirmation__remove-button": {
+    "message": "Remove from group",
+    "description": "When confirming the removal of a group member, show this text in the button"
+  },
+  "RemoveGroupMemberConfirmation__description": {
+    "message": "Remove \"$name$\" from the group?",
+    "description": "When confirming the removal of a group member, show this text in the dialog",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Jane Doe"
+      }
+    }
   },
   "CaptchaDialog__title": {
     "message": "Verify to continue messaging",

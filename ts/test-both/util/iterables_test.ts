@@ -7,6 +7,7 @@ import * as sinon from 'sinon';
 import {
   concat,
   filter,
+  groupBy,
   isIterable,
   map,
   size,
@@ -207,6 +208,31 @@ describe('iterable utilities', () => {
       const result: Iterable<string> = filter(input, isString);
 
       assert.deepEqual([...result], ['two', 'four']);
+    });
+  });
+
+  describe('groupBy', () => {
+    it('returns an empty object if passed an empty iterable', () => {
+      const fn = sinon.fake();
+
+      assert.deepEqual(groupBy([], fn), {});
+      assert.deepEqual(groupBy(new Set(), fn), {});
+
+      sinon.assert.notCalled(fn);
+    });
+
+    it('returns a map of groups', () => {
+      assert.deepEqual(
+        groupBy(
+          ['apple', 'aardvark', 'orange', 'orange', 'zebra'],
+          str => str[0]
+        ),
+        {
+          a: ['apple', 'aardvark'],
+          o: ['orange', 'orange'],
+          z: ['zebra'],
+        }
+      );
     });
   });
 

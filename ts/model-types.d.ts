@@ -25,6 +25,7 @@ import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
 import { CapabilitiesType } from './textsecure/WebAPI';
+import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
 
 export type WhatIsThis = any;
 
@@ -298,6 +299,7 @@ export type ConversationAttributesType = {
   groupInviteLinkPassword?: string;
   previousGroupV1Id?: string;
   previousGroupV1Members?: Array<string>;
+  acknowledgedGroupNameCollisions?: GroupNameCollisionsWithIdsByTitle;
 
   // Used only when user is waiting for approval to join via link
   isTemporary?: boolean;

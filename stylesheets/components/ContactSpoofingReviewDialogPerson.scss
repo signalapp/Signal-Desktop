@@ -22,6 +22,11 @@
       @include dark-theme {
         color: $color-gray-05;
       }
+
+      &--callout {
+        @include font-body-2-italic;
+        margin: 12px 0;
+      }
     }
   }
 }

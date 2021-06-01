@@ -56,6 +56,7 @@ import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { filter, map, take } from '../util/iterables';
 import * as universalExpireTimer from '../util/universalExpireTimer';
+import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -1531,6 +1532,8 @@ export class ConversationModel extends window.Backbone
           }
         : {
             type: 'group' as const,
+            acknowledgedGroupNameCollisions:
+              this.get('acknowledgedGroupNameCollisions') || {},
             sharedGroupNames: [],
           }),
     };
@@ -5230,6 +5233,13 @@ export class ConversationModel extends window.Backbone
     if (me) {
       me.captureChange('pin');
     }
+  }
+
+  acknowledgeGroupMemberNameCollisions(
+    groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
+  ): void {
+    this.set('acknowledgedGroupNameCollisions', groupNameCollisions);
+    window.Signal.Data.updateConversation(this.attributes);
   }
 }
 

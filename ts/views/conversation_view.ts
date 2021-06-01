@@ -15,6 +15,7 @@ import { assert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
+import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -598,6 +599,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   setupCompositionArea({ attachmentListEl }: any) {
+    const { model }: { model: ConversationModel } = this;
+
     const compositionApi = { current: null };
     this.compositionApi = compositionApi;
 
@@ -632,19 +635,35 @@ Whisper.ConversationView = Whisper.View.extend({
       micCellEl,
       attachmentListEl,
       onAccept: () => {
-        this.syncMessageRequestResponse('onAccept', messageRequestEnum.ACCEPT);
+        this.syncMessageRequestResponse(
+          'onAccept',
+          model,
+          messageRequestEnum.ACCEPT
+        );
       },
       onBlock: () => {
-        this.syncMessageRequestResponse('onBlock', messageRequestEnum.BLOCK);
+        this.syncMessageRequestResponse(
+          'onBlock',
+          model,
+          messageRequestEnum.BLOCK
+        );
       },
       onUnblock: () => {
-        this.syncMessageRequestResponse('onUnblock', messageRequestEnum.ACCEPT);
+        this.syncMessageRequestResponse(
+          'onUnblock',
+          model,
+          messageRequestEnum.ACCEPT
+        );
       },
       onDelete: () => {
-        this.syncMessageRequestResponse('onDelete', messageRequestEnum.DELETE);
+        this.syncMessageRequestResponse(
+          'onDelete',
+          model,
+          messageRequestEnum.DELETE
+        );
       },
       onBlockAndReportSpam: () => {
-        this.blockAndReportSpam();
+        this.blockAndReportSpam(model);
       },
       onStartGroupMigration: () => this.startMigrationToGV2(),
       onCancelJoinRequest: async () => {
@@ -949,6 +968,21 @@ Whisper.ConversationView = Whisper.View.extend({
       await this.model.markRead(message.get('received_at'));
     };
 
+    const createMessageRequestResponseHandler = (
+      name: string,
+      enumValue: number
+    ): ((conversationId: string) => void) => conversationId => {
+      const conversation = window.ConversationController.get(conversationId);
+      if (!conversation) {
+        assert(
+          false,
+          `Expected a conversation to be found in ${name}. Doing nothing`
+        );
+        return;
+      }
+      this.syncMessageRequestResponse(name, conversation, enumValue);
+    };
+
     this.timelineView = new Whisper.ReactWrapperView({
       className: 'timeline-wrapper',
       JSX: window.Signal.State.Roots.createTimeline(window.reduxStore, {
@@ -956,31 +990,51 @@ Whisper.ConversationView = Whisper.View.extend({
 
         ...this.getMessageActions(),
 
+        acknowledgeGroupMemberNameCollisions: (
+          groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
+        ): void => {
+          const { model }: { model: ConversationModel } = this;
+          model.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
+        },
         contactSupport,
         loadNewerMessages,
         loadNewestMessages: this.loadNewestMessages.bind(this),
         loadAndScroll: this.loadAndScroll.bind(this),
         loadOlderMessages,
         markMessageRead,
-        onBlock: () => {
-          this.syncMessageRequestResponse('onBlock', messageRequestEnum.BLOCK);
-        },
-        onBlockAndReportSpam: () => {
-          this.blockAndReportSpam();
-        },
-        onDelete: () => {
-          this.syncMessageRequestResponse(
-            'onDelete',
-            messageRequestEnum.DELETE
+        onBlock: createMessageRequestResponseHandler(
+          'onBlock',
+          messageRequestEnum.BLOCK
+        ),
+        onBlockAndReportSpam: (conversationId: string) => {
+          const conversation = window.ConversationController.get(
+            conversationId
           );
+          if (!conversation) {
+            assert(
+              false,
+              'Expected a conversation to be found in onBlockAndReportSpam. Doing nothing'
+            );
+            return;
+          }
+          this.blockAndReportSpam(conversation);
         },
-        onUnblock: () => {
-          this.syncMessageRequestResponse(
-            'onUnblock',
-            messageRequestEnum.ACCEPT
-          );
-        },
+        onDelete: createMessageRequestResponseHandler(
+          'onDelete',
+          messageRequestEnum.DELETE
+        ),
+        onUnblock: createMessageRequestResponseHandler(
+          'onUnblock',
+          messageRequestEnum.ACCEPT
+        ),
         onShowContactModal: this.showContactModal.bind(this),
+        removeMember: (conversationId: string) => {
+          const { model }: { model: ConversationModel } = this;
+          this.longRunningTaskWrapper({
+            name: 'removeMember',
+            task: () => model.removeFromGroupV2(conversationId),
+          });
+        },
         scrollToQuotedMessage,
         unblurAvatar: () => {
           this.model.unblurAvatar();
@@ -1452,19 +1506,18 @@ Whisper.ConversationView = Whisper.View.extend({
 
   syncMessageRequestResponse(
     name: string,
+    model: ConversationModel,
     messageRequestType: number
   ): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
     return this.longRunningTaskWrapper({
       name,
       task: model.syncMessageRequestResponse.bind(model, messageRequestType),
     });
   },
 
-  blockAndReportSpam(): Promise<void> {
+  blockAndReportSpam(model: ConversationModel): Promise<void> {
     const messageRequestEnum =
       window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
-    const { model }: { model: ConversationModel } = this;
 
     return this.longRunningTaskWrapper({
       name: 'blockAndReportSpam',
@@ -3208,7 +3261,11 @@ Whisper.ConversationView = Whisper.View.extend({
     };
 
     const onBlock = () => {
-      this.syncMessageRequestResponse('onBlock', messageRequestEnum.BLOCK);
+      this.syncMessageRequestResponse(
+        'onBlock',
+        conversation,
+        messageRequestEnum.BLOCK
+      );
     };
 
     const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;

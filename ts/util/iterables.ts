@@ -4,6 +4,8 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable no-restricted-syntax */
 
+import { getOwn } from './getOwn';
+
 export function isIterable(value: unknown): value is Iterable<unknown> {
   return (
     (typeof value === 'object' && value !== null && Symbol.iterator in value) ||
@@ -86,6 +88,23 @@ class FilterIterator<T> implements Iterator<T> {
       }
     }
   }
+}
+
+export function groupBy<T>(
+  iterable: Iterable<T>,
+  fn: (value: T) => string
+): Record<string, Array<T>> {
+  const result: Record<string, Array<T>> = Object.create(null);
+  for (const value of iterable) {
+    const key = fn(value);
+    const existingGroup = getOwn(result, key);
+    if (existingGroup) {
+      existingGroup.push(value);
+    } else {
+      result[key] = [value];
+    }
+  }
+  return result;
 }
 
 export function map<T, ResultT>(
