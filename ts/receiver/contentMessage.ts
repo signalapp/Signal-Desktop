@@ -342,7 +342,7 @@ export async function innerHandleContentMessage(
       return;
     }
     if (content.typingMessage) {
-      await handleTypingMessage(envelope, content.typingMessage);
+      await handleTypingMessage(envelope, content.typingMessage as SignalService.TypingMessage);
       return;
     }
     if (content.configurationMessage) {
@@ -350,6 +350,14 @@ export async function innerHandleContentMessage(
       void handleConfigurationMessage(
         envelope,
         content.configurationMessage as SignalService.ConfigurationMessage
+      );
+      return;
+    }
+    if (content.dataExtractionNotification) {
+      window?.log?.warn('content.dataExtractionNotification', content.dataExtractionNotification);
+      void handleDataExtractionNotification(
+        envelope,
+        content.dataExtractionNotification as SignalService.DataExtractionNotification
       );
       return;
     }
@@ -422,16 +430,17 @@ async function handleReceiptMessage(
 
 async function handleTypingMessage(
   envelope: EnvelopePlus,
-  iTypingMessage: SignalService.ITypingMessage
+  typingMessage: SignalService.TypingMessage
 ): Promise<void> {
-  const ev = new Event('typing');
-
-  const typingMessage = iTypingMessage as SignalService.TypingMessage;
-
   const { timestamp, action } = typingMessage;
   const { source } = envelope;
 
   await removeFromCache(envelope);
+
+  // We don't do anything with incoming typing messages if the setting is disabled
+  if (!window.storage.get('typing-indicators-setting')) {
+    return;
+  }
 
   if (envelope.timestamp && timestamp) {
     const envelopeTimestamp = Lodash.toNumber(envelope.timestamp);
@@ -443,11 +452,6 @@ async function handleTypingMessage(
       );
       return;
     }
-  }
-
-  // We don't do anything with incoming typing messages if the setting is disabled
-  if (!window.storage.get('typing-indicators-setting')) {
-    return;
   }
 
   // typing message are only working with direct chats/ not groups

@@ -32,6 +32,7 @@ import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmen
 import { deleteOpenGroupMessages } from '../../../interactions/conversation';
 import { ConversationTypeEnum } from '../../../models/conversation';
 import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
+import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
 interface State {
   // Message sending progress
@@ -63,7 +64,12 @@ interface State {
   quotedMessageProps?: any;
 
   // lightbox options
-  lightBoxOptions?: any;
+  lightBoxOptions?: LightBoxOptions;
+}
+
+export interface LightBoxOptions {
+  media: Array<MediaItemType>;
+  attachment: any;
 }
 
 interface Props {
@@ -520,7 +526,7 @@ export class SessionConversation extends React.Component<Props, State> {
       onRemoveModerators: () => {
         window.Whisper.events.trigger('removeModerators', conversation);
       },
-      onShowLightBox: (lightBoxOptions = {}) => {
+      onShowLightBox: (lightBoxOptions?: LightBoxOptions) => {
         this.setState({ lightBoxOptions });
       },
     };
@@ -760,14 +766,18 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   private onClickAttachment(attachment: any, message: any) {
+    // message is MessageTypeInConvo.propsForMessage I think
     const media = (message.attachments || []).map((attachmentForMedia: any) => {
       return {
         objectURL: attachmentForMedia.url,
         contentType: attachmentForMedia.contentType,
         attachment: attachmentForMedia,
+        messageSender: message.authorPhoneNumber,
+        messageTimestamp: message.direction !== 'outgoing' ? message.timestamp : undefined, // do not set this field when the message was sent from us
+        // if it is set, this will trigger a sending of DataExtractionNotification to that user, but for an attachment we sent ourself.
       };
     });
-    const lightBoxOptions = {
+    const lightBoxOptions: LightBoxOptions = {
       media,
       attachment,
     };
@@ -858,7 +868,7 @@ export class SessionConversation extends React.Component<Props, State> {
     });
   }
 
-  private renderLightBox({ media, attachment }: { media: Array<MediaItemType>; attachment: any }) {
+  private renderLightBox({ media, attachment }: LightBoxOptions) {
     const selectedIndex =
       media.length > 1
         ? media.findIndex((mediaMessage: any) => mediaMessage.attachment.path === attachment.path)
@@ -880,10 +890,14 @@ export class SessionConversation extends React.Component<Props, State> {
     attachment,
     message,
     index,
+    messageTimestamp,
+    messageSender,
   }: {
     attachment: AttachmentType;
     message?: Message;
     index?: number;
+    messageTimestamp?: number;
+    messageSender: string;
   }) {
     const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
     attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
@@ -891,8 +905,14 @@ export class SessionConversation extends React.Component<Props, State> {
       attachment,
       document,
       getAbsolutePath: getAbsoluteAttachmentPath,
-      timestamp: message?.received_at || Date.now(),
+      timestamp: messageTimestamp || message?.received_at,
     });
+
+    await sendDataExtractionNotification(
+      this.props.selectedConversationKey,
+      messageSender,
+      messageTimestamp
+    );
   }
 
   private async onChoseAttachments(attachmentsFileList: Array<File>) {

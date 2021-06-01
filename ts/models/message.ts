@@ -30,9 +30,9 @@ import {
   uploadQuoteThumbnailsV2,
 } from '../session/utils/AttachmentsV2';
 import { acceptOpenGroupInvitation } from '../interactions/message';
-import { OpenGroupMessageV2 } from '../opengroup/opengroupV2/OpenGroupMessageV2';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { getV2OpenGroupRoom } from '../data/opengroups';
+
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;

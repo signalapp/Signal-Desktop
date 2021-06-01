@@ -37,6 +37,8 @@ message Content {
   optional ReceiptMessage receiptMessage                = 5;
   optional TypingMessage  typingMessage                 = 6;
   optional ConfigurationMessage  configurationMessage   = 7;
+  optional DataExtractionNotification dataExtractionNotification = 82;
+
 }
 
 message KeyPair {
@@ -46,6 +48,17 @@ message KeyPair {
   required bytes privateKey = 2;
 }
 
+message DataExtractionNotification {
+
+  enum Type {
+    SCREENSHOT  = 1; // no way to know this on Desktop
+    MEDIA_SAVED = 2; // timestamp
+  }
+
+  // @required
+  required Type   type      = 1;
+  optional uint64 timestamp = 2;
+}
 
 message DataMessage {
 

@@ -45,7 +45,14 @@ interface Props {
   replyToMessage: (messageId: number) => Promise<void>;
   showMessageDetails: (messageProps: any) => void;
   onClickAttachment: (attachment: any, message: any) => void;
-  onDownloadAttachment: ({ attachment }: { attachment: any }) => void;
+  onDownloadAttachment: ({
+    attachment,
+    messageTimestamp,
+  }: {
+    attachment: any;
+    messageTimestamp: number;
+    messageSender: string;
+  }) => void;
   onDeleteSelectedMessages: () => Promise<void>;
 }
 
@@ -305,7 +312,11 @@ export class SessionMessagesList extends React.Component<Props, State> {
       this.props.onClickAttachment(attachment, messageProps);
     };
     messageProps.onDownload = (attachment: AttachmentType) => {
-      this.props.onDownloadAttachment({ attachment });
+      this.props.onDownloadAttachment({
+        attachment,
+        messageTimestamp: messageProps.timestamp,
+        messageSender: messageProps.authorPhoneNumber,
+      });
     };
 
     messageProps.isQuotedMessageToAnimate = messageProps.id === this.state.animateQuotedMessageId;

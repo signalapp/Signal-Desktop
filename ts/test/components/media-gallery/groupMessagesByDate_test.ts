@@ -7,6 +7,10 @@ import {
   Section,
 } from '../../../components/conversation/media-gallery/groupMediaItemsByDate';
 import { MediaItemType } from '../../../components/LightboxGallery';
+import { TestUtils } from '../../test-utils';
+
+const generatedMessageSenderKey = TestUtils.generateFakePubKey().key;
+const generatedMessageTimestamp = Date.now();
 
 const toMediaItem = (date: Date): MediaItemType => ({
   objectURL: date.toUTCString(),
@@ -14,6 +18,7 @@ const toMediaItem = (date: Date): MediaItemType => ({
   message: {
     id: 'id',
     received_at: date.getTime(),
+    sent_at: date.getTime(),
     attachments: [],
   },
   attachment: {
@@ -22,6 +27,8 @@ const toMediaItem = (date: Date): MediaItemType => ({
     url: 'url',
   },
   contentType: IMAGE_JPEG,
+  messageSender: generatedMessageSenderKey,
+  messageTimestamp: generatedMessageTimestamp,
 });
 
 // tslint:disable: max-func-body-length
@@ -57,6 +64,7 @@ describe('groupMediaItemsByDate', () => {
 
             message: {
               id: 'id',
+              sent_at: 1523534400000,
               received_at: 1523534400000,
               attachments: [],
             },
@@ -65,6 +73,8 @@ describe('groupMediaItemsByDate', () => {
               contentType: IMAGE_JPEG,
               url: 'url',
             },
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
           },
           {
             objectURL: 'Thu, 12 Apr 2018 00:01:00 GMT',
@@ -73,6 +83,7 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1523491260000,
+              sent_at: 1523491260000,
               attachments: [],
             },
             attachment: {
@@ -80,6 +91,8 @@ describe('groupMediaItemsByDate', () => {
               contentType: IMAGE_JPEG,
               url: 'url',
             },
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
           },
         ],
       },
@@ -93,6 +106,8 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1523491140000,
+              sent_at: 1523491140000,
+
               attachments: [],
             },
             attachment: {
@@ -100,6 +115,8 @@ describe('groupMediaItemsByDate', () => {
               contentType: IMAGE_JPEG,
               url: 'url',
             },
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
           },
         ],
       },
@@ -113,6 +130,8 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1523232060000,
+              sent_at: 1523232060000,
+
               attachments: [],
             },
             attachment: {
@@ -120,6 +139,8 @@ describe('groupMediaItemsByDate', () => {
               contentType: IMAGE_JPEG,
               url: 'url',
             },
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
           },
         ],
       },
@@ -133,6 +154,8 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1523231940000,
+              sent_at: 1523231940000,
+
               attachments: [],
             },
             attachment: {
@@ -140,6 +163,8 @@ describe('groupMediaItemsByDate', () => {
               contentType: IMAGE_JPEG,
               url: 'url',
             },
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
           },
           {
             objectURL: 'Sun, 01 Apr 2018 00:01:00 GMT',
@@ -147,6 +172,8 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1522540860000,
+              sent_at: 1522540860000,
+
               attachments: [],
             },
             contentType: IMAGE_JPEG,
@@ -155,6 +182,8 @@ describe('groupMediaItemsByDate', () => {
               contentType: IMAGE_JPEG,
               url: 'url',
             },
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
           },
         ],
       },
@@ -170,6 +199,8 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1522540740000,
+              sent_at: 1522540740000,
+
               attachments: [],
             },
             attachment: {
@@ -177,6 +208,8 @@ describe('groupMediaItemsByDate', () => {
               contentType: IMAGE_JPEG,
               url: 'url',
             },
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
           },
           {
             objectURL: 'Thu, 01 Mar 2018 14:00:00 GMT',
@@ -185,6 +218,8 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1519912800000,
+              sent_at: 1519912800000,
+
               attachments: [],
             },
             attachment: {
@@ -192,6 +227,8 @@ describe('groupMediaItemsByDate', () => {
               contentType: IMAGE_JPEG,
               url: 'url',
             },
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
           },
         ],
       },
@@ -206,6 +243,8 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1298937540000,
+              sent_at: 1298937540000,
+
               attachments: [],
             },
             attachment: {
@@ -214,6 +253,8 @@ describe('groupMediaItemsByDate', () => {
               url: 'url',
             },
             contentType: IMAGE_JPEG,
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
           },
           {
             objectURL: 'Tue, 01 Feb 2011 10:00:00 GMT',
@@ -222,8 +263,12 @@ describe('groupMediaItemsByDate', () => {
             message: {
               id: 'id',
               received_at: 1296554400000,
+              sent_at: 1296554400000,
+
               attachments: [],
             },
+            messageSender: generatedMessageSenderKey,
+            messageTimestamp: generatedMessageTimestamp,
             attachment: {
               fileName: 'fileName',
               contentType: IMAGE_JPEG,

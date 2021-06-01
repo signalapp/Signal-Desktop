@@ -18,12 +18,20 @@ export interface MediaItemType {
   index: number;
   attachment: AttachmentType;
   message: Message;
+  messageTimestamp: number;
+  messageSender: string;
 }
 
 type Props = {
   close: () => void;
   media: Array<MediaItemType>;
-  onSave?: (options: { attachment: AttachmentType; message: Message; index: number }) => void;
+  onSave?: (options: {
+    attachment: AttachmentType;
+    message: Message;
+    index: number;
+    messageTimestamp?: number;
+    messageSender: string;
+  }) => void;
   selectedIndex: number;
 };
 
@@ -58,11 +66,12 @@ export const LightboxGallery = (props: Props) => {
     }
 
     const mediaItem = media[currentIndex];
-
     onSave({
       attachment: mediaItem.attachment,
       message: mediaItem.message,
       index: mediaItem.index,
+      messageTimestamp: mediaItem.messageTimestamp || mediaItem?.message?.sent_at,
+      messageSender: mediaItem.messageSender || (mediaItem?.message as any)?.source,
     });
   };
 
