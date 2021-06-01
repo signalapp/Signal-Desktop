@@ -4,6 +4,9 @@ coverage/**
 dist/**
 release/**
 
+# Github workflows
+.github/**
+
 # Generated files
 js/curve/*
 js/components.js

@@ -64,6 +64,9 @@ const excludedFilesRegexps = [
   '^libtextsecure/test/.+',
   '^test/.+',
 
+  // Github workflows
+  '^.github/.+',
+
   // Modules we trust
   '^node_modules/core-js-pure/.+',
   '^node_modules/core-js/.+',

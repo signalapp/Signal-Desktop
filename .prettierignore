@@ -30,6 +30,9 @@ test/blanket_mocha.js
 # Test fixtures
 test/fixtures.js
 
+# Github workflows
+.github/**
+
 # Managed by Transifex:
 # Note: the negate pattern only works because it's targeting the same depth as the
 #   glob on the previous line.
