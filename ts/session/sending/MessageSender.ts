@@ -1,7 +1,6 @@
 // REMOVE COMMENT AFTER: This can just export pure functions as it doesn't need state
 
 import { RawMessage } from '../types/RawMessage';
-import { OpenGroupMessage } from '../messages/outgoing';
 import { SignalService } from '../../protobuf';
 import { MessageEncrypter } from '../crypto';
 import pRetry from 'p-retry';
@@ -92,44 +91,8 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
 }
 
 // ================ Open Group ================
-
 /**
- * Deprecated Send a message to an open group v2.
- * @param message The open group message.
- */
-export async function sendToOpenGroup(
-  message: OpenGroupMessage
-): Promise<{ serverId: number; serverTimestamp: number }> {
-  /*
-    Note: Retrying wasn't added to this but it can be added in the future if needed.
-    The only problem is that `channelAPI.sendMessage` returns true/false and doesn't throw any error so we can never be sure why sending failed.
-    This should be fixed and we shouldn't rely on returning true/false, rather return nothing (success) or throw an error (failure)
-  */
-  const { group, quote, attachments, preview, body, timestamp } = message;
-  const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
-    group.server,
-    group.channel,
-    group.conversationId
-  );
-
-  if (!channelAPI) {
-    return { serverId: -1, serverTimestamp: -1 };
-  }
-
-  // Returns -1 on fail or an id > 0 on success
-  return channelAPI.sendMessage(
-    {
-      quote,
-      attachments: attachments || [],
-      preview: preview || [],
-      body,
-    },
-    timestamp
-  );
-}
-
-/**
- * Deprecated Send a message to an open group v2.
+ * Send a message to an open group v2.
  * @param message The open group message.
  */
 export async function sendToOpenGroupV2(

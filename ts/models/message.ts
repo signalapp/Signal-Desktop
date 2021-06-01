@@ -6,7 +6,7 @@ import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue, Utils } from '../../ts/session';
 import { ConversationController } from '../../ts/session/conversations';
 import { MessageController } from '../../ts/session/messages';
-import { DataMessage, OpenGroupMessage } from '../../ts/session/messages/outgoing';
+import { DataMessage } from '../../ts/session/messages/outgoing';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../ts/session/types';
 import { UserUtils } from '../../ts/session/utils';
@@ -30,6 +30,9 @@ import {
   uploadQuoteThumbnailsV2,
 } from '../session/utils/AttachmentsV2';
 import { acceptOpenGroupInvitation } from '../interactions/message';
+import { OpenGroupMessageV2 } from '../opengroup/opengroupV2/OpenGroupMessageV2';
+import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import { getV2OpenGroupRoom } from '../data/opengroups';
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
@@ -297,7 +300,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       serverAddress,
       direction,
       onJoinClick: () => {
-        void acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
+        acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
       },
     };
   }
@@ -762,17 +765,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     } else {
       // NOTE: we want to go for the v1 if this is an OpenGroupV1 or not an open group at all
       // because there is a fallback invoked on uploadV1() for attachments for not open groups attachments
-
-      const openGroupV1 = conversation?.isOpenGroupV1() ? conversation?.toOpenGroupV1() : undefined;
-      attachmentPromise = AttachmentFsV2Utils.uploadAttachmentsToFsV2(
-        finalAttachments,
-        openGroupV1
-      );
-      linkPreviewPromise = AttachmentFsV2Utils.uploadLinkPreviewsToFsV2(
-        previewWithData,
-        openGroupV1
-      );
-      quotePromise = AttachmentFsV2Utils.uploadQuoteThumbnailsToFsV2(quoteWithData, openGroupV1);
+      attachmentPromise = AttachmentFsV2Utils.uploadAttachmentsToFsV2(finalAttachments);
+      linkPreviewPromise = AttachmentFsV2Utils.uploadLinkPreviewsToFsV2(previewWithData);
+      quotePromise = AttachmentFsV2Utils.uploadQuoteThumbnailsToFsV2(quoteWithData);
     }
 
     const [attachments, preview, quote] = await Promise.all([
@@ -808,21 +803,24 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       if (conversation.isPublic()) {
-        const openGroup = {
-          server: conversation.get('server'),
-          channel: conversation.get('channelId'),
-          conversationId: conversation.id,
-        };
+        if (!conversation.isOpenGroupV2()) {
+          throw new Error('Only opengroupv2 are supported now');
+        }
         const uploaded = await this.uploadData();
 
         const openGroupParams = {
           identifier: this.id,
           timestamp: Date.now(),
-          group: openGroup,
+          lokiProfile: UserUtils.getOurProfile(),
           ...uploaded,
         };
-        const openGroupMessage = new OpenGroupMessage(openGroupParams);
-        return getMessageQueue().sendToOpenGroup(openGroupMessage);
+        const roomInfos = await getV2OpenGroupRoom(conversation.id);
+        if (!roomInfos) {
+          throw new Error('Could not find roomInfos for this conversation');
+        }
+
+        const openGroupMessage = new OpenGroupVisibleMessage(openGroupParams);
+        return getMessageQueue().sendToOpenGroupV2(openGroupMessage, roomInfos);
       }
 
       const { body, attachments, preview, quote } = await this.uploadData();

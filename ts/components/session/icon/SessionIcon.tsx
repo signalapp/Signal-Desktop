@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { icons, SessionIconSize, SessionIconType } from '../icon';
 import styled, { css, DefaultTheme, keyframes } from 'styled-components';
+import _ from 'lodash';
 
 export type SessionIconProps = {
   iconType: SessionIconType;
@@ -51,7 +51,7 @@ const rotate = keyframes`
   }
 `;
 
-const animation = (props: any) => {
+const animation = (props: { rotateDuration?: any }) => {
   if (props.rotateDuration) {
     return css`
       ${rotate} ${props.rotateDuration}s infinite linear;
@@ -81,9 +81,10 @@ const SessionSvg = (props: {
 }) => {
   const colorSvg = props.iconColor || props?.theme?.colors.textColor;
   const pathArray = props.path instanceof Array ? props.path : [props.path];
+  const propsToPick = _.pick(props, 'width', 'animation', 'transform') as any;
 
   return (
-    <Svg {...props}>
+    <Svg {...propsToPick}>
       {pathArray.map((path, index) => {
         return <path key={index} fill={colorSvg} d={path} />;
       })}

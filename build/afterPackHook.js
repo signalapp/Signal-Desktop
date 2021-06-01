@@ -11,7 +11,16 @@ module.exports = async function(context) {
     return;
   }
   const isAppImage = context.targets.find(target => target.name === 'appImage');
+  console.log(
+    'targets',
+    context.targets.map(target => target.name)
+  );
+
+  console.log('AppImage', isAppImage.options);
+
   if (!isAppImage) {
+    console.log('afterPack hook not triggered', context);
+
     return;
   }
   // eslint-disable-next-line no-console

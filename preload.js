@@ -313,16 +313,6 @@ window.Signal = Signal.setup({
   logger: window.log,
 });
 
-if (process.env.USE_STUBBED_NETWORK) {
-  const StubAppDotNetAPI = require('./ts/test/session/integration/stubs/stub_app_dot_net_api');
-  window.LokiAppDotNetServerAPI = StubAppDotNetAPI;
-} else {
-  window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
-}
-window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
-
-window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
-window.LokiPushNotificationServerApi = require('./js/modules/loki_push_notification_server_api');
 window.SwarmPolling = require('./ts/session/snode_api/swarmPolling').SwarmPolling.getInstance();
 
 const WorkerInterface = require('./js/modules/util_worker_interface');

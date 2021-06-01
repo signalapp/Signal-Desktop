@@ -1,19 +1,10 @@
-/* global LokiAppDotNetServerAPI, semver, log */
+/* global semver, log */
 // eslint-disable-next-line func-names
 (function() {
   'use strict';
 
   // hold last result
   let expiredVersion = null;
-
-  window.tokenlessFileServerAdnAPI = new LokiAppDotNetServerAPI(
-    '', // no pubkey needed
-    window.getDefaultFileServer()
-  );
-  // use the anonymous access token
-  window.tokenlessFileServerAdnAPI.token = 'loki';
-  // configure for file server comms
-  window.tokenlessFileServerAdnAPI.getPubKeyForUrl();
 
   let nextWaitSeconds = 5;
   const checkForUpgrades = async () => {
@@ -28,18 +19,13 @@
       }, nextWaitSeconds * 1000); // wait a minute
       return;
     }
-    const result = await window.tokenlessFileServerAdnAPI.serverRequest(
-      'loki/v1/version/client/desktop'
-    );
-
-    if (
-      result &&
-      result.response &&
-      result.response.data &&
-      result.response.data.length &&
-      result.response.data[0].length
-    ) {
-      const latestVer = semver.clean(result.response.data[0][0]);
+    let latestVersionWithV;
+    try {
+      latestVersionWithV = await window.Fsv2.getLatestDesktopReleaseFileToFsV2();
+      if (!latestVersionWithV) {
+        throw new Error('Invalid latest version. Shceduling retry...');
+      }
+      const latestVer = semver.clean(latestVersionWithV);
       if (semver.valid(latestVer)) {
         const ourVersion = window.getVersion();
         if (latestVer === ourVersion) {
@@ -54,14 +40,18 @@
           }
         }
       }
-    } else {
-      // give it a minute
-      log.warn('Could not check to see if newer version is available', result);
-      nextWaitSeconds = 60;
-      setTimeout(async () => {
-        await checkForUpgrades();
-      }, nextWaitSeconds * 1000); // wait a minute
+    } catch (e) {
+      window.log.warn('Failed to fetch latest version');
+      log.warn('Could not check to see if newer version is available', latestVersionWithV);
     }
+    // wait an hour before retrying
+    // do this even if we did not get an error before (to be sure to pick up a new release even if
+    // another request told us we were up to date)
+
+    nextWaitSeconds = 3600;
+    setTimeout(async () => {
+      await checkForUpgrades();
+    }, nextWaitSeconds * 1000);
     // no message logged means serverRequest never returned...
   };
 

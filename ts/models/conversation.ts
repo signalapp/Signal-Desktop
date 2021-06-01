@@ -27,7 +27,6 @@ import {
   ConversationType as ReduxConversationType,
   LastMessageStatusType,
 } from '../state/ducks/conversations';
-import { OpenGroupMessage } from '../session/messages/outgoing';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
 import {
@@ -36,7 +35,6 @@ import {
 } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
-import { OpenGroup } from '../opengroup/opengroupV1/OpenGroup';
 import { OpenGroupUtils } from '../opengroup/utils';
 import { ConversationInteraction } from '../interactions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
@@ -78,10 +76,8 @@ export interface ConversationAttributes {
   /* Avatar hash is currently used for opengroupv2. it's sha256 hash of the base64 avatar data. */
   avatarHash?: string;
   server?: any;
-  channelId?: any;
   nickname?: string;
   profile?: any;
-  lastPublicMessage?: any;
   profileAvatar?: any;
   profileKey?: string;
   accessKey?: any;
@@ -115,10 +111,8 @@ export interface ConversationAttributesOptionals {
   avatar?: any;
   avatarHash?: string;
   server?: any;
-  channelId?: any;
   nickname?: string;
   profile?: any;
-  lastPublicMessage?: any;
   profileAvatar?: any;
   profileKey?: string;
   accessKey?: any;
@@ -202,9 +196,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
   public isOpenGroupV2(): boolean {
     return OpenGroupUtils.isOpenGroupV2(this.id);
-  }
-  public isOpenGroupV1(): boolean {
-    return OpenGroupUtils.isOpenGroupV1(this.id);
   }
   public isClosedGroup() {
     return this.get('type') === ConversationTypeEnum.GROUP && !this.isPublic();
@@ -587,17 +578,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return getOpenGroupV2FromConversationId(this.id);
   }
 
-  public toOpenGroupV1(): OpenGroup {
-    if (!this.isOpenGroupV1()) {
-      throw new Error('tried to run toOpenGroup for not public group v1');
-    }
-
-    return new OpenGroup({
-      server: this.get('server'),
-      channel: this.get('channelId'),
-      conversationId: this.id,
-    });
-  }
   public async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
     try {
       const uploads = await message.uploadData();
@@ -611,22 +591,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isPublic() && !this.isOpenGroupV2()) {
-        const openGroup = this.toOpenGroupV1();
-
-        const openGroupParams = {
-          body: uploads.body,
-          timestamp: sentAt,
-          group: openGroup,
-          attachments: uploads.attachments,
-          preview: uploads.preview,
-          quote: uploads.quote,
-          identifier: id,
-        };
-        const openGroupMessage = new OpenGroupMessage(openGroupParams);
-        // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToOpenGroup(openGroupMessage);
-
-        return;
+        throw new Error('Only opengroupv2 are supported now');
       }
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
@@ -1103,57 +1068,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public getNickname() {
     return this.get('nickname');
   }
-  // maybe "Backend" instead of "Source"?
-  public async setPublicSource(newServer: any, newChannelId: any) {
-    if (!this.isPublic()) {
-      window?.log?.warn(`trying to setPublicSource on non public chat conversation ${this.id}`);
-      return;
-    }
-    if (this.get('server') !== newServer || this.get('channelId') !== newChannelId) {
-      // mark active so it's not in the contacts list but in the conversation list
-      this.set({
-        server: newServer,
-        channelId: newChannelId,
-        active_at: Date.now(),
-      });
-      await this.commit();
-    }
-  }
-  public getPublicSource() {
-    if (!this.isPublic()) {
-      window?.log?.warn(`trying to getPublicSource on non public chat conversation ${this.id}`);
-      return null;
-    }
-    return {
-      server: this.get('server'),
-      channelId: this.get('channelId'),
-      conversationId: this.get('id'),
-    };
-  }
-  public async getPublicSendData() {
-    const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
-      this.get('server'),
-      this.get('channelId'),
-      this.id
-    );
-    return channelAPI;
-  }
-  public getLastRetrievedMessage() {
-    if (!this.isPublic()) {
-      return null;
-    }
-    const lastMessageId = this.get('lastPublicMessage') || 0;
-    return lastMessageId;
-  }
-  public async setLastRetrievedMessage(newLastMessageId: any) {
-    if (!this.isPublic()) {
-      return;
-    }
-    if (this.get('lastPublicMessage') !== newLastMessageId) {
-      this.set({ lastPublicMessage: newLastMessageId });
-      await this.commit();
-    }
-  }
+
   public isAdmin(pubKey?: string) {
     if (!this.isPublic()) {
       return false;

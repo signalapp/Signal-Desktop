@@ -43,7 +43,6 @@ export class OpenGroupManagerV2 {
   /**
    * When we get our configuration from the network, we might get a few times the same open group on two different messages.
    * If we don't do anything, we will join them multiple times.
-   * Even if the convo exists only once, the lokiPublicChat API will have several instances polling for the same open group.
    * Which will cause a lot of duplicate messages as they will be merged on a single conversation.
    *
    * To avoid this issue, we allow only a single join of a specific opengroup at a time.

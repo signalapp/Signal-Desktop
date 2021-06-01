@@ -101,7 +101,7 @@ export const SessionJoinableRooms = () => {
               roomId={r.id}
               base64Data={r.base64Data}
               onClick={completeUrl => {
-                void joinOpenGroupV2WithUIEvents(completeUrl, true);
+                void joinOpenGroupV2WithUIEvents(completeUrl, true, false);
               }}
             />
           );

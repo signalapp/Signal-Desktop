@@ -1,5 +1,6 @@
 import { ConversationModel } from '../models/conversation';
 import { ConversationController } from '../session/conversations';
+import { MentionsInputState } from '../state/ducks/mentionsInput';
 
 // tslint:disable: no-unnecessary-class
 export class FindMember {
@@ -29,7 +30,8 @@ export class FindMember {
     }
 
     if (thisConvo.isPublic()) {
-      const publicMembers = await window.lokiPublicChatAPI.getListOfMembers();
+      const publicMembers = (await window.inboxStore?.getState()
+        .mentionsInput) as MentionsInputState;
       const memberConversations = publicMembers
         .map(publicMember =>
           ConversationController.getInstance().get(publicMember.authorPhoneNumber)

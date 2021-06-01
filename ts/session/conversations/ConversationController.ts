@@ -191,14 +191,6 @@ export class ConversationController {
     // Closed/Medium group leaving
     if (conversation.isClosedGroup()) {
       await conversation.leaveClosedGroup();
-      // open group v1
-    } else if (conversation.isPublic() && !conversation.isOpenGroupV2()) {
-      const channelAPI = await conversation.getPublicSendData();
-      if (channelAPI === null) {
-        window?.log?.warn(`Could not get API for public conversation ${id}`);
-      } else {
-        channelAPI.serverAPI.partChannel((channelAPI as any).channelId);
-      }
       // open group v2
     } else if (conversation.isOpenGroupV2()) {
       window?.log?.info('leaving open group v2', conversation.id);

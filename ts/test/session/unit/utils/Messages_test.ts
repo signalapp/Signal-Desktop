@@ -20,7 +20,6 @@ import { ClosedGroupEncryptionPairMessage } from '../../../../session/messages/o
 import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
-import { OpenGroup } from '../../../../opengroup/opengroupV1/OpenGroup';
 import { openGroupPrefix } from '../../../../opengroup/utils/OpenGroupUtils';
 
 const { expect } = chai;

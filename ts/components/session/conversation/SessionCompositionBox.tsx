@@ -33,6 +33,11 @@ import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
 import { SectionType } from '../ActionsPanel';
 import { SessionSettingCategory } from '../settings/SessionSettings';
+import {
+  defaultMentionsInputReducer,
+  updateMentionsMembers,
+} from '../../../state/ducks/mentionsInput';
+import { getMentionsInput } from '../../../state/selectors/mentionsInput';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -393,6 +398,23 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     );
   }
 
+  private fetchUsersForOpenGroup(query: any, callback: any) {
+    const mentionsInput = getMentionsInput(window?.inboxStore?.getState() || []);
+    const filtered =
+      mentionsInput
+        .filter(d => !!d)
+        .filter(d => d.authorProfileName !== 'Anonymous')
+        .filter(d => d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase()))
+        // Transform the users to what react-mentions expects
+        .map(user => {
+          return {
+            display: user.authorProfileName,
+            id: user.authorPhoneNumber,
+          };
+        }) || [];
+    callback(filtered);
+  }
+
   private fetchUsersForGroup(query: any, callback: any) {
     let overridenQuery = query;
     if (!query) {
@@ -406,26 +428,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       this.fetchUsersForClosedGroup(overridenQuery, callback);
       return;
     }
-  }
-
-  private fetchUsersForOpenGroup(query: any, callback: any) {
-    void window.lokiPublicChatAPI
-      .getListOfMembers()
-      .then(members =>
-        members
-          .filter(d => !!d)
-          .filter(d => d.authorProfileName !== 'Anonymous')
-          .filter(d => d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase()))
-      )
-      // Transform the users to what react-mentions expects
-      .then(members => {
-        const toRet = members.map(user => ({
-          display: user.authorProfileName,
-          id: user.authorPhoneNumber,
-        }));
-        return toRet;
-      })
-      .then(callback);
   }
 
   private fetchUsersForClosedGroup(query: any, callback: any) {

@@ -21,8 +21,6 @@ interface State {
 }
 
 export class AddModeratorsDialog extends React.Component<Props, State> {
-  private channelAPI: any;
-
   constructor(props: Props) {
     super(props);
 
@@ -36,11 +34,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     };
   }
 
-  public async componentDidMount() {
-    if (this.props.convo.isOpenGroupV1()) {
-      this.channelAPI = await this.props.convo.getPublicSendData();
-    }
-
+  public componentDidMount() {
     this.setState({ firstLoading: false });
   }
 
@@ -60,13 +54,11 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
         addingInProgress: true,
       });
       let isAdded: any;
-      if (this.props.convo.isOpenGroupV1()) {
-        isAdded = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
-      } else {
-        // this is a v2 opengroup
-        const roomInfos = this.props.convo.toOpenGroupV2();
-        isAdded = await ApiV2.addModerator(pubkey, roomInfos);
-      }
+
+      // this is a v2 opengroup
+      const roomInfos = this.props.convo.toOpenGroupV2();
+      isAdded = await ApiV2.addModerator(pubkey, roomInfos);
+
       if (!isAdded) {
         window?.log?.warn('failed to add moderators:', isAdded);
 

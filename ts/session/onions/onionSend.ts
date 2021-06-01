@@ -14,7 +14,6 @@ import { PROTOCOLS } from '../constants';
 import { toHex } from '../utils/String';
 import pRetry from 'p-retry';
 
-// FIXME: replace with something on urlPubkeyMap...
 const FILESERVER_HOSTS = [
   'file-dev.lokinet.org',
   'file.lokinet.org',
@@ -280,7 +279,7 @@ export const serverRequest = async (
       fetchOptions.agent = snodeHttpsAgent;
     }
   } catch (e) {
-    window?.log?.error('loki_app_dot_net:::serverRequest - set up error:', e.code, e.message);
+    window?.log?.error('onionSend:::serverRequest - set up error:', e.code, e.message);
     return {
       err: e,
       ok: false,
@@ -330,7 +329,7 @@ export const serverRequest = async (
   } catch (e) {
     if (txtResponse) {
       window?.log?.error(
-        `loki_app_dot_net:::serverRequest - ${mode} error`,
+        `onionSend:::serverRequest - ${mode} error`,
         e.code,
         e.message,
         `json: ${txtResponse}`,
@@ -339,7 +338,7 @@ export const serverRequest = async (
       );
     } else {
       window?.log?.error(
-        `loki_app_dot_net:::serverRequest - ${mode} error`,
+        `onionSend:::serverRequest - ${mode} error`,
         e.code,
         e.message,
         'attempting connection to',

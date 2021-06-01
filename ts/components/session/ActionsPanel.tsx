@@ -10,6 +10,7 @@ import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 import {
   createOrUpdateItem,
   generateAttachmentKeyIfEmpty,
+  getAllOpenGroupV1Conversations,
   getItemById,
   hasSyncedInitialConfigurationItem,
   lastAvatarUploadTimestamp,
@@ -40,8 +41,7 @@ import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
 import { IMAGE_JPEG } from '../../types/MIME';
 import { FSv2 } from '../../fileserver';
-import { stringToArrayBuffer } from '../../session/utils/String';
-import { debounce } from 'underscore';
+import { debounce } from 'lodash';
 import { DURATION } from '../../session/constants';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -53,20 +53,6 @@ export enum SectionType {
   Settings,
   Moon,
 }
-
-const showUnstableAttachmentsDialogIfNeeded = async () => {
-  const alreadyShown = (await getItemById('showUnstableAttachmentsDialog'))?.value;
-
-  if (!alreadyShown) {
-    window.confirmationDialog({
-      title: 'File server update',
-      message:
-        "We're upgrading the way files are stored. File transfer may be unstable for the next 24-48 hours.",
-    });
-
-    await createOrUpdateItem({ id: 'showUnstableAttachmentsDialog', value: true });
-  }
-};
 
 const Section = (props: { type: SectionType; avatarPath?: string }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -172,6 +158,21 @@ const triggerSyncIfNeeded = async () => {
   }
 };
 
+const removeAllV1OpenGroups = async () => {
+  const allV1Convos = (await getAllOpenGroupV1Conversations()).models || [];
+  await Promise.all(
+    allV1Convos.map(async v1Convo => {
+      try {
+        window.log.info('removing v1Convo: ', v1Convo.id);
+        // calling this here rather than in a migration because it takes care of removing the attachments, the messages, the profile images, etc.
+        await ConversationController.getInstance().deleteContact(v1Convo.id);
+      } catch (e) {
+        window.log.warn('failed to delete opengroupv1');
+      }
+    })
+  );
+};
+
 const triggerAvatarReUploadIfNeeded = async () => {
   const lastTimeStampAvatarUpload = (await getItemById(lastAvatarUploadTimestamp))?.value || 0;
 
@@ -256,7 +257,6 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
     void OnionPaths.buildNewOnionPathsOneAtATime();
   }
 
-  void showUnstableAttachmentsDialogIfNeeded();
   // init the messageQueue. In the constructor, we add all not send messages
   // this call does nothing except calling the constructor, which will continue sending message in the pipeline
   void getMessageQueue().processAllPending();
@@ -267,6 +267,7 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
   // remove existing prekeys, sign prekeys and sessions
   // FIXME audric, make this in a migration so we can remove this line
   void clearSessionsAndPreKeys();
+  void removeAllV1OpenGroups();
 
   // this generates the key to encrypt attachments locally
   void generateAttachmentKeyIfEmpty();

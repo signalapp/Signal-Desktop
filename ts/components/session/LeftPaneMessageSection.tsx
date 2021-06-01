@@ -23,7 +23,6 @@ import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
-import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { openGroupV2CompleteURLRegex } from '../../opengroup/utils/OpenGroupUtils';
 import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
@@ -360,51 +359,16 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
   }
 
-  private async handleOpenGroupJoinV1(serverUrlV1: string) {
-    // Server URL valid?
-    if (serverUrlV1.length === 0 || !OpenGroup.validate(serverUrlV1)) {
-      ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
-      return;
-    }
-
-    // Already connected?
-    if (OpenGroup.getConversation(serverUrlV1)) {
-      ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
-      return;
-    }
-    // Connect to server
-    try {
-      ToastUtils.pushToastInfo('connectingToServer', window.i18n('connectingToServer'));
-
-      this.setState({ loading: true });
-      await OpenGroup.join(serverUrlV1);
-      if (await OpenGroup.serverExists(serverUrlV1)) {
-        ToastUtils.pushToastSuccess(
-          'connectToServerSuccess',
-          window.i18n('connectToServerSuccess')
-        );
-      } else {
-        throw new Error('Open group joined but the corresponding server does not exist');
-      }
-      this.setState({ loading: false });
-      const openGroupConversation = OpenGroup.getConversation(serverUrlV1);
-
-      if (!openGroupConversation) {
-        window?.log?.error('Joined an opengroup but did not find ther corresponding conversation');
-      }
-      this.handleToggleOverlay(undefined);
-    } catch (e) {
-      window?.log?.error('Failed to connect to server:', e);
-      ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
-      this.setState({ loading: false });
-    }
-  }
-
   private async handleOpenGroupJoinV2(serverUrlV2: string) {
     const loadingCallback = (loading: boolean) => {
       this.setState({ loading });
     };
-    const joinSuccess = await joinOpenGroupV2WithUIEvents(serverUrlV2, true, loadingCallback);
+    const joinSuccess = await joinOpenGroupV2WithUIEvents(
+      serverUrlV2,
+      true,
+      false,
+      loadingCallback
+    );
 
     return joinSuccess;
   }
@@ -423,8 +387,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         this.handleToggleOverlay(undefined);
       }
     } else {
-      // this is an open group v1
-      await this.handleOpenGroupJoinV1(serverUrl);
+      window.log.warn('Invalid opengroupv2 url');
     }
   }
 

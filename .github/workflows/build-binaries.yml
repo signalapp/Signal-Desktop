@@ -6,6 +6,10 @@ on:
     branches:
       - master
       - clearnet
+  pull_request:
+    branches:
+      - master
+      - clearnet
 
 jobs:
   build:

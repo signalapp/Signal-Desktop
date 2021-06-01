@@ -31,6 +31,7 @@ import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 import { deleteOpenGroupMessages } from '../../../interactions/conversation';
 import { ConversationTypeEnum } from '../../../models/conversation';
+import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 
 interface State {
   // Message sending progress
@@ -132,7 +133,8 @@ export class SessionConversation extends React.Component<Props, State> {
         global.clearInterval(this.publicMembersRefreshTimeout);
         this.publicMembersRefreshTimeout = undefined;
       }
-
+      // shown convo changed. reset the list of members quotable
+      window?.inboxStore?.dispatch(updateMentionsMembers([]));
       // if the newConversation changed, and is public, start our refresh members list
       if (newConversation.isPublic) {
         // TODO use abort controller to stop those requests too
@@ -1117,6 +1119,6 @@ export class SessionConversation extends React.Component<Props, State> {
       };
     });
 
-    window.lokiPublicChatAPI.setListOfMembers(allMembers);
+    window.inboxStore?.dispatch(updateMentionsMembers(allMembers));
   }
 }
