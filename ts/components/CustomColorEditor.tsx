@@ -68,6 +68,13 @@ export const CustomColorEditor = ({
               end: ULTRAMARINE_ISH_VALUES,
             });
           }
+
+          if (selectedTab === TabViews.Solid && color.end) {
+            setColor({
+              ...color,
+              end: undefined,
+            });
+          }
         }}
         tabs={[
           {
@@ -85,6 +92,7 @@ export const CustomColorEditor = ({
             <div className="CustomColorEditor__messages">
               <SampleMessageBubbles
                 backgroundStyle={getCustomColorStyle(color)}
+                color="custom"
                 i18n={i18n}
                 includeAnotherBubble
               />
@@ -114,9 +122,10 @@ export const CustomColorEditor = ({
               {i18n('CustomColorEditor__hue')}
               <Slider
                 handleStyle={{
-                  backgroundColor: getHSL(
-                    color[selectedColorKnob] || ULTRAMARINE_ISH_VALUES
-                  ),
+                  backgroundColor: getHSL({
+                    hue,
+                    saturation: 100,
+                  }),
                 }}
                 label={i18n('CustomColorEditor__hue')}
                 moduleClassName="CustomColorEditor__hue-slider"

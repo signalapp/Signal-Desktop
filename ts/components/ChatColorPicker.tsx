@@ -95,7 +95,7 @@ export const ChatColorPicker = ({
   }
 
   return (
-    <>
+    <div className="ChatColorPicker__container">
       {customColorToEdit ? renderCustomColorEditorWrapper() : null}
       {confirmResetAll ? (
         <ConfirmationDialog
@@ -173,7 +173,7 @@ export const ChatColorPicker = ({
         })}
         <div
           aria-label={i18n('ChatColorPicker__custom-color--label')}
-          className="ChatColorPicker__bubble ChatColorPicker__bubble"
+          className="ChatColorPicker__bubble"
           onClick={() =>
             setCustomColorToEdit({ id: undefined, value: undefined })
           }
@@ -201,7 +201,7 @@ export const ChatColorPicker = ({
           setConfirmResetAll(true);
         }}
       />
-    </>
+    </div>
   );
 };
 
@@ -248,7 +248,9 @@ const CustomColorBubble = ({
   const bubble = (
     <div
       aria-label={colorId}
-      className={classNames('ChatColorPicker__bubble', {
+      className={classNames({
+        ChatColorPicker__bubble: true,
+        'ChatColorPicker__bubble--custom-selected': isSelected,
         'ChatColorPicker__bubble--selected': isSelected,
       })}
       onClick={handleClick}
@@ -373,6 +375,7 @@ const CustomColorEditorWrapper = ({
       <Modal
         hasXButton
         i18n={i18n}
+        moduleClassName="ChatColorPicker__modal"
         noMouseClose
         onClose={onClose}
         title={i18n('CustomColorEditor__title')}

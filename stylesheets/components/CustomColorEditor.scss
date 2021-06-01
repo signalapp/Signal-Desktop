@@ -37,8 +37,17 @@
       hsl(270, 100%, 50%),
       hsl(360, 100%, 45%)
     );
+    border-radius: 4px;
     margin-top: 8px;
     margin-bottom: 30px;
+  }
+
+  &__hue-slider__handle {
+    &:focus {
+      outline: none;
+      border: 2px solid $color-white;
+      border-radius: 8px;
+    }
   }
 
   &__saturation-slider.Slider {

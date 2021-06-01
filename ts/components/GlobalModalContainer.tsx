@@ -28,6 +28,7 @@ export const GlobalModalContainer = ({
       <Modal
         hasXButton
         i18n={i18n}
+        moduleClassName="ChatColorPicker__modal"
         noMouseClose
         onClose={toggleChatColorEditor}
         title={i18n('ChatColorPicker__global-chat-color')}

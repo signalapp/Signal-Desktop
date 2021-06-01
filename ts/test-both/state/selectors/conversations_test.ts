@@ -1861,13 +1861,13 @@ describe('both/state/selectors/conversations', () => {
 
       const contactNameColorSelector = getContactNameColorSelector(state);
 
-      assert.equal(contactNameColorSelector('group', 'gfe'), '000');
-      assert.equal(contactNameColorSelector('group', 'jih'), '120');
-      assert.equal(contactNameColorSelector('group', 'mlk'), '240');
-      assert.equal(contactNameColorSelector('group', 'pon'), '040');
-      assert.equal(contactNameColorSelector('group', 'srq'), '160');
-      assert.equal(contactNameColorSelector('group', 'vut'), '280');
-      assert.equal(contactNameColorSelector('group', 'zyx'), '080');
+      assert.equal(contactNameColorSelector('group', 'gfe'), '200');
+      assert.equal(contactNameColorSelector('group', 'jih'), '150');
+      assert.equal(contactNameColorSelector('group', 'mlk'), '010');
+      assert.equal(contactNameColorSelector('group', 'pon'), '300');
+      assert.equal(contactNameColorSelector('group', 'srq'), '210');
+      assert.equal(contactNameColorSelector('group', 'vut'), '090');
+      assert.equal(contactNameColorSelector('group', 'zyx'), '330');
     });
   });
 });

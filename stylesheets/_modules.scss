@@ -1361,10 +1361,6 @@
       @include dark-theme {
         color: $color-gray-15;
       }
-
-      @include light-theme {
-        color: $color-white-alpha-90;
-      }
     }
   }
 
@@ -1385,16 +1381,16 @@
 
   @include dark-theme() {
     border-color: $color-gray-95;
-    background: $color-gray-75;
+    background: $color-gray-90;
   }
 
   &--is-me {
     @include dark-theme() {
-      background: $color-gray-45;
+      background: $color-gray-60;
     }
 
     @include light-theme() {
-      background: $color-accent-blue;
+      background: $color-gray-25;
     }
   }
 }
@@ -1568,6 +1564,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-quote--incoming-custom,
 .module-quote--outgoing-custom {
   background-attachment: fixed;
 }
