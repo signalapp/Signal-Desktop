@@ -111,7 +111,13 @@ export async function sendContentMessageToGroup({
     'sendContentMessageToGroup: textsecure.messaging not available!'
   );
 
-  if (conversation.isGroupV2()) {
+  const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+  const ourConversation = window.ConversationController.get(ourConversationId);
+
+  if (
+    ourConversation?.get('capabilities')?.senderKey &&
+    conversation.isGroupV2()
+  ) {
     try {
       return await sendToGroupViaSenderKey({
         contentHint,

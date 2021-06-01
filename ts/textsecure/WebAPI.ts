@@ -1444,7 +1444,7 @@ export function initialize({
       const capabilities: CapabilitiesUploadType = {
         'gv2-3': true,
         'gv1-migration': true,
-        senderKey: true,
+        senderKey: false,
       };
 
       const { accessKey } = options;

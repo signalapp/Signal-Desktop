@@ -193,7 +193,7 @@ window.addEventListener('unhandledrejection', rejectionEvent => {
 });
 
 initLogger(
-  SignalClientLogLevel.Trace,
+  SignalClientLogLevel.Warn,
   (
     level: unknown,
     target: string,

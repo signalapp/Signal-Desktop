@@ -424,13 +424,18 @@ export async function startApp(): Promise<void> {
         const { conversationId, senderUuid } = item;
         const conversation = window.ConversationController.get(conversationId);
         if (conversation) {
-          const now = Date.now();
+          const receivedAt = Date.now();
+          const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
           conversation.queueJob(() =>
-            conversation.addDeliveryIssue(now, senderUuid)
+            conversation.addDeliveryIssue({
+              receivedAt,
+              receivedAtCounter,
+              senderUuid,
+            })
           );
         }
       });
-    }, 5 * 60 * 1000);
+    }, FIVE_MINUTES);
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
@@ -2117,7 +2122,7 @@ export async function startApp(): Promise<void> {
           await server.registerCapabilities({
             'gv2-3': true,
             'gv1-migration': true,
-            senderKey: true,
+            senderKey: false,
           });
         } catch (error) {
           window.log.error(
@@ -3382,13 +3387,9 @@ export async function startApp(): Promise<void> {
       sentAt,
       senderDevice,
     } = retryRequest;
+    const logId = `${requesterUuid}.${requesterDevice} ${sentAt}-${senderDevice}`;
 
-    window.log.info('onRetryRequest:', {
-      requesterUuid,
-      requesterDevice,
-      sentAt,
-      senderDevice,
-    });
+    window.log.info(`onRetryRequest/${logId}: Starting...`);
 
     const requesterConversation = window.ConversationController.getOrCreate(
       requesterUuid,
@@ -3416,15 +3417,13 @@ export async function startApp(): Promise<void> {
     });
 
     if (!targetMessage) {
-      window.log.info(
-        `onRetryRequest: Did not find message sent at ${sentAt}, sent to ${requesterUuid}`
-      );
+      window.log.info(`onRetryRequest/${logId}: Did not find message`);
       return;
     }
 
     if (targetMessage.isErased()) {
       window.log.info(
-        `onRetryRequest: Message sent at ${sentAt} is erased, refusing to send again.`
+        `onRetryRequest/${logId}: Message is erased, refusing to send again.`
       );
       return;
     }
@@ -3433,7 +3432,7 @@ export async function startApp(): Promise<void> {
     const ONE_DAY = 24 * HOUR;
     if (isOlderThan(sentAt, ONE_DAY)) {
       window.log.info(
-        `onRetryRequest: Message sent at ${sentAt} is too old, refusing to send again.`
+        `onRetryRequest/${logId}: Message is too old, refusing to send again.`
       );
       return;
     }
@@ -3448,14 +3447,10 @@ export async function startApp(): Promise<void> {
     );
     if (sentUnidentified && wasDelivered) {
       window.log.info(
-        `onRetryRequest: Message sent at ${sentAt} was sent sealed sender and was delivered, refusing to send again.`
+        `onRetryRequest/${logId}: Message was sent sealed sender and was delivered, refusing to send again.`
       );
       return;
     }
-
-    window.log.info(
-      `onRetryRequest: Resending message ${sentAt} to user ${requesterUuid}`
-    );
 
     const ourDeviceId = parseIntOrThrow(
       window.textsecure.storage.user.getDeviceId(),
@@ -3464,11 +3459,12 @@ export async function startApp(): Promise<void> {
     if (ourDeviceId === senderDevice) {
       const address = `${requesterUuid}.${requesterDevice}`;
       window.log.info(
-        `onRetryRequest: Devices match, archiving session with ${address}`
+        `onRetryRequest/${logId}: Devices match, archiving session`
       );
       await window.textsecure.storage.protocol.archiveSession(address);
     }
 
+    window.log.info(`onRetryRequest/${logId}: Resending message`);
     targetMessage.resend(requesterUuid);
   }
 
@@ -3478,9 +3474,10 @@ export async function startApp(): Promise<void> {
 
   async function onDecryptionError(event: DecryptionErrorEventType) {
     const { decryptionError } = event;
-    const { senderUuid, senderDevice } = decryptionError;
+    const { senderUuid, senderDevice, timestamp } = decryptionError;
+    const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
 
-    window.log.info(`onDecryptionError: ${senderUuid}.${senderDevice}`);
+    window.log.info(`onDecryptionError/${logId}: Starting...`);
 
     const conversation = window.ConversationController.getOrCreate(
       senderUuid,
@@ -3492,11 +3489,12 @@ export async function startApp(): Promise<void> {
     }
 
     if (conversation.get('capabilities')?.senderKey) {
-      requestResend(decryptionError);
-      return;
+      await requestResend(decryptionError);
+    } else {
+      await startAutomaticSessionReset(decryptionError);
     }
 
-    await startAutomaticSessionReset(decryptionError);
+    window.log.info(`onDecryptionError/${logId}: ...complete`);
   }
 
   async function requestResend(decryptionError: DecryptionErrorType) {
@@ -3511,13 +3509,13 @@ export async function startApp(): Promise<void> {
       senderUuid,
       timestamp,
     } = decryptionError;
+    const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
 
-    window.log.info(`requestResend: ${senderUuid}.${senderDevice}`, {
+    window.log.info(`requestResend/${logId}: Starting...`, {
       cipherTextBytesLength: cipherTextBytes?.byteLength,
       cipherTextType,
       contentHint,
       groupId: groupId ? `groupv2(${groupId})` : undefined,
-      timestamp,
     });
 
     // 1. Find the target conversation
@@ -3532,9 +3530,12 @@ export async function startApp(): Promise<void> {
     const conversation = group || sender;
 
     function immediatelyAddError() {
-      const receivedAt = Date.now();
       conversation.queueJob(async () => {
-        conversation.addDeliveryIssue(receivedAt, senderUuid);
+        conversation.addDeliveryIssue({
+          receivedAt: receivedAtDate,
+          receivedAtCounter,
+          senderUuid,
+        });
       });
     }
 
@@ -3542,7 +3543,7 @@ export async function startApp(): Promise<void> {
 
     if (!cipherTextBytes || !isNumber(cipherTextType)) {
       window.log.warn(
-        'requestResend: Missing cipherText information, failing over to automatic reset'
+        `requestResend/${logId}: Missing cipherText information, failing over to automatic reset`
       );
       startAutomaticSessionReset(decryptionError);
       return;
@@ -3568,7 +3569,7 @@ export async function startApp(): Promise<void> {
       }
     } catch (error) {
       window.log.error(
-        'requestResend: Failed to send retry request, failing over to automatic reset',
+        `requestResend/${logId}: Failed to send retry request, failing over to automatic reset`,
         error && error.stack ? error.stack : error
       );
       startAutomaticSessionReset(decryptionError);
@@ -3581,7 +3582,8 @@ export async function startApp(): Promise<void> {
 
     // 3. Determine how to represent this to the user. Three different options.
 
-    // This is a sync message of some kind that cannot be resent. Don't do anything.
+    // This is a sync message of some kind that cannot be resent. Reset session but don't
+    //   show any UI for it.
     if (contentHint === ContentHint.SUPPLEMENTARY) {
       scheduleSessionReset(senderUuid, senderDevice);
       return;
@@ -3592,7 +3594,7 @@ export async function startApp(): Promise<void> {
       const { retryPlaceholders } = window.Signal.Services;
       assert(retryPlaceholders, 'requestResend: adding placeholder');
 
-      window.log.warn('requestResend: Adding placeholder');
+      window.log.info(`requestResend/${logId}: Adding placeholder`);
       await retryPlaceholders.add({
         conversationId: conversation.get('id'),
         receivedAt: receivedAtDate,
@@ -3604,6 +3606,9 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    window.log.warn(
+      `requestResend/${logId}: No content hint, adding error immediately`
+    );
     immediatelyAddError();
   }
 
@@ -3618,7 +3623,10 @@ export async function startApp(): Promise<void> {
   }
 
   function startAutomaticSessionReset(decryptionError: DecryptionErrorType) {
-    const { senderUuid, senderDevice } = decryptionError;
+    const { senderUuid, senderDevice, timestamp } = decryptionError;
+    const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
+
+    window.log.info(`startAutomaticSessionReset/${logId}: Starting...`);
 
     scheduleSessionReset(senderUuid, senderDevice);
 
@@ -3642,8 +3650,9 @@ export async function startApp(): Promise<void> {
     }
 
     const receivedAt = Date.now();
+    const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
     conversation.queueJob(async () => {
-      conversation.addChatSessionRefreshed(receivedAt);
+      conversation.addChatSessionRefreshed({ receivedAt, receivedAtCounter });
     });
   }
 

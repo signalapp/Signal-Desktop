@@ -1122,6 +1122,7 @@ class MessageReceiverInner extends EventTarget {
     envelope: EnvelopeClass,
     ciphertext: ByteBufferClass
   ): Promise<ArrayBuffer | null> {
+    const logId = this.getEnvelopeId(envelope);
     const { serverTrustRoot } = this;
     const envelopeTypeEnum = window.textsecure.protobuf.Envelope.Type;
     const unidentifiedSenderTypeEnum =
@@ -1149,6 +1150,7 @@ class MessageReceiverInner extends EventTarget {
     >;
 
     if (envelope.type === envelopeTypeEnum.PLAINTEXT_CONTENT) {
+      window.log.info(`decrypt/${logId}: plaintext message`);
       const buffer = Buffer.from(ciphertext.toArrayBuffer());
       const plaintextContent = PlaintextContent.deserialize(buffer);
 
@@ -1156,7 +1158,7 @@ class MessageReceiverInner extends EventTarget {
         this.unpad(typedArrayToArrayBuffer(plaintextContent.body()))
       );
     } else if (envelope.type === envelopeTypeEnum.CIPHERTEXT) {
-      window.log.info('message from', this.getEnvelopeId(envelope));
+      window.log.info(`decrypt/${logId}: ciphertext message`);
       if (!identifier) {
         throw new Error(
           'MessageReceiver.decrypt: No identifier for CIPHERTEXT message'
@@ -1184,7 +1186,7 @@ class MessageReceiverInner extends EventTarget {
         zone
       );
     } else if (envelope.type === envelopeTypeEnum.PREKEY_BUNDLE) {
-      window.log.info('prekey message from', this.getEnvelopeId(envelope));
+      window.log.info(`decrypt/${logId}: prekey message`);
       if (!identifier) {
         throw new Error(
           'MessageReceiver.decrypt: No identifier for PREKEY_BUNDLE message'
@@ -1214,7 +1216,7 @@ class MessageReceiverInner extends EventTarget {
         zone
       );
     } else if (envelope.type === envelopeTypeEnum.UNIDENTIFIED_SENDER) {
-      window.log.info('received unidentified sender message');
+      window.log.info(`decrypt/${logId}: unidentified message`);
       const buffer = Buffer.from(ciphertext.toArrayBuffer());
 
       const decryptSealedSender = async (): Promise<
@@ -1241,12 +1243,15 @@ class MessageReceiverInner extends EventTarget {
           ['sourceUuid'],
           'message_receiver::decrypt::UNIDENTIFIED_SENDER'
         );
+
         // eslint-disable-next-line no-param-reassign
         envelope.sourceDevice = certificate.senderDeviceId();
         // eslint-disable-next-line no-param-reassign
         envelope.unidentifiedDeliveryReceived = !(
           originalSource || originalSourceUuid
         );
+
+        const unidentifiedLogId = this.getEnvelopeId(envelope);
 
         // eslint-disable-next-line no-param-reassign
         envelope.contentHint = messageContent.contentHint();
@@ -1275,6 +1280,9 @@ class MessageReceiverInner extends EventTarget {
           messageContent.msgType() ===
           unidentifiedSenderTypeEnum.PLAINTEXT_CONTENT
         ) {
+          window.log.info(
+            `decrypt/${unidentifiedLogId}: unidentified message/plaintext contents`
+          );
           const plaintextContent = PlaintextContent.deserialize(
             messageContent.contents()
           );
@@ -1286,6 +1294,9 @@ class MessageReceiverInner extends EventTarget {
           messageContent.msgType() ===
           unidentifiedSenderTypeEnum.SENDERKEY_MESSAGE
         ) {
+          window.log.info(
+            `decrypt/${unidentifiedLogId}: unidentified message/sender key contents`
+          );
           const sealedSenderIdentifier = certificate.senderUuid();
           const sealedSenderSourceDevice = certificate.senderDeviceId();
           const senderKeyStore = new SenderKeys();
@@ -1307,6 +1318,9 @@ class MessageReceiverInner extends EventTarget {
           );
         }
 
+        window.log.info(
+          `decrypt/${unidentifiedLogId}: unidentified message/passing to sealedSenderDecryptMessage`
+        );
         const sealedSenderIdentifier = envelope.sourceUuid || envelope.source;
         const address = `${sealedSenderIdentifier}.${envelope.sourceDevice}`;
         return window.textsecure.storage.protocol.enqueueSessionJob(
@@ -1725,8 +1739,8 @@ class MessageReceiverInner extends EventTarget {
     envelope: EnvelopeClass,
     decryptionError: ByteBufferClass
   ) {
-    const envelopeId = this.getEnvelopeId(envelope);
-    window.log.info(`handleDecryptionError: ${envelopeId}`);
+    const logId = this.getEnvelopeId(envelope);
+    window.log.info(`handleDecryptionError: ${logId}`);
 
     const buffer = Buffer.from(decryptionError.toArrayBuffer());
     const request = DecryptionErrorMessage.deserialize(buffer);
@@ -1735,7 +1749,9 @@ class MessageReceiverInner extends EventTarget {
 
     const { sourceUuid, sourceDevice } = envelope;
     if (!sourceUuid || !sourceDevice) {
-      window.log.error('handleDecryptionError: Missing uuid or device!');
+      window.log.error(
+        `handleDecryptionError/${logId}: Missing uuid or device!`
+      );
       return;
     }
 
@@ -1754,7 +1770,7 @@ class MessageReceiverInner extends EventTarget {
     distributionMessage: ByteBufferClass
   ): Promise<void> {
     const envelopeId = this.getEnvelopeId(envelope);
-    window.log.info(`handleSenderKeyDistributionMessage: ${envelopeId}`);
+    window.log.info(`handleSenderKeyDistributionMessage/${envelopeId}`);
 
     // Note: we don't call removeFromCache here because this message can be combined
     //   with a dataMessage, for example. That processing will dictate cache removal.

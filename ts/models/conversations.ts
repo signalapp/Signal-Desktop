@@ -2450,7 +2450,13 @@ export class ConversationModel extends window.Backbone
     return this.setVerified();
   }
 
-  async addChatSessionRefreshed(receivedAt: number): Promise<void> {
+  async addChatSessionRefreshed({
+    receivedAt,
+    receivedAtCounter,
+  }: {
+    receivedAt: number;
+    receivedAtCounter: number;
+  }): Promise<void> {
     window.log.info(
       `addChatSessionRefreshed: adding for ${this.idForLogging()}`,
       { receivedAt }
@@ -2460,7 +2466,7 @@ export class ConversationModel extends window.Backbone
       conversationId: this.id,
       type: 'chat-session-refreshed',
       sent_at: receivedAt,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at: receivedAtCounter,
       received_at_ms: receivedAt,
       unread: 1,
       // TODO: DESKTOP-722
@@ -2481,10 +2487,15 @@ export class ConversationModel extends window.Backbone
     this.trigger('newmessage', model);
   }
 
-  async addDeliveryIssue(
-    receivedAt: number,
-    senderUuid: string
-  ): Promise<void> {
+  async addDeliveryIssue({
+    receivedAt,
+    receivedAtCounter,
+    senderUuid,
+  }: {
+    receivedAt: number;
+    receivedAtCounter: number;
+    senderUuid: string;
+  }): Promise<void> {
     window.log.info(`addDeliveryIssue: adding for ${this.idForLogging()}`, {
       receivedAt,
       senderUuid,
@@ -2495,7 +2506,7 @@ export class ConversationModel extends window.Backbone
       type: 'delivery-issue',
       sourceUuid: senderUuid,
       sent_at: receivedAt,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at: receivedAtCounter,
       received_at_ms: receivedAt,
       unread: 1,
       // TODO: DESKTOP-722
