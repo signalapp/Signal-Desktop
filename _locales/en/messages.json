@@ -1859,5 +1859,23 @@
   },
   "orJoinOneOfThese": {
     "message": "Or join one of these..."
+  },
+  "tookAScreenshot": {
+    "message": "$name$ took a screenshot",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "savedTheFile": {
+    "message": "Media saved by $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
   }
 }

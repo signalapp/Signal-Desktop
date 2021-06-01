@@ -11,6 +11,8 @@ import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleM
 import { PubKey } from '../../ts/session/types';
 import { UserUtils } from '../../ts/session/utils';
 import {
+  DataExtractionNotificationMsg,
+  DataExtractionNotificationProps,
   fillMessageAttributesWithDefaults,
   MessageAttributes,
   MessageAttributesOptionals,
@@ -37,6 +39,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
   public propsForGroupInvitation: any;
+  public propsForDataExtractionNotification?: DataExtractionNotificationProps;
   public propsForSearchResult: any;
   public propsForMessage: any;
 
@@ -75,6 +78,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       this.propsForGroupNotification = this.getPropsForGroupNotification();
     } else if (this.isGroupInvitation()) {
       this.propsForGroupInvitation = this.getPropsForGroupInvitation();
+    } else if (this.isDataExtractionNotification()) {
+      this.propsForDataExtractionNotification = this.getPropsForDataExtractionNotification();
     } else {
       this.propsForSearchResult = this.getPropsForSearchResult();
       this.propsForMessage = this.getPropsForMessage();
@@ -193,11 +198,35 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (this.isGroupInvitation()) {
       return `😎 ${window.i18n('openGroupInvitation')}`;
     }
+    if (this.isDataExtractionNotification()) {
+      const dataExtraction = this.get(
+        'dataExtractionNotification'
+      ) as DataExtractionNotificationMsg;
+      if (dataExtraction.type === SignalService.DataExtractionNotification.Type.SCREENSHOT) {
+        return window.i18n(
+          'tookAScreenshot',
+          ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
+            dataExtraction.source
+          )
+        );
+      }
+
+      return window.i18n(
+        'savedTheFile',
+        ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
+          dataExtraction.source
+        )
+      );
+    }
     return this.get('body');
   }
 
   public isGroupInvitation() {
     return !!this.get('groupInvitation');
+  }
+
+  public isDataExtractionNotification() {
+    return !!this.get('dataExtractionNotification');
   }
 
   public getNotificationText() {
@@ -302,6 +331,22 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       onJoinClick: () => {
         acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
       },
+    };
+  }
+
+  public getPropsForDataExtractionNotification(): DataExtractionNotificationProps | undefined {
+    const dataExtractionNotification = this.get('dataExtractionNotification');
+
+    if (!dataExtractionNotification) {
+      window.log.warn('dataExtractionNotification should not happen');
+      return;
+    }
+
+    const contact = this.findAndFormatContact(dataExtractionNotification.source);
+
+    return {
+      ...dataExtractionNotification,
+      name: contact.profileName || contact.name || dataExtractionNotification.source,
     };
   }
 
@@ -411,6 +456,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // Only return the status on outgoing messages
     if (!this.isOutgoing()) {
+      return null;
+    }
+
+    if (this.isDataExtractionNotification()) {
       return null;
     }
 

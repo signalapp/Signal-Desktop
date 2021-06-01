@@ -198,14 +198,18 @@ async function getSnodeListFromLokidSeednode(
     window?.log?.warn('loki_snode_api::getSnodeListFromLokidSeednode - error', e.code, e.message);
     // handle retries in case of temporary hiccups
     if (retries < SEED_NODE_RETRIES) {
-      setTimeout(() => {
+      setTimeout(async () => {
         window?.log?.info(
           'loki_snode_api::getSnodeListFromLokidSeednode - Retrying initialising random snode pool, try #',
           retries,
           'seed nodes total',
           seedNodes.length
         );
-        void getSnodeListFromLokidSeednode(seedNodes, retries + 1);
+        try {
+          await getSnodeListFromLokidSeednode(seedNodes, retries + 1);
+        } catch (e) {
+          window?.log?.warn('getSnodeListFromLokidSeednode failed retr y #', retries, e);
+        }
       }, retries * retries * 5000);
     } else {
       window?.log?.error('loki_snode_api::getSnodeListFromLokidSeednode - failing');

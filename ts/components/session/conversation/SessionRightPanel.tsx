@@ -21,6 +21,7 @@ import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmen
 import { LightBoxOptions } from './SessionConversation';
 import { UserUtils } from '../../../session/utils';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
+import { SpacerLG } from '../../basic/Text';
 
 interface Props {
   id: string;
@@ -270,11 +271,11 @@ class SessionRightPanel extends React.Component<Props, State> {
         <h2>{name}</h2>
         {showMemberCount && (
           <>
-            <div className="spacer-lg" />
+            <SpacerLG />
             <div role="button" className="subtle">
               {window.i18n('members', memberCount)}
             </div>
-            <div className="spacer-lg" />
+            <SpacerLG />
           </>
         )}
         <input className="description" placeholder={window.i18n('description')} />

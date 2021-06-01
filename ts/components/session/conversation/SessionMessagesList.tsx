@@ -20,6 +20,7 @@ import { MessageRegularProps } from '../../../models/messageType';
 import { getMessagesBySentAt } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../models/conversation';
+import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
 
 interface State {
   showScrollButton: boolean;
@@ -204,6 +205,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
           const timerProps = message.propsForTimerNotification;
           const propsForGroupInvitation = message.propsForGroupInvitation;
+          const propsForDataExtractionNotification = message.propsForDataExtractionNotification;
 
           const groupNotificationProps = message.propsForGroupNotification;
 
@@ -238,6 +240,18 @@ export class SessionMessagesList extends React.Component<Props, State> {
             return (
               <>
                 <GroupInvitation {...propsForGroupInvitation} key={message.id} />
+                {unreadIndicator}
+              </>
+            );
+          }
+
+          if (propsForDataExtractionNotification) {
+            return (
+              <>
+                <DataExtractionNotification
+                  {...propsForDataExtractionNotification}
+                  key={message.id}
+                />
                 {unreadIndicator}
               </>
             );

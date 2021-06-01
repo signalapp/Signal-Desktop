@@ -902,6 +902,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         messageModel: model,
       })
     );
+    const unreadCount = await this.getUnreadCount();
+    this.set({ unreadCount });
+    await this.commit();
 
     return model;
   }

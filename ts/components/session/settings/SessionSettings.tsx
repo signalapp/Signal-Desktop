@@ -11,6 +11,7 @@ import { ConversationController } from '../../../session/conversations';
 import { getConversationLookup, getConversations } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
+import { SpacerLG } from '../../basic/Text';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -165,7 +166,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           {this.state.pwdLockError && (
             <>
               <div className="session-label warning">{this.state.pwdLockError}</div>
-              <div className="spacer-lg" />
+              <SpacerLG />
             </>
           )}
 

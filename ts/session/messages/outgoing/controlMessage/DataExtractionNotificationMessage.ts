@@ -33,11 +33,10 @@ export class DataExtractionNotificationMessage extends ContentMessage {
 
     const action = ACTION_ENUM.MEDIA_SAVED; // we cannot know when user screenshots, so it can only be a media saved
 
-    const dataExtraction = new SignalService.DataExtractionNotification();
-    dataExtraction.type = action;
-    dataExtraction.timestamp = this.referencedAttachmentTimestamp;
-
-    return dataExtraction;
+    return new SignalService.DataExtractionNotification({
+      type: action,
+      timestamp: this.referencedAttachmentTimestamp,
+    });
   }
 }
 

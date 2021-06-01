@@ -354,8 +354,7 @@ export async function innerHandleContentMessage(
       return;
     }
     if (content.dataExtractionNotification) {
-      window?.log?.warn('content.dataExtractionNotification', content.dataExtractionNotification);
-      void handleDataExtractionNotification(
+      await handleDataExtractionNotification(
         envelope,
         content.dataExtractionNotification as SignalService.DataExtractionNotification
       );
@@ -464,5 +463,54 @@ async function handleTypingMessage(
       isTyping: started,
       sender: source,
     });
+  }
+}
+
+/**
+ * A DataExtractionNotification message can only come from a 1 o 1 conversation.
+ *
+ * We drop them if the convo is not a 1 o 1 conversation.
+ */
+export async function handleDataExtractionNotification(
+  envelope: EnvelopePlus,
+  dataNotificationMessage: SignalService.DataExtractionNotification
+): Promise<void> {
+  // we currently don't care about the timestamp included in the field itself, just the timestamp of the envelope
+  const { type, timestamp: referencedAttachment } = dataNotificationMessage;
+
+  const { source, timestamp } = envelope;
+  await removeFromCache(envelope);
+
+  const convo = ConversationController.getInstance().get(source);
+  if (!convo || !convo.isPrivate()) {
+    window?.log?.info('Got DataNotification for unknown or non private convo');
+    return;
+  }
+
+  if (!type || !source) {
+    window?.log?.info('DataNotification pre check failed');
+
+    return;
+  }
+
+  if (timestamp) {
+    const envelopeTimestamp = Lodash.toNumber(timestamp);
+    const referencedAttachmentTimestamp = Lodash.toNumber(referencedAttachment);
+    const now = Date.now();
+
+    await convo.addSingleMessage({
+      conversationId: convo.get('id'),
+      type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
+      sent_at: envelopeTimestamp,
+      received_at: now,
+      dataExtractionNotification: {
+        type,
+        referencedAttachmentTimestamp, // currently unused
+        source,
+      },
+      unread: 1, // 1 means unread
+      expireTimer: 0,
+    });
+    convo.updateLastMessage();
   }
 }
