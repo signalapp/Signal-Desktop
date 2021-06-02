@@ -192,7 +192,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         ) : (
           <SessionIdEditable
             ref={this.inputRef}
-            editable={true}
+            editable={!showLoadingSpinner}
             placeholder={placeholder}
             onChange={onChangeSessionID}
           />
