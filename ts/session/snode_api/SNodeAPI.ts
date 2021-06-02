@@ -282,6 +282,7 @@ export async function getSessionIDForOnsName(onsNameCase: string) {
       throw new Error('ONSresolve:Failed to resolve ONS');
     }
     let parsedBody;
+
     try {
       parsedBody = JSON.parse(result.body);
     } catch (e) {
@@ -297,8 +298,38 @@ export async function getSessionIDForOnsName(onsNameCase: string) {
 
     const isArgon2Based = !Boolean(intermediate?.nonce);
     const ciphertext = fromHexToArray(hexEncodedCipherText);
+    let sessionIDAsData: Uint8Array;
+    let nonce: Uint8Array;
+    let key: Uint8Array;
+
     if (isArgon2Based) {
-      return '';
+      // Handle old Argon2-based encryption used before HF16
+      const salt = new Uint8Array(sodium.crypto_pwhash_SALTBYTES);
+      nonce = new Uint8Array(sodium.crypto_secretbox_NONCEBYTES);
+      try {
+        const keyHex = sodium.crypto_pwhash(
+          sodium.crypto_secretbox_KEYBYTES,
+          onsNameLowerCase,
+          salt,
+          sodium.crypto_pwhash_OPSLIMIT_MODERATE,
+          sodium.crypto_pwhash_MEMLIMIT_MODERATE,
+          sodium.crypto_pwhash_ALG_ARGON2ID13,
+          'hex'
+        );
+        if (!keyHex) {
+          throw new Error('ONSresolve: key invalid argon2');
+        }
+        key = fromHexToArray(keyHex);
+      } catch (e) {
+        throw new Error('ONSresolve: Hashing failed');
+      }
+
+      sessionIDAsData = sodium.crypto_secretbox_open_easy(ciphertext, nonce, key);
+      if (!sessionIDAsData) {
+        throw new Error('ONSresolve: Decryption failed');
+      }
+
+      return toHex(sessionIDAsData);
     }
 
     // not argon2Based
@@ -306,9 +337,8 @@ export async function getSessionIDForOnsName(onsNameCase: string) {
     if (!hexEncodedNonce) {
       throw new Error('ONSresolve: No hexEncodedNonce');
     }
-    const nonce = fromHexToArray(hexEncodedNonce);
+    nonce = fromHexToArray(hexEncodedNonce);
 
-    let key;
     try {
       key = sodium.crypto_generichash(sodium.crypto_generichash_BYTES, nameAsData, nameHash);
       if (!key) {
@@ -319,7 +349,7 @@ export async function getSessionIDForOnsName(onsNameCase: string) {
       throw new Error('ONSresolve: Hashing failed');
     }
 
-    const sessionIDAsData = sodium.crypto_aead_xchacha20poly1305_ietf_decrypt(
+    sessionIDAsData = sodium.crypto_aead_xchacha20poly1305_ietf_decrypt(
       null,
       ciphertext,
       null,
