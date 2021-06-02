@@ -98,7 +98,23 @@ export interface MessageAttributes {
    */
   snippet?: any;
   direction: any;
+
+  /**
+   * This is used for when a user screenshots or saves an attachment you sent.
+   * We display a small message just below the message referenced
+   */
+  dataExtractionNotification?: DataExtractionNotificationMsg;
 }
+
+export interface DataExtractionNotificationMsg {
+  type: number; // screenshot or saving event, based on SignalService.DataExtractionNotification.Type
+  source: string; // the guy who made a screenshot
+  referencedAttachmentTimestamp: number; // the attachment timestamp he screenshot
+}
+
+export type DataExtractionNotificationProps = DataExtractionNotificationMsg & {
+  name: string;
+};
 
 export interface MessageAttributesOptionals {
   id?: string;
@@ -133,6 +149,11 @@ export interface MessageAttributesOptionals {
     expireTimer: number;
     source: string;
     fromSync?: boolean;
+  };
+  dataExtractionNotification?: {
+    type: number;
+    source: string;
+    referencedAttachmentTimestamp: number;
   };
   unread?: number;
   group?: any;

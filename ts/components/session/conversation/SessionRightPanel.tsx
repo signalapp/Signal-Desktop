@@ -18,6 +18,10 @@ import {
   getMessagesWithVisualMediaAttachments,
 } from '../../../data/data';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
+import { LightBoxOptions } from './SessionConversation';
+import { UserUtils } from '../../../session/utils';
+import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
+import { SpacerLG } from '../../basic/Text';
 
 interface Props {
   id: string;
@@ -44,7 +48,7 @@ interface Props {
   onAddModerators: () => void;
   onRemoveModerators: () => void;
   onUpdateGroupMembers: () => void;
-  onShowLightBox: (options: any) => void;
+  onShowLightBox: (lightboxOptions?: LightBoxOptions) => void;
   onSetDisappearingMessages: (seconds: number) => void;
   theme: DefaultTheme;
 }
@@ -169,7 +173,7 @@ class SessionRightPanel extends React.Component<Props, State> {
     });
 
     const saveAttachment = async ({ attachment, message }: any = {}) => {
-      const timestamp = message.received_at;
+      const timestamp = message.received_at as number | undefined;
       attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
       save({
         attachment,
@@ -177,6 +181,7 @@ class SessionRightPanel extends React.Component<Props, State> {
         getAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath,
         timestamp,
       });
+      await sendDataExtractionNotification(this.props.id, message?.source, timestamp);
     };
 
     const onItemClick = ({ message, attachment, type }: any) => {
@@ -187,11 +192,17 @@ class SessionRightPanel extends React.Component<Props, State> {
         }
 
         case 'media': {
+          // don't set the messageTimestamp when we are the sender, so we don't trigger a notification when
+          // we save the same attachment we sent ourself to another user
+          const messageTimestamp =
+            message.source !== UserUtils.getOurPubKeyStrFromCache()
+              ? message.sent_at || message.received_at
+              : undefined;
           const lightBoxOptions = {
             media,
             attachment,
-            message,
-          };
+            messageTimestamp,
+          } as LightBoxOptions;
           this.onShowLightBox(lightBoxOptions);
           break;
         }
@@ -208,8 +219,8 @@ class SessionRightPanel extends React.Component<Props, State> {
     };
   }
 
-  public onShowLightBox(options: any) {
-    this.props.onShowLightBox(options);
+  public onShowLightBox(lightboxOptions: LightBoxOptions) {
+    this.props.onShowLightBox(lightboxOptions);
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
@@ -260,11 +271,11 @@ class SessionRightPanel extends React.Component<Props, State> {
         <h2>{name}</h2>
         {showMemberCount && (
           <>
-            <div className="spacer-lg" />
+            <SpacerLG />
             <div role="button" className="subtle">
               {window.i18n('members', memberCount)}
             </div>
-            <div className="spacer-lg" />
+            <SpacerLG />
           </>
         )}
         <input className="description" placeholder={window.i18n('description')} />

@@ -29,6 +29,41 @@ export const Text = (props: TextProps) => {
   return <StyledDefaultText {...props}>{props.text}</StyledDefaultText>;
 };
 
+type SpacerProps = {
+  size: 'lg' | 'md' | 'sm' | 'xs';
+  theme?: DefaultTheme;
+};
+
+const SpacerStyled = styled.div<SpacerProps>`
+  height: ${props =>
+    props.size === 'lg'
+      ? props.theme.common.margins.lg
+      : props.size === 'md'
+      ? props.theme.common.margins.md
+      : props.size === 'sm'
+      ? props.theme.common.margins.sm
+      : props.theme.common.margins.xs};
+`;
+
+const Spacer = (props: SpacerProps) => {
+  return <SpacerStyled {...props} />;
+};
+
+export const SpacerLG = () => {
+  return <Spacer size="lg" />;
+};
+
+export const SpacerMD = () => {
+  return <Spacer size="md" />;
+};
+export const SpacerSM = () => {
+  return <Spacer size="sm" />;
+};
+
+export const SpacerXS = () => {
+  return <Spacer size="xs" />;
+};
+
 type H3Props = {
   text: string;
   opposite?: boolean;

@@ -35,13 +35,6 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
   }
 };
 
-type StyledSvgProps = {
-  width: string | number;
-  height: string | number;
-  iconRotation: number;
-  rotateDuration?: number;
-};
-
 const rotate = keyframes`
   from {
     transform: rotate(0deg);
@@ -61,11 +54,17 @@ const animation = (props: { rotateDuration?: any }) => {
   }
 };
 
+type StyledSvgProps = {
+  width: string | number;
+  iconRotation: number;
+  rotateDuration?: number;
+};
+
 //tslint:disable no-unnecessary-callback-wrapper
 const Svg = styled.svg<StyledSvgProps>`
   width: ${props => props.width};
-  animation: ${props => animation(props)};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
+  animation: ${props => animation(props)};
 `;
 //tslint:enable no-unnecessary-callback-wrapper
 
@@ -81,7 +80,13 @@ const SessionSvg = (props: {
 }) => {
   const colorSvg = props.iconColor || props?.theme?.colors.textColor;
   const pathArray = props.path instanceof Array ? props.path : [props.path];
-  const propsToPick = _.pick(props, 'width', 'animation', 'transform') as any;
+  const propsToPick = {
+    width: props.width,
+    height: props.height,
+    rotateDuration: props.rotateDuration,
+    iconRotation: props.iconRotation,
+    viewBox: props.viewBox,
+  };
 
   return (
     <Svg {...propsToPick}>

@@ -413,7 +413,10 @@ export async function retrieveNextMessages(
       return [];
     }
   } catch (e) {
-    window?.log?.warn('Got an error while retrieving next messages:', e);
+    window?.log?.warn(
+      'Got an error while retrieving next messages. Not retrying as we trigger fetch often:',
+      e
+    );
     return [];
   }
 }

@@ -2,7 +2,6 @@
 
 import { SignalService } from '../../../../protobuf';
 import { MessageParams } from '../Message';
-import { Constants } from '../../..';
 import { ECKeyPair } from '../../../../receiver/keypairs';
 import { fromHexToArray } from '../../../utils/String';
 import { PubKey } from '../../../types';

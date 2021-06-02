@@ -427,8 +427,8 @@ const toPickFromMessageModel = [
   'firstMessageOfSeries',
   'propsForGroupInvitation',
   'propsForTimerNotification',
-  'propsForVerificationNotification',
   'propsForGroupNotification',
+  'propsForDataExtractionNotification',
   // FIXME below are what is needed to fetch on the fly messageDetails. This is not the react way
   'getPropsForMessageDetail',
   'get',
