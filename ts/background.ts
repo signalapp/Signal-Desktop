@@ -521,7 +521,11 @@ export async function startApp(): Promise<void> {
         newValue: number | undefined
       ): Promise<void> => {
         await universalExpireTimer.set(newValue);
-        window.Signal.Services.storageServiceUploadJob();
+        const conversationId = window.ConversationController.getOurConversationIdOrThrow();
+        const account = window.ConversationController.get(conversationId);
+        assert(account, "Account wasn't found");
+
+        account.captureChange('universalExpireTimer');
       },
 
       addDarkOverlay: () => {
