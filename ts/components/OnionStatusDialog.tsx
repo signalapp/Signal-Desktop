@@ -135,6 +135,7 @@ export const OnionPathModal = (props: OnionPathModalType) => {
       cancelText={props.cancelText || window.i18n('cancel')}
       onConfirm={onConfirm}
       onClose={props.onClose}
+      showExitIcon={true}
     >
       <OnionPathModalInner {...props}></OnionPathModalInner>
     </SessionWrapperModal>

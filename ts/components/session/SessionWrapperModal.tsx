@@ -39,6 +39,7 @@ export type SessionWrapperModalType = {
   theme?: any;
   headerIconButtons?: any[];
   children: any;
+  headerReverse?: boolean;
 };
 
 export const SessionWrapperModal = (props: SessionWrapperModalType) => {
@@ -52,6 +53,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     showExitIcon,
     theme,
     headerIconButtons,
+    headerReverse
   } = props;
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     <div className="loki-dialog session-confirm-wrapper modal">
       <div className="session-confirm-wrapper">
         <div className="session-modal">
-          <div className="session-modal__header">
+          <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
             <div className="session-modal__header__close">
               {showExitIcon ? (
                 <SessionIconButton

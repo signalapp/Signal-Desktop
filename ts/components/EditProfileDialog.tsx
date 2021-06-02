@@ -134,6 +134,11 @@ export class EditProfileDialog extends React.Component<Props, State> {
       <div className="edit-profile-dialog">
 
         <SessionWrapperModal
+                title={i18n('editProfileModalTitle')}
+        onClose={this.closeDialog}
+        headerIconButtons={backButton}
+        showExitIcon={true}
+        theme={this.props.theme}
         >
           <div className="spacer-md" />
 
@@ -219,12 +224,13 @@ export class EditProfileDialog extends React.Component<Props, State> {
   }
 
   private renderDefaultView() {
+    const name = this.state.setProfileName ? this.state.setProfileName : this.state.profileName;
     return (
       <>
         {this.renderProfileHeader()}
 
         <div className="profile-name-uneditable">
-          <p>{this.state.setProfileName}</p>
+          <p>{name}</p>
           <SessionIconButton
             iconType={SessionIconType.Pencil}
             iconSize={SessionIconSize.Medium}
