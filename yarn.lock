@@ -1268,12 +1268,13 @@ asar@0.14.0:
     mksnapshot "^0.3.0"
     tmp "0.0.28"
 
-asbycountry@^1.2.0:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/asbycountry/-/asbycountry-1.4.1.tgz#9fd71094edbd0d740d67b0cf75c9a6ecf47eea09"
-  integrity sha512-742TViobYfarc5bJd6l57/i2YURi7g87t6VgzShubyt2it1r0yWWRvezVPcGF4/fTuNnjizgX6dW4ReJhn8vMw==
+asbycountry@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/asbycountry/-/asbycountry-1.4.2.tgz#26bf0e090225b93f7d1fc5a177899c900b5c8258"
+  integrity sha512-NnIJ1lUYJ/M0XmoOA1T5uLQWbD81MDz5MpwufSHymw8j3DauFyTDki7ixxG8nMeUo5GBkFT1U/USOcz0mJnrNQ==
   dependencies:
     chalk "^1.1.3"
+    fetch "^1.1.0"
 
 asn1.js@^4.0.0:
   version "4.10.1"
@@ -1588,6 +1589,13 @@ bindings@^1.5.0:
   integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   dependencies:
     file-uri-to-path "1.0.0"
+
+biskviit@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/biskviit/-/biskviit-1.0.1.tgz#037a0cd4b71b9e331fd90a1122de17dc49e420a7"
+  integrity sha1-A3oM1LcbnjMf2QoRIt4X3EnkIKc=
+  dependencies:
+    psl "^1.1.7"
 
 bl@^1.0.0:
   version "1.2.2"
@@ -3757,6 +3765,13 @@ encodeurl@^1.0.2, encodeurl@~1.0.2:
   resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
   integrity sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=
 
+encoding@0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/encoding/-/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"
+  integrity sha1-U4tm8+5izRq1HsMjgp0flIDHS+s=
+  dependencies:
+    iconv-lite "~0.4.13"
+
 end-of-stream@^1.0.0, end-of-stream@^1.1.0:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.4.tgz#5ae64a5f45057baf3626ec14da0ca5e4b2431eb0"
@@ -4360,6 +4375,14 @@ fd-slicer@~1.1.0:
   integrity sha1-JcfInLH5B3+IkbvmHY85Dq4lbx4=
   dependencies:
     pend "~1.2.0"
+
+fetch@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/fetch/-/fetch-1.1.0.tgz#0a8279f06be37f9f0ebb567560a30a480da59a2e"
+  integrity sha1-CoJ58Gvjf58Ou1Z1YKMKSA2lmi4=
+  dependencies:
+    biskviit "1.0.1"
+    encoding "0.1.12"
 
 figures@^2.0.0:
   version "2.0.0"
@@ -5733,12 +5756,12 @@ ip-regex@^1.0.1:
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-1.0.3.tgz#dc589076f659f419c222039a33316f1c7387effd"
   integrity sha1-3FiQdvZZ9BnCIgOaMzFvHHOH7/0=
 
-ip2country@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ip2country/-/ip2country-1.0.0.tgz#dc5b3ffb50862e7b452d43f6cce7e5ddc1b8951d"
-  integrity sha1-3Fs/+1CGLntFLUP2zOfl3cG4lR0=
+ip2country@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ip2country/-/ip2country-1.0.1.tgz#e2ab284b774b65c89509679fcb82552afcff9804"
+  integrity sha512-wYhIyQzcP85tKo17HwitnHB7F3vbN+gA7DqZzeE5K1NLfr4XnKZQ1RNsMGm3bNhf1eA3bz9QFjSXo4q6VKRqCw==
   dependencies:
-    asbycountry "^1.2.0"
+    asbycountry "^1.4.2"
 
 ip@^1.1.0, ip@^1.1.5:
   version "1.1.5"
@@ -8955,7 +8978,7 @@ pseudomap@^1.0.2:
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
   integrity sha1-8FKijacOYYkX7wqKw0wa5aaChrM=
 
-psl@^1.1.28:
+psl@^1.1.28, psl@^1.1.7:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.8.0.tgz#9326f8bcfb013adcc005fdff056acce020e51c24"
   integrity sha512-RIdOzyoavK+hA18OGGWDqUTsCLhtA7IcZ/6NCs4fFJaHBDab+pDDmDIByWFRQJq2Cd7r1OoQxBGKOaztq+hjIQ==
