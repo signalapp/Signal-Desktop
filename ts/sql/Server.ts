@@ -1797,7 +1797,7 @@ function updateToSchemaVersion31(currentVersion: number, db: Database): void {
   if (currentVersion >= 31) {
     return;
   }
-  console.log('updateToSchemaVersion10: starting...');
+  console.log('updateToSchemaVersion31: starting...');
   db.transaction(() => {
     db.exec(`
       DROP INDEX unprocessed_id;
