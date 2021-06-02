@@ -1347,17 +1347,6 @@
         "message": "Invalid Pubkey Format",
         "description": "Error string shown when user types an invalid pubkey format"
     },
-    "lnsMappingNotFound": {
-        "message": "There is no LNS mapping associated with this name",
-        "description": "Shown in toast if user enters an unknown LNS name"
-    },
-    "lnsLookupTimeout": {
-        "message": "LNS lookup timed out",
-        "description": "Shown in toast if user enters an unknown LNS name"
-    },
-    "lnsTooFewNodes": {
-        "message": "Not enough nodes currently active for LNS lookup"
-    },
     "editProfileModalTitle": {
         "message": "Аккаунт",
         "description": "Title for the Edit Profile modal"

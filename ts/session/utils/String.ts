@@ -33,10 +33,10 @@ export function nonNullish<V>(v: V): v is NonNullable<V> {
 export const toHex = (d: BufferType) => decode(d, 'hex');
 export const fromHex = (d: string) => encode(d, 'hex');
 
-export const fromHexToArray = (d: string) => new Uint8Array(encode(d, 'hex'));
+export const fromHexToArray = (d: string) => new Uint8Array(fromHex(d));
 
 export const fromBase64ToArrayBuffer = (d: string) => encode(d, 'base64');
-export const fromBase64ToArray = (d: string) => new Uint8Array(encode(d, 'base64'));
+export const fromBase64ToArray = (d: string) => new Uint8Array(fromBase64ToArrayBuffer(d));
 
 export const fromArrayBufferToBase64 = (d: BufferType) => decode(d, 'base64');
 export const fromUInt8ArrayToBase64 = (d: Uint8Array) => decode(d, 'base64');
@@ -47,4 +47,8 @@ export const stringToArrayBuffer = (str: string): ArrayBuffer => {
   }
 
   return encode(str, 'binary');
+};
+
+export const stringToUint8Array = (str: string): Uint8Array => {
+  return new Uint8Array(stringToArrayBuffer(str));
 };
