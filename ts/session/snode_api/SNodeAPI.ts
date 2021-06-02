@@ -13,9 +13,20 @@ import { snodeRpc } from './lokiRpc';
 
 import { getRandomSnode, getRandomSnodePool, requiredSnodesForAgreement, Snode } from './snodePool';
 import { Constants } from '..';
-import { sha256 } from '../crypto';
-import _ from 'lodash';
+import { getSodium, sha256 } from '../crypto';
+import _, { range } from 'lodash';
 import pRetry from 'p-retry';
+import {
+  fromHex,
+  fromHexToArray,
+  fromUInt8ArrayToBase64,
+  stringToUint8Array,
+  toHex,
+} from '../utils/String';
+
+// ONS name can have [a-zA-Z0-9_-] except that - is not allowed as start or end
+// do not define a regex but rather create it on the fly to avoid https://stackoverflow.com/questions/3891641/regex-test-only-works-every-other-time
+export const onsNameRegex = '^[a-zA-Z0-9_][a-zA-Z0-9_-]*[a-zA-Z0-9_]$';
 
 const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   let filePrefix = '';
@@ -247,20 +258,97 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
   }
 }
 
-export async function requestLnsMapping(targetNode: Snode, nameHash: any) {
-  window?.log?.debug('[lns] lns requests to {}:{}', targetNode.ip, targetNode);
-  try {
-    // TODO: Check response status
-    return snodeRpc(
-      'get_lns_mapping',
-      {
-        name_hash: nameHash,
-      },
-      targetNode
+export async function getSessionIDForOnsName(onsNameCase: string) {
+  const validationCount = 3;
+
+  const onsNameLowerCase = onsNameCase.toLowerCase();
+  const sodium = await getSodium();
+  const nameAsData = stringToUint8Array(onsNameLowerCase);
+  const nameHash = sodium.crypto_generichash(sodium.crypto_generichash_BYTES, nameAsData);
+  const base64EncodedNameHash = fromUInt8ArrayToBase64(nameHash);
+
+  const params = {
+    endpoint: 'ons_resolve',
+    params: {
+      type: 0,
+      name_hash: base64EncodedNameHash,
+    },
+  };
+  // we do this request with validationCount snodes
+  const promises = range(0, validationCount).map(async () => {
+    const targetNode = await getRandomSnode();
+    const result = await snodeRpc('oxend_request', params, targetNode);
+    if (!result || result.status !== 200 || !result.body) {
+      throw new Error('ONSresolve:Failed to resolve ONS');
+    }
+    let parsedBody;
+    try {
+      parsedBody = JSON.parse(result.body);
+    } catch (e) {
+      window?.log?.warn('ONSresolve: failed to parse ons result body', result.body);
+      throw new Error('ONSresolve: json ONS resovle');
+    }
+    const intermediate = parsedBody?.result;
+
+    if (!intermediate || !intermediate?.encrypted_value) {
+      throw new Error('ONSresolve: no encrypted_value');
+    }
+    const hexEncodedCipherText = intermediate?.encrypted_value;
+
+    const isArgon2Based = !Boolean(intermediate?.nonce);
+    const ciphertext = fromHexToArray(hexEncodedCipherText);
+    if (isArgon2Based) {
+      return '';
+    }
+
+    // not argon2Based
+    const hexEncodedNonce = intermediate.nonce as string;
+    if (!hexEncodedNonce) {
+      throw new Error('ONSresolve: No hexEncodedNonce');
+    }
+    const nonce = fromHexToArray(hexEncodedNonce);
+
+    let key;
+    try {
+      key = sodium.crypto_generichash(sodium.crypto_generichash_BYTES, nameAsData, nameHash);
+      if (!key) {
+        throw new Error('ONSresolve: Hashing failed');
+      }
+    } catch (e) {
+      window?.log?.warn('ONSresolve: hashing failed', e);
+      throw new Error('ONSresolve: Hashing failed');
+    }
+
+    const sessionIDAsData = sodium.crypto_aead_xchacha20poly1305_ietf_decrypt(
+      null,
+      ciphertext,
+      null,
+      nonce,
+      key
     );
+
+    if (!sessionIDAsData) {
+      throw new Error('ONSresolve: Decryption failed');
+    }
+
+    return toHex(sessionIDAsData);
+  });
+
+  try {
+    // if one promise throws, we end un the catch case
+    const allResolvedSessionIds = await Promise.all(promises);
+    if (allResolvedSessionIds?.length !== validationCount) {
+      throw new Error('ONSresolve: Validation failed');
+    }
+
+    // assert all the returned session ids are the same
+    if (_.uniq(allResolvedSessionIds).length !== 1) {
+      throw new Error('ONSresolve: Validation failed');
+    }
+    return allResolvedSessionIds[0];
   } catch (e) {
-    window?.log?.warn('exception caught making lns requests to a node', targetNode, e);
-    return false;
+    window.log.warn('ONSresolve: error', e);
+    throw e;
   }
 }
 

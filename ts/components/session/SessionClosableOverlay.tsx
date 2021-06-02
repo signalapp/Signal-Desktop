@@ -129,7 +129,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         title = window.i18n('newSession');
         buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
-        subtitle = window.i18n('enterSessionID');
+        subtitle = window.i18n('enterSessionIDOrONSName');
         placeholder = window.i18n('enterSessionIDOfRecipient');
         break;
       case 'open-group':

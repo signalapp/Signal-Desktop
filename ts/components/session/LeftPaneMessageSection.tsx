@@ -27,6 +27,8 @@ import { ConversationTypeEnum } from '../../models/conversation';
 import { openGroupV2CompleteURLRegex } from '../../opengroup/utils/OpenGroupUtils';
 import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
 import autoBind from 'auto-bind';
+import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
+import { SNodeAPI } from '../../session/snode_api';
 
 export interface Props {
   searchTerm: string;
@@ -276,6 +278,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         onButtonClick={this.handleMessageButtonClick}
         searchTerm={searchTerm}
         searchResults={searchResults}
+        showSpinner={loading}
         updateSearch={this.updateSearch}
         theme={this.props.theme}
       />
@@ -339,23 +342,45 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const { openConversationExternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError'));
+      ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError')); // or ons name
       return;
     }
-    let pubkey: string;
-    pubkey = this.state.valuePasted || this.props.searchTerm;
-    pubkey = pubkey.trim();
+    let pubkeyorOns: string;
+    pubkeyorOns = this.state.valuePasted || this.props.searchTerm;
+    pubkeyorOns = pubkeyorOns.trim();
 
-    const error = PubKey.validateWithError(pubkey);
-    if (!error) {
+    const errorOnPubkey = PubKey.validateWithError(pubkeyorOns);
+    if (!errorOnPubkey) {
+      // this is a pubkey
       await ConversationController.getInstance().getOrCreateAndWait(
-        pubkey,
+        pubkeyorOns,
         ConversationTypeEnum.PRIVATE
       );
-      openConversationExternal(pubkey);
+      openConversationExternal(pubkeyorOns);
       this.handleToggleOverlay(undefined);
     } else {
-      ToastUtils.pushToastError('invalidPubKey', error);
+      // this might be an ONS, validate the regex first
+      const mightBeOnsName = new RegExp(onsNameRegex, 'g').test(pubkeyorOns);
+      if (!mightBeOnsName) {
+        ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError'));
+        return;
+      }
+      this.setState({ loading: true });
+      try {
+        const resolvedSessionID = await SNodeAPI.getSessionIDForOnsName(pubkeyorOns);
+        // this is a pubkey
+        await ConversationController.getInstance().getOrCreateAndWait(
+          resolvedSessionID,
+          ConversationTypeEnum.PRIVATE
+        );
+        openConversationExternal(resolvedSessionID);
+        this.handleToggleOverlay(undefined);
+      } catch (e) {
+        window?.log?.warn('failed to resolve ons name', pubkeyorOns, e);
+        ToastUtils.pushToastError('invalidPubKey', window.i18n('failedResolveOns'));
+      } finally {
+        this.setState({ loading: false });
+      }
     }
   }
 
