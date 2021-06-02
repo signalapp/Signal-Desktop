@@ -2797,12 +2797,11 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    if (this.get('pendingUniversalTimer') || this.get('expireTimer')) {
+    if (await window.Signal.Data.hasUserInitiatedMessages(this.get('id'))) {
       return;
     }
 
-    const activeAt = this.get('active_at');
-    if (activeAt) {
+    if (this.get('pendingUniversalTimer') || this.get('expireTimer')) {
       return;
     }
 
@@ -2824,6 +2823,9 @@ export class ConversationModel extends window.Backbone
     const message = window.MessageController.getById(notificationId);
     if (message) {
       message.cleanup();
+      window.Signal.Data.removeMessage(message.id, {
+        Message: window.Whisper.Message,
+      });
     }
 
     if (this.get('expireTimer')) {

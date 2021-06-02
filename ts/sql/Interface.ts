@@ -215,6 +215,7 @@ export type DataInterface = {
   ) => Promise<Array<ConversationType>>;
 
   getMessageCount: (conversationId?: string) => Promise<number>;
+  hasUserInitiatedMessages: (conversationId: string) => Promise<boolean>;
   saveMessages: (
     arrayOfMessages: Array<MessageType>,
     options: { forceSave?: boolean }
