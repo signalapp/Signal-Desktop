@@ -303,6 +303,10 @@
         font-size: $session-font-md;
         padding: 0px $session-margin-sm;
       }
+
+      .session-icon-button {
+        padding: 0px;
+      }
     }
   }
 }
