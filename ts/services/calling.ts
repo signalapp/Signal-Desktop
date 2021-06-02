@@ -945,7 +945,7 @@ export class CallingClass {
     } else {
       this.setOutgoingVideo(
         conversationId,
-        Boolean(this.hadLocalVideoBeforePresenting) || hasLocalVideo
+        this.hadLocalVideoBeforePresenting ?? hasLocalVideo
       );
       this.hadLocalVideoBeforePresenting = undefined;
     }
