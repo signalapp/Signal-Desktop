@@ -175,6 +175,10 @@
         "message": "ئارخىپ كۆرسەت",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
+    "avatarMenuChatColors": {
+        "message": "سۆھبەت رەڭگى",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "يۈكلەۋاتىدۇ…",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -701,6 +705,10 @@
         "message": "Signal Desktop ھەققىدە",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "ئېكران ھەمبەھىر",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "پاراڭ",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -748,6 +756,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "قىسقا ئۇچۇر/كۆپ ۋاسىتە ئۇچۇر ئالاقەداشلارنى ئۈستەل ئۈستى كومپيۇتېر نەشرىدە ئىشلەتكىلى بولمايدۇ.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "«$conversationName$» دا «$searchTerm$» غا ئائىت نەتىجە تېپىلمىدى",
@@ -1131,6 +1143,38 @@
         "message": "قوللىغۇچىلار  بىلەن ئالاقىلىشىڭ",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
+    "DeliveryIssue--preview": {
+        "message": "يەتكۈزۈش مەسىلىسى",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "$sender$ نىڭ بىر ئۇچۇرىنى يەتكۈزەلمىدى",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "تېخىمۇ كۆپ بىلدۈرگۈ",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "يەتكۈزۈش مەسىلىسى",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "سىزگە $sender$ ئەۋەتكەن ئۇچۇر، چاپلاق، ئىنكاس، ئوقۇلدى خېتى ياكى ۋاسىتىنى يەتكۈزەلمەيدۇ. ئۇلار ئۇنى بىۋاسىتە سىزگە ياكى گۇرۇپپىدا يوللاشنى سىنىغان بولۇشى مۇمكىن.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "quoteThumbnailAlt": {
         "message": "نەقىل ئېلىنغان ئۇچۇرنىڭ كىچىك رەسىمى",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1275,6 +1319,18 @@
         "message": "مىكروفون ئۈنلۈك",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "نامايان قىلىش چەكلەندى",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "نامايان قىلىشنى باشلا",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "نامايان قىلىشنى توختات",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "كامېرا تاقاق",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1387,6 +1443,80 @@
         "message": "ئاستىغا سۈر",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
+    "calling__presenting--notification-title": {
+        "message": "ھەممەيلەنگە نامايان قىلىۋاتىسىز.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "نامايان قىلىشنى توختاتماقچى بولغاندا، بۇ جاينى چېكىپ سۆزلىشىشكە قايتىڭ.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal دا $window$ نى نامايان قىلىۋاتىدۇ.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "ھەمبەھىرنى توختات",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "نامايان قىلىشنى توختاتتىڭىز",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ نامايان قىلىۋاتىدۇ",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ نامايان قىلىشنى توختاتتى",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "ھوقۇق لازىم",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "Signal ئېكراننى خاتىرىلەش ئۈچۈن كومپيۇتېرنى زىيارەت قىلىش ھوقۇقىغا ئېھتىياجلىق.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "سىستېما مايىللىقلارغا يۆتكىلىدۇ.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "سول ئاستىدىكى قۇلۇپ سىنبەلگىنى چېكىپ، كومپيۇتېر ئىمنى كىرگۈزۈڭ.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "ئوڭ تەرەپتىكى، Signal نىڭ ئوڭ تەرىپىدىكى رەمكىنى تاللاڭ. ئەگەر تىزىمدىن Signal نى تاپالمىسىڭىز، + نى چېكىپ ئۇنى قوشۇڭ.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "سىستېما مايىللىقلارنى ئاچ",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "تارقىتىۋېتىش",
+        "description": "The cancel button for the needs screen record permissions modal"
+    },
     "alwaysRelayCallsDescription": {
         "message": "چاقىرىقلارنى دائىم ئۇلاپ يوللا",
         "description": "Description of the always relay calls setting"
@@ -1412,8 +1542,8 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "تېكىست رامكىسىغا خەت كىرگۈزۈۋاتقاندا ئىملا تەكشۈرۈشنى قوزغىتىدۇ",
-        "description": "Description of the media permission description"
+        "message": "ئىملا تەكشۈرۈشنى قوزغىتىدۇ",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
         "message": "ئىملا تەكشۈرۈش Signal كېيىنكى قېتىم قوزغالغاندا ئېچىلىدۇ.",
@@ -1422,6 +1552,10 @@
     "spellCheckWillBeDisabled": {
         "message": "كېيىنكى قېتىم Signal قوزغالغاندا ئىملا تەكشۈرۈش چەكلىنىدۇ.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "autoLaunchDescription": {
+        "message": "كومپيۇتېردا تىزىمغا كىرگەندە ئاچىدۇ",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "سانلىق مەلۇماتنى تازىلا",
@@ -1536,6 +1670,10 @@
     "sendFailed": {
         "message": "ئەۋەتەلمىدى",
         "description": "Shown on outgoing message if it fails to send"
+    },
+    "sendPaused": {
+        "message": "يوللاش ۋاقىتلىق توختىتىلدى",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
         "message": "قىسمەن ئەۋەتىلدى، تەپسىلاتلار ئۈچۈن چېكىڭ",
@@ -1689,105 +1827,13 @@
             }
         }
     },
-    "timerOption_0_seconds": {
-        "message": "ياپ",
+    "disappearingMessages__off": {
+        "message": "تاقاق",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 سېكۇنت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 سېكۇنت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 سېكۇنت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 مىنۇت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 مىنۇت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 مىنۇت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 سائەت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 سائەت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 سائەت",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 كۈن",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 ھەپتە",
-        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
         "message": "غايىب ئۇچۇرلار",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "ياپ",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5 سېكۇنت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10 سېكۇنت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30 سېكۇنت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1 مىنۇت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5 مىنۇت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30 مىنۇت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1 سائەت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6 سائەت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12 سائەت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1 كۈن",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1 ھەپتە",
-        "description": "Very short format indicating current timer setting in the conversation header"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
     },
     "disappearingMessagesDisabled": {
         "message": "غايىب ئۇچۇر چەكلەندى",
@@ -2023,6 +2069,10 @@
         "message": "گۇرۇپپا ئاتى (زۆرۈر)",
         "description": "The placeholder for the group name placeholder"
     },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "تونۇشتۇرۇش",
+        "description": "The placeholder for the group description"
+    },
     "setGroupMetadata__create-group": {
         "message": "قۇر",
         "description": "The 'create group' button text in the 'set group metadata' left pane screen"
@@ -2036,7 +2086,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "گۇرۇپپا ئاتى ۋە سۈرەت تەھرىر",
+        "message": "گۇرۇپپا تەھرىر",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2985,9 +3035,13 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "چەكلە ۋە ئۆچۈر",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "ئەخلەت ئۇچۇرنى مەلۇم قىلىپ چەكلە",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "ئەخلەت ئۇچۇر دەپ مەلۇم قىلىنىپ چەكلەندى.",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
         "message": "$name$ نى چەكلەمدۇ؟",
@@ -3107,21 +3161,69 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
-        "message": "$group$ نىڭ ئەزاسى.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
+    "member-of-1-group": {
+        "message": "$group$ ئەزاسى",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
     },
-    "ConversationHero--membership-2": {
-        "message": "$group1$ ۋە $group2$ نىڭ ئەزاسى.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
+    "member-of-2-groups": {
+        "message": "$group1$ ۋە $group2$ نىڭ ئەزاسى",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
     },
-    "ConversationHero--membership-3": {
-        "message": "$group1$،$group2$ ۋە $group3$ نىڭ ئەزاسى.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-3-groups": {
+        "message": "$group1$،$group2$ ۋە $group3$ نىڭ ئەزاسى",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
     },
-    "ConversationHero--membership-extra": {
-        "message": "$group1$،$group2$، $group3$ ۋە باشقا $remainingCount$گۇرۇپپىنىڭ ئەزاسى.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-more-than-3-groups": {
+        "message": "$group1$، $group2$، $group3$ ۋە باشقا $remainingCount$ گۇرۇپپىنىڭ ئەزاسى",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "سىزنى $name$ گۇرۇپپىغا قوشتى.",
@@ -3134,8 +3236,12 @@
         }
     },
     "no-groups-in-common": {
-        "message": "ئورتاق گۇرۇپپا يوق.",
+        "message": "ئورتاق گۇرۇپپا يوق",
         "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "ھېچقانداق ئورتاق گۇرۇپپا يوق. تەلەپلەرنى ئەستايىدىللىق بىلەن تەكشۈرۈڭ.",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "جاۋاب",
@@ -3310,6 +3416,22 @@
     "calling__hangup": {
         "message": "چاقىرىقتىن ئايرىل",
         "description": "Title for hang up button"
+    },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "ئېكرانىڭىزنى ھەمبەھىرلەيدۇ",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "ئېكران ھەمبەھىر",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "پۈتۈن ئېكران",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "بىر كۆزنەك",
+        "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
         "message": "سىن",
@@ -4529,6 +4651,42 @@
         "message": "گۇرۇپپا ئۇلانمىسى ئەسلىگە قايتۇرۇلدى.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--description--remove--you": {
+        "message": "گۇرۇپپا تونۇشتۇرۇشىنى چىقىرىۋەتتىڭىز.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "گۇرۇپپا تونۇشتۇرۇشىنى $memberName$ چىقىرىۋەتتى.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "گۇرۇپپىنىڭ تونۇشتۇرۇشى چىقىرىۋېتىلدى.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "گۇرۇپپا تونۇشتۇرۇشىنى ئۆزگەرتتىڭىز.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "گۇرۇپپا تونۇشتۇرۇشىنى $memberName$ ئۆزگەرتتى.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "گۇرۇپپا تونۇشتۇرۇشى ئۆزگەرتىلدى.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "يېڭى ئىقتىدارلاردىن @ئاتاش ۋە باشقۇرۇشنى ئاكتىپلاش ئۈچۈن بۇ گۇرۇپپىنى يۇقىرىلىتىڭ. بۇ گۇرۇپپىدا ئات ۋە سۈرەتنى ھەمبەھىرلىمىگەن ئەزالارغا گۇرۇپپىغا قوشۇلۇش تەكلىپى يوللىنىدۇ. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4663,6 +4821,18 @@
         "message": "قوشۇمچە ھۆججەت",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "بۇ كىشى Signal ئىشلەتمەيۋاتىدۇ",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal ئۈستەل ئۈستى كومپيۇتېر نەشرى Signal ئىشلەتمەيۋاتقان ئالاقەداشلار بىلەن ئۇچۇرلىشىشنى قوللىمايدۇ. تېخىمۇ بىخەتەر ئالاقە كەچمىشىگە ئېرىشىش ئۈچۈن بۇ كىشىدىن Signal ئورنىتىشنى تەلەپ قىلىڭ.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "ئالاقەداشلارنىڭ تىزىملىتىش ھالىتىنى تەكشۈرۈۋاتىدۇ",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "بەلگە سانىدا ئۈنسىز سۆھبەت سانىنى كۆرسىتىدۇ",
         "description": "Description for counting muted conversations in badge setting"
@@ -4703,6 +4873,10 @@
         "message": "گۇرۇپپىدىن چىقار",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
+    "showChatColorEditor": {
+        "message": "سۆھبەت رەڭگى",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
+    },
     "showConversationDetails": {
         "message": "گۇرۇپپا تەڭشەكلەر",
         "description": "This is a button in the conversation context menu to show group settings"
@@ -4724,7 +4898,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "گۇرۇپپا ئىسمى، سىما ۋە كۆرۈن-غايىب ئۇچۇرنىڭ ۋاقتىنى كىم ئۆزگەرتەلەيدىغانلىقىنى تاللاڭ.",
+        "message": "گۇرۇپپىنىڭ ئىسمى، سۈرىتى، تونۇشتۇرۇشى ۋە كۆرۈن-غايىب ئۇچۇرنىڭ ۋاقىت خاتىرىلىگۈچىنى كىم ئۆزگەرتەلەيدىغانلىقىنى تاللاڭ.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5132,5 +5306,297 @@
     "ForwardMessageModal--continue": {
         "message": "داۋاملاشتۇر",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "كۆپرەك ئۆگىنىش",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "بۇ كىشى بىلەن ئورتاق گۇرۇپپىڭىز يوق. كېرەكسىز ئۇچۇرلاردىن ساقلىنىش ئۈچۈن قوشۇلۇشتىن ئىلگىرى تەلەپلەرنى ئەستايىدىللىق بىلەن تەكشۈرۈڭ.",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "ئۇچۇر ئىلتىماسى ھەققىدە",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "ئىلتىماسنى ئېھتىيات بىلەن تەكشۈرۈڭ. Signal ئوخشاش ئاتلىق باشقا ئالاقەداشنى بايقىدى. $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "گۇرۇپپىدىكى $count$ ئەزانىڭ ئاتى ئوخشاش. $link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "ئىلتىماسنى تەكشۈر",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "چېكىلسە كۆرسىتىدۇ",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "ئىلتىماسنى تەكشۈر",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "ئىلتىماسنىڭ نەدىن كەلگەنلىكىنى جەزملەشتۈرەلمىسىڭىز، ئاستىدىكى ئالاقەداشلارنى كۆزدىن كەچۈرۈڭ ۋە مەشغۇلات قىلىڭ.",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "ئىلتىماس",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "ئالاقەداشىڭىز",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "ئەزالارنى تەكشۈر",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "گۇرۇپپىدىكى $count$ ئەزانىڭ ئاتى ئوخشىشىپ كېتىدۇ، تۆۋەندىكى ئەزالارنى تەكشۈرۈڭ ياكى مۇناسىپ مەشغۇلاتنى تاللاڭ.",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "ئەزالار",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "يېقىندا تەرجىمىھالىنى $oldName$ دىن $newName$ گە ئۆزگەرتتى",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "گۇرۇپپىدىن چىقار",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "بۇ گۇرۇپپىدىن «$name$» نى چىقىرىۋېتەمدۇ؟",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "CaptchaDialog__title": {
+        "message": "ئۇچۇرلىشىشنى داۋاملاشتۇرۇش ئۈچۈن دەلىللەش زۆرۈر",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "Signal دا ئەخلەت خەتنىڭ ئالدىنى ئېلىش ئۈچۈن، دەلىللەشنى تاماملاڭ.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "دەلىللىگەندىن كېيىن، ئۇچۇر يوللاشنى داۋاملاشتۇرالايسىز. ۋاقىتلىق توختىتىلغان ھەر قانداق ئۇچۇر ئۆزلۈكىدىن يوللىنىدۇ.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "دەلىللىمەي داۋاملاشتۇرامدۇ؟",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "ئەگەر دەلىللەشتىن ئاتلاشنى تاللىسىڭىز، باشقىلار سىزگە يوللىغان ئۇچۇرنى تاپشۇرۇۋالالمايسىز ۋە ئۇچۇرىڭىزنى يوللىغىلى بولماسلىقى مۇمكىن.",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "دەلىللەشتىن ئاتلا",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "دەلىللەش تامام.",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "دەلىللىيەلمىدى. سەل تۇرۇپ قايتا سىناڭ.",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "ئۇچۇرنى ھەممەيلەن ئۈچۈن ئۆچۈرەلمىدى. سەل تۇرۇپ قايتا سىناڭ.",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "رەڭنى ئۆچۈر",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "بۇ ئىختىيارىچە رەڭ $num$ سۆھبەتكە ئىشلىتىلىدۇ. ئۇنى ھەممە سۆھبەتتىن ئۆچۈرەمسىز؟",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "پۈتكۈل سۆھبەت رەڭگى",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "سۆھبەت رەڭگى",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "سۆھبەت رەڭگىنى ئەسلىگە قايتۇر",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "ھەممە سۆھبەت رەڭگىنى ئەسلىگە قايتۇر",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "ئەسلىگە قايتۇر",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "ھەممە سۆھبەت رەڭگىنى قاپلىۋېتەمسىز؟",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "ئىختىيارىچە رەڭ تەھرىرلىگۈچنى كۆرسەت",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "سۆھبەت رەڭگىنى بۇ جايدا ئالدىن كۆرگىلى بولىدۇ.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "باشقا كۆپۈك.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "رەڭ پەقەت سىزگىلا كۆرۈنىدۇ.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "رەڭ تەھرىر",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "كۆچۈر",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "ئۆچۈر",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "قېنىق",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "يانتۇلۇق",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "سايە",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "تويۇنۇش",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "ئىختىيارىچە رەڭ",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "ئىختىيارىچە ۋاقىت…",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "ئىختىيارىچە ۋاقىت",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "ئىختىيارىچە ۋاقىت خاتىرىلىگۈچ",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "غايىب ئۇچۇر ئۈچۈن ئىختىيارىچە ۋاقىتنى تاللاڭ.",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "بېكىتىڭ",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "سېكۇنت",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "مىنۇت",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "سائەت",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "كۈن",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "ھەپتە",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "سىز باشلىغان بارلىق يېڭى سۆھبەتلەر ئۈچۈن كۆڭۈلدىكى غايىب ئۇچۇر ۋاقىت خاتىرىلىگۈچنى تەڭشەڭ.",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "يېڭى سۆھبەتنىڭ كۆڭۈلدىكى ۋاقىت خاتىرىلىگۈچىسى",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "سىز ئۇلارغا ئۇچۇر يوللىغاندا غايىب ئۇچۇر ۋاقتى $timeValue$ قىلىپ تەڭشەلدى.",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "GroupDescription__read-more": {
+        "message": "تېخىمۇ كۆپ",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "گۇرۇپپا تونۇشتۇرۇشىنى بۇ گۇرۇپپىنىڭ ئەزالىرى ۋە تەكلىپ قىلىنغان كىشىلەر كۆرەلەيدۇ.",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "گۇرۇپپا تونۇشتۇرۇشى قوش…",
+        "description": "Placeholder text in the details header for those that can edit the group description"
     }
 }
