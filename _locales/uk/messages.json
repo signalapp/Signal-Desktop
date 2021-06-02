@@ -104,11 +104,11 @@
         "description": "Edit menu command to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Start speaking",
+        "message": "Почати говорити",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Stop speaking",
+        "message": "Припинити говорити",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
@@ -168,7 +168,7 @@
         "description": "Shown in the context menu for an image to indicate that the user can copy the image"
     },
     "contextMenuNoSuggestions": {
-        "message": "No Suggestions",
+        "message": "Пропозицій немає",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
@@ -338,7 +338,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "For your security, conversation history isn't transferred to new linked devices.",
+        "message": "Для вашої безпеки історію листування не буде перенесено до нових прив'язаних пристроїв.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -701,6 +701,10 @@
         "message": "Про Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Показати екран",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "Розмова",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -748,6 +752,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS contacts are not available on Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "Немає результатів для «$searchTerm$» у $conversationName$",
@@ -1275,6 +1283,18 @@
         "message": "Увімкнути мікрофон",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Presenting disabled",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Start presenting",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Stop presenting",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "Камера вимкнена",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1366,7 +1386,7 @@
         }
     },
     "calling__you-have-blocked": {
-        "message": "You have blocked $name$",
+        "message": "Ви заблокували $name$",
         "description": "when you block someone and cannot view their video",
         "placeholders": {
             "name": {
@@ -1386,6 +1406,84 @@
     "calling__overflow__scroll-down": {
         "message": "Scroll down",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
+    },
+    "calling__presenting--notification-title": {
+        "message": "You're presenting to everyone.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal is sharing $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Stop sharing",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "You stopped presenting",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ is presenting",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ stopped presenting",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Permission needed",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "On an Apple Mac computer using macOS Catalina version 10.15 or later, Signal needs permission to access your computer's screen recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Go to System Preferences and then click Security & Privacy.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Click Privacy.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "On the left, click Screen Recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step4": {
+        "message": "On the right, check the Signal box.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Open System Preferences",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "Відхилити",
+        "description": "The cancel button for the needs screen record permissions modal"
     },
     "alwaysRelayCallsDescription": {
         "message": "Завжди ретранслювати дзвінки",
@@ -1412,16 +1510,20 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
-        "description": "Description of the media permission description"
+        "message": "Увімкнути перевірку правопису",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "Перевірку правопису буде увімкнено під час наступного запуску Signal.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "Перевірку правопису буде вимкнено під час наступного запуску Signal.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "autoLaunchDescription": {
+        "message": "Запускати при вході в систему",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "Стерти дані",
@@ -1536,6 +1638,10 @@
     "sendFailed": {
         "message": "Не вдалося надіслати",
         "description": "Shown on outgoing message if it fails to send"
+    },
+    "sendPaused": {
+        "message": "Відправлення призупинене",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
         "message": "Частково надіслано, торкніться для деталей",
@@ -1689,105 +1795,13 @@
             }
         }
     },
-    "timerOption_0_seconds": {
+    "disappearingMessages__off": {
         "message": "вимкн",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 секунд",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 секунд",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 секунд",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 хвилина",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 хвилин",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 хвилин",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 година",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 годин",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 годин",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 день",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 тиждень",
-        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
         "message": "Зникаючі повідомлення ",
         "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "вимкн",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5с",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10с",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30с",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1хв",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5хв",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30хв",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1г",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6г",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12г",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1д",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1т",
-        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
         "message": "Зникаючі повідомлення заборонені",
@@ -2758,11 +2772,11 @@
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
-        "message": "Title",
+        "message": "Назва",
         "description": "Label for the title input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--author": {
-        "message": "Author",
+        "message": "Автор",
         "description": "Label for the author input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover": {
@@ -2956,7 +2970,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
-        "message": "Unblock $name$?",
+        "message": "Розблокувати $name$?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -2990,7 +3004,7 @@
         "description": "Shown as a button to let the user block and delete a message request"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "Block $name$?",
+        "message": "Заблокувати $name$?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -3004,7 +3018,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Block and Leave $group$?",
+        "message": "Заблокувати та покинути $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3107,24 +3121,72 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
-        "message": "Member of $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
+    "member-of-1-group": {
+        "message": "Полягає в $group$",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
     },
-    "ConversationHero--membership-2": {
-        "message": "Member of $group1$ and $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
+    "member-of-2-groups": {
+        "message": "Полягає в $group1$ і $group2$",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
     },
-    "ConversationHero--membership-3": {
-        "message": "Member of $group1$, $group2$, and $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-3-groups": {
+        "message": "Полягає в $group1$, $group2$,  і $group3$",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
     },
-    "ConversationHero--membership-extra": {
-        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-more-than-3-groups": {
+        "message": "Учасник $group1$, $group2$, $group3$ та $remainingCount$ інших",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
-        "message": "$name$ added you to the group.",
+        "message": "$name$ додав вас до групи.",
         "description": "Shown Indicates that you were added to a group by a given individual.",
         "placeholders": {
             "name": {
@@ -3134,8 +3196,12 @@
         }
     },
     "no-groups-in-common": {
-        "message": "No groups in common.",
+        "message": "Спільних груп немає",
         "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "Спільних груп немає. Переглядайте запити уважно.",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "Відповісти",
@@ -3154,39 +3220,39 @@
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "You declined a video call",
+        "message": "Ви відхилили відеодзвінок",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
-        "message": "Incoming audio call",
+        "message": "Вхідний аудіодзвінок",
         "description": "Shown in conversation history when you accepted an incoming audio call"
     },
     "acceptedIncomingVideoCall": {
-        "message": "Incoming video call",
+        "message": "Вхідний відеодзвінок",
         "description": "Shown in conversation history when you accepted an incoming video call"
     },
     "missedIncomingAudioCall": {
-        "message": "Missed audio call",
+        "message": "Пропущений аудіодзвінок",
         "description": "Shown in conversation history when you missed an incoming audio call"
     },
     "missedIncomingVideoCall": {
-        "message": "Missed video call",
+        "message": "Пропущений відеодзвінок",
         "description": "Shown in conversation history when you missed an incoming video call"
     },
     "acceptedOutgoingAudioCall": {
-        "message": "Outgoing audio call",
+        "message": "Вихідний аудіодзвінок",
         "description": "Shown in conversation history when you made an outgoing audio call"
     },
     "acceptedOutgoingVideoCall": {
-        "message": "Outgoing video call",
+        "message": "Вихідний відеодзвінок",
         "description": "Shown in conversation history when you made an outgoing video call"
     },
     "missedOrDeclinedOutgoingAudioCall": {
-        "message": "Unanswered audio call",
+        "message": "Аудіодзвінок без відповіді",
         "description": "Shown in conversation history when your audio call is missed or declined"
     },
     "missedOrDeclinedOutgoingVideoCall": {
-        "message": "Unanswered video call",
+        "message": "Відеодзвінок без відповіді",
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
@@ -3206,11 +3272,11 @@
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Start a call",
+        "message": "Почати дзвінок",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Start a video call",
+        "message": "Почати відеодзвінок",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
@@ -3228,7 +3294,7 @@
         }
     },
     "callReconnecting": {
-        "message": "Reconnecting...",
+        "message": "Перепідключення...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -3246,7 +3312,7 @@
         "description": "Title for device selection settings"
     },
     "calling__participants": {
-        "message": "$people$ in call",
+        "message": "У дзвінку $people$",
         "description": "Title for participants list toggle",
         "placeholders": {
             "people": {
@@ -3260,7 +3326,7 @@
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
-        "message": "A group call was started",
+        "message": "Розпочато груповий дзвінок",
         "description": "Notification message when a group call has started, but we don't know who started it"
     },
     "calling__call-notification__started-by-you": {
@@ -3268,7 +3334,7 @@
         "description": "Notification message when a group call has started by you"
     },
     "calling__call-notification__started": {
-        "message": "$name$ started a group call",
+        "message": "$name$ розпочав груповий дзвінок",
         "description": "Notification message when a group call has started",
         "placeholders": {
             "name": {
@@ -3278,11 +3344,11 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "You are already in a call",
+        "message": "Ви вже у дзвінку",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
-        "message": "Call has reached capacity of $max$ participants",
+        "message": "Дзвінок досяг максимальної кількості учасників у $max$",
         "description": "Tooltip in disabled notification button when the call is full",
         "placeholders": {
             "max": {
@@ -3292,11 +3358,11 @@
         }
     },
     "calling__pip--on": {
-        "message": "Minimize call",
+        "message": "Згорнути дзвінок",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__pip--off": {
-        "message": "Fullscreen call",
+        "message": "Повноекранний дзвінок",
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
@@ -3308,8 +3374,24 @@
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Leave call",
+        "message": "Покинути дзвінок",
         "description": "Title for hang up button"
+    },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Share your screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Share screen",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Entire screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "A window",
+        "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
         "message": "Відео",
@@ -4663,6 +4745,18 @@
         "message": "Прикріпити файл",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "Ця людина не використовує Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Checking contact's registration status",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
@@ -5132,5 +5226,83 @@
     "ForwardMessageModal--continue": {
         "message": "Продовжити",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "Дізнатись більше",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "У вас немає спільних груп з цією особою. Уважно розглядайте запити перед тим, як їх прийняти, щоб уникнути небажаних повідомлень.",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "Про запити на листування",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "Уважно проглядайте запити. Signal знайшов іншого користувача з цим ім'ям. $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "Переглянути запит",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "Переглянути запит",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "Якщо ви не впевнені, від кого надійшов запит, перегляньте контакти нижче та прийміть рішення.",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "Запит",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "Серед ваших контактів",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "CaptchaDialog__title": {
+        "message": "Підтвердити для продовження спілкування",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "Для запобігання поширення спаму у Signal, будь ласка, здійсніть підтвердження особи.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "Після підтвердження ви зможете продовжити спілкування. Усі призупинені повідомлення відправляться автоматично.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "Продовжити без підтвердження?",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "Якщо ви вирішите продовжити без підтвердження особи, ви можете не отримати повідомлення від інших людей, та не зможете відправити власні повідомлення.",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "Не підтверджувати",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "Підтвердження особи завершено.",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "Підтвердження не вдалось. Будь ласка, спробуйте пізніше.",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "Не вдалось видалити повідомлення у всіх. Будь ласка, спробуйте пізніше.",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     }
 }

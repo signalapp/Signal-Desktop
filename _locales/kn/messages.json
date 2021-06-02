@@ -8,19 +8,19 @@
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "copyErrorAndQuit": {
-        "message": "Copy error and quit",
+        "message": "ದೋಷವನ್ನು ಪ್ರತಿ ಮಾಡಿ ತ್ಯಜಿಸು",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "Unknown contact",
+        "message": "ತಿಳಿದಿಲ್ಲದ ಸಂಪರ್ಕ",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
-        "message": "Unknown group",
+        "message": "ತಿಳಿದಿಲ್ಲದ ಗುಂಪು",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Database Error",
+        "message": "ಡೇಟಾಬೇಸಿನಲ್ಲಿ ದೋಷ",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
@@ -36,47 +36,47 @@
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Edit",
+        "message": "ತಿದ್ದಿ",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&View",
+        "message": "ತೋರಿಸು",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "&Window",
+        "message": "ಕಿಟಕಿ",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "&Help",
+        "message": "ಸಹಾಯ",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Preferences…",
+        "message": "ಆದ್ಯತೆಗಳು…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "ಅಡಗಿ",
+        "message": "ಅಡಗಿಸು",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Hide Others",
+        "message": "ಇತರರನ್ನು ಅಡಗಿಸು",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Show All",
+        "message": "ಎಲ್ಲಾದನ್ನು ತೋರಿಸು",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Quit Signal",
+        "message": "Signalಅನ್ನು ತ್ಯಜಿಸು",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Undo",
+        "message": "ರದ್ದುಗೊಳಿಸು",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Redo",
+        "message": "ಮತ್ತೆ ಮಾಡು",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
@@ -92,7 +92,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
+        "message": "ಅಂಟಿಸು ಹಾಗೂ ಶೈಲಿಯನ್ನು ಹೊಂದಾಣಿಸು",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -104,15 +104,15 @@
         "description": "Edit menu command to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Start speaking",
+        "message": "ಮಾತಾಡುವುದನ್ನು ಆರಂಭಿಸು",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Stop speaking",
+        "message": "ಮಾತಾಡುವುದನ್ನು ನಿಲ್ಲಿಸು",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Close Window",
+        "message": "ಕಿಟಕಿಯನ್ನು ಮುಚ್ಚು",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
@@ -128,15 +128,15 @@
         "description": "Window menu command to bring all windows of current application to front"
     },
     "viewMenuResetZoom": {
-        "message": "Actual Size",
+        "message": "ನಿಜವಾದ ಗಾತ್ರ",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Zoom In",
+        "message": "ಇನ್ನು ಹತ್ತಿರವಾಗಿಸು",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Zoom Out",
+        "message": "ಇನ್ನು ದೂರವಾಗಿಸು",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
@@ -701,6 +701,10 @@
         "message": "About Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Sharing screen",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "Speech",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -748,6 +752,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS contacts are not available on Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "No results for \"$searchTerm$\" in $conversationName$",
@@ -1275,6 +1283,18 @@
         "message": "Unmute mic",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Presenting disabled",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Start presenting",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Stop presenting",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "Your camera is off",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1387,6 +1407,84 @@
         "message": "Scroll down",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
+    "calling__presenting--notification-title": {
+        "message": "You're presenting to everyone.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal is sharing $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Stop sharing",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "You stopped presenting",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ is presenting",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ stopped presenting",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Permission needed",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "On an Apple Mac computer using macOS Catalina version 10.15 or later, Signal needs permission to access your computer's screen recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Go to System Preferences and then click Security & Privacy.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Click Privacy.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "On the left, click Screen Recording.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step4": {
+        "message": "On the right, check the Signal box.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Open System Preferences",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "ವಜಾಗೊಳಿಸಿ",
+        "description": "The cancel button for the needs screen record permissions modal"
+    },
     "alwaysRelayCallsDescription": {
         "message": "ಯಾವಾಗಲೂ ಕರೆಗಳನ್ನು ರಿಲೇ ಮಾಡಿ",
         "description": "Description of the always relay calls setting"
@@ -1412,8 +1510,8 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
-        "description": "Description of the media permission description"
+        "message": "Enable spell check",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
         "message": "Spell check will be enabled the next time Signal starts.",
@@ -1422,6 +1520,10 @@
     "spellCheckWillBeDisabled": {
         "message": "Spell check will be disabled the next time Signal starts.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "autoLaunchDescription": {
+        "message": "Open at computer login",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "Clear Data",
@@ -1536,6 +1638,10 @@
     "sendFailed": {
         "message": "ಕಳಿಸಲು ವಿಫಲವಾಯಿತು",
         "description": "Shown on outgoing message if it fails to send"
+    },
+    "sendPaused": {
+        "message": "Send paused",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
         "message": "Partially sent, click for details",
@@ -1689,105 +1795,13 @@
             }
         }
     },
-    "timerOption_0_seconds": {
-        "message": "ಆರಿಸು",
+    "disappearingMessages__off": {
+        "message": "ಆಫ಼್",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 seconds",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 seconds",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 seconds",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 ನಿಮಿಷ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 minutes",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 minutes",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 ಗಂಟೆ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 hours",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 hours",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 ದಿನ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 ವಾರ",
-        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
         "message": "ಕಣ್ಮರೆಯಾಗುವ ಸಂದೇಶಗಳು",
         "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "ಆರಿಸು",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1 ನಿಮಿಷ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5 ನಿಮಿಷಗಳು",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30 ನಿಮಿಷಗಳು",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1h",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6 ಗಂಟೆ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12 ಗಂಟೆ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1 ದಿನ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1 ವಾರ",
-        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
         "message": "ಕಣ್ಮರೆಯಾಗುತ್ತಿದೆ ಸಂದೇಶಗಳು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
@@ -3107,21 +3121,69 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
-        "message": "Member of $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
+    "member-of-1-group": {
+        "message": "$group$ ರ ಸದಸ್ಯ",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
     },
-    "ConversationHero--membership-2": {
-        "message": "Member of $group1$ and $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
+    "member-of-2-groups": {
+        "message": "$group1$ ಮತ್ತು $group2$ ರ ಸದಸ್ಯ",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
     },
-    "ConversationHero--membership-3": {
-        "message": "Member of $group1$, $group2$, and $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-3-groups": {
+        "message": "$group1$, $group2$, ಮತ್ತು $group3$ ರ ಸದಸ್ಯ",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
     },
-    "ConversationHero--membership-extra": {
-        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-more-than-3-groups": {
+        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ added you to the group.",
@@ -3134,8 +3196,12 @@
         }
     },
     "no-groups-in-common": {
-        "message": "ಯಾವುದೇ ಗುಂಪುಗಳು ಸಾಮಾನ್ಯವಾಗಿಲ್ಲ.",
+        "message": "No groups in common",
         "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "No groups in common. Review requests carefully.",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "ಉತ್ತರಿಸಿ",
@@ -3310,6 +3376,22 @@
     "calling__hangup": {
         "message": "Leave call",
         "description": "Title for hang up button"
+    },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Share your screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Share screen",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Entire screen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "A window",
+        "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
         "message": "ವೀಡಿಯೊ",
@@ -4663,6 +4745,18 @@
         "message": "Attach file",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "This person isn’t using Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Checking contact's registration status",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "Count muted conversations in badge count",
         "description": "Description for counting muted conversations in badge setting"
@@ -5132,5 +5226,83 @@
     "ForwardMessageModal--continue": {
         "message": "ಮುಂದುವರಿಸಿ",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "About Message Requests",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "Review request",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "Review request",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "ವಿನಂತಿ ಯಾರೆಂದು ನಿಮಗೆ ಖಚಿತವಿಲ್ಲದಿದ್ದರೆ, ಕೆಳಗಿನ ಸಂಪರ್ಕಗಳನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಕ್ರಮ ತೆಗೆದುಕೊಳ್ಳಿರಿ.",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "ಕೋರಿಕೆ",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "ನಿಮ್ಮ ಸಂಪರ್ಕ",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "CaptchaDialog__title": {
+        "message": "Verify to continue messaging",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "To help prevent spam on Signal, please complete verification.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "Continue Without Verifying?",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "If you choose to skip verification, you may miss messages from other people and your messages may fail to send.",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "Skip verification",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "Verification complete.",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "Verification failed. Please retry later.",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "Failed to delete message for everyone. Please retry later.",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     }
 }

@@ -701,6 +701,10 @@
         "message": "O Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Udostępnianie ekranu",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "Mów",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -748,6 +752,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "Kontakty SMS/MMS nie są dostępne w aplikacji Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "Nie znaleziono \"$searchTerm$\" w $conversationName$",
@@ -1275,6 +1283,18 @@
         "message": "Cofnij wyciszenie",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Udostępnianie wyłączone",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Rozpocznij udostępnianie",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Przestań udostępniać",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "Twoja kamera jest wyłączona",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1387,6 +1407,84 @@
         "message": "Przewiń w dół",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
+    "calling__presenting--notification-title": {
+        "message": "Udostępniasz wszystkim.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Kliknij tutaj, aby powrócić do połączenia, gdy zechcesz zakończyć udostępnianie.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal udostępnia $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Przestań udostępniać",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "Przestałeś(aś) udostępniać",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ udostępnia",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ przestał(a) udostępniać",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Wymagane uprawnienie",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "Na komputerach Apple Mac z systemem macOS Catalina w wersji 10.15 lub nowszej, Signal potrzebuje uprawnień do nagrywania ekranu Twojego komputera.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Przejdź do Preferencji systemu, a następnie kliknij Bezpieczeństwo i prywatność.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Kliknij Prywatność.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "Kliknij Nagrywanie ekranu, po lewej.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step4": {
+        "message": "Zaznacz pole wyboru Signal, po prawej.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Otwórz Preferencje systemu",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "Odrzuć",
+        "description": "The cancel button for the needs screen record permissions modal"
+    },
     "alwaysRelayCallsDescription": {
         "message": "Zawsze przekazuj połączenia",
         "description": "Description of the always relay calls setting"
@@ -1412,8 +1510,8 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Włącz sprawdzanie pisowni podczas pisania wiadomości",
-        "description": "Description of the media permission description"
+        "message": "Włącz sprawdzanie pisowni",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
         "message": "Sprawdzanie pisowni zostanie włączone przy kolejnym uruchomieniu Signal.",
@@ -1422,6 +1520,10 @@
     "spellCheckWillBeDisabled": {
         "message": "Sprawdzanie pisowni zostanie wyłączone przy kolejnym uruchomieniu Signal.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "autoLaunchDescription": {
+        "message": "Uruchom przy starcie systemu",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "Wyczyść dane",
@@ -1536,6 +1638,10 @@
     "sendFailed": {
         "message": "Wysyłanie nie powiodło się",
         "description": "Shown on outgoing message if it fails to send"
+    },
+    "sendPaused": {
+        "message": "Wysyłanie wstrzymane",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
         "message": "Częściowo wysłano, naciśnij, aby zobaczyć szczegóły",
@@ -1689,105 +1795,13 @@
             }
         }
     },
-    "timerOption_0_seconds": {
-        "message": "wyłącz",
+    "disappearingMessages__off": {
+        "message": "wyłączone",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 sekund",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 sekund",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 sekund",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 minuta",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 minut",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 minut",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 godzina",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 godzin",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 godzin",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 dzień",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 tydzień",
-        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
         "message": "Znikające wiadomości",
         "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "wyłączone",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5 sek.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10 sek.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30 sek.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1 min.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5 min.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30 min.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1 godz.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6 godz.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12 godz.",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1 dzień",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1 tydz.",
-        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
         "message": "Znikające wiadomości wyłączone",
@@ -3107,21 +3121,69 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
-        "message": "Członek $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
+    "member-of-1-group": {
+        "message": "Członek $group$",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
     },
-    "ConversationHero--membership-2": {
-        "message": "Członek $group1$ i $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
+    "member-of-2-groups": {
+        "message": "Członek $group1$ i $group2$",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
     },
-    "ConversationHero--membership-3": {
-        "message": "Członek $group1$, $group2$ i $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-3-groups": {
+        "message": "Członek $group1$, $group2$ i $group3$",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
     },
-    "ConversationHero--membership-extra": {
-        "message": "Członek $group1$, $group2$, $group3$ i $remainingCount$ innych.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-more-than-3-groups": {
+        "message": "Członek $group1$, $group2$, $group3$ i $remainingCount$ innych",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ dodał(a) Cię do grupy.",
@@ -3134,8 +3196,12 @@
         }
     },
     "no-groups-in-common": {
-        "message": "Brak wspólnych grup.",
+        "message": "Brak wspólnych grup",
         "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "Brak wspólnych grup. Uważnie sprawdzaj wszystkie prośby o kontakt.",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "Odbierz",
@@ -3310,6 +3376,22 @@
     "calling__hangup": {
         "message": "Opuść rozmowę",
         "description": "Title for hang up button"
+    },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Udostępnij swój ekran",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Udostępnij ekran",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Cały ekran",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "Okno",
+        "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
         "message": "Wideo",
@@ -4663,6 +4745,18 @@
         "message": "Dołącz plik",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "Ta osoba nie korzysta z Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop nie obsługuje wysyłania wiadomości do kontaktów niekorzystających z Signal. Poproś tę osobę, aby zainstalowała Signal , by móc komunikować się bezpieczniej.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Sprawdzanie stanu rejestracji kontaktu",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "Licz wyciszone konwersacje na ikonie",
         "description": "Description for counting muted conversations in badge setting"
@@ -5132,5 +5226,83 @@
     "ForwardMessageModal--continue": {
         "message": "Kontynuuj",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "Dowiedz się więcej",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "Nie masz wspólnych grup z tą osobą. Uważnie sprawdzaj wszystkie prośby o kontakt, przed ich akceptacją, aby uniknąć niechcianych wiadomości",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "O prośbach o kontakt",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "Uważnie przeglądaj prośby o kontakt. Signal znalazł inny kontakt z tym samym imieniem. $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "Przejrzyj prośby",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "Przejrzyj prośby",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "Jeśli nie masz pewności, od kogo pochodzi ta prośba, przejrzyj poniższe kontakty i podejmij działania.",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "Prośba",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "Twój kontakt",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "CaptchaDialog__title": {
+        "message": "Zweryfikuj, aby kontynuować wysyłanie wiadomości",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "Dokończ weryfikację, aby pomóc zapobiegać wysyłaniu spamu w Signal.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "Po zweryfikowaniu będziesz móc kontynuować wysyłanie wiadomości. Wszystkie, wstrzymane wiadomości zostaną automatycznie wysłane.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "Kontynuować bez weryfikacji?",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "Jeśli pominiesz weryfikację, możesz nie otrzymywać wiadomości od innych osób, a Twoje wiadomości mogą nie zostać wysłane.",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "Pomiń weryfikację",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "Weryfikacja zakończona.",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "Weryfikacja nie powiodła się. Spróbuj później.",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "Nie udało się usunąć wiadomości u wszystkich. Spróbuj później.",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     }
 }
