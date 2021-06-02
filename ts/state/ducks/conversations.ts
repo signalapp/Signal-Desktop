@@ -379,7 +379,16 @@ type ColorsChangedActionType = {
 };
 type CustomColorRemovedActionType = {
   type: typeof CUSTOM_COLOR_REMOVED;
-  payload: string;
+  payload: {
+    colorId: string;
+    defaultConversationColor: {
+      color: ConversationColorType;
+      customColorData?: {
+        id: string;
+        value: CustomColorType;
+      };
+    };
+  };
 };
 type SetPreJoinConversationActionType = {
   type: 'SET_PRE_JOIN_CONVERSATION';
@@ -697,7 +706,6 @@ export const actions = {
   reviewMessageRequestNameCollision,
   scrollToMessage,
   selectMessage,
-  setAllConversationColors,
   setComposeGroupAvatar,
   setComposeGroupName,
   setComposeSearchTerm,
@@ -741,9 +749,16 @@ function removeCustomColorOnConversations(
       await window.Signal.Data.updateConversations(conversationsToUpdate);
     }
 
+    const defaultConversationColor = window.storage.get(
+      'defaultConversationColor'
+    );
+
     dispatch({
       type: CUSTOM_COLOR_REMOVED,
-      payload: colorId,
+      payload: {
+        colorId,
+        defaultConversationColor,
+      },
     });
   };
 }
@@ -769,44 +784,15 @@ function resetAllChatColors(): ThunkAction<
       delete conversation.attributes.customColorId;
     });
 
-    dispatch({
-      type: COLORS_CHANGED,
-      payload: {
-        conversationColor: undefined,
-        customColorData: undefined,
-      },
-    });
-  };
-}
-
-function setAllConversationColors(
-  conversationColor: ConversationColorType,
-  customColorData?: {
-    id: string;
-    value: CustomColorType;
-  }
-): ThunkAction<void, RootStateType, unknown, ColorsChangedActionType> {
-  return async dispatch => {
-    await window.Signal.Data.updateAllConversationColors(
-      conversationColor,
-      customColorData
+    const defaultConversationColor = window.storage.get(
+      'defaultConversationColor'
     );
 
-    // We don't want to trigger a model change because we're updating redux
-    // here manually ourselves. Au revoir Backbone!
-    window.getConversations().forEach(conversation => {
-      Object.assign(conversation.attributes, {
-        conversationColor,
-        customColor: customColorData?.value,
-        customColorId: customColorData?.id,
-      });
-    });
-
     dispatch({
       type: COLORS_CHANGED,
       payload: {
-        conversationColor,
-        customColorData,
+        conversationColor: defaultConversationColor.color,
+        customColorData: defaultConversationColor.customColorData,
       },
     });
   };
@@ -2547,7 +2533,7 @@ export function reducer(
 
   if (action.type === CUSTOM_COLOR_REMOVED) {
     const { conversationLookup } = state;
-    const colorId = action.payload;
+    const { colorId, defaultConversationColor } = action.payload;
 
     const nextState = {
       ...state,
@@ -2560,11 +2546,12 @@ export function reducer(
         return;
       }
 
-      const changed = omit(existing, [
-        'conversationColor',
-        'customColor',
-        'customColorId',
-      ]);
+      const changed = {
+        ...existing,
+        conversationColor: defaultConversationColor.color,
+        customColor: defaultConversationColor.customColorData?.value,
+        customColorId: defaultConversationColor.customColorData?.id,
+      };
 
       Object.assign(
         nextState,

@@ -5454,9 +5454,17 @@
     "message": "Reset chat color",
     "description": "Button label for resetting chat colors"
   },
+  "ChatColorPicker__resetDefault": {
+    "message": "Reset Chat Colors",
+    "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+  },
   "ChatColorPicker__resetAll": {
     "message": "Reset all chat colors",
     "description": "Button label for resetting all chat colors"
+  },
+  "ChatColorPicker__confirm-reset-default": {
+    "message": "Reset default",
+    "description": "Button label for resetting only global chat color"
   },
   "ChatColorPicker__confirm-reset": {
     "message": "Reset",

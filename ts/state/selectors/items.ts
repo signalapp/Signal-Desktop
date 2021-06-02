@@ -7,6 +7,11 @@ import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalEx
 
 import { StateType } from '../reducer';
 import { ItemsStateType } from '../ducks/items';
+import {
+  ConversationColors,
+  ConversationColorType,
+  CustomColorType,
+} from '../../types/Colors';
 
 export const getItems = (state: StateType): ItemsStateType => state.items;
 
@@ -24,4 +29,17 @@ export const getPinnedConversationIds = createSelector(
 export const getUniversalExpireTimer = createSelector(
   getItems,
   (state: ItemsStateType): number => state[UNIVERSAL_EXPIRE_TIMER_ITEM] || 0
+);
+
+export const getDefaultConversationColor = createSelector(
+  getItems,
+  (
+    state: ItemsStateType
+  ): {
+    color: ConversationColorType;
+    customColorData?: {
+      id: string;
+      value: CustomColorType;
+    };
+  } => state.defaultConversationColor ?? { color: ConversationColors[0] }
 );

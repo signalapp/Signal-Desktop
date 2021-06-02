@@ -11,12 +11,15 @@ import { SmartChatColorPicker } from './ChatColorPicker';
 import { ConversationColorType } from '../../types/Colors';
 
 function renderChatColorPicker({
-  setAllConversationColors,
+  setGlobalDefaultConversationColor,
 }: {
-  setAllConversationColors: (color: ConversationColorType) => unknown;
+  setGlobalDefaultConversationColor: (color: ConversationColorType) => unknown;
 }): JSX.Element {
   return (
-    <SmartChatColorPicker isInModal onSelectColor={setAllConversationColors} />
+    <SmartChatColorPicker
+      isGlobal
+      onSelectColor={setGlobalDefaultConversationColor}
+    />
   );
 }
 

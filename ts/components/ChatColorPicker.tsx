@@ -27,7 +27,7 @@ export type PropsDataType = {
   customColors?: Record<string, CustomColorType>;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   i18n: LocalizerType;
-  isInModal?: boolean;
+  isGlobal?: boolean;
   onChatColorReset?: () => unknown;
   onSelectColor: (
     color: ConversationColorType,
@@ -46,6 +46,7 @@ type PropsActionType = {
   removeCustomColor: (colorId: string) => unknown;
   removeCustomColorOnConversations: (colorId: string) => unknown;
   resetAllChatColors: () => unknown;
+  resetDefaultChatColor: () => unknown;
 };
 
 export type PropsType = PropsDataType & PropsActionType;
@@ -56,16 +57,18 @@ export const ChatColorPicker = ({
   editCustomColor,
   getConversationsWithCustomColor,
   i18n,
-  isInModal = false,
+  isGlobal = false,
   onChatColorReset,
   onSelectColor,
   removeCustomColor,
   removeCustomColorOnConversations,
   resetAllChatColors,
+  resetDefaultChatColor,
   selectedColor = ConversationColors[0],
   selectedCustomColor,
 }: PropsType): JSX.Element => {
   const [confirmResetAll, setConfirmResetAll] = useState(false);
+  const [confirmResetWhat, setConfirmResetWhat] = useState(false);
   const [customColorToEdit, setCustomColorToEdit] = useState<
     CustomColorDataType | undefined
   >(undefined);
@@ -74,7 +77,7 @@ export const ChatColorPicker = ({
     <CustomColorEditorWrapper
       customColorToEdit={customColorToEdit}
       i18n={i18n}
-      isInModal={isInModal}
+      isGlobal={isGlobal}
       onClose={() => setCustomColorToEdit(undefined)}
       onSave={(color: CustomColorType) => {
         if (customColorToEdit?.id) {
@@ -90,13 +93,39 @@ export const ChatColorPicker = ({
     />
   );
 
-  if (isInModal && customColorToEdit) {
+  if (isGlobal && customColorToEdit) {
     return renderCustomColorEditorWrapper();
   }
 
   return (
     <div className="ChatColorPicker__container">
       {customColorToEdit ? renderCustomColorEditorWrapper() : null}
+      {confirmResetWhat ? (
+        <ConfirmationDialog
+          actions={[
+            {
+              action: resetDefaultChatColor,
+              style: 'affirmative',
+              text: i18n('ChatColorPicker__confirm-reset-default'),
+            },
+            {
+              action: () => {
+                resetDefaultChatColor();
+                resetAllChatColors();
+              },
+              style: 'affirmative',
+              text: i18n('ChatColorPicker__resetAll'),
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => {
+            setConfirmResetWhat(false);
+          }}
+          title={i18n('ChatColorPicker__resetDefault')}
+        >
+          {i18n('ChatColorPicker__confirm-reset-message')}
+        </ConfirmationDialog>
+      ) : null}
       {confirmResetAll ? (
         <ConfirmationDialog
           actions={[
@@ -198,7 +227,11 @@ export const ChatColorPicker = ({
       <PanelRow
         label={i18n('ChatColorPicker__resetAll')}
         onClick={() => {
-          setConfirmResetAll(true);
+          if (isGlobal) {
+            setConfirmResetWhat(true);
+          } else {
+            setConfirmResetAll(true);
+          }
         }}
       />
     </div>
@@ -349,7 +382,7 @@ const CustomColorBubble = ({
 type CustomColorEditorWrapperPropsType = {
   customColorToEdit?: CustomColorDataType;
   i18n: LocalizerType;
-  isInModal: boolean;
+  isGlobal: boolean;
   onClose: () => unknown;
   onSave: (color: CustomColorType) => unknown;
 };
@@ -357,7 +390,7 @@ type CustomColorEditorWrapperPropsType = {
 const CustomColorEditorWrapper = ({
   customColorToEdit,
   i18n,
-  isInModal,
+  isGlobal,
   onClose,
   onSave,
 }: CustomColorEditorWrapperPropsType): JSX.Element => {
@@ -370,7 +403,7 @@ const CustomColorEditorWrapper = ({
     />
   );
 
-  if (!isInModal) {
+  if (!isGlobal) {
     return (
       <Modal
         hasXButton

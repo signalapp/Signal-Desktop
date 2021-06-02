@@ -13,13 +13,13 @@ import { StateType } from '../reducer';
 import {
   getConversationSelector,
   getConversationsWithCustomColorSelector,
-  getMe,
 } from '../selectors/conversations';
+import { getDefaultConversationColor } from '../selectors/items';
 import { getIntl } from '../selectors/user';
 
 export type SmartChatColorPickerProps = {
   conversationId?: string;
-  isInModal?: boolean;
+  isGlobal?: boolean;
   onChatColorReset?: () => unknown;
   onSelectColor: (
     color: ConversationColorType,
@@ -34,9 +34,14 @@ const mapStateToProps = (
   state: StateType,
   props: SmartChatColorPickerProps
 ): PropsDataType => {
-  const conversation = props.conversationId
+  const defaultConversationColor = getDefaultConversationColor(state);
+  const colorValues = props.conversationId
     ? getConversationSelector(state)(props.conversationId)
-    : getMe(state);
+    : {
+        conversationColor: defaultConversationColor.color,
+        customColorId: defaultConversationColor.customColorData?.id,
+        customColor: defaultConversationColor.customColorData?.value,
+      };
 
   const { customColors } = state.items;
 
@@ -47,10 +52,10 @@ const mapStateToProps = (
       state
     ),
     i18n: getIntl(state),
-    selectedColor: conversation.conversationColor,
+    selectedColor: colorValues.conversationColor,
     selectedCustomColor: {
-      id: conversation.customColorId,
-      value: conversation.customColor,
+      id: colorValues.customColorId,
+      value: colorValues.customColor,
     },
   };
 };

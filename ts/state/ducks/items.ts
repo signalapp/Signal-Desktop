@@ -7,7 +7,12 @@ import { ThunkAction } from 'redux-thunk';
 import { StateType as RootStateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
 import { useBoundActions } from '../../util/hooks';
-import { CustomColorType } from '../../types/Colors';
+import {
+  ConversationColors,
+  ConversationColorType,
+  CustomColorType,
+} from '../../types/Colors';
+import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation';
 
 // State
 
@@ -15,6 +20,16 @@ export type ItemsStateType = {
   readonly universalExpireTimer?: number;
 
   readonly [key: string]: unknown;
+
+  // This property should always be set and this is ensured in background.ts
+  readonly defaultConversationColor?: {
+    color: ConversationColorType;
+    customColorData?: {
+      id: string;
+      value: CustomColorType;
+    };
+  };
+
   readonly customColors?: {
     readonly colors: Record<string, CustomColorType>;
     readonly version: number;
@@ -63,6 +78,8 @@ export const actions = {
   addCustomColor,
   editCustomColor,
   removeCustomColor,
+  resetDefaultChatColor,
+  setGlobalDefaultConversationColor,
   onSetSkinTone,
   putItem,
   putItemExternal,
@@ -184,10 +201,48 @@ function removeCustomColor(
   };
 }
 
+function resetDefaultChatColor(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ItemPutAction
+> {
+  return dispatch => {
+    dispatch(
+      putItem('defaultConversationColor', {
+        color: ConversationColors[0],
+      })
+    );
+    reloadSelectedConversation();
+  };
+}
+
+function setGlobalDefaultConversationColor(
+  color: ConversationColorType,
+  customColorData?: {
+    id: string;
+    value: CustomColorType;
+  }
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return dispatch => {
+    dispatch(
+      putItem('defaultConversationColor', {
+        color,
+        customColorData,
+      })
+    );
+    reloadSelectedConversation();
+  };
+}
+
 // Reducer
 
 function getEmptyState(): ItemsStateType {
-  return {};
+  return {
+    defaultConversationColor: {
+      color: ConversationColors[0],
+    },
+  };
 }
 
 export function reducer(
