@@ -161,6 +161,7 @@ const dataInterface: ServerInterface = {
   searchMessagesInConversation,
 
   getMessageCount,
+  hasUserInitiatedMessages,
   saveMessage,
   saveMessages,
   removeMessage,
@@ -2923,6 +2924,43 @@ async function getMessageCount(conversationId?: string): Promise<number> {
   }
 
   return row['count(*)'];
+}
+
+// Called only for private conversations
+async function hasUserInitiatedMessages(
+  conversationId: string
+): Promise<boolean> {
+  const db = getInstance();
+
+  // We apply the limit in the sub-query so that `json_extract` wouldn't run
+  // for additional messages.
+  const row: { count: number } = db
+    .prepare<Query>(
+      `
+      SELECT COUNT(*) as count FROM
+        (
+          SELECT 1 FROM messages
+          WHERE
+            conversationId = $conversationId AND
+            (type IS NULL
+              OR
+              type NOT IN (
+                'profile-change',
+                'verified-change',
+                'message-history-unsynced',
+                'keychange',
+                'group-v1-migration',
+                'universal-timer-notification'
+              )
+            ) AND
+            json_extract(json, '$.expirationTimerUpdate') IS NULL
+          LIMIT 1
+        );
+      `
+    )
+    .get({ conversationId });
+
+  return row.count !== 0;
 }
 
 function saveMessageSync(

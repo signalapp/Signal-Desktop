@@ -171,6 +171,7 @@ const dataInterface: ClientInterface = {
   searchMessagesInConversation,
 
   getMessageCount,
+  hasUserInitiatedMessages,
   saveMessage,
   saveMessages,
   removeMessage,
@@ -974,6 +975,10 @@ async function searchMessagesInConversation(
 
 async function getMessageCount(conversationId?: string) {
   return channels.getMessageCount(conversationId);
+}
+
+async function hasUserInitiatedMessages(conversationId: string) {
+  return channels.hasUserInitiatedMessages(conversationId);
 }
 
 async function saveMessage(
