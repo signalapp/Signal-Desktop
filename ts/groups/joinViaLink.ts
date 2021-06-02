@@ -3,6 +3,7 @@
 
 import {
   applyNewAvatar,
+  decryptGroupDescription,
   decryptGroupTitle,
   deriveGroupFields,
   getPreJoinGroupInfo,
@@ -123,6 +124,10 @@ export async function joinViaLink(hash: string): Promise<void> {
   const title =
     decryptGroupTitle(result.title, secretParams) ||
     window.i18n('unknownGroup');
+  const groupDescription = decryptGroupDescription(
+    result.descriptionBytes,
+    secretParams
+  );
 
   if (
     approvalRequired &&
@@ -162,6 +167,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     return {
       approvalRequired,
       avatar,
+      groupDescription,
       memberCount,
       title,
     };

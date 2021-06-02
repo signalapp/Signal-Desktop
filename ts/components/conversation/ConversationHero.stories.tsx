@@ -235,6 +235,26 @@ storiesOf('Components/Conversation/ConversationHero', module)
           title={text('title', 'NYC Rock Climbers')}
           name={text('groupName', 'NYC Rock Climbers')}
           conversationType="group"
+          groupDescription="This is a group for all the rock climbers of NYC"
+          membersCount={0}
+          sharedGroupNames={[]}
+          unblurAvatar={action('unblurAvatar')}
+          updateSharedGroups={updateSharedGroups}
+        />
+      </div>
+    );
+  })
+  .add('Group (long group description)', () => {
+    return (
+      <div style={{ width: '480px' }}>
+        <ConversationHero
+          acceptedMessageRequest
+          i18n={i18n}
+          isMe={false}
+          title={text('title', 'NYC Rock Climbers')}
+          name={text('groupName', 'NYC Rock Climbers')}
+          conversationType="group"
+          groupDescription="This is a group for all the rock climbers of NYC. We really like to climb rocks and these NYC people climb any rock. No rock is too small or too big to be climbed. We will ascend upon all rocks, and not just in NYC, in the whole world. We are just getting started, NYC is just the beginning, watch out rocks in the galaxy. Kuiper belt I'm looking at you. We will put on a space suit and climb all your rocks. No rock is near nor far for the rock climbers of NYC."
           membersCount={0}
           sharedGroupNames={[]}
           unblurAvatar={action('unblurAvatar')}

@@ -45,13 +45,13 @@ export const GroupV2Permissions: React.ComponentType<PropsType> = ({
   return (
     <PanelSection>
       <PanelRow
-        label={i18n('ConversationDetails--group-info-label')}
-        info={i18n('ConversationDetails--group-info-info')}
+        label={i18n('ConversationDetails--add-members-label')}
+        info={i18n('ConversationDetails--add-members-info')}
         right={
           <div className="module-conversation-details-select">
             <select
-              onChange={updateAccessControlAttributes}
-              value={conversation.accessControlAttributes}
+              onChange={updateAccessControlMembers}
+              value={conversation.accessControlMembers}
             >
               {accessControlOptions.map(({ name, value }) => (
                 <option aria-label={name} key={name} value={value}>
@@ -63,13 +63,13 @@ export const GroupV2Permissions: React.ComponentType<PropsType> = ({
         }
       />
       <PanelRow
-        label={i18n('ConversationDetails--add-members-label')}
-        info={i18n('ConversationDetails--add-members-info')}
+        label={i18n('ConversationDetails--group-info-label')}
+        info={i18n('ConversationDetails--group-info-info')}
         right={
           <div className="module-conversation-details-select">
             <select
-              onChange={updateAccessControlMembers}
-              value={conversation.accessControlMembers}
+              onChange={updateAccessControlAttributes}
+              value={conversation.accessControlAttributes}
             >
               {accessControlOptions.map(({ name, value }) => (
                 <option aria-label={name} key={name} value={value}>

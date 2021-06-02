@@ -67,6 +67,7 @@ message Group {
   repeated MemberPendingProfileKey    membersPendingProfileKey    = 8;
   repeated MemberPendingAdminApproval membersPendingAdminApproval = 9;
            bytes                      inviteLinkPassword          = 10;
+           bytes                      descriptionBytes            = 11;
 }
 
 message GroupChange {
@@ -148,6 +149,10 @@ message GroupChange {
         bytes inviteLinkPassword = 1;
     }
 
+    message ModifyDescriptionAction {
+        bytes descriptionBytes = 1;
+    }
+
 
              bytes                                      sourceUuid                         = 1; // Who made the change
              uint32                                     version                            = 2; // The change version number
@@ -163,11 +168,12 @@ message GroupChange {
              ModifyDisappearingMessagesTimerAction      modifyDisappearingMessagesTimer    = 12; // Changed timer
              ModifyAttributesAccessControlAction        modifyAttributesAccess             = 13; // Changed attributes access control
              ModifyMembersAccessControlAction           modifyMemberAccess                 = 14; // Changed membership access control
-             ModifyAddFromInviteLinkAccessControlAction modifyAddFromInviteLinkAccess      = 15;
-    repeated AddMemberPendingAdminApprovalAction        addMemberPendingAdminApprovals     = 16;
-    repeated DeleteMemberPendingAdminApprovalAction     deleteMemberPendingAdminApprovals  = 17;
-    repeated PromoteMemberPendingAdminApprovalAction    promoteMemberPendingAdminApprovals = 18;
-             ModifyInviteLinkPasswordAction             modifyInviteLinkPassword           = 19;
+             ModifyAddFromInviteLinkAccessControlAction modifyAddFromInviteLinkAccess      = 15; // change epoch = 1
+    repeated AddMemberPendingAdminApprovalAction        addMemberPendingAdminApprovals     = 16; // change epoch = 1
+    repeated DeleteMemberPendingAdminApprovalAction     deleteMemberPendingAdminApprovals  = 17; // change epoch = 1
+    repeated PromoteMemberPendingAdminApprovalAction    promoteMemberPendingAdminApprovals = 18; // change epoch = 1
+             ModifyInviteLinkPasswordAction             modifyInviteLinkPassword           = 19; // change epoch = 1
+             ModifyDescriptionAction                    modifyDescription                  = 20; // change epoch = 2
   }
 
   bytes  actions         = 1; // The serialized actions
@@ -189,6 +195,7 @@ message GroupAttributeBlob {
     string title                        = 1;
     bytes  avatar                       = 2;
     uint32 disappearingMessagesDuration = 3;
+    string descriptionText              = 4;
   }
 }
 
@@ -208,11 +215,12 @@ message GroupInviteLink {
 }
 
 message GroupJoinInfo {
-  bytes publicKey = 1;
-  bytes title = 2;
-  string avatar = 3;
-  uint32 memberCount = 4;
-  AccessControl.AccessRequired addFromInviteLink = 5;
-  uint32 version = 6;
-  bool pendingAdminApproval = 7;
+  bytes                        publicKey            = 1;
+  bytes                        title                = 2;
+  string                       avatar               = 3;
+  uint32                       memberCount          = 4;
+  AccessControl.AccessRequired addFromInviteLink    = 5;
+  uint32                       version              = 6;
+  bool                         pendingAdminApproval = 7;
+  bytes                        descriptionBytes     = 8;
 }

@@ -140,6 +140,7 @@ export type ConversationType = {
   draftPreview?: string;
 
   sharedGroupNames: Array<string>;
+  groupDescription?: string;
   groupVersion?: 1 | 2;
   groupId?: string;
   groupLink?: string;
@@ -239,6 +240,7 @@ export type PreJoinConversationType = {
     loading?: boolean;
     url?: string;
   };
+  groupDescription?: string;
   memberCount: number;
   title: string;
   approvalRequired: boolean;

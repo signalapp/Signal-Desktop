@@ -280,6 +280,7 @@ export declare class GroupClass {
   membersPendingProfileKey?: Array<MemberPendingProfileKeyClass>;
   membersPendingAdminApproval?: Array<MemberPendingAdminApprovalClass>;
   inviteLinkPassword?: ProtoBinaryType;
+  descriptionBytes?: ProtoBinaryType;
 }
 
 export declare class GroupChangeClass {
@@ -322,6 +323,7 @@ export declare namespace GroupChangeClass {
     deleteMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.DeleteMemberPendingAdminApprovalAction>;
     promoteMemberPendingAdminApprovals?: Array<GroupChangeClass.Actions.PromoteMemberPendingAdminApprovalAction>;
     modifyInviteLinkPassword?: GroupChangeClass.Actions.ModifyInviteLinkPasswordAction;
+    modifyDescription?: GroupChangeClass.Actions.ModifyDescriptionAction;
   }
 }
 
@@ -405,6 +407,10 @@ export declare namespace GroupChangeClass.Actions {
   class ModifyInviteLinkPasswordAction {
     inviteLinkPassword?: ProtoBinaryType;
   }
+
+  class ModifyDescriptionAction {
+    descriptionBytes?: ProtoBinaryType;
+  }
 }
 
 export declare class GroupChangesClass {
@@ -434,10 +440,15 @@ export declare class GroupAttributeBlobClass {
   title?: string;
   avatar?: ProtoBinaryType;
   disappearingMessagesDuration?: number;
+  descriptionText?: string;
 
   // Note: this isn't part of the proto, but our protobuf library tells us which
   //   field has been set with this prop.
-  content: 'title' | 'avatar' | 'disappearingMessagesDuration';
+  content:
+    | 'title'
+    | 'avatar'
+    | 'disappearingMessagesDuration'
+    | 'descriptionText';
 }
 
 export declare class GroupExternalCredentialClass {
@@ -483,6 +494,7 @@ export declare class GroupJoinInfoClass {
   addFromInviteLink?: AccessControlClass.AccessRequired;
   version?: number;
   pendingAdminApproval?: boolean;
+  descriptionBytes?: ProtoBinaryType;
 }
 
 // Previous protos

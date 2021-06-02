@@ -1324,4 +1324,65 @@ storiesOf('Components/Conversation/GroupV2Change', module)
         })}
       </>
     );
+  })
+  .add('Description (Remove)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              removed: true,
+              type: 'description',
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              removed: true,
+              type: 'description',
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              removed: true,
+              type: 'description',
+            },
+          ],
+        })}
+      </>
+    );
+  })
+  .add('Description (Change)', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'description',
+            },
+          ],
+        })}
+        {renderChange({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'description',
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'description',
+            },
+          ],
+        })}
+      </>
+    );
   });

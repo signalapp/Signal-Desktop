@@ -2037,6 +2037,10 @@
     "message": "Group name (required)",
     "description": "The placeholder for the group name placeholder"
   },
+  "setGroupMetadata__group-description-placeholder": {
+    "message": "Description",
+    "description": "The placeholder for the group description"
+  },
   "setGroupMetadata__create-group": {
     "message": "Create",
     "description": "The 'create group' button text in the 'set group metadata' left pane screen"
@@ -2050,7 +2054,7 @@
     "description": "Shown in the modal when we can't create a group"
   },
   "updateGroupAttributes__title": {
-    "message": "Edit group name and photo",
+    "message": "Edit group",
     "description": "Shown in the modal when we want to update a group"
   },
   "updateGroupAttributes__error-message": {
@@ -4631,6 +4635,43 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
 
+  "GroupV2--description--remove--you": {
+    "message": "You removed the group description.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--description--remove--other": {
+    "message": "$memberName$ removed the group description.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--description--remove--unknown": {
+    "message": "The group description was removed.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--description--change--you": {
+    "message": "You changed the group description.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--description--change--other": {
+    "message": "$memberName$ changed the group description.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--description--change--unknown": {
+    "message": "The group description was changed.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
   "GroupV1--Migration--disabled": {
     "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4842,7 +4883,7 @@
     "description": "This is the label for the 'who can edit the group' panel"
   },
   "ConversationDetails--group-info-info": {
-    "message": "Choose who can edit group name, avatar, and disappearing messages timer.",
+    "message": "Choose who can edit group name, photo, description, and disappearing messages timer.",
     "description": "This is the additional info for the 'who can edit the group' panel"
   },
   "ConversationDetails--add-members-label": {
@@ -5530,5 +5571,17 @@
         "example": "1 week"
       }
     }
+  },
+  "GroupDescription__read-more": {
+    "message": "read more",
+    "description": "Button text when the group description is too long"
+  },
+  "EditConversationAttributesModal__description-warning": {
+    "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+    "description": "Label text shown when editing group description"
+  },
+  "ConversationDetailsHeader--add-group-description": {
+    "message": "Add group description...",
+    "description": "Placeholder text in the details header for those that can edit the group description"
   }
 }

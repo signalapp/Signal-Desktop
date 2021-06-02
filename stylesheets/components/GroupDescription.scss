@@ -1,0 +1,17 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.GroupDescription {
+  &__text {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+
+  &__read-more {
+    @include button-reset();
+    display: inline-block;
+    font-weight: bold;
+  }
+}

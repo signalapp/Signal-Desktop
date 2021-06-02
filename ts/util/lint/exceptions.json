@@ -13769,6 +13769,27 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/GroupDescriptionInput.js",
+    "line": "    const innerRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-29T02:15:39.186Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupDescriptionInput.js",
+    "line": "    const valueOnKeydownRef = react_1.useRef(value);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-29T02:15:39.186Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupDescriptionInput.js",
+    "line": "    const selectionStartOnKeydownRef = react_1.useRef(value.length);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-29T02:15:39.186Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/GroupTitleInput.js",
     "line": "    const selectionStartOnKeydownRef = react_1.useRef(value.length);",
     "reasonCategory": "usageTrusted",
@@ -13950,6 +13971,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-04-17T01:47:31.419Z",
     "reasonDetail": "Used for managing playback of GIF video"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/GroupDescription.js",
+    "line": "    const textRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-05-29T02:15:39.186Z"
   },
   {
     "rule": "React-createRef",

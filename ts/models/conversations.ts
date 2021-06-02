@@ -1476,6 +1476,7 @@ export class ConversationModel extends window.Backbone
       draftPreview,
       draftText,
       firstName: this.get('profileName')!,
+      groupDescription: this.get('description'),
       groupVersion,
       groupId: this.get('groupId'),
       groupLink: this.getGroupLink(),
@@ -1912,6 +1913,7 @@ export class ConversationModel extends window.Backbone
   async updateGroupAttributesV2(
     attributes: Readonly<{
       avatar?: undefined | ArrayBuffer;
+      description?: string;
       title?: string;
     }>
   ): Promise<void> {

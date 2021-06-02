@@ -67,6 +67,7 @@ export type StateProps = {
   updateGroupAttributes: (
     _: Readonly<{
       avatar?: undefined | ArrayBuffer;
+      description?: string;
       title?: string;
     }>
   ) => Promise<void>;
@@ -145,10 +146,12 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       modalNode = (
         <EditConversationAttributesModal
           avatarPath={conversation.avatarPath}
+          groupDescription={conversation.groupDescription}
           i18n={i18n}
           makeRequest={async (
             options: Readonly<{
               avatar?: undefined | ArrayBuffer;
+              description?: string;
               title?: string;
             }>
           ) => {

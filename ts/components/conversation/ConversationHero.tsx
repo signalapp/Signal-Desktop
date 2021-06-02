@@ -6,6 +6,7 @@ import Measure from 'react-measure';
 import { Avatar, AvatarBlur, Props as AvatarProps } from '../Avatar';
 import { ContactName } from './ContactName';
 import { About } from './About';
+import { GroupDescription } from './GroupDescription';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { LocalizerType } from '../../types/Util';
 import { ConfirmationDialog } from '../ConfirmationDialog';
@@ -16,6 +17,7 @@ import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
 export type Props = {
   about?: string;
   acceptedMessageRequest?: boolean;
+  groupDescription?: string;
   i18n: LocalizerType;
   isMe: boolean;
   membersCount?: number;
@@ -97,6 +99,7 @@ export const ConversationHero = ({
   avatarPath,
   color,
   conversationType,
+  groupDescription,
   isMe,
   membersCount,
   sharedGroupNames = [],
@@ -215,13 +218,19 @@ export const ConversationHero = ({
             )}
             {!isMe ? (
               <div className="module-conversation-hero__with">
-                {membersCount === 1
-                  ? i18n('ConversationHero--members-1')
-                  : membersCount !== undefined
-                  ? i18n('ConversationHero--members', [`${membersCount}`])
-                  : phoneNumberOnly
-                  ? null
-                  : phoneNumber}
+                {groupDescription ? (
+                  <GroupDescription
+                    i18n={i18n}
+                    title={title}
+                    text={groupDescription}
+                  />
+                ) : membersCount === 1 ? (
+                  i18n('ConversationHero--members-1')
+                ) : membersCount !== undefined ? (
+                  i18n('ConversationHero--members', [`${membersCount}`])
+                ) : phoneNumberOnly ? null : (
+                  phoneNumber
+                )}
               </div>
             ) : null}
             {renderMembershipRow({

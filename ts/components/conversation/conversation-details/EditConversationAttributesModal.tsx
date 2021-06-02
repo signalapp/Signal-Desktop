@@ -11,10 +11,11 @@ import React, {
 import { noop } from 'lodash';
 
 import { LocalizerType } from '../../../types/Util';
-import { ModalHost } from '../../ModalHost';
+import { Modal } from '../../Modal';
 import { AvatarInput, AvatarInputVariant } from '../../AvatarInput';
 import { Button, ButtonVariant } from '../../Button';
 import { Spinner } from '../../Spinner';
+import { GroupDescriptionInput } from '../../GroupDescriptionInput';
 import { GroupTitleInput } from '../../GroupTitleInput';
 import * as log from '../../../logging/log';
 import { canvasToArrayBuffer } from '../../../util/canvasToArrayBuffer';
@@ -24,10 +25,12 @@ const TEMPORARY_AVATAR_VALUE = new ArrayBuffer(0);
 
 type PropsType = {
   avatarPath?: string;
+  groupDescription?: string;
   i18n: LocalizerType;
   makeRequest: (
     _: Readonly<{
       avatar?: undefined | ArrayBuffer;
+      description?: string;
       title?: undefined | string;
     }>
   ) => void;
@@ -38,6 +41,7 @@ type PropsType = {
 
 export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
   avatarPath: externalAvatarPath,
+  groupDescription: externalGroupDescription = '',
   i18n,
   makeRequest,
   onClose,
@@ -51,9 +55,13 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
     externalAvatarPath ? TEMPORARY_AVATAR_VALUE : undefined
   );
   const [rawTitle, setRawTitle] = useState(externalTitle);
+  const [rawGroupDescription, setRawGroupDescription] = useState(
+    externalGroupDescription
+  );
   const [hasAvatarChanged, setHasAvatarChanged] = useState(false);
 
   const trimmedTitle = rawTitle.trim();
+  const trimmedDescription = rawGroupDescription.trim();
 
   useEffect(() => {
     const startingAvatarPath = startingAvatarPathRef.current;
@@ -88,12 +96,17 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
     startingAvatarPathRef.current !== externalAvatarPath ||
     startingTitleRef.current !== externalTitle;
   const hasTitleChanged = trimmedTitle !== externalTitle.trim();
+  const hasGroupDescriptionChanged =
+    externalGroupDescription.trim() !== trimmedDescription;
 
   const isRequestActive = requestState === RequestState.Active;
 
   const canSubmit =
     !isRequestActive &&
-    (hasChangedExternally || hasTitleChanged || hasAvatarChanged) &&
+    (hasChangedExternally ||
+      hasTitleChanged ||
+      hasAvatarChanged ||
+      hasGroupDescriptionChanged) &&
     trimmedTitle.length > 0;
 
   const onSubmit: FormEventHandler<HTMLFormElement> = event => {
@@ -101,6 +114,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
 
     const request: {
       avatar?: undefined | ArrayBuffer;
+      description?: string;
       title?: string;
     } = {};
     if (hasAvatarChanged) {
@@ -109,29 +123,23 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
     if (hasTitleChanged) {
       request.title = trimmedTitle;
     }
+    if (hasGroupDescriptionChanged) {
+      request.description = trimmedDescription;
+    }
     makeRequest(request);
   };
 
   return (
-    <ModalHost onClose={onClose}>
+    <Modal
+      hasXButton
+      i18n={i18n}
+      onClose={onClose}
+      title={i18n('updateGroupAttributes__title')}
+    >
       <form
         onSubmit={onSubmit}
         className="module-EditConversationAttributesModal"
       >
-        <button
-          aria-label={i18n('close')}
-          className="module-EditConversationAttributesModal__close-button"
-          disabled={isRequestActive}
-          type="button"
-          onClick={() => {
-            onClose();
-          }}
-        />
-
-        <h1 className="module-EditConversationAttributesModal__header">
-          {i18n('updateGroupAttributes__title')}
-        </h1>
-
         <AvatarInput
           contextMenuId="edit conversation attributes avatar input"
           disabled={isRequestActive}
@@ -151,13 +159,24 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
           value={rawTitle}
         />
 
+        <GroupDescriptionInput
+          disabled={isRequestActive}
+          i18n={i18n}
+          onChangeValue={setRawGroupDescription}
+          value={rawGroupDescription}
+        />
+
+        <div className="module-EditConversationAttributesModal__description-warning">
+          {i18n('EditConversationAttributesModal__description-warning')}
+        </div>
+
         {requestState === RequestState.InactiveWithError && (
           <div className="module-EditConversationAttributesModal__error-message">
             {i18n('updateGroupAttributes__error-message')}
           </div>
         )}
 
-        <div className="module-EditConversationAttributesModal__button-container">
+        <Modal.ButtonFooter>
           <Button
             disabled={isRequestActive}
             onClick={onClose}
@@ -177,9 +196,9 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
               i18n('save')
             )}
           </Button>
-        </div>
+        </Modal.ButtonFooter>
       </form>
-    </ModalHost>
+    </Modal>
   );
 };
 

@@ -292,6 +292,7 @@ export type ConversationAttributesType = {
     path: string;
     hash?: string;
   } | null;
+  description?: string;
   expireTimer?: number;
   membersV2?: Array<GroupV2MemberType>;
   pendingMembersV2?: Array<GroupV2PendingMemberType>;

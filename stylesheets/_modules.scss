@@ -2662,6 +2662,7 @@ button.module-conversation-details__action-button {
       @include font-title-1;
       align-items: center;
       display: flex;
+      justify-content: center;
       padding-bottom: 8px;
       padding-top: 12px;
     }
@@ -2669,6 +2670,7 @@ button.module-conversation-details__action-button {
     &__subtitle {
       @include font-body-1;
       color: $color-gray-60;
+      justify-content: center;
       padding-bottom: 6px;
 
       @include dark-theme {
@@ -3651,7 +3653,9 @@ button.module-conversation-details__action-button {
 
   &__with {
     @include font-body-2;
+    margin: 0 auto;
     margin-bottom: 16px;
+    max-width: 500px;
 
     @include light-theme {
       color: $color-gray-60;
@@ -9862,10 +9866,17 @@ button.module-image__border-overlay:focus {
   text-align: center;
 }
 .module-group-v2-join-dialog__metadata {
+  color: $color-gray-60;
   text-align: center;
 }
 .module-group-v2-join-dialog__prompt {
   margin-top: 40px;
+
+  &--approval {
+    @include font-subtitle;
+    color: $color-gray-45;
+    margin-top: 40px;
+  }
 }
 .module-group-v2-join-dialog__buttons {
   margin-top: 16px;
@@ -9882,6 +9893,10 @@ button.module-image__border-overlay:focus {
   &:not(:first-of-type) {
     margin-left: 16px;
   }
+}
+.module-group-v2-join-dialog__description {
+  color: $color-gray-60;
+  margin-top: 12px;
 }
 
 // Module: Progress Dialog
