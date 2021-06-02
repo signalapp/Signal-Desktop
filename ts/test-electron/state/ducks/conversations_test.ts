@@ -41,7 +41,6 @@ const {
   openConversationInternal,
   repairNewestMessage,
   repairOldestMessage,
-  setAllConversationColors,
   setComposeGroupAvatar,
   setComposeGroupName,
   setComposeSearchTerm,
@@ -2041,49 +2040,10 @@ describe('both/state/ducks/conversations', () => {
       },
     });
 
-    it('setAllConversationColors', async () => {
-      const dispatch = sinon.spy();
-      await setAllConversationColors('crimson')(dispatch, getState, null);
-
-      const [action] = dispatch.getCall(0).args;
-      const nextState = reducer(getState().conversations, action);
-
-      sinon.assert.calledOnce(dispatch);
-      assert.equal(
-        nextState.conversationLookup.abc.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationLookup.def.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationLookup.ghi.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationLookup.jkl.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByUuid.abc.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByUuid.def.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByE164.ghi.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByGroupId.jkl.conversationColor,
-        'crimson'
-      );
-    });
-
     it('resetAllChatColors', async () => {
+      window.storage.put('defaultConversationColor', {
+        color: 'crimson',
+      });
       const dispatch = sinon.spy();
       await resetAllChatColors()(dispatch, getState, null);
 
@@ -2091,38 +2051,39 @@ describe('both/state/ducks/conversations', () => {
       const nextState = reducer(getState().conversations, action);
 
       sinon.assert.calledOnce(dispatch);
-      assert.isUndefined(
+      assert.equal(
         nextState.conversationLookup.abc.conversationColor,
         'crimson'
       );
-      assert.isUndefined(
+      assert.equal(
         nextState.conversationLookup.def.conversationColor,
         'crimson'
       );
-      assert.isUndefined(
+      assert.equal(
         nextState.conversationLookup.ghi.conversationColor,
         'crimson'
       );
-      assert.isUndefined(
+      assert.equal(
         nextState.conversationLookup.jkl.conversationColor,
         'crimson'
       );
-      assert.isUndefined(
+      assert.equal(
         nextState.conversationsByUuid.abc.conversationColor,
         'crimson'
       );
-      assert.isUndefined(
+      assert.equal(
         nextState.conversationsByUuid.def.conversationColor,
         'crimson'
       );
-      assert.isUndefined(
+      assert.equal(
         nextState.conversationsByE164.ghi.conversationColor,
         'crimson'
       );
-      assert.isUndefined(
+      assert.equal(
         nextState.conversationsByGroupId.jkl.conversationColor,
         'crimson'
       );
+      window.storage.remove('defaultConversationColor');
     });
   });
 });

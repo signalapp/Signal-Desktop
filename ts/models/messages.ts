@@ -1002,7 +1002,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       textPending: this.get('bodyPending'),
       id: this.id,
       conversationColor: this.getConversationColor(),
-      customColor: conversation?.get('customColor'),
+      customColor: conversation?.getCustomColorData()?.customColor,
       conversationId: this.get('conversationId'),
       isSticker: Boolean(sticker),
       direction: this.isIncoming() ? 'incoming' : 'outgoing',

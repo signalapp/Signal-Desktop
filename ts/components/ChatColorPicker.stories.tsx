@@ -32,6 +32,7 @@ const createProps = (): PropsType => ({
   removeCustomColor: action('removeCustomColor'),
   removeCustomColorOnConversations: action('removeCustomColorOnConversations'),
   resetAllChatColors: action('resetAllChatColors'),
+  resetDefaultChatColor: action('resetDefaultChatColor'),
   selectedColor: select('selectedColor', ConversationColors, 'basil' as const),
   selectedCustomColor: {},
 });

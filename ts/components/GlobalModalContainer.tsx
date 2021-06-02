@@ -10,9 +10,11 @@ type PropsType = {
   i18n: LocalizerType;
   isChatColorEditorVisible: boolean;
   renderChatColorPicker: (actions: {
-    setAllConversationColors: (color: ConversationColorType) => unknown;
+    setGlobalDefaultConversationColor: (
+      color: ConversationColorType
+    ) => unknown;
   }) => JSX.Element;
-  setAllConversationColors: (color: ConversationColorType) => unknown;
+  setGlobalDefaultConversationColor: (color: ConversationColorType) => unknown;
   toggleChatColorEditor: () => unknown;
 };
 
@@ -20,7 +22,7 @@ export const GlobalModalContainer = ({
   i18n,
   isChatColorEditorVisible,
   renderChatColorPicker,
-  setAllConversationColors,
+  setGlobalDefaultConversationColor,
   toggleChatColorEditor,
 }: PropsType): JSX.Element | null => {
   if (isChatColorEditorVisible) {
@@ -34,7 +36,7 @@ export const GlobalModalContainer = ({
         title={i18n('ChatColorPicker__global-chat-color')}
       >
         {renderChatColorPicker({
-          setAllConversationColors,
+          setGlobalDefaultConversationColor,
         })}
       </Modal>
     );

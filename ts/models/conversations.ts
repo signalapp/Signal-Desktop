@@ -24,6 +24,7 @@ import {
   AvatarColorType,
   AvatarColors,
   ConversationColorType,
+  CustomColorType,
 } from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
@@ -1446,6 +1447,8 @@ export class ConversationModel extends window.Backbone
           .filter((member): member is ConversationType => member !== null)
       : undefined;
 
+    const { customColor, customColorId } = this.getCustomColorData();
+
     // TODO: DESKTOP-720
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
     const result: ConversationType = {
@@ -1469,8 +1472,8 @@ export class ConversationModel extends window.Backbone
       unblurredAvatarPath: this.getAbsoluteUnblurredAvatarPath(),
       color,
       conversationColor: this.getConversationColor(),
-      customColor: this.get('customColor'),
-      customColorId: this.get('customColorId'),
+      customColor,
+      customColorId,
       discoveredUnregisteredAt: this.get('discoveredUnregisteredAt'),
       draftBodyRanges,
       draftPreview,
@@ -4870,8 +4873,33 @@ export class ConversationModel extends window.Backbone
   }
 
   getConversationColor(): ConversationColorType {
-    return (this.get('conversationColor') ||
-      'ultramarine') as ConversationColorType;
+    const defaultConversationColor = window.storage.get(
+      'defaultConversationColor'
+    );
+
+    if (defaultConversationColor.customColorData) {
+      return 'custom';
+    }
+
+    return this.get('conversationColor') || defaultConversationColor.color;
+  }
+
+  getCustomColorData(): {
+    customColor?: CustomColorType;
+    customColorId?: string;
+  } {
+    const defaultConversationColor = window.storage.get(
+      'defaultConversationColor'
+    );
+
+    return {
+      customColor:
+        this.get('customColor') ||
+        defaultConversationColor.customColorData?.value,
+      customColorId:
+        this.get('customColorId') ||
+        defaultConversationColor.customColorData?.id,
+    };
   }
 
   private getAvatarPath(): undefined | string {
