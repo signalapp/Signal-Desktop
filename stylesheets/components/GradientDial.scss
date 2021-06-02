@@ -51,5 +51,16 @@
         border-color: $color-white;
       }
     }
+
+    &:focus {
+      outline: none;
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        border-color: $color-ultramarine;
+        outline: none;
+      }
+    }
   }
 }

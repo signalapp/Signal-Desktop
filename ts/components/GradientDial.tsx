@@ -1,10 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// eslint-disable-next-line max-len
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus */
-
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import React, {
+  CSSProperties,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 
 export enum KnobType {
@@ -212,7 +215,10 @@ export const GradientDial = ({
       y: rect.height / 2,
     };
 
-    const a = { x: ev.clientX - center.x, y: ev.clientY - center.y };
+    const a = {
+      x: ev.clientX - (rect.x + center.x),
+      y: ev.clientY - (rect.y + center.y),
+    };
     const b = { x: center.x, y: 0 };
     const dot = a.x * b.x + a.y * b.y;
     const det = a.x * b.y - a.y * b.x;
@@ -241,6 +247,20 @@ export const GradientDial = ({
     document.addEventListener('mouseup', handleMouseUp);
   };
 
+  const handleKeyDown = (ev: KeyboardEvent) => {
+    let add = 1;
+
+    if (ev.key === 'ArrowDown' || ev.key === 'ArrowLeft') {
+      add = 1;
+    }
+
+    if (ev.key === 'ArrowRight' || ev.key === 'ArrowUp') {
+      add = -1;
+    }
+
+    onChange(Math.min(360, Math.max(0, deg + add)));
+  };
+
   useEffect(() => {
     if (!containerRef || !containerRef.current) {
       return;
@@ -258,6 +278,7 @@ export const GradientDial = ({
           className={classNames('GradientDial__knob', {
             'GradientDial__knob--selected': selectedKnob === KnobType.start,
           })}
+          onKeyDown={handleKeyDown}
           onMouseDown={ev => {
             if (selectedKnob === KnobType.start) {
               handleMouseDown(ev);
@@ -271,6 +292,7 @@ export const GradientDial = ({
             ...knob1Style,
             ...knobDim.start,
           }}
+          tabIndex={0}
         />
       )}
       {knobDim.end && (
@@ -279,6 +301,7 @@ export const GradientDial = ({
           className={classNames('GradientDial__knob', {
             'GradientDial__knob--selected': selectedKnob === KnobType.end,
           })}
+          onKeyDown={handleKeyDown}
           onMouseDown={ev => {
             if (selectedKnob === KnobType.end) {
               handleMouseDown(ev);
@@ -292,6 +315,7 @@ export const GradientDial = ({
             ...knob2Style,
             ...knobDim.end,
           }}
+          tabIndex={0}
         />
       )}
       {knobDim.start && knobDim.end && (
