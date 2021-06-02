@@ -111,8 +111,7 @@
       //   we need to scroll, but not so many that things get slow.
       const linesToShow = Math.ceil(Math.min(window.innerHeight, 2000) / 5);
       this.textarea.value = this.logText
-        .split(/\n/g)
-        .slice(0, linesToShow)
+        .split(/\n/g, linesToShow)
         .concat(['', i18n('loading')])
         .join('\n');
 
