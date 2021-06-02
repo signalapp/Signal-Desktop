@@ -2226,15 +2226,15 @@
   },
   "message--getDescription--disappearing-media": {
     "message": "View-once Media",
-    "description": "Shown in notifications and in the left pane after view-once message is deleted."
+    "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
   },
   "message--getDescription--disappearing-photo": {
     "message": "View-once Photo",
-    "description": "Shown in notifications and in the left pane when a message is a view once photo."
+    "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
   },
   "message--getDescription--disappearing-video": {
     "message": "View-once Video",
-    "description": "Shown in notifications and in the left pane when a message is a view once video."
+    "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
     "message": "This message was deleted.",

@@ -31,6 +31,7 @@ export type Props = {
   onClose?: () => void;
   text: string;
   rawAttachment?: QuotedAttachmentType;
+  isViewOnce: boolean;
   referencedMessageNotFound: boolean;
 };
 
@@ -83,19 +84,32 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
 
 function getTypeLabel({
   i18n,
+  isViewOnce = false,
   contentType,
   isVoiceMessage,
 }: {
   i18n: LocalizerType;
+  isViewOnce?: boolean;
   contentType: MIME.MIMEType;
   isVoiceMessage: boolean;
 }): string | undefined {
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
+    if (isViewOnce) {
+      return i18n('message--getDescription--disappearing-video');
+    }
     return i18n('video');
   }
   if (GoogleChrome.isImageTypeSupported(contentType)) {
+    if (isViewOnce) {
+      return i18n('message--getDescription--disappearing-photo');
+    }
     return i18n('photo');
   }
+
+  if (isViewOnce) {
+    return i18n('message--getDescription--disappearing-media');
+  }
+
   if (MIME.isAudio(contentType) && isVoiceMessage) {
     return i18n('voiceMessage');
   }
@@ -217,7 +231,7 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderIconContainer(): JSX.Element | null {
-    const { rawAttachment } = this.props;
+    const { rawAttachment, isViewOnce } = this.props;
     const { imageBroken } = this.state;
     const attachment = getAttachment(rawAttachment);
 
@@ -227,6 +241,10 @@ export class Quote extends React.Component<Props, State> {
 
     const { contentType, thumbnail } = attachment;
     const objectUrl = getObjectUrl(thumbnail);
+
+    if (isViewOnce) {
+      return this.renderIcon('view-once');
+    }
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
       return objectUrl && !imageBroken
@@ -246,7 +264,14 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderText(): JSX.Element | null {
-    const { bodyRanges, i18n, text, rawAttachment, isIncoming } = this.props;
+    const {
+      bodyRanges,
+      i18n,
+      text,
+      rawAttachment,
+      isIncoming,
+      isViewOnce,
+    } = this.props;
 
     if (text) {
       const quoteText = bodyRanges
@@ -274,7 +299,12 @@ export class Quote extends React.Component<Props, State> {
 
     const { contentType, isVoiceMessage } = attachment;
 
-    const typeLabel = getTypeLabel({ i18n, contentType, isVoiceMessage });
+    const typeLabel = getTypeLabel({
+      i18n,
+      isViewOnce,
+      contentType,
+      isVoiceMessage,
+    });
     if (typeLabel) {
       return (
         <div

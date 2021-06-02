@@ -1243,6 +1243,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       authorUuid,
       bodyRanges,
       id: sentAt,
+      isViewOnce,
       referencedMessageNotFound,
       text,
     } = quote;
@@ -1342,6 +1343,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       rawAttachment: firstAttachment
         ? this.processQuoteAttachment(firstAttachment)
         : undefined,
+      isViewOnce,
       referencedMessageNotFound: !foundReference,
       sentAt: Number(sentAt),
       text: this.createNonBreakingLastSeparator(text),
@@ -3363,9 +3365,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           contentType: 'image/jpeg',
         },
       ];
+      // eslint-disable-next-line no-param-reassign
+      quote.isViewOnce = true;
 
       return;
     }
+
+    // eslint-disable-next-line no-param-reassign
+    quote.isViewOnce = false;
 
     // eslint-disable-next-line no-param-reassign
     quote.text = originalMessage.get('body');

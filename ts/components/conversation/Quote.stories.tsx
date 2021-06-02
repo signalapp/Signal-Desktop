@@ -81,6 +81,7 @@ const renderInMessage = ({
   conversationColor,
   isFromMe,
   rawAttachment,
+  isViewOnce,
   referencedMessageNotFound,
   text: quoteText,
 }: Props) => {
@@ -96,6 +97,7 @@ const renderInMessage = ({
       conversationColor,
       isFromMe,
       rawAttachment,
+      isViewOnce,
       referencedMessageNotFound,
       sentAt: Date.now() - 30 * 1000,
       text: quoteText,
@@ -133,6 +135,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     'referencedMessageNotFound',
     overrideProps.referencedMessageNotFound || false
   ),
+  isViewOnce: boolean('isViewOnce', overrideProps.isViewOnce || false),
   text: text(
     'text',
     isString(overrideProps.text)
@@ -247,6 +250,20 @@ story.add('Image Attachment w/o Thumbnail', () => {
   return <Quote {...props} />;
 });
 
+story.add('Image Tap-to-View', () => {
+  const props = createProps({
+    text: '',
+    isViewOnce: true,
+    rawAttachment: {
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      isVoiceMessage: false,
+    },
+  });
+
+  return <Quote {...props} />;
+});
+
 story.add('Video Only', () => {
   const props = createProps({
     rawAttachment: {
@@ -283,6 +300,20 @@ story.add('Video Attachment', () => {
 
 story.add('Video Attachment w/o Thumbnail', () => {
   const props = createProps({
+    rawAttachment: {
+      contentType: VIDEO_MP4,
+      fileName: 'great-video.mp4',
+      isVoiceMessage: false,
+    },
+  });
+
+  return <Quote {...props} />;
+});
+
+story.add('Video Tap-to-View', () => {
+  const props = createProps({
+    text: '',
+    isViewOnce: true,
     rawAttachment: {
       contentType: VIDEO_MP4,
       fileName: 'great-video.mp4',
@@ -355,6 +386,20 @@ story.add('Other File Only', () => {
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props.text = undefined as any;
+
+  return <Quote {...props} />;
+});
+
+story.add('Media Tap-to-View', () => {
+  const props = createProps({
+    text: '',
+    isViewOnce: true,
+    rawAttachment: {
+      contentType: AUDIO_MP3,
+      fileName: 'great-video.mp3',
+      isVoiceMessage: false,
+    },
+  });
 
   return <Quote {...props} />;
 });

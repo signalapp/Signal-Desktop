@@ -653,14 +653,15 @@ export declare namespace DataMessageClass {
 
   // Note: deep nesting
   class Quote {
-    id: ProtoBigNumberType | null;
-    authorUuid: string | null;
-    text: string | null;
+    id?: ProtoBigNumberType | null;
+    authorUuid?: string | null;
+    text?: string | null;
     attachments?: Array<DataMessageClass.Quote.QuotedAttachment>;
     bodyRanges?: Array<DataMessageClass.BodyRange>;
 
     // Added later during processing
     referencedMessageNotFound?: boolean;
+    isViewOnce?: boolean;
   }
 
   class BodyRange {

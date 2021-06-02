@@ -41,7 +41,7 @@ import {
   trimForDisplay,
   verifyAccessKey,
 } from '../Crypto';
-import { GroupChangeClass } from '../textsecure.d';
+import { GroupChangeClass, DataMessageClass } from '../textsecure.d';
 import { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util';
 import { migrateColor } from '../util/migrateColor';
@@ -3130,7 +3130,7 @@ export class ConversationModel extends window.Backbone
 
   async makeQuote(
     quotedMessage: typeof window.Whisper.MessageType
-  ): Promise<WhatIsThis> {
+  ): Promise<DataMessageClass.Quote> {
     const { getName } = Contact;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = quotedMessage.getContact()!;
@@ -3150,6 +3150,7 @@ export class ConversationModel extends window.Backbone
       bodyRanges: quotedMessage.get('bodyRanges'),
       id: quotedMessage.get('sent_at'),
       text: body || embeddedContactName,
+      isViewOnce: quotedMessage.isTapToView(),
       attachments: quotedMessage.isTapToView()
         ? [{ contentType: 'image/jpeg', fileName: null }]
         : await this.getQuoteAttachment(attachments, preview, sticker),

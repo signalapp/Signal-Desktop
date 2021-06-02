@@ -64,6 +64,7 @@ export type QuotedMessageType = {
   bodyRanges: BodyRangesType;
   id: string;
   referencedMessageNotFound: boolean;
+  isViewOnce: boolean;
   text: string;
 };
 

@@ -1789,6 +1789,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-quote__icon-container__icon--movie {
   @include color-svg('../images/movie.svg', $color-ultramarine);
 }
+.module-quote__icon-container__icon--view-once {
+  @include color-svg('../images/icons/v2/view-once-24.svg', $color-ultramarine);
+}
 
 .module-quote__generic-file {
   display: flex;

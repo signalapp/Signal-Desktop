@@ -149,6 +149,7 @@ export type PropsData = {
     authorName?: string;
     bodyRanges?: BodyRangesType;
     referencedMessageNotFound: boolean;
+    isViewOnce: boolean;
   };
   previews: Array<LinkPreviewType>;
   isExpired?: boolean;
@@ -1062,7 +1063,7 @@ export class Message extends React.Component<Props, State> {
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
-    const { referencedMessageNotFound } = quote;
+    const { isViewOnce, referencedMessageNotFound } = quote;
 
     const clickHandler = disableScroll
       ? undefined
@@ -1087,6 +1088,7 @@ export class Message extends React.Component<Props, State> {
         bodyRanges={quote.bodyRanges}
         conversationColor={conversationColor}
         customColor={customColor}
+        isViewOnce={isViewOnce}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
