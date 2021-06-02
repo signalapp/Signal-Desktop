@@ -1743,6 +1743,8 @@ export default class MessageSender {
     groupId: string | undefined,
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
+    const dataMessage = proto.dataMessage?.toArrayBuffer();
+
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const identifiers = providedIdentifiers.filter(
@@ -1751,7 +1753,7 @@ export default class MessageSender {
 
     if (identifiers.length === 0) {
       return Promise.resolve({
-        dataMessage: proto.toArrayBuffer(),
+        dataMessage,
         errors: [],
         failoverIdentifiers: [],
         successfulIdentifiers: [],
@@ -1761,7 +1763,7 @@ export default class MessageSender {
 
     return new Promise((resolve, reject) => {
       const callback = (res: CallbackResultType) => {
-        res.dataMessage = proto.dataMessage?.toArrayBuffer();
+        res.dataMessage = dataMessage;
         if (res.errors && res.errors.length > 0) {
           reject(res);
         } else {
