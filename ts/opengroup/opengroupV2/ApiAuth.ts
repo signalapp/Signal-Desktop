@@ -48,24 +48,24 @@ export async function getAuthToken({
   await allowOnlyOneAtATime(`getAuthToken${serverUrl}:${roomId}`, async () => {
     try {
       window?.log?.info(
-        `Triggering getAuthToken with serverUrl:'${serverUrl}'; roomId:'${roomId}'`
+        `Triggering getAuthToken with serverUrl:'${serverUrl}'; roomId: '${roomId}'`
       );
       const token = await requestNewAuthToken({ serverUrl, roomId });
       if (!token) {
         window?.log?.warn('invalid new auth token', token);
         return;
       }
-      window?.log?.info(`Got AuthToken for serverUrl:'${serverUrl}'; roomId:'${roomId}'`);
+      window?.log?.info(`Got AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
       const claimedToken = await claimAuthToken(token, serverUrl, roomId);
       if (!claimedToken) {
         window?.log?.warn('Failed to claim token', claimedToken);
       } else {
-        window?.log?.info(`Claimed AuthToken for serverUrl:'${serverUrl}'; roomId:'${roomId}'`);
+        window?.log?.info(`Claimed AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
       }
       // still save it to the db. just to mark it as to be refreshed later
       roomDetails.token = claimedToken || '';
       await saveV2OpenGroupRoom(roomDetails);
-      window?.log?.info(`AuthToken saved to DB for serverUrl:'${serverUrl}'; roomId:'${roomId}'`);
+      window?.log?.info(`AuthToken saved to DB for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
     } catch (e) {
       window?.log?.error('Failed to getAuthToken', e);
       throw e;

@@ -14,6 +14,7 @@ import { PROTOCOLS } from '../constants';
 import { toHex } from '../utils/String';
 import pRetry from 'p-retry';
 
+// FIXME audric we should soon be able to get rid of that
 const FILESERVER_HOSTS = [
   'file-dev.lokinet.org',
   'file.lokinet.org',

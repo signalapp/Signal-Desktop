@@ -203,7 +203,7 @@ const getCompactPollRequest = async (
           roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
         } else {
           window?.log?.info(
-            "We've been away for a long time... Only fetching last messages of room"
+            `We've been away for a long time... Only fetching last messages of room '${roomId}'`
           );
         }
 

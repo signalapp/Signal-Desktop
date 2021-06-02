@@ -360,8 +360,12 @@ async function buildNewOnionPathsWorker() {
       'LokiSnodeAPI::buildNewOnionPaths - Too few nodes to build an onion path! Refreshing pool and retrying'
     );
     await SnodePool.refreshRandomPool();
-    // FIXME this is a recursive call limited to only one call at a time. This cannot work
-    await buildNewOnionPathsOneAtATime();
+    // this is a recursive call limited to only one call at a time. we use the timeout
+    // here to make sure we retry this call if we cannot get enough otherNodes
+
+    setTimeout(async () => {
+      await buildNewOnionPathsOneAtATime();
+    }, 100);
     return;
   }
 

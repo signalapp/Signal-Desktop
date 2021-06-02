@@ -70,6 +70,7 @@ export class OpenGroupServerPoller {
 
   constructor(roomInfos: Array<OpenGroupRequestCommonType>) {
     autoBind(this);
+
     if (!roomInfos?.length) {
       throw new Error('Empty roomInfos list');
     }
@@ -80,9 +81,12 @@ export class OpenGroupServerPoller {
       throw new Error('All rooms must be for the same serverUrl');
     }
     // first verify the rooms we got are all from on the same server
-
+    window?.log?.info(`Creating a new OpenGroupServerPoller for url ${firstUrl}`);
     this.serverUrl = firstUrl;
     roomInfos.forEach(r => {
+      window?.log?.info(
+        `Adding room on construct for url serverUrl: ${firstUrl}, roomId:'${r.roomId}' to poller:${this.serverUrl}`
+      );
       this.roomIdsToPoll.add(r.roomId);
     });
 
@@ -114,6 +118,9 @@ export class OpenGroupServerPoller {
       window?.log?.info('skipping addRoomToPoll of already polled room:', room);
       return;
     }
+    window?.log?.info(
+      `Adding room on addRoomToPoll for url serverUrl: ${this.serverUrl}, roomId:'${room.roomId}' to poller:${this.serverUrl}`
+    );
     this.roomIdsToPoll.add(room.roomId);
 
     // if we are not already polling right now, trigger a polling

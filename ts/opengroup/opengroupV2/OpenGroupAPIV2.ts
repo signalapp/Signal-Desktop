@@ -338,12 +338,16 @@ export const getMemberCount = async (
   };
   const result = await exports.sendApiV2Request(request);
   if (parseStatusCodeFromOnionRequest(result) !== 200) {
-    window?.log?.warn('getMemberCount failed invalid status code');
+    window?.log?.warn(
+      `getMemberCount failed invalid status code for serverUrl:'${roomInfos.serverUrl}' roomId:'${roomInfos.roomId}'`
+    );
     return;
   }
   const count = parseMemberCount(result);
   if (count === undefined) {
-    window?.log?.warn('getMemberCount failed invalid count');
+    window?.log?.warn(
+      `getMemberCount failed invalid count for serverUrl:'${roomInfos.serverUrl}' roomId:'${roomInfos.roomId}'`
+    );
     return;
   }
 

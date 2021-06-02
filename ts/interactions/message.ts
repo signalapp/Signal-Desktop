@@ -109,7 +109,7 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
     const pubKeyToRemove = PubKey.cast(sender);
     const convo = ConversationController.getInstance().getOrThrow(convoId);
 
-    // FXIME audric removeModerator not working serverside
+    // FIXME audric removeModerator not working serverside
     const roomInfo = convo.toOpenGroupV2();
     const res = await ApiV2.removeModerator(pubKeyToRemove, roomInfo);
     if (!res) {
@@ -130,7 +130,6 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
     const pubKeyToRemove = PubKey.cast(sender);
     const convo = ConversationController.getInstance().getOrThrow(convoId);
 
-    // FXIME audric addModerator not working serverside
     const roomInfo = convo.toOpenGroupV2();
     const res = await ApiV2.addModerator(pubKeyToRemove, roomInfo);
     if (!res) {
