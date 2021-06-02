@@ -368,6 +368,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       this.setState({ loading: true });
       try {
         const resolvedSessionID = await SNodeAPI.getSessionIDForOnsName(pubkeyorOns);
+        if (PubKey.validateWithError(resolvedSessionID)) {
+          throw new Error('Got a resolved ONS but the returned entry is not a vlaid SessionID');
+        }
         // this is a pubkey
         await ConversationController.getInstance().getOrCreateAndWait(
           resolvedSessionID,
