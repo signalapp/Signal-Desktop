@@ -11,6 +11,7 @@ import { InContactsIcon } from './InContactsIcon';
 
 import { LocalizerType } from '../types/Util';
 import { ConversationType } from '../state/ducks/conversations';
+import { isInSystemContacts } from '../util/isInSystemContacts';
 
 type Props = {
   i18n: LocalizerType;
@@ -69,10 +70,18 @@ export class ContactListItem extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { about, i18n, isAdmin, isMe, name, onClick, title } = this.props;
+    const {
+      about,
+      i18n,
+      isAdmin,
+      isMe,
+      name,
+      onClick,
+      title,
+      type,
+    } = this.props;
 
     const displayName = isMe ? i18n('you') : title;
-    const shouldShowIcon = Boolean(name);
 
     return (
       <button
@@ -88,7 +97,7 @@ export class ContactListItem extends React.Component<Props> {
           <div className="module-contact-list-item__left">
             <div className="module-contact-list-item__text__name">
               <Emojify text={displayName} />
-              {shouldShowIcon ? (
+              {isInSystemContacts({ name, type }) ? (
                 <span>
                   {' '}
                   <InContactsIcon i18n={i18n} />

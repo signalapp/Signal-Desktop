@@ -23,6 +23,7 @@ import { MuteOption, getMuteOptions } from '../../util/getMuteOptions';
 import * as expirationTimer from '../../util/expirationTimer';
 import { isMuted } from '../../util/isMuted';
 import { missingCaseError } from '../../util/missingCaseError';
+import { isInSystemContacts } from '../../util/isInSystemContacts';
 
 export enum OutgoingCallButtonStyle {
   None,
@@ -155,12 +156,10 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       );
     }
 
-    const shouldShowIcon = Boolean(name && type === 'direct');
-
     return (
       <div className="module-ConversationHeader__header__info__title">
         <Emojify text={title} />
-        {shouldShowIcon ? (
+        {isInSystemContacts({ name, type }) ? (
           <InContactsIcon
             className="module-ConversationHeader__header__info__title__in-contacts-icon"
             i18n={i18n}

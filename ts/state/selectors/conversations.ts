@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { fromPairs, isNumber, isString } from 'lodash';
+import { fromPairs, isNumber } from 'lodash';
 import { createSelector } from 'reselect';
 
 import { StateType } from '../reducer';
@@ -38,6 +38,7 @@ import {
   getUserNumber,
 } from './user';
 import { getPinnedConversationIds } from './items';
+import { isInSystemContacts } from '../../util/isInSystemContacts';
 
 let placeholderContact: ConversationType;
 export const getPlaceholderContact = (): ConversationType => {
@@ -366,7 +367,7 @@ function isTrusted(conversation: ConversationType): boolean {
   }
 
   return Boolean(
-    isString(conversation.name) ||
+    isInSystemContacts(conversation) ||
       conversation.profileSharing ||
       conversation.isMe
   );
