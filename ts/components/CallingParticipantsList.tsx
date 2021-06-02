@@ -11,6 +11,7 @@ import { InContactsIcon } from './InContactsIcon';
 import { LocalizerType } from '../types/Util';
 import { sortByTitle } from '../util/sortByTitle';
 import { ConversationType } from '../state/ducks/conversations';
+import { isInSystemContacts } from '../util/isInSystemContacts';
 
 type ParticipantType = ConversationType & {
   hasRemoteAudio?: boolean;
@@ -118,7 +119,7 @@ export const CallingParticipantsList = React.memo(
                           module="module-calling-participants-list__name"
                           title={participant.title}
                         />
-                        {participant.name ? (
+                        {isInSystemContacts(participant) ? (
                           <span>
                             {' '}
                             <InContactsIcon

@@ -3,6 +3,7 @@
 
 import { ConversationAttributesType } from '../model-types.d';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
+import { isInSystemContacts } from './isInSystemContacts';
 
 /**
  * Determine if this conversation should be considered "accepted" in terms
@@ -63,7 +64,10 @@ function isFromOrAddedByTrustedContact(
   conversationAttrs: ConversationAttributesType
 ): boolean {
   if (isDirectConversation(conversationAttrs)) {
-    return Boolean(conversationAttrs.name || conversationAttrs.profileSharing);
+    return (
+      isInSystemContacts(conversationAttrs) ||
+      Boolean(conversationAttrs.profileSharing)
+    );
   }
 
   const { addedBy } = conversationAttrs;

@@ -6,6 +6,7 @@ import { SendMetadataType, SendOptionsType } from '../textsecure/SendMessage';
 import { arrayBufferToBase64, getRandomBytes } from '../Crypto';
 import { getConversationMembers } from './getConversationMembers';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
+import { isInSystemContacts } from './isInSystemContacts';
 import { missingCaseError } from './missingCaseError';
 import { senderCertificateService } from '../services/senderCertificate';
 import {
@@ -117,13 +118,11 @@ function getSenderCertificateForDirectConversation(
     case PhoneNumberSharingMode.Everybody:
       certificateMode = SenderCertificateMode.WithE164;
       break;
-    case PhoneNumberSharingMode.ContactsOnly: {
-      const isInSystemContacts = Boolean(conversationAttrs.name);
-      certificateMode = isInSystemContacts
+    case PhoneNumberSharingMode.ContactsOnly:
+      certificateMode = isInSystemContacts(conversationAttrs)
         ? SenderCertificateMode.WithE164
         : SenderCertificateMode.WithoutE164;
       break;
-    }
     case PhoneNumberSharingMode.Nobody:
       certificateMode = SenderCertificateMode.WithoutE164;
       break;

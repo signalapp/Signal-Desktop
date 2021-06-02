@@ -25,6 +25,7 @@ import { Intl } from '../Intl';
 import { Emojify } from './Emojify';
 import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
+import { isInSystemContacts } from '../../util/isInSystemContacts';
 
 type PropsType = {
   i18n: LocalizerType;
@@ -271,7 +272,7 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> = props =
                   {i18n('MessageRequests--unblock')}
                 </Button>
               );
-            } else if (!conversationInfo.conversation.name) {
+            } else if (!isInSystemContacts(conversationInfo.conversation)) {
               button = (
                 <Button
                   variant={ButtonVariant.SecondaryDestructive}

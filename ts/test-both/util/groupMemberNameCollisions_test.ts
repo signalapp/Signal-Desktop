@@ -46,6 +46,7 @@ describe('group member name collision utilities', () => {
         title: 'Bob',
       });
       const bob2 = getDefaultConversation({
+        name: 'Bob In Your Contacts',
         profileName: 'Bob',
         title: 'Bob',
       });
@@ -53,19 +54,44 @@ describe('group member name collision utilities', () => {
         profileName: 'Bob',
         title: 'Bob',
       });
+
+      // Ignored, because Bob is not in your contacts (lacks `name`), has no profile name,
+      //   and has no E164.
       const ignoredBob = getDefaultConversation({
         e164: undefined,
         title: 'Bob',
       });
+
+      // Ignored, because there's only one Charlie.
       const charlie = getDefaultConversation({
         profileName: 'Charlie',
         title: 'Charlie',
       });
+
+      // Ignored, because all Donnas are in your contacts (they have a `name`).
+      const donna1 = getDefaultConversation({
+        name: 'Donna One',
+        profileName: 'Donna',
+        title: 'Donna',
+      });
+      const donna2 = getDefaultConversation({
+        name: 'Donna Two',
+        profileName: 'Donna',
+        title: 'Donna',
+      });
+      const donna3 = getDefaultConversation({
+        name: 'Donna Three',
+        profileName: 'Donna',
+        title: 'Donna',
+      });
+
+      // Ignored, because you're not included.
       const me = getDefaultConversation({
         isMe: true,
         profileName: 'Alice',
         title: 'Alice',
       });
+
       const memberships = [
         alice1,
         alice2,
@@ -74,6 +100,9 @@ describe('group member name collision utilities', () => {
         bob3,
         ignoredBob,
         charlie,
+        donna1,
+        donna2,
+        donna3,
         me,
       ].map(member => ({ member }));
 

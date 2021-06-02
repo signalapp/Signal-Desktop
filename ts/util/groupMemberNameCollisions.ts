@@ -6,6 +6,7 @@ import { groupBy, map, filter } from './iterables';
 import { getOwn } from './getOwn';
 import { ConversationType } from '../state/ducks/conversations';
 import { isConversationNameKnown } from './isConversationNameKnown';
+import { isInSystemContacts } from './isInSystemContacts';
 
 export type GroupNameCollisionsWithIdsByTitle = Record<string, Array<string>>;
 export type GroupNameCollisionsWithConversationsByTitle = Record<
@@ -37,7 +38,8 @@ export function getCollisionsFromMemberships(
   // [0]: https://www.typescriptlang.org/play?#code/C4TwDgpgBAYg9nKBeKAFAhgJ2AS3QGwB4AlCAYzkwBNCBnYTHAOwHMAaKJgVwFsAjCJgB8QgNwAoCk3pQAZgC5YCZFADeUABY5FAVigBfCeNCQoAISwrSFanQbN2nXgOESpMvoouYVs0UA
   return (pickBy(
     groupedByTitle,
-    group => group.length >= 2
+    group =>
+      group.length >= 2 && !group.every(person => isInSystemContacts(person))
   ) as unknown) as GroupNameCollisionsWithConversationsByTitle;
 }
 

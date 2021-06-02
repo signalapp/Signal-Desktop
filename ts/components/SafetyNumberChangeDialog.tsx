@@ -11,6 +11,7 @@ import { Modal } from './Modal';
 
 import { ConversationType } from '../state/ducks/conversations';
 import { LocalizerType } from '../types/Util';
+import { isInSystemContacts } from '../util/isInSystemContacts';
 
 export type SafetyNumberProps = {
   contactID: string;
@@ -103,7 +104,7 @@ export const SafetyNumberChangeDialog = ({
               <div className="module-SafetyNumberChangeDialog__contact--wrapper">
                 <div className="module-SafetyNumberChangeDialog__contact--name">
                   {contact.title}
-                  {contact.name ? (
+                  {isInSystemContacts(contact) ? (
                     <span>
                       {' '}
                       <InContactsIcon i18n={i18n} />
