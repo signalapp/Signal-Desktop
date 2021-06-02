@@ -284,6 +284,7 @@ export const CallScreen: React.FC<PropsType> = ({
   } else {
     presentingButtonType = CallingButtonType.PRESENTING_OFF;
   }
+  const isSendingVideo = hasLocalVideo || presentingSource;
 
   return (
     <div
@@ -327,7 +328,7 @@ export const CallScreen: React.FC<PropsType> = ({
         />
       </div>
       {remoteParticipantsElement}
-      {hasLocalVideo && isLonelyInGroup ? (
+      {isSendingVideo && isLonelyInGroup ? (
         <div className="module-ongoing-call__local-preview-fullsize">
           <video
             className={localPreviewVideoClass}
@@ -336,7 +337,7 @@ export const CallScreen: React.FC<PropsType> = ({
           />
         </div>
       ) : null}
-      {!hasLocalVideo && isLonelyInGroup ? (
+      {!isSendingVideo && isLonelyInGroup ? (
         <div className="module-ongoing-call__local-preview-fullsize">
           <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
             <Avatar
@@ -405,14 +406,14 @@ export const CallScreen: React.FC<PropsType> = ({
             'module-ongoing-call__footer__local-preview--audio-muted': !hasLocalAudio,
           })}
         >
-          {hasLocalVideo && !isLonelyInGroup ? (
+          {isSendingVideo && !isLonelyInGroup ? (
             <video
               className={localPreviewVideoClass}
               ref={localVideoRef}
               autoPlay
             />
           ) : null}
-          {!hasLocalVideo && !isLonelyInGroup ? (
+          {!isSendingVideo && !isLonelyInGroup ? (
             <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
               <Avatar
                 acceptedMessageRequest
