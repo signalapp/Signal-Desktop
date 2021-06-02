@@ -554,7 +554,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       }
 
       const { newest, oldest } = this.visibleRows;
-      if (!newest || !oldest) {
+      if (!newest) {
         return;
       }
 
@@ -579,7 +579,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       //   Generally we hid this behind a countdown spinner at the top of the window, but
       //   this is a special-case for the situation where the window is so large and that
       //   all the messages are visible.
-      const oldestVisible = oldestRow === oldest.row;
+      const oldestVisible = Boolean(oldest && oldestRow === oldest.row);
       const newestVisible = newestRow === newest.row;
       if (oldestVisible && newestVisible && !haveOldest) {
         this.loadOlderMessages();
