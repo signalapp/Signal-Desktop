@@ -905,7 +905,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   getPropsForDeliveryIssue(): DeliveryIssuePropsType {
-    const sender = this.getContact()?.format();
+    const sourceUuid = this.get('sourceUuid');
+    const sender = sourceUuid
+      ? window.ConversationController.getOrCreate(
+          sourceUuid,
+          'private'
+        ).format()
+      : PLACEHOLDER_CONTACT;
 
     return {
       sender,
