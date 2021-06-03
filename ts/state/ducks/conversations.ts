@@ -342,6 +342,7 @@ export const getConversationCallMode = (
 
 // Actions
 
+const COLOR_SELECTED = 'conversations/COLOR_SELECTED';
 const COLORS_CHANGED = 'conversations/COLORS_CHANGED';
 const CUSTOM_COLOR_REMOVED = 'conversations/CUSTOM_COLOR_REMOVED';
 
@@ -376,6 +377,18 @@ type ColorsChangedActionType = {
       value: CustomColorType;
     };
   };
+};
+type ColorSelectedPayloadType = {
+  conversationId: string;
+  conversationColor?: ConversationColorType;
+  customColorData?: {
+    id: string;
+    value: CustomColorType;
+  };
+};
+export type ColorSelectedActionType = {
+  type: typeof COLOR_SELECTED;
+  payload: ColorSelectedPayloadType;
 };
 type CustomColorRemovedActionType = {
   type: typeof CUSTOM_COLOR_REMOVED;
@@ -637,6 +650,7 @@ export type ConversationActionType =
   | ConversationRemovedActionType
   | ConversationUnloadedActionType
   | ColorsChangedActionType
+  | ColorSelectedActionType
   | CustomColorRemovedActionType
   | CreateGroupFulfilledActionType
   | CreateGroupPendingActionType
@@ -689,6 +703,7 @@ export const actions = {
   conversationChanged,
   conversationRemoved,
   conversationUnloaded,
+  colorSelected,
   createGroup,
   messageChanged,
   messageDeleted,
@@ -793,6 +808,50 @@ function resetAllChatColors(): ThunkAction<
       payload: {
         conversationColor: defaultConversationColor.color,
         customColorData: defaultConversationColor.customColorData,
+      },
+    });
+  };
+}
+
+function colorSelected({
+  conversationId,
+  conversationColor,
+  customColorData,
+}: ColorSelectedPayloadType): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ColorSelectedActionType
+> {
+  return async dispatch => {
+    // We don't want to trigger a model change because we're updating redux
+    // here manually ourselves. Au revoir Backbone!
+    const conversation = window.ConversationController.get(conversationId);
+    if (conversation) {
+      if (conversationColor) {
+        conversation.attributes.conversationColor = conversationColor;
+        if (customColorData) {
+          conversation.attributes.customColor = customColorData.value;
+          conversation.attributes.customColorId = customColorData.id;
+        } else {
+          delete conversation.attributes.customColor;
+          delete conversation.attributes.customColorId;
+        }
+      } else {
+        delete conversation.attributes.conversationColor;
+        delete conversation.attributes.customColor;
+        delete conversation.attributes.customColorId;
+      }
+
+      await window.Signal.Data.updateConversation(conversation.attributes);
+    }
+
+    dispatch({
+      type: COLOR_SELECTED,
+      payload: {
+        conversationId,
+        conversationColor,
+        customColorData,
       },
     });
   };
@@ -2529,6 +2588,36 @@ export function reducer(
     });
 
     return nextState;
+  }
+
+  if (action.type === COLOR_SELECTED) {
+    const { conversationLookup } = state;
+    const {
+      conversationId,
+      conversationColor,
+      customColorData,
+    } = action.payload;
+
+    const existing = conversationLookup[conversationId];
+    if (!existing) {
+      return state;
+    }
+
+    const changed = {
+      ...existing,
+      conversationColor,
+      customColor: customColorData?.value,
+      customColorId: customColorData?.id,
+    };
+
+    return {
+      ...state,
+      conversationLookup: {
+        ...conversationLookup,
+        [conversationId]: changed,
+      },
+      ...updateConversationLookups(changed, existing, state),
+    };
   }
 
   if (action.type === CUSTOM_COLOR_REMOVED) {

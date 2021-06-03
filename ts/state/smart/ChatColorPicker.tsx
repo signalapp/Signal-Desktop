@@ -8,7 +8,6 @@ import {
   ChatColorPicker,
   PropsDataType,
 } from '../../components/ChatColorPicker';
-import { ConversationColorType, CustomColorType } from '../../types/Colors';
 import { StateType } from '../reducer';
 import {
   getConversationSelector,
@@ -19,15 +18,6 @@ import { getIntl } from '../selectors/user';
 
 export type SmartChatColorPickerProps = {
   conversationId?: string;
-  isGlobal?: boolean;
-  onChatColorReset?: () => unknown;
-  onSelectColor: (
-    color: ConversationColorType,
-    customColorData?: {
-      id: string;
-      value: CustomColorType;
-    }
-  ) => unknown;
 };
 
 const mapStateToProps = (

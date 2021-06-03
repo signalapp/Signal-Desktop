@@ -24,54 +24,90 @@ type CustomColorDataType = {
 };
 
 export type PropsDataType = {
+  conversationId?: string;
   customColors?: Record<string, CustomColorType>;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   i18n: LocalizerType;
   isGlobal?: boolean;
-  onChatColorReset?: () => unknown;
-  onSelectColor: (
+  selectedColor?: ConversationColorType;
+  selectedCustomColor: CustomColorDataType;
+};
+
+type PropsActionType = {
+  addCustomColor: (
+    color: CustomColorType,
+    nextAction: (uuid: string) => unknown
+  ) => unknown;
+  colorSelected: (payload: {
+    conversationId: string;
+    conversationColor?: ConversationColorType;
+    customColorData?: {
+      id: string;
+      value: CustomColorType;
+    };
+  }) => unknown;
+  editCustomColor: (colorId: string, color: CustomColorType) => unknown;
+  removeCustomColor: (colorId: string) => unknown;
+  removeCustomColorOnConversations: (colorId: string) => unknown;
+  resetAllChatColors: () => unknown;
+  resetDefaultChatColor: () => unknown;
+  setGlobalDefaultConversationColor: (
     color: ConversationColorType,
     customColorData?: {
       id: string;
       value: CustomColorType;
     }
   ) => unknown;
-  selectedColor?: ConversationColorType;
-  selectedCustomColor: CustomColorDataType;
-};
-
-type PropsActionType = {
-  addCustomColor: (color: CustomColorType) => unknown;
-  editCustomColor: (colorId: string, color: CustomColorType) => unknown;
-  removeCustomColor: (colorId: string) => unknown;
-  removeCustomColorOnConversations: (colorId: string) => unknown;
-  resetAllChatColors: () => unknown;
-  resetDefaultChatColor: () => unknown;
 };
 
 export type PropsType = PropsDataType & PropsActionType;
 
 export const ChatColorPicker = ({
   addCustomColor,
+  colorSelected,
+  conversationId,
   customColors = {},
   editCustomColor,
   getConversationsWithCustomColor,
   i18n,
   isGlobal = false,
-  onChatColorReset,
-  onSelectColor,
   removeCustomColor,
   removeCustomColorOnConversations,
   resetAllChatColors,
   resetDefaultChatColor,
   selectedColor = ConversationColors[0],
   selectedCustomColor,
+  setGlobalDefaultConversationColor,
 }: PropsType): JSX.Element => {
   const [confirmResetAll, setConfirmResetAll] = useState(false);
   const [confirmResetWhat, setConfirmResetWhat] = useState(false);
   const [customColorToEdit, setCustomColorToEdit] = useState<
     CustomColorDataType | undefined
   >(undefined);
+
+  const onSelectColor = (
+    conversationColor: ConversationColorType,
+    customColorData?: { id: string; value: CustomColorType }
+  ): void => {
+    if (conversationId) {
+      colorSelected({
+        conversationId,
+        conversationColor,
+        customColorData,
+      });
+    } else {
+      setGlobalDefaultConversationColor(conversationColor, customColorData);
+    }
+  };
+
+  const onColorAdded = (value: CustomColorType) => {
+    return (id: string) => {
+      onSelectColor('custom', {
+        id,
+        value,
+      });
+    };
+  };
 
   const renderCustomColorEditorWrapper = () => (
     <CustomColorEditorWrapper
@@ -87,7 +123,7 @@ export const ChatColorPicker = ({
             value: color,
           });
         } else {
-          addCustomColor(color);
+          addCustomColor(color, onColorAdded(color));
         }
       }}
     />
@@ -192,7 +228,7 @@ export const ChatColorPicker = ({
                 removeCustomColorOnConversations(colorId);
               }}
               onDupe={() => {
-                addCustomColor(colorValues);
+                addCustomColor(colorValues, onColorAdded(colorValues));
               }}
               onEdit={() => {
                 setCustomColorToEdit({ id: colorId, value: colorValues });
@@ -218,10 +254,12 @@ export const ChatColorPicker = ({
         </div>
       </div>
       <hr />
-      {onChatColorReset ? (
+      {conversationId ? (
         <PanelRow
           label={i18n('ChatColorPicker__reset')}
-          onClick={onChatColorReset}
+          onClick={() => {
+            colorSelected({ conversationId });
+          }}
         />
       ) : null}
       <PanelRow
