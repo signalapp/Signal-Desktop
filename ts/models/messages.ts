@@ -4128,20 +4128,22 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const message = this;
     const type = message.get('type');
+    let changed = false;
 
     if (type === 'outgoing') {
       const receipts = window.Whisper.DeliveryReceipts.forMessage(
         conversation,
         message
       );
-      receipts.forEach(receipt =>
+      receipts.forEach(receipt => {
         message.set({
           delivered: (message.get('delivered') || 0) + 1,
           delivered_to: _.union(message.get('delivered_to') || [], [
             receipt.get('deliveredTo'),
           ]),
-        })
-      );
+        });
+        changed = true;
+      });
     }
 
     if (type === 'incoming') {
@@ -4165,6 +4167,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         if (c) {
           c.onReadMessage(message);
         }
+        changed = true;
       } else if (isFirstRun) {
         conversation.set({
           unreadCount: (conversation.get('unreadCount') || 0) + 1,
@@ -4183,17 +4186,22 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         message.set({
           read_by: _.union(message.get('read_by'), readBy),
         });
+        changed = true;
       }
 
       // A sync'd message to ourself is automatically considered read/delivered
-      if (conversation.isMe()) {
+      if (isFirstRun && conversation.isMe()) {
         message.set({
           read_by: conversation.getRecipients(),
           delivered_to: conversation.getRecipients(),
         });
+        changed = true;
       }
 
-      message.set({ recipients: conversation.getRecipients() });
+      if (isFirstRun) {
+        message.set({ recipients: conversation.getRecipients() });
+        changed = true;
+      }
     }
 
     // Check for out-of-order view syncs
@@ -4201,23 +4209,37 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const viewSync = window.Whisper.ViewSyncs.forMessage(message);
       if (viewSync) {
         await message.markViewed({ fromSync: true });
+        changed = true;
       }
     }
 
     // Does this message have any pending, previously-received associated reactions?
     const reactions = window.Whisper.Reactions.forMessage(message);
     await Promise.all(
-      reactions.map(reaction => message.handleReaction(reaction, false))
+      reactions.map(async reaction => {
+        await message.handleReaction(reaction, false);
+        changed = true;
+      })
     );
 
     // Does this message have any pending, previously-received associated
     // delete for everyone messages?
     const deletes = window.Whisper.Deletes.forMessage(message);
     await Promise.all(
-      deletes.map(del =>
-        window.Signal.Util.deleteForEveryone(message, del, false)
-      )
+      deletes.map(async del => {
+        await window.Signal.Util.deleteForEveryone(message, del, false);
+        changed = true;
+      })
     );
+
+    if (changed && !isFirstRun) {
+      window.log.info(
+        `modifyTargetMessage/${this.idForLogging()}: Changes in second run; saving.`
+      );
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: window.Whisper.Message,
+      });
+    }
   }
 
   async handleReaction(
