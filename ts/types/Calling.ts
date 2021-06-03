@@ -14,6 +14,7 @@ export type PresentableSource = {
   appIcon?: string;
   id: string;
   name: string;
+  isScreen: boolean;
   thumbnail: string;
 };
 
