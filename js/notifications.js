@@ -160,7 +160,7 @@
         ({ notificationIconUrl } = this.notificationData);
 
         const shouldHideExpiringMessageBody =
-          isExpiringMessage && Signal.OS.isMacOS();
+          isExpiringMessage && (Signal.OS.isMacOS() || Signal.OS.isWindows());
         if (shouldHideExpiringMessageBody) {
           notificationMessage = i18n('newMessage');
         } else if (userSetting === SettingNames.NAME_ONLY) {
