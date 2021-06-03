@@ -48,6 +48,7 @@ import {
   PresentableSource,
   PresentedSource,
 } from '../types/Calling';
+import { LocalizerType } from '../types/Util';
 import { ConversationModel } from '../models/conversations';
 import {
   base64ToArrayBuffer,
@@ -87,6 +88,33 @@ enum GroupCallUpdateMessageState {
   SentNothing,
   SentJoin,
   SentLeft,
+}
+
+export function isScreenSource(source: PresentedSource): boolean {
+  return source.id.startsWith('screen');
+}
+
+export function translateSourceName(
+  i18n: LocalizerType,
+  source: PresentedSource
+): string {
+  const { name } = source;
+  if (!isScreenSource(source)) {
+    return name;
+  }
+
+  if (name === 'Entire Screen') {
+    return i18n('calling__SelectPresentingSourcesModal--entireScreen');
+  }
+
+  const match = name.match(/^Screen (\d+)$/);
+  if (match) {
+    return i18n('calling__SelectPresentingSourcesModal--screen', {
+      id: match[1],
+    });
+  }
+
+  return name;
 }
 
 export class CallingClass {
@@ -954,7 +982,10 @@ export class CallingClass {
     this.setOutgoingVideoIsScreenShare(call, isPresenting);
 
     if (source) {
-      ipcRenderer.send('show-screen-share', source.name);
+      ipcRenderer.send(
+        'show-screen-share',
+        translateSourceName(window.i18n, source)
+      );
       notify({
         icon: 'images/icons/v2/video-solid-24.svg',
         message: window.i18n('calling__presenting--notification-body'),
