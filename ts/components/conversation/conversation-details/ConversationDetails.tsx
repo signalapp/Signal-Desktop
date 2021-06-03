@@ -36,7 +36,8 @@ import { getCustomColorStyle } from '../../../util/getCustomColorStyle';
 
 enum ModalState {
   NothingOpen,
-  EditingGroupAttributes,
+  EditingGroupDescription,
+  EditingGroupTitle,
   AddingGroupMembers,
   CustomDisappearingTimeout,
 }
@@ -142,10 +143,12 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     case ModalState.NothingOpen:
       modalNode = undefined;
       break;
-    case ModalState.EditingGroupAttributes:
+    case ModalState.EditingGroupDescription:
+    case ModalState.EditingGroupTitle:
       modalNode = (
         <EditConversationAttributesModal
           avatarPath={conversation.avatarPath}
+          focusDescription={modalState === ModalState.EditingGroupDescription}
           groupDescription={conversation.groupDescription}
           i18n={i18n}
           makeRequest={async (
@@ -269,8 +272,12 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         conversation={conversation}
         i18n={i18n}
         memberships={memberships}
-        startEditing={() => {
-          setModalState(ModalState.EditingGroupAttributes);
+        startEditing={(isGroupTitle: boolean) => {
+          setModalState(
+            isGroupTitle
+              ? ModalState.EditingGroupTitle
+              : ModalState.EditingGroupDescription
+          );
         }}
       />
 

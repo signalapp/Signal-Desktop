@@ -16,7 +16,7 @@ export type Props = {
   conversation: ConversationType;
   i18n: LocalizerType;
   memberships: Array<GroupV2Membership>;
-  startEditing: () => void;
+  startEditing: (isGroupTitle: boolean) => void;
 };
 
 const bem = bemGenerator('module-conversation-details-header');
@@ -58,24 +58,36 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
         <div className={bem('title')}>
           <Emojify text={conversation.title} />
         </div>
-        <div className={bem('subtitle')}>{subtitle}</div>
       </div>
     </>
   );
 
   if (canEdit) {
     return (
-      <button
-        type="button"
-        onClick={ev => {
-          ev.preventDefault();
-          ev.stopPropagation();
-          startEditing();
-        }}
-        className={bem('root', 'editable')}
-      >
-        {contents}
-      </button>
+      <div className={bem('root')}>
+        <button
+          type="button"
+          onClick={ev => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            startEditing(true);
+          }}
+          className={bem('root', 'editable')}
+        >
+          {contents}
+        </button>
+        <button
+          type="button"
+          onClick={ev => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            startEditing(false);
+          }}
+          className={bem('root', 'editable')}
+        >
+          <div className={bem('subtitle')}>{subtitle}</div>
+        </button>
+      </div>
     );
   }
 
