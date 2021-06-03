@@ -1291,7 +1291,8 @@ export class CallingClass {
 
       this.addCallHistoryForFailedIncomingCall(
         conversation,
-        callingMessage.offer.type === OfferType.VideoCall
+        callingMessage.offer.type === OfferType.VideoCall,
+        envelope.timestamp
       );
 
       return;
@@ -1465,7 +1466,8 @@ export class CallingClass {
         );
         this.addCallHistoryForFailedIncomingCall(
           conversation,
-          call.isVideoCall
+          call.isVideoCall,
+          Date.now()
         );
         return null;
       }
@@ -1482,7 +1484,11 @@ export class CallingClass {
       return await this.getCallSettings(conversation);
     } catch (err) {
       window.log.error(`Ignoring incoming call: ${err.stack}`);
-      this.addCallHistoryForFailedIncomingCall(conversation, call.isVideoCall);
+      this.addCallHistoryForFailedIncomingCall(
+        conversation,
+        call.isVideoCall,
+        Date.now()
+      );
       return null;
     }
   }
@@ -1697,7 +1703,8 @@ export class CallingClass {
 
   private addCallHistoryForFailedIncomingCall(
     conversation: ConversationModel,
-    wasVideoCall: boolean
+    wasVideoCall: boolean,
+    timestamp: number
   ) {
     conversation.addCallHistory({
       callMode: CallMode.Direct,
@@ -1706,7 +1713,7 @@ export class CallingClass {
       // Since the user didn't decline, make sure it shows up as a missed call instead
       wasDeclined: false,
       acceptedTime: undefined,
-      endedTime: Date.now(),
+      endedTime: timestamp,
     });
   }
 
