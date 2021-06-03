@@ -49,6 +49,8 @@ export type SeedNode = {
 
 // just get the filtered list
 async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Promise<Array<Snode>> {
+  window?.log?.info('tryGetSnodeListFromLokidSeednode starting...');
+
   if (!seedNodes.length) {
     window?.log?.info('loki_snode_api::tryGetSnodeListFromLokidSeednode - seedNodes are empty');
     return [];
@@ -83,8 +85,7 @@ async function tryGetSnodeListFromLokidSeednode(seedNodes: Array<SeedNode>): Pro
         // does this error message need to be exactly this?
         throw new window.textsecure.SeedNodeError('Failed to contact seed node');
       }
-    }
-    if (snodes.length) {
+    } else {
       window?.log?.info(
         `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} returned ${snodes.length} snodes`
       );
@@ -186,7 +187,7 @@ async function getSnodeListFromLokidSeednode(
   retries = 0
 ): Promise<Array<Snode>> {
   const SEED_NODE_RETRIES = 3;
-
+  window?.log?.info('getSnodeListFromLokidSeednode starting...');
   if (!seedNodes.length) {
     window?.log?.info('loki_snode_api::getSnodeListFromLokidSeednode - seedNodes are empty');
     return [];
@@ -227,6 +228,8 @@ async function getSnodeListFromLokidSeednode(
 export async function refreshRandomPoolDetail(seedNodes: Array<SeedNode>): Promise<Array<Snode>> {
   let snodes = [];
   try {
+    window?.log?.info(`refreshRandomPoolDetail with seedNodes.length ${seedNodes.length}`);
+
     snodes = await getSnodeListFromLokidSeednode(seedNodes);
     // make sure order of the list is random, so we get version in a non-deterministic way
     snodes = _.shuffle(snodes);
@@ -241,7 +244,7 @@ export async function refreshRandomPoolDetail(seedNodes: Array<SeedNode>): Promi
     }));
     window?.log?.info(
       'LokiSnodeAPI::refreshRandomPool - Refreshed random snode pool with',
-      randomSnodePool.length,
+      snodes.length,
       'snodes'
     );
     return fetchSnodePool;
@@ -263,7 +266,7 @@ export async function refreshRandomPoolDetail(seedNodes: Array<SeedNode>): Promi
  *  or if we have enough snodes, fetches the snode pool from one of the snode.
  */
 export async function refreshRandomPool(): Promise<void> {
-  if (!window.getSeedNodeList() || !window.getSeedNodeList().length) {
+  if (!window.getSeedNodeList() || !window.getSeedNodeList()?.length) {
     window?.log?.error(
       'LokiSnodeAPI:::refreshRandomPool - getSeedNodeList has not been loaded yet'
     );
@@ -272,15 +275,26 @@ export async function refreshRandomPool(): Promise<void> {
   }
   // tslint:disable-next-line:no-parameter-reassignment
   const seedNodes = window.getSeedNodeList();
+  window?.log?.info("right before allowOnlyOneAtATime 'refreshRandomPool'");
 
   return allowOnlyOneAtATime('refreshRandomPool', async () => {
+    window?.log?.info("running allowOnlyOneAtATime 'refreshRandomPool'");
+
     // we don't have nodes to fetch the pool from them, so call the seed node instead.
     if (randomSnodePool.length < minSnodePoolCount) {
+      window?.log?.info(
+        `refreshRandomPool: NOT enough snodes to fetch from them, so falling back to seedNodes ${seedNodes?.length}`
+      );
+
       randomSnodePool = await exports.refreshRandomPoolDetail(seedNodes);
 
       return;
     }
     try {
+      window?.log?.info(
+        `refreshRandomPool: enough snodes to fetch from them, so we try using them ${randomSnodePool.length}`
+      );
+
       // let this request try 3 (3+1) times. If all those requests end up without having a consensus,
       // fetch the snode pool from one of the seed nodes (see the catch).
       await pRetry(
@@ -289,6 +303,7 @@ export async function refreshRandomPool(): Promise<void> {
 
           if (!commonNodes || commonNodes.length < requiredSnodesForAgreement) {
             // throwing makes trigger a retry if we have some left.
+            window?.log?.info(`refreshRandomPool: Not enough common nodes ${commonNodes?.length}`);
             throw new Error('Not enough common nodes.');
           }
           window?.log?.info('updating snode list with snode pool length:', commonNodes.length);

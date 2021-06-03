@@ -160,17 +160,17 @@ const triggerSyncIfNeeded = async () => {
 
 const removeAllV1OpenGroups = async () => {
   const allV1Convos = (await getAllOpenGroupV1Conversations()).models || [];
-  await Promise.all(
-    allV1Convos.map(async v1Convo => {
-      try {
-        window.log.info('removing v1Convo: ', v1Convo.id);
-        // calling this here rather than in a migration because it takes care of removing the attachments, the messages, the profile images, etc.
-        await ConversationController.getInstance().deleteContact(v1Convo.id);
-      } catch (e) {
-        window.log.warn('failed to delete opengroupv1');
-      }
-    })
-  );
+  // tslint:disable-next-line: prefer-for-of
+  for (let index = 0; index < allV1Convos.length; index++) {
+    const v1Convo = allV1Convos[index];
+    try {
+      window.log.info('removing v1Convo: ', v1Convo.id);
+      // calling this here rather than in a migration because it takes care of removing the attachments, the messages, the profile images, etc.
+      await ConversationController.getInstance().deleteContact(v1Convo.id);
+    } catch (e) {
+      window.log.warn(`failed to delete opengroupv1 ${v1Convo.id}`, e);
+    }
+  }
 };
 
 const triggerAvatarReUploadIfNeeded = async () => {

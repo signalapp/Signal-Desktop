@@ -77,7 +77,7 @@ export class MessageQueue {
       });
     } catch (e) {
       window?.log?.warn(`Failed to send message to open group: ${roomInfos}`, e);
-      void MessageSentHandler.handleMessageSentFailure(message, error);
+      void MessageSentHandler.handleMessageSentFailure(message, e || error);
     }
   }
 

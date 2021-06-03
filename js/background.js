@@ -64,6 +64,7 @@
   // We add this to window here because the default Node context is erased at the end
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
+  window.globalOnlineStatus = true; // default to true as we don't get an event on app start
 
   const { Views } = window.Signal;
 
@@ -614,6 +615,7 @@
   let disconnectTimer = null;
   function onOffline() {
     window.log.info('offline');
+    window.globalOnlineStatus = false;
 
     window.removeEventListener('offline', onOffline);
     window.addEventListener('online', onOnline);
@@ -626,6 +628,7 @@
 
   function onOnline() {
     window.log.info('online');
+    window.globalOnlineStatus = true;
 
     window.removeEventListener('online', onOnline);
     window.addEventListener('offline', onOffline);

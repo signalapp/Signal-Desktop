@@ -57,7 +57,7 @@ declare global {
     onLogin: any;
     resetDatabase: any;
     restart: any;
-    getSeedNodeList: () => any;
+    getSeedNodeList: () => Array<any> | undefined;
     setPassword: any;
     setSettingValue: any;
     showEditProfileDialog: any;
@@ -89,5 +89,6 @@ declare global {
     lightTheme: DefaultTheme;
     darkTheme: DefaultTheme;
     LokiPushNotificationServer: any;
+    globalOnlineStatus: boolean;
   }
 }

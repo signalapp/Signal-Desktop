@@ -406,6 +406,7 @@ export function openConversationExternal(
   id: string,
   messageId?: string
 ): SelectedConversationChangedActionType {
+  window?.log?.info(`openConversationExternal with convoId: ${id}; messageId: ${messageId}`);
   return {
     type: 'SELECTED_CONVERSATION_CHANGED',
     payload: {

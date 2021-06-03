@@ -82,6 +82,10 @@ export async function sendApiV2Request(
     throw new Error('Invalid request');
   }
 
+  if (!window.globalOnlineStatus) {
+    throw new pRetry.AbortError('Network is not available');
+  }
+
   // set the headers sent by the caller, and the roomId.
   const headers = request.headers || {};
   if (FSv2.isOpenGroupV2Request(request)) {

@@ -213,6 +213,7 @@ async function vacuumDatabase(instance) {
   }
   console.warn('Vacuuming DB. This might take a while.');
   await instance.run('VACUUM;');
+  console.warn('Vacuuming DB Finished');
 }
 
 async function updateToSchemaVersion1(currentVersion, instance) {

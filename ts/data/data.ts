@@ -595,6 +595,7 @@ export async function getAllOpenGroupV1Conversations(): Promise<ConversationColl
 }
 
 export async function getPubkeysInPublicConversation(id: string): Promise<Array<string>> {
+  window?.log?.info(`getPubkeysInPublicConversation in '${id}'`);
   return channels.getPubkeysInPublicConversation(id);
 }
 
