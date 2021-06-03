@@ -597,5 +597,9 @@ export async function fetchLinkPreviewImage(
     return null;
   }
 
+  if (abortSignal.aborted) {
+    return null;
+  }
+
   return { data, contentType };
 }
