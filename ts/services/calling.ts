@@ -90,11 +90,11 @@ enum GroupCallUpdateMessageState {
   SentLeft,
 }
 
-export function isScreenSource(source: PresentedSource): boolean {
+function isScreenSource(source: PresentedSource): boolean {
   return source.id.startsWith('screen');
 }
 
-export function translateSourceName(
+function translateSourceName(
   i18n: LocalizerType,
   source: PresentedSource
 ): string {
@@ -940,7 +940,8 @@ export class CallingClass {
             ? source.appIcon.toDataURL()
             : undefined,
         id: source.id,
-        name: source.name,
+        name: translateSourceName(window.i18n, source),
+        isScreen: isScreenSource(source),
         thumbnail: source.thumbnail.toDataURL(),
       });
     });
@@ -982,10 +983,7 @@ export class CallingClass {
     this.setOutgoingVideoIsScreenShare(call, isPresenting);
 
     if (source) {
-      ipcRenderer.send(
-        'show-screen-share',
-        translateSourceName(window.i18n, source)
-      );
+      ipcRenderer.send('show-screen-share', source.name);
       notify({
         icon: 'images/icons/v2/video-solid-24.svg',
         message: window.i18n('calling__presenting--notification-body'),
