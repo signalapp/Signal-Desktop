@@ -11,7 +11,7 @@ export type ConfigKeyType =
   | 'desktop.gv2'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.messageRequests'
-  | 'desktop.screensharing'
+  | 'desktop.screensharing2'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
   | 'desktop.worksAtSignal'
