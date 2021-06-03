@@ -29,7 +29,7 @@ import {
 import { CallbackResultType } from '../textsecure/SendMessage';
 import * as expirationTimer from '../util/expirationTimer';
 import { missingCaseError } from '../util/missingCaseError';
-import { ConversationColorType } from '../types/Colors';
+import { ConversationColors } from '../types/Colors';
 import { CallMode } from '../types/Calling';
 import { BodyRangesType } from '../types/Util';
 import { ReactionType } from '../types/Reactions';
@@ -957,11 +957,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       .map(attachment => this.getPropsForAttachment(attachment));
   }
 
-  getConversationColor(): ConversationColorType {
-    const conversation = this.getConversation();
-    return conversation?.getConversationColor() || ('ultramarine' as const);
-  }
-
   // Note: interactionMode is mixed in via selectors/conversations._messageSelector
   getPropsForMessage(): PropsForMessage {
     const sourceId = this.getContactId();
@@ -996,13 +991,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       ) || {}
     ).emoji;
 
+    const { customColor = undefined } = conversation
+      ? conversation.getCustomColorData()
+      : {};
+
     return {
       author: contact,
       text: this.createNonBreakingLastSeparator(this.get('body')),
       textPending: this.get('bodyPending'),
       id: this.id,
-      conversationColor: this.getConversationColor(),
-      customColor: conversation?.getCustomColorData()?.customColor,
+      conversationColor:
+        conversation?.getConversationColor() ?? ConversationColors[0],
+      customColor,
       conversationId: this.get('conversationId'),
       isSticker: Boolean(sticker),
       direction: this.isIncoming() ? 'incoming' : 'outgoing',
@@ -1330,6 +1330,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const firstAttachment = quote.attachments && quote.attachments[0];
 
+    const conversation = this.getConversation();
+    const { customColor = undefined } = conversation
+      ? conversation.getCustomColorData()
+      : {};
+
     return {
       authorId,
       authorName,
@@ -1337,8 +1342,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       authorProfileName,
       authorTitle,
       bodyRanges: this.processBodyRanges(bodyRanges),
-      conversationColor: this.getConversationColor(),
-      customColor: this.getConversation()?.get('customColor'),
+      conversationColor:
+        conversation?.getConversationColor() ?? ConversationColors[0],
+      customColor,
       isFromMe,
       rawAttachment: firstAttachment
         ? this.processQuoteAttachment(firstAttachment)
