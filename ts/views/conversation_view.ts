@@ -4169,14 +4169,13 @@ Whisper.ConversationView = Whisper.View.extend({
       url,
       abortSignal
     );
-    if (!linkPreviewMetadata) {
+    if (!linkPreviewMetadata || abortSignal.aborted) {
       return null;
     }
     const { title, imageHref, description, date } = linkPreviewMetadata;
 
     let image;
     if (
-      !abortSignal.aborted &&
       imageHref &&
       window.Signal.LinkPreviews.isLinkSafeToPreview(imageHref)
     ) {
@@ -4186,6 +4185,9 @@ Whisper.ConversationView = Whisper.View.extend({
           imageHref,
           abortSignal
         );
+        if (abortSignal.aborted) {
+          return null;
+        }
         if (!fullSizeImage) {
           throw new Error('Failed to fetch link preview image');
         }
@@ -4227,6 +4229,10 @@ Whisper.ConversationView = Whisper.View.extend({
           URL.revokeObjectURL(objectUrl);
         }
       }
+    }
+
+    if (abortSignal.aborted) {
+      return null;
     }
 
     return {
