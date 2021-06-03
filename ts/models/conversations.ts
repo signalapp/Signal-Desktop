@@ -3526,7 +3526,12 @@ export class ConversationModel extends window.Backbone
     preview: WhatIsThis,
     sticker?: WhatIsThis,
     mentions?: BodyRangesType,
-    { dontClearDraft = false } = {}
+    {
+      dontClearDraft,
+      timestamp,
+    }: { dontClearDraft: boolean; timestamp?: number } = {
+      dontClearDraft: false,
+    }
   ): void {
     if (this.isGroupV1AndDisabled()) {
       return;
@@ -3549,7 +3554,7 @@ export class ConversationModel extends window.Backbone
     const recipients = this.getRecipients();
 
     this.queueJob(async () => {
-      const now = Date.now();
+      const now = timestamp || Date.now();
 
       await this.maybeApplyUniversalTimer();
 

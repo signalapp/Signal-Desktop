@@ -54,6 +54,7 @@ const {
   getAbsoluteAttachmentPath,
   getAbsoluteDraftPath,
   getAbsoluteTempPath,
+  loadAttachmentData,
   loadPreviewData,
   loadStickerData,
   openFileInFolder,
@@ -2350,6 +2351,9 @@ Whisper.ConversationView = Whisper.View.extend({
     attachments?: Array<AttachmentType>,
     linkPreview?: LinkPreviewType
   ): Promise<boolean> {
+    window.log.info(
+      `maybeForwardMessage/${message.idForLogging()}: Starting...`
+    );
     const attachmentLookup = new Set();
     if (attachments) {
       attachments.forEach(attachment => {
@@ -2420,31 +2424,49 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     const sendMessageOptions = { dontClearDraft: true };
+    let timestamp = Date.now();
 
     // Actually send the message
     // load any sticker data, attachments, or link previews that we need to
     // send along with the message and do the send to each conversation.
     await Promise.all(
       conversations.map(async conversation => {
+        timestamp += 1;
+
         if (conversation) {
           const sticker = message.get('sticker');
           if (sticker) {
             const stickerWithData = await loadStickerData(sticker);
+            const stickerNoPath = stickerWithData
+              ? {
+                  ...stickerWithData,
+                  data: {
+                    ...stickerWithData.data,
+                    path: undefined,
+                  },
+                }
+              : undefined;
+
             conversation.sendMessage(
               null,
               [],
               null,
               [],
-              stickerWithData,
+              stickerNoPath,
               undefined,
-              sendMessageOptions
+              { ...sendMessageOptions, timestamp }
             );
           } else {
             const preview = linkPreview
               ? await loadPreviewData([linkPreview])
               : [];
-            const allAttachments = message.getAttachmentsForMessage();
-            const attachmentsToSend = allAttachments.filter(
+            const attachmentsWithData = await Promise.all(
+              (attachments || []).map(async item => ({
+                ...(await loadAttachmentData(item)),
+                path: undefined,
+              }))
+            );
+            const attachmentsToSend = attachmentsWithData.filter(
               (attachment: Partial<AttachmentType>) =>
                 attachmentLookup.has(
                   `${attachment.fileName}/${attachment.contentType}`
@@ -2458,7 +2480,7 @@ Whisper.ConversationView = Whisper.View.extend({
               preview,
               null, // sticker
               undefined, // BodyRanges
-              sendMessageOptions
+              { ...sendMessageOptions, timestamp }
             );
           }
         }
