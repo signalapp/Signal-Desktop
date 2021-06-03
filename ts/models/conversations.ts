@@ -4877,10 +4877,6 @@ export class ConversationModel extends window.Backbone
       'defaultConversationColor'
     );
 
-    if (defaultConversationColor.customColorData) {
-      return 'custom';
-    }
-
     return this.get('conversationColor') || defaultConversationColor.color;
   }
 
@@ -4891,6 +4887,13 @@ export class ConversationModel extends window.Backbone
     const defaultConversationColor = window.storage.get(
       'defaultConversationColor'
     );
+
+    if (this.getConversationColor() !== 'custom') {
+      return {
+        customColor: undefined,
+        customColorId: undefined,
+      };
+    }
 
     return {
       customColor:
