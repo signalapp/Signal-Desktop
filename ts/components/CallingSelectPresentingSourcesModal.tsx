@@ -88,7 +88,7 @@ export const CallingSelectPresentingSourcesModal = ({
       i18n={i18n}
       moduleClassName="module-CallingSelectPresentingSourcesModal"
       onClose={() => {
-        setPresenting(sourceToPresent);
+        setPresenting();
       }}
       theme={Theme.Dark}
       title={i18n('calling__SelectPresentingSourcesModal--title')}
