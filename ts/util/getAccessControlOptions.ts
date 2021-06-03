@@ -5,7 +5,7 @@ import { LocalizerType } from '../types/Util';
 import { AccessControlClass } from '../textsecure.d';
 
 type AccessControlOption = {
-  name: string;
+  text: string;
   value: number;
 };
 
@@ -15,11 +15,11 @@ export function getAccessControlOptions(
 ): Array<AccessControlOption> {
   return [
     {
-      name: i18n('GroupV2--all-members'),
+      text: i18n('GroupV2--all-members'),
       value: accessEnum.MEMBER,
     },
     {
-      name: i18n('GroupV2--only-admins'),
+      text: i18n('GroupV2--only-admins'),
       value: accessEnum.ADMINISTRATOR,
     },
   ];
