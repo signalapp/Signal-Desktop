@@ -25,6 +25,7 @@ const TEMPORARY_AVATAR_VALUE = new ArrayBuffer(0);
 
 type PropsType = {
   avatarPath?: string;
+  focusDescription?: boolean;
   groupDescription?: string;
   i18n: LocalizerType;
   makeRequest: (
@@ -39,8 +40,15 @@ type PropsType = {
   title: string;
 };
 
+function focusRef(el: HTMLElement | null) {
+  if (el) {
+    el.focus();
+  }
+}
+
 export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
   avatarPath: externalAvatarPath,
+  focusDescription = false,
   groupDescription: externalGroupDescription = '',
   i18n,
   makeRequest,
@@ -156,6 +164,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
           disabled={isRequestActive}
           i18n={i18n}
           onChangeValue={setRawTitle}
+          ref={!focusDescription ? focusRef : undefined}
           value={rawTitle}
         />
 
@@ -163,6 +172,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
           disabled={isRequestActive}
           i18n={i18n}
           onChangeValue={setRawGroupDescription}
+          ref={focusDescription ? focusRef : undefined}
           value={rawGroupDescription}
         />
 

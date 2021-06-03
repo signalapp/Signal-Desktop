@@ -2614,19 +2614,17 @@ button.module-conversation-details__action-button {
 
 .module-conversation-details {
   &-header {
-    &__root,
-    &__root--editable {
+    &__root {
       align-items: center;
-      background: none;
-      border: none;
-      color: inherit;
       display: flex;
       flex-direction: column;
-      margin: 0;
-      outline: inherit;
-      padding: 0 0 24px 0;
+      margin: 0 0 24px 0;
       text-align: center;
       width: 100%;
+    }
+
+    &__root--editable {
+      @include button-reset();
     }
 
     &__root--editable {
