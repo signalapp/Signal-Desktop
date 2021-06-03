@@ -175,6 +175,10 @@
         "message": "Vis arkivet",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
+    "avatarMenuChatColors": {
+        "message": "Samtalefarge",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "Laster...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -1139,6 +1143,38 @@
         "message": "Kontakt brukerstøtte",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
+    "DeliveryIssue--preview": {
+        "message": "Delivery issue",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "A message from $sender$ couldn’t be delivered",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "Lær mer",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "Delivery Issue",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "quoteThumbnailAlt": {
         "message": "Miniatyrbilde i sitert melding",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1458,23 +1494,19 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "På Apple Mac-datamaskiner som bruker macOS Catalina versjon 10.15 eller nyere, trenger Signal tillatelse for å få tilgang til datamaskinens skjermopptaks funksjon.",
+        "message": "Signal needs permission to access your computer's screen recording.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Gå til Systemvalg og klikk deretter Sikkerhet og Personvern.",
+        "message": "Go to System Preferences.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Åpne Personvern.",
+        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "Klikk på Skjermbilde til venstre.",
-        "description": "Shown as the description for the modal that requests screen recording permissions"
-    },
-    "calling__presenting--permission-instruction-step4": {
-        "message": "Til høyre merker du av i boksen får Signal.",
+        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1752,7 +1784,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Du satte midlertidige meldinger til $time$.",
+        "message": "Du satte utløpstiden for meldinger til $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1762,7 +1794,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Oppdatert midlertidige meldinger til $time$.",
+        "message": "Oppdatert utløpstid for meldinger til $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1772,7 +1804,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Et medlem satte midlertidige meldinger til $time$.",
+        "message": "Et medlem satte utløpstiden for meldinger til $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1782,7 +1814,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ satte midlertidige meldinger til $time$",
+        "message": "$name$ satte utløpstiden for meldinger til $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1800,19 +1832,19 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "disappearingMessages": {
-        "message": "Forsvinnende meldinger",
-        "description": "Conversation menu option to enable disappearing messages"
+        "message": "Tidsavgrensede meldinger",
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
     },
     "disappearingMessagesDisabled": {
-        "message": "Utløpstid for meldinger er slått av",
+        "message": "Tidsavgrensede meldinger er skrudd av",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Et medlem skrudde av midlertidige meldinger.",
+        "message": "Et medlem skrudde av tidsavgrensede meldinger.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ skrudde av midlertidige meldinger.",
+        "message": "$name$ skrudde av tidsavgrensede meldinger.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1822,7 +1854,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Du deaktiverte forsvinnende meldinger.",
+        "message": "Du deaktiverte tidsavgrensede meldinger.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -2037,6 +2069,10 @@
         "message": "Gruppenavn (påkrevd)",
         "description": "The placeholder for the group name placeholder"
     },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "Description",
+        "description": "The placeholder for the group description"
+    },
     "setGroupMetadata__create-group": {
         "message": "Opprett",
         "description": "The 'create group' button text in the 'set group metadata' left pane screen"
@@ -2050,7 +2086,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Rediger gruppenavn og bilde",
+        "message": "Rediger gruppe",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2999,9 +3035,13 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "Blokker og slett",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "Report Spam and Block",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "Rapportert som søppelpost og blokkért.",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
         "message": "Blokker $name$?",
@@ -4611,6 +4651,42 @@
         "message": "Gruppelenken ble resatt.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--description--remove--you": {
+        "message": "Du fjernet gruppebeskrivelsen.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "$memberName$ removed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "Gruppebeskrivelsen ble fjernet.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "Du endret gruppebeskrivelsen.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "$memberName$ changed the group description.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "Gruppebeskrivelsen ble endret.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Oppgrader denne gruppen for å aktivere nye funksjoner som @mentions og administratorer. Medlemmer som ikke har delt sitt navn og bilde i denne gruppen vil bli invitert til gruppen. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4797,6 +4873,10 @@
         "message": "Fjern fra gruppen",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
+    "showChatColorEditor": {
+        "message": "Samtalefarge",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
+    },
     "showConversationDetails": {
         "message": "Gruppeinstillinger",
         "description": "This is a button in the conversation context menu to show group settings"
@@ -4806,7 +4886,7 @@
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
-        "message": "Forsvinnende meldinger",
+        "message": "Tidsavgrensede meldinger",
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
@@ -4818,7 +4898,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Velg hvem som kan redigere navnet til gruppen, gruppeavataren og når meldinger forsvinner.",
+        "message": "Velg hvem som kan redigere gruppenavnet, gruppeavataren og når meldinger forsvinner.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5249,9 +5329,27 @@
             }
         }
     },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "$count$ group members have the same name. $link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
     "ContactSpoofing__same-name__link": {
         "message": "Se gjennom forespørsel",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "Click to review",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
         "message": "Se gjennom forespørsel",
@@ -5268,6 +5366,46 @@
     "ContactSpoofingReviewDialog__safe-title": {
         "message": "Din kontakt",
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "Review members",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "$count$ group members have similar names. Review the members below or choose to take action.",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "Medlemmer",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "Recently changed their profile name from $oldName$ to $newName$",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "Fjern fra gruppen",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "Remove \"$name$\" from the group?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
     },
     "CaptchaDialog__title": {
         "message": "Verifiser for å fortsette å sende meldinger",
@@ -5304,5 +5442,161 @@
     "deleteForEveryoneFailed": {
         "message": "Kunne ikke slette meldingen for alle. Vennligst prøv igjen senere.",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "Fjern farge",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "Global Chat Color",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "Samtalefarge",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "Tilbakestill samtalefarge",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "Reset all chat colors",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "Tilbakestill",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "Vil du overstyre alle samtalers farge?",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "Show custom color editor",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "Her er en forhåndsvisning av samtalefargen.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "Another bubble.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "Fargen synes kun for deg.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "Endre farge",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "Duplikat",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "Slett",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "Hel farge",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "Graderinger",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "Fargetone",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "Fargemetning",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "Selvvalgt farge",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "Custom time...",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "Selvvalgt tid",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "Selvvalgt tid",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "Angi selvvalgt utløpstid for tidsavgrensede meldinger.",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "Sett",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "Seconds",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "Minutes",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "Hours",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "Days",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "Weeks",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "Sett standard utløpstid for tidsavgrensede meldinger, for nye samtaler startet av deg.",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "Standard nedtelling for nye samtaler",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "Utløpstiden for meldinger blir satt til $timeValue$ når du melder dem.",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "GroupDescription__read-more": {
+        "message": "read more",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "Gruppebeskrivelser vil være synlige for medlemmer av denne gruppen og personer som har blitt invitert.",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "Legg til gruppebeskrivelse…",
+        "description": "Placeholder text in the details header for those that can edit the group description"
     }
 }
