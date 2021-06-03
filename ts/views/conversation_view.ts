@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { AttachmentType } from '../types/Attachment';
-import { ConversationColorType, CustomColorType } from '../types/Colors';
 import { ConversationModel } from '../models/conversations';
 import { GroupV2PendingMemberType } from '../model-types.d';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
@@ -3213,28 +3212,6 @@ Whisper.ConversationView = Whisper.View.extend({
       className: 'panel',
       JSX: window.Signal.State.Roots.createChatColorPicker(window.reduxStore, {
         conversationId: conversation.get('id'),
-        onSelectColor: (
-          color: ConversationColorType,
-          customColorData?: {
-            id: string;
-            value: CustomColorType;
-          }
-        ) => {
-          conversation.set('conversationColor', color);
-          if (customColorData) {
-            conversation.set('customColor', customColorData.value);
-            conversation.set('customColorId', customColorData.id);
-          } else {
-            conversation.unset('customColor');
-            conversation.unset('customColorId');
-          }
-          window.Signal.Data.updateConversation(conversation.attributes);
-        },
-        onChatColorReset: () => {
-          conversation.set('conversationColor', undefined);
-          conversation.unset('customColor');
-          window.Signal.Data.updateConversation(conversation.attributes);
-        },
       }),
     });
 

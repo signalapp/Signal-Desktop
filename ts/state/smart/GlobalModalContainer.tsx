@@ -8,19 +8,9 @@ import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { SmartChatColorPicker } from './ChatColorPicker';
-import { ConversationColorType } from '../../types/Colors';
 
-function renderChatColorPicker({
-  setGlobalDefaultConversationColor,
-}: {
-  setGlobalDefaultConversationColor: (color: ConversationColorType) => unknown;
-}): JSX.Element {
-  return (
-    <SmartChatColorPicker
-      isGlobal
-      onSelectColor={setGlobalDefaultConversationColor}
-    />
-  );
+function renderChatColorPicker(): JSX.Element {
+  return <SmartChatColorPicker />;
 }
 
 const mapStateToProps = (state: StateType) => {

@@ -24,17 +24,19 @@ const SAMPLE_CUSTOM_COLOR = {
 
 const createProps = (): PropsType => ({
   addCustomColor: action('addCustomColor'),
+  colorSelected: action('colorSelected'),
   editCustomColor: action('editCustomColor'),
   getConversationsWithCustomColor: (_: string) => [],
   i18n,
-  onChatColorReset: action('onChatColorReset'),
-  onSelectColor: action('onSelectColor'),
   removeCustomColor: action('removeCustomColor'),
   removeCustomColorOnConversations: action('removeCustomColorOnConversations'),
   resetAllChatColors: action('resetAllChatColors'),
   resetDefaultChatColor: action('resetDefaultChatColor'),
   selectedColor: select('selectedColor', ConversationColors, 'basil' as const),
   selectedCustomColor: {},
+  setGlobalDefaultConversationColor: action(
+    'setGlobalDefaultConversationColor'
+  ),
 });
 
 story.add('Default', () => <ChatColorPicker {...createProps()} />);

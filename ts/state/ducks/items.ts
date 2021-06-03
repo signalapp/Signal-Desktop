@@ -141,7 +141,8 @@ function getDefaultCustomColorData() {
 }
 
 function addCustomColor(
-  payload: CustomColorType
+  customColor: CustomColorType,
+  nextAction: (uuid: string) => unknown
 ): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
   return (dispatch, getState) => {
     const { customColors = getDefaultCustomColorData() } = getState().items;
@@ -155,11 +156,12 @@ function addCustomColor(
       ...customColors,
       colors: {
         ...customColors.colors,
-        [uuid]: payload,
+        [uuid]: customColor,
       },
     };
 
     dispatch(putItem('customColors', nextCustomColors));
+    nextAction(uuid);
   };
 }
 
