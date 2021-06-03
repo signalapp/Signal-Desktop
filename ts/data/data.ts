@@ -10,6 +10,7 @@ import { MessageAttributes } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
+import { sleepFor } from '../session/utils/Promise';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import { ConversationType } from '../state/ducks/conversations';
 import { channels } from './channels';
@@ -799,7 +800,7 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
     messages = await getMessagesByConversation(conversationId, {
-      limit: 100,
+      limit: 25,
     });
 
     if (!messages.length) {
@@ -815,6 +816,7 @@ export async function removeAllMessagesInConversation(conversationId: string): P
 
     // eslint-disable-next-line no-await-in-loop
     await channels.removeMessage(ids);
+    await sleepFor(10);
   } while (messages.length > 0);
 }
 

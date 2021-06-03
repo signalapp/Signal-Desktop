@@ -86,6 +86,7 @@ export class SessionConversation extends React.Component<Props, State> {
   private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
   private dragCounter: number;
   private publicMembersRefreshTimeout?: NodeJS.Timeout;
+  private readonly updateMemberList: () => any;
 
   constructor(props: any) {
     super(props);
@@ -108,6 +109,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.compositionBoxRef = React.createRef();
     this.messageContainerRef = React.createRef();
     this.dragCounter = 0;
+    this.updateMemberList = _.debounce(this.updateMemberListBouncy, 1000);
 
     autoBind(this);
   }
@@ -1125,8 +1127,9 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
-  private async updateMemberList() {
+  private async updateMemberListBouncy() {
     const allPubKeys = await getPubkeysInPublicConversation(this.props.selectedConversationKey);
+
     window?.log?.info(`getPubkeysInPublicConversation returned '${allPubKeys?.length}' members`);
 
     const allMembers = allPubKeys.map((pubKey: string) => {

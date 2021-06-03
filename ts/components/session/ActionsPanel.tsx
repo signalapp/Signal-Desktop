@@ -160,6 +160,7 @@ const triggerSyncIfNeeded = async () => {
 
 const removeAllV1OpenGroups = async () => {
   const allV1Convos = (await getAllOpenGroupV1Conversations()).models || [];
+  // do this sequentially to avoid hurting the db
   // tslint:disable-next-line: prefer-for-of
   for (let index = 0; index < allV1Convos.length; index++) {
     const v1Convo = allV1Convos[index];

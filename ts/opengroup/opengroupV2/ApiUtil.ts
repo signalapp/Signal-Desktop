@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { FileServerV2Request } from '../../fileserver/FileServerApiV2';
 import { PubKey } from '../../session/types';
-import { allowOnlyOneAtATime } from '../../session/utils/Promise';
+import { allowOnlyOneAtATime, sleepFor } from '../../session/utils/Promise';
 import { fromBase64ToArrayBuffer, fromHex } from '../../session/utils/String';
 import { updateDefaultRooms, updateDefaultRoomsInProgress } from '../../state/ducks/defaultRooms';
 import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
@@ -46,37 +46,51 @@ export const parseMessages = async (
     window?.log?.info('no new messages');
     return [];
   }
-  const messages = await Promise.all(
-    rawMessages.map(async r => {
-      try {
-        const opengroupv2Message = OpenGroupMessageV2.fromJson(r);
-        if (
-          !opengroupv2Message?.serverId ||
-          !opengroupv2Message.sentTimestamp ||
-          !opengroupv2Message.base64EncodedData ||
-          !opengroupv2Message.base64EncodedSignature
-        ) {
-          window?.log?.warn('invalid open group message received');
+  const chunks = _.chunk(rawMessages, 10);
+
+  const handleChunk = async (chunk: Array<Record<string, any>>) => {
+    return Promise.all(
+      chunk.map(async r => {
+        try {
+          const opengroupv2Message = OpenGroupMessageV2.fromJson(r);
+          if (
+            !opengroupv2Message?.serverId ||
+            !opengroupv2Message.sentTimestamp ||
+            !opengroupv2Message.base64EncodedData ||
+            !opengroupv2Message.base64EncodedSignature
+          ) {
+            window?.log?.warn('invalid open group message received');
+            return null;
+          }
+          // Validate the message signature
+          const senderPubKey = PubKey.cast(opengroupv2Message.sender).withoutPrefix();
+          const signature = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedSignature);
+          const messageData = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedData);
+          // throws if signature failed
+          await window.libsignal.Curve.async.verifySignature(
+            fromHex(senderPubKey),
+            messageData,
+            signature
+          );
+          return opengroupv2Message;
+        } catch (e) {
+          window?.log?.error('An error happened while fetching getMessages output:', e);
           return null;
         }
-        // Validate the message signature
-        const senderPubKey = PubKey.cast(opengroupv2Message.sender).withoutPrefix();
-        const signature = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedSignature);
-        const messageData = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedData);
-        // throws if signature failed
-        await window.libsignal.Curve.async.verifySignature(
-          fromHex(senderPubKey),
-          messageData,
-          signature
-        );
-        return opengroupv2Message;
-      } catch (e) {
-        window?.log?.error('An error happened while fetching getMessages output:', e);
-        return null;
-      }
-    })
-  );
-  return _.compact(messages).sort((a, b) => (a.serverId || 0) - (b.serverId || 0));
+      })
+    );
+  };
+
+  const allHandledMessages = [];
+  for (const currentChunk of chunks) {
+    window?.log?.info('Handling rawMessage chunk of size', currentChunk.length);
+    const messagesHandled = await handleChunk(currentChunk);
+    allHandledMessages.push(...messagesHandled);
+
+    await sleepFor(10);
+  }
+
+  return _.compact(allHandledMessages).sort((a, b) => (a.serverId || 0) - (b.serverId || 0));
 };
 // tslint:disable: no-http-string
 const defaultServerUrl = 'http://116.203.70.33';
