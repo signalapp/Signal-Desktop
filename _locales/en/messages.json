@@ -3384,7 +3384,17 @@
   },
   "calling__SelectPresentingSourcesModal--entireScreen": {
     "message": "Entire screen",
-    "description": "Title for the select your screen sharing sources modal"
+    "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+  },
+  "calling__SelectPresentingSourcesModal--screen": {
+    "message": "Screen $id$",
+    "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+    "placeholders": {
+      "id": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
   },
   "calling__SelectPresentingSourcesModal--window": {
     "message": "A window",
