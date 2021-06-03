@@ -717,6 +717,44 @@ story.add('Image', () => {
   return renderBothDirections(props);
 });
 
+story.add('Multiple Images', () => {
+  const props = createProps({
+    attachments: [
+      {
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+      },
+      {
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+      },
+      {
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+      },
+      {
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+      },
+    ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('Image with Caption', () => {
   const props = createProps({
     attachments: [

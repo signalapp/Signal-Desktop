@@ -583,7 +583,6 @@
     bottom: -10px;
   }
 
-  border-radius: 16px;
   line-height: 0;
   overflow: hidden;
 
@@ -596,18 +595,10 @@
 
   &--with-content-below {
     margin-bottom: 7px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
   }
 
   &--with-content-above {
     margin-top: 4px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-  }
-
-  .module-message__container--gif & {
-    border-radius: inherit;
   }
 }
 
