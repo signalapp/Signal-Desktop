@@ -40,7 +40,7 @@ ENDPOINT=signal-desktop-apt # Matches endpoint name in .aptly.conf
 SNAPSHOT="signal-desktop_v$VERSION"
 GPG_KEYID=57F6FB06
 
-aptly repo add "$REPO" "release/$NAME\_$VERSION\_*.deb"
+aptly repo add "$REPO" release/"$NAME"_"$VERSION"_*.deb
 aptly snapshot create "$SNAPSHOT" from repo "$REPO"
 
 # run these only on first release to a given repo from a given machine. the first set is
