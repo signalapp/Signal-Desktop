@@ -8,7 +8,7 @@ import { isBeta } from './version';
 export function isScreenSharingEnabled(): boolean {
   return (
     RemoteConfig.isEnabled('desktop.worksAtSignal') ||
-    RemoteConfig.isEnabled('desktop.screensharing') ||
+    RemoteConfig.isEnabled('desktop.screensharing2') ||
     isBeta(window.getVersion())
   );
 }
