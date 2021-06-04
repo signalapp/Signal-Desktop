@@ -1220,26 +1220,8 @@ input {
     .session-icon-button {
       margin: $session-margin-sm !important;
     }
-
-    // svg {
-    //   animation: glow 1s ease-in-out infinite alternate;
-    // }
   }
 }
-
-// @keyframes glow {
-//   from {
-//   -webkit-filter: drop-shadow( 0px 0px 3px rgba(0,0,0,0));
-//       filter: drop-shadow( 0px 0px 3px rgba(0,0,0,0));
-//   }
-//   to {
-//   -webkit-filter: drop-shadow( 0px 0px 5px rgba(46, 247, 28, 0.7));
-//       filter: drop-shadow( 0px 0px 5px rgba(68, 236, 2, 0.7));
-//       color: red;
-//   }
-// }
-
-// }
 
 .session-nickname-wrapper {
   position: absolute;

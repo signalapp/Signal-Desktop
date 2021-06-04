@@ -9,7 +9,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from './session/
 import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
 import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
-import { ToastUtils, UserUtils } from '../session/utils';
+import { AttachmentUtils, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 import { DefaultTheme, useTheme } from 'styled-components';
 import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 import { SessionSpinner } from './session/SessionSpinner';
@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 import { getOurNumber } from '../state/selectors/user';
 import { SessionWrapperModal } from './session/SessionWrapperModal';
 import { times } from 'underscore';
+import { AttachmentUtil, } from '../util';
 
 interface Props {
   i18n?: any;
@@ -41,6 +42,7 @@ interface State {
 
 export class EditProfileDialog extends React.Component<Props, State> {
   private readonly inputEl: any;
+
 
   constructor(props: any) {
     super(props);
@@ -134,11 +136,11 @@ export class EditProfileDialog extends React.Component<Props, State> {
       <div className="edit-profile-dialog">
 
         <SessionWrapperModal
-                title={i18n('editProfileModalTitle')}
-        onClose={this.closeDialog}
-        headerIconButtons={backButton}
-        showExitIcon={true}
-        theme={this.props.theme}
+          title={i18n('editProfileModalTitle')}
+          onClose={this.closeDialog}
+          headerIconButtons={backButton}
+          showExitIcon={true}
+          theme={this.props.theme}
         >
           <div className="spacer-md" />
 
@@ -181,6 +183,8 @@ export class EditProfileDialog extends React.Component<Props, State> {
       </div>
     );
   }
+
+
 
   private renderProfileHeader() {
     return (
@@ -310,6 +314,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
     switch (event.key) {
       case 'Enter':
         if (this.state.mode === 'edit') {
+          // this.onClickOK();
           this.onClickOK();
         }
         break;
@@ -326,6 +331,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
     ToastUtils.pushCopiedToClipBoard();
   }
 
+  /**
+   * Tidy the profile name input text and save the new profile name and avatar
+   * @returns 
+   */
   private onClickOK() {
     const newName = this.state.profileName.trim();
 
@@ -346,8 +355,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
         loading: true,
       },
       async () => {
-        // await this.props.onOk(newName, avatar);
-        await window.commitProfileEdits(newName, avatar);
+        await this.commitProfileEdits(newName, avatar);
         this.setState({
           loading: false,
 
@@ -362,5 +370,108 @@ export class EditProfileDialog extends React.Component<Props, State> {
     window.removeEventListener('keyup', this.onKeyUp);
 
     this.props.onClose();
+  }
+
+  private async commitProfileEdits(newName: string, avatar: any) {
+    let ourNumber = window.storage.get('primaryDevicePubKey');
+    const conversation = await window.getConversationController().getOrCreateAndWait(ourNumber, ConversationTypeEnum.PRIVATE);
+
+    let newAvatarPath = '';
+    let url: any = null;
+    let profileKey: any = null;
+    if (avatar) {
+      const data = await AttachmentUtil.readFile({ file: avatar });
+      // Ensure that this file is either small enough or is resized to meet our
+      //   requirements for attachments
+      try {
+
+        const withBlob = await AttachmentUtil.autoScale(
+          {
+            contentType: avatar.type,
+            file: new Blob([data.data], {
+              type: avatar.contentType,
+            }),
+          },
+          {
+            maxSide: 640,
+            maxSize: 1000 * 1024,
+          }
+        );
+        const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
+          withBlob.file
+        );
+
+        // For simplicity we use the same attachment pointer that would send to
+        // others, which means we need to wait for the database response.
+        // To avoid the wait, we create a temporary url for the local image
+        // and use it until we the the response from the server
+        const tempUrl = window.URL.createObjectURL(avatar);
+        conversation.setLokiProfile({ displayName: newName });
+        conversation.set('avatar', tempUrl);
+
+        // Encrypt with a new key every time
+        profileKey = window.libsignal.crypto.getRandomBytes(32);
+        const encryptedData = await window.textsecure.crypto.encryptProfile(
+          dataResized,
+          profileKey
+        );
+
+        const avatarPointer = await AttachmentUtils.uploadAvatarV1({
+          ...dataResized,
+          data: encryptedData,
+          size: encryptedData.byteLength,
+        });
+
+        url = avatarPointer ? avatarPointer.url : null;
+        window.storage.put('profileKey', profileKey);
+        conversation.set('avatarPointer', url);
+
+        const upgraded = await window.Signal.Migrations.processNewAttachment({
+          isRaw: true,
+          data: data.data,
+          url,
+        });
+        newAvatarPath = upgraded.path;
+        // Replace our temporary image with the attachment pointer from the server:
+        conversation.set('avatar', null);
+        conversation.setLokiProfile({
+          displayName: newName,
+          avatar: newAvatarPath,
+        });
+
+        await conversation.commit();
+        UserUtils.setLastProfileUpdateTimestamp(Date.now());
+        await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+      } catch (error) {
+        window.log.error(
+          'showEditProfileDialog Error ensuring that image is properly sized:',
+          error && error.stack ? error.stack : error
+        );
+      }
+    } else {
+      // do not update the avatar if it did not change
+      conversation.setLokiProfile({
+        displayName: newName,
+      });
+      // might be good to not trigger a sync if the name did not change
+      await conversation.commit();
+      UserUtils.setLastProfileUpdateTimestamp(Date.now());
+      await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+    }
+
+    // inform all your registered public servers
+    // could put load on all the servers
+    // if they just keep changing their names without sending messages
+    // so we could disable this here
+    // or least it enable for the quickest response
+    window.lokiPublicChatAPI.setProfileName(newName);
+
+    if (avatar) {
+      window
+        .getConversationController()
+        .getConversations()
+        .filter(convo => convo.isPublic())
+        .forEach(convo => convo.trigger('ourAvatarChanged', { url, profileKey }));
+    }
   }
 }

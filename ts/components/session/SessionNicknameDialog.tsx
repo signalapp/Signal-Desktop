@@ -2,20 +2,24 @@ import React, { useState } from 'react';
 import { ConversationController } from '../../session/conversations/ConversationController';
 import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { DefaultTheme, withTheme, useTheme } from 'styled-components';
 
 import _ from 'lodash';
+import { SessionWrapperModal } from './SessionWrapperModal';
 
 type Props = {
-  onClickOk: any;
-  onClickClose: any;
-  theme: DefaultTheme;
-  convoId: string;
+  onClickOk?: any;
+  onClickClose?: any;
+  theme?: DefaultTheme;
+  conversationId?: string;
 };
 
 const SessionNicknameInner = (props: Props) => {
-  const { onClickOk, onClickClose, convoId, theme } = props;
+  const { onClickOk, onClickClose, conversationId } = props;
+  let { theme } = props;
   const [nickname, setNickname] = useState('');
+
+  theme = theme ? theme : useTheme();
 
   /**
    * Changes the state of nickname variable. If enter is pressed, saves the current
@@ -34,41 +38,58 @@ const SessionNicknameInner = (props: Props) => {
    * Saves the currently entered nickname.
    */
   const saveNickname = async () => {
-    if (!convoId) {
-      return;
+    if (!conversationId) {
+      throw "Cant save withou conversation id"
+      // return;
     }
-    const convo = ConversationController.getInstance().get(convoId);
-    onClickOk(nickname);
-    await convo.setNickname(nickname);
+    const conversation = ConversationController.getInstance().get(conversationId);
+    if (onClickOk) {
+      onClickOk(nickname);
+    }
+    await conversation.setNickname(nickname);
+    onClickClose();
   };
 
   return (
-    <SessionModal
-      title={window.i18n('changeNickname')}
-      onClose={onClickClose}
-      showExitIcon={false}
-      showHeader={true}
-      theme={theme}
-    >
-      <div className="session-modal__centered">
-        <span className="subtle">{window.i18n('changeNicknameMessage')}</span>
-        <div className="spacer-lg" />
-      </div>
+    // <SessionModal
+    //   title={window.i18n('changeNickname')}
+    //   onClose={onClickClose}
+    //   showExitIcon={false}
+    //   showHeader={true}
+    //   theme={theme}
+    // >
 
-      <input
-        type="nickname"
-        id="nickname-modal-input"
-        placeholder={window.i18n('nicknamePlaceholder')}
-        onKeyUp={e => {
-          void onNicknameInput(_.cloneDeep(e));
-        }}
-      />
+    // TODO: Implement showHeader option for modal
+      <SessionWrapperModal
+        title={window.i18n('changeNickname')}
+        onClose={onClickClose}
+        showExitIcon={false}
+        // showHeader={true}
+        theme={theme}
+      >
 
-      <div className="session-modal__button-group">
-        <SessionButton text={window.i18n('ok')} onClick={saveNickname} />
-        <SessionButton text={window.i18n('cancel')} onClick={onClickClose} />
-      </div>
-    </SessionModal>
+        <div className="session-modal__centered">
+          <span className="subtle">{window.i18n('changeNicknameMessage')}</span>
+          <div className="spacer-lg" />
+        </div>
+
+        <input
+          autoFocus
+          type="nickname"
+          id="nickname-modal-input"
+          placeholder={window.i18n('nicknamePlaceholder')}
+          onKeyUp={e => {
+            void onNicknameInput(_.cloneDeep(e));
+          }}
+        />
+
+        <div className="session-modal__button-group">
+          <SessionButton text={window.i18n('ok')} onClick={saveNickname} />
+          <SessionButton text={window.i18n('cancel')} onClick={onClickClose} />
+        </div>
+      </SessionWrapperModal>
+
+
   );
 };
 

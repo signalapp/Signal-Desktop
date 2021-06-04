@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { LocalizerType } from '../../../types/Util';
 import { TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
+import { SessionNicknameDialog } from '../SessionNicknameDialog';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -205,7 +206,7 @@ export function getDisappearingMenuItem(
       // Remove the && false to make context menu work with RTL support
       <Submenu
         label={i18n('disappearingMessages') as any}
-        // rtl={isRtlMode && false}
+      // rtl={isRtlMode && false}
       >
         {(timerOptions || []).map(item => (
           <Item
@@ -272,10 +273,31 @@ export function getChangeNicknameMenuItem(
   isMe: boolean | undefined,
   action: any,
   isGroup: boolean | undefined,
-  i18n: LocalizerType
+  i18n: LocalizerType,
+  conversationId?: string,
+  setModal?: any
 ): JSX.Element | null {
   if (showChangeNickname(Boolean(isMe), Boolean(isGroup))) {
-    return <Item onClick={action}>{i18n('changeNickname')}</Item>;
+
+    const clearModal = () => {
+      setModal(null);
+    }
+
+    // const onClickOk = () => {
+    //   console.log("@@ onclickok clicked");
+    // }
+
+    const onClickCustom = () => {
+      setModal(<SessionNicknameDialog onClickClose={clearModal} conversationId={conversationId}></SessionNicknameDialog>);
+      // setModal(null);
+    }
+
+    return (
+      <>
+        <Item onClick={onClickCustom}>{i18n('changeNickname')}</Item>
+        {/* <Item onClick={action}>{i18n('changeNickname')}</Item> */}
+      </>
+    );
   }
   return null;
 }

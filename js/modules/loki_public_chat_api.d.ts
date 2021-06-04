@@ -11,6 +11,7 @@ export interface LokiPublicChatFactoryInterface {
   ): Promise<LokiPublicChannelAPI | null>;
   getListOfMembers(): Promise<Array<{ authorPhoneNumber: string; authorProfileName?: string }>>;
   setListOfMembers(members: Array<{ authorPhoneNumber: string; authorProfileName?: string }>);
+  setProfileName(name: string);
 }
 
 declare class LokiPublicChatFactoryAPI implements LokiPublicChatFactoryInterface {
