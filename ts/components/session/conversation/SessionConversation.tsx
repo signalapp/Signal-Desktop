@@ -109,7 +109,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.compositionBoxRef = React.createRef();
     this.messageContainerRef = React.createRef();
     this.dragCounter = 0;
-    this.updateMemberList = _.debounce(this.updateMemberListBouncy, 1000);
+    this.updateMemberList = _.debounce(this.updateMemberListBouncy.bind(this), 1000);
 
     autoBind(this);
   }
@@ -145,9 +145,11 @@ export class SessionConversation extends React.Component<Props, State> {
       window?.inboxStore?.dispatch(updateMentionsMembers([]));
       // if the newConversation changed, and is public, start our refresh members list
       if (newConversation.isPublic) {
-        // TODO use abort controller to stop those requests too
+        // this is a debounced call.
         void this.updateMemberList();
-        this.publicMembersRefreshTimeout = global.setInterval(this.updateMemberList, 10000);
+        // run this only once every minute if we don't change the visible conversation.
+        // this is a heavy operation (like a few thousands members can be here)
+        this.publicMembersRefreshTimeout = global.setInterval(this.updateMemberList, 60000);
       }
     }
     // if we do not have a model, unregister for events
