@@ -23,9 +23,9 @@ import { fromBase64ToArrayBuffer } from '../../session/utils/String';
 import { getAuthToken } from './ApiAuth';
 import { DURATION } from '../../session/constants';
 
-const pollForEverythingInterval = DURATION.SECONDS * 4;
+const pollForEverythingInterval = DURATION.SECONDS * 10;
 const pollForRoomAvatarInterval = DURATION.DAYS * 1;
-const pollForMemberCountInterval = DURATION.MINUTES * 10;
+const pollForMemberCountInterval = DURATION.MINUTES * 30;
 
 /**
  * An OpenGroupServerPollerV2 polls for everything for a particular server. We should
@@ -124,7 +124,7 @@ export class OpenGroupServerPoller {
     this.roomIdsToPoll.add(room.roomId);
 
     // if we are not already polling right now, trigger a polling
-    void this.triggerPollAfterAdd();
+    void this.triggerPollAfterAdd(room);
   }
 
   public removeRoomFromPoll(room: OpenGroupRequestCommonType) {
@@ -173,7 +173,12 @@ export class OpenGroupServerPoller {
   }
 
   private async triggerPollAfterAdd(room?: OpenGroupRequestCommonType) {
-    if (this.roomIdsToPoll.size) {
+    if (room) {
+      // this call either get the token from db, or fetch a new one
+      console.warn('getAuthToken with triggerPollAfterAdd with room', room.roomId);
+      await getAuthToken({ roomId: room.roomId, serverUrl: this.serverUrl });
+    } else if (this.roomIdsToPoll.size) {
+      console.warn('getAuthToken with triggerPollAfterAdd with all rooms');
       await Promise.all(
         [...this.roomIdsToPoll].map(async r => {
           // this call either get the token from db, or fetch a new one

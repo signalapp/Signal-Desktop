@@ -1,4 +1,8 @@
-import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../data/opengroups';
+import {
+  getV2OpenGroupRoomByRoomId,
+  OpenGroupV2Room,
+  saveV2OpenGroupRoom,
+} from '../../data/opengroups';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { fromBase64ToArrayBuffer, toHex } from '../../session/utils/String';
 import { getIdentityKeyPair, getOurPubKeyStrFromCache } from '../../session/utils/User';
@@ -31,6 +35,53 @@ async function claimAuthToken(
   return authToken;
 }
 
+async function oneAtATimeGetAuth({
+  serverUrl,
+  roomId,
+  roomDetails,
+}: OpenGroupRequestCommonType & { roomDetails: OpenGroupV2Room }) {
+  return allowOnlyOneAtATime(`getAuthToken${serverUrl}:${roomId}`, async () => {
+    try {
+      window?.log?.info(
+        `Triggering getAuthToken with serverUrl:'${serverUrl}'; roomId: '${roomId}'`
+      );
+      const token = await requestNewAuthToken({ serverUrl, roomId });
+      if (roomId === 'lokinet') {
+        debugger;
+      }
+      if (!token) {
+        window?.log?.warn('invalid new auth token', token);
+        return;
+      }
+
+      window?.log?.info(`Got AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
+      const claimedToken = await claimAuthToken(token, serverUrl, roomId);
+      if (!claimedToken) {
+        window?.log?.warn('Failed to claim token', claimedToken);
+      } else {
+        window?.log?.info(`Claimed AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
+      }
+      console.error('Saving token to claimed token for ', roomDetails.roomId);
+      // still save it to the db. just to mark it as to be refreshed later
+      if (roomId === 'lokinet') {
+        debugger;
+      }
+      roomDetails.token = claimedToken || '';
+      if (roomId === 'lokinet') {
+        debugger;
+      }
+
+      await saveV2OpenGroupRoom(roomDetails);
+
+      window?.log?.info(`AuthToken saved to DB for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
+      return claimedToken;
+    } catch (e) {
+      window?.log?.error('Failed to getAuthToken', e);
+      throw e;
+    }
+  });
+}
+
 export async function getAuthToken({
   serverUrl,
   roomId,
@@ -42,35 +93,12 @@ export async function getAuthToken({
     return null;
   }
   if (roomDetails?.token) {
+    console.error('Already having a saved token ', roomDetails.roomId);
+
     return roomDetails.token;
   }
 
-  await allowOnlyOneAtATime(`getAuthToken${serverUrl}:${roomId}`, async () => {
-    try {
-      window?.log?.info(
-        `Triggering getAuthToken with serverUrl:'${serverUrl}'; roomId: '${roomId}'`
-      );
-      const token = await requestNewAuthToken({ serverUrl, roomId });
-      if (!token) {
-        window?.log?.warn('invalid new auth token', token);
-        return;
-      }
-      window?.log?.info(`Got AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
-      const claimedToken = await claimAuthToken(token, serverUrl, roomId);
-      if (!claimedToken) {
-        window?.log?.warn('Failed to claim token', claimedToken);
-      } else {
-        window?.log?.info(`Claimed AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
-      }
-      // still save it to the db. just to mark it as to be refreshed later
-      roomDetails.token = claimedToken || '';
-      await saveV2OpenGroupRoom(roomDetails);
-      window?.log?.info(`AuthToken saved to DB for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
-    } catch (e) {
-      window?.log?.error('Failed to getAuthToken', e);
-      throw e;
-    }
-  });
+  const claimedToken = await oneAtATimeGetAuth({ roomDetails, roomId, serverUrl });
 
   // fetch the data from the db again, which should have been written in the saveV2OpenGroupRoom() call above
   const refreshedRoomDetails = await getV2OpenGroupRoomByRoomId({
@@ -81,7 +109,17 @@ export async function getAuthToken({
     window?.log?.warn('getAuthToken Room does not exist.');
     return null;
   }
+  // if the claimedToken got overriden, save it again
+  if (!refreshedRoomDetails?.token && claimedToken) {
+    refreshedRoomDetails.token = claimedToken;
+    console.error('claimed auth token for overriden. Forcing writing it', roomDetails.roomId);
+
+    await saveV2OpenGroupRoom(refreshedRoomDetails);
+  }
+
   if (refreshedRoomDetails?.token) {
+    console.error('Returning freshclaimed token for ', roomDetails.roomId);
+
     return refreshedRoomDetails?.token;
   }
   return null;

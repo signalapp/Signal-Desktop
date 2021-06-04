@@ -280,6 +280,15 @@
     );
     window.log.info('Cleanup: complete');
 
+    const observer = new PerformanceObserver(list => {
+      console.warn('Long Task detected! 🚩️');
+      const entries = list.getEntries();
+      console.warn(entries);
+      // debugger;
+    });
+
+    observer.observe({ entryTypes: ['longtask'] });
+
     window.log.info('listening for registration events');
     Whisper.events.on('registration_done', async () => {
       window.log.info('handling registration event');

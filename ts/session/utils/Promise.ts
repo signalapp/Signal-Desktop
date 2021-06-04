@@ -25,6 +25,7 @@ export async function allowOnlyOneAtATime(
 ) {
   // if currently not in progress
   if (snodeGlobalLocks[name] === undefined) {
+    console.warn(`${name} not already running, creating it`);
     // set lock
     snodeGlobalLocks[name] = new Promise(async (resolve, reject) => {
       // set up timeout feature
@@ -71,6 +72,8 @@ export async function allowOnlyOneAtATime(
       // release the kraken
       resolve(innerRetVal);
     });
+  } else {
+    console.warn(`${name} already running, returning it`);
   }
   return snodeGlobalLocks[name];
 }

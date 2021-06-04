@@ -145,6 +145,7 @@ export async function sendApiV2Request(
         window?.log?.warn('Got 401, but this room does not exist');
         return null;
       }
+      console.error('Overriding token to undefined for ', roomDetails.roomId)
       roomDetails.token = undefined;
       // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
       await saveV2OpenGroupRoom(roomDetails);
@@ -343,7 +344,8 @@ export const getMemberCount = async (
   const result = await exports.sendApiV2Request(request);
   if (parseStatusCodeFromOnionRequest(result) !== 200) {
     window?.log?.warn(
-      `getMemberCount failed invalid status code for serverUrl:'${roomInfos.serverUrl}' roomId:'${roomInfos.roomId}'`
+      `getMemberCount failed invalid status code for serverUrl:'${roomInfos.serverUrl}' roomId:'${roomInfos.roomId}; '`,
+      result
     );
     return;
   }

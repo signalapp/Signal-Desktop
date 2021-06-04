@@ -272,6 +272,7 @@ async function sendOpenGroupV2RequestCompactPoll(
   const roomPollValidResults = results.filter(ret => ret.statusCode === 200);
 
   if (roomWithTokensToRefresh) {
+    window.log.info('We got those rooms to refresh the token ', roomWithTokensToRefresh);
     await Promise.all(
       roomWithTokensToRefresh.map(async roomId => {
         const roomDetails = await getV2OpenGroupRoomByRoomId({
@@ -281,6 +282,7 @@ async function sendOpenGroupV2RequestCompactPoll(
         if (!roomDetails) {
           return;
         }
+        console.error('Overriding token to undefined for ', roomDetails.roomId);
         roomDetails.token = undefined;
         // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
         await saveV2OpenGroupRoom(roomDetails);
