@@ -63,11 +63,11 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
                 options={[
                   {
                     text: i18n('on'),
-                    value: i18n('on'),
+                    value: 'true',
                   },
                   {
                     text: i18n('off'),
-                    value: i18n('off'),
+                    value: 'false',
                   },
                 ]}
                 value={String(Boolean(hasGroupLink))}
@@ -121,11 +121,11 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
                     options={[
                       {
                         text: i18n('on'),
-                        value: i18n('on'),
+                        value: 'true',
                       },
                       {
                         text: i18n('off'),
-                        value: i18n('off'),
+                        value: 'false',
                       },
                     ]}
                     value={String(membersNeedAdminApproval)}
