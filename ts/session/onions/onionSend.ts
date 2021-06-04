@@ -121,28 +121,6 @@ export const getOnionPathForSending = async (requestNumber: number) => {
   return pathNodes;
 };
 
-export const getOnionPathStatus = () => {
-  let hasOnionPath: boolean = false;
-  try {
-    hasOnionPath = OnionPaths.getInstance().hasOnionPath();
-  } catch (e) {
-    window.log.error(`getOnionPathStatus Error ${e.code} ${e.message}`);
-  }
-  return hasOnionPath;
-};
-
-export const getPathNodesIPAddresses = () => {
-  let pathNodes: Array<Snode> = [];
-  let displayNode: Array<string> = [];
-  try {
-    pathNodes = OnionPaths.getInstance().getOnionPathNoRebuild();
-    displayNode = pathNodes.map(node => node.ip);
-  } catch (e) {
-    window.log.error(`getPathNodesIPAddresses Error ${e.code} ${e.message}`);
-  }
-  return displayNode;
-};
-
 const initOptionsWithDefaults = (options: OnionFetchBasicOptions) => {
   const defaultFetchBasicOptions = {
     retry: 0,

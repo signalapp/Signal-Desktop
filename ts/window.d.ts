@@ -100,10 +100,5 @@ declare global {
     darkTheme: DefaultTheme;
     LokiPushNotificationServer: any;
     LokiPushNotificationServerApi: any;
-
-    getConversationController: () => ConversationController;
-    getOrCreateAndWait: () => Promise<ConversationModel>;
-
-    commitProfileEdits: (string, string) => void;
   }
 }

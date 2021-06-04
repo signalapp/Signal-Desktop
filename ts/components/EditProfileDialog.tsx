@@ -7,7 +7,6 @@ import { Avatar, AvatarSize } from './Avatar';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
-import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
 import { AttachmentUtils, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 import { DefaultTheme, useTheme } from 'styled-components';
@@ -15,15 +14,15 @@ import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 import { SessionSpinner } from './session/SessionSpinner';
 import { ConversationTypeEnum } from '../models/conversation';
 
-import { ConversationController } from '../session/conversations';
-import { useSelector } from 'react-redux';
-import { getOurNumber } from '../state/selectors/user';
 import { SessionWrapperModal } from './session/SessionWrapperModal';
-import { times } from 'underscore';
 import { AttachmentUtil, } from '../util';
+import { LocalizerType } from '../types/Util';
+import { ConversationController } from '../session/conversations';
+
+
 
 interface Props {
-  i18n?: any;
+  i18n?: LocalizerType;
   profileName?: string;
   avatarPath?: string;
   pubkey?: string;
@@ -42,7 +41,7 @@ interface State {
 
 export class EditProfileDialog extends React.Component<Props, State> {
   private readonly inputEl: any;
-
+  private conversationController = ConversationController.getInstance();
 
   constructor(props: any) {
     super(props);
@@ -67,11 +66,11 @@ export class EditProfileDialog extends React.Component<Props, State> {
     window.addEventListener('keyup', this.onKeyUp);
   }
 
+
+
   async componentDidMount() {
     const ourNumber = window.storage.get('primaryDevicePubKey');
-    const conversation = await window
-      .getConversationController()
-      .getOrCreateAndWait(ourNumber, ConversationTypeEnum.PRIVATE);
+    const conversation = await this.conversationController.getOrCreateAndWait(ourNumber, ConversationTypeEnum.PRIVATE);
 
     const readFile = (attachment: any) =>
       new Promise((resolve, reject) => {
@@ -374,7 +373,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
   private async commitProfileEdits(newName: string, avatar: any) {
     let ourNumber = window.storage.get('primaryDevicePubKey');
-    const conversation = await window.getConversationController().getOrCreateAndWait(ourNumber, ConversationTypeEnum.PRIVATE);
+    const conversation = await this.conversationController.getOrCreateAndWait(ourNumber, ConversationTypeEnum.PRIVATE);
 
     let newAvatarPath = '';
     let url: any = null;
@@ -467,9 +466,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
     window.lokiPublicChatAPI.setProfileName(newName);
 
     if (avatar) {
-      window
-        .getConversationController()
-        .getConversations()
+        this.conversationController.getConversations()
         .filter(convo => convo.isPublic())
         .forEach(convo => convo.trigger('ourAvatarChanged', { url, profileKey }));
     }

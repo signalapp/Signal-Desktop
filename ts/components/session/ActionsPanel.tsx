@@ -11,9 +11,8 @@ import {
   generateAttachmentKeyIfEmpty,
   getItemById,
   hasSyncedInitialConfigurationItem,
-  removeItemById,
 } from '../../data/data';
-import { OnionPaths, Snode, SnodePath } from '../../session/onions';
+import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
 import { clearSessionsAndPreKeys } from '../../util/accountManager';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,14 +33,9 @@ import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManager
 import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
-import { getOnionPathStatus } from '../../session/onions/onionSend';
-import { Constants } from '../../session';
-import { StateType } from '../../state/reducer';
 import _ from 'lodash';
-import { useNetwork } from '../../hooks/useNetwork';
-import { OnionPathModal } from '../OnionStatusDialog';
+import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusDialog';
 import { EditProfileDialog } from '../EditProfileDialog';
-import { useTheme } from 'styled-components';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -59,13 +53,12 @@ const Section = (props: {
   setModal?: any;
   type: SectionType;
   avatarPath?: string;
-  hasOnionPath?: boolean;
 }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
   const theme = useSelector(getTheme);
   const dispatch = useDispatch();
-  const { setModal, type, avatarPath, hasOnionPath } = props;
+  const { setModal, type, avatarPath } = props;
 
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
@@ -116,25 +109,6 @@ const Section = (props: {
 
   let iconColor = undefined;
   if (type === SectionType.PathIndicator) {
-    // Set icon color based on result
-    const red = theme.colors.destructive;
-    const green = theme.colors.accent;
-    const orange = theme.colors.warning;
-
-    iconColor = hasOnionPath ? theme.colors.accent : theme.colors.destructive;
-    const onionState = useSelector((state: StateType) => state.onionPaths);
-
-    iconColor = red;
-    const isOnline = useNetwork();
-    if (!(onionState && onionState.snodePath) || !isOnline) {
-      iconColor = Constants.UI.COLORS.DANGER;
-    } else {
-      const onionSnodePath = onionState.snodePath;
-      if (onionState && onionSnodePath && onionSnodePath.path.length > 0) {
-        let onionNodeCount = onionSnodePath.path.length;
-        iconColor = onionNodeCount > 2 ? green : onionNodeCount > 1 ? orange : red;
-      }
-    }
   }
 
   const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
@@ -153,15 +127,18 @@ const Section = (props: {
     case SectionType.Moon:
       iconType = SessionIconType.Moon;
       break;
-    case SectionType.PathIndicator:
-      iconType = SessionIconType.Circle;
-      break;
     default:
       iconType = SessionIconType.Moon;
   }
 
   return (
     <>
+      {type === SectionType.PathIndicator ?
+      <ActionPanelOnionStatusLight
+        handleClick={handleClick}
+        isSelected={isSelected}
+      />
+    :
       <SessionIconButton
         iconSize={SessionIconSize.Medium}
         iconType={iconType}
@@ -171,6 +148,7 @@ const Section = (props: {
         isSelected={isSelected}
         theme={theme}
       />
+    }
     </>
   );
 };
@@ -245,9 +223,7 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
 export const ActionsPanel = () => {
   const dispatch = useDispatch();
   const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
-  const [hasOnionPath, setHasOnionPath] = useState<boolean>(false);
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
-
   const [modal, setModal] = useState<any>(null);
 
   // this maxi useEffect is called only once: when the component is mounted.
@@ -263,15 +239,6 @@ export const ActionsPanel = () => {
 
     return () => global.clearTimeout(timeout);
   }, []);
-
-  const getOnionPathIndicator = () => {
-    const hasOnionPath = getOnionPathStatus();
-    setHasOnionPath(hasOnionPath);
-  };
-
-  useInterval(() => {
-    getOnionPathIndicator();
-  }, 1000);
 
   useInterval(
     () => {
@@ -300,15 +267,15 @@ export const ActionsPanel = () => {
         type={SectionType.Profile}
         avatarPath={ourPrimaryConversation.avatarPath}
       />
-      <Section setModal={setModal} type={SectionType.Message} />
-      <Section setModal={setModal} type={SectionType.Contact} />
-      <Section setModal={setModal} type={SectionType.Settings} />
+      <Section  type={SectionType.Message} />
+      <Section  type={SectionType.Contact} />
+      <Section  type={SectionType.Settings} />
       {modal ? modal : null}
 
       <SessionToastContainer />
 
-      <Section setModal={setModal} type={SectionType.PathIndicator} hasOnionPath={hasOnionPath} />
-      <Section setModal={setModal} type={SectionType.Moon} />
+      <Section setModal={setModal} type={SectionType.PathIndicator} />
+      <Section  type={SectionType.Moon} />
     </div>
   );
 };
