@@ -46,9 +46,9 @@ aptly snapshot create "$SNAPSHOT" from repo "$REPO"
 # run these only on first release to a given repo from a given machine. the first set is
 # for local testing, the second set is to set up the production server.
 #   https://www.aptly.info/doc/aptly/publish/snapshot/
-aptly publish snapshot -gpg-key="$GPG_KEYID" -distribution="$CURRENT" "$SNAPSHOT"
+# aptly publish snapshot -gpg-key="$GPG_KEYID" -distribution="$CURRENT" "$SNAPSHOT"
 # aptly publish snapshot -gpg-key="$GPG_KEYID" -distribution="$PREVIOUS" "$SNAPSHOT"
-aptly publish snapshot -gpg-key="$GPG_KEYID" -distribution="$CURRENT" -config=.aptly.conf "$SNAPSHOT" "s3:$ENDPOINT:"
+# aptly publish snapshot -gpg-key="$GPG_KEYID" -distribution="$CURRENT" -config=.aptly.conf "$SNAPSHOT" "s3:$ENDPOINT:"
 # aptly publish snapshot -gpg-key="$GPG_KEYID" -distribution="$PREVIOUS" -config=.aptly.conf "$SNAPSHOT" "s3:$ENDPOINT:"
 
 # these update already-published repos, run every time after that
