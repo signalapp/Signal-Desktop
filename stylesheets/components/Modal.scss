@@ -35,6 +35,7 @@
   &__close-button {
     @include button-reset;
 
+    border-radius: 4px;
     float: right;
     height: 24px;
     width: 24px;
@@ -52,14 +53,24 @@
       @include dark-theme {
         @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
       }
+    }
 
+    @include light-theme {
+      &:hover,
       &:focus {
-        @include keyboard-mode {
-          background-color: $color-ultramarine;
-        }
-        @include dark-keyboard-mode {
-          background-color: $color-ultramarine-light;
-        }
+        background: $color-gray-02;
+      }
+      &:active {
+        background: $color-gray-05;
+      }
+    }
+    @include dark-theme {
+      &:hover,
+      &:focus {
+        background: $color-gray-80;
+      }
+      &:active {
+        background: $color-gray-75;
       }
     }
   }
