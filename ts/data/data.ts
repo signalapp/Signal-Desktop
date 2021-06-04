@@ -596,7 +596,6 @@ export async function getAllOpenGroupV1Conversations(): Promise<ConversationColl
 }
 
 export async function getPubkeysInPublicConversation(id: string): Promise<Array<string>> {
-  window?.log?.info(`getPubkeysInPublicConversation in '${id}'`);
   return channels.getPubkeysInPublicConversation(id);
 }
 
@@ -800,7 +799,7 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
     messages = await getMessagesByConversation(conversationId, {
-      limit: 25,
+      limit: 100,
     });
 
     if (!messages.length) {
@@ -816,7 +815,6 @@ export async function removeAllMessagesInConversation(conversationId: string): P
 
     // eslint-disable-next-line no-await-in-loop
     await channels.removeMessage(ids);
-    await sleepFor(10);
   } while (messages.length > 0);
 }
 

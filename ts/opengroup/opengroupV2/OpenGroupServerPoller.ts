@@ -14,18 +14,17 @@ import {
 import _ from 'lodash';
 import { ConversationModel } from '../../models/conversation';
 import { getMessageIdsFromServerIds, removeMessage } from '../../data/data';
-import { getV2OpenGroupRoom, OpenGroupV2Room, saveV2OpenGroupRoom } from '../../data/opengroups';
+import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
 import autoBind from 'auto-bind';
 import { sha256 } from '../../session/crypto';
 import { fromBase64ToArrayBuffer } from '../../session/utils/String';
-import { getAuthToken } from './ApiAuth';
 import { DURATION } from '../../session/constants';
 
 const pollForEverythingInterval = DURATION.SECONDS * 10;
 const pollForRoomAvatarInterval = DURATION.DAYS * 1;
-const pollForMemberCountInterval = DURATION.MINUTES * 30;
+const pollForMemberCountInterval = DURATION.MINUTES * 10;
 
 /**
  * An OpenGroupServerPollerV2 polls for everything for a particular server. We should
@@ -173,20 +172,6 @@ export class OpenGroupServerPoller {
   }
 
   private async triggerPollAfterAdd(room?: OpenGroupRequestCommonType) {
-    if (room) {
-      // this call either get the token from db, or fetch a new one
-      console.warn('getAuthToken with triggerPollAfterAdd with room', room.roomId);
-      await getAuthToken({ roomId: room.roomId, serverUrl: this.serverUrl });
-    } else if (this.roomIdsToPoll.size) {
-      console.warn('getAuthToken with triggerPollAfterAdd with all rooms');
-      await Promise.all(
-        [...this.roomIdsToPoll].map(async r => {
-          // this call either get the token from db, or fetch a new one
-          await getAuthToken({ roomId: r, serverUrl: this.serverUrl });
-        })
-      );
-    }
-
     await this.compactPoll();
     await this.previewPerRoomPoll();
     await this.pollForAllMemberCount();

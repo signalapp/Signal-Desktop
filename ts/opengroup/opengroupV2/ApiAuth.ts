@@ -35,20 +35,25 @@ async function claimAuthToken(
   return authToken;
 }
 
-async function oneAtATimeGetAuth({
-  serverUrl,
-  roomId,
-  roomDetails,
-}: OpenGroupRequestCommonType & { roomDetails: OpenGroupV2Room }) {
+async function oneAtATimeGetAuth({ serverUrl, roomId }: OpenGroupRequestCommonType) {
   return allowOnlyOneAtATime(`getAuthToken${serverUrl}:${roomId}`, async () => {
     try {
+      // first try to fetch from db a saved token.
+      const roomDetails = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
+      if (!roomDetails) {
+        window?.log?.warn('getAuthToken Room does not exist.');
+        return null;
+      }
+
+      if (roomDetails?.token) {
+        return roomDetails.token;
+      }
+
       window?.log?.info(
         `Triggering getAuthToken with serverUrl:'${serverUrl}'; roomId: '${roomId}'`
       );
       const token = await requestNewAuthToken({ serverUrl, roomId });
-      if (roomId === 'lokinet') {
-        debugger;
-      }
+
       if (!token) {
         window?.log?.warn('invalid new auth token', token);
         return;
@@ -56,24 +61,18 @@ async function oneAtATimeGetAuth({
 
       window?.log?.info(`Got AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
       const claimedToken = await claimAuthToken(token, serverUrl, roomId);
+
       if (!claimedToken) {
         window?.log?.warn('Failed to claim token', claimedToken);
       } else {
         window?.log?.info(`Claimed AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
       }
-      console.error('Saving token to claimed token for ', roomDetails.roomId);
       // still save it to the db. just to mark it as to be refreshed later
-      if (roomId === 'lokinet') {
-        debugger;
-      }
       roomDetails.token = claimedToken || '';
-      if (roomId === 'lokinet') {
-        debugger;
-      }
-
       await saveV2OpenGroupRoom(roomDetails);
 
       window?.log?.info(`AuthToken saved to DB for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
+
       return claimedToken;
     } catch (e) {
       window?.log?.error('Failed to getAuthToken', e);
@@ -86,43 +85,7 @@ export async function getAuthToken({
   serverUrl,
   roomId,
 }: OpenGroupRequestCommonType): Promise<string | null> {
-  // first try to fetch from db a saved token.
-  const roomDetails = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
-  if (!roomDetails) {
-    window?.log?.warn('getAuthToken Room does not exist.');
-    return null;
-  }
-  if (roomDetails?.token) {
-    console.error('Already having a saved token ', roomDetails.roomId);
-
-    return roomDetails.token;
-  }
-
-  const claimedToken = await oneAtATimeGetAuth({ roomDetails, roomId, serverUrl });
-
-  // fetch the data from the db again, which should have been written in the saveV2OpenGroupRoom() call above
-  const refreshedRoomDetails = await getV2OpenGroupRoomByRoomId({
-    serverUrl,
-    roomId,
-  });
-  if (!refreshedRoomDetails) {
-    window?.log?.warn('getAuthToken Room does not exist.');
-    return null;
-  }
-  // if the claimedToken got overriden, save it again
-  if (!refreshedRoomDetails?.token && claimedToken) {
-    refreshedRoomDetails.token = claimedToken;
-    console.error('claimed auth token for overriden. Forcing writing it', roomDetails.roomId);
-
-    await saveV2OpenGroupRoom(refreshedRoomDetails);
-  }
-
-  if (refreshedRoomDetails?.token) {
-    console.error('Returning freshclaimed token for ', roomDetails.roomId);
-
-    return refreshedRoomDetails?.token;
-  }
-  return null;
+  return oneAtATimeGetAuth({ roomId, serverUrl });
 }
 
 export const deleteAuthToken = async ({

@@ -251,6 +251,10 @@ export class ConversationController {
     return Array.from(this.conversations.models);
   }
 
+  public unsafeDelete(convo: ConversationModel) {
+    this.conversations.remove(convo);
+  }
+
   public async load() {
     window?.log?.info('ConversationController: starting initial fetch');
 

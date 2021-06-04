@@ -145,7 +145,6 @@ export async function sendApiV2Request(
         window?.log?.warn('Got 401, but this room does not exist');
         return null;
       }
-      console.error('Overriding token to undefined for ', roomDetails.roomId)
       roomDetails.token = undefined;
       // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
       await saveV2OpenGroupRoom(roomDetails);

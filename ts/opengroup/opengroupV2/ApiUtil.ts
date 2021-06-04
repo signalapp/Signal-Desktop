@@ -86,8 +86,8 @@ export const parseMessages = async (
     window?.log?.info('Handling rawMessage chunk of size', currentChunk.length);
     const messagesHandled = await handleChunk(currentChunk);
     allHandledMessages.push(...messagesHandled);
-
-    await sleepFor(10);
+    // as we are not running in a worker, just give some time for UI events
+    await sleepFor(2);
   }
 
   return _.compact(allHandledMessages).sort((a, b) => (a.serverId || 0) - (b.serverId || 0));

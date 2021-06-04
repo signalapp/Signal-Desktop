@@ -438,7 +438,7 @@ async function performIfValid(
   const convo = ConversationController.getInstance().get(groupPublicKey);
   if (!convo) {
     window?.log?.warn('dropping message for nonexistent group');
-    return;
+    return removeFromCache(envelope);
   }
 
   if (!convo) {

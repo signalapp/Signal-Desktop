@@ -109,7 +109,6 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
     const pubKeyToRemove = PubKey.cast(sender);
     const convo = ConversationController.getInstance().getOrThrow(convoId);
 
-    // FIXME audric removeModerator not working serverside
     const roomInfo = convo.toOpenGroupV2();
     const res = await ApiV2.removeModerator(pubKeyToRemove, roomInfo);
     if (!res) {
