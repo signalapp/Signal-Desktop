@@ -643,7 +643,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       throw new Error('change is undefined');
     }
 
+    const conversation = this.getConversation();
+
     return {
+      groupName: conversation?.isGroupV2()
+        ? conversation.get('name')
+        : undefined,
       AccessControlEnum: protobuf.AccessControl.AccessRequired,
       RoleEnum: protobuf.Member.Role,
       ourConversationId,

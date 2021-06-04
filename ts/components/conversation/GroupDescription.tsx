@@ -4,6 +4,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Modal } from '../Modal';
 import { LocalizerType } from '../../types/Util';
+import { AddNewLines } from './AddNewLines';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -37,7 +38,7 @@ export const GroupDescription = ({
           onClose={() => setShowFullDescription(false)}
           title={title}
         >
-          {text}
+          <AddNewLines text={text} />
         </Modal>
       )}
       <div className="GroupDescription__text" ref={textRef}>
