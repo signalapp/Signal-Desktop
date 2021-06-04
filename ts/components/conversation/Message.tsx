@@ -954,7 +954,9 @@ export class Message extends React.Component<Props, State> {
           attachment: first.image,
           messageId: id,
         });
+        return;
       }
+      openLink(first.url);
     };
     const contents = (
       <>
