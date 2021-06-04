@@ -750,7 +750,7 @@ function setupAsStandalone() {
 let screenShareWindow;
 function showScreenShareWindow(sourceName) {
   if (screenShareWindow) {
-    screenShareWindow.show();
+    screenShareWindow.showInactive();
     return;
   }
 
@@ -794,7 +794,7 @@ function showScreenShareWindow(sourceName) {
   });
 
   screenShareWindow.once('ready-to-show', () => {
-    screenShareWindow.show();
+    screenShareWindow.showInactive();
     screenShareWindow.webContents.send(
       'render-screen-sharing-controller',
       sourceName
