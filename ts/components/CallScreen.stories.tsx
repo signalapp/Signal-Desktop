@@ -339,3 +339,37 @@ story.add('Group call - 0', () => (
     })}
   />
 ));
+
+story.add('Group call - someone is sharing screen', () => (
+  <CallScreen
+    {...createProps({
+      callMode: CallMode.Group,
+      remoteParticipants: allRemoteParticipants
+        .slice(0, 5)
+        .map((participant, index) => ({
+          ...participant,
+          presenting: index === 1,
+          sharingScreen: index === 1,
+        })),
+    })}
+  />
+));
+
+story.add(
+  "Group call - someone is sharing screen and you're reconnecting",
+  () => (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        connectionState: GroupCallConnectionState.Reconnecting,
+        remoteParticipants: allRemoteParticipants
+          .slice(0, 5)
+          .map((participant, index) => ({
+            ...participant,
+            presenting: index === 1,
+            sharingScreen: index === 1,
+          })),
+      })}
+    />
+  )
+);

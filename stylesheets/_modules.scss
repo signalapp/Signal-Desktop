@@ -6026,7 +6026,7 @@ button.module-image__border-overlay:focus {
     top: 12px;
     transition: top 200ms ease-out, opacity 200ms ease-out;
     user-select: none;
-    z-index: 1;
+    z-index: 3;
 
     &--hidden {
       opacity: 0;
