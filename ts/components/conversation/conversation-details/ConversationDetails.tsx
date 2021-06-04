@@ -148,9 +148,11 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       modalNode = (
         <EditConversationAttributesModal
           avatarPath={conversation.avatarPath}
-          focusDescription={modalState === ModalState.EditingGroupDescription}
           groupDescription={conversation.groupDescription}
           i18n={i18n}
+          initiallyFocusDescription={
+            modalState === ModalState.EditingGroupDescription
+          }
           makeRequest={async (
             options: Readonly<{
               avatar?: undefined | ArrayBuffer;
