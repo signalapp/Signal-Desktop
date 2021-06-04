@@ -14124,6 +14124,14 @@
     "reasonDetail": "Doesn't interact with the DOM."
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.js",
+    "line": "    const focusDescriptionRef = react_1.useRef(initiallyFocusDescription);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-04T14:19:49.714Z",
+    "reasonDetail": "Only stores undefined/true/false, not DOM references."
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/media-gallery/MediaGallery.js",
     "line": "        this.focusRef = react_1.default.createRef();",

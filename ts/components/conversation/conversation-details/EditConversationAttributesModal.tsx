@@ -25,9 +25,9 @@ const TEMPORARY_AVATAR_VALUE = new ArrayBuffer(0);
 
 type PropsType = {
   avatarPath?: string;
-  focusDescription?: boolean;
   groupDescription?: string;
   i18n: LocalizerType;
+  initiallyFocusDescription: boolean;
   makeRequest: (
     _: Readonly<{
       avatar?: undefined | ArrayBuffer;
@@ -40,22 +40,21 @@ type PropsType = {
   title: string;
 };
 
-function focusRef(el: HTMLElement | null) {
-  if (el) {
-    el.focus();
-  }
-}
-
 export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
   avatarPath: externalAvatarPath,
-  focusDescription = false,
   groupDescription: externalGroupDescription = '',
   i18n,
+  initiallyFocusDescription,
   makeRequest,
   onClose,
   requestState,
   title: externalTitle,
 }) => {
+  const focusDescriptionRef = useRef<undefined | boolean>(
+    initiallyFocusDescription
+  );
+  const focusDescription = focusDescriptionRef.current;
+
   const startingTitleRef = useRef<string>(externalTitle);
   const startingAvatarPathRef = useRef<undefined | string>(externalAvatarPath);
 
@@ -70,6 +69,13 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
 
   const trimmedTitle = rawTitle.trim();
   const trimmedDescription = rawGroupDescription.trim();
+
+  const focusRef = (el: null | HTMLElement) => {
+    if (el) {
+      el.focus();
+      focusDescriptionRef.current = undefined;
+    }
+  };
 
   useEffect(() => {
     const startingAvatarPath = startingAvatarPathRef.current;
@@ -164,7 +170,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
           disabled={isRequestActive}
           i18n={i18n}
           onChangeValue={setRawTitle}
-          ref={!focusDescription ? focusRef : undefined}
+          ref={focusDescription === false ? focusRef : undefined}
           value={rawTitle}
         />
 
@@ -172,7 +178,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
           disabled={isRequestActive}
           i18n={i18n}
           onChangeValue={setRawGroupDescription}
-          ref={focusDescription ? focusRef : undefined}
+          ref={focusDescription === true ? focusRef : undefined}
           value={rawGroupDescription}
         />
 
