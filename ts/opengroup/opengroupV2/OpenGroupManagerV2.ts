@@ -14,7 +14,7 @@ import { openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import _ from 'lodash';
-import { deleteAuthToken } from './ApiAuth';
+import { deleteAuthToken, DeleteAuthTokenRequest } from './ApiAuth';
 import autoBind from 'auto-bind';
 
 export class OpenGroupManagerV2 {
@@ -87,7 +87,8 @@ export class OpenGroupManagerV2 {
       const groupedRoomsServerUrl = groupedRooms[0].serverUrl;
       const poller = this.pollers.get(groupedRoomsServerUrl);
       if (!poller) {
-        this.pollers.set(groupedRoomsServerUrl, new OpenGroupServerPoller(groupedRooms));
+        const uniqGroupedRooms = _.uniqBy(groupedRooms, r => r.roomId);
+        this.pollers.set(groupedRoomsServerUrl, new OpenGroupServerPoller(uniqGroupedRooms));
       } else {
         // this won't do a thing if the room is already polled for
         roomInfos.forEach(poller.addRoomToPoll);
@@ -130,9 +131,14 @@ export class OpenGroupManagerV2 {
             if (!allConvos.get(roomConvoId)) {
               // leave the group on the remote server
               // this request doesn't throw
-              await deleteAuthToken(_.pick(infos, 'serverUrl', 'roomId'));
+              if (infos.token) {
+                await deleteAuthToken(
+                  _.pick(infos, 'serverUrl', 'roomId', 'token') as DeleteAuthTokenRequest
+                );
+              }
               // remove the roomInfos locally for this open group room
               await removeV2OpenGroupRoom(roomConvoId);
+              OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(infos);
               // no need to remove it from the ConversationController, the convo is already not there
             }
           } catch (e) {

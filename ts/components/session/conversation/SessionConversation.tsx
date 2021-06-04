@@ -159,6 +159,10 @@ export class SessionConversation extends React.Component<Props, State> {
       div?.removeEventListener('dragleave', this.handleDragOut);
       div?.removeEventListener('dragover', this.handleDrag);
       div?.removeEventListener('drop', this.handleDrop);
+      if (this.publicMembersRefreshTimeout) {
+        global.clearInterval(this.publicMembersRefreshTimeout);
+        this.publicMembersRefreshTimeout = undefined;
+      }
     }
     if (newConversationKey !== oldConversationKey) {
       void this.loadInitialMessages();

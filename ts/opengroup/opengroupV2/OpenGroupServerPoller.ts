@@ -385,13 +385,23 @@ const handleNewMessages = async (
   convo?: ConversationModel
 ) => {
   try {
-    const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
-    const maxNewMessageId = Math.max(...incomingMessageIds);
-    // TODO filter out duplicates ?
     const roomInfos = await getV2OpenGroupRoom(conversationId);
     if (!roomInfos || !roomInfos.serverUrl || !roomInfos.roomId) {
       throw new Error(`No room for convo ${conversationId}`);
     }
+
+    if (!newMessages.length) {
+      // if we got no new messages, just write our last update timestamp to the db
+      roomInfos.lastFetchTimestamp = Date.now();
+      window?.log?.info(
+        `No new messages for ${roomInfos.roomId}... just updating our last fetched timestamp`
+      );
+      await saveV2OpenGroupRoom(roomInfos);
+      return;
+    }
+    const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
+    const maxNewMessageId = Math.max(...incomingMessageIds);
+    // TODO filter out duplicates ?
 
     const roomDetails: OpenGroupRequestCommonType = _.pick(roomInfos, 'serverUrl', 'roomId');
 
@@ -405,7 +415,8 @@ const handleNewMessages = async (
       }
     }
 
-    if (roomInfos && roomInfos.lastMessageFetchedServerID !== maxNewMessageId) {
+    // we need to update the timestamp even if we don't have a new MaxMessageServerId
+    if (roomInfos) {
       roomInfos.lastMessageFetchedServerID = maxNewMessageId;
       roomInfos.lastFetchTimestamp = Date.now();
       await saveV2OpenGroupRoom(roomInfos);
@@ -430,10 +441,8 @@ const handleCompactPollResults = async (
         await handleDeletions(res.deletions, convoId, convo);
       }
 
-      if (res.messages.length) {
-        // new messages
-        await handleNewMessages(res.messages, convoId, convo);
-      }
+      // new messages. call this even if we don't have new messages
+      await handleNewMessages(res.messages, convoId, convo);
 
       if (!convo) {
         window?.log?.warn('Could not find convo for compactPoll', convoId);

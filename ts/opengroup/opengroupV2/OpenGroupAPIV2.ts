@@ -105,10 +105,15 @@ export async function sendApiV2Request(
     // or the promise currently fetching a new token for that same room
     // or fetch from the open group a new token for that room.
 
-    const token = await getAuthToken({
-      roomId: request.room,
-      serverUrl: request.server,
-    });
+    if (request.forcedTokenToUse) {
+      window?.log?.info('sendV2Request. Forcing token to use for room:', request.room);
+    }
+    const token =
+      request.forcedTokenToUse ||
+      (await getAuthToken({
+        roomId: request.room,
+        serverUrl: request.server,
+      }));
 
     if (!token) {
       window?.log?.error('Failed to get token for open group v2');

@@ -19,6 +19,7 @@ export type OpenGroupV2Request = FileServerV2Request & {
   server: string;
   isAuthRequired: boolean;
   serverPublicKey?: string; // if not provided, a db called will be made to try to get it.
+  forcedTokenToUse?: string;
 };
 
 export type OpenGroupV2CompactPollRequest = {

@@ -10,7 +10,6 @@ import { MessageAttributes } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
-import { sleepFor } from '../session/utils/Promise';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import { ConversationType } from '../state/ducks/conversations';
 import { channels } from './channels';

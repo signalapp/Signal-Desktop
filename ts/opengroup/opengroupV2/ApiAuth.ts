@@ -88,16 +88,19 @@ export async function getAuthToken({
   return oneAtATimeGetAuth({ roomId, serverUrl });
 }
 
+export type DeleteAuthTokenRequest = OpenGroupRequestCommonType & { token: string };
 export const deleteAuthToken = async ({
   serverUrl,
   roomId,
-}: OpenGroupRequestCommonType): Promise<void> => {
+  token,
+}: DeleteAuthTokenRequest): Promise<void> => {
   const request: OpenGroupV2Request = {
     method: 'DELETE',
     room: roomId,
     server: serverUrl,
-    isAuthRequired: false,
+    isAuthRequired: true,
     endpoint: 'auth_token',
+    forcedTokenToUse: token,
   };
   try {
     const result = await sendApiV2Request(request);
