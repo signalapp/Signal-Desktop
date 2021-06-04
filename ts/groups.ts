@@ -181,6 +181,8 @@ export type GroupV2AdminApprovalRemoveOneChangeType = {
 export type GroupV2DescriptionChangeType = {
   type: 'description';
   removed?: boolean;
+  // Adding this field; cannot remove previous field for backwards compatibility
+  description?: string;
 };
 
 export type GroupV2ChangeDetailType =
@@ -3654,6 +3656,7 @@ function extractDiffs({
     details.push({
       type: 'description',
       removed: !current.description,
+      description: current.description,
     });
   }
 
