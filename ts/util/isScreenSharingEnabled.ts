@@ -6,9 +6,12 @@ import { isBeta } from './version';
 
 // We can remove this function once screen sharing has been turned on for everyone
 export function isScreenSharingEnabled(): boolean {
-  return (
+  // `window.getVersion` is missing in Storybook.
+  const version = window.getVersion?.();
+
+  return Boolean(
     RemoteConfig.isEnabled('desktop.worksAtSignal') ||
-    RemoteConfig.isEnabled('desktop.screensharing2') ||
-    isBeta(window.getVersion())
+      RemoteConfig.isEnabled('desktop.screensharing2') ||
+      (version && isBeta(version))
   );
 }
