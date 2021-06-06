@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
+import { SessionConfirm } from './SessionConfirm';
 
 type Props = {
   settingsCategory: SessionSettingCategory;
@@ -102,21 +103,35 @@ const LeftPaneSettingsCategories = () => {
   );
 };
 
-const onDeleteAccount = () => {
+const onDeleteAccount = ( setModal: any) => {
   const title = window.i18n('clearAllData');
   const message = window.i18n('deleteAccountWarning');
 
-  window.confirmationDialog({
-    title,
-    message,
-    resolve: deleteAccount,
-    okTheme: 'danger',
-  });
+  // window.confirmationDialog({
+  //   title,
+  //   message,
+  //   resolve: deleteAccount,
+  //   okTheme: 'danger',
+  // });
+
+  const clearModal = () => {
+    setModal(null);
+  }
+
+  setModal(
+  <SessionConfirm
+    title={title}
+    message={message}
+    onClickOk={deleteAccount}
+    okTheme={SessionButtonColor.Danger}
+    onClickClose={clearModal}
+  />)
 };
 
-const LeftPaneBottomButtons = () => {
+const LeftPaneBottomButtons = (props: { setModal: any}) => {
   const dangerButtonText = window.i18n('clearAllData');
   const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
+  const { setModal } = props;
 
   return (
     <div className="left-pane-setting-bottom-buttons">
@@ -124,7 +139,7 @@ const LeftPaneBottomButtons = () => {
         text={dangerButtonText}
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.Danger}
-        onClick={onDeleteAccount}
+        onClick={onDeleteAccount(setModal)}
       />
 
       <SessionButton
@@ -137,15 +152,16 @@ const LeftPaneBottomButtons = () => {
   );
 };
 
-export const LeftPaneSettingSection = () => {
+export const LeftPaneSettingSection = (props: { setModal: any}) => {
   const theme = useSelector(getTheme);
+  const { setModal } = props;
 
   return (
     <div className="left-pane-setting-section">
       <LeftPaneSectionHeader label={window.i18n('settingsHeader')} theme={theme} />
       <div className="left-pane-setting-content">
         <LeftPaneSettingsCategories />
-        <LeftPaneBottomButtons />
+        <LeftPaneBottomButtons setModal={setModal} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ActionsPanel, SectionType } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
@@ -86,12 +86,9 @@ const InnerLeftPaneContactSection = () => {
   );
 };
 
-const LeftPaneSettingsSection = () => {
-  return <LeftPaneSettingSection />;
-};
-
-const LeftPaneSection = (props: { isExpired: boolean }) => {
+const LeftPaneSection = (props: { isExpired: boolean, setModal: any}) => {
   const focusedSection = useSelector(getFocusedSection);
+  const { setModal } = props;
 
   if (focusedSection === SectionType.Message) {
     return <InnerLeftPaneMessageSection isExpired={props.isExpired} />;
@@ -101,7 +98,7 @@ const LeftPaneSection = (props: { isExpired: boolean }) => {
     return <InnerLeftPaneContactSection />;
   }
   if (focusedSection === SectionType.Settings) {
-    return <LeftPaneSettingsSection />;
+    return <LeftPaneSettingSection setModal={setModal} />;
   }
   return <></>;
 };
@@ -109,14 +106,20 @@ const LeftPaneSection = (props: { isExpired: boolean }) => {
 export const LeftPane = (props: Props) => {
   const theme = useSelector(getTheme);
 
+  const [modal, setModal] = useState<any>(null);
+
   return (
-    <SessionTheme theme={theme}>
-      <div className="module-left-pane-session">
-        <ActionsPanel />
-        <div className="module-left-pane">
-          <LeftPaneSection isExpired={props.isExpired} />
+    <>
+      { modal ? modal : null}
+      <SessionTheme theme={theme}>
+        <div className="module-left-pane-session">
+          <ActionsPanel />
+
+          <div className="module-left-pane">
+            <LeftPaneSection setModal={setModal} isExpired={props.isExpired} />
+          </div>
         </div>
-      </div>
-    </SessionTheme>
+      </SessionTheme>
+    </>
   );
 };

@@ -3,24 +3,25 @@ import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { DefaultTheme, useTheme, withTheme } from 'styled-components';
+import { SessionWrapperModal } from './SessionWrapperModal';
 
 type Props = {
   message: string;
-  messageSub: string;
+  messageSub?: string;
   title: string;
   onOk?: any;
   onClose?: any;
   onClickOk: any;
-  onClickClose: any;
+  onClickClose?: any;
   okText?: string;
   cancelText?: string;
-  hideCancel: boolean;
+  hideCancel?: boolean;
   okTheme: SessionButtonColor;
-  closeTheme: SessionButtonColor;
+  closeTheme?: SessionButtonColor;
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;
-  theme: DefaultTheme;
+  theme?: DefaultTheme;
 };
 
 const SessionConfirmInner = (props: Props) => {
@@ -41,6 +42,8 @@ const SessionConfirmInner = (props: Props) => {
   const cancelText = props.cancelText || window.i18n('cancel');
   const showHeader = !!props.title;
 
+  const theme = useTheme();
+
   const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
 
   return (
@@ -49,14 +52,23 @@ const SessionConfirmInner = (props: Props) => {
       onClose={onClickClose}
       showExitIcon={false}
       showHeader={showHeader}
-      theme={props.theme}
+      theme={theme}
     >
+
+      {/* <SessionWrapperModal
+      title={title}
+      onClose={onClickClose}
+      showExitIcon={false}
+      showHeader={showHeader}
+      theme={theme}
+      ></SessionWrapperModal> */}
+
       {!showHeader && <div className="spacer-lg" />}
 
       <div className="session-modal__centered">
         {sessionIcon && iconSize && (
           <>
-            <SessionIcon iconType={sessionIcon} iconSize={iconSize} theme={props.theme} />
+            <SessionIcon iconType={sessionIcon} iconSize={iconSize} theme={theme} />
             <div className="spacer-lg" />
           </>
         )}

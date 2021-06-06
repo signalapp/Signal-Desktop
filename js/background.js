@@ -383,12 +383,6 @@
       confirmDialog.render();
     };
 
-    window.showNicknameDialog = params => {
-      if (appView) {
-        appView.showNicknameDialog(params);
-      }
-    };
-
     window.showResetSessionIdDialog = () => {
       appView.showResetSessionIdDialog();
     };

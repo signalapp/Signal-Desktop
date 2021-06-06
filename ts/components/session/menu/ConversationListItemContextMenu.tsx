@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { animation, Menu } from 'react-contexify';
 import { ConversationTypeEnum } from '../../../models/conversation';
 
@@ -15,6 +15,7 @@ import {
 } from './Menu';
 
 export type PropsContextConversationItem = {
+  id: string;
   triggerId: string;
   type: ConversationTypeEnum;
   isMe: boolean;
@@ -38,6 +39,7 @@ export type PropsContextConversationItem = {
 
 export const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
   const {
+    id, 
     triggerId,
     isBlocked,
     isMe,
@@ -60,7 +62,12 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
 
   const isGroup = type === 'group';
 
+  const [ modal, setModal ] = useState<any>(null);
+
   return (
+    <>
+    { modal ? modal : null}
+
     <Menu id={triggerId} animation={animation.fade}>
       {getBlockMenuItem(
         isMe,
@@ -72,7 +79,7 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
       )}
       {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey, window.i18n)}
       {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
-      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, window.i18n)}
+      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, window.i18n, id, setModal)}
       {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup, window.i18n)}
 
       {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
@@ -88,5 +95,6 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
       )}
       {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n)}
     </Menu>
+    </>
   );
 };
