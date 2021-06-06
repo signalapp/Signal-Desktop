@@ -33,7 +33,7 @@ export async function downloadAttachment(attachment: any) {
     res = await FSv2.downloadFileFromFSv2(attachmentId, defaultFsOldV2);
   } else {
     window.log.warn(
-      'downloadAttachment attachment is neither opengroup attachment nor fsv2... Dropping it'
+      `downloadAttachment attachment is neither opengroup attachment nor fsv2... Dropping it ${asURL.href}`
     );
     throw new Error('Attachment url is not opengroupv2 nor fileserver v2. Unsupported');
   }

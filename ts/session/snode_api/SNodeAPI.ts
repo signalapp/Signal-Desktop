@@ -111,6 +111,8 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
   // Removed limit until there is a way to get snode info
   // for individual nodes (needed for guard nodes);  this way
   // we get all active nodes
+  window?.log?.info(`getSnodesFromSeedUrl starting with ${urlObj.href}`);
+
   const params = {
     active_only: true,
     fields: {
@@ -242,7 +244,7 @@ export async function requestSnodesForPubkey(pubKey: string): Promise<Array<Snod
       {
         retries: 10, // each path can fail 3 times before being dropped, we have 3 paths at most
         factor: 2,
-        minTimeout: 200,
+        minTimeout: 1000,
         maxTimeout: 4000,
         onFailedAttempt: e => {
           window?.log?.warn(

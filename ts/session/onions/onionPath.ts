@@ -60,9 +60,12 @@ let guardNodes: Array<SnodePool.Snode> = [];
 
 export const ed25519Str = (ed25519Key: string) => `(...${ed25519Key.substr(58)})`;
 
+let buildNewOnionPathsWorkerRetry = 0;
+
 export async function buildNewOnionPathsOneAtATime() {
   // this function may be called concurrently make sure we only have one inflight
   return allowOnlyOneAtATime('buildNewOnionPaths', async () => {
+    buildNewOnionPathsWorkerRetry = 0;
     await buildNewOnionPathsWorker();
   });
 }
@@ -360,8 +363,24 @@ async function buildNewOnionPathsWorker() {
       'LokiSnodeAPI::buildNewOnionPaths - Too few nodes to build an onion path! Refreshing pool and retrying'
     );
     await SnodePool.refreshRandomPool();
-    // FIXME this is a recursive call limited to only one call at a time. This cannot work
-    await buildNewOnionPathsOneAtATime();
+    // this is a recursive call limited to only one call at a time. we use the timeout
+    // here to make sure we retry this call if we cannot get enough otherNodes
+
+    // how to handle failing to rety
+    buildNewOnionPathsWorkerRetry = buildNewOnionPathsWorkerRetry + 1;
+    window.log.warn(
+      'buildNewOnionPathsWorker failed to get otherNodes. Current retry:',
+      buildNewOnionPathsWorkerRetry
+    );
+    if (buildNewOnionPathsWorkerRetry >= 3) {
+      // we failed enough. Something is wrong. Lets get out of that function and get a new fresh call.
+      window.log.warn(
+        `buildNewOnionPathsWorker failed to get otherNodes even after retries... Exiting after ${buildNewOnionPathsWorkerRetry} retries`
+      );
+
+      return;
+    }
+    await buildNewOnionPathsWorker();
     return;
   }
 

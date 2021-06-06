@@ -14,16 +14,15 @@ import {
 import _ from 'lodash';
 import { ConversationModel } from '../../models/conversation';
 import { getMessageIdsFromServerIds, removeMessage } from '../../data/data';
-import { getV2OpenGroupRoom, OpenGroupV2Room, saveV2OpenGroupRoom } from '../../data/opengroups';
+import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
 import autoBind from 'auto-bind';
 import { sha256 } from '../../session/crypto';
 import { fromBase64ToArrayBuffer } from '../../session/utils/String';
-import { getAuthToken } from './ApiAuth';
 import { DURATION } from '../../session/constants';
 
-const pollForEverythingInterval = DURATION.SECONDS * 4;
+const pollForEverythingInterval = DURATION.SECONDS * 10;
 const pollForRoomAvatarInterval = DURATION.DAYS * 1;
 const pollForMemberCountInterval = DURATION.MINUTES * 10;
 
@@ -70,6 +69,7 @@ export class OpenGroupServerPoller {
 
   constructor(roomInfos: Array<OpenGroupRequestCommonType>) {
     autoBind(this);
+
     if (!roomInfos?.length) {
       throw new Error('Empty roomInfos list');
     }
@@ -80,9 +80,12 @@ export class OpenGroupServerPoller {
       throw new Error('All rooms must be for the same serverUrl');
     }
     // first verify the rooms we got are all from on the same server
-
+    window?.log?.info(`Creating a new OpenGroupServerPoller for url ${firstUrl}`);
     this.serverUrl = firstUrl;
     roomInfos.forEach(r => {
+      window?.log?.info(
+        `Adding room on construct for url serverUrl: ${firstUrl}, roomId:'${r.roomId}' to poller:${this.serverUrl}`
+      );
       this.roomIdsToPoll.add(r.roomId);
     });
 
@@ -114,10 +117,13 @@ export class OpenGroupServerPoller {
       window?.log?.info('skipping addRoomToPoll of already polled room:', room);
       return;
     }
+    window?.log?.info(
+      `Adding room on addRoomToPoll for url serverUrl: ${this.serverUrl}, roomId:'${room.roomId}' to poller:${this.serverUrl}`
+    );
     this.roomIdsToPoll.add(room.roomId);
 
     // if we are not already polling right now, trigger a polling
-    void this.triggerPollAfterAdd();
+    void this.triggerPollAfterAdd(room);
   }
 
   public removeRoomFromPoll(room: OpenGroupRequestCommonType) {
@@ -166,15 +172,6 @@ export class OpenGroupServerPoller {
   }
 
   private async triggerPollAfterAdd(room?: OpenGroupRequestCommonType) {
-    if (this.roomIdsToPoll.size) {
-      await Promise.all(
-        [...this.roomIdsToPoll].map(async r => {
-          // this call either get the token from db, or fetch a new one
-          await getAuthToken({ roomId: r, serverUrl: this.serverUrl });
-        })
-      );
-    }
-
     await this.compactPoll();
     await this.previewPerRoomPoll();
     await this.pollForAllMemberCount();
@@ -388,13 +385,23 @@ const handleNewMessages = async (
   convo?: ConversationModel
 ) => {
   try {
-    const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
-    const maxNewMessageId = Math.max(...incomingMessageIds);
-    // TODO filter out duplicates ?
     const roomInfos = await getV2OpenGroupRoom(conversationId);
     if (!roomInfos || !roomInfos.serverUrl || !roomInfos.roomId) {
       throw new Error(`No room for convo ${conversationId}`);
     }
+
+    if (!newMessages.length) {
+      // if we got no new messages, just write our last update timestamp to the db
+      roomInfos.lastFetchTimestamp = Date.now();
+      window?.log?.info(
+        `No new messages for ${roomInfos.roomId}... just updating our last fetched timestamp`
+      );
+      await saveV2OpenGroupRoom(roomInfos);
+      return;
+    }
+    const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
+    const maxNewMessageId = Math.max(...incomingMessageIds);
+    // TODO filter out duplicates ?
 
     const roomDetails: OpenGroupRequestCommonType = _.pick(roomInfos, 'serverUrl', 'roomId');
 
@@ -408,7 +415,8 @@ const handleNewMessages = async (
       }
     }
 
-    if (roomInfos && roomInfos.lastMessageFetchedServerID !== maxNewMessageId) {
+    // we need to update the timestamp even if we don't have a new MaxMessageServerId
+    if (roomInfos) {
       roomInfos.lastMessageFetchedServerID = maxNewMessageId;
       roomInfos.lastFetchTimestamp = Date.now();
       await saveV2OpenGroupRoom(roomInfos);
@@ -433,10 +441,8 @@ const handleCompactPollResults = async (
         await handleDeletions(res.deletions, convoId, convo);
       }
 
-      if (res.messages.length) {
-        // new messages
-        await handleNewMessages(res.messages, convoId, convo);
-      }
+      // new messages. call this even if we don't have new messages
+      await handleNewMessages(res.messages, convoId, convo);
 
       if (!convo) {
         window?.log?.warn('Could not find convo for compactPoll', convoId);

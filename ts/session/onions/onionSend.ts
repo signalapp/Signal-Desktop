@@ -14,6 +14,7 @@ import { PROTOCOLS } from '../constants';
 import { toHex } from '../utils/String';
 import pRetry from 'p-retry';
 
+// FIXME audric we should soon be able to get rid of that
 const FILESERVER_HOSTS = [
   'file-dev.lokinet.org',
   'file.lokinet.org',
@@ -178,7 +179,7 @@ export const sendViaOnion = async (
       {
         retries: 9, // each path can fail 3 times before being dropped, we have 3 paths at most
         factor: 2,
-        minTimeout: 200,
+        minTimeout: 1000,
         maxTimeout: 4000,
         onFailedAttempt: e => {
           window?.log?.warn(

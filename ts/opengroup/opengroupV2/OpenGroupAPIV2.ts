@@ -82,6 +82,10 @@ export async function sendApiV2Request(
     throw new Error('Invalid request');
   }
 
+  if (!window.globalOnlineStatus) {
+    throw new pRetry.AbortError('Network is not available');
+  }
+
   // set the headers sent by the caller, and the roomId.
   const headers = request.headers || {};
   if (FSv2.isOpenGroupV2Request(request)) {
@@ -101,10 +105,15 @@ export async function sendApiV2Request(
     // or the promise currently fetching a new token for that same room
     // or fetch from the open group a new token for that room.
 
-    const token = await getAuthToken({
-      roomId: request.room,
-      serverUrl: request.server,
-    });
+    if (request.forcedTokenToUse) {
+      window?.log?.info('sendV2Request. Forcing token to use for room:', request.room);
+    }
+    const token =
+      request.forcedTokenToUse ||
+      (await getAuthToken({
+        roomId: request.room,
+        serverUrl: request.server,
+      }));
 
     if (!token) {
       window?.log?.error('Failed to get token for open group v2');
@@ -338,12 +347,17 @@ export const getMemberCount = async (
   };
   const result = await exports.sendApiV2Request(request);
   if (parseStatusCodeFromOnionRequest(result) !== 200) {
-    window?.log?.warn('getMemberCount failed invalid status code');
+    window?.log?.warn(
+      `getMemberCount failed invalid status code for serverUrl:'${roomInfos.serverUrl}' roomId:'${roomInfos.roomId}; '`,
+      result
+    );
     return;
   }
   const count = parseMemberCount(result);
   if (count === undefined) {
-    window?.log?.warn('getMemberCount failed invalid count');
+    window?.log?.warn(
+      `getMemberCount failed invalid count for serverUrl:'${roomInfos.serverUrl}' roomId:'${roomInfos.roomId}'`
+    );
     return;
   }
 

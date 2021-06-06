@@ -14,7 +14,8 @@ import { openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import _ from 'lodash';
-import { deleteAuthToken } from './ApiAuth';
+import { deleteAuthToken, DeleteAuthTokenRequest } from './ApiAuth';
+import autoBind from 'auto-bind';
 
 export class OpenGroupManagerV2 {
   public static readonly useV2OpenGroups = false;
@@ -29,8 +30,7 @@ export class OpenGroupManagerV2 {
   private isPolling = false;
 
   private constructor() {
-    this.startPollingBouncy = this.startPollingBouncy.bind(this);
-    this.attemptConnectionV2 = this.attemptConnectionV2.bind(this);
+    autoBind(this);
   }
 
   public static getInstance() {
@@ -79,14 +79,21 @@ export class OpenGroupManagerV2 {
     this.isPolling = false;
   }
 
-  public addRoomToPolledRooms(roomInfos: OpenGroupRequestCommonType) {
-    const poller = this.pollers.get(roomInfos.serverUrl);
-    if (!poller) {
-      this.pollers.set(roomInfos.serverUrl, new OpenGroupServerPoller([roomInfos]));
-      return;
+  public addRoomToPolledRooms(roomInfos: Array<OpenGroupRequestCommonType>) {
+    const grouped = _.groupBy(roomInfos, r => r.serverUrl);
+    const groupedArray = Object.values(grouped);
+
+    for (const groupedRooms of groupedArray) {
+      const groupedRoomsServerUrl = groupedRooms[0].serverUrl;
+      const poller = this.pollers.get(groupedRoomsServerUrl);
+      if (!poller) {
+        const uniqGroupedRooms = _.uniqBy(groupedRooms, r => r.roomId);
+        this.pollers.set(groupedRoomsServerUrl, new OpenGroupServerPoller(uniqGroupedRooms));
+      } else {
+        // this won't do a thing if the room is already polled for
+        roomInfos.forEach(poller.addRoomToPoll);
+      }
     }
-    // this won't do a thing if the room is already polled for
-    poller.addRoomToPoll(roomInfos);
   }
 
   public removeRoomFromPolledRooms(roomInfos: OpenGroupRequestCommonType) {
@@ -124,9 +131,14 @@ export class OpenGroupManagerV2 {
             if (!allConvos.get(roomConvoId)) {
               // leave the group on the remote server
               // this request doesn't throw
-              await deleteAuthToken(_.pick(infos, 'serverUrl', 'roomId'));
+              if (infos.token) {
+                await deleteAuthToken(
+                  _.pick(infos, 'serverUrl', 'roomId', 'token') as DeleteAuthTokenRequest
+                );
+              }
               // remove the roomInfos locally for this open group room
               await removeV2OpenGroupRoom(roomConvoId);
+              OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(infos);
               // no need to remove it from the ConversationController, the convo is already not there
             }
           } catch (e) {
@@ -138,9 +150,7 @@ export class OpenGroupManagerV2 {
     // refresh our roomInfos list
     allRoomInfos = await getAllV2OpenGroupRooms();
     if (allRoomInfos) {
-      allRoomInfos.forEach(infos => {
-        this.addRoomToPolledRooms(infos);
-      });
+      this.addRoomToPolledRooms([...allRoomInfos.values()]);
     }
 
     this.isPolling = true;
@@ -197,7 +207,7 @@ export class OpenGroupManagerV2 {
       await conversation.commit();
 
       // start polling this room
-      this.addRoomToPolledRooms(room);
+      this.addRoomToPolledRooms([room]);
 
       return conversation;
     } catch (e) {

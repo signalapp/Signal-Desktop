@@ -15,6 +15,7 @@ import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
+import _ from 'underscore';
 
 /**
  * Might throw
@@ -145,7 +146,7 @@ export async function clearSessionsAndPreKeys() {
   ]);
 }
 
-export async function deleteAccount(reason?: string) {
+async function bouncyDeleteAccount(reason?: string) {
   const deleteEverything = async () => {
     window?.log?.info('configuration message sent successfully. Deleting everything');
     await window.Signal.Logs.deleteAll();
@@ -174,6 +175,10 @@ export async function deleteAccount(reason?: string) {
     }
   }
   window.restart();
+}
+
+export async function deleteAccount(reason?: string) {
+  return _.debounce(() => bouncyDeleteAccount(reason), 200);
 }
 
 async function createAccount(identityKeyPair: any) {

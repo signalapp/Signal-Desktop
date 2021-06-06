@@ -311,7 +311,8 @@ export async function handleDataMessage(
 
   // Check if we need to update any profile names
   if (!isMe && senderConversation && message.profile) {
-    await updateProfileOneAtATime(senderConversation, message.profile, message.profileKey);
+    // do not await this
+    void updateProfileOneAtATime(senderConversation, message.profile, message.profileKey);
   }
   if (isMessageEmpty(message)) {
     window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);

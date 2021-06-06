@@ -86,6 +86,7 @@ export class SessionConversation extends React.Component<Props, State> {
   private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
   private dragCounter: number;
   private publicMembersRefreshTimeout?: NodeJS.Timeout;
+  private readonly updateMemberList: () => any;
 
   constructor(props: any) {
     super(props);
@@ -108,6 +109,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.compositionBoxRef = React.createRef();
     this.messageContainerRef = React.createRef();
     this.dragCounter = 0;
+    this.updateMemberList = _.debounce(this.updateMemberListBouncy.bind(this), 1000);
 
     autoBind(this);
   }
@@ -143,9 +145,11 @@ export class SessionConversation extends React.Component<Props, State> {
       window?.inboxStore?.dispatch(updateMentionsMembers([]));
       // if the newConversation changed, and is public, start our refresh members list
       if (newConversation.isPublic) {
-        // TODO use abort controller to stop those requests too
+        // this is a debounced call.
         void this.updateMemberList();
-        this.publicMembersRefreshTimeout = global.setInterval(this.updateMemberList, 10000);
+        // run this only once every minute if we don't change the visible conversation.
+        // this is a heavy operation (like a few thousands members can be here)
+        this.publicMembersRefreshTimeout = global.setInterval(this.updateMemberList, 60000);
       }
     }
     // if we do not have a model, unregister for events
@@ -155,6 +159,10 @@ export class SessionConversation extends React.Component<Props, State> {
       div?.removeEventListener('dragleave', this.handleDragOut);
       div?.removeEventListener('dragover', this.handleDrag);
       div?.removeEventListener('drop', this.handleDrop);
+      if (this.publicMembersRefreshTimeout) {
+        global.clearInterval(this.publicMembersRefreshTimeout);
+        this.publicMembersRefreshTimeout = undefined;
+      }
     }
     if (newConversationKey !== oldConversationKey) {
       void this.loadInitialMessages();
@@ -1125,8 +1133,10 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
-  private async updateMemberList() {
+  private async updateMemberListBouncy() {
     const allPubKeys = await getPubkeysInPublicConversation(this.props.selectedConversationKey);
+
+    window?.log?.info(`getPubkeysInPublicConversation returned '${allPubKeys?.length}' members`);
 
     const allMembers = allPubKeys.map((pubKey: string) => {
       const conv = ConversationController.getInstance().get(pubKey);

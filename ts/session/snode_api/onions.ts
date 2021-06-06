@@ -833,7 +833,7 @@ export async function lokiOnionFetch(
       {
         retries: 9,
         factor: 1,
-        minTimeout: 200,
+        minTimeout: 1000,
         maxTimeout: 2000,
         onFailedAttempt: e => {
           window?.log?.warn(

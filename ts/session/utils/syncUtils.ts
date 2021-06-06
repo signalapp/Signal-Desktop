@@ -160,18 +160,23 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
   );
 
   const contacts = contactsModels.map(c => {
-    const profileKeyForContact = c.get('profileKey')
-      ? fromBase64ToArray(c.get('profileKey') as string)
-      : undefined;
+    try {
+      const profileKeyForContact = c.get('profileKey')
+        ? fromBase64ToArray(c.get('profileKey') as string)
+        : undefined;
 
-    return new ConfigurationMessageContact({
-      publicKey: c.id,
-      displayName: c.getLokiProfile()?.displayName,
-      profilePictureURL: c.get('avatarPointer'),
-      profileKey: profileKeyForContact,
-    });
+      return new ConfigurationMessageContact({
+        publicKey: c.id,
+        displayName: c.getLokiProfile()?.displayName,
+        profilePictureURL: c.get('avatarPointer'),
+        profileKey: profileKeyForContact,
+      });
+    } catch (e) {
+      window?.log.warn('getValidContacts', e);
+      return null;
+    }
   });
-  return contacts;
+  return _.compact(contacts);
 };
 
 export const getCurrentConfigurationMessage = async (convos: Array<ConversationModel>) => {

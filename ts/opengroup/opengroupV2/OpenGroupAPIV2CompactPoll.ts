@@ -203,7 +203,7 @@ const getCompactPollRequest = async (
           roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
         } else {
           window?.log?.info(
-            "We've been away for a long time... Only fetching last messages of room"
+            `We've been away for a long time... Only fetching last messages of room '${roomId}'`
           );
         }
 
@@ -271,7 +271,8 @@ async function sendOpenGroupV2RequestCompactPoll(
   // this holds only the poll results which are valid
   const roomPollValidResults = results.filter(ret => ret.statusCode === 200);
 
-  if (roomWithTokensToRefresh) {
+  if (roomWithTokensToRefresh?.length) {
+    window.log.info('We got those rooms to refresh the token with:', roomWithTokensToRefresh);
     await Promise.all(
       roomWithTokensToRefresh.map(async roomId => {
         const roomDetails = await getV2OpenGroupRoomByRoomId({

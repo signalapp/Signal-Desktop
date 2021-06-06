@@ -14,6 +14,7 @@ import {
   getItemById,
   hasSyncedInitialConfigurationItem,
   lastAvatarUploadTimestamp,
+  removeConversation,
 } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
@@ -43,6 +44,8 @@ import { IMAGE_JPEG } from '../../types/MIME';
 import { FSv2 } from '../../fileserver';
 import { debounce } from 'lodash';
 import { DURATION } from '../../session/constants';
+import { actions as conversationActions } from '../../state/ducks/conversations';
+
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -160,17 +163,24 @@ const triggerSyncIfNeeded = async () => {
 
 const removeAllV1OpenGroups = async () => {
   const allV1Convos = (await getAllOpenGroupV1Conversations()).models || [];
-  await Promise.all(
-    allV1Convos.map(async v1Convo => {
-      try {
-        window.log.info('removing v1Convo: ', v1Convo.id);
-        // calling this here rather than in a migration because it takes care of removing the attachments, the messages, the profile images, etc.
-        await ConversationController.getInstance().deleteContact(v1Convo.id);
-      } catch (e) {
-        window.log.warn('failed to delete opengroupv1');
+  // do not remove messages of opengroupv1 for now. We have to find a way of doing it without making the whole app extremely slow
+  // tslint:disable-next-line: prefer-for-of
+  for (let index = 0; index < allV1Convos.length; index++) {
+    const v1Convo = allV1Convos[index];
+    try {
+      await removeConversation(v1Convo.id);
+      window.log.info(`deleting v1convo : ${v1Convo.id}`);
+      ConversationController.getInstance().unsafeDelete(v1Convo);
+      if (window.inboxStore) {
+        window.inboxStore?.dispatch(conversationActions.conversationRemoved(v1Convo.id));
+        window.inboxStore?.dispatch(
+          conversationActions.conversationChanged(v1Convo.id, v1Convo.getProps())
+        );
       }
-    })
-  );
+    } catch (e) {
+      window.log.warn(`failed to delete opengroupv1 ${v1Convo.id}`, e);
+    }
+  }
 };
 
 const triggerAvatarReUploadIfNeeded = async () => {
