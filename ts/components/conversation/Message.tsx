@@ -70,8 +70,6 @@ import { InView } from 'react-intersection-observer';
 import { useTheme, withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
-import { ToastUtils, UserUtils } from '../../session/utils';
-import { ConversationController } from '../../session/conversations';
 import { MessageRegularProps } from '../../models/messageType';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { addSenderAsModerator, removeSenderFromModerator } from '../../interactions/message';

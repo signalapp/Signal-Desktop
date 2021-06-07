@@ -13,7 +13,11 @@ import { ConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
-import { getMessageBySender, getMessageBySenderAndServerId } from '../../ts/data/data';
+import {
+  getMessageBySender,
+  getMessageBySenderAndServerId,
+  getMessageBySenderAndServerTimestamp,
+} from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { DeliveryReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
 import { allowOnlyOneAtATime } from '../session/utils/Promise';
@@ -359,6 +363,7 @@ type MessageDuplicateSearchType = {
 export type MessageId = {
   source: string;
   serverId: number;
+  serverTimestamp: number;
   sourceDevice: number;
   timestamp: number;
   message: MessageDuplicateSearchType;
@@ -371,16 +376,33 @@ export async function isMessageDuplicate({
   timestamp,
   message,
   serverId,
+  serverTimestamp,
 }: MessageId) {
   const { Errors } = window.Signal.Types;
   // serverId is only used for opengroupv2
   try {
     let result;
-    if (serverId) {
-      result = await getMessageBySenderAndServerId({
-        source,
-        serverId,
-      });
+    if (serverId || serverTimestamp) {
+      // first try to find a duplicate serverId from this sender
+      if (serverId) {
+        result = await getMessageBySenderAndServerId({
+          source,
+          serverId,
+        });
+      }
+      // if no result, try to find a duplicate with the same serverTimestamp from this sender
+      if (!result && serverTimestamp) {
+        result = await getMessageBySenderAndServerTimestamp({
+          source,
+          serverTimestamp,
+        });
+      }
+      // if we have a result, it means a specific user sent two messages either with the same
+      // serverId or the same serverTimestamp.
+      // no need to do anything else, those messages must be the same
+      // Note: this test is not based on which conversation the user sent the message
+      // but we consider that a user sending two messages with the same serverTimestamp is unlikely
+      return Boolean(result);
     } else {
       result = await getMessageBySender({
         source,
@@ -392,34 +414,12 @@ export async function isMessageDuplicate({
       return false;
     }
     const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
-    if (serverId) {
-      return filteredResult.some(m => isDuplicateServerId(m, { ...message, serverId }, source));
-    }
     return filteredResult.some(m => isDuplicate(m, message, source));
   } catch (error) {
     window?.log?.error('isMessageDuplicate error:', Errors.toLogFormat(error));
     return false;
   }
 }
-
-/**
- * This function is to be used to check for duplicates for open group v2 messages.
- * It just check that the sender and the serverId of a received and an already saved messages are the same
- */
-export const isDuplicateServerId = (
-  m: MessageModel,
-  testedMessage: MessageDuplicateSearchType,
-  source: string
-) => {
-  // The username in this case is the users pubKey
-  const sameUsername = m.attributes.source === source;
-  // testedMessage.id is needed as long as we support opengroupv1
-  const sameServerId =
-    m.attributes.serverId !== undefined &&
-    (testedMessage.serverId || testedMessage.id) === m.attributes.serverId;
-
-  return sameUsername && sameServerId;
-};
 
 export const isDuplicate = (
   m: MessageModel,

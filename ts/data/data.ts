@@ -119,6 +119,7 @@ const channelsToMake = {
 
   getMessageBySender,
   getMessageBySenderAndServerId,
+  getMessageBySenderAndServerTimestamp,
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
@@ -753,6 +754,24 @@ export async function getMessageBySenderAndServerId({
   const messages = await channels.getMessageBySenderAndServerId({
     source,
     serverId,
+  });
+  if (!messages || !messages.length) {
+    return null;
+  }
+
+  return new MessageModel(messages[0]);
+}
+
+export async function getMessageBySenderAndServerTimestamp({
+  source,
+  serverTimestamp,
+}: {
+  source: string;
+  serverTimestamp: number;
+}): Promise<MessageModel | null> {
+  const messages = await channels.getMessageBySenderAndServerTimestamp({
+    source,
+    serverTimestamp,
   });
   if (!messages || !messages.length) {
     return null;
