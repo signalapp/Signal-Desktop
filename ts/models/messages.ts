@@ -654,9 +654,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const conversation = this.getConversation();
 
     return {
-      groupName: conversation?.isGroupV2()
-        ? conversation.get('name')
-        : undefined,
+      groupName:
+        conversation && isGroupV2(conversation.attributes)
+          ? conversation.get('name')
+          : undefined,
       AccessControlEnum: protobuf.AccessControl.AccessRequired,
       RoleEnum: protobuf.Member.Role,
       ourConversationId,
