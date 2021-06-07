@@ -11,6 +11,8 @@ import { ConversationController } from '../../../session/conversations';
 import { getConversationLookup, getConversations } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
+import { PasswordAction, SessionPasswordModal } from '../SessionPasswordModal';
+import { ModalStatusLight } from '../../OnionStatusDialog';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -40,6 +42,7 @@ interface State {
   pwdLockError: string | null;
   mediaSetting: boolean | null;
   shouldLockSettings: boolean | null;
+  modal: JSX.Element | null;
 }
 
 interface LocalSettingType {
@@ -68,6 +71,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
       pwdLockError: null,
       mediaSetting: null,
       shouldLockSettings: true,
+      modal: null
     };
 
     this.settingsViewRef = React.createRef();
@@ -220,6 +224,9 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           category={category}
           categoryTitle={window.i18n(`${category}SettingsTitle`)}
         />
+
+
+        {this.state.modal ? this.state.modal : null}
 
         <div className="session-settings-view">
           {shouldRenderPasswordLock ? (
@@ -479,10 +486,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Primary,
         },
         onClick: () => {
-          window.Whisper.events.trigger('showPasswordDialog', {
-            action: 'set',
-            onSuccess: this.onPasswordUpdated,
-          });
+          this.displayPasswordModal(PasswordAction.Set);
         },
         confirmationDialogParams: undefined,
       },
@@ -500,10 +504,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Primary,
         },
         onClick: () => {
-          window.Whisper.events.trigger('showPasswordDialog', {
-            action: 'change',
-            onSuccess: this.onPasswordUpdated,
-          });
+          this.displayPasswordModal(PasswordAction.Change);
         },
         confirmationDialogParams: undefined,
       },
@@ -521,14 +522,25 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Danger,
         },
         onClick: () => {
-          window.Whisper.events.trigger('showPasswordDialog', {
-            action: 'remove',
-            onSuccess: this.onPasswordUpdated,
-          });
+          this.displayPasswordModal(PasswordAction.Remove);
         },
         confirmationDialogParams: undefined,
       },
     ];
+  }
+
+  private displayPasswordModal(passwordAction: PasswordAction) {
+    this.setState({
+      ...this.state,
+      modal: <SessionPasswordModal onClose={() => this.clearModal()} onOk={this.onPasswordUpdated} action={passwordAction}></SessionPasswordModal>
+    })
+  }
+
+  private clearModal(): void {
+    this.setState({
+      ...this.state,
+      modal: null
+    });
   }
 
   private getBlockedUserSettings(): Array<LocalSettingType> {

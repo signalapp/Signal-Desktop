@@ -108,13 +108,6 @@ const onDeleteAccount = ( setModal: any) => {
   const title = window.i18n('clearAllData');
   const message = window.i18n('deleteAccountWarning');
 
-  // window.confirmationDialog({
-  //   title,
-  //   message,
-  //   resolve: deleteAccount,
-  //   okTheme: 'danger',
-  // });
-
   const clearModal = () => {
     setModal(null);
   }

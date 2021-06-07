@@ -7,6 +7,7 @@ import { ToastUtils } from '../../session/utils';
 import { SessionIconType } from './icon';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { getPasswordHash } from '../../data/data';
+import { SessionWrapperModal } from './SessionWrapperModal';
 export enum PasswordAction {
   Set = 'set',
   Change = 'change',
@@ -72,7 +73,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       action === PasswordAction.Remove ? SessionButtonColor.Danger : SessionButtonColor.Primary;
 
     return (
-      <SessionModal
+      <SessionWrapperModal
         title={window.i18n(`${action}Password`)}
         onClose={this.closeDialog}
         theme={this.props.theme}
@@ -119,7 +120,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
 
           <SessionButton text={window.i18n('cancel')} onClick={this.closeDialog} />
         </div>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 
