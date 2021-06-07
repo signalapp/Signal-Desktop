@@ -620,12 +620,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
   source = source || msg.get('source');
 
-  if (await isMessageDuplicate(data)) {
-    window?.log?.info('Received duplicate message. Dropping it.');
-    confirm();
-    return;
-  }
-
   const isOurDevice = UserUtils.isUsFromCache(source);
 
   const shouldSendReceipt = isIncoming && !isGroupMessage && !isOurDevice;
@@ -664,10 +658,16 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   if (!conversation) {
     window?.log?.warn('Skipping handleJob for unknown convo: ', conversationId);
+    confirm();
     return;
   }
 
   conversation.queueJob(async () => {
+    if (await isMessageDuplicate(data)) {
+      window?.log?.info('Received duplicate message. Dropping it.');
+      confirm();
+      return;
+    }
     await handleMessageJob(msg, conversation, message, ourNumber, confirm, source);
   });
 }

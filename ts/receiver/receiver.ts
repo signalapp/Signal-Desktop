@@ -37,6 +37,7 @@ import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { handleMessageJob } from './queuedJob';
 import { fromBase64ToArray } from '../session/utils/String';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
+import { isDuplicateBasedOnHash } from './hashDuplicateFilter';
 
 // TODO: check if some of these exports no longer needed
 
@@ -330,11 +331,12 @@ export async function handleOpenGroupV2Message(
     window?.log?.error('We cannot handle a message without a conversationId');
     return;
   }
-  const dataMessage = decoded?.dataMessage;
-  if (!dataMessage) {
+  const idataMessage = decoded?.dataMessage;
+  if (!idataMessage) {
     window?.log?.error('Invalid decoded opengroup message: no dataMessage');
     return;
   }
+  const dataMessage = idataMessage as SignalService.DataMessage;
 
   if (!ConversationController.getInstance().get(conversationId)) {
     window?.log?.error('Received a message for an unknown convo. Skipping');
@@ -372,11 +374,16 @@ export async function handleOpenGroupV2Message(
     };
     // WARNING this is very important that the isMessageDuplicate is made in the conversation.queueJob
     const isDuplicate = await isMessageDuplicate(messageCreationData);
+
     if (isDuplicate) {
       window?.log?.info('Received duplicate message. Dropping it.');
       return;
     }
 
+    if (isDuplicateBasedOnHash(dataMessage, conversationId, sender)) {
+      window?.log?.info('Received duplicate message based on hash. Dropping it.');
+      return;
+    }
     // this line just create an empty message with some basic stuff set.
     // the whole decoding of data is happening in handleMessageJob()
     const msg = createMessage(messageCreationData, !isMe);
