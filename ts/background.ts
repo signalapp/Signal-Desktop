@@ -81,6 +81,14 @@ export async function startApp(): Promise<void> {
 
   ourProfileKeyService.initialize(window.storage);
 
+  window.storage.onready(() => {
+    if (!window.storage.get('defaultConversationColor')) {
+      window.storage.put('defaultConversationColor', {
+        color: 'ultramarine',
+      });
+    }
+  });
+
   let resolveOnAppView: (() => void) | undefined;
   const onAppView = new Promise<void>(resolve => {
     resolveOnAppView = resolve;
@@ -413,12 +421,6 @@ export async function startApp(): Promise<void> {
       return;
     }
     first = false;
-
-    if (!window.storage.get('defaultConversationColor')) {
-      window.storage.put('defaultConversationColor', {
-        color: 'ultramarine',
-      });
-    }
 
     cleanupSessionResets();
     const retryPlaceholders = new window.Signal.Util.RetryPlaceholders();

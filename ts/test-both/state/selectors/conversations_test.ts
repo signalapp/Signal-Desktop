@@ -1865,9 +1865,9 @@ describe('both/state/selectors/conversations', () => {
       assert.equal(contactNameColorSelector('group', 'jih'), '120');
       assert.equal(contactNameColorSelector('group', 'mlk'), '300');
       assert.equal(contactNameColorSelector('group', 'pon'), '010');
-      assert.equal(contactNameColorSelector('group', 'srq'), '330');
-      assert.equal(contactNameColorSelector('group', 'vut'), '230');
-      assert.equal(contactNameColorSelector('group', 'zyx'), '180');
+      assert.equal(contactNameColorSelector('group', 'srq'), '210');
+      assert.equal(contactNameColorSelector('group', 'vut'), '330');
+      assert.equal(contactNameColorSelector('group', 'zyx'), '230');
     });
   });
 });
