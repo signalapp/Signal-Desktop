@@ -912,8 +912,6 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  color: $color-white-alpha-90;
-
   &__profile-name {
     @include font-caption-bold-italic;
   }

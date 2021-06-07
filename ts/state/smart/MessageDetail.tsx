@@ -15,6 +15,7 @@ import { StateType } from '../reducer';
 import { getIntl, getInteractionMode } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
+import { getContactNameColorSelector } from '../selectors/conversations';
 
 type MessageDetailProps = ComponentProps<typeof MessageDetail>;
 
@@ -79,8 +80,17 @@ const mapStateToProps = (
     showVisualAttachment,
   } = props;
 
+  const contactNameColor =
+    message.conversationType === 'group'
+      ? getContactNameColorSelector(state)(
+          message.conversationId,
+          message.author.id
+        )
+      : undefined;
+
   return {
     contacts,
+    contactNameColor,
     errors,
     message,
     receivedAt,

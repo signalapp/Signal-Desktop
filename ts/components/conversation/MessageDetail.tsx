@@ -17,6 +17,7 @@ import {
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
+import { ContactNameColorType } from '../../types/Colors';
 
 export type Contact = Pick<
   ConversationType,
@@ -45,6 +46,7 @@ export type Contact = Pick<
 
 export type Props = {
   contacts: Array<Contact>;
+  contactNameColor?: ContactNameColorType;
   errors: Array<Error>;
   message: MessagePropsDataType;
   receivedAt: number;
@@ -232,6 +234,7 @@ export class MessageDetail extends React.Component<Props> {
       sentAt,
 
       clearSelectedMessage,
+      contactNameColor,
       deleteMessage,
       deleteMessageForEveryone,
       displayTapToViewMessage,
@@ -263,6 +266,7 @@ export class MessageDetail extends React.Component<Props> {
             <Message
               {...message}
               clearSelectedMessage={clearSelectedMessage}
+              contactNameColor={contactNameColor}
               deleteMessage={deleteMessage}
               deleteMessageForEveryone={deleteMessageForEveryone}
               disableMenu
