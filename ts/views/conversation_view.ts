@@ -350,7 +350,7 @@ Whisper.ConversationView = Whisper.View.extend({
       'send-message': window.i18n('sendMessage'),
     };
   },
-  initialize(options: any) {
+  initialize() {
     // Events on Conversation model
     this.listenTo(this.model, 'destroy', this.stopListening);
     this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
@@ -414,7 +414,6 @@ Whisper.ConversationView = Whisper.View.extend({
     this.loadingScreen.render();
     this.loadingScreen.$el.prependTo(this.$('.discussion-container'));
 
-    this.window = options.window;
     const attachmentListEl = $(
       '<div class="module-composition-area__attachment-list"></div>'
     );

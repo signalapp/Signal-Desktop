@@ -27,7 +27,6 @@
       if (id !== this.el.lastChild.id) {
         const view = new Whisper.ConversationView({
           model: conversation,
-          window: this.model.window,
         });
         this.listenTo(conversation, 'unload', () =>
           this.onUnload(conversation)
