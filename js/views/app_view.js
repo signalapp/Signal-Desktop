@@ -16,7 +16,6 @@
       this.applyRtl();
       this.applyHideMenu();
 
-      this.showSeedDialog = this.showSeedDialog.bind(this);
       this.showPasswordDialog = this.showPasswordDialog.bind(this);
     },
     events: {
@@ -129,12 +128,6 @@
       // eslint-disable-next-line no-param-reassign
       options.theme = this.getThemeObject();
       const dialog = new Whisper.PasswordDialogView(options);
-      this.el.prepend(dialog.el);
-    },
-    showSeedDialog() {
-      const dialog = new Whisper.SeedDialogView({
-        theme: this.getThemeObject(),
-      });
       this.el.prepend(dialog.el);
     },
     getThemeObject() {

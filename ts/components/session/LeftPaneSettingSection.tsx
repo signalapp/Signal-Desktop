@@ -13,6 +13,7 @@ import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
 import { SessionConfirm } from './SessionConfirm';
+import { SessionSeedModal } from './SessionSeedModal';
 
 type Props = {
   settingsCategory: SessionSettingCategory;
@@ -128,6 +129,23 @@ const onDeleteAccount = ( setModal: any) => {
   />)
 };
 
+const onShowRecoverPhrase = (setModal: any) => {
+
+  const clearModal = () => {
+    setModal(null);
+  }
+
+  setModal(
+
+    <SessionSeedModal
+     onClose={clearModal} 
+    ></SessionSeedModal>
+  
+  )
+
+
+}
+
 const LeftPaneBottomButtons = (props: { setModal: any}) => {
   const dangerButtonText = window.i18n('clearAllData');
   const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
@@ -146,7 +164,7 @@ const LeftPaneBottomButtons = (props: { setModal: any}) => {
         text={showRecoveryPhrase}
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.White}
-        onClick={() => window.Whisper.events.trigger('showSeedDialog')}
+        onClick={() => onShowRecoverPhrase(setModal)}
       />
     </div>
   );

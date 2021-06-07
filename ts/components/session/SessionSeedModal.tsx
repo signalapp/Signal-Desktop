@@ -8,6 +8,7 @@ import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
+import { SessionWrapperModal } from './SessionWrapperModal';
 
 interface Props {
   onClose: any;
@@ -62,11 +63,19 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     return (
       <>
         {!loading && (
-          <SessionModal
+          // <SessionModal
+          //   title={i18n('showRecoveryPhrase')}
+          //   onClose={onClose}
+          //   theme={this.props.theme}
+          // >
+
+            <SessionWrapperModal
             title={i18n('showRecoveryPhrase')}
             onClose={onClose}
             theme={this.props.theme}
-          >
+            >
+
+
             <div className="spacer-sm" />
 
             {hasPassword && !passwordValid ? (
@@ -74,7 +83,8 @@ class SessionSeedModalInner extends React.Component<Props, State> {
             ) : (
               <>{this.renderSeedView()}</>
             )}
-          </SessionModal>
+            </SessionWrapperModal>
+          // </SessionModal>
         )}
       </>
     );

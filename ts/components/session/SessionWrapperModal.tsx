@@ -48,7 +48,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     title,
     onConfirm,
     onClose,
-    showHeader,
+    showHeader = true,
     showClose = false,
     confirmText,
     cancelText,

@@ -640,11 +640,6 @@
       }
     });
 
-    Whisper.events.on('showSeedDialog', async () => {
-      if (appView) {
-        appView.showSeedDialog();
-      }
-    });
 
     Whisper.events.on('showPasswordDialog', async options => {
       if (appView) {
