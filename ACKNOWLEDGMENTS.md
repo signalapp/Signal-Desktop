@@ -468,7 +468,7 @@ Signal Desktop makes use of the following open source projects.
 
 ## backbone
 
-    Copyright (c) 2010-2016 Jeremy Ashkenas, DocumentCloud
+    Copyright (c) 2010-2019 Jeremy Ashkenas, DocumentCloud
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation
