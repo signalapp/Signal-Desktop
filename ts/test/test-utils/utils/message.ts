@@ -86,6 +86,7 @@ export class MockConversation {
       lastMessageStatus: null,
       lastMessage: null,
       zombies: [],
+      triggerNotificationsFor: 'all',
     };
   }
 

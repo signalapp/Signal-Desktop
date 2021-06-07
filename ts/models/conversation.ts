@@ -40,11 +40,20 @@ import { ConversationInteraction } from '../interactions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
+import { NotificationForConvoOption } from '../components/conversation/ConversationHeader';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
   PRIVATE = 'private',
 }
+
+/**
+ * all: all  notifications enabled, the default
+ * disabled: no notifications at all
+ * mentions_only: trigger a notification only on mentions of ourself
+ */
+export const ConversationNotificationSetting = ['all', 'disabled', 'mentions_only'] as const;
+export type ConversationNotificationSettingType = typeof ConversationNotificationSetting[number];
 
 export interface ConversationAttributes {
   profileName?: string;
@@ -81,6 +90,7 @@ export interface ConversationAttributes {
   profileAvatar?: any;
   profileKey?: string;
   accessKey?: any;
+  triggerNotificationsFor: ConversationNotificationSettingType;
 }
 
 export interface ConversationAttributesOptionals {
@@ -116,6 +126,7 @@ export interface ConversationAttributesOptionals {
   profileAvatar?: any;
   profileKey?: string;
   accessKey?: any;
+  triggerNotificationsFor?: ConversationNotificationSettingType;
 }
 
 /**
@@ -143,6 +154,7 @@ export const fillConvoAttributesWithDefaults = (
     expireTimer: 0,
     mentionedUs: false,
     active_at: 0,
+    triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
   });
 };
 
@@ -183,6 +195,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public idForLogging() {
     if (this.isPrivate()) {
       return this.id;
+    }
+
+    if (this.isPublic()) {
+      return `opengroup(${this.id})`;
     }
 
     return `group(${this.id})`;
@@ -773,6 +789,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     (this as any).changed = {};
     this.set(lastMessageUpdate);
     if (this.hasChanged()) {
+      await this.commit();
+    }
+  }
+
+  public async setNotificationOption(selected: ConversationNotificationSettingType) {
+    const existingSettings = this.get('triggerNotificationsFor');
+    if (existingSettings !== selected) {
+      this.set({ triggerNotificationsFor: selected });
       await this.commit();
     }
   }
@@ -1401,6 +1425,25 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const conversationId = this.id;
+
+    // make sure the notifications are not muted for this convo (and not the source convo)
+    const convNotif = this.get('triggerNotificationsFor');
+    if (convNotif === 'disabled') {
+      window?.log?.info('notifications disabled for convo', this.idForLogging());
+      return;
+    }
+    if (convNotif === 'mentions_only') {
+      // check if the message has ourselves as mentions
+      const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
+      const text = message.get('body');
+      const mentions = text?.match(regex) || ([] as Array<string>);
+      const mentionMe = mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
+      if (!mentionMe) {
+        window?.log?.info('notifications disabled for non mentions for convo', conversationId);
+
+        return;
+      }
+    }
 
     const convo = await ConversationController.getInstance().getOrCreateAndWait(
       message.get('source'),

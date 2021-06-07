@@ -1022,6 +1022,22 @@
     "description": "Conversation menu option to enable disappearing messages",
     "androidKey": "conversation_expiring_off__disappearing_messages"
   },
+  "notificationForConvo": {
+    "message": "Notifications",
+    "description": "Conversation menu option to change the notification setting for this conversation"
+  },
+  "notificationForConvo_all": {
+    "message": "All",
+    "description": "Menu item to allow notification for this conversation for all messages"
+  },
+  "notificationForConvo_disabled": {
+    "message": "Disabled",
+    "description": "Menu item to deny notification for this conversation for all messages"
+  },
+  "notificationForConvo_mentions_only": {
+    "message": "Mentions only",
+    "description": "Menu item to allow notification for this conversation for all messages mentioning us"
+  },
   "changeNickname": {
     "message": "Change Nickname",
     "description": "Conversation menu option to change user nickname"

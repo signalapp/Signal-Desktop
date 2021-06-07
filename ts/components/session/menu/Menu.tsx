@@ -1,7 +1,11 @@
 import React from 'react';
 import { LocalizerType } from '../../../types/Util';
-import { TimerOption } from '../../conversation/ConversationHeader';
+import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
+import {
+  ConversationNotificationSetting,
+  ConversationNotificationSettingType,
+} from '../../../models/conversation';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -10,6 +14,14 @@ function showTimerOptions(
   isBlocked: boolean
 ): boolean {
   return !isPublic && !left && !isKickedFromGroup && !isBlocked;
+}
+
+function showNotificationConvo(
+  isKickedFromGroup: boolean,
+  left: boolean,
+  isBlocked: boolean
+): boolean {
+  return !left && !isKickedFromGroup && !isBlocked;
 }
 
 function showMemberMenu(isPublic: boolean, isGroup: boolean): boolean {
@@ -213,6 +225,41 @@ export function getDisappearingMenuItem(
             onClick={() => {
               action(item.value);
             }}
+          >
+            {item.name}
+          </Item>
+        ))}
+      </Submenu>
+    );
+  }
+  return null;
+}
+
+export function getNotificationForConvoMenuItem(
+  isKickedFromGroup: boolean | undefined,
+  left: boolean | undefined,
+  isBlocked: boolean | undefined,
+  notificationForConvoOptions: Array<NotificationForConvoOption>,
+  currentNotificationSetting: ConversationNotificationSettingType,
+  action: (selected: ConversationNotificationSettingType) => any,
+  i18n: LocalizerType
+): JSX.Element | null {
+  if (showNotificationConvo(Boolean(isKickedFromGroup), Boolean(left), Boolean(isBlocked))) {
+    // const isRtlMode = isRtlBody();
+    return (
+      // Remove the && false to make context menu work with RTL support
+      <Submenu
+        label={i18n('notificationForConvo') as any}
+        // rtl={isRtlMode && false}
+      >
+        {(notificationForConvoOptions || []).map(item => (
+          // tslint:disable-next-line: use-simple-attributes
+          <Item
+            key={item.value}
+            onClick={() => {
+              action(item.value);
+            }}
+            disabled={item.value === currentNotificationSetting}
           >
             {item.name}
           </Item>

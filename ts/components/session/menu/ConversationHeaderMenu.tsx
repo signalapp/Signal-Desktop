@@ -12,10 +12,12 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
   getMarkAllReadMenuItem,
+  getNotificationForConvoMenuItem,
   getRemoveModeratorsMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';
-import { TimerOption } from '../../conversation/ConversationHeader';
+import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
+import { ConversationNotificationSettingType } from '../../../models/conversation';
 
 export type PropsConversationHeaderMenu = {
   triggerId: string;
@@ -26,6 +28,8 @@ export type PropsConversationHeaderMenu = {
   isGroup: boolean;
   isAdmin: boolean;
   timerOptions: Array<TimerOption>;
+  notificationForConvo: Array<NotificationForConvoOption>;
+  currentNotificationSetting: ConversationNotificationSettingType;
   isPrivate: boolean;
   isBlocked: boolean;
   hasNickname?: boolean;
@@ -45,6 +49,7 @@ export type PropsConversationHeaderMenu = {
   onBlockUser: () => void;
   onUnblockUser: () => void;
   onSetDisappearingMessages: (seconds: number) => void;
+  onSetNotificationForConvo: (selected: ConversationNotificationSettingType) => void;
 };
 
 export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
@@ -60,6 +65,8 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     isPrivate,
     left,
     hasNickname,
+    notificationForConvo,
+    currentNotificationSetting,
 
     onClearNickname,
     onChangeNickname,
@@ -75,6 +82,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     onBlockUser,
     onUnblockUser,
     onSetDisappearingMessages,
+    onSetNotificationForConvo,
   } = props;
 
   return (
@@ -86,6 +94,15 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         isBlocked,
         timerOptions,
         onSetDisappearingMessages,
+        window.i18n
+      )}
+      {getNotificationForConvoMenuItem(
+        isKickedFromGroup,
+        left,
+        isBlocked,
+        notificationForConvo,
+        currentNotificationSetting,
+        onSetNotificationForConvo,
         window.i18n
       )}
       {getBlockMenuItem(isMe, isPrivate, isBlocked, onBlockUser, onUnblockUser, window.i18n)}
