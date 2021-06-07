@@ -202,6 +202,8 @@ export async function handleNewClosedGroup(
       maybeConvo.set('isKickedFromGroup', false);
       maybeConvo.set('left', false);
       maybeConvo.set('lastJoinedTimestamp', _.toNumber(envelope.timestamp));
+      // we just got readded. Consider the zombie list to have been cleared
+      maybeConvo.set('zombies', []);
     } else {
       const ecKeyPairAlreadyExistingConvo = new ECKeyPair(
         // tslint:disable: no-non-null-assertion
