@@ -15,10 +15,16 @@ import {
 } from '../session/menu/ConversationHeaderMenu';
 import { contextMenu } from 'react-contexify';
 import { DefaultTheme, withTheme } from 'styled-components';
+import { ConversationNotificationSettingType } from '../../models/conversation';
 
 export interface TimerOption {
   name: string;
   value: number;
+}
+
+export interface NotificationForConvoOption {
+  name: string;
+  value: ConversationNotificationSettingType;
 }
 
 interface Props {
@@ -46,6 +52,8 @@ interface Props {
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
+  notificationForConvo: Array<NotificationForConvoOption>;
+  currentNotificationSetting: ConversationNotificationSettingType;
   hasNickname?: boolean;
 
   isBlocked: boolean;
@@ -56,6 +64,7 @@ interface Props {
 
   onInviteContacts: () => void;
   onSetDisappearingMessages: (seconds: number) => void;
+  onSetNotificationForConvo: (selected: ConversationNotificationSettingType) => void;
   onDeleteMessages: () => void;
   onDeleteContact: () => void;
   onChangeNickname?: () => void;

@@ -30,7 +30,11 @@ import { getMessageById, getPubkeysInPublicConversation } from '../../../data/da
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 import { deleteOpenGroupMessages } from '../../../interactions/conversation';
-import { ConversationTypeEnum } from '../../../models/conversation';
+import {
+  ConversationNotificationSetting,
+  ConversationNotificationSettingType,
+  ConversationTypeEnum,
+} from '../../../models/conversation';
 import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
@@ -347,6 +351,14 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const members = conversation.get('members') || [];
 
+    // exclude mentions_only settings for private chats as this does not make much sense
+    const notificationForConvo = ConversationNotificationSetting.filter(n =>
+      conversation.isPrivate() ? n !== 'mentions_only' : true
+    ).map((n: ConversationNotificationSettingType) => {
+      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
+      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
+    });
+
     const headerProps = {
       id: conversation.id,
       name: conversation.getName(),
@@ -369,10 +381,13 @@ export class SessionConversation extends React.Component<Props, State> {
         name: item.getName(),
         value: item.get('seconds'),
       })),
+      notificationForConvo,
+      currentNotificationSetting: conversation.get('triggerNotificationsFor'),
       hasNickname: !!conversation.getNickname(),
       selectionMode: !!selectedMessages.length,
 
       onSetDisappearingMessages: conversation.updateExpirationTimer,
+      onSetNotificationForConvo: conversation.setNotificationOption,
       onDeleteMessages: conversation.deleteMessages,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
       onChangeNickname: conversation.changeNickname,
