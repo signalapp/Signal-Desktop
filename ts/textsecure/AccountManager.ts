@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -29,6 +29,7 @@ import {
 } from '../Curve';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
+import { getProvisioningUrl } from '../util/getProvisioningUrl';
 
 const ARCHIVE_AGE = 30 * 24 * 60 * 60 * 1000;
 const PREKEY_ROTATION_AGE = 24 * 60 * 60 * 1000;
@@ -222,12 +223,11 @@ export default class AccountManager extends EventTarget {
                 const proto = window.textsecure.protobuf.ProvisioningUuid.decode(
                   request.body
                 );
-                const url = [
-                  'tsdevice:/?uuid=',
-                  proto.uuid,
-                  '&pub_key=',
-                  encodeURIComponent(btoa(utils.getString(pubKey))),
-                ].join('');
+                const { uuid } = proto;
+                if (!uuid) {
+                  throw new Error('registerSecondDevice: expected a UUID');
+                }
+                const url = getProvisioningUrl(uuid, pubKey);
 
                 if (window.CI) {
                   window.CI.setProvisioningURL(url);
