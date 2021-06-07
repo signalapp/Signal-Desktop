@@ -139,7 +139,7 @@ const LeftPaneBottomButtons = (props: { setModal: any}) => {
         text={dangerButtonText}
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.Danger}
-        onClick={onDeleteAccount(setModal)}
+        onClick={() => onDeleteAccount(setModal)}
       />
 
       <SessionButton
