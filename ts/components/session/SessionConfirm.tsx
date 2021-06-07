@@ -46,22 +46,24 @@ const SessionConfirmInner = (props: Props) => {
 
   const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
 
+
+  // <SessionModal
+  //   title={title}
+  //   onClose={onClickClose}
+  //   showExitIcon={false}
+  //   showHeader={showHeader}
+  //   theme={theme}
+  // >
+
   return (
-    <SessionModal
+
+    <SessionWrapperModal
       title={title}
       onClose={onClickClose}
       showExitIcon={false}
       showHeader={showHeader}
       theme={theme}
     >
-
-      {/* <SessionWrapperModal
-      title={title}
-      onClose={onClickClose}
-      showExitIcon={false}
-      showHeader={showHeader}
-      theme={theme}
-      ></SessionWrapperModal> */}
 
       {!showHeader && <div className="spacer-lg" />}
 
@@ -88,7 +90,8 @@ const SessionConfirmInner = (props: Props) => {
           <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickClose} />
         )}
       </div>
-    </SessionModal>
+      {/* </SessionModal> */}
+    </SessionWrapperModal>
   );
 };
 
