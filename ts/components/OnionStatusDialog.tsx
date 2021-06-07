@@ -50,18 +50,21 @@ const OnionPathModalInner = (props: any) => {
   ];
 
   return (
-    <div className="onion__node-list">
-      {nodes.map((snode: Snode | any, index: number) => {
-        return (
-          <OnionNodeStatusLight
-            glowDuration={glowDuration}
-            glowStartDelay={index}
-            label={snode.label}
-            snode={snode}
-          />
-        );
-      })}
-    </div>
+    <>
+      <p className="onion__description">{window.i18n('onionPathIndicatorDescription')}</p>
+      <div className="onion__node-list">
+        {nodes.map((snode: Snode | any, index: number) => {
+          return (
+            <OnionNodeStatusLight
+              glowDuration={glowDuration}
+              glowStartDelay={index}
+              label={snode.label}
+              snode={snode}
+            />
+          );
+        })}
+      </div>
+    </>
   );
 };
 

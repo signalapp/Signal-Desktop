@@ -125,13 +125,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
         : undefined;
 
     return (
-      // <SessionModal
-      //   title={i18n('editProfileModalTitle')}
-      //   onClose={this.closeDialog}
-      //   headerReverse={viewEdit || viewQR}
-      //   headerIconButtons={backButton}
-      //   theme={this.props.theme}
-      // >
       <div className="edit-profile-dialog">
 
         <SessionWrapperModal
@@ -177,7 +170,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
             <div className="spacer-lg" />
           </div>
-          {/* </SessionModal> */}
         </SessionWrapperModal>
       </div>
     );

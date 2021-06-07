@@ -29,8 +29,10 @@ const onionSlice = createSlice({
   reducers: {
     updateOnionPaths(state, action: PayloadAction<SnodePath>) {
       let newPayload = { snodePath: action.payload };
-      // let isEqual = JSON.stringify(state, null, 2) == JSON.stringify(newPayload, null, 2);
-      // return isEqual ? state : newPayload;
+
+      let isEqual = JSON.stringify(state, null, 2) == JSON.stringify(newPayload, null, 2);
+      return isEqual ? state : newPayload;
+
       return newPayload;
     },
   },

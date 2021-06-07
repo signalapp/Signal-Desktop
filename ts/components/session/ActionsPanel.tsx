@@ -261,6 +261,8 @@ export const ActionsPanel = () => {
   }, DAYS * 1);
 
   return (
+    <>
+      {modal ? modal : null}
     <div className="module-left-pane__sections-container">
       <Section
         setModal={setModal}
@@ -270,12 +272,12 @@ export const ActionsPanel = () => {
       <Section  type={SectionType.Message} />
       <Section  type={SectionType.Contact} />
       <Section  type={SectionType.Settings} />
-      {modal ? modal : null}
 
       <SessionToastContainer />
 
       <Section setModal={setModal} type={SectionType.PathIndicator} />
       <Section  type={SectionType.Moon} />
     </div>
+    </>
   );
 };

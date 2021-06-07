@@ -476,6 +476,7 @@ label {
     }
     &__close > div {
       float: left;
+      margin: 0px;
     }
     &__icons > div {
       float: right;
@@ -756,7 +757,6 @@ label {
   background-color: rgba($session-color-black, 0.72);
   opacity: 0;
   transition: $session-transition-duration;
-  margin: 30px 0px;
 
   &:after {
     content: 'Edit';
@@ -1199,7 +1199,11 @@ input {
   }
 }
 
-// .session-onion-path-wrapper {
+
+.onion__description {
+  min-width: 100%;
+  width: 0;
+}
 
 .onion__node-list {
   display: flex;
@@ -1222,6 +1226,7 @@ input {
     }
   }
 }
+
 
 .session-nickname-wrapper {
   position: absolute;

@@ -30,6 +30,7 @@ interface Props {
 
 export type SessionWrapperModalType = {
   title?: string;
+  showHeader?: boolean;
   onConfirm?: () => void;
   onClose?: () => void;
   showClose?: boolean
@@ -47,6 +48,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     title,
     onConfirm,
     onClose,
+    showHeader,
     showClose = false,
     confirmText,
     cancelText,
@@ -57,15 +59,14 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
   } = props;
 
   useEffect(() => {
-    window.addEventListener('keyup', upHandler);
+    window.addEventListener('keyup', keyUpHandler);
 
     return () => {
-      window.removeEventListener('keyup', upHandler);
+      window.removeEventListener('keyup', keyUpHandler);
     };
   }, []);
 
-  // TODO: warrick: typing
-  const upHandler = ({ key }: any) => {
+  const keyUpHandler = ({ key }: any) => {
     if (key === 'Escape') {
       if (props.onClose) {
         props.onClose();
@@ -75,24 +76,25 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
 
   return (
     <div className="loki-dialog modal">
-    {/* <div className="loki-dialog session-confirm-wrapper modal"> */}
       <div className="session-confirm-wrapper">
         <div className="session-modal">
-          <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
-            <div className="session-modal__header__close">
-              {showExitIcon ? (
-                <SessionIconButton
-                  iconType={SessionIconType.Exit}
-                  iconSize={SessionIconSize.Small}
-                  onClick={props.onClose}
-                  theme={props.theme}
-                />
-              ) : null}
-            </div>
-            <div className="session-modal__header__title">{title}</div>
-            <div className="session-modal__header__icons">
-              {headerIconButtons
-                ? headerIconButtons.map((iconItem: any) => {
+
+          {showHeader ?
+            <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
+              <div className="session-modal__header__close">
+                {showExitIcon ? (
+                  <SessionIconButton
+                    iconType={SessionIconType.Exit}
+                    iconSize={SessionIconSize.Small}
+                    onClick={props.onClose}
+                    theme={props.theme}
+                  />
+                ) : null}
+              </div>
+              <div className="session-modal__header__title">{title}</div>
+              <div className="session-modal__header__icons">
+                {headerIconButtons
+                  ? headerIconButtons.map((iconItem: any) => {
                     return (
                       <SessionIconButton
                         key={iconItem.iconType}
@@ -104,23 +106,29 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
                       />
                     );
                   })
-                : null}
+                  : null}
+              </div>
             </div>
-          </div>
+            : null}
+
           <div className="session-modal__body">
             <div className="session-modal__centered">
               {props.children}
               <div className="session-modal__button-group">
+
                 {onConfirm ? (
                   <SessionButton onClick={props.onConfirm}>
                     {confirmText || window.i18n('ok')}
                   </SessionButton>
                 ) : null}
+
+
                 {onClose && showClose ? (
                   <SessionButton onClick={props.onClose}>
                     {cancelText || window.i18n('close')}
                   </SessionButton>
                 ) : null}
+
               </div>
             </div>
           </div>
