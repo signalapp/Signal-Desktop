@@ -15,6 +15,12 @@ import { maybeParseUrl } from '../util/url';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
 import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
+import {
+  isDirectConversation,
+  isGroupV1,
+  isGroupV2,
+  isMe,
+} from '../util/whatTypeOfConversation';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -486,7 +492,7 @@ Whisper.ConversationView = Whisper.View.extend({
           onResetSession: () => this.endSession(),
           onSearchInConversation: () => {
             const { searchInConversation } = window.reduxActions.search;
-            const name = this.model.isMe()
+            const name = isMe(this.model.attributes)
               ? window.i18n('noteToSelf')
               : this.model.getTitle();
             searchInConversation(this.model.id, name);
@@ -1281,7 +1287,7 @@ Whisper.ConversationView = Whisper.View.extend({
   async startMigrationToGV2(): Promise<void> {
     const logId = this.model.idForLogging();
 
-    if (!this.model.isGroupV1()) {
+    if (!isGroupV1(this.model.attributes)) {
       throw new Error(
         `startMigrationToGV2/${logId}: Cannot start, not a GroupV1 group`
       );
@@ -2682,7 +2688,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     let model = providedMembers || this.model.contactCollection;
 
-    if (!providedMembers && this.model.isGroupV2()) {
+    if (!providedMembers && isGroupV2(this.model.attributes)) {
       model = new Whisper.GroupConversationCollection(
         this.model.get('membersV2').map(({ conversationId, role }: any) => ({
           conversation: window.ConversationController.get(conversationId),
@@ -2738,7 +2744,7 @@ Whisper.ConversationView = Whisper.View.extend({
   showSafetyNumber(id: any) {
     let conversation;
 
-    if (!id && this.model.isPrivate()) {
+    if (!id && isDirectConversation(this.model.attributes)) {
       // eslint-disable-next-line prefer-destructuring
       conversation = this.model;
     } else {
@@ -3786,19 +3792,22 @@ Whisper.ConversationView = Whisper.View.extend({
       ToastView = Whisper.InvalidConversationToast;
     }
     if (
-      this.model.isPrivate() &&
+      isDirectConversation(this.model.attributes) &&
       (window.storage.isBlocked(this.model.get('e164')) ||
         window.storage.isUuidBlocked(this.model.get('uuid')))
     ) {
       ToastView = Whisper.BlockedToast;
     }
     if (
-      !this.model.isPrivate() &&
+      !isDirectConversation(this.model.attributes) &&
       window.storage.isGroupBlocked(this.model.get('groupId'))
     ) {
       ToastView = Whisper.BlockedGroupToast;
     }
-    if (!this.model.isPrivate() && this.model.get('left')) {
+    if (
+      !isDirectConversation(this.model.attributes) &&
+      this.model.get('left')
+    ) {
       ToastView = Whisper.LeftGroupToast;
     }
     if (messageText && messageText.length > MAX_MESSAGE_BODY_LENGTH) {

@@ -43,6 +43,7 @@ import {
   set as setUniversalExpireTimer,
 } from '../util/universalExpireTimer';
 import { ourProfileKeyService } from './ourProfileKey';
+import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
 
 const { updateConversation } = dataInterface;
 
@@ -241,7 +242,7 @@ export async function toAccountRecord(
             uuid: pinnedConversation.get('uuid'),
             e164: pinnedConversation.get('e164'),
           };
-        } else if (pinnedConversation.isGroupV1()) {
+        } else if (isGroupV1(pinnedConversation.attributes)) {
           pinnedConversationRecord.identifier = 'legacyGroupId';
           const groupId = pinnedConversation.get('groupId');
           if (!groupId) {
@@ -252,7 +253,7 @@ export async function toAccountRecord(
           pinnedConversationRecord.legacyGroupId = fromEncodedBinaryToArrayBuffer(
             groupId
           );
-        } else if (pinnedConversation.isGroupV2()) {
+        } else if (isGroupV2(pinnedConversation.attributes)) {
           pinnedConversationRecord.identifier = 'groupMasterKey';
           const masterKey = pinnedConversation.get('masterKey');
           if (!masterKey) {
@@ -508,7 +509,7 @@ export async function mergeGroupV1Record(
   // where the binary representation of its ID matches a v2 record in memory.
   // Here we ensure that the record we're about to process is GV1 otherwise
   // we drop the update.
-  if (conversation && !conversation.isGroupV1()) {
+  if (conversation && !isGroupV1(conversation.attributes)) {
     throw new Error(
       `Record has group type mismatch ${conversation.idForLogging()}`
     );
@@ -565,7 +566,7 @@ export async function mergeGroupV1Record(
 
   let hasPendingChanges: boolean;
 
-  if (conversation.isGroupV1()) {
+  if (isGroupV1(conversation.attributes)) {
     addUnknownFields(groupV1Record, conversation);
 
     hasPendingChanges = doesRecordHavePendingChanges(
@@ -684,7 +685,7 @@ export async function mergeGroupV2Record(
   const isFirstSync = !window.storage.get('storageFetchComplete');
   const dropInitialJoinMessage = isFirstSync;
 
-  if (conversation.isGroupV1()) {
+  if (isGroupV1(conversation.attributes)) {
     // If we found a GroupV1 conversation from this incoming GroupV2 record, we need to
     //   migrate it!
 

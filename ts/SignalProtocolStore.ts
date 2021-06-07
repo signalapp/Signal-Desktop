@@ -43,6 +43,7 @@ import {
   UnprocessedType,
   UnprocessedUpdateType,
 } from './textsecure/Types.d';
+import { getSendOptions } from './util/getSendOptions';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 
@@ -1230,7 +1231,7 @@ export class SignalProtocolStore extends EventsMixin {
       await this.archiveSession(id);
 
       // Send a null message with newly-created session
-      const sendOptions = await conversation.getSendOptions();
+      const sendOptions = await getSendOptions(conversation.attributes);
       await window.textsecure.messaging.sendNullMessage({ uuid }, sendOptions);
     } catch (error) {
       // If we failed to do the session reset, then we'll allow another attempt sooner

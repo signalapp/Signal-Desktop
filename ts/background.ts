@@ -35,6 +35,8 @@ import {
 } from './textsecure/MessageReceiver';
 import { connectToServerWithStoredCredentials } from './util/connectToServerWithStoredCredentials';
 import * as universalExpireTimer from './util/universalExpireTimer';
+import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
+import { getSendOptions } from './util/getSendOptions';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1955,7 +1957,7 @@ export async function startApp(): Promise<void> {
             .getConversations()
             .filter(c =>
               Boolean(
-                c.isPrivate() &&
+                isDirectConversation(c.attributes) &&
                   c.get('e164') &&
                   !c.get('uuid') &&
                   !c.isEverUnregistered()
@@ -2502,7 +2504,10 @@ export async function startApp(): Promise<void> {
     }
 
     // We drop typing notifications in groups we're not a part of
-    if (!conversation.isPrivate() && !conversation.hasMember(ourId)) {
+    if (
+      !isDirectConversation(conversation.attributes) &&
+      !conversation.hasMember(ourId)
+    ) {
       window.log.warn(
         `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
       );
@@ -2703,7 +2708,7 @@ export async function startApp(): Promise<void> {
       id,
       'group'
     );
-    if (conversation.isGroupV2()) {
+    if (isGroupV2(conversation.attributes)) {
       window.log.warn(
         'Got group sync for v2 group: ',
         conversation.idForLogging()
@@ -3578,7 +3583,7 @@ export async function startApp(): Promise<void> {
       );
 
       const plaintext = PlaintextContent.from(message);
-      const options = await conversation.getSendOptions();
+      const options = await getSendOptions(conversation.attributes);
       const result = await window.textsecure.messaging.sendRetryRequest({
         plaintext,
         options,

@@ -13,6 +13,7 @@ import {
 } from '../groups';
 import { arrayBufferToBase64, base64ToArrayBuffer } from '../Crypto';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
+import { isGroupV1 } from '../util/whatTypeOfConversation';
 
 import type { GroupJoinInfoClass } from '../textsecure.d';
 import type { ConversationAttributesType } from '../model-types.d';
@@ -285,7 +286,7 @@ export async function joinViaLink(hash: string): Promise<void> {
               );
             }
 
-            if (targetConversation.isGroupV1()) {
+            if (isGroupV1(targetConversation.attributes)) {
               await targetConversation.joinGroupV2ViaLinkAndMigrate({
                 approvalRequired,
                 inviteLinkPassword,

@@ -79,6 +79,13 @@ import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/type
 import { ConversationModel } from './models/conversations';
 import { getGroupSizeHardLimit } from './groups/limits';
 import { ourProfileKeyService } from './services/ourProfileKey';
+import {
+  isGroupV1 as getIsGroupV1,
+  isGroupV2 as getIsGroupV2,
+  isMe,
+} from './util/whatTypeOfConversation';
+import { handleMessageSend } from './util/handleMessageSend';
+import { getSendOptions } from './util/getSendOptions';
 
 export { joinViaLink } from './groups/joinViaLink';
 
@@ -1231,7 +1238,7 @@ export async function modifyGroupV2({
 }): Promise<void> {
   const idLog = `${name}/${conversation.idForLogging()}`;
 
-  if (!conversation.isGroupV2()) {
+  if (!getIsGroupV2(conversation.attributes)) {
     throw new Error(
       `modifyGroupV2/${idLog}: Called for non-GroupV2 conversation`
     );
@@ -1297,13 +1304,13 @@ export async function modifyGroupV2({
           ? await ourProfileKeyService.get()
           : undefined;
 
-        const sendOptions = await conversation.getSendOptions();
+        const sendOptions = await getSendOptions(conversation.attributes);
         const timestamp = Date.now();
         const {
           ContentHint,
         } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
 
-        const promise = conversation.wrapSend(
+        const promise = handleMessageSend(
           window.Signal.Util.sendToGroup(
             {
               groupV2: conversation.getGroupV2Info({
@@ -1676,7 +1683,7 @@ export async function createGroupV2({
   const {
     ContentHint,
   } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
-  const sendOptions = await conversation.getSendOptions();
+  const sendOptions = await getSendOptions(conversation.attributes);
 
   await wrapWithSyncMessageSend({
     conversation,
@@ -1729,7 +1736,7 @@ export async function hasV1GroupBeenMigrated(
   conversation: ConversationModel
 ): Promise<boolean> {
   const logId = conversation.idForLogging();
-  const isGroupV1 = conversation.isGroupV1();
+  const isGroupV1 = getIsGroupV1(conversation.attributes);
   if (!isGroupV1) {
     window.log.warn(
       `checkForGV2Existence/${logId}: Called for non-GroupV1 conversation!`
@@ -1766,7 +1773,7 @@ export async function hasV1GroupBeenMigrated(
 export async function maybeDeriveGroupV2Id(
   conversation: ConversationModel
 ): Promise<boolean> {
-  const isGroupV1 = conversation.isGroupV1();
+  const isGroupV1 = getIsGroupV1(conversation.attributes);
   const groupV1Id = conversation.get('groupId');
   const derived = conversation.get('derivedGroupV2Id');
 
@@ -1797,7 +1804,7 @@ type MigratePropsType = {
 export async function isGroupEligibleToMigrate(
   conversation: ConversationModel
 ): Promise<boolean> {
-  if (!conversation.isGroupV1()) {
+  if (!getIsGroupV1(conversation.attributes)) {
     return false;
   }
 
@@ -1860,7 +1867,7 @@ export async function getGroupMigrationMembers(
             `getGroupMigrationMembers/${logId}: membersV2 - missing local contact for ${e164}, skipping.`
           );
         }
-        if (!contact.isMe() && window.GV2_MIGRATION_DISABLE_ADD) {
+        if (!isMe(contact.attributes) && window.GV2_MIGRATION_DISABLE_ADD) {
           window.log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_ADD flag`
           );
@@ -1947,7 +1954,7 @@ export async function getGroupMigrationMembers(
         return null;
       }
 
-      if (!contact.isMe() && window.GV2_MIGRATION_DISABLE_INVITE) {
+      if (!isMe(contact.attributes) && window.GV2_MIGRATION_DISABLE_INVITE) {
         window.log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_INVITE flag`
         );
@@ -2173,7 +2180,7 @@ export async function initiateMigrationToGroupV2(
     });
   } catch (error) {
     const logId = conversation.idForLogging();
-    if (!conversation.isGroupV1()) {
+    if (!getIsGroupV1(conversation.attributes)) {
       throw error;
     }
 
@@ -2203,7 +2210,7 @@ export async function initiateMigrationToGroupV2(
   const {
     ContentHint,
   } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
-  const sendOptions = await conversation.getSendOptions();
+  const sendOptions = await getSendOptions(conversation.attributes);
 
   await wrapWithSyncMessageSend({
     conversation,
@@ -2361,7 +2368,7 @@ export async function joinGroupV2ViaLinkAndMigrate({
   inviteLinkPassword: string;
   revision: number;
 }): Promise<void> {
-  const isGroupV1 = conversation.isGroupV1();
+  const isGroupV1 = getIsGroupV1(conversation.attributes);
   const previousGroupV1Id = conversation.get('groupId');
 
   if (!isGroupV1 || !previousGroupV1Id) {
@@ -2451,7 +2458,7 @@ export async function respondToGroupV2Migration({
   // Ensure we have the credentials we need before attempting GroupsV2 operations
   await maybeFetchNewCredentials();
 
-  const isGroupV1 = conversation.isGroupV1();
+  const isGroupV1 = getIsGroupV1(conversation.attributes);
   const previousGroupV1Id = conversation.get('groupId');
 
   if (!isGroupV1 || !previousGroupV1Id) {

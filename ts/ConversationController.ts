@@ -13,6 +13,10 @@ import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
 import { ConversationModel } from './models/conversations';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert } from './util/assert';
+import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
+import { deprecated } from './util/deprecated';
+import { getSendOptions } from './util/getSendOptions';
+import { handleMessageSend } from './util/handleMessageSend';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -237,7 +241,7 @@ export class ConversationController {
       }
 
       try {
-        if (conversation.isGroupV1()) {
+        if (isGroupV1(conversation.attributes)) {
           await maybeDeriveGroupV2Id(conversation);
         }
         await saveConversation(conversation.attributes);
@@ -556,7 +560,7 @@ export class ConversationController {
       }
 
       let groupV2Id: undefined | string;
-      if (conversation.isGroupV1()) {
+      if (isGroupV1(conversation.attributes)) {
         // eslint-disable-next-line no-await-in-loop
         await maybeDeriveGroupV2Id(conversation);
         groupV2Id = conversation.get('derivedGroupV2Id');
@@ -564,7 +568,7 @@ export class ConversationController {
           groupV2Id,
           'checkForConflicts: expected the group V2 ID to have been derived, but it was falsy'
         );
-      } else if (conversation.isGroupV2()) {
+      } else if (isGroupV2(conversation.attributes)) {
         groupV2Id = conversation.get('groupId');
       }
 
@@ -573,7 +577,7 @@ export class ConversationController {
         if (!existing) {
           byGroupV2Id[groupV2Id] = conversation;
         } else {
-          const logParenthetical = conversation.isGroupV1()
+          const logParenthetical = isGroupV1(conversation.attributes)
             ? ' (derived from a GV1 group ID)'
             : '';
           window.log.warn(
@@ -581,7 +585,10 @@ export class ConversationController {
           );
 
           // Prefer the GV2 group.
-          if (conversation.isGroupV2() && !existing.isGroupV2()) {
+          if (
+            isGroupV2(conversation.attributes) &&
+            !isGroupV2(existing.attributes)
+          ) {
             // eslint-disable-next-line no-await-in-loop
             await this.combineConversations(conversation, existing);
             byGroupV2Id[groupV2Id] = conversation;
@@ -730,16 +737,14 @@ export class ConversationController {
     ) => Promise<CallbackResultType | void | null>;
     sendOptions: SendOptionsType | undefined;
   }> {
+    deprecated('prepareForSend');
     // id is any valid conversation identifier
     const conversation = this.get(id);
     const sendOptions = conversation
-      ? await conversation.getSendOptions(options)
+      ? await getSendOptions(conversation.attributes, options)
       : undefined;
-    const wrap = conversation
-      ? conversation.wrapSend.bind(conversation)
-      : async (promise: Promise<CallbackResultType | void | null>) => promise;
 
-    return { wrap, sendOptions };
+    return { wrap: handleMessageSend, sendOptions };
   }
 
   async getAllGroupsInvolvingId(

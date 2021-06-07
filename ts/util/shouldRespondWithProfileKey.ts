@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ConversationModel } from '../models/conversations';
+import { isMe } from './whatTypeOfConversation';
 
 export async function shouldRespondWithProfileKey(
   sender: ConversationModel
 ): Promise<boolean> {
-  if (sender.isMe() || !sender.getAccepted() || sender.isBlocked()) {
+  if (isMe(sender.attributes) || !sender.getAccepted() || sender.isBlocked()) {
     return false;
   }
 

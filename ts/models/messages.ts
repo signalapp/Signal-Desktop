@@ -57,6 +57,14 @@ import { MIMEType } from '../types/MIME';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import { markRead, setToExpire } from '../services/MessageUpdater';
+import {
+  isDirectConversation,
+  isGroupV1,
+  isGroupV2,
+  isMe,
+} from '../util/whatTypeOfConversation';
+import { handleMessageSend } from '../util/handleMessageSend';
+import { getSendOptions } from '../util/getSendOptions';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -744,7 +752,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   getPropsForSafetyNumberNotification(): SafetyNumberNotificationProps {
     const conversation = this.getConversation();
-    const isGroup = Boolean(conversation && !conversation.isPrivate());
+    const isGroup = Boolean(
+      conversation && !isDirectConversation(conversation.attributes)
+    );
     const identifier = this.get('key_changed');
     const contact = this.findAndFormatContact(identifier);
 
@@ -981,7 +991,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         : undefined;
 
     const conversation = this.getConversation();
-    const isGroup = conversation && !conversation.isPrivate();
+    const isGroup =
+      conversation && !isDirectConversation(conversation.attributes);
     const sticker = this.get('sticker');
 
     const isTapToView = this.isTapToView();
@@ -1316,7 +1327,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     let authorTitle: string;
     let isFromMe: boolean;
 
-    if (contact && contact.isPrivate()) {
+    if (contact && isDirectConversation(contact.attributes)) {
       const contactPhoneNumber = contact.get('e164');
 
       authorId = contact.id;
@@ -1328,7 +1339,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         : undefined;
       authorProfileName = contact.getProfileName();
       authorTitle = contact.getTitle();
-      isFromMe = contact.isMe();
+      isFromMe = isMe(contact.attributes);
     } else {
       window.log.warn(
         'getPropsForQuote: contact was missing. This may indicate a bookkeeping error or bad data from another client. Returning a placeholder contact.'
@@ -1529,7 +1540,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return { text: '' };
       }
 
-      if (fromContact.isMe()) {
+      if (isMe(fromContact.attributes)) {
         messages.push(window.i18n('youUpdatedTheGroup'));
       } else {
         messages.push(window.i18n('updatedTheGroup', [fromContact.getTitle()]));
@@ -1540,7 +1551,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           window.ConversationController.getOrCreate(item, 'private')
         );
         const joinedWithoutMe = joinedContacts.filter(
-          contact => !contact.isMe()
+          contact => !isMe(contact.attributes)
         );
 
         if (joinedContacts.length > 1) {
@@ -1558,7 +1569,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             groupUpdate.joined[0],
             'private'
           );
-          if (joinedContact.isMe()) {
+          if (isMe(joinedContact.attributes)) {
             messages.push(window.i18n('youJoinedTheGroup'));
           } else {
             messages.push(
@@ -2282,13 +2293,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     let promise;
-    const options = await conversation.getSendOptions();
+    const options = await getSendOptions(conversation.attributes);
 
     const {
       ContentHint,
     } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
 
-    if (conversation.isPrivate()) {
+    if (isDirectConversation(conversation.attributes)) {
       const [identifier] = recipients;
       promise = window.textsecure.messaging.sendMessageToIdentifier(
         identifier,
@@ -2351,7 +2362,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
     }
 
-    return this.send(conversation.wrapSend(promise));
+    return this.send(handleMessageSend(promise));
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -2534,7 +2545,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       sendOptions,
     } = await window.ConversationController.prepareForSend(identifier);
     const group =
-      groupId && parentConversation?.isGroupV1()
+      groupId && isGroupV1(parentConversation?.attributes)
         ? {
             id: groupId,
             type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
@@ -2576,7 +2587,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       [identifier],
       contentMessage,
       ContentHint.RESENDABLE,
-      groupId && parentConversation?.isGroupV2() ? groupId : undefined,
+      groupId && isGroupV2(parentConversation?.attributes)
+        ? groupId
+        : undefined,
       sendOptions
     );
 
@@ -2767,7 +2780,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         retryOptions: options,
       });
 
-      const sendOptions = await conv.getSendOptions();
+      const sendOptions = await getSendOptions(conv.attributes);
 
       // We don't have to check `sent_to` here, because:
       //
@@ -2776,11 +2789,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       //    in a single request to the server. So partial success is not
       //    possible.
       await this.send(
-        conv.wrapSend(
+        handleMessageSend(
           // TODO: DESKTOP-724
           // resetSession returns `Array<void>` which is incompatible with the
-          // expected promise return values. `[]` is truthy and wrapSend assumes
-          // it's a valid callback result type
+          // expected promise return values. `[]` is truthy and handleMessageSend
+          // assumes it's a valid callback result type
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           window.textsecure.messaging.resetSession(
@@ -3601,7 +3614,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // GroupV2
 
       if (initialMessage.groupV2) {
-        if (conversation.isGroupV1()) {
+        if (isGroupV1(conversation.attributes)) {
           // If we received a GroupV2 message in a GroupV1 group, we migrate!
 
           const { revision, groupChange } = initialMessage.groupV2;
@@ -3660,7 +3673,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         e164: source,
         uuid: sourceUuid,
       })!;
-      const isGroupV2 = Boolean(initialMessage.groupV2);
+      const hasGroupV2Prop = Boolean(initialMessage.groupV2);
       const isV1GroupUpdate =
         initialMessage.group &&
         initialMessage.group.type !==
@@ -3670,8 +3683,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       //   after applying the message's associated group changes.
       if (
         type === 'incoming' &&
-        !conversation.isPrivate() &&
-        isGroupV2 &&
+        !isDirectConversation(conversation.attributes) &&
+        hasGroupV2Prop &&
         (conversation.get('left') ||
           !conversation.hasMember(ourConversationId) ||
           !conversation.hasMember(senderId))
@@ -3690,8 +3703,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       //   messages. We detect that via a missing 'members' field.
       if (
         type === 'incoming' &&
-        !conversation.isPrivate() &&
-        !isGroupV2 &&
+        !isDirectConversation(conversation.attributes) &&
+        !hasGroupV2Prop &&
         !isV1GroupUpdate &&
         conversation.get('members') &&
         (conversation.get('left') || !conversation.hasMember(ourConversationId))
@@ -3705,7 +3718,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       // Because GroupV1 messages can now be multiplexed into GroupV2 conversations, we
       //   drop GroupV1 updates in GroupV2 groups.
-      if (isV1GroupUpdate && conversation.isGroupV2()) {
+      if (isV1GroupUpdate && isGroupV2(conversation.attributes)) {
         window.log.warn(
           `Received GroupV1 update in GroupV2 conversation ${conversation.idForLogging()}. Dropping.`
         );
@@ -3793,7 +3806,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           };
 
           // GroupV1
-          if (!isGroupV2 && dataMessage.group) {
+          if (!hasGroupV2Prop && dataMessage.group) {
             const pendingGroupUpdate = [];
             const memberConversations: Array<ConversationModel> = await Promise.all(
               dataMessage.group.membersE164.map((e164: string) =>
@@ -3920,7 +3933,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 return;
               }
 
-              if (sender.isMe()) {
+              if (isMe(sender.attributes)) {
                 attributes.left = true;
                 pendingGroupUpdate.push(['left', 'You']);
               } else {
@@ -3962,7 +3975,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             message.set({ expireTimer: dataMessage.expireTimer });
           }
 
-          if (!isGroupV2) {
+          if (!hasGroupV2Prop) {
             if (message.isExpirationTimerUpdate()) {
               message.set({
                 expirationTimerUpdate: {
@@ -4023,7 +4036,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               sourceUuid === window.textsecure.storage.user.getUuid()
             ) {
               conversation.set({ profileSharing: true });
-            } else if (conversation.isPrivate()) {
+            } else if (isDirectConversation(conversation.attributes)) {
               conversation.setProfileKey(profileKey);
             } else {
               const localId = window.ConversationController.ensureContactIds({
@@ -4214,7 +4227,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       // A sync'd message to ourself is automatically considered read/delivered
-      if (isFirstRun && conversation.isMe()) {
+      if (isFirstRun && isMe(conversation.attributes)) {
         message.set({
           read_by: conversation.getRecipients(),
           delivered_to: conversation.getRecipients(),

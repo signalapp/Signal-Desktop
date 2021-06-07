@@ -38,6 +38,7 @@ import {
 import { ContentClass } from '../textsecure.d';
 
 import { assert } from './assert';
+import { isGroupV2 } from './whatTypeOfConversation';
 
 const ERROR_EXPIRED_OR_MISSING_DEVICES = 409;
 const ERROR_STALE_DEVICES = 410;
@@ -116,7 +117,7 @@ export async function sendContentMessageToGroup({
 
   if (
     ourConversation?.get('capabilities')?.senderKey &&
-    conversation.isGroupV2()
+    isGroupV2(conversation.attributes)
   ) {
     try {
       return await sendToGroupViaSenderKey({
@@ -138,7 +139,7 @@ export async function sendContentMessageToGroup({
     }
   }
 
-  const groupId = conversation.isGroupV2()
+  const groupId = isGroupV2(conversation.attributes)
     ? conversation.get('groupId')
     : undefined;
   return window.textsecure.messaging.sendGroupProto(
@@ -191,7 +192,7 @@ export async function sendToGroupViaSenderKey(options: {
   }
 
   const groupId = conversation.get('groupId');
-  if (!groupId || !conversation.isGroupV2()) {
+  if (!groupId || !isGroupV2(conversation.attributes)) {
     throw new Error(
       `sendToGroupViaSenderKey/${logId}: Missing groupId or group is not GV2`
     );

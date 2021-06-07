@@ -40,9 +40,10 @@ export async function getSendOptions(
         if (!conversation) {
           return;
         }
-        const {
-          sendMetadata: conversationSendMetadata,
-        } = await conversation.getSendOptions(options);
+        const { sendMetadata: conversationSendMetadata } = await getSendOptions(
+          conversation.attributes,
+          options
+        );
         Object.assign(sendMetadata, conversationSendMetadata || {});
       })
     );

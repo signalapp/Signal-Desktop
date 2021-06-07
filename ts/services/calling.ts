@@ -69,6 +69,7 @@ import {
   REQUESTED_VIDEO_FRAMERATE,
 } from '../calling/constants';
 import { notify } from './notify';
+import { getSendOptions } from '../util/getSendOptions';
 
 const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   HttpMethod,
@@ -783,7 +784,7 @@ export class CallingClass {
     }
 
     const groupV2 = conversation.getGroupV2Info();
-    const sendOptions = await conversation.getSendOptions();
+    const sendOptions = await getSendOptions(conversation.attributes);
     if (!groupV2) {
       window.log.error(
         'Unable to send group call update message for conversation that lacks groupV2 info'
@@ -1408,7 +1409,7 @@ export class CallingClass {
   ): Promise<boolean> {
     const conversation = window.ConversationController.get(remoteUserId);
     const sendOptions = conversation
-      ? await conversation.getSendOptions()
+      ? await getSendOptions(conversation.attributes)
       : undefined;
 
     if (!window.textsecure.messaging) {

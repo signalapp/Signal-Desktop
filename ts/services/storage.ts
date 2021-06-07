@@ -35,6 +35,10 @@ import { sleep } from '../util/sleep';
 import { isMoreRecentThan } from '../util/timestamp';
 import { isStorageWriteFeatureEnabled } from '../storage/isFeatureEnabled';
 import { ourProfileKeyService } from './ourProfileKey';
+import {
+  ConversationTypes,
+  typeofConversation,
+} from '../util/whatTypeOfConversation';
 
 const {
   eraseStorageServiceStateFromConversations,
@@ -152,22 +156,24 @@ async function generateManifest(
     const identifier = new window.textsecure.protobuf.ManifestRecord.Identifier();
 
     let storageRecord;
-    if (conversation.isMe()) {
+
+    const conversationType = typeofConversation(conversation.attributes);
+    if (conversationType === ConversationTypes.Me) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.account = await toAccountRecord(conversation);
       identifier.type = ITEM_TYPE.ACCOUNT;
-    } else if (conversation.isPrivate()) {
+    } else if (conversationType === ConversationTypes.Direct) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.contact = await toContactRecord(conversation);
       identifier.type = ITEM_TYPE.CONTACT;
-    } else if (conversation.isGroupV2()) {
+    } else if (conversationType === ConversationTypes.GroupV2) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.groupV2 = await toGroupV2Record(conversation);
       identifier.type = ITEM_TYPE.GROUPV2;
-    } else if (conversation.isGroupV1()) {
+    } else if (conversationType === ConversationTypes.GroupV1) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.groupV1 = await toGroupV1Record(conversation);
