@@ -13,6 +13,7 @@ import { fromBase64ToArrayBuffer, toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { incrementBadPathCountOrDrop } from '../onions/onionPath';
 import _ from 'lodash';
+import { hrefPnServerDev, hrefPnServerProd } from '../../pushnotification/PnServer';
 // hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
 let snodeFailureCount: Record<string, number> = {};
 
@@ -117,7 +118,8 @@ async function buildOnionCtxs(
     if (relayingToFinalDestination && finalRelayOptions) {
       let target = '/loki/v2/lsrpc';
 
-      const isCallToPn = finalRelayOptions?.host === 'live.apns.getsession.org';
+      const isCallToPn =
+        finalRelayOptions?.host === hrefPnServerDev || finalRelayOptions?.host === hrefPnServerProd;
       if (!isCallToPn && window.lokiFeatureFlags.useFileOnionRequestsV2) {
         target = '/loki/v3/lsrpc';
       }
