@@ -211,7 +211,7 @@ Whisper.FileSavedToast = Whisper.ToastView.extend({
     openFileInFolder(this.fullPath);
     this.close();
   },
-  onKeydown(event: any) {
+  onKeydown(event: KeyboardEvent) {
     if (event.key !== 'Enter' && event.key !== ' ') {
       return;
     }
@@ -245,7 +245,7 @@ Whisper.ReactionFailedToast = Whisper.ToastView.extend({
   onClick() {
     this.close();
   },
-  onKeydown(event: any) {
+  onKeydown(event: KeyboardEvent) {
     if (event.key !== 'Enter' && event.key !== ' ') {
       return;
     }
@@ -339,10 +339,12 @@ Whisper.ConversationLoadingScreen = Whisper.View.extend({
 
 Whisper.ConversationView = Whisper.View.extend({
   className() {
-    return ['conversation', this.model.get('type')].join(' ');
+    const { model }: { model: ConversationModel } = this;
+    return ['conversation', model.get('type')].join(' ');
   },
   id() {
-    return `conversation-${this.model.cid}`;
+    const { model }: { model: ConversationModel } = this;
+    return `conversation-${model.cid}`;
   },
   template: () => $('#conversation').html(),
   render_attributes() {
@@ -351,51 +353,45 @@ Whisper.ConversationView = Whisper.View.extend({
     };
   },
   initialize() {
+    const { model }: { model: ConversationModel } = this;
+
     // Events on Conversation model
-    this.listenTo(this.model, 'destroy', this.stopListening);
-    this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
-    this.listenTo(this.model, 'newmessage', this.addMessage);
-    this.listenTo(this.model, 'opened', this.onOpened);
-    this.listenTo(this.model, 'backgrounded', this.resetEmojiResults);
-    this.listenTo(this.model, 'scroll-to-message', this.scrollToMessage);
-    this.listenTo(this.model, 'unload', (reason: any) =>
+    this.listenTo(model, 'destroy', this.stopListening);
+    this.listenTo(model, 'change:verified', this.onVerifiedChange);
+    this.listenTo(model, 'newmessage', this.addMessage);
+    this.listenTo(model, 'opened', this.onOpened);
+    this.listenTo(model, 'backgrounded', this.resetEmojiResults);
+    this.listenTo(model, 'scroll-to-message', this.scrollToMessage);
+    this.listenTo(model, 'unload', (reason: string) =>
       this.unload(`model trigger - ${reason}`)
     );
-    this.listenTo(this.model, 'focus-composer', this.focusMessageField);
-    this.listenTo(this.model, 'open-all-media', this.showAllMedia);
-    this.listenTo(this.model, 'begin-recording', this.captureAudio);
-    this.listenTo(this.model, 'attach-file', this.onChooseAttachment);
-    this.listenTo(this.model, 'escape-pressed', this.resetPanel);
-    this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
-    this.listenTo(this.model, 'show-contact-modal', this.showContactModal);
-    this.listenTo(this.model, 'toggle-reply', (messageId: any) => {
+    this.listenTo(model, 'focus-composer', this.focusMessageField);
+    this.listenTo(model, 'open-all-media', this.showAllMedia);
+    this.listenTo(model, 'begin-recording', this.captureAudio);
+    this.listenTo(model, 'attach-file', this.onChooseAttachment);
+    this.listenTo(model, 'escape-pressed', this.resetPanel);
+    this.listenTo(model, 'show-message-details', this.showMessageDetail);
+    this.listenTo(model, 'show-contact-modal', this.showContactModal);
+    this.listenTo(model, 'toggle-reply', (messageId: string | undefined) => {
       const target = this.quote || !messageId ? null : messageId;
       this.setQuoteMessage(target);
     });
-    this.listenTo(
-      this.model,
-      'save-attachment',
-      this.downloadAttachmentWrapper
-    );
-    this.listenTo(this.model, 'delete-message', this.deleteMessage);
-    this.listenTo(this.model, 'remove-link-review', this.removeLinkPreview);
-    this.listenTo(
-      this.model,
-      'remove-all-draft-attachments',
-      this.clearAttachments
-    );
+    this.listenTo(model, 'save-attachment', this.downloadAttachmentWrapper);
+    this.listenTo(model, 'delete-message', this.deleteMessage);
+    this.listenTo(model, 'remove-link-review', this.removeLinkPreview);
+    this.listenTo(model, 'remove-all-draft-attachments', this.clearAttachments);
 
     // Events on Message models - we still listen to these here because they
     //   can be emitted by the non-reduxified MessageDetail pane
     this.listenTo(
-      this.model.messageCollection,
+      model.messageCollection,
       'show-identity',
       this.showSafetyNumber
     );
-    this.listenTo(this.model.messageCollection, 'force-send', this.forceSend);
+    this.listenTo(model.messageCollection, 'force-send', this.forceSend);
 
     this.lazyUpdateVerified = window._.debounce(
-      this.model.updateVerified.bind(this.model),
+      model.updateVerified.bind(model),
       1000 // one second
     );
     this.model.throttledGetProfiles =
@@ -442,8 +438,9 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   getMuteExpirationLabel() {
-    const muteExpiresAt = this.model.get('muteExpiresAt');
-    if (!this.model.isMuted()) {
+    const { model }: { model: ConversationModel } = this;
+    const muteExpiresAt = model.get('muteExpiresAt');
+    if (!model.isMuted()) {
       return;
     }
 
@@ -460,6 +457,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   setPin(value: boolean) {
+    const { model }: { model: ConversationModel } = this;
+
     if (value) {
       const pinnedConversationIds = window.storage.get<Array<string>>(
         'pinnedConversationIds',
@@ -470,19 +469,21 @@ Whisper.ConversationView = Whisper.View.extend({
         this.showToast(Whisper.PinnedConversationsFullToast);
         return;
       }
-      this.model.pin();
+      model.pin();
     } else {
-      this.model.unpin();
+      model.unpin();
     }
   },
 
   setupHeader() {
+    const { model }: { model: ConversationModel } = this;
+
     this.titleView = new Whisper.ReactWrapperView({
       className: 'title-wrapper',
       JSX: window.Signal.State.Roots.createConversationHeader(
         window.reduxStore,
         {
-          id: this.model.id,
+          id: model.id,
 
           onShowContactModal: this.showContactModal.bind(this),
           onSetDisappearingMessages: (seconds: number) =>
@@ -491,13 +492,13 @@ Whisper.ConversationView = Whisper.View.extend({
           onResetSession: () => this.endSession(),
           onSearchInConversation: () => {
             const { searchInConversation } = window.reduxActions.search;
-            const name = isMe(this.model.attributes)
+            const name = isMe(model.attributes)
               ? window.i18n('noteToSelf')
-              : this.model.getTitle();
-            searchInConversation(this.model.id, name);
+              : model.getTitle();
+            searchInConversation(model.id, name);
           },
           onSetMuteNotifications: (ms: number) =>
-            this.model.setMuteExpiration(
+            model.setMuteExpiration(
               ms >= Number.MAX_SAFE_INTEGER ? ms : Date.now() + ms
             ),
           onSetPin: this.setPin.bind(this),
@@ -515,7 +516,7 @@ Whisper.ConversationView = Whisper.View.extend({
                 'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
               );
               await window.Signal.Services.calling.startCallingLobby(
-                this.model.id,
+                model.id,
                 isVideoCall
               );
               window.log.info(
@@ -539,7 +540,7 @@ Whisper.ConversationView = Whisper.View.extend({
                 'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
               );
               await window.Signal.Services.calling.startCallingLobby(
-                this.model.id,
+                model.id,
                 isVideoCall
               );
               window.log.info(
@@ -572,8 +573,8 @@ Whisper.ConversationView = Whisper.View.extend({
           },
 
           onArchive: () => {
-            this.model.setArchived(true);
-            this.model.trigger('unload', 'archive');
+            model.setArchived(true);
+            model.trigger('unload', 'archive');
 
             Whisper.ToastView.show(
               Whisper.ConversationArchivedToast,
@@ -581,7 +582,7 @@ Whisper.ConversationView = Whisper.View.extend({
             );
           },
           onMarkUnread: () => {
-            this.model.setMarkedUnread(true);
+            model.setMarkedUnread(true);
 
             Whisper.ToastView.show(
               Whisper.ConversationMarkedUnreadToast,
@@ -589,7 +590,7 @@ Whisper.ConversationView = Whisper.View.extend({
             );
           },
           onMoveToInbox: () => {
-            this.model.setArchived(false);
+            model.setArchived(false);
 
             Whisper.ToastView.show(
               Whisper.ConversationUnarchivedToast,
@@ -619,13 +620,13 @@ Whisper.ConversationView = Whisper.View.extend({
       window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
 
     const props = {
-      id: this.model.id,
+      id: model.id,
       compositionApi,
       onClickAddPack: () => this.showStickerManager(),
       onPickSticker: (packId: string, stickerId: number) =>
         this.sendStickerMessage({ packId, stickerId }),
       onSubmit: (
-        message: any,
+        message: string,
         mentions: typeof window.Whisper.BodyRangesType
       ) => this.sendMessage(message, mentions),
       onEditorStateChange: (
@@ -635,7 +636,7 @@ Whisper.ConversationView = Whisper.View.extend({
       ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
       onTextTooLong: () => this.showToast(Whisper.MessageBodyTooLongToast),
       onChooseAttachment: this.onChooseAttachment.bind(this),
-      getQuotedMessage: () => this.model.get('quotedMessageId'),
+      getQuotedMessage: () => model.get('quotedMessageId'),
       clearQuotedMessage: () => this.setQuoteMessage(null),
       micCellEl,
       attachmentListEl,
@@ -681,7 +682,7 @@ Whisper.ConversationView = Whisper.View.extend({
           resolve: () => {
             this.longRunningTaskWrapper({
               name: 'onCancelJoinRequest',
-              task: async () => this.model.cancelJoinRequest(),
+              task: async () => model.cancelJoinRequest(),
             });
           },
         });
@@ -707,7 +708,8 @@ Whisper.ConversationView = Whisper.View.extend({
     name: string;
     task: () => Promise<T>;
   }): Promise<T> {
-    const idForLogging = this.model.idForLogging();
+    const { model }: { model: ConversationModel } = this;
+    const idForLogging = model.idForLogging();
     return window.Signal.Util.longRunningTaskWrapper({
       name,
       idForLogging,
@@ -716,62 +718,67 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   getMessageActions() {
-    const reactToMessage = (messageId: any, reaction: any) => {
+    const { model }: { model: ConversationModel } = this;
+    const reactToMessage = (
+      messageId: string,
+      reaction: { emoji: string; remove: boolean }
+    ) => {
       this.sendReactionMessage(messageId, reaction);
     };
-    const replyToMessage = (messageId: any) => {
+    const replyToMessage = (messageId: string) => {
       this.setQuoteMessage(messageId);
     };
-    const retrySend = (messageId: any) => {
+    const retrySend = (messageId: string) => {
       this.retrySend(messageId);
     };
-    const deleteMessage = (messageId: any) => {
+    const deleteMessage = (messageId: string) => {
       this.deleteMessage(messageId);
     };
     const deleteMessageForEveryone = (messageId: string) => {
       this.deleteMessageForEveryone(messageId);
     };
-    const showMessageDetail = (messageId: any) => {
+    const showMessageDetail = (messageId: string) => {
       this.showMessageDetail(messageId);
     };
     const showContactModal = (contactId: string) => {
       this.showContactModal(contactId);
     };
-    const openConversation = (conversationId: any, messageId: any) => {
+    const openConversation = (conversationId: string, messageId: any) => {
       this.openConversation(conversationId, messageId);
     };
     const showContactDetail = (options: any) => {
       this.showContactDetail(options);
     };
     const kickOffAttachmentDownload = async (options: any) => {
-      if (!this.model.messageCollection) {
+      if (!model.messageCollection) {
         throw new Error('Message collection does not exist');
       }
-      const message = this.model.messageCollection.get(options.messageId);
+      const message = model.messageCollection.get(options.messageId);
       await message.queueAttachmentDownloads();
     };
     const markAttachmentAsCorrupted = (options: AttachmentOptions) => {
-      if (!this.model.messageCollection) {
-        throw new Error('Message collection does not exist');
-      }
       const message: MessageModel = this.model.messageCollection.get(
         options.messageId
       );
       assert(message, 'Message not found');
       message.markAttachmentAsCorrupted(options.attachment);
     };
-    const showVisualAttachment = (options: any) => {
+    const showVisualAttachment = (options: {
+      attachment: typeof Attachment;
+      messageId: string;
+      showSingle?: boolean;
+    }) => {
       this.showLightbox(options);
     };
     const downloadAttachment = (options: any) => {
       this.downloadAttachment(options);
     };
-    const displayTapToViewMessage = (messageId: any) =>
+    const displayTapToViewMessage = (messageId: string) =>
       this.displayTapToViewMessage(messageId);
-    const showIdentity = (conversationId: any) => {
+    const showIdentity = (conversationId: string) => {
       this.showSafetyNumber(conversationId);
     };
-    const openLink = (url: any) => {
+    const openLink = (url: string) => {
       this.navigateTo(url);
     };
     const downloadNewVersion = () => {
@@ -810,7 +817,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   setupTimeline() {
-    const { id } = this.model;
+    const { model }: { model: ConversationModel } = this;
+    const { id } = model;
 
     const messageRequestEnum =
       window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
@@ -828,7 +836,7 @@ Whisper.ConversationView = Whisper.View.extend({
     const scrollToQuotedMessage = async (options: any) => {
       const { authorId, sentAt } = options;
 
-      const conversationId = this.model.id;
+      const conversationId = model.id;
       const messages = await getMessagesBySentAt(sentAt, {
         MessageCollection: Whisper.MessageCollection,
       });
@@ -847,13 +855,13 @@ Whisper.ConversationView = Whisper.View.extend({
       this.scrollToMessage(message.id);
     };
 
-    const loadOlderMessages = async (oldestMessageId: any) => {
+    const loadOlderMessages = async (oldestMessageId: string) => {
       const {
         messagesAdded,
         setMessagesLoading,
         repairOldestMessage,
       } = window.reduxActions.conversations;
-      const conversationId = this.model.id;
+      const conversationId = model.id;
 
       setMessagesLoading(conversationId, true);
       const finish = this.setInProgressFetch();
@@ -892,7 +900,7 @@ Whisper.ConversationView = Whisper.View.extend({
         const isNewMessage = false;
         messagesAdded(
           id,
-          models.map(model => model.getReduxData()),
+          models.map(messageModel => messageModel.getReduxData()),
           isNewMessage,
           window.isActive()
         );
@@ -903,13 +911,13 @@ Whisper.ConversationView = Whisper.View.extend({
         finish();
       }
     };
-    const loadNewerMessages = async (newestMessageId: any) => {
+    const loadNewerMessages = async (newestMessageId: string) => {
       const {
         messagesAdded,
         setMessagesLoading,
         repairNewestMessage,
       } = window.reduxActions.conversations;
-      const conversationId = this.model.id;
+      const conversationId = model.id;
 
       setMessagesLoading(conversationId, true);
       const finish = this.setInProgressFetch();
@@ -926,7 +934,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
         const receivedAt = message.get('received_at');
         const sentAt = message.get('sent_at');
-        const models = await getNewerMessagesByConversation(this.model.id, {
+        const models = await getNewerMessagesByConversation(model.id, {
           receivedAt,
           sentAt,
           limit: 30,
@@ -947,7 +955,7 @@ Whisper.ConversationView = Whisper.View.extend({
         const isNewMessage = false;
         messagesAdded(
           id,
-          models.map(model => model.getReduxData()),
+          models.map(messageModel => messageModel.getReduxData()),
           isNewMessage,
           window.isActive()
         );
@@ -958,7 +966,7 @@ Whisper.ConversationView = Whisper.View.extend({
         finish();
       }
     };
-    const markMessageRead = async (messageId: any) => {
+    const markMessageRead = async (messageId: string) => {
       if (!window.isActive()) {
         return;
       }
@@ -970,7 +978,7 @@ Whisper.ConversationView = Whisper.View.extend({
         throw new Error(`markMessageRead: failed to load message ${messageId}`);
       }
 
-      await this.model.markRead(message.get('received_at'));
+      await model.markRead(message.get('received_at'));
     };
 
     const createMessageRequestResponseHandler = (
@@ -998,7 +1006,6 @@ Whisper.ConversationView = Whisper.View.extend({
         acknowledgeGroupMemberNameCollisions: (
           groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
         ): void => {
-          const { model }: { model: ConversationModel } = this;
           model.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
         },
         contactSupport,
@@ -1034,7 +1041,6 @@ Whisper.ConversationView = Whisper.View.extend({
         ),
         onShowContactModal: this.showContactModal.bind(this),
         removeMember: (conversationId: string) => {
-          const { model }: { model: ConversationModel } = this;
           this.longRunningTaskWrapper({
             name: 'removeMember',
             task: () => model.removeFromGroupV2(conversationId),
@@ -1042,16 +1048,20 @@ Whisper.ConversationView = Whisper.View.extend({
         },
         scrollToQuotedMessage,
         unblurAvatar: () => {
-          this.model.unblurAvatar();
+          model.unblurAvatar();
         },
-        updateSharedGroups: this.model.throttledUpdateSharedGroups,
+        updateSharedGroups: model.throttledUpdateSharedGroups,
       }),
     });
 
     this.$('.timeline-placeholder').append(this.timelineView.el);
   },
 
-  showToast(ToastView: any, options: any, element: Element) {
+  showToast(
+    ToastView: typeof window.Whisper.ToastView,
+    options: any,
+    element: Element
+  ) {
     const toast = new ToastView(options);
 
     if (element) {
@@ -1102,7 +1112,8 @@ Whisper.ConversationView = Whisper.View.extend({
     return result;
   },
 
-  async scrollToMessage(messageId: any) {
+  async scrollToMessage(messageId: string) {
+    const { model }: { model: ConversationModel } = this;
     const message = await getMessageById(messageId, {
       Message: Whisper.Message,
     });
@@ -1112,7 +1123,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     if (this.model.messageCollection.get(messageId)) {
       const { scrollToMessage } = window.reduxActions.conversations;
-      scrollToMessage(this.model.id, messageId);
+      scrollToMessage(model.id, messageId);
       return;
     }
 
@@ -1120,8 +1131,9 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   setInProgressFetch() {
-    let resolvePromise: any;
-    this.model.inProgressFetch = new Promise(resolve => {
+    const { model }: { model: ConversationModel } = this;
+    let resolvePromise: (value?: unknown) => void;
+    model.inProgressFetch = new Promise(resolve => {
       resolvePromise = resolve;
     });
 
@@ -1137,11 +1149,12 @@ Whisper.ConversationView = Whisper.View.extend({
     messageId: string,
     options?: { disableScroll?: boolean }
   ) {
+    const { model }: { model: ConversationModel } = this;
     const {
       messagesReset,
       setMessagesLoading,
     } = window.reduxActions.conversations;
-    const conversationId = this.model.id;
+    const conversationId = model.id;
 
     setMessagesLoading(conversationId, true);
     const finish = this.setInProgressFetch();
@@ -1175,14 +1188,14 @@ Whisper.ConversationView = Whisper.View.extend({
 
       const all = [...older.models, message, ...newer.models];
 
-      const cleaned = await this.cleanModels(all);
+      const cleaned: Array<MessageModel> = await this.cleanModels(all);
       this.model.messageCollection.reset(cleaned);
       const scrollToMessageId =
         options && options.disableScroll ? undefined : messageId;
 
       messagesReset(
         conversationId,
-        cleaned.map((model: any) => model.getReduxData()),
+        cleaned.map(messageModel => messageModel.getReduxData()),
         metrics,
         scrollToMessageId
       );
@@ -1252,7 +1265,7 @@ Whisper.ConversationView = Whisper.View.extend({
         MessageCollection: Whisper.MessageCollection,
       });
 
-      const cleaned = await this.cleanModels(messages);
+      const cleaned: Array<MessageModel> = await this.cleanModels(messages);
       assert(
         model.messageCollection,
         'loadNewestMessages: model must have messageCollection'
@@ -1270,7 +1283,7 @@ Whisper.ConversationView = Whisper.View.extend({
       const unboundedFetch = true;
       messagesReset(
         conversationId,
-        cleaned.map((messageModel: any) => messageModel.getReduxData()),
+        cleaned.map(messageModel => messageModel.getReduxData()),
         metrics,
         scrollToMessageId,
         unboundedFetch
@@ -1284,9 +1297,10 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async startMigrationToGV2(): Promise<void> {
-    const logId = this.model.idForLogging();
+    const { model }: { model: ConversationModel } = this;
+    const logId = model.idForLogging();
 
-    if (!isGroupV1(this.model.attributes)) {
+    if (!isGroupV1(model.attributes)) {
       throw new Error(
         `startMigrationToGV2/${logId}: Cannot start, not a GroupV1 group`
       );
@@ -1305,7 +1319,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
       this.longRunningTaskWrapper({
         name: 'initiateMigrationToGroupV2',
-        task: () => window.Signal.Groups.initiateMigrationToGroupV2(this.model),
+        task: () => window.Signal.Groups.initiateMigrationToGroupV2(model),
       });
     };
 
@@ -1316,7 +1330,7 @@ Whisper.ConversationView = Whisper.View.extend({
       pendingMembersV2,
     } = await this.longRunningTaskWrapper({
       name: 'getGroupMigrationMembers',
-      task: () => window.Signal.Groups.getGroupMigrationMembers(this.model),
+      task: () => window.Signal.Groups.getGroupMigrationMembers(model),
     });
 
     const invitedMemberIds = pendingMembersV2.map(
@@ -1356,17 +1370,18 @@ Whisper.ConversationView = Whisper.View.extend({
     fileField.val(null);
   },
 
-  unload(reason: any) {
+  unload(reason: string) {
+    const { model }: { model: ConversationModel } = this;
     window.log.info(
       'unloading conversation',
-      this.model.idForLogging(),
+      model.idForLogging(),
       'due to:',
       reason
     );
 
     const { conversationUnloaded } = window.reduxActions.conversations;
     if (conversationUnloaded) {
-      conversationUnloaded(this.model.id);
+      conversationUnloaded(model.id);
     }
 
     if (this.model.get('draftChanged')) {
@@ -1386,7 +1401,7 @@ Whisper.ConversationView = Whisper.View.extend({
       // We don't wait here; we need to take down the view
       this.saveModel();
 
-      this.model.updateLastMessage();
+      model.updateLastMessage();
     }
 
     this.titleView.remove();
@@ -1542,11 +1557,12 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   getPropsForAttachmentList() {
-    const draftAttachments = this.model.get('draftAttachments') || [];
+    const { model }: { model: ConversationModel } = this;
+    const draftAttachments = model.get('draftAttachments') || [];
 
     return {
       // In conversation model/redux
-      attachments: draftAttachments.map((attachment: any) => {
+      attachments: draftAttachments.map(attachment => {
         let url = '';
         if (attachment.screenshotPath) {
           url = getAbsoluteDraftPath(attachment.screenshotPath);
@@ -1616,7 +1632,9 @@ Whisper.ConversationView = Whisper.View.extend({
     window.Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
   },
 
-  async deleteDraftAttachment(attachment: any) {
+  async deleteDraftAttachment(
+    attachment: Readonly<{ screenshotPath?: string; path?: string }>
+  ) {
     if (attachment.screenshotPath) {
       await deleteDraftFile(attachment.screenshotPath);
     }
@@ -1626,16 +1644,17 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async saveModel() {
-    window.Signal.Data.updateConversation(this.model.attributes);
+    const { model }: { model: ConversationModel } = this;
+    window.Signal.Data.updateConversation(model.attributes);
   },
 
   async addAttachment(attachment: any) {
+    const { model }: { model: ConversationModel } = this;
     const onDisk = await this.writeDraftAttachment(attachment);
 
-    const draftAttachments = this.model.get('draftAttachments') || [];
+    const draftAttachments = model.get('draftAttachments') || [];
     this.model.set({
       draftAttachments: [...draftAttachments, onDisk],
-      draftChanged: true,
     });
     this.updateAttachmentsView();
 
@@ -1643,7 +1662,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async onCloseAttachment(attachment: any) {
-    const draftAttachments = this.model.get('draftAttachments') || [];
+    const { model }: { model: ConversationModel } = this;
+    const draftAttachments = model.get('draftAttachments') || [];
 
     this.model.set({
       draftAttachments: window._.reject(
@@ -1660,9 +1680,10 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async clearAttachments() {
+    const { model }: { model: ConversationModel } = this;
     this.voiceNoteAttachment = null;
 
-    const draftAttachments = this.model.get('draftAttachments') || [];
+    const draftAttachments = model.get('draftAttachments') || [];
     this.model.set({
       draftAttachments: [],
       draftChanged: true,
@@ -1674,7 +1695,7 @@ Whisper.ConversationView = Whisper.View.extend({
     await Promise.all([
       this.saveModel(),
       Promise.all(
-        draftAttachments.map((attachment: any) =>
+        draftAttachments.map(attachment =>
           this.deleteDraftAttachment(attachment)
         )
       ),
@@ -1682,20 +1703,22 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   hasFiles() {
-    const draftAttachments = this.model.get('draftAttachments') || [];
+    const { model }: { model: ConversationModel } = this;
+    const draftAttachments = model.get('draftAttachments') || [];
     return draftAttachments.length > 0;
   },
 
   async getFiles() {
+    const { model }: { model: ConversationModel } = this;
     if (this.voiceNoteAttachment) {
       // We don't need to pull these off disk; we return them as-is
       return [this.voiceNoteAttachment];
     }
 
-    const draftAttachments = this.model.get('draftAttachments') || [];
+    const draftAttachments = model.get('draftAttachments') || [];
     const files = window._.compact(
       await Promise.all(
-        draftAttachments.map((attachment: any) => this.getFile(attachment))
+        draftAttachments.map(attachment => this.getFile(attachment))
       )
     );
     return files;
@@ -1726,7 +1749,7 @@ Whisper.ConversationView = Whisper.View.extend({
     };
   },
 
-  arrayBufferFromFile(file: any): Promise<ArrayBuffer> {
+  arrayBufferFromFile(file: Blob): Promise<ArrayBuffer> {
     return new Promise((resolve, reject) => {
       const FR = new FileReader();
       FR.onload = (e: any) => {
@@ -1791,7 +1814,9 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    const draftAttachments = this.model.get('draftAttachments') || [];
+    const { model }: { model: ConversationModel } = this;
+
+    const draftAttachments = model.get('draftAttachments') || [];
     if (draftAttachments.length >= 32) {
       this.showToast(Whisper.MaxAttachmentsToast);
       return;
@@ -2043,7 +2068,7 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  getFileName(fileName: any) {
+  getFileName(fileName?: string) {
     if (!fileName) {
       return '';
     }
@@ -2055,7 +2080,7 @@ Whisper.ConversationView = Whisper.View.extend({
     return fileName.split('.').slice(0, -1).join('.');
   },
 
-  getType(contentType: any) {
+  getType(contentType?: string) {
     if (!contentType) {
       return '';
     }
@@ -2067,7 +2092,7 @@ Whisper.ConversationView = Whisper.View.extend({
     return contentType.split('/')[1];
   },
 
-  fixExtension(fileName: any, contentType: any) {
+  fixExtension(fileName: string, contentType: string) {
     const extension = this.getType(contentType);
     const name = this.getFileName(fileName);
     return `${name}.${extension}`;
@@ -2099,8 +2124,9 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   onVerifiedChange() {
-    if (this.model.isUnverified()) {
-      const unverified = this.model.getUnverified();
+    const { model }: { model: ConversationModel } = this;
+    if (model.isUnverified()) {
+      const unverified = model.getUnverified();
       let message;
       if (!unverified.length) {
         return;
@@ -2141,7 +2167,7 @@ Whisper.ConversationView = Whisper.View.extend({
     this.compositionApi.current.setShowMic(!this.hasFiles());
   },
 
-  captureAudio(e: any) {
+  captureAudio(e?: Event) {
     if (e) {
       e.preventDefault();
     }
@@ -2179,7 +2205,7 @@ Whisper.ConversationView = Whisper.View.extend({
     this.disableMessageField();
     this.$('.microphone').hide();
   },
-  handleAudioConfirm(blob: any, lostFocus: any) {
+  handleAudioConfirm(blob: Blob, lostFocus?: boolean) {
     window.showConfirmationDialog({
       confirmStyle: 'negative',
       cancelText: window.i18n('discard'),
@@ -2192,7 +2218,7 @@ Whisper.ConversationView = Whisper.View.extend({
       },
     });
   },
-  async handleAudioCapture(blob: any) {
+  async handleAudioCapture(blob: Blob) {
     if (this.hasFiles()) {
       throw new Error('A voice note cannot be sent with other attachments');
     }
@@ -2222,7 +2248,7 @@ Whisper.ConversationView = Whisper.View.extend({
     this.compositionApi.current.setMicActive(false);
   },
 
-  async onOpened(messageId: any) {
+  async onOpened(messageId: string) {
     const { model }: { model: ConversationModel } = this;
 
     if (messageId) {
@@ -2279,7 +2305,7 @@ Whisper.ConversationView = Whisper.View.extend({
     );
   },
 
-  async retrySend(messageId: any) {
+  async retrySend(messageId: string) {
     const message = this.model.messageCollection.get(messageId);
     if (!message) {
       throw new Error(`retrySend: Did not find message for id ${messageId}`);
@@ -2503,7 +2529,8 @@ Whisper.ConversationView = Whisper.View.extend({
     const DEFAULT_MEDIA_FETCH_COUNT = 50;
     const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
 
-    const conversationId = this.model.get('id');
+    const { model }: { model: ConversationModel } = this;
+    const conversationId = model.get('id');
 
     const getProps = async () => {
       const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
@@ -2543,7 +2570,7 @@ Whisper.ConversationView = Whisper.View.extend({
               (attachment: any) =>
                 attachment.thumbnail && !attachment.pending && !attachment.error
             )
-            .map((attachment: any, index: any) => {
+            .map((attachment: any, index: number) => {
               const { thumbnail } = attachment;
 
               return {
@@ -2634,7 +2661,7 @@ Whisper.ConversationView = Whisper.View.extend({
       Component: window.Signal.Components.MediaGallery,
       props: await getProps(),
       onClose: () => {
-        this.stopListening(this.model.messageCollection, 'remove', update);
+        this.stopListening(model.messageCollection, 'remove', update);
       },
     });
     view.headerTitle = window.i18n('allMedia');
@@ -2643,7 +2670,7 @@ Whisper.ConversationView = Whisper.View.extend({
       view.update(await getProps());
     };
 
-    this.listenTo(this.model.messageCollection, 'remove', update);
+    this.listenTo(model.messageCollection, 'remove', update);
 
     this.listenBack(view);
   },
@@ -2672,23 +2699,31 @@ Whisper.ConversationView = Whisper.View.extend({
     this.compositionApi.current.resetEmojiResults(false);
   },
 
-  async addMessage(message: any) {
+  async addMessage(message: MessageModel) {
+    const { model }: { model: ConversationModel } = this;
+
     // This is debounced, so it won't hit the database too often.
     this.lazyUpdateVerified();
 
     // We do this here because we don't want convo.messageCollection to have
     //   anything in it unless it has an associated view. This is so, when we
     //   fetch on open, it's clean.
-    this.model.addIncomingMessage(message);
+    model.addIncomingMessage(message);
   },
 
-  async showMembers(_e: any, providedMembers: any, options: any = {}) {
+  async showMembers(
+    _e: unknown,
+    providedMembers: void | Backbone.Collection<ConversationModel>,
+    options: any = {}
+  ) {
+    const { model }: { model: ConversationModel } = this;
+
     window._.defaults(options, { needVerify: false });
 
-    let model = providedMembers || this.model.contactCollection;
+    let contactCollection = providedMembers || model.contactCollection;
 
-    if (!providedMembers && isGroupV2(this.model.attributes)) {
-      model = new Whisper.GroupConversationCollection(
+    if (!providedMembers && isGroupV2(model.attributes)) {
+      contactCollection = new Whisper.GroupConversationCollection(
         this.model.get('membersV2').map(({ conversationId, role }: any) => ({
           conversation: window.ConversationController.get(conversationId),
           isAdmin:
@@ -2698,17 +2733,20 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     const view = new Whisper.GroupMemberList({
-      model,
+      model: contactCollection,
       // we pass this in to allow nested panels
       listenBack: this.listenBack.bind(this),
       needVerify: options.needVerify,
-      conversation: this.model,
+      conversation: model,
     });
 
     this.listenBack(view);
   },
 
-  forceSend({ contactId, messageId }: any) {
+  forceSend({
+    contactId,
+    messageId,
+  }: Readonly<{ contactId: string; messageId: string }>) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = window.ConversationController.get(contactId)!;
     const message = this.model.messageCollection.get(messageId);
@@ -2740,12 +2778,14 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  showSafetyNumber(id: any) {
-    let conversation;
+  showSafetyNumber(id: string) {
+    const { model }: { model: ConversationModel } = this;
 
-    if (!id && isDirectConversation(this.model.attributes)) {
+    let conversation: undefined | ConversationModel;
+
+    if (!id && isDirectConversation(model.attributes)) {
       // eslint-disable-next-line prefer-destructuring
-      conversation = this.model;
+      conversation = model;
     } else {
       conversation = window.ConversationController.get(id);
     }
@@ -2757,7 +2797,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  downloadAttachmentWrapper(messageId: any) {
+  downloadAttachmentWrapper(messageId: string) {
     const message = this.model.messageCollection.get(messageId);
     if (!message) {
       throw new Error(
@@ -2778,7 +2818,15 @@ Whisper.ConversationView = Whisper.View.extend({
     this.downloadAttachment({ attachment, timestamp, isDangerous });
   },
 
-  async downloadAttachment({ attachment, timestamp, isDangerous }: any) {
+  async downloadAttachment({
+    attachment,
+    timestamp,
+    isDangerous,
+  }: {
+    attachment: typeof Attachment;
+    timestamp: string;
+    isDangerous: boolean;
+  }) {
     if (isDangerous) {
       this.showToast(Whisper.DangerousFileTypeToast);
       return;
@@ -2796,7 +2844,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  async displayTapToViewMessage(messageId: any) {
+  async displayTapToViewMessage(messageId: string) {
     const message = this.model.messageCollection.get(messageId);
     if (!message) {
       throw new Error(
@@ -2873,7 +2921,7 @@ Whisper.ConversationView = Whisper.View.extend({
     window.Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
   },
 
-  deleteMessage(messageId: any) {
+  deleteMessage(messageId: string) {
     const message = this.model.messageCollection.get(messageId);
     if (!message) {
       throw new Error(
@@ -2929,7 +2977,7 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  showStickerPackPreview(packId: any, packKey: any) {
+  showStickerPackPreview(packId: string, packKey: string) {
     window.Signal.Stickers.downloadEphemeralPack(packId, packKey);
 
     const props = {
@@ -3018,7 +3066,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const media = attachments
       .filter((item: any) => item.thumbnail && !item.pending && !item.error)
-      .map((item: any, index: any) => ({
+      .map((item: any, index: number) => ({
         objectURL: getAbsoluteAttachmentPath(item.path),
         path: item.path,
         contentType: item.contentType,
@@ -3089,6 +3137,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showContactModal(contactId: string) {
+    const { model }: { model: ConversationModel } = this;
+
     if (this.contactModalView) {
       this.contactModalView.remove();
       this.contactModalView = null;
@@ -3110,7 +3160,7 @@ Whisper.ConversationView = Whisper.View.extend({
     this.contactModalView = new Whisper.ReactWrapperView({
       JSX: window.Signal.State.Roots.createContactModal(window.reduxStore, {
         contactId,
-        currentConversationId: this.model.id,
+        currentConversationId: model.id,
         onClose: hideContactModal,
         openConversation: (conversationId: string) => {
           hideContactModal();
@@ -3118,7 +3168,7 @@ Whisper.ConversationView = Whisper.View.extend({
         },
         removeMember: (conversationId: string) => {
           hideContactModal();
-          this.model.removeFromGroupV2(conversationId);
+          model.removeFromGroupV2(conversationId);
         },
         showSafetyNumber: (conversationId: string) => {
           hideContactModal();
@@ -3127,7 +3177,7 @@ Whisper.ConversationView = Whisper.View.extend({
         toggleAdmin: (conversationId: string) => {
           hideContactModal();
 
-          const isAdmin = this.model.isAdmin(conversationId);
+          const isAdmin = model.isAdmin(conversationId);
           const conversationModel = window.ConversationController.get(
             conversationId
           );
@@ -3151,7 +3201,7 @@ Whisper.ConversationView = Whisper.View.extend({
             okText: isAdmin
               ? window.i18n('ContactModal--rm-admin')
               : window.i18n('ContactModal--make-admin'),
-            resolve: () => this.model.toggleAdmin(conversationId),
+            resolve: () => model.toggleAdmin(conversationId),
           });
         },
         updateSharedGroups: () => {
@@ -3167,6 +3217,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showGroupLinkManagement() {
+    const { model }: { model: ConversationModel } = this;
+
     const view = new Whisper.ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createGroupLinkManagement(
@@ -3174,7 +3226,7 @@ Whisper.ConversationView = Whisper.View.extend({
         {
           accessEnum: window.textsecure.protobuf.AccessControl.AccessRequired,
           changeHasGroupLink: this.changeHasGroupLink.bind(this),
-          conversationId: this.model.id,
+          conversationId: model.id,
           copyGroupLink: this.copyGroupLink.bind(this),
           generateNewGroupLink: this.generateNewGroupLink.bind(this),
           setAccessControlAddFromInviteLinkSetting: this.setAccessControlAddFromInviteLinkSetting.bind(
@@ -3190,13 +3242,15 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showGroupV2Permissions() {
+    const { model }: { model: ConversationModel } = this;
+
     const view = new Whisper.ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createGroupV2Permissions(
         window.reduxStore,
         {
           accessEnum: window.textsecure.protobuf.AccessControl.AccessRequired,
-          conversationId: this.model.id,
+          conversationId: model.id,
           setAccessControlAttributesSetting: this.setAccessControlAttributesSetting.bind(
             this
           ),
@@ -3213,16 +3267,18 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showPendingInvites() {
+    const { model }: { model: ConversationModel } = this;
+
     const view = new Whisper.ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createPendingInvites(window.reduxStore, {
-        conversationId: this.model.id,
+        conversationId: model.id,
         ourConversationId: window.ConversationController.getOurConversationId(),
         approvePendingMembership: (conversationId: string) => {
-          this.model.approvePendingMembershipFromGroupV2(conversationId);
+          model.approvePendingMembershipFromGroupV2(conversationId);
         },
         revokePendingMemberships: conversationIds => {
-          this.model.revokePendingMembershipsFromGroupV2(conversationIds);
+          model.revokePendingMembershipsFromGroupV2(conversationIds);
         },
       }),
     });
@@ -3233,12 +3289,12 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showChatColorEditor() {
-    const conversation: ConversationModel = this.model;
+    const { model }: { model: ConversationModel } = this;
 
     const view = new Whisper.ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createChatColorPicker(window.reduxStore, {
-        conversationId: conversation.get('id'),
+        conversationId: model.get('id'),
       }),
     });
 
@@ -3249,7 +3305,7 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showConversationDetails() {
-    const conversation: ConversationModel = this.model;
+    const { model }: { model: ConversationModel } = this;
 
     const messageRequestEnum =
       window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
@@ -3260,14 +3316,14 @@ Whisper.ConversationView = Whisper.View.extend({
     const onLeave = () => {
       this.longRunningTaskWrapper({
         name: 'onLeave',
-        task: () => this.model.leaveGroupV2(),
+        task: () => model.leaveGroupV2(),
       });
     };
 
     const onBlock = () => {
       this.syncMessageRequestResponse(
         'onBlock',
-        conversation,
+        model,
         messageRequestEnum.BLOCK
       );
     };
@@ -3275,14 +3331,14 @@ Whisper.ConversationView = Whisper.View.extend({
     const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
 
     const hasGroupLink = Boolean(
-      conversation.get('groupInviteLinkPassword') &&
-        conversation.get('accessControl')?.addFromInviteLink !==
+      model.get('groupInviteLinkPassword') &&
+        model.get('accessControl')?.addFromInviteLink !==
           ACCESS_ENUM.UNSATISFIABLE
     );
 
     const props = {
-      addMembers: conversation.addMembersV2.bind(conversation),
-      conversationId: conversation.get('id'),
+      addMembers: model.addMembersV2.bind(model),
+      conversationId: model.get('id'),
       hasGroupLink,
       loadRecentMediaItems: this.loadRecentMediaItems.bind(this),
       setDisappearingMessages: this.setDisappearingMessages.bind(this),
@@ -3293,9 +3349,7 @@ Whisper.ConversationView = Whisper.View.extend({
       showGroupV2Permissions: this.showGroupV2Permissions.bind(this),
       showPendingInvites: this.showPendingInvites.bind(this),
       showLightboxForMedia: this.showLightboxForMedia.bind(this),
-      updateGroupAttributes: conversation.updateGroupAttributesV2.bind(
-        conversation
-      ),
+      updateGroupAttributes: model.updateGroupAttributesV2.bind(model),
       onLeave,
       onBlock,
     };
@@ -3313,7 +3367,7 @@ Whisper.ConversationView = Whisper.View.extend({
     view.render();
   },
 
-  showMessageDetail(messageId: any) {
+  showMessageDetail(messageId: string) {
     const { model }: { model: ConversationModel } = this;
     const message = model.messageCollection?.get(messageId);
     if (!message) {
@@ -3367,7 +3421,13 @@ Whisper.ConversationView = Whisper.View.extend({
     view.render();
   },
 
-  showContactDetail({ contact, signalAccount }: any) {
+  showContactDetail({
+    contact,
+    signalAccount,
+  }: {
+    contact: any;
+    signalAccount: any;
+  }) {
     const view = new Whisper.ReactWrapperView({
       Component: window.Signal.Components.ContactDetail,
       className: 'contact-detail-pane panel',
@@ -3388,8 +3448,8 @@ Whisper.ConversationView = Whisper.View.extend({
     this.listenBack(view);
   },
 
-  async openConversation(number: any) {
-    window.Whisper.events.trigger('showConversation', number);
+  async openConversation(conversationId: string) {
+    window.Whisper.events.trigger('showConversation', conversationId);
   },
 
   listenBack(view: any) {
@@ -3450,12 +3510,16 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   endSession() {
-    this.model.endSession();
+    const { model }: { model: ConversationModel } = this;
+
+    model.endSession();
   },
 
   async loadRecentMediaItems(limit: number): Promise<void> {
+    const { model }: { model: ConversationModel } = this;
+
     const messages: Array<MessageType> = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
-      this.model.id,
+      model.id,
       {
         limit,
       }
@@ -3489,24 +3553,28 @@ Whisper.ConversationView = Whisper.View.extend({
       );
 
     window.reduxActions.conversations.setRecentMediaItems(
-      this.model.id,
+      model.id,
       loadedRecentMediaItems
     );
   },
 
   async setDisappearingMessages(seconds: any) {
+    const { model }: { model: ConversationModel } = this;
+
     const valueToSet = seconds > 0 ? seconds : null;
 
     await this.longRunningTaskWrapper({
       name: 'updateExpirationTimer',
-      task: async () => this.model.updateExpirationTimer(valueToSet),
+      task: async () => model.updateExpirationTimer(valueToSet),
     });
   },
 
   async changeHasGroupLink(value: boolean) {
+    const { model }: { model: ConversationModel } = this;
+
     await this.longRunningTaskWrapper({
       name: 'toggleGroupLink',
-      task: async () => this.model.toggleGroupLink(value),
+      task: async () => model.toggleGroupLink(value),
     });
   },
 
@@ -3516,6 +3584,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async generateNewGroupLink() {
+    const { model }: { model: ConversationModel } = this;
+
     window.showConfirmationDialog({
       confirmStyle: 'negative',
       message: window.i18n('GroupLinkManagement--confirm-reset'),
@@ -3523,34 +3593,42 @@ Whisper.ConversationView = Whisper.View.extend({
       resolve: async () => {
         await this.longRunningTaskWrapper({
           name: 'refreshGroupLink',
-          task: async () => this.model.refreshGroupLink(),
+          task: async () => model.refreshGroupLink(),
         });
       },
     });
   },
 
   async setAccessControlAddFromInviteLinkSetting(value: boolean) {
+    const { model }: { model: ConversationModel } = this;
+
     await this.longRunningTaskWrapper({
       name: 'updateAccessControlAddFromInviteLink',
-      task: async () => this.model.updateAccessControlAddFromInviteLink(value),
+      task: async () => model.updateAccessControlAddFromInviteLink(value),
     });
   },
 
   async setAccessControlAttributesSetting(value: number) {
+    const { model }: { model: ConversationModel } = this;
+
     await this.longRunningTaskWrapper({
       name: 'updateAccessControlAttributes',
-      task: async () => this.model.updateAccessControlAttributes(value),
+      task: async () => model.updateAccessControlAttributes(value),
     });
   },
 
   async setAccessControlMembersSetting(value: number) {
+    const { model }: { model: ConversationModel } = this;
+
     await this.longRunningTaskWrapper({
       name: 'updateAccessControlMembers',
-      task: async () => this.model.updateAccessControlMembers(value),
+      task: async () => model.updateAccessControlMembers(value),
     });
   },
 
   async destroyMessages() {
+    const { model }: { model: ConversationModel } = this;
+
     window.showConfirmationDialog({
       confirmStyle: 'negative',
       message: window.i18n('deleteConversationConfirmation'),
@@ -3559,9 +3637,9 @@ Whisper.ConversationView = Whisper.View.extend({
         this.longRunningTaskWrapper({
           name: 'destroymessages',
           task: async () => {
-            this.model.trigger('unload', 'delete messages');
-            await this.model.destroyMessages();
-            this.model.updateLastMessage();
+            model.trigger('unload', 'delete messages');
+            await model.destroyMessages();
+            model.updateLastMessage();
           },
         });
       },
@@ -3609,7 +3687,7 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  async sendReactionMessage(messageId: any, reaction: any) {
+  async sendReactionMessage(messageId: string, reaction: any) {
     const messageModel = messageId
       ? await getMessageById(messageId, {
           Message: Whisper.Message,
@@ -3632,6 +3710,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async sendStickerMessage(options: any = {}) {
+    const { model }: { model: ConversationModel } = this;
+
     try {
       const contacts = await this.getUntrustedContacts(options);
 
@@ -3649,7 +3729,7 @@ Whisper.ConversationView = Whisper.View.extend({
       }
 
       const { packId, stickerId } = options;
-      this.model.sendStickerMessage(packId, stickerId);
+      model.sendStickerMessage(packId, stickerId);
     } catch (error) {
       window.log.error(
         'clickSend error:',
@@ -3659,10 +3739,12 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async getUntrustedContacts(options: any = {}) {
+    const { model }: { model: ConversationModel } = this;
+
     // This will go to the trust store for the latest identity key information,
     //   and may result in the display of a new banner for this conversation.
-    await this.model.updateVerified();
-    const unverifiedContacts = this.model.getUnverified();
+    await model.updateVerified();
+    const unverifiedContacts = model.getUnverified();
 
     if (options.force) {
       if (unverifiedContacts.length) {
@@ -3675,7 +3757,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return unverifiedContacts;
     }
 
-    const untrustedContacts = this.model.getUntrusted();
+    const untrustedContacts = model.getUntrusted();
 
     if (options.force) {
       if (untrustedContacts.length) {
@@ -3689,17 +3771,19 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async setQuoteMessage(messageId: null | string) {
-    const model: MessageModel | undefined = messageId
+    const { model }: { model: ConversationModel } = this;
+
+    const message: MessageModel | undefined = messageId
       ? await getMessageById(messageId, {
           Message: Whisper.Message,
         })
       : undefined;
 
-    if (model && !model.canReply()) {
+    if (message && !message.canReply()) {
       return;
     }
 
-    if (model && !model.isNormalBubble()) {
+    if (message && !message.isNormalBubble()) {
       return;
     }
 
@@ -3707,7 +3791,7 @@ Whisper.ConversationView = Whisper.View.extend({
     this.quotedMessage = null;
     this.quoteHolder = null;
 
-    const existing = this.model.get('quotedMessageId');
+    const existing = model.get('quotedMessageId');
     if (existing !== messageId) {
       this.model.set({
         quotedMessageId: messageId,
@@ -3722,12 +3806,15 @@ Whisper.ConversationView = Whisper.View.extend({
       this.quoteView = null;
     }
 
-    if (model) {
-      const message = window.MessageController.register(model.id, model);
-      this.quotedMessage = message;
+    if (message) {
+      const quotedMessage = window.MessageController.register(
+        message.id,
+        message
+      );
+      this.quotedMessage = quotedMessage;
 
-      if (message) {
-        this.quote = await this.model.makeQuote(this.quotedMessage);
+      if (quotedMessage) {
+        this.quote = await model.makeQuote(this.quotedMessage);
 
         this.enableMessageField();
         this.focusMessageField();
@@ -3738,6 +3825,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   renderQuotedMessage() {
+    const { model }: { model: ConversationModel } = this;
+
     if (this.quoteView) {
       this.quoteView.remove();
       this.quoteView = null;
@@ -3747,7 +3836,7 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     const message = new Whisper.Message({
-      conversationId: this.model.id,
+      conversationId: model.id,
       quote: this.quote,
     } as any);
     message.quotedMessage = this.quotedMessage;
@@ -3782,12 +3871,14 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showInvalidMessageToast(messageText?: string): boolean {
-    let ToastView;
+    const { model }: { model: ConversationModel } = this;
+
+    let ToastView: undefined | typeof window.Whisper.ToastView;
 
     if (window.reduxStore.getState().expiration.hasExpired) {
       ToastView = Whisper.ExpiredToast;
     }
-    if (!this.model.isValid()) {
+    if (!model.isValid()) {
       ToastView = Whisper.InvalidConversationToast;
     }
     if (
@@ -3803,10 +3894,8 @@ Whisper.ConversationView = Whisper.View.extend({
     ) {
       ToastView = Whisper.BlockedGroupToast;
     }
-    if (
-      !isDirectConversation(this.model.attributes) &&
-      this.model.get('left')
-    ) {
+
+    if (!isDirectConversation(model.attributes) && model.get('left')) {
       ToastView = Whisper.LeftGroupToast;
     }
     if (messageText && messageText.length > MAX_MESSAGE_BODY_LENGTH) {
@@ -3822,6 +3911,8 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async sendMessage(message = '', mentions = [], options = {}) {
+    const { model }: { model: ConversationModel } = this;
+
     this.sendStart = Date.now();
 
     try {
@@ -3847,7 +3938,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    this.model.clearTypingTimers();
+    model.clearTypingTimers();
 
     if (this.showInvalidMessageToast(message)) {
       this.enableMessageField();
@@ -3863,7 +3954,7 @@ Whisper.ConversationView = Whisper.View.extend({
       const sendDelta = Date.now() - this.sendStart;
       window.log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
-      this.model.sendMessage(
+      model.sendMessage(
         message,
         attachments,
         this.quote,
@@ -3873,7 +3964,7 @@ Whisper.ConversationView = Whisper.View.extend({
       );
 
       this.compositionApi.current.reset();
-      this.model.setMarkedUnread(false);
+      model.setMarkedUnread(false);
       this.setQuoteMessage(null);
       this.resetLinkPreview();
       this.clearAttachments();
@@ -3898,13 +3989,15 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async saveDraft(
-    messageText: any,
+    messageText: string,
     bodyRanges: Array<typeof window.Whisper.BodyRangeType>
   ) {
+    const { model }: { model: ConversationModel } = this;
+
     const trimmed =
       messageText && messageText.length > 0 ? messageText.trim() : '';
 
-    if (this.model.get('draft') && (!messageText || trimmed.length === 0)) {
+    if (model.get('draft') && (!messageText || trimmed.length === 0)) {
       this.model.set({
         draft: null,
         draftChanged: true,
@@ -3915,7 +4008,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    if (messageText !== this.model.get('draft')) {
+    if (messageText !== model.get('draft')) {
       this.model.set({
         draft: messageText,
         draftChanged: true,
@@ -4393,7 +4486,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
   // Called whenever the user changes the message composition field. But only
   //   fires if there's content in the message field after the change.
-  maybeBumpTyping(messageText: any) {
+  maybeBumpTyping(messageText: string) {
     if (messageText.length) {
       this.model.throttledBumpTyping();
     }
