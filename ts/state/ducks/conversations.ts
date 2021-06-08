@@ -26,6 +26,8 @@ import {
   AvatarColorType,
   ConversationColorType,
   CustomColorType,
+  DefaultConversationColorType,
+  DEFAULT_CONVERSATION_COLOR,
 } from '../../types/Colors';
 import { ConversationAttributesType } from '../../model-types.d';
 import { BodyRangeType } from '../../types/Util';
@@ -394,13 +396,7 @@ type CustomColorRemovedActionType = {
   type: typeof CUSTOM_COLOR_REMOVED;
   payload: {
     colorId: string;
-    defaultConversationColor: {
-      color: ConversationColorType;
-      customColorData?: {
-        id: string;
-        value: CustomColorType;
-      };
-    };
+    defaultConversationColor: DefaultConversationColorType;
   };
 };
 type SetPreJoinConversationActionType = {
@@ -765,7 +761,8 @@ function removeCustomColorOnConversations(
     }
 
     const defaultConversationColor = window.storage.get(
-      'defaultConversationColor'
+      'defaultConversationColor',
+      DEFAULT_CONVERSATION_COLOR
     );
 
     dispatch({
@@ -800,7 +797,8 @@ function resetAllChatColors(): ThunkAction<
     });
 
     const defaultConversationColor = window.storage.get(
-      'defaultConversationColor'
+      'defaultConversationColor',
+      DEFAULT_CONVERSATION_COLOR
     );
 
     dispatch({

@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
@@ -11,6 +11,7 @@ import {
   ConversationColors,
   ConversationColorType,
   CustomColorType,
+  DefaultConversationColorType,
 } from '../../types/Colors';
 import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation';
 
@@ -22,13 +23,7 @@ export type ItemsStateType = {
   readonly [key: string]: unknown;
 
   // This property should always be set and this is ensured in background.ts
-  readonly defaultConversationColor?: {
-    color: ConversationColorType;
-    customColorData?: {
-      id: string;
-      value: CustomColorType;
-    };
-  };
+  readonly defaultConversationColor?: DefaultConversationColorType;
 
   readonly customColors?: {
     readonly colors: Record<string, CustomColorType>;

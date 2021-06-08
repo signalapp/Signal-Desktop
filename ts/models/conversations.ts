@@ -21,6 +21,7 @@ import {
   AvatarColors,
   ConversationColorType,
   CustomColorType,
+  DEFAULT_CONVERSATION_COLOR,
 } from '../types/Colors';
 import { MessageModel } from './messages';
 import { isMuted } from '../util/isMuted';
@@ -1358,23 +1359,26 @@ export class ConversationModel extends window.Backbone
     // We don't want to crash or have an infinite loop if we loop back into this function
     //   again. We'll log a warning and returned old cached props or throw an error.
     this.format = () => {
-      const { stack } = new Error('for stack');
-      window.log.warn(
-        `Conversation.format()/${this.idForLogging()} reentrant call! ${stack}`
-      );
       if (!this.oldCachedProps) {
         throw new Error(
           `Conversation.format()/${this.idForLogging()} reentrant call, no old cached props!`
         );
       }
+
+      const { stack } = new Error('for stack');
+      window.log.warn(
+        `Conversation.format()/${this.idForLogging()} reentrant call! ${stack}`
+      );
+
       return this.oldCachedProps;
     };
 
-    this.cachedProps = this.getProps();
-
-    this.format = oldFormat;
-
-    return this.cachedProps;
+    try {
+      this.cachedProps = this.getProps();
+      return this.cachedProps;
+    } finally {
+      this.format = oldFormat;
+    }
   }
 
   // Note: this should never be called directly. Use conversation.format() instead, which
@@ -4866,7 +4870,8 @@ export class ConversationModel extends window.Backbone
 
   getConversationColor(): ConversationColorType {
     const defaultConversationColor = window.storage.get(
-      'defaultConversationColor'
+      'defaultConversationColor',
+      DEFAULT_CONVERSATION_COLOR
     );
 
     return this.get('conversationColor') || defaultConversationColor.color;
@@ -4877,7 +4882,8 @@ export class ConversationModel extends window.Backbone
     customColorId?: string;
   } {
     const defaultConversationColor = window.storage.get(
-      'defaultConversationColor'
+      'defaultConversationColor',
+      DEFAULT_CONVERSATION_COLOR
     );
 
     if (this.getConversationColor() !== 'custom') {

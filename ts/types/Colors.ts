@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export const AvatarColors = [
@@ -93,3 +93,15 @@ export type AvatarColorType = typeof AvatarColors[number];
 export type ConversationColorType =
   | typeof ConversationColors[number]
   | 'custom';
+
+export type DefaultConversationColorType = {
+  color: ConversationColorType;
+  customColorData?: {
+    id: string;
+    value: CustomColorType;
+  };
+};
+
+export const DEFAULT_CONVERSATION_COLOR: DefaultConversationColorType = {
+  color: 'ultramarine',
+};

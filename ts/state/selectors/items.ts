@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
@@ -8,9 +8,9 @@ import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalEx
 import { StateType } from '../reducer';
 import { ItemsStateType } from '../ducks/items';
 import {
-  ConversationColors,
   ConversationColorType,
   CustomColorType,
+  DEFAULT_CONVERSATION_COLOR,
 } from '../../types/Colors';
 
 export const getItems = (state: StateType): ItemsStateType => state.items;
@@ -41,5 +41,5 @@ export const getDefaultConversationColor = createSelector(
       id: string;
       value: CustomColorType;
     };
-  } => state.defaultConversationColor ?? { color: ConversationColors[0] }
+  } => state.defaultConversationColor ?? DEFAULT_CONVERSATION_COLOR
 );
