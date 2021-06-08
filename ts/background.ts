@@ -425,30 +425,6 @@ export async function startApp(): Promise<void> {
     first = false;
 
     cleanupSessionResets();
-    const retryPlaceholders = new window.Signal.Util.RetryPlaceholders();
-    window.Signal.Services.retryPlaceholders = retryPlaceholders;
-
-    setInterval(async () => {
-      const expired = await retryPlaceholders.getExpiredAndRemove();
-      window.log.info(
-        `retryPlaceholders/interval: Found ${expired.length} expired items`
-      );
-      expired.forEach(item => {
-        const { conversationId, senderUuid } = item;
-        const conversation = window.ConversationController.get(conversationId);
-        if (conversation) {
-          const receivedAt = Date.now();
-          const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
-          conversation.queueJob(() =>
-            conversation.addDeliveryIssue({
-              receivedAt,
-              receivedAtCounter,
-              senderUuid,
-            })
-          );
-        }
-      });
-    }, FIVE_MINUTES);
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
@@ -834,6 +810,46 @@ export async function startApp(): Promise<void> {
     // ensure that our feature flags are represented in the cached props
     // we generate on load of each convo.
     window.Signal.RemoteConfig.initRemoteConfig();
+
+    let retryReceiptLifespan: number | undefined;
+    try {
+      retryReceiptLifespan = parseIntOrThrow(
+        window.Signal.RemoteConfig.getValue('desktop.retryReceiptLifespan'),
+        'retryReceiptLifeSpan'
+      );
+    } catch (error) {
+      window.log.warn(
+        'Failed to parse integer out of desktop.retryReceiptLifespan feature flag',
+        error && error.stack ? error.stack : error
+      );
+    }
+
+    const retryPlaceholders = new window.Signal.Util.RetryPlaceholders({
+      retryReceiptLifespan,
+    });
+    window.Signal.Services.retryPlaceholders = retryPlaceholders;
+
+    setInterval(async () => {
+      const expired = await retryPlaceholders.getExpiredAndRemove();
+      window.log.info(
+        `retryPlaceholders/interval: Found ${expired.length} expired items`
+      );
+      expired.forEach(item => {
+        const { conversationId, senderUuid } = item;
+        const conversation = window.ConversationController.get(conversationId);
+        if (conversation) {
+          const receivedAt = Date.now();
+          const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
+          conversation.queueJob(() =>
+            conversation.addDeliveryIssue({
+              receivedAt,
+              receivedAtCounter,
+              senderUuid,
+            })
+          );
+        }
+      });
+    }, FIVE_MINUTES);
 
     try {
       await Promise.all([
@@ -2148,7 +2164,9 @@ export async function startApp(): Promise<void> {
           await server.registerCapabilities({
             'gv2-3': true,
             'gv1-migration': true,
-            senderKey: false,
+            senderKey: window.Signal.RemoteConfig.isEnabled(
+              'desktop.sendSenderKey'
+            ),
           });
         } catch (error) {
           window.log.error(
@@ -3408,13 +3426,106 @@ export async function startApp(): Promise<void> {
     return false;
   }
 
+  async function archiveSessionOnMatch({
+    requesterUuid,
+    requesterDevice,
+    senderDevice,
+  }: RetryRequestType): Promise<void> {
+    const ourDeviceId = parseIntOrThrow(
+      window.textsecure.storage.user.getDeviceId(),
+      'archiveSessionOnMatch/getDeviceId'
+    );
+    if (ourDeviceId === senderDevice) {
+      const address = `${requesterUuid}.${requesterDevice}`;
+      window.log.info(
+        'archiveSessionOnMatch: Devices match, archiving session'
+      );
+      await window.textsecure.storage.protocol.archiveSession(address);
+    }
+  }
+
+  async function sendDistributionMessageOrNullMessage(
+    options: RetryRequestType
+  ): Promise<void> {
+    const { groupId, requesterUuid } = options;
+    let sentDistributionMessage = false;
+    window.log.info('sendDistributionMessageOrNullMessage: Starting', {
+      groupId: groupId ? `groupv2(${groupId})` : undefined,
+      requesterUuid,
+    });
+
+    await archiveSessionOnMatch(options);
+
+    const conversation = window.ConversationController.getOrCreate(
+      requesterUuid,
+      'private'
+    );
+
+    if (groupId) {
+      const group = window.ConversationController.get(groupId);
+      const distributionId = group?.get('senderKeyInfo')?.distributionId;
+
+      if (group && distributionId) {
+        window.log.info(
+          'sendDistributionMessageOrNullMessage: Found matching group, sending sender key distribution message'
+        );
+
+        try {
+          const {
+            ContentHint,
+          } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+
+          const result = await window.textsecure.messaging.sendSenderKeyDistributionMessage(
+            {
+              contentHint: ContentHint.DEFAULT,
+              distributionId,
+              groupId,
+              identifiers: [requesterUuid],
+            }
+          );
+          if (result.errors && result.errors.length > 0) {
+            throw result.errors[0];
+          }
+          sentDistributionMessage = true;
+        } catch (error) {
+          window.log.error(
+            'sendDistributionMessageOrNullMessage: Failed to send sender key distribution message',
+            error && error.stack ? error.stack : error
+          );
+        }
+      }
+    }
+
+    if (!sentDistributionMessage) {
+      window.log.info(
+        'sendDistributionMessageOrNullMessage: Did not send distribution message, sending null message'
+      );
+
+      try {
+        const sendOptions = await conversation.getSendOptions();
+        const result = await window.textsecure.messaging.sendNullMessage(
+          { uuid: requesterUuid },
+          sendOptions
+        );
+        if (result.errors && result.errors.length > 0) {
+          throw result.errors[0];
+        }
+      } catch (error) {
+        window.log.error(
+          'maybeSendDistributionMessage: Failed to send null message',
+          error && error.stack ? error.stack : error
+        );
+      }
+    }
+  }
+
   async function onRetryRequest(event: RetryRequestEventType) {
     const { retryRequest } = event;
     const {
-      requesterUuid,
       requesterDevice,
-      sentAt,
+      requesterUuid,
       senderDevice,
+      sentAt,
     } = retryRequest;
     const logId = `${requesterUuid}.${requesterDevice} ${sentAt}-${senderDevice}`;
 
@@ -3447,6 +3558,7 @@ export async function startApp(): Promise<void> {
 
     if (!targetMessage) {
       window.log.info(`onRetryRequest/${logId}: Did not find message`);
+      await sendDistributionMessageOrNullMessage(retryRequest);
       return;
     }
 
@@ -3454,47 +3566,36 @@ export async function startApp(): Promise<void> {
       window.log.info(
         `onRetryRequest/${logId}: Message is erased, refusing to send again.`
       );
+      await sendDistributionMessageOrNullMessage(retryRequest);
       return;
     }
 
     const HOUR = 60 * 60 * 1000;
     const ONE_DAY = 24 * HOUR;
-    if (isOlderThan(sentAt, ONE_DAY)) {
+    let retryRespondMaxAge = ONE_DAY;
+    try {
+      retryRespondMaxAge = parseIntOrThrow(
+        window.Signal.RemoteConfig.getValue('desktop.retryRespondMaxAge'),
+        'retryRespondMaxAge'
+      );
+    } catch (error) {
+      window.log.warn(
+        `onRetryRequest/${logId}: Failed to parse integer from desktop.retryRespondMaxAge feature flag`,
+        error && error.stack ? error.stack : error
+      );
+    }
+
+    if (isOlderThan(sentAt, retryRespondMaxAge)) {
       window.log.info(
         `onRetryRequest/${logId}: Message is too old, refusing to send again.`
       );
+      await sendDistributionMessageOrNullMessage(retryRequest);
       return;
-    }
-
-    const sentUnidentified = isInList(
-      requesterConversation,
-      targetMessage.get('unidentifiedDeliveries')
-    );
-    const wasDelivered = isInList(
-      requesterConversation,
-      targetMessage.get('delivered_to')
-    );
-    if (sentUnidentified && wasDelivered) {
-      window.log.info(
-        `onRetryRequest/${logId}: Message was sent sealed sender and was delivered, refusing to send again.`
-      );
-      return;
-    }
-
-    const ourDeviceId = parseIntOrThrow(
-      window.textsecure.storage.user.getDeviceId(),
-      'onRetryRequest/getDeviceId'
-    );
-    if (ourDeviceId === senderDevice) {
-      const address = `${requesterUuid}.${requesterDevice}`;
-      window.log.info(
-        `onRetryRequest/${logId}: Devices match, archiving session`
-      );
-      await window.textsecure.storage.protocol.archiveSession(address);
     }
 
     window.log.info(`onRetryRequest/${logId}: Resending message`);
-    targetMessage.resend(requesterUuid);
+    await archiveSessionOnMatch(retryRequest);
+    await targetMessage.resend(requesterUuid);
   }
 
   type DecryptionErrorEventType = Event & {
@@ -3558,16 +3659,6 @@ export async function startApp(): Promise<void> {
     );
     const conversation = group || sender;
 
-    function immediatelyAddError() {
-      conversation.queueJob(async () => {
-        conversation.addDeliveryIssue({
-          receivedAt: receivedAtDate,
-          receivedAtCounter,
-          senderUuid,
-        });
-      });
-    }
-
     // 2. Send resend request
 
     if (!cipherTextBytes || !isNumber(cipherTextType)) {
@@ -3611,14 +3702,7 @@ export async function startApp(): Promise<void> {
 
     // 3. Determine how to represent this to the user. Three different options.
 
-    // This is a sync message of some kind that cannot be resent. Reset session but don't
-    //   show any UI for it.
-    if (contentHint === ContentHint.SUPPLEMENTARY) {
-      scheduleSessionReset(senderUuid, senderDevice);
-      return;
-    }
-
-    // If we request a re-send, it might just work out for us!
+    // We believe that it could be successfully re-sent, so we'll add a placeholder.
     if (contentHint === ContentHint.RESENDABLE) {
       const { retryPlaceholders } = window.Signal.Services;
       assert(retryPlaceholders, 'requestResend: adding placeholder');
@@ -3635,10 +3719,22 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    // This message cannot be resent. We'll show no error and trust the other side to
+    //   reset their session.
+    if (contentHint === ContentHint.IMPLICIT) {
+      return;
+    }
+
     window.log.warn(
       `requestResend/${logId}: No content hint, adding error immediately`
     );
-    immediatelyAddError();
+    conversation.queueJob(async () => {
+      conversation.addDeliveryIssue({
+        receivedAt: receivedAtDate,
+        receivedAtCounter,
+        senderUuid,
+      });
+    });
   }
 
   function scheduleSessionReset(senderUuid: string, senderDevice: number) {

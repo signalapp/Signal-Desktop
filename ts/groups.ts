@@ -1322,7 +1322,7 @@ export async function modifyGroupV2({
               profileKey,
             },
             conversation,
-            ContentHint.SUPPLEMENTARY,
+            ContentHint.DEFAULT,
             sendOptions
           )
         );
@@ -1696,7 +1696,7 @@ export async function createGroupV2({
           profileKey,
         },
         conversation,
-        ContentHint.SUPPLEMENTARY,
+        ContentHint.DEFAULT,
         sendOptions
       ),
     timestamp,
@@ -2226,7 +2226,7 @@ export async function initiateMigrationToGroupV2(
           profileKey: ourProfileKey,
         },
         conversation,
-        ContentHint.SUPPLEMENTARY,
+        ContentHint.DEFAULT,
         sendOptions
       ),
     timestamp,

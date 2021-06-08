@@ -1411,7 +1411,8 @@ export declare namespace UnidentifiedSenderMessageClass.Message {
   }
 
   class ContentHint {
-    static SUPPLEMENTARY: number;
+    static DEFAULT: number;
     static RESENDABLE: number;
+    static IMPLICIT: number;
   }
 }

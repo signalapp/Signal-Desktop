@@ -3601,9 +3601,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           conversationId,
           message.get('sent_at')
         );
-        if (item) {
+        if (item && item.wasOpened) {
           window.log.info(
-            `handleDataMessage: found retry placeholder. Updating ${message.idForLogging()} received_at/received_at_ms`
+            `handleDataMessage: found retry placeholder for ${message.idForLogging()}, but conversation was opened. No updates made.`
+          );
+        } else if (item) {
+          window.log.info(
+            `handleDataMessage: found retry placeholder for ${message.idForLogging()}. Updating received_at/received_at_ms`
           );
           message.set({
             received_at: item.receivedAtCounter,

@@ -805,7 +805,7 @@ export class CallingClass {
         window.Signal.Util.sendToGroup(
           { groupCallUpdate: { eraId }, groupV2, timestamp },
           conversation,
-          ContentHint.SUPPLEMENTARY,
+          ContentHint.DEFAULT,
           sendOptions
         ),
       timestamp,

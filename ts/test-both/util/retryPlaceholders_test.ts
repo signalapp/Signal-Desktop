@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import sinon from 'sinon';
 
 import {
-  getOneHourAgo,
+  getDeltaIntoPast,
   RetryItemType,
   RetryPlaceholders,
   STORAGE_KEY,
@@ -13,15 +14,26 @@ import {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 describe('RetryPlaceholders', () => {
+  const NOW = 1_000_000;
+  let clock: any;
+
   beforeEach(() => {
     window.storage.put(STORAGE_KEY, null);
+
+    clock = sinon.useFakeTimers({
+      now: NOW,
+    });
+  });
+
+  afterEach(() => {
+    clock.restore();
   });
 
   function getDefaultItem(): RetryItemType {
     return {
       conversationId: 'conversation-id',
-      sentAt: Date.now() - 10,
-      receivedAt: Date.now() - 5,
+      sentAt: NOW - 10,
+      receivedAt: NOW - 5,
       receivedAtCounter: 4,
       senderUuid: 'sender-uuid',
     };
@@ -87,11 +99,11 @@ describe('RetryPlaceholders', () => {
     it('returns soonest expiration given a list, and after add', async () => {
       const older = {
         ...getDefaultItem(),
-        receivedAt: Date.now(),
+        receivedAt: NOW,
       };
       const newer = {
         ...getDefaultItem(),
-        receivedAt: Date.now() + 10,
+        receivedAt: NOW + 10,
       };
       const items: Array<RetryItemType> = [older, newer];
       window.storage.put(STORAGE_KEY, items);
@@ -102,7 +114,7 @@ describe('RetryPlaceholders', () => {
 
       const oldest = {
         ...getDefaultItem(),
-        receivedAt: Date.now() - 5,
+        receivedAt: NOW - 5,
       };
 
       await placeholders.add(oldest);
@@ -115,11 +127,11 @@ describe('RetryPlaceholders', () => {
     it('does nothing if no item expired', async () => {
       const older = {
         ...getDefaultItem(),
-        receivedAt: Date.now() + 10,
+        receivedAt: NOW + 10,
       };
       const newer = {
         ...getDefaultItem(),
-        receivedAt: Date.now() + 15,
+        receivedAt: NOW + 15,
       };
       const items: Array<RetryItemType> = [older, newer];
       window.storage.put(STORAGE_KEY, items);
@@ -132,11 +144,11 @@ describe('RetryPlaceholders', () => {
     it('removes just one if expired', async () => {
       const older = {
         ...getDefaultItem(),
-        receivedAt: getOneHourAgo() - 1000,
+        receivedAt: getDeltaIntoPast() - 1000,
       };
       const newer = {
         ...getDefaultItem(),
-        receivedAt: Date.now() + 15,
+        receivedAt: NOW + 15,
       };
       const items: Array<RetryItemType> = [older, newer];
       window.storage.put(STORAGE_KEY, items);
@@ -150,11 +162,11 @@ describe('RetryPlaceholders', () => {
     it('removes all if expired', async () => {
       const older = {
         ...getDefaultItem(),
-        receivedAt: getOneHourAgo() - 1000,
+        receivedAt: getDeltaIntoPast() - 1000,
       };
       const newer = {
         ...getDefaultItem(),
-        receivedAt: getOneHourAgo() - 900,
+        receivedAt: getDeltaIntoPast() - 900,
       };
       const items: Array<RetryItemType> = [older, newer];
       window.storage.put(STORAGE_KEY, items);
@@ -169,7 +181,7 @@ describe('RetryPlaceholders', () => {
     });
   });
 
-  describe('#findByConversationAndRemove', () => {
+  describe('#findByConversationAndMarkOpened', () => {
     it('does nothing if no items found matching conversation', async () => {
       const older = {
         ...getDefaultItem(),
@@ -184,68 +196,101 @@ describe('RetryPlaceholders', () => {
 
       const placeholders = new RetryPlaceholders();
       assert.strictEqual(2, placeholders.getCount());
-      assert.deepEqual(
-        [],
-        await placeholders.findByConversationAndRemove('conversation-id-3')
-      );
+      await placeholders.findByConversationAndMarkOpened('conversation-id-3');
       assert.strictEqual(2, placeholders.getCount());
+
+      const saveItems = window.storage.get(STORAGE_KEY);
+      assert.deepEqual([older, newer], saveItems);
     });
-    it('removes all items matching conversation', async () => {
+    it('updates all items matching conversation', async () => {
       const convo1a = {
         ...getDefaultItem(),
         conversationId: 'conversation-id-1',
-        receivedAt: Date.now() - 5,
+        receivedAt: NOW - 5,
       };
       const convo1b = {
         ...getDefaultItem(),
         conversationId: 'conversation-id-1',
-        receivedAt: Date.now() - 4,
+        receivedAt: NOW - 4,
       };
       const convo2a = {
         ...getDefaultItem(),
         conversationId: 'conversation-id-2',
-        receivedAt: Date.now() + 15,
+        receivedAt: NOW + 15,
       };
       const items: Array<RetryItemType> = [convo1a, convo1b, convo2a];
       window.storage.put(STORAGE_KEY, items);
 
       const placeholders = new RetryPlaceholders();
       assert.strictEqual(3, placeholders.getCount());
+      await placeholders.findByConversationAndMarkOpened('conversation-id-1');
+      assert.strictEqual(3, placeholders.getCount());
+
+      const firstSaveItems = window.storage.get(STORAGE_KEY);
       assert.deepEqual(
-        [convo1a, convo1b],
-        await placeholders.findByConversationAndRemove('conversation-id-1')
+        [
+          {
+            ...convo1a,
+            wasOpened: true,
+          },
+          {
+            ...convo1b,
+            wasOpened: true,
+          },
+          convo2a,
+        ],
+        firstSaveItems
       );
-      assert.strictEqual(1, placeholders.getCount());
 
       const convo2b = {
         ...getDefaultItem(),
         conversationId: 'conversation-id-2',
-        receivedAt: Date.now() + 16,
+        receivedAt: NOW + 16,
       };
 
       await placeholders.add(convo2b);
-      assert.strictEqual(2, placeholders.getCount());
+      assert.strictEqual(4, placeholders.getCount());
+      await placeholders.findByConversationAndMarkOpened('conversation-id-2');
+      assert.strictEqual(4, placeholders.getCount());
+
+      const secondSaveItems = window.storage.get(STORAGE_KEY);
       assert.deepEqual(
-        [convo2a, convo2b],
-        await placeholders.findByConversationAndRemove('conversation-id-2')
+        [
+          {
+            ...convo1a,
+            wasOpened: true,
+          },
+          {
+            ...convo1b,
+            wasOpened: true,
+          },
+          {
+            ...convo2a,
+            wasOpened: true,
+          },
+          {
+            ...convo2b,
+            wasOpened: true,
+          },
+        ],
+        secondSaveItems
       );
-      assert.strictEqual(0, placeholders.getCount());
     });
   });
 
   describe('#findByMessageAndRemove', () => {
     it('does nothing if no item matching message found', async () => {
-      const sentAt = Date.now() - 20;
+      const sentAt = NOW - 20;
 
       const older = {
         ...getDefaultItem(),
         conversationId: 'conversation-id-1',
-        sentAt: Date.now() - 10,
+        sentAt: NOW - 10,
       };
       const newer = {
         ...getDefaultItem(),
         conversationId: 'conversation-id-1',
-        sentAt: Date.now() - 11,
+        sentAt: NOW - 11,
       };
       const items: Array<RetryItemType> = [older, newer];
       window.storage.put(STORAGE_KEY, items);
@@ -258,12 +303,12 @@ describe('RetryPlaceholders', () => {
       assert.strictEqual(2, placeholders.getCount());
     });
     it('removes the item matching message', async () => {
-      const sentAt = Date.now() - 20;
+      const sentAt = NOW - 20;
 
       const older = {
         ...getDefaultItem(),
         conversationId: 'conversation-id-1',
-        sentAt: Date.now() - 10,
+        sentAt: NOW - 10,
       };
       const newer = {
         ...getDefaultItem(),

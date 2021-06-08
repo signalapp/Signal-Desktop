@@ -16,6 +16,7 @@ import {
   padMessage,
   SenderCertificateMode,
 } from '../textsecure/OutgoingMessage';
+import { isEnabled } from '../RemoteConfig';
 
 import { isOlderThan } from './timestamp';
 import {
@@ -116,6 +117,7 @@ export async function sendContentMessageToGroup({
   const ourConversation = window.ConversationController.get(ourConversationId);
 
   if (
+    isEnabled('desktop.sendSenderKey') &&
     ourConversation?.get('capabilities')?.senderKey &&
     isGroupV2(conversation.attributes)
   ) {
@@ -199,8 +201,9 @@ export async function sendToGroupViaSenderKey(options: {
   }
 
   if (
+    contentHint !== ContentHint.DEFAULT &&
     contentHint !== ContentHint.RESENDABLE &&
-    contentHint !== ContentHint.SUPPLEMENTARY
+    contentHint !== ContentHint.IMPLICIT
   ) {
     throw new Error(
       `sendToGroupViaSenderKey/${logId}: Invalid contentHint ${contentHint}`
@@ -326,7 +329,7 @@ export async function sendToGroupViaSenderKey(options: {
     );
     await window.textsecure.messaging.sendSenderKeyDistributionMessage(
       {
-        contentHint: ContentHint.SUPPLEMENTARY,
+        contentHint: ContentHint.DEFAULT,
         distributionId,
         groupId,
         identifiers: newToMemberUuids,

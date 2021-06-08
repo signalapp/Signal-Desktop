@@ -1201,7 +1201,7 @@ export class ConversationModel extends window.Backbone
             timestamp,
             groupMembers,
             contentMessage,
-            ContentHint.SUPPLEMENTARY,
+            ContentHint.IMPLICIT,
             undefined,
             {
               ...sendOptions,
@@ -1212,7 +1212,7 @@ export class ConversationModel extends window.Backbone
       } else {
         handleMessageSend(
           window.Signal.Util.sendContentMessageToGroup({
-            contentHint: ContentHint.SUPPLEMENTARY,
+            contentHint: ContentHint.IMPLICIT,
             contentMessage,
             conversation: this,
             online: true,
@@ -3289,7 +3289,7 @@ export class ConversationModel extends window.Backbone
             targetTimestamp,
             timestamp,
             undefined, // expireTimer
-            ContentHint.SUPPLEMENTARY,
+            ContentHint.DEFAULT,
             undefined, // groupId
             profileKey,
             options
@@ -3305,7 +3305,7 @@ export class ConversationModel extends window.Backbone
             profileKey,
           },
           this,
-          ContentHint.SUPPLEMENTARY,
+          ContentHint.DEFAULT,
           options
         );
       })();
@@ -3446,7 +3446,7 @@ export class ConversationModel extends window.Backbone
             undefined, // deletedForEveryoneTimestamp
             timestamp,
             expireTimer,
-            ContentHint.SUPPLEMENTARY,
+            ContentHint.DEFAULT,
             undefined, // groupId
             profileKey,
             options
@@ -3465,7 +3465,7 @@ export class ConversationModel extends window.Backbone
             profileKey,
           },
           this,
-          ContentHint.SUPPLEMENTARY,
+          ContentHint.DEFAULT,
           options
         );
       })();

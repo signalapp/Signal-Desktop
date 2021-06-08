@@ -43,14 +43,14 @@ message UnidentifiedSenderMessage {
         }
 
         enum ContentHint {
-            // Our parser does not handle reserved in enums: DESKTOP-1569
-            // reserved 0; // A content hint of "default" should never be encoded.
+            // Show an error immediately; it was important but we can't retry.
+            DEFAULT = 0;
         
-            // Do not insert an error.
-            SUPPLEMENTARY = 1; 
+            // Sender will try to resend; delay any error UI if possible
+            RESENDABLE = 1;
 
-            // Put an invisible placeholder in the chat (using the groupId from the sealed sender envelope if available) and delay showing an error until later.
-            RESENDABLE    = 2;
+            // Don't show any error UI at all; this is something sent implicitly like a typing message or a receipt
+            IMPLICIT   = 2;
         }
 
         optional Type              type              = 1;

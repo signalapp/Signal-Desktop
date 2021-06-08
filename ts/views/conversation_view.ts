@@ -2266,10 +2266,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const { retryPlaceholders } = window.Signal.Services;
     if (retryPlaceholders) {
-      const placeholders = await retryPlaceholders.findByConversationAndRemove(
-        model.id
-      );
-      window.log.info(`onOpened: Found ${placeholders.length} placeholders`);
+      await retryPlaceholders.findByConversationAndMarkOpened(model.id);
     }
 
     this.loadNewestMessages();

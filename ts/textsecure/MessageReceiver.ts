@@ -93,6 +93,7 @@ export type DecryptionErrorType = z.infer<typeof decryptionErrorTypeSchema>;
 
 const retryRequestTypeSchema = z
   .object({
+    groupId: z.string().optional(),
     requesterUuid: z.string(),
     requesterDevice: z.number(),
     senderDevice: z.number(),
@@ -1757,10 +1758,11 @@ class MessageReceiverInner extends EventTarget {
 
     const event = new Event('retry-request');
     event.retryRequest = {
-      sentAt: request.timestamp(),
-      requesterUuid: sourceUuid,
+      groupId: envelope.groupId,
       requesterDevice: sourceDevice,
+      requesterUuid: sourceUuid,
       senderDevice: request.deviceId(),
+      sentAt: request.timestamp(),
     };
     await this.dispatchAndWait(event);
   }

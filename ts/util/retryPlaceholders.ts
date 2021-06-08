@@ -11,6 +11,7 @@ const retryItemSchema = z
     receivedAt: z.number(),
     receivedAtCounter: z.number(),
     senderUuid: z.string(),
+    wasOpened: z.boolean().optional(),
   })
   .passthrough();
 export type RetryItemType = z.infer<typeof retryItemSchema>;
@@ -30,8 +31,8 @@ export function getItemId(conversationId: string, sentAt: number): string {
 const HOUR = 60 * 60 * 1000;
 export const STORAGE_KEY = 'retryPlaceholders';
 
-export function getOneHourAgo(): number {
-  return Date.now() - HOUR;
+export function getDeltaIntoPast(delta?: number): number {
+  return Date.now() - (delta || HOUR);
 }
 
 export class RetryPlaceholders {
@@ -41,7 +42,9 @@ export class RetryPlaceholders {
 
   private byMessage: ByMessageLookupType;
 
-  constructor() {
+  private retryReceiptLifespan: number;
+
+  constructor(options: { retryReceiptLifespan?: number } = {}) {
     if (!window.storage) {
       throw new Error(
         'RetryPlaceholders.constructor: window.storage not available!'
@@ -67,6 +70,7 @@ export class RetryPlaceholders {
     this.sortByExpiresAtAsc();
     this.byConversation = this.makeByConversationLookup();
     this.byMessage = this.makeByMessageLookup();
+    this.retryReceiptLifespan = options.retryReceiptLifespan || HOUR;
   }
 
   // Arranging local data for efficiency
@@ -128,7 +132,7 @@ export class RetryPlaceholders {
   }
 
   async getExpiredAndRemove(): Promise<Array<RetryItemType>> {
-    const expiration = getOneHourAgo();
+    const expiration = getDeltaIntoPast(this.retryReceiptLifespan);
     const max = this.items.length;
     const result: Array<RetryItemType> = [];
 
@@ -152,28 +156,24 @@ export class RetryPlaceholders {
     return result;
   }
 
-  async findByConversationAndRemove(
-    conversationId: string
-  ): Promise<Array<RetryItemType>> {
-    const result = this.byConversation[conversationId];
-    if (!result) {
-      return [];
+  async findByConversationAndMarkOpened(conversationId: string): Promise<void> {
+    let changed = 0;
+    const items = this.byConversation[conversationId];
+    (items || []).forEach(item => {
+      if (!item.wasOpened) {
+        changed += 1;
+        // eslint-disable-next-line no-param-reassign
+        item.wasOpened = true;
+      }
+    });
+
+    if (changed > 0) {
+      window.log.info(
+        `RetryPlaceholders.findByConversationAndMarkOpened: Updated ${changed} items for conversation ${conversationId}`
+      );
+
+      await this.save();
     }
-
-    const items = this.items.filter(
-      item => item.conversationId !== conversationId
-    );
-
-    window.log.info(
-      `RetryPlaceholders.findByConversationAndRemove: Found ${result.length} expired items`
-    );
-
-    this.items = items;
-    this.sortByExpiresAtAsc();
-    this.makeLookups();
-    await this.save();
-
-    return result;
   }
 
   async findByMessageAndRemove(

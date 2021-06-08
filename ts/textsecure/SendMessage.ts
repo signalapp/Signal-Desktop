@@ -1039,7 +1039,7 @@ export default class MessageSender {
       myUuid || myNumber,
       contentMessage,
       timestamp,
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       options
     );
   }
@@ -1067,7 +1067,7 @@ export default class MessageSender {
         myUuid || myNumber,
         contentMessage,
         Date.now(),
-        ContentHint.SUPPLEMENTARY,
+        ContentHint.IMPLICIT,
         options
       );
     }
@@ -1098,7 +1098,7 @@ export default class MessageSender {
         myUuid || myNumber,
         contentMessage,
         Date.now(),
-        ContentHint.SUPPLEMENTARY,
+        ContentHint.IMPLICIT,
         options
       );
     }
@@ -1128,7 +1128,7 @@ export default class MessageSender {
         myUuid || myNumber,
         contentMessage,
         Date.now(),
-        ContentHint.SUPPLEMENTARY,
+        ContentHint.IMPLICIT,
         options
       );
     }
@@ -1160,7 +1160,7 @@ export default class MessageSender {
         myUuid || myNumber,
         contentMessage,
         Date.now(),
-        ContentHint.SUPPLEMENTARY,
+        ContentHint.IMPLICIT,
         options
       );
     }
@@ -1196,7 +1196,7 @@ export default class MessageSender {
       myUuid || myNumber,
       contentMessage,
       Date.now(),
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       options
     );
   }
@@ -1228,7 +1228,7 @@ export default class MessageSender {
       myUuid || myNumber,
       contentMessage,
       Date.now(),
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       options
     );
   }
@@ -1266,7 +1266,7 @@ export default class MessageSender {
         myUuid || myNumber,
         contentMessage,
         Date.now(),
-        ContentHint.SUPPLEMENTARY,
+        ContentHint.DEFAULT,
         options
       );
     }
@@ -1306,7 +1306,7 @@ export default class MessageSender {
       myUuid || myNumber,
       contentMessage,
       Date.now(),
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       options
     );
   }
@@ -1347,7 +1347,7 @@ export default class MessageSender {
       myUuid || myNumber,
       contentMessage,
       Date.now(),
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       sendOptions
     );
   }
@@ -1395,7 +1395,7 @@ export default class MessageSender {
       myUuid || myNumber,
       contentMessage,
       Date.now(),
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       options
     );
   }
@@ -1451,7 +1451,7 @@ export default class MessageSender {
         myUuid || myNumber,
         secondMessage,
         now,
-        ContentHint.SUPPLEMENTARY,
+        ContentHint.IMPLICIT,
         options
       );
     });
@@ -1484,7 +1484,7 @@ export default class MessageSender {
             }
           : {}),
       },
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       undefined, // groupId
       sendOptions
     );
@@ -1509,7 +1509,7 @@ export default class MessageSender {
       finalTimestamp,
       recipients,
       contentMessage,
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.DEFAULT,
       undefined, // groupId
       sendOptions
     );
@@ -1547,7 +1547,7 @@ export default class MessageSender {
       recipientUuid || recipientE164,
       contentMessage,
       Date.now(),
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       options
     );
   }
@@ -1573,7 +1573,7 @@ export default class MessageSender {
       senderUuid || senderE164,
       contentMessage,
       Date.now(),
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       options
     );
   }
@@ -1608,7 +1608,7 @@ export default class MessageSender {
       identifier,
       contentMessage,
       timestamp,
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       options
     );
   }
@@ -1649,7 +1649,7 @@ export default class MessageSender {
           identifier,
           proto,
           timestamp,
-          ContentHint.SUPPLEMENTARY,
+          ContentHint.DEFAULT,
           options
         ).catch(logError('resetSession/sendToContact error:'));
       })
@@ -1702,7 +1702,7 @@ export default class MessageSender {
         flags:
           window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       },
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.DEFAULT,
       undefined, // groupId
       options
     );
@@ -1725,7 +1725,7 @@ export default class MessageSender {
       Date.now(),
       [uuid],
       plaintext,
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.IMPLICIT,
       undefined, // groupId
       options
     );
@@ -1864,7 +1864,7 @@ export default class MessageSender {
       groupIdentifiers,
       proto,
       Date.now(),
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.DEFAULT,
       undefined, // only for GV2 ids
       options
     );
@@ -1911,7 +1911,7 @@ export default class MessageSender {
     } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
     return this.sendMessage(
       attrs,
-      ContentHint.SUPPLEMENTARY,
+      ContentHint.DEFAULT,
       undefined, // only for GV2 ids
       options
     );
