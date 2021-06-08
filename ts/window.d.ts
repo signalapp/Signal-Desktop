@@ -109,6 +109,7 @@ import { SignalProtocolStore } from './SignalProtocolStore';
 import { StartupQueue } from './util/StartupQueue';
 import * as synchronousCrypto from './util/synchronousCrypto';
 import SyncRequest from './textsecure/SyncRequest';
+import { ConversationColorType, CustomColorType } from './types/Colors';
 
 export { Long } from 'long';
 

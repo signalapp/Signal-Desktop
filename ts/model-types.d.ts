@@ -26,6 +26,7 @@ import { ConversationModel } from './models/conversations';
 import { ProfileNameChangeType } from './util/getStringForProfileChange';
 import { CapabilitiesType } from './textsecure/WebAPI';
 import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
+import { ConversationColorType } from './types/Colors';
 
 export type WhatIsThis = any;
 
@@ -196,7 +197,7 @@ export type ConversationAttributesType = {
   addedBy?: string;
   capabilities?: CapabilitiesType;
   color?: string;
-  conversationColor?: string;
+  conversationColor?: ConversationColorType;
   customColor?: CustomColorType;
   customColorId?: string;
   discoveredUnregisteredAt?: number;

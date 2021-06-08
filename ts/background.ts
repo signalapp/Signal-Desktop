@@ -11,6 +11,7 @@ import { DataMessageClass } from './textsecure.d';
 import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
+import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ChallengeHandler } from './challenge';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
@@ -81,9 +82,10 @@ export async function startApp(): Promise<void> {
 
   window.storage.onready(() => {
     if (!window.storage.get('defaultConversationColor')) {
-      window.storage.put('defaultConversationColor', {
-        color: 'ultramarine',
-      });
+      window.storage.put(
+        'defaultConversationColor',
+        DEFAULT_CONVERSATION_COLOR
+      );
     }
   });
 
