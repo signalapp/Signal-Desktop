@@ -706,7 +706,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Sharing screen",
+        "message": "Deljenje zaslona",
         "description": "Title for screen sharing window"
     },
     "speech": {
@@ -758,7 +758,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "SMS/MMS contacts are not available on Desktop.",
+        "message": "Stiki SMS/MMS niso na voljo na Signalu Desktop.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -1144,11 +1144,11 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Delivery issue",
+        "message": "Problem pri dostavi",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "A message from $sender$ couldn’t be delivered",
+        "message": "Sporočilo uporabnika/ce $sender$ ni moglo biti dostavljeno",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {
@@ -1162,11 +1162,11 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Delivery Issue",
+        "message": "Problem pri dostavi",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "message": "Sporočilo, nalepka, reakcija, obvestilo o prebranem sporočilu ali medijska datoteka uporabnika/ce $sender$ vam ne morejo biti dostavljeni. Lahko so bili poslani osebno ali prek skupine.",
         "description": "Shown on explainer dialog available from delivery issue timeline events",
         "placeholders": {
             "name": {
@@ -1320,15 +1320,15 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__button--presenting-disabled": {
-        "message": "Presenting disabled",
+        "message": "Predvajanje onemogočeno",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Start presenting",
+        "message": "Začni s predvajanjem",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "Stop presenting",
+        "message": "Zaključi predvajanje",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__your-video-is-off": {
@@ -1444,15 +1444,15 @@
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "You're presenting to everyone.",
+        "message": "Predvajate vsem.",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "message": "Kliknite tu za vrnitev na klic po koncu predvajanja.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
-        "message": "Signal is sharing $window$.",
+        "message": "Signal vam deli $window$.",
         "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
         "placeholders": {
             "name": {
@@ -1462,15 +1462,15 @@
         }
     },
     "calling__presenting--stop": {
-        "message": "Stop sharing",
+        "message": "Zaustavi deljenje zaslona",
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "You stopped presenting",
+        "message": "Zaključili ste predvajanje",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$ is presenting",
+        "message": "Uporabnik/ca $name$ predvaja",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1480,7 +1480,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ stopped presenting",
+        "message": "Uporabnik/ca$name$ je prenehal/a s predvajanjem",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1490,27 +1490,27 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Permission needed",
+        "message": "Zahtevano dovoljenje",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal needs permission to access your computer's screen recording.",
+        "message": "Aplikacija Signal potrebuje dovoljenje za dostop do zajemanja slike računalnika.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Go to System Preferences.",
+        "message": "Pojdi na sistemske nastavitve",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "message": "Kliknite na ikono za zaklep spodaj levo in vnesite geslo računalnika.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "message": "Preverite okno zraven Signala na desni. Če na listi ne vidite Signala, kliknite + in ga dodajte.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Open System Preferences",
+        "message": "Odpri sistemske nastavitve",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1542,7 +1542,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check",
+        "message": "Vklop preverjanja črkovanja",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1554,7 +1554,7 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "autoLaunchDescription": {
-        "message": "Open at computer login",
+        "message": "Odpri ob zagonu računalnika",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -2070,7 +2070,7 @@
         "description": "The placeholder for the group name placeholder"
     },
     "setGroupMetadata__group-description-placeholder": {
-        "message": "Description",
+        "message": "Opis",
         "description": "The placeholder for the group description"
     },
     "setGroupMetadata__create-group": {
@@ -3036,7 +3036,7 @@
         }
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Report Spam and Block",
+        "message": "Označi za neželeno in blokiraj",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
@@ -3418,19 +3418,19 @@
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
-        "message": "Share your screen",
+        "message": "Delite svoj zaslon",
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Share screen",
+        "message": "Delitev zaslona",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
-        "message": "Entire screen",
+        "message": "Cel zaslon",
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--window": {
-        "message": "A window",
+        "message": "Okno",
         "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
@@ -4652,11 +4652,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
-        "message": "You removed the group description.",
+        "message": "Odstranili ste opis skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
-        "message": "$memberName$ removed the group description.",
+        "message": "Uporabnik/ca je odstranil/a $memberName$ opis skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4666,7 +4666,7 @@
         }
     },
     "GroupV2--description--remove--unknown": {
-        "message": "The group description was removed.",
+        "message": "Opis skupine je bil odstranjen.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
@@ -4674,7 +4674,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
-        "message": "$memberName$ changed the group description.",
+        "message": "Uporabnik/ca $memberName$ je spremenil/a opis skupine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4684,7 +4684,7 @@
         }
     },
     "GroupV2--description--change--unknown": {
-        "message": "The group description was changed.",
+        "message": "Opis skupine je bil spremenjen.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4822,15 +4822,15 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
-        "message": "This person isn’t using Signal",
+        "message": "Oseba ne uporablja aplikacije Signal",
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop does not support messaging non-Signal contacts. Ask this person to install Signal for a more secure messaging experience.",
+        "message": "Signal Desktop ne podpira sporočil stikov, ki ne uporabljajo Signala. Predlagajte tej osebi, da si za bolj varno komunikacijo namesti Signal.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
-        "message": "Checking contact's registration status",
+        "message": "Preverjanje statusa stika",
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
@@ -5344,15 +5344,15 @@
         }
     },
     "ContactSpoofing__same-name__link": {
-        "message": "Review request",
+        "message": "Pregled prošnje",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
-        "message": "Click to review",
+        "message": "Za pregled kliknite",
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
-        "message": "Review request",
+        "message": "Pregled prošnje",
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
@@ -5368,7 +5368,7 @@
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
-        "message": "Review members",
+        "message": "Pregled članstva",
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
@@ -5458,7 +5458,7 @@
         }
     },
     "ChatColorPicker__global-chat-color": {
-        "message": "Global Chat Color",
+        "message": "Globalna barva klepetov",
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
@@ -5470,7 +5470,7 @@
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetAll": {
-        "message": "Reset all chat colors",
+        "message": "Ponastavi vse barve klepetov",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset": {
@@ -5482,7 +5482,7 @@
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Show custom color editor",
+        "message": "Prikaz urejevalnika barv klepetov",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
@@ -5490,7 +5490,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
-        "message": "Another bubble.",
+        "message": "Nov mehurček.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
@@ -5526,11 +5526,11 @@
         "description": "Label for the saturation slider"
     },
     "CustomColorEditor__title": {
-        "message": "Custom Color",
+        "message": "Barva po meri",
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
-        "message": "Custom time...",
+        "message": "Čas po meri ...",
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
@@ -5538,7 +5538,7 @@
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
-        "message": "Custom Time",
+        "message": "Čas po meri",
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
@@ -5550,23 +5550,23 @@
         "description": "Text for the dialog button confirming the custom disappearing message timeout"
     },
     "DisappearingTimeDialog__seconds": {
-        "message": "Seconds",
+        "message": "Sekund",
         "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__minutes": {
-        "message": "Minutes",
+        "message": "Minut",
         "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__hours": {
-        "message": "Hours",
+        "message": "Ur",
         "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__days": {
-        "message": "Days",
+        "message": "Dni",
         "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__weeks": {
-        "message": "Weeks",
+        "message": "Tednov",
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {

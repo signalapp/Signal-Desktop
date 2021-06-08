@@ -175,6 +175,10 @@
         "message": "アーカイブを表示",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
+    "avatarMenuChatColors": {
+        "message": "チャットの色",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "読み込んでいます…",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -1139,6 +1143,38 @@
         "message": "サポートに問い合わせる",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
+    "DeliveryIssue--preview": {
+        "message": "配信エラー",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "$sender$ からのメッセージを配信できませんでした",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "詳細を見る",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "配信エラー",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "$sender$ からのメッセージ、ステッカー、リアクション、既読通知、メディアなどを、あなたに配信できませんでした。直接またはグループで、送信しようとしているかもしれません。",
+        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "quoteThumbnailAlt": {
         "message": "引用されたメッセージから画像のサムネール",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1458,23 +1494,19 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "macOS Catalinaバージョン10.15以降を使用しているApple Macコンピュータでは、Signalはコンピュータの画面収録へのアクセス許可が必要です。",
+        "message": "Signalにこのコンピュータの画面収録の権限が必要です。",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "システム環境設定で、「セキュリティとプライバシー」をクリックしてください。",
+        "message": "システム環境設定を開いてください。",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "「プライバシー」をクリックしてください。",
+        "message": "左下の鍵アイコンをクリックし、コンピュータのパスワードを入力してください。",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "左側の「画面収録」をクリックしてください。",
-        "description": "Shown as the description for the modal that requests screen recording permissions"
-    },
-    "calling__presenting--permission-instruction-step4": {
-        "message": "右側の「Signal」ボックスにチェックを入れてください。",
+        "message": "右側にある「Signal」の横のボックスをチェックしてください。リストにSignalが表示されていない場合は、「+」をクリックして追加してください。",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
@@ -1801,7 +1833,7 @@
     },
     "disappearingMessages": {
         "message": "消えるメッセージ",
-        "description": "Conversation menu option to enable disappearing messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
     },
     "disappearingMessagesDisabled": {
         "message": "消えるメッセージを無効にされました",
@@ -2037,6 +2069,10 @@
         "message": "グループ名 (必須)",
         "description": "The placeholder for the group name placeholder"
     },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "グループの説明",
+        "description": "The placeholder for the group description"
+    },
     "setGroupMetadata__create-group": {
         "message": "作成する",
         "description": "The 'create group' button text in the 'set group metadata' left pane screen"
@@ -2050,7 +2086,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "グループ名とアイコンの編集",
+        "message": "グループを編集",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2999,9 +3035,13 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "ブロックして削除する",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "スパムとして報告してブロックする",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "スパムとして報告してブロックしました。",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
         "message": "$name$をブロックしますか?",
@@ -4611,6 +4651,42 @@
         "message": "グループリンクがリセットされました。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--description--remove--you": {
+        "message": "あなたがグループの説明を削除しました。",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "$memberName$ がグループ名を削除しました。",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "グループの説明が削除されました。",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "グループの説明を変更しました。",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "$memberName$ がグループの説明を変更しました。",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "グループの説明が変更されました。",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "@メンションや管理者などの機能を有効にするため、グループをアップグレードしてください。名前や写真を共有していないグループメンバーは、改めて招待されます。$learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4797,6 +4873,10 @@
         "message": "グループから削除",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
+    "showChatColorEditor": {
+        "message": "チャットの色",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
+    },
     "showConversationDetails": {
         "message": "グループ設定",
         "description": "This is a button in the conversation context menu to show group settings"
@@ -4818,7 +4898,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "グループ名、アイコン、消えるメッセージのタイマーを編集できる人を選択してください。",
+        "message": "グループ名、アイコン、説明、消えるメッセージのタイマーを編集できる人を選択してください。",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5249,9 +5329,27 @@
             }
         }
     },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "$count$人のグループメンバーが同じ名前です。$link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
     "ContactSpoofing__same-name__link": {
         "message": "申請の確認",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "クリックして確認",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
         "message": "申請の確認",
@@ -5268,6 +5366,46 @@
     "ContactSpoofingReviewDialog__safe-title": {
         "message": "あなたの連絡先",
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "メンバーの確認",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "$count$ 人のグループメンバーが似た名前です。以下のメンバーを確認して、対応してください。",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "メンバー",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "最近、プロフィール名を $oldName$ から $newName$ に変更しました。",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "グループから削除する",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "このグループから「$name$」を削除しますか？",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
     },
     "CaptchaDialog__title": {
         "message": "メッセージ送受信のため認証してください",
@@ -5304,5 +5442,161 @@
     "deleteForEveryoneFailed": {
         "message": "全員でのメッセージ削除に失敗しました。あとで再度試してください。",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "色を削除",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "この色は$num$件のチャットで使用されています。すべてのチャットで削除しますか？",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "すべてのチャットの色",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "チャットの色",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "チャットの色をリセット",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "すべてのチャットの色をリセットする",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "リセットする",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "すべての色を上書きしますか？",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "カスタム色エディタを表示",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "チャットの色のプレビューです。",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "もう一方の吹き出しです。",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "この色はあなたたけに表示されます。",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "色を編集",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "複製",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "削除",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "無地",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "グラデーション",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "色相（Hue）",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "彩度",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "カスタム色",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "カスタム時間…",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "カスタム時間",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "カスタム時刻",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "消えるメッセージのカスタム時間を選択してください。",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "設定する",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "秒",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "分",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "時間",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "日",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "週",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "あなたによる新規チャットでの、消えるメッセージの既定タイマーを設定します。",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "新規チャットの既定タイマー",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "メッセージの送信時に、消えるメッセージのタイマーが$timeValue$に設定されます。",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "GroupDescription__read-more": {
+        "message": " 続き",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "グループの説明は、メンバーとグループに招待された人に表示されます。",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "グループの説明を追加...",
+        "description": "Placeholder text in the details header for those that can edit the group description"
     }
 }
