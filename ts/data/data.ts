@@ -46,12 +46,15 @@ export type GuardNode = {
   ed25519PubKey: string;
 };
 
-export type SwarmNode = {
-  address: string;
+export interface Snode {
   ip: string;
-  port: string;
-  pubkey_ed25519: string;
+  port: number;
   pubkey_x25519: string;
+  pubkey_ed25519: string;
+}
+
+export type SwarmNode = Snode & {
+  address: string;
 };
 
 export type ServerToken = {
@@ -975,4 +978,21 @@ export async function getMessagesWithFileAttachments(
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit: options?.limit,
   });
+}
+
+export const SNODE_POOL_ITEM_ID = 'SNODE_POOL_ITEM_ID';
+
+export async function getSnodePoolFromDb(): Promise<Array<Snode> | null> {
+  // this is currently all stored as a big string as we don't really need to do anything with them (no filtering or anything)
+  // everything is made in memory and written to disk
+  const snodesJson = await exports.getItemById(SNODE_POOL_ITEM_ID);
+  if (!snodesJson || !snodesJson.value) {
+    return null;
+  }
+
+  return JSON.parse(snodesJson.value);
+}
+
+export async function updateSnodePoolOnDb(snodesAsJsonString: string): Promise<void> {
+  await exports.createOrUpdateItem({ id: SNODE_POOL_ITEM_ID, value: snodesAsJsonString });
 }

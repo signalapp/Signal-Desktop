@@ -1,12 +1,7 @@
 import { default as insecureNodeFetch } from 'node-fetch';
 import https from 'https';
 
-import {
-  dropSnodeFromSnodePool,
-  dropSnodeFromSwarmIfNeeded,
-  Snode,
-  updateSwarmFor,
-} from './snodePool';
+import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { OnionPaths } from '../onions';
 import { fromBase64ToArrayBuffer, toHex } from '../utils/String';
@@ -16,6 +11,8 @@ import _ from 'lodash';
 import { hrefPnServerDev, hrefPnServerProd } from '../../pushnotification/PnServer';
 // hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
 let snodeFailureCount: Record<string, number> = {};
+
+import { Snode } from '../../data/data';
 
 // tslint:disable-next-line: variable-name
 export const TEST_resetSnodeFailureCount = () => {
@@ -590,7 +587,7 @@ export async function incrementBadSnodeCountOrDrop({
     }
     window?.log?.info(`Dropping ${snodeEd25519} from snodepool`);
 
-    dropSnodeFromSnodePool(snodeEd25519);
+    await dropSnodeFromSnodePool(snodeEd25519);
     // the snode was ejected from the pool so it won't be used again.
     // in case of snode pool refresh, we need to be able to try to contact this node again so reset its failure count to 0.
     snodeFailureCount[snodeEd25519] = 0;

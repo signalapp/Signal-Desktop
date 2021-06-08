@@ -296,6 +296,7 @@ export async function queueAttachmentDownloads(
 
   count += await processQuoteAttachments(message, conversation);
 
+  // I don 't think we rely on this for anything
   if (await processGroupAvatar(message, conversation)) {
     count += 1;
   }

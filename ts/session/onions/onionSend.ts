@@ -7,12 +7,12 @@ import {
   snodeHttpsAgent,
   SnodeResponse,
 } from '../snode_api/onions';
-import { Snode } from '../snode_api/snodePool';
 import _, { toNumber } from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { PROTOCOLS } from '../constants';
 import { toHex } from '../utils/String';
 import pRetry from 'p-retry';
+import { Snode } from '../../data/data';
 
 // FIXME audric we should soon be able to get rid of that
 const FILESERVER_HOSTS = [
