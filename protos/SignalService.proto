@@ -436,7 +436,9 @@ message AttachmentPointer {
   enum Flags {
     VOICE_MESSAGE = 1;
     BORDERLESS    = 2;
-    GIF           = 3;
+    // Our parser does not handle reserved in enums: DESKTOP-1569
+    // reserved        3;
+    GIF           = 4;
   }
 
   oneof attachment_identifier {
