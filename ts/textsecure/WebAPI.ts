@@ -10,7 +10,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import fetch, { Response } from 'node-fetch';
-import { AbortSignal } from 'abort-controller';
 import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
 import pProps from 'p-props';

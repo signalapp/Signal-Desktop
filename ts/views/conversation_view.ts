@@ -4088,7 +4088,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
   async getStickerPackPreview(
     url: string,
-    abortSignal: any
+    abortSignal: Readonly<AbortSignal>
   ): Promise<null | GetLinkPreviewResult> {
     const isPackDownloaded = (pack: any) =>
       pack && (pack.status === 'downloaded' || pack.status === 'installed');
@@ -4164,7 +4164,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
   async getGroupPreview(
     url: string,
-    abortSignal: any
+    abortSignal: Readonly<AbortSignal>
   ): Promise<null | GetLinkPreviewResult> {
     const urlObject = maybeParseUrl(url);
     if (!urlObject) {
@@ -4251,7 +4251,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
   async getPreview(
     url: string,
-    abortSignal: any
+    abortSignal: Readonly<AbortSignal>
   ): Promise<null | GetLinkPreviewResult> {
     if (window.Signal.LinkPreviews.isStickerPack(url)) {
       return this.getStickerPackPreview(url, abortSignal);

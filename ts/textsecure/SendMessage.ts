@@ -10,7 +10,6 @@
 
 import { Dictionary } from 'lodash';
 import PQueue from 'p-queue';
-import { AbortSignal } from 'abort-controller';
 import {
   PlaintextContent,
   ProtocolAddress,
