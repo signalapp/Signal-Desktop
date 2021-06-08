@@ -12,7 +12,6 @@ import { getConversationLookup, getConversations } from '../../../state/selector
 import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
 import { PasswordAction, SessionPasswordModal } from '../SessionPasswordModal';
-import { ModalStatusLight } from '../../OnionStatusDialog';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',

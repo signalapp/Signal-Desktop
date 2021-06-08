@@ -422,7 +422,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       onUnblockContact: this.unblock,
       onCopyPublicKey: this.copyPublicKey,
       onDeleteContact: this.deleteContact,
-      onChangeNickname: this.changeNickname,
       onClearNickname: this.clearNickname,
       onDeleteMessages: this.deleteMessages,
       onLeaveGroup: () => {
@@ -1304,17 +1303,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public copyPublicKey() {
     void ConversationInteraction.copyPublicKey(this.id);
-  }
-
-  public changeNickname() {
-    if (this.isGroup()) {
-      throw new Error(
-        'Called changeNickname() on a group. This is only supported in 1-on-1 conversation items and 1-on-1 conversation headers'
-      );
-    }
-    window.showNicknameDialog({
-      convoId: this.id,
-    });
   }
 
   public clearNickname = () => {

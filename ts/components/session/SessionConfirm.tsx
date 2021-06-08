@@ -12,12 +12,12 @@ type Props = {
   title: string;
   onOk?: any;
   onClose?: any;
-  onClickOk: any;
+  onClickOk?: any;
   onClickClose?: any;
   okText?: string;
   cancelText?: string;
   hideCancel?: boolean;
-  okTheme: SessionButtonColor;
+  okTheme?: SessionButtonColor;
   closeTheme?: SessionButtonColor;
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;

@@ -1,3 +1,4 @@
+import React from 'react';
 import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
@@ -35,6 +36,7 @@ import { queueAllCachedFromSource } from './receiver';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { SwarmPolling } from '../session/snode_api/swarmPolling';
 import { MessageModel } from '../models/message';
+import { SessionConfirm } from '../components/session/SessionConfirm';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -45,8 +47,7 @@ export async function handleClosedGroupControlMessage(
   const { type } = groupUpdate;
   const { Type } = SignalService.DataMessage.ClosedGroupControlMessage;
   window.log.info(
-    ` handle closed group update from ${envelope.senderIdentity || envelope.source} about group ${
-      envelope.source
+    ` handle closed group update from ${envelope.senderIdentity || envelope.source} about group ${envelope.source
     }`
   );
 
@@ -837,7 +838,7 @@ async function handleClosedGroupEncryptionKeyPairRequest(
   return removeFromCache(envelope);
 }
 
-export async function createClosedGroup(groupName: string, members: Array<string>) {
+export async function createClosedGroup(groupName: string, members: Array<string>, setModal: any) {
   const setOfMembers = new Set(members);
 
   const ourNumber = UserUtils.getOurPubKeyFromCache();
@@ -892,7 +893,8 @@ export async function createClosedGroup(groupName: string, members: Array<string
     groupName,
     admins,
     encryptionKeyPair,
-    dbMessage
+    dbMessage,
+    setModal
   );
 
   if (allInvitesSent) {
@@ -927,7 +929,8 @@ async function sendToGroupMembers(
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
   dbMessage: MessageModel,
-  isRetry: boolean = false
+  setModal: any,
+  isRetry: boolean = false,
 ): Promise<any> {
   const promises = createInvitePromises(
     listOfMembers,
@@ -948,14 +951,28 @@ async function sendToGroupMembers(
         inviteResults.length > 1
           ? window.i18n('closedGroupInviteSuccessTitlePlural')
           : window.i18n('closedGroupInviteSuccessTitle');
-      window.confirmationDialog({
-        title: invitesTitle,
-        message: window.i18n('closedGroupInviteSuccessMessage'),
-      });
+
+      // setModal(<SessionConfirm message={'hi'} title={invitesTitle} />)
+
+      setModal(
+      <SessionConfirm
+      title={title}
+      message={message}
+      onClickOk={deleteAccount}
+      okTheme={SessionButtonColor.Danger}
+      onClickClose={clearModal}
+    />)
+      )
+
+      // window.confirmationDialog({
+      //   title: invitesTitle,
+      //   message: window.i18n('closedGroupInviteSuccessMessage'),
+      // });
     }
     return allInvitesSent;
   } else {
     // Confirmation dialog that recursively calls sendToGroupMembers on resolve
+
     window.confirmationDialog({
       title:
         inviteResults.length > 1
@@ -984,6 +1001,7 @@ async function sendToGroupMembers(
             admins,
             encryptionKeyPair,
             dbMessage,
+            setModal,
             isRetrySend
           );
         }

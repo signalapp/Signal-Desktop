@@ -41,7 +41,6 @@ declare global {
     Whisper: any;
     clearLocalData: any;
     clipboard: any;
-    confirmationDialog: (params: ConfirmationDialogParams) => any;
     dcodeIO: any;
     displayNameRegex: any;
     friends: any;
@@ -68,9 +67,6 @@ declare global {
     seedNodeList: any;
     setPassword: any;
     setSettingValue: any;
-    showEditProfileDialog: any;
-    showNicknameDialog: (options: { convoId: string }) => void;
-    showOnionStatusDialog: any;
     showResetSessionIdDialog: any;
     storage: any;
     textsecure: LibTextsecure;

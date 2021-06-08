@@ -327,7 +327,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
    * @returns 
    */
   private onClickOK() {
-    const newName = this.state.profileName.trim();
+    const newName = this.state.profileName ? this.state.profileName.trim() : '';
 
     if (newName.length === 0 || newName.length > MAX_USERNAME_LENGTH) {
       return;
