@@ -538,18 +538,21 @@ export default class AccountManager extends EventTarget {
       { accessKey }
     );
 
-    const numberChanged = previousNumber && previousNumber !== number;
     const uuidChanged = previousUuid && uuid && previousUuid !== uuid;
 
-    if (numberChanged || uuidChanged) {
-      if (numberChanged) {
-        window.log.warn(
-          'New number is different from old number; deleting all previous data'
-        );
-      }
+    // We only consider the number changed if we didn't have a UUID before
+    const numberChanged =
+      !previousUuid && previousNumber && previousNumber !== number;
+
+    if (uuidChanged || numberChanged) {
       if (uuidChanged) {
         window.log.warn(
           'New uuid is different from old uuid; deleting all previous data'
+        );
+      }
+      if (numberChanged) {
+        window.log.warn(
+          'New number is different from old number; deleting all previous data'
         );
       }
 
