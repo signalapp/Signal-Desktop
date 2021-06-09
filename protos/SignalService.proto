@@ -92,8 +92,10 @@ message DataMessage {
   }
 
   message OpenGroupInvitation {
-    optional string url = 1;
-    optional string name = 3;
+    // @required
+    required string url = 1;
+    // @required
+    required string name = 3;
   }
 
   message ClosedGroupControlMessage {

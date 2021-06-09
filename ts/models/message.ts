@@ -259,10 +259,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         window.Whisper.ExpirationTimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0)
       );
     }
-    const contacts = this.get('contact');
-    if (contacts && contacts.length) {
-      return window.Signal.Types.Contact.getName(contacts[0]);
-    }
 
     return '';
   }

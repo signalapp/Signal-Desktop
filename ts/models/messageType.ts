@@ -32,7 +32,6 @@ export interface MessageAttributes {
   group_update?: any;
   groupInvitation?: any;
   attachments?: any;
-  contact?: any;
   conversationId: string;
   errors?: any;
   flags?: number;

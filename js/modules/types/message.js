@@ -255,7 +255,7 @@ const toVersion5 = exports._withSchemaVersion({
 });
 const toVersion6 = exports._withSchemaVersion({
   schemaVersion: 6,
-  upgrade: exports._mapContact(Contact.parseAndWriteAvatar(Attachment.migrateDataToFileSystem)),
+  upgrade: () => {},
 });
 // IMPORTANT: We’ve updated our definition of `initializeAttachmentMetadata`, so
 // we need to run it again on existing items that have previously been incorrectly
