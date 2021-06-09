@@ -175,6 +175,10 @@
         "message": "Visa arkiv",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
+    "avatarMenuChatColors": {
+        "message": "Chattfärg",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "Läser in...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -206,7 +210,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Dessa konversationerna är arkiverade och kommer endast att visas i inkorgen om nya meddelanden tas emot.",
+        "message": "Dessa konversationerna är arkiverade och visas endast i inkorgen om nya meddelanden tas emot.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -444,7 +448,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Den här loggen kommer att publiceras offentligt på nätet så att våra medarbetare kan se. Du kan granska och redigera den innan du skickar in.",
+        "message": "Den här loggen publiceras offentligt på nätet så att våra medarbetare kan se. Du kan granska och redigera den innan du skickar in.",
         "description": ""
     },
     "debugLogError": {
@@ -701,6 +705,10 @@
         "message": "Om Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Delar skärm",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "Tal",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -748,6 +756,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "SMS/MMS-kontakter är inte tillgängliga på Desktop.",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "Inga resultat för \"$searchTerm$\" i $conversationName$",
@@ -874,7 +886,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Röstmeddelanden är begränsade till fem minuter. Inspelningen kommer att stoppas om du byter till en annan app.",
+        "message": "Röstmeddelanden är begränsade till fem minuter. Inspelningen stoppas om du byter till en annan app.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -952,7 +964,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop är sannolikt i en MacOS-karantän och kommer inte att kunna uppdateras automatiskt. Vänligen försök att flytta $app$ till $folder$ med Finder.",
+        "message": "Signal Desktop är sannolikt i en MacOS-karantän och kan inte uppdateras automatiskt. Vänligen försök att flytta $app$ till $folder$ med Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -1006,11 +1018,11 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Detta meddelande kommer att tas bort från denna enhet.",
+        "message": "Detta meddelande tas bort från denna enhet.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Detta meddelande tas bort för alla i konversationen om de har en ny version av Signal. De kommer att kunna se att du har tagit bort ett meddelande.",
+        "message": "Detta meddelande tas bort för alla i konversationen om de har en ny version av Signal. De kan se att du har tagit bort ett meddelande.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "deleteThisMessage": {
@@ -1030,11 +1042,11 @@
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
-        "message": "Skickad",
+        "message": "Skickat",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Mottagen",
+        "message": "Mottaget",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
@@ -1072,7 +1084,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med kontakten kommer att vara tillgängligt efter det första meddelandet.",
+        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med kontakten är tillgänglig efter det första meddelandet.",
         "description": ""
     },
     "back": {
@@ -1130,6 +1142,38 @@
     "ChatRefresh--contactSupport": {
         "message": "Kontakta supporten",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
+    },
+    "DeliveryIssue--preview": {
+        "message": "Leveransproblem",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "Ett meddelande från $sender$ kunde inte levereras",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "Läs mer",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "Leveransproblem",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "Ett meddelande, klistermärke, reaktion, läskvitto eller media kunde inte levereras till dig från$sender$. Personen kan ha försökt att skicka det direkt till dig eller i en grupp.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
     },
     "quoteThumbnailAlt": {
         "message": "Miniatyr av bild för citerat meddelande",
@@ -1275,6 +1319,18 @@
         "message": "Slå på mikrofonen",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Presentera inaktiverat",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Börja presentera",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Sluta presentera",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "Din kamera är avstängd",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1387,6 +1443,80 @@
         "message": "Rulla ner",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
+    "calling__presenting--notification-title": {
+        "message": "Du presenterar för alla.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Klicka här för att återgå till samtalet när du är redo att sluta presentera.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Signal delar $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Sluta dela",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "Du slutade presentera",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "$name$ presenterar",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "$name$ slutade presentera",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Behörighet behövs",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "Signal behöver tillstånd för att komma åt datorns skärminspelning.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Gå till systeminställningar.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Klicka på låsikonen längst ned till vänster och ange datorns lösenord.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "Till höger markerar du rutan bredvid Signal. Om du inte ser Signal i listan klickar du på + för att lägga till den.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Öppna systeminställningar",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "Avfärda",
+        "description": "The cancel button for the needs screen record permissions modal"
+    },
     "alwaysRelayCallsDescription": {
         "message": "Slussa alltid samtal",
         "description": "Description of the always relay calls setting"
@@ -1416,11 +1546,11 @@
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Stavningskontrollen kommer att aktiveras nästa gång Signal startas.",
+        "message": "Stavningskontrollen aktiveras nästa gång Signal startas.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Stavningskontrollen kommer att inaktiveras nästa gång Signal startas.",
+        "message": "Stavningskontrollen inaktiveras nästa gång Signal startas.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "autoLaunchDescription": {
@@ -1432,7 +1562,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Detta kommer att rensa alla data i programmet, ta bort alla meddelanden och sparad kontoinformation.",
+        "message": "Detta rensar alla data i programmet, ta bort alla meddelanden och sparad kontoinformation.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1444,7 +1574,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Du är på väg att ta bort allt av detta programs sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan alltid länka din mobila enhet igen, men det kommer inte att återställa de borttagna meddelande.",
+        "message": "Du är på väg att ta bort allt av detta programs sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan alltid länka din mobila enhet igen, men det återställer inte borttagna meddelanden.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1703,7 +1833,7 @@
     },
     "disappearingMessages": {
         "message": "Försvinnande meddelanden",
-        "description": "Conversation menu option to enable disappearing messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
     },
     "disappearingMessagesDisabled": {
         "message": "Inaktiverat att meddelanden försvinner",
@@ -1928,7 +2058,7 @@
         }
     },
     "setGroupMetadata__title": {
-        "message": "Namnge denna grupp",
+        "message": "Namnge den här gruppen",
         "description": "The title for the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__back-button": {
@@ -1938,6 +2068,10 @@
     "setGroupMetadata__group-name-placeholder": {
         "message": "Gruppnamn (obligatoriskt)",
         "description": "The placeholder for the group name placeholder"
+    },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "Beskrivning",
+        "description": "The placeholder for the group description"
     },
     "setGroupMetadata__create-group": {
         "message": "Skapa",
@@ -1952,7 +2086,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Redigera gruppnamn och foto",
+        "message": "Redigera grupp",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2158,11 +2292,11 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Signal Artist Serier",
+        "message": "Signal-artistserier",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Inga Signal Artist klistermärken tillgängliga",
+        "message": "Inga Signal-artistklistermärken tillgängliga",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2170,7 +2304,7 @@
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Klistermärken från inkommande meddelanden kommer att visas här",
+        "message": "Klistermärken från inkommande meddelanden visas här",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -2238,7 +2372,7 @@
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Nyligen använda klistermärken kommer att visas här.",
+        "message": "Nyligen använda klistermärken visas här.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
@@ -2332,7 +2466,7 @@
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Framtida meddelanden som detta kommer att synkroniseras nu när du använder en uppdaterad version av Signal.",
+        "message": "Framtida meddelanden som detta synkroniseras nu när du använder en uppdaterad version av Signal.",
         "description": ""
     },
     "Message--update-signal": {
@@ -2686,7 +2820,7 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "Detta är den bild som kommer att dyka upp när du delar ditt klistermärkepaket",
+        "message": "Detta är den bild som dyker upp när du delar ditt klistermärkepaket",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
@@ -2901,9 +3035,13 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "Blockera och ta bort",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "Rapportera som skräppost och blockera",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "Rapporterad som skräppost och blockerad.",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
         "message": "Blockera $name$?",
@@ -2942,7 +3080,7 @@
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Denna konversation kommer att tas bort från alla dina enheter.",
+        "message": "Denna konversation tas bort från alla dina enheter.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
@@ -2964,7 +3102,7 @@
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Du kommer att lämna denna grupp och den kommer att tas bort från alla dina enheter.",
+        "message": "Du kommer lämnar denna grupp och den tas bort från alla dina enheter.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
@@ -3279,6 +3417,22 @@
         "message": "Lämna samtalet",
         "description": "Title for hang up button"
     },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Dela din skärm",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Dela skärm",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Hela skärmen",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "Ett fönster",
+        "description": "Title for the select your screen sharing sources modal"
+    },
     "callingDeviceSelection__label--video": {
         "message": "Video",
         "description": "Label for video input selector"
@@ -3320,7 +3474,7 @@
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "Tysta alltid",
+        "message": "Tysta för alltid",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -4497,6 +4651,42 @@
         "message": "Grupplänken har återställts.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--description--remove--you": {
+        "message": "Du tog bort gruppbeskrivningen.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "$memberName$ tog bort gruppbeskrivningen.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "Gruppbeskrivningen togs bort.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "Du ändrade gruppbeskrivningen.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "$memberName$ ändrade gruppbeskrivningen.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "Gruppbeskrivningen ändrades.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Uppgradera den här gruppen för att aktivera nya funktioner som @omnämnanden och administratörer. Medlemmar som inte har delat sitt namn eller foto i denna grupp kommer att bjudas in att gå med. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4536,7 +4726,7 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All meddelandehistorik och media kommer att sparas före uppgraderingen.",
+        "message": "All meddelandehistorik och media sparas före uppgraderingen.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
@@ -4631,6 +4821,18 @@
         "message": "Bifoga fil",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "Den här personen använder inte Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Signal Desktop stöder inte sändning av meddelanden till Signal-kontakter. Be den här personen att installera Signal för en säkrare meddelandeupplevelse.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Kontrollerar kontaktens registreringsstatus",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "Antal tystade konversationer i märkesräkning",
         "description": "Description for counting muted conversations in badge setting"
@@ -4671,6 +4873,10 @@
         "message": "Ta bort från grupp",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
+    "showChatColorEditor": {
+        "message": "Chattfärg",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
+    },
     "showConversationDetails": {
         "message": "Gruppinställningar",
         "description": "This is a button in the conversation context menu to show group settings"
@@ -4692,7 +4898,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Välj vem som kan redigera gruppens namn, avatar och tidsgränsen för att meddelanden försvinner.",
+        "message": "Välj vem som kan redigera gruppens namn, foto, beskrivning och tidtagare för försvinnande meddelanden.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5123,9 +5329,27 @@
             }
         }
     },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "$count$ gruppmedlemmar har samma namn. $link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
     "ContactSpoofing__same-name__link": {
         "message": "Granska förfrågan",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "Klicka för att granska",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
         "message": "Granska förfrågan",
@@ -5142,6 +5366,46 @@
     "ContactSpoofingReviewDialog__safe-title": {
         "message": "Din kontakt",
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "Granska medlemmar",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "$count$ gruppmedlemmar har liknande namn. Granska medlemmarna nedan eller välj att vidta åtgärder.",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "Medlemmar",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "Nyligen ändrat sitt profilnamn från $oldName$ till $newName$",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "Ta bort från grupp",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "Ta bort \"$name$\" från gruppen?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
     },
     "CaptchaDialog__title": {
         "message": "Verifiera för att fortsätta skicka meddelanden",
@@ -5178,5 +5442,161 @@
     "deleteForEveryoneFailed": {
         "message": "Det gick inte att ta bort meddelandet för alla. Vänligen försök igen senare.",
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "Ta bort färg",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "Denna anpassade färg används i $num$ chattar. Vill du ta bort den för alla chattar?",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "Global chattfärg",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "Chattfärg",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "Återställ chattfärg",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "Återställ alla chattfärger",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "Starta om",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "Vill du åsidosätta alla chattfärger?",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "Visa anpassad färgredigerare",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "Här är en förhandsvisning av chattfärgen.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "Ytterligare en bubbla.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "Färgen är bara synlig för dig.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "Redigera färg",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "Duplicera",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "Ta bort",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "Solid",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "Lutning",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "Nyans",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "Mättnad",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "Anpassad färg",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "Anpassad tid...",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "Anpassad tid",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "Anpassad tid",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "Välj en anpassad tidpunkt för att meddelanden försvinner",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "Ställ in",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "Sekunder",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "Minuter",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "Timmar",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "Dagar",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "Veckor",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "Ställ in en standardtidtagare för försvinnande meddelanden för alla nya chattar som du startar.",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "Standard tidtagare för nya chattar",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "Tiden för att meddelanden försvinner ställs in till $timeValue$ när du meddelar dem.",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "GroupDescription__read-more": {
+        "message": "läs mer",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "Gruppbeskrivningar kommer att vara synliga för medlemmar i denna grupp och personer som har bjudits in.",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "Lägg till gruppbeskrivning...",
+        "description": "Placeholder text in the details header for those that can edit the group description"
     }
 }

@@ -175,6 +175,10 @@
         "message": "Gweld Archif",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
+    "avatarMenuChatColors": {
+        "message": "Lliw'r Sgwrs",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "Yn llwytho...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -701,6 +705,10 @@
         "message": "Ynghylch Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
+    "screenShareWindow": {
+        "message": "Yn rhannu sgrîn",
+        "description": "Title for screen sharing window"
+    },
     "speech": {
         "message": "Lleferydd",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -748,6 +756,10 @@
                 "example": "dog"
             }
         }
+    },
+    "noSearchResults--sms-only": {
+        "message": "Nid yw cysylltiadau SMS/MMS ar gael ar Signal Desktop",
+        "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
         "message": "Does dim canlyniadau ar gyfer \"$searchTerm$\" yn $conversationName$",
@@ -1131,6 +1143,38 @@
         "message": "Cysylltu â Chymorth Signal",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
+    "DeliveryIssue--preview": {
+        "message": "Problem danfon",
+        "description": "Shown in left pane preview when message delivery issue happens"
+    },
+    "DeliveryIssue--notification": {
+        "message": "Nid oedd modd trosglwyddo neges gan $sender$",
+        "description": "Shown in timeline when message delivery issue happens",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "DeliveryIssue--learnMore": {
+        "message": "Dysgu Rhagor",
+        "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
+    },
+    "DeliveryIssue--title": {
+        "message": "Mater Cyflenwi",
+        "description": "Shown on explainer dialog available from delivery issue timeline events"
+    },
+    "DeliveryIssue--summary": {
+        "message": "Nid oedd modd trosglwyddo neges, sticer, ymateb, derbynneb ddarllen na chyfryngau i chi gan $sender$. Efallai eu bod wedi ceisio ei anfon atoch yn uniongyrchol, neu mewn grŵp.",
+        "description": "Shown on explainer dialog available from delivery issue timeline events",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "quoteThumbnailAlt": {
         "message": "Llun bach delwedd o'r neges a ddyfynnwyd",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1275,6 +1319,18 @@
         "message": "Dad-dewi'r meic",
         "description": "Button tooltip label for turning on the microphone"
     },
+    "calling__button--presenting-disabled": {
+        "message": "Diffoddir cyflwyno",
+        "description": "Button tooltip label for when screen sharing is disabled"
+    },
+    "calling__button--presenting-on": {
+        "message": "Dechrau rhannu",
+        "description": "Button tooltip label for starting to share screen"
+    },
+    "calling__button--presenting-off": {
+        "message": "Peidio cyflwyno",
+        "description": "Button tooltip label for stopping screen sharing"
+    },
     "calling__your-video-is-off": {
         "message": "Mae'ch fideo wedi'i ddiffodd",
         "description": "Label in the calling lobby indicating that your camera is off"
@@ -1387,6 +1443,80 @@
         "message": "Sgrolio i lawr",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
+    "calling__presenting--notification-title": {
+        "message": "Rydych yn cyflwyno i bawb.",
+        "description": "Title for the share screen notification"
+    },
+    "calling__presenting--notification-body": {
+        "message": "Cliciwch yma i ddychwelyd i'r alwad pan fyddwch chi'n barod i roi'r gorau i gyflwyno.",
+        "description": "Body text for the share screen notification"
+    },
+    "calling__presenting--info": {
+        "message": "Mae Signal yn rhannu $window$.",
+        "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Application"
+            }
+        }
+    },
+    "calling__presenting--stop": {
+        "message": "Peidio rhannu",
+        "description": "Button for stopping screen sharing"
+    },
+    "calling__presenting--you-stopped": {
+        "message": "Peidiasoch â chyflwyno",
+        "description": "Toast that appears when someone stops presenting"
+    },
+    "calling__presenting--person-ongoing": {
+        "message": "Mae $name$ yn cyflwyno",
+        "description": "Title of call when someone is presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--person-stopped": {
+        "message": "Peidiodd $name$ â chyflwyno",
+        "description": "Toast that appears when someone stops presenting",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Maddie"
+            }
+        }
+    },
+    "calling__presenting--permission-title": {
+        "message": "Angen caniatâd",
+        "description": "Shown as the title for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--macos-permission-description": {
+        "message": "Mae angen caniatâd ar Signal i gael mynediad at recordio sgrin eich cyfrifiadur.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step1": {
+        "message": "Mynd i Dewisiadau System.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step2": {
+        "message": "Cliciwch ar yr eicon clo ar y chwith isaf a rhwch gyfrinair eich cyfrifiadur.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-instruction-step3": {
+        "message": "Ar y dde, ticiwch y blwch wrth ymyl Signal. Os na welwch Signal yn y rhestr, cliciwch y + i'w ychwanegu.",
+        "description": "Shown as the description for the modal that requests screen recording permissions"
+    },
+    "calling__presenting--permission-open": {
+        "message": "Agorwch System Preferences",
+        "description": "The button that opens your system preferences for the needs screen record permissions modal"
+    },
+    "calling__presenting--permission-cancel": {
+        "message": "Diddymu",
+        "description": "The cancel button for the needs screen record permissions modal"
+    },
     "alwaysRelayCallsDescription": {
         "message": "Anfon galwadau ymlaen bob tro",
         "description": "Description of the always relay calls setting"
@@ -1412,16 +1542,20 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Galluogi gwirio sillafu testun a gofnodwyd yn y blwch cyfansoddi negeseuon",
-        "description": "Description of the media permission description"
+        "message": "Galluogi sillafwr",
+        "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Bydd gwiriad sillafu yn cael ei alluogi y tro nesaf y bydd Signal yn cychwyn.",
+        "message": "Bydd y sillafwr yn cael ei alluogi y tro nesaf y bydd Signal yn cychwyn.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Bydd gwirio sillafu wedi'i analluogi y tro nesaf y bydd Signal yn cychwyn.",
+        "message": "Bydd y sillafwr wedi'i analluogi y tro nesaf y bydd Signal yn cychwyn.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
+    "autoLaunchDescription": {
+        "message": "Agor pan mae'r cyfrifiadur yn cychwyn",
+        "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
         "message": "Clirio Data",
@@ -1536,6 +1670,10 @@
     "sendFailed": {
         "message": "Methodd yr anfon",
         "description": "Shown on outgoing message if it fails to send"
+    },
+    "sendPaused": {
+        "message": "Oedwyd anfon",
+        "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
         "message": "Wedi'i hanfon yn rhannol, tapiwch am fanylion",
@@ -1656,7 +1794,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Wedi diweddaru amser negeseuon byrhoedlog i $time$.",
+        "message": "Diweddarwyd cyfnod negeseuon byrhoedlog i $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1689,116 +1827,24 @@
             }
         }
     },
-    "timerOption_0_seconds": {
+    "disappearingMessages__off": {
         "message": "i ffwrdd",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
-    "timerOption_5_seconds": {
-        "message": "5 eiliad",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 eiliad",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 eiliad",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 munud",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 munud",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "hanner awr",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 awr",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 awr",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 awr",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 diwrnod",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 wythnos",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
     "disappearingMessages": {
         "message": "Negeseuon byrhoedlog",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "i ffwrdd",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5e",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10e",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30e",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1m",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1a",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6a",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12a",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1d",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1w",
-        "description": "Very short format indicating current timer setting in the conversation header"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
     },
     "disappearingMessagesDisabled": {
-        "message": "Negeseuon byrhoedlog wedi'u hanalluogi",
+        "message": "Negeseuon byrhoedlog wedi'u diffodd",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Analluogodd aelod negeseuon byrhoedlog.",
+        "message": "Diffoddodd aelod negeseuon byrhoedlog.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "Analluogodd $name$ negeseuon byrhoedlog.",
+        "message": "Diffoddodd $name$ negeseuon byrhoedlog.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1808,7 +1854,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Rydych wedi analluogi negeseuon byrhoedlog.",
+        "message": "Diffoddasoch negeseuon byrhoedlog.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -2023,6 +2069,10 @@
         "message": "Enw'r grŵp (angenrheidiol)",
         "description": "The placeholder for the group name placeholder"
     },
+    "setGroupMetadata__group-description-placeholder": {
+        "message": "Disgrifiad",
+        "description": "The placeholder for the group description"
+    },
     "setGroupMetadata__create-group": {
         "message": "Creu",
         "description": "The 'create group' button text in the 'set group metadata' left pane screen"
@@ -2036,7 +2086,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Golygu enw a llun grŵp",
+        "message": "Golygu grŵp",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2985,9 +3035,13 @@
             }
         }
     },
-    "MessageRequests--block-and-delete": {
-        "message": "Rhwystro a Dileu",
-        "description": "Shown as a button to let the user block and delete a message request"
+    "MessageRequests--block-and-report-spam": {
+        "message": "Adrodd ar Sothach a'i Rwystro",
+        "description": "Shown as a button to let the user block a message request and report spam"
+    },
+    "MessageRequests--block-and-report-spam-success-toast": {
+        "message": "Adroddwyd fel sbam a'i rwystro.",
+        "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
         "message": "Rhwystro $name$?",
@@ -3107,21 +3161,69 @@
             }
         }
     },
-    "ConversationHero--membership-1": {
-        "message": "Aelod o $group$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
+    "member-of-1-group": {
+        "message": "Aelod o $group$",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
     },
-    "ConversationHero--membership-2": {
-        "message": "Aelod o $group1$ a $group2$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups"
+    "member-of-2-groups": {
+        "message": "Aelod o $group1$ a $group2$",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
     },
-    "ConversationHero--membership-3": {
-        "message": "Aelod o $group1$, $group2$, a $group3$.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-3-groups": {
+        "message": "Aelod o $group1$, $group2$, a $group3$",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
     },
-    "ConversationHero--membership-extra": {
-        "message": "Aelod o $group1$, $group2$, $group3$ a $remainingCount$ arall.",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-more-than-3-groups": {
+        "message": "Aelod o $group1$, $group2$, $group3$ a $remainingCount$ arall",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "Ychwanegodd $name$ chi at y grŵp.",
@@ -3136,6 +3238,10 @@
     "no-groups-in-common": {
         "message": "Dim grwpiau'n gyffredin",
         "description": "Shown to indicate this user is not a member of any groups"
+    },
+    "no-groups-in-common-warning": {
+        "message": "Dim grwpiau'n gyffredin. Ystyriwch y ceisiadau'n ofalus",
+        "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
         "message": "Ateb",
@@ -3310,6 +3416,22 @@
     "calling__hangup": {
         "message": "Gadael yr alwad",
         "description": "Title for hang up button"
+    },
+    "calling__SelectPresentingSourcesModal--title": {
+        "message": "Rhannu eich sgrîn",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--confirm": {
+        "message": "Rhannu Sgrîn",
+        "description": "Confirm button for sharing screen modal"
+    },
+    "calling__SelectPresentingSourcesModal--entireScreen": {
+        "message": "Holl sgrîn",
+        "description": "Title for the select your screen sharing sources modal"
+    },
+    "calling__SelectPresentingSourcesModal--window": {
+        "message": "Ffenestr",
+        "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
         "message": "Fideo",
@@ -4529,6 +4651,42 @@
         "message": "Mae'r ddolen grŵp wedi'i hailosod.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
+    "GroupV2--description--remove--you": {
+        "message": "Dileasoch disgrifiad y grŵp.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--remove--other": {
+        "message": "Dilëwyd disgrifiad y grŵp gan $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--remove--unknown": {
+        "message": "Dilëwyd disgrifiad y grŵp.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--you": {
+        "message": "Rydych wedi newid disgrifiad y grŵp.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--description--change--other": {
+        "message": "Newidiodd $memberName$ disgrifiad y grŵp.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--description--change--unknown": {
+        "message": "Newidwyd disgrifiad y grŵp.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
     "GroupV1--Migration--disabled": {
         "message": "Uwchraddiwch y grŵp hwn i agor nodweddion newydd fel @mentions a gweinyddwyr. Bydd aelodau nad ydyn nhw wedi rhannu eu henw na'u llun yn y grŵp hwn yn cael eu gwahodd i ymuno. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
@@ -4663,6 +4821,18 @@
         "message": "Atodi ffeil",
         "description": "Aria label for file attachment button in composition area"
     },
+    "CompositionArea--sms-only__title": {
+        "message": "Nid yw'r person hwn yn defnyddio Signal",
+        "description": "Title for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__body": {
+        "message": "Nid yw Signal yn cefnogi negesu cysylltiadau nad ydynt â Signal. Gofynnwch i'r person hwn osod Signal er mwyn cael profiad negesu mwy diogel.",
+        "description": "Body for the composition area for the SMS-only contact"
+    },
+    "CompositionArea--sms-only__spinner-label": {
+        "message": "Yn gwirio statws cofrestru y cysylltiad",
+        "description": "Displayed while checking if the contact is SMS-only"
+    },
     "countMutedConversationsDescription": {
         "message": "Cyfrif sgyrsiau tawel wrth gyfrif bathodynnau",
         "description": "Description for counting muted conversations in badge setting"
@@ -4703,6 +4873,10 @@
         "message": "Tynnu o'r grŵp",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
+    "showChatColorEditor": {
+        "message": "Lliw'r sgwrs",
+        "description": "This is a button in the conversation context menu to show the chat color editor"
+    },
     "showConversationDetails": {
         "message": "Gosodiadau grŵp",
         "description": "This is a button in the conversation context menu to show group settings"
@@ -4724,7 +4898,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Dewiswch pwy all olygu enw grŵp, afatar, ac amserydd negeseuon sy'n diflannu.",
+        "message": "Dewiswch pwy all golygu enw, llun disgrifiad a chyfnod negeseuon byrhoedlog y grŵp.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5132,5 +5306,297 @@
     "ForwardMessageModal--continue": {
         "message": "Parhau",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "MessageRequestWarning__learn-more": {
+        "message": "Dysgu rhagor",
+        "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+    },
+    "MessageRequestWarning__dialog__details": {
+        "message": "Does gennych ddim grwpiau'n gyffredin â'r person yma. Ystyriwch y ceisiadau'n ofalus cyn derbyn negeseuon digroeso.",
+        "description": "Shown in the message request warning dialog. Gives more information about message requests"
+    },
+    "MessageRequestWarning__dialog__learn-even-more": {
+        "message": "Ychylch Ceisiadau Neges",
+        "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
+    },
+    "ContactSpoofing__same-name": {
+        "message": "Adolygwch ceisiadau â gofal. Daeth Signal o hyd i gyswllt arall gyda'r un enw. $link$",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
+        "placeholders": {
+            "link": {
+                "content": "$1",
+                "example": "Review request"
+            }
+        }
+    },
+    "ContactSpoofing__same-name-in-group": {
+        "message": "Mae gan $count$ aelod o'r grŵp yr un enw. $link$",
+        "description": "Shown in the timeline warning when you multiple group members have the same name",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "link": {
+                "content": "$2",
+                "example": "Tap to review"
+            }
+        }
+    },
+    "ContactSpoofing__same-name__link": {
+        "message": "Adolygu cais",
+        "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    },
+    "ContactSpoofing__same-name-in-group__link": {
+        "message": "Cliciwch i adolygu",
+        "description": "Shown in the timeline warning when you multiple group members have the same name"
+    },
+    "ContactSpoofingReviewDialog__title": {
+        "message": "Adolygu cais",
+        "description": "Title for the contact name spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__description": {
+        "message": "Os nad ydych yn siŵr o ble ddaw'r cais, adolygwch y cysylltiadau isod a gweithredu.",
+        "description": "Description for the contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__possibly-unsafe-title": {
+        "message": "Gofyn",
+        "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
+    },
+    "ContactSpoofingReviewDialog__safe-title": {
+        "message": "Eich cyswllt",
+        "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
+    },
+    "ContactSpoofingReviewDialog__group__title": {
+        "message": "Adolygu aelodau",
+        "description": "Title for the contact name spoofing review dialog in groups"
+    },
+    "ContactSpoofingReviewDialog__group__description": {
+        "message": "Mae gan aelodau cyfrif $count$ enwau tebyg. Adolygwch yr aelodau isod neu dewiswch weithredu.",
+        "description": "Description for the group contact spoofing review dialog"
+    },
+    "ContactSpoofingReviewDialog__group__members-header": {
+        "message": "Aelodau",
+        "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    },
+    "ContactSpoofingReviewDialog__group__name-change-info": {
+        "message": "Wedi newid eu henw proffil yn ddiweddar o $oldName$ i $newName$",
+        "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
+        "placeholders": {
+            "oldName": {
+                "content": "$1",
+                "example": "Jane Doe"
+            },
+            "newName": {
+                "content": "$2",
+                "example": "Doe Jane"
+            }
+        }
+    },
+    "RemoveGroupMemberConfirmation__remove-button": {
+        "message": "Tynnu o'r grŵp",
+        "description": "When confirming the removal of a group member, show this text in the button"
+    },
+    "RemoveGroupMemberConfirmation__description": {
+        "message": "Tynnu \"$name$\" o'r grŵp?",
+        "description": "When confirming the removal of a group member, show this text in the dialog",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jane Doe"
+            }
+        }
+    },
+    "CaptchaDialog__title": {
+        "message": "Gwiriwch i barhau sgwrsio",
+        "description": "Header in the captcha dialog"
+    },
+    "CaptchaDialog__first-paragraph": {
+        "message": "I helpu atal sothach ar Signal cwblhewch gwirio os gwelwch yn dda.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog__second-paragraph": {
+        "message": "Ar ôl gwirio, gallwch barhau i sgwrsio. Bydd unrhyw negeseuon sydd wedi'u oedi yn cael eu hanfon yn awtomatig.",
+        "description": "First paragraph in the captcha dialog"
+    },
+    "CaptchaDialog--can-close__title": {
+        "message": "Parhau Heb Wirio?",
+        "description": "Header in the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can-close__body": {
+        "message": "Os byddwch yn dewis hepgor y gwiriad, efallai byddwch yn methu negeseuon gan bobl eraill ac efallai bydd eich negeseuon chi yn methu ag anfon.",
+        "description": "Body of the captcha dialog that can be closed"
+    },
+    "CaptchaDialog--can_close__skip-verification": {
+        "message": "Hepgor gwiriad",
+        "description": "Skip button of the captcha dialog that can be closed"
+    },
+    "verificationComplete": {
+        "message": "Cwblhawyd gwirio.",
+        "description": "Displayed after successful captcha"
+    },
+    "verificationFailed": {
+        "message": "Methwyd gwirio, rhowch gynnig arall arni nes ymlaen.",
+        "description": "Displayed after unsuccessful captcha"
+    },
+    "deleteForEveryoneFailed": {
+        "message": "Methwyd dileu y neges i bawb. Rhowch gynnig arall arni nes ymlaen.",
+        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+    },
+    "ChatColorPicker__delete--title": {
+        "message": "Dileu lliw",
+        "description": "Confirm title for deleting custom color"
+    },
+    "ChatColorPicker__delete--message": {
+        "message": "Mae'r lliw cyfaddas hwn yn cael ei ddefnyddio mewn $num$ sgwrs. Ydych chi am ei ddileu ar gyfer pob sgwrs?",
+        "description": "Confirm message for deleting custom color",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "ChatColorPicker__global-chat-color": {
+        "message": "Lliw Sgwrs Eang",
+        "description": "Modal title for the chat color picker and editor for all conversations"
+    },
+    "ChatColorPicker__menu-title": {
+        "message": "Lliw'r Sgwrs",
+        "description": "View title for the chat color picker and editor"
+    },
+    "ChatColorPicker__reset": {
+        "message": "Ailosod y lliw sgwrsio",
+        "description": "Button label for resetting chat colors"
+    },
+    "ChatColorPicker__resetAll": {
+        "message": "Ailosod pob lliw sgwrsio",
+        "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset": {
+        "message": "Ailosod",
+        "description": "Confirm button label for resetting chat colors"
+    },
+    "ChatColorPicker__confirm-reset-message": {
+        "message": "Hoffech chi ddiystyru pob lliw sgwrsio?",
+        "description": "Modal message text for confirming resetting of chat colors"
+    },
+    "ChatColorPicker__custom-color--label": {
+        "message": "Dangos golygydd lliw cyfaddas",
+        "description": "aria-label for custom color editor button"
+    },
+    "ChatColorPicker__sampleBubble1": {
+        "message": "Dyma ragolwg o'r lliw sgwrsio.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble2": {
+        "message": "Swigen arall.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__sampleBubble3": {
+        "message": "Dim ond chi sydd yn gweld y lliw.",
+        "description": "An example message bubble for selecting the chat color"
+    },
+    "ChatColorPicker__context--edit": {
+        "message": "Golygu lliw",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--duplicate": {
+        "message": "Dyblygu",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "ChatColorPicker__context--delete": {
+        "message": "Dileu",
+        "description": "Option in the custom color bubble context menu"
+    },
+    "CustomColorEditor__solid": {
+        "message": "Solet",
+        "description": "Tab label for selecting solid colors"
+    },
+    "CustomColorEditor__gradient": {
+        "message": "Graddiant",
+        "description": "Tab label for selecting a gradient"
+    },
+    "CustomColorEditor__hue": {
+        "message": "Arlliw",
+        "description": "Label for the hue slider"
+    },
+    "CustomColorEditor__saturation": {
+        "message": "Trwythiad",
+        "description": "Label for the saturation slider"
+    },
+    "CustomColorEditor__title": {
+        "message": "Lliw Chwaeth",
+        "description": "Modal title for the custom color editor"
+    },
+    "customDisappearingTimeOption": {
+        "message": "Amser cyfaddas...",
+        "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
+    },
+    "selectedCustomDisappearingTimeOption": {
+        "message": "Amser cyfaddas:",
+        "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
+    },
+    "DisappearingTimeDialog__title": {
+        "message": "Dewis Amser",
+        "description": "Title for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__body": {
+        "message": "Dewiswch amser cyfaddas ar gyfer negeseuon byrhoedlog.",
+        "description": "Body for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__set": {
+        "message": "Gosod",
+        "description": "Text for the dialog button confirming the custom disappearing message timeout"
+    },
+    "DisappearingTimeDialog__seconds": {
+        "message": "Eiliad",
+        "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__minutes": {
+        "message": "Munud",
+        "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__hours": {
+        "message": "Awr",
+        "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__days": {
+        "message": "Diwrnod",
+        "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
+    },
+    "DisappearingTimeDialog__weeks": {
+        "message": "Wythnos",
+        "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
+    },
+    "settings__DisappearingMessages__footer": {
+        "message": "Gosod cyfnod negeseuon byrhoedlog rhagosodedig ar gyfer holl sgyrsiau newydd a sydd wedi'u dechrau gennych.",
+        "description": "Footer for the Disappearing Messages settings section"
+    },
+    "settings__DisappearingMessages__timer__label": {
+        "message": "Amserydd rhagosodedig ar gyfer sgyrsiau newydd",
+        "description": "Label for the Disapearring Messages default timer setting"
+    },
+    "UniversalTimerNotification__text": {
+        "message": "Bydd amser y neges byrhoedlog yn cael ei osod i $timeValue$ pan fyddwch yn eu negesu.",
+        "description": "A message displayed when default disappearing message timeout is about to be applied",
+        "placeholders": {
+            "timeValue": {
+                "content": "$1",
+                "example": "1 week"
+            }
+        }
+    },
+    "GroupDescription__read-more": {
+        "message": "darllen rhagor",
+        "description": "Button text when the group description is too long"
+    },
+    "EditConversationAttributesModal__description-warning": {
+        "message": "Bydd disgrifiadau grŵp yn weladwy i aelodau'r grŵp hwn a phobl sydd wedi'u gwahodd.",
+        "description": "Label text shown when editing group description"
+    },
+    "ConversationDetailsHeader--add-group-description": {
+        "message": "Ychwanegu disgrifiad grŵp…",
+        "description": "Placeholder text in the details header for those that can edit the group description"
     }
 }
