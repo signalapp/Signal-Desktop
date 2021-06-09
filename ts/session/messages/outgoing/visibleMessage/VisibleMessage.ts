@@ -5,10 +5,9 @@ import { DataMessage } from '..';
 import { Constants } from '../../..';
 import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
-import { ExpirationTimerUpdateMessage } from '../controlMessage/ExpirationTimerUpdateMessage';
 import { MessageParams } from '../Message';
 
-export interface AttachmentPointer {
+interface AttachmentPointerCommon {
   id?: number;
   contentType?: string;
   key?: Uint8Array;
@@ -20,11 +19,18 @@ export interface AttachmentPointer {
   width?: number;
   height?: number;
   caption?: string;
+}
+
+export interface AttachmentPointer extends AttachmentPointerCommon {
   url?: string;
 }
 
+export interface AttachmentPointerWithUrl extends AttachmentPointerCommon {
+  url: string;
+}
+
 export interface Preview {
-  url?: string;
+  url: string;
   title?: string;
   image?: AttachmentPointer;
 }
@@ -36,8 +42,8 @@ export interface QuotedAttachment {
 }
 
 export interface Quote {
-  id?: number;
-  author?: string;
+  id: number;
+  author: string;
   text?: string;
   attachments?: Array<QuotedAttachment>;
 }

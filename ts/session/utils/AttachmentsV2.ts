@@ -1,41 +1,24 @@
-import * as crypto from 'crypto';
 import { Attachment } from '../../types/Attachment';
 
 import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
 import {
   AttachmentPointer,
+  AttachmentPointerWithUrl,
   Preview,
   Quote,
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { uploadFileOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
+import { RawPreview, RawQuote } from './Attachments';
+import _ from 'lodash';
 
 interface UploadParamsV2 {
   attachment: Attachment;
   openGroup: OpenGroupRequestCommonType;
 }
 
-interface RawPreview {
-  url?: string;
-  title?: string;
-  image: Attachment;
-}
-
-interface RawQuoteAttachment {
-  contentType?: string;
-  fileName?: string;
-  thumbnail?: Attachment;
-}
-
-interface RawQuote {
-  id?: number;
-  author?: string;
-  text?: string;
-  attachments?: Array<RawQuoteAttachment>;
-}
-
-export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointer> {
+export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointerWithUrl> {
   const { attachment, openGroup } = params;
   if (typeof attachment !== 'object' || attachment == null) {
     throw new Error('Invalid attachment passed.');
@@ -62,10 +45,15 @@ export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointe
 
   const fileDetails = await uploadFileOpenGroupV2(new Uint8Array(paddedAttachment), openGroup);
 
-  pointer.id = fileDetails?.fileId || undefined;
-  pointer.url = fileDetails?.fileUrl || undefined;
+  if (!fileDetails) {
+    throw new Error(`upload to fileopengroupv2 of ${attachment.fileName} failed`);
+  }
 
-  return pointer;
+  return {
+    ...pointer,
+    id: fileDetails.fileId,
+    url: fileDetails.fileUrl,
+  };
 }
 
 export async function uploadAttachmentsV2(
@@ -86,20 +74,24 @@ export async function uploadLinkPreviewsV2(
   previews: Array<RawPreview>,
   openGroup: OpenGroupRequestCommonType
 ): Promise<Array<Preview>> {
-  const promises = (previews || []).map(async item => {
+  const promises = (previews || []).map(async preview => {
     // some links does not have an image associated, and it makes the whole message fail to send
-    if (!item.image) {
-      return item;
+    if (!preview.image) {
+      window.log.warn('tried to upload file to opengroupv2 without image.. skipping');
+
+      return undefined;
     }
+    const image = await exports.uploadV2({
+      attachment: preview.image,
+      openGroup,
+    });
     return {
-      ...item,
-      image: await exports.uploadV2({
-        attachment: item.image,
-        openGroup,
-      }),
+      ...preview,
+      image,
+      url: preview.url || (image.url as string),
     };
   });
-  return Promise.all(promises);
+  return _.compact(await Promise.all(promises));
 }
 
 export async function uploadQuoteThumbnailsV2(
@@ -121,7 +113,7 @@ export async function uploadQuoteThumbnailsV2(
     return {
       ...attachment,
       thumbnail,
-    } as QuotedAttachment;
+    };
   });
 
   const attachments = await Promise.all(promises);

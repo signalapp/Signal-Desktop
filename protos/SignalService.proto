@@ -1,8 +1,5 @@
-// Source: https://github.com/signalapp/libsignal-service-java/blob/4684a49b2ed8f32be619e0d0eea423626b6cb2cb/protobuf/SignalService.proto
 package signalservice;
 
-option java_package = "org.whispersystems.signalservice.internal.push";
-option java_outer_classname = "SignalServiceProtos";
 
 message Envelope {
 
@@ -15,7 +12,7 @@ message Envelope {
   required Type   type            = 1;
   optional string source          = 2;
   // @required
-  optional uint64 timestamp       = 5;
+  required uint64 timestamp       = 5;
   optional bytes  content         = 8;
 }
 
@@ -25,9 +22,9 @@ message TypingMessage {
         STOPPED = 1;
     }
     // @required
-    optional uint64 timestamp = 1;
+    required uint64 timestamp = 1;
     // @required
-    optional Action action    = 2;
+    required Action action    = 2;
 }
 
 
@@ -75,16 +72,16 @@ message DataMessage {
     }
 
     // @required
-    optional uint64           id          = 1;
+    required uint64           id          = 1;
     // @required
-    optional string           author      = 2;
+    required string           author      = 2;
     optional string           text        = 3;
     repeated QuotedAttachment attachments = 4;
   }
 
   message Preview {
     // @required
-    optional string            url   = 1;
+    required string            url   = 1;
     optional string            title = 2;
     optional AttachmentPointer image = 3;
   }
