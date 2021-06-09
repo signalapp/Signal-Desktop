@@ -33,19 +33,3 @@ export function generateEnvelopePlus(sender: string): EnvelopePlus {
 
   return envelope;
 }
-
-export function generateGroupUpdateNameChange(
-  groupId: string
-): SignalService.DataMessage.ClosedGroupControlMessage {
-  const update: SignalService.DataMessage.ClosedGroupControlMessage = {
-    type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NAME_CHANGE,
-    toJSON: () => ['fake'],
-    publicKey: fromHexToArray(groupId),
-    name: 'fakeNewName',
-    members: [],
-    admins: [],
-    wrappers: [],
-  };
-
-  return update;
-}

@@ -130,7 +130,6 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         name: 'df',
         groupId: TestUtils.generateFakePubKey().key,
-        expireTimer: 0,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
@@ -143,7 +142,6 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         addedMembers: [TestUtils.generateFakePubKey().key],
         groupId: TestUtils.generateFakePubKey().key,
-        expireTimer: 0,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
@@ -156,7 +154,6 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         removedMembers: [TestUtils.generateFakePubKey().key],
         groupId: TestUtils.generateFakePubKey().key,
-        expireTimer: 0,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
@@ -178,7 +175,6 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         groupId: TestUtils.generateFakePubKey().key,
         encryptedKeyPairs: fakeWrappers,
-        expireTimer: 0,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
       expect(rawMessage.encryption).to.equal(EncryptionType.ClosedGroup);
@@ -200,7 +196,6 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         groupId: TestUtils.generateFakePubKey().key,
         encryptedKeyPairs: fakeWrappers,
-        expireTimer: 0,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg);
       expect(rawMessage.encryption).to.equal(EncryptionType.Fallback);

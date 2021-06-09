@@ -181,6 +181,9 @@ export async function handleNewClosedGroup(
   const groupId = toHex(publicKey);
   const members = membersAsData.map(toHex);
   const admins = adminsAsData.map(toHex);
+  const envelopeTimestamp = _.toNumber(envelope.timestamp);
+  // a type new is sent and received on one to one so do not use envelope.senderIdentity here
+  const sender = envelope.source;
 
   if (!members.includes(ourNumber.key)) {
     window?.log?.info(
@@ -192,19 +195,11 @@ export async function handleNewClosedGroup(
   // FIXME maybe we should handle an expiretimer here too? And on ClosedGroup updates?
 
   const maybeConvo = ConversationController.getInstance().get(groupId);
+  const expireTimer = groupUpdate.expireTimer;
 
   if (maybeConvo) {
-    if (maybeConvo.get('isKickedFromGroup') || maybeConvo.get('left')) {
-      // TODO: indicate that we've been re-invited
-      // to the group if that is the case
-
-      // Enable typing:
-      maybeConvo.set('isKickedFromGroup', false);
-      maybeConvo.set('left', false);
-      maybeConvo.set('lastJoinedTimestamp', _.toNumber(envelope.timestamp));
-      // we just got readded. Consider the zombie list to have been cleared
-      maybeConvo.set('zombies', []);
-    } else {
+    // if we did not left this group, just add the keypair we got if not already there
+    if (!maybeConvo.get('isKickedFromGroup') && !maybeConvo.get('left')) {
       const ecKeyPairAlreadyExistingConvo = new ECKeyPair(
         // tslint:disable: no-non-null-assertion
         encryptionKeyPair!.publicKey,
@@ -214,6 +209,8 @@ export async function handleNewClosedGroup(
         groupId,
         ecKeyPairAlreadyExistingConvo.toHexKeyPair()
       );
+
+      await maybeConvo.updateExpirationTimer(expireTimer, sender, Date.now());
 
       if (isKeyPairAlreadyHere) {
         await getAllEncryptionKeyPairsForGroup(groupId);
@@ -231,6 +228,13 @@ export async function handleNewClosedGroup(
       );
       return;
     }
+    // convo exists and we left or got kicked, enable typing and continue processing
+    // Enable typing:
+    maybeConvo.set('isKickedFromGroup', false);
+    maybeConvo.set('left', false);
+    maybeConvo.set('lastJoinedTimestamp', _.toNumber(envelope.timestamp));
+    // we just got readded. Consider the zombie list to have been cleared
+    maybeConvo.set('zombies', []);
   }
 
   const convo =
@@ -246,7 +250,7 @@ export async function handleNewClosedGroup(
     convo,
     { newName: name, joiningMembers: members },
     'incoming',
-    _.toNumber(envelope.timestamp)
+    envelopeTimestamp
   );
 
   // We only set group admins on group creation
@@ -255,7 +259,7 @@ export async function handleNewClosedGroup(
     name: name,
     members: members,
     admins,
-    activeAt: Date.now(),
+    activeAt: envelopeTimestamp,
     weWereJustAdded: true,
   };
 
@@ -267,7 +271,8 @@ export async function handleNewClosedGroup(
   // But we need to override this value with the sent timestamp of the message creating this group for us.
   // Having that timestamp set will allow us to pickup incoming group update which were sent between
   // envelope.timestamp and Date.now(). And we need to listen to those (some might even remove us)
-  convo.set('lastJoinedTimestamp', _.toNumber(envelope.timestamp));
+  convo.set('lastJoinedTimestamp', envelopeTimestamp);
+  await convo.updateExpirationTimer(expireTimer, sender, envelopeTimestamp);
   convo.updateLastMessage();
 
   await convo.commit();
@@ -834,7 +839,6 @@ async function sendLatestKeyPairToUsers(
         groupId: groupPubKey,
         timestamp: Date.now(),
         encryptedKeyPairs: wrappers,
-        expireTimer,
       });
 
       // the encryption keypair is sent using established channels
@@ -887,13 +891,15 @@ export async function createClosedGroup(groupName: string, members: Array<string
 
   const admins = [ourNumber.key];
 
+  const existingExpireTimer = 0;
+
   const groupDetails: ClosedGroup.GroupInfo = {
     id: groupPublicKey,
     name: groupName,
     members: listOfMembers,
     admins,
     activeAt: Date.now(),
-    expireTimer: 0,
+    expireTimer: existingExpireTimer,
   };
 
   // used for UI only, adding of a message to remind who is in the group and the name of the group
@@ -918,7 +924,8 @@ export async function createClosedGroup(groupName: string, members: Array<string
     groupName,
     admins,
     encryptionKeyPair,
-    dbMessage
+    dbMessage,
+    existingExpireTimer
   );
 
   if (allInvitesSent) {
@@ -953,6 +960,7 @@ async function sendToGroupMembers(
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
   dbMessage: MessageModel,
+  existingExpireTimer: number,
   isRetry: boolean = false
 ): Promise<any> {
   const promises = createInvitePromises(
@@ -961,7 +969,8 @@ async function sendToGroupMembers(
     groupName,
     admins,
     encryptionKeyPair,
-    dbMessage
+    dbMessage,
+    existingExpireTimer
   );
   window?.log?.info(`Creating a new group and an encryptionKeyPair for group ${groupPublicKey}`);
   // evaluating if all invites sent, if failed give the option to retry failed invites via modal dialog
@@ -1010,6 +1019,7 @@ async function sendToGroupMembers(
             admins,
             encryptionKeyPair,
             dbMessage,
+            existingExpireTimer,
             isRetrySend
           );
         }
@@ -1025,7 +1035,8 @@ function createInvitePromises(
   groupName: string,
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
-  dbMessage: MessageModel
+  dbMessage: MessageModel,
+  existingExpireTimer: number
 ) {
   return listOfMembers.map(async m => {
     const messageParams: ClosedGroupNewMessageParams = {
@@ -1036,7 +1047,7 @@ function createInvitePromises(
       keypair: encryptionKeyPair,
       timestamp: Date.now(),
       identifier: dbMessage.id,
-      expireTimer: 0,
+      expireTimer: existingExpireTimer,
     };
     const message = new ClosedGroupNewMessage(messageParams);
     return getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(m), message);

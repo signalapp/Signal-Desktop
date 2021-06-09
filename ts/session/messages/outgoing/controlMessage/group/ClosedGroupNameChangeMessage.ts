@@ -14,7 +14,6 @@ export class ClosedGroupNameChangeMessage extends ClosedGroupMessage {
       timestamp: params.timestamp,
       identifier: params.identifier,
       groupId: params.groupId,
-      expireTimer: params.expireTimer,
     });
     this.name = params.name;
     if (this.name.length === 0) {
