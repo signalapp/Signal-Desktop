@@ -56,12 +56,6 @@ export async function handleClosedGroupControlMessage(
     return;
   }
 
-  if (type === Type.UPDATE) {
-    window?.log?.error('ClosedGroup: Got a non explicit group update. dropping it ', type);
-    await removeFromCache(envelope);
-    return;
-  }
-
   // We drop New closed group message from our other devices, as they will come as ConfigurationMessage instead
   if (type === Type.ENCRYPTION_KEY_PAIR) {
     const isComingFromGroupPubkey =
