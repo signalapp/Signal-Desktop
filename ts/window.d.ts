@@ -96,5 +96,11 @@ declare global {
     darkTheme: DefaultTheme;
     LokiPushNotificationServer: any;
     LokiPushNotificationServerApi: any;
+
+    confirmationDialog: any;
   }
+
+  // window.confirmationDialog = () => {
+  //   console.log("confirmation dialog stub called");
+  // }
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
@@ -36,7 +35,10 @@ import { queueAllCachedFromSource } from './receiver';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { SwarmPolling } from '../session/snode_api/swarmPolling';
 import { MessageModel } from '../models/message';
-import { SessionConfirm } from '../components/session/SessionConfirm';
+
+import { useSelector, useDispatch } from "react-redux";
+import { updateConfirmModal } from "../state/ducks/modalDialog";
+
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -838,7 +840,7 @@ async function handleClosedGroupEncryptionKeyPairRequest(
   return removeFromCache(envelope);
 }
 
-export async function createClosedGroup(groupName: string, members: Array<string>, setModal: any) {
+export async function createClosedGroup(groupName: string, members: Array<string>) {
   const setOfMembers = new Set(members);
 
   const ourNumber = UserUtils.getOurPubKeyFromCache();
@@ -894,7 +896,6 @@ export async function createClosedGroup(groupName: string, members: Array<string
     admins,
     encryptionKeyPair,
     dbMessage,
-    setModal
   );
 
   if (allInvitesSent) {
@@ -929,7 +930,6 @@ async function sendToGroupMembers(
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
   dbMessage: MessageModel,
-  setModal: any,
   isRetry: boolean = false,
 ): Promise<any> {
   const promises = createInvitePromises(
@@ -945,35 +945,34 @@ async function sendToGroupMembers(
   const inviteResults = await Promise.all(promises);
   const allInvitesSent = _.every(inviteResults, Boolean);
 
+  // const dispatch = useDispatch();
+
+  // window.inboxStore?.dispatch(updateConfirmModal({
+  //   title: 'hi'
+  // }))
+
+  console.log('@@@@', inviteResults);
+
   if (allInvitesSent) {
+    // if (true) {
     if (isRetry) {
       const invitesTitle =
         inviteResults.length > 1
           ? window.i18n('closedGroupInviteSuccessTitlePlural')
           : window.i18n('closedGroupInviteSuccessTitle');
 
-      // setModal(<SessionConfirm message={'hi'} title={invitesTitle} />)
-
-      setModal(
-      <SessionConfirm
-      title={title}
-      message={message}
-      onClickOk={deleteAccount}
-      okTheme={SessionButtonColor.Danger}
-      onClickClose={clearModal}
-    />)
-      )
-
-      // window.confirmationDialog({
-      //   title: invitesTitle,
-      //   message: window.i18n('closedGroupInviteSuccessMessage'),
-      // });
+      window.inboxStore?.dispatch(updateConfirmModal({
+        title: invitesTitle,
+        message: window.i18n('closedGroupInviteSuccessMessage'),
+        hideCancel: true
+      }));
     }
     return allInvitesSent;
   } else {
     // Confirmation dialog that recursively calls sendToGroupMembers on resolve
 
-    window.confirmationDialog({
+
+    window.inboxStore?.dispatch(updateConfirmModal({
       title:
         inviteResults.length > 1
           ? window.i18n('closedGroupInviteFailTitlePlural')
@@ -983,7 +982,7 @@ async function sendToGroupMembers(
           ? window.i18n('closedGroupInviteFailMessagePlural')
           : window.i18n('closedGroupInviteFailMessage'),
       okText: window.i18n('closedGroupInviteOkText'),
-      resolve: async () => {
+      onClickOk: async () => {
         const membersToResend: Array<string> = new Array<string>();
         inviteResults.forEach((result, index) => {
           const member = listOfMembers[index];
@@ -1001,12 +1000,45 @@ async function sendToGroupMembers(
             admins,
             encryptionKeyPair,
             dbMessage,
-            setModal,
             isRetrySend
           );
         }
       },
-    });
+    }));
+
+    // window.confirmationDialog({
+    //   title:
+    //     inviteResults.length > 1
+    //       ? window.i18n('closedGroupInviteFailTitlePlural')
+    //       : window.i18n('closedGroupInviteFailTitle'),
+    //   message:
+    //     inviteResults.length > 1
+    //       ? window.i18n('closedGroupInviteFailMessagePlural')
+    //       : window.i18n('closedGroupInviteFailMessage'),
+    //   okText: window.i18n('closedGroupInviteOkText'),
+    //   resolve: async () => {
+    //     const membersToResend: Array<string> = new Array<string>();
+    //     inviteResults.forEach((result, index) => {
+    //       const member = listOfMembers[index];
+    //       // group invite must always contain the admin member.
+    //       if (result !== true || admins.includes(member)) {
+    //         membersToResend.push(member);
+    //       }
+    //     });
+    //     if (membersToResend.length > 0) {
+    //       const isRetrySend = true;
+    //       await sendToGroupMembers(
+    //         membersToResend,
+    //         groupPublicKey,
+    //         groupName,
+    //         admins,
+    //         encryptionKeyPair,
+    //         dbMessage,
+    //         isRetrySend
+    //       );
+    //     }
+    //   },
+    // });
   }
   return allInvitesSent;
 }

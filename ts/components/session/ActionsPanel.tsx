@@ -33,9 +33,13 @@ import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManager
 import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
-import _ from 'lodash';
+import _, { divide } from 'lodash';
 import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusDialog';
 import { EditProfileDialog } from '../EditProfileDialog';
+import { StateType } from '../../state/reducer';
+import { updateConfirmModal } from "../../state/ducks/modalDialog";
+import { useInView } from 'react-intersection-observer';
+import { SessionConfirm } from './SessionConfirm';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -72,6 +76,11 @@ const Section = (props: {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
       // window.showEditProfileDialog();
+      console.log("edit profile");
+
+      // window.inboxStore?.dispatch(updateConfirmModal({ title: "title test" }));
+
+      // dispatch(updateConfirmModal({ title: "title test" }));
 
       // setModal(<EditProfileDialog2 onClose={() => setModal(null)}></EditProfileDialog2>);
       setModal(<EditProfileDialog onClose={handleModalClose} theme={theme} ></EditProfileDialog>);
@@ -134,21 +143,21 @@ const Section = (props: {
   return (
     <>
       {type === SectionType.PathIndicator ?
-      <ActionPanelOnionStatusLight
-        handleClick={handleClick}
-        isSelected={isSelected}
-      />
-    :
-      <SessionIconButton
-        iconSize={SessionIconSize.Medium}
-        iconType={iconType}
-        iconColor={iconColor}
-        notificationCount={unreadToShow}
-        onClick={handleClick}
-        isSelected={isSelected}
-        theme={theme}
-      />
-    }
+        <ActionPanelOnionStatusLight
+          handleClick={handleClick}
+          isSelected={isSelected}
+        />
+        :
+        <SessionIconButton
+          iconSize={SessionIconSize.Medium}
+          iconType={iconType}
+          iconColor={iconColor}
+          notificationCount={unreadToShow}
+          onClick={handleClick}
+          isSelected={isSelected}
+          theme={theme}
+        />
+      }
     </>
   );
 };
@@ -260,24 +269,45 @@ export const ActionsPanel = () => {
     void forceRefreshRandomSnodePool();
   }, DAYS * 1);
 
+  const formatLog = (s: any ) => {
+    console.log("@@@@:: ", s);
+  }
+
+
+  // const confirmModalState = useSelector((state: StateType) => state);
+
+  const confirmModalState = useSelector((state: StateType) => state.confirmModal);
+
+  console.log('@@@ confirm modal state', confirmModalState);
+
+  // formatLog(confirmModalState.modalState.title);
+
+  formatLog(confirmModalState);
+
+  // formatLog(confirmModalState2);
+  
   return (
     <>
       {modal ? modal : null}
-    <div className="module-left-pane__sections-container">
-      <Section
-        setModal={setModal}
-        type={SectionType.Profile}
-        avatarPath={ourPrimaryConversation.avatarPath}
-      />
-      <Section  type={SectionType.Message} />
-      <Section  type={SectionType.Contact} />
-      <Section  type={SectionType.Settings} />
+      {/* { confirmModalState && confirmModalState.title ? <div>{confirmModalState.title}</div> : null} */}
+      { confirmModalState ? <SessionConfirm {...confirmModalState} />: null}
+      <div className="module-left-pane__sections-container">
+        <Section
+          setModal={setModal}
+          type={SectionType.Profile}
+          avatarPath={ourPrimaryConversation.avatarPath}
+        />
+        <Section type={SectionType.Message} />
+        <Section type={SectionType.Contact} />
+        <Section type={SectionType.Settings} />
 
-      <SessionToastContainer />
+        <SessionToastContainer />
 
-      <Section setModal={setModal} type={SectionType.PathIndicator} />
-      <Section  type={SectionType.Moon} />
-    </div>
+        <Section
+          setModal={setModal}
+          type={SectionType.PathIndicator} />
+        <Section type={SectionType.Moon} />
+      </div>
     </>
   );
 };

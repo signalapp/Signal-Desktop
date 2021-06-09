@@ -12,6 +12,8 @@ import { getConversationLookup, getConversations } from '../../../state/selector
 import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
 import { PasswordAction, SessionPasswordModal } from '../SessionPasswordModal';
+import { SessionConfirmDialogProps } from '../SessionConfirm';
+import { mapDispatchToProps } from '../../../state/actions';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -34,6 +36,7 @@ export interface SettingsViewProps {
   // pass the conversation as props, so our render is called everytime they change.
   // we have to do this to make the list refresh on unblock()
   conversations?: ConversationLookupType;
+  updateConfirmModal?: any;
 }
 
 interface State {
@@ -42,6 +45,10 @@ interface State {
   mediaSetting: boolean | null;
   shouldLockSettings: boolean | null;
   modal: JSX.Element | null;
+}
+
+interface ConfirmationDialogParams extends SessionConfirmDialogProps {
+  shouldShowConfirm: () => boolean | undefined;
 }
 
 interface LocalSettingType {
@@ -56,7 +63,7 @@ interface LocalSettingType {
   type: SessionSettingType | undefined;
   setFn: any;
   onClick: any;
-  confirmationDialogParams: any | undefined;
+  confirmationDialogParams: ConfirmationDialogParams | undefined;
 }
 
 class SettingsViewInner extends React.Component<SettingsViewProps, State> {
@@ -147,6 +154,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
                     onSliderChange={sliderFn}
                     content={content}
                     confirmationDialogParams={setting.confirmationDialogParams}
+                    updateConfirmModal={this.props.updateConfirmModal}
                   />
                 )}
               </div>
@@ -345,7 +353,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
-          okTheme: 'danger',
+          okTheme: SessionButtonColor.Danger,
         },
       },
       {
@@ -614,11 +622,13 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
   }
 }
 
+
 const mapStateToProps = (state: StateType) => {
   return {
     conversations: getConversationLookup(state),
   };
 };
 
-const smart = connect(mapStateToProps);
+
+const smart = connect(mapStateToProps, mapDispatchToProps);
 export const SmartSettingsView = smart(SettingsViewInner);

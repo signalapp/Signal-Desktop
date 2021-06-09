@@ -1,6 +1,8 @@
 // tslint:disable: no-backbone-get-set-outside-model
 
 import React from 'react';
+import { useDispatch } from "react-redux";
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 
 import classNames from 'classnames';
 
@@ -12,7 +14,7 @@ import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme, useTheme } from 'styled-components';
 import { SessionMessagesList } from './SessionMessagesList';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
@@ -31,6 +33,9 @@ import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 import { deleteOpenGroupMessages } from '../../../interactions/conversation';
 import { ConversationTypeEnum } from '../../../models/conversation';
+import { SessionButtonColor } from '../SessionButton';
+
+
 
 interface State {
   // Message sending progress
@@ -359,12 +364,10 @@ export class SessionConversation extends React.Component<Props, State> {
       onSetDisappearingMessages: conversation.updateExpirationTimer,
       onDeleteMessages: conversation.deleteMessages,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
-      onChangeNickname: conversation.changeNickname,
       onClearNickname: conversation.clearNickname,
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
       },
-      onDeleteContact: conversation.deleteContact,
 
       onGoBack: () => {
         this.setState({
@@ -451,8 +454,8 @@ export class SessionConversation extends React.Component<Props, State> {
     const isAdmin = conversation.isMediumGroup()
       ? true
       : conversation.isPublic()
-      ? conversation.isAdmin(ourPrimary)
-      : false;
+        ? conversation.isAdmin(ourPrimary)
+        : false;
 
     return {
       id: conversation.id,
@@ -507,7 +510,6 @@ export class SessionConversation extends React.Component<Props, State> {
       onInviteContacts: () => {
         window.Whisper.events.trigger('inviteContacts', conversation);
       },
-      onDeleteContact: conversation.deleteContact,
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveClosedGroup', conversation);
       },
@@ -661,14 +663,22 @@ export class SessionConversation extends React.Component<Props, State> {
     }
 
     const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
+
     if (askUserForConfirmation) {
-      window.confirmationDialog({
+      const onClickClose = () => {
+        this.props.actions.updateConfirmModal(null);
+      }
+
+      this.props.actions.updateConfirmModal({
         title,
         message: warningMessage,
         okText,
-        okTheme: 'danger',
-        resolve: doDelete,
-      });
+        okTheme: SessionButtonColor.Danger,
+        onClickOk: doDelete,
+        onClickClose,
+        closeAfterClick: true
+      })
+
     } else {
       void doDelete();
     }
@@ -684,7 +694,7 @@ export class SessionConversation extends React.Component<Props, State> {
   public selectMessage(messageId: string) {
     const selectedMessages = this.state.selectedMessages.includes(messageId)
       ? // Add to array if not selected. Else remove.
-        this.state.selectedMessages.filter(id => id !== messageId)
+      this.state.selectedMessages.filter(id => id !== messageId)
       : [...this.state.selectedMessages, messageId];
 
     this.setState({ selectedMessages });
