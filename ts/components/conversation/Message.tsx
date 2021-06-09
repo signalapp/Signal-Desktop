@@ -351,6 +351,16 @@ export class Message extends React.Component<Props, State> {
     }
   };
 
+  public showMenuIfNoSelection = (
+    event: React.MouseEvent<HTMLDivElement>
+  ): void => {
+    const selection = window.getSelection();
+    if (selection && !selection.isCollapsed) {
+      return;
+    }
+    this.showMenu(event);
+  };
+
   public handleImageError = (): void => {
     const { id } = this.props;
     window.log.info(
@@ -2317,7 +2327,11 @@ export class Message extends React.Component<Props, State> {
 
     return (
       <div className="module-message__container-outer">
-        <div className={containerClassnames} style={containerStyles}>
+        <div
+          className={containerClassnames}
+          style={containerStyles}
+          onContextMenu={this.showMenuIfNoSelection}
+        >
           {this.renderAuthor()}
           {this.renderContents()}
         </div>
