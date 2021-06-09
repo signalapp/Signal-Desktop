@@ -1,6 +1,5 @@
 import { default as insecureNodeFetch } from 'node-fetch';
-
-import { Snode } from './snodePool';
+import { Snode } from '../../data/data';
 
 import { lokiOnionFetch, snodeHttpsAgent, SnodeResponse } from './onions';
 

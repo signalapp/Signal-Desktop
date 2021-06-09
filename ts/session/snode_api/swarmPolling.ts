@@ -1,5 +1,5 @@
 import { PubKey } from '../types';
-import { getSwarmFor, Snode } from './snodePool';
+import { getSwarmFor } from './snodePool';
 import { retrieveNextMessages } from './SNodeAPI';
 import { SignalService } from '../../protobuf';
 import * as Receiver from '../../receiver/receiver';
@@ -8,6 +8,7 @@ import {
   getLastHashBySnode,
   getSeenMessagesByHashList,
   saveSeenMessageHashes,
+  Snode,
   updateLastHash,
 } from '../../../ts/data/data';
 

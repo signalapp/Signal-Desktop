@@ -17,12 +17,7 @@ import {
 } from '../../../../session/snode_api/onions';
 import AbortController from 'abort-controller';
 import * as Data from '../../../../../ts/data/data';
-import { Snode } from '../../../../session/snode_api/snodePool';
-import {
-  pathFailureCount,
-  SnodePath,
-  TEST_getTestguardNodes,
-} from '../../../../session/onions/onionPath';
+import { pathFailureCount, SnodePath } from '../../../../session/onions/onionPath';
 
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -60,10 +55,10 @@ describe('OnionPathsErrors', () => {
   // tslint:disable-next-line: one-variable-per-declaration
   let guardPubkeys: Array<string>,
     otherNodesPubkeys: Array<string>,
-    guardNodesArray: Array<Snode>,
-    guardSnode1: Snode,
-    otherNodesArray: Array<Snode>,
-    fakeSnodePool: Array<Snode>,
+    guardNodesArray: Array<Data.Snode>,
+    guardSnode1: Data.Snode,
+    otherNodesArray: Array<Data.Snode>,
+    fakeSnodePool: Array<Data.Snode>,
     associatedWith: string,
     fakeSwarmForAssociatedWith: Array<string>;
 
@@ -119,6 +114,11 @@ describe('OnionPathsErrors', () => {
 
     // those are still doing what they do, but we spy on their executation
     updateSwarmSpy = sandbox.stub(Data, 'updateSwarmNodesForPubkey').resolves();
+    sandbox
+      .stub(Data, 'getItemById')
+      .withArgs(Data.SNODE_POOL_ITEM_ID)
+      .resolves({ id: Data.SNODE_POOL_ITEM_ID, value: '' });
+    sandbox.stub(Data, 'createOrUpdateItem').resolves();
     dropSnodeFromSnodePool = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSnodePool');
     dropSnodeFromSwarmIfNeededSpy = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSwarmIfNeeded');
     dropSnodeFromPathSpy = sandbox.spy(OnionPaths, 'dropSnodeFromPath');
@@ -296,7 +296,7 @@ describe('OnionPathsErrors', () => {
         it('throws a non-retryable error we get a 421 status code with a new swarm', async () => {
           const targetNode = otherNodesPubkeys[0];
 
-          const resultExpected: Array<Snode> = [
+          const resultExpected: Array<Data.Snode> = [
             otherNodesArray[4],
             otherNodesArray[5],
             otherNodesArray[6],

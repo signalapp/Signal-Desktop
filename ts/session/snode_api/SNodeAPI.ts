@@ -11,7 +11,7 @@ const { remote } = Electron;
 
 import { snodeRpc } from './lokiRpc';
 
-import { getRandomSnode, getRandomSnodePool, requiredSnodesForAgreement, Snode } from './snodePool';
+import { getRandomSnode, getRandomSnodePool, requiredSnodesForAgreement } from './snodePool';
 import { Constants } from '..';
 import { getSodium, sha256 } from '../crypto';
 import _, { range } from 'lodash';
@@ -23,6 +23,7 @@ import {
   stringToUint8Array,
   toHex,
 } from '../utils/String';
+import { Snode } from '../../data/data';
 
 // ONS name can have [a-zA-Z0-9_-] except that - is not allowed as start or end
 // do not define a regex but rather create it on the fly to avoid https://stackoverflow.com/questions/3891641/regex-test-only-works-every-other-time
