@@ -3502,7 +3502,7 @@ export async function startApp(): Promise<void> {
       );
 
       try {
-        const sendOptions = await conversation.getSendOptions();
+        const sendOptions = await getSendOptions(conversation.attributes);
         const result = await window.textsecure.messaging.sendNullMessage(
           { uuid: requesterUuid },
           sendOptions
