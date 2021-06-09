@@ -80,10 +80,10 @@ const Section = (props: {
 
       // window.inboxStore?.dispatch(updateConfirmModal({ title: "title test" }));
 
-      dispatch(updateConfirmModal({ title: "title test" }));
+      // dispatch(updateConfirmModal({ title: "title test" }));
 
       // setModal(<EditProfileDialog2 onClose={() => setModal(null)}></EditProfileDialog2>);
-      // setModal(<EditProfileDialog onClose={handleModalClose} theme={theme} ></EditProfileDialog>);
+      setModal(<EditProfileDialog onClose={handleModalClose} theme={theme} ></EditProfileDialog>);
     } else if (type === SectionType.Moon) {
       const themeFromSettings = window.Events.getThemeSetting();
       const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
@@ -288,12 +288,12 @@ export const ActionsPanel = () => {
   
   return (
     <>
-      {/* {modal ? modal : null} */}
+      {modal ? modal : null}
       {/* { confirmModalState && confirmModalState.title ? <div>{confirmModalState.title}</div> : null} */}
       { confirmModalState ? <SessionConfirm {...confirmModalState} />: null}
       <div className="module-left-pane__sections-container">
         <Section
-          // setModal={setModal}
+          setModal={setModal}
           type={SectionType.Profile}
           avatarPath={ourPrimaryConversation.avatarPath}
         />

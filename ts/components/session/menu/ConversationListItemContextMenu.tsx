@@ -82,7 +82,7 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
       {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, window.i18n, id, setModal)}
       {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup, window.i18n)}
 
-      {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
+      {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n, id)}
       {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts, window.i18n)}
       {getDeleteContactMenuItem(
         isMe,
@@ -93,7 +93,7 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
         onDeleteContact,
         window.i18n
       )}
-      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n)}
+      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n, id)}
     </Menu>
     </>
   );

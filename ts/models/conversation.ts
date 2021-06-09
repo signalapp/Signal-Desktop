@@ -1351,7 +1351,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       };
     }
 
-    window.confirmationDialog(params);
+    // window.confirmationDialog(params);
   }
 
   public async destroyMessages() {

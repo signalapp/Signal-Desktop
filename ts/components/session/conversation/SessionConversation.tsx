@@ -1,6 +1,8 @@
 // tslint:disable: no-backbone-get-set-outside-model
 
 import React from 'react';
+import { useDispatch } from "react-redux";
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 
 import classNames from 'classnames';
 
@@ -12,7 +14,7 @@ import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme, useTheme } from 'styled-components';
 import { SessionMessagesList } from './SessionMessagesList';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
@@ -31,6 +33,8 @@ import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 import { deleteOpenGroupMessages } from '../../../interactions/conversation';
 import { ConversationTypeEnum } from '../../../models/conversation';
+
+
 
 interface State {
   // Message sending progress

@@ -1,4 +1,3 @@
-import React from 'react';
 import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
@@ -36,7 +35,10 @@ import { queueAllCachedFromSource } from './receiver';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { SwarmPolling } from '../session/snode_api/swarmPolling';
 import { MessageModel } from '../models/message';
-import { SessionConfirm } from '../components/session/SessionConfirm';
+
+import { useSelector, useDispatch } from "react-redux";
+import { updateConfirmModal } from "../state/ducks/modalDialog";
+
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -943,6 +945,8 @@ async function sendToGroupMembers(
   const inviteResults = await Promise.all(promises);
   const allInvitesSent = _.every(inviteResults, Boolean);
 
+  // const dispatch = useDispatch();
+
   if (allInvitesSent) {
     if (isRetry) {
       const invitesTitle =
@@ -956,6 +960,8 @@ async function sendToGroupMembers(
         title: invitesTitle,
         message: window.i18n('closedGroupInviteSuccessMessage'),
       });
+
+      // dispatch(updateConfirmModal({ title: "invitesTitle" }))
     }
     return allInvitesSent;
   } else {

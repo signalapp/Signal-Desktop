@@ -3,6 +3,11 @@ import { LocalizerType } from '../../../types/Util';
 import { TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { SessionNicknameDialog } from '../SessionNicknameDialog';
+import { useDispatch } from 'react-redux';
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { ConversationController } from '../../../session/conversations';
+import { useTheme } from 'styled-components';
+import { UserUtils } from '../../../session/utils';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -120,12 +125,46 @@ export function getLeaveGroupMenuItem(
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
   action: any,
-  i18n: LocalizerType
+  i18n: LocalizerType,
+  id: string
 ): JSX.Element | null {
   if (
     showLeaveGroup(Boolean(isKickedFromGroup), Boolean(left), Boolean(isGroup), Boolean(isPublic))
   ) {
-    return <Item onClick={action}>{i18n('leaveGroup')}</Item>;
+    const dispatch = useDispatch();
+    const conversation = ConversationController.getInstance().get(id);
+
+    const onClickClose = () => {
+      dispatch(updateConfirmModal(null));
+    }
+
+    const openConfirmationModal = () => {
+      if (!conversation.isGroup()) {
+        throw new Error('showLeaveGroupDialog() called with a non group convo.');
+      }
+
+      const title = window.i18n('leaveGroup');
+      const message = window.i18n('leaveGroupConfirmation');
+      const ourPK = UserUtils.getOurPubKeyStrFromCache();
+      const isAdmin = (conversation.get('groupAdmins') || []).includes(ourPK);
+      const isClosedGroup = conversation.get('is_medium_group') || false;
+
+      // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
+      if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
+        dispatch(updateConfirmModal({
+          title,
+          message,
+          onClickOk: () => {
+            conversation.leaveClosedGroup();
+            onClickClose();
+          },
+          onClickClose
+        }));
+      }
+
+    }
+
+    return <Item onClick={openConfirmationModal}>{i18n('leaveGroup')}</Item>;
   }
   return null;
 }
@@ -305,10 +344,33 @@ export function getChangeNicknameMenuItem(
 export function getDeleteMessagesMenuItem(
   isPublic: boolean | undefined,
   action: any,
-  i18n: LocalizerType
+  i18n: LocalizerType,
+  id: string
 ): JSX.Element | null {
   if (showDeleteMessages(Boolean(isPublic))) {
-    return <Item onClick={action}>{i18n('deleteMessages')}</Item>;
+
+    const dispatch = useDispatch();
+    const conversation = ConversationController.getInstance().get(id);
+
+    const onClickClose = () => {
+      dispatch(updateConfirmModal(null));
+    }
+
+    const onClickOk = () => {
+      conversation.destroyMessages();
+      onClickClose();
+    }
+
+    const openConfirmationModal = () => {
+      dispatch(updateConfirmModal({
+        title: window.i18n('deleteMessages'),
+        message: window.i18n('deleteConversationConfirmation'),
+        onClickOk,
+        onClickClose,
+      }))
+    }
+
+    return <Item onClick={openConfirmationModal}>{i18n('deleteMessages')}</Item>;
   }
   return null;
 }
