@@ -838,7 +838,7 @@ async function handleClosedGroupEncryptionKeyPairRequest(
   return removeFromCache(envelope);
 }
 
-export async function createClosedGroup(groupName: string, members: Array<string>, setModal: any) {
+export async function createClosedGroup(groupName: string, members: Array<string>) {
   const setOfMembers = new Set(members);
 
   const ourNumber = UserUtils.getOurPubKeyFromCache();
@@ -894,7 +894,6 @@ export async function createClosedGroup(groupName: string, members: Array<string
     admins,
     encryptionKeyPair,
     dbMessage,
-    setModal
   );
 
   if (allInvitesSent) {
@@ -929,7 +928,6 @@ async function sendToGroupMembers(
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
   dbMessage: MessageModel,
-  setModal: any,
   isRetry: boolean = false,
 ): Promise<any> {
   const promises = createInvitePromises(
@@ -954,20 +952,10 @@ async function sendToGroupMembers(
 
       // setModal(<SessionConfirm message={'hi'} title={invitesTitle} />)
 
-      setModal(
-      <SessionConfirm
-      title={title}
-      message={message}
-      onClickOk={deleteAccount}
-      okTheme={SessionButtonColor.Danger}
-      onClickClose={clearModal}
-    />)
-      )
-
-      // window.confirmationDialog({
-      //   title: invitesTitle,
-      //   message: window.i18n('closedGroupInviteSuccessMessage'),
-      // });
+      window.confirmationDialog({
+        title: invitesTitle,
+        message: window.i18n('closedGroupInviteSuccessMessage'),
+      });
     }
     return allInvitesSent;
   } else {
@@ -1001,7 +989,6 @@ async function sendToGroupMembers(
             admins,
             encryptionKeyPair,
             dbMessage,
-            setModal,
             isRetrySend
           );
         }

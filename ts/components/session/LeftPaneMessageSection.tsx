@@ -447,7 +447,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return;
     }
     this.setState({ loading: true }, async () => {
-      const groupCreated = await MainViewController.createClosedGroup(groupName, groupMembers, setModal);
+      const groupCreated = await MainViewController.createClosedGroup(groupName, groupMembers);
 
       if (groupCreated) {
         this.handleToggleOverlay(undefined);

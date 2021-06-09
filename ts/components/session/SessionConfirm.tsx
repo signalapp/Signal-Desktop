@@ -7,9 +7,9 @@ import { DefaultTheme, useTheme, withTheme } from 'styled-components';
 import { SessionWrapperModal } from './SessionWrapperModal';
 
 type Props = {
-  message: string;
+  message?: string;
   messageSub?: string;
-  title: string;
+  title?: string;
   onOk?: any;
   onClose?: any;
   onClickOk?: any;
@@ -27,7 +27,7 @@ type Props = {
 const SessionConfirmInner = (props: Props) => {
   const {
     title = '',
-    message,
+    message = '',
     messageSub = '',
     okTheme = SessionButtonColor.Primary,
     closeTheme = SessionButtonColor.Primary,

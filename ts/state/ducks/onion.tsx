@@ -1,17 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import _, { forEach } from 'underscore';
 import { SnodePath, Snode } from '../../session/onions/index';
 
 export type OnionState = {
-  // nodes: Array<OnionPathNodeType>;
-  // path: SnodePath;
   snodePath: SnodePath;
 };
 
-// const initialState: OnionState = {
-//   // nodes: new Array<OnionPathNodeType>(),
-//   nodes: new Array<Snode>(),
-// };
 
 const initialState = {
   snodePath: {
@@ -32,8 +25,6 @@ const onionSlice = createSlice({
 
       let isEqual = JSON.stringify(state, null, 2) == JSON.stringify(newPayload, null, 2);
       return isEqual ? state : newPayload;
-
-      return newPayload;
     },
   },
 });
