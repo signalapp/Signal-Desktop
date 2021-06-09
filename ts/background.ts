@@ -11,6 +11,7 @@ import { DataMessageClass } from './textsecure.d';
 import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
+import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ChallengeHandler } from './challenge';
 import { isWindowDragElement } from './util/isWindowDragElement';
@@ -38,6 +39,7 @@ import { connectToServerWithStoredCredentials } from './util/connectToServerWith
 import * as universalExpireTimer from './util/universalExpireTimer';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
+import { BackOff } from './util/BackOff';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -95,6 +97,15 @@ export async function startApp(): Promise<void> {
   const onAppView = new Promise<void>(resolve => {
     resolveOnAppView = resolve;
   });
+
+  // Fibonacci timeouts
+  const reconnectBackOff = new BackOff([
+    5 * 1000,
+    10 * 1000,
+    15 * 1000,
+    25 * 1000,
+    40 * 1000,
+  ]);
 
   window.textsecure.protobuf.onLoad(() => {
     window.storage.onready(() => {
@@ -302,15 +313,15 @@ export async function startApp(): Promise<void> {
   });
 
   let messageReceiver: WhatIsThis;
-  let preMessageReceiverStatus: WhatIsThis;
+  let preMessageReceiverStatus: SocketStatus | undefined;
   window.getSocketStatus = () => {
     if (messageReceiver) {
       return messageReceiver.getStatus();
     }
-    if (window._.isNumber(preMessageReceiverStatus)) {
+    if (preMessageReceiverStatus) {
       return preMessageReceiverStatus;
     }
-    return WebSocket.CLOSED;
+    return SocketStatus.CLOSED;
   };
   window.Whisper.events = window._.clone(window.Backbone.Events);
   let accountManager: typeof window.textsecure.AccountManager;
@@ -1549,6 +1560,19 @@ export async function startApp(): Promise<void> {
     }
   });
 
+  window.Whisper.events.on('powerMonitorSuspend', () => {
+    window.log.info('powerMonitor: suspend');
+  });
+
+  window.Whisper.events.on('powerMonitorResume', () => {
+    window.log.info('powerMonitor: resume');
+    if (!messageReceiver) {
+      return;
+    }
+
+    messageReceiver.checkSocket();
+  });
+
   const reconnectToWebSocketQueue = new LatestQueue();
 
   const enqueueReconnectToWebSocket = () => {
@@ -1884,7 +1908,8 @@ export async function startApp(): Promise<void> {
   function isSocketOnline() {
     const socketStatus = window.getSocketStatus();
     return (
-      socketStatus === WebSocket.CONNECTING || socketStatus === WebSocket.OPEN
+      socketStatus === SocketStatus.CONNECTING ||
+      socketStatus === SocketStatus.OPEN
     );
   }
 
@@ -1937,7 +1962,7 @@ export async function startApp(): Promise<void> {
         return;
       }
 
-      preMessageReceiverStatus = WebSocket.CONNECTING;
+      preMessageReceiverStatus = SocketStatus.CONNECTING;
 
       if (messageReceiver) {
         await messageReceiver.stopProcessing();
@@ -2020,7 +2045,7 @@ export async function startApp(): Promise<void> {
 
       window.Signal.Services.initializeGroupCredentialFetcher();
 
-      preMessageReceiverStatus = null;
+      preMessageReceiverStatus = undefined;
 
       // eslint-disable-next-line no-inner-declarations
       function addQueuedEventListener(name: string, handler: WhatIsThis) {
@@ -2258,6 +2283,8 @@ export async function startApp(): Promise<void> {
 
       // Intentionally not awaiting
       challengeHandler.onOnline();
+
+      reconnectBackOff.reset();
     } finally {
       connecting = false;
     }
@@ -3380,8 +3407,10 @@ export async function startApp(): Promise<void> {
     ) {
       // Failed to connect to server
       if (navigator.onLine) {
-        window.log.info('retrying in 1 minute');
-        reconnectTimer = setTimeout(connect, 60000);
+        const timeout = reconnectBackOff.getAndIncrement();
+
+        window.log.info(`retrying in ${timeout}ms`);
+        reconnectTimer = setTimeout(connect, timeout);
 
         window.Whisper.events.trigger('reconnectTimer');
 

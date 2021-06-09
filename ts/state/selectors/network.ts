@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import { StateType } from '../reducer';
 import { NetworkStateType } from '../ducks/network';
 import { isDone } from '../../util/registration';
+import { SocketStatus } from '../../types/SocketStatus';
 
 const getNetwork = (state: StateType): NetworkStateType => state.network;
 
@@ -18,9 +19,10 @@ export const hasNetworkDialog = createSelector(
   ): boolean =>
     isRegistrationDone &&
     (!isOnline ||
-      (socketStatus === WebSocket.CONNECTING && !withinConnectingGracePeriod) ||
-      socketStatus === WebSocket.CLOSED ||
-      socketStatus === WebSocket.CLOSING)
+      (socketStatus === SocketStatus.CONNECTING &&
+        !withinConnectingGracePeriod) ||
+      socketStatus === SocketStatus.CLOSED ||
+      socketStatus === SocketStatus.CLOSING)
 );
 
 export const isChallengePending = createSelector(

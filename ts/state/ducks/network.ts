@@ -98,7 +98,7 @@ export const actions = {
 export function getEmptyState(): NetworkStateType {
   return {
     isOnline: navigator.onLine,
-    socketStatus: WebSocket.OPEN,
+    socketStatus: SocketStatus.OPEN,
     withinConnectingGracePeriod: true,
     challengeStatus: 'idle',
   };

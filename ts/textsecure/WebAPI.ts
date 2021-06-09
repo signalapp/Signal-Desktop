@@ -11,7 +11,7 @@
 
 import fetch, { Response } from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
-import { Agent } from 'https';
+import { Agent, RequestOptions } from 'https';
 import pProps from 'p-props';
 import {
   compact,
@@ -25,9 +25,11 @@ import { pki } from 'node-forge';
 import is from '@sindresorhus/is';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
+import { client as WebSocketClient, connection as WebSocket } from 'websocket';
 import { z } from 'zod';
 
 import { Long } from '../window.d';
+import { assert } from '../util/assert';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
 import { isPackIdValid, redactPackId } from '../../js/modules/stickers';
@@ -59,7 +61,6 @@ import {
   StorageServiceCredentials,
 } from '../textsecure.d';
 
-import { WebSocket } from './WebSocket';
 import MessageSender from './SendMessage';
 
 // Note: this will break some code that expects to be able to use err.response when a
@@ -261,30 +262,84 @@ function _validateResponse(response: any, schema: any) {
   return true;
 }
 
-function _createSocket(
+export type ConnectSocketOptions = Readonly<{
+  certificateAuthority: string;
+  proxyUrl?: string;
+  version: string;
+  timeout?: number;
+}>;
+
+const TEN_SECONDS = 1000 * 10;
+
+async function _connectSocket(
   url: string,
   {
     certificateAuthority,
     proxyUrl,
     version,
-  }: { certificateAuthority: string; proxyUrl?: string; version: string }
-) {
-  let requestOptions;
+    timeout = TEN_SECONDS,
+  }: ConnectSocketOptions
+): Promise<WebSocket> {
+  let tlsOptions: RequestOptions = {
+    ca: certificateAuthority,
+  };
   if (proxyUrl) {
-    requestOptions = {
-      ca: certificateAuthority,
+    tlsOptions = {
+      ...tlsOptions,
       agent: new ProxyAgent(proxyUrl),
     };
-  } else {
-    requestOptions = {
-      ca: certificateAuthority,
-    };
   }
+
   const headers = {
     'User-Agent': getUserAgent(version),
   };
-  return new WebSocket(url, undefined, undefined, headers, requestOptions, {
+  const client = new WebSocketClient({
+    tlsOptions,
     maxReceivedFrameSize: 0x210000,
+  });
+
+  client.connect(url, undefined, undefined, headers);
+
+  const { stack } = new Error();
+
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error('Connection timed out'));
+
+      client.abort();
+    }, timeout);
+
+    client.on('connect', socket => {
+      clearTimeout(timer);
+      resolve(socket);
+    });
+
+    client.on('httpResponse', async response => {
+      clearTimeout(timer);
+
+      const statusCode = response.statusCode || -1;
+      await _handleStatusCode(statusCode);
+
+      const error = makeHTTPError(
+        'promiseAjax: invalid websocket response',
+        statusCode || -1,
+        {}, // headers
+        undefined,
+        stack
+      );
+
+      const translatedError = _translateError(error);
+      assert(
+        translatedError,
+        '`httpResponse` event cannot be emitted with 200 status code'
+      );
+
+      reject(translatedError);
+    });
+    client.on('connectFailed', error => {
+      clearTimeout(timer);
+      reject(error);
+    });
   });
 }
 
@@ -403,6 +458,56 @@ function getHostname(url: string): string {
   return urlObject.hostname;
 }
 
+async function _handleStatusCode(
+  status: number,
+  unauthenticated = false
+): Promise<void> {
+  if (status === 499) {
+    window.log.error('Got 499 from Signal Server. Build is expired.');
+    await window.storage.put('remoteBuildExpiration', Date.now());
+    window.reduxActions.expiration.hydrateExpirationStatus(true);
+  }
+  if (!unauthenticated && status === 401) {
+    window.log.error('Got 401 from Signal Server. We might be unlinked.');
+    window.Whisper.events.trigger('mightBeUnlinked');
+  }
+}
+
+function _translateError(error: Error): Error | undefined {
+  const { code } = error;
+  if (code === 200) {
+    // Happens sometimes when we get no response. Might be nice to get 204 instead.
+    return undefined;
+  }
+  let message: string;
+  switch (code) {
+    case -1:
+      message =
+        'Failed to connect to the server, please check your network connection.';
+      break;
+    case 413:
+      message = 'Rate limit exceeded, please try again later.';
+      break;
+    case 403:
+      message = 'Invalid code, please try again.';
+      break;
+    case 417:
+      message = 'Number already registered.';
+      break;
+    case 401:
+      message =
+        'Invalid authentication, most likely someone re-registered and invalidated our registration.';
+      break;
+    case 404:
+      message = 'Number is not registered.';
+      break;
+    default:
+      message = 'The server rejected our query, please file a bug report.';
+  }
+  error.message = `${message} (original: ${error.message})`;
+  return error;
+}
+
 async function _promiseAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType
@@ -487,25 +592,11 @@ async function _promiseAjax(
 
     fetch(url, fetchOptions)
       .then(async response => {
-        if (options.serverUrl) {
-          if (
-            response.status === 499 &&
-            getHostname(options.serverUrl) === getHostname(url)
-          ) {
-            window.log.error('Got 499 from Signal Server. Build is expired.');
-            await window.storage.put('remoteBuildExpiration', Date.now());
-            window.reduxActions.expiration.hydrateExpirationStatus(true);
-          }
-          if (
-            !unauthenticated &&
-            response.status === 401 &&
-            getHostname(options.serverUrl) === getHostname(url)
-          ) {
-            window.log.error(
-              'Got 401 from Signal Server. We might be unlinked.'
-            );
-            window.Whisper.events.trigger('mightBeUnlinked');
-          }
+        if (
+          options.serverUrl &&
+          getHostname(options.serverUrl) === getHostname(url)
+        ) {
+          await _handleStatusCode(response.status, unauthenticated);
         }
 
         let resultPromise;
@@ -863,7 +954,7 @@ export type WebAPIType = {
     deviceId?: number,
     options?: { accessKey?: string }
   ) => Promise<ServerKeysType>;
-  getMessageSocket: () => WebSocket;
+  getMessageSocket: () => Promise<WebSocket>;
   getMyKeys: () => Promise<number>;
   getProfile: (
     identifier: string,
@@ -880,7 +971,7 @@ export type WebAPIType = {
       profileKeyCredentialRequest?: string;
     }
   ) => Promise<any>;
-  getProvisioningSocket: () => WebSocket;
+  getProvisioningSocket: () => Promise<WebSocket>;
   getSenderCertificate: (
     withUuid?: boolean
   ) => Promise<{ certificate: string }>;
@@ -1153,39 +1244,10 @@ export function initialize({
         unauthenticated: param.unauthenticated,
         accessKey: param.accessKey,
       }).catch((e: Error) => {
-        const { code } = e;
-        if (code === 200) {
-          // Happens sometimes when we get no response. Might be nice to get 204 instead.
-          return null;
+        const translatedError = _translateError(e);
+        if (translatedError) {
+          throw translatedError;
         }
-        let message: string;
-        switch (code) {
-          case -1:
-            message =
-              'Failed to connect to the server, please check your network connection.';
-            break;
-          case 413:
-            message = 'Rate limit exceeded, please try again later.';
-            break;
-          case 403:
-            message = 'Invalid code, please try again.';
-            break;
-          case 417:
-            message = 'Number already registered.';
-            break;
-          case 401:
-            message =
-              'Invalid authentication, most likely someone re-registered and invalidated our registration.';
-            break;
-          case 404:
-            message = 'Number is not registered.';
-            break;
-          default:
-            message =
-              'The server rejected our query, please file a bug report.';
-        }
-        e.message = `${message} (original: ${e.message})`;
-        throw e;
       });
     }
 
@@ -2318,7 +2380,7 @@ export function initialize({
       };
     }
 
-    function getMessageSocket() {
+    function getMessageSocket(): Promise<WebSocket> {
       window.log.info('opening message socket', url);
       const fixedScheme = url
         .replace('https://', 'wss://')
@@ -2327,20 +2389,20 @@ export function initialize({
       const pass = encodeURIComponent(password);
       const clientVersion = encodeURIComponent(version);
 
-      return _createSocket(
+      return _connectSocket(
         `${fixedScheme}/v1/websocket/?login=${login}&password=${pass}&agent=OWD&version=${clientVersion}`,
         { certificateAuthority, proxyUrl, version }
       );
     }
 
-    function getProvisioningSocket() {
+    function getProvisioningSocket(): Promise<WebSocket> {
       window.log.info('opening provisioning socket', url);
       const fixedScheme = url
         .replace('https://', 'wss://')
         .replace('http://', 'ws://');
       const clientVersion = encodeURIComponent(version);
 
-      return _createSocket(
+      return _connectSocket(
         `${fixedScheme}/v1/websocket/provisioning/?agent=OWD&version=${clientVersion}`,
         { certificateAuthority, proxyUrl, version }
       );

@@ -123,6 +123,7 @@ const {
 } = require('./ts/types/Settings');
 const { Environment } = require('./ts/environment');
 const { ChallengeMainHandler } = require('./ts/main/challengeMain');
+const { PowerChannel } = require('./ts/main/powerChannel');
 const { maybeParseUrl, setUrlSearchParams } = require('./ts/util/url');
 
 const sql = new MainSQL();
@@ -1265,6 +1266,14 @@ app.on('ready', async () => {
     cleanupOrphanedAttachments,
   });
   sqlChannels.initialize(sql);
+  PowerChannel.initialize({
+    send(event) {
+      if (!mainWindow) {
+        return;
+      }
+      mainWindow.webContents.send(event);
+    },
+  });
 
   // Run window preloading in parallel with database initialization.
   await createWindow();

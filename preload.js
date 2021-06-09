@@ -179,6 +179,15 @@ try {
   ipc.on('challenge:response', (_event, response) => {
     Whisper.events.trigger('challengeResponse', response);
   });
+
+  ipc.on('power-channel:suspend', () => {
+    Whisper.events.trigger('powerMonitorSuspend');
+  });
+
+  ipc.on('power-channel:resume', () => {
+    Whisper.events.trigger('powerMonitorResume');
+  });
+
   window.sendChallengeRequest = request =>
     ipc.send('challenge:request', request);
 

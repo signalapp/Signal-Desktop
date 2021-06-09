@@ -14,7 +14,12 @@ const fakeAPI = {
   getAvatar: fakeCall,
   getDevices: fakeCall,
   // getKeysForIdentifier : fakeCall,
-  getMessageSocket: () => new window.MockSocket('ws://localhost:8081/'),
+  getMessageSocket: async () => ({
+    on() {},
+    removeListener() {},
+    close() {},
+    sendBytes() {},
+  }),
   getMyKeys: fakeCall,
   getProfile: fakeCall,
   getProvisioningSocket: fakeCall,

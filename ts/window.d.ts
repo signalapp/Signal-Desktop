@@ -108,6 +108,7 @@ import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
 import { StartupQueue } from './util/StartupQueue';
 import * as synchronousCrypto from './util/synchronousCrypto';
+import { SocketStatus } from './types/SocketStatus';
 import SyncRequest from './textsecure/SyncRequest';
 import { ConversationColorType, CustomColorType } from './types/Colors';
 
@@ -190,7 +191,7 @@ declare global {
     getNodeVersion: () => string;
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
-    getSocketStatus: () => number;
+    getSocketStatus: () => SocketStatus;
     getSyncRequest: (timeoutMillis?: number) => SyncRequest;
     getTitle: () => string;
     waitForEmptyEventQueue: () => Promise<void>;

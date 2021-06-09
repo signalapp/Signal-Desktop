@@ -168,15 +168,15 @@
       this.interval = setInterval(() => {
         const status = window.getSocketStatus();
         switch (status) {
-          case WebSocket.CONNECTING:
+          case 'CONNECTING':
             break;
-          case WebSocket.OPEN:
+          case 'OPEN':
             clearInterval(this.interval);
             // if we've connected, we can wait for real empty event
             this.interval = null;
             break;
-          case WebSocket.CLOSING:
-          case WebSocket.CLOSED:
+          case 'CLOSING':
+          case 'CLOSED':
             clearInterval(this.interval);
             this.interval = null;
             // if we failed to connect, we pretend we got an empty event
@@ -184,7 +184,7 @@
             break;
           default:
             window.log.warn(
-              'startConnectionListener: Found unexpected socket status; calling onEmpty() manually.'
+              `startConnectionListener: Found unexpected socket status ${status}; calling onEmpty() manually.`
             );
             this.onEmpty();
             break;

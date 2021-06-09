@@ -7,6 +7,7 @@ import { boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { NetworkStatus } from './NetworkStatus';
+import { SocketStatus } from '../types/SocketStatus';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -16,7 +17,7 @@ const defaultProps = {
   hasNetworkDialog: true,
   i18n,
   isOnline: true,
-  socketStatus: 0,
+  socketStatus: SocketStatus.CONNECTING,
   manualReconnect: action('manual-reconnect'),
   withinConnectingGracePeriod: false,
   challengeStatus: 'idle' as const,
@@ -26,19 +27,19 @@ const permutations = [
   {
     title: 'Connecting',
     props: {
-      socketStatus: 0,
+      socketStatus: SocketStatus.CONNECTING,
     },
   },
   {
     title: 'Closing (online)',
     props: {
-      socketStatus: 2,
+      socketStatus: SocketStatus.CLOSING,
     },
   },
   {
     title: 'Closed (online)',
     props: {
-      socketStatus: 3,
+      socketStatus: SocketStatus.CLOSED,
     },
   },
   {
@@ -56,12 +57,12 @@ storiesOf('Components/NetworkStatus', module)
     const socketStatus = select(
       'socketStatus',
       {
-        CONNECTING: 0,
-        OPEN: 1,
-        CLOSING: 2,
-        CLOSED: 3,
+        CONNECTING: SocketStatus.CONNECTING,
+        OPEN: SocketStatus.OPEN,
+        CLOSING: SocketStatus.CLOSING,
+        CLOSED: SocketStatus.CLOSED,
       },
-      0
+      SocketStatus.CONNECTING
     );
 
     return (

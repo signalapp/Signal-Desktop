@@ -30,6 +30,7 @@ import {
   toGroupV2Record,
 } from './storageRecordOps';
 import { ConversationModel } from '../models/conversations';
+import { BackOff } from '../util/BackOff';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
 import { isMoreRecentThan } from '../util/timestamp';
@@ -45,8 +46,6 @@ const {
   updateConversation,
 } = dataInterface;
 
-let consecutiveStops = 0;
-let consecutiveConflicts = 0;
 const uploadBucket: Array<number> = [];
 
 const validRecordTypes = new Set([
@@ -57,24 +56,18 @@ const validRecordTypes = new Set([
   4, // ACCOUNT
 ]);
 
-type BackoffType = {
-  [key: number]: number | undefined;
-  max: number;
-};
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
-const BACKOFF: BackoffType = {
-  0: SECOND,
-  1: 5 * SECOND,
-  2: 30 * SECOND,
-  3: 2 * MINUTE,
-  max: 5 * MINUTE,
-};
 
-function backOff(count: number) {
-  const ms = BACKOFF[count] || BACKOFF.max;
-  return sleep(ms);
-}
+const backOff = new BackOff([
+  SECOND,
+  5 * SECOND,
+  30 * SECOND,
+  2 * MINUTE,
+  5 * MINUTE,
+]);
+
+const conflictBackOff = new BackOff([SECOND, 5 * SECOND, 30 * SECOND]);
 
 function redactStorageID(storageID: string): string {
   return storageID.substring(0, 3);
@@ -494,16 +487,15 @@ async function uploadManifest(
     );
 
     if (err.code === 409) {
-      if (consecutiveConflicts > 3) {
+      if (conflictBackOff.isFull()) {
         window.log.error(
           'storageService.uploadManifest: Exceeded maximum consecutive conflicts'
         );
         return;
       }
-      consecutiveConflicts += 1;
 
       window.log.info(
-        `storageService.uploadManifest: Conflict found with v${version}, running sync job times(${consecutiveConflicts})`
+        `storageService.uploadManifest: Conflict found with v${version}, running sync job times(${conflictBackOff.getIndex()})`
       );
 
       throw err;
@@ -517,8 +509,8 @@ async function uploadManifest(
     version
   );
   window.storage.put('manifestVersion', version);
-  consecutiveConflicts = 0;
-  consecutiveStops = 0;
+  conflictBackOff.reset();
+  backOff.reset();
   await window.textsecure.messaging.sendFetchManifestSyncMessage();
 }
 
@@ -527,21 +519,21 @@ async function stopStorageServiceSync() {
 
   await window.storage.remove('storageKey');
 
-  if (consecutiveStops < 5) {
-    await backOff(consecutiveStops);
+  if (backOff.isFull()) {
     window.log.info(
-      'storageService.stopStorageServiceSync: requesting new keys'
+      'storageService.stopStorageServiceSync: too many consecutive stops'
     );
-    consecutiveStops += 1;
-    setTimeout(() => {
-      if (!window.textsecure.messaging) {
-        throw new Error(
-          'storageService.stopStorageServiceSync: We are offline!'
-        );
-      }
-      window.textsecure.messaging.sendRequestKeySyncMessage();
-    });
+    return;
   }
+
+  await sleep(backOff.getAndIncrement());
+  window.log.info('storageService.stopStorageServiceSync: requesting new keys');
+  setTimeout(() => {
+    if (!window.textsecure.messaging) {
+      throw new Error('storageService.stopStorageServiceSync: We are offline!');
+    }
+    window.textsecure.messaging.sendRequestKeySyncMessage();
+  });
 }
 
 async function createNewManifest() {
@@ -976,7 +968,7 @@ async function processRemoteRecords(
       return conflictCount;
     }
 
-    consecutiveConflicts = 0;
+    conflictBackOff.reset();
   } catch (err) {
     window.log.error(
       'storageService.processRemoteRecords: failed!',
@@ -1082,7 +1074,7 @@ async function upload(fromSync = false): Promise<void> {
     window.log.info(
       'storageService.upload: no storageKey, requesting new keys'
     );
-    consecutiveStops = 0;
+    backOff.reset();
     await window.textsecure.messaging.sendRequestKeySyncMessage();
     return;
   }
@@ -1108,7 +1100,7 @@ async function upload(fromSync = false): Promise<void> {
     await uploadManifest(version, generatedManifest);
   } catch (err) {
     if (err.code === 409) {
-      await backOff(consecutiveConflicts);
+      await sleep(conflictBackOff.getAndIncrement());
       window.log.info('storageService.upload: pushing sync on the queue');
       // The sync job will check for conflicts and as part of that conflict
       // check if an item needs sync and doesn't match with the remote record

@@ -199,109 +199,111 @@ export default class AccountManager extends EventTarget {
     const queueTask = this.queueTask.bind(this);
     const provisioningCipher = new ProvisioningCipher();
     let gotProvisionEnvelope = false;
-    return provisioningCipher.getPublicKey().then(
-      async (pubKey: ArrayBuffer) =>
-        new Promise((resolve, reject) => {
-          const socket = getSocket();
-          socket.onclose = event => {
-            window.log.info('provisioning socket closed. Code:', event.code);
-            if (!gotProvisionEnvelope) {
-              reject(new Error('websocket closed'));
+    const pubKey = await provisioningCipher.getPublicKey();
+
+    const socket = await getSocket();
+
+    window.log.info('provisioning socket open');
+
+    return new Promise((resolve, reject) => {
+      socket.on('close', (code, reason) => {
+        window.log.info(
+          `provisioning socket closed. Code: ${code} Reason: ${reason}`
+        );
+        if (!gotProvisionEnvelope) {
+          reject(new Error('websocket closed'));
+        }
+      });
+
+      const wsr = new WebSocketResource(socket, {
+        keepalive: { path: '/v1/keepalive/provisioning' },
+        handleRequest(request: IncomingWebSocketRequest) {
+          if (
+            request.path === '/v1/address' &&
+            request.verb === 'PUT' &&
+            request.body
+          ) {
+            const proto = window.textsecure.protobuf.ProvisioningUuid.decode(
+              request.body
+            );
+            const { uuid } = proto;
+            if (!uuid) {
+              throw new Error('registerSecondDevice: expected a UUID');
             }
-          };
-          socket.onopen = () => {
-            window.log.info('provisioning socket open');
-          };
-          const wsr = new WebSocketResource(socket, {
-            keepalive: { path: '/v1/keepalive/provisioning' },
-            handleRequest(request: IncomingWebSocketRequest) {
-              if (
-                request.path === '/v1/address' &&
-                request.verb === 'PUT' &&
-                request.body
-              ) {
-                const proto = window.textsecure.protobuf.ProvisioningUuid.decode(
-                  request.body
-                );
-                const { uuid } = proto;
-                if (!uuid) {
-                  throw new Error('registerSecondDevice: expected a UUID');
-                }
-                const url = getProvisioningUrl(uuid, pubKey);
+            const url = getProvisioningUrl(uuid, pubKey);
 
-                if (window.CI) {
-                  window.CI.setProvisioningURL(url);
-                }
+            if (window.CI) {
+              window.CI.setProvisioningURL(url);
+            }
 
-                setProvisioningUrl(url);
-                request.respond(200, 'OK');
-              } else if (
-                request.path === '/v1/message' &&
-                request.verb === 'PUT' &&
-                request.body
-              ) {
-                const envelope = window.textsecure.protobuf.ProvisionEnvelope.decode(
-                  request.body,
-                  'binary'
-                );
-                request.respond(200, 'OK');
-                gotProvisionEnvelope = true;
-                wsr.close();
-                resolve(
-                  provisioningCipher
-                    .decrypt(envelope)
-                    .then(async provisionMessage =>
-                      queueTask(async () =>
-                        confirmNumber(provisionMessage.number).then(
-                          async deviceName => {
-                            if (
-                              typeof deviceName !== 'string' ||
-                              deviceName.length === 0
-                            ) {
-                              throw new Error(
-                                'AccountManager.registerSecondDevice: Invalid device name'
-                              );
-                            }
-                            if (
-                              !provisionMessage.number ||
-                              !provisionMessage.provisioningCode ||
-                              !provisionMessage.identityKeyPair
-                            ) {
-                              throw new Error(
-                                'AccountManager.registerSecondDevice: Provision message was missing key data'
-                              );
-                            }
+            setProvisioningUrl(url);
+            request.respond(200, 'OK');
+          } else if (
+            request.path === '/v1/message' &&
+            request.verb === 'PUT' &&
+            request.body
+          ) {
+            const envelope = window.textsecure.protobuf.ProvisionEnvelope.decode(
+              request.body,
+              'binary'
+            );
+            request.respond(200, 'OK');
+            gotProvisionEnvelope = true;
+            wsr.close();
+            resolve(
+              provisioningCipher
+                .decrypt(envelope)
+                .then(async provisionMessage =>
+                  queueTask(async () =>
+                    confirmNumber(provisionMessage.number).then(
+                      async deviceName => {
+                        if (
+                          typeof deviceName !== 'string' ||
+                          deviceName.length === 0
+                        ) {
+                          throw new Error(
+                            'AccountManager.registerSecondDevice: Invalid device name'
+                          );
+                        }
+                        if (
+                          !provisionMessage.number ||
+                          !provisionMessage.provisioningCode ||
+                          !provisionMessage.identityKeyPair
+                        ) {
+                          throw new Error(
+                            'AccountManager.registerSecondDevice: Provision message was missing key data'
+                          );
+                        }
 
-                            return createAccount(
-                              provisionMessage.number,
-                              provisionMessage.provisioningCode,
-                              provisionMessage.identityKeyPair,
-                              provisionMessage.profileKey,
-                              deviceName,
-                              provisionMessage.userAgent,
-                              provisionMessage.readReceipts,
-                              { uuid: provisionMessage.uuid }
-                            )
-                              .then(clearSessionsAndPreKeys)
-                              .then(generateKeys)
-                              .then(async (keys: GeneratedKeysType) =>
-                                registerKeys(keys).then(async () =>
-                                  confirmKeys(keys)
-                                )
-                              )
-                              .then(registrationDone);
-                          }
+                        return createAccount(
+                          provisionMessage.number,
+                          provisionMessage.provisioningCode,
+                          provisionMessage.identityKeyPair,
+                          provisionMessage.profileKey,
+                          deviceName,
+                          provisionMessage.userAgent,
+                          provisionMessage.readReceipts,
+                          { uuid: provisionMessage.uuid }
                         )
-                      )
+                          .then(clearSessionsAndPreKeys)
+                          .then(generateKeys)
+                          .then(async (keys: GeneratedKeysType) =>
+                            registerKeys(keys).then(async () =>
+                              confirmKeys(keys)
+                            )
+                          )
+                          .then(registrationDone);
+                      }
                     )
-                );
-              } else {
-                window.log.error('Unknown websocket message', request.path);
-              }
-            },
-          });
-        })
-    );
+                  )
+                )
+            );
+          } else {
+            window.log.error('Unknown websocket message', request.path);
+          }
+        },
+      });
+    });
   }
 
   async refreshPreKeys() {
