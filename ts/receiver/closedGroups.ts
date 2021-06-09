@@ -186,8 +186,6 @@ export async function handleNewClosedGroup(
     await removeFromCache(envelope);
     return;
   }
-  // FIXME maybe we should handle an expiretimer here too? And on ClosedGroup updates?
-
   const maybeConvo = ConversationController.getInstance().get(groupId);
   const expireTimer = groupUpdate.expireTimer;
 

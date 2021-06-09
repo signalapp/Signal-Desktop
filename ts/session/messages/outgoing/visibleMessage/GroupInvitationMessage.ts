@@ -24,13 +24,13 @@ export class GroupInvitationMessage extends DataMessage {
   }
 
   public dataProto(): SignalService.DataMessage {
-    const groupInvitation = new SignalService.DataMessage.GroupInvitation({
-      serverAddress: this.serverAddress,
-      serverName: this.serverName,
+    const openGroupInvitation = new SignalService.DataMessage.OpenGroupInvitation({
+      url: this.serverAddress,
+      name: this.serverName,
     });
 
     return new SignalService.DataMessage({
-      groupInvitation,
+      openGroupInvitation,
       expireTimer: this.expireTimer,
     });
   }

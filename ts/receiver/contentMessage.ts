@@ -297,10 +297,9 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   const data = content.dataMessage;
   const isControlDataMessageOnly =
     !data.body &&
-    !data.contact?.length &&
     !data.preview?.length &&
     !data.attachments?.length &&
-    !data.groupInvitation &&
+    !data.openGroupInvitation &&
     !data.quote;
 
   return !isControlDataMessageOnly;

@@ -94,6 +94,10 @@ message DataMessage {
     optional string profilePicture = 2;
   }
 
+  message OpenGroupInvitation {
+    optional string url = 1;
+    optional string name = 3;
+  }
 
   message ClosedGroupControlMessage {
 
@@ -127,10 +131,6 @@ message DataMessage {
     optional uint32         expireTimer       = 8;
 	}
 
-  message GroupInvitation {
-    optional string serverAddress = 1;
-    optional string serverName = 3;
-  }
 
   optional string                    body                      = 1;
   repeated AttachmentPointer         attachments               = 2;
@@ -140,10 +140,9 @@ message DataMessage {
   optional bytes                     profileKey                = 6;
   optional uint64                    timestamp                 = 7;
   optional Quote                     quote                     = 8;
-  repeated Contact                   contact                   = 9;
   repeated Preview                   preview                   = 10;
   optional LokiProfile               profile                   = 101;
-  optional GroupInvitation           groupInvitation           = 102;
+  optional OpenGroupInvitation       openGroupInvitation       = 102;
   optional ClosedGroupControlMessage closedGroupControlMessage = 104;
   optional string                    syncTarget                = 105;
 }
@@ -226,39 +225,3 @@ message GroupContext {
   repeated string            admins  = 6;
 }
 
-message ContactDetails {
-
-  message Avatar {
-    optional string contentType = 1;
-    optional uint32 length      = 2;
-  }
-
-  // @required
-  optional string   number      = 1;
-  optional string   name        = 2;
-  optional Avatar   avatar      = 3;
-  optional string   color       = 4;
-  optional bytes    profileKey  = 6;
-  optional bool     blocked     = 7;
-  optional uint32   expireTimer = 8;
-  optional string   nickname    = 101;
-}
-
-message GroupDetails {
-
-  message Avatar {
-    optional string contentType = 1;
-    optional uint32 length      = 2;
-  }
-
-  // @required
-  optional bytes  id          = 1;
-  optional string name        = 2;
-  repeated string members     = 3;
-  optional Avatar avatar      = 4;
-  optional bool   active      = 5 [default = true];
-  optional uint32 expireTimer = 6;
-  optional string color       = 7;
-  optional bool   blocked     = 8;
-  repeated string admins      = 9;
-}
