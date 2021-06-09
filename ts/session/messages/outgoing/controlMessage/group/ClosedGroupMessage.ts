@@ -5,12 +5,10 @@ import { MessageParams } from '../../Message';
 
 export interface ClosedGroupMessageParams extends MessageParams {
   groupId: string | PubKey;
-  expireTimer: number;
 }
 
 export abstract class ClosedGroupMessage extends DataMessage {
   public readonly groupId: PubKey;
-  public readonly expireTimer: number;
 
   constructor(params: ClosedGroupMessageParams) {
     super({
@@ -19,7 +17,6 @@ export abstract class ClosedGroupMessage extends DataMessage {
     });
 
     this.groupId = PubKey.cast(params.groupId);
-    this.expireTimer = params.expireTimer;
     if (!this.groupId || this.groupId.key.length === 0) {
       throw new Error('groupId must be set');
     }
@@ -33,7 +30,6 @@ export abstract class ClosedGroupMessage extends DataMessage {
     const dataMessage = new SignalService.DataMessage();
 
     dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
-    dataMessage.expireTimer = this.expireTimer;
 
     return dataMessage;
   }

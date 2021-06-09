@@ -16,7 +16,6 @@ export class ClosedGroupEncryptionPairMessage extends ClosedGroupMessage {
       timestamp: params.timestamp,
       identifier: params.identifier,
       groupId: params.groupId,
-      expireTimer: params.expireTimer,
     });
     this.encryptedKeyPairs = params.encryptedKeyPairs;
     if (this.encryptedKeyPairs.length === 0) {

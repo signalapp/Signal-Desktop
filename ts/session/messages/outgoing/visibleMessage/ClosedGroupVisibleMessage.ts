@@ -19,23 +19,24 @@ export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
       timestamp: params.chatMessage.timestamp,
       identifier: params.identifier ?? params.chatMessage.identifier,
       groupId: params.groupId,
-      expireTimer: params.chatMessage.expireTimer || 0,
     });
     this.chatMessage = params.chatMessage;
+    if (!params.groupId) {
+      throw new Error('ClosedGroupVisibleMessage: groupId must be set');
+    }
   }
   public dataProto(): SignalService.DataMessage {
+    //expireTimer is set in the dataProto in this call directly
     const dataProto = this.chatMessage.dataProto();
 
-    if (this.groupId) {
-      const groupMessage = new SignalService.GroupContext();
-      const groupIdWithPrefix = PubKey.addTextSecurePrefixIfNeeded(this.groupId.key);
-      const encoded = StringUtils.encode(groupIdWithPrefix, 'utf8');
-      const id = new Uint8Array(encoded);
-      groupMessage.id = id;
-      groupMessage.type = SignalService.GroupContext.Type.DELIVER;
+    const groupMessage = new SignalService.GroupContext();
+    const groupIdWithPrefix = PubKey.addTextSecurePrefixIfNeeded(this.groupId.key);
+    const encoded = StringUtils.encode(groupIdWithPrefix, 'utf8');
+    const id = new Uint8Array(encoded);
+    groupMessage.id = id;
+    groupMessage.type = SignalService.GroupContext.Type.DELIVER;
 
-      dataProto.group = groupMessage;
-    }
+    dataProto.group = groupMessage;
 
     return dataProto;
   }
