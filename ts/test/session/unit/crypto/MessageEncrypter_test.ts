@@ -125,7 +125,7 @@ describe('MessageEncrypter', () => {
 
   describe('EncryptionType', () => {
     describe('ClosedGroup', () => {
-      it('should return a CLOSED_GROUP_CIPHERTEXT envelope type for ClosedGroup', async () => {
+      it('should return a CLOSED_GROUP_MESSAGE envelope type for ClosedGroup', async () => {
         const hexKeyPair = {
           publicHex: `05${ourUserEd25516Keypair.pubKey}`,
           privateHex: '0123456789abcdef',
@@ -142,10 +142,10 @@ describe('MessageEncrypter', () => {
         );
         chai
           .expect(result.envelopeType)
-          .to.deep.equal(SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT);
+          .to.deep.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
       });
 
-      it('should return a UNIDENTIFIED_SENDER envelope type for Fallback', async () => {
+      it('should return a SESSION_MESSAGE envelope type for Fallback', async () => {
         const data = crypto.randomBytes(10);
 
         const result = await MessageEncrypter.encrypt(
@@ -153,9 +153,7 @@ describe('MessageEncrypter', () => {
           data,
           EncryptionType.Fallback
         );
-        chai
-          .expect(result.envelopeType)
-          .to.deep.equal(SignalService.Envelope.Type.UNIDENTIFIED_SENDER);
+        chai.expect(result.envelopeType).to.deep.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
       });
 
       it('should throw an error for anything else than Fallback or ClosedGroup', () => {

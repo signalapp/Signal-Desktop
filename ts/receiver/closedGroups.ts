@@ -65,7 +65,7 @@ export async function handleClosedGroupControlMessage(
   // We drop New closed group message from our other devices, as they will come as ConfigurationMessage instead
   if (type === Type.ENCRYPTION_KEY_PAIR) {
     const isComingFromGroupPubkey =
-      envelope.type === SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT;
+      envelope.type === SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE;
     await handleClosedGroupEncryptionKeyPair(envelope, groupUpdate, isComingFromGroupPubkey);
     return;
   }

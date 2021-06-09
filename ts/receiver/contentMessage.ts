@@ -228,10 +228,10 @@ async function doDecrypt(
   }
 
   switch (envelope.type) {
-    // Only UNIDENTIFIED_SENDER and CLOSED_GROUP_CIPHERTEXT are supported
-    case SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT:
+    // Only SESSION_MESSAGE and CLOSED_GROUP_MESSAGE are supported
+    case SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE:
       return decryptForClosedGroup(envelope, ciphertext);
-    case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
+    case SignalService.Envelope.Type.SESSION_MESSAGE: {
       return decryptUnidentifiedSender(envelope, ciphertext);
     }
     default:

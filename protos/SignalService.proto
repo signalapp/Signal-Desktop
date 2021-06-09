@@ -7,8 +7,8 @@ option java_outer_classname = "SignalServiceProtos";
 message Envelope {
 
   enum Type {
-    UNIDENTIFIED_SENDER = 6;
-    CLOSED_GROUP_CIPHERTEXT = 7;
+    SESSION_MESSAGE = 6;
+    CLOSED_GROUP_MESSAGE = 7;
   }
 
   // @required
