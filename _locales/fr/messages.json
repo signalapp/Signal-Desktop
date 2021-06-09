@@ -1351,17 +1351,7 @@
         "message": "Format de clé publique non valide",
         "description": "Error string shown when user types an invalid pubkey format"
     },
-    "lnsMappingNotFound": {
-        "message": "Aucun mappage LNS n'est associé à ce nom",
-        "description": "Shown in toast if user enters an unknown LNS name"
-    },
-    "lnsLookupTimeout": {
-        "message": "La recherche LNS a expiré",
-        "description": "Shown in toast if user enters an unknown LNS name"
-    },
-    "lnsTooFewNodes": {
-        "message": "Il n'y a pas assez de nœuds actifs actuellement pour la recherche LNS"
-    },
+
     "editProfileModalTitle": {
         "message": "Profil",
         "description": "Title for the Edit Profile modal"

@@ -4,7 +4,6 @@ name: Session Build Binaries
 on:
   push:
     branches:
-      - master
       - clearnet
 
 jobs:

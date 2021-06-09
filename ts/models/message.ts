@@ -6,11 +6,13 @@ import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue, Utils } from '../../ts/session';
 import { ConversationController } from '../../ts/session/conversations';
 import { MessageController } from '../../ts/session/messages';
-import { DataMessage, OpenGroupMessage } from '../../ts/session/messages/outgoing';
+import { DataMessage } from '../../ts/session/messages/outgoing';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../ts/session/types';
 import { UserUtils } from '../../ts/session/utils';
 import {
+  DataExtractionNotificationMsg,
+  DataExtractionNotificationProps,
   fillMessageAttributesWithDefaults,
   MessageAttributes,
   MessageAttributesOptionals,
@@ -19,7 +21,6 @@ import {
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from './conversation';
-import { getSuggestedFilenameSending } from '../types/Attachment';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
@@ -31,10 +32,14 @@ import {
   uploadQuoteThumbnailsV2,
 } from '../session/utils/AttachmentsV2';
 import { acceptOpenGroupInvitation } from '../interactions/message';
+import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import { getV2OpenGroupRoom } from '../data/opengroups';
+
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
   public propsForGroupNotification: any;
   public propsForGroupInvitation: any;
+  public propsForDataExtractionNotification?: DataExtractionNotificationProps;
   public propsForSearchResult: any;
   public propsForMessage: any;
 
@@ -73,6 +78,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       this.propsForGroupNotification = this.getPropsForGroupNotification();
     } else if (this.isGroupInvitation()) {
       this.propsForGroupInvitation = this.getPropsForGroupInvitation();
+    } else if (this.isDataExtractionNotification()) {
+      this.propsForDataExtractionNotification = this.getPropsForDataExtractionNotification();
     } else {
       this.propsForSearchResult = this.getPropsForSearchResult();
       this.propsForMessage = this.getPropsForMessage();
@@ -191,11 +198,35 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (this.isGroupInvitation()) {
       return `😎 ${window.i18n('openGroupInvitation')}`;
     }
+    if (this.isDataExtractionNotification()) {
+      const dataExtraction = this.get(
+        'dataExtractionNotification'
+      ) as DataExtractionNotificationMsg;
+      if (dataExtraction.type === SignalService.DataExtractionNotification.Type.SCREENSHOT) {
+        return window.i18n(
+          'tookAScreenshot',
+          ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
+            dataExtraction.source
+          )
+        );
+      }
+
+      return window.i18n(
+        'savedTheFile',
+        ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
+          dataExtraction.source
+        )
+      );
+    }
     return this.get('body');
   }
 
   public isGroupInvitation() {
     return !!this.get('groupInvitation');
+  }
+
+  public isDataExtractionNotification() {
+    return !!this.get('dataExtractionNotification');
   }
 
   public getNotificationText() {
@@ -290,7 +321,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const url = new URL(invitation.serverAddress);
       serverAddress = url.origin;
     } catch (e) {
-      window.log.warn('failed to get hostname from opengroupv2 invitation', invitation);
+      window?.log?.warn('failed to get hostname from opengroupv2 invitation', invitation);
     }
 
     return {
@@ -298,8 +329,24 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       serverAddress,
       direction,
       onJoinClick: () => {
-        void acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
+        acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
       },
+    };
+  }
+
+  public getPropsForDataExtractionNotification(): DataExtractionNotificationProps | undefined {
+    const dataExtractionNotification = this.get('dataExtractionNotification');
+
+    if (!dataExtractionNotification) {
+      window.log.warn('dataExtractionNotification should not happen');
+      return;
+    }
+
+    const contact = this.findAndFormatContact(dataExtractionNotification.source);
+
+    return {
+      ...dataExtractionNotification,
+      name: contact.profileName || contact.name || dataExtractionNotification.source,
     };
   }
 
@@ -409,6 +456,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // Only return the status on outgoing messages
     if (!this.isOutgoing()) {
+      return null;
+    }
+
+    if (this.isDataExtractionNotification()) {
       return null;
     }
 
@@ -572,7 +623,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           image = this.getPropsForAttachment(preview.image);
         }
       } catch (e) {
-        window.log.info('Failed to show preview');
+        window?.log?.info('Failed to show preview');
       }
 
       return {
@@ -742,15 +793,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       (this.get('attachments') || []).map(window.Signal.Migrations.loadAttachmentData)
     );
     const body = this.get('body');
-    const finalAttachments = attachmentsWithData;
-
-    const filenameOverridenAttachments = finalAttachments.map((attachment: any) => ({
-      ...attachment,
-      fileName: getSuggestedFilenameSending({
-        attachment,
-        timestamp: Date.now(),
-      }),
-    }));
+    const finalAttachments = attachmentsWithData as Array<any>;
 
     const quoteWithData = await window.Signal.Migrations.loadQuoteData(this.get('quote'));
     const previewWithData = await window.Signal.Migrations.loadPreviewData(this.get('preview'));
@@ -760,25 +803,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     let attachmentPromise;
     let linkPreviewPromise;
     let quotePromise;
-    const { AttachmentUtils } = Utils;
+    const { AttachmentFsV2Utils } = Utils;
 
     // we want to go for the v1, if this is an OpenGroupV1 or not an open group at all
     if (conversation?.isOpenGroupV2()) {
       const openGroupV2 = conversation.toOpenGroupV2();
-      attachmentPromise = uploadAttachmentsV2(filenameOverridenAttachments, openGroupV2);
+      attachmentPromise = uploadAttachmentsV2(finalAttachments, openGroupV2);
       linkPreviewPromise = uploadLinkPreviewsV2(previewWithData, openGroupV2);
       quotePromise = uploadQuoteThumbnailsV2(openGroupV2, quoteWithData);
     } else {
       // NOTE: we want to go for the v1 if this is an OpenGroupV1 or not an open group at all
       // because there is a fallback invoked on uploadV1() for attachments for not open groups attachments
-
-      const openGroupV1 = conversation?.isOpenGroupV1() ? conversation?.toOpenGroupV1() : undefined;
-      attachmentPromise = AttachmentUtils.uploadAttachmentsV1(
-        filenameOverridenAttachments,
-        openGroupV1
-      );
-      linkPreviewPromise = AttachmentUtils.uploadLinkPreviewsV1(previewWithData, openGroupV1);
-      quotePromise = AttachmentUtils.uploadQuoteThumbnailsV1(quoteWithData, openGroupV1);
+      attachmentPromise = AttachmentFsV2Utils.uploadAttachmentsToFsV2(finalAttachments);
+      linkPreviewPromise = AttachmentFsV2Utils.uploadLinkPreviewsToFsV2(previewWithData);
+      quotePromise = AttachmentFsV2Utils.uploadQuoteThumbnailsToFsV2(quoteWithData);
     }
 
     const [attachments, preview, quote] = await Promise.all([
@@ -798,7 +836,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   // One caller today: event handler for the 'Retry Send' entry on right click of a failed send message
   public async retrySend() {
     if (!window.textsecure.messaging) {
-      window.log.error('retrySend: Cannot retry since we are offline!');
+      window?.log?.error('retrySend: Cannot retry since we are offline!');
       return null;
     }
 
@@ -807,26 +845,31 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     try {
       const conversation: ConversationModel | undefined = this.getConversation();
       if (!conversation) {
-        window.log.info('cannot retry send message, the corresponding conversation was not found.');
+        window?.log?.info(
+          'cannot retry send message, the corresponding conversation was not found.'
+        );
         return;
       }
 
       if (conversation.isPublic()) {
-        const openGroup = {
-          server: conversation.get('server'),
-          channel: conversation.get('channelId'),
-          conversationId: conversation.id,
-        };
+        if (!conversation.isOpenGroupV2()) {
+          throw new Error('Only opengroupv2 are supported now');
+        }
         const uploaded = await this.uploadData();
 
         const openGroupParams = {
           identifier: this.id,
           timestamp: Date.now(),
-          group: openGroup,
+          lokiProfile: UserUtils.getOurProfile(),
           ...uploaded,
         };
-        const openGroupMessage = new OpenGroupMessage(openGroupParams);
-        return getMessageQueue().sendToOpenGroup(openGroupMessage);
+        const roomInfos = await getV2OpenGroupRoom(conversation.id);
+        if (!roomInfos) {
+          throw new Error('Could not find roomInfos for this conversation');
+        }
+
+        const openGroupMessage = new OpenGroupVisibleMessage(openGroupParams);
+        return getMessageQueue().sendToOpenGroupV2(openGroupMessage, roomInfos);
       }
 
       const { body, attachments, preview, quote } = await this.uploadData();
@@ -1005,7 +1048,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       errors = [errors];
     }
     errors.forEach((e: any) => {
-      window.log.error(
+      window?.log?.error(
         'Message.saveErrors:',
         e && e.reason ? e.reason : null,
         e && e.stack ? e.stack : e
@@ -1097,7 +1140,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         await this.commit();
       }
 
-      window.log.info('Set message expiration', {
+      window?.log?.info('Set message expiration', {
         expiresAt,
         sentAt: this.get('sent_at'),
       });

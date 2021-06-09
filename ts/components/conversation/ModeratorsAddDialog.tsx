@@ -21,8 +21,6 @@ interface State {
 }
 
 export class AddModeratorsDialog extends React.Component<Props, State> {
-  private channelAPI: any;
-
   constructor(props: Props) {
     super(props);
 
@@ -36,11 +34,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     };
   }
 
-  public async componentDidMount() {
-    if (this.props.convo.isOpenGroupV1()) {
-      this.channelAPI = await this.props.convo.getPublicSendData();
-    }
-
+  public componentDidMount() {
     this.setState({ firstLoading: false });
   }
 
@@ -48,31 +42,29 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     // if we don't have valid data entered by the user
     const pubkey = PubKey.from(this.state.inputBoxValue);
     if (!pubkey) {
-      window.log.info('invalid pubkey for adding as moderator:', this.state.inputBoxValue);
+      window?.log?.info('invalid pubkey for adding as moderator:', this.state.inputBoxValue);
       ToastUtils.pushInvalidPubKey();
       return;
     }
 
-    window.log.info(`asked to add moderator: ${pubkey.key}`);
+    window?.log?.info(`asked to add moderator: ${pubkey.key}`);
 
     try {
       this.setState({
         addingInProgress: true,
       });
       let isAdded: any;
-      if (this.props.convo.isOpenGroupV1()) {
-        isAdded = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
-      } else {
-        // this is a v2 opengroup
-        const roomInfos = this.props.convo.toOpenGroupV2();
-        isAdded = await ApiV2.addModerator(pubkey, roomInfos);
-      }
+
+      // this is a v2 opengroup
+      const roomInfos = this.props.convo.toOpenGroupV2();
+      isAdded = await ApiV2.addModerator(pubkey, roomInfos);
+
       if (!isAdded) {
-        window.log.warn('failed to add moderators:', isAdded);
+        window?.log?.warn('failed to add moderators:', isAdded);
 
         ToastUtils.pushUserNeedsToHaveJoined();
       } else {
-        window.log.info(`${pubkey.key} added as moderator...`);
+        window?.log?.info(`${pubkey.key} added as moderator...`);
         ToastUtils.pushUserAddedToModerators();
 
         // clear input box
@@ -81,7 +73,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
         });
       }
     } catch (e) {
-      window.log.error('Got error while adding moderator:', e);
+      window?.log?.error('Got error while adding moderator:', e);
     } finally {
       this.setState({
         addingInProgress: false,

@@ -70,8 +70,6 @@ import { InView } from 'react-intersection-observer';
 import { useTheme, withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
-import { ToastUtils, UserUtils } from '../../session/utils';
-import { ConversationController } from '../../session/conversations';
 import { MessageRegularProps } from '../../models/messageType';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { addSenderAsModerator, removeSenderFromModerator } from '../../interactions/message';
@@ -724,21 +722,10 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
 
-    // We parse the message later, but we still need to do an early check
-    // to see if the message mentions us, so we can display the entire
-    // message differently
-    const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
-    const mentions = (text ? text.match(regex) : []) as Array<string>;
-    const mentionMe = mentions && mentions.some(m => UserUtils.isUsFromCache(m.slice(1)));
-
     const isIncoming = direction === 'incoming';
-    const shouldHightlight = mentionMe && isIncoming && isPublic;
     const shouldMarkReadWhenVisible = isIncoming && isUnread;
     const divClasses = ['session-message-wrapper'];
 
-    if (shouldHightlight) {
-      //divClasses.push('message-highlighted');
-    }
     if (selected) {
       divClasses.push('message-selected');
     }

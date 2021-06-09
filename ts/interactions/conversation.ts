@@ -36,7 +36,7 @@ export async function copyPublicKey(convoId: string) {
         ToastUtils.pushCopiedToClipBoard();
         return;
       }
-      window.log.warn('copy to pubkey no roomInfo');
+      window?.log?.warn('copy to pubkey no roomInfo');
       return;
     }
 
@@ -53,6 +53,11 @@ export async function copyPublicKey(convoId: string) {
   ToastUtils.pushCopiedToClipBoard();
 }
 
+/**
+ *
+ * @param messages the list of MessageModel to delete
+ * @param convo the conversation to delete from (only v2 opengroups are supported)
+ */
 export async function deleteOpenGroupMessages(
   messages: Array<MessageModel>,
   convo: ConversationModel
@@ -91,50 +96,15 @@ export async function deleteOpenGroupMessages(
     }
     // remove only the messages we managed to remove on the server
     if (allMessagesAreDeleted) {
-      window.log.info('Removed all those serverIds messages successfully');
+      window?.log?.info('Removed all those serverIds messages successfully');
       return validMessageModelsToRemove;
     } else {
-      window.log.info(
+      window?.log?.info(
         'failed to remove all those serverIds message. not removing them locally neither'
       );
       return [];
     }
-  } else if (convo.isOpenGroupV1()) {
-    const channelAPI = await convo.getPublicSendData();
-
-    if (!channelAPI) {
-      throw new Error('Unable to get public channel API');
-    }
-
-    const invalidMessages = messages.filter(m => !m.attributes.serverId);
-    const pendingMessages = messages.filter(m => m.attributes.serverId);
-
-    let deletedServerIds = [];
-    let ignoredServerIds = [];
-
-    if (pendingMessages.length > 0) {
-      const result = await channelAPI.deleteMessages(
-        pendingMessages.map(m => m.attributes.serverId)
-      );
-      deletedServerIds = result.deletedIds;
-      ignoredServerIds = result.ignoredIds;
-    }
-
-    const toDeleteLocallyServerIds = _.union(deletedServerIds, ignoredServerIds);
-    let toDeleteLocally = messages.filter(m =>
-      toDeleteLocallyServerIds.includes(m.attributes.serverId)
-    );
-    toDeleteLocally = _.union(toDeleteLocally, invalidMessages);
-
-    await Promise.all(
-      toDeleteLocally.map(async m => {
-        await convo.removeMessage(m.id);
-      })
-    );
-
-    await convo.updateLastMessage();
-
-    return toDeleteLocally;
+  } else {
+    throw new Error('Opengroupv1 are not supported anymore');
   }
-  return [];
 }

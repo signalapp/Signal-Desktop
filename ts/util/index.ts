@@ -4,7 +4,6 @@ import { isFileDangerous } from './isFileDangerous';
 import { missingCaseError } from './missingCaseError';
 import { migrateColor } from './migrateColor';
 import { makeLookup } from './makeLookup';
-import { FindMember } from './findMember';
 import * as PasswordUtil from './passwordUtils';
 import * as AttachmentUtil from './attachmentsUtil';
 import * as LinkPreviewUtil from './linkPreviewFetch';
@@ -19,7 +18,6 @@ export {
   migrateColor,
   missingCaseError,
   PasswordUtil,
-  FindMember,
   AttachmentUtil,
   LinkPreviewUtil,
 };

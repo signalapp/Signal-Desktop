@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Flex } from '../../basic/Flex';
+import { SpacerLG } from '../../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { SessionSpinner } from '../SessionSpinner';
 import { signInWithLinking, signInWithRecovery, validatePassword } from './RegistrationTabs';
@@ -78,9 +79,9 @@ const SignInButtons = (props: {
   return (
     <div>
       <RestoreUsingRecoveryPhraseButton onRecoveryButtonClicked={props.onRecoveryButtonClicked} />
-      <div className="spacer-lg" />
+      <SpacerLG />
       <div className="or">{window.i18n('or')}</div>
-      <div className="spacer-lg" />
+      <SpacerLG />
       <LinkDeviceButton onLinkDeviceButtonClicked={props.onLinkDeviceButtonClicked} />
     </div>
   );

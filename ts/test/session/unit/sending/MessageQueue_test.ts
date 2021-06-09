@@ -8,7 +8,7 @@ import { describe } from 'mocha';
 import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../../test/test-utils';
 import { MessageQueue } from '../../../../session/sending/MessageQueue';
-import { ContentMessage, OpenGroupMessage } from '../../../../session/messages/outgoing';
+import { ContentMessage } from '../../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
@@ -202,31 +202,31 @@ describe('MessageQueue', () => {
         );
       });
 
-      describe('open groups', () => {
-        let sendToOpenGroupStub: sinon.SinonStub<
-          [OpenGroupMessage],
-          Promise<{ serverId: number; serverTimestamp: number }>
-        >;
+      describe('open groupsv2', () => {
+        let sendToOpenGroupV2Stub: sinon.SinonStub;
         beforeEach(() => {
-          sendToOpenGroupStub = sandbox
-            .stub(MessageSender, 'sendToOpenGroup')
-            .resolves({ serverId: -1, serverTimestamp: -1 });
+          sendToOpenGroupV2Stub = sandbox
+            .stub(MessageSender, 'sendToOpenGroupV2')
+            .resolves(TestUtils.generateOpenGroupMessageV2());
         });
 
         it('can send to open group', async () => {
-          const message = TestUtils.generateOpenGroupMessage();
-          await messageQueueStub.sendToOpenGroup(message);
-          expect(sendToOpenGroupStub.callCount).to.equal(1);
+          const message = TestUtils.generateOpenGroupVisibleMessage();
+          const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
+
+          await messageQueueStub.sendToOpenGroupV2(message, roomInfos);
+          expect(sendToOpenGroupV2Stub.callCount).to.equal(1);
         });
 
         it('should emit a success event when send was successful', async () => {
-          sendToOpenGroupStub.resolves({
+          sendToOpenGroupV2Stub.resolves({
             serverId: 5125,
-            serverTimestamp: 5126,
+            sentTimestamp: 5126,
           });
 
-          const message = TestUtils.generateOpenGroupMessage();
-          await messageQueueStub.sendToOpenGroup(message);
+          const message = TestUtils.generateOpenGroupVisibleMessage();
+          const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
+          await messageQueueStub.sendToOpenGroupV2(message, roomInfos);
           expect(messageSentPublicHandlerSuccessStub.callCount).to.equal(1);
           expect(messageSentPublicHandlerSuccessStub.lastCall.args[0].identifier).to.equal(
             message.identifier
@@ -238,10 +238,11 @@ describe('MessageQueue', () => {
         });
 
         it('should emit a fail event if something went wrong', async () => {
-          sendToOpenGroupStub.resolves({ serverId: -1, serverTimestamp: -1 });
-          const message = TestUtils.generateOpenGroupMessage();
+          sendToOpenGroupV2Stub.resolves({ serverId: -1, serverTimestamp: -1 });
+          const message = TestUtils.generateOpenGroupVisibleMessage();
+          const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
 
-          await messageQueueStub.sendToOpenGroup(message);
+          await messageQueueStub.sendToOpenGroupV2(message, roomInfos);
           expect(messageSentHandlerFailedStub.callCount).to.equal(1);
           expect(messageSentHandlerFailedStub.lastCall.args[0].identifier).to.equal(
             message.identifier

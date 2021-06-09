@@ -5,6 +5,7 @@ import { ReplyingToMessageProps } from './SessionCompositionBox';
 import styled, { DefaultTheme, ThemeContext } from 'styled-components';
 import { getAlt, isAudio, isImageAttachment } from '../../../types/Attachment';
 import { Image } from '../../conversation/Image';
+import { AUDIO_MP3 } from '../../../types/MIME';
 
 // tslint:disable: react-unused-props-and-state
 interface Props {
@@ -50,7 +51,9 @@ export const SessionQuotedMessageComposition = (props: Props) => {
   let hasImageAttachment = false;
 
   let firstImageAttachment;
-  if (attachments && attachments.length > 0) {
+  // we have to handle the case we are trying to reply to an audio message
+
+  if (attachments?.length && attachments[0].contentType !== AUDIO_MP3 && attachments[0].thumbnail) {
     firstImageAttachment = attachments[0];
     hasImageAttachment = true;
   }

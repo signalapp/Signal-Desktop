@@ -72,7 +72,7 @@ export class ClosedGroupNewMessage extends ClosedGroupMessage {
         this.keypair.publicKeyData
       );
     } catch (e) {
-      window.log.error('Failed to add encryptionKeyPair to group:', e);
+      window?.log?.error('Failed to add encryptionKeyPair to group:', e);
       throw new Error('Failed to add encryptionKeyPair to group:');
     }
 

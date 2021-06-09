@@ -18,6 +18,10 @@ import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 
 import { isOpenGroupV2Request } from '../../fileserver/FileServerApiV2';
 import { getAuthToken } from './ApiAuth';
+import pRetry from 'p-retry';
+
+// used to be overwritten by testing
+export const getMinTimeout = () => 1000;
 
 /**
  * This function returns a base url to this room
@@ -78,6 +82,10 @@ export async function sendApiV2Request(
     throw new Error('Invalid request');
   }
 
+  if (!window.globalOnlineStatus) {
+    throw new pRetry.AbortError('Network is not available');
+  }
+
   // set the headers sent by the caller, and the roomId.
   const headers = request.headers || {};
   if (FSv2.isOpenGroupV2Request(request)) {
@@ -97,13 +105,18 @@ export async function sendApiV2Request(
     // or the promise currently fetching a new token for that same room
     // or fetch from the open group a new token for that room.
 
-    const token = await getAuthToken({
-      roomId: request.room,
-      serverUrl: request.server,
-    });
+    if (request.forcedTokenToUse) {
+      window?.log?.info('sendV2Request. Forcing token to use for room:', request.room);
+    }
+    const token =
+      request.forcedTokenToUse ||
+      (await getAuthToken({
+        roomId: request.room,
+        serverUrl: request.server,
+      }));
 
     if (!token) {
-      window.log.error('Failed to get token for open group v2');
+      window?.log?.error('Failed to get token for open group v2');
       return null;
     }
 
@@ -121,7 +134,7 @@ export async function sendApiV2Request(
 
     const statusCode = parseStatusCodeFromOnionRequest(res);
     if (!statusCode) {
-      window.log.warn('sendOpenGroupV2Request Got unknown status code; res:', res);
+      window?.log?.warn('sendOpenGroupV2Request Got unknown status code; res:', res);
       return res as object;
     }
     // A 401 means that we didn't provide a (valid) auth token for a route that required one. We use this as an
@@ -134,7 +147,7 @@ export async function sendApiV2Request(
         roomId: request.room,
       });
       if (!roomDetails) {
-        window.log.warn('Got 401, but this room does not exist');
+        window?.log?.warn('Got 401, but this room does not exist');
         return null;
       }
       roomDetails.token = undefined;
@@ -170,12 +183,12 @@ export async function openGroupV2GetRoomInfo({
     isAuthRequired: false,
     endpoint: `rooms/${roomId}`,
   };
-  const result = (await sendApiV2Request(request)) as any;
+  const result = await exports.sendApiV2Request(request);
   if (result?.result?.room) {
     const { id, name, image_id: imageId } = result?.result?.room;
 
     if (!id || !name) {
-      window.log.warn('getRoominfo Parsing failed');
+      window?.log?.warn('getRoominfo Parsing failed');
       return null;
     }
     const info: OpenGroupV2Info = {
@@ -186,16 +199,16 @@ export async function openGroupV2GetRoomInfo({
 
     return info;
   }
-  window.log.warn('getInfo failed');
+  window?.log?.warn('getInfo failed');
   return null;
 }
 
 /**
  * Send the specified message to the specified room.
  * If an error happens, this function throws it
- *
+ * Exported only for testing
  */
-export const postMessage = async (
+export const postMessageRetryable = async (
   message: OpenGroupMessageV2,
   room: OpenGroupRequestCommonType
 ) => {
@@ -210,18 +223,44 @@ export const postMessage = async (
     isAuthRequired: true,
     endpoint: 'messages',
   };
-  const result = await sendApiV2Request(request);
+
+  const result = await exports.sendApiV2Request(request);
+
   const statusCode = parseStatusCodeFromOnionRequest(result);
 
   if (statusCode !== 200) {
     throw new Error(`Could not postMessage, status code: ${statusCode}`);
   }
-  const rawMessage = (result as any)?.result?.message;
+  const rawMessage = result?.result?.message;
   if (!rawMessage) {
     throw new Error('postMessage parsing failed');
   }
   // this will throw if the json is not valid
   return OpenGroupMessageV2.fromJson(rawMessage);
+};
+
+export const postMessage = async (
+  message: OpenGroupMessageV2,
+  room: OpenGroupRequestCommonType
+) => {
+  const result = await pRetry(
+    async () => {
+      return exports.postMessageRetryable(message, room);
+    },
+    {
+      retries: 3, // each path can fail 3 times before being dropped, we have 3 paths at most
+      factor: 2,
+      minTimeout: exports.getMinTimeout(),
+      maxTimeout: 4000,
+      onFailedAttempt: e => {
+        window?.log?.warn(
+          `postMessageRetryable attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+        );
+      },
+    }
+  );
+  return result;
+  // errors are saved on the message itself if this pRetry fails too many times
 };
 
 export const banUser = async (
@@ -237,7 +276,7 @@ export const banUser = async (
     queryParams,
     endpoint: 'block_list',
   };
-  const banResult = await sendApiV2Request(request);
+  const banResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(banResult) === 200;
   return isOk;
 };
@@ -253,7 +292,7 @@ export const unbanUser = async (
     isAuthRequired: true,
     endpoint: `block_list/${userToBan.key}`,
   };
-  const unbanResult = await sendApiV2Request(request);
+  const unbanResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(unbanResult) === 200;
   return isOk;
 };
@@ -270,7 +309,7 @@ export const deleteMessageByServerIds = async (
     endpoint: 'delete_messages',
     queryParams: { ids: idsToRemove },
   };
-  const messageDeletedResult = await sendApiV2Request(request);
+  const messageDeletedResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(messageDeletedResult) === 200;
   return isOk;
 };
@@ -285,11 +324,11 @@ export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
     endpoint: 'rooms',
     serverPublicKey: roomInfos.serverPublicKey,
   };
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
 
   if (statusCode !== 200) {
-    window.log.warn('getAllRoomInfos failed invalid status code');
+    window?.log?.warn('getAllRoomInfos failed invalid status code');
     return;
   }
 
@@ -306,14 +345,19 @@ export const getMemberCount = async (
     isAuthRequired: true,
     endpoint: 'member_count',
   };
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   if (parseStatusCodeFromOnionRequest(result) !== 200) {
-    window.log.warn('getMemberCount failed invalid status code');
+    window?.log?.warn(
+      `getMemberCount failed invalid status code for serverUrl:'${roomInfos.serverUrl}' roomId:'${roomInfos.roomId}; '`,
+      result
+    );
     return;
   }
   const count = parseMemberCount(result);
   if (count === undefined) {
-    window.log.warn('getMemberCount failed invalid count');
+    window?.log?.warn(
+      `getMemberCount failed invalid count for serverUrl:'${roomInfos.serverUrl}' roomId:'${roomInfos.roomId}'`
+    );
     return;
   }
 
@@ -329,7 +373,7 @@ export const downloadFileOpenGroupV2 = async (
   roomInfos: OpenGroupRequestCommonType
 ): Promise<Uint8Array | null> => {
   if (!fileId) {
-    window.log.warn('downloadFileOpenGroupV2: FileId cannot be unset. returning null');
+    window?.log?.warn('downloadFileOpenGroupV2: FileId cannot be unset. returning null');
     return null;
   }
   const request: OpenGroupV2Request = {
@@ -340,14 +384,14 @@ export const downloadFileOpenGroupV2 = async (
     endpoint: `files/${fileId}`,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
   }
 
   // we should probably change the logic of sendOnionRequest to not have all those levels
-  const base64Data = (result as any)?.result?.result as string | undefined;
+  const base64Data = result?.result?.result as string | undefined;
 
   if (!base64Data) {
     return null;
@@ -367,14 +411,14 @@ export const downloadFileOpenGroupV2ByUrl = async (
     endpoint: pathName,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
   }
 
   // we should probably change the logic of sendOnionRequest to not have all those levels
-  const base64Data = (result as any)?.result?.result as string | undefined;
+  const base64Data = result?.result?.result as string | undefined;
 
   if (!base64Data) {
     return null;
@@ -399,14 +443,14 @@ export const downloadPreviewOpenGroupV2 = async (
     serverPublicKey: roomInfos.serverPublicKey,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
   }
 
   // we should probably change the logic of sendOnionRequest to not have all those levels
-  const base64Data = (result as any)?.result?.result as string | undefined;
+  const base64Data = result?.result?.result as string | undefined;
 
   if (!base64Data) {
     return null;
@@ -438,14 +482,14 @@ export const uploadFileOpenGroupV2 = async (
     queryParams,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
   }
 
   // we should probably change the logic of sendOnionRequest to not have all those levels
-  const fileId = (result as any)?.result?.result as number | undefined;
+  const fileId = result?.result?.result as number | undefined;
   if (!fileId) {
     return null;
   }
@@ -478,7 +522,7 @@ export const uploadImageForRoomOpenGroupV2 = async (
     queryParams,
   };
 
-  const result = await sendApiV2Request(request);
+  const result = await exports.sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
     return null;
@@ -503,7 +547,7 @@ export const addModerator = async (
     queryParams: { public_key: userToAddAsMods.key, room_id: roomInfos.roomId },
     endpoint: 'moderators',
   };
-  const addModResult = await sendApiV2Request(request);
+  const addModResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(addModResult) === 200;
   return isOk;
 };
@@ -519,7 +563,7 @@ export const removeModerator = async (
     isAuthRequired: true,
     endpoint: `moderators/${userToAddAsMods.key}`,
   };
-  const removeModResult = await sendApiV2Request(request);
+  const removeModResult = await exports.sendApiV2Request(request);
   const isOk = parseStatusCodeFromOnionRequest(removeModResult) === 200;
   return isOk;
 };

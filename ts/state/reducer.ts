@@ -6,6 +6,10 @@ import { reducer as user, UserStateType } from './ducks/user';
 import { reducer as theme, ThemeStateType } from './ducks/theme';
 import { reducer as section, SectionStateType } from './ducks/section';
 import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
+import {
+  defaultMentionsInputReducer as mentionsInput,
+  MentionsInputState,
+} from './ducks/mentionsInput';
 
 export type StateType = {
   search: SearchStateType;
@@ -15,6 +19,7 @@ export type StateType = {
   theme: ThemeStateType;
   section: SectionStateType;
   defaultRooms: DefaultRoomsState;
+  mentionsInput: MentionsInputState;
 };
 
 export const reducers = {
@@ -27,6 +32,7 @@ export const reducers = {
   theme,
   section,
   defaultRooms,
+  mentionsInput,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

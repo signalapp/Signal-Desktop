@@ -33,6 +33,11 @@ import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
 import { SectionType } from '../ActionsPanel';
 import { SessionSettingCategory } from '../settings/SessionSettings';
+import {
+  defaultMentionsInputReducer,
+  updateMentionsMembers,
+} from '../../../state/ducks/mentionsInput';
+import { getMentionsInput } from '../../../state/selectors/mentionsInput';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -135,7 +140,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private emojiPanel: any;
   private linkPreviewAbortController?: AbortController;
   private container: any;
-  private readonly mentionsRegex = /@\u{FFD2}05[0-9a-f]{64}:[^\u{FFD2}]+\u{FFD2}/gu;
+  private readonly mentionsRegex = /@\uFFD205[0-9a-f]{64}\uFFD7[^\uFFD2]+\uFFD2/gu;
   private lastBumpTypingMessageLength: number = 0;
 
   constructor(props: any) {
@@ -210,7 +215,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
     if (imgBlob !== null) {
       const file = imgBlob;
-      window.log.info('Adding attachment from clipboard', file);
+      window?.log?.info('Adding attachment from clipboard', file);
       this.props.onChoseAttachments([file]);
 
       e.preventDefault();
@@ -366,7 +371,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         <Mention
           appendSpaceOnAdd={true}
           // this will be cleaned on cleanMentions()
-          markup="@ￒ__id__:__display__ￒ" // ￒ = \uFFD2 is one of the forbidden char for a display name (check displayNameRegex)
+          markup="@ￒ__id__ￗ__display__ￒ" // ￒ = \uFFD2 is one of the forbidden char for a display name (check displayNameRegex)
           trigger="@"
           // this is only for the composition box visible content. The real stuff on the backend box is the @markup
           displayTransform={(_id, display) => `@${display}`}
@@ -393,6 +398,23 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     );
   }
 
+  private fetchUsersForOpenGroup(query: any, callback: any) {
+    const mentionsInput = getMentionsInput(window?.inboxStore?.getState() || []);
+    const filtered =
+      mentionsInput
+        .filter(d => !!d)
+        .filter(d => d.authorProfileName !== 'Anonymous')
+        .filter(d => d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase()))
+        // Transform the users to what react-mentions expects
+        .map(user => {
+          return {
+            display: user.authorProfileName,
+            id: user.authorPhoneNumber,
+          };
+        }) || [];
+    callback(filtered);
+  }
+
   private fetchUsersForGroup(query: any, callback: any) {
     let overridenQuery = query;
     if (!query) {
@@ -406,26 +428,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       this.fetchUsersForClosedGroup(overridenQuery, callback);
       return;
     }
-  }
-
-  private fetchUsersForOpenGroup(query: any, callback: any) {
-    void window.lokiPublicChatAPI
-      .getListOfMembers()
-      .then(members =>
-        members
-          .filter(d => !!d)
-          .filter(d => d.authorProfileName !== 'Anonymous')
-          .filter(d => d.authorProfileName?.toLowerCase()?.includes(query.toLowerCase()))
-      )
-      // Transform the users to what react-mentions expects
-      .then(members => {
-        const toRet = members.map(user => ({
-          display: user.authorProfileName,
-          id: user.authorPhoneNumber,
-        }));
-        return toRet;
-      })
-      .then(callback);
   }
 
   private fetchUsersForClosedGroup(query: any, callback: any) {
@@ -583,7 +585,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         }
       })
       .catch(err => {
-        window.log.warn('fetch link preview: ', err);
+        window?.log?.warn('fetch link preview: ', err);
         const aborted = this.linkPreviewAbortController?.signal.aborted;
         this.linkPreviewAbortController = undefined;
         // if we were aborted, it either means the UI was unmount, or more probably,
@@ -751,7 +753,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       const matches = text.match(this.mentionsRegex);
       let replacedMentions = text;
       (matches || []).forEach(match => {
-        const replacedMention = match.substring(2, match.indexOf(':'));
+        const replacedMention = match.substring(2, match.indexOf('\uFFD7'));
         replacedMentions = replacedMentions.replace(match, `@${replacedMention}`);
       });
 
@@ -836,7 +838,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       });
     } catch (e) {
       // Message sending failed
-      window.log.error(e);
+      window?.log?.error(e);
       this.props.onMessageFailure();
     }
   }

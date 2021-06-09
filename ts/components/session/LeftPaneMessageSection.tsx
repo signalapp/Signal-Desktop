@@ -23,11 +23,12 @@ import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { ConversationController } from '../../session/conversations';
-import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { openGroupV2CompleteURLRegex } from '../../opengroup/utils/OpenGroupUtils';
 import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
 import autoBind from 'auto-bind';
+import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
+import { SNodeAPI } from '../../session/snode_api';
 
 export interface Props {
   searchTerm: string;
@@ -277,6 +278,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         onButtonClick={this.handleMessageButtonClick}
         searchTerm={searchTerm}
         searchResults={searchResults}
+        showSpinner={loading}
         updateSearch={this.updateSearch}
         theme={this.props.theme}
       />
@@ -340,63 +342,48 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const { openConversationExternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError'));
+      ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError')); // or ons name
       return;
     }
-    let pubkey: string;
-    pubkey = this.state.valuePasted || this.props.searchTerm;
-    pubkey = pubkey.trim();
+    let pubkeyorOns: string;
+    pubkeyorOns = this.state.valuePasted || this.props.searchTerm;
+    pubkeyorOns = pubkeyorOns.trim();
 
-    const error = PubKey.validateWithError(pubkey);
-    if (!error) {
+    const errorOnPubkey = PubKey.validateWithError(pubkeyorOns);
+    if (!errorOnPubkey) {
+      // this is a pubkey
       await ConversationController.getInstance().getOrCreateAndWait(
-        pubkey,
+        pubkeyorOns,
         ConversationTypeEnum.PRIVATE
       );
-      openConversationExternal(pubkey);
+      openConversationExternal(pubkeyorOns);
       this.handleToggleOverlay(undefined);
     } else {
-      ToastUtils.pushToastError('invalidPubKey', error);
-    }
-  }
-
-  private async handleOpenGroupJoinV1(serverUrlV1: string) {
-    // Server URL valid?
-    if (serverUrlV1.length === 0 || !OpenGroup.validate(serverUrlV1)) {
-      ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
-      return;
-    }
-
-    // Already connected?
-    if (OpenGroup.getConversation(serverUrlV1)) {
-      ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
-      return;
-    }
-    // Connect to server
-    try {
-      ToastUtils.pushToastInfo('connectingToServer', window.i18n('connectingToServer'));
-
+      // this might be an ONS, validate the regex first
+      const mightBeOnsName = new RegExp(onsNameRegex, 'g').test(pubkeyorOns);
+      if (!mightBeOnsName) {
+        ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError'));
+        return;
+      }
       this.setState({ loading: true });
-      await OpenGroup.join(serverUrlV1);
-      if (await OpenGroup.serverExists(serverUrlV1)) {
-        ToastUtils.pushToastSuccess(
-          'connectToServerSuccess',
-          window.i18n('connectToServerSuccess')
+      try {
+        const resolvedSessionID = await SNodeAPI.getSessionIDForOnsName(pubkeyorOns);
+        if (PubKey.validateWithError(resolvedSessionID)) {
+          throw new Error('Got a resolved ONS but the returned entry is not a vlaid SessionID');
+        }
+        // this is a pubkey
+        await ConversationController.getInstance().getOrCreateAndWait(
+          resolvedSessionID,
+          ConversationTypeEnum.PRIVATE
         );
-      } else {
-        throw new Error('Open group joined but the corresponding server does not exist');
+        openConversationExternal(resolvedSessionID);
+        this.handleToggleOverlay(undefined);
+      } catch (e) {
+        window?.log?.warn('failed to resolve ons name', pubkeyorOns, e);
+        ToastUtils.pushToastError('invalidPubKey', window.i18n('failedResolveOns'));
+      } finally {
+        this.setState({ loading: false });
       }
-      this.setState({ loading: false });
-      const openGroupConversation = OpenGroup.getConversation(serverUrlV1);
-
-      if (!openGroupConversation) {
-        window.log.error('Joined an opengroup but did not find ther corresponding conversation');
-      }
-      this.handleToggleOverlay(undefined);
-    } catch (e) {
-      window.log.error('Failed to connect to server:', e);
-      ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
-      this.setState({ loading: false });
     }
   }
 
@@ -404,7 +391,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const loadingCallback = (loading: boolean) => {
       this.setState({ loading });
     };
-    const joinSuccess = await joinOpenGroupV2WithUIEvents(serverUrlV2, true, loadingCallback);
+    const joinSuccess = await joinOpenGroupV2WithUIEvents(
+      serverUrlV2,
+      true,
+      false,
+      loadingCallback
+    );
 
     return joinSuccess;
   }
@@ -423,14 +415,13 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         this.handleToggleOverlay(undefined);
       }
     } else {
-      // this is an open group v1
-      await this.handleOpenGroupJoinV1(serverUrl);
+      window.log.warn('Invalid opengroupv2 url');
     }
   }
 
   private async onCreateClosedGroup(groupName: string, groupMembers: Array<ContactType>) {
     if (this.state.loading) {
-      window.log.warn('Closed group creation already in progress');
+      window?.log?.warn('Closed group creation already in progress');
       return;
     }
     this.setState({ loading: true }, async () => {

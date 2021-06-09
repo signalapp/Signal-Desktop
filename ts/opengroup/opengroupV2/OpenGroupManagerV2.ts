@@ -14,7 +14,8 @@ import { openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import _ from 'lodash';
-import { deleteAuthToken } from './ApiAuth';
+import { deleteAuthToken, DeleteAuthTokenRequest } from './ApiAuth';
+import autoBind from 'auto-bind';
 
 export class OpenGroupManagerV2 {
   public static readonly useV2OpenGroups = false;
@@ -29,8 +30,7 @@ export class OpenGroupManagerV2 {
   private isPolling = false;
 
   private constructor() {
-    this.startPollingBouncy = this.startPollingBouncy.bind(this);
-    this.attemptConnectionV2 = this.attemptConnectionV2.bind(this);
+    autoBind(this);
   }
 
   public static getInstance() {
@@ -43,7 +43,6 @@ export class OpenGroupManagerV2 {
   /**
    * When we get our configuration from the network, we might get a few times the same open group on two different messages.
    * If we don't do anything, we will join them multiple times.
-   * Even if the convo exists only once, the lokiPublicChat API will have several instances polling for the same open group.
    * Which will cause a lot of duplicate messages as they will be merged on a single conversation.
    *
    * To avoid this issue, we allow only a single join of a specific opengroup at a time.
@@ -80,14 +79,21 @@ export class OpenGroupManagerV2 {
     this.isPolling = false;
   }
 
-  public addRoomToPolledRooms(roomInfos: OpenGroupRequestCommonType) {
-    const poller = this.pollers.get(roomInfos.serverUrl);
-    if (!poller) {
-      this.pollers.set(roomInfos.serverUrl, new OpenGroupServerPoller([roomInfos]));
-      return;
+  public addRoomToPolledRooms(roomInfos: Array<OpenGroupRequestCommonType>) {
+    const grouped = _.groupBy(roomInfos, r => r.serverUrl);
+    const groupedArray = Object.values(grouped);
+
+    for (const groupedRooms of groupedArray) {
+      const groupedRoomsServerUrl = groupedRooms[0].serverUrl;
+      const poller = this.pollers.get(groupedRoomsServerUrl);
+      if (!poller) {
+        const uniqGroupedRooms = _.uniqBy(groupedRooms, r => r.roomId);
+        this.pollers.set(groupedRoomsServerUrl, new OpenGroupServerPoller(uniqGroupedRooms));
+      } else {
+        // this won't do a thing if the room is already polled for
+        roomInfos.forEach(poller.addRoomToPoll);
+      }
     }
-    // this won't do a thing if the room is already polled for
-    poller.addRoomToPoll(roomInfos);
   }
 
   public removeRoomFromPolledRooms(roomInfos: OpenGroupRequestCommonType) {
@@ -125,13 +131,18 @@ export class OpenGroupManagerV2 {
             if (!allConvos.get(roomConvoId)) {
               // leave the group on the remote server
               // this request doesn't throw
-              await deleteAuthToken(_.pick(infos, 'serverUrl', 'roomId'));
+              if (infos.token) {
+                await deleteAuthToken(
+                  _.pick(infos, 'serverUrl', 'roomId', 'token') as DeleteAuthTokenRequest
+                );
+              }
               // remove the roomInfos locally for this open group room
               await removeV2OpenGroupRoom(roomConvoId);
+              OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(infos);
               // no need to remove it from the ConversationController, the convo is already not there
             }
           } catch (e) {
-            window.log.warn('cleanup roomInfos error', e);
+            window?.log?.warn('cleanup roomInfos error', e);
           }
         })
       );
@@ -139,9 +150,7 @@ export class OpenGroupManagerV2 {
     // refresh our roomInfos list
     allRoomInfos = await getAllV2OpenGroupRooms();
     if (allRoomInfos) {
-      allRoomInfos.forEach(infos => {
-        this.addRoomToPolledRooms(infos);
-      });
+      this.addRoomToPolledRooms([...allRoomInfos.values()]);
     }
 
     this.isPolling = true;
@@ -198,11 +207,11 @@ export class OpenGroupManagerV2 {
       await conversation.commit();
 
       // start polling this room
-      this.addRoomToPolledRooms(room);
+      this.addRoomToPolledRooms([room]);
 
       return conversation;
     } catch (e) {
-      window.log.warn('Failed to join open group v2', e);
+      window?.log?.warn('Failed to join open group v2', e);
       await removeV2OpenGroupRoom(conversationId);
       // throw new Error(window.i18n('connectToServerFail'));
       return undefined;

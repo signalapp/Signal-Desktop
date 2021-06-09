@@ -73,6 +73,7 @@ module.exports = {
   getUnreadCountByConversation,
   getMessageBySender,
   getMessageBySenderAndServerId,
+  getMessageBySenderAndServerTimestamp,
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
@@ -205,6 +206,15 @@ async function setSQLPassword(password) {
   const deriveKey = HEX_KEY.test(password);
   const value = deriveKey ? `'${password}'` : `"x'${password}'"`;
   await db.run(`PRAGMA rekey = ${value};`);
+}
+
+async function vacuumDatabase(instance) {
+  if (!instance) {
+    throw new Error('vacuum: db is not initialized');
+  }
+  console.warn('Vacuuming DB. This might take a while.');
+  await instance.run('VACUUM;');
+  console.warn('Vacuuming DB Finished');
 }
 
 async function updateToSchemaVersion1(currentVersion, instance) {
@@ -761,6 +771,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion10,
   updateToLokiSchemaVersion11,
   updateToLokiSchemaVersion12,
+  updateToLokiSchemaVersion13,
 ];
 
 const SERVERS_TOKEN_TABLE = 'servers';
@@ -1094,6 +1105,28 @@ async function updateToLokiSchemaVersion12(currentVersion, instance) {
   console.log('updateToLokiSchemaVersion12: success!');
 }
 
+async function updateToLokiSchemaVersion13(currentVersion, instance) {
+  if (currentVersion >= 13) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion13: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // Clear any already deleted db entries.
+  // secure_delete = ON will make sure next deleted entries are overwritten with 0 right away
+  await instance.run('PRAGMA secure_delete = ON;');
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        13
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+
+  console.log('updateToLokiSchemaVersion13: success!');
+}
+
 async function updateLokiSchema(instance) {
   const result = await instance.get(
     "SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';"
@@ -1200,6 +1233,8 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
       throw new Error(`Integrity check failed: ${result}`);
     }
 
+    // Clear any already deleted db entries on each app start.
+    await vacuumDatabase(db);
     await getMessageCount();
   } catch (error) {
     if (passwordAttempt) {
@@ -2007,6 +2042,20 @@ async function getMessageBySenderAndServerId({ source, serverId }) {
     {
       $source: source,
       $serverId: serverId,
+    }
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getMessageBySenderAndServerTimestamp({ source, serverTimestamp }) {
+  const rows = await db.all(
+    `SELECT json FROM ${MESSAGES_TABLE} WHERE
+      source = $source AND
+      serverTimestamp = $serverTimestamp;`,
+    {
+      $source: source,
+      $serverTimestamp: serverTimestamp,
     }
   );
 

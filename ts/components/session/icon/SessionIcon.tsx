@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { icons, SessionIconSize, SessionIconType } from '../icon';
 import styled, { css, DefaultTheme, keyframes } from 'styled-components';
+import _ from 'lodash';
 
 export type SessionIconProps = {
   iconType: SessionIconType;
@@ -35,13 +35,6 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
   }
 };
 
-type StyledSvgProps = {
-  width: string | number;
-  height: string | number;
-  iconRotation: number;
-  rotateDuration?: number;
-};
-
 const rotate = keyframes`
   from {
     transform: rotate(0deg);
@@ -51,7 +44,7 @@ const rotate = keyframes`
   }
 `;
 
-const animation = (props: any) => {
+const animation = (props: { rotateDuration?: any }) => {
   if (props.rotateDuration) {
     return css`
       ${rotate} ${props.rotateDuration}s infinite linear;
@@ -61,11 +54,17 @@ const animation = (props: any) => {
   }
 };
 
+type StyledSvgProps = {
+  width: string | number;
+  iconRotation: number;
+  rotateDuration?: number;
+};
+
 //tslint:disable no-unnecessary-callback-wrapper
 const Svg = styled.svg<StyledSvgProps>`
   width: ${props => props.width};
-  animation: ${props => animation(props)};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
+  animation: ${props => animation(props)};
 `;
 //tslint:enable no-unnecessary-callback-wrapper
 
@@ -81,9 +80,16 @@ const SessionSvg = (props: {
 }) => {
   const colorSvg = props.iconColor || props?.theme?.colors.textColor;
   const pathArray = props.path instanceof Array ? props.path : [props.path];
+  const propsToPick = {
+    width: props.width,
+    height: props.height,
+    rotateDuration: props.rotateDuration,
+    iconRotation: props.iconRotation,
+    viewBox: props.viewBox,
+  };
 
   return (
-    <Svg {...props}>
+    <Svg {...propsToPick}>
       {pathArray.map((path, index) => {
         return <path key={index} fill={colorSvg} d={path} />;
       })}
@@ -101,7 +107,7 @@ export const SessionIcon = (props: SessionIconProps) => {
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
   if (!theme) {
-    window.log.error('Missing theme props in SessionIcon');
+    window?.log?.error('Missing theme props in SessionIcon');
   }
 
   return (

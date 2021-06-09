@@ -30,7 +30,13 @@ import { getMessageById, getPubkeysInPublicConversation } from '../../../data/da
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 import { deleteOpenGroupMessages } from '../../../interactions/conversation';
-import { ConversationTypeEnum } from '../../../models/conversation';
+import {
+  ConversationNotificationSetting,
+  ConversationNotificationSettingType,
+  ConversationTypeEnum,
+} from '../../../models/conversation';
+import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
+import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
 interface State {
   // Message sending progress
@@ -62,7 +68,12 @@ interface State {
   quotedMessageProps?: any;
 
   // lightbox options
-  lightBoxOptions?: any;
+  lightBoxOptions?: LightBoxOptions;
+}
+
+export interface LightBoxOptions {
+  media: Array<MediaItemType>;
+  attachment: any;
 }
 
 interface Props {
@@ -79,6 +90,7 @@ export class SessionConversation extends React.Component<Props, State> {
   private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
   private dragCounter: number;
   private publicMembersRefreshTimeout?: NodeJS.Timeout;
+  private readonly updateMemberList: () => any;
 
   constructor(props: any) {
     super(props);
@@ -101,6 +113,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.compositionBoxRef = React.createRef();
     this.messageContainerRef = React.createRef();
     this.dragCounter = 0;
+    this.updateMemberList = _.debounce(this.updateMemberListBouncy.bind(this), 1000);
 
     autoBind(this);
   }
@@ -132,12 +145,15 @@ export class SessionConversation extends React.Component<Props, State> {
         global.clearInterval(this.publicMembersRefreshTimeout);
         this.publicMembersRefreshTimeout = undefined;
       }
-
+      // shown convo changed. reset the list of members quotable
+      window?.inboxStore?.dispatch(updateMentionsMembers([]));
       // if the newConversation changed, and is public, start our refresh members list
       if (newConversation.isPublic) {
-        // TODO use abort controller to stop those requests too
+        // this is a debounced call.
         void this.updateMemberList();
-        this.publicMembersRefreshTimeout = global.setInterval(this.updateMemberList, 10000);
+        // run this only once every minute if we don't change the visible conversation.
+        // this is a heavy operation (like a few thousands members can be here)
+        this.publicMembersRefreshTimeout = global.setInterval(this.updateMemberList, 60000);
       }
     }
     // if we do not have a model, unregister for events
@@ -147,6 +163,10 @@ export class SessionConversation extends React.Component<Props, State> {
       div?.removeEventListener('dragleave', this.handleDragOut);
       div?.removeEventListener('dragover', this.handleDrag);
       div?.removeEventListener('drop', this.handleDrop);
+      if (this.publicMembersRefreshTimeout) {
+        global.clearInterval(this.publicMembersRefreshTimeout);
+        this.publicMembersRefreshTimeout = undefined;
+      }
     }
     if (newConversationKey !== oldConversationKey) {
       void this.loadInitialMessages();
@@ -331,6 +351,14 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const members = conversation.get('members') || [];
 
+    // exclude mentions_only settings for private chats as this does not make much sense
+    const notificationForConvo = ConversationNotificationSetting.filter(n =>
+      conversation.isPrivate() ? n !== 'mentions_only' : true
+    ).map((n: ConversationNotificationSettingType) => {
+      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
+      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
+    });
+
     const headerProps = {
       id: conversation.id,
       name: conversation.getName(),
@@ -353,10 +381,13 @@ export class SessionConversation extends React.Component<Props, State> {
         name: item.getName(),
         value: item.get('seconds'),
       })),
+      notificationForConvo,
+      currentNotificationSetting: conversation.get('triggerNotificationsFor'),
       hasNickname: !!conversation.getNickname(),
       selectionMode: !!selectedMessages.length,
 
       onSetDisappearingMessages: conversation.updateExpirationTimer,
+      onSetNotificationForConvo: conversation.setNotificationOption,
       onDeleteMessages: conversation.deleteMessages,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
       onChangeNickname: conversation.changeNickname,
@@ -518,7 +549,7 @@ export class SessionConversation extends React.Component<Props, State> {
       onRemoveModerators: () => {
         window.Whisper.events.trigger('removeModerators', conversation);
       },
-      onShowLightBox: (lightBoxOptions = {}) => {
+      onShowLightBox: (lightBoxOptions?: LightBoxOptions) => {
         this.setState({ lightBoxOptions });
       },
     };
@@ -579,7 +610,7 @@ export class SessionConversation extends React.Component<Props, State> {
       selectedConversationKey
     );
     if (!selectedConversation) {
-      window.log.info('No valid selected conversation.');
+      window?.log?.info('No valid selected conversation.');
       return;
     }
     const selectedMessages = messages.filter(message =>
@@ -758,14 +789,18 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   private onClickAttachment(attachment: any, message: any) {
+    // message is MessageTypeInConvo.propsForMessage I think
     const media = (message.attachments || []).map((attachmentForMedia: any) => {
       return {
         objectURL: attachmentForMedia.url,
         contentType: attachmentForMedia.contentType,
         attachment: attachmentForMedia,
+        messageSender: message.authorPhoneNumber,
+        messageTimestamp: message.direction !== 'outgoing' ? message.timestamp : undefined, // do not set this field when the message was sent from us
+        // if it is set, this will trigger a sending of DataExtractionNotification to that user, but for an attachment we sent ourself.
       };
     });
-    const lightBoxOptions = {
+    const lightBoxOptions: LightBoxOptions = {
       media,
       attachment,
     };
@@ -856,7 +891,7 @@ export class SessionConversation extends React.Component<Props, State> {
     });
   }
 
-  private renderLightBox({ media, attachment }: { media: Array<MediaItemType>; attachment: any }) {
+  private renderLightBox({ media, attachment }: LightBoxOptions) {
     const selectedIndex =
       media.length > 1
         ? media.findIndex((mediaMessage: any) => mediaMessage.attachment.path === attachment.path)
@@ -878,10 +913,14 @@ export class SessionConversation extends React.Component<Props, State> {
     attachment,
     message,
     index,
+    messageTimestamp,
+    messageSender,
   }: {
     attachment: AttachmentType;
     message?: Message;
     index?: number;
+    messageTimestamp?: number;
+    messageSender: string;
   }) {
     const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
     attachment.url = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
@@ -889,8 +928,14 @@ export class SessionConversation extends React.Component<Props, State> {
       attachment,
       document,
       getAbsolutePath: getAbsoluteAttachmentPath,
-      timestamp: message?.received_at || Date.now(),
+      timestamp: messageTimestamp || message?.received_at,
     });
+
+    await sendDataExtractionNotification(
+      this.props.selectedConversationKey,
+      messageSender,
+      messageTimestamp
+    );
   }
 
   private async onChoseAttachments(attachmentsFileList: Array<File>) {
@@ -1019,7 +1064,7 @@ export class SessionConversation extends React.Component<Props, State> {
         return;
       }
     } catch (error) {
-      window.log.error(
+      window?.log?.error(
         'Error ensuring that image is properly sized:',
         error && error.stack ? error.stack : error
       );
@@ -1050,7 +1095,7 @@ export class SessionConversation extends React.Component<Props, State> {
         ]);
       }
     } catch (e) {
-      window.log.error(
+      window?.log?.error(
         `Was unable to generate thumbnail for file type ${contentType}`,
         e && e.stack ? e.stack : e
       );
@@ -1103,8 +1148,10 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
-  private async updateMemberList() {
+  private async updateMemberListBouncy() {
     const allPubKeys = await getPubkeysInPublicConversation(this.props.selectedConversationKey);
+
+    window?.log?.info(`getPubkeysInPublicConversation returned '${allPubKeys?.length}' members`);
 
     const allMembers = allPubKeys.map((pubKey: string) => {
       const conv = ConversationController.getInstance().get(pubKey);
@@ -1117,6 +1164,6 @@ export class SessionConversation extends React.Component<Props, State> {
       };
     });
 
-    window.lokiPublicChatAPI.setListOfMembers(allMembers);
+    window.inboxStore?.dispatch(updateMentionsMembers(allMembers));
   }
 }

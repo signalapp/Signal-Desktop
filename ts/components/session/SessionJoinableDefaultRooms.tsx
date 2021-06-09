@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   joinOpenGroupV2WithUIEvents,
@@ -11,6 +11,7 @@ import { Avatar, AvatarSize } from '../Avatar';
 import { Flex } from '../basic/Flex';
 import { PillContainer } from '../basic/PillContainer';
 import { H3 } from '../basic/Text';
+import { SessionSpinner } from './SessionSpinner';
 // tslint:disable: no-void-expression
 
 export type JoinableRoomProps = {
@@ -39,7 +40,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
             window.inboxStore?.dispatch(updateDefaultBase64RoomData(payload));
           })
           .catch(e => {
-            window.log.warn('downloadPreviewOpenGroupV2 failed', e);
+            window?.log?.warn('downloadPreviewOpenGroupV2 failed', e);
             const payload = {
               roomId: props.roomId,
               base64Data: '',
@@ -48,7 +49,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
           });
       }
     } catch (e) {
-      window.log.warn(e);
+      window?.log?.warn(e);
     }
   }, [props.imageId, props.completeUrl]);
   return (
@@ -83,29 +84,35 @@ const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
 export const SessionJoinableRooms = () => {
   const joinableRooms = useSelector((state: StateType) => state.defaultRooms);
 
-  if (!joinableRooms?.length) {
-    window.log.info('no default joinable rooms yet');
+  if (!joinableRooms.inProgress && !joinableRooms.rooms?.length) {
+    window?.log?.info('no default joinable rooms yet and not in progress');
     return <></>;
   }
+
+  const componentToRender = joinableRooms.inProgress ? (
+    <SessionSpinner loading={true} />
+  ) : (
+    joinableRooms.rooms.map(r => {
+      return (
+        <SessionJoinableRoomRow
+          key={r.id}
+          completeUrl={r.completeUrl}
+          name={r.name}
+          roomId={r.id}
+          base64Data={r.base64Data}
+          onClick={completeUrl => {
+            void joinOpenGroupV2WithUIEvents(completeUrl, true, false);
+          }}
+        />
+      );
+    })
+  );
 
   return (
     <Flex container={true} flexGrow={1} flexDirection="column" width="93%">
       <H3 text={window.i18n('orJoinOneOfThese')} />
-      <Flex container={true} flexGrow={1} flexWrap="wrap">
-        {joinableRooms.map(r => {
-          return (
-            <SessionJoinableRoomRow
-              key={r.id}
-              completeUrl={r.completeUrl}
-              name={r.name}
-              roomId={r.id}
-              base64Data={r.base64Data}
-              onClick={completeUrl => {
-                void joinOpenGroupV2WithUIEvents(completeUrl, true);
-              }}
-            />
-          );
-        })}
+      <Flex container={true} flexGrow={1} flexWrap="wrap" justifyContent="center">
+        {componentToRender}
       </Flex>
     </Flex>
   );

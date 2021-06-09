@@ -1,4 +1,8 @@
-import { getV2OpenGroupRoomByRoomId, saveV2OpenGroupRoom } from '../../data/opengroups';
+import {
+  getV2OpenGroupRoomByRoomId,
+  OpenGroupV2Room,
+  saveV2OpenGroupRoom,
+} from '../../data/opengroups';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { fromBase64ToArrayBuffer, toHex } from '../../session/utils/String';
 import { getIdentityKeyPair, getOurPubKeyStrFromCache } from '../../session/utils/User';
@@ -25,83 +29,91 @@ async function claimAuthToken(
   const result = await sendApiV2Request(request);
   const statusCode = parseStatusCodeFromOnionRequest(result);
   if (statusCode !== 200) {
-    window.log.warn(`Could not claim token, status code: ${statusCode}`);
+    window?.log?.warn(`Could not claim token, status code: ${statusCode}`);
     return null;
   }
   return authToken;
+}
+
+async function oneAtATimeGetAuth({ serverUrl, roomId }: OpenGroupRequestCommonType) {
+  return allowOnlyOneAtATime(`getAuthToken${serverUrl}:${roomId}`, async () => {
+    try {
+      // first try to fetch from db a saved token.
+      const roomDetails = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
+      if (!roomDetails) {
+        window?.log?.warn('getAuthToken Room does not exist.');
+        return null;
+      }
+
+      if (roomDetails?.token) {
+        return roomDetails.token;
+      }
+
+      window?.log?.info(
+        `Triggering getAuthToken with serverUrl:'${serverUrl}'; roomId: '${roomId}'`
+      );
+      const token = await requestNewAuthToken({ serverUrl, roomId });
+
+      if (!token) {
+        window?.log?.warn('invalid new auth token', token);
+        return;
+      }
+
+      window?.log?.info(`Got AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
+      const claimedToken = await claimAuthToken(token, serverUrl, roomId);
+
+      if (!claimedToken) {
+        window?.log?.warn('Failed to claim token', claimedToken);
+      } else {
+        window?.log?.info(`Claimed AuthToken for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
+      }
+      // still save it to the db. just to mark it as to be refreshed later
+      roomDetails.token = claimedToken || '';
+      await saveV2OpenGroupRoom(roomDetails);
+
+      window?.log?.info(`AuthToken saved to DB for serverUrl:'${serverUrl}'; roomId: '${roomId}'`);
+
+      return claimedToken;
+    } catch (e) {
+      window?.log?.error('Failed to getAuthToken', e);
+      throw e;
+    }
+  });
 }
 
 export async function getAuthToken({
   serverUrl,
   roomId,
 }: OpenGroupRequestCommonType): Promise<string | null> {
-  // first try to fetch from db a saved token.
-  const roomDetails = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
-  if (!roomDetails) {
-    window.log.warn('getAuthToken Room does not exist.');
-    return null;
-  }
-  if (roomDetails?.token) {
-    return roomDetails.token;
-  }
-
-  await allowOnlyOneAtATime(`getAuthTokenV2${serverUrl}:${roomId}`, async () => {
-    try {
-      window.log.info('TRIGGERING NEW AUTH TOKEN WITH', { serverUrl, roomId });
-      const token = await requestNewAuthToken({ serverUrl, roomId });
-      if (!token) {
-        window.log.warn('invalid new auth token', token);
-        return;
-      }
-      const claimedToken = await claimAuthToken(token, serverUrl, roomId);
-      if (!claimedToken) {
-        window.log.warn('invalid claimed token', claimedToken);
-      }
-      // still save it to the db. just to mark it as to be refreshed later
-      roomDetails.token = claimedToken || '';
-      await saveV2OpenGroupRoom(roomDetails);
-    } catch (e) {
-      window.log.error('Failed to getAuthToken', e);
-      throw e;
-    }
-  });
-
-  const refreshedRoomDetails = await getV2OpenGroupRoomByRoomId({
-    serverUrl,
-    roomId,
-  });
-  if (!refreshedRoomDetails) {
-    window.log.warn('getAuthToken Room does not exist.');
-    return null;
-  }
-  if (refreshedRoomDetails?.token) {
-    return refreshedRoomDetails?.token;
-  }
-  return null;
+  return oneAtATimeGetAuth({ roomId, serverUrl });
 }
 
+export type DeleteAuthTokenRequest = OpenGroupRequestCommonType & { token: string };
 export const deleteAuthToken = async ({
   serverUrl,
   roomId,
-}: OpenGroupRequestCommonType): Promise<boolean> => {
+  token,
+}: DeleteAuthTokenRequest): Promise<void> => {
   const request: OpenGroupV2Request = {
     method: 'DELETE',
     room: roomId,
     server: serverUrl,
-    isAuthRequired: false,
+    isAuthRequired: true,
     endpoint: 'auth_token',
+    forcedTokenToUse: token,
   };
   try {
     const result = await sendApiV2Request(request);
     const statusCode = parseStatusCodeFromOnionRequest(result);
     if (statusCode !== 200) {
-      window.log.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
-      return false;
+      // FIXME not yet sure why this call always return 401
+      // window?.log?.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
+      return;
     }
-    return true;
+    return;
   } catch (e) {
-    window.log.error('deleteAuthToken failed:', e);
-    return false;
+    window?.log?.error('deleteAuthToken failed:', e);
+    return;
   }
 };
 
@@ -129,7 +141,7 @@ export async function requestNewAuthToken({
   const json = (await sendApiV2Request(request)) as any;
   // parse the json
   if (!json || !json?.result?.challenge) {
-    window.log.warn('Parsing failed');
+    window?.log?.warn('Parsing failed');
     return null;
   }
   const {
@@ -138,7 +150,7 @@ export async function requestNewAuthToken({
   } = json?.result?.challenge;
 
   if (!base64EncodedCiphertext || !base64EncodedEphemeralPublicKey) {
-    window.log.warn('Parsing failed');
+    window?.log?.warn('Parsing failed');
     return null;
   }
   const ciphertext = fromBase64ToArrayBuffer(base64EncodedCiphertext);
@@ -155,7 +167,7 @@ export async function requestNewAuthToken({
 
     return token;
   } catch (e) {
-    window.log.error('Failed to decrypt token open group v2');
+    window?.log?.error('Failed to decrypt token open group v2');
     return null;
   }
 }

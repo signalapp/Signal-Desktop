@@ -37,7 +37,7 @@ export const getPreview = async (
     throw new Error('Link not safe for preview');
   }
 
-  window.log.info('insecureNodeFetch => plaintext for getPreview()');
+  window?.log?.info('insecureNodeFetch => plaintext for getPreview()');
 
   const linkPreviewMetadata = await LinkPreviewUtil.fetchLinkPreviewMetadata(
     insecureNodeFetch,
@@ -53,7 +53,7 @@ export const getPreview = async (
   if (imageHref && window.Signal.LinkPreviews.isLinkSafeToPreview(imageHref)) {
     let objectUrl: void | string;
     try {
-      window.log.info('insecureNodeFetch => plaintext for getPreview()');
+      window?.log?.info('insecureNodeFetch => plaintext for getPreview()');
 
       const fullSizeImage = await fetchLinkPreviewImage(insecureNodeFetch, imageHref, abortSignal);
       if (!fullSizeImage) {
@@ -88,7 +88,7 @@ export const getPreview = async (
       };
     } catch (error) {
       // We still want to show the preview if we failed to get an image
-      window.log.error('getPreview failed to get image for link preview:', error.message);
+      window?.log?.error('getPreview failed to get image for link preview:', error.message);
     } finally {
       if (objectUrl) {
         URL.revokeObjectURL(objectUrl);

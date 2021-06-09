@@ -6,14 +6,15 @@ import { SessionToastContainer } from './SessionToastContainer';
 import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
-import { DAYS, MINUTES } from '../../session/utils/Number';
 
 import {
   createOrUpdateItem,
   generateAttachmentKeyIfEmpty,
+  getAllOpenGroupV1Conversations,
   getItemById,
   hasSyncedInitialConfigurationItem,
   lastAvatarUploadTimestamp,
+  removeConversation,
 } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
@@ -41,8 +42,10 @@ import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
 import { IMAGE_JPEG } from '../../types/MIME';
 import { FSv2 } from '../../fileserver';
-import { stringToArrayBuffer } from '../../session/utils/String';
-import { debounce } from 'underscore';
+import { debounce } from 'lodash';
+import { DURATION } from '../../session/constants';
+import { actions as conversationActions } from '../../state/ducks/conversations';
+
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 export enum SectionType {
@@ -139,7 +142,7 @@ const showResetSessionIDDialogIfNeeded = async () => {
   window.showResetSessionIdDialog();
 };
 
-const cleanUpMediasInterval = MINUTES * 30;
+const cleanUpMediasInterval = DURATION.MINUTES * 30;
 
 const setupTheme = (dispatch: Dispatch<any>) => {
   const theme = window.Events.getThemeSetting();
@@ -158,10 +161,32 @@ const triggerSyncIfNeeded = async () => {
   }
 };
 
+const removeAllV1OpenGroups = async () => {
+  const allV1Convos = (await getAllOpenGroupV1Conversations()).models || [];
+  // do not remove messages of opengroupv1 for now. We have to find a way of doing it without making the whole app extremely slow
+  // tslint:disable-next-line: prefer-for-of
+  for (let index = 0; index < allV1Convos.length; index++) {
+    const v1Convo = allV1Convos[index];
+    try {
+      await removeConversation(v1Convo.id);
+      window.log.info(`deleting v1convo : ${v1Convo.id}`);
+      ConversationController.getInstance().unsafeDelete(v1Convo);
+      if (window.inboxStore) {
+        window.inboxStore?.dispatch(conversationActions.conversationRemoved(v1Convo.id));
+        window.inboxStore?.dispatch(
+          conversationActions.conversationChanged(v1Convo.id, v1Convo.getProps())
+        );
+      }
+    } catch (e) {
+      window.log.warn(`failed to delete opengroupv1 ${v1Convo.id}`, e);
+    }
+  }
+};
+
 const triggerAvatarReUploadIfNeeded = async () => {
   const lastTimeStampAvatarUpload = (await getItemById(lastAvatarUploadTimestamp))?.value || 0;
 
-  if (Date.now() - lastTimeStampAvatarUpload > DAYS * 14) {
+  if (Date.now() - lastTimeStampAvatarUpload > DURATION.DAYS * 14) {
     window.log.info('Reuploading avatar...');
     // reupload the avatar
     const ourConvo = ConversationController.getInstance().get(UserUtils.getOurPubKeyStrFromCache());
@@ -239,7 +264,7 @@ const triggerAvatarReUploadIfNeeded = async () => {
 const doAppStartUp = (dispatch: Dispatch<any>) => {
   if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
     // Initialize paths for onion requests
-    void OnionPaths.getInstance().buildNewOnionPaths();
+    void OnionPaths.buildNewOnionPathsOneAtATime();
   }
 
   // init the messageQueue. In the constructor, we add all not send messages
@@ -252,6 +277,7 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
   // remove existing prekeys, sign prekeys and sessions
   // FIXME audric, make this in a migration so we can remove this line
   void clearSessionsAndPreKeys();
+  void removeAllV1OpenGroups();
 
   // this generates the key to encrypt attachments locally
   void generateAttachmentKeyIfEmpty();
@@ -302,22 +328,22 @@ export const ActionsPanel = () => {
   );
 
   if (!ourPrimaryConversation) {
-    window.log.warn('ActionsPanel: ourPrimaryConversation is not set');
+    window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
     return <></>;
   }
 
   useInterval(() => {
     void syncConfigurationIfNeeded();
-  }, DAYS * 2);
+  }, DURATION.DAYS * 2);
 
   useInterval(() => {
     void forceRefreshRandomSnodePool();
-  }, DAYS * 1);
+  }, DURATION.DAYS * 1);
 
   useInterval(() => {
     // this won't be run every days, but if the app stays open for more than 10 days
     void triggerAvatarReUploadIfNeeded();
-  }, DAYS * 1);
+  }, DURATION.DAYS * 1);
 
   return (
     <div className="module-left-pane__sections-container">

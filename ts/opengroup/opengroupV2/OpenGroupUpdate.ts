@@ -51,7 +51,7 @@ export async function updateOpenGroupV2(convo: ConversationModel, groupName: str
     );
 
     if (!uploadedFileDetails || !uploadedFileDetails.fileUrl) {
-      window.log.warn('File opengroupv2 upload failed');
+      window?.log?.warn('File opengroupv2 upload failed');
       return;
     }
     let url: URL;
@@ -71,7 +71,7 @@ export async function updateOpenGroupV2(convo: ConversationModel, groupName: str
         url: pathname,
       });
       // FIXME audric update of roomname on the server?
-      window.log.warn('TODO update of roomName');
+      window?.log?.warn('TODO update of roomName');
       const newHash = sha256(fromArrayBufferToBase64(downloaded.buffer));
       await convo.setLokiProfile({
         displayName: groupName || convo.get('name') || 'Unknown',
@@ -79,7 +79,7 @@ export async function updateOpenGroupV2(convo: ConversationModel, groupName: str
         avatarHash: newHash,
       });
     } catch (e) {
-      window.log.error(`Could not decrypt profile image: ${e}`);
+      window?.log?.error(`Could not decrypt profile image: ${e}`);
     }
   }
 

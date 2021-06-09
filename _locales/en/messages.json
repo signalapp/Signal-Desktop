@@ -776,7 +776,7 @@
     "ignoreCase": true
   },
   "linkPreviewDescription": {
-    "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links",
+    "message": "Previews are supported for most urls",
     "description": "Description shown for the Link Preview option ",
     "androidKey": "preferences__previews_are_supported_for"
   },
@@ -1022,6 +1022,22 @@
     "description": "Conversation menu option to enable disappearing messages",
     "androidKey": "conversation_expiring_off__disappearing_messages"
   },
+  "notificationForConvo": {
+    "message": "Notifications",
+    "description": "Conversation menu option to change the notification setting for this conversation"
+  },
+  "notificationForConvo_all": {
+    "message": "All",
+    "description": "Menu item to allow notification for this conversation for all messages"
+  },
+  "notificationForConvo_disabled": {
+    "message": "Disabled",
+    "description": "Menu item to deny notification for this conversation for all messages"
+  },
+  "notificationForConvo_mentions_only": {
+    "message": "Mentions only",
+    "description": "Menu item to allow notification for this conversation for all messages mentioning us"
+  },
   "changeNickname": {
     "message": "Change Nickname",
     "description": "Conversation menu option to change user nickname"
@@ -1143,9 +1159,13 @@
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "invalidNumberError": {
-    "message": "Invalid public key",
-    "description": "When a person inputs a public key that is invalid",
+    "message": "Invalid Session ID or ONS Name",
+    "description": "When a person inputs a session ID or an ons name that is invalid ",
     "androidKey": "fragment_new_conversation_invalid_public_key_message"
+  },
+  "failedResolveOns": {
+    "message": "Failed to resolve ONS name",
+    "description": "When a person inputs a an ons name that is not resolved "
   },
   "successUnlinked": {
     "message": "Your device was unlinked successfully",
@@ -1603,17 +1623,7 @@
     "message": "Invalid Pubkey Format",
     "description": "Error string shown when user types an invalid pubkey format"
   },
-  "lnsMappingNotFound": {
-    "message": "There is no LNS mapping associated with this name",
-    "description": "Shown in toast if user enters an unknown LNS name"
-  },
-  "lnsLookupTimeout": {
-    "message": "LNS lookup timed out",
-    "description": "Shown in toast if user enters an unknown LNS name"
-  },
-  "lnsTooFewNodes": {
-    "message": "Not enough nodes currently active for LNS lookup"
-  },
+
   "emptyGroupNameError": {
     "message": "Please enter a group name",
     "description": "Error message displayed on empty group name",
@@ -1750,8 +1760,11 @@
     "message": "Enter Session ID",
     "androidKey": "activity_link_device_enter_session_id_tab_title"
   },
+  "enterSessionIDOrONSName": {
+    "message": "Enter Session ID or ONS name"
+  },
   "enterSessionIDOfRecipient": {
-    "message": "Enter Session ID of recipient",
+    "message": "Enter Session ID or ONS name of recipient",
     "androidKey": "fragment_enter_public_key_edit_text_hint"
   },
   "usersCanShareTheir...": {
@@ -1859,5 +1872,23 @@
   },
   "orJoinOneOfThese": {
     "message": "Or join one of these..."
+  },
+  "tookAScreenshot": {
+    "message": "$name$ took a screenshot",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "savedTheFile": {
+    "message": "Media saved by $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
   }
 }

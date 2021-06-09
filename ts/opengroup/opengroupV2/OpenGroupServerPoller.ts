@@ -14,18 +14,17 @@ import {
 import _ from 'lodash';
 import { ConversationModel } from '../../models/conversation';
 import { getMessageIdsFromServerIds, removeMessage } from '../../data/data';
-import { getV2OpenGroupRoom, OpenGroupV2Room, saveV2OpenGroupRoom } from '../../data/opengroups';
+import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { handleOpenGroupV2Message } from '../../receiver/receiver';
-import { DAYS, MINUTES, SECONDS } from '../../session/utils/Number';
 import autoBind from 'auto-bind';
 import { sha256 } from '../../session/crypto';
 import { fromBase64ToArrayBuffer } from '../../session/utils/String';
-import { getAuthToken } from './ApiAuth';
+import { DURATION } from '../../session/constants';
 
-const pollForEverythingInterval = SECONDS * 4;
-const pollForRoomAvatarInterval = DAYS * 1;
-const pollForMemberCountInterval = MINUTES * 10;
+const pollForEverythingInterval = DURATION.SECONDS * 10;
+const pollForRoomAvatarInterval = DURATION.DAYS * 1;
+const pollForMemberCountInterval = DURATION.MINUTES * 10;
 
 /**
  * An OpenGroupServerPollerV2 polls for everything for a particular server. We should
@@ -70,6 +69,7 @@ export class OpenGroupServerPoller {
 
   constructor(roomInfos: Array<OpenGroupRequestCommonType>) {
     autoBind(this);
+
     if (!roomInfos?.length) {
       throw new Error('Empty roomInfos list');
     }
@@ -80,9 +80,12 @@ export class OpenGroupServerPoller {
       throw new Error('All rooms must be for the same serverUrl');
     }
     // first verify the rooms we got are all from on the same server
-
+    window?.log?.info(`Creating a new OpenGroupServerPoller for url ${firstUrl}`);
     this.serverUrl = firstUrl;
     roomInfos.forEach(r => {
+      window?.log?.info(
+        `Adding room on construct for url serverUrl: ${firstUrl}, roomId:'${r.roomId}' to poller:${this.serverUrl}`
+      );
       this.roomIdsToPoll.add(r.roomId);
     });
 
@@ -111,25 +114,28 @@ export class OpenGroupServerPoller {
       throw new Error('All rooms must be for the same serverUrl');
     }
     if (this.roomIdsToPoll.has(room.roomId)) {
-      window.log.info('skipping addRoomToPoll of already polled room:', room);
+      window?.log?.info('skipping addRoomToPoll of already polled room:', room);
       return;
     }
+    window?.log?.info(
+      `Adding room on addRoomToPoll for url serverUrl: ${this.serverUrl}, roomId:'${room.roomId}' to poller:${this.serverUrl}`
+    );
     this.roomIdsToPoll.add(room.roomId);
 
     // if we are not already polling right now, trigger a polling
-    void this.triggerPollAfterAdd();
+    void this.triggerPollAfterAdd(room);
   }
 
   public removeRoomFromPoll(room: OpenGroupRequestCommonType) {
     if (room.serverUrl !== this.serverUrl) {
-      window.log.info('this is not the correct ServerPoller');
+      window?.log?.info('this is not the correct ServerPoller');
       return;
     }
     if (this.roomIdsToPoll.has(room.roomId)) {
-      window.log.info(`Removing ${room.roomId} from polling for ${this.serverUrl}`);
+      window?.log?.info(`Removing ${room.roomId} from polling for ${this.serverUrl}`);
       this.roomIdsToPoll.delete(room.roomId);
     } else {
-      window.log.info(
+      window?.log?.info(
         `Cannot remove polling of ${room.roomId} as it is not polled on ${this.serverUrl}`
       );
     }
@@ -166,15 +172,6 @@ export class OpenGroupServerPoller {
   }
 
   private async triggerPollAfterAdd(room?: OpenGroupRequestCommonType) {
-    if (this.roomIdsToPoll.size) {
-      await Promise.all(
-        [...this.roomIdsToPoll].map(async r => {
-          // this call either get the token from db, or fetch a new one
-          await getAuthToken({ roomId: r, serverUrl: this.serverUrl });
-        })
-      );
-    }
-
     await this.compactPoll();
     await this.previewPerRoomPoll();
     await this.pollForAllMemberCount();
@@ -182,7 +179,7 @@ export class OpenGroupServerPoller {
 
   private shouldPoll() {
     if (this.wasStopped) {
-      window.log.error('Serverpoller was stopped. CompactPoll should not happen');
+      window?.log?.error('Serverpoller was stopped. CompactPoll should not happen');
       return false;
     }
     if (!this.roomIdsToPoll.size) {
@@ -197,7 +194,7 @@ export class OpenGroupServerPoller {
 
   private shouldPollPreview() {
     if (this.wasStopped) {
-      window.log.error('Serverpoller was stopped. PollPreview should not happen');
+      window?.log?.error('Serverpoller was stopped. PollPreview should not happen');
       return false;
     }
     if (!this.roomIdsToPoll.size) {
@@ -212,7 +209,7 @@ export class OpenGroupServerPoller {
 
   private shouldPollForMemberCount() {
     if (this.wasStopped) {
-      window.log.error('Serverpoller was stopped. PolLForMemberCount should not happen');
+      window?.log?.error('Serverpoller was stopped. PolLForMemberCount should not happen');
       return false;
     }
     if (!this.roomIdsToPoll.size) {
@@ -258,7 +255,7 @@ export class OpenGroupServerPoller {
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleBase64AvatarUpdate(this.serverUrl, previewGotResults);
     } catch (e) {
-      window.log.warn('Got error while preview fetch:', e);
+      window?.log?.warn('Got error while preview fetch:', e);
     } finally {
       this.isPreviewPolling = false;
     }
@@ -298,7 +295,7 @@ export class OpenGroupServerPoller {
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleAllMemberCount(this.serverUrl, memberCountGotResults);
     } catch (e) {
-      window.log.warn('Got error while memberCount fetch:', e);
+      window?.log?.warn('Got error while memberCount fetch:', e);
     } finally {
       this.isMemberCountPolling = false;
     }
@@ -339,7 +336,7 @@ export class OpenGroupServerPoller {
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleCompactPollResults(this.serverUrl, compactFetchResults);
     } catch (e) {
-      window.log.warn('Got error while compact fetch:', e);
+      window?.log?.warn('Got error while compact fetch:', e);
     } finally {
       this.isPolling = false;
     }
@@ -367,7 +364,7 @@ const handleDeletions = async (
     );
     //
   } catch (e) {
-    window.log.warn('handleDeletions failed:', e);
+    window?.log?.warn('handleDeletions failed:', e);
   } finally {
     try {
       const roomInfos = await getV2OpenGroupRoom(conversationId);
@@ -377,7 +374,7 @@ const handleDeletions = async (
         await saveV2OpenGroupRoom(roomInfos);
       }
     } catch (e) {
-      window.log.warn('handleDeletions updating roomInfos failed:', e);
+      window?.log?.warn('handleDeletions updating roomInfos failed:', e);
     }
   }
 };
@@ -388,13 +385,23 @@ const handleNewMessages = async (
   convo?: ConversationModel
 ) => {
   try {
-    const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
-    const maxNewMessageId = Math.max(...incomingMessageIds);
-    // TODO filter out duplicates ?
     const roomInfos = await getV2OpenGroupRoom(conversationId);
     if (!roomInfos || !roomInfos.serverUrl || !roomInfos.roomId) {
       throw new Error(`No room for convo ${conversationId}`);
     }
+
+    if (!newMessages.length) {
+      // if we got no new messages, just write our last update timestamp to the db
+      roomInfos.lastFetchTimestamp = Date.now();
+      window?.log?.info(
+        `No new messages for ${roomInfos.roomId}... just updating our last fetched timestamp`
+      );
+      await saveV2OpenGroupRoom(roomInfos);
+      return;
+    }
+    const incomingMessageIds = _.compact(newMessages.map(n => n.serverId));
+    const maxNewMessageId = Math.max(...incomingMessageIds);
+    // TODO filter out duplicates ?
 
     const roomDetails: OpenGroupRequestCommonType = _.pick(roomInfos, 'serverUrl', 'roomId');
 
@@ -404,16 +411,18 @@ const handleNewMessages = async (
       try {
         await handleOpenGroupV2Message(newMessage, roomDetails);
       } catch (e) {
-        window.log.warn('handleOpenGroupV2Message', e);
+        window?.log?.warn('handleOpenGroupV2Message', e);
       }
     }
 
-    if (roomInfos && roomInfos.lastMessageFetchedServerID !== maxNewMessageId) {
+    // we need to update the timestamp even if we don't have a new MaxMessageServerId
+    if (roomInfos) {
       roomInfos.lastMessageFetchedServerID = maxNewMessageId;
+      roomInfos.lastFetchTimestamp = Date.now();
       await saveV2OpenGroupRoom(roomInfos);
     }
   } catch (e) {
-    window.log.warn('handleNewMessages failed:', e);
+    window?.log?.warn('handleNewMessages failed:', e);
   }
 };
 
@@ -432,13 +441,11 @@ const handleCompactPollResults = async (
         await handleDeletions(res.deletions, convoId, convo);
       }
 
-      if (res.messages.length) {
-        // new messages
-        await handleNewMessages(res.messages, convoId, convo);
-      }
+      // new messages. call this even if we don't have new messages
+      await handleNewMessages(res.messages, convoId, convo);
 
       if (!convo) {
-        window.log.warn('Could not find convo for compactPoll', convoId);
+        window?.log?.warn('Could not find convo for compactPoll', convoId);
         return;
       }
       const existingModerators = convo.get('moderators') || [];
@@ -464,11 +471,11 @@ const handleBase64AvatarUpdate = async (
       const convoId = getOpenGroupV2ConversationId(serverUrl, res.roomId);
       const convo = ConversationController.getInstance().get(convoId);
       if (!convo) {
-        window.log.warn('Could not find convo for compactPoll', convoId);
+        window?.log?.warn('Could not find convo for compactPoll', convoId);
         return;
       }
       if (!res.base64) {
-        window.log.info('getPreview: no base64 data. skipping');
+        window?.log?.info('getPreview: no base64 data. skipping');
         return;
       }
       const existingHash = convo.get('avatarHash');
@@ -513,7 +520,7 @@ async function handleAllMemberCount(
 
       const convo = ConversationController.getInstance().get(conversationId);
       if (!convo) {
-        window.log.warn('cannot update conversation memberCount as it does not exist');
+        window?.log?.warn('cannot update conversation memberCount as it does not exist');
         return;
       }
       if (convo.get('subscriberCount') !== roomCount.memberCount) {

@@ -10,6 +10,7 @@ import { sendViaOnion } from '../../session/onions/onionSend';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { downloadPreviewOpenGroupV2, getMemberCount } from './OpenGroupAPIV2';
 import { getAuthToken } from './ApiAuth';
+import { DURATION } from '../../session/constants';
 
 const COMPACT_POLL_ENDPOINT = 'compact_poll';
 
@@ -21,7 +22,7 @@ export const compactFetchEverything = async (
   // fetch all we need
   const compactPollRequest = await getCompactPollRequest(serverUrl, rooms);
   if (!compactPollRequest) {
-    window.log.info('Nothing found to be fetched. returning');
+    window?.log?.info('Nothing found to be fetched. returning');
     return null;
   }
 
@@ -37,11 +38,11 @@ export const getAllBase64AvatarForRooms = async (
   // fetch all we need
   const allValidRoomInfos = await getAllValidRoomInfos(serverUrl, rooms);
   if (!allValidRoomInfos?.length) {
-    window.log.info('getAllBase64AvatarForRooms: no valid roominfos got.');
+    window?.log?.info('getAllBase64AvatarForRooms: no valid roominfos got.');
     return null;
   }
   if (abortSignal.aborted) {
-    window.log.info('preview download aborted, returning null');
+    window?.log?.info('preview download aborted, returning null');
     return null;
   }
   // Currently this call will not abort if AbortSignal is aborted,
@@ -58,7 +59,7 @@ export const getAllBase64AvatarForRooms = async (
             };
           }
         } catch (e) {
-          window.log.warn('getPreview failed for room', room);
+          window?.log?.warn('getPreview failed for room', room);
         }
         return null;
       })
@@ -66,7 +67,7 @@ export const getAllBase64AvatarForRooms = async (
   );
 
   if (abortSignal.aborted) {
-    window.log.info('preview download aborted, returning null');
+    window?.log?.info('preview download aborted, returning null');
     return null;
   }
 
@@ -81,11 +82,11 @@ export const getAllMemberCount = async (
   // fetch all we need
   const allValidRoomInfos = await getAllValidRoomInfos(serverUrl, rooms);
   if (!allValidRoomInfos?.length) {
-    window.log.info('getAllMemberCount: no valid roominfos got.');
+    window?.log?.info('getAllMemberCount: no valid roominfos got.');
     return null;
   }
   if (abortSignal.aborted) {
-    window.log.info('memberCount aborted, returning null');
+    window?.log?.info('memberCount aborted, returning null');
     return null;
   }
   // Currently this call will not abort if AbortSignal is aborted,
@@ -102,7 +103,7 @@ export const getAllMemberCount = async (
             };
           }
         } catch (e) {
-          window.log.warn('getPreview failed for room', room);
+          window?.log?.warn('getPreview failed for room', room);
         }
         return null;
       })
@@ -110,7 +111,7 @@ export const getAllMemberCount = async (
   );
 
   if (abortSignal.aborted) {
-    window.log.info('getMemberCount aborted, returning null');
+    window?.log?.info('getMemberCount aborted, returning null');
     return null;
   }
 
@@ -138,14 +139,14 @@ const getAllValidRoomInfos = async (
             roomId,
           });
           if (!fetchedInfo) {
-            window.log.warn('Could not find this room getMessages');
+            window?.log?.warn('Could not find this room getMessages');
             return null;
           }
           allServerPubKeys.push(fetchedInfo.serverPublicKey);
 
           return fetchedInfo;
         } catch (e) {
-          window.log.warn('failed to fetch roominfos for room', roomId);
+          window?.log?.warn('failed to fetch roominfos for room', roomId);
           return null;
         }
       })
@@ -160,11 +161,11 @@ const getAllValidRoomInfos = async (
     firstPubkey = allServerPubKeys[0];
     const allMatch = allServerPubKeys.every(p => p === firstPubkey);
     if (!allMatch) {
-      window.log.warn('All pubkeys do not match:', allServerPubKeys);
+      window?.log?.warn('All pubkeys do not match:', allServerPubKeys);
       return null;
     }
   } else {
-    window.log.warn('No pubkeys found:', allServerPubKeys);
+    window?.log?.warn('No pubkeys found:', allServerPubKeys);
     return null;
   }
   return validRoomInfos;
@@ -179,7 +180,7 @@ const getCompactPollRequest = async (
 ): Promise<null | OpenGroupV2CompactPollRequest> => {
   const allValidRoomInfos = await getAllValidRoomInfos(serverUrl, rooms);
   if (!allValidRoomInfos?.length) {
-    window.log.info('compactPoll: no valid roominfos got.');
+    window?.log?.info('compactPoll: no valid roominfos got.');
     return null;
   }
 
@@ -188,6 +189,7 @@ const getCompactPollRequest = async (
       try {
         const {
           lastMessageFetchedServerID,
+          lastFetchTimestamp,
           lastMessageDeletedServerID,
           token,
           roomId,
@@ -197,11 +199,17 @@ const getCompactPollRequest = async (
           auth_token: token || '',
         };
         roomRequestContent.from_deletion_server_id = lastMessageDeletedServerID;
-        roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
+        if (Date.now() - (lastFetchTimestamp || 0) <= DURATION.DAYS * 14) {
+          roomRequestContent.from_message_server_id = lastMessageFetchedServerID;
+        } else {
+          window?.log?.info(
+            `We've been away for a long time... Only fetching last messages of room '${roomId}'`
+          );
+        }
 
         return roomRequestContent;
       } catch (e) {
-        window.log.warn('failed to fetch roominfos for room', validRoomInfos.roomId);
+        window?.log?.warn('failed to fetch roominfos for room', validRoomInfos.roomId);
         return null;
       }
     })
@@ -248,13 +256,13 @@ async function sendOpenGroupV2RequestCompactPoll(
 
   const statusCode = parseStatusCodeFromOnionRequest(res);
   if (!statusCode) {
-    window.log.warn('sendOpenGroupV2RequestCompactPoll Got unknown status code; res:', res);
+    window?.log?.warn('sendOpenGroupV2RequestCompactPoll Got unknown status code; res:', res);
     return null;
   }
 
   const results = await parseCompactPollResults(res, serverUrl);
   if (!results) {
-    window.log.info('got empty compactPollResults');
+    window?.log?.info('got empty compactPollResults');
     return null;
   }
   // get all roomIds which needs a refreshed token
@@ -263,7 +271,8 @@ async function sendOpenGroupV2RequestCompactPoll(
   // this holds only the poll results which are valid
   const roomPollValidResults = results.filter(ret => ret.statusCode === 200);
 
-  if (roomWithTokensToRefresh) {
+  if (roomWithTokensToRefresh?.length) {
+    window.log.info('We got those rooms to refresh the token with:', roomWithTokensToRefresh);
     await Promise.all(
       roomWithTokensToRefresh.map(async roomId => {
         const roomDetails = await getV2OpenGroupRoomByRoomId({
@@ -276,7 +285,7 @@ async function sendOpenGroupV2RequestCompactPoll(
         roomDetails.token = undefined;
         // we might need to retry doing the request here, but how to make sure we don't retry indefinetely?
         await saveV2OpenGroupRoom(roomDetails);
-        // do not await for that. We have a only one at a time logic on a per room basis
+        // we should not await for that. We have a only one at a time logic on a per room basis
         await getAuthToken({ serverUrl, roomId });
       })
     );
@@ -327,7 +336,7 @@ const parseCompactPollResult = async (
     rawMods === undefined ||
     !rawStatusCode
   ) {
-    window.log.warn('Invalid compactPoll result', singleRoomResult);
+    window?.log?.warn('Invalid compactPoll result', singleRoomResult);
     return null;
   }
 

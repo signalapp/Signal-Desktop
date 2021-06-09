@@ -15,6 +15,7 @@ import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
+import _ from 'underscore';
 
 /**
  * Might throw
@@ -133,7 +134,7 @@ export async function generateMnemonic() {
 }
 
 export async function clearSessionsAndPreKeys() {
-  window.log.info('clearing all sessions');
+  window?.log?.info('clearing all sessions');
   // During secondary device registration we need to keep our prekeys sent
   // to other pubkeys
   await Promise.all([
@@ -145,9 +146,9 @@ export async function clearSessionsAndPreKeys() {
   ]);
 }
 
-export async function deleteAccount(reason?: string) {
+async function bouncyDeleteAccount(reason?: string) {
   const deleteEverything = async () => {
-    window.log.info('configuration message sent successfully. Deleting everything');
+    window?.log?.info('configuration message sent successfully. Deleting everything');
     await window.Signal.Logs.deleteAll();
     await window.Signal.Data.removeAll();
     await window.Signal.Data.close();
@@ -157,23 +158,27 @@ export async function deleteAccount(reason?: string) {
     window.localStorage.setItem('restart-reason', reason || '');
   };
   try {
-    window.log.info('DeleteAccount => Sending a last SyncConfiguration');
+    window?.log?.info('DeleteAccount => Sending a last SyncConfiguration');
     // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
     await forceSyncConfigurationNowIfNeeded(true);
-    window.log.info('Last configuration message sent!');
+    window?.log?.info('Last configuration message sent!');
     await deleteEverything();
   } catch (error) {
-    window.log.error(
+    window?.log?.error(
       'Something went wrong deleting all data:',
       error && error.stack ? error.stack : error
     );
     try {
       await deleteEverything();
     } catch (e) {
-      window.log.error(e);
+      window?.log?.error(e);
     }
   }
   window.restart();
+}
+
+export async function deleteAccount(reason?: string) {
+  return _.debounce(() => bouncyDeleteAccount(reason), 200);
 }
 
 async function createAccount(identityKeyPair: any) {
@@ -209,7 +214,7 @@ async function createAccount(identityKeyPair: any) {
 }
 
 async function registrationDone(ourPubkey: string, displayName: string) {
-  window.log.info('registration done');
+  window?.log?.info('registration done');
 
   window.textsecure.storage.put('primaryDevicePubKey', ourPubkey);
 
@@ -225,6 +230,6 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   };
   window.inboxStore?.dispatch(userActions.userChanged(user));
   window.Whisper.Registration.markDone();
-  window.log.info('dispatching registration event');
+  window?.log?.info('dispatching registration event');
   trigger('registration_done');
 }

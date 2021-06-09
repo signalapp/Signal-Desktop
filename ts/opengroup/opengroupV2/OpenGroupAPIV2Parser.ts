@@ -36,7 +36,7 @@ export const parseRooms = (onionResult: any): undefined | Array<OpenGroupV2Info>
   }
   const rooms = onionResult?.result?.rooms as Array<any>;
   if (!rooms || !rooms.length) {
-    window.log.warn('getAllRoomInfos failed invalid infos');
+    window?.log?.warn('getAllRoomInfos failed invalid infos');
     return [];
   }
   return _.compact(
@@ -44,7 +44,7 @@ export const parseRooms = (onionResult: any): undefined | Array<OpenGroupV2Info>
       // check that the room is correctly filled
       const { id, name, image_id: imageId } = room;
       if (!id || !name) {
-        window.log.info('getAllRoomInfos: Got invalid room details, skipping');
+        window?.log?.info('getAllRoomInfos: Got invalid room details, skipping');
         return null;
       }
 

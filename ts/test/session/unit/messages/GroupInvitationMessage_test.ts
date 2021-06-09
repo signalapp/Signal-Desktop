@@ -19,7 +19,7 @@ describe('GroupInvitationMessage', () => {
     });
   });
 
-  it('dataMessage.groupInvitation has serverAddress, channelId, and serverName set', () => {
+  it('dataMessage.groupInvitation has serverAddress, and serverName set', () => {
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
 

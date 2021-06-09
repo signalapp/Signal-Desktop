@@ -7,13 +7,11 @@ import {
   Quote,
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
-import { OpenGroup } from '../../opengroup/opengroupV1/OpenGroup';
 import { FSv2 } from '../../fileserver';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
 
 interface UploadParams {
   attachment: Attachment;
-  openGroup?: OpenGroup;
   isAvatar?: boolean;
   isRaw?: boolean;
   shouldPad?: boolean;
@@ -39,11 +37,11 @@ interface RawQuote {
 }
 
 // tslint:disable-next-line: no-unnecessary-class
-export class AttachmentUtils {
+export class AttachmentFsV2Utils {
   private constructor() {}
 
-  public static async uploadV1(params: UploadParams): Promise<AttachmentPointer> {
-    const { attachment, openGroup, isAvatar = false, isRaw = false, shouldPad = false } = params;
+  public static async uploadToFsV2(params: UploadParams): Promise<AttachmentPointer> {
+    const { attachment, isRaw = false, shouldPad = false } = params;
     if (typeof attachment !== 'object' || attachment == null) {
       throw new Error('Invalid attachment passed.');
     }
@@ -52,16 +50,6 @@ export class AttachmentUtils {
       throw new TypeError(
         `\`attachment.data\` must be an \`ArrayBuffer\`; got: ${typeof attachment.data}`
       );
-    }
-
-    let server = window.tokenlessFileServerAdnAPI;
-    // this can only be an opengroupv1
-    if (openGroup) {
-      const openGroupServer = await window.lokiPublicChatAPI.findOrCreateServer(openGroup.server);
-      if (!openGroupServer) {
-        throw new Error(`Failed to get open group server: ${openGroup.server}.`);
-      }
-      server = openGroupServer;
     }
     const pointer: AttachmentPointer = {
       contentType: attachment.contentType || undefined,
@@ -73,11 +61,9 @@ export class AttachmentUtils {
 
     let attachmentData: ArrayBuffer;
 
-    // We don't pad attachments for opengroup as they are unencrypted
-    if (isRaw || openGroup) {
+    if (isRaw) {
       attachmentData = attachment.data;
     } else {
-      server = window.tokenlessFileServerAdnAPI;
       pointer.key = new Uint8Array(crypto.randomBytes(64));
       const iv = new Uint8Array(crypto.randomBytes(16));
 
@@ -95,50 +81,26 @@ export class AttachmentUtils {
     }
 
     // use file server v2
-
     if (FSv2.useFileServerAPIV2Sending) {
       const uploadToV2Result = await FSv2.uploadFileToFsV2(attachmentData);
       if (uploadToV2Result) {
         pointer.id = uploadToV2Result.fileId;
         pointer.url = uploadToV2Result.fileUrl;
       } else {
-        window.log.warn('upload to file server v2 failed');
+        window?.log?.warn('upload to file server v2 failed');
       }
+      return pointer;
     } else {
-      const result = isAvatar
-        ? await server.putAvatar(attachmentData)
-        : await server.putAttachment(attachmentData);
-      pointer.id = result.id;
-      pointer.url = result.url;
+      throw new Error('Only v2 fileserver upload is supported');
     }
-
-    return pointer;
   }
 
-  public static async uploadAvatarV1(
-    attachment?: Attachment
-  ): Promise<AttachmentPointer | undefined> {
-    if (!attachment) {
-      return undefined;
-    }
-
-    // isRaw is true since the data is already encrypted
-    // and doesn't need to be encrypted again
-    return this.uploadV1({
-      attachment,
-      isAvatar: true,
-      isRaw: true,
-    });
-  }
-
-  public static async uploadAttachmentsV1(
-    attachments: Array<Attachment>,
-    openGroup?: OpenGroup
+  public static async uploadAttachmentsToFsV2(
+    attachments: Array<Attachment>
   ): Promise<Array<AttachmentPointer>> {
     const promises = (attachments || []).map(async attachment =>
-      this.uploadV1({
+      this.uploadToFsV2({
         attachment,
-        openGroup,
         shouldPad: true,
       })
     );
@@ -146,9 +108,8 @@ export class AttachmentUtils {
     return Promise.all(promises);
   }
 
-  public static async uploadLinkPreviewsV1(
-    previews: Array<RawPreview>,
-    openGroup?: OpenGroup
+  public static async uploadLinkPreviewsToFsV2(
+    previews: Array<RawPreview>
   ): Promise<Array<Preview>> {
     const promises = (previews || []).map(async item => {
       // some links does not have an image associated, and it makes the whole message fail to send
@@ -157,19 +118,15 @@ export class AttachmentUtils {
       }
       return {
         ...item,
-        image: await this.uploadV1({
+        image: await this.uploadToFsV2({
           attachment: item.image,
-          openGroup,
         }),
       };
     });
     return Promise.all(promises);
   }
 
-  public static async uploadQuoteThumbnailsV1(
-    quote?: RawQuote,
-    openGroup?: OpenGroup
-  ): Promise<Quote | undefined> {
+  public static async uploadQuoteThumbnailsToFsV2(quote?: RawQuote): Promise<Quote | undefined> {
     if (!quote) {
       return undefined;
     }
@@ -177,9 +134,8 @@ export class AttachmentUtils {
     const promises = (quote.attachments ?? []).map(async attachment => {
       let thumbnail: AttachmentPointer | undefined;
       if (attachment.thumbnail) {
-        thumbnail = await this.uploadV1({
+        thumbnail = await this.uploadToFsV2({
           attachment: attachment.thumbnail,
-          openGroup,
         });
       }
       return {

@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OpenGroupV2InfoJoinable } from '../../opengroup/opengroupV2/ApiUtil';
 
-export type DefaultRoomsState = Array<OpenGroupV2InfoJoinable>;
+export type DefaultRoomsState = {
+  rooms: Array<OpenGroupV2InfoJoinable>;
+  inProgress: boolean;
+};
 
-const initialState: DefaultRoomsState = [];
+const initialState: DefaultRoomsState = {
+  rooms: [],
+  inProgress: false,
+};
 
 /**
  * Payload to dispatch to update the base64 data of a default room
@@ -21,12 +27,18 @@ const defaultRoomsSlice = createSlice({
   initialState,
   reducers: {
     updateDefaultRooms(state, action) {
-      window.log.warn('updating default rooms', action.payload);
-      return action.payload as DefaultRoomsState;
+      window?.log?.info('updating default rooms', action.payload);
+      const rooms = action.payload as Array<OpenGroupV2InfoJoinable>;
+      return { ...state, rooms: rooms };
+    },
+    updateDefaultRoomsInProgress(state, action) {
+      const inProgress = action.payload as boolean;
+      window?.log?.info('fetching default rooms inProgress?', action.payload);
+      return { ...state, inProgress };
     },
     updateDefaultBase64RoomData(state, action: PayloadAction<Base64Update>) {
       const payload = action.payload;
-      const newState = state.map(room => {
+      const newRoomsState = state.rooms.map(room => {
         if (room.id === payload.roomId) {
           return {
             ...room,
@@ -35,11 +47,15 @@ const defaultRoomsSlice = createSlice({
         }
         return room;
       });
-      return newState;
+      return { ...state, rooms: newRoomsState };
     },
   },
 });
 
 const { actions, reducer } = defaultRoomsSlice;
-export const { updateDefaultRooms, updateDefaultBase64RoomData } = actions;
+export const {
+  updateDefaultRooms,
+  updateDefaultBase64RoomData,
+  updateDefaultRoomsInProgress,
+} = actions;
 export const defaultRoomReducer = reducer;

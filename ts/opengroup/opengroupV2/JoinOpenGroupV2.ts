@@ -1,8 +1,4 @@
-import {
-  getV2OpenGroupRoomByRoomId,
-  OpenGroupV2Room,
-  removeV2OpenGroupRoom,
-} from '../../data/opengroups';
+import { getV2OpenGroupRoomByRoomId, OpenGroupV2Room } from '../../data/opengroups';
 import { ConversationController } from '../../session/conversations';
 import { PromiseUtils, ToastUtils } from '../../session/utils';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
@@ -43,7 +39,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
     };
     return room;
   } catch (e) {
-    window.log.error('Invalid Opengroup v2 join URL:', lowerCased, e);
+    window?.log?.error('Invalid Opengroup v2 join URL:', lowerCased, e);
   }
   return undefined;
 }
@@ -57,7 +53,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
  * @param room The room id to join
  * @param publicKey The server publicKey. It comes from the joining link. (or is already here for the default open group server)
  */
-async function joinOpenGroupV2(room: OpenGroupV2Room, fromSyncMessage: boolean): Promise<void> {
+async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean): Promise<void> {
   if (!room.serverUrl || !room.roomId || room.roomId.length < 2 || !room.serverPublicKey) {
     return;
   }
@@ -72,11 +68,11 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromSyncMessage: boolean):
   const existingConvo = ConversationController.getInstance().get(conversationId);
 
   if (alreadyExist && existingConvo) {
-    window.log.warn('Skipping join opengroupv2: already exists');
+    window?.log?.warn('Skipping join opengroupv2: already exists');
     return;
   } else if (existingConvo) {
     // we already have a convo associated with it. Remove everything related to it so we start fresh
-    window.log.warn('leaving before rejoining open group v2 room', conversationId);
+    window?.log?.warn('leaving before rejoining open group v2 room', conversationId);
     await ConversationController.getInstance().deleteContact(conversationId);
   }
 
@@ -92,17 +88,17 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromSyncMessage: boolean):
     );
 
     if (!conversation) {
-      window.log.warn('Failed to join open group v2');
+      window?.log?.warn('Failed to join open group v2');
       throw new Error(window.i18n('connectToServerFail'));
     }
 
     // here we managed to connect to the group.
     // if this is not a Sync Message, we should trigger one
-    if (!fromSyncMessage) {
+    if (!fromConfigMessage) {
       await forceSyncConfigurationNowIfNeeded();
     }
   } catch (e) {
-    window.log.error('Could not join open group v2', e);
+    window?.log?.error('Could not join open group v2', e);
     throw new Error(e);
   }
 }
@@ -124,6 +120,7 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromSyncMessage: boolean):
 export async function joinOpenGroupV2WithUIEvents(
   completeUrl: string,
   showToasts: boolean,
+  fromConfigMessage: boolean,
   uiCallback?: (loading: boolean) => void
 ): Promise<boolean> {
   try {
@@ -147,7 +144,7 @@ export async function joinOpenGroupV2WithUIEvents(
     if (uiCallback) {
       uiCallback(true);
     }
-    await joinOpenGroupV2(parsedRoom, showToasts);
+    await joinOpenGroupV2(parsedRoom, fromConfigMessage);
 
     const isConvoCreated = ConversationController.getInstance().get(conversationID);
     if (isConvoCreated) {
@@ -164,7 +161,7 @@ export async function joinOpenGroupV2WithUIEvents(
       }
     }
   } catch (error) {
-    window.log.warn('got error while joining open group:', error);
+    window?.log?.warn('got error while joining open group:', error);
     if (showToasts) {
       ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
     }

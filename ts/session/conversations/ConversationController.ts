@@ -11,13 +11,13 @@ import {
   ConversationTypeEnum,
 } from '../../models/conversation';
 import { BlockedNumberController } from '../../util';
-import { getSwarm } from '../snode_api/snodePool';
+import { getSwarmFor } from '../snode_api/snodePool';
 import { PubKey } from '../types';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
 import _ from 'lodash';
 import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
-import { deleteAuthToken } from '../../opengroup/opengroupV2/ApiAuth';
+import { deleteAuthToken, DeleteAuthTokenRequest } from '../../opengroup/opengroupV2/ApiAuth';
 
 export class ConversationController {
   private static instance: ConversationController | null;
@@ -96,7 +96,7 @@ export class ConversationController {
       try {
         await saveConversation(conversation.attributes);
       } catch (error) {
-        window.log.error(
+        window?.log?.error(
           'Conversation save failed! ',
           id,
           type,
@@ -120,7 +120,7 @@ export class ConversationController {
         await Promise.all([
           conversation.updateProfileAvatar(),
           // NOTE: we request snodes updating the cache, but ignore the result
-          void getSwarm(id),
+          void getSwarmFor(id),
         ]);
       }
     });
@@ -183,54 +183,59 @@ export class ConversationController {
       throw new Error('ConversationController.get() needs complete initial fetch');
     }
 
+    window.log.info(`deleteContact with ${id}`);
+
     const conversation = this.conversations.get(id);
     if (!conversation) {
+      window.log.warn(`deleteContact no such convo ${id}`);
       return;
     }
 
     // Closed/Medium group leaving
     if (conversation.isClosedGroup()) {
+      window.log.info(`deleteContact ClosedGroup case: ${id}`);
       await conversation.leaveClosedGroup();
-      // open group v1
-    } else if (conversation.isPublic() && !conversation.isOpenGroupV2()) {
-      const channelAPI = await conversation.getPublicSendData();
-      if (channelAPI === null) {
-        window.log.warn(`Could not get API for public conversation ${id}`);
-      } else {
-        channelAPI.serverAPI.partChannel((channelAPI as any).channelId);
-      }
       // open group v2
     } else if (conversation.isOpenGroupV2()) {
-      window.log.info('leaving open group v2', conversation.id);
+      window?.log?.info('leaving open group v2', conversation.id);
       const roomInfos = await getV2OpenGroupRoom(conversation.id);
       if (roomInfos) {
-        OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(roomInfos);
-        // leave the group on the remote server
-        try {
-          await deleteAuthToken(_.pick(roomInfos, 'serverUrl', 'roomId'));
-        } catch (e) {
-          window.log.info('deleteAuthToken failed:', e);
+        if (roomInfos.token) {
+          // leave the group on the remote server
+          await deleteAuthToken(
+            _.pick(roomInfos, 'serverUrl', 'roomId', 'token') as DeleteAuthTokenRequest
+          );
         }
+        OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(roomInfos);
+
         // remove the roomInfos locally for this open group room
         try {
           await removeV2OpenGroupRoom(conversation.id);
         } catch (e) {
-          window.log.info('removeV2OpenGroupRoom failed:', e);
+          window?.log?.info('removeV2OpenGroupRoom failed:', e);
         }
       }
     }
 
     // those are the stuff to do for all contact types
-    await conversation.destroyMessages();
+    window.log.info(`deleteContact destroyingMessages: ${id}`);
 
+    await conversation.destroyMessages();
+    window.log.info(`deleteContact message destroyed: ${id}`);
     // if this conversation is a private conversation it's in fact a `contact` for desktop.
     // we just want to remove everything related to it, set the active_at to undefined
     // so conversation still exists (useful for medium groups members or opengroups) but is not shown on the UI
     if (conversation.isPrivate()) {
+      window.log.info(`deleteContact isPrivate, marking as inactive: ${id}`);
+
       conversation.set('active_at', undefined);
       await conversation.commit();
     } else {
+      window.log.info(`deleteContact !isPrivate, removing convo from DB: ${id}`);
+
       await removeConversation(id);
+      window.log.info(`deleteContact !isPrivate, convo removed from DB: ${id}`);
+
       this.conversations.remove(conversation);
       if (window.inboxStore) {
         window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
@@ -238,6 +243,7 @@ export class ConversationController {
           conversationActions.conversationChanged(conversation.id, conversation.getProps())
         );
       }
+      window.log.info(`deleteContact !isPrivate, convo removed from store: ${id}`);
     }
   }
 
@@ -245,8 +251,12 @@ export class ConversationController {
     return Array.from(this.conversations.models);
   }
 
+  public unsafeDelete(convo: ConversationModel) {
+    this.conversations.remove(convo);
+  }
+
   public async load() {
-    window.log.info('ConversationController: starting initial fetch');
+    window?.log?.info('ConversationController: starting initial fetch');
 
     if (this.conversations.length) {
       throw new Error('ConversationController: Already loaded!');
@@ -273,9 +283,9 @@ export class ConversationController {
 
         // Remove any unused images
         window.profileImages.removeImagesNotInArray(this.conversations.map((c: any) => c.id));
-        window.log.info('ConversationController: done with initial fetch');
+        window?.log?.info('ConversationController: done with initial fetch');
       } catch (error) {
-        window.log.error(
+        window?.log?.error(
           'ConversationController: initial fetch failed',
           error && error.stack ? error.stack : error
         );

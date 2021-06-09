@@ -244,7 +244,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
     }
 
     if (this.audioElement) {
-      window.log.info('Audio element already init');
+      window?.log?.info('Audio element already init');
     } else {
       const audioURL = window.URL.createObjectURL(this.audioBlobMp3);
       this.audioElement = new Audio(audioURL);
@@ -292,7 +292,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
 
   private async onSendVoiceMessage() {
     if (!this.audioBlobMp3 || !this.audioBlobMp3.size) {
-      window.log.info('Empty audio blob');
+      window?.log?.info('Empty audio blob');
       return;
     }
 
@@ -320,7 +320,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
         // something else
       })
       .catch((e: any) => {
-        window.log.error(e);
+        window?.log?.error(e);
       });
   }
 

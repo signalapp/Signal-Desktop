@@ -28,6 +28,7 @@ function initialize() {
       }
 
       const result = await fn(...args);
+
       event.sender.send(`${SQL_CHANNEL_KEY}-done`, jobId, null, result);
     } catch (error) {
       const errorForDisplay = error && error.stack ? error.stack : error;
