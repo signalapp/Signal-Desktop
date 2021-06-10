@@ -69,7 +69,6 @@ describe('Message', () => {
             path: 'ab/abcdefghi',
           },
         ],
-        contact: [],
         preview: [],
       };
 
@@ -114,55 +113,6 @@ describe('Message', () => {
             },
           ],
         },
-        contact: [],
-        preview: [],
-      };
-
-      const writeExistingAttachmentData = attachment => {
-        assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
-      };
-
-      const actual = await Message.createAttachmentDataWriter({
-        writeExistingAttachmentData,
-        logger,
-      })(input);
-      assert.deepEqual(actual, expected);
-    });
-
-    it('should process contact avatars', async () => {
-      const input = {
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [],
-        contact: [
-          {
-            name: 'john',
-            avatar: {
-              isProfile: false,
-              avatar: {
-                path: 'ab/abcdefghi',
-                data: stringToArrayBuffer('It’s easy if you try'),
-              },
-            },
-          },
-        ],
-      };
-      const expected = {
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [],
-        contact: [
-          {
-            name: 'john',
-            avatar: {
-              isProfile: false,
-              avatar: {
-                path: 'ab/abcdefghi',
-              },
-            },
-          },
-        ],
         preview: [],
       };
 
@@ -277,7 +227,6 @@ describe('Message', () => {
         hasVisualMediaAttachments: undefined,
         hasFileAttachments: undefined,
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
-        contact: [],
       };
 
       const expectedAttachmentData = stringToArrayBuffer('It’s easy if you try');
@@ -626,51 +575,6 @@ describe('Message', () => {
         },
       };
       const result = await upgradeVersion(message, { logger });
-      assert.deepEqual(result, expected);
-    });
-  });
-
-  describe('_mapContact', () => {
-    it('handles message with no contact field', async () => {
-      const upgradeContact = sinon.stub().throws(new Error("Shouldn't be called"));
-      const upgradeVersion = Message._mapContact(upgradeContact);
-
-      const message = {
-        body: 'hey there!',
-      };
-      const expected = {
-        body: 'hey there!',
-        contact: [],
-      };
-      const result = await upgradeVersion(message);
-      assert.deepEqual(result, expected);
-    });
-
-    it('handles one contact', async () => {
-      const upgradeContact = contact => Promise.resolve(contact);
-      const upgradeVersion = Message._mapContact(upgradeContact);
-
-      const message = {
-        body: 'hey there!',
-        contact: [
-          {
-            name: {
-              displayName: 'Someone somewhere',
-            },
-          },
-        ],
-      };
-      const expected = {
-        body: 'hey there!',
-        contact: [
-          {
-            name: {
-              displayName: 'Someone somewhere',
-            },
-          },
-        ],
-      };
-      const result = await upgradeVersion(message);
       assert.deepEqual(result, expected);
     });
   });

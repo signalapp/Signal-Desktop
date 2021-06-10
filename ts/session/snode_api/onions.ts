@@ -239,18 +239,13 @@ async function processOnionRequestErrorAtDestination({
   if (statusCode === 200) {
     return;
   }
-  window?.log?.info('processOnionRequestErrorAtDestination. statusCode ok:', statusCode);
+  window?.log?.info('processOnionRequestErrorAtDestination. statusCode nok:', statusCode);
 
   process406Error(statusCode);
   await process421Error(statusCode, body, associatedWith, destinationEd25519);
   processOxenServerError(statusCode, body);
   if (destinationEd25519) {
     await processAnyOtherErrorAtDestination(statusCode, body, destinationEd25519, associatedWith);
-  } else {
-    console.warn(
-      'processOnionRequestErrorAtDestination: destinationEd25519 unset. was it an open group call?',
-      statusCode
-    );
   }
 }
 

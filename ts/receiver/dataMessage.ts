@@ -140,22 +140,6 @@ function cleanAttachments(decrypted: any) {
     };
   });
 
-  decrypted.contact = (decrypted.contact || []).map((item: any) => {
-    const { avatar } = item;
-
-    if (!avatar || !avatar.avatar) {
-      return item;
-    }
-
-    return {
-      ...item,
-      avatar: {
-        ...item.avatar,
-        avatar: cleanAttachment(item.avatar.avatar),
-      },
-    };
-  });
-
   if (quote) {
     if (quote.id) {
       quote.id = _.toNumber(quote.id);

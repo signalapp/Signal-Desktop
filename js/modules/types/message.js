@@ -6,7 +6,6 @@ const SchemaVersion = require('./schema_version');
 const {
   initializeAttachmentMetadata,
 } = require('../../../ts/types/message/initializeAttachmentMetadata');
-const Contact = require('./contact');
 
 const GROUP = 'group';
 const PRIVATE = 'private';
@@ -158,17 +157,6 @@ exports._mapAttachments = upgradeAttachment => async (message, context) => {
   return Object.assign({}, message, { attachments });
 };
 
-// Public API
-//      _mapContact :: (Contact -> Promise Contact) ->
-//                     (Message, Context) ->
-//                     Promise Message
-exports._mapContact = upgradeContact => async (message, context) => {
-  const contextWithMessage = Object.assign({}, context, { message });
-  const upgradeWithContext = contact => upgradeContact(contact, contextWithMessage);
-  const contact = await Promise.all((message.contact || []).map(upgradeWithContext));
-  return Object.assign({}, message, { contact });
-};
-
 //      _mapQuotedAttachments :: (QuotedAttachment -> Promise QuotedAttachment) ->
 //                               (Message, Context) ->
 //                               Promise Message
@@ -255,7 +243,7 @@ const toVersion5 = exports._withSchemaVersion({
 });
 const toVersion6 = exports._withSchemaVersion({
   schemaVersion: 6,
-  upgrade: () => {},
+  upgrade: message => message,
 });
 // IMPORTANT: We’ve updated our definition of `initializeAttachmentMetadata`, so
 // we need to run it again on existing items that have previously been incorrectly
@@ -343,8 +331,8 @@ exports.upgradeSchema = async (
     if (maxVersion < index) {
       break;
     }
-
     const currentVersion = VERSIONS[index];
+
     // We really do want this intra-loop await because this is a chained async action,
     //   each step dependent on the previous
     // eslint-disable-next-line no-await-in-loop
@@ -614,21 +602,6 @@ exports.createAttachmentDataWriter = ({ writeExistingAttachmentData, logger }) =
       return omit(thumbnail, ['data']);
     });
 
-    const writeContactAvatar = async messageContact => {
-      const { avatar } = messageContact;
-      if (avatar && !avatar.avatar) {
-        return omit(messageContact, ['avatar']);
-      }
-
-      await writeExistingAttachmentData(avatar.avatar);
-
-      return Object.assign({}, messageContact, {
-        avatar: Object.assign({}, avatar, {
-          avatar: omit(avatar.avatar, ['data']),
-        }),
-      });
-    };
-
     const writePreviewImage = async item => {
       const { image } = item;
       if (!image) {
@@ -646,7 +619,6 @@ exports.createAttachmentDataWriter = ({ writeExistingAttachmentData, logger }) =
       {},
       await writeThumbnails(message, { logger }),
       {
-        contact: await Promise.all((contact || []).map(writeContactAvatar)),
         preview: await Promise.all((preview || []).map(writePreviewImage)),
         attachments: await Promise.all(
           (attachments || []).map(async attachment => {

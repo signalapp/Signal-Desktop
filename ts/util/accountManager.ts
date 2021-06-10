@@ -178,7 +178,7 @@ async function bouncyDeleteAccount(reason?: string) {
 }
 
 export async function deleteAccount(reason?: string) {
-  return _.debounce(() => bouncyDeleteAccount(reason), 200);
+  return bouncyDeleteAccount(reason);
 }
 
 async function createAccount(identityKeyPair: any) {
