@@ -535,7 +535,6 @@ async function handle421InvalidSwarm({
     await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
   } catch (e) {
     if (e.message !== exceptionMessage) {
-      console.warn('dropSnodeFromSwarmIfNeeded', snodeEd25519);
       window?.log?.warn(
         'Got error while parsing 421 result. Dropping this snode from the swarm of this pubkey',
         e
