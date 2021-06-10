@@ -5,6 +5,7 @@ import {
   AttachmentPointer,
   AttachmentPointerWithUrl,
   Preview,
+  PreviewWithAttachmentUrl,
   Quote,
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
@@ -59,7 +60,7 @@ export async function uploadV2(params: UploadParamsV2): Promise<AttachmentPointe
 export async function uploadAttachmentsV2(
   attachments: Array<Attachment>,
   openGroup: OpenGroupRequestCommonType
-): Promise<Array<AttachmentPointer>> {
+): Promise<Array<AttachmentPointerWithUrl>> {
   const promises = (attachments || []).map(async attachment =>
     exports.uploadV2({
       attachment,
@@ -73,7 +74,7 @@ export async function uploadAttachmentsV2(
 export async function uploadLinkPreviewsV2(
   previews: Array<RawPreview>,
   openGroup: OpenGroupRequestCommonType
-): Promise<Array<Preview>> {
+): Promise<Array<PreviewWithAttachmentUrl>> {
   const promises = (previews || []).map(async preview => {
     // some links does not have an image associated, and it makes the whole message fail to send
     if (!preview.image) {
@@ -89,6 +90,7 @@ export async function uploadLinkPreviewsV2(
       ...preview,
       image,
       url: preview.url || (image.url as string),
+      id: image.id as number,
     };
   });
   return _.compact(await Promise.all(promises));
@@ -103,7 +105,7 @@ export async function uploadQuoteThumbnailsV2(
   }
 
   const promises = (quote.attachments ?? []).map(async attachment => {
-    let thumbnail: AttachmentPointer | undefined;
+    let thumbnail: PreviewWithAttachmentUrl | undefined;
     if (attachment.thumbnail) {
       thumbnail = await exports.uploadV2({
         attachment: attachment.thumbnail,

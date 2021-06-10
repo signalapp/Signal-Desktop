@@ -157,8 +157,10 @@ message ConfigurationMessage {
   }
 
   message Contact {
-    optional bytes  publicKey         = 1;
-    optional string name              = 2;
+    // @required
+    required bytes  publicKey         = 1;
+    // @required
+    required string name              = 2;
     optional string profilePicture    = 3;
     optional bytes  profileKey        = 4;
   }
@@ -179,7 +181,7 @@ message ReceiptMessage {
   }
 
   // @required
-  optional Type   type      = 1;
+  required Type   type      = 1;
   repeated uint64 timestamp = 2;
 }
 
@@ -190,7 +192,7 @@ message AttachmentPointer {
   }
 
   // @required
-  optional fixed64 id          = 1;
+  required fixed64 id          = 1;
   optional string  contentType = 2;
   optional bytes   key         = 3;
   optional uint32  size        = 4;

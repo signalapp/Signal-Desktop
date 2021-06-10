@@ -6,7 +6,9 @@ import { toNumber } from 'lodash';
 import { Constants } from '../../../../session';
 import {
   AttachmentPointer,
+  AttachmentPointerWithUrl,
   Preview,
+  PreviewWithAttachmentUrl,
   Quote,
   VisibleMessage,
 } from '../../../../session/messages/outgoing/visibleMessage/VisibleMessage';
@@ -84,10 +86,10 @@ describe('VisibleMessage', () => {
   });
 
   it('can create message with a preview', () => {
-    let preview: Preview;
+    let preview: PreviewWithAttachmentUrl;
 
-    preview = { url: 'url', title: 'title' };
-    const previews = new Array<Preview>();
+    preview = { url: 'url', title: 'title', id: 1234 };
+    const previews = new Array<PreviewWithAttachmentUrl>();
     previews.push(preview);
 
     const message = new VisibleMessage({
@@ -106,10 +108,10 @@ describe('VisibleMessage', () => {
   });
 
   it('can create message with an AttachmentPointer', () => {
-    let attachment: AttachmentPointer;
+    let attachment: AttachmentPointerWithUrl;
 
     attachment = { url: 'url', contentType: 'contentType', id: 1234 };
-    const attachments = new Array<AttachmentPointer>();
+    const attachments = new Array<AttachmentPointerWithUrl>();
     attachments.push(attachment);
 
     const message = new VisibleMessage({

@@ -5,8 +5,10 @@ import {
   AttachmentPointer,
   AttachmentPointerWithUrl,
   Preview,
+  PreviewWithAttachmentUrl,
   Quote,
   QuotedAttachment,
+  QuotedAttachmentWithUrl,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { FSv2 } from '../../fileserver';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
@@ -101,7 +103,7 @@ export class AttachmentFsV2Utils {
 
   public static async uploadAttachmentsToFsV2(
     attachments: Array<Attachment>
-  ): Promise<Array<AttachmentPointer>> {
+  ): Promise<Array<AttachmentPointerWithUrl>> {
     const promises = (attachments || []).map(async attachment =>
       this.uploadToFsV2({
         attachment,
@@ -114,7 +116,7 @@ export class AttachmentFsV2Utils {
 
   public static async uploadLinkPreviewsToFsV2(
     previews: Array<RawPreview>
-  ): Promise<Array<Preview>> {
+  ): Promise<Array<PreviewWithAttachmentUrl>> {
     const promises = (previews || []).map(async preview => {
       // some links does not have an image associated, and it makes the whole message fail to send
       if (!preview.image) {
@@ -127,8 +129,9 @@ export class AttachmentFsV2Utils {
       return {
         ...preview,
         image,
-        url: preview.url || image.url,
-      } as Preview;
+        url: image.url,
+        id: image.id,
+      };
     });
     return _.compact(await Promise.all(promises));
   }
@@ -145,13 +148,18 @@ export class AttachmentFsV2Utils {
           attachment: attachment.thumbnail,
         });
       }
+      if (!thumbnail) {
+        return attachment;
+      }
       return {
         ...attachment,
         thumbnail,
-      } as QuotedAttachment;
+        url: thumbnail.url,
+        id: thumbnail.id,
+      } as QuotedAttachmentWithUrl;
     });
 
-    const attachments = await Promise.all(promises);
+    const attachments = _.compact(await Promise.all(promises));
 
     return {
       ...quote,
