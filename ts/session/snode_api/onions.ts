@@ -591,7 +591,7 @@ export async function incrementBadSnodeCountOrDrop({
       await OnionPaths.dropSnodeFromPath(snodeEd25519);
     } catch (e) {
       window?.log?.warn(
-        'dropSnodeFromPath, got error while patchingup... incrementing the whole path as bad',
+        'dropSnodeFromPath, got error while patching up... incrementing the whole path as bad',
         e
       );
       // if dropSnodeFromPath throws, it means there is an issue patching up the path, increment the whole path issues count
