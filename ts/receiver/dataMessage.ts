@@ -140,22 +140,6 @@ function cleanAttachments(decrypted: any) {
     };
   });
 
-  decrypted.contact = (decrypted.contact || []).map((item: any) => {
-    const { avatar } = item;
-
-    if (!avatar || !avatar.avatar) {
-      return item;
-    }
-
-    return {
-      ...item,
-      avatar: {
-        ...item.avatar,
-        avatar: cleanAttachment(item.avatar.avatar),
-      },
-    };
-  });
-
   if (quote) {
     if (quote.id) {
       quote.id = _.toNumber(quote.id);
@@ -249,7 +233,7 @@ export async function processDecrypted(
 }
 
 export function isMessageEmpty(message: SignalService.DataMessage) {
-  const { flags, body, attachments, group, quote, contact, preview, groupInvitation } = message;
+  const { flags, body, attachments, group, quote, preview, openGroupInvitation } = message;
 
   return (
     !flags &&
@@ -258,9 +242,8 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
     _.isEmpty(attachments) &&
     _.isEmpty(group) &&
     _.isEmpty(quote) &&
-    _.isEmpty(contact) &&
     _.isEmpty(preview) &&
-    _.isEmpty(groupInvitation)
+    _.isEmpty(openGroupInvitation)
   );
 }
 

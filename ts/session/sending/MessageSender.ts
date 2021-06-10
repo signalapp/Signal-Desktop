@@ -59,7 +59,7 @@ async function buildEnvelope(
 ): Promise<SignalService.Envelope> {
   let source: string | undefined;
 
-  if (type === SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT) {
+  if (type === SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE) {
     source = sskSource;
   }
 

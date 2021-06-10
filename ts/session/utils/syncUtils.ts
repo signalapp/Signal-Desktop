@@ -20,7 +20,9 @@ import { SignalService } from '../../protobuf';
 import _ from 'lodash';
 import {
   AttachmentPointer,
+  AttachmentPointerWithUrl,
   Preview,
+  PreviewWithAttachmentUrl,
   Quote,
   VisibleMessage,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
@@ -237,9 +239,9 @@ const buildSyncVisibleMessage = (
       key,
       digest,
     };
-  }) as Array<AttachmentPointer>;
+  }) as Array<AttachmentPointerWithUrl>;
   const quote = (dataMessage.quote as Quote) || undefined;
-  const preview = (dataMessage.preview as Array<Preview>) || [];
+  const preview = (dataMessage.preview as Array<PreviewWithAttachmentUrl>) || [];
   const expireTimer = dataMessage.expireTimer;
 
   return new VisibleMessage({

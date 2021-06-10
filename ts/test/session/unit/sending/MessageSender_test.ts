@@ -29,7 +29,7 @@ describe('MessageSender', () => {
       lokiMessageAPISendStub = sandbox.stub(LokiMessageApi, 'sendMessage').resolves();
 
       encryptStub = sandbox.stub(MessageEncrypter, 'encrypt').resolves({
-        envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
+        envelopeType: SignalService.Envelope.Type.SESSION_MESSAGE,
         cipherText: crypto.randomBytes(10),
       });
 
@@ -77,7 +77,7 @@ describe('MessageSender', () => {
     });
 
     describe('logic', () => {
-      let messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
+      let messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.SESSION_MESSAGE;
 
       beforeEach(() => {
         encryptStub.callsFake(async (_device, plainTextBuffer, _type) => ({
@@ -107,7 +107,7 @@ describe('MessageSender', () => {
       });
 
       it('should correctly build the envelope', async () => {
-        messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
+        messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.SESSION_MESSAGE;
 
         // This test assumes the encryption stub returns the plainText passed into it.
         const device = TestUtils.generateFakePubKey().key;
@@ -137,15 +137,15 @@ describe('MessageSender', () => {
         const envelope = SignalService.Envelope.decode(
           webSocketMessage.request?.body as Uint8Array
         );
-        expect(envelope.type).to.equal(SignalService.Envelope.Type.UNIDENTIFIED_SENDER);
+        expect(envelope.type).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
         expect(envelope.source).to.equal('');
         expect(toNumber(envelope.timestamp)).to.equal(timestamp);
         expect(envelope.content).to.deep.equal(plainTextBuffer);
       });
 
-      describe('UNIDENTIFIED_SENDER', () => {
+      describe('SESSION_MESSAGE', () => {
         it('should set the envelope source to be empty', async () => {
-          messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
+          messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.SESSION_MESSAGE;
 
           // This test assumes the encryption stub returns the plainText passed into it.
           const device = TestUtils.generateFakePubKey().key;
@@ -175,10 +175,10 @@ describe('MessageSender', () => {
           const envelope = SignalService.Envelope.decode(
             webSocketMessage.request?.body as Uint8Array
           );
-          expect(envelope.type).to.equal(SignalService.Envelope.Type.UNIDENTIFIED_SENDER);
+          expect(envelope.type).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
           expect(envelope.source).to.equal(
             '',
-            'envelope source should be empty in UNIDENTIFIED_SENDER'
+            'envelope source should be empty in SESSION_MESSAGE'
           );
         });
       });

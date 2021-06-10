@@ -56,16 +56,10 @@ export async function handleClosedGroupControlMessage(
     return;
   }
 
-  if (type === Type.UPDATE) {
-    window?.log?.error('ClosedGroup: Got a non explicit group update. dropping it ', type);
-    await removeFromCache(envelope);
-    return;
-  }
-
   // We drop New closed group message from our other devices, as they will come as ConfigurationMessage instead
   if (type === Type.ENCRYPTION_KEY_PAIR) {
     const isComingFromGroupPubkey =
-      envelope.type === SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT;
+      envelope.type === SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE;
     await handleClosedGroupEncryptionKeyPair(envelope, groupUpdate, isComingFromGroupPubkey);
     return;
   }
@@ -192,8 +186,6 @@ export async function handleNewClosedGroup(
     await removeFromCache(envelope);
     return;
   }
-  // FIXME maybe we should handle an expiretimer here too? And on ClosedGroup updates?
-
   const maybeConvo = ConversationController.getInstance().get(groupId);
   const expireTimer = groupUpdate.expireTimer;
 

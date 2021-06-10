@@ -5,11 +5,9 @@ import { DataMessage } from '..';
 import { Constants } from '../../..';
 import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
-import { ExpirationTimerUpdateMessage } from '../controlMessage/ExpirationTimerUpdateMessage';
 import { MessageParams } from '../Message';
 
-export interface AttachmentPointer {
-  id?: number;
+interface AttachmentPointerCommon {
   contentType?: string;
   key?: Uint8Array;
   size?: number;
@@ -20,48 +18,71 @@ export interface AttachmentPointer {
   width?: number;
   height?: number;
   caption?: string;
+}
+
+export interface AttachmentPointer extends AttachmentPointerCommon {
   url?: string;
+  id?: number;
+}
+
+export interface AttachmentPointerWithUrl extends AttachmentPointerCommon {
+  url: string;
+  id: number;
 }
 
 export interface Preview {
-  url?: string;
+  url: string;
   title?: string;
   image?: AttachmentPointer;
 }
 
-export interface QuotedAttachment {
+export interface PreviewWithAttachmentUrl {
+  url: string;
+  id: number;
+  title?: string;
+  image?: AttachmentPointerWithUrl;
+}
+
+interface QuotedAttachmentCommon {
   contentType?: string;
   fileName?: string;
+}
+
+export interface QuotedAttachment extends QuotedAttachmentCommon {
   thumbnail?: AttachmentPointer;
 }
 
+export interface QuotedAttachmentWithUrl extends QuotedAttachmentCommon {
+  thumbnail?: AttachmentPointerWithUrl | QuotedAttachment;
+}
+
 export interface Quote {
-  id?: number;
-  author?: string;
+  id: number;
+  author: string;
   text?: string;
-  attachments?: Array<QuotedAttachment>;
+  attachments?: Array<QuotedAttachmentWithUrl>;
 }
 
 export interface VisibleMessageParams extends MessageParams {
-  attachments?: Array<AttachmentPointer>;
+  attachments?: Array<AttachmentPointerWithUrl>;
   body?: string;
   quote?: Quote;
   expireTimer?: number;
   lokiProfile?: LokiProfile;
-  preview?: Array<Preview>;
+  preview?: Array<PreviewWithAttachmentUrl>;
   syncTarget?: string; // null means it is not a synced message
 }
 
 export class VisibleMessage extends DataMessage {
   public readonly expireTimer?: number;
 
-  private readonly attachments?: Array<AttachmentPointer>;
+  private readonly attachments?: Array<AttachmentPointerWithUrl>;
   private readonly body?: string;
   private readonly quote?: Quote;
   private readonly profileKey?: Uint8Array;
   private readonly displayName?: string;
   private readonly avatarPointer?: string;
-  private readonly preview?: Array<Preview>;
+  private readonly preview?: Array<PreviewWithAttachmentUrl>;
 
   /// In the case of a sync message, the public key of the person the message was targeted at.
   /// - Note: `null or undefined` if this isn't a sync message.
@@ -135,22 +156,20 @@ export class VisibleMessage extends DataMessage {
       dataMessage.quote.author = this.quote.author;
       dataMessage.quote.text = this.quote.text;
       if (this.quote.attachments) {
-        dataMessage.quote.attachments = this.quote.attachments.map(
-          (attachment: QuotedAttachment) => {
-            const quotedAttachment = new SignalService.DataMessage.Quote.QuotedAttachment();
-            if (attachment.contentType) {
-              quotedAttachment.contentType = attachment.contentType;
-            }
-            if (attachment.fileName) {
-              quotedAttachment.fileName = attachment.fileName;
-            }
-            if (attachment.thumbnail) {
-              quotedAttachment.thumbnail = attachment.thumbnail;
-            }
-
-            return quotedAttachment;
+        dataMessage.quote.attachments = this.quote.attachments.map(attachment => {
+          const quotedAttachment = new SignalService.DataMessage.Quote.QuotedAttachment();
+          if (attachment.contentType) {
+            quotedAttachment.contentType = attachment.contentType;
           }
-        );
+          if (attachment.fileName) {
+            quotedAttachment.fileName = attachment.fileName;
+          }
+          if (attachment.thumbnail && (attachment.thumbnail as any).id) {
+            quotedAttachment.thumbnail = attachment.thumbnail as any; // be sure to keep the typescript guard on id above
+          }
+
+          return quotedAttachment;
+        });
       }
     }
 

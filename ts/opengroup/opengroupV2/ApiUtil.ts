@@ -56,7 +56,7 @@ export const parseMessages = async (
           const opengroupv2Message = OpenGroupMessageV2.fromJson(r);
           if (
             !opengroupv2Message?.serverId ||
-            !opengroupv2Message.sentTimestamp ||
+            !opengroupv2Message.sentTimestamp || // this is our serverTimestamp
             !opengroupv2Message.base64EncodedData ||
             !opengroupv2Message.base64EncodedSignature
           ) {

@@ -239,18 +239,13 @@ async function processOnionRequestErrorAtDestination({
   if (statusCode === 200) {
     return;
   }
-  window?.log?.info('processOnionRequestErrorAtDestination. statusCode ok:', statusCode);
+  window?.log?.info('processOnionRequestErrorAtDestination. statusCode nok:', statusCode);
 
   process406Error(statusCode);
   await process421Error(statusCode, body, associatedWith, destinationEd25519);
   processOxenServerError(statusCode, body);
   if (destinationEd25519) {
     await processAnyOtherErrorAtDestination(statusCode, body, destinationEd25519, associatedWith);
-  } else {
-    console.warn(
-      'processOnionRequestErrorAtDestination: destinationEd25519 unset. was it an open group call?',
-      statusCode
-    );
   }
 }
 
@@ -540,7 +535,6 @@ async function handle421InvalidSwarm({
     await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
   } catch (e) {
     if (e.message !== exceptionMessage) {
-      console.warn('dropSnodeFromSwarmIfNeeded', snodeEd25519);
       window?.log?.warn(
         'Got error while parsing 421 result. Dropping this snode from the swarm of this pubkey',
         e
@@ -596,7 +590,7 @@ export async function incrementBadSnodeCountOrDrop({
       await OnionPaths.dropSnodeFromPath(snodeEd25519);
     } catch (e) {
       window?.log?.warn(
-        'dropSnodeFromPath, got error while patchingup... incrementing the whole path as bad',
+        'dropSnodeFromPath, got error while patching up... incrementing the whole path as bad',
         e
       );
       // if dropSnodeFromPath throws, it means there is an issue patching up the path, increment the whole path issues count

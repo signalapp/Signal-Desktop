@@ -259,10 +259,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         window.Whisper.ExpirationTimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0)
       );
     }
-    const contacts = this.get('contact');
-    if (contacts && contacts.length) {
-      return window.Signal.Types.Contact.getName(contacts[0]);
-    }
 
     return '';
   }
@@ -643,9 +639,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { author, id, referencedMessageNotFound } = quote;
-    const contact = author && ConversationController.getInstance().get(author);
+    const contact: ConversationModel = author && ConversationController.getInstance().get(author);
 
-    const authorName = contact ? contact.getName() : null;
+    const authorName = contact ? contact.getContactProfileNameOrShortenedPubKey() : null;
+
     const isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
     const onClick = noClick
       ? null

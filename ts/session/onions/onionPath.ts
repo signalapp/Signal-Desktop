@@ -5,6 +5,7 @@ import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
 import { incrementBadSnodeCountOrDrop, snodeHttpsAgent } from '../snode_api/onions';
 import { allowOnlyOneAtATime } from '../utils/Promise';
+import pRetry from 'p-retry';
 
 const desiredGuardCount = 3;
 const minimumGuardCount = 2;
@@ -91,8 +92,7 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
     window?.log?.warn(
       `Could not drop ${ed25519Str(snodeEd25519)} from path index: ${pathWithSnodeIndex}`
     );
-
-    return;
+    throw new Error(`Could not drop snode ${ed25519Str(snodeEd25519)} from path: not in any paths`);
   }
   window?.log?.info(
     `dropping snode ${ed25519Str(snodeEd25519)} from path index: ${pathWithSnodeIndex}`
@@ -156,20 +156,28 @@ export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
 /**
  * If we don't know which nodes is causing trouble, increment the issue with this full path.
  */
-export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
-  const pathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === guardNodeEd25519);
+export async function incrementBadPathCountOrDrop(sndeEd25519: string) {
+  const pathWithSnodeIndex = onionPaths.findIndex(path =>
+    path.some(snode => snode.pubkey_ed25519 === sndeEd25519)
+  );
+
+  if (pathWithSnodeIndex === -1) {
+    (window?.log?.info || console.warn)('Did not find any path containing this snode');
+    // this can only be bad. throw an abortError so we use another path if needed
+    throw new pRetry.AbortError(
+      'incrementBadPathCountOrDrop: Did not find any path containing this snode'
+    );
+  }
+
+  const guardNodeEd25519 = onionPaths[pathWithSnodeIndex][0].pubkey_ed25519;
+
   window?.log?.info(
     `\t\tincrementBadPathCountOrDrop starting with guard ${ed25519Str(guardNodeEd25519)}`
   );
 
-  if (pathIndex === -1) {
-    (window?.log?.info || console.warn)('Did not find path with this guard node');
-    return;
-  }
+  const pathWithIssues = onionPaths[pathWithSnodeIndex];
 
-  const pathWithIssues = onionPaths[pathIndex];
-
-  window?.log?.info('handling bad path for path index', pathIndex);
+  window?.log?.info('handling bad path for path index', pathWithSnodeIndex);
   const oldPathFailureCount = pathFailureCount[guardNodeEd25519] || 0;
 
   // tslint:disable: prefer-for-of
