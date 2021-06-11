@@ -123,6 +123,23 @@ module.exports = {
   removeV2OpenGroupRoom,
 };
 
+const CONVERSATIONS_TABLE = 'conversations';
+const MESSAGES_TABLE = 'messages';
+const SENDER_KEYS_TABLE = 'senderKeys';
+const SERVERS_TOKEN_TABLE = 'servers';
+const NODES_FOR_PUBKEY_TABLE = 'nodesForPubkey';
+const OPEN_GROUP_ROOMS_V2_TABLE = 'openGroupRoomsV2';
+const IDENTITY_KEYS_TABLE = 'identityKeys';
+const PRE_KEYS_TABLE = 'preKeys';
+const CONTACT_PRE_KEYS_TABLE = 'contactPreKeys';
+const CONTACT_SIGNED_PRE_KEYS_TABLE = 'contactSignedPreKeys';
+const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
+const SESSIONS_TABLE = 'sessions';
+const GUARD_NODE_TABLE = 'guardNodes';
+const ITEMS_TABLE = 'items';
+const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
+const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
+
 function objectToJSON(data) {
   return JSON.stringify(data);
 }
@@ -227,7 +244,7 @@ async function updateToSchemaVersion1(currentVersion, instance) {
   await instance.run('BEGIN TRANSACTION;');
 
   await instance.run(
-    `CREATE TABLE messages(
+    `CREATE TABLE ${MESSAGES_TABLE}(
       id STRING PRIMARY KEY ASC,
       json TEXT,
 
@@ -246,40 +263,40 @@ async function updateToSchemaVersion1(currentVersion, instance) {
     );`
   );
 
-  await instance.run(`CREATE INDEX messages_unread ON messages (
+  await instance.run(`CREATE INDEX messages_unread ON ${MESSAGES_TABLE} (
       unread
     );`);
-  await instance.run(`CREATE INDEX messages_expires_at ON messages (
+  await instance.run(`CREATE INDEX messages_expires_at ON ${MESSAGES_TABLE} (
       expires_at
     );`);
-  await instance.run(`CREATE INDEX messages_receipt ON messages (
+  await instance.run(`CREATE INDEX messages_receipt ON ${MESSAGES_TABLE} (
       sent_at
     );`);
-  await instance.run(`CREATE INDEX messages_schemaVersion ON messages (
+  await instance.run(`CREATE INDEX messages_schemaVersion ON ${MESSAGES_TABLE} (
       schemaVersion
     );`);
 
-  await instance.run(`CREATE INDEX messages_conversation ON messages (
+  await instance.run(`CREATE INDEX messages_conversation ON ${MESSAGES_TABLE} (
       conversationId,
       received_at
     );`);
 
-  await instance.run(`CREATE INDEX messages_duplicate_check ON messages (
+  await instance.run(`CREATE INDEX messages_duplicate_check ON ${MESSAGES_TABLE} (
       source,
       sourceDevice,
       sent_at
     );`);
-  await instance.run(`CREATE INDEX messages_hasAttachments ON messages (
+  await instance.run(`CREATE INDEX messages_hasAttachments ON ${MESSAGES_TABLE} (
       conversationId,
       hasAttachments,
       received_at
     );`);
-  await instance.run(`CREATE INDEX messages_hasFileAttachments ON messages (
+  await instance.run(`CREATE INDEX messages_hasFileAttachments ON ${MESSAGES_TABLE} (
       conversationId,
       hasFileAttachments,
       received_at
     );`);
-  await instance.run(`CREATE INDEX messages_hasVisualMediaAttachments ON messages (
+  await instance.run(`CREATE INDEX messages_hasVisualMediaAttachments ON ${MESSAGES_TABLE} (
       conversationId,
       hasVisualMediaAttachments,
       received_at
@@ -313,28 +330,28 @@ async function updateToSchemaVersion2(currentVersion, instance) {
   await instance.run('BEGIN TRANSACTION;');
 
   await instance.run(
-    `ALTER TABLE messages
+    `ALTER TABLE ${MESSAGES_TABLE}
      ADD COLUMN expireTimer INTEGER;`
   );
 
   await instance.run(
-    `ALTER TABLE messages
+    `ALTER TABLE ${MESSAGES_TABLE}
      ADD COLUMN expirationStartTimestamp INTEGER;`
   );
 
   await instance.run(
-    `ALTER TABLE messages
+    `ALTER TABLE ${MESSAGES_TABLE}
      ADD COLUMN type STRING;`
   );
 
-  await instance.run(`CREATE INDEX messages_expiring ON messages (
+  await instance.run(`CREATE INDEX messages_expiring ON ${MESSAGES_TABLE} (
       expireTimer,
       expirationStartTimestamp,
       expires_at
     );`);
 
   await instance.run(
-    `UPDATE messages SET
+    `UPDATE ${MESSAGES_TABLE} SET
       expirationStartTimestamp = json_extract(json, '$.expirationStartTimestamp'),
       expireTimer = json_extract(json, '$.expireTimer'),
       type = json_extract(json, '$.type');`
@@ -358,13 +375,13 @@ async function updateToSchemaVersion3(currentVersion, instance) {
   await instance.run('DROP INDEX messages_expiring;');
   await instance.run('DROP INDEX messages_unread;');
 
-  await instance.run(`CREATE INDEX messages_without_timer ON messages (
+  await instance.run(`CREATE INDEX messages_without_timer ON ${MESSAGES_TABLE} (
       expireTimer,
       expires_at,
       type
     ) WHERE expires_at IS NULL AND expireTimer IS NOT NULL;`);
 
-  await instance.run(`CREATE INDEX messages_unread ON messages (
+  await instance.run(`CREATE INDEX messages_unread ON ${MESSAGES_TABLE} (
       conversationId,
       unread
     ) WHERE unread IS NOT NULL;`);
@@ -566,10 +583,10 @@ async function updateToSchemaVersion8(currentVersion, instance) {
 
   // First, we pull a new body field out of the message table's json blob
   await instance.run(
-    `ALTER TABLE messages
+    `ALTER TABLE ${MESSAGES_TABLE}
      ADD COLUMN body TEXT;`
   );
-  await instance.run("UPDATE messages SET body = json_extract(json, '$.body')");
+  await instance.run(`UPDATE ${MESSAGES_TABLE} SET body = json_extract(json, '$.body')`);
 
   // Then we create our full-text search table and populate it
   await instance.run(`
@@ -583,7 +600,7 @@ async function updateToSchemaVersion8(currentVersion, instance) {
 
   // Then we set up triggers to keep the full-text search table up to date
   await instance.run(`
-    CREATE TRIGGER messages_on_insert AFTER INSERT ON messages BEGIN
+    CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
       INSERT INTO messages_fts (
         id,
         body
@@ -594,12 +611,12 @@ async function updateToSchemaVersion8(currentVersion, instance) {
     END;
   `);
   await instance.run(`
-    CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+    CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
       DELETE FROM messages_fts WHERE id = old.id;
     END;
   `);
   await instance.run(`
-    CREATE TRIGGER messages_on_update AFTER UPDATE ON messages BEGIN
+    CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} BEGIN
       DELETE FROM messages_fts WHERE id = old.id;
       INSERT INTO messages_fts(
         id,
@@ -774,17 +791,16 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion13,
 ];
 
-const SERVERS_TOKEN_TABLE = 'servers';
-
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
-  if (currentVersion >= 1) {
+  const targetVersion = 1;
+  if (currentVersion >= targetVersion) {
     return;
   }
-  console.log('updateToLokiSchemaVersion1: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   await instance.run(
-    `ALTER TABLE messages
+    `ALTER TABLE ${MESSAGES_TABLE}
      ADD COLUMN serverId INTEGER;`
   );
   await instance.run(
@@ -798,18 +814,20 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        1
+        ${targetVersion}
       );`
   );
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion1: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateToLokiSchemaVersion2(currentVersion, instance) {
-  if (currentVersion >= 2) {
+  const targetVersion = 2;
+
+  if (currentVersion >= targetVersion) {
     return;
   }
-  console.log('updateToLokiSchemaVersion2: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   await instance.run(
@@ -827,15 +845,17 @@ async function updateToLokiSchemaVersion2(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        2
+        ${targetVersion}
       );`
   );
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion2: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateToLokiSchemaVersion3(currentVersion, instance) {
-  if (currentVersion >= 3) {
+  const targetVersion = 3;
+
+  if (currentVersion >= targetVersion) {
     return;
   }
 
@@ -846,29 +866,28 @@ async function updateToLokiSchemaVersion3(currentVersion, instance) {
     );`
   );
 
-  console.log('updateToLokiSchemaVersion3: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   await instance.run(
     `INSERT INTO loki_schema (
         version
       ) values (
-        3
+        ${targetVersion}
       );`
   );
 
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion3: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-const SENDER_KEYS_TABLE = 'senderKeys';
-
 async function updateToLokiSchemaVersion4(currentVersion, instance) {
-  if (currentVersion >= 4) {
+  const targetVersion = 4;
+  if (currentVersion >= targetVersion) {
     return;
   }
 
-  console.log('updateToLokiSchemaVersion4: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   // We don't bother migrating values, any old messages that
@@ -903,22 +922,21 @@ async function updateToLokiSchemaVersion4(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        4
+        ${targetVersion}
       );`
   );
 
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion4: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-const NODES_FOR_PUBKEY_TABLE = 'nodesForPubkey';
-
 async function updateToLokiSchemaVersion5(currentVersion, instance) {
-  if (currentVersion >= 5) {
+  const targetVersion = 5;
+  if (currentVersion >= targetVersion) {
     return;
   }
 
-  console.log('updateToLokiSchemaVersion5: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
 
   await instance.run('BEGIN TRANSACTION;');
 
@@ -933,20 +951,21 @@ async function updateToLokiSchemaVersion5(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        5
+        ${targetVersion}
       );`
   );
 
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion5: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateToLokiSchemaVersion6(currentVersion, instance) {
-  if (currentVersion >= 6) {
+  const targetVersion = 6;
+  if (currentVersion >= targetVersion) {
     return;
   }
 
-  console.log('updateToLokiSchemaVersion6: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
 
   await instance.run('BEGIN TRANSACTION;');
 
@@ -961,20 +980,21 @@ async function updateToLokiSchemaVersion6(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        6
+        ${targetVersion}
       );`
   );
 
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion6: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateToLokiSchemaVersion7(currentVersion, instance) {
-  if (currentVersion >= 7) {
+  const targetVersion = 7;
+  if (currentVersion >= targetVersion) {
     return;
   }
 
-  console.log('updateToLokiSchemaVersion7: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
 
   await instance.run('BEGIN TRANSACTION;');
 
@@ -985,23 +1005,24 @@ async function updateToLokiSchemaVersion7(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        7
+        ${targetVersion}
       );`
   );
 
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion7: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateToLokiSchemaVersion8(currentVersion, instance) {
-  if (currentVersion >= 8) {
+  const targetVersion = 8;
+  if (currentVersion >= targetVersion) {
     return;
   }
-  console.log('updateToLokiSchemaVersion8: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   await instance.run(
-    `ALTER TABLE messages
+    `ALTER TABLE ${MESSAGES_TABLE}
      ADD COLUMN serverTimestamp INTEGER;`
   );
 
@@ -1009,18 +1030,19 @@ async function updateToLokiSchemaVersion8(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        8
+        ${targetVersion}
       );`
   );
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion8: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateToLokiSchemaVersion9(currentVersion, instance) {
-  if (currentVersion >= 9) {
+  const targetVersion = 9;
+  if (currentVersion >= targetVersion) {
     return;
   }
-  console.log('updateToLokiSchemaVersion9: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   await removePrefixFromGroupConversations(instance);
@@ -1029,18 +1051,19 @@ async function updateToLokiSchemaVersion9(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        9
+        ${targetVersion}
       );`
   );
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion9: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateToLokiSchemaVersion10(currentVersion, instance) {
-  if (currentVersion >= 10) {
+  const targetVersion = 10;
+  if (currentVersion >= targetVersion) {
     return;
   }
-  console.log('updateToLokiSchemaVersion10: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   await createEncryptionKeyPairsForClosedGroup(instance);
@@ -1049,18 +1072,19 @@ async function updateToLokiSchemaVersion10(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        10
+        ${targetVersion}
       );`
   );
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion10: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateToLokiSchemaVersion11(currentVersion, instance) {
-  if (currentVersion >= 11) {
+  const targetVersion = 11;
+  if (currentVersion >= targetVersion) {
     return;
   }
-  console.log('updateToLokiSchemaVersion11: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   await updateExistingClosedGroupToClosedGroup(instance);
@@ -1069,19 +1093,19 @@ async function updateToLokiSchemaVersion11(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        11
+        ${targetVersion}
       );`
   );
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion11: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-const OPEN_GROUP_ROOMS_V2_TABLE = 'openGroupRoomsV2';
 async function updateToLokiSchemaVersion12(currentVersion, instance) {
-  if (currentVersion >= 12) {
+  const targetVersion = 12;
+  if (currentVersion >= targetVersion) {
     return;
   }
-  console.log('updateToLokiSchemaVersion12: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   await instance.run(
@@ -1098,18 +1122,19 @@ async function updateToLokiSchemaVersion12(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        12
+        ${targetVersion}
       );`
   );
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion12: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateToLokiSchemaVersion13(currentVersion, instance) {
-  if (currentVersion >= 13) {
+  const targetVersion = 13;
+  if (currentVersion >= targetVersion) {
     return;
   }
-  console.log('updateToLokiSchemaVersion13: starting...');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
   // Clear any already deleted db entries.
@@ -1119,12 +1144,12 @@ async function updateToLokiSchemaVersion13(currentVersion, instance) {
     `INSERT INTO loki_schema (
         version
       ) values (
-        13
+        ${targetVersion}
       );`
   );
   await instance.run('COMMIT TRANSACTION;');
 
-  console.log('updateToLokiSchemaVersion13: success!');
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 async function updateLokiSchema(instance) {
@@ -1305,36 +1330,28 @@ async function removePasswordHash() {
   return removeItemById(PASS_HASH_ID);
 }
 
-const IDENTITY_KEYS_TABLE = 'identityKeys';
 async function getIdentityKeyById(id, instance) {
   return getById(IDENTITY_KEYS_TABLE, id, instance);
 }
 
 // those removeAll calls are currently only used to cleanup the db from old data
 // TODO remove those and move those removeAll in a migration
-const PRE_KEYS_TABLE = 'preKeys';
 async function removeAllPreKeys() {
   return removeAllFromTable(PRE_KEYS_TABLE);
 }
-const CONTACT_PRE_KEYS_TABLE = 'contactPreKeys';
 async function removeAllContactPreKeys() {
   return removeAllFromTable(CONTACT_PRE_KEYS_TABLE);
 }
-const CONTACT_SIGNED_PRE_KEYS_TABLE = 'contactSignedPreKeys';
 
 async function removeAllContactSignedPreKeys() {
   return removeAllFromTable(CONTACT_SIGNED_PRE_KEYS_TABLE);
 }
-const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
 async function removeAllSignedPreKeys() {
   return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
 }
-const SESSIONS_TABLE = 'sessions';
 async function removeAllSessions() {
   return removeAllFromTable(SESSIONS_TABLE);
 }
-
-const GUARD_NODE_TABLE = 'guardNodes';
 
 async function getGuardNodes() {
   const nodes = await db.all(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`);
@@ -1370,7 +1387,6 @@ async function updateGuardNodes(nodes) {
 // Return all the paired pubkeys for a specific pubkey (excluded),
 // irrespective of their Primary or Secondary status.
 
-const ITEMS_TABLE = 'items';
 async function createOrUpdateItem(data, instance) {
   return createOrUpdate(ITEMS_TABLE, data, instance);
 }
@@ -1466,8 +1482,6 @@ async function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
   );
 }
 
-const CONVERSATIONS_TABLE = 'conversations';
-const MESSAGES_TABLE = 'messages';
 async function getConversationCount() {
   const row = await db.get(`SELECT count(*) from ${CONVERSATIONS_TABLE};`);
 
@@ -1707,7 +1721,7 @@ async function searchMessages(query, { limit } = {}) {
       messages.json,
       snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
     FROM messages_fts
-    INNER JOIN messages on messages_fts.id = messages.id
+    INNER JOIN ${MESSAGES_TABLE} on messages_fts.id = messages.id
     WHERE
       messages_fts match $query
     ORDER BY messages.received_at DESC
@@ -1730,7 +1744,7 @@ async function searchMessagesInConversation(query, conversationId, { limit } = {
       messages.json,
       snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
     FROM messages_fts
-    INNER JOIN messages on messages_fts.id = messages.id
+    INNER JOIN ${MESSAGES_TABLE} on messages_fts.id = messages.id
     WHERE
       messages_fts match $query AND
       messages.conversationId = $conversationId
@@ -2305,7 +2319,6 @@ async function removeAllUnprocessed() {
   await db.run('DELETE FROM unprocessed;');
 }
 
-const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
 async function getNextAttachmentDownloadJobs(limit, options = {}) {
   const timestamp = options.timestamp || Date.now();
 
@@ -2539,7 +2552,7 @@ async function removeKnownAttachments(allAttachments) {
     count += messages.length;
   }
 
-  console.log(`removeKnownAttachments: Done processing ${count} messages`);
+  console.log(`removeKnownAttachments: Done processing ${count} ${MESSAGES_TABLE}`);
 
   complete = false;
   count = 0;
@@ -2655,8 +2668,6 @@ async function removePrefixFromGroupConversations(instance) {
     })
   );
 }
-
-const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
 
 async function createEncryptionKeyPairsForClosedGroup(instance) {
   await instance.run(
