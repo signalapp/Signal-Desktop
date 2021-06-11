@@ -100,7 +100,7 @@ declare global {
     confirmationDialog: any;
   }
 
-  window.confirmationDialog = () => {
-    console.log("confirmation dialog stub called");
-  }
+  // window.confirmationDialog = () => {
+  //   console.log("confirmation dialog stub called");
+  // }
 }

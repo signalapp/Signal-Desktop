@@ -157,6 +157,9 @@ export class MessageQueue {
   ): Promise<boolean> {
     let rawMessage;
     try {
+      if (Math.random() > 0.3) {
+        throw 'fail';
+      }
       rawMessage = await MessageUtils.toRawMessage(user, message);
       const wrappedEnvelope = await MessageSender.send(rawMessage);
       await MessageSentHandler.handleMessageSentSuccess(rawMessage, wrappedEnvelope);

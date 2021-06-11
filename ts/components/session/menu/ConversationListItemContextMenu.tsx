@@ -24,6 +24,7 @@ export type PropsContextConversationItem = {
   hasNickname?: boolean;
   isKickedFromGroup?: boolean;
   left?: boolean;
+  theme?: any
 
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
@@ -58,6 +59,7 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     onInviteContacts,
     onLeaveGroup,
     onChangeNickname,
+    theme
   } = props;
 
   const isGroup = type === 'group';
@@ -91,9 +93,10 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
         left,
         isKickedFromGroup,
         onDeleteContact,
-        window.i18n
+        window.i18n,
+        id
       )}
-      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n, id)}
+      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n, id, setModal, theme)}
     </Menu>
     </>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { updateConfirmModal } from '../../state/ducks/modalDialog';
 
 interface Props {
   active: boolean;
@@ -14,6 +15,8 @@ interface Props {
   //  okTheme: 'danger',
   // }
   confirmationDialogParams?: any | undefined;
+
+  updateConfirmModal?: any;
 }
 
 interface State {
@@ -62,15 +65,25 @@ export class SessionToggle extends React.PureComponent<Props, State> {
 
     if (
       this.props.confirmationDialogParams &&
+      this.props.updateConfirmModal &&
       this.props.confirmationDialogParams.shouldShowConfirm()
     ) {
       // If item needs a confirmation dialog to turn ON, render it
-      window.confirmationDialog({
-        resolve: () => {
+      const closeConfirmModal = () => {
+        this.props.updateConfirmModal(null);
+      }
+
+      this.props.updateConfirmModal({
+        onClickOk: () => {
           stateManager(event);
+          closeConfirmModal();
+        },
+        onClickClose: () => {
+          this.props.updateConfirmModal(null);
         },
         ...this.props.confirmationDialogParams,
-      });
+        updateConfirmModal,
+      })
 
       return;
     }

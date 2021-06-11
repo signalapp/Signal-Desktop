@@ -947,27 +947,32 @@ async function sendToGroupMembers(
 
   // const dispatch = useDispatch();
 
+  // window.inboxStore?.dispatch(updateConfirmModal({
+  //   title: 'hi'
+  // }))
+
+  console.log('@@@@', inviteResults);
+
   if (allInvitesSent) {
+    // if (true) {
     if (isRetry) {
       const invitesTitle =
         inviteResults.length > 1
           ? window.i18n('closedGroupInviteSuccessTitlePlural')
           : window.i18n('closedGroupInviteSuccessTitle');
 
-      // setModal(<SessionConfirm message={'hi'} title={invitesTitle} />)
-
-      window.confirmationDialog({
+      window.inboxStore?.dispatch(updateConfirmModal({
         title: invitesTitle,
         message: window.i18n('closedGroupInviteSuccessMessage'),
-      });
-
-      // dispatch(updateConfirmModal({ title: "invitesTitle" }))
+        hideCancel: true
+      }));
     }
     return allInvitesSent;
   } else {
     // Confirmation dialog that recursively calls sendToGroupMembers on resolve
 
-    window.confirmationDialog({
+
+    window.inboxStore?.dispatch(updateConfirmModal({
       title:
         inviteResults.length > 1
           ? window.i18n('closedGroupInviteFailTitlePlural')
@@ -977,7 +982,7 @@ async function sendToGroupMembers(
           ? window.i18n('closedGroupInviteFailMessagePlural')
           : window.i18n('closedGroupInviteFailMessage'),
       okText: window.i18n('closedGroupInviteOkText'),
-      resolve: async () => {
+      onClickOk: async () => {
         const membersToResend: Array<string> = new Array<string>();
         inviteResults.forEach((result, index) => {
           const member = listOfMembers[index];
@@ -999,7 +1004,41 @@ async function sendToGroupMembers(
           );
         }
       },
-    });
+    }));
+
+    // window.confirmationDialog({
+    //   title:
+    //     inviteResults.length > 1
+    //       ? window.i18n('closedGroupInviteFailTitlePlural')
+    //       : window.i18n('closedGroupInviteFailTitle'),
+    //   message:
+    //     inviteResults.length > 1
+    //       ? window.i18n('closedGroupInviteFailMessagePlural')
+    //       : window.i18n('closedGroupInviteFailMessage'),
+    //   okText: window.i18n('closedGroupInviteOkText'),
+    //   resolve: async () => {
+    //     const membersToResend: Array<string> = new Array<string>();
+    //     inviteResults.forEach((result, index) => {
+    //       const member = listOfMembers[index];
+    //       // group invite must always contain the admin member.
+    //       if (result !== true || admins.includes(member)) {
+    //         membersToResend.push(member);
+    //       }
+    //     });
+    //     if (membersToResend.length > 0) {
+    //       const isRetrySend = true;
+    //       await sendToGroupMembers(
+    //         membersToResend,
+    //         groupPublicKey,
+    //         groupName,
+    //         admins,
+    //         encryptionKeyPair,
+    //         dbMessage,
+    //         isRetrySend
+    //       );
+    //     }
+    //   },
+    // });
   }
   return allInvitesSent;
 }

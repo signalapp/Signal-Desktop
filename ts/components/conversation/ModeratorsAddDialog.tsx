@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
@@ -8,6 +8,7 @@ import { SessionSpinner } from '../session/SessionSpinner';
 import { Flex } from '../basic/Flex';
 import { ConversationModel } from '../../models/conversation';
 import { ApiV2 } from '../../opengroup/opengroupV2';
+import { processDecrypted } from '../../receiver/dataMessage';
 interface Props {
   convo: ConversationModel;
   onClose: any;
@@ -20,33 +21,144 @@ interface State {
   firstLoading: boolean;
 }
 
-export class AddModeratorsDialog extends React.Component<Props, State> {
-  private channelAPI: any;
+// export class AddModeratorsDialog extends React.Component<Props, State> {
+//   private channelAPI: any;
 
-  constructor(props: Props) {
-    super(props);
+//   constructor(props: Props) {
+//     super(props);
 
-    this.addAsModerator = this.addAsModerator.bind(this);
-    this.onPubkeyBoxChanges = this.onPubkeyBoxChanges.bind(this);
+//     this.addAsModerator = this.addAsModerator.bind(this);
+//     this.onPubkeyBoxChanges = this.onPubkeyBoxChanges.bind(this);
 
-    this.state = {
-      inputBoxValue: '',
-      addingInProgress: false,
-      firstLoading: true,
-    };
-  }
+//     this.state = {
+//       inputBoxValue: '',
+//       addingInProgress: false,
+//       firstLoading: true,
+//     };
+//   }
 
-  public async componentDidMount() {
-    if (this.props.convo.isOpenGroupV1()) {
-      this.channelAPI = await this.props.convo.getPublicSendData();
+//   public async componentDidMount() {
+//     if (this.props.convo.isOpenGroupV1()) {
+//       this.channelAPI = await this.props.convo.getPublicSendData();
+//     }
+
+//     this.setState({ firstLoading: false });
+//   }
+
+//   public async addAsModerator() {
+//     // if we don't have valid data entered by the user
+//     const pubkey = PubKey.from(this.state.inputBoxValue);
+//     if (!pubkey) {
+//       window.log.info('invalid pubkey for adding as moderator:', this.state.inputBoxValue);
+//       ToastUtils.pushInvalidPubKey();
+//       return;
+//     }
+
+//     window.log.info(`asked to add moderator: ${pubkey.key}`);
+
+//     try {
+//       this.setState({
+//         addingInProgress: true,
+//       });
+//       let isAdded: any;
+//       if (this.props.convo.isOpenGroupV1()) {
+//         isAdded = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
+//       } else {
+//         // this is a v2 opengroup
+//         const roomInfos = this.props.convo.toOpenGroupV2();
+//         isAdded = await ApiV2.addModerator(pubkey, roomInfos);
+//       }
+//       if (!isAdded) {
+//         window.log.warn('failed to add moderators:', isAdded);
+
+//         ToastUtils.pushUserNeedsToHaveJoined();
+//       } else {
+//         window.log.info(`${pubkey.key} added as moderator...`);
+//         ToastUtils.pushUserAddedToModerators();
+
+//         // clear input box
+//         this.setState({
+//           inputBoxValue: '',
+//         });
+//       }
+//     } catch (e) {
+//       window.log.error('Got error while adding moderator:', e);
+//     } finally {
+//       this.setState({
+//         addingInProgress: false,
+//       });
+//     }
+//   }
+
+//   public render() {
+//     const { i18n } = window;
+//     const { addingInProgress, inputBoxValue, firstLoading } = this.state;
+//     const chatName = this.props.convo.get('name');
+
+//     const title = `${i18n('addModerators')}: ${chatName}`;
+
+//     const renderContent = !firstLoading;
+
+//     return (
+//       <SessionModal title={title} onClose={() => this.props.onClose()} theme={this.props.theme}>
+//         <Flex container={true} flexDirection="column" alignItems="center">
+//           {renderContent && (
+//             <>
+//               <p>Add Moderator:</p>
+//               <input
+//                 type="text"
+//                 className="module-main-header__search__input"
+//                 placeholder={i18n('enterSessionID')}
+//                 dir="auto"
+//                 onChange={this.onPubkeyBoxChanges}
+//                 disabled={addingInProgress}
+//                 value={inputBoxValue}
+//               />
+//               <SessionButton
+//                 buttonType={SessionButtonType.Brand}
+//                 buttonColor={SessionButtonColor.Primary}
+//                 onClick={this.addAsModerator}
+//                 text={i18n('add')}
+//                 disabled={addingInProgress}
+//               />
+//             </>
+//           )}
+//           <SessionSpinner loading={addingInProgress || firstLoading} />
+//         </Flex>
+//       </SessionModal>
+//     );
+//   }
+
+//   private onPubkeyBoxChanges(e: any) {
+//     const val = e.target.value;
+//     this.setState({ inputBoxValue: val });
+//   }
+// }
+
+
+export const AddModeratorsDialog = (props: any) => {
+  const { convo, onClose, theme } = props;
+
+  const [inputBoxValue, setInputBoxValue] = useState('');
+  const [addingInProgress, setAddingInProgress] = useState(false);
+  const [firstLoading, setFirstLoading] = useState(true);
+
+  let channelAPI: any;
+
+  useEffect(() => {
+    async function getPublicSendData {
+      if (props.convo.isOpenGroupV1()) {
+        channelAPI = await convo.getPublicSendData();
+      }
+      setFirstLoading(false);
     }
+  }, [])
 
-    this.setState({ firstLoading: false });
-  }
 
-  public async addAsModerator() {
+
+  const addAsModerator = async () => {
     // if we don't have valid data entered by the user
-    const pubkey = PubKey.from(this.state.inputBoxValue);
+    const pubkey = PubKey.from(inputBoxValue);
     if (!pubkey) {
       window.log.info('invalid pubkey for adding as moderator:', this.state.inputBoxValue);
       ToastUtils.pushInvalidPubKey();
@@ -56,15 +168,13 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     window.log.info(`asked to add moderator: ${pubkey.key}`);
 
     try {
-      this.setState({
-        addingInProgress: true,
-      });
+      setAddingInProgress(true);
       let isAdded: any;
-      if (this.props.convo.isOpenGroupV1()) {
-        isAdded = await this.channelAPI.serverAPI.addModerator([pubkey.key]);
+      if (convo.isOpenGroupV1()) {
+        isAdded = await channelAPI.serverAPI.addModerator([pubkey.key]);
       } else {
         // this is a v2 opengroup
-        const roomInfos = this.props.convo.toOpenGroupV2();
+        const roomInfos = props.convo.toOpenGroupV2();
         isAdded = await ApiV2.addModerator(pubkey, roomInfos);
       }
       if (!isAdded) {
@@ -76,60 +186,57 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
         ToastUtils.pushUserAddedToModerators();
 
         // clear input box
-        this.setState({
-          inputBoxValue: '',
-        });
+        setInputBoxValue('');
       }
     } catch (e) {
       window.log.error('Got error while adding moderator:', e);
     } finally {
-      this.setState({
-        addingInProgress: false,
-      });
+      setAddingInProgress(false);
     }
+
   }
 
-  public render() {
-    const { i18n } = window;
-    const { addingInProgress, inputBoxValue, firstLoading } = this.state;
-    const chatName = this.props.convo.get('name');
+  const { i18n } = window;
+  // const { addingInProgress, inputBoxValue, firstLoading } = this.state;
+  const chatName = props.convo.get('name');
 
-    const title = `${i18n('addModerators')}: ${chatName}`;
+  const title = `${i18n('addModerators')}: ${chatName}`;
 
-    const renderContent = !firstLoading;
+  const renderContent = !firstLoading;
 
-    return (
-      <SessionModal title={title} onClose={() => this.props.onClose()} theme={this.props.theme}>
-        <Flex container={true} flexDirection="column" alignItems="center">
-          {renderContent && (
-            <>
-              <p>Add Moderator:</p>
-              <input
-                type="text"
-                className="module-main-header__search__input"
-                placeholder={i18n('enterSessionID')}
-                dir="auto"
-                onChange={this.onPubkeyBoxChanges}
-                disabled={addingInProgress}
-                value={inputBoxValue}
-              />
-              <SessionButton
-                buttonType={SessionButtonType.Brand}
-                buttonColor={SessionButtonColor.Primary}
-                onClick={this.addAsModerator}
-                text={i18n('add')}
-                disabled={addingInProgress}
-              />
-            </>
-          )}
-          <SessionSpinner loading={addingInProgress || firstLoading} />
-        </Flex>
-      </SessionModal>
-    );
-  }
-
-  private onPubkeyBoxChanges(e: any) {
+  const onPubkeyBoxChanges = (e: any) => {
     const val = e.target.value;
-    this.setState({ inputBoxValue: val });
+    setInputBoxValue(val);
   }
+
+
+  return (
+    <SessionModal title={title} onClose={() => onClose()} theme={theme}>
+      <Flex container={true} flexDirection="column" alignItems="center">
+        {renderContent && (
+          <>
+            <p>Add Moderator:</p>
+            <input
+              type="text"
+              className="module-main-header__search__input"
+              placeholder={i18n('enterSessionID')}
+              dir="auto"
+              onChange={onPubkeyBoxChanges}
+              disabled={addingInProgress}
+              value={inputBoxValue}
+            />
+            <SessionButton
+              buttonType={SessionButtonType.Brand}
+              buttonColor={SessionButtonColor.Primary}
+              onClick={addAsModerator}
+              text={i18n('add')}
+              disabled={addingInProgress}
+            />
+          </>
+        )}
+        <SessionSpinner loading={addingInProgress || firstLoading} />
+      </Flex>
+    </SessionModal>
+  );
+
 }

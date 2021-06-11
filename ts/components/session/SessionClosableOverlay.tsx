@@ -1,16 +1,13 @@
 import React from 'react';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
-import { SessionToggle } from './SessionToggle';
 import { SessionIdEditable } from './SessionIdEditable';
 import { UserSearchDropdown } from './UserSearchDropdown';
 import { ContactType, SessionMemberListItem } from './SessionMemberListItem';
 import { ConversationType } from '../../state/ducks/conversations';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
-import { PillDivider } from './PillDivider';
 import { DefaultTheme } from 'styled-components';
-import { UserUtils } from '../../session/utils';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 

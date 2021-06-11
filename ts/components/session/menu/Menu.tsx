@@ -3,11 +3,13 @@ import { LocalizerType } from '../../../types/Util';
 import { TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { SessionNicknameDialog } from '../SessionNicknameDialog';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { ConversationController } from '../../../session/conversations';
 import { useTheme } from 'styled-components';
 import { UserUtils } from '../../../session/utils';
+import { AdminLeaveClosedGroupDialog } from '../../conversation/AdminLeaveClosedGroupDialog';
+import { getTheme } from '../../../state/selectors/theme';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -100,7 +102,8 @@ export function getDeleteContactMenuItem(
   isLeft: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
   action: any,
-  i18n: LocalizerType
+  i18n: LocalizerType,
+  id: string
 ): JSX.Element | null {
   if (
     showDeleteContact(
@@ -111,10 +114,31 @@ export function getDeleteContactMenuItem(
       Boolean(isKickedFromGroup)
     )
   ) {
+    let menuItemText: string;
     if (isPublic) {
-      return <Item onClick={action}>{i18n('leaveGroup')}</Item>;
+      menuItemText = i18n('leaveGroup');
+    } else {
+      menuItemText = i18n('delete');
     }
-    return <Item onClick={action}>{i18n('delete')}</Item>;
+
+    const dispatch = useDispatch();
+    const onClickClose = () => {
+          dispatch(updateConfirmModal(null));
+    }
+
+    const showConfirmationModal = () => {
+      dispatch(updateConfirmModal({
+        title: menuItemText,
+        message: isGroup ? i18n('leaveGroupConfirmation'): i18n('deleteContactConfirmation'),
+        onClickClose,
+        onClickOk: () => {
+          void ConversationController.getInstance().deleteContact(id);
+          onClickClose();
+        }
+      }))
+    }
+
+      return <Item onClick={showConfirmationModal}>{menuItemText}</Item>;
   }
   return null;
 }
@@ -126,7 +150,9 @@ export function getLeaveGroupMenuItem(
   isPublic: boolean | undefined,
   action: any,
   i18n: LocalizerType,
-  id: string
+  id: string,
+  setModal: any,
+  theme: any
 ): JSX.Element | null {
   if (
     showLeaveGroup(Boolean(isKickedFromGroup), Boolean(left), Boolean(isGroup), Boolean(isPublic))
@@ -160,6 +186,15 @@ export function getLeaveGroupMenuItem(
           },
           onClickClose
         }));
+      } else {
+        setModal(
+          <AdminLeaveClosedGroupDialog
+            groupName={conversation.getName()}
+            onSubmit={conversation.leaveClosedGroup}
+            onClose={() => {setModal(null)}}
+            theme={theme}
+          ></AdminLeaveClosedGroupDialog>
+        )
       }
 
     }
@@ -322,19 +357,13 @@ export function getChangeNicknameMenuItem(
       setModal(null);
     }
 
-    // const onClickOk = () => {
-    //   console.log("@@ onclickok clicked");
-    // }
-
     const onClickCustom = () => {
       setModal(<SessionNicknameDialog onClickClose={clearModal} conversationId={conversationId}></SessionNicknameDialog>);
-      // setModal(null);
     }
 
     return (
       <>
         <Item onClick={onClickCustom}>{i18n('changeNickname')}</Item>
-        {/* <Item onClick={action}>{i18n('changeNickname')}</Item> */}
       </>
     );
   }

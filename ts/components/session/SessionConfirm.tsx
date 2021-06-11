@@ -5,15 +5,18 @@ import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { DefaultTheme, useTheme, withTheme } from 'styled-components';
 import { SessionWrapperModal } from './SessionWrapperModal';
+import { useDispatch } from 'react-redux';
+import { updateConfirmModal } from '../../state/ducks/modalDialog';
+import { update } from 'lodash';
 
-type Props = {
+export interface SessionConfirmDialogProps {
   message?: string;
   messageSub?: string;
   title?: string;
   onOk?: any;
   onClose?: any;
-  onClickOk?: any;
-  onClickClose?: any;
+  onClickOk?: () => any;
+  onClickClose?: () => any;
   okText?: string;
   cancelText?: string;
   hideCancel?: boolean;
@@ -22,9 +25,11 @@ type Props = {
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;
   theme?: DefaultTheme;
+  closeAfterClickOk?: boolean;
+  shouldShowConfirm?: () => boolean | undefined;
 };
 
-const SessionConfirmInner = (props: Props) => {
+const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
   const {
     title = '',
     message = '',
@@ -33,9 +38,12 @@ const SessionConfirmInner = (props: Props) => {
     closeTheme = SessionButtonColor.Primary,
     onClickOk,
     onClickClose,
+    closeAfterClickOk = true,
     hideCancel = false,
     sessionIcon,
     iconSize,
+    shouldShowConfirm,
+    // updateConfirmModal
   } = props;
 
   const okText = props.okText || window.i18n('ok');
@@ -46,8 +54,43 @@ const SessionConfirmInner = (props: Props) => {
 
   const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
 
-  return (
+  /**
+   * Calls close function after the ok button is clicked. If no close method specified, closes the modal 
+   */
+  const onClickOkWithClose = () => {
+    if (onClickOk) {
+      onClickOk();
+    }
 
+    if (onClickClose) {
+      onClickClose();
+    }
+  }
+
+
+  const onClickOkHandler = () => {
+    if (onClickOk) {
+      onClickOk();
+    }
+
+
+    window.inboxStore?.dispatch(updateConfirmModal(null));
+  }
+
+  if (shouldShowConfirm && !shouldShowConfirm()) {
+    return null;
+  }
+
+  const onClickCancelHandler = () => {
+    if (onClickClose) {
+      onClickClose();
+    }
+
+    window.inboxStore?.dispatch(updateConfirmModal(null));
+  }
+
+
+  return (
     <SessionWrapperModal
       title={title}
       onClose={onClickClose}
@@ -75,10 +118,12 @@ const SessionConfirmInner = (props: Props) => {
       </div>
 
       <div className="session-modal__button-group">
-        <SessionButton text={okText} buttonColor={okTheme} onClick={onClickOk} />
+        {/* <SessionButton text={okText} buttonColor={okTheme} onClick={closeAfterClickOk ? onClickOk : onClickOkWithClose} /> */}
+        <SessionButton text={okText} buttonColor={okTheme} onClick={onClickOkHandler} />
 
         {!hideCancel && (
-          <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickClose} />
+          // <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickClose} />
+          <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickCancelHandler} />
         )}
       </div>
 

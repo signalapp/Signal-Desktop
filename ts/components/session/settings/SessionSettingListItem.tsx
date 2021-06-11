@@ -7,6 +7,7 @@ import { SessionToggle } from '../SessionToggle';
 import { SessionButton } from '../SessionButton';
 import { SessionSettingType } from './SessionSettings';
 import { SessionRadioGroup } from '../SessionRadioGroup';
+import { SessionConfirmDialogProps } from '../SessionConfirm';
 
 interface Props {
   title?: string;
@@ -17,7 +18,10 @@ interface Props {
   onClick?: any;
   onSliderChange?: any;
   content: any;
-  confirmationDialogParams?: any;
+  confirmationDialogParams?: SessionConfirmDialogProps;
+
+  // for updating modal in redux
+  updateConfirmModal?: any
 }
 
 interface State {
@@ -61,6 +65,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
                 active={Boolean(value)}
                 onClick={this.handleClick}
                 confirmationDialogParams={this.props.confirmationDialogParams}
+                updateConfirmModal={this.props.updateConfirmModal}
               />
             </div>
           )}

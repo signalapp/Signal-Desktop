@@ -10,6 +10,9 @@ import { PubKey } from '../session/types';
 import { ToastUtils } from '../session/utils';
 import { openConversationExternal } from '../state/ducks/conversations';
 
+import { useDispatch } from 'react-redux';
+import { updateConfirmModal } from '../state/ducks/modalDialog';
+
 export function banUser(userToBan: string, conversation?: ConversationModel) {
   let pubKeyToBan: PubKey;
   try {
@@ -19,37 +22,46 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
     ToastUtils.pushUserBanFailure();
     return;
   }
-  window.confirmationDialog({
-    title: window.i18n('banUser'),
-    message: window.i18n('banUserConfirm'),
-    resolve: async () => {
-      if (!conversation) {
-        window.log.info('cannot ban user, the corresponding conversation was not found.');
-        return;
-      }
-      let success = false;
-      if (isOpenGroupV2(conversation.id)) {
-        const roomInfos = await getV2OpenGroupRoom(conversation.id);
-        if (!roomInfos) {
-          window.log.warn('banUser room not found');
-        } else {
-          success = await ApiV2.banUser(pubKeyToBan, _.pick(roomInfos, 'serverUrl', 'roomId'));
-        }
-      } else {
-        const channelAPI = await conversation.getPublicSendData();
-        if (!channelAPI) {
-          window.log.info('cannot ban user, the corresponding channelAPI was not found.');
-          return;
-        }
-        success = await channelAPI.banUser(userToBan);
-      }
-      if (success) {
-        ToastUtils.pushUserBanSuccess();
-      } else {
-        ToastUtils.pushUserBanFailure();
-      }
-    },
-  });
+
+  const dispatch = useDispatch();
+  const onClickClose = () => {
+    dispatch(updateConfirmModal(null))
+  };
+
+  // const confirmationModalProps = {
+  //   title: window.i18n('banUser'),
+  //   message: window.i18n('banUserConfirm'),
+  //   onClickClose,
+  //   // onClickOk: async () => {
+  //   //   if (!conversation) {
+  //   //     window.log.info('cannot ban user, the corresponding conversation was not found.');
+  //   //     return;
+  //   //   }
+  //   //   let success = false;
+  //   //   if (isOpenGroupV2(conversation.id)) {
+  //   //     const roomInfos = await getV2OpenGroupRoom(conversation.id);
+  //   //     if (!roomInfos) {
+  //   //       window.log.warn('banUser room not found');
+  //   //     } else {
+  //   //       success = await ApiV2.banUser(pubKeyToBan, _.pick(roomInfos, 'serverUrl', 'roomId'));
+  //   //     }
+  //   //   } else {
+  //   //     const channelAPI = await conversation.getPublicSendData();
+  //   //     if (!channelAPI) {
+  //   //       window.log.info('cannot ban user, the corresponding channelAPI was not found.');
+  //   //       return;
+  //   //     }
+  //   //     success = await channelAPI.banUser(userToBan);
+  //   //   }
+  //   //   if (success) {
+  //   //     ToastUtils.pushUserBanSuccess();
+  //   //   } else {
+  //   //     ToastUtils.pushUserBanFailure();
+  //   //   }
+  //   // },
+  // }
+
+  // dispatch(updateConfirmModal(confirmationModalProps));
 }
 
 /**
@@ -70,31 +82,65 @@ export function unbanUser(userToUnBan: string, conversation?: ConversationModel)
     ToastUtils.pushUserBanFailure();
     return;
   }
-  window.confirmationDialog({
+
+
+  const dispatch = useDispatch();
+  const onClickClose = () => dispatch(updateConfirmModal(null));
+
+  const onClickOk = async () => {
+    if (!conversation) {
+      // double check here. the convo might have been removed since the dialog was opened
+      window.log.info('cannot unban user, the corresponding conversation was not found.');
+      return;
+    }
+    let success = false;
+    if (isOpenGroupV2(conversation.id)) {
+      const roomInfos = await getV2OpenGroupRoom(conversation.id);
+      if (!roomInfos) {
+        window.log.warn('unbanUser room not found');
+      } else {
+        success = await ApiV2.unbanUser(pubKeyToUnban, _.pick(roomInfos, 'serverUrl', 'roomId'));
+      }
+    }
+    if (success) {
+      ToastUtils.pushUserUnbanSuccess();
+    } else {
+      ToastUtils.pushUserUnbanFailure();
+    }
+  }
+
+  dispatch(updateConfirmModal({
     title: window.i18n('unbanUser'),
     message: window.i18n('unbanUserConfirm'),
-    resolve: async () => {
-      if (!conversation) {
-        // double check here. the convo might have been removed since the dialog was opened
-        window.log.info('cannot unban user, the corresponding conversation was not found.');
-        return;
-      }
-      let success = false;
-      if (isOpenGroupV2(conversation.id)) {
-        const roomInfos = await getV2OpenGroupRoom(conversation.id);
-        if (!roomInfos) {
-          window.log.warn('unbanUser room not found');
-        } else {
-          success = await ApiV2.unbanUser(pubKeyToUnban, _.pick(roomInfos, 'serverUrl', 'roomId'));
-        }
-      }
-      if (success) {
-        ToastUtils.pushUserUnbanSuccess();
-      } else {
-        ToastUtils.pushUserUnbanFailure();
-      }
-    },
-  });
+    onClickOk,
+    onClickClose,
+  }));
+
+  // window.confirmationDialog({
+  //   title: window.i18n('unbanUser'),
+  //   message: window.i18n('unbanUserConfirm'),
+  //   resolve: async () => {
+  //     if (!conversation) {
+  //       // double check here. the convo might have been removed since the dialog was opened
+  //       window.log.info('cannot unban user, the corresponding conversation was not found.');
+  //       return;
+  //     }
+  //     let success = false;
+  //     if (isOpenGroupV2(conversation.id)) {
+  //       const roomInfos = await getV2OpenGroupRoom(conversation.id);
+  //       if (!roomInfos) {
+  //         window.log.warn('unbanUser room not found');
+  //       } else {
+  //         success = await ApiV2.unbanUser(pubKeyToUnban, _.pick(roomInfos, 'serverUrl', 'roomId'));
+  //       }
+  //     }
+  //     if (success) {
+  //       ToastUtils.pushUserUnbanSuccess();
+  //     } else {
+  //       ToastUtils.pushUserUnbanFailure();
+  //     }
+  //   },
+  // });
 }
 
 export function copyBodyToClipboard(body?: string) {
@@ -242,11 +288,27 @@ async function acceptOpenGroupInvitationV1(serverAddress: string) {
 }
 
 const acceptOpenGroupInvitationV2 = (completeUrl: string, roomName?: string) => {
-  window.confirmationDialog({
+
+  const dispatch = useDispatch();
+
+  const onClickClose = () => {
+    dispatch(updateConfirmModal(null))
+  };
+
+  dispatch(updateConfirmModal({
     title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', roomName),
     message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', roomName),
-    resolve: () => joinOpenGroupV2WithUIEvents(completeUrl, true),
-  });
+    onClickOk: () => joinOpenGroupV2WithUIEvents(completeUrl, true),
+    onClickClose
+  }))
+
+  // window.confirmationDialog({
+  //   title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', roomName),
+  //   message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', roomName),
+  //   resolve: () => joinOpenGroupV2WithUIEvents(completeUrl, true),
+  // });
+
+
   // this function does not throw, and will showToasts if anything happens
 };
 
