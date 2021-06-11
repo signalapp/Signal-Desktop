@@ -25,12 +25,6 @@ module.exports = {
 
   getIdentityKeyById,
 
-  removeAllSignedPreKeys,
-  removeAllContactPreKeys,
-  removeAllContactSignedPreKeys,
-  removeAllPreKeys,
-  removeAllSessions,
-
   createOrUpdateItem,
   getItemById,
   getAllItems,
@@ -44,8 +38,6 @@ module.exports = {
   getConversationCount,
   saveConversation,
   getConversationById,
-  savePublicServerToken,
-  getPublicServerTokenByServerUrl,
   updateConversation,
   removeConversation,
   getAllConversations,
@@ -125,16 +117,10 @@ module.exports = {
 
 const CONVERSATIONS_TABLE = 'conversations';
 const MESSAGES_TABLE = 'messages';
-const SENDER_KEYS_TABLE = 'senderKeys';
-const SERVERS_TOKEN_TABLE = 'servers';
+const MESSAGES_FTS_TABLE = 'messages_fts';
 const NODES_FOR_PUBKEY_TABLE = 'nodesForPubkey';
 const OPEN_GROUP_ROOMS_V2_TABLE = 'openGroupRoomsV2';
 const IDENTITY_KEYS_TABLE = 'identityKeys';
-const PRE_KEYS_TABLE = 'preKeys';
-const CONTACT_PRE_KEYS_TABLE = 'contactPreKeys';
-const CONTACT_SIGNED_PRE_KEYS_TABLE = 'contactSignedPreKeys';
-const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
-const SESSIONS_TABLE = 'sessions';
 const GUARD_NODE_TABLE = 'guardNodes';
 const ITEMS_TABLE = 'items';
 const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
@@ -403,7 +389,7 @@ async function updateToSchemaVersion4(currentVersion, instance) {
   await instance.run('BEGIN TRANSACTION;');
 
   await instance.run(
-    `CREATE TABLE conversations(
+    `CREATE TABLE ${CONVERSATIONS_TABLE}(
       id STRING PRIMARY KEY ASC,
       json TEXT,
 
@@ -415,11 +401,11 @@ async function updateToSchemaVersion4(currentVersion, instance) {
     );`
   );
 
-  await instance.run(`CREATE INDEX conversations_active ON conversations (
+  await instance.run(`CREATE INDEX conversations_active ON ${CONVERSATIONS_TABLE} (
       active_at
     ) WHERE active_at IS NOT NULL;`);
 
-  await instance.run(`CREATE INDEX conversations_type ON conversations (
+  await instance.run(`CREATE INDEX conversations_type ON ${CONVERSATIONS_TABLE} (
       type
     ) WHERE type IS NOT NULL;`);
 
@@ -438,7 +424,7 @@ async function updateToSchemaVersion6(currentVersion, instance) {
 
   // friendRequestStatus is no longer needed. So no need to add the column on new apps
   // await instance.run(
-  //   `ALTER TABLE conversations
+  //   `ALTER TABLE ${CONVERSATIONS_TABLE}
   //    ADD COLUMN friendRequestStatus INTEGER;`
   // );
 
@@ -478,13 +464,13 @@ async function updateToSchemaVersion6(currentVersion, instance) {
     );`
   );
   await instance.run(
-    `CREATE TABLE identityKeys(
+    `CREATE TABLE ${IDENTITY_KEYS_TABLE}(
       id STRING PRIMARY KEY ASC,
       json TEXT
     );`
   );
   await instance.run(
-    `CREATE TABLE items(
+    `CREATE TABLE ${ITEMS_TABLE}(
       id STRING PRIMARY KEY ASC,
       json TEXT
     );`
@@ -590,18 +576,18 @@ async function updateToSchemaVersion8(currentVersion, instance) {
 
   // Then we create our full-text search table and populate it
   await instance.run(`
-    CREATE VIRTUAL TABLE messages_fts
+    CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
     USING fts5(id UNINDEXED, body);
   `);
   await instance.run(`
-    INSERT INTO messages_fts(id, body)
+    INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
     SELECT id, body FROM ${MESSAGES_TABLE};
   `);
 
   // Then we set up triggers to keep the full-text search table up to date
   await instance.run(`
     CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
-      INSERT INTO messages_fts (
+      INSERT INTO ${MESSAGES_FTS_TABLE} (
         id,
         body
       ) VALUES (
@@ -612,13 +598,13 @@ async function updateToSchemaVersion8(currentVersion, instance) {
   `);
   await instance.run(`
     CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
-      DELETE FROM messages_fts WHERE id = old.id;
+      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
     END;
   `);
   await instance.run(`
     CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} BEGIN
-      DELETE FROM messages_fts WHERE id = old.id;
-      INSERT INTO messages_fts(
+      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+      INSERT INTO ${MESSAGES_FTS_TABLE}(
         id,
         body
       ) VALUES (
@@ -644,7 +630,7 @@ async function updateToSchemaVersion9(currentVersion, instance) {
   console.log('updateToSchemaVersion9: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
-  await instance.run(`CREATE TABLE attachment_downloads(
+  await instance.run(`CREATE TABLE ${ATTACHMENT_DOWNLOADS_TABLE}(
     id STRING primary key,
     timestamp INTEGER,
     pending INTEGER,
@@ -652,11 +638,11 @@ async function updateToSchemaVersion9(currentVersion, instance) {
   );`);
 
   await instance.run(`CREATE INDEX attachment_downloads_timestamp
-    ON attachment_downloads (
+    ON ${ATTACHMENT_DOWNLOADS_TABLE} (
       timestamp
   ) WHERE pending = 0;`);
   await instance.run(`CREATE INDEX attachment_downloads_pending
-    ON attachment_downloads (
+    ON ${ATTACHMENT_DOWNLOADS_TABLE} (
       pending
   ) WHERE pending != 0;`);
 
@@ -789,6 +775,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion11,
   updateToLokiSchemaVersion12,
   updateToLokiSchemaVersion13,
+  updateToLokiSchemaVersion14,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -803,8 +790,9 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     `ALTER TABLE ${MESSAGES_TABLE}
      ADD COLUMN serverId INTEGER;`
   );
+  // servers is removed later
   await instance.run(
-    `CREATE TABLE ${SERVERS_TOKEN_TABLE}(
+    `CREATE TABLE servers(
       serverUrl STRING PRIMARY KEY ASC,
       token TEXT
     );`
@@ -901,16 +889,6 @@ async function updateToLokiSchemaVersion4(currentVersion, instance) {
       hash TEXT,
       expiresAt INTEGER,
       PRIMARY KEY (id, snode)
-    );`
-  );
-
-  // Create a table for Sender Keys
-  await instance.run(
-    `CREATE TABLE ${SENDER_KEYS_TABLE} (
-      groupId TEXT,
-      senderIdentity TEXT,
-      json TEXT,
-      PRIMARY KEY (groupId, senderIdentity)
     );`
   );
 
@@ -1087,7 +1065,7 @@ async function updateToLokiSchemaVersion11(currentVersion, instance) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   await instance.run('BEGIN TRANSACTION;');
 
-  await updateExistingClosedGroupToClosedGroup(instance);
+  await updateExistingClosedGroupV1ToClosedGroupV2(instance);
 
   await instance.run(
     `INSERT INTO loki_schema (
@@ -1140,6 +1118,33 @@ async function updateToLokiSchemaVersion13(currentVersion, instance) {
   // Clear any already deleted db entries.
   // secure_delete = ON will make sure next deleted entries are overwritten with 0 right away
   await instance.run('PRAGMA secure_delete = ON;');
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        ${targetVersion}
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+async function updateToLokiSchemaVersion14(currentVersion, instance) {
+  const targetVersion = 14;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+  await instance.run('BEGIN TRANSACTION;');
+  await instance.run('DROP TABLE IF EXISTS servers;');
+  await instance.run('DROP TABLE IF EXISTS sessions;');
+  await instance.run('DROP TABLE IF EXISTS preKeys;');
+  await instance.run('DROP TABLE IF EXISTS contactPreKeys;');
+  await instance.run('DROP TABLE IF EXISTS contactSignedPreKeys;');
+  await instance.run('DROP TABLE IF EXISTS signedPreKeys;');
+  await instance.run('DROP TABLE IF EXISTS senderKeys;');
+
   await instance.run(
     `INSERT INTO loki_schema (
         version
@@ -1334,25 +1339,6 @@ async function getIdentityKeyById(id, instance) {
   return getById(IDENTITY_KEYS_TABLE, id, instance);
 }
 
-// those removeAll calls are currently only used to cleanup the db from old data
-// TODO remove those and move those removeAll in a migration
-async function removeAllPreKeys() {
-  return removeAllFromTable(PRE_KEYS_TABLE);
-}
-async function removeAllContactPreKeys() {
-  return removeAllFromTable(CONTACT_PRE_KEYS_TABLE);
-}
-
-async function removeAllContactSignedPreKeys() {
-  return removeAllFromTable(CONTACT_SIGNED_PRE_KEYS_TABLE);
-}
-async function removeAllSignedPreKeys() {
-  return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
-}
-async function removeAllSessions() {
-  return removeAllFromTable(SESSIONS_TABLE);
-}
-
 async function getGuardNodes() {
   const nodes = await db.all(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`);
 
@@ -1394,7 +1380,7 @@ async function getItemById(id) {
   return getById(ITEMS_TABLE, id);
 }
 async function getAllItems() {
-  const rows = await db.all('SELECT json FROM items ORDER BY id ASC;');
+  const rows = await db.all(`SELECT json FROM ${ITEMS_TABLE} ORDER BY id ASC;`);
   return map(rows, row => jsonToObject(row.json));
 }
 async function removeItemById(id) {
@@ -1589,37 +1575,6 @@ async function removeConversation(id) {
   );
 }
 
-// open groups v1 only
-async function savePublicServerToken(data) {
-  const { serverUrl, token } = data;
-  await db.run(
-    `INSERT OR REPLACE INTO ${SERVERS_TOKEN_TABLE} (
-      serverUrl,
-      token
-    ) values (
-      $serverUrl,
-      $token
-    )`,
-    {
-      $serverUrl: serverUrl,
-      $token: token,
-    }
-  );
-}
-
-// open groups v1 only
-async function getPublicServerTokenByServerUrl(serverUrl) {
-  const row = await db.get(`SELECT * FROM ${SERVERS_TOKEN_TABLE} WHERE serverUrl = $serverUrl;`, {
-    $serverUrl: serverUrl,
-  });
-
-  if (!row) {
-    return null;
-  }
-
-  return row.token;
-}
-
 async function getConversationById(id) {
   const row = await db.get(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
     $id: id,
@@ -1720,7 +1675,7 @@ async function searchMessages(query, { limit } = {}) {
     `SELECT
       messages.json,
       snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
-    FROM messages_fts
+    FROM ${MESSAGES_FTS_TABLE}
     INNER JOIN ${MESSAGES_TABLE} on messages_fts.id = messages.id
     WHERE
       messages_fts match $query
@@ -2323,7 +2278,7 @@ async function getNextAttachmentDownloadJobs(limit, options = {}) {
   const timestamp = options.timestamp || Date.now();
 
   const rows = await db.all(
-    `SELECT json FROM attachment_downloads
+    `SELECT json FROM ${ATTACHMENT_DOWNLOADS_TABLE}
     WHERE pending = 0 AND timestamp < $timestamp
     ORDER BY timestamp DESC
     LIMIT $limit;`,
@@ -2342,7 +2297,7 @@ async function saveAttachmentDownloadJob(job) {
   }
 
   await db.run(
-    `INSERT OR REPLACE INTO attachment_downloads (
+    `INSERT OR REPLACE INTO ${ATTACHMENT_DOWNLOADS_TABLE} (
       id,
       pending,
       timestamp,
@@ -2362,13 +2317,13 @@ async function saveAttachmentDownloadJob(job) {
   );
 }
 async function setAttachmentDownloadJobPending(id, pending) {
-  await db.run('UPDATE attachment_downloads SET pending = $pending WHERE id = $id;', {
+  await db.run(`UPDATE ${ATTACHMENT_DOWNLOADS_TABLE} SET pending = $pending WHERE id = $id;`, {
     $id: id,
     $pending: pending,
   });
 }
 async function resetAttachmentDownloadPending() {
-  await db.run('UPDATE attachment_downloads SET pending = 0 WHERE pending != 0;');
+  await db.run(`UPDATE ${ATTACHMENT_DOWNLOADS_TABLE} SET pending = 0 WHERE pending != 0;`);
 }
 async function removeAttachmentDownloadJob(id) {
   return removeById(ATTACHMENT_DOWNLOADS_TABLE, id);
@@ -2384,24 +2339,17 @@ async function removeAll() {
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
-      db.run('DELETE FROM identityKeys;'),
-      db.run('DELETE FROM items;'),
-      db.run('DELETE FROM preKeys;'),
-      db.run('DELETE FROM sessions;'),
-      db.run('DELETE FROM signedPreKeys;'),
+      db.run(`DELETE FROM ${IDENTITY_KEYS_TABLE};`),
+      db.run(`DELETE FROM ${ITEMS_TABLE};`),
       db.run('DELETE FROM unprocessed;'),
-      db.run('DELETE FROM contactPreKeys;'),
-      db.run('DELETE FROM contactSignedPreKeys;'),
-      db.run(`DELETE FROM ${SERVERS_TOKEN_TABLE};`),
       db.run('DELETE FROM lastHashes;'),
-      db.run(`DELETE FROM ${SENDER_KEYS_TABLE};`),
       db.run(`DELETE FROM ${NODES_FOR_PUBKEY_TABLE};`),
       db.run(`DELETE FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE};`),
       db.run('DELETE FROM seenMessages;'),
       db.run(`DELETE FROM ${CONVERSATIONS_TABLE};`),
       db.run(`DELETE FROM ${MESSAGES_TABLE};`),
-      db.run('DELETE FROM attachment_downloads;'),
-      db.run('DELETE FROM messages_fts;'),
+      db.run(`DELETE FROM ${ATTACHMENT_DOWNLOADS_TABLE};`),
+      db.run(`DELETE FROM ${MESSAGES_FTS_TABLE};`),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
@@ -2562,7 +2510,7 @@ async function removeKnownAttachments(allAttachments) {
 
   const conversationTotal = await getConversationCount();
   console.log(
-    `removeKnownAttachments: About to iterate through ${conversationTotal} conversations`
+    `removeKnownAttachments: About to iterate through ${conversationTotal} ${CONVERSATIONS_TABLE}`
   );
 
   while (!complete) {
@@ -2594,7 +2542,7 @@ async function removeKnownAttachments(allAttachments) {
     count += conversations.length;
   }
 
-  console.log(`removeKnownAttachments: Done processing ${count} conversations`);
+  console.log(`removeKnownAttachments: Done processing ${count} ${CONVERSATIONS_TABLE}`);
 
   return Object.keys(lookup);
 }
@@ -2698,7 +2646,7 @@ function remove05PrefixFromStringIfNeeded(str) {
   return str;
 }
 
-async function updateExistingClosedGroupToClosedGroup(instance) {
+async function updateExistingClosedGroupV1ToClosedGroupV2(instance) {
   // the migration is called only once, so all current groups not being open groups are v1 closed group.
   const allClosedGroupV1 = (await getAllClosedGroupConversations(instance)) || [];
 

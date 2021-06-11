@@ -213,10 +213,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
     result.fullImport = false;
 
     delete importObject.items;
-    delete importObject.signedPreKeys;
-    delete importObject.preKeys;
     delete importObject.identityKeys;
-    delete importObject.sessions;
     delete importObject.unprocessed;
 
     window.log.info('This is a light import; contacts, groups and messages only');

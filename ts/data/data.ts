@@ -71,12 +71,6 @@ const channelsToMake = {
   removeDB,
   getPasswordHash,
 
-  getIdentityKeyById,
-  removeAllPreKeys,
-  removeAllSignedPreKeys,
-  removeAllContactPreKeys,
-  removeAllContactSignedPreKeys,
-
   getGuardNodes,
   updateGuardNodes,
 
@@ -84,8 +78,6 @@ const channelsToMake = {
   getItemById,
   getAllItems,
   removeItemById,
-
-  removeAllSessions,
 
   getSwarmNodesForPubkey,
   updateSwarmNodesForPubkey,
@@ -99,8 +91,6 @@ const channelsToMake = {
   getAllConversationIds,
   getAllOpenGroupV1Conversations,
   getPubkeysInPublicConversation,
-  savePublicServerToken,
-  getPublicServerTokenByServerUrl,
   getAllGroupsInvolvingId,
 
   searchConversations,
@@ -408,34 +398,6 @@ export async function getPasswordHash(): Promise<string | null> {
   return channels.getPasswordHash();
 }
 
-// Identity Keys
-
-const IDENTITY_KEY_KEYS = ['publicKey'];
-
-// Identity Keys
-// TODO: identity key has different shape depending on how it is called,
-// so we need to come up with a way to make TS work with all of them
-
-export async function getIdentityKeyById(id: string): Promise<IdentityKey | null> {
-  const data = await channels.getIdentityKeyById(id);
-  return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
-}
-
-// Those removeAll are not used anymore except to cleanup the app since we removed all of those tables
-export async function removeAllPreKeys(): Promise<void> {
-  await channels.removeAllPreKeys();
-}
-const PRE_KEY_KEYS = ['privateKey', 'publicKey', 'signature'];
-export async function removeAllSignedPreKeys(): Promise<void> {
-  await channels.removeAllSignedPreKeys();
-}
-export async function removeAllContactPreKeys(): Promise<void> {
-  await channels.removeAllContactPreKeys();
-}
-export async function removeAllContactSignedPreKeys(): Promise<void> {
-  await channels.removeAllContactSignedPreKeys();
-}
-
 // Guard Nodes
 export async function getGuardNodes(): Promise<Array<GuardNode>> {
   return channels.getGuardNodes();
@@ -492,10 +454,6 @@ export async function getAllItems(): Promise<Array<StorageItem>> {
 }
 export async function removeItemById(id: string): Promise<void> {
   await channels.removeItemById(id);
-}
-// Sessions
-export async function removeAllSessions(): Promise<void> {
-  await channels.removeAllSessions();
 }
 
 // Swarm nodes
@@ -602,16 +560,6 @@ export async function getPubkeysInPublicConversation(id: string): Promise<Array<
   return channels.getPubkeysInPublicConversation(id);
 }
 
-// open groups v1 only
-export async function savePublicServerToken(data: ServerToken): Promise<void> {
-  await channels.savePublicServerToken(data);
-}
-
-// open groups v1 only
-export async function getPublicServerTokenByServerUrl(serverUrl: string): Promise<string> {
-  const token = await channels.getPublicServerTokenByServerUrl(serverUrl);
-  return token;
-}
 export async function getAllGroupsInvolvingId(id: string): Promise<ConversationCollection> {
   const conversations = await channels.getAllGroupsInvolvingId(id);
 

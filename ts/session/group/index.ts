@@ -2,14 +2,12 @@ import { PubKey } from '../types';
 
 import _ from 'lodash';
 
-import { fromHex, fromHexToArray, toHex } from '../utils/String';
+import { fromHexToArray, toHex } from '../utils/String';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { ConversationController } from '../conversations';
 import {
   addClosedGroupEncryptionKeyPair,
-  getIdentityKeyById,
   getLatestClosedGroupEncryptionKeyPair,
-  removeAllClosedGroupEncryptionKeyPairs,
 } from '../../../ts/data/data';
 import uuid from 'uuid';
 import { SignalService } from '../../protobuf';
@@ -63,21 +61,6 @@ export interface GroupDiff extends MemberChanges {
 export interface MemberChanges {
   joiningMembers?: Array<string>;
   leavingMembers?: Array<string>;
-}
-
-export async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
-  const groupIdentity = await getIdentityKeyById(groupId);
-  if (!groupIdentity) {
-    throw new Error(`Could not load secret key for group ${groupId}`);
-  }
-
-  const secretKey = groupIdentity.secretKey;
-
-  if (!secretKey) {
-    throw new Error(`Secret key not found in identity key record for group ${groupId}`);
-  }
-
-  return new Uint8Array(fromHex(secretKey));
 }
 
 export async function initiateGroupUpdate(

@@ -18,7 +18,6 @@ import {
 } from '../../data/data';
 import { OnionPaths } from '../../session/onions';
 import { getMessageQueue } from '../../session/sending';
-import { clearSessionsAndPreKeys } from '../../util/accountManager';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOurNumber } from '../../state/selectors/user';
 import {
@@ -274,9 +273,6 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
 
   // keep that one to make sure our users upgrade to new sessionIDS
   void showResetSessionIDDialogIfNeeded();
-  // remove existing prekeys, sign prekeys and sessions
-  // FIXME audric, make this in a migration so we can remove this line
-  void clearSessionsAndPreKeys();
   void removeAllV1OpenGroups();
 
   // this generates the key to encrypt attachments locally
