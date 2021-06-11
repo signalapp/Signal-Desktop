@@ -126,6 +126,8 @@ const ITEMS_TABLE = 'items';
 const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
 const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroupV2';
 
+const MAX_PUBKEYS_MEMBERS = 1000;
+
 function objectToJSON(data) {
   return JSON.stringify(data);
 }
@@ -1145,6 +1147,31 @@ async function updateToLokiSchemaVersion14(currentVersion, instance) {
   await instance.run('DROP TABLE IF EXISTS signedPreKeys;');
   await instance.run('DROP TABLE IF EXISTS senderKeys;');
 
+  console.time('removingOpengroupv1Messages');
+
+  let toRemoveCount = 0;
+  do {
+    // eslint-disable-next-line no-await-in-loop
+    const row = await instance.get(`SELECT count(*) from ${MESSAGES_TABLE} WHERE
+    conversationId LIKE 'publicChat:1@%';`);
+    toRemoveCount = row['count(*)'];
+
+    if (toRemoveCount > 0) {
+      console.warn('toRemove count', toRemoveCount);
+      console.time('chunk');
+
+      // eslint-disable-next-line no-await-in-loop
+      await instance.all(
+        `DELETE FROM ${MESSAGES_TABLE} WHERE
+          conversationId LIKE 'publicChat:1@%'
+         ;`
+      );
+      console.timeEnd('chunk');
+    }
+  } while (toRemoveCount > 0);
+
+  console.timeEnd('removingOpengroupv1Messages');
+
   await instance.run(
     `INSERT INTO loki_schema (
         version
@@ -1626,7 +1653,7 @@ async function getPubkeysInPublicConversation(id) {
   const rows = await db.all(
     `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId
-     ORDER BY id ASC;`,
+     ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`,
     {
       $conversationId: id,
     }
@@ -2628,7 +2655,7 @@ async function createEncryptionKeyPairsForClosedGroup(instance) {
   );
 }
 
-async function getAllClosedGroupConversations(instance) {
+async function getAllClosedGroupConversationsV1(instance) {
   const rows = await (db || instance).all(
     `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
@@ -2648,7 +2675,7 @@ function remove05PrefixFromStringIfNeeded(str) {
 
 async function updateExistingClosedGroupV1ToClosedGroupV2(instance) {
   // the migration is called only once, so all current groups not being open groups are v1 closed group.
-  const allClosedGroupV1 = (await getAllClosedGroupConversations(instance)) || [];
+  const allClosedGroupV1 = (await getAllClosedGroupConversationsV1(instance)) || [];
 
   await Promise.all(
     allClosedGroupV1.map(async groupV1 => {

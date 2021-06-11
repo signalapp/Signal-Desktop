@@ -556,6 +556,9 @@ export async function getAllOpenGroupV1Conversations(): Promise<ConversationColl
   return collection;
 }
 
+/**
+ * This returns at most MAX_PUBKEYS_MEMBERS members, the last MAX_PUBKEYS_MEMBERS members who wrote in the chat
+ */
 export async function getPubkeysInPublicConversation(id: string): Promise<Array<string>> {
   return channels.getPubkeysInPublicConversation(id);
 }
