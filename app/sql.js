@@ -113,6 +113,7 @@ module.exports = {
   getAllV2OpenGroupRooms,
   getV2OpenGroupRoomByRoomId,
   removeV2OpenGroupRoom,
+  removeOneOpenGroupV1Message,
 };
 
 const CONVERSATIONS_TABLE = 'conversations';
@@ -1138,6 +1139,7 @@ async function updateToLokiSchemaVersion14(currentVersion, instance) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
   await instance.run('BEGIN TRANSACTION;');
   await instance.run('DROP TABLE IF EXISTS servers;');
   await instance.run('DROP TABLE IF EXISTS sessions;');
@@ -1146,31 +1148,6 @@ async function updateToLokiSchemaVersion14(currentVersion, instance) {
   await instance.run('DROP TABLE IF EXISTS contactSignedPreKeys;');
   await instance.run('DROP TABLE IF EXISTS signedPreKeys;');
   await instance.run('DROP TABLE IF EXISTS senderKeys;');
-
-  console.time('removingOpengroupv1Messages');
-
-  let toRemoveCount = 0;
-  do {
-    // eslint-disable-next-line no-await-in-loop
-    const row = await instance.get(`SELECT count(*) from ${MESSAGES_TABLE} WHERE
-    conversationId LIKE 'publicChat:1@%';`);
-    toRemoveCount = row['count(*)'];
-
-    if (toRemoveCount > 0) {
-      console.warn('toRemove count', toRemoveCount);
-      console.time('chunk');
-
-      // eslint-disable-next-line no-await-in-loop
-      await instance.all(
-        `DELETE FROM ${MESSAGES_TABLE} WHERE
-          conversationId LIKE 'publicChat:1@%'
-         ;`
-      );
-      console.timeEnd('chunk');
-    }
-  } while (toRemoveCount > 0);
-
-  console.timeEnd('removingOpengroupv1Messages');
 
   await instance.run(
     `INSERT INTO loki_schema (
@@ -1949,9 +1926,9 @@ async function saveMessages(arrayOfMessages) {
   await promise;
 }
 
-async function removeMessage(id) {
+async function removeMessage(id, instance) {
   if (!Array.isArray(id)) {
-    await db.run(`DELETE FROM ${MESSAGES_TABLE} WHERE id = $id;`, { $id: id });
+    await (db || instance).run(`DELETE FROM ${MESSAGES_TABLE} WHERE id = $id;`, { $id: id });
     return;
   }
 
@@ -1960,7 +1937,7 @@ async function removeMessage(id) {
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
-  await db.run(
+  await (db || instance).run(
     `DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
     id
   );
@@ -2848,4 +2825,29 @@ async function removeV2OpenGroupRoom(conversationId) {
   await db.run(`DELETE FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId`, {
     $conversationId: conversationId,
   });
+}
+
+async function removeOneOpenGroupV1Message() {
+  // eslint-disable-next-line no-await-in-loop
+  const row = await db.get(`SELECT count(*) from ${MESSAGES_TABLE} WHERE
+    conversationId LIKE 'publicChat:1@%';`);
+  const toRemoveCount = row['count(*)'];
+
+  if (toRemoveCount <= 0) {
+    return 0;
+  }
+  console.warn('left opengroupv1 message to remove: ', toRemoveCount);
+  const rowMessageIds = await db.all(
+    `SELECT id from ${MESSAGES_TABLE} WHERE conversationId LIKE 'publicChat:1@%' ORDER BY id LIMIT 1;`
+  );
+
+  const messagesIds = map(rowMessageIds, r => r.id)[0];
+
+  console.time('removeOneOpenGroupV1Message');
+
+  // eslint-disable-next-line no-await-in-loop
+  await removeMessage(messagesIds);
+  console.timeEnd('removeOneOpenGroupV1Message');
+
+  return toRemoveCount - 1;
 }

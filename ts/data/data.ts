@@ -156,6 +156,7 @@ const channelsToMake = {
   addClosedGroupEncryptionKeyPair,
   isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
+  removeOneOpenGroupV1Message,
 
   // open group v2
   ...channelstoMakeOpenGroupV2,
@@ -946,4 +947,9 @@ export async function getSnodePoolFromDb(): Promise<Array<Snode> | null> {
 
 export async function updateSnodePoolOnDb(snodesAsJsonString: string): Promise<void> {
   await exports.createOrUpdateItem({ id: SNODE_POOL_ITEM_ID, value: snodesAsJsonString });
+}
+
+/** Returns the number of message left to remove (opengroupv1) */
+export async function removeOneOpenGroupV1Message(): Promise<number> {
+  return channels.removeOneOpenGroupV1Message();
 }
