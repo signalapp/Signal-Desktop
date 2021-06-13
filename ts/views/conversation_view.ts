@@ -21,6 +21,7 @@ import {
   isGroupV2,
   isMe,
 } from '../util/whatTypeOfConversation';
+import { clipboard } from 'electron';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -434,6 +435,7 @@ Whisper.ConversationView = Whisper.View.extend({
     dragover: 'onDragOver',
     dragleave: 'onDragLeave',
     drop: 'onDrop',
+    copy: 'onCopy',
     paste: 'onPaste',
   },
 
@@ -1504,6 +1506,15 @@ Whisper.ConversationView = Whisper.View.extend({
           error && error.stack ? error.stack : error
         );
       }
+    }
+  },
+
+  onCopy(e: any) {
+    const selection = window.getSelection();
+    if (selection) {
+      clipboard.writeText(selection.toString());
+      e.stopPropagation();
+      e.preventDefault();
     }
   },
 
