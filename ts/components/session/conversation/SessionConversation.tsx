@@ -1,14 +1,12 @@
 // tslint:disable: no-backbone-get-set-outside-model
 
 import React from 'react';
-import { useDispatch } from "react-redux";
-import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 
 import classNames from 'classnames';
 
 import { SessionCompositionBox, StagedAttachmentType } from './SessionCompositionBox';
 
-import { Constants } from '../../../session';
+import { ClosedGroup, Constants } from '../../../session';
 import _ from 'lodash';
 import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
@@ -36,6 +34,7 @@ import { ConversationTypeEnum } from '../../../models/conversation';
 import { SessionButtonColor } from '../SessionButton';
 import { AddModeratorsDialog } from '../../conversation/ModeratorsAddDialog';
 import { RemoveModeratorsDialog } from '../../conversation/ModeratorsRemoveDialog';
+import { UpdateGroupNameDialog } from '../../conversation/UpdateGroupNameDialog';
 
 
 
@@ -495,7 +494,59 @@ export class SessionConversation extends React.Component<Props, State> {
       },
 
       onUpdateGroupName: () => {
-        window.Whisper.events.trigger('updateGroupName', conversation);
+        // warrick: remove trigger once everything is cleaned up
+        // window.Whisper.events.trigger('updateGroupName', conversation);
+        const avatarPath = conversation.getAvatarPath();
+        const groupName = conversation.getName();
+        const groupId = conversation.id;
+        const members = conversation.get('members') || [];
+        const isPublic = conversation.isPublic();
+
+        let isAdmin = true;
+        let titleText;
+
+        if (isPublic) {
+          // fix the title
+          titleText = window.i18n('updateGroupDialogTitle', groupName);
+          // I'd much prefer to integrate mods with groupAdmins
+          // but lets discuss first...
+          isAdmin = conversation.isAdmin(window.storage.get('primaryDevicePubKey'));
+        }
+
+        const onClose = () => {
+          this.setState({ ...this.state, modal: null })
+        }
+
+        const onUpdateGroupNameSubmit = (groupName: string, avatar: string) => {
+          ClosedGroup.initiateGroupUpdate(
+            groupId,
+            groupName,
+            members,
+            avatar
+          )
+        }
+
+        this.setState({
+          ...this.state,
+          modal: (
+            <UpdateGroupNameDialog
+              titleText={titleText}
+              pubkey={conversation.id}
+              isPublic={conversation.isPublic()}
+              groupName={groupName}
+              okText={window.i18n('ok')}
+              cancelText={window.i18n('cancel')}
+              isAdmin={isAdmin}
+              i18n={window.i18n}
+              onSubmit={onUpdateGroupNameSubmit}
+              onClose={onClose}
+              // avatar stuff
+              avatarPath={avatarPath || ''}
+              theme={this.props.theme}
+            />
+          )
+        })
+
       },
       onUpdateGroupMembers: async () => {
         if (conversation.isMediumGroup()) {
