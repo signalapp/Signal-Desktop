@@ -18,6 +18,13 @@
         "type": "separator"
       },
       {
+        "label": "Services",
+        "role": "services"
+      },
+      {
+        "type": "separator"
+      },
+      {
         "label": "Hide",
         "role": "hide"
       },
@@ -51,6 +58,14 @@
       {
         "label": "Create/upload sticker pack",
         "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "accelerator": "CmdOrCtrl+W",
+        "label": "Close Window",
+        "role": "close"
       }
     ]
   },
@@ -153,11 +168,6 @@
     "label": "&Window",
     "role": "window",
     "submenu": [
-      {
-        "label": "Close Window",
-        "accelerator": "CmdOrCtrl+W",
-        "role": "close"
-      },
       {
         "label": "Minimize",
         "accelerator": "CmdOrCtrl+M",

@@ -229,6 +229,17 @@ function updateForMac(template, messages, options) {
   fileMenu.submenu.pop();
   fileMenu.submenu.pop();
   fileMenu.submenu.pop();
+  // And insert "close".
+  fileMenu.submenu.push(
+    {
+      type: 'separator',
+    },
+    {
+      label: messages.windowMenuClose.message,
+      accelerator: 'CmdOrCtrl+W',
+      role: 'close',
+    }
+  );
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
@@ -245,6 +256,13 @@ function updateForMac(template, messages, options) {
         label: messages.mainMenuSettings.message,
         accelerator: 'CommandOrControl+,',
         click: showSettings,
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: messages.appMenuServices.message,
+        role: 'services',
       },
       {
         type: 'separator',
@@ -294,11 +312,6 @@ function updateForMac(template, messages, options) {
   // Replace Window menu
   // eslint-disable-next-line no-param-reassign
   template[4].submenu = [
-    {
-      label: messages.windowMenuClose.message,
-      accelerator: 'CmdOrCtrl+W',
-      role: 'close',
-    },
     {
       label: messages.windowMenuMinimize.message,
       accelerator: 'CmdOrCtrl+M',
