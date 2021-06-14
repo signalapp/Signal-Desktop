@@ -162,7 +162,7 @@ export async function startApp(): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const e164 = c.get('e164')!;
 
-        c.queueJob(async () => {
+        c.queueJob('sendDeliveryReceipt', async () => {
           try {
             const {
               wrap,
@@ -850,7 +850,7 @@ export async function startApp(): Promise<void> {
         if (conversation) {
           const receivedAt = Date.now();
           const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
-          conversation.queueJob(() =>
+          conversation.queueJob('addDeliveryIssue', () =>
             conversation.addDeliveryIssue({
               receivedAt,
               receivedAtCounter,
@@ -2838,7 +2838,9 @@ export async function startApp(): Promise<void> {
           );
         }
 
-        sender.queueJob(() => sender.sendProfileKeyUpdate());
+        sender.queueJob('sendProfileKeyUpdate', () =>
+          sender.sendProfileKeyUpdate()
+        );
       });
     },
 
@@ -3730,7 +3732,7 @@ export async function startApp(): Promise<void> {
     window.log.warn(
       `requestResend/${logId}: No content hint, adding error immediately`
     );
-    conversation.queueJob(async () => {
+    conversation.queueJob('addDeliveryIssue', async () => {
       conversation.addDeliveryIssue({
         receivedAt: receivedAtDate,
         receivedAtCounter,
@@ -3778,7 +3780,7 @@ export async function startApp(): Promise<void> {
 
     const receivedAt = Date.now();
     const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
-    conversation.queueJob(async () => {
+    conversation.queueJob('addChatSessionRefreshed', async () => {
       conversation.addChatSessionRefreshed({ receivedAt, receivedAtCounter });
     });
   }

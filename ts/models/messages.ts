@@ -3507,7 +3507,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = window.ConversationController.get(conversationId)!;
-    return conversation.queueJob(async () => {
+    return conversation.queueJob('handleDataMessage', async () => {
       window.log.info(
         `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
       );

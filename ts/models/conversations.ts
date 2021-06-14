@@ -89,6 +89,8 @@ const { addStickerPackReference } = window.Signal.Data;
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 const FIVE_MINUTES = 1000 * 60 * 5;
 
+const JOB_REPORTING_THRESHOLD_MS = 25;
+
 const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
   'profileLastFetchedAt',
 ]);
@@ -1051,7 +1053,9 @@ export class ConversationModel extends window.Backbone
     this.setRegistered();
 
     // If we couldn't apply universal timer before - try it again.
-    this.queueJob(() => this.maybeSetPendingUniversalTimer());
+    this.queueJob('maybeSetPendingUniversalTimer', () =>
+      this.maybeSetPendingUniversalTimer()
+    );
   }
 
   isValid(): boolean {
@@ -1168,7 +1172,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    await this.queueJob(async () => {
+    await this.queueJob('sendTypingMessage', async () => {
       const recipientId = isDirectConversation(this.attributes)
         ? this.getSendTarget()
         : undefined;
@@ -2154,19 +2158,25 @@ export class ConversationModel extends window.Backbone
   setVerifiedDefault(options?: VerificationOptions): Promise<unknown> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { DEFAULT } = this.verifiedEnum!;
-    return this.queueJob(() => this._setVerified(DEFAULT, options));
+    return this.queueJob('setVerifiedDefault', () =>
+      this._setVerified(DEFAULT, options)
+    );
   }
 
   setVerified(options?: VerificationOptions): Promise<unknown> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { VERIFIED } = this.verifiedEnum!;
-    return this.queueJob(() => this._setVerified(VERIFIED, options));
+    return this.queueJob('setVerified', () =>
+      this._setVerified(VERIFIED, options)
+    );
   }
 
   setUnverified(options: VerificationOptions): Promise<unknown> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { UNVERIFIED } = this.verifiedEnum!;
-    return this.queueJob(() => this._setVerified(UNVERIFIED, options));
+    return this.queueJob('setUnverified', () =>
+      this._setVerified(UNVERIFIED, options)
+    );
   }
 
   async _setVerified(
@@ -2863,7 +2873,7 @@ export class ConversationModel extends window.Backbone
 
     // Lastly, we don't send read syncs for any message marked read due to a read
     //   sync. That's a notification explosion we don't need.
-    return this.queueJob(() =>
+    return this.queueJob('onReadMessage', () =>
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.markRead(message.get('received_at')!, {
         sendReadReceipts: false,
@@ -2936,7 +2946,10 @@ export class ConversationModel extends window.Backbone
     return null;
   }
 
-  queueJob(callback: () => unknown | Promise<unknown>): Promise<WhatIsThis> {
+  queueJob(
+    name: string,
+    callback: () => unknown | Promise<unknown>
+  ): Promise<WhatIsThis> {
     this.jobQueue = this.jobQueue || new window.PQueue({ concurrency: 1 });
 
     const taskWithTimeout = window.textsecure.createTaskWithTimeout(
@@ -2944,7 +2957,27 @@ export class ConversationModel extends window.Backbone
       `conversation ${this.idForLogging()}`
     );
 
-    return this.jobQueue.add(taskWithTimeout);
+    const queuedAt = Date.now();
+    return this.jobQueue.add(async () => {
+      const startedAt = Date.now();
+      const waitTime = startedAt - queuedAt;
+
+      if (waitTime > JOB_REPORTING_THRESHOLD_MS) {
+        window.log.info(
+          `Conversation job ${name} was blocked for ${waitTime}ms`
+        );
+      }
+
+      try {
+        return await taskWithTimeout();
+      } finally {
+        const duration = Date.now() - startedAt;
+
+        if (duration > JOB_REPORTING_THRESHOLD_MS) {
+          window.log.info(`Conversation job ${name} took ${duration}ms`);
+        }
+      }
+    });
   }
 
   isAdmin(conversationId: string): boolean {
@@ -3232,7 +3265,7 @@ export class ConversationModel extends window.Backbone
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
 
-    return this.queueJob(async () => {
+    return this.queueJob('sendDeleteForEveryone', async () => {
       window.log.info(
         'Sending deleteForEveryone to conversation',
         this.idForLogging(),
@@ -3362,7 +3395,7 @@ export class ConversationModel extends window.Backbone
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
 
-    return this.queueJob(async () => {
+    return this.queueJob('sendReactionMessage', async () => {
       window.log.info(
         'Sending reaction to conversation',
         this.idForLogging(),
@@ -3559,7 +3592,7 @@ export class ConversationModel extends window.Backbone
     const destination = this.getSendTarget()!;
     const recipients = this.getRecipients();
 
-    this.queueJob(async () => {
+    this.queueJob('sendMessage', async () => {
       const now = timestamp || Date.now();
 
       await this.maybeApplyUniversalTimer();
@@ -3756,7 +3789,9 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    this.queueJob(() => this.maybeSetPendingUniversalTimer());
+    this.queueJob('maybeSetPendingUniversalTimer', () =>
+      this.maybeSetPendingUniversalTimer()
+    );
 
     const ourConversationId = window.ConversationController.getOurConversationId();
     if (!ourConversationId) {
@@ -5018,7 +5053,7 @@ export class ConversationModel extends window.Backbone
     );
     this.set({ needsStorageServiceSync: true });
 
-    this.queueJob(() => {
+    this.queueJob('captureChange', () => {
       Services.storageServiceUploadJob();
     });
   }

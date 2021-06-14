@@ -48,7 +48,7 @@
         }
 
         // Do not await, since this can deadlock the queue
-        targetConversation.queueJob(async () => {
+        targetConversation.queueJob('Deletes.onDelete', async () => {
           window.log.info('Handling DOE for', del.get('targetSentTimestamp'));
 
           const messages = await window.Signal.Data.getMessagesBySentAt(
