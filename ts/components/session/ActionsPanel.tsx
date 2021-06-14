@@ -33,12 +33,9 @@ import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManager
 import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { SwarmPolling } from '../../session/snode_api/swarmPolling';
-import _, { divide } from 'lodash';
 import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusDialog';
 import { EditProfileDialog } from '../EditProfileDialog';
 import { StateType } from '../../state/reducer';
-import { updateConfirmModal } from "../../state/ducks/modalDialog";
-import { useInView } from 'react-intersection-observer';
 import { SessionConfirm } from './SessionConfirm';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports

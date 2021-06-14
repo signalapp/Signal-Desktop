@@ -11,6 +11,7 @@ import { ContactType, SessionMemberListItem } from '../session/SessionMemberList
 import { SessionModal } from '../session/SessionModal';
 import { SessionSpinner } from '../session/SessionSpinner';
 import _ from 'lodash';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 interface Props {
   convo: ConversationModel;
   onClose: any;
@@ -60,7 +61,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     const renderContent = !firstLoading;
 
     return (
-      <SessionModal title={title} onClose={this.closeDialog} theme={this.props.theme}>
+      <SessionWrapperModal title={title} onClose={this.closeDialog} theme={this.props.theme}>
         <Flex container={true} flexDirection="column" alignItems="center">
           {renderContent && (
             <>
@@ -91,7 +92,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
 
           <SessionSpinner loading={firstLoading} />
         </Flex>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 

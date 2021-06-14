@@ -34,6 +34,8 @@ import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmen
 import { deleteOpenGroupMessages } from '../../../interactions/conversation';
 import { ConversationTypeEnum } from '../../../models/conversation';
 import { SessionButtonColor } from '../SessionButton';
+import { AddModeratorsDialog } from '../../conversation/ModeratorsAddDialog';
+import { RemoveModeratorsDialog } from '../../conversation/ModeratorsRemoveDialog';
 
 
 
@@ -68,6 +70,8 @@ interface State {
 
   // lightbox options
   lightBoxOptions?: any;
+
+  modal: JSX.Element | null;
 }
 
 interface Props {
@@ -102,6 +106,7 @@ export class SessionConversation extends React.Component<Props, State> {
       showOptionsPane: false,
       stagedAttachments: [],
       isDraggingFile: false,
+      modal: null
     };
     this.compositionBoxRef = React.createRef();
     this.messageContainerRef = React.createRef();
@@ -291,6 +296,7 @@ export class SessionConversation extends React.Component<Props, State> {
           />
         </div>
 
+        { this.state.modal ? this.state.modal : null}
         <div className={classNames('conversation-item__options-pane', showOptionsPane && 'show')}>
           <SessionRightPanelWithDetails {...this.getRightPanelProps()} />
         </div>
@@ -514,11 +520,29 @@ export class SessionConversation extends React.Component<Props, State> {
         window.Whisper.events.trigger('leaveClosedGroup', conversation);
       },
       onAddModerators: () => {
-        window.Whisper.events.trigger('addModerators', conversation);
+        // window.Whisper.events.trigger('addModerators', conversation);
+        this.setState({
+          ...this.state,
+          modal: (
+            <AddModeratorsDialog
+              convo={conversation}
+              onClose={() => this.setState({ ...this.state, modal: null })}
+              theme={this.props.theme}
+            ></AddModeratorsDialog>)
+        })
       },
 
       onRemoveModerators: () => {
-        window.Whisper.events.trigger('removeModerators', conversation);
+        // window.Whisper.events.trigger('removeModerators', conversation);
+        this.setState({
+          ...this.state,
+          modal: (
+            <RemoveModeratorsDialog
+              convo={conversation}
+              onClose={() => this.setState({ ...this.state, modal: null })}
+              theme={this.props.theme}
+            ></RemoveModeratorsDialog>)
+        })
       },
       onShowLightBox: (lightBoxOptions = {}) => {
         this.setState({ lightBoxOptions });

@@ -9,6 +9,7 @@ import { Flex } from '../basic/Flex';
 import { ConversationModel } from '../../models/conversation';
 import { ApiV2 } from '../../opengroup/opengroupV2';
 import { processDecrypted } from '../../receiver/dataMessage';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 interface Props {
   convo: ConversationModel;
   onClose: any;
@@ -146,12 +147,14 @@ export const AddModeratorsDialog = (props: any) => {
   let channelAPI: any;
 
   useEffect(() => {
-    async function getPublicSendData {
+    async function getPublicSendData () {
       if (props.convo.isOpenGroupV1()) {
         channelAPI = await convo.getPublicSendData();
       }
       setFirstLoading(false);
     }
+
+    getPublicSendData();
   }, [])
 
 
@@ -160,7 +163,7 @@ export const AddModeratorsDialog = (props: any) => {
     // if we don't have valid data entered by the user
     const pubkey = PubKey.from(inputBoxValue);
     if (!pubkey) {
-      window.log.info('invalid pubkey for adding as moderator:', this.state.inputBoxValue);
+      window.log.info('invalid pubkey for adding as moderator:', inputBoxValue);
       ToastUtils.pushInvalidPubKey();
       return;
     }
@@ -211,7 +214,7 @@ export const AddModeratorsDialog = (props: any) => {
 
 
   return (
-    <SessionModal title={title} onClose={() => onClose()} theme={theme}>
+    <SessionWrapperModal showExitIcon={true} title={title} onClose={() => onClose()} theme={theme}>
       <Flex container={true} flexDirection="column" alignItems="center">
         {renderContent && (
           <>
@@ -236,7 +239,7 @@ export const AddModeratorsDialog = (props: any) => {
         )}
         <SessionSpinner loading={addingInProgress || firstLoading} />
       </Flex>
-    </SessionModal>
+    </SessionWrapperModal>
   );
 
 }
