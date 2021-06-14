@@ -5,6 +5,7 @@ import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { Avatar, AvatarSize } from '../Avatar';
 import { DefaultTheme, withTheme } from 'styled-components';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
 interface Props {
   titleText: string;
@@ -78,7 +79,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
     );
 
     return (
-      <SessionModal
+      <SessionWrapperModal
         title={titleText}
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
@@ -112,7 +113,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
             buttonColor={SessionButtonColor.Green}
           />
         </div>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 
