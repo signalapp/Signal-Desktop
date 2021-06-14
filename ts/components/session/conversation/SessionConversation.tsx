@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import { SessionCompositionBox, StagedAttachmentType } from './SessionCompositionBox';
 
-import { ClosedGroup, Constants } from '../../../session';
+import { ClosedGroup, Constants, Utils } from '../../../session';
 import _ from 'lodash';
 import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
@@ -35,6 +35,9 @@ import { SessionButtonColor } from '../SessionButton';
 import { AddModeratorsDialog } from '../../conversation/ModeratorsAddDialog';
 import { RemoveModeratorsDialog } from '../../conversation/ModeratorsRemoveDialog';
 import { UpdateGroupNameDialog } from '../../conversation/UpdateGroupNameDialog';
+import { UpdateGroupMembersDialog } from '../../conversation/UpdateGroupMembersDialog';
+import { getOurNumber } from '../../../state/selectors/user';
+import { useSelector } from 'react-redux';
 
 
 
@@ -517,13 +520,15 @@ export class SessionConversation extends React.Component<Props, State> {
           this.setState({ ...this.state, modal: null })
         }
 
-        const onUpdateGroupNameSubmit = (groupName: string, avatar: string) => {
-          ClosedGroup.initiateGroupUpdate(
-            groupId,
-            groupName,
-            members,
-            avatar
-          )
+        const onUpdateGroupNameSubmit = (newGroupName: string, newAvatar: string) => {
+          if (newGroupName !== groupName || newAvatar !== avatarPath) {
+            ClosedGroup.initiateGroupUpdate(
+              groupId,
+              groupName,
+              members,
+              avatarPath
+            )
+          }
         }
 
         this.setState({
@@ -549,6 +554,9 @@ export class SessionConversation extends React.Component<Props, State> {
 
       },
       onUpdateGroupMembers: async () => {
+        // window.Whisper.events.trigger('updateGroupMembers', conversation);
+        // return;
+
         if (conversation.isMediumGroup()) {
           // make sure all the members' convo exists so we can add or remove them
           await Promise.all(
@@ -562,7 +570,126 @@ export class SessionConversation extends React.Component<Props, State> {
               )
           );
         }
-        window.Whisper.events.trigger('updateGroupMembers', conversation);
+
+
+        const groupName = conversation.getName();
+        const isPublic = conversation.isPublic();
+        const groupId = conversation.id;
+        const members = conversation.get('members') || [];
+        const avatarPath = conversation.getAvatarPath();
+        const theme = this.props.theme;
+
+        const titleText = window.i18n('updateGroupDialogTitle', groupName);
+
+        const ourPK = Utils.UserUtils.getOurPubKeyStrFromCache();
+
+        let admins = conversation.get('groupAdmins');
+        const isAdmin = conversation.get('groupAdmins')?.includes(ourPK) ? true : false;
+
+
+        const convos = ConversationController.getInstance().getConversations()
+          .filter(d => !!d);
+
+        let existingMembers = conversation.get('members') || [];
+        let existingZombies = conversation.get('zombies') || [];
+
+
+        let contactsAndMembers = convos.filter(
+          d => existingMembers.includes(d.id) && d.isPrivate() && !d.isMe()
+        );
+
+
+        // contactsAndMembers = _.uniqBy(contactsAndMembers, true, d => d.id);
+        contactsAndMembers = _.uniqBy(contactsAndMembers, 'id');
+
+
+        // at least make sure it's an array
+        if (!Array.isArray(existingMembers)) {
+          existingMembers = [];
+        }
+
+
+        const onClose = () => {
+          this.setState({
+            ...this.state,
+            modal: null
+          })
+        }
+
+        const onSubmit = async (newMembers: string[]) => {
+          const _ = window.Lodash;
+          const ourPK = Utils.UserUtils.getOurPubKeyStrFromCache();
+
+          const allMembersAfterUpdate = window.Lodash.concat(newMembers, [ourPK]);
+
+          if (!isAdmin) {
+            window.log.warn('Skipping update of members, we are not the admin');
+            return;
+          }
+          // new members won't include the zombies. We are the admin and we want to remove them not matter what
+
+          // We need to NOT trigger an group update if the list of member is the same.
+          // we need to merge all members, including zombies for this call.
+
+          // we consider that the admin ALWAYS wants to remove zombies (actually they should be removed
+          // automatically by him when the LEFT message is received)
+          const allExistingMembersWithZombies = _.uniq(
+            existingMembers.concat(existingZombies)
+          );
+
+          const notPresentInOld = allMembersAfterUpdate.filter(
+            (m: string) => !allExistingMembersWithZombies.includes(m)
+          );
+
+          // be sure to include zombies in here
+          const membersToRemove = allExistingMembersWithZombies.filter(
+            (m: string) => !allMembersAfterUpdate.includes(m)
+          );
+
+          const xor = _.xor(membersToRemove, notPresentInOld);
+          if (xor.length === 0) {
+            window.log.info('skipping group update: no detected changes in group member list');
+
+            return;
+          }
+
+          // If any extra devices of removed exist in newMembers, ensure that you filter them
+          // Note: I think this is useless
+          const filteredMembers = allMembersAfterUpdate.filter(
+            (member: string) => !_.includes(membersToRemove, member)
+          );
+
+          ClosedGroup.initiateGroupUpdate(
+            groupId,
+            groupName,
+            filteredMembers,
+            avatarPath
+          );
+        }
+
+        this.setState({
+          ...this.state,
+          modal: (<UpdateGroupMembersDialog
+            titleText={titleText}
+            isPublic={isPublic}
+            admins={admins || []}
+            onSubmit={onSubmit}
+            onClose={onClose}
+            okText={window.i18n('ok')}
+            cancelText={window.i18n('cancel')}
+            contactList={contactsAndMembers}
+
+            isAdmin={isAdmin}
+            i18n={window.i18n}
+
+            existingMembers={existingMembers}
+            existingZombies={existingZombies}
+
+            theme={this.props.theme}
+          />)
+        })
+
+        // warrick: delete old code
       },
       onInviteContacts: () => {
         window.Whisper.events.trigger('inviteContacts', conversation);
