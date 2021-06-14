@@ -253,30 +253,6 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "js/views/app_view.js",
-    "line": "      this.el.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded string"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/app_view.js",
-    "line": "      this.el.append(view.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/views/app_view.js",
-    "line": "      this.debugLogView.$el.appendTo(this.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/views/banner_view.js",
     "line": "    template: () => $('#banner').html(),",
@@ -13512,6 +13488,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/BackboneHost.js",
+    "line": "    const hostRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-09T04:02:08.305Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/BackboneHost.js",
+    "line": "    const viewRef = react_1.useRef(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-09T04:02:08.305Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallNeedPermissionScreen.js",
     "line": "    const autoCloseAtRef = react_1.useRef(Date.now() + AUTO_CLOSE_MS);",
     "reasonCategory": "falseMatch",
@@ -13811,6 +13801,20 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T16:51:54.214Z",
     "reasonDetail": "Used to handle an <input> element. Only updates the value and selection state."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Inbox.js",
+    "line": "    const hostRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-08T02:49:25.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Inbox.js",
+    "line": "    const viewRef = react_1.useRef(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-08T02:49:25.154Z"
   },
   {
     "rule": "jQuery-$(",

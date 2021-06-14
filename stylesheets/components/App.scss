@@ -1,0 +1,12 @@
+.App {
+  height: 100%;
+
+  &.light-theme {
+    background-color: $color-white;
+    color: $color-gray-90;
+  }
+  &.dark-theme {
+    background-color: $color-gray-95;
+    color: $color-gray-05;
+  }
+}

@@ -106,6 +106,30 @@
         this.conversation_stack.unload();
       });
 
+      window.Whisper.events.on('showConversation', async (id, messageId) => {
+        const conversation = await ConversationController.getOrCreateAndWait(
+          id,
+          'private'
+        );
+
+        conversation.setMarkedUnread(false);
+
+        const { openConversationExternal } = window.reduxActions.conversations;
+        if (openConversationExternal) {
+          openConversationExternal(conversation.id, messageId);
+        }
+
+        this.conversation_stack.open(conversation, messageId);
+        this.focusConversation();
+      });
+
+      window.Whisper.events.on('loadingProgress', count => {
+        const view = this.appLoadingScreen;
+        if (view) {
+          view.updateProgress(count);
+        }
+      });
+
       if (!options.initialLoadComplete) {
         this.appLoadingScreen = new Whisper.AppLoadingScreen();
         this.appLoadingScreen.render();
@@ -209,12 +233,6 @@
         }
       }
     },
-    onProgress(count) {
-      const view = this.appLoadingScreen;
-      if (view) {
-        view.updateProgress(count);
-      }
-    },
     focusConversation(e) {
       if (e && this.$(e.target).closest('.placeholder').length) {
         return;
@@ -230,22 +248,6 @@
     },
     reloadBackgroundPage() {
       window.location.reload();
-    },
-    async openConversation(id, messageId) {
-      const conversation = await ConversationController.getOrCreateAndWait(
-        id,
-        'private'
-      );
-
-      conversation.setMarkedUnread(false);
-
-      const { openConversationExternal } = window.reduxActions.conversations;
-      if (openConversationExternal) {
-        openConversationExternal(conversation.id, messageId);
-      }
-
-      this.conversation_stack.open(conversation, messageId);
-      this.focusConversation();
     },
     closeRecording(e) {
       if (e && this.$(e.target).closest('.capture-audio').length > 0) {

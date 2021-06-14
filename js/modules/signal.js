@@ -80,6 +80,7 @@ const {
 const {
   createConversationHeader,
 } = require('../../ts/state/roots/createConversationHeader');
+const { createApp } = require('../../ts/state/roots/createApp');
 const { createCallManager } = require('../../ts/state/roots/createCallManager');
 const {
   createForwardMessageModal,
@@ -120,6 +121,7 @@ const {
 } = require('../../ts/state/roots/createShortcutGuideModal');
 
 const { createStore } = require('../../ts/state/createStore');
+const appDuck = require('../../ts/state/ducks/app');
 const callingDuck = require('../../ts/state/ducks/calling');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const emojisDuck = require('../../ts/state/ducks/emojis');
@@ -356,6 +358,7 @@ exports.setup = (options = {}) => {
   };
 
   const Roots = {
+    createApp,
     createCallManager,
     createChatColorPicker,
     createCompositionArea,
@@ -379,6 +382,7 @@ exports.setup = (options = {}) => {
   };
 
   const Ducks = {
+    app: appDuck,
     calling: callingDuck,
     conversations: conversationsDuck,
     emojis: emojisDuck,

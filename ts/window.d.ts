@@ -42,6 +42,7 @@ import * as Errors from '../js/modules/types/errors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
+import { createApp } from './state/roots/createApp';
 import { createCallManager } from './state/roots/createCallManager';
 import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createCompositionArea } from './state/roots/createCompositionArea';
@@ -62,6 +63,7 @@ import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal
 import { createStickerManager } from './state/roots/createStickerManager';
 import { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
 import { createTimeline } from './state/roots/createTimeline';
+import * as appDuck from './state/ducks/app';
 import * as callingDuck from './state/ducks/calling';
 import * as conversationsDuck from './state/ducks/conversations';
 import * as emojisDuck from './state/ducks/emojis';
@@ -163,6 +165,7 @@ declare global {
       ) => void
     ) => void;
 
+    addSetupMenuItems: () => void;
     attachmentDownloadQueue: Array<MessageModel> | undefined;
     startupProcessingQueue: StartupQueue | undefined;
     baseAttachmentsPath: string;
@@ -229,7 +232,6 @@ declare global {
     nodeSetImmediate: typeof setImmediate;
     normalizeUuids: (obj: any, paths: Array<string>, context: string) => void;
     onFullScreenChange: (fullScreen: boolean) => void;
-    owsDesktopApp: WhatIsThis;
     platform: string;
     preloadedImages: Array<WhatIsThis>;
     reduxActions: ReduxActions;
@@ -507,6 +509,7 @@ declare global {
         bindActionCreators: typeof bindActionCreators;
         createStore: typeof createStore;
         Roots: {
+          createApp: typeof createApp;
           createCallManager: typeof createCallManager;
           createChatColorPicker: typeof createChatColorPicker;
           createCompositionArea: typeof createCompositionArea;
@@ -529,6 +532,7 @@ declare global {
           createTimeline: typeof createTimeline;
         };
         Ducks: {
+          app: typeof appDuck;
           calling: typeof callingDuck;
           conversations: typeof conversationsDuck;
           emojis: typeof emojisDuck;
@@ -695,13 +699,15 @@ export type WhisperType = {
   ConversationArchivedToast: WhatIsThis;
   ConversationUnarchivedToast: WhatIsThis;
   ConversationMarkedUnreadToast: WhatIsThis;
-  AppView: WhatIsThis;
   WallClockListener: WhatIsThis;
   MessageRequests: WhatIsThis;
   BannerView: any;
   RecorderView: any;
   GroupMemberList: any;
   GroupLinkCopiedToast: typeof Backbone.View;
+  InboxView: typeof window.Whisper.View;
+  InstallView: typeof window.Whisper.View;
+  StandaloneRegistrationView: typeof window.Whisper.View;
   KeyVerificationPanelView: any;
   SafetyNumberChangeDialogView: any;
   BodyRangesType: BodyRangesType;

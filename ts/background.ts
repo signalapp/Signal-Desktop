@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
+import { render } from 'react-dom';
 import {
   DecryptionErrorMessage,
   PlaintextContent,
@@ -300,10 +301,8 @@ export async function startApp(): Promise<void> {
   window.log.info('environment:', window.getEnvironment());
 
   let idleDetector: WhatIsThis;
-  let initialLoadComplete = false;
   let newVersion = false;
 
-  window.owsDesktopApp = {};
   window.document.title = window.getTitle();
 
   window.Whisper.KeyChangeListener.init(window.textsecure.storage.protocol);
@@ -905,6 +904,9 @@ export async function startApp(): Promise<void> {
     const ourUuid = window.textsecure.storage.user.getUuid();
     const ourConversationId = window.ConversationController.getOurConversationId();
 
+    const themeSetting = window.Events.getThemeSetting();
+    const theme = themeSetting === 'system' ? window.systemTheme : themeSetting;
+
     const initialState = {
       conversations: {
         conversationLookup: window.Signal.Util.makeLookup(conversations, 'id'),
@@ -943,7 +945,7 @@ export async function startApp(): Promise<void> {
         platform: window.platform,
         i18n: window.i18n,
         interactionMode: window.getInteractionMode(),
-        theme: window.Events.getThemeSetting(),
+        theme,
       },
     };
 
@@ -955,6 +957,10 @@ export async function startApp(): Promise<void> {
 
     // Binding these actions to our redux store and exposing them allows us to update
     //   redux when things change in the backbone world.
+    actions.app = window.Signal.State.bindActionCreators(
+      window.Signal.State.Ducks.app.actions,
+      store.dispatch
+    );
     actions.calling = window.Signal.State.bindActionCreators(
       window.Signal.State.Ducks.calling.actions,
       store.dispatch
@@ -1547,17 +1553,11 @@ export async function startApp(): Promise<void> {
   }
 
   window.Whisper.events.on('setupAsNewDevice', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openInstaller();
-    }
+    window.reduxActions.app.openInstaller();
   });
 
   window.Whisper.events.on('setupAsStandalone', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openStandalone();
-    }
+    window.reduxActions.app.openStandalone();
   });
 
   window.Whisper.events.on('powerMonitorSuspend', () => {
@@ -1712,10 +1712,13 @@ export async function startApp(): Promise<void> {
     });
 
     cancelInitializationMessage();
-    const appView = new window.Whisper.AppView({
-      el: $('body'),
-    });
-    window.owsDesktopApp.appView = appView;
+    render(
+      window.Signal.State.Roots.createApp(window.reduxStore),
+      document.body
+    );
+    const hideMenuBar = window.storage.get('hide-menu-bar', false);
+    window.setAutoHideMenuBar(hideMenuBar);
+    window.setMenuBarVisibility(!hideMenuBar);
 
     window.Whisper.WallClockListener.init(window.Whisper.events);
     window.Whisper.ExpiringMessagesListener.init(window.Whisper.events);
@@ -1723,22 +1726,14 @@ export async function startApp(): Promise<void> {
 
     if (window.Signal.Util.Registration.everDone()) {
       connect();
-      appView.openInbox({
-        initialLoadComplete,
-      });
+      window.reduxActions.app.openInbox();
     } else {
-      appView.openInstaller();
+      window.reduxActions.app.openInstaller();
     }
 
-    window.Whisper.events.on('showDebugLog', () => {
-      appView.openDebugLog();
-    });
-    window.Whisper.events.on('unauthorized', () => {
-      appView.inboxView.networkStatusView.update();
-    });
     window.Whisper.events.on('contactsync', () => {
-      if (appView.installView) {
-        appView.openInbox();
+      if (window.reduxStore.getState().app.isShowingInstaller) {
+        window.reduxActions.app.openInbox();
       }
     });
 
@@ -1747,20 +1742,12 @@ export async function startApp(): Promise<void> {
       window.Whisper.Notifications.fastClear()
     );
 
-    window.Whisper.events.on('showConversation', (id, messageId) => {
-      if (appView) {
-        appView.openConversation(id, messageId);
-      }
-    });
-
     window.Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
       if (id) {
-        appView.openConversation(id, messageId);
+        window.Whisper.events.trigger('showConversation', id, messageId);
       } else {
-        appView.openInbox({
-          initialLoadComplete,
-        });
+        window.reduxActions.app.openInbox();
       }
     });
 
@@ -2291,11 +2278,6 @@ export async function startApp(): Promise<void> {
   }
 
   function onChangeTheme() {
-    const view = window.owsDesktopApp.appView;
-    if (view) {
-      view.applyTheme();
-    }
-
     if (window.reduxActions && window.reduxActions.user) {
       const theme = window.Events.getThemeSetting();
       window.reduxActions.user.userChanged({
@@ -2352,7 +2334,6 @@ export async function startApp(): Promise<void> {
       window.flushAllWaitBatchers(),
     ]);
     window.log.info('onEmpty: All outstanding database requests complete');
-    initialLoadComplete = true;
     window.readyForUpdates();
 
     // Start listeners here, after we get through our queue.
@@ -2370,13 +2351,8 @@ export async function startApp(): Promise<void> {
     window.Whisper.Notifications.enable();
 
     await onAppView;
-    const view = window.owsDesktopApp.appView;
-    if (!view) {
-      throw new Error('Expected `appView` to be initialized');
-    }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    view.onEmpty();
+    window.reduxActions.app.initialLoadComplete();
 
     window.logAppLoadedEvent({
       processedCount: messageReceiver && messageReceiver.getProcessedCount(),
@@ -2456,10 +2432,7 @@ export async function startApp(): Promise<void> {
       `incrementProgress: Message count is ${initialStartupCount}`
     );
 
-    const view = window.owsDesktopApp.appView;
-    if (view) {
-      view.onProgress(initialStartupCount);
-    }
+    window.Whisper.events.trigger('loadingProgress', initialStartupCount);
   }
 
   window.Whisper.events.on('manualConnect', manualConnect);
