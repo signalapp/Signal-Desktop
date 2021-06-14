@@ -230,6 +230,57 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     }
   }
 
+  private async onSubmit(newMembers) {
+      const _ = window.Lodash;
+      const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
+
+      const allMembersAfterUpdate = window.Lodash.concat(newMembers, [ourPK]);
+
+      if (!this.isAdmin) {
+        window.log.warn('Skipping update of members, we are not the admin');
+        return;
+      }
+      // new members won't include the zombies. We are the admin and we want to remove them not matter what
+
+      // We need to NOT trigger an group update if the list of member is the same.
+      // we need to merge all members, including zombies for this call.
+
+      // we consider that the admin ALWAYS wants to remove zombies (actually they should be removed
+      // automatically by him when the LEFT message is received)
+      const allExistingMembersWithZombies = _.uniq(
+        this.existingMembers.concat(this.existingZombies)
+      );
+
+      const notPresentInOld = allMembersAfterUpdate.filter(
+        m => !allExistingMembersWithZombies.includes(m)
+      );
+
+      // be sure to include zombies in here
+      const membersToRemove = allExistingMembersWithZombies.filter(
+        m => !allMembersAfterUpdate.includes(m)
+      );
+
+      const xor = _.xor(membersToRemove, notPresentInOld);
+      if (xor.length === 0) {
+        window.log.info('skipping group update: no detected changes in group member list');
+
+        return;
+      }
+
+      // If any extra devices of removed exist in newMembers, ensure that you filter them
+      // Note: I think this is useless
+      const filteredMembers = allMembersAfterUpdate.filter(
+        member => !_.includes(membersToRemove, member)
+      );
+
+      window.libsession.ClosedGroup.initiateGroupUpdate(
+        this.groupId,
+        this.groupName,
+        filteredMembers,
+        this.avatarPath
+      );
+    }
+
   // Return members that would comprise the group given the
   // current state in `users`
   private getWouldBeMembers(users: Array<ContactType>) {
