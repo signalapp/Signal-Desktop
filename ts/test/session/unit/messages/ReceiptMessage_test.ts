@@ -4,19 +4,16 @@ import { beforeEach } from 'mocha';
 import { SignalService } from '../../../../protobuf';
 import { toNumber } from 'lodash';
 import { Constants } from '../../../../session';
-import { DeliveryReceiptMessage } from '../../../../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
 import { ReadReceiptMessage } from '../../../../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 
 describe('ReceiptMessage', () => {
   let readMessage: ReadReceiptMessage;
-  let deliveryMessage: ReadReceiptMessage;
   let timestamps: Array<number>;
 
   beforeEach(() => {
     timestamps = [987654321, 123456789];
     const timestamp = Date.now();
     readMessage = new ReadReceiptMessage({ timestamp, timestamps });
-    deliveryMessage = new DeliveryReceiptMessage({ timestamp, timestamps });
   });
 
   it('content of a read receipt is correct', () => {
@@ -28,18 +25,8 @@ describe('ReceiptMessage', () => {
     expect(decodedTimestamps).to.deep.equal(timestamps);
   });
 
-  it('content of a delivery receipt is correct', () => {
-    const plainText = deliveryMessage.plainTextBuffer();
-    const decoded = SignalService.Content.decode(plainText);
-
-    expect(decoded.receiptMessage).to.have.property('type', 0);
-    const decodedTimestamps = (decoded.receiptMessage?.timestamp ?? []).map(toNumber);
-    expect(decodedTimestamps).to.deep.equal(timestamps);
-  });
-
   it('correct ttl', () => {
     expect(readMessage.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
-    expect(deliveryMessage.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
   });
 
   it('has an identifier', () => {

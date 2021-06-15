@@ -6,6 +6,7 @@ import { ConversationController } from '../../session/conversations';
 import { MessageModel } from '../../models/message';
 import { getMessagesByConversation } from '../../data/data';
 import { ConversationTypeEnum } from '../../models/conversation';
+import { MessageDeliveryStatus } from '../../models/messageType';
 
 // State
 
@@ -50,7 +51,7 @@ export type MessageTypeInConvo = {
   getPropsForMessageDetail(): Promise<any>;
 };
 
-export type LastMessageStatusType = 'error' | 'sending' | 'sent' | 'delivered' | 'read' | null;
+export type LastMessageStatusType = MessageDeliveryStatus | null;
 
 export type LastMessageType = {
   status: LastMessageStatusType;

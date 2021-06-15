@@ -1,13 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
-
 import { MessageSendingErrorText, MetadataSpacer } from './MetadataUtilComponent';
 import { OutgoingMessageStatus } from './OutgoingMessageStatus';
-import { Spinner } from '../../basic/Spinner';
 import { MetadataBadges } from './MetadataBadge';
 import { Timestamp } from '../Timestamp';
 import { ExpireTimer } from '../ExpireTimer';
 import styled, { DefaultTheme } from 'styled-components';
+import { MessageDeliveryStatus, MessageModelType } from '../../../models/messageType';
 
 type Props = {
   disableMenu?: boolean;
@@ -16,10 +14,10 @@ type Props = {
   text?: string;
   id: string;
   collapseMetadata?: boolean;
-  direction: 'incoming' | 'outgoing';
+  direction: MessageModelType;
   timestamp: number;
   serverTimestamp?: number;
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
+  status?: MessageDeliveryStatus;
   expirationLength?: number;
   expirationTimestamp?: number;
   isPublic?: boolean;

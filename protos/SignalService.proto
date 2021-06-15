@@ -176,7 +176,6 @@ message ConfigurationMessage {
 message ReceiptMessage {
 
   enum Type {
-    DELIVERY = 0;
     READ     = 1;
   }
 

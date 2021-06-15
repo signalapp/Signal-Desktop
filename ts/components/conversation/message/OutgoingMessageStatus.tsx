@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { DefaultTheme } from 'styled-components';
+import { MessageDeliveryStatus } from '../../../models/messageType';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../../session/icon';
 import { OpacityMetadataComponent } from './MessageMetadata';
 
@@ -36,19 +37,6 @@ const MessageStatusSent = (props: { theme: DefaultTheme; iconColor: string }) =>
   );
 };
 
-const MessageStatusDelivered = (props: { theme: DefaultTheme; iconColor: string }) => {
-  return (
-    <MessageStatusSendingContainer>
-      <SessionIcon
-        iconColor={props.iconColor}
-        theme={props.theme}
-        iconType={SessionIconType.DoubleCheckCircle}
-        iconSize={SessionIconSize.Tiny}
-      />
-    </MessageStatusSendingContainer>
-  );
-};
-
 const MessageStatusRead = (props: { theme: DefaultTheme; iconColor: string }) => {
   return (
     <MessageStatusSendingContainer>
@@ -76,7 +64,7 @@ const MessageStatusError = (props: { theme: DefaultTheme }) => {
 };
 
 export const OutgoingMessageStatus = (props: {
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
+  status?: MessageDeliveryStatus;
   theme: DefaultTheme;
   iconColor: string;
   isInMessageView?: boolean;
@@ -86,8 +74,6 @@ export const OutgoingMessageStatus = (props: {
       return <MessageStatusSending {...props} />;
     case 'sent':
       return <MessageStatusSent {...props} />;
-    case 'delivered':
-      return <MessageStatusDelivered {...props} />;
     case 'read':
       return <MessageStatusRead {...props} />;
     case 'error':
