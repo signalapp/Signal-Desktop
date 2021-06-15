@@ -842,9 +842,7 @@ export async function mergeAccountRecord(
     window.storage.put('primarySendsSms', primarySendsSms);
   }
 
-  if (typeof universalExpireTimer === 'number') {
-    setUniversalExpireTimer(universalExpireTimer);
-  }
+  setUniversalExpireTimer(universalExpireTimer || 0);
 
   const PHONE_NUMBER_SHARING_MODE_ENUM =
     window.textsecure.protobuf.AccountRecord.PhoneNumberSharingMode;
