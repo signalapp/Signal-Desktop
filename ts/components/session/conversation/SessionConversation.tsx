@@ -520,13 +520,13 @@ export class SessionConversation extends React.Component<Props, State> {
           this.setState({ ...this.state, modal: null })
         }
 
-        const onUpdateGroupNameSubmit = (newGroupName: string, newAvatar: string) => {
-          if (newGroupName !== groupName || newAvatar !== avatarPath) {
+        const onUpdateGroupNameSubmit = (newGroupName: string, newAvatarPath: string) => {
+          if (newGroupName !== groupName || newAvatarPath !== avatarPath) {
             ClosedGroup.initiateGroupUpdate(
               groupId,
-              groupName,
+              newGroupName,
               members,
-              avatarPath
+              newAvatarPath
             )
           }
         }
