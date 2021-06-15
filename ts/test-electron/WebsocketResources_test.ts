@@ -225,6 +225,20 @@ describe('WebSocket-Resource', () => {
       this.clock.next();
     });
 
+    it('optionally disconnects if suspended', function thisNeeded1(done) {
+      const socket = new FakeSocket();
+
+      sinon.stub(socket, 'close').callsFake(() => done());
+
+      new WebSocketResource(socket as WebSocket, {
+        keepalive: true,
+      });
+
+      // Just skip one hour immediately
+      this.clock.setSystemTime(NOW + 3600 * 1000);
+      this.clock.next();
+    });
+
     it('allows resetting the keepalive timer', function thisNeeded2(done) {
       const startTime = Date.now();
 

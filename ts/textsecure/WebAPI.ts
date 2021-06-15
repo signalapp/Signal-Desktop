@@ -336,9 +336,18 @@ async function _connectSocket(
 
       reject(translatedError);
     });
-    client.on('connectFailed', error => {
+    client.on('connectFailed', e => {
       clearTimeout(timer);
-      reject(error);
+
+      reject(
+        makeHTTPError(
+          '_connectSocket connectFailed',
+          0,
+          {},
+          e.toString(),
+          stack
+        )
+      );
     });
   });
 }
