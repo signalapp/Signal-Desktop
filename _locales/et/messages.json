@@ -1,888 +1,1184 @@
 {
-    "copyErrorAndQuit": {
-        "message": "Copy error and quit",
-        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
-    },
-    "databaseError": {
-        "message": "Database Error",
-        "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "mainMenuFile": {
-        "message": "&Fail",
-        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuEdit": {
-        "message": "&Muuda",
-        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuView": {
-        "message": "&Vaade",
-        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuWindow": {
-        "message": "&Aken",
-        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuHelp": {
-        "message": "A&bi",
-        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "appMenuHide": {
-        "message": "Peida",
-        "description": "Application menu command to hide the window"
-    },
-    "appMenuHideOthers": {
-        "message": "Peida teised",
-        "description": "Application menu command to hide all other windows"
-    },
-    "appMenuUnhide": {
-        "message": "Näita kõiki",
-        "description": "Application menu command to show all application windows"
-    },
-    "appMenuQuit": {
-        "message": "Välju Signalist",
-        "description": "Application menu command to close the application"
-    },
-    "editMenuUndo": {
-        "message": "Võta tagasi",
-        "description": "Edit menu command to remove recently-typed text"
-    },
-    "editMenuRedo": {
-        "message": "Tee uuesti",
-        "description": "Edit menu command to restore previously undone typed text"
-    },
-    "editMenuCut": {
-        "message": "Lõika",
-        "description": "Edit menu command to remove selected text and add it to clipboard"
-    },
-    "editMenuCopy": {
-        "message": "Kopeeri",
-        "description": "Edit menu command to add selected text to clipboard"
-    },
-    "editMenuPaste": {
-        "message": "Aseta",
-        "description": "Edit menu command to insert text from clipboard at cursor location"
-    },
-    "editMenuPasteAndMatchStyle": {
-        "message": "Aseta ja sobita stiiliga",
-        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
-    },
-    "editMenuDelete": {
-        "message": "Kustuta",
-        "description": "Edit menu command to remove the selected text"
-    },
-    "editMenuSelectAll": {
-        "message": "Vali kõik",
-        "description": "Edit menu comand to select all of the text in selected text box"
-    },
-    "editMenuStartSpeaking": {
-        "message": "Alusta rääkimist",
-        "description": "Edit menu item under 'speech' to start dictation"
-    },
-    "editMenuStopSpeaking": {
-        "message": "Lõpeta rääkimine",
-        "description": "Edit menu item under 'speech' to stop dictation"
-    },
-    "windowMenuClose": {
-        "message": "Sulge aken",
-        "description": "Window menu command to close the current window"
-    },
-    "windowMenuMinimize": {
-        "message": "Minimeeri",
-        "description": "Window menu command to minimize the current window"
-    },
-    "windowMenuZoom": {
-        "message": "Suurenda",
-        "description": "Window menu command to make the current window the size of the whole screen"
-    },
-    "windowMenuBringAllToFront": {
-        "message": "Too kõik ette",
-        "description": "Window menu command to bring all windows of current applicatinon to front"
-    },
-    "viewMenuResetZoom": {
-        "message": "Tegelik suurus",
-        "description": "View menu command to go back to the default zoom"
-    },
-    "viewMenuZoomIn": {
-        "message": "Suurenda",
-        "description": "View menu command to make everything bigger"
-    },
-    "viewMenuZoomOut": {
-        "message": "Vähenda",
-        "description": "View menu command to make everything smaller"
-    },
-    "viewMenuToggleFullScreen": {
-        "message": "Lülita täisekraanirežiimi",
-        "description": "View menu command to enter or leave Full Screen mode"
-    },
-    "viewMenuToggleDevTools": {
-        "message": "Lülita arendusvahendid sisse/välja",
-        "description": "View menu command to show or hide the developer tools"
-    },
-    "menuSetupWithImport": {
-        "message": "Seadista importimise abil",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
-    "loading": {
-        "message": "Laadimine...",
-        "description": "Message shown on the loading screen before we've loaded any messages"
-    },
-    "optimizingApplication": {
-        "message": "Rakenduse optimeerimine...",
-        "description": "Message shown on the loading screen while we are doing application optimizations"
-    },
-    "chooseDirectory": {
-        "message": "Vali kaust",
-        "description": "Button to allow the user to find a folder on disk"
-    },
-    "loadDataHeader": {
-        "message": "Sinu andmete laadimine",
-        "description": "Header shown on the first screen in the data import process"
-    },
-    "loadDataDescription": {
-        "message": "Sa läbisid just eksportimisprotsessi ja sinu kontaktid ning sõnumid ootavad nüüd kannatlikult arvutis. Vali kaust, mis sisaldab sinu salvestatud Signali andmeid.",
-        "description": "Introduction to the process of importing messages and contacts from disk"
-    },
-    "importChooserTitle": {
-        "message": "Vali eksporditud andmetega kataloog",
-        "description": "Title of the popup window used to select data previously exported"
-    },
-    "importErrorHeader": {
-        "message": "Midagi läks valesti!",
-        "description": "Header of the error screen after a failed import"
-    },
-    "importingHeader": {
-        "message": "Kontaktide ja sõnumite laadimine",
-        "description": "Header of screen shown as data is import"
-    },
-    "importErrorFirst": {
-        "message": "Ole kindel, et oled valinud õige kataloogi, mis sisaldab sinu salvestatud Signali andmeid. Selle nimi peaks algama fraasiga \"Session Export\". Sul on võimalik salvestada andmetest ka uus koopia rakendusest Chrome App.",
-        "description": "Message shown if the import went wrong; first paragraph"
-    },
-    "importErrorSecond": {
-        "message": "Kui need sammud ei aita, siis saada palun silumisinfo (Vaade->Silumisinfo), et saaksime aidata sul migreerumine lõpule viia!",
-        "description": "Message shown if the import went wrong; second paragraph"
-    },
-    "importAgain": {
-        "message": "Vali kaust ja proovi uuesti",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
-    },
-    "importCompleteHeader": {
-        "message": "Õnnestus!",
-        "description": "Header shown on the screen at the end of a successful import process"
-    },
-    "importCompleteStartButton": {
-        "message": "Alusta Session Desktopi kasutamist",
-        "description": "Button shown at end of successful import process, nothing left but a restart"
-    },
-    "importCompleteLinkButton": {
-        "message": "Ühenda see seade enda telefoniga",
-        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "me": {
-        "message": "Mina",
-        "description": "The label for yourself when shown in a group member list"
-    },
-    "view": {
-        "message": "Näita",
-        "description": "Used as a label on a button allowing user to see more information"
-    },
-    "youLeftTheGroup": {
-        "message": "Sa lahkusid grupist",
-        "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "unreadMessage": {
-        "message": "1 lugemata sõnum",
-        "description": "Text for unread message separator, just one message"
-    },
-    "unreadMessages": {
-        "message": "$count$ lugemata sõnumit",
-        "description": "Text for unread message separator, with count",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
-    "debugLogExplanation": {
-        "message": "See logi postitatakse avalikult internetti kaastöötajatele nägemiseks. Kontrolli üle ja vajadusel muuda enne postitamist.",
-        "description": ""
-    },
-    "debugLogError": {
-        "message": "Midagi läks üleslaadimisega kehvasti! Palun lisa logifailid sellele raportile käsitsi.",
-        "description": ""
-    },
-    "reportIssue": {
-        "message": "Teavita probleemist",
-        "description": "Link to open the issue tracker"
-    },
-    "gotIt": {
-        "message": "Sain aru!",
-        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
-    },
-    "submit": {
-        "message": "Postita",
-        "description": ""
-    },
-    "incomingError": {
-        "message": "Sissetuleva sõnumi käsitlemisel tekkis tõrge.",
-        "description": ""
-    },
-    "media": {
-        "message": "Meedia",
-        "description": "Header of the default pane in the media gallery, showing images and videos"
-    },
-    "mediaEmptyState": {
-        "message": "Selles vestluses pole meediaelemente",
-        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
-    },
-    "documents": {
-        "message": "Dokumendid",
-        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
-    },
-    "documentsEmptyState": {
-        "message": "Selles vestluses pole dokumente",
-        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
-    },
-    "today": {
-        "message": "Täna",
-        "description": "Section header in the media gallery"
-    },
-    "yesterday": {
-        "message": "Eile",
-        "description": "Section header in the media gallery"
-    },
-    "thisWeek": {
-        "message": "See nädal",
-        "description": "Section header in the media gallery"
-    },
-    "thisMonth": {
-        "message": "See kuu",
-        "description": "Section header in the media gallery"
-    },
-    "voiceMessage": {
-        "message": "Häälsõnum",
-        "description": "Name for a voice message attachment"
-    },
-    "dangerousFileType": {
-        "message": "Manuse tüüp pole turvakaalutlustel lubatud.",
-        "description": "Shown in toast when user attempts to send .exe file, for example"
-    },
-    "stagedPreviewThumbnail": {
-        "message": "Lingi eelvaate pisipildi mustand: $domain$",
-        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
-        "placeholders": {
-            "path": {
-                "content": "$1",
-                "example": "instagram.com"
-            }
-        }
-    },
-    "previewThumbnail": {
-        "message": "Lingi eelvaate pisipilt: $domain$",
-        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
-        "placeholders": {
-            "path": {
-                "content": "$1",
-                "example": "instagram.com"
-            }
-        }
-    },
-    "stagedImageAttachment": {
-        "message": "Piltmanuse mustand: $path$",
-        "description": "Alt text for staged attachments",
-        "placeholders": {
-            "path": {
-                "content": "$1",
-                "example": "dog.jpg"
-            }
-        }
-    },
-    "oneNonImageAtATimeToast": {
-        "message": "Mittepildilisi manuseid sõnumile lisades kehtiv ühe manuse piirang.",
-        "description": "An error popup when the user has attempted to add an attachment"
-    },
-    "cannotMixImageAndNonImageAttachments": {
-        "message": "Piltmanuseid ja teisi manuseid ei saa koos ühte sõnumisse panna.",
-        "description": "An error popup when the user has attempted to add an attachment"
-    },
-    "maximumAttachments": {
-        "message": "Sellele sõnumile pole võimalik rohkem manuseid lisada.",
-        "description": "An error popup when the user has attempted to add an attachment"
-    },
-    "fileSizeWarning": {
-        "message": "Kahjuks ületab valitud fail sõnumi suuruse piirangu.",
-        "description": ""
-    },
-    "unableToLoadAttachment": {
-        "message": "Valitud manuse laadimine ei õnnestunud.",
-        "description": ""
-    },
-    "offline": {
-        "message": "Ühenduseta",
-        "description": "Displayed when the desktop client has no network connection."
-    },
-    "checkNetworkConnection": {
-        "message": "Kontrolli enda võrguühendust.",
-        "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "$reconnect_duration_in_seconds$ sekundi pärast proovitakse uuesti ühenduda.",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "submitDebugLog": {
-        "message": "Silumisinfo",
-        "description": "Menu item and header text for debug log modal (sentence case)"
-    },
-    "debugLog": {
-        "message": "Silumisinfo",
-        "description": "View menu item to open the debug log (title case)"
-    },
-    "goToReleaseNotes": {
-        "message": "Mine väljalaskemärkmete juurde",
-        "description": ""
-    },
-    "goToSupportPage": {
-        "message": "Mine kasutajatoelehele",
-        "description": "Item under the Help menu, takes you to the support page"
-    },
-    "menuReportIssue": {
-        "message": "Teavita probleemist",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
-    },
-    "speech": {
-        "message": "Kõne",
-        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
-    },
-    "show": {
-        "message": "Näita",
-        "description": "Command under Window menu, to show the window"
-    },
-    "search": {
-        "message": "Otsi",
-        "description": "Placeholder text in the search input"
-    },
-    "noSearchResults": {
-        "message": "No results for \"$searchTerm$\"",
-        "description": "Shown in the search left pane when no results were found",
-        "placeholders": {
-            "searchTerm": {
-                "content": "$1",
-                "example": "dog"
-            }
-        }
-    },
-    "conversationsHeader": {
-        "message": "Vestlused",
-        "description": "Shown to separate the types of search results"
-    },
-    "contactsHeader": {
-        "message": "Kontaktid",
-        "description": "Shown to separate the types of search results"
-    },
-    "messagesHeader": {
-        "message": "Sõnumid",
-        "description": "Shown to separate the types of search results"
-    },
-    "typingAlt": {
-        "message": "Selle vestluse sisestuse animatsioon",
-        "description": "Used as the 'title' attibute for the typing animation"
-    },
-    "contactAvatarAlt": {
-        "message": "Kontakti $name$ pilt",
-        "description": "Used in the alt tag for the image avatar of a contact",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "downloadAttachment": {
-        "message": "Laadi manus alla",
-        "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
-    },
-    "replyToMessage": {
-        "message": "Vasta sõnumile",
-        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
-    },
-    "originalMessageNotFound": {
-        "message": "Algset sõnumit ei leitud",
-        "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
-    },
-    "originalMessageNotAvailable": {
-        "message": "Algne sõnum ei ole enam saadaval",
-        "description": "Shown in toast if user clicks on quote that references message no longer in database"
-    },
-    "messageFoundButNotLoaded": {
-        "message": "Algne sõnum on leitud, kuid mitte laaditud. Keri üles selle laadimiseks.",
-        "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
-    },
-    "you": {
-        "message": "Sina",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
-    },
-    "audioPermissionNeeded": {
-        "message": "Audiosõnumite saatmiseks luba Session Desktopil mikrofoni kasutada.",
-        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
-    },
-    "audio": {
-        "message": "Audio",
-        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
-    },
-    "video": {
-        "message": "Video",
-        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
-    },
-    "photo": {
-        "message": "Foto",
-        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
-    },
-    "cannotUpdate": {
-        "message": "Cannot Update",
-        "description": "Shown as the title of our update error dialogs on windows"
-    },
-    "ok": {
-        "message": "Sobib",
-        "description": ""
-    },
-    "cancel": {
-        "message": "Loobu",
-        "description": ""
-    },
-    "error": {
-        "message": "Tõrge",
-        "description": ""
-    },
-    "delete": {
-        "message": "Kustuta",
-        "description": ""
-    },
-    "deleteWarning": {
-        "message": "Kas sa oled kindel? Klõpsates \"Kustuta\" eemaldatakse see sõnum ainult sellest seadmest.",
-        "description": ""
-    },
-    "deleteThisMessage": {
-        "message": "Kustuta see sõnum",
-        "description": ""
-    },
-    "from": {
-        "message": "Saatja",
-        "description": "Label for the sender of a message"
-    },
-    "to": {
-        "message": "to",
-        "description": "Label for the receiver of a message"
-    },
-    "sent": {
-        "message": "Saadetud",
-        "description": "Label for the time a message was sent"
-    },
-    "received": {
-        "message": "Saadud",
-        "description": "Label for the time a message was received"
-    },
-    "sendMessage": {
-        "message": "Saada sõnum",
-        "description": "Placeholder text in the message entry field"
-    },
-    "groupMembers": {
-        "message": "Grupi liikmed",
-        "description": ""
-    },
-    "deleteMessage": {
-        "message": "Kustuta sõnum",
-        "description": "Shown on the drop-down menu for an individual message, deletes single message"
-    },
-    "deleteMessages": {
-        "message": "Kustuta sõnumid",
-        "description": "Menu item for deleting messages, title case."
-    },
-    "deleteConversationConfirmation": {
-        "message": "Kas kustutada see vestlus jäädavalt?",
-        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "quoteThumbnailAlt": {
-        "message": "Tsiteeritud sõnumist pärit pildi pisipilt",
-        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "imageAttachmentAlt": {
-        "message": "Pilt lisatud sõnumile",
-        "description": "Used in alt tag of image attachment"
-    },
-    "videoAttachmentAlt": {
-        "message": "Sõnumile lisatud video ekraanipilt",
-        "description": "Used in alt tag of video attachment preview"
-    },
-    "lightboxImageAlt": {
-        "message": "Vestluses saadetud pilt",
-        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
-    },
-    "imageCaptionIconAlt": {
-        "message": "Ikoon näitamaks, et sellel pildil on seletus.",
-        "description": "Used for the icon layered on top of an image in message bubbles"
-    },
-    "addACaption": {
-        "message": "Lisa pealkiri...",
-        "description": ""
-    },
-    "save": {
-        "message": "Salvesta",
-        "description": ""
-    },
-    "permissions": {
-        "message": "Õigused",
-        "description": "Header for permissions section of settings"
-    },
-    "mediaPermissionsDescription": {
-        "message": "Luba ligipääs kaamerale ja mikrofonile",
-        "description": "Description of the media permission description"
-    },
-    "general": {
-        "message": "Üldine",
-        "description": "Header for general options on the settings screen"
-    },
-    "spellCheckDescription": {
-        "message": "Luba sõnumite kasti teksti õigekirja kontroll",
-        "description": "Description of the media permission description"
-    },
-    "notifications": {
-        "message": "Teavitused",
-        "description": "Header for notification settings"
-    },
-    "notificationSettingsDialog": {
-        "message": "Kui saabub sõnum, siis kuva teavitusi, mis avaldavad:",
-        "description": "Explain the purpose of the notification settings"
-    },
-    "disableNotifications": {
-        "message": "Keela teavitused",
-        "description": "Label for disabling notifications"
-    },
-    "nameAndMessage": {
-        "message": "Nii saatja nime kui sõnumi sisu",
-        "description": "Label for setting notifications to display name and message text"
-    },
-    "noNameOrMessage": {
-        "message": "Ei nime ega sisu",
-        "description": "Label for setting notifications to display no name and no message text"
-    },
-    "nameOnly": {
-        "message": "Ainult saatja nime",
-        "description": "Label for setting notifications to display sender name only"
-    },
-    "newMessage": {
-        "message": "Uus sõnum",
-        "description": "Displayed in notifications for only 1 message"
-    },
-    "newMessages": {
-        "message": "Uued sõnumid",
-        "description": "Displayed in notifications for multiple messages"
-    },
-    "notificationMostRecentFrom": {
-        "message": "Kõige uuem saatjalt:",
-        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-    },
-    "notificationFrom": {
-        "message": "Saatjalt:",
-        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-    },
-    "notificationMostRecent": {
-        "message": "Kõige uuem:",
-        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
-    },
-    "sendFailed": {
-        "message": "Saatmine ei õnnestunud",
-        "description": "Shown on outgoing message if it fails to send"
-    },
-    "expiredWarning": {
-        "message": "See Session Desktopi versioon on aegunud. Palun uuenda uusimale versioonile sõnumite saatmiseks jätkamiseks.",
-        "description": "Warning notification that this version of the app has expired"
-    },
-    "upgrade": {
-        "message": "Uuenda",
-        "description": "Label text for button to upgrade the app to the latest version"
-    },
-    "mediaMessage": {
-        "message": "Meediasõnum",
-        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
-    },
-    "timestamp_s": {
-        "message": "nüüd",
-        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
-    },
-    "timestamp_m": {
-        "message": "1 minut",
-        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
-    },
-    "timestamp_h": {
-        "message": "1 tund",
-        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "timestampFormat_M": {
-        "message": "D. MMM",
-        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
-    },
-    "unblockToSend": {
-        "message": "Sõnumi saatmiseks eemalda selle kontakti blokeering.",
-        "description": "Brief message shown when trying to message a blocked number"
-    },
-    "unblockGroupToSend": {
-        "message": "Sõnumi saatmiseks eemalda selle grupi blokeering.",
-        "description": "Brief message shown when trying to message a blocked group"
-    },
-    "youChangedTheTimer": {
-        "message": "Sina määrasid kaduvate sõnumite taimeriks $time$",
-        "description": "Message displayed when you change the message expiration timer in a conversation.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "timerSetOnSync": {
-        "message": "Kaduvate sõnumite taimer seati väärtusele $time$",
-        "description": "Message displayed when timer is set on initial link of desktop device.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "theyChangedTheTimer": {
-        "message": "$name$ seadis kaduvate sõnumite taimeri väärtusele $time$",
-        "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            },
-            "time": {
-                "content": "$2",
-                "example": "10m"
-            }
-        }
-    },
-    "timerOption_0_seconds": {
-        "message": "väljas",
-        "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 sekundit",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 sekundit",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 sekundit",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 minut",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 minutit",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 minutit",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 tund",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 tundi",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 tundi",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 päev",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 nädal",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "disappearingMessages": {
-        "message": "Kaduvad sõnumid",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "väljas",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1m",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1h",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6h",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12h",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1p",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1ndl",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "disappearingMessagesDisabled": {
-        "message": "Kaduvad sõnumid on keelatud",
-        "description": "Displayed in the left pane when the timer is turned off"
-    },
-    "disabledDisappearingMessages": {
-        "message": "$name$ keelas kaduvad sõnumid",
-        "description": "Displayed in the conversation list when the timer is turned off",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "youDisabledDisappearingMessages": {
-        "message": "Sa keelasid kaduvad sõnumid",
-        "description": "Displayed in the conversation list when the timer is turned off"
-    },
-    "timerSetTo": {
-        "message": "Taimer on määratud: $time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "1w"
-            }
-        }
-    },
-    "noteToSelf": {
-        "message": "Märkus endale",
-        "description": "Name for the conversation with your own phone number"
-    },
-    "startConversation": {
-        "message": "Start new conversation…",
-        "description": "Label underneath number a user enters that is not an existing contact"
-    },
-    "invalidNumberError": {
-        "message": "Vigane number",
-        "description": "When a person inputs a number that is invalid"
-    },
-    "autoUpdateNewVersionTitle": {
-        "message": "Session uuendus on saadaval",
-        "description": ""
-    },
-    "autoUpdateNewVersionMessage": {
-        "message": "Session on saadaval uus versioon.",
-        "description": ""
-    },
-    "autoUpdateNewVersionInstructions": {
-        "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Session\".",
-        "description": ""
-    },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Taaskäivita Session",
-        "description": ""
-    },
-    "autoUpdateLaterButtonLabel": {
-        "message": "Hiljem",
-        "description": ""
-    },
-    "leftTheGroup": {
-        "message": "$name$ lahkus grupist",
-        "description": "Shown in the conversation history when a single person leaves the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "multipleLeftTheGroup": {
-        "message": "$name$ lahkusid grupist",
-        "description": "Shown in the conversation history when multiple people leave the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    },
-    "updatedTheGroup": {
-        "message": "Grupp on uuendatud",
-        "description": "Shown in the conversation history when someone updates the group"
-    },
-    "titleIsNow": {
-        "message": "Pealkiri on nüüd '$name$'",
-        "description": "Shown in the conversation history when someone changes the title of the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Book Club"
-            }
-        }
-    },
-    "joinedTheGroup": {
-        "message": "$name$ ühines grupiga",
-        "description": "Shown in the conversation history when a single person joins the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice"
-            }
-        }
-    },
-    "multipleJoinedTheGroup": {
-        "message": "$names$ ühinesid grupiga",
-        "description": "Shown in the conversation history when more than one person joins the group",
-        "placeholders": {
-            "names": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    }
+  "privacyPolicy": {
+    "message": "Terms & Privacy Policy"
+  },
+  "copyErrorAndQuit": {
+    "message": "Copy error and quit"
+  },
+  "unknown": {
+    "message": "Unknown"
+  },
+  "databaseError": {
+    "message": "Database Error"
+  },
+  "mainMenuFile": {
+    "message": "&Fail"
+  },
+  "mainMenuEdit": {
+    "message": "&Muuda"
+  },
+  "mainMenuView": {
+    "message": "&Vaade"
+  },
+  "mainMenuWindow": {
+    "message": "&Aken"
+  },
+  "mainMenuHelp": {
+    "message": "A&bi"
+  },
+  "appMenuHide": {
+    "message": "Peida"
+  },
+  "appMenuHideOthers": {
+    "message": "Peida teised"
+  },
+  "appMenuUnhide": {
+    "message": "Näita kõiki"
+  },
+  "appMenuQuit": {
+    "message": "Välju Signalist"
+  },
+  "editMenuUndo": {
+    "message": "Võta tagasi"
+  },
+  "editMenuRedo": {
+    "message": "Tee uuesti"
+  },
+  "editMenuCut": {
+    "message": "Lõika"
+  },
+  "editMenuCopy": {
+    "message": "Kopeeri"
+  },
+  "editMenuPaste": {
+    "message": "Aseta"
+  },
+  "editMenuPasteAndMatchStyle": {
+    "message": "Aseta ja sobita stiiliga"
+  },
+  "editMenuDelete": {
+    "message": "Kustuta"
+  },
+  "editMenuSelectAll": {
+    "message": "Vali kõik"
+  },
+  "editMenuStartSpeaking": {
+    "message": "Alusta rääkimist"
+  },
+  "editMenuStopSpeaking": {
+    "message": "Lõpeta rääkimine"
+  },
+  "windowMenuClose": {
+    "message": "Sulge aken"
+  },
+  "windowMenuMinimize": {
+    "message": "Minimeeri"
+  },
+  "windowMenuZoom": {
+    "message": "Suurenda"
+  },
+  "windowMenuBringAllToFront": {
+    "message": "Too kõik ette"
+  },
+  "viewMenuResetZoom": {
+    "message": "Tegelik suurus"
+  },
+  "viewMenuZoomIn": {
+    "message": "Suurenda"
+  },
+  "viewMenuZoomOut": {
+    "message": "Vähenda"
+  },
+  "viewMenuToggleFullScreen": {
+    "message": "Lülita täisekraanirežiimi"
+  },
+  "viewMenuToggleDevTools": {
+    "message": "Lülita arendusvahendid sisse/välja"
+  },
+  "menuSetupWithImport": {
+    "message": "Seadista importimise abil"
+  },
+  "contextMenuNoSuggestions": {
+    "message": "No Suggestions"
+  },
+  "loading": {
+    "message": "Laadimine..."
+  },
+  "optimizingApplication": {
+    "message": "Rakenduse optimeerimine..."
+  },
+  "chooseDirectory": {
+    "message": "Vali kaust"
+  },
+  "done": {
+    "message": "Done"
+  },
+  "loadDataHeader": {
+    "message": "Sinu andmete laadimine"
+  },
+  "loadDataDescription": {
+    "message": "Sa läbisid just eksportimisprotsessi ja sinu kontaktid ning sõnumid ootavad nüüd kannatlikult arvutis. Vali kaust, mis sisaldab sinu salvestatud Signali andmeid."
+  },
+  "importChooserTitle": {
+    "message": "Vali eksporditud andmetega kataloog"
+  },
+  "importErrorHeader": {
+    "message": "Midagi läks valesti!"
+  },
+  "importingHeader": {
+    "message": "Kontaktide ja sõnumite laadimine"
+  },
+  "importErrorFirst": {
+    "message": "Ole kindel, et oled valinud õige kataloogi, mis sisaldab sinu salvestatud Signali andmeid. Selle nimi peaks algama fraasiga \"Session Export\". Sul on võimalik salvestada andmetest ka uus koopia rakendusest Chrome App."
+  },
+  "importErrorSecond": {
+    "message": "Kui need sammud ei aita, siis saada palun silumisinfo (Vaade->Silumisinfo), et saaksime aidata sul migreerumine lõpule viia!"
+  },
+  "importAgain": {
+    "message": "Vali kaust ja proovi uuesti"
+  },
+  "importCompleteHeader": {
+    "message": "Õnnestus!"
+  },
+  "importCompleteStartButton": {
+    "message": "Alusta Session Desktopi kasutamist"
+  },
+  "importCompleteLinkButton": {
+    "message": "Ühenda see seade enda telefoniga"
+  },
+  "me": {
+    "message": "Mina"
+  },
+  "view": {
+    "message": "Näita"
+  },
+  "youLeftTheGroup": {
+    "message": "Sa lahkusid grupist"
+  },
+  "youGotKickedFromGroup": {
+    "message": "You were removed from the group."
+  },
+  "unreadMessage": {
+    "message": "1 lugemata sõnum"
+  },
+  "unreadMessages": {
+    "message": "$count$ lugemata sõnumit"
+  },
+  "debugLogExplanation": {
+    "message": "See logi postitatakse avalikult internetti kaastöötajatele nägemiseks. Kontrolli üle ja vajadusel muuda enne postitamist."
+  },
+  "debugLogError": {
+    "message": "Midagi läks üleslaadimisega kehvasti! Palun lisa logifailid sellele raportile käsitsi."
+  },
+  "reportIssue": {
+    "message": "Teavita probleemist"
+  },
+  "gotIt": {
+    "message": "Sain aru!"
+  },
+  "submit": {
+    "message": "Postita"
+  },
+  "markAllAsRead": {
+    "message": "Mark All as Read"
+  },
+  "incomingError": {
+    "message": "Sissetuleva sõnumi käsitlemisel tekkis tõrge."
+  },
+  "media": {
+    "message": "Meedia"
+  },
+  "mediaEmptyState": {
+    "message": "Selles vestluses pole meediaelemente"
+  },
+  "documents": {
+    "message": "Dokumendid"
+  },
+  "documentsEmptyState": {
+    "message": "Selles vestluses pole dokumente"
+  },
+  "today": {
+    "message": "Täna"
+  },
+  "yesterday": {
+    "message": "Eile"
+  },
+  "thisWeek": {
+    "message": "See nädal"
+  },
+  "thisMonth": {
+    "message": "See kuu"
+  },
+  "voiceMessage": {
+    "message": "Häälsõnum"
+  },
+  "dangerousFileType": {
+    "message": "Manuse tüüp pole turvakaalutlustel lubatud."
+  },
+  "stagedPreviewThumbnail": {
+    "message": "Lingi eelvaate pisipildi mustand: $domain$"
+  },
+  "previewThumbnail": {
+    "message": "Lingi eelvaate pisipilt: $domain$"
+  },
+  "stagedImageAttachment": {
+    "message": "Piltmanuse mustand: $path$"
+  },
+  "oneNonImageAtATimeToast": {
+    "message": "Mittepildilisi manuseid sõnumile lisades kehtiv ühe manuse piirang."
+  },
+  "cannotMixImageAndNonImageAttachments": {
+    "message": "Piltmanuseid ja teisi manuseid ei saa koos ühte sõnumisse panna."
+  },
+  "maximumAttachments": {
+    "message": "Sellele sõnumile pole võimalik rohkem manuseid lisada."
+  },
+  "fileSizeWarning": {
+    "message": "Kahjuks ületab valitud fail sõnumi suuruse piirangu."
+  },
+  "unableToLoadAttachment": {
+    "message": "Valitud manuse laadimine ei õnnestunud."
+  },
+  "offline": {
+    "message": "Ühenduseta"
+  },
+  "checkNetworkConnection": {
+    "message": "Kontrolli enda võrguühendust."
+  },
+  "attemptingReconnection": {
+    "message": "$reconnect_duration_in_seconds$ sekundi pärast proovitakse uuesti ühenduda."
+  },
+  "submitDebugLog": {
+    "message": "Silumisinfo"
+  },
+  "debugLog": {
+    "message": "Silumisinfo"
+  },
+  "goToReleaseNotes": {
+    "message": "Mine väljalaskemärkmete juurde"
+  },
+  "goToSupportPage": {
+    "message": "Mine kasutajatoelehele"
+  },
+  "menuReportIssue": {
+    "message": "Teavita probleemist"
+  },
+  "about": {
+    "message": "About"
+  },
+  "speech": {
+    "message": "Kõne"
+  },
+  "show": {
+    "message": "Näita"
+  },
+  "sessionMessenger": {
+    "message": "Session"
+  },
+  "search": {
+    "message": "Otsi"
+  },
+  "noSearchResults": {
+    "message": "No results for \"$searchTerm$\""
+  },
+  "conversationsHeader": {
+    "message": "Vestlused"
+  },
+  "contactsHeader": {
+    "message": "Kontaktid"
+  },
+  "messagesHeader": {
+    "message": "Sõnumid"
+  },
+  "settingsHeader": {
+    "message": "Settings"
+  },
+  "typingAlt": {
+    "message": "Selle vestluse sisestuse animatsioon"
+  },
+  "contactAvatarAlt": {
+    "message": "Kontakti $name$ pilt"
+  },
+  "downloadAttachment": {
+    "message": "Laadi manus alla"
+  },
+  "replyToMessage": {
+    "message": "Vasta sõnumile"
+  },
+  "replyingToMessage": {
+    "message": "Replying to:"
+  },
+  "originalMessageNotFound": {
+    "message": "Algset sõnumit ei leitud"
+  },
+  "originalMessageNotAvailable": {
+    "message": "Algne sõnum ei ole enam saadaval"
+  },
+  "messageFoundButNotLoaded": {
+    "message": "Algne sõnum on leitud, kuid mitte laaditud. Keri üles selle laadimiseks."
+  },
+  "recording": {
+    "message": "Recording"
+  },
+  "you": {
+    "message": "Sina"
+  },
+  "audioPermissionNeededTitle": {
+    "message": "Microphone access required"
+  },
+  "audioPermissionNeeded": {
+    "message": "Audiosõnumite saatmiseks luba Session Desktopil mikrofoni kasutada."
+  },
+  "audio": {
+    "message": "Audio"
+  },
+  "video": {
+    "message": "Video"
+  },
+  "photo": {
+    "message": "Foto"
+  },
+  "cannotUpdate": {
+    "message": "Cannot Update"
+  },
+  "cannotUpdateDetail": {
+    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem."
+  },
+  "ok": {
+    "message": "Sobib"
+  },
+  "cancel": {
+    "message": "Loobu"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "continue": {
+    "message": "Continue"
+  },
+  "error": {
+    "message": "Tõrge"
+  },
+  "delete": {
+    "message": "Kustuta"
+  },
+  "deletePublicWarning": {
+    "message": "Are you sure? This will permanently remove this message for everyone in this open group."
+  },
+  "deleteMultiplePublicWarning": {
+    "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
+  },
+  "deleteWarning": {
+    "message": "Kas sa oled kindel? Klõpsates \"Kustuta\" eemaldatakse see sõnum ainult sellest seadmest."
+  },
+  "deleteMultipleWarning": {
+    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
+  },
+  "messageDeletionForbidden": {
+    "message": "You don’t have permission to delete others’ messages"
+  },
+  "deleteThisMessage": {
+    "message": "Kustuta see sõnum"
+  },
+  "deleted": {
+    "message": "Deleted"
+  },
+  "from": {
+    "message": "Saatja"
+  },
+  "to": {
+    "message": "to"
+  },
+  "sent": {
+    "message": "Saadetud"
+  },
+  "received": {
+    "message": "Saadud"
+  },
+  "sendMessage": {
+    "message": "Saada sõnum"
+  },
+  "groupMembers": {
+    "message": "Grupi liikmed"
+  },
+  "moreInformation": {
+    "message": "More information"
+  },
+  "resend": {
+    "message": "Resend"
+  },
+  "deleteMessage": {
+    "message": "Kustuta sõnum"
+  },
+  "deleteMessages": {
+    "message": "Kustuta sõnumid"
+  },
+  "deleteMessageForEveryone": {
+    "message": "Delete Message For Everyone"
+  },
+  "deleteMessagesForEveryone": {
+    "message": "Delete Messages For Everyone"
+  },
+  "deleteForEveryone": {
+    "message": "Delete For Everyone"
+  },
+  "deleteConversationConfirmation": {
+    "message": "Kas kustutada see vestlus jäädavalt?"
+  },
+  "clearAllData": {
+    "message": "Clear All Data"
+  },
+  "deleteAccountWarning": {
+    "message": "This will permanently delete your messages, sessions, and contacts."
+  },
+  "deleteContactConfirmation": {
+    "message": "Are you sure you want to delete this conversation?"
+  },
+  "quoteThumbnailAlt": {
+    "message": "Tsiteeritud sõnumist pärit pildi pisipilt"
+  },
+  "imageAttachmentAlt": {
+    "message": "Pilt lisatud sõnumile"
+  },
+  "videoAttachmentAlt": {
+    "message": "Sõnumile lisatud video ekraanipilt"
+  },
+  "lightboxImageAlt": {
+    "message": "Vestluses saadetud pilt"
+  },
+  "imageCaptionIconAlt": {
+    "message": "Ikoon näitamaks, et sellel pildil on seletus."
+  },
+  "addACaption": {
+    "message": "Lisa pealkiri..."
+  },
+  "copy": {
+    "message": "Copy"
+  },
+  "copySessionID": {
+    "message": "Copy Session ID"
+  },
+  "copyOpenGroupURL": {
+    "message": "Copy Group's URL"
+  },
+  "save": {
+    "message": "Salvesta"
+  },
+  "saved": {
+    "message": "Saved"
+  },
+  "permissions": {
+    "message": "Õigused"
+  },
+  "general": {
+    "message": "Üldine"
+  },
+  "linkPreviewsTitle": {
+    "message": "Send Link Previews"
+  },
+  "linkPreviewDescription": {
+    "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links"
+  },
+  "linkPreviewsConfirmMessage": {
+    "message": "You will not have full metadata protection when sending or receiving link previews."
+  },
+  "mediaPermissionsTitle": {
+    "message": "Microphone and Camera"
+  },
+  "mediaPermissionsDescription": {
+    "message": "Luba ligipääs kaamerale ja mikrofonile"
+  },
+  "spellCheckTitle": {
+    "message": "Spell Check"
+  },
+  "spellCheckDescription": {
+    "message": "Luba sõnumite kasti teksti õigekirja kontroll"
+  },
+  "spellCheckDirty": {
+    "message": "You must restart Session to apply your new settings"
+  },
+  "notifications": {
+    "message": "Teavitused"
+  },
+  "readReceiptSettingDescription": {
+    "message": "See and share when messages have been read (enables read receipts in all sessions)."
+  },
+  "readReceiptSettingTitle": {
+    "message": "Read Receipts"
+  },
+  "typingIndicatorsSettingDescription": {
+    "message": "See and share when messages are being typed (applies to all sessions)."
+  },
+  "typingIndicatorsSettingTitle": {
+    "message": "Typing Indicators"
+  },
+  "zoomFactorSettingTitle": {
+    "message": "Zoom Factor"
+  },
+  "notificationSettingsDialog": {
+    "message": "Kui saabub sõnum, siis kuva teavitusi, mis avaldavad:"
+  },
+  "disableNotifications": {
+    "message": "Keela teavitused"
+  },
+  "nameAndMessage": {
+    "message": "Nii saatja nime kui sõnumi sisu"
+  },
+  "noNameOrMessage": {
+    "message": "Ei nime ega sisu"
+  },
+  "nameOnly": {
+    "message": "Ainult saatja nime"
+  },
+  "newMessage": {
+    "message": "Uus sõnum"
+  },
+  "newMessages": {
+    "message": "Uued sõnumid"
+  },
+  "notificationMostRecentFrom": {
+    "message": "Kõige uuem saatjalt:"
+  },
+  "notificationFrom": {
+    "message": "Saatjalt:"
+  },
+  "notificationMostRecent": {
+    "message": "Kõige uuem:"
+  },
+  "sendFailed": {
+    "message": "Saatmine ei õnnestunud"
+  },
+  "expiredWarning": {
+    "message": "See Session Desktopi versioon on aegunud. Palun uuenda uusimale versioonile sõnumite saatmiseks jätkamiseks."
+  },
+  "upgrade": {
+    "message": "Uuenda"
+  },
+  "mediaMessage": {
+    "message": "Meediasõnum"
+  },
+  "timestamp_s": {
+    "message": "nüüd"
+  },
+  "timestamp_m": {
+    "message": "1 minut"
+  },
+  "timestamp_h": {
+    "message": "1 tund"
+  },
+  "timestampFormat_M": {
+    "message": "D. MMM"
+  },
+  "messageBodyMissing": {
+    "message": "Please enter a message body."
+  },
+  "unblockToSend": {
+    "message": "Sõnumi saatmiseks eemalda selle kontakti blokeering."
+  },
+  "unblockGroupToSend": {
+    "message": "Sõnumi saatmiseks eemalda selle grupi blokeering."
+  },
+  "youChangedTheTimer": {
+    "message": "Sina määrasid kaduvate sõnumite taimeriks $time$"
+  },
+  "timerSetOnSync": {
+    "message": "Kaduvate sõnumite taimer seati väärtusele $time$"
+  },
+  "theyChangedTheTimer": {
+    "message": "$name$ seadis kaduvate sõnumite taimeri väärtusele $time$"
+  },
+  "timerOption_0_seconds": {
+    "message": "väljas"
+  },
+  "timerOption_5_seconds": {
+    "message": "5 sekundit"
+  },
+  "timerOption_10_seconds": {
+    "message": "10 sekundit"
+  },
+  "timerOption_30_seconds": {
+    "message": "30 sekundit"
+  },
+  "timerOption_1_minute": {
+    "message": "1 minut"
+  },
+  "timerOption_5_minutes": {
+    "message": "5 minutit"
+  },
+  "timerOption_30_minutes": {
+    "message": "30 minutit"
+  },
+  "timerOption_1_hour": {
+    "message": "1 tund"
+  },
+  "timerOption_6_hours": {
+    "message": "6 tundi"
+  },
+  "timerOption_12_hours": {
+    "message": "12 tundi"
+  },
+  "timerOption_1_day": {
+    "message": "1 päev"
+  },
+  "timerOption_1_week": {
+    "message": "1 nädal"
+  },
+  "disappearingMessages": {
+    "message": "Kaduvad sõnumid"
+  },
+  "changeNickname": {
+    "message": "Change Nickname"
+  },
+  "clearNickname": {
+    "message": "Clear nickname"
+  },
+  "timerOption_0_seconds_abbreviated": {
+    "message": "väljas"
+  },
+  "timerOption_5_seconds_abbreviated": {
+    "message": "5s"
+  },
+  "timerOption_10_seconds_abbreviated": {
+    "message": "10s"
+  },
+  "timerOption_30_seconds_abbreviated": {
+    "message": "30s"
+  },
+  "timerOption_1_minute_abbreviated": {
+    "message": "1m"
+  },
+  "timerOption_5_minutes_abbreviated": {
+    "message": "5m"
+  },
+  "timerOption_30_minutes_abbreviated": {
+    "message": "30m"
+  },
+  "timerOption_1_hour_abbreviated": {
+    "message": "1h"
+  },
+  "timerOption_6_hours_abbreviated": {
+    "message": "6h"
+  },
+  "timerOption_12_hours_abbreviated": {
+    "message": "12h"
+  },
+  "timerOption_1_day_abbreviated": {
+    "message": "1p"
+  },
+  "timerOption_1_week_abbreviated": {
+    "message": "1ndl"
+  },
+  "disappearingMessagesDisabled": {
+    "message": "Kaduvad sõnumid on keelatud"
+  },
+  "disabledDisappearingMessages": {
+    "message": "$name$ keelas kaduvad sõnumid"
+  },
+  "youDisabledDisappearingMessages": {
+    "message": "Sa keelasid kaduvad sõnumid"
+  },
+  "timerSetTo": {
+    "message": "Taimer on määratud: $time$"
+  },
+  "noteToSelf": {
+    "message": "Märkus endale"
+  },
+  "hideMenuBarTitle": {
+    "message": "Hide Menu Bar"
+  },
+  "hideMenuBarDescription": {
+    "message": "Toggle system menu bar visibility"
+  },
+  "startConversation": {
+    "message": "Start new conversation…"
+  },
+  "invalidNumberError": {
+    "message": "Vigane number"
+  },
+  "successUnlinked": {
+    "message": "Your device was unlinked successfully"
+  },
+  "autoUpdateSettingTitle": {
+    "message": "Auto Update"
+  },
+  "autoUpdateSettingDescription": {
+    "message": "Automatically check for updates on launch"
+  },
+  "autoUpdateNewVersionTitle": {
+    "message": "Session uuendus on saadaval"
+  },
+  "autoUpdateNewVersionMessage": {
+    "message": "Session on saadaval uus versioon."
+  },
+  "autoUpdateNewVersionInstructions": {
+    "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Session\"."
+  },
+  "autoUpdateRestartButtonLabel": {
+    "message": "Taaskäivita Session"
+  },
+  "autoUpdateLaterButtonLabel": {
+    "message": "Hiljem"
+  },
+  "autoUpdateDownloadButtonLabel": {
+    "message": "Download"
+  },
+  "autoUpdateDownloadedMessage": {
+    "message": "The new update has been downloaded."
+  },
+  "autoUpdateDownloadInstructions": {
+    "message": "Would you like to download the update?"
+  },
+  "leftTheGroup": {
+    "message": "$name$ lahkus grupist"
+  },
+  "multipleLeftTheGroup": {
+    "message": "$name$ lahkusid grupist"
+  },
+  "updatedTheGroup": {
+    "message": "Grupp on uuendatud"
+  },
+  "titleIsNow": {
+    "message": "Pealkiri on nüüd '$name$'"
+  },
+  "joinedTheGroup": {
+    "message": "$name$ ühines grupiga"
+  },
+  "multipleJoinedTheGroup": {
+    "message": "$names$ ühinesid grupiga"
+  },
+  "kickedFromTheGroup": {
+    "message": "$name$ was removed from the group."
+  },
+  "multipleKickedFromTheGroup": {
+    "message": "$name$ were removed from the group."
+  },
+  "blockUser": {
+    "message": "Block"
+  },
+  "unblockUser": {
+    "message": "Unblock"
+  },
+  "unblocked": {
+    "message": "Unblocked"
+  },
+  "blockedSettingsTitle": {
+    "message": "Blocked contacts"
+  },
+  "unbanUser": {
+    "message": "Unban User"
+  },
+  "unbanUserConfirm": {
+    "message": "Are you sure you want to unban user?"
+  },
+  "userUnbanned": {
+    "message": "User unbanned successfully"
+  },
+  "userUnbanFailed": {
+    "message": "Unban failed!"
+  },
+  "banUser": {
+    "message": "Ban User"
+  },
+  "banUserConfirm": {
+    "message": "Are you sure you want to ban user?"
+  },
+  "userBanned": {
+    "message": "User banned successfully"
+  },
+  "userBanFailed": {
+    "message": "Ban failed!"
+  },
+  "leaveGroup": {
+    "message": "Leave Group"
+  },
+  "leaveAndRemoveForEveryone": {
+    "message": "Leave Group and remove for everyone"
+  },
+  "leaveGroupConfirmation": {
+    "message": "Are you sure you want to leave this group?"
+  },
+  "leaveGroupConfirmationAdmin": {
+    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?"
+  },
+  "cannotRemoveCreatorFromGroup": {
+    "message": "Cannot remove this user"
+  },
+  "cannotRemoveCreatorFromGroupDesc": {
+    "message": "You cannot remove this user as they are the creator of the group."
+  },
+  "userNeedsToHaveJoined": {
+    "message": "User needs to have joined"
+  },
+  "userNeedsToHaveJoinedDesc": {
+    "message": "An error happened. The user needs to have already joined the server for this ADD to work."
+  },
+  "noContactsForGroup": {
+    "message": "You don't have any contacts yet"
+  },
+  "copyMessage": {
+    "message": "Copy message text"
+  },
+  "selectMessage": {
+    "message": "Select message"
+  },
+  "editGroup": {
+    "message": "Edit group"
+  },
+  "editGroupName": {
+    "message": "Edit group name"
+  },
+  "updateGroupDialogTitle": {
+    "message": "Updating $name$..."
+  },
+  "showRecoveryPhrase": {
+    "message": "Recovery Phrase"
+  },
+  "yourSessionID": {
+    "message": "Your Session ID"
+  },
+  "setAccountPasswordTitle": {
+    "message": "Set Account Password"
+  },
+  "setAccountPasswordDescription": {
+    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed"
+  },
+  "changeAccountPasswordTitle": {
+    "message": "Change Account Password"
+  },
+  "changeAccountPasswordDescription": {
+    "message": "Change your password"
+  },
+  "removeAccountPasswordTitle": {
+    "message": "Remove Account Password"
+  },
+  "removeAccountPasswordDescription": {
+    "message": "Remove the password associated with your account"
+  },
+  "enterPassword": {
+    "message": "Please enter your password"
+  },
+  "confirmPassword": {
+    "message": "Confirm password"
+  },
+  "pasteLongPasswordToastTitle": {
+    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters."
+  },
+  "showRecoveryPhrasePasswordRequest": {
+    "message": "Please enter your password"
+  },
+  "recoveryPhraseSavePromptMain": {
+    "message": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone."
+  },
+  "invalidOpenGroupUrl": {
+    "message": "Invalid URL"
+  },
+  "copiedToClipboard": {
+    "message": "Copied to clipboard"
+  },
+  "passwordViewTitle": {
+    "message": "Type In Your Password"
+  },
+  "unlock": {
+    "message": "Unlock"
+  },
+  "password": {
+    "message": "Password"
+  },
+  "setPassword": {
+    "message": "Set Password"
+  },
+  "changePassword": {
+    "message": "Change Password"
+  },
+  "removePassword": {
+    "message": "Remove Password"
+  },
+  "maxPasswordAttempts": {
+    "message": "Invalid Password. Would you like to reset the database?"
+  },
+  "typeInOldPassword": {
+    "message": "Please type in your old password"
+  },
+  "invalidOldPassword": {
+    "message": "Old password is invalid"
+  },
+  "invalidPassword": {
+    "message": "Invalid password"
+  },
+  "noGivenPassword": {
+    "message": "Please enter your password"
+  },
+  "passwordsDoNotMatch": {
+    "message": "Passwords do not match"
+  },
+  "setPasswordInvalid": {
+    "message": "Passwords do not match"
+  },
+  "changePasswordInvalid": {
+    "message": "The old password you entered is incorrect"
+  },
+  "removePasswordInvalid": {
+    "message": "Incorrect password"
+  },
+  "setPasswordTitle": {
+    "message": "Set Password"
+  },
+  "changePasswordTitle": {
+    "message": "Changed Password"
+  },
+  "removePasswordTitle": {
+    "message": "Removed Password"
+  },
+  "setPasswordToastDescription": {
+    "message": "Your password has been set. Please keep it safe."
+  },
+  "changePasswordToastDescription": {
+    "message": "Your password has been changed. Please keep it safe."
+  },
+  "removePasswordToastDescription": {
+    "message": "You have removed your password."
+  },
+  "publicChatExists": {
+    "message": "You are already connected to this open group"
+  },
+  "connectToServerFail": {
+    "message": "Couldn't join group"
+  },
+  "connectingToServer": {
+    "message": "Connecting..."
+  },
+  "connectToServerSuccess": {
+    "message": "Successfully connected to open group"
+  },
+  "setPasswordFail": {
+    "message": "Failed to set password"
+  },
+  "passwordLengthError": {
+    "message": "Password must be between 6 and 64 characters long"
+  },
+  "passwordTypeError": {
+    "message": "Password must be a string"
+  },
+  "passwordCharacterError": {
+    "message": "Password must only contain letters, numbers and symbols"
+  },
+  "remove": {
+    "message": "Remove"
+  },
+  "invalidSessionId": {
+    "message": "Invalid Session ID"
+  },
+  "invalidPubkeyFormat": {
+    "message": "Invalid Pubkey Format"
+  },
+  "lnsMappingNotFound": {
+    "message": "There is no LNS mapping associated with this name"
+  },
+  "lnsLookupTimeout": {
+    "message": "LNS lookup timed out"
+  },
+  "lnsTooFewNodes": {
+    "message": "Not enough nodes currently active for LNS lookup"
+  },
+  "emptyGroupNameError": {
+    "message": "Please enter a group name"
+  },
+  "editProfileModalTitle": {
+    "message": "Profile"
+  },
+  "groupNamePlaceholder": {
+    "message": "Group Name"
+  },
+  "inviteContacts": {
+    "message": "Invite Contacts"
+  },
+  "addModerators": {
+    "message": "Add Moderators"
+  },
+  "removeModerators": {
+    "message": "Remove Moderators"
+  },
+  "addAsModerator": {
+    "message": "Add As Moderator"
+  },
+  "removeFromModerators": {
+    "message": "Remove From Moderators"
+  },
+  "add": {
+    "message": "Add"
+  },
+  "groupInvitation": {
+    "message": "Group Invitation"
+  },
+  "addingContacts": {
+    "message": "Adding contacts to"
+  },
+  "noContactsToAdd": {
+    "message": "No contacts to add"
+  },
+  "noMembersInThisGroup": {
+    "message": "No other members in this group"
+  },
+  "noModeratorsToRemove": {
+    "message": "no moderators to remove"
+  },
+  "onlyAdminCanRemoveMembers": {
+    "message": "You are not the creator"
+  },
+  "onlyAdminCanRemoveMembersDesc": {
+    "message": "Only the creator of the group can remove users"
+  },
+  "createAccount": {
+    "message": "Create Account"
+  },
+  "signIn": {
+    "message": "Sign In"
+  },
+  "yourUniqueSessionID": {
+    "message": "Say hello to your Session ID"
+  },
+  "allUsersAreRandomly...": {
+    "message": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design."
+  },
+  "getStarted": {
+    "message": "Get started"
+  },
+  "createSessionID": {
+    "message": "Create Session ID"
+  },
+  "recoveryPhrase": {
+    "message": "Recovery Phrase"
+  },
+  "enterRecoveryPhrase": {
+    "message": "Enter your recovery phrase"
+  },
+  "displayName": {
+    "message": "Display Name"
+  },
+  "anonymous": {
+    "message": "Anonymous"
+  },
+  "removeResidueMembers": {
+    "message": "Clicking ok will also remove those members as they left the group."
+  },
+  "enterDisplayName": {
+    "message": "Enter a display name"
+  },
+  "enterOptionalPassword": {
+    "message": "Enter password (optional)"
+  },
+  "continueYourSession": {
+    "message": "Continue Your Session"
+  },
+  "linkDevice": {
+    "message": "Link Device"
+  },
+  "restoreUsingRecoveryPhrase": {
+    "message": "Restore your account"
+  },
+  "or": {
+    "message": "or"
+  },
+  "ByUsingThisService...": {
+    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
+  },
+  "beginYourSession": {
+    "message": "Begin<br />your<br />Session."
+  },
+  "welcomeToYourSession": {
+    "message": "Welcome to your Session"
+  },
+  "newSession": {
+    "message": "New Session"
+  },
+  "searchFor...": {
+    "message": "Search for conversations, contacts, and messages"
+  },
+  "enterSessionID": {
+    "message": "Enter Session ID"
+  },
+  "enterSessionIDOfRecipient": {
+    "message": "Enter Session ID of recipient"
+  },
+  "usersCanShareTheir...": {
+    "message": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code."
+  },
+  "message": {
+    "message": "Message"
+  },
+  "appearanceSettingsTitle": {
+    "message": "Appearance"
+  },
+  "permissionSettingsTitle": {
+    "message": "Permissions"
+  },
+  "privacySettingsTitle": {
+    "message": "Privacy"
+  },
+  "notificationsSettingsTitle": {
+    "message": "Notifications"
+  },
+  "recoveryPhraseEmpty": {
+    "message": "Enter your recovery phrase"
+  },
+  "displayNameEmpty": {
+    "message": "Please pick a display name"
+  },
+  "members": {
+    "message": "$count$ members"
+  },
+  "joinOpenGroup": {
+    "message": "Join Open Group"
+  },
+  "newClosedGroup": {
+    "message": "New Closed Group"
+  },
+  "createClosedGroupNamePrompt": {
+    "message": "Group Name"
+  },
+  "createClosedGroupPlaceholder": {
+    "message": "Enter a group name"
+  },
+  "openGroupURL": {
+    "message": "Open Group URL"
+  },
+  "enterAnOpenGroupURL": {
+    "message": "Enter an open group URL"
+  },
+  "next": {
+    "message": "Next"
+  },
+  "description": {
+    "message": "Description"
+  },
+  "invalidGroupNameTooShort": {
+    "message": "Please enter a group name"
+  },
+  "invalidGroupNameTooLong": {
+    "message": "Please enter a shorter group name"
+  },
+  "pickClosedGroupMember": {
+    "message": "Please pick at least 1 group member"
+  },
+  "closedGroupMaxSize": {
+    "message": "A closed group cannot have more than 100 members"
+  },
+  "noBlockedContacts": {
+    "message": "No blocked contacts"
+  },
+  "userAddedToModerators": {
+    "message": "User added to moderator list"
+  },
+  "userRemovedFromModerators": {
+    "message": "User removed from moderator list"
+  },
+  "errorHappenedWhileRemovingModerator": {
+    "message": "An error happened"
+  },
+  "errorHappenedWhileRemovingModeratorDesc": {
+    "message": "An error happened while removing this user from the moderator list."
+  },
+  "orJoinOneOfThese": {
+    "message": "Or join one of these..."
+  }
 }

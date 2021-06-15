@@ -1,888 +1,1184 @@
 {
-    "copyErrorAndQuit": {
-        "message": "ចម្លងបញ្ហា និងចាកចេញ",
-        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
-    },
-    "databaseError": {
-        "message": "បញ្ហាទិន្នន័យ",
-        "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "mainMenuFile": {
-        "message": "&ឯកសារ",
-        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuEdit": {
-        "message": "&កែប្រែ",
-        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuView": {
-        "message": "&បង្ហាញ",
-        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuWindow": {
-        "message": "&ផ្ទាំងបង្អួច",
-        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuHelp": {
-        "message": "&ជំនួយ",
-        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "appMenuHide": {
-        "message": "លាក់",
-        "description": "Application menu command to hide the window"
-    },
-    "appMenuHideOthers": {
-        "message": "លាក់ផ្សេងទៀត",
-        "description": "Application menu command to hide all other windows"
-    },
-    "appMenuUnhide": {
-        "message": "បង្ហាញទាំងអស់",
-        "description": "Application menu command to show all application windows"
-    },
-    "appMenuQuit": {
-        "message": "ចាកចេញពីSignal",
-        "description": "Application menu command to close the application"
-    },
-    "editMenuUndo": {
-        "message": "មិនធ្វើវិញ",
-        "description": "Edit menu command to remove recently-typed text"
-    },
-    "editMenuRedo": {
-        "message": "ធ្វើឡើងវិញ",
-        "description": "Edit menu command to restore previously undone typed text"
-    },
-    "editMenuCut": {
-        "message": "កាត់",
-        "description": "Edit menu command to remove selected text and add it to clipboard"
-    },
-    "editMenuCopy": {
-        "message": "ចម្លង",
-        "description": "Edit menu command to add selected text to clipboard"
-    },
-    "editMenuPaste": {
-        "message": "បិទភ្ជាប់",
-        "description": "Edit menu command to insert text from clipboard at cursor location"
-    },
-    "editMenuPasteAndMatchStyle": {
-        "message": "គំរូបិទភ្ជាប់ និងត្រូវគ្នា",
-        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
-    },
-    "editMenuDelete": {
-        "message": "លុប",
-        "description": "Edit menu command to remove the selected text"
-    },
-    "editMenuSelectAll": {
-        "message": "ជ្រើសរើសទាំងអស់",
-        "description": "Edit menu comand to select all of the text in selected text box"
-    },
-    "editMenuStartSpeaking": {
-        "message": "ចាប់ផ្តើមការនិយាយ",
-        "description": "Edit menu item under 'speech' to start dictation"
-    },
-    "editMenuStopSpeaking": {
-        "message": "បញ្ឈប់ការនិយាយ",
-        "description": "Edit menu item under 'speech' to stop dictation"
-    },
-    "windowMenuClose": {
-        "message": "បិទផ្ទាំង",
-        "description": "Window menu command to close the current window"
-    },
-    "windowMenuMinimize": {
-        "message": "បង្រួមតូច",
-        "description": "Window menu command to minimize the current window"
-    },
-    "windowMenuZoom": {
-        "message": "ពង្រីក",
-        "description": "Window menu command to make the current window the size of the whole screen"
-    },
-    "windowMenuBringAllToFront": {
-        "message": "នាំទាំងអស់ទៅកាន់ពុម្ពអក្សរ",
-        "description": "Window menu command to bring all windows of current applicatinon to front"
-    },
-    "viewMenuResetZoom": {
-        "message": "ទំហំជាក់ស្តែង",
-        "description": "View menu command to go back to the default zoom"
-    },
-    "viewMenuZoomIn": {
-        "message": "ពង្រីក",
-        "description": "View menu command to make everything bigger"
-    },
-    "viewMenuZoomOut": {
-        "message": "បង្រួម",
-        "description": "View menu command to make everything smaller"
-    },
-    "viewMenuToggleFullScreen": {
-        "message": "បិទបើកការបង្ហាញពេញអេក្រង់",
-        "description": "View menu command to enter or leave Full Screen mode"
-    },
-    "viewMenuToggleDevTools": {
-        "message": "បិទបើកមុខងារអ្នកអភិវឌ្ឍន៍",
-        "description": "View menu command to show or hide the developer tools"
-    },
-    "menuSetupWithImport": {
-        "message": "ដំឡើង ជាមួយការនាំចូល",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
-    "loading": {
-        "message": "កំពុងផ្ទុក...",
-        "description": "Message shown on the loading screen before we've loaded any messages"
-    },
-    "optimizingApplication": {
-        "message": "ធ្វើឱ្យកម្មវិធីប្រសើរឡើង ...",
-        "description": "Message shown on the loading screen while we are doing application optimizations"
-    },
-    "chooseDirectory": {
-        "message": "ជ្រើសរើសទីតាំងផ្ទុក",
-        "description": "Button to allow the user to find a folder on disk"
-    },
-    "loadDataHeader": {
-        "message": "ផ្ទុកទិន្នន័យរបស់អ្នក",
-        "description": "Header shown on the first screen in the data import process"
-    },
-    "loadDataDescription": {
-        "message": "អ្នកទើបឆ្លងកាត់ដំណើការនាំចេញ បញ្ជីទំនាក់ទំនង និងសាររបស់អ្នកគឺកំពុងរង់ចាំនៅលើម៉ាស៊ីនកុំព្យូទ័ររបស់អ្នក។ ជ្រើសរើស ថតផ្ទុកទិន្នន័យSignalរបស់អ្នក ដែលបានរក្សាទុក។",
-        "description": "Introduction to the process of importing messages and contacts from disk"
-    },
-    "importChooserTitle": {
-        "message": "ជ្រើសរើស ថតឯកសារ ជាមួយទិន្នន័យបាននាំចេញ",
-        "description": "Title of the popup window used to select data previously exported"
-    },
-    "importErrorHeader": {
-        "message": "មានបញ្ហាខុសប្រក្រតី!",
-        "description": "Header of the error screen after a failed import"
-    },
-    "importingHeader": {
-        "message": "កំពុងផ្ទុកបញ្ជីទំនាក់ទំនង និងសារ",
-        "description": "Header of screen shown as data is import"
-    },
-    "importErrorFirst": {
-        "message": "សូមប្រាកដថា អ្នកបានជ្រើសរើស កន្លែងត្រឹមត្រូវដែលផ្ទុកទិន្នន័យSignalរបស់អ្នក ដែលបានរក្សាទុក។ ឈ្មោះវា គួរតែចាប់ផ្តើមដោយ 'នាំចេញ Session។' អ្នកអាចរក្សាទុកការចម្លងថ្មីមួយនៃទិន្នន័យរបស់អ្នក ពីកម្មវិធី Chrome ។",
-        "description": "Message shown if the import went wrong; first paragraph"
-    },
-    "importErrorSecond": {
-        "message": "បើសិនជំហានទាំងនេះ មិនកើតទេ សូមបញ្ជូន កំណត់ត្រាបញ្ហា (បង្ហាញ -> កំណត់ត្រាបញ្ហា) ដូចនេះ យើងអាចជួយអ្នកបាន!",
-        "description": "Message shown if the import went wrong; second paragraph"
-    },
-    "importAgain": {
-        "message": "ជ្រើសរើស កន្លែងផ្ទុក និងសាកល្បងម្តងទៀត",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
-    },
-    "importCompleteHeader": {
-        "message": "ជោគជ័យ!",
-        "description": "Header shown on the screen at the end of a successful import process"
-    },
-    "importCompleteStartButton": {
-        "message": "ចាប់ផ្តើមប្រើប្រាស់ Session Desktop",
-        "description": "Button shown at end of successful import process, nothing left but a restart"
-    },
-    "importCompleteLinkButton": {
-        "message": "តភ្ជាប់ឧបករណ៍នេះ ទៅកាន់ទូរស័ព្ទរបស់អ្នក",
-        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "me": {
-        "message": "ខ្ញុំ",
-        "description": "The label for yourself when shown in a group member list"
-    },
-    "view": {
-        "message": "បង្ហាញ",
-        "description": "Used as a label on a button allowing user to see more information"
-    },
-    "youLeftTheGroup": {
-        "message": "អ្នកបានចាកចេញពីក្រុម",
-        "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "unreadMessage": {
-        "message": "សារមិនទាន់អាន 1 ",
-        "description": "Text for unread message separator, just one message"
-    },
-    "unreadMessages": {
-        "message": "$count$ សារមិនទាន់អាន",
-        "description": "Text for unread message separator, with count",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
-    "debugLogExplanation": {
-        "message": "កំណត់ត្រានេះ នឹងត្រូវបង្ហោះជាសាធារណៈតាមរយៈបណ្តាញ សម្រាប់អ្នកចូលរួមដើម្បីពិនិត្យមើល។ អ្នកអាចពិនិត្យ និងកែប្រែវាមុនពេលបញ្ជូន។",
-        "description": ""
-    },
-    "debugLogError": {
-        "message": "មានបញ្ហាក្នុងការផ្ទុក! សូមបន្ថែមក្នុងកំណត់ត្រា ដើម្បីកត់ត្រាបញ្ហាក្នុងឯកសារអ្នក។",
-        "description": ""
-    },
-    "reportIssue": {
-        "message": "រាយការណ៍បញ្ហាមួយ",
-        "description": "Link to open the issue tracker"
-    },
-    "gotIt": {
-        "message": "យល់ព្រម!",
-        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
-    },
-    "submit": {
-        "message": "បញ្ជូន",
-        "description": ""
-    },
-    "incomingError": {
-        "message": "បញ្ហាទទួលសារផ្ញើចូល",
-        "description": ""
-    },
-    "media": {
-        "message": "ឯកសារមេឌា",
-        "description": "Header of the default pane in the media gallery, showing images and videos"
-    },
-    "mediaEmptyState": {
-        "message": "អ្នកមិនមានឯកសារមេឌា ក្នុងការសន្ទនានេះទេ",
-        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
-    },
-    "documents": {
-        "message": "ឯកសារ",
-        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
-    },
-    "documentsEmptyState": {
-        "message": "អ្នកមិនមានឯកសារ ក្នុងការសន្ទនានេះទេ",
-        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
-    },
-    "today": {
-        "message": "ថ្ងៃនេះ",
-        "description": "Section header in the media gallery"
-    },
-    "yesterday": {
-        "message": "ម្សិលមិញ",
-        "description": "Section header in the media gallery"
-    },
-    "thisWeek": {
-        "message": "សប្តាហ៍នេះ",
-        "description": "Section header in the media gallery"
-    },
-    "thisMonth": {
-        "message": "ខែនេះ",
-        "description": "Section header in the media gallery"
-    },
-    "voiceMessage": {
-        "message": "សារសំឡេង",
-        "description": "Name for a voice message attachment"
-    },
-    "dangerousFileType": {
-        "message": "ប្រភេទឯកសារភ្ជាប់មិនអនុញ្ញាតសម្រាប់ហេតុផលសុវត្ថិភាព",
-        "description": "Shown in toast when user attempts to send .exe file, for example"
-    },
-    "stagedPreviewThumbnail": {
-        "message": "ការមើលតំណជារូបភាពតូចៗព្រាងសម្រាប់ $domain$",
-        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
-        "placeholders": {
-            "path": {
-                "content": "$1",
-                "example": "instagram.com"
-            }
-        }
-    },
-    "previewThumbnail": {
-        "message": "ការមើលតំណជារូបភាពតូចៗសម្រាប់$domain$",
-        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
-        "placeholders": {
-            "path": {
-                "content": "$1",
-                "example": "instagram.com"
-            }
-        }
-    },
-    "stagedImageAttachment": {
-        "message": "រូបភាពឯកសារភ្ជាប់ព្រាង៖ $path$",
-        "description": "Alt text for staged attachments",
-        "placeholders": {
-            "path": {
-                "content": "$1",
-                "example": "dog.jpg"
-            }
-        }
-    },
-    "oneNonImageAtATimeToast": {
-        "message": "ពេលបញ្ចូលឯកសារភ្ជាប់មិន-រូបភាពមួយ ការកំណត់គឺឯកសារភ្ជាប់មួយ សម្រាប់សារមួយ។",
-        "description": "An error popup when the user has attempted to add an attachment"
-    },
-    "cannotMixImageAndNonImageAttachments": {
-        "message": "អ្នកមិនអាចលាយឡំឯកសារភ្ជាប់ មិន-រូបភាព និងរូបភាព ក្នុងសារតែមួយទេ។",
-        "description": "An error popup when the user has attempted to add an attachment"
-    },
-    "maximumAttachments": {
-        "message": "អ្នកមិនអាចបន្ថែមឯកសារភ្ជាប់ទៅកាន់សារនេះទេ។",
-        "description": "An error popup when the user has attempted to add an attachment"
-    },
-    "fileSizeWarning": {
-        "message": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។",
-        "description": ""
-    },
-    "unableToLoadAttachment": {
-        "message": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។",
-        "description": ""
-    },
-    "offline": {
-        "message": "អហ្វឡាញ",
-        "description": "Displayed when the desktop client has no network connection."
-    },
-    "checkNetworkConnection": {
-        "message": "ត្រួតពិនិត្យការតភ្ជាប់បណ្តាញរបស់អ្នក។",
-        "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "កំពុងព្យាយាមតភ្ជាប់ឡើងវិញក្នុងពេល $reconnect_duration_in_seconds$ វិនាទី",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "submitDebugLog": {
-        "message": "កំណត់ត្រាបញ្ហា",
-        "description": "Menu item and header text for debug log modal (sentence case)"
-    },
-    "debugLog": {
-        "message": "កំណត់ត្រាបញ្ហា",
-        "description": "View menu item to open the debug log (title case)"
-    },
-    "goToReleaseNotes": {
-        "message": "ចូលទៅកាន់កំណត់ចេញថ្មី",
-        "description": ""
-    },
-    "goToSupportPage": {
-        "message": "ចូលទៅកាន់ទំព័រគាំទ្រ",
-        "description": "Item under the Help menu, takes you to the support page"
-    },
-    "menuReportIssue": {
-        "message": "រាយការណ៍បញ្ហាមួយ",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
-    },
-    "speech": {
-        "message": "សម្តី",
-        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
-    },
-    "show": {
-        "message": "បង្ហាញ",
-        "description": "Command under Window menu, to show the window"
-    },
-    "search": {
-        "message": "ស្វែងរក",
-        "description": "Placeholder text in the search input"
-    },
-    "noSearchResults": {
-        "message": "គ្មានលទ្ធផលសម្រាប់ \"$searchTerm$\"",
-        "description": "Shown in the search left pane when no results were found",
-        "placeholders": {
-            "searchTerm": {
-                "content": "$1",
-                "example": "dog"
-            }
-        }
-    },
-    "conversationsHeader": {
-        "message": "ការសន្ទនា",
-        "description": "Shown to separate the types of search results"
-    },
-    "contactsHeader": {
-        "message": "បញ្ជីទំនាក់ទំនង",
-        "description": "Shown to separate the types of search results"
-    },
-    "messagesHeader": {
-        "message": "សារ",
-        "description": "Shown to separate the types of search results"
-    },
-    "typingAlt": {
-        "message": "ការវាយចលនាសម្រាប់ការសន្ទនានេះ",
-        "description": "Used as the 'title' attibute for the typing animation"
-    },
-    "contactAvatarAlt": {
-        "message": "រូបតំណាងសម្រាប់លេខទំនាក់ទំនង $name$",
-        "description": "Used in the alt tag for the image avatar of a contact",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "downloadAttachment": {
-        "message": "ទាញយកឯកសារភ្ជាប់",
-        "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
-    },
-    "replyToMessage": {
-        "message": "ឆ្លើយតបសារ",
-        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
-    },
-    "originalMessageNotFound": {
-        "message": "រកមិនឃើញឯកសារដើម",
-        "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
-    },
-    "originalMessageNotAvailable": {
-        "message": "ឯកសារដើមលែងមានទៀតហើយ",
-        "description": "Shown in toast if user clicks on quote that references message no longer in database"
-    },
-    "messageFoundButNotLoaded": {
-        "message": "រកឃើញសារដើម ប៉ុន្តែមិនអាចផ្ទុក។ រំកិលចុះក្រោម ដើម្បីផ្ទុកវា។",
-        "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
-    },
-    "you": {
-        "message": "អ្នក",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
-    },
-    "audioPermissionNeeded": {
-        "message": "ដើម្បីបញ្ជូនសារសំឡេង អនុញ្ញាតឲ្យSignal Desktop ចូលប្រើប្រាស់ម៉ៃក្រូហ្វូនរបស់អ្នក។",
-        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
-    },
-    "audio": {
-        "message": "សំឡេង",
-        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
-    },
-    "video": {
-        "message": "វីដេអូ",
-        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
-    },
-    "photo": {
-        "message": "រូបភាព",
-        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
-    },
-    "cannotUpdate": {
-        "message": "Cannot Update",
-        "description": "Shown as the title of our update error dialogs on windows"
-    },
-    "ok": {
-        "message": "យល់ព្រម",
-        "description": ""
-    },
-    "cancel": {
-        "message": "លះបង់",
-        "description": ""
-    },
-    "error": {
-        "message": "បញ្ហា",
-        "description": ""
-    },
-    "delete": {
-        "message": "លុប",
-        "description": ""
-    },
-    "deleteWarning": {
-        "message": "តើអ្នកច្បាស់ទេ? ចុច 'លុប' នឹងសារនេះ ចេញពីឧបករណ៍នេះរហូត។",
-        "description": ""
-    },
-    "deleteThisMessage": {
-        "message": "លុបសារនេះ",
-        "description": ""
-    },
-    "from": {
-        "message": "ពី",
-        "description": "Label for the sender of a message"
-    },
-    "to": {
-        "message": "ទៅ",
-        "description": "Label for the receiver of a message"
-    },
-    "sent": {
-        "message": "បានផ្ញើ",
-        "description": "Label for the time a message was sent"
-    },
-    "received": {
-        "message": "បានទទួល",
-        "description": "Label for the time a message was received"
-    },
-    "sendMessage": {
-        "message": "ផ្ញើសារមួយ",
-        "description": "Placeholder text in the message entry field"
-    },
-    "groupMembers": {
-        "message": "សមាជិកក្រុម",
-        "description": ""
-    },
-    "deleteMessage": {
-        "message": "លុបសារ",
-        "description": "Shown on the drop-down menu for an individual message, deletes single message"
-    },
-    "deleteMessages": {
-        "message": "លុបសារ",
-        "description": "Menu item for deleting messages, title case."
-    },
-    "deleteConversationConfirmation": {
-        "message": "លុបការសន្ទនានេះចោលរហូត?",
-        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "quoteThumbnailAlt": {
-        "message": "រូបភាពតូចៗនៃរូបភាពពីសារដែលបានដកស្រង់",
-        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "imageAttachmentAlt": {
-        "message": "រូបភាពបានភ្ជាប់ទៅសារ",
-        "description": "Used in alt tag of image attachment"
-    },
-    "videoAttachmentAlt": {
-        "message": "រូបថតអេក្រង់នៃវីដេអូភ្ជាប់ទៅកាន់សារ",
-        "description": "Used in alt tag of video attachment preview"
-    },
-    "lightboxImageAlt": {
-        "message": "រូបភាពបានផ្ញើ ក្នុងការសន្ទនា",
-        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
-    },
-    "imageCaptionIconAlt": {
-        "message": "រូបតំណាងបង្ហាញថារូបភាពនេះមានចំណងជើង",
-        "description": "Used for the icon layered on top of an image in message bubbles"
-    },
-    "addACaption": {
-        "message": "ដាក់ចំណងជើង...",
-        "description": ""
-    },
-    "save": {
-        "message": "រក្សាទុក",
-        "description": ""
-    },
-    "permissions": {
-        "message": "ការអនុញ្ញាត",
-        "description": "Header for permissions section of settings"
-    },
-    "mediaPermissionsDescription": {
-        "message": "បើកសិទ្ធិប្រើប្រាស់កាមេរ៉ា និងម៉ៃក្រូហ្វូន",
-        "description": "Description of the media permission description"
-    },
-    "general": {
-        "message": "ទូទៅ",
-        "description": "Header for general options on the settings screen"
-    },
-    "spellCheckDescription": {
-        "message": "បើកការត្រួតពិនិត្យអក្ខរាវិរុទ្ធនៃពាក្យដែលបានបញ្ចូលក្នុងប្រអប់ផ្ញើសារ",
-        "description": "Description of the media permission description"
-    },
-    "notifications": {
-        "message": "ការជូនដំណឹង",
-        "description": "Header for notification settings"
-    },
-    "notificationSettingsDialog": {
-        "message": "ពេលទទួលសារ បង្ហាញការជូនដំណឹងដែលមាន៖",
-        "description": "Explain the purpose of the notification settings"
-    },
-    "disableNotifications": {
-        "message": "បិទការជូនដំណឹង",
-        "description": "Label for disabling notifications"
-    },
-    "nameAndMessage": {
-        "message": "ទាំងឈ្មោះអ្នកផ្ញើ និងសារ",
-        "description": "Label for setting notifications to display name and message text"
-    },
-    "noNameOrMessage": {
-        "message": "គ្មានឈ្មោះ ឬ សារ",
-        "description": "Label for setting notifications to display no name and no message text"
-    },
-    "nameOnly": {
-        "message": "មានតែឈ្មោះអ្នកផ្ញើ",
-        "description": "Label for setting notifications to display sender name only"
-    },
-    "newMessage": {
-        "message": "សារថ្មី",
-        "description": "Displayed in notifications for only 1 message"
-    },
-    "newMessages": {
-        "message": "សារថ្មី",
-        "description": "Displayed in notifications for multiple messages"
-    },
-    "notificationMostRecentFrom": {
-        "message": "ថ្មីៗបំផុតពី៖",
-        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-    },
-    "notificationFrom": {
-        "message": "ពី៖",
-        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-    },
-    "notificationMostRecent": {
-        "message": "ថ្មីៗបំផុត៖",
-        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
-    },
-    "sendFailed": {
-        "message": "ផ្ញើបរាជ័យ",
-        "description": "Shown on outgoing message if it fails to send"
-    },
-    "expiredWarning": {
-        "message": "ជំនាន់ Session Desktop នេះ បានហួសសុពលភាព។ សូមដំឡើងទីកាន់ជំនាន់ចុងក្រោយ ដើម្បីបន្តការផ្ញើសារ។",
-        "description": "Warning notification that this version of the app has expired"
-    },
-    "upgrade": {
-        "message": "ដំឡើង",
-        "description": "Label text for button to upgrade the app to the latest version"
-    },
-    "mediaMessage": {
-        "message": "សារមេឌា",
-        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
-    },
-    "timestamp_s": {
-        "message": "ឥឡូវ",
-        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
-    },
-    "timestamp_m": {
-        "message": "1 នាទី",
-        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
-    },
-    "timestamp_h": {
-        "message": "1 ម៉ោង",
-        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "timestampFormat_M": {
-        "message": "ខែ ថ្ងៃ",
-        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
-    },
-    "unblockToSend": {
-        "message": "ដោះការហាមឃាត់លេខទំនាក់ទំនងនេះ ដើម្បីផ្ញើសារ។",
-        "description": "Brief message shown when trying to message a blocked number"
-    },
-    "unblockGroupToSend": {
-        "message": "មិនការទប់ស្កាត់ក្រុមនេះ ដើម្បីផ្ញើសារ។",
-        "description": "Brief message shown when trying to message a blocked group"
-    },
-    "youChangedTheTimer": {
-        "message": "អ្នកបានកំណត់រយៈពេលសារបាត់ទៅវិញជា $time$",
-        "description": "Message displayed when you change the message expiration timer in a conversation.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "timerSetOnSync": {
-        "message": "រយៈពេលសារបាត់ទៅវិញបានកែប្រែទៅកាន់ $time$",
-        "description": "Message displayed when timer is set on initial link of desktop device.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "theyChangedTheTimer": {
-        "message": "$name$ បានកំណត់រយៈពេលសារបាត់ទៅវិញជា $time$",
-        "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            },
-            "time": {
-                "content": "$2",
-                "example": "10m"
-            }
-        }
-    },
-    "timerOption_0_seconds": {
-        "message": "បិទ",
-        "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 វិនាទី",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-        "message": "10 វិនាទី",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-        "message": "30 វិនាទី",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-        "message": "1 នាទី",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 នាទី",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 នាទី",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-        "message": "1 ម៉ោង",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-        "message": "6 ម៉ោង",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-        "message": "12 ម៉ោង",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-        "message": "1 ថ្ងៃ",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-        "message": "1 សប្តាហ៍",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "disappearingMessages": {
-        "message": "សារបាត់ទៅវិញ",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "បិទ",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5វិ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10វិ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30វិ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1ន",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5ន",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30ន",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1ម",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6ម",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12ម",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1ថ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1ស",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "disappearingMessagesDisabled": {
-        "message": "សារបាត់ទៅវិញបានបិទ",
-        "description": "Displayed in the left pane when the timer is turned off"
-    },
-    "disabledDisappearingMessages": {
-        "message": "$name$ បានបិទសារបាត់ទៅវិញ",
-        "description": "Displayed in the conversation list when the timer is turned off",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "youDisabledDisappearingMessages": {
-        "message": "អ្នកបានបិទសារបាត់ទៅវិញ",
-        "description": "Displayed in the conversation list when the timer is turned off"
-    },
-    "timerSetTo": {
-        "message": "រយៈពេលបានកំណត់$time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "1w"
-            }
-        }
-    },
-    "noteToSelf": {
-        "message": "កំណត់ចំណាំ",
-        "description": "Name for the conversation with your own phone number"
-    },
-    "startConversation": {
-        "message": "ចាប់ផ្តើមការសន្ទនាថ្មី...",
-        "description": "Label underneath number a user enters that is not an existing contact"
-    },
-    "invalidNumberError": {
-        "message": "លេខមិនត្រឹមត្រូវ",
-        "description": "When a person inputs a number that is invalid"
-    },
-    "autoUpdateNewVersionTitle": {
-        "message": "មានបច្ចុប្បន្នភាព Session",
-        "description": ""
-    },
-    "autoUpdateNewVersionMessage": {
-        "message": "មានSessionជំនាន់ថ្មី",
-        "description": ""
-    },
-    "autoUpdateNewVersionInstructions": {
-        "message": "ចុច បើក Sessionឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
-        "description": ""
-    },
-    "autoUpdateRestartButtonLabel": {
-        "message": "បើកSession ឡើងវិញ",
-        "description": ""
-    },
-    "autoUpdateLaterButtonLabel": {
-        "message": "លើកក្រោយ",
-        "description": ""
-    },
-    "leftTheGroup": {
-        "message": "$name$ បានចេញពីក្រុម",
-        "description": "Shown in the conversation history when a single person leaves the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "multipleLeftTheGroup": {
-        "message": "$name$ បានចេញពីក្រុម",
-        "description": "Shown in the conversation history when multiple people leave the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    },
-    "updatedTheGroup": {
-        "message": "ក្រុមបានធ្វើបច្ចុប្បន្នភាព",
-        "description": "Shown in the conversation history when someone updates the group"
-    },
-    "titleIsNow": {
-        "message": "ចំណងជើងឥឡូវគឺ '$name$'",
-        "description": "Shown in the conversation history when someone changes the title of the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Book Club"
-            }
-        }
-    },
-    "joinedTheGroup": {
-        "message": "$name$ បានចូលក្រុម",
-        "description": "Shown in the conversation history when a single person joins the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice"
-            }
-        }
-    },
-    "multipleJoinedTheGroup": {
-        "message": "$names$ បានចូលក្រុម",
-        "description": "Shown in the conversation history when more than one person joins the group",
-        "placeholders": {
-            "names": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    }
+  "privacyPolicy": {
+    "message": "Terms & Privacy Policy"
+  },
+  "copyErrorAndQuit": {
+    "message": "ចម្លងបញ្ហា និងចាកចេញ"
+  },
+  "unknown": {
+    "message": "Unknown"
+  },
+  "databaseError": {
+    "message": "បញ្ហាទិន្នន័យ"
+  },
+  "mainMenuFile": {
+    "message": "&ឯកសារ"
+  },
+  "mainMenuEdit": {
+    "message": "&កែប្រែ"
+  },
+  "mainMenuView": {
+    "message": "&បង្ហាញ"
+  },
+  "mainMenuWindow": {
+    "message": "&ផ្ទាំងបង្អួច"
+  },
+  "mainMenuHelp": {
+    "message": "&ជំនួយ"
+  },
+  "appMenuHide": {
+    "message": "លាក់"
+  },
+  "appMenuHideOthers": {
+    "message": "លាក់ផ្សេងទៀត"
+  },
+  "appMenuUnhide": {
+    "message": "បង្ហាញទាំងអស់"
+  },
+  "appMenuQuit": {
+    "message": "ចាកចេញពីSignal"
+  },
+  "editMenuUndo": {
+    "message": "មិនធ្វើវិញ"
+  },
+  "editMenuRedo": {
+    "message": "ធ្វើឡើងវិញ"
+  },
+  "editMenuCut": {
+    "message": "កាត់"
+  },
+  "editMenuCopy": {
+    "message": "ចម្លង"
+  },
+  "editMenuPaste": {
+    "message": "បិទភ្ជាប់"
+  },
+  "editMenuPasteAndMatchStyle": {
+    "message": "គំរូបិទភ្ជាប់ និងត្រូវគ្នា"
+  },
+  "editMenuDelete": {
+    "message": "លុប"
+  },
+  "editMenuSelectAll": {
+    "message": "ជ្រើសរើសទាំងអស់"
+  },
+  "editMenuStartSpeaking": {
+    "message": "ចាប់ផ្តើមការនិយាយ"
+  },
+  "editMenuStopSpeaking": {
+    "message": "បញ្ឈប់ការនិយាយ"
+  },
+  "windowMenuClose": {
+    "message": "បិទផ្ទាំង"
+  },
+  "windowMenuMinimize": {
+    "message": "បង្រួមតូច"
+  },
+  "windowMenuZoom": {
+    "message": "ពង្រីក"
+  },
+  "windowMenuBringAllToFront": {
+    "message": "នាំទាំងអស់ទៅកាន់ពុម្ពអក្សរ"
+  },
+  "viewMenuResetZoom": {
+    "message": "ទំហំជាក់ស្តែង"
+  },
+  "viewMenuZoomIn": {
+    "message": "ពង្រីក"
+  },
+  "viewMenuZoomOut": {
+    "message": "បង្រួម"
+  },
+  "viewMenuToggleFullScreen": {
+    "message": "បិទបើកការបង្ហាញពេញអេក្រង់"
+  },
+  "viewMenuToggleDevTools": {
+    "message": "បិទបើកមុខងារអ្នកអភិវឌ្ឍន៍"
+  },
+  "menuSetupWithImport": {
+    "message": "ដំឡើង ជាមួយការនាំចូល"
+  },
+  "contextMenuNoSuggestions": {
+    "message": "No Suggestions"
+  },
+  "loading": {
+    "message": "កំពុងផ្ទុក..."
+  },
+  "optimizingApplication": {
+    "message": "ធ្វើឱ្យកម្មវិធីប្រសើរឡើង ..."
+  },
+  "chooseDirectory": {
+    "message": "ជ្រើសរើសទីតាំងផ្ទុក"
+  },
+  "done": {
+    "message": "Done"
+  },
+  "loadDataHeader": {
+    "message": "ផ្ទុកទិន្នន័យរបស់អ្នក"
+  },
+  "loadDataDescription": {
+    "message": "អ្នកទើបឆ្លងកាត់ដំណើការនាំចេញ បញ្ជីទំនាក់ទំនង និងសាររបស់អ្នកគឺកំពុងរង់ចាំនៅលើម៉ាស៊ីនកុំព្យូទ័ររបស់អ្នក។ ជ្រើសរើស ថតផ្ទុកទិន្នន័យSignalរបស់អ្នក ដែលបានរក្សាទុក។"
+  },
+  "importChooserTitle": {
+    "message": "ជ្រើសរើស ថតឯកសារ ជាមួយទិន្នន័យបាននាំចេញ"
+  },
+  "importErrorHeader": {
+    "message": "មានបញ្ហាខុសប្រក្រតី!"
+  },
+  "importingHeader": {
+    "message": "កំពុងផ្ទុកបញ្ជីទំនាក់ទំនង និងសារ"
+  },
+  "importErrorFirst": {
+    "message": "សូមប្រាកដថា អ្នកបានជ្រើសរើស កន្លែងត្រឹមត្រូវដែលផ្ទុកទិន្នន័យSignalរបស់អ្នក ដែលបានរក្សាទុក។ ឈ្មោះវា គួរតែចាប់ផ្តើមដោយ 'នាំចេញ Session។' អ្នកអាចរក្សាទុកការចម្លងថ្មីមួយនៃទិន្នន័យរបស់អ្នក ពីកម្មវិធី Chrome ។"
+  },
+  "importErrorSecond": {
+    "message": "បើសិនជំហានទាំងនេះ មិនកើតទេ សូមបញ្ជូន កំណត់ត្រាបញ្ហា (បង្ហាញ -> កំណត់ត្រាបញ្ហា) ដូចនេះ យើងអាចជួយអ្នកបាន!"
+  },
+  "importAgain": {
+    "message": "ជ្រើសរើស កន្លែងផ្ទុក និងសាកល្បងម្តងទៀត"
+  },
+  "importCompleteHeader": {
+    "message": "ជោគជ័យ!"
+  },
+  "importCompleteStartButton": {
+    "message": "ចាប់ផ្តើមប្រើប្រាស់ Session Desktop"
+  },
+  "importCompleteLinkButton": {
+    "message": "តភ្ជាប់ឧបករណ៍នេះ ទៅកាន់ទូរស័ព្ទរបស់អ្នក"
+  },
+  "me": {
+    "message": "ខ្ញុំ"
+  },
+  "view": {
+    "message": "បង្ហាញ"
+  },
+  "youLeftTheGroup": {
+    "message": "អ្នកបានចាកចេញពីក្រុម"
+  },
+  "youGotKickedFromGroup": {
+    "message": "You were removed from the group."
+  },
+  "unreadMessage": {
+    "message": "សារមិនទាន់អាន 1 "
+  },
+  "unreadMessages": {
+    "message": "$count$ សារមិនទាន់អាន"
+  },
+  "debugLogExplanation": {
+    "message": "កំណត់ត្រានេះ នឹងត្រូវបង្ហោះជាសាធារណៈតាមរយៈបណ្តាញ សម្រាប់អ្នកចូលរួមដើម្បីពិនិត្យមើល។ អ្នកអាចពិនិត្យ និងកែប្រែវាមុនពេលបញ្ជូន។"
+  },
+  "debugLogError": {
+    "message": "មានបញ្ហាក្នុងការផ្ទុក! សូមបន្ថែមក្នុងកំណត់ត្រា ដើម្បីកត់ត្រាបញ្ហាក្នុងឯកសារអ្នក។"
+  },
+  "reportIssue": {
+    "message": "រាយការណ៍បញ្ហាមួយ"
+  },
+  "gotIt": {
+    "message": "យល់ព្រម!"
+  },
+  "submit": {
+    "message": "បញ្ជូន"
+  },
+  "markAllAsRead": {
+    "message": "Mark All as Read"
+  },
+  "incomingError": {
+    "message": "បញ្ហាទទួលសារផ្ញើចូល"
+  },
+  "media": {
+    "message": "ឯកសារមេឌា"
+  },
+  "mediaEmptyState": {
+    "message": "អ្នកមិនមានឯកសារមេឌា ក្នុងការសន្ទនានេះទេ"
+  },
+  "documents": {
+    "message": "ឯកសារ"
+  },
+  "documentsEmptyState": {
+    "message": "អ្នកមិនមានឯកសារ ក្នុងការសន្ទនានេះទេ"
+  },
+  "today": {
+    "message": "ថ្ងៃនេះ"
+  },
+  "yesterday": {
+    "message": "ម្សិលមិញ"
+  },
+  "thisWeek": {
+    "message": "សប្តាហ៍នេះ"
+  },
+  "thisMonth": {
+    "message": "ខែនេះ"
+  },
+  "voiceMessage": {
+    "message": "សារសំឡេង"
+  },
+  "dangerousFileType": {
+    "message": "ប្រភេទឯកសារភ្ជាប់មិនអនុញ្ញាតសម្រាប់ហេតុផលសុវត្ថិភាព"
+  },
+  "stagedPreviewThumbnail": {
+    "message": "ការមើលតំណជារូបភាពតូចៗព្រាងសម្រាប់ $domain$"
+  },
+  "previewThumbnail": {
+    "message": "ការមើលតំណជារូបភាពតូចៗសម្រាប់$domain$"
+  },
+  "stagedImageAttachment": {
+    "message": "រូបភាពឯកសារភ្ជាប់ព្រាង៖ $path$"
+  },
+  "oneNonImageAtATimeToast": {
+    "message": "ពេលបញ្ចូលឯកសារភ្ជាប់មិន-រូបភាពមួយ ការកំណត់គឺឯកសារភ្ជាប់មួយ សម្រាប់សារមួយ។"
+  },
+  "cannotMixImageAndNonImageAttachments": {
+    "message": "អ្នកមិនអាចលាយឡំឯកសារភ្ជាប់ មិន-រូបភាព និងរូបភាព ក្នុងសារតែមួយទេ។"
+  },
+  "maximumAttachments": {
+    "message": "អ្នកមិនអាចបន្ថែមឯកសារភ្ជាប់ទៅកាន់សារនេះទេ។"
+  },
+  "fileSizeWarning": {
+    "message": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។"
+  },
+  "unableToLoadAttachment": {
+    "message": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។"
+  },
+  "offline": {
+    "message": "អហ្វឡាញ"
+  },
+  "checkNetworkConnection": {
+    "message": "ត្រួតពិនិត្យការតភ្ជាប់បណ្តាញរបស់អ្នក។"
+  },
+  "attemptingReconnection": {
+    "message": "កំពុងព្យាយាមតភ្ជាប់ឡើងវិញក្នុងពេល $reconnect_duration_in_seconds$ វិនាទី"
+  },
+  "submitDebugLog": {
+    "message": "កំណត់ត្រាបញ្ហា"
+  },
+  "debugLog": {
+    "message": "កំណត់ត្រាបញ្ហា"
+  },
+  "goToReleaseNotes": {
+    "message": "ចូលទៅកាន់កំណត់ចេញថ្មី"
+  },
+  "goToSupportPage": {
+    "message": "ចូលទៅកាន់ទំព័រគាំទ្រ"
+  },
+  "menuReportIssue": {
+    "message": "រាយការណ៍បញ្ហាមួយ"
+  },
+  "about": {
+    "message": "About"
+  },
+  "speech": {
+    "message": "សម្តី"
+  },
+  "show": {
+    "message": "បង្ហាញ"
+  },
+  "sessionMessenger": {
+    "message": "Session"
+  },
+  "search": {
+    "message": "ស្វែងរក"
+  },
+  "noSearchResults": {
+    "message": "គ្មានលទ្ធផលសម្រាប់ \"$searchTerm$\""
+  },
+  "conversationsHeader": {
+    "message": "ការសន្ទនា"
+  },
+  "contactsHeader": {
+    "message": "បញ្ជីទំនាក់ទំនង"
+  },
+  "messagesHeader": {
+    "message": "សារ"
+  },
+  "settingsHeader": {
+    "message": "Settings"
+  },
+  "typingAlt": {
+    "message": "ការវាយចលនាសម្រាប់ការសន្ទនានេះ"
+  },
+  "contactAvatarAlt": {
+    "message": "រូបតំណាងសម្រាប់លេខទំនាក់ទំនង $name$"
+  },
+  "downloadAttachment": {
+    "message": "ទាញយកឯកសារភ្ជាប់"
+  },
+  "replyToMessage": {
+    "message": "ឆ្លើយតបសារ"
+  },
+  "replyingToMessage": {
+    "message": "Replying to:"
+  },
+  "originalMessageNotFound": {
+    "message": "រកមិនឃើញឯកសារដើម"
+  },
+  "originalMessageNotAvailable": {
+    "message": "ឯកសារដើមលែងមានទៀតហើយ"
+  },
+  "messageFoundButNotLoaded": {
+    "message": "រកឃើញសារដើម ប៉ុន្តែមិនអាចផ្ទុក។ រំកិលចុះក្រោម ដើម្បីផ្ទុកវា។"
+  },
+  "recording": {
+    "message": "Recording"
+  },
+  "you": {
+    "message": "អ្នក"
+  },
+  "audioPermissionNeededTitle": {
+    "message": "Microphone access required"
+  },
+  "audioPermissionNeeded": {
+    "message": "ដើម្បីបញ្ជូនសារសំឡេង អនុញ្ញាតឲ្យSignal Desktop ចូលប្រើប្រាស់ម៉ៃក្រូហ្វូនរបស់អ្នក។"
+  },
+  "audio": {
+    "message": "សំឡេង"
+  },
+  "video": {
+    "message": "វីដេអូ"
+  },
+  "photo": {
+    "message": "រូបភាព"
+  },
+  "cannotUpdate": {
+    "message": "Cannot Update"
+  },
+  "cannotUpdateDetail": {
+    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem."
+  },
+  "ok": {
+    "message": "យល់ព្រម"
+  },
+  "cancel": {
+    "message": "លះបង់"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "continue": {
+    "message": "Continue"
+  },
+  "error": {
+    "message": "បញ្ហា"
+  },
+  "delete": {
+    "message": "លុប"
+  },
+  "deletePublicWarning": {
+    "message": "Are you sure? This will permanently remove this message for everyone in this open group."
+  },
+  "deleteMultiplePublicWarning": {
+    "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
+  },
+  "deleteWarning": {
+    "message": "តើអ្នកច្បាស់ទេ? ចុច 'លុប' នឹងសារនេះ ចេញពីឧបករណ៍នេះរហូត។"
+  },
+  "deleteMultipleWarning": {
+    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
+  },
+  "messageDeletionForbidden": {
+    "message": "You don’t have permission to delete others’ messages"
+  },
+  "deleteThisMessage": {
+    "message": "លុបសារនេះ"
+  },
+  "deleted": {
+    "message": "Deleted"
+  },
+  "from": {
+    "message": "ពី"
+  },
+  "to": {
+    "message": "ទៅ"
+  },
+  "sent": {
+    "message": "បានផ្ញើ"
+  },
+  "received": {
+    "message": "បានទទួល"
+  },
+  "sendMessage": {
+    "message": "ផ្ញើសារមួយ"
+  },
+  "groupMembers": {
+    "message": "សមាជិកក្រុម"
+  },
+  "moreInformation": {
+    "message": "More information"
+  },
+  "resend": {
+    "message": "Resend"
+  },
+  "deleteMessage": {
+    "message": "លុបសារ"
+  },
+  "deleteMessages": {
+    "message": "លុបសារ"
+  },
+  "deleteMessageForEveryone": {
+    "message": "Delete Message For Everyone"
+  },
+  "deleteMessagesForEveryone": {
+    "message": "Delete Messages For Everyone"
+  },
+  "deleteForEveryone": {
+    "message": "Delete For Everyone"
+  },
+  "deleteConversationConfirmation": {
+    "message": "លុបការសន្ទនានេះចោលរហូត?"
+  },
+  "clearAllData": {
+    "message": "Clear All Data"
+  },
+  "deleteAccountWarning": {
+    "message": "This will permanently delete your messages, sessions, and contacts."
+  },
+  "deleteContactConfirmation": {
+    "message": "Are you sure you want to delete this conversation?"
+  },
+  "quoteThumbnailAlt": {
+    "message": "រូបភាពតូចៗនៃរូបភាពពីសារដែលបានដកស្រង់"
+  },
+  "imageAttachmentAlt": {
+    "message": "រូបភាពបានភ្ជាប់ទៅសារ"
+  },
+  "videoAttachmentAlt": {
+    "message": "រូបថតអេក្រង់នៃវីដេអូភ្ជាប់ទៅកាន់សារ"
+  },
+  "lightboxImageAlt": {
+    "message": "រូបភាពបានផ្ញើ ក្នុងការសន្ទនា"
+  },
+  "imageCaptionIconAlt": {
+    "message": "រូបតំណាងបង្ហាញថារូបភាពនេះមានចំណងជើង"
+  },
+  "addACaption": {
+    "message": "ដាក់ចំណងជើង..."
+  },
+  "copy": {
+    "message": "Copy"
+  },
+  "copySessionID": {
+    "message": "Copy Session ID"
+  },
+  "copyOpenGroupURL": {
+    "message": "Copy Group's URL"
+  },
+  "save": {
+    "message": "រក្សាទុក"
+  },
+  "saved": {
+    "message": "Saved"
+  },
+  "permissions": {
+    "message": "ការអនុញ្ញាត"
+  },
+  "general": {
+    "message": "ទូទៅ"
+  },
+  "linkPreviewsTitle": {
+    "message": "Send Link Previews"
+  },
+  "linkPreviewDescription": {
+    "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links"
+  },
+  "linkPreviewsConfirmMessage": {
+    "message": "You will not have full metadata protection when sending or receiving link previews."
+  },
+  "mediaPermissionsTitle": {
+    "message": "Microphone and Camera"
+  },
+  "mediaPermissionsDescription": {
+    "message": "បើកសិទ្ធិប្រើប្រាស់កាមេរ៉ា និងម៉ៃក្រូហ្វូន"
+  },
+  "spellCheckTitle": {
+    "message": "Spell Check"
+  },
+  "spellCheckDescription": {
+    "message": "បើកការត្រួតពិនិត្យអក្ខរាវិរុទ្ធនៃពាក្យដែលបានបញ្ចូលក្នុងប្រអប់ផ្ញើសារ"
+  },
+  "spellCheckDirty": {
+    "message": "You must restart Session to apply your new settings"
+  },
+  "notifications": {
+    "message": "ការជូនដំណឹង"
+  },
+  "readReceiptSettingDescription": {
+    "message": "See and share when messages have been read (enables read receipts in all sessions)."
+  },
+  "readReceiptSettingTitle": {
+    "message": "Read Receipts"
+  },
+  "typingIndicatorsSettingDescription": {
+    "message": "See and share when messages are being typed (applies to all sessions)."
+  },
+  "typingIndicatorsSettingTitle": {
+    "message": "Typing Indicators"
+  },
+  "zoomFactorSettingTitle": {
+    "message": "Zoom Factor"
+  },
+  "notificationSettingsDialog": {
+    "message": "ពេលទទួលសារ បង្ហាញការជូនដំណឹងដែលមាន៖"
+  },
+  "disableNotifications": {
+    "message": "បិទការជូនដំណឹង"
+  },
+  "nameAndMessage": {
+    "message": "ទាំងឈ្មោះអ្នកផ្ញើ និងសារ"
+  },
+  "noNameOrMessage": {
+    "message": "គ្មានឈ្មោះ ឬ សារ"
+  },
+  "nameOnly": {
+    "message": "មានតែឈ្មោះអ្នកផ្ញើ"
+  },
+  "newMessage": {
+    "message": "សារថ្មី"
+  },
+  "newMessages": {
+    "message": "សារថ្មី"
+  },
+  "notificationMostRecentFrom": {
+    "message": "ថ្មីៗបំផុតពី៖"
+  },
+  "notificationFrom": {
+    "message": "ពី៖"
+  },
+  "notificationMostRecent": {
+    "message": "ថ្មីៗបំផុត៖"
+  },
+  "sendFailed": {
+    "message": "ផ្ញើបរាជ័យ"
+  },
+  "expiredWarning": {
+    "message": "ជំនាន់ Session Desktop នេះ បានហួសសុពលភាព។ សូមដំឡើងទីកាន់ជំនាន់ចុងក្រោយ ដើម្បីបន្តការផ្ញើសារ។"
+  },
+  "upgrade": {
+    "message": "ដំឡើង"
+  },
+  "mediaMessage": {
+    "message": "សារមេឌា"
+  },
+  "timestamp_s": {
+    "message": "ឥឡូវ"
+  },
+  "timestamp_m": {
+    "message": "1 នាទី"
+  },
+  "timestamp_h": {
+    "message": "1 ម៉ោង"
+  },
+  "timestampFormat_M": {
+    "message": "ខែ ថ្ងៃ"
+  },
+  "messageBodyMissing": {
+    "message": "Please enter a message body."
+  },
+  "unblockToSend": {
+    "message": "ដោះការហាមឃាត់លេខទំនាក់ទំនងនេះ ដើម្បីផ្ញើសារ។"
+  },
+  "unblockGroupToSend": {
+    "message": "មិនការទប់ស្កាត់ក្រុមនេះ ដើម្បីផ្ញើសារ។"
+  },
+  "youChangedTheTimer": {
+    "message": "អ្នកបានកំណត់រយៈពេលសារបាត់ទៅវិញជា $time$"
+  },
+  "timerSetOnSync": {
+    "message": "រយៈពេលសារបាត់ទៅវិញបានកែប្រែទៅកាន់ $time$"
+  },
+  "theyChangedTheTimer": {
+    "message": "$name$ បានកំណត់រយៈពេលសារបាត់ទៅវិញជា $time$"
+  },
+  "timerOption_0_seconds": {
+    "message": "បិទ"
+  },
+  "timerOption_5_seconds": {
+    "message": "5 វិនាទី"
+  },
+  "timerOption_10_seconds": {
+    "message": "10 វិនាទី"
+  },
+  "timerOption_30_seconds": {
+    "message": "30 វិនាទី"
+  },
+  "timerOption_1_minute": {
+    "message": "1 នាទី"
+  },
+  "timerOption_5_minutes": {
+    "message": "5 នាទី"
+  },
+  "timerOption_30_minutes": {
+    "message": "30 នាទី"
+  },
+  "timerOption_1_hour": {
+    "message": "1 ម៉ោង"
+  },
+  "timerOption_6_hours": {
+    "message": "6 ម៉ោង"
+  },
+  "timerOption_12_hours": {
+    "message": "12 ម៉ោង"
+  },
+  "timerOption_1_day": {
+    "message": "1 ថ្ងៃ"
+  },
+  "timerOption_1_week": {
+    "message": "1 សប្តាហ៍"
+  },
+  "disappearingMessages": {
+    "message": "សារបាត់ទៅវិញ"
+  },
+  "changeNickname": {
+    "message": "Change Nickname"
+  },
+  "clearNickname": {
+    "message": "Clear nickname"
+  },
+  "timerOption_0_seconds_abbreviated": {
+    "message": "បិទ"
+  },
+  "timerOption_5_seconds_abbreviated": {
+    "message": "5វិ"
+  },
+  "timerOption_10_seconds_abbreviated": {
+    "message": "10វិ"
+  },
+  "timerOption_30_seconds_abbreviated": {
+    "message": "30វិ"
+  },
+  "timerOption_1_minute_abbreviated": {
+    "message": "1ន"
+  },
+  "timerOption_5_minutes_abbreviated": {
+    "message": "5ន"
+  },
+  "timerOption_30_minutes_abbreviated": {
+    "message": "30ន"
+  },
+  "timerOption_1_hour_abbreviated": {
+    "message": "1ម"
+  },
+  "timerOption_6_hours_abbreviated": {
+    "message": "6ម"
+  },
+  "timerOption_12_hours_abbreviated": {
+    "message": "12ម"
+  },
+  "timerOption_1_day_abbreviated": {
+    "message": "1ថ"
+  },
+  "timerOption_1_week_abbreviated": {
+    "message": "1ស"
+  },
+  "disappearingMessagesDisabled": {
+    "message": "សារបាត់ទៅវិញបានបិទ"
+  },
+  "disabledDisappearingMessages": {
+    "message": "$name$ បានបិទសារបាត់ទៅវិញ"
+  },
+  "youDisabledDisappearingMessages": {
+    "message": "អ្នកបានបិទសារបាត់ទៅវិញ"
+  },
+  "timerSetTo": {
+    "message": "រយៈពេលបានកំណត់$time$"
+  },
+  "noteToSelf": {
+    "message": "កំណត់ចំណាំ"
+  },
+  "hideMenuBarTitle": {
+    "message": "Hide Menu Bar"
+  },
+  "hideMenuBarDescription": {
+    "message": "Toggle system menu bar visibility"
+  },
+  "startConversation": {
+    "message": "ចាប់ផ្តើមការសន្ទនាថ្មី..."
+  },
+  "invalidNumberError": {
+    "message": "លេខមិនត្រឹមត្រូវ"
+  },
+  "successUnlinked": {
+    "message": "Your device was unlinked successfully"
+  },
+  "autoUpdateSettingTitle": {
+    "message": "Auto Update"
+  },
+  "autoUpdateSettingDescription": {
+    "message": "Automatically check for updates on launch"
+  },
+  "autoUpdateNewVersionTitle": {
+    "message": "មានបច្ចុប្បន្នភាព Session"
+  },
+  "autoUpdateNewVersionMessage": {
+    "message": "មានSessionជំនាន់ថ្មី"
+  },
+  "autoUpdateNewVersionInstructions": {
+    "message": "ចុច បើក Sessionឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។"
+  },
+  "autoUpdateRestartButtonLabel": {
+    "message": "បើកSession ឡើងវិញ"
+  },
+  "autoUpdateLaterButtonLabel": {
+    "message": "លើកក្រោយ"
+  },
+  "autoUpdateDownloadButtonLabel": {
+    "message": "Download"
+  },
+  "autoUpdateDownloadedMessage": {
+    "message": "The new update has been downloaded."
+  },
+  "autoUpdateDownloadInstructions": {
+    "message": "Would you like to download the update?"
+  },
+  "leftTheGroup": {
+    "message": "$name$ បានចេញពីក្រុម"
+  },
+  "multipleLeftTheGroup": {
+    "message": "$name$ បានចេញពីក្រុម"
+  },
+  "updatedTheGroup": {
+    "message": "ក្រុមបានធ្វើបច្ចុប្បន្នភាព"
+  },
+  "titleIsNow": {
+    "message": "ចំណងជើងឥឡូវគឺ '$name$'"
+  },
+  "joinedTheGroup": {
+    "message": "$name$ បានចូលក្រុម"
+  },
+  "multipleJoinedTheGroup": {
+    "message": "$names$ បានចូលក្រុម"
+  },
+  "kickedFromTheGroup": {
+    "message": "$name$ was removed from the group."
+  },
+  "multipleKickedFromTheGroup": {
+    "message": "$name$ were removed from the group."
+  },
+  "blockUser": {
+    "message": "Block"
+  },
+  "unblockUser": {
+    "message": "Unblock"
+  },
+  "unblocked": {
+    "message": "Unblocked"
+  },
+  "blockedSettingsTitle": {
+    "message": "Blocked contacts"
+  },
+  "unbanUser": {
+    "message": "Unban User"
+  },
+  "unbanUserConfirm": {
+    "message": "Are you sure you want to unban user?"
+  },
+  "userUnbanned": {
+    "message": "User unbanned successfully"
+  },
+  "userUnbanFailed": {
+    "message": "Unban failed!"
+  },
+  "banUser": {
+    "message": "Ban User"
+  },
+  "banUserConfirm": {
+    "message": "Are you sure you want to ban user?"
+  },
+  "userBanned": {
+    "message": "User banned successfully"
+  },
+  "userBanFailed": {
+    "message": "Ban failed!"
+  },
+  "leaveGroup": {
+    "message": "Leave Group"
+  },
+  "leaveAndRemoveForEveryone": {
+    "message": "Leave Group and remove for everyone"
+  },
+  "leaveGroupConfirmation": {
+    "message": "Are you sure you want to leave this group?"
+  },
+  "leaveGroupConfirmationAdmin": {
+    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?"
+  },
+  "cannotRemoveCreatorFromGroup": {
+    "message": "Cannot remove this user"
+  },
+  "cannotRemoveCreatorFromGroupDesc": {
+    "message": "You cannot remove this user as they are the creator of the group."
+  },
+  "userNeedsToHaveJoined": {
+    "message": "User needs to have joined"
+  },
+  "userNeedsToHaveJoinedDesc": {
+    "message": "An error happened. The user needs to have already joined the server for this ADD to work."
+  },
+  "noContactsForGroup": {
+    "message": "You don't have any contacts yet"
+  },
+  "copyMessage": {
+    "message": "Copy message text"
+  },
+  "selectMessage": {
+    "message": "Select message"
+  },
+  "editGroup": {
+    "message": "Edit group"
+  },
+  "editGroupName": {
+    "message": "Edit group name"
+  },
+  "updateGroupDialogTitle": {
+    "message": "Updating $name$..."
+  },
+  "showRecoveryPhrase": {
+    "message": "Recovery Phrase"
+  },
+  "yourSessionID": {
+    "message": "Your Session ID"
+  },
+  "setAccountPasswordTitle": {
+    "message": "Set Account Password"
+  },
+  "setAccountPasswordDescription": {
+    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed"
+  },
+  "changeAccountPasswordTitle": {
+    "message": "Change Account Password"
+  },
+  "changeAccountPasswordDescription": {
+    "message": "Change your password"
+  },
+  "removeAccountPasswordTitle": {
+    "message": "Remove Account Password"
+  },
+  "removeAccountPasswordDescription": {
+    "message": "Remove the password associated with your account"
+  },
+  "enterPassword": {
+    "message": "Please enter your password"
+  },
+  "confirmPassword": {
+    "message": "Confirm password"
+  },
+  "pasteLongPasswordToastTitle": {
+    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters."
+  },
+  "showRecoveryPhrasePasswordRequest": {
+    "message": "Please enter your password"
+  },
+  "recoveryPhraseSavePromptMain": {
+    "message": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone."
+  },
+  "invalidOpenGroupUrl": {
+    "message": "Invalid URL"
+  },
+  "copiedToClipboard": {
+    "message": "Copied to clipboard"
+  },
+  "passwordViewTitle": {
+    "message": "Type In Your Password"
+  },
+  "unlock": {
+    "message": "Unlock"
+  },
+  "password": {
+    "message": "Password"
+  },
+  "setPassword": {
+    "message": "Set Password"
+  },
+  "changePassword": {
+    "message": "Change Password"
+  },
+  "removePassword": {
+    "message": "Remove Password"
+  },
+  "maxPasswordAttempts": {
+    "message": "Invalid Password. Would you like to reset the database?"
+  },
+  "typeInOldPassword": {
+    "message": "Please type in your old password"
+  },
+  "invalidOldPassword": {
+    "message": "Old password is invalid"
+  },
+  "invalidPassword": {
+    "message": "Invalid password"
+  },
+  "noGivenPassword": {
+    "message": "Please enter your password"
+  },
+  "passwordsDoNotMatch": {
+    "message": "Passwords do not match"
+  },
+  "setPasswordInvalid": {
+    "message": "Passwords do not match"
+  },
+  "changePasswordInvalid": {
+    "message": "The old password you entered is incorrect"
+  },
+  "removePasswordInvalid": {
+    "message": "Incorrect password"
+  },
+  "setPasswordTitle": {
+    "message": "Set Password"
+  },
+  "changePasswordTitle": {
+    "message": "Changed Password"
+  },
+  "removePasswordTitle": {
+    "message": "Removed Password"
+  },
+  "setPasswordToastDescription": {
+    "message": "Your password has been set. Please keep it safe."
+  },
+  "changePasswordToastDescription": {
+    "message": "Your password has been changed. Please keep it safe."
+  },
+  "removePasswordToastDescription": {
+    "message": "You have removed your password."
+  },
+  "publicChatExists": {
+    "message": "You are already connected to this open group"
+  },
+  "connectToServerFail": {
+    "message": "Couldn't join group"
+  },
+  "connectingToServer": {
+    "message": "Connecting..."
+  },
+  "connectToServerSuccess": {
+    "message": "Successfully connected to open group"
+  },
+  "setPasswordFail": {
+    "message": "Failed to set password"
+  },
+  "passwordLengthError": {
+    "message": "Password must be between 6 and 64 characters long"
+  },
+  "passwordTypeError": {
+    "message": "Password must be a string"
+  },
+  "passwordCharacterError": {
+    "message": "Password must only contain letters, numbers and symbols"
+  },
+  "remove": {
+    "message": "Remove"
+  },
+  "invalidSessionId": {
+    "message": "Invalid Session ID"
+  },
+  "invalidPubkeyFormat": {
+    "message": "Invalid Pubkey Format"
+  },
+  "lnsMappingNotFound": {
+    "message": "There is no LNS mapping associated with this name"
+  },
+  "lnsLookupTimeout": {
+    "message": "LNS lookup timed out"
+  },
+  "lnsTooFewNodes": {
+    "message": "Not enough nodes currently active for LNS lookup"
+  },
+  "emptyGroupNameError": {
+    "message": "Please enter a group name"
+  },
+  "editProfileModalTitle": {
+    "message": "Profile"
+  },
+  "groupNamePlaceholder": {
+    "message": "Group Name"
+  },
+  "inviteContacts": {
+    "message": "Invite Contacts"
+  },
+  "addModerators": {
+    "message": "Add Moderators"
+  },
+  "removeModerators": {
+    "message": "Remove Moderators"
+  },
+  "addAsModerator": {
+    "message": "Add As Moderator"
+  },
+  "removeFromModerators": {
+    "message": "Remove From Moderators"
+  },
+  "add": {
+    "message": "Add"
+  },
+  "groupInvitation": {
+    "message": "Group Invitation"
+  },
+  "addingContacts": {
+    "message": "Adding contacts to"
+  },
+  "noContactsToAdd": {
+    "message": "No contacts to add"
+  },
+  "noMembersInThisGroup": {
+    "message": "No other members in this group"
+  },
+  "noModeratorsToRemove": {
+    "message": "no moderators to remove"
+  },
+  "onlyAdminCanRemoveMembers": {
+    "message": "You are not the creator"
+  },
+  "onlyAdminCanRemoveMembersDesc": {
+    "message": "Only the creator of the group can remove users"
+  },
+  "createAccount": {
+    "message": "Create Account"
+  },
+  "signIn": {
+    "message": "Sign In"
+  },
+  "yourUniqueSessionID": {
+    "message": "Say hello to your Session ID"
+  },
+  "allUsersAreRandomly...": {
+    "message": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design."
+  },
+  "getStarted": {
+    "message": "Get started"
+  },
+  "createSessionID": {
+    "message": "Create Session ID"
+  },
+  "recoveryPhrase": {
+    "message": "Recovery Phrase"
+  },
+  "enterRecoveryPhrase": {
+    "message": "Enter your recovery phrase"
+  },
+  "displayName": {
+    "message": "Display Name"
+  },
+  "anonymous": {
+    "message": "Anonymous"
+  },
+  "removeResidueMembers": {
+    "message": "Clicking ok will also remove those members as they left the group."
+  },
+  "enterDisplayName": {
+    "message": "Enter a display name"
+  },
+  "enterOptionalPassword": {
+    "message": "Enter password (optional)"
+  },
+  "continueYourSession": {
+    "message": "Continue Your Session"
+  },
+  "linkDevice": {
+    "message": "Link Device"
+  },
+  "restoreUsingRecoveryPhrase": {
+    "message": "Restore your account"
+  },
+  "or": {
+    "message": "or"
+  },
+  "ByUsingThisService...": {
+    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
+  },
+  "beginYourSession": {
+    "message": "Begin<br />your<br />Session."
+  },
+  "welcomeToYourSession": {
+    "message": "Welcome to your Session"
+  },
+  "newSession": {
+    "message": "New Session"
+  },
+  "searchFor...": {
+    "message": "Search for conversations, contacts, and messages"
+  },
+  "enterSessionID": {
+    "message": "Enter Session ID"
+  },
+  "enterSessionIDOfRecipient": {
+    "message": "Enter Session ID of recipient"
+  },
+  "usersCanShareTheir...": {
+    "message": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code."
+  },
+  "message": {
+    "message": "Message"
+  },
+  "appearanceSettingsTitle": {
+    "message": "Appearance"
+  },
+  "permissionSettingsTitle": {
+    "message": "Permissions"
+  },
+  "privacySettingsTitle": {
+    "message": "Privacy"
+  },
+  "notificationsSettingsTitle": {
+    "message": "Notifications"
+  },
+  "recoveryPhraseEmpty": {
+    "message": "Enter your recovery phrase"
+  },
+  "displayNameEmpty": {
+    "message": "Please pick a display name"
+  },
+  "members": {
+    "message": "$count$ members"
+  },
+  "joinOpenGroup": {
+    "message": "Join Open Group"
+  },
+  "newClosedGroup": {
+    "message": "New Closed Group"
+  },
+  "createClosedGroupNamePrompt": {
+    "message": "Group Name"
+  },
+  "createClosedGroupPlaceholder": {
+    "message": "Enter a group name"
+  },
+  "openGroupURL": {
+    "message": "Open Group URL"
+  },
+  "enterAnOpenGroupURL": {
+    "message": "Enter an open group URL"
+  },
+  "next": {
+    "message": "Next"
+  },
+  "description": {
+    "message": "Description"
+  },
+  "invalidGroupNameTooShort": {
+    "message": "Please enter a group name"
+  },
+  "invalidGroupNameTooLong": {
+    "message": "Please enter a shorter group name"
+  },
+  "pickClosedGroupMember": {
+    "message": "Please pick at least 1 group member"
+  },
+  "closedGroupMaxSize": {
+    "message": "A closed group cannot have more than 100 members"
+  },
+  "noBlockedContacts": {
+    "message": "No blocked contacts"
+  },
+  "userAddedToModerators": {
+    "message": "User added to moderator list"
+  },
+  "userRemovedFromModerators": {
+    "message": "User removed from moderator list"
+  },
+  "errorHappenedWhileRemovingModerator": {
+    "message": "An error happened"
+  },
+  "errorHappenedWhileRemovingModeratorDesc": {
+    "message": "An error happened while removing this user from the moderator list."
+  },
+  "orJoinOneOfThese": {
+    "message": "Or join one of these..."
+  }
 }

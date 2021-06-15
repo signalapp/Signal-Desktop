@@ -37,7 +37,7 @@
     "lint-full": "yarn format-full && yarn lint-files-full",
     "lint-files-full": "yarn eslint-full && yarn tslint",
     "tslint": "tslint --format stylish --project .",
-    "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
+    "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
     "transpile": "tsc --incremental",
     "transpile:watch": "tsc -w",
     "clean-transpile": "rimraf ts/**/*.js ts/*.js ts/*.js.map ts/**/*.js.map && rimraf tsconfig.tsbuildinfo;",
