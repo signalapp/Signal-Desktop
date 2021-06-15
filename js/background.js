@@ -419,34 +419,34 @@
       window.setMediaPermissions(!value);
     };
 
-    Whisper.events.on('updateGroupName', async groupConvo => {
-      if (appView) {
-        appView.showUpdateGroupNameDialog(groupConvo);
-      }
-    });
-    Whisper.events.on('updateGroupMembers', async groupConvo => {
-      if (appView) {
-        appView.showUpdateGroupMembersDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('updateGroupName', async groupConvo => {
+    //   if (appView) {
+    //     appView.showUpdateGroupNameDialog(groupConvo);
+    //   }
+    // });
+    // Whisper.events.on('updateGroupMembers', async groupConvo => {
+    //   if (appView) {
+    //     appView.showUpdateGroupMembersDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('inviteContacts', async groupConvo => {
-      if (appView) {
-        appView.showInviteContactsDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('inviteContacts', async groupConvo => {
+    //   if (appView) {
+    //     appView.showInviteContactsDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('addModerators', async groupConvo => {
-      if (appView) {
-        appView.showAddModeratorsDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('addModerators', async groupConvo => {
+    //   if (appView) {
+    //     appView.showAddModeratorsDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('removeModerators', async groupConvo => {
-      if (appView) {
-        appView.showRemoveModeratorsDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('removeModerators', async groupConvo => {
+    //   if (appView) {
+    //     appView.showRemoveModeratorsDialog(groupConvo);
+    //   }
+    // });
 
     Whisper.events.on('leaveClosedGroup', async groupConvo => {
       if (appView) {

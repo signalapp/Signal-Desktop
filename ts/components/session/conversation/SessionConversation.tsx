@@ -38,6 +38,7 @@ import { UpdateGroupNameDialog } from '../../conversation/UpdateGroupNameDialog'
 import { UpdateGroupMembersDialog } from '../../conversation/UpdateGroupMembersDialog';
 import { getOurNumber } from '../../../state/selectors/user';
 import { useSelector } from 'react-redux';
+import { InviteContactsDialog } from '../../conversation/InviteContactsDialog';
 
 
 
@@ -508,9 +509,10 @@ export class SessionConversation extends React.Component<Props, State> {
         let isAdmin = true;
         let titleText;
 
+        titleText = window.i18n('updateGroupDialogTitle', groupName);
+
         if (isPublic) {
           // fix the title
-          titleText = window.i18n('updateGroupDialogTitle', groupName);
           // I'd much prefer to integrate mods with groupAdmins
           // but lets discuss first...
           isAdmin = conversation.isAdmin(window.storage.get('primaryDevicePubKey'));
@@ -692,7 +694,16 @@ export class SessionConversation extends React.Component<Props, State> {
         // warrick: delete old code
       },
       onInviteContacts: () => {
-        window.Whisper.events.trigger('inviteContacts', conversation);
+        this.setState({
+          ...this.state,
+          modal: (
+            <InviteContactsDialog
+              convo={conversation}
+              onClose={() => this.setState({ ...this.state, modal: null })}
+              theme={this.props.theme}
+            />)
+        })
+
       },
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveClosedGroup', conversation);
@@ -706,7 +717,7 @@ export class SessionConversation extends React.Component<Props, State> {
               convo={conversation}
               onClose={() => this.setState({ ...this.state, modal: null })}
               theme={this.props.theme}
-            ></AddModeratorsDialog>)
+            />)
         })
       },
 
@@ -719,7 +730,7 @@ export class SessionConversation extends React.Component<Props, State> {
               convo={conversation}
               onClose={() => this.setState({ ...this.state, modal: null })}
               theme={this.props.theme}
-            ></RemoveModeratorsDialog>)
+            />)
         })
       },
       onShowLightBox: (lightBoxOptions = {}) => {

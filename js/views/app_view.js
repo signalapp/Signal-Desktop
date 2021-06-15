@@ -128,68 +128,68 @@
       const theme = themeSettings === 'light' ? window.lightTheme : window.darkTheme;
       return theme;
     },
-    showUpdateGroupNameDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
+    // showUpdateGroupNameDialog(groupConvo) {
+    //   // eslint-disable-next-line no-param-reassign
+    //   groupConvo.theme = this.getThemeObject();
 
-      const dialog = new Whisper.UpdateGroupNameDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
-    showUpdateGroupMembersDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
+    //   const dialog = new Whisper.UpdateGroupNameDialogView(groupConvo);
+    //   this.el.append(dialog.el);
+    // },
+    // showUpdateGroupMembersDialog(groupConvo) {
+    //   // eslint-disable-next-line no-param-reassign
+    //   groupConvo.theme = this.getThemeObject();
 
-      const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
-    showLeaveGroupDialog(groupConvo) {
-      if (!groupConvo.isGroup()) {
-        throw new Error('showLeaveGroupDialog() called with a non group convo.');
-      }
+    //   const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
+    //   this.el.append(dialog.el);
+    // },
+    // showLeaveGroupDialog(groupConvo) {
+    //   if (!groupConvo.isGroup()) {
+    //     throw new Error('showLeaveGroupDialog() called with a non group convo.');
+    //   }
 
-      const title = i18n('leaveGroup');
-      const message = i18n('leaveGroupConfirmation');
-      const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
-      const isAdmin = (groupConvo.get('groupAdmins') || []).includes(ourPK);
-      const isClosedGroup = groupConvo.get('is_medium_group') || false;
+    //   const title = i18n('leaveGroup');
+    //   const message = i18n('leaveGroupConfirmation');
+    //   const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
+    //   const isAdmin = (groupConvo.get('groupAdmins') || []).includes(ourPK);
+    //   const isClosedGroup = groupConvo.get('is_medium_group') || false;
 
-      // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
-      if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
-        window.confirmationDialog({
-          title,
-          message,
-          resolve: () => groupConvo.leaveClosedGroup(),
-          theme: this.getThemeObject(),
-        });
-      } else {
-        // we are the admin on a closed group. We have to warn the user about the group Deletion
-        this.showAdminLeaveClosedGroupDialog(groupConvo);
-      }
-    },
-    showInviteContactsDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-      const dialog = new Whisper.InviteContactsDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
+    //   // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
+    //   if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
+    //     window.confirmationDialog({
+    //       title,
+    //       message,
+    //       resolve: () => groupConvo.leaveClosedGroup(),
+    //       theme: this.getThemeObject(),
+    //     });
+    //   } else {
+    //     // we are the admin on a closed group. We have to warn the user about the group Deletion
+    //     this.showAdminLeaveClosedGroupDialog(groupConvo);
+    //   }
+    // },
+    // showInviteContactsDialog(groupConvo) {
+    //   // eslint-disable-next-line no-param-reassign
+    //   groupConvo.theme = this.getThemeObject();
+    //   const dialog = new Whisper.InviteContactsDialogView(groupConvo);
+    //   this.el.append(dialog.el);
+    // },
 
-    showAdminLeaveClosedGroupDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-      const dialog = new Whisper.AdminLeaveClosedGroupDialog(groupConvo);
-      this.el.append(dialog.el);
-    },
-    showAddModeratorsDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-      const dialog = new Whisper.AddModeratorsDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
-    showRemoveModeratorsDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-      const dialog = new Whisper.RemoveModeratorsDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
+    // showAdminLeaveClosedGroupDialog(groupConvo) {
+    //   // eslint-disable-next-line no-param-reassign
+    //   groupConvo.theme = this.getThemeObject();
+    //   const dialog = new Whisper.AdminLeaveClosedGroupDialog(groupConvo);
+    //   this.el.append(dialog.el);
+    // },
+    // showAddModeratorsDialog(groupConvo) {
+    //   // eslint-disable-next-line no-param-reassign
+    //   groupConvo.theme = this.getThemeObject();
+    //   const dialog = new Whisper.AddModeratorsDialogView(groupConvo);
+    //   this.el.append(dialog.el);
+    // },
+    // showRemoveModeratorsDialog(groupConvo) {
+    //   // eslint-disable-next-line no-param-reassign
+    //   groupConvo.theme = this.getThemeObject();
+    //   const dialog = new Whisper.RemoveModeratorsDialogView(groupConvo);
+    //   this.el.append(dialog.el);
+    // },
   });
 })();
