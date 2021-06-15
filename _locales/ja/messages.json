@@ -1090,8 +1090,7 @@
         "message": "ブロックしている連絡先はありません"
     },
     "add": {
-        "message": "追加",
-        "androidKey": "fragment_add_public_chat_add_button_title_1"
+        "message": "追加"
     },
     "addContact": {
         "message": "連絡先を追加する"
@@ -1108,8 +1107,7 @@
     },
     "copySessionID": {
         "message": "Session ID をコピー",
-        "description": "Copy to clipboard session ID",
-        "androidKey": "activity_conversation_menu_copy_session_id"
+        "description": "Copy to clipboard session ID"
     },
     "createAccount": {
         "message": "アカウントを作成"

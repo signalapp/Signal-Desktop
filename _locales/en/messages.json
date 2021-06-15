@@ -1,8 +1,7 @@
 {
   "privacyPolicy": {
     "message": "Terms & Privacy Policy",
-    "description": "Shown in the about box for the link to https://getsession.org/privacy-policy/",
-    "androidKey": "RegistrationActivity_terms_and_privacy"
+    "description": "Shown in the about box for the link to https://getsession.org/privacy-policy/"
   },
   "copyErrorAndQuit": {
     "message": "Copy error and quit",
@@ -10,8 +9,7 @@
   },
   "unknown": {
     "message": "Unknown",
-    "description": "Shown as the name of a group if we don't have any information about it",
-    "androidKey": "NotificationChannel_missing_display_name"
+    "description": "Shown as the name of a group if we don't have any information about it"
   },
   "databaseError": {
     "message": "Database Error",
@@ -19,9 +17,7 @@
   },
   "mainMenuFile": {
     "message": "&File",
-    "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination.",
-    "androidKey": "attachment_type_selector__file_description",
-    "addStart": "&"
+    "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuEdit": {
     "message": "&Edit",
@@ -29,10 +25,7 @@
   },
   "mainMenuView": {
     "message": "&View",
-    "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination.",
-    "androidKey": "message_recipients_list_item__view",
-    "addStart": "&",
-    "sentenceCase": true
+    "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuWindow": {
     "message": "&Window",
@@ -40,9 +33,7 @@
   },
   "mainMenuHelp": {
     "message": "&Help",
-    "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination.",
-    "androidKey": "text_secure_normal__help",
-    "addStart": "&"
+    "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "appMenuHide": {
     "message": "Hide",
@@ -62,9 +53,7 @@
   },
   "editMenuUndo": {
     "message": "Undo",
-    "description": "Edit menu command to remove recently-typed text",
-    "androidKey": "ConversationListFragment_undo",
-    "sentenceCase": true
+    "description": "Edit menu command to remove recently-typed text"
   },
   "editMenuRedo": {
     "message": "Redo",
@@ -76,8 +65,7 @@
   },
   "editMenuCopy": {
     "message": "Copy",
-    "description": "Edit menu command to add selected text to clipboard",
-    "androidKey": "copy"
+    "description": "Edit menu command to add selected text to clipboard"
   },
   "editMenuPaste": {
     "message": "Paste",
@@ -89,14 +77,11 @@
   },
   "editMenuDelete": {
     "message": "Delete",
-    "description": "Edit menu command to remove the selected text",
-    "androidKey": "delete"
+    "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
     "message": "Select all",
-    "description": "Edit menu comand to select all of the text in selected text box",
-    "androidKey": "conversation_list_batch__menu_select_all",
-    "sentenceCase": true
+    "description": "Edit menu comand to select all of the text in selected text box"
   },
   "editMenuStartSpeaking": {
     "message": "Start speaking",
@@ -152,8 +137,7 @@
   },
   "loading": {
     "message": "Loading...",
-    "description": "Message shown on the loading screen before we've loaded any messages",
-    "androidKey": "ConversationListFragment_loading"
+    "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
     "message": "Optimizing application...",
@@ -217,19 +201,15 @@
   },
   "view": {
     "message": "View",
-    "description": "Used as a label on a button allowing user to see more information",
-    "androidKey": "message_recipients_list_item__view",
-    "sentenceCase": true
+    "description": "Used as a label on a button allowing user to see more information"
   },
   "youLeftTheGroup": {
     "message": "You have left the group.",
-    "description": "Displayed when a user can't send a message because they have left the group",
-    "androidKey": "MessageRecord_left_group"
+    "description": "Displayed when a user can't send a message because they have left the group"
   },
   "youGotKickedFromGroup": {
     "message": "You were removed from the group.",
-    "description": "Displayed when a user can't send a message because they have left the group",
-    "androidKey": "GroupUtil_you_were_removed_from_group"
+    "description": "Displayed when a user can't send a message because they have left the group"
   },
   "unreadMessage": {
     "message": "$count$ Unread Message",
@@ -239,13 +219,7 @@
         "content": "$1",
         "example": "5"
       }
-    },
-    "androidKey": "ConversationAdapter_n_unread_messages",
-    "androidKeyCount": "one",
-    "androidReplace": {
-      "%d": "$count$"
-    },
-    "ignoreCase": true
+    }
   },
   "unreadMessages": {
     "message": "$count$ Unread Messages",
@@ -255,13 +229,7 @@
         "content": "$1",
         "example": "5"
       }
-    },
-    "androidKey": "ConversationAdapter_n_unread_messages",
-    "androidKeyCount": "other",
-    "androidReplace": {
-      "%d": "$count$"
-    },
-    "ignoreCase": true
+    }
   },
   "debugLogExplanation": {
     "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
@@ -275,12 +243,10 @@
   },
   "gotIt": {
     "message": "Got it",
-    "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog.",
-    "androidKey": "ExperienceUpgradeActivity_got_it"
+    "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Submit",
-    "androidKey": "log_submit_activity__button_submit"
+    "message": "Submit"
   },
   "markAllAsRead": {
     "message": "Mark All as Read",
@@ -312,47 +278,35 @@
   },
   "media": {
     "message": "Media",
-    "description": "Header of the default pane in the media gallery, showing images and videos",
-    "androidKey": "MediaOverviewActivity_Media"
+    "description": "Header of the default pane in the media gallery, showing images and videos"
   },
   "mediaEmptyState": {
     "message": "No media",
-    "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)",
-    "androidKey": "media_overview_activity__no_media"
+    "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "documents": {
     "message": "Documents",
-    "description": "Header of the secondary pane in the media gallery, showing every non-media attachment",
-    "androidKey": "MediaOverviewActivity_Documents"
+    "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
   },
   "documentsEmptyState": {
     "message": "No documents",
-    "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)",
-    "androidKey": "media_overview_documents_fragment__no_documents_found"
+    "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
     "message": "Today",
-    "description": "Section header in the media gallery",
-    "androidKey": "BucketedThreadMedia_Today"
+    "description": "Section header in the media gallery"
   },
   "yesterday": {
     "message": "Yesterday",
-    "description": "Section header in the media gallery",
-    "androidKey": "BucketedThreadMedia_Yesterday"
+    "description": "Section header in the media gallery"
   },
   "thisWeek": {
     "message": "This week",
-    "description": "Section header in the media gallery",
-    "androidKey": "BucketedThreadMedia_This_week",
-    "ignoreCase": true,
-    "sentenceCase": true
+    "description": "Section header in the media gallery"
   },
   "thisMonth": {
     "message": "This Month",
-    "description": "Section header in the media gallery",
-    "androidKey": "BucketedThreadMedia_This_month",
-    "ignoreCase": true,
-    "sentenceCase": true
+    "description": "Section header in the media gallery"
   },
   "voiceMessage": {
     "message": "Voice Message",
@@ -405,12 +359,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Attachment exceeds size limits for the type of message you're sending.",
-    "androidKey": "ConversationActivity_attachment_exceeds_size_limits"
+    "message": "Attachment exceeds size limits for the type of message you're sending."
   },
   "unableToLoadAttachment": {
-    "message": "Sorry, there was an error setting your attachment.",
-    "androidKey": "ConversationActivity_sorry_there_was_an_error_setting_your_attachment"
+    "message": "Sorry, there was an error setting your attachment."
   },
   "offline": {
     "message": "Offline",
@@ -451,8 +403,7 @@
   },
   "about": {
     "message": "About",
-    "description": "Item under the Help menu, which opens a small about window",
-    "androidKey": "recipient_preferences__about"
+    "description": "Item under the Help menu, which opens a small about window"
   },
   "speech": {
     "message": "Speech",
@@ -460,17 +411,14 @@
   },
   "show": {
     "message": "Show",
-    "description": "Command under Window menu, to show the window",
-    "androidKey": "preferences_notifications__show"
+    "description": "Command under Window menu, to show the window"
   },
   "sessionMessenger": {
-    "message": "Session",
-    "androidKey": "activity_landing_title"
+    "message": "Session"
   },
   "search": {
     "message": "Search",
-    "description": "Placeholder text in the search input",
-    "androidKey": "SearchToolbar_search"
+    "description": "Placeholder text in the search input"
   },
   "noSearchResults": {
     "message": "No results found for \"$searchTerm$\"",
@@ -480,30 +428,22 @@
         "content": "$1",
         "example": "dog"
       }
-    },
-    "androidKey": "SearchFragment_no_results",
-    "androidReplace": {
-      "'%s'": "\"$searchTerm$\""
     }
   },
   "conversationsHeader": {
     "message": "Conversations",
-    "description": "Shown to separate the types of search results",
-    "androidKey": "SearchFragment_header_conversations"
+    "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
     "message": "Contacts",
-    "description": "Shown to separate the types of search results",
-    "androidKey": "SearchFragment_header_contacts"
+    "description": "Shown to separate the types of search results"
   },
   "messagesHeader": {
     "message": "Messages",
-    "description": "Shown to separate the types of search results",
-    "androidKey": "SearchFragment_header_messages"
+    "description": "Shown to separate the types of search results"
   },
   "settingsHeader": {
-    "message": "Settings",
-    "androidKey": "activity_settings_title"
+    "message": "Settings"
   },
   "typingAlt": {
     "message": "Typing animation for this conversation",
@@ -525,21 +465,18 @@
   },
   "replyToMessage": {
     "message": "Reply to message",
-    "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation",
-    "androidKey": "conversation_context__menu_reply_to_message"
+    "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
   },
   "replyingToMessage": {
     "message": "Replying to:"
   },
   "originalMessageNotFound": {
     "message": "Original message not found",
-    "description": "Shown in quote if reference message was not found as message was initially downloaded and processed",
-    "androidKey": "ConversationFragment_quoted_message_not_found"
+    "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
   },
   "originalMessageNotAvailable": {
     "message": "Original message no longer available",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database",
-    "androidKey": "ConversationFragment_quoted_message_no_longer_available"
+    "description": "Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Original message found, but not loaded. Scroll up to load it.",
@@ -551,8 +488,7 @@
   },
   "you": {
     "message": "You",
-    "description": "In Android theme, shown in quote if you or someone else replies to you",
-    "androidKey": "MediaPreviewActivity_you"
+    "description": "In Android theme, shown in quote if you or someone else replies to you"
   },
   "audioPermissionNeededTitle": {
     "message": "Microphone access required",
@@ -560,23 +496,19 @@
   },
   "audioPermissionNeeded": {
     "message": "You can enable microphone access under: Settings (Gear icon) => Privacy",
-    "description": "Shown if the user attempts to send an audio message without audio permssions turned on",
-    "androidKey": "ConversationActivity_to_send_audio_messages_allow_signal_access_to_your_microphone"
+    "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
   "audio": {
     "message": "Audio",
-    "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment",
-    "androidKey": "QuoteView_audio"
+    "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
   },
   "video": {
     "message": "Video",
-    "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video",
-    "androidKey": "QuoteView_video"
+    "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
   },
   "photo": {
     "message": "Photo",
-    "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image",
-    "androidKey": "QuoteView_photo"
+    "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
   },
   "cannotUpdate": {
     "message": "Cannot Update",
@@ -587,26 +519,22 @@
     "description": "Shown if a general error happened while trying to install update package"
   },
   "ok": {
-    "message": "OK",
-    "androidKey": "activity_settings_seed_dialog_ok_button_title"
+    "message": "OK"
   },
   "cancel": {
-    "message": "Cancel",
-    "androidKey": "view_qr_code_cancel_button_title"
+    "message": "Cancel"
   },
   "close": {
     "message": "Close"
   },
   "continue": {
-    "message": "Continue",
-    "androidKey": "RegistrationActivity_continue"
+    "message": "Continue"
   },
   "error": {
     "message": "Error"
   },
   "delete": {
-    "message": "Delete",
-    "androidKey": "delete"
+    "message": "Delete"
   },
   "deletePublicWarning": {
     "message": "Are you sure? This will permanently remove this message for everyone in this open group."
@@ -626,7 +554,6 @@
   },
   "deleteThisMessage": {
     "message": "Delete message",
-    "androidKey": "conversation_context__menu_delete_message",
     "description": "action visible in MessageDetail screen"
   },
   "deleted": {
@@ -635,48 +562,38 @@
   },
   "from": {
     "message": "From:",
-    "description": "Label for the sender of a message",
-    "androidKey": "message_details_header__from"
+    "description": "Label for the sender of a message"
   },
   "to": {
     "message": "To:",
-    "description": "Label for the receiver of a message",
-    "androidKey": "message_details_header__to"
+    "description": "Label for the receiver of a message"
   },
   "sent": {
     "message": "Sent",
-    "description": "Label for the time a message was sent",
-    "androidKey": "message_details_header__sent"
+    "description": "Label for the time a message was sent"
   },
   "received": {
     "message": "Received",
-    "description": "Label for the time a message was received",
-    "androidKey": "message_details_header__received"
+    "description": "Label for the time a message was received"
   },
   "sendMessage": {
     "message": "Message",
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Group members",
-    "androidKey": "ConversationActivity_group_members"
+    "message": "Group members"
   },
   "moreInformation": {
     "message": "More information",
-    "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen",
-    "androidKey": "RegistrationActivity_more_information"
+    "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "resend": {
     "message": "Resend",
-    "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send",
-    "androidKey": "message_recipients_list_item__resend",
-    "sentenceCase": true
+    "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "deleteMessage": {
     "message": "Delete Message",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message",
-    "androidKey": "conversation_context__menu_delete_message",
-    "ignoreCase": true
+    "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessages": {
     "message": "Delete Messages",
@@ -700,18 +617,15 @@
   },
   "clearAllData": {
     "message": "Clear All Data",
-    "description": "Text for button in settings view to delete account",
-    "androidKey": "dialog_clear_all_data_title"
+    "description": "Text for button in settings view to delete account"
   },
   "deleteAccountWarning": {
     "message": "This will permanently delete your messages, sessions, and contacts.",
-    "description": "Warning for account deletion in settings view",
-    "androidKey": "dialog_clear_all_data_explanation"
+    "description": "Warning for account deletion in settings view"
   },
   "deleteContactConfirmation": {
     "message": "Are you sure you want to delete this conversation?",
-    "description": "Confirmation dialog text that tells the user what will happen if they delete the contact.",
-    "androidKey": "activity_home_delete_conversation_dialog_message"
+    "description": "Confirmation dialog text that tells the user what will happen if they delete the contact."
   },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
@@ -735,18 +649,15 @@
   },
   "addACaption": {
     "message": "Add a caption...",
-    "description": "Used as the placeholder text in the caption editor text field",
-    "androidKey": "MediaSendActivity_add_a_caption"
+    "description": "Used as the placeholder text in the caption editor text field"
   },
   "copy": {
     "message": "Copy",
-    "description": "Copy to clipboard button text",
-    "androidKey": "copy"
+    "description": "Copy to clipboard button text"
   },
   "copySessionID": {
     "message": "Copy Session ID",
-    "description": "Copy to clipboard session ID",
-    "androidKey": "activity_conversation_menu_copy_session_id"
+    "description": "Copy to clipboard session ID"
   },
   "copyOpenGroupURL": {
     "message": "Copy Group's URL",
@@ -754,8 +665,7 @@
   },
   "save": {
     "message": "Save",
-    "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments",
-    "androidKey": "media_preview__save_title"
+    "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
   },
   "saved": {
     "message": "Saved",
@@ -771,14 +681,11 @@
   },
   "linkPreviewsTitle": {
     "message": "Send Link Previews",
-    "description": "Option to control creation and send of link previews in setting screen",
-    "androidKey": "preferences__send_link_previews",
-    "ignoreCase": true
+    "description": "Option to control creation and send of link previews in setting screen"
   },
   "linkPreviewDescription": {
     "message": "Previews are supported for most urls",
-    "description": "Description shown for the Link Preview option ",
-    "androidKey": "preferences__previews_are_supported_for"
+    "description": "Description shown for the Link Preview option "
   },
   "linkPreviewsConfirmMessage": {
     "message": "You will not have full metadata protection when sending or receiving link previews."
@@ -804,8 +711,7 @@
   },
   "notifications": {
     "message": "Notifications",
-    "description": "Header for notification settings",
-    "androidKey": "preferences__notifications"
+    "description": "Header for notification settings"
   },
   "readReceiptSettingDescription": {
     "message": "See and share when messages have been read (enables read receipts in all sessions).",
@@ -813,9 +719,7 @@
   },
   "readReceiptSettingTitle": {
     "message": "Read Receipts",
-    "description": "Title of the read receipts setting",
-    "androidKey": "preferences__read_receipts",
-    "ignoreCase": true
+    "description": "Title of the read receipts setting"
   },
   "typingIndicatorsSettingDescription": {
     "message": "See and share when messages are being typed (applies to all sessions).",
@@ -823,9 +727,7 @@
   },
   "typingIndicatorsSettingTitle": {
     "message": "Typing Indicators",
-    "description": "Title of the typing indicators setting",
-    "androidKey": "preferences__typing_indicators",
-    "ignoreCase": true
+    "description": "Title of the typing indicators setting"
   },
   "zoomFactorSettingTitle": {
     "message": "Zoom Factor",
@@ -837,8 +739,7 @@
   },
   "disableNotifications": {
     "message": "Mute notifications",
-    "description": "Label for disabling notifications",
-    "androidKey": "conversation_unmuted__mute_notifications"
+    "description": "Label for disabling notifications"
   },
   "nameAndMessage": {
     "message": "Name and content",
@@ -854,8 +755,7 @@
   },
   "newMessage": {
     "message": "New Message",
-    "description": "Displayed in notifications for only 1 message",
-    "androidKey": "activity_conversation_default_hint"
+    "description": "Displayed in notifications for only 1 message"
   },
   "newMessages": {
     "message": "New Messages",
@@ -863,16 +763,11 @@
   },
   "notificationMostRecentFrom": {
     "message": "Most recent from: $name$",
-    "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting",
-    "androidKey": "MessageNotifier_most_recent_from_s",
-    "androidReplace": {
-      "%1$s": "$name$"
-    }
+    "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
   },
   "notificationFrom": {
     "message": "From:",
-    "description": "Displayed in notifications when setting is 'name only' and one message is waiting",
-    "androidKey": "message_details_header__from"
+    "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
   },
   "notificationMostRecent": {
     "message": "Most recent:",
@@ -880,8 +775,7 @@
   },
   "sendFailed": {
     "message": "Send Failed",
-    "description": "Shown on outgoing message if it fails to send",
-    "androidKey": "conversation_item_sent__send_failed_indicator_description"
+    "description": "Shown on outgoing message if it fails to send"
   },
   "expiredWarning": {
     "message": "This version of Session has expired. Please upgrade to the latest version to continue messaging.",
@@ -893,13 +787,11 @@
   },
   "mediaMessage": {
     "message": "Media message",
-    "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview.",
-    "androidKey": "ThreadRecord_media_message"
+    "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
   },
   "timestamp_s": {
     "message": "Now",
-    "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble.",
-    "androidKey": "DateUtils_just_now"
+    "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
   },
   "timestamp_m": {
     "message": "1 minute",
@@ -933,10 +825,6 @@
         "content": "$1",
         "example": "10m"
       }
-    },
-    "androidKey": "MessageRecord_you_set_disappearing_message_time_to_s",
-    "androidReplace": {
-      "%1$s": "$time$"
     }
   },
   "timerSetOnSync": {
@@ -961,17 +849,11 @@
         "content": "$2",
         "example": "10m"
       }
-    },
-    "androidKey": "MessageRecord_s_set_disappearing_message_time_to_s",
-    "androidReplace": {
-      "%1$s": "$name$",
-      "%2$s": "$time$"
     }
   },
   "timerOption_0_seconds": {
     "message": "Off",
-    "description": "Label for option to turn off message expiration in the timer menu",
-    "androidKey": "expiration_off"
+    "description": "Label for option to turn off message expiration in the timer menu"
   },
   "timerOption_5_seconds": {
     "message": "5 seconds",
@@ -1019,8 +901,7 @@
   },
   "disappearingMessages": {
     "message": "Disappearing messages",
-    "description": "Conversation menu option to enable disappearing messages",
-    "androidKey": "conversation_expiring_off__disappearing_messages"
+    "description": "Conversation menu option to enable disappearing messages"
   },
   "notificationForConvo": {
     "message": "Notifications",
@@ -1056,8 +937,7 @@
   },
   "timerOption_0_seconds_abbreviated": {
     "message": "off",
-    "description": "Short format indicating current timer setting in the conversation list snippet",
-    "androidKey": "ApplicationPreferencesActivity_off"
+    "description": "Short format indicating current timer setting in the conversation list snippet"
   },
   "timerOption_5_seconds_abbreviated": {
     "message": "5s",
@@ -1105,8 +985,7 @@
   },
   "disappearingMessagesDisabled": {
     "message": "Disappearing messages disabled",
-    "description": "Displayed in the left pane when the timer is turned off",
-    "androidKey": "ThreadRecord_disappearing_messages_disabled"
+    "description": "Displayed in the left pane when the timer is turned off"
   },
   "disabledDisappearingMessages": {
     "message": "$name$ disabled disappearing messages.",
@@ -1116,16 +995,11 @@
         "content": "$1",
         "example": "John"
       }
-    },
-    "androidKey": "MessageRecord_s_disabled_disappearing_messages",
-    "androidReplace": {
-      "%1$s": "$name$"
     }
   },
   "youDisabledDisappearingMessages": {
     "message": "You disabled disappearing messages.",
-    "description": "Displayed in the conversation list when the timer is turned off",
-    "androidKey": "MessageRecord_you_disabled_disappearing_messages"
+    "description": "Displayed in the conversation list when the timer is turned off"
   },
   "timerSetTo": {
     "message": "Disappearing message time set to $time$",
@@ -1135,16 +1009,11 @@
         "content": "$1",
         "example": "1w"
       }
-    },
-    "androidKey": "ThreadRecord_disappearing_message_time_updated_to_s",
-    "androidReplace": {
-      "%s": "$time$"
     }
   },
   "noteToSelf": {
     "message": "Note to Self",
-    "description": "Name for the conversation with your own phone number",
-    "androidKey": "note_to_self"
+    "description": "Name for the conversation with your own phone number"
   },
   "hideMenuBarTitle": {
     "message": "Hide Menu Bar",
@@ -1160,16 +1029,14 @@
   },
   "invalidNumberError": {
     "message": "Invalid Session ID or ONS Name",
-    "description": "When a person inputs a session ID or an ons name that is invalid ",
-    "androidKey": "fragment_new_conversation_invalid_public_key_message"
+    "description": "When a person inputs a session ID or an ons name that is invalid "
   },
   "failedResolveOns": {
     "message": "Failed to resolve ONS name",
     "description": "When a person inputs a an ons name that is not resolved "
   },
   "successUnlinked": {
-    "message": "Your device was unlinked successfully",
-    "androidKey": "activity_landing_device_unlinked_dialog_title"
+    "message": "Your device was unlinked successfully"
   },
   "autoUpdateSettingTitle": {
     "message": "Auto Update"
@@ -1190,12 +1057,10 @@
     "message": "Restart Session"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Later",
-    "androidKey": "RatingManager_later"
+    "message": "Later"
   },
   "autoUpdateDownloadButtonLabel": {
-    "message": "Download",
-    "androidKey": "audio_view__download_accessibility_description"
+    "message": "Download"
   },
   "autoUpdateDownloadedMessage": {
     "message": "The new update has been downloaded."
@@ -1211,10 +1076,6 @@
         "content": "$1",
         "example": "Bob"
       }
-    },
-    "androidKey": "ConversationItem_group_action_left",
-    "androidReplace": {
-      "%1$s": "$name$"
     }
   },
   "multipleLeftTheGroup": {
@@ -1229,8 +1090,7 @@
   },
   "updatedTheGroup": {
     "message": "Group updated",
-    "description": "Shown in the conversation history when someone updates the group",
-    "androidKey": "ThreadRecord_group_updated"
+    "description": "Shown in the conversation history when someone updates the group"
   },
   "titleIsNow": {
     "comment": "Do not add a period here, used as a fragment and will break unit test",
@@ -1241,10 +1101,6 @@
         "content": "$1",
         "example": "Book Club"
       }
-    },
-    "androidKey": "GroupUtil_group_name_is_now",
-    "androidReplace": {
-      "%1$s": "$name$"
     }
   },
   "joinedTheGroup": {
@@ -1255,11 +1111,6 @@
         "content": "$1",
         "example": "Alice"
       }
-    },
-    "androidKey": "GroupUtil_joined_the_group",
-    "androidKeyCount": "one",
-    "androidReplace": {
-      "%1$s": "$name$"
     }
   },
   "multipleJoinedTheGroup": {
@@ -1270,11 +1121,6 @@
         "content": "$1",
         "example": "Alice, Bob"
       }
-    },
-    "androidKey": "GroupUtil_joined_the_group",
-    "androidKeyCount": "other",
-    "androidReplace": {
-      "%1$s": "$name$"
     }
   },
   "kickedFromTheGroup": {
@@ -1285,11 +1131,6 @@
         "content": "$1",
         "example": "Alice"
       }
-    },
-    "androidKey": "GroupUtil_removed_from_the_group",
-    "androidKeyCount": "one",
-    "androidReplace": {
-      "%1$s": "$name$"
     }
   },
   "multipleKickedFromTheGroup": {
@@ -1300,28 +1141,20 @@
         "content": "$1",
         "example": "Alice, Bob"
       }
-    },
-    "androidKey": "GroupUtil_removed_from_the_group",
-    "androidKeyCount": "other",
-    "androidReplace": {
-      "%1$s": "$name$"
     }
   },
   "blockUser": {
-    "message": "Block",
-    "androidKey": "RecipientPreferenceActivity_block"
+    "message": "Block"
   },
   "unblockUser": {
-    "message": "Unblock",
-    "androidKey": "RecipientPreferenceActivity_unblock"
+    "message": "Unblock"
   },
   "unblocked": {
     "message": "Unblocked"
   },
   "blockedSettingsTitle": {
     "message": "Blocked contacts",
-    "description": "Shown in the settings page as the heading for the blocked user settings",
-    "androidKey": "preferences_app_protection__blocked_contacts"
+    "description": "Shown in the settings page as the heading for the blocked user settings"
   },
   "unbanUser": {
     "message": "Unban User",
@@ -1357,9 +1190,7 @@
   },
   "leaveGroup": {
     "message": "Leave Group",
-    "description": "Button action that the user can click to leave the group",
-    "androidKey": "conversation__menu_leave_group",
-    "ignoreCase": true
+    "description": "Button action that the user can click to leave the group"
   },
   "leaveAndRemoveForEveryone": {
     "message": "Leave Group and remove for everyone",
@@ -1367,8 +1198,7 @@
   },
   "leaveGroupConfirmation": {
     "message": "Are you sure you want to leave this group?",
-    "description": "Confirmation dialog text that tells the user what will happen if they leave the group.",
-    "androidKey": "activity_home_leave_group_dialog_message"
+    "description": "Confirmation dialog text that tells the user what will happen if they leave the group."
   },
   "leaveGroupConfirmationAdmin": {
     "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
@@ -1391,8 +1221,7 @@
     "description": "Toast description when the user adds a moderator for an open group."
   },
   "noContactsForGroup": {
-    "message": "You don't have any contacts yet",
-    "androidKey": "activity_create_closed_group_empty_state_message"
+    "message": "You don't have any contacts yet"
   },
   "copyMessage": {
     "message": "Copy message text",
@@ -1404,8 +1233,7 @@
   },
   "editGroup": {
     "message": "Edit group",
-    "description": "Button action that the user can click to edit a group name (open)",
-    "androidKey": "conversation__menu_edit_group"
+    "description": "Button action that the user can click to edit a group name (open)"
   },
   "closedGroupInviteFailTitle": {
     "message": "Group Invitation Failed",
@@ -1445,20 +1273,14 @@
   },
   "updateGroupDialogTitle": {
     "message": "Updating $name$...",
-    "description": "Title for the dialog box used to update an existing private group",
-    "androidKey": "GroupCreateActivity_updating_group",
-    "androidReplace": {
-      "%1$s": "$name$"
-    }
+    "description": "Title for the dialog box used to update an existing private group"
   },
   "showRecoveryPhrase": {
     "message": "Recovery Phrase",
-    "description": "Button action that the user can click to view their unique recovery phrase",
-    "androidKey": "activity_settings_recovery_phrase_button_title"
+    "description": "Button action that the user can click to view their unique recovery phrase"
   },
   "yourSessionID": {
-    "message": "Your Session ID",
-    "androidKey": "your_session_id"
+    "message": "Your Session ID"
   },
   "setAccountPasswordTitle": {
     "message": "Set Account Password",
@@ -1500,25 +1322,21 @@
   },
   "recoveryPhraseSavePromptMain": {
     "message": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone.",
-    "description": "Prompt on recovery phrase modal requesting user to save their recovery phrase. Line one",
-    "androidKey": "activity_seed_explanation"
+    "description": "Prompt on recovery phrase modal requesting user to save their recovery phrase. Line one"
   },
   "invalidOpenGroupUrl": {
     "message": "Invalid URL",
-    "description": "Error message when no server url entered",
-    "androidKey": "fragment_add_public_chat_invalid_url_message"
+    "description": "Error message when no server url entered"
   },
   "copiedToClipboard": {
-    "message": "Copied to clipboard",
-    "androidKey": "copied_to_clipboard"
+    "message": "Copied to clipboard"
   },
   "passwordViewTitle": {
     "message": "Type In Your Password",
     "description": "The title shown when user needs to type in a password to unlock the messenger"
   },
   "unlock": {
-    "message": "Unlock",
-    "androidKey": "prompt_passphrase_activity__unlock"
+    "message": "Unlock"
   },
   "password": {
     "message": "Password",
@@ -1585,12 +1403,10 @@
     "message": "You are already connected to this open group"
   },
   "connectToServerFail": {
-    "message": "Couldn't join group",
-    "androidKey": "activity_join_public_chat_error"
+    "message": "Couldn't join group"
   },
   "connectingToServer": {
-    "message": "Connecting...",
-    "androidKey": "CallNotificationBuilder_connecting"
+    "message": "Connecting..."
   },
   "connectToServerSuccess": {
     "message": "Successfully connected to open group"
@@ -1611,13 +1427,11 @@
     "description": "Error string shown to the user when password contains an invalid character"
   },
   "remove": {
-    "message": "Remove",
-    "androidKey": "ClearProfileActivity_remove"
+    "message": "Remove"
   },
   "invalidSessionId": {
     "message": "Invalid Session ID",
-    "description": "Error string shown when user types an invalid pubkey hex string",
-    "androidKey": "invalid_session_id"
+    "description": "Error string shown when user types an invalid pubkey hex string"
   },
   "invalidPubkeyFormat": {
     "message": "Invalid Pubkey Format",
@@ -1626,21 +1440,17 @@
 
   "emptyGroupNameError": {
     "message": "Please enter a group name",
-    "description": "Error message displayed on empty group name",
-    "androidKey": "activity_create_closed_group_group_name_missing_error"
+    "description": "Error message displayed on empty group name"
   },
   "editProfileModalTitle": {
     "message": "Profile",
     "description": "Title for the Edit Profile modal"
   },
   "groupNamePlaceholder": {
-    "message": "Group Name",
-    "androidKey": "GroupCreateActivity_group_name_hint",
-    "ignoreCase": true
+    "message": "Group Name"
   },
   "inviteContacts": {
-    "message": "Invite Contacts",
-    "androidKey": "text_secure_normal__invite_friends"
+    "message": "Invite Contacts"
   },
   "addModerators": {
     "message": "Add Moderators"
@@ -1655,8 +1465,7 @@
     "message": "Remove From Moderators"
   },
   "add": {
-    "message": "Add",
-    "androidKey": "fragment_add_public_chat_add_button_title_1"
+    "message": "Add"
   },
   "addingContacts": {
     "message": "Adding contacts to"
@@ -1683,31 +1492,25 @@
     "message": "Sign In"
   },
   "yourUniqueSessionID": {
-    "message": "Say hello to your Session ID",
-    "androidKey": "activity_register_title"
+    "message": "Say hello to your Session ID"
   },
   "allUsersAreRandomly...": {
-    "message": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design.",
-    "androidKey": "activity_register_explanation"
+    "message": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design."
   },
   "getStarted": {
     "message": "Get started"
   },
   "createSessionID": {
-    "message": "Create Session ID",
-    "androidKey": "activity_landing_register_button_title"
+    "message": "Create Session ID"
   },
   "recoveryPhrase": {
-    "message": "Recovery Phrase",
-    "androidKey": "activity_settings_recovery_phrase_button_title"
+    "message": "Recovery Phrase"
   },
   "enterRecoveryPhrase": {
-    "message": "Enter your recovery phrase",
-    "androidKey": "activity_restore_seed_edit_text_hint"
+    "message": "Enter your recovery phrase"
   },
   "displayName": {
-    "message": "Display Name",
-    "androidKey": "activity_display_name_name_edit_text_label"
+    "message": "Display Name"
   },
   "anonymous": {
     "message": "Anonymous",
@@ -1718,23 +1521,19 @@
     "description": "Shown when the admin shows the group member dialog, to warn him that zombies members will be removed"
   },
   "enterDisplayName": {
-    "message": "Enter a display name",
-    "androidKey": "activity_display_name_edit_text_hint"
+    "message": "Enter a display name"
   },
   "enterOptionalPassword": {
     "message": "Enter password (optional)"
   },
   "continueYourSession": {
-    "message": "Continue Your Session",
-    "androidKey": "activity_landing_restore_button_title"
+    "message": "Continue Your Session"
   },
   "linkDevice": {
-    "message": "Link Device",
-    "androidKey": "activity_link_device_title"
+    "message": "Link Device"
   },
   "restoreUsingRecoveryPhrase": {
-    "message": "Restore your account",
-    "androidKey": "activity_restore_title"
+    "message": "Restore your account"
   },
   "or": {
     "message": "or"
@@ -1749,53 +1548,43 @@
     "message": "Welcome to your Session"
   },
   "newSession": {
-    "message": "New Session",
-    "androidKey": "activity_create_private_chat_title"
+    "message": "New Session"
   },
   "searchFor...": {
-    "message": "Search for conversations, contacts, and messages",
-    "androidKey": "SearchToolbar_search_for_conversations_contacts_and_messages"
+    "message": "Search for conversations, contacts, and messages"
   },
   "enterSessionID": {
-    "message": "Enter Session ID",
-    "androidKey": "activity_link_device_enter_session_id_tab_title"
+    "message": "Enter Session ID"
   },
   "enterSessionIDOrONSName": {
     "message": "Enter Session ID or ONS name"
   },
   "enterSessionIDOfRecipient": {
-    "message": "Enter Session ID or ONS name of recipient",
-    "androidKey": "fragment_enter_public_key_edit_text_hint"
+    "message": "Enter Session ID or ONS name of recipient"
   },
   "usersCanShareTheir...": {
-    "message": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code.",
-    "androidKey": "fragment_enter_public_key_explanation"
+    "message": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code."
   },
   "message": {
     "message": "Message"
   },
   "appearanceSettingsTitle": {
-    "message": "Appearance",
-    "androidKey": "preferences__appearance"
+    "message": "Appearance"
   },
   "permissionSettingsTitle": {
     "message": "Permissions"
   },
   "privacySettingsTitle": {
-    "message": "Privacy",
-    "androidKey": "recipient_preferences__privacy"
+    "message": "Privacy"
   },
   "notificationsSettingsTitle": {
-    "message": "Notifications",
-    "androidKey": "preferences__notifications"
+    "message": "Notifications"
   },
   "recoveryPhraseEmpty": {
-    "message": "Enter your recovery phrase",
-    "androidKey": "activity_restore_seed_edit_text_hint"
+    "message": "Enter your recovery phrase"
   },
   "displayNameEmpty": {
-    "message": "Please pick a display name",
-    "androidKey": "activity_display_name_display_name_missing_error"
+    "message": "Please pick a display name"
   },
   "members": {
     "message": "$count$ members",
@@ -1807,56 +1596,43 @@
     }
   },
   "joinOpenGroup": {
-    "message": "Join Open Group",
-    "androidKey": "activity_join_public_chat_title"
+    "message": "Join Open Group"
   },
   "newClosedGroup": {
-    "message": "New Closed Group",
-    "androidKey": "activity_create_closed_group_title"
+    "message": "New Closed Group"
   },
   "createClosedGroupNamePrompt": {
-    "message": "Group Name",
-    "androidKey": "GroupCreateActivity_group_name_hint",
-    "ignoreCase": true
+    "message": "Group Name"
   },
   "createClosedGroupPlaceholder": {
-    "message": "Enter a group name",
-    "androidKey": "activity_create_closed_group_edit_text_hint"
+    "message": "Enter a group name"
   },
   "openGroupURL": {
-    "message": "Open Group URL",
-    "androidKey": "activity_join_public_chat_enter_group_url_tab_title"
+    "message": "Open Group URL"
   },
   "enterAnOpenGroupURL": {
-    "message": "Enter an open group URL",
-    "androidKey": "fragment_enter_chat_url_edit_text_hint"
+    "message": "Enter an open group URL"
   },
   "next": {
-    "message": "Next",
-    "androidKey": "RegistrationActivity_next"
+    "message": "Next"
   },
   "description": {
     "message": "Description"
   },
   "invalidGroupNameTooShort": {
-    "message": "Please enter a group name",
-    "androidKey": "activity_create_closed_group_group_name_missing_error"
+    "message": "Please enter a group name"
   },
   "invalidGroupNameTooLong": {
-    "message": "Please enter a shorter group name",
-    "androidKey": "activity_create_closed_group_group_name_too_long_error"
+    "message": "Please enter a shorter group name"
   },
   "pickClosedGroupMember": {
-    "message": "Please pick at least 1 group member",
-    "androidKey": "activity_create_closed_group_not_enough_group_members_error"
+    "message": "Please pick at least 1 group member"
   },
   "closedGroupMaxSize": {
-    "message": "A closed group cannot have more than 100 members",
-    "androidKey": "activity_create_closed_group_too_many_group_members_error"
+    "message": "A closed group cannot have more than 100 members"
   },
   "noBlockedContacts": {
-    "message": "No blocked contacts",
-    "androidKey": "blocked_contacts_fragment__no_blocked_contacts"
+    "message": "No blocked contacts"
   },
   "userAddedToModerators": {
     "message": "User added to moderator list"
