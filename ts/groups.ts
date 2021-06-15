@@ -1259,7 +1259,7 @@ export async function modifyGroupV2({
       window.log.info(`modifyGroupV2/${idLog}: Queuing attempt ${attempt}`);
 
       // eslint-disable-next-line no-await-in-loop
-      await conversation.queueJob(async () => {
+      await conversation.queueJob('modifyGroupV2', async () => {
         window.log.info(`modifyGroupV2/${idLog}: Running attempt ${attempt}`);
 
         const actions = await createGroupChange();
@@ -1670,7 +1670,7 @@ export async function createGroupV2({
     }
   );
 
-  await conversation.queueJob(() => {
+  await conversation.queueJob('storageServiceUploadJob', () => {
     window.Signal.Services.storageServiceUploadJob();
   });
 
@@ -2023,7 +2023,7 @@ export async function initiateMigrationToGroupV2(
   await maybeFetchNewCredentials();
 
   try {
-    await conversation.queueJob(async () => {
+    await conversation.queueJob('initiateMigrationToGroupV2', async () => {
       const ACCESS_ENUM =
         window.textsecure.protobuf.AccessControl.AccessRequired;
 
@@ -2310,7 +2310,7 @@ export async function waitThenRespondToGroupV2Migration(
   // Then wait to process all outstanding messages for this conversation
   const { conversation } = options;
 
-  await conversation.queueJob(async () => {
+  await conversation.queueJob('waitThenRespondToGroupV2Migration', async () => {
     try {
       // And finally try to migrate the group
       await respondToGroupV2Migration(options);
@@ -2698,7 +2698,7 @@ export async function waitThenMaybeUpdateGroup(
     return;
   }
 
-  await conversation.queueJob(async () => {
+  await conversation.queueJob('waitThenMaybeUpdateGroup', async () => {
     try {
       // And finally try to update the group
       await maybeUpdateGroup(options, { viaSync });
