@@ -3,7 +3,6 @@
 
 // The idea with this file is to make it webpackable for the style guide
 
-const { bindActionCreators } = require('redux');
 const Backbone = require('../../ts/backbone');
 const Crypto = require('../../ts/Crypto');
 const Curve = require('../../ts/Curve');
@@ -416,7 +415,6 @@ exports.setup = (options = {}) => {
   };
 
   const State = {
-    bindActionCreators,
     createStore,
     Roots,
     Ducks,

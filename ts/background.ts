@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
+import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import {
   DecryptionErrorMessage,
@@ -42,6 +43,7 @@ import * as universalExpireTimer from './util/universalExpireTimer';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
 import { BackOff } from './util/BackOff';
+import { actionCreators } from './state/actions';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -951,68 +953,48 @@ export async function startApp(): Promise<void> {
     const store = window.Signal.State.createStore(initialState);
     window.reduxStore = store;
 
-    const actions: WhatIsThis = {};
-    window.reduxActions = actions;
-
     // Binding these actions to our redux store and exposing them allows us to update
     //   redux when things change in the backbone world.
-    actions.app = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.app.actions,
-      store.dispatch
-    );
-    actions.calling = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.calling.actions,
-      store.dispatch
-    );
-    actions.conversations = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.conversations.actions,
-      store.dispatch
-    );
-    actions.emojis = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.emojis.actions,
-      store.dispatch
-    );
-    actions.expiration = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.expiration.actions,
-      store.dispatch
-    );
-    actions.items = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.items.actions,
-      store.dispatch
-    );
-    actions.linkPreviews = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.linkPreviews.actions,
-      store.dispatch
-    );
-    actions.network = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.network.actions,
-      store.dispatch
-    );
-    actions.updates = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.updates.actions,
-      store.dispatch
-    );
-    actions.user = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.user.actions,
-      store.dispatch
-    );
-    actions.search = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.search.actions,
-      store.dispatch
-    );
-    actions.stickers = window.Signal.State.bindActionCreators(
-      window.Signal.State.Ducks.stickers.actions,
-      store.dispatch
-    );
+    window.reduxActions = {
+      app: bindActionCreators(actionCreators.app, store.dispatch),
+      audioPlayer: bindActionCreators(
+        actionCreators.audioPlayer,
+        store.dispatch
+      ),
+      calling: bindActionCreators(actionCreators.calling, store.dispatch),
+      conversations: bindActionCreators(
+        actionCreators.conversations,
+        store.dispatch
+      ),
+      emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
+      expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
+      globalModals: bindActionCreators(
+        actionCreators.globalModals,
+        store.dispatch
+      ),
+      items: bindActionCreators(actionCreators.items, store.dispatch),
+      linkPreviews: bindActionCreators(
+        actionCreators.linkPreviews,
+        store.dispatch
+      ),
+      network: bindActionCreators(actionCreators.network, store.dispatch),
+      safetyNumber: bindActionCreators(
+        actionCreators.safetyNumber,
+        store.dispatch
+      ),
+      search: bindActionCreators(actionCreators.search, store.dispatch),
+      stickers: bindActionCreators(actionCreators.stickers, store.dispatch),
+      updates: bindActionCreators(actionCreators.updates, store.dispatch),
+      user: bindActionCreators(actionCreators.user, store.dispatch),
+    };
 
     const {
       conversationAdded,
       conversationChanged,
       conversationRemoved,
       removeAllConversations,
-      messageExpired,
-    } = actions.conversations;
-    const { userChanged } = actions.user;
+    } = window.reduxActions.conversations;
+    const { userChanged } = window.reduxActions.user;
 
     convoCollection.on('remove', conversation => {
       const { id } = conversation || {};
@@ -1056,7 +1038,6 @@ export async function startApp(): Promise<void> {
     });
     convoCollection.on('reset', removeAllConversations);
 
-    window.Whisper.events.on('messageExpired', messageExpired);
     window.Whisper.events.on('userChanged', userChanged);
 
     let shortcutGuideView: WhatIsThis | null = null;

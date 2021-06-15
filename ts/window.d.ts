@@ -8,7 +8,6 @@ import * as Underscore from 'underscore';
 import moment from 'moment';
 import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
-import { bindActionCreators } from 'redux';
 import { imageToBlurHash } from './util/imageToBlurHash';
 import * as LinkPreviews from '../js/modules/link_previews.d';
 import * as Util from './util';
@@ -484,7 +483,6 @@ declare global {
       };
       Views: WhatIsThis;
       State: {
-        bindActionCreators: typeof bindActionCreators;
         createStore: typeof createStore;
         Roots: {
           createApp: typeof createApp;

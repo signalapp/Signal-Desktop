@@ -16,6 +16,25 @@ import { actions as search } from './ducks/search';
 import { actions as stickers } from './ducks/stickers';
 import { actions as updates } from './ducks/updates';
 import { actions as user } from './ducks/user';
+import { ReduxActions } from './types';
+
+export const actionCreators: ReduxActions = {
+  app,
+  audioPlayer,
+  calling,
+  conversations,
+  emojis,
+  expiration,
+  globalModals,
+  items,
+  linkPreviews,
+  network,
+  safetyNumber,
+  search,
+  stickers,
+  updates,
+  user,
+};
 
 export const mapDispatchToProps = {
   ...app,
