@@ -4,6 +4,8 @@
 import { assert } from 'chai';
 import { size } from '../../util/iterables';
 
+import { typedArrayToArrayBuffer } from '../../Crypto';
+
 import { getProvisioningUrl } from '../../util/getProvisioningUrl';
 
 describe('getProvisioningUrl', () => {
@@ -11,7 +13,7 @@ describe('getProvisioningUrl', () => {
     const uuid = 'a08bf1fd-1799-427f-a551-70af747e3956';
     const publicKey = new Uint8Array([9, 8, 7, 6, 5, 4, 3]);
 
-    const result = getProvisioningUrl(uuid, publicKey);
+    const result = getProvisioningUrl(uuid, typedArrayToArrayBuffer(publicKey));
     const resultUrl = new URL(result);
 
     assert(result.startsWith('tsdevice:/?'));

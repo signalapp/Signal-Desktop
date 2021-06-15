@@ -816,17 +816,17 @@ export class ConversationModel extends window.Backbone
   isBlocked(): boolean {
     const uuid = this.get('uuid');
     if (uuid) {
-      return window.storage.isUuidBlocked(uuid);
+      return window.storage.blocked.isUuidBlocked(uuid);
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      return window.storage.isBlocked(e164);
+      return window.storage.blocked.isBlocked(e164);
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      return window.storage.isGroupBlocked(groupId);
+      return window.storage.blocked.isGroupBlocked(groupId);
     }
 
     return false;
@@ -838,19 +838,19 @@ export class ConversationModel extends window.Backbone
 
     const uuid = this.get('uuid');
     if (uuid) {
-      window.storage.addBlockedUuid(uuid);
+      window.storage.blocked.addBlockedUuid(uuid);
       blocked = true;
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      window.storage.addBlockedNumber(e164);
+      window.storage.blocked.addBlockedNumber(e164);
       blocked = true;
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      window.storage.addBlockedGroup(groupId);
+      window.storage.blocked.addBlockedGroup(groupId);
       blocked = true;
     }
 
@@ -865,19 +865,19 @@ export class ConversationModel extends window.Backbone
 
     const uuid = this.get('uuid');
     if (uuid) {
-      window.storage.removeBlockedUuid(uuid);
+      window.storage.blocked.removeBlockedUuid(uuid);
       unblocked = true;
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      window.storage.removeBlockedNumber(e164);
+      window.storage.blocked.removeBlockedNumber(e164);
       unblocked = true;
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      window.storage.removeBlockedGroup(groupId);
+      window.storage.blocked.removeBlockedGroup(groupId);
       unblocked = true;
     }
 
@@ -2913,6 +2913,9 @@ export class ConversationModel extends window.Backbone
   validateNumber(): string | null {
     if (isDirectConversation(this.attributes) && this.get('e164')) {
       const regionCode = window.storage.get('regionCode');
+      if (!regionCode) {
+        throw new Error('No region code');
+      }
       const number = window.libphonenumber.util.parseNumber(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.get('e164')!,
@@ -5256,7 +5259,7 @@ export class ConversationModel extends window.Backbone
 
     window.log.info('pinning', this.idForLogging());
     const pinnedConversationIds = new Set(
-      window.storage.get<Array<string>>('pinnedConversationIds', [])
+      window.storage.get('pinnedConversationIds', new Array<string>())
     );
 
     pinnedConversationIds.add(this.id);
@@ -5279,7 +5282,7 @@ export class ConversationModel extends window.Backbone
     window.log.info('un-pinning', this.idForLogging());
 
     const pinnedConversationIds = new Set(
-      window.storage.get<Array<string>>('pinnedConversationIds', [])
+      window.storage.get('pinnedConversationIds', new Array<string>())
     );
 
     pinnedConversationIds.delete(this.id);

@@ -460,9 +460,9 @@ Whisper.ConversationView = Whisper.View.extend({
     const { model }: { model: ConversationModel } = this;
 
     if (value) {
-      const pinnedConversationIds = window.storage.get<Array<string>>(
+      const pinnedConversationIds = window.storage.get(
         'pinnedConversationIds',
-        []
+        new Array<string>()
       );
 
       if (pinnedConversationIds.length >= 4) {
@@ -3880,14 +3880,14 @@ Whisper.ConversationView = Whisper.View.extend({
     }
     if (
       isDirectConversation(this.model.attributes) &&
-      (window.storage.isBlocked(this.model.get('e164')) ||
-        window.storage.isUuidBlocked(this.model.get('uuid')))
+      (window.storage.blocked.isBlocked(this.model.get('e164')) ||
+        window.storage.blocked.isUuidBlocked(this.model.get('uuid')))
     ) {
       ToastView = Whisper.BlockedToast;
     }
     if (
       !isDirectConversation(this.model.attributes) &&
-      window.storage.isGroupBlocked(this.model.get('groupId'))
+      window.storage.blocked.isGroupBlocked(this.model.get('groupId'))
     ) {
       ToastView = Whisper.BlockedGroupToast;
     }

@@ -15,6 +15,7 @@ import { ConversationModel } from '../models/conversations';
 import { StoredJob } from '../jobs/types';
 import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
+import { StorageAccessType } from '../types/Storage.d';
 
 export type AttachmentDownloadJobType = {
   id: string;
@@ -48,7 +49,12 @@ export type IdentityKeyType = {
   timestamp: number;
   verified: number;
 };
-export type ItemType = any;
+export type ItemKeyType = keyof StorageAccessType;
+export type AllItemsType = Partial<StorageAccessType>;
+export type ItemType<K extends ItemKeyType> = {
+  id: K;
+  value: StorageAccessType[K];
+};
 export type MessageType = MessageAttributesType;
 export type MessageTypeUnhydrated = {
   json: string;
@@ -177,12 +183,11 @@ export type DataInterface = {
   removeAllSignedPreKeys: () => Promise<void>;
   getAllSignedPreKeys: () => Promise<Array<SignedPreKeyType>>;
 
-  createOrUpdateItem: (data: ItemType) => Promise<void>;
-  getItemById: (id: string) => Promise<ItemType | undefined>;
-  bulkAddItems: (array: Array<ItemType>) => Promise<void>;
-  removeItemById: (id: string) => Promise<void>;
+  createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>): Promise<void>;
+  getItemById<K extends ItemKeyType>(id: K): Promise<ItemType<K> | undefined>;
+  removeItemById: (id: ItemKeyType) => Promise<void>;
   removeAllItems: () => Promise<void>;
-  getAllItems: () => Promise<Array<ItemType>>;
+  getAllItems: () => Promise<AllItemsType>;
 
   createOrUpdateSenderKey: (key: SenderKeyType) => Promise<void>;
   getSenderKeyById: (id: string) => Promise<SenderKeyType | undefined>;

@@ -14,19 +14,13 @@ import { isNormalNumber } from './util/isNormalNumber';
 import { take } from './util/iterables';
 import { isOlderThan } from './util/timestamp';
 import { ConversationModel } from './models/conversations';
+import { StorageInterface } from './types/Storage.d';
 
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
 const MAX_AGE_TO_BE_CONSIDERED_ACTIVE = 30 * 24 * 60 * 60 * 1000;
 const MAX_AGE_TO_BE_CONSIDERED_RECENTLY_REFRESHED = 1 * 24 * 60 * 60 * 1000;
 const MAX_CONVERSATIONS_TO_REFRESH = 50;
 const MIN_ELAPSED_DURATION_TO_REFRESH_AGAIN = 12 * 3600 * 1000;
-
-// This type is a little stricter than what's on `window.storage`, and only requires what
-//   we need for easier testing.
-type StorageType = {
-  get: (key: string) => unknown;
-  put: (key: string, value: unknown) => Promise<void>;
-};
 
 export async function routineProfileRefresh({
   allConversations,
@@ -35,7 +29,7 @@ export async function routineProfileRefresh({
 }: {
   allConversations: Array<ConversationModel>;
   ourConversationId: string;
-  storage: StorageType;
+  storage: Pick<StorageInterface, 'get' | 'put'>;
 }): Promise<void> {
   log.info('routineProfileRefresh: starting');
 
@@ -93,7 +87,9 @@ export async function routineProfileRefresh({
   );
 }
 
-function hasEnoughTimeElapsedSinceLastRefresh(storage: StorageType): boolean {
+function hasEnoughTimeElapsedSinceLastRefresh(
+  storage: Pick<StorageInterface, 'get'>
+): boolean {
   const storedValue = storage.get(STORAGE_KEY);
 
   if (isNil(storedValue)) {

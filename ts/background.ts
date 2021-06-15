@@ -9,6 +9,7 @@ import {
 } from '@signalapp/signal-client';
 
 import { DataMessageClass } from './textsecure.d';
+import { SessionResetsType } from './textsecure/Types.d';
 import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
@@ -49,11 +50,10 @@ export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
 }
 
-type SessionResetsType = Record<string, number>;
 export async function cleanupSessionResets(): Promise<void> {
-  const sessionResets = window.storage.get<SessionResetsType>(
+  const sessionResets = window.storage.get(
     'sessionResets',
-    {}
+    <SessionResetsType>{}
   );
 
   const keys = Object.keys(sessionResets);
@@ -326,9 +326,9 @@ export async function startApp(): Promise<void> {
   let accountManager: typeof window.textsecure.AccountManager;
   window.getAccountManager = () => {
     if (!accountManager) {
-      const OLD_USERNAME = window.storage.get('number_id');
-      const USERNAME = window.storage.get('uuid_id');
-      const PASSWORD = window.storage.get('password');
+      const OLD_USERNAME = window.storage.get('number_id', '');
+      const USERNAME = window.storage.get('uuid_id', '');
+      const PASSWORD = window.storage.get('password', '');
       accountManager = new window.textsecure.AccountManager(
         USERNAME || OLD_USERNAME,
         PASSWORD
@@ -498,8 +498,7 @@ export async function startApp(): Promise<void> {
       getAutoLaunch: () => window.getAutoLaunch(),
       setAutoLaunch: (value: boolean) => window.setAutoLaunch(value),
 
-      // eslint-disable-next-line eqeqeq
-      isPrimary: () => window.textsecure.storage.user.getDeviceId() == '1',
+      isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
       getSyncRequest: () =>
         new Promise<void>((resolve, reject) => {
           const FIVE_MINUTES = 5 * 60 * 60 * 1000;
@@ -680,7 +679,7 @@ export async function startApp(): Promise<void> {
     };
 
     // How long since we were last running?
-    const lastHeartbeat = window.storage.get('lastHeartbeat');
+    const lastHeartbeat = window.storage.get('lastHeartbeat', 0);
     await window.storage.put('lastStartup', Date.now());
 
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
@@ -1962,10 +1961,13 @@ export async function startApp(): Promise<void> {
         messageReceiver = null;
       }
 
-      const OLD_USERNAME = window.storage.get('number_id');
-      const USERNAME = window.storage.get('uuid_id');
-      const PASSWORD = window.storage.get('password');
-      const mySignalingKey = window.storage.get('signaling_key');
+      const OLD_USERNAME = window.storage.get('number_id', '');
+      const USERNAME = window.storage.get('uuid_id', '');
+      const PASSWORD = window.storage.get('password', '');
+      const mySignalingKey = window.storage.get(
+        'signaling_key',
+        new ArrayBuffer(0)
+      );
 
       window.textsecure.messaging = new window.textsecure.MessageSender(
         USERNAME || OLD_USERNAME,
@@ -2097,8 +2099,7 @@ export async function startApp(): Promise<void> {
         !firstRun &&
         connectCount === 1 &&
         newVersion &&
-        // eslint-disable-next-line eqeqeq
-        window.textsecure.storage.user.getDeviceId() != '1'
+        window.textsecure.storage.user.getDeviceId() !== 1
       ) {
         window.log.info('Boot after upgrading. Requesting contact sync');
         window.getSyncRequest();
@@ -2147,11 +2148,11 @@ export async function startApp(): Promise<void> {
         });
         try {
           const { uuid } = await server.whoami();
-          window.textsecure.storage.user.setUuidAndDeviceId(
-            uuid,
-            deviceId as WhatIsThis
-          );
+          assert(deviceId, 'We should have device id');
+          window.textsecure.storage.user.setUuidAndDeviceId(uuid, deviceId);
           const ourNumber = window.textsecure.storage.user.getNumber();
+
+          assert(ourNumber, 'We should have number');
           const me = await window.ConversationController.getOrCreateAndWait(
             ourNumber,
             'private'
@@ -2188,7 +2189,7 @@ export async function startApp(): Promise<void> {
         }
       }
 
-      if (firstRun === true && deviceId !== '1') {
+      if (firstRun === true && deviceId !== 1) {
         const hasThemeSetting = Boolean(window.storage.get('theme-setting'));
         if (
           !hasThemeSetting &&
@@ -3339,7 +3340,9 @@ export async function startApp(): Promise<void> {
       // These two bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
       window.Signal.Util.Registration.markEverDone();
-      await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+      if (previousNumberId !== undefined) {
+        await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+      }
 
       // These two are important to ensure we don't rip through every message
       //   in the database attempting to upgrade it after starting up again.
@@ -3347,10 +3350,14 @@ export async function startApp(): Promise<void> {
         IS_MIGRATION_COMPLETE_KEY,
         isMigrationComplete || false
       );
-      await window.textsecure.storage.put(
-        LAST_PROCESSED_INDEX_KEY,
-        lastProcessedIndex || null
-      );
+      if (lastProcessedIndex !== undefined) {
+        await window.textsecure.storage.put(
+          LAST_PROCESSED_INDEX_KEY,
+          lastProcessedIndex
+        );
+      } else {
+        await window.textsecure.storage.remove(LAST_PROCESSED_INDEX_KEY);
+      }
       await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
 
       window.log.info('Successfully cleared local configuration');

@@ -12,6 +12,8 @@ import * as sinon from 'sinon';
 import EventEmitter from 'events';
 import { connection as WebSocket } from 'websocket';
 
+import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
+
 import WebSocketResource from '../textsecure/WebsocketResources';
 
 describe('WebSocket-Resource', () => {
@@ -29,7 +31,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake((data: Uint8Array) => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,
@@ -86,7 +88,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake((data: Uint8Array) => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,
@@ -166,7 +168,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake(data => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,
@@ -189,7 +191,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake(data => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,
@@ -230,7 +232,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake(data => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,

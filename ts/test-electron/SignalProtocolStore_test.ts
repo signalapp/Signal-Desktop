@@ -15,7 +15,11 @@ import { signal } from '../protobuf/compiled';
 import { sessionStructureToArrayBuffer } from '../util/sessionTranslation';
 import { Zone } from '../util/Zone';
 
-import { getRandomBytes, constantTimeEqual } from '../Crypto';
+import {
+  getRandomBytes,
+  constantTimeEqual,
+  typedArrayToArrayBuffer as toArrayBuffer,
+} from '../Crypto';
 import { clampPrivateKey, setPublicKeyTypeByte } from '../Curve';
 import { SignalProtocolStore, GLOBAL_ZONE } from '../SignalProtocolStore';
 import { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
@@ -173,7 +177,10 @@ describe('SignalProtocolStore', () => {
       }
 
       assert.isTrue(
-        constantTimeEqual(expected.serialize(), actual.serialize())
+        constantTimeEqual(
+          toArrayBuffer(expected.serialize()),
+          toArrayBuffer(actual.serialize())
+        )
       );
 
       await store.removeSenderKey(encodedAddress, distributionId);
@@ -203,7 +210,10 @@ describe('SignalProtocolStore', () => {
       }
 
       assert.isTrue(
-        constantTimeEqual(expected.serialize(), actual.serialize())
+        constantTimeEqual(
+          toArrayBuffer(expected.serialize()),
+          toArrayBuffer(actual.serialize())
+        )
       );
 
       await store.removeSenderKey(encodedAddress, distributionId);

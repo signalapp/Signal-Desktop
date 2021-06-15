@@ -37,8 +37,8 @@ describe('Message', () => {
   });
 
   after(async () => {
-    window.textsecure.storage.put('number_id', null);
-    window.textsecure.storage.put('uuid_id', null);
+    window.textsecure.storage.remove('number_id');
+    window.textsecure.storage.remove('uuid_id');
 
     await window.Signal.Data.removeAll();
     await window.storage.fetch();

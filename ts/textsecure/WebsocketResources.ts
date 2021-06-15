@@ -30,6 +30,7 @@
 import { connection as WebSocket, IMessage } from 'websocket';
 
 import { ByteBufferClass } from '../window.d';
+import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
 
 import EventTarget from './EventTarget';
 
@@ -153,7 +154,7 @@ export default class WebSocketResource extends EventTarget {
       }
 
       const message = window.textsecure.protobuf.WebSocketMessage.decode(
-        binaryData
+        toArrayBuffer(binaryData)
       );
       if (
         message.type ===

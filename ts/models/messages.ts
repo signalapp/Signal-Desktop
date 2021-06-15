@@ -507,7 +507,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
         );
         const isUnidentifiedDelivery =
-          window.storage.get('unidentifiedDeliveryIndicators') &&
+          window.storage.get('unidentifiedDeliveryIndicators', false) &&
           this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
         return {
@@ -1189,6 +1189,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const regionCode = window.storage.get('regionCode');
+    if (!regionCode) {
+      throw new Error('No region code');
+    }
     const { contactSelector } = Contact;
     const contact = contacts[0];
     const firstNumber =

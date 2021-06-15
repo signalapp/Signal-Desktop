@@ -52,7 +52,7 @@ export class RetryPlaceholders {
     }
 
     const parsed = retryItemListSchema.safeParse(
-      window.storage.get(STORAGE_KEY) || []
+      window.storage.get(STORAGE_KEY, new Array<RetryItemType>())
     );
     if (!parsed.success) {
       window.log.warn(

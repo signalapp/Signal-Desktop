@@ -11,6 +11,7 @@ import {
   SenderCertificate,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/signal-client';
+import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
 import { senderCertificateService } from '../services/senderCertificate';
 import {
   padMessage,
@@ -371,8 +372,8 @@ export async function sendToGroupViaSenderKey(options: {
     const accessKeys = getXorOfAccessKeys(devicesForSenderKey);
 
     const result = await window.textsecure.messaging.sendWithSenderKey(
-      messageBuffer,
-      accessKeys,
+      toArrayBuffer(messageBuffer),
+      toArrayBuffer(accessKeys),
       timestamp,
       online
     );

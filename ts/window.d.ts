@@ -20,6 +20,7 @@ import {
   ReactionModelType,
 } from './model-types.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
+import { Storage } from './textsecure/Storage';
 import {
   ChallengeHandler,
   IPCRequest as IPCChallengeRequest,
@@ -248,30 +249,7 @@ declare global {
     setMenuBarVisibility: (value: WhatIsThis) => void;
     showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
-    storage: {
-      addBlockedGroup: (group: string) => void;
-      addBlockedNumber: (number: string) => void;
-      addBlockedUuid: (uuid: string) => void;
-      fetch: () => void;
-      get: {
-        <T = any>(key: string): T | undefined;
-        <T>(key: string, defaultValue: T): T;
-      };
-      getBlockedGroups: () => Array<string>;
-      getBlockedNumbers: () => Array<string>;
-      getBlockedUuids: () => Array<string>;
-      getItemsState: () => WhatIsThis;
-      isBlocked: (number: string) => boolean;
-      isGroupBlocked: (group: unknown) => boolean;
-      isUuidBlocked: (uuid: string) => boolean;
-      onready: (callback: () => unknown) => void;
-      put: (key: string, value: any) => Promise<void>;
-      remove: (key: string) => Promise<void>;
-      removeBlockedGroup: (group: string) => void;
-      removeBlockedNumber: (number: string) => void;
-      removeBlockedUuid: (uuid: string) => void;
-      reset: () => void;
-    };
+    storage: Storage;
     systemTheme: WhatIsThis;
     textsecure: TextSecureType;
     synchronousCrypto: typeof synchronousCrypto;
@@ -594,6 +572,20 @@ declare global {
   // eslint-disable-next-line no-restricted-syntax
   interface Error {
     originalError?: Event;
+  }
+
+  // Uint8Array and ArrayBuffer are type-compatible in TypeScript's covariant
+  // type checker, but in reality they are not. Let's assert correct use!
+  interface Uint8Array {
+    __uint8array: never;
+  }
+
+  interface ArrayBuffer {
+    __array_buffer: never;
+  }
+
+  interface SharedArrayBuffer {
+    __array_buffer: never;
   }
 }
 

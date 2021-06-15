@@ -756,7 +756,7 @@ class MessageReceiverInner extends EventTarget {
 
       try {
         const { id } = item;
-        await window.textsecure.storage.unprocessed.remove(id);
+        await window.textsecure.storage.protocol.removeUnprocessed(id);
       } catch (deleteError) {
         window.log.error(
           'queueCached error deleting item',
@@ -800,17 +800,17 @@ class MessageReceiverInner extends EventTarget {
 
   async getAllFromCache() {
     window.log.info('getAllFromCache');
-    const count = await window.textsecure.storage.unprocessed.getCount();
+    const count = await window.textsecure.storage.protocol.getUnprocessedCount();
 
     if (count > 1500) {
-      await window.textsecure.storage.unprocessed.removeAll();
+      await window.textsecure.storage.protocol.removeAllUnprocessed();
       window.log.warn(
         `There were ${count} messages in cache. Deleted all instead of reprocessing`
       );
       return [];
     }
 
-    const items = await window.textsecure.storage.unprocessed.getAll();
+    const items = await window.textsecure.storage.protocol.getAllUnprocessed();
     window.log.info('getAllFromCache loaded', items.length, 'saved envelopes');
 
     return Promise.all(
@@ -823,9 +823,9 @@ class MessageReceiverInner extends EventTarget {
               'getAllFromCache final attempt for envelope',
               item.id
             );
-            await window.textsecure.storage.unprocessed.remove(item.id);
+            await window.textsecure.storage.protocol.removeUnprocessed(item.id);
           } else {
-            await window.textsecure.storage.unprocessed.updateAttempts(
+            await window.textsecure.storage.protocol.updateUnprocessedAttempts(
               item.id,
               attempts
             );
@@ -981,7 +981,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async cacheRemoveBatch(items: Array<string>) {
-    await window.textsecure.storage.unprocessed.remove(items);
+    await window.textsecure.storage.protocol.removeUnprocessed(items);
   }
 
   removeFromCache(envelope: EnvelopeClass) {
@@ -1361,7 +1361,7 @@ class MessageReceiverInner extends EventTarget {
               buffer,
               PublicKey.deserialize(Buffer.from(serverTrustRoot)),
               envelope.serverTimestamp,
-              localE164,
+              localE164 || null,
               localUuid,
               localDeviceId,
               sessionStore,
@@ -2417,7 +2417,9 @@ class MessageReceiverInner extends EventTarget {
     blocked: SyncMessageClass.Blocked
   ) {
     window.log.info('Setting these numbers as blocked:', blocked.numbers);
-    await window.textsecure.storage.put('blocked', blocked.numbers);
+    if (blocked.numbers) {
+      await window.textsecure.storage.put('blocked', blocked.numbers);
+    }
     if (blocked.uuids) {
       window.normalizeUuids(
         blocked,
@@ -2439,17 +2441,15 @@ class MessageReceiverInner extends EventTarget {
   }
 
   isBlocked(number: string) {
-    return window.textsecure.storage.get('blocked', []).includes(number);
+    return window.textsecure.storage.blocked.isBlocked(number);
   }
 
   isUuidBlocked(uuid: string) {
-    return window.textsecure.storage.get('blocked-uuids', []).includes(uuid);
+    return window.textsecure.storage.blocked.isUuidBlocked(uuid);
   }
 
   isGroupBlocked(groupId: string) {
-    return window.textsecure.storage
-      .get('blocked-groups', [])
-      .includes(groupId);
+    return window.textsecure.storage.blocked.isGroupBlocked(groupId);
   }
 
   cleanAttachment(attachment: AttachmentPointerClass) {

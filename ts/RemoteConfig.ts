@@ -26,7 +26,7 @@ type ConfigValueType = {
   enabledAt?: number;
   value?: unknown;
 };
-type ConfigMapType = { [key: string]: ConfigValueType };
+export type ConfigMapType = { [key: string]: ConfigValueType };
 type ConfigListenerType = (value: ConfigValueType) => unknown;
 type ConfigListenersMapType = {
   [key: string]: Array<ConfigListenerType>;

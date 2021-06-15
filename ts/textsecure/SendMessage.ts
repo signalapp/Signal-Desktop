@@ -16,6 +16,7 @@ import {
   SenderKeyDistributionMessage,
 } from '@signalapp/signal-client';
 
+import { assert } from '../util/assert';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { SenderKeys } from '../LibSignalStores';
 import {
@@ -750,8 +751,8 @@ export default class MessageSender {
 
     const blockedIdentifiers = new Set(
       concat(
-        window.storage.getBlockedUuids(),
-        window.storage.getBlockedNumbers()
+        window.storage.blocked.getBlockedUuids(),
+        window.storage.blocked.getBlockedNumbers()
       )
     );
 
@@ -895,12 +896,13 @@ export default class MessageSender {
   }
 
   async sendIndividualProto(
-    identifier: string,
+    identifier: string | undefined,
     proto: DataMessageClass | ContentClass | PlaintextContent,
     timestamp: number,
     contentHint: number,
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
+    assert(identifier, "Identifier can't be undefined");
     return new Promise((resolve, reject) => {
       const callback = (res: CallbackResultType) => {
         if (res && res.errors && res.errors.length > 0) {
@@ -976,7 +978,7 @@ export default class MessageSender {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
 
-    if (myDevice === 1 || myDevice === '1') {
+    if (myDevice === 1) {
       return Promise.resolve();
     }
 
@@ -1050,7 +1052,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1 && myDevice !== '1') {
+    if (myDevice !== 1) {
       const request = new window.textsecure.protobuf.SyncMessage.Request();
       request.type =
         window.textsecure.protobuf.SyncMessage.Request.Type.BLOCKED;
@@ -1081,7 +1083,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1 && myDevice !== '1') {
+    if (myDevice !== 1) {
       const request = new window.textsecure.protobuf.SyncMessage.Request();
       request.type =
         window.textsecure.protobuf.SyncMessage.Request.Type.CONFIGURATION;
@@ -1112,7 +1114,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1 && myDevice !== '1') {
+    if (myDevice !== 1) {
       const request = new window.textsecure.protobuf.SyncMessage.Request();
       request.type = window.textsecure.protobuf.SyncMessage.Request.Type.GROUPS;
       const syncMessage = this.createSyncMessage();
@@ -1143,7 +1145,7 @@ export default class MessageSender {
     const myUuid = window.textsecure.storage.user.getUuid();
 
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1 && myDevice !== '1') {
+    if (myDevice !== 1) {
       const request = new window.textsecure.protobuf.SyncMessage.Request();
       request.type =
         window.textsecure.protobuf.SyncMessage.Request.Type.CONTACTS;
@@ -1175,7 +1177,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myDevice = window.textsecure.storage.user.getDeviceId();
 
-    if (myDevice === 1 || myDevice === '1') {
+    if (myDevice === 1) {
       return;
     }
 
@@ -1208,7 +1210,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myDevice = window.textsecure.storage.user.getDeviceId();
 
-    if (myDevice === 1 || myDevice === '1') {
+    if (myDevice === 1) {
       return;
     }
 
@@ -1244,7 +1246,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1 && myDevice !== '1') {
+    if (myDevice !== 1) {
       const syncMessage = this.createSyncMessage();
       syncMessage.read = [];
       for (let i = 0; i < reads.length; i += 1) {
@@ -1283,7 +1285,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (myDevice === 1 || myDevice === '1') {
+    if (myDevice === 1) {
       return null;
     }
 
@@ -1323,7 +1325,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (myDevice === 1 || myDevice === '1') {
+    if (myDevice === 1) {
       return null;
     }
 
@@ -1361,7 +1363,7 @@ export default class MessageSender {
     options?: SendOptionsType
   ): Promise<CallbackResultType | null> {
     const myDevice = window.textsecure.storage.user.getDeviceId();
-    if (myDevice === 1 || myDevice === '1') {
+    if (myDevice === 1) {
       return null;
     }
 
@@ -1412,7 +1414,7 @@ export default class MessageSender {
     const myDevice = window.textsecure.storage.user.getDeviceId();
     const now = Date.now();
 
-    if (myDevice === 1 || myDevice === '1') {
+    if (myDevice === 1) {
       return Promise.resolve();
     }
 
@@ -1526,7 +1528,7 @@ export default class MessageSender {
     const myDevice = window.textsecure.storage.user.getDeviceId();
     if (
       (myNumber === recipientE164 || myUuid === recipientUuid) &&
-      (myDevice === 1 || myDevice === '1')
+      myDevice === 1
     ) {
       return Promise.resolve();
     }

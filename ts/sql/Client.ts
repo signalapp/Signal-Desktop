@@ -7,6 +7,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable no-restricted-syntax */
 import { ipcRenderer } from 'electron';
 
 import {
@@ -44,6 +45,7 @@ import {
   ClientJobType,
   ConversationType,
   IdentityKeyType,
+  ItemKeyType,
   ItemType,
   MessageType,
   MessageTypeUnhydrated,
@@ -132,7 +134,6 @@ const dataInterface: ClientInterface = {
   createOrUpdateItem,
   getItemById,
   getAllItems,
-  bulkAddItems,
   removeItemById,
   removeAllItems,
 
@@ -692,14 +693,14 @@ async function removeAllSignedPreKeys() {
 
 // Items
 
-const ITEM_KEYS: { [key: string]: Array<string> | undefined } = {
+const ITEM_KEYS: Partial<Record<ItemKeyType, Array<string>>> = {
   identityKey: ['value.pubKey', 'value.privKey'],
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
   signaling_key: ['value'],
   profileKey: ['value'],
 };
-async function createOrUpdateItem(data: ItemType) {
+async function createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>) {
   const { id } = data;
   if (!id) {
     throw new Error(
@@ -712,7 +713,7 @@ async function createOrUpdateItem(data: ItemType) {
 
   await channels.createOrUpdateItem(updated);
 }
-async function getItemById(id: string) {
+async function getItemById<K extends ItemKeyType>(id: K): Promise<ItemType<K>> {
   const keys = ITEM_KEYS[id];
   const data = await channels.getItemById(id);
 
@@ -721,23 +722,24 @@ async function getItemById(id: string) {
 async function getAllItems() {
   const items = await channels.getAllItems();
 
-  return map(items, item => {
-    const { id } = item;
-    const keys = ITEM_KEYS[id];
+  const result = Object.create(null);
 
-    return Array.isArray(keys) ? keysToArrayBuffer(keys, item) : item;
-  });
-}
-async function bulkAddItems(array: Array<ItemType>) {
-  const updated = map(array, data => {
-    const { id } = data;
-    const keys = ITEM_KEYS[id];
+  for (const id of Object.keys(items)) {
+    const key = id as ItemKeyType;
+    const value = items[key];
 
-    return keys && Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
-  });
-  await channels.bulkAddItems(updated);
+    const keys = ITEM_KEYS[key];
+
+    const deserializedValue = Array.isArray(keys)
+      ? keysToArrayBuffer(keys, { value }).value
+      : value;
+
+    result[key] = deserializedValue;
+  }
+
+  return result;
 }
-async function removeItemById(id: string) {
+async function removeItemById(id: ItemKeyType) {
   await channels.removeItemById(id);
 }
 async function removeAllItems() {

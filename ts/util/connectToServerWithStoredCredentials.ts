@@ -2,15 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { WebAPIConnectType, WebAPIType } from '../textsecure/WebAPI';
-
-// We define a stricter storage here that returns `unknown` instead of `any`.
-type Storage = {
-  get(key: string): unknown;
-};
+import { StorageInterface } from '../types/Storage.d';
 
 export function connectToServerWithStoredCredentials(
   WebAPI: WebAPIConnectType,
-  storage: Storage
+  storage: Pick<StorageInterface, 'get'>
 ): WebAPIType {
   const username = storage.get('uuid_id') || storage.get('number_id');
   if (typeof username !== 'string') {

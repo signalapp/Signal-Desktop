@@ -2171,8 +2171,8 @@ export async function initiateMigrationToGroupV2(
         },
       });
 
-      if (window.storage.isGroupBlocked(previousGroupV1Id)) {
-        window.storage.addBlockedGroup(groupId);
+      if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
+        window.storage.blocked.addBlockedGroup(groupId);
       }
 
       // Save these most recent updates to conversation
@@ -2646,8 +2646,8 @@ export async function respondToGroupV2Migration({
     },
   });
 
-  if (window.storage.isGroupBlocked(previousGroupV1Id)) {
-    window.storage.addBlockedGroup(groupId);
+  if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
+    window.storage.blocked.addBlockedGroup(groupId);
   }
 
   // Save these most recent updates to conversation

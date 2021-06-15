@@ -91,6 +91,9 @@ async function encryptRecord(
     : generateStorageID();
 
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
   const storageItemKey = await deriveStorageItemKey(
     storageKey,
@@ -260,8 +263,10 @@ async function generateManifest(
     manifestRecordKeys.add(identifier);
   });
 
-  const recordsWithErrors: ReadonlyArray<UnknownRecord> =
-    window.storage.get('storage-service-error-records') || [];
+  const recordsWithErrors: ReadonlyArray<UnknownRecord> = window.storage.get(
+    'storage-service-error-records',
+    new Array<UnknownRecord>()
+  );
 
   window.log.info(
     'storageService.generateManifest: adding records that had errors in the previous merge',
@@ -406,6 +411,9 @@ async function generateManifest(
   manifestRecord.keys = Array.from(manifestRecordKeys);
 
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
   const storageManifestKey = await deriveStorageManifestKey(
     storageKey,
@@ -539,7 +547,7 @@ async function stopStorageServiceSync() {
 async function createNewManifest() {
   window.log.info('storageService.createNewManifest: creating new manifest');
 
-  const version = window.storage.get('manifestVersion') || 0;
+  const version = window.storage.get('manifestVersion', 0);
 
   const {
     conversationsToUpdate,
@@ -562,6 +570,9 @@ async function decryptManifest(
   const { version, value } = encryptedManifest;
 
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
   const storageManifestKey = await deriveStorageManifestKey(
     storageKey,
@@ -577,7 +588,7 @@ async function decryptManifest(
 }
 
 async function fetchManifest(
-  manifestVersion: string
+  manifestVersion: number
 ): Promise<ManifestRecordClass | undefined> {
   window.log.info('storageService.fetchManifest');
 
@@ -799,6 +810,9 @@ async function processRemoteRecords(
   remoteOnlyRecords: Map<string, RemoteRecord>
 ): Promise<number> {
   const storageKeyBase64 = window.storage.get('storageKey');
+  if (!storageKeyBase64) {
+    throw new Error('No storage key');
+  }
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
 
   window.log.info(
@@ -911,8 +925,10 @@ async function processRemoteRecords(
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
 
-    const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
-      window.storage.get('storage-service-unknown-records') || [];
+    const unknownRecordsArray: ReadonlyArray<UnknownRecord> = window.storage.get(
+      'storage-service-unknown-records',
+      new Array<UnknownRecord>()
+    );
     unknownRecordsArray.forEach((record: UnknownRecord) => {
       unknownRecords.set(record.storageID, record);
     });
@@ -1087,7 +1103,7 @@ async function upload(fromSync = false): Promise<void> {
     previousManifest = await sync();
   }
 
-  const localManifestVersion = window.storage.get('manifestVersion') || 0;
+  const localManifestVersion = window.storage.get('manifestVersion', 0);
   const version = Number(localManifestVersion) + 1;
 
   window.log.info(

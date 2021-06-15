@@ -44,6 +44,8 @@ import {
   ConversationType,
   EmojiType,
   IdentityKeyType,
+  AllItemsType,
+  ItemKeyType,
   ItemType,
   MessageType,
   MessageTypeUnhydrated,
@@ -123,7 +125,6 @@ const dataInterface: ServerInterface = {
   createOrUpdateItem,
   getItemById,
   getAllItems,
-  bulkAddItems,
   removeItemById,
   removeAllItems,
 
@@ -2170,24 +2171,34 @@ async function getAllSignedPreKeys(): Promise<Array<SignedPreKeyType>> {
 }
 
 const ITEMS_TABLE = 'items';
-function createOrUpdateItem(data: ItemType): Promise<void> {
+function createOrUpdateItem<K extends ItemKeyType>(
+  data: ItemType<K>
+): Promise<void> {
   return createOrUpdate(ITEMS_TABLE, data);
 }
-function getItemById(id: string): Promise<ItemType> {
+function getItemById<K extends ItemKeyType>(
+  id: K
+): Promise<ItemType<K> | undefined> {
   return getById(ITEMS_TABLE, id);
 }
-async function getAllItems(): Promise<Array<ItemType>> {
+async function getAllItems(): Promise<AllItemsType> {
   const db = getInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>('SELECT json FROM items ORDER BY id ASC;')
     .all();
 
-  return rows.map(row => jsonToObject(row.json));
+  const items = rows.map(row => jsonToObject(row.json));
+
+  const result: AllItemsType = Object.create(null);
+
+  for (const { id, value } of items) {
+    const key = id as ItemKeyType;
+    result[key] = value;
+  }
+
+  return result;
 }
-function bulkAddItems(array: Array<ItemType>): Promise<void> {
-  return bulkAdd(ITEMS_TABLE, array);
-}
-function removeItemById(id: string): Promise<void> {
+function removeItemById(id: ItemKeyType): Promise<void> {
   return removeById(ITEMS_TABLE, id);
 }
 function removeAllItems(): Promise<void> {
