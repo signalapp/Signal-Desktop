@@ -36,6 +36,7 @@ import { combineNames } from '../util/combineNames';
 import { getExpiresAt } from '../services/MessageUpdater';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
+import * as iterables from '../util/iterables';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 
 import {
@@ -3267,73 +3268,6 @@ function getExpireData(
   };
 }
 
-function updateExpirationTimers(
-  conversationId: string,
-  newestUnreadId: number,
-  messagesWithExpireTimer: Map<
-    string,
-    {
-      id: string;
-      expireTimer: number;
-    }
-  >,
-  readAt?: number
-) {
-  const db = getInstance();
-
-  const rowsWithSameExpireTimer = new Map();
-  for (const row of messagesWithExpireTimer.values()) {
-    const { expireTimer } = row;
-    const expireTimerRow = rowsWithSameExpireTimer.get(expireTimer);
-
-    if (expireTimerRow) {
-      return;
-    }
-
-    const { expirationStartTimestamp, expiresAt } = getExpireData(
-      expireTimer,
-      readAt
-    );
-
-    rowsWithSameExpireTimer.set(expireTimer, {
-      expirationStartTimestamp,
-      expireTimer,
-      expiresAt,
-    });
-  }
-
-  rowsWithSameExpireTimer.forEach(
-    ({ expirationStartTimestamp, expireTimer, expiresAt }) => {
-      db.prepare<Query>(
-        `
-      UPDATE messages
-      SET
-        unread = 0,
-        expires_at = $expiresAt,
-        expirationStartTimestamp = $expirationStartTimestamp,
-        json = json_patch(json, $jsonPatch)
-      WHERE
-        unread = 0 AND
-        conversationId = $conversationId AND
-        received_at <= $newestUnreadId AND
-        expireTimer = $expireTimer
-      `
-      ).run({
-        conversationId,
-        expirationStartTimestamp,
-        expireTimer,
-        expiresAt,
-        jsonPatch: JSON.stringify({
-          expirationStartTimestamp,
-          expires_at: expiresAt,
-          unread: 0,
-        }),
-        newestUnreadId,
-      });
-    }
-  );
-}
-
 async function getUnreadCountForConversation(
   conversationId: string
 ): Promise<number> {
@@ -3383,26 +3317,6 @@ async function getUnreadByConversationAndMarkRead(
       return [];
     }
 
-    const messagesWithExpireTimer: Map<
-      string,
-      {
-        id: string;
-        expireTimer: number;
-      }
-    > = new Map();
-
-    rows.forEach(row => {
-      if (
-        row.expireTimer &&
-        (!row.expirationStartTimestamp || !row.expires_at)
-      ) {
-        messagesWithExpireTimer.set(row.id, {
-          id: row.id,
-          expireTimer: row.expireTimer,
-        });
-      }
-    });
-
     db.prepare<Query>(
       `
         UPDATE messages
@@ -3421,34 +3335,58 @@ async function getUnreadByConversationAndMarkRead(
       unread: 1,
     });
 
-    if (messagesWithExpireTimer.size) {
-      updateExpirationTimers(
-        conversationId,
-        newestUnreadId,
-        messagesWithExpireTimer,
-        readAt
-      );
+    const rowsWithExpireTimers = iterables.filter(rows, row => row.expireTimer);
+    const rowsNeedingExpirationUpdates = iterables.filter(
+      rowsWithExpireTimers,
+      row =>
+        !row.expirationStartTimestamp ||
+        !row.expires_at ||
+        getExpireData(row.expireTimer, readAt).expirationStartTimestamp <
+          row.expirationStartTimestamp
+    );
+    const expirationStartTimestampUpdates: Iterable<{
+      id: string;
+      expirationStartTimestamp: number;
+      expiresAt: number;
+    }> = iterables.map(rowsNeedingExpirationUpdates, row => ({
+      id: row.id,
+      ...getExpireData(row.expireTimer, readAt),
+    }));
+    const stmt = db.prepare<Query>(
+      `
+      UPDATE messages
+      SET
+        expirationStartTimestamp = $expirationStartTimestamp,
+        expires_at = $expiresAt
+      WHERE
+        id = $id;
+      `
+    );
+    const updatedExpireDataByRowId = new Map<
+      string,
+      {
+        expirationStartTimestamp: number;
+        expiresAt: number;
+      }
+    >();
+    for (const update of expirationStartTimestampUpdates) {
+      stmt.run(update);
+      updatedExpireDataByRowId.set(update.id, update);
     }
 
     return rows.map(row => {
       const json = jsonToObject(row.json);
-      const expireAttrs = {};
-      const expiringMessage = messagesWithExpireTimer.get(row.id);
-      if (expiringMessage) {
-        const { expirationStartTimestamp, expiresAt } = getExpireData(
-          expiringMessage.expireTimer,
-          readAt
-        );
-        Object.assign(expireAttrs, {
-          expirationStartTimestamp,
-          expires_at: expiresAt,
-        });
-      }
-
+      const updatedExpireData = updatedExpireDataByRowId.get(row.id);
       return {
         unread: false,
         ...pick(json, ['id', 'sent_at', 'source', 'sourceUuid', 'type']),
-        ...expireAttrs,
+        ...(updatedExpireData
+          ? {
+              expirationStartTimestamp:
+                updatedExpireData.expirationStartTimestamp,
+              expires_at: updatedExpireData.expiresAt,
+            }
+          : {}),
       };
     });
   })();
