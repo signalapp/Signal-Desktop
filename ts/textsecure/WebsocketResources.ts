@@ -33,6 +33,8 @@ import { ByteBufferClass } from '../window.d';
 
 import EventTarget from './EventTarget';
 
+import { isOlderThan } from '../util/timestamp';
+
 class Request {
   verb: string;
 
@@ -263,6 +265,10 @@ type KeepAliveOptionsType = {
   disconnect?: boolean;
 };
 
+const KEEPALIVE_INTERVAL_MS = 55000; // 55 seconds + 5 seconds for closing the
+// socket above.
+const MAX_KEEPALIVE_INTERVAL_MS = 300 * 1000; // 5 minutes
+
 class KeepAlive {
   private keepAliveTimer: NodeJS.Timeout | undefined;
 
@@ -273,6 +279,8 @@ class KeepAlive {
   private disconnect: boolean;
 
   private wsr: WebSocketResource;
+
+  private lastAliveAt: number = Date.now();
 
   constructor(
     websocketResource: WebSocketResource,
@@ -294,9 +302,19 @@ class KeepAlive {
   public send(): void {
     this.clearTimers();
 
+    if (isOlderThan(this.lastAliveAt, MAX_KEEPALIVE_INTERVAL_MS)) {
+      window.log.info('WebSocketResources: disconnecting due to stale state');
+      this.wsr.close(
+        3001,
+        `Last keepalive request was too far in the past: ${this.lastAliveAt}`
+      );
+      return;
+    }
+
     if (this.disconnect) {
       // automatically disconnect if server doesn't ack
       this.disconnectTimer = setTimeout(() => {
+        window.log.info('WebSocketResources: disconnecting due to no response');
         this.clearTimers();
 
         this.wsr.close(3001, 'No response to keepalive request');
@@ -314,9 +332,11 @@ class KeepAlive {
   }
 
   public reset(): void {
+    this.lastAliveAt = Date.now();
+
     this.clearTimers();
 
-    this.keepAliveTimer = setTimeout(() => this.send(), 55000);
+    this.keepAliveTimer = setTimeout(() => this.send(), KEEPALIVE_INTERVAL_MS);
   }
 
   private clearTimers(): void {
