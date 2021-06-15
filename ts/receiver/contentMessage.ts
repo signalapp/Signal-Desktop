@@ -383,20 +383,6 @@ function onReadReceipt(readAt: any, timestamp: any, reader: any) {
   return Whisper.ReadReceipts.onReceipt(receipt);
 }
 
-export function onDeliveryReceipt(source: any, timestamp: any) {
-  const { Whisper } = window;
-
-  window?.log?.info('delivery receipt from', `${source}.${1}`, timestamp);
-
-  const receipt = Whisper.DeliveryReceipts.add({
-    timestamp,
-    source,
-  });
-
-  // Calling this directly so we can wait for completion
-  return Whisper.DeliveryReceipts.onReceipt(receipt);
-}
-
 async function handleReceiptMessage(
   envelope: EnvelopePlus,
   receiptMessage: SignalService.IReceiptMessage
@@ -406,12 +392,7 @@ async function handleReceiptMessage(
   const { type, timestamp } = receipt;
 
   const results = [];
-  if (type === SignalService.ReceiptMessage.Type.DELIVERY) {
-    for (const ts of timestamp) {
-      const promise = onDeliveryReceipt(envelope.source, Lodash.toNumber(ts));
-      results.push(promise);
-    }
-  } else if (type === SignalService.ReceiptMessage.Type.READ) {
+  if (type === SignalService.ReceiptMessage.Type.READ) {
     for (const ts of timestamp) {
       const promise = onReadReceipt(
         Lodash.toNumber(envelope.timestamp),

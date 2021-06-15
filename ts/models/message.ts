@@ -463,11 +463,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (window.storage.get('read-receipt-setting') && readBy.length > 0) {
       return 'read';
     }
-    const delivered = this.get('delivered');
-    const deliveredTo = this.get('delivered_to') || [];
-    if (delivered || deliveredTo.length > 0) {
-      return 'delivered';
-    }
     const sent = this.get('sent');
     const sentTo = this.get('sent_to') || [];
     if (sent || sentTo.length > 0) {
@@ -977,10 +972,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const readBy = this.get('read_by') || [];
     if (readBy.indexOf(pubkey) >= 0) {
       return 'read';
-    }
-    const deliveredTo = this.get('delivered_to') || [];
-    if (deliveredTo.indexOf(pubkey) >= 0) {
-      return 'delivered';
     }
     const sentTo = this.get('sent_to') || [];
     if (sentTo.indexOf(pubkey) >= 0) {

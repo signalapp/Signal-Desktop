@@ -19,7 +19,6 @@ import {
   getMessageBySenderAndServerTimestamp,
 } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
-import { DeliveryReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
 import { allowOnlyOneAtATime } from '../session/utils/Promise';
 
 export async function updateProfileOneAtATime(
@@ -553,15 +552,6 @@ export function createMessage(data: MessageCreationData, isIncoming: boolean): M
   }
 }
 
-function sendDeliveryReceipt(source: string, timestamp: any) {
-  const receiptMessage = new DeliveryReceiptMessage({
-    timestamp: Date.now(),
-    timestamps: [timestamp],
-  });
-  const device = new PubKey(source);
-  void getMessageQueue().sendToPubKey(device, receiptMessage);
-}
-
 export interface MessageEvent {
   data: any;
   type: string;
@@ -604,12 +594,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   source = source || msg.get('source');
 
   const isOurDevice = UserUtils.isUsFromCache(source);
-
-  const shouldSendReceipt = isIncoming && !isGroupMessage && !isOurDevice;
-
-  if (shouldSendReceipt) {
-    sendDeliveryReceipt(source, data.timestamp);
-  }
 
   // Conversation Id is:
   //  - primarySource if it is an incoming DM message,
