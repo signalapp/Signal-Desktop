@@ -27,6 +27,9 @@ export type OwnProps = {
   message: MessagePropsDataType;
   receivedAt: number;
   sentAt: number;
+
+  sendAnyway: (contactId: string, messageId: string) => unknown;
+  showSafetyNumber: (contactId: string) => void;
 } & Pick<
   MessageDetailProps,
   | 'clearSelectedMessage'
@@ -59,6 +62,9 @@ const mapStateToProps = (
     message,
     receivedAt,
     sentAt,
+
+    sendAnyway,
+    showSafetyNumber,
 
     clearSelectedMessage,
     deleteMessage,
@@ -98,6 +104,9 @@ const mapStateToProps = (
 
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
+
+    sendAnyway,
+    showSafetyNumber,
 
     clearSelectedMessage,
     deleteMessage,

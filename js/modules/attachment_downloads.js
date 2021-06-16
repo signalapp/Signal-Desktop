@@ -281,14 +281,6 @@ async function _finishJob(message, id) {
     await saveMessage(message.attributes, {
       Message: Whisper.Message,
     });
-    const conversation = message.getConversation();
-    if (conversation) {
-      const fromConversation = conversation.messageCollection.get(message.id);
-
-      if (fromConversation && message !== fromConversation) {
-        fromConversation.set(message.attributes);
-      }
-    }
   }
 
   await removeAttachmentDownloadJob(id);

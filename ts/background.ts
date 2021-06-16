@@ -43,6 +43,7 @@ import * as universalExpireTimer from './util/universalExpireTimer';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
 import { BackOff } from './util/BackOff';
+import { AppViewType } from './state/ducks/app';
 import { actionCreators } from './state/actions';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
@@ -70,6 +71,7 @@ export async function cleanupSessionResets(): Promise<void> {
 }
 
 export async function startApp(): Promise<void> {
+  window.Signal.Util.MessageController.install();
   window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
   window.attachmentDownloadQueue = [];
   try {
@@ -1712,7 +1714,7 @@ export async function startApp(): Promise<void> {
     }
 
     window.Whisper.events.on('contactsync', () => {
-      if (window.reduxStore.getState().app.isShowingInstaller) {
+      if (window.reduxStore.getState().app.appView === AppViewType.Installer) {
         window.reduxActions.app.openInbox();
       }
     });

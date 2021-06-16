@@ -3,6 +3,7 @@
 
 // Captures the globals put in place by preload.js, background.js and others
 
+import { DeepPartial, Store } from 'redux';
 import * as Backbone from 'backbone';
 import * as Underscore from 'underscore';
 import moment from 'moment';
@@ -113,6 +114,8 @@ import * as synchronousCrypto from './util/synchronousCrypto';
 import { SocketStatus } from './types/SocketStatus';
 import SyncRequest from './textsecure/SyncRequest';
 import { ConversationColorType, CustomColorType } from './types/Colors';
+import { MessageController } from './util/MessageController';
+import { StateType } from './state/reducer';
 
 export { Long } from 'long';
 
@@ -235,7 +238,7 @@ declare global {
     platform: string;
     preloadedImages: Array<WhatIsThis>;
     reduxActions: ReduxActions;
-    reduxStore: WhatIsThis;
+    reduxStore: Store<StateType>;
     registerForActive: (handler: () => void) => void;
     restart: () => void;
     setImmediate: typeof setImmediate;
@@ -537,7 +540,7 @@ declare global {
 
     ConversationController: ConversationController;
     Events: WhatIsThis;
-    MessageController: MessageControllerType;
+    MessageController: MessageController;
     SignalProtocolStore: typeof SignalProtocolStore;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
@@ -602,14 +605,6 @@ export type DCodeIOType = {
     isLong: (obj: unknown) => obj is Long;
   };
   ProtoBuf: WhatIsThis;
-};
-
-type MessageControllerType = {
-  findBySender: (sender: string) => MessageModel | null;
-  findBySentAt: (sentAt: number) => MessageModel | null;
-  getById: (id: string) => MessageModel | undefined;
-  register: (id: string, model: MessageModel) => MessageModel;
-  unregister: (id: string) => void;
 };
 
 export class CertificateValidatorType {

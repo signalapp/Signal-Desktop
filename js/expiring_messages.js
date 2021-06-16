@@ -41,7 +41,9 @@
 
         const conversation = message.getConversation();
         if (conversation) {
-          conversation.trigger('expired', message);
+          // An expired message only counts as decrementing the message count, not
+          // the sent message count
+          conversation.decrementMessageCount();
         }
       });
     } catch (error) {

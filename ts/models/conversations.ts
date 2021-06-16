@@ -136,8 +136,6 @@ export class ConversationModel extends window.Backbone
 
   jobQueue?: typeof window.PQueueType;
 
-  messageCollection?: MessageModelCollectionType;
-
   ourNumber?: string;
 
   ourUuid?: string;
@@ -168,6 +166,8 @@ export class ConversationModel extends window.Backbone
 
   private isFetchingUUID?: boolean;
 
+  private hasAddedHistoryDisclaimer?: boolean;
+
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
     return {
@@ -196,10 +196,6 @@ export class ConversationModel extends window.Backbone
   //   just one bit of data. If we have a UUID, we'll send using it.
   getSendTarget(): string | undefined {
     return this.get('uuid') || this.get('e164');
-  }
-
-  handleMessageError(message: unknown, errors: unknown): void {
-    this.trigger('messageError', message, errors);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -252,29 +248,8 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    this.messageCollection = new window.Whisper.MessageCollection([], {
-      conversation: this,
-    });
-
-    this.messageCollection.on('change:errors', this.handleMessageError, this);
-    this.messageCollection.on('send-error', this.onMessageError, this);
-
-    this.listenTo(
-      this.messageCollection,
-      'add remove destroy content-changed',
-      this.debouncedUpdateLastMessage
-    );
-    this.listenTo(this.messageCollection, 'sent', this.updateLastMessage);
-    this.listenTo(this.messageCollection, 'send-error', this.updateLastMessage);
-
     this.on('newmessage', this.onNewMessage);
     this.on('change:profileKey', this.onChangeProfileKey);
-
-    // Listening for out-of-band data updates
-    this.on('delivered', this.updateAndMerge);
-    this.on('read', this.updateAndMerge);
-    this.on('expiration-change', this.updateAndMerge);
-    this.on('expired', this.onExpired);
 
     const sealedSender = this.get('sealedSender');
     if (sealedSender === undefined) {
@@ -1238,64 +1213,10 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  async updateAndMerge(message: MessageModel): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.debouncedUpdateLastMessage!();
-
-    const mergeMessage = () => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const existing = this.messageCollection!.get(message.id);
-      if (!existing) {
-        return;
-      }
-
-      existing.merge(message.attributes);
-    };
-
-    await this.inProgressFetch;
-    mergeMessage();
-  }
-
-  async onExpired(message: MessageModel): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.debouncedUpdateLastMessage!();
-
-    const removeMessage = () => {
-      const { id } = message;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const existing = this.messageCollection!.get(id);
-      if (!existing) {
-        return;
-      }
-
-      window.log.info('Remove expired message from collection', {
-        sentAt: existing.get('sent_at'),
-      });
-
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.messageCollection!.remove(id);
-      existing.trigger('expired');
-      existing.cleanup();
-
-      // An expired message only counts as decrementing the message count, not
-      // the sent message count
-      this.decrementMessageCount();
-    };
-
-    // If a fetch is in progress, then we need to wait until that's complete to
-    //   do this removal. Otherwise we could remove from messageCollection, then
-    //   the async database fetch could include the removed message.
-
-    await this.inProgressFetch;
-    removeMessage();
-  }
-
-  async onNewMessage(message: WhatIsThis): Promise<void> {
-    const uuid = message.get ? message.get('sourceUuid') : message.sourceUuid;
-    const e164 = message.get ? message.get('source') : message.source;
-    const sourceDevice = message.get
-      ? message.get('sourceDevice')
-      : message.sourceDevice;
+  async onNewMessage(message: MessageModel): Promise<void> {
+    const uuid = message.get('sourceUuid');
+    const e164 = message.get('source');
+    const sourceDevice = message.get('sourceDevice');
 
     const sourceId = window.ConversationController.ensureContactIds({
       uuid,
@@ -1306,33 +1227,26 @@ export class ConversationModel extends window.Backbone
     // Clear typing indicator for a given contact if we receive a message from them
     this.clearContactTypingTimer(typingToken);
 
+    this.addSingleMessage(message);
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.debouncedUpdateLastMessage!();
   }
 
-  // For outgoing messages, we can call this directly. We're already loaded.
   addSingleMessage(message: MessageModel): MessageModel {
-    const { id } = message;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const existing = this.messageCollection!.get(id);
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const model = this.messageCollection!.add(message, { merge: true });
     // TODO use MessageUpdater.setToExpire
-    model.setToExpire();
+    message.setToExpire();
 
-    if (!existing) {
-      const { messagesAdded } = window.reduxActions.conversations;
-      const isNewMessage = true;
-      messagesAdded(
-        this.id,
-        [model.getReduxData()],
-        isNewMessage,
-        window.isActive()
-      );
-    }
+    const { messagesAdded } = window.reduxActions.conversations;
+    const isNewMessage = true;
+    messagesAdded(
+      this.id,
+      [message.getReduxData()],
+      isNewMessage,
+      window.isActive()
+    );
 
-    return model;
+    return message;
   }
 
   // For incoming messages, they might arrive while we're in the middle of a bulk fetch
@@ -2117,10 +2031,6 @@ export class ConversationModel extends window.Backbone
     }
 
     return true;
-  }
-
-  onMessageError(): void {
-    this.updateVerified();
   }
 
   async safeGetVerified(): Promise<number> {
@@ -3629,12 +3539,14 @@ export class ConversationModel extends window.Backbone
       if (isDirectConversation(this.attributes)) {
         messageWithSchema.destination = destination;
       }
-      const attributes: MessageModel = {
+      const attributes: MessageAttributesType = {
         ...messageWithSchema,
         id: window.getGuid(),
       };
 
-      const model = this.addSingleMessage(attributes);
+      const model = this.addSingleMessage(
+        new window.Whisper.Message(attributes)
+      );
       if (sticker) {
         await addStickerPackReference(model.id, sticker.packId);
       }
@@ -4205,15 +4117,16 @@ export class ConversationModel extends window.Backbone
     return message;
   }
 
-  async addMessageHistoryDisclaimer(): Promise<MessageModel> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const lastMessage = this.messageCollection!.last();
-    if (lastMessage && lastMessage.get('type') === 'message-history-unsynced') {
-      // We do not need another message history disclaimer
-      return lastMessage;
-    }
-
+  async addMessageHistoryDisclaimer(): Promise<void> {
     const timestamp = Date.now();
+
+    if (this.hasAddedHistoryDisclaimer) {
+      window.log.warn(
+        `addMessageHistoryDisclaimer/${this.idForLogging()}: Refusing to add another this session`
+      );
+      return;
+    }
+    this.hasAddedHistoryDisclaimer = true;
 
     const model = new window.Whisper.Message(({
       type: 'message-history-unsynced',
@@ -4238,8 +4151,6 @@ export class ConversationModel extends window.Backbone
 
     const message = window.MessageController.register(id, model);
     this.addSingleMessage(message);
-
-    return message;
   }
 
   isSearchable(): boolean {
@@ -4816,9 +4727,6 @@ export class ConversationModel extends window.Backbone
   }
 
   async destroyMessages(): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.messageCollection!.reset([]);
-
     this.set({
       lastMessage: null,
       timestamp: null,

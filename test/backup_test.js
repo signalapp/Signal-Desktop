@@ -615,11 +615,11 @@ describe('Backup', () => {
         );
 
         console.log('Backup test: Check messages');
-        const messageCollection = await window.Signal.Data._getAllMessages({
+        const messages = await window.Signal.Data._getAllMessages({
           MessageCollection: Whisper.MessageCollection,
         });
-        assert.strictEqual(messageCollection.length, MESSAGE_COUNT);
-        const messageFromDB = removeId(messageCollection.at(0).attributes);
+        assert.strictEqual(messages.length, MESSAGE_COUNT);
+        const messageFromDB = removeId(messages.at(0).attributes);
         const expectedMessage = messageFromDB;
         console.log({ messageFromDB, expectedMessage });
         assert.deepEqual(messageFromDB, expectedMessage);

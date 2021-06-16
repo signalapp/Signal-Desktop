@@ -5,7 +5,10 @@
 
 import { AttachmentType } from '../types/Attachment';
 import { ConversationModel } from '../models/conversations';
-import { GroupV2PendingMemberType } from '../model-types.d';
+import {
+  GroupV2PendingMemberType,
+  MessageModelCollectionType,
+} from '../model-types.d';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
 import { MediaItemType } from '../components/LightboxGallery';
 import { MessageModel } from '../models/messages';
@@ -356,39 +359,37 @@ Whisper.ConversationView = Whisper.View.extend({
     const { model }: { model: ConversationModel } = this;
 
     // Events on Conversation model
-    this.listenTo(model, 'destroy', this.stopListening);
-    this.listenTo(model, 'change:verified', this.onVerifiedChange);
-    this.listenTo(model, 'newmessage', this.addMessage);
-    this.listenTo(model, 'opened', this.onOpened);
-    this.listenTo(model, 'backgrounded', this.resetEmojiResults);
-    this.listenTo(model, 'scroll-to-message', this.scrollToMessage);
-    this.listenTo(model, 'unload', (reason: string) =>
+    this.listenTo(this.model, 'destroy', this.stopListening);
+    this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
+    this.listenTo(this.model, 'newmessage', this.lazyUpdateVerified);
+
+    // These are triggered by InboxView
+    this.listenTo(this.model, 'opened', this.onOpened);
+    this.listenTo(this.model, 'scroll-to-message', this.scrollToMessage);
+    this.listenTo(this.model, 'unload', (reason: string) =>
       this.unload(`model trigger - ${reason}`)
     );
-    this.listenTo(model, 'focus-composer', this.focusMessageField);
-    this.listenTo(model, 'open-all-media', this.showAllMedia);
-    this.listenTo(model, 'begin-recording', this.captureAudio);
-    this.listenTo(model, 'attach-file', this.onChooseAttachment);
-    this.listenTo(model, 'escape-pressed', this.resetPanel);
-    this.listenTo(model, 'show-message-details', this.showMessageDetail);
-    this.listenTo(model, 'show-contact-modal', this.showContactModal);
-    this.listenTo(model, 'toggle-reply', (messageId: string | undefined) => {
-      const target = this.quote || !messageId ? null : messageId;
-      this.setQuoteMessage(target);
-    });
+
+    // These are triggered by background.ts for keyboard handling
+    this.listenTo(this.model, 'focus-composer', this.focusMessageField);
+    this.listenTo(this.model, 'open-all-media', this.showAllMedia);
+    this.listenTo(this.model, 'begin-recording', this.captureAudio);
+    this.listenTo(this.model, 'attach-file', this.onChooseAttachment);
+    this.listenTo(this.model, 'escape-pressed', this.resetPanel);
+    this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
+    this.listenTo(this.model, 'show-contact-modal', this.showContactModal);
+    this.listenTo(
+      this.model,
+      'toggle-reply',
+      (messageId: string | undefined) => {
+        const target = this.quote || !messageId ? null : messageId;
+        this.setQuoteMessage(target);
+      }
+    );
     this.listenTo(model, 'save-attachment', this.downloadAttachmentWrapper);
     this.listenTo(model, 'delete-message', this.deleteMessage);
     this.listenTo(model, 'remove-link-review', this.removeLinkPreview);
     this.listenTo(model, 'remove-all-draft-attachments', this.clearAttachments);
-
-    // Events on Message models - we still listen to these here because they
-    //   can be emitted by the non-reduxified MessageDetail pane
-    this.listenTo(
-      model.messageCollection,
-      'show-identity',
-      this.showSafetyNumber
-    );
-    this.listenTo(model.messageCollection, 'force-send', this.forceSend);
 
     this.lazyUpdateVerified = window._.debounce(
       model.updateVerified.bind(model),
@@ -718,7 +719,6 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   getMessageActions() {
-    const { model }: { model: ConversationModel } = this;
     const reactToMessage = (
       messageId: string,
       reaction: { emoji: string; remove: boolean }
@@ -750,17 +750,21 @@ Whisper.ConversationView = Whisper.View.extend({
       this.showContactDetail(options);
     };
     const kickOffAttachmentDownload = async (options: any) => {
-      if (!model.messageCollection) {
-        throw new Error('Message collection does not exist');
+      const message = window.MessageController.getById(options.messageId);
+      if (!message) {
+        throw new Error(
+          `kickOffAttachmentDownload: Message ${options.messageId} missing!`
+        );
       }
-      const message = model.messageCollection.get(options.messageId);
       await message.queueAttachmentDownloads();
     };
     const markAttachmentAsCorrupted = (options: AttachmentOptions) => {
-      const message: MessageModel = this.model.messageCollection.get(
-        options.messageId
-      );
-      assert(message, 'Message not found');
+      const message = window.MessageController.getById(options.messageId);
+      if (!message) {
+        throw new Error(
+          `markAttachmentAsCorrupted: Message ${options.messageId} missing!`
+        );
+      }
       message.markAttachmentAsCorrupted(options.attachment);
     };
     const showVisualAttachment = (options: {
@@ -784,6 +788,12 @@ Whisper.ConversationView = Whisper.View.extend({
     const downloadNewVersion = () => {
       this.downloadNewVersion();
     };
+    const sendAnyway = (contactId: string, messageId: string) => {
+      this.forceSend(contactId, messageId);
+    };
+    const showSafetyNumber = (contactId: string) => {
+      this.showSafetyNumber(contactId);
+    };
     const showExpiredIncomingTapToViewToast = () => {
       this.showToast(Whisper.TapToViewExpiredIncomingToast);
     };
@@ -805,8 +815,10 @@ Whisper.ConversationView = Whisper.View.extend({
       reactToMessage,
       replyToMessage,
       retrySend,
+      sendAnyway,
       showContactDetail,
       showContactModal,
+      showSafetyNumber,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
       showForwardMessageModal,
@@ -895,12 +907,12 @@ Whisper.ConversationView = Whisper.View.extend({
         }
 
         const cleaned = await this.cleanModels(models);
-        this.model.messageCollection.add(cleaned);
-
         const isNewMessage = false;
         messagesAdded(
           id,
-          models.map(messageModel => messageModel.getReduxData()),
+          cleaned.map((messageModel: MessageModel) =>
+            messageModel.getReduxData()
+          ),
           isNewMessage,
           window.isActive()
         );
@@ -950,12 +962,12 @@ Whisper.ConversationView = Whisper.View.extend({
         }
 
         const cleaned = await this.cleanModels(models);
-        this.model.messageCollection.add(cleaned);
-
         const isNewMessage = false;
         messagesAdded(
           id,
-          models.map(messageModel => messageModel.getReduxData()),
+          cleaned.map((messageModel: MessageModel) =>
+            messageModel.getReduxData()
+          ),
           isNewMessage,
           window.isActive()
         );
@@ -1078,7 +1090,9 @@ Whisper.ConversationView = Whisper.View.extend({
     toast.render();
   },
 
-  async cleanModels(collection: any) {
+  async cleanModels(
+    collection: MessageModelCollectionType | Array<MessageModel>
+  ): Promise<Array<MessageModel>> {
     const result = collection
       .filter((message: any) => Boolean(message.id))
       .map((message: any) =>
@@ -1121,7 +1135,9 @@ Whisper.ConversationView = Whisper.View.extend({
       throw new Error(`scrollToMessage: failed to load message ${messageId}`);
     }
 
-    if (this.model.messageCollection.get(messageId)) {
+    const isInMemory = Boolean(window.MessageController.getById(messageId));
+
+    if (isInMemory) {
       const { scrollToMessage } = window.reduxActions.conversations;
       scrollToMessage(model.id, messageId);
       return;
@@ -1189,13 +1205,14 @@ Whisper.ConversationView = Whisper.View.extend({
       const all = [...older.models, message, ...newer.models];
 
       const cleaned: Array<MessageModel> = await this.cleanModels(all);
-      this.model.messageCollection.reset(cleaned);
       const scrollToMessageId =
         options && options.disableScroll ? undefined : messageId;
 
       messagesReset(
         conversationId,
-        cleaned.map(messageModel => messageModel.getReduxData()),
+        cleaned.map((messageModel: MessageModel) =>
+          messageModel.getReduxData()
+        ),
         metrics,
         scrollToMessageId
       );
@@ -1266,12 +1283,6 @@ Whisper.ConversationView = Whisper.View.extend({
       });
 
       const cleaned: Array<MessageModel> = await this.cleanModels(messages);
-      assert(
-        model.messageCollection,
-        'loadNewestMessages: model must have messageCollection'
-      );
-
-      model.messageCollection.reset(cleaned);
       const scrollToMessageId =
         setFocus && metrics.newest ? metrics.newest.id : undefined;
 
@@ -1283,7 +1294,9 @@ Whisper.ConversationView = Whisper.View.extend({
       const unboundedFetch = true;
       messagesReset(
         conversationId,
-        cleaned.map(messageModel => messageModel.getReduxData()),
+        cleaned.map((messageModel: MessageModel) =>
+          messageModel.getReduxData()
+        ),
         metrics,
         scrollToMessageId,
         unboundedFetch
@@ -1453,8 +1466,6 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     this.remove();
-
-    this.model.messageCollection.reset([]);
   },
 
   navigateTo(url: any) {
@@ -2303,19 +2314,17 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async retrySend(messageId: string) {
-    const message = this.model.messageCollection.get(messageId);
+    const message = window.MessageController.getById(messageId);
     if (!message) {
-      throw new Error(`retrySend: Did not find message for id ${messageId}`);
+      throw new Error(`retrySend: Message ${messageId} missing!`);
     }
     await message.retrySend();
   },
 
   showForwardMessageModal(messageId: string) {
-    const message = this.model.messageCollection.get(messageId);
+    const message = window.MessageController.getById(messageId);
     if (!message) {
-      throw new Error(
-        `showForwardMessageModal: Did not find message for id ${messageId}`
-      );
+      throw new Error(`showForwardMessageModal: Message ${messageId} missing!`);
     }
 
     const attachments = message.getAttachmentsForMessage();
@@ -2658,7 +2667,7 @@ Whisper.ConversationView = Whisper.View.extend({
       Component: window.Signal.Components.MediaGallery,
       props: await getProps(),
       onClose: () => {
-        this.stopListening(model.messageCollection, 'remove', update);
+        unsubscribe();
       },
     });
     view.headerTitle = window.i18n('allMedia');
@@ -2667,7 +2676,28 @@ Whisper.ConversationView = Whisper.View.extend({
       view.update(await getProps());
     };
 
-    this.listenTo(model.messageCollection, 'remove', update);
+    function getMessageIds(): Array<string | undefined> | undefined {
+      const state = window.reduxStore.getState();
+      const byConversation = state?.conversations?.messagesByConversation;
+      const messages = byConversation && byConversation[conversationId];
+      if (!messages || !messages.messageIds) {
+        return undefined;
+      }
+
+      return messages.messageIds;
+    }
+
+    // Detect message changes in the current conversation
+    let previousMessageList: Array<string | undefined> | undefined;
+    previousMessageList = getMessageIds();
+
+    const unsubscribe = window.reduxStore.subscribe(() => {
+      const currentMessageList = getMessageIds();
+      if (currentMessageList !== previousMessageList) {
+        update();
+        previousMessageList = currentMessageList;
+      }
+    });
 
     this.listenBack(view);
   },
@@ -2696,25 +2726,12 @@ Whisper.ConversationView = Whisper.View.extend({
     this.compositionApi.current.resetEmojiResults(false);
   },
 
-  async addMessage(message: MessageModel) {
-    const { model }: { model: ConversationModel } = this;
-
-    // This is debounced, so it won't hit the database too often.
-    this.lazyUpdateVerified();
-
-    // We do this here because we don't want convo.messageCollection to have
-    //   anything in it unless it has an associated view. This is so, when we
-    //   fetch on open, it's clean.
-    model.addIncomingMessage(message);
-  },
-
   async showMembers(
     _e: unknown,
     providedMembers: void | Backbone.Collection<ConversationModel>,
     options: any = {}
   ) {
     const { model }: { model: ConversationModel } = this;
-
     window._.defaults(options, { needVerify: false });
 
     let contactCollection = providedMembers || model.contactCollection;
@@ -2746,9 +2763,9 @@ Whisper.ConversationView = Whisper.View.extend({
   }: Readonly<{ contactId: string; messageId: string }>) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = window.ConversationController.get(contactId)!;
-    const message = this.model.messageCollection.get(messageId);
+    const message = window.MessageController.getById(messageId);
     if (!message) {
-      throw new Error(`forceSend: Did not find message for id ${messageId}`);
+      throw new Error(`forceSend: Message ${messageId} missing!`);
     }
 
     window.showConfirmationDialog({
@@ -2770,7 +2787,14 @@ Whisper.ConversationView = Whisper.View.extend({
           contact.setApproved();
         }
 
-        message.resend(contact.getSendTarget());
+        const sendTarget = contact.getSendTarget();
+        if (!sendTarget) {
+          throw new Error(
+            `forceSend: Contact ${contact.idForLogging()} had no sendTarget!`
+          );
+        }
+
+        message.resend(sendTarget);
       },
     });
   },
@@ -2795,10 +2819,10 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   downloadAttachmentWrapper(messageId: string) {
-    const message = this.model.messageCollection.get(messageId);
+    const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(
-        `downloadAttachmentWrapper: Did not find message for id ${messageId}`
+        `downloadAttachmentWrapper: Message ${messageId} missing!`
       );
     }
 
@@ -2842,11 +2866,9 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async displayTapToViewMessage(messageId: string) {
-    const message = this.model.messageCollection.get(messageId);
+    const message = window.MessageController.getById(messageId);
     if (!message) {
-      throw new Error(
-        `displayTapToViewMessage: Did not find message for id ${messageId}`
-      );
+      throw new Error(`displayTapToViewMessage: Message ${messageId} missing!`);
     }
 
     if (!message.isTapToView()) {
@@ -2919,11 +2941,9 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   deleteMessage(messageId: string) {
-    const message = this.model.messageCollection.get(messageId);
+    const message = window.MessageController.getById(messageId);
     if (!message) {
-      throw new Error(
-        `deleteMessage: Did not find message for id ${messageId}`
-      );
+      throw new Error(`deleteMessage: Message ${messageId} missing!`);
     }
 
     window.showConfirmationDialog({
@@ -2934,8 +2954,7 @@ Whisper.ConversationView = Whisper.View.extend({
         window.Signal.Data.removeMessage(message.id, {
           Message: Whisper.Message,
         });
-        message.trigger('unload');
-        this.model.messageCollection.remove(message.id);
+        message.cleanup();
         if (message.isOutgoing()) {
           this.model.decrementSentMessageCount();
         } else {
@@ -2947,10 +2966,10 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   deleteMessageForEveryone(messageId: string) {
-    const message = this.model.messageCollection.get(messageId);
+    const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(
-        `deleteMessageForEveryone: Did not find message for id ${messageId}`
+        `deleteMessageForEveryone: Message ${messageId} missing!`
       );
     }
 
@@ -3038,9 +3057,9 @@ Whisper.ConversationView = Whisper.View.extend({
     messageId: string;
     showSingle?: boolean;
   }) {
-    const message = this.model.messageCollection.get(messageId);
+    const message = window.MessageController.getById(messageId);
     if (!message) {
-      throw new Error(`showLightbox: did not find message for id ${messageId}`);
+      throw new Error(`showLightbox: Message ${messageId} missing!`);
     }
     const sticker = message.get('sticker');
     if (sticker) {
@@ -3365,12 +3384,9 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   showMessageDetail(messageId: string) {
-    const { model }: { model: ConversationModel } = this;
-    const message = model.messageCollection?.get(messageId);
+    const message = window.MessageController.getById(messageId);
     if (!message) {
-      throw new Error(
-        `showMessageDetail: Did not find message for id ${messageId}`
-      );
+      throw new Error(`showMessageDetail: Message ${messageId} missing!`);
     }
 
     if (!message.isNormalBubble()) {

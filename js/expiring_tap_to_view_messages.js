@@ -29,7 +29,6 @@
             message.idForLogging()
           );
 
-          message.trigger('erased');
           await message.eraseContents();
         })
       );

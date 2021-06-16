@@ -108,8 +108,11 @@
         const conversation = ConversationController.get(
           message.get('conversationId')
         );
-        if (conversation) {
-          conversation.trigger('read', message);
+        const updateLeftPane = conversation
+          ? conversation.debouncedUpdateLastMessage
+          : undefined;
+        if (updateLeftPane) {
+          updateLeftPane();
         }
 
         this.remove(receipt);

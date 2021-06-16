@@ -284,7 +284,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.on('change:expirationStartTimestamp', this.setToExpire);
     this.on('change:expireTimer', this.setToExpire);
     this.on('unload', this.unload);
-    this.on('expired', this.onExpired);
     this.setToExpire();
 
     this.on('change', this.notifyRedux);
@@ -517,9 +516,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           errors: errorsForContact,
           isOutgoingKeyError,
           isUnidentifiedDelivery,
-          onSendAnyway: () =>
-            this.trigger('force-send', { contactId: id, messageId: this.id }),
-          onShowSafetyNumber: () => this.trigger('show-identity', id),
         };
       }
     );
@@ -1797,6 +1793,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async cleanup(): Promise<void> {
     const { messageDeleted } = window.reduxActions.conversations;
     messageDeleted(this.id, this.get('conversationId'));
+
+    this.getConversation()?.debouncedUpdateLastMessage?.();
+
     window.MessageController.unregister(this.id);
     this.unload();
     await this.deleteData();
@@ -1953,7 +1952,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       preview: [],
       ...additionalProperties,
     });
-    this.trigger('content-changed');
+    this.getConversation()?.debouncedUpdateLastMessage?.();
 
     if (shouldPersist) {
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -2625,10 +2624,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async send(
     promise: Promise<CallbackResultType | void | null>
   ): Promise<void | Array<void>> {
-    this.trigger('pending');
+    const conversation = this.getConversation();
+    const updateLeftPane = conversation?.debouncedUpdateLastMessage;
+    if (updateLeftPane) {
+      updateLeftPane();
+    }
+
     return (promise as Promise<CallbackResultType>)
       .then(async result => {
-        this.trigger('done');
+        if (updateLeftPane) {
+          updateLeftPane();
+        }
 
         // This is used by sendSyncMessage, then set to null
         if (result.dataMessage) {
@@ -2652,11 +2658,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           });
         }
 
-        this.trigger('sent', this);
+        if (updateLeftPane) {
+          updateLeftPane();
+        }
         this.sendSyncMessage();
       })
       .catch((result: CustomError | CallbackResultType) => {
-        this.trigger('done');
+        if (updateLeftPane) {
+          updateLeftPane();
+        }
 
         if ('dataMessage' in result && result.dataMessage) {
           this.set({ dataMessage: result.dataMessage });
@@ -2756,7 +2766,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           );
         }
 
-        this.trigger('send-error', this.get('errors'));
+        if (updateLeftPane) {
+          updateLeftPane();
+        }
 
         return Promise.all(promises);
       });
@@ -2820,6 +2832,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const conv = this.getConversation()!;
     this.set({ dataMessage });
 
+    const updateLeftPane = conv?.debouncedUpdateLastMessage;
+
     try {
       this.set({
         // These are the same as a normal send()
@@ -2846,13 +2860,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: window.Whisper.Message,
       });
-      this.trigger('done');
 
-      const errors = this.get('errors');
-      if (errors) {
-        this.trigger('send-error', errors);
-      } else {
-        this.trigger('sent');
+      if (updateLeftPane) {
+        updateLeftPane();
       }
     }
   }

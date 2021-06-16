@@ -75,42 +75,6 @@ describe('Message', () => {
       assert.isTrue(message.get('sent'));
     });
 
-    it("triggers the 'done' event on success", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      let callCount = 0;
-      message.on('done', () => {
-        callCount += 1;
-      });
-
-      await message.send(Promise.resolve({}));
-
-      assert.strictEqual(callCount, 1);
-    });
-
-    it("triggers the 'sent' event on success", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      const listener = sinon.spy();
-      message.on('sent', listener);
-
-      await message.send(Promise.resolve({}));
-
-      sinon.assert.calledOnce(listener);
-      sinon.assert.calledWith(listener, message);
-    });
-
-    it("triggers the 'done' event on failure", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      const listener = sinon.spy();
-      message.on('done', listener);
-
-      await message.send(Promise.reject(new Error('something went wrong!')));
-
-      sinon.assert.calledOnce(listener);
-    });
-
     it('saves errors from promise rejections with errors', async () => {
       const message = createMessage({ type: 'outgoing', source });
 

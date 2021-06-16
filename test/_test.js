@@ -75,6 +75,8 @@ function deleteIndexedDB() {
 
 /* Delete the database before running any tests */
 before(async () => {
+  window.Signal.Util.MessageController.install();
+
   await deleteIndexedDB();
   try {
     window.log.info('Initializing SQL in renderer');

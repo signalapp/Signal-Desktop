@@ -47,8 +47,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
       }),
       isOutgoingKeyError: false,
       isUnidentifiedDelivery: false,
-      onSendAnyway: action('onSendAnyway'),
-      onShowSafetyNumber: action('onShowSafetyNumber'),
       status: 'delivered',
     },
   ],
@@ -59,6 +57,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
   i18n,
   interactionMode: 'keyboard',
+
+  sendAnyway: action('onSendAnyway'),
+  showSafetyNumber: action('onShowSafetyNumber'),
 
   clearSelectedMessage: () => null,
   deleteMessage: action('deleteMessage'),
@@ -108,8 +109,6 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'sent',
       },
       {
@@ -119,8 +118,6 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'sending',
       },
       {
@@ -130,8 +127,6 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'partial-sent',
       },
       {
@@ -141,8 +136,6 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'delivered',
       },
       {
@@ -152,8 +145,6 @@ story.add('Message Statuses', () => {
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'read',
       },
     ],
@@ -211,8 +202,6 @@ story.add('All Errors', () => {
         }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: false,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'error',
       },
       {
@@ -228,8 +217,6 @@ story.add('All Errors', () => {
         ],
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: true,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'error',
       },
       {
@@ -239,8 +226,6 @@ story.add('All Errors', () => {
         }),
         isOutgoingKeyError: true,
         isUnidentifiedDelivery: true,
-        onSendAnyway: action('onSendAnyway'),
-        onShowSafetyNumber: action('onShowSafetyNumber'),
         status: 'error',
       },
     ],
