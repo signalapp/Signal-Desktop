@@ -451,7 +451,20 @@ export class SessionConversation extends React.Component<Props, State> {
       onDownloadAttachment: this.saveAttachment,
       messageContainerRef: this.messageContainerRef,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
+      updateSessionConversationModal: this.updateSessionConversationModal
     };
+  }
+
+
+  /**
+   * Setting this to a JSX element that will be rendered if non-null.
+   * @param update Value to set the modal state to
+   */
+  private updateSessionConversationModal (update: JSX.Element | null) {
+    this.setState({
+      ...this.state,
+      modal: update
+    })
   }
 
   public getRightPanelProps() {

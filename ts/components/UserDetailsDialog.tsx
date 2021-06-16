@@ -5,6 +5,10 @@ import { SessionModal } from './session/SessionModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import { SessionIdEditable } from './session/SessionIdEditable';
 import { DefaultTheme } from 'styled-components';
+import { ConversationController } from '../session/conversations';
+import { ConversationTypeEnum } from '../models/conversation';
+import { Session } from 'electron';
+import { SessionWrapperModal } from './session/SessionWrapperModal';
 
 interface Props {
   i18n: any;
@@ -12,7 +16,7 @@ interface Props {
   avatarPath: string;
   pubkey: string;
   onClose: any;
-  onStartConversation: any;
+  // onStartConversation: any;
   theme: DefaultTheme;
 }
 
@@ -35,7 +39,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
     const { i18n } = this.props;
 
     return (
-      <SessionModal
+      <SessionWrapperModal
         title={this.props.profileName}
         onClose={this.closeDialog}
         theme={this.props.theme}
@@ -43,6 +47,8 @@ export class UserDetailsDialog extends React.Component<Props, State> {
         <div className="avatar-center">
           <div className="avatar-center-inner">{this.renderAvatar()}</div>
         </div>
+
+        <div className="spacer-md"></div>
         <SessionIdEditable editable={false} text={this.props.pubkey} />
 
         <div className="session-modal__button-group__center">
@@ -53,7 +59,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
             onClick={this.onClickStartConversation}
           />
         </div>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 
@@ -95,8 +101,14 @@ export class UserDetailsDialog extends React.Component<Props, State> {
     this.props.onClose();
   }
 
-  private onClickStartConversation() {
-    this.props.onStartConversation();
+  private async onClickStartConversation() {
+    // this.props.onStartConversation();
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(this.props.pubkey, ConversationTypeEnum.PRIVATE);
+
+    window.inboxStore?.dispatch(
+      window.actionsCreators.openConversationExternal(conversation.id)
+    );
+
     this.closeDialog();
   }
 }

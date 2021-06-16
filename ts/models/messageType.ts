@@ -228,6 +228,8 @@ export interface MessageRegularProps {
   onCopyPubKey?: () => void;
   onBanUser?: () => void;
   onUnbanUser?: () => void;
+  // setModal?: any;
+  updateSessionConversationModal: (modal: JSX.Element | null) => any;
 
   onShowDetail: () => void;
   onShowUserDetails: (userPubKey: string) => void;

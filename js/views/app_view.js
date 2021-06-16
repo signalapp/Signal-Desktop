@@ -117,12 +117,12 @@
 
       this.el.prepend(resetSessionIDDialog.el);
     },
-    showUserDetailsDialog(options) {
-      // eslint-disable-next-line no-param-reassign
-      options.theme = this.getThemeObject();
-      const dialog = new Whisper.UserDetailsDialogView(options);
-      this.el.prepend(dialog.el);
-    },
+    // showUserDetailsDialog(options) {
+    //   // eslint-disable-next-line no-param-reassign
+    //   options.theme = this.getThemeObject();
+    //   const dialog = new Whisper.UserDetailsDialogView(options);
+    //   this.el.prepend(dialog.el);
+    // },
     getThemeObject() {
       const themeSettings = storage.get('theme-setting') || 'light';
       const theme = themeSettings === 'light' ? window.lightTheme : window.darkTheme;
