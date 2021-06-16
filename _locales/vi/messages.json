@@ -1,1177 +1,395 @@
 {
-  "privacyPolicy": {
-    "message": "Terms & Privacy Policy"
-  },
-  "copyErrorAndQuit": {
-    "message": "Copy error and quit"
-  },
-  "unknown": {
-    "message": "Không rõ"
-  },
-  "databaseError": {
-    "message": "Database Error"
-  },
-  "mainMenuFile": {
-    "message": "&File"
-  },
-  "mainMenuEdit": {
-    "message": "&Edit"
-  },
-  "mainMenuView": {
-    "message": "&View"
-  },
-  "mainMenuWindow": {
-    "message": "&Window"
-  },
-  "mainMenuHelp": {
-    "message": "&Trợ giúp"
-  },
-  "appMenuHide": {
-    "message": "Hide"
-  },
-  "appMenuHideOthers": {
-    "message": "Hide Others"
-  },
-  "appMenuUnhide": {
-    "message": "Show All"
-  },
-  "appMenuQuit": {
-    "message": "Quit Session"
-  },
-  "editMenuUndo": {
-    "message": "Hoàn tác"
-  },
-  "editMenuRedo": {
-    "message": "Redo"
-  },
-  "editMenuCut": {
-    "message": "Cut"
-  },
-  "editMenuCopy": {
-    "message": "Sao chép"
-  },
-  "editMenuPaste": {
-    "message": "Paste"
-  },
-  "editMenuPasteAndMatchStyle": {
-    "message": "Paste and Match Style"
-  },
-  "editMenuDelete": {
-    "message": "Xóa"
-  },
-  "editMenuSelectAll": {
-    "message": "Chọn tất cả"
-  },
-  "editMenuStartSpeaking": {
-    "message": "Start speaking"
-  },
-  "editMenuStopSpeaking": {
-    "message": "Stop speaking"
-  },
-  "windowMenuClose": {
-    "message": "Close Window"
-  },
-  "windowMenuMinimize": {
-    "message": "Minimize"
-  },
-  "windowMenuZoom": {
-    "message": "Zoom"
-  },
-  "windowMenuBringAllToFront": {
-    "message": "Bring All to Front"
-  },
-  "viewMenuResetZoom": {
-    "message": "Actual Size"
-  },
-  "viewMenuZoomIn": {
-    "message": "Zoom In"
-  },
-  "viewMenuZoomOut": {
-    "message": "Zoom Out"
-  },
-  "viewMenuToggleFullScreen": {
-    "message": "Toggle Full Screen"
-  },
-  "viewMenuToggleDevTools": {
-    "message": "Toggle Developer Tools"
-  },
-  "menuSetupWithImport": {
-    "message": "Set Up with Import"
-  },
-  "contextMenuNoSuggestions": {
-    "message": "No Suggestions"
-  },
-  "loading": {
-    "message": "Loading..."
-  },
-  "optimizingApplication": {
-    "message": "Optimizing application..."
-  },
-  "chooseDirectory": {
-    "message": "Choose folder"
-  },
-  "done": {
-    "message": "Done"
-  },
-  "loadDataHeader": {
-    "message": "Load your data"
-  },
-  "loadDataDescription": {
-    "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Session data."
-  },
-  "importChooserTitle": {
-    "message": "Choose directory with exported data"
-  },
-  "importErrorHeader": {
-    "message": "Something went wrong!"
-  },
-  "importingHeader": {
-    "message": "Loading contacts and messages"
-  },
-  "importErrorFirst": {
-    "message": "Make sure you have chosen the correct directory that contains your saved Session data. Its name should begin with 'Session Export.' You can also save a new copy of your data from the Chrome App."
-  },
-  "importErrorSecond": {
-    "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!"
-  },
-  "importAgain": {
-    "message": "Choose folder and try again"
-  },
-  "importCompleteHeader": {
-    "message": "Success!"
-  },
-  "importCompleteStartButton": {
-    "message": "Start using Session Desktop"
-  },
-  "importCompleteLinkButton": {
-    "message": "Link this device to your phone"
-  },
-  "me": {
-    "message": "Me"
-  },
-  "view": {
-    "message": "View"
-  },
-  "youLeftTheGroup": {
-    "message": "Bạn đã rời nhóm."
-  },
-  "youGotKickedFromGroup": {
-    "message": "You were removed from the group."
-  },
-  "unreadMessage": {
-    "message": "1 tin nhắn chưa đọc"
-  },
-  "unreadMessages": {
-    "message": "1$count$ Tin nhắn chưa đọc"
-  },
-  "debugLogExplanation": {
-    "message": "Bản ghi này sẽ được đăng trực tuyến một cách công khai để những người đóng góp theo dõi. Bạn có thể kiểm tra và sửa đổi nó trước khi gửi đi."
-  },
-  "debugLogError": {
-    "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
-  },
-  "reportIssue": {
-    "message": "Báo lỗi"
-  },
-  "gotIt": {
-    "message": "Đã nhận được"
-  },
-  "submit": {
-    "message": "Nộp"
-  },
-  "markAllAsRead": {
-    "message": "Mark All as Read"
-  },
-  "incomingError": {
-    "message": "Error handling incoming message"
-  },
-  "media": {
-    "message": "Media"
-  },
-  "mediaEmptyState": {
-    "message": "You don’t have any media in this conversation"
-  },
-  "documents": {
-    "message": "Tài liệu"
-  },
-  "documentsEmptyState": {
-    "message": "You don’t have any documents in this conversation"
-  },
-  "today": {
-    "message": "Hôm nay"
-  },
-  "yesterday": {
-    "message": "Ngày hôm qua"
-  },
-  "thisWeek": {
-    "message": "Tuần này"
-  },
-  "thisMonth": {
-    "message": "Tháng này"
-  },
-  "voiceMessage": {
-    "message": "Tin nhắn thoại"
-  },
-  "dangerousFileType": {
-    "message": "Attachment type not allowed for security reasons"
-  },
-  "stagedPreviewThumbnail": {
-    "message": "Draft thumbnail link preview for $domain$"
-  },
-  "previewThumbnail": {
-    "message": "Thumbnail link preview for $domain$"
-  },
-  "stagedImageAttachment": {
-    "message": "Draft image attachment: $path$"
-  },
-  "oneNonImageAtATimeToast": {
-    "message": "When including a non-image attachment, the limit is one attachment per message."
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "You cannot mix non-image and image attachments in one message."
-  },
-  "maximumAttachments": {
-    "message": "You cannot add any more attachments to this message."
-  },
-  "fileSizeWarning": {
-    "message": "Văn bản đính kèm vượt quá giới hạn kích cỡ cho loại tin nhắn mà bạn đang gửi."
-  },
-  "unableToLoadAttachment": {
-    "message": "Xin lỗi, có lỗi thiết đặt tập tin đính kèm của bạn."
-  },
-  "offline": {
-    "message": "Ngoại tuyến"
-  },
-  "checkNetworkConnection": {
-    "message": "Kiểm tra kết nối mạng của bạn"
-  },
-  "attemptingReconnection": {
-    "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds"
-  },
-  "submitDebugLog": {
-    "message": "Debug log"
-  },
-  "debugLog": {
-    "message": "Debug Log"
-  },
-  "goToReleaseNotes": {
-    "message": "Go to Release Notes"
-  },
-  "goToSupportPage": {
-    "message": "Go to Support Page"
-  },
-  "menuReportIssue": {
-    "message": "Report an Issue"
-  },
-  "about": {
-    "message": "About"
-  },
-  "speech": {
-    "message": "Speech"
-  },
-  "show": {
-    "message": "Show"
-  },
-  "sessionMessenger": {
-    "message": "Session"
-  },
-  "search": {
-    "message": "Tìm kiếm"
-  },
-  "noSearchResults": {
-    "message": "No results for \"$searchTerm$\""
-  },
-  "conversationsHeader": {
-    "message": "Conversations"
-  },
-  "contactsHeader": {
-    "message": "Liên hệ"
-  },
-  "messagesHeader": {
-    "message": "Messages"
-  },
-  "settingsHeader": {
-    "message": "Cài đặt"
-  },
-  "typingAlt": {
-    "message": "Typing animation for this conversation"
-  },
-  "contactAvatarAlt": {
-    "message": "Avatar for contact $name$"
-  },
-  "downloadAttachment": {
-    "message": "Download Attachment"
-  },
-  "replyToMessage": {
-    "message": "Reply to Message"
-  },
-  "replyingToMessage": {
-    "message": "Replying to:"
-  },
-  "originalMessageNotFound": {
-    "message": "Original message not found"
-  },
-  "originalMessageNotAvailable": {
-    "message": "Original message no longer available"
-  },
-  "messageFoundButNotLoaded": {
-    "message": "Original message found, but not loaded. Scroll up to load it."
-  },
-  "recording": {
-    "message": "Recording"
-  },
-  "you": {
-    "message": "Bạn"
-  },
-  "audioPermissionNeededTitle": {
-    "message": "Microphone access required"
-  },
-  "audioPermissionNeeded": {
-    "message": "To send audio messages, allow Session Desktop to access your microphone."
-  },
-  "audio": {
-    "message": "Âm thanh"
-  },
-  "video": {
-    "message": "Đoạn phim"
-  },
-  "photo": {
-    "message": "Photo"
-  },
-  "cannotUpdate": {
-    "message": "Cannot Update"
-  },
-  "cannotUpdateDetail": {
-    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem."
-  },
-  "ok": {
-    "message": "Đồng ý"
-  },
-  "cancel": {
-    "message": "Hủy"
-  },
-  "close": {
-    "message": "Close"
-  },
-  "continue": {
-    "message": "Tiếp tục"
-  },
-  "error": {
-    "message": "Lỗi"
-  },
-  "delete": {
-    "message": "Xóa"
-  },
-  "deletePublicWarning": {
-    "message": "Are you sure? This will permanently remove this message for everyone in this open group."
-  },
-  "deleteMultiplePublicWarning": {
-    "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
-  },
-  "deleteWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
-  },
-  "deleteMultipleWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
-  },
-  "messageDeletionForbidden": {
-    "message": "You don’t have permission to delete others’ messages"
-  },
-  "deleteThisMessage": {
-    "message": "Xóa tin nhắn"
-  },
-  "deleted": {
-    "message": "Deleted"
-  },
-  "from": {
-    "message": "Từ:"
-  },
-  "to": {
-    "message": "Đến:"
-  },
-  "sent": {
-    "message": "Đã gửi"
-  },
-  "received": {
-    "message": "Đã nhận"
-  },
-  "sendMessage": {
-    "message": "Gửi tin nhắn"
-  },
-  "groupMembers": {
-    "message": "Thành viên trong nhóm"
-  },
-  "moreInformation": {
-    "message": "More information"
-  },
-  "resend": {
-    "message": "Gửi lại"
-  },
-  "deleteMessage": {
-    "message": "Xóa tin nhắn"
-  },
-  "deleteMessages": {
-    "message": "Xóa tin nhắn"
-  },
-  "deleteMessageForEveryone": {
-    "message": "Delete Message For Everyone"
-  },
-  "deleteMessagesForEveryone": {
-    "message": "Delete Messages For Everyone"
-  },
-  "deleteForEveryone": {
-    "message": "Delete For Everyone"
-  },
-  "deleteConversationConfirmation": {
-    "message": "Xóa cuộc trò chuyện này vĩnh viễn?"
-  },
-  "clearAllData": {
-    "message": "Xóa tất cả dữ liệu"
-  },
-  "deleteAccountWarning": {
-    "message": "Thao tác này sẽ xóa vĩnh viễn các tin nhắn, sessions, và danh bạ của bạn."
-  },
-  "deleteContactConfirmation": {
-    "message": "Bạn có chắc chắn rằng bạn muốn xoá cuộc hội thoại này không?"
-  },
-  "quoteThumbnailAlt": {
-    "message": "Thumbnail of image from quoted message"
-  },
-  "imageAttachmentAlt": {
-    "message": "Image attached to message"
-  },
-  "videoAttachmentAlt": {
-    "message": "Screenshot of video attached to message"
-  },
-  "lightboxImageAlt": {
-    "message": "Image sent in conversation"
-  },
-  "imageCaptionIconAlt": {
-    "message": "Icon showing that this image has a caption"
-  },
-  "addACaption": {
-    "message": "Add a caption..."
-  },
-  "copy": {
-    "message": "Sao chép"
-  },
-  "copySessionID": {
-    "message": "Copy Session ID"
-  },
-  "copyOpenGroupURL": {
-    "message": "Copy Group's URL"
-  },
-  "save": {
-    "message": "Lưu"
-  },
-  "saved": {
-    "message": "Saved"
-  },
-  "permissions": {
-    "message": "Permissions"
-  },
-  "general": {
-    "message": "Tổng quát"
-  },
-  "linkPreviewsTitle": {
-    "message": "Send Link Previews"
-  },
-  "linkPreviewDescription": {
-    "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links"
-  },
-  "linkPreviewsConfirmMessage": {
-    "message": "You will not have full metadata protection when sending or receiving link previews."
-  },
-  "mediaPermissionsTitle": {
-    "message": "Microphone and Camera"
-  },
-  "mediaPermissionsDescription": {
-    "message": "Allow access to camera and microphone"
-  },
-  "spellCheckTitle": {
-    "message": "Spell Check"
-  },
-  "spellCheckDescription": {
-    "message": "Enable spell check of text entered in message composition box"
-  },
-  "spellCheckDirty": {
-    "message": "You must restart Session to apply your new settings"
-  },
-  "notifications": {
-    "message": "Thông báo"
-  },
-  "readReceiptSettingDescription": {
-    "message": "See and share when messages have been read (enables read receipts in all sessions)."
-  },
-  "readReceiptSettingTitle": {
-    "message": "Read Receipts"
-  },
-  "typingIndicatorsSettingDescription": {
-    "message": "See and share when messages are being typed (applies to all sessions)."
-  },
-  "typingIndicatorsSettingTitle": {
-    "message": "Typing Indicators"
-  },
-  "zoomFactorSettingTitle": {
-    "message": "Zoom Factor"
-  },
-  "notificationSettingsDialog": {
-    "message": "Khi tin nhắn đến, hiện thị các thông báo thể hiện:"
-  },
-  "disableNotifications": {
-    "message": "Tạm im thông báo"
-  },
-  "nameAndMessage": {
-    "message": "Cả tên người gửi lẫn tin nhắn"
-  },
-  "noNameOrMessage": {
-    "message": "Không hiện tên cũng như tin nhắn"
-  },
-  "nameOnly": {
-    "message": "Chỉ tên người gửi"
-  },
-  "newMessage": {
-    "message": "Tin nhắn mới"
-  },
-  "newMessages": {
-    "message": "Các tin nhắn mới"
-  },
-  "notificationMostRecentFrom": {
-    "message": "Gần đây nhất từ: $name$"
-  },
-  "notificationFrom": {
-    "message": "Từ:"
-  },
-  "notificationMostRecent": {
-    "message": "Most recent:"
-  },
-  "sendFailed": {
-    "message": "Gửi thất bại"
-  },
-  "expiredWarning": {
-    "message": "Phiên bản này của Session Desktop đã hết hạn. Vui lòng nâng cấp lên phiên bản mới nhất để tiếp tục nhắn tin."
-  },
-  "upgrade": {
-    "message": "Nâng cấp"
-  },
-  "mediaMessage": {
-    "message": "Tin nhắn đa phương tiện"
-  },
-  "timestamp_s": {
-    "message": "Bây giờ"
-  },
-  "timestamp_m": {
-    "message": "1 phút"
-  },
-  "timestamp_h": {
-    "message": "1 giờ"
-  },
-  "timestampFormat_M": {
-    "message": "Tháng Ngày"
-  },
-  "messageBodyMissing": {
-    "message": "Please enter a message body."
-  },
-  "unblockToSend": {
-    "message": "Mở khóa người (liên lạc) này để gởi thông báo."
-  },
-  "unblockGroupToSend": {
-    "message": "Unblock this group to send a message."
-  },
-  "youChangedTheTimer": {
-    "message": "You set the disappearing message timer to $time$"
-  },
-  "timerSetOnSync": {
-    "message": "Updated disappearing message timer to $time$"
-  },
-  "theyChangedTheTimer": {
-    "message": "$name$ set the disappearing message timer to $time$"
-  },
-  "timerOption_0_seconds": {
-    "message": "Tắt"
-  },
-  "timerOption_5_seconds": {
-    "message": "5 giây"
-  },
-  "timerOption_10_seconds": {
-    "message": "10 giây"
-  },
-  "timerOption_30_seconds": {
-    "message": "30 giây"
-  },
-  "timerOption_1_minute": {
-    "message": "1 phút"
-  },
-  "timerOption_5_minutes": {
-    "message": "5 minutes"
-  },
-  "timerOption_30_minutes": {
-    "message": "30 minutes"
-  },
-  "timerOption_1_hour": {
-    "message": "1 giờ"
-  },
-  "timerOption_6_hours": {
-    "message": "6 hours"
-  },
-  "timerOption_12_hours": {
-    "message": "12 hours"
-  },
-  "timerOption_1_day": {
-    "message": "1 ngày"
-  },
-  "timerOption_1_week": {
-    "message": "1 tuần"
-  },
-  "disappearingMessages": {
-    "message": "Xóa (tự động) tin nhắn"
-  },
-  "changeNickname": {
-    "message": "Change Nickname"
-  },
-  "clearNickname": {
-    "message": "Clear nickname"
-  },
-  "timerOption_0_seconds_abbreviated": {
-    "message": "tắt"
-  },
-  "timerOption_5_seconds_abbreviated": {
-    "message": "5 giây"
-  },
-  "timerOption_10_seconds_abbreviated": {
-    "message": "10 giây"
-  },
-  "timerOption_30_seconds_abbreviated": {
-    "message": "30 giây"
-  },
-  "timerOption_1_minute_abbreviated": {
-    "message": "1 phút"
-  },
-  "timerOption_5_minutes_abbreviated": {
-    "message": "5 phút"
-  },
-  "timerOption_30_minutes_abbreviated": {
-    "message": "30 phút"
-  },
-  "timerOption_1_hour_abbreviated": {
-    "message": "1 giờ"
-  },
-  "timerOption_6_hours_abbreviated": {
-    "message": "6 giờ"
-  },
-  "timerOption_12_hours_abbreviated": {
-    "message": "12 giờ"
-  },
-  "timerOption_1_day_abbreviated": {
-    "message": "1 ngày"
-  },
-  "timerOption_1_week_abbreviated": {
-    "message": "1 tuần"
-  },
-  "disappearingMessagesDisabled": {
-    "message": "Disappearing messages disabled"
-  },
-  "disabledDisappearingMessages": {
-    "message": "$name$ disabled disappearing messages"
-  },
-  "youDisabledDisappearingMessages": {
-    "message": "You disabled disappearing messages"
-  },
-  "timerSetTo": {
-    "message": "Thời gian thiết lập đến $time$"
-  },
-  "noteToSelf": {
-    "message": "Note to Self"
-  },
-  "hideMenuBarTitle": {
-    "message": "Hide Menu Bar"
-  },
-  "hideMenuBarDescription": {
-    "message": "Toggle system menu bar visibility"
-  },
-  "startConversation": {
-    "message": "Start new conversation…"
-  },
-  "invalidNumberError": {
-    "message": "Số không chính xác"
-  },
-  "successUnlinked": {
-    "message": "Thiết bị của bạn đã được ngắt liên kết thành công"
-  },
-  "autoUpdateSettingTitle": {
-    "message": "Auto Update"
-  },
-  "autoUpdateSettingDescription": {
-    "message": "Automatically check for updates on launch"
-  },
-  "autoUpdateNewVersionTitle": {
-    "message": "Session update available"
-  },
-  "autoUpdateNewVersionMessage": {
-    "message": "There is a new version of Session available."
-  },
-  "autoUpdateNewVersionInstructions": {
-    "message": "Press Restart Session to apply the updates."
-  },
-  "autoUpdateRestartButtonLabel": {
-    "message": "Restart Session"
-  },
-  "autoUpdateLaterButtonLabel": {
-    "message": "Sau này"
-  },
-  "autoUpdateDownloadButtonLabel": {
-    "message": "Download"
-  },
-  "autoUpdateDownloadedMessage": {
-    "message": "The new update has been downloaded."
-  },
-  "autoUpdateDownloadInstructions": {
-    "message": "Would you like to download the update?"
-  },
-  "leftTheGroup": {
-    "message": "$name$ đã rời khỏi nhóm."
-  },
-  "multipleLeftTheGroup": {
-    "message": "$name$ left the group"
-  },
-  "updatedTheGroup": {
-    "message": "Group updated"
-  },
-  "titleIsNow": {
-    "message": "Tên nhóm hiện giờ là '$name$'."
-  },
-  "joinedTheGroup": {
-    "message": "$name$ joined the group"
-  },
-  "multipleJoinedTheGroup": {
-    "message": "$name$ đã tham gia nhóm."
-  },
-  "kickedFromTheGroup": {
-    "message": "$name$ was removed from the group."
-  },
-  "multipleKickedFromTheGroup": {
-    "message": "$name$ were removed from the group."
-  },
-  "blockUser": {
-    "message": "Chặn"
-  },
-  "unblockUser": {
-    "message": "Không chặn"
-  },
-  "unblocked": {
-    "message": "Unblocked"
-  },
-  "blockedSettingsTitle": {
-    "message": "Chặn các liên lạc"
-  },
-  "unbanUser": {
-    "message": "Unban User"
-  },
-  "unbanUserConfirm": {
-    "message": "Are you sure you want to unban user?"
-  },
-  "userUnbanned": {
-    "message": "User unbanned successfully"
-  },
-  "userUnbanFailed": {
-    "message": "Unban failed!"
-  },
-  "banUser": {
-    "message": "Ban User"
-  },
-  "banUserConfirm": {
-    "message": "Are you sure you want to ban user?"
-  },
-  "userBanned": {
-    "message": "User banned successfully"
-  },
-  "userBanFailed": {
-    "message": "Ban failed!"
-  },
-  "leaveGroup": {
-    "message": "Rời nhóm"
-  },
-  "leaveAndRemoveForEveryone": {
-    "message": "Leave Group and remove for everyone"
-  },
-  "leaveGroupConfirmation": {
-    "message": "Bạn có chắc chắn rằng bạn muốn rời nhóm này không?"
-  },
-  "leaveGroupConfirmationAdmin": {
-    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?"
-  },
-  "cannotRemoveCreatorFromGroup": {
-    "message": "Cannot remove this user"
-  },
-  "cannotRemoveCreatorFromGroupDesc": {
-    "message": "You cannot remove this user as they are the creator of the group."
-  },
-  "userNeedsToHaveJoined": {
-    "message": "User needs to have joined"
-  },
-  "userNeedsToHaveJoinedDesc": {
-    "message": "An error happened. The user needs to have already joined the server for this ADD to work."
-  },
-  "noContactsForGroup": {
-    "message": "Bạn chưa có danh bạ nào"
-  },
-  "copyMessage": {
-    "message": "Copy message text"
-  },
-  "selectMessage": {
-    "message": "Select message"
-  },
-  "editGroup": {
-    "message": "Edit group"
-  },
-  "editGroupName": {
-    "message": "Edit group name"
-  },
-  "updateGroupDialogTitle": {
-    "message": "Cập nhật $name$..."
-  },
-  "showRecoveryPhrase": {
-    "message": "Cụm từ khôi phục"
-  },
-  "yourSessionID": {
-    "message": "Session ID của bạn"
-  },
-  "setAccountPasswordTitle": {
-    "message": "Set Account Password"
-  },
-  "setAccountPasswordDescription": {
-    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed"
-  },
-  "changeAccountPasswordTitle": {
-    "message": "Change Account Password"
-  },
-  "changeAccountPasswordDescription": {
-    "message": "Change your password"
-  },
-  "removeAccountPasswordTitle": {
-    "message": "Remove Account Password"
-  },
-  "removeAccountPasswordDescription": {
-    "message": "Remove the password associated with your account"
-  },
-  "enterPassword": {
-    "message": "Please enter your password"
-  },
-  "confirmPassword": {
-    "message": "Confirm password"
-  },
-  "pasteLongPasswordToastTitle": {
-    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters."
-  },
-  "showRecoveryPhrasePasswordRequest": {
-    "message": "Please enter your password"
-  },
-  "recoveryPhraseSavePromptMain": {
-    "message": "Cụm từ khôi phục của bạn là chìa khoá chủ cho Session ID của bạn — bạn có thể sử dụng nó để khôi phục Session ID khi bị mất tiếp cận với thiết bị của bạn. Hãy lưu cụm từ khôi phục của bạn ở một nơi an toàn và không cung cấp cho bất kì ai."
-  },
-  "invalidOpenGroupUrl": {
-    "message": "Invalid URL"
-  },
-  "copiedToClipboard": {
-    "message": "Sao chép vào bộ nhớ tạm"
-  },
-  "passwordViewTitle": {
-    "message": "Type In Your Password"
-  },
-  "unlock": {
-    "message": "Mở khóa"
-  },
-  "password": {
-    "message": "Password"
-  },
-  "setPassword": {
-    "message": "Set Password"
-  },
-  "changePassword": {
-    "message": "Change Password"
-  },
-  "removePassword": {
-    "message": "Remove Password"
-  },
-  "maxPasswordAttempts": {
-    "message": "Invalid Password. Would you like to reset the database?"
-  },
-  "typeInOldPassword": {
-    "message": "Please type in your old password"
-  },
-  "invalidOldPassword": {
-    "message": "Old password is invalid"
-  },
-  "invalidPassword": {
-    "message": "Invalid password"
-  },
-  "noGivenPassword": {
-    "message": "Please enter your password"
-  },
-  "passwordsDoNotMatch": {
-    "message": "Passwords do not match"
-  },
-  "setPasswordInvalid": {
-    "message": "Passwords do not match"
-  },
-  "changePasswordInvalid": {
-    "message": "The old password you entered is incorrect"
-  },
-  "removePasswordInvalid": {
-    "message": "Incorrect password"
-  },
-  "setPasswordTitle": {
-    "message": "Set Password"
-  },
-  "changePasswordTitle": {
-    "message": "Changed Password"
-  },
-  "removePasswordTitle": {
-    "message": "Removed Password"
-  },
-  "setPasswordToastDescription": {
-    "message": "Your password has been set. Please keep it safe."
-  },
-  "changePasswordToastDescription": {
-    "message": "Your password has been changed. Please keep it safe."
-  },
-  "removePasswordToastDescription": {
-    "message": "You have removed your password."
-  },
-  "publicChatExists": {
-    "message": "You are already connected to this open group"
-  },
-  "connectToServerFail": {
-    "message": "Không thể tham gia nhóm"
-  },
-  "connectingToServer": {
-    "message": "Đang kết nối..."
-  },
-  "connectToServerSuccess": {
-    "message": "Successfully connected to open group"
-  },
-  "setPasswordFail": {
-    "message": "Failed to set password"
-  },
-  "passwordLengthError": {
-    "message": "Password must be between 6 and 64 characters long"
-  },
-  "passwordTypeError": {
-    "message": "Password must be a string"
-  },
-  "passwordCharacterError": {
-    "message": "Password must only contain letters, numbers and symbols"
-  },
-  "remove": {
-    "message": "Bỏ"
-  },
-  "invalidSessionId": {
-    "message": "Session ID không hợp lệ"
-  },
-  "invalidPubkeyFormat": {
-    "message": "Invalid Pubkey Format"
-  },
-  "emptyGroupNameError": {
-    "message": "Vui lòng nhập tên nhóm"
-  },
-  "editProfileModalTitle": {
-    "message": "Profile"
-  },
-  "groupNamePlaceholder": {
-    "message": "Tên nhóm"
-  },
-  "inviteContacts": {
-    "message": "Mời bạn bè"
-  },
-  "addModerators": {
-    "message": "Add Moderators"
-  },
-  "removeModerators": {
-    "message": "Remove Moderators"
-  },
-  "addAsModerator": {
-    "message": "Add As Moderator"
-  },
-  "removeFromModerators": {
-    "message": "Remove From Moderators"
-  },
-  "add": {
-    "message": "Add"
-  },
-  "groupInvitation": {
-    "message": "Group Invitation"
-  },
-  "addingContacts": {
-    "message": "Adding contacts to"
-  },
-  "noContactsToAdd": {
-    "message": "No contacts to add"
-  },
-  "noMembersInThisGroup": {
-    "message": "No other members in this group"
-  },
-  "noModeratorsToRemove": {
-    "message": "no moderators to remove"
-  },
-  "onlyAdminCanRemoveMembers": {
-    "message": "You are not the creator"
-  },
-  "onlyAdminCanRemoveMembersDesc": {
-    "message": "Only the creator of the group can remove users"
-  },
-  "createAccount": {
-    "message": "Create Account"
-  },
-  "signIn": {
-    "message": "Sign In"
-  },
-  "yourUniqueSessionID": {
-    "message": "Bắt đầu với Session ID của bạn"
-  },
-  "allUsersAreRandomly...": {
-    "message": "Session ID của bạn là địa chỉ duy nhất mà mọi người có thể dùng để liên lạc với bạn trên ứng dụng Session. Session ID của bạn được thiết kế đảm bảo tuyệt đối ẩn danh và riêng tư vì nó không liên kết với danh tính thật của bạn."
-  },
-  "getStarted": {
-    "message": "Get started"
-  },
-  "createSessionID": {
-    "message": "Tạo Session ID"
-  },
-  "recoveryPhrase": {
-    "message": "Cụm từ khôi phục"
-  },
-  "enterRecoveryPhrase": {
-    "message": "Nhập cụm từ khôi phục của bạn."
-  },
-  "displayName": {
-    "message": "Display Name"
-  },
-  "anonymous": {
-    "message": "Anonymous"
-  },
-  "removeResidueMembers": {
-    "message": "Clicking ok will also remove those members as they left the group."
-  },
-  "enterDisplayName": {
-    "message": "Nhập một tên hiển thị"
-  },
-  "enterOptionalPassword": {
-    "message": "Enter password (optional)"
-  },
-  "continueYourSession": {
-    "message": "Tiếp tục Session của bạn"
-  },
-  "linkDevice": {
-    "message": "Liên kết Thiết bị"
-  },
-  "restoreUsingRecoveryPhrase": {
-    "message": "Khôi phục lại tài khoản của bạn"
-  },
-  "or": {
-    "message": "or"
-  },
-  "ByUsingThisService...": {
-    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
-  },
-  "beginYourSession": {
-    "message": "Begin<br />your<br />Session."
-  },
-  "welcomeToYourSession": {
-    "message": "Welcome to your Session"
-  },
-  "newSession": {
-    "message": "Session mới"
-  },
-  "searchFor...": {
-    "message": "Search for conversations, contacts, and messages"
-  },
-  "enterSessionID": {
-    "message": "Nhập Session ID"
-  },
-  "enterSessionIDOfRecipient": {
-    "message": "Nhập Session ID của người nhận"
-  },
-  "usersCanShareTheir...": {
-    "message": "Người dùng có thể chia sẻ Session ID của mình bằng cách tới mục cài đặt tài khoản và chạm vào “Chia sẻ Session ID”, hoặc bằng cách chia sẻ mã QR của họ."
-  },
-  "message": {
-    "message": "Message"
-  },
-  "appearanceSettingsTitle": {
-    "message": "Diện mạo"
-  },
-  "permissionSettingsTitle": {
-    "message": "Permissions"
-  },
-  "privacySettingsTitle": {
-    "message": "Riêng tư"
-  },
-  "notificationsSettingsTitle": {
-    "message": "Thông báo"
-  },
-  "recoveryPhraseEmpty": {
-    "message": "Nhập cụm từ khôi phục của bạn."
-  },
-  "displayNameEmpty": {
-    "message": "Vui lòng chọn một tên hiển thị"
-  },
-  "members": {
-    "message": "$count$ members"
-  },
-  "joinOpenGroup": {
-    "message": "Tham gia nhóm mở"
-  },
-  "newClosedGroup": {
-    "message": "Nhóm kín mới"
-  },
-  "createClosedGroupNamePrompt": {
-    "message": "Tên nhóm"
-  },
-  "createClosedGroupPlaceholder": {
-    "message": "Nhập tên nhóm"
-  },
-  "openGroupURL": {
-    "message": "URL của nhóm mở"
-  },
-  "enterAnOpenGroupURL": {
-    "message": "Nhập URL của nhóm mở"
-  },
-  "next": {
-    "message": "Next"
-  },
-  "description": {
-    "message": "Description"
-  },
-  "invalidGroupNameTooShort": {
-    "message": "Vui lòng nhập tên nhóm"
-  },
-  "invalidGroupNameTooLong": {
-    "message": "Vui lòng nhập một tên nhóm ngắn hơn"
-  },
-  "pickClosedGroupMember": {
-    "message": "Vui lòng chọn ít nhất 2 thành viên trong nhóm"
-  },
-  "closedGroupMaxSize": {
-    "message": "Một nhóm kín không thể có nhiều hơn 100 thành viên"
-  },
-  "noBlockedContacts": {
-    "message": "No blocked contacts"
-  },
-  "userAddedToModerators": {
-    "message": "User added to moderator list"
-  },
-  "userRemovedFromModerators": {
-    "message": "User removed from moderator list"
-  },
-  "errorHappenedWhileRemovingModerator": {
-    "message": "An error happened"
-  },
-  "errorHappenedWhileRemovingModeratorDesc": {
-    "message": "An error happened while removing this user from the moderator list."
-  },
-  "orJoinOneOfThese": {
-    "message": "Or join one of these..."
-  },
+  "privacyPolicy": "Terms & Privacy Policy",
+  "copyErrorAndQuit": "Copy error and quit",
+  "unknown": "Không rõ",
+  "databaseError": "Database Error",
+  "mainMenuFile": "&File",
+  "mainMenuEdit": "&Edit",
+  "mainMenuView": "&View",
+  "mainMenuWindow": "&Window",
+  "mainMenuHelp": "&Trợ giúp",
+  "appMenuHide": "Hide",
+  "appMenuHideOthers": "Hide Others",
+  "appMenuUnhide": "Show All",
+  "appMenuQuit": "Quit Session",
+  "editMenuUndo": "Hoàn tác",
+  "editMenuRedo": "Redo",
+  "editMenuCut": "Cut",
+  "editMenuCopy": "Sao chép",
+  "editMenuPaste": "Paste",
+  "editMenuPasteAndMatchStyle": "Paste and Match Style",
+  "editMenuDelete": "Xóa",
+  "editMenuSelectAll": "Chọn tất cả",
+  "editMenuStartSpeaking": "Start speaking",
+  "editMenuStopSpeaking": "Stop speaking",
+  "windowMenuClose": "Close Window",
+  "windowMenuMinimize": "Minimize",
+  "windowMenuZoom": "Zoom",
+  "windowMenuBringAllToFront": "Bring All to Front",
+  "viewMenuResetZoom": "Actual Size",
+  "viewMenuZoomIn": "Zoom In",
+  "viewMenuZoomOut": "Zoom Out",
+  "viewMenuToggleFullScreen": "Toggle Full Screen",
+  "viewMenuToggleDevTools": "Toggle Developer Tools",
+  "menuSetupWithImport": "Set Up with Import",
+  "contextMenuNoSuggestions": "No Suggestions",
+  "loading": "Loading...",
+  "optimizingApplication": "Optimizing application...",
+  "chooseDirectory": "Choose folder",
+  "done": "Done",
+  "loadDataHeader": "Load your data",
+  "loadDataDescription": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Session data.",
+  "importChooserTitle": "Choose directory with exported data",
+  "importErrorHeader": "Something went wrong!",
+  "importingHeader": "Loading contacts and messages",
+  "importErrorFirst": "Make sure you have chosen the correct directory that contains your saved Session data. Its name should begin with 'Session Export.' You can also save a new copy of your data from the Chrome App.",
+  "importErrorSecond": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+  "importAgain": "Choose folder and try again",
+  "importCompleteHeader": "Success!",
+  "importCompleteStartButton": "Start using Session Desktop",
+  "importCompleteLinkButton": "Link this device to your phone",
+  "me": "Me",
+  "view": "View",
+  "youLeftTheGroup": "Bạn đã rời nhóm.",
+  "youGotKickedFromGroup": "You were removed from the group.",
+  "unreadMessage": "1 tin nhắn chưa đọc",
+  "unreadMessages": "1$count$ Tin nhắn chưa đọc",
+  "debugLogExplanation": "Bản ghi này sẽ được đăng trực tuyến một cách công khai để những người đóng góp theo dõi. Bạn có thể kiểm tra và sửa đổi nó trước khi gửi đi.",
+  "debugLogError": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+  "reportIssue": "Báo lỗi",
+  "gotIt": "Đã nhận được",
+  "submit": "Nộp",
+  "markAllAsRead": "Mark All as Read",
+  "incomingError": "Error handling incoming message",
+  "media": "Media",
+  "mediaEmptyState": "You don’t have any media in this conversation",
+  "documents": "Tài liệu",
+  "documentsEmptyState": "You don’t have any documents in this conversation",
+  "today": "Hôm nay",
+  "yesterday": "Ngày hôm qua",
+  "thisWeek": "Tuần này",
+  "thisMonth": "Tháng này",
+  "voiceMessage": "Tin nhắn thoại",
+  "dangerousFileType": "Attachment type not allowed for security reasons",
+  "stagedPreviewThumbnail": "Draft thumbnail link preview for $domain$",
+  "previewThumbnail": "Thumbnail link preview for $domain$",
+  "stagedImageAttachment": "Draft image attachment: $path$",
+  "oneNonImageAtATimeToast": "When including a non-image attachment, the limit is one attachment per message.",
+  "cannotMixImageAndNonImageAttachments": "You cannot mix non-image and image attachments in one message.",
+  "maximumAttachments": "You cannot add any more attachments to this message.",
+  "fileSizeWarning": "Văn bản đính kèm vượt quá giới hạn kích cỡ cho loại tin nhắn mà bạn đang gửi.",
+  "unableToLoadAttachment": "Xin lỗi, có lỗi thiết đặt tập tin đính kèm của bạn.",
+  "offline": "Ngoại tuyến",
+  "checkNetworkConnection": "Kiểm tra kết nối mạng của bạn",
+  "attemptingReconnection": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+  "submitDebugLog": "Debug log",
+  "debugLog": "Debug Log",
+  "goToReleaseNotes": "Go to Release Notes",
+  "goToSupportPage": "Go to Support Page",
+  "menuReportIssue": "Report an Issue",
+  "about": "About",
+  "speech": "Speech",
+  "show": "Show",
+  "sessionMessenger": "Session",
+  "search": "Tìm kiếm",
+  "noSearchResults": "No results for \"$searchTerm$\"",
+  "conversationsHeader": "Conversations",
+  "contactsHeader": "Liên hệ",
+  "messagesHeader": "Messages",
+  "settingsHeader": "Cài đặt",
+  "typingAlt": "Typing animation for this conversation",
+  "contactAvatarAlt": "Avatar for contact $name$",
+  "downloadAttachment": "Download Attachment",
+  "replyToMessage": "Reply to Message",
+  "replyingToMessage": "Replying to:",
+  "originalMessageNotFound": "Original message not found",
+  "originalMessageNotAvailable": "Original message no longer available",
+  "messageFoundButNotLoaded": "Original message found, but not loaded. Scroll up to load it.",
+  "recording": "Recording",
+  "you": "Bạn",
+  "audioPermissionNeededTitle": "Microphone access required",
+  "audioPermissionNeeded": "To send audio messages, allow Session Desktop to access your microphone.",
+  "audio": "Âm thanh",
+  "video": "Đoạn phim",
+  "photo": "Photo",
+  "cannotUpdate": "Cannot Update",
+  "cannotUpdateDetail": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+  "ok": "Đồng ý",
+  "cancel": "Hủy",
+  "close": "Close",
+  "continue": "Tiếp tục",
+  "error": "Lỗi",
+  "delete": "Xóa",
+  "deletePublicWarning": "Are you sure? This will permanently remove this message for everyone in this open group.",
+  "deleteMultiplePublicWarning": "Are you sure? This will permanently remove these messages for everyone in this open group.",
+  "deleteWarning": "Are you sure? Clicking 'delete' will permanently remove this message from this device only.",
+  "deleteMultipleWarning": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only.",
+  "messageDeletionForbidden": "You don’t have permission to delete others’ messages",
+  "deleteThisMessage": "Xóa tin nhắn",
+  "deleted": "Deleted",
+  "from": "Từ:",
+  "to": "Đến:",
+  "sent": "Đã gửi",
+  "received": "Đã nhận",
+  "sendMessage": "Gửi tin nhắn",
+  "groupMembers": "Thành viên trong nhóm",
+  "moreInformation": "More information",
+  "resend": "Gửi lại",
+  "deleteMessage": "Xóa tin nhắn",
+  "deleteMessages": "Xóa tin nhắn",
+  "deleteMessageForEveryone": "Delete Message For Everyone",
+  "deleteMessagesForEveryone": "Delete Messages For Everyone",
+  "deleteForEveryone": "Delete For Everyone",
+  "deleteConversationConfirmation": "Xóa cuộc trò chuyện này vĩnh viễn?",
+  "clearAllData": "Xóa tất cả dữ liệu",
+  "deleteAccountWarning": "Thao tác này sẽ xóa vĩnh viễn các tin nhắn, sessions, và danh bạ của bạn.",
+  "deleteContactConfirmation": "Bạn có chắc chắn rằng bạn muốn xoá cuộc hội thoại này không?",
+  "quoteThumbnailAlt": "Thumbnail of image from quoted message",
+  "imageAttachmentAlt": "Image attached to message",
+  "videoAttachmentAlt": "Screenshot of video attached to message",
+  "lightboxImageAlt": "Image sent in conversation",
+  "imageCaptionIconAlt": "Icon showing that this image has a caption",
+  "addACaption": "Add a caption...",
+  "copy": "Sao chép",
+  "copySessionID": "Copy Session ID",
+  "copyOpenGroupURL": "Copy Group's URL",
+  "save": "Lưu",
+  "saved": "Saved",
+  "permissions": "Permissions",
+  "general": "Tổng quát",
+  "linkPreviewsTitle": "Send Link Previews",
+  "linkPreviewDescription": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links",
+  "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
+  "mediaPermissionsTitle": "Microphone and Camera",
+  "mediaPermissionsDescription": "Allow access to camera and microphone",
+  "spellCheckTitle": "Spell Check",
+  "spellCheckDescription": "Enable spell check of text entered in message composition box",
+  "spellCheckDirty": "You must restart Session to apply your new settings",
+  "notifications": "Thông báo",
+  "readReceiptSettingDescription": "See and share when messages have been read (enables read receipts in all sessions).",
+  "readReceiptSettingTitle": "Read Receipts",
+  "typingIndicatorsSettingDescription": "See and share when messages are being typed (applies to all sessions).",
+  "typingIndicatorsSettingTitle": "Typing Indicators",
+  "zoomFactorSettingTitle": "Zoom Factor",
+  "notificationSettingsDialog": "Khi tin nhắn đến, hiện thị các thông báo thể hiện:",
+  "disableNotifications": "Tạm im thông báo",
+  "nameAndMessage": "Cả tên người gửi lẫn tin nhắn",
+  "noNameOrMessage": "Không hiện tên cũng như tin nhắn",
+  "nameOnly": "Chỉ tên người gửi",
+  "newMessage": "Tin nhắn mới",
+  "newMessages": "Các tin nhắn mới",
+  "notificationMostRecentFrom": "Gần đây nhất từ: $name$",
+  "notificationFrom": "Từ:",
+  "notificationMostRecent": "Most recent:",
+  "sendFailed": "Gửi thất bại",
+  "expiredWarning": "Phiên bản này của Session Desktop đã hết hạn. Vui lòng nâng cấp lên phiên bản mới nhất để tiếp tục nhắn tin.",
+  "upgrade": "Nâng cấp",
+  "mediaMessage": "Tin nhắn đa phương tiện",
+  "timestamp_s": "Bây giờ",
+  "timestamp_m": "1 phút",
+  "timestamp_h": "1 giờ",
+  "timestampFormat_M": "Tháng Ngày",
+  "messageBodyMissing": "Please enter a message body.",
+  "unblockToSend": "Mở khóa người (liên lạc) này để gởi thông báo.",
+  "unblockGroupToSend": "Unblock this group to send a message.",
+  "youChangedTheTimer": "You set the disappearing message timer to $time$",
+  "timerSetOnSync": "Updated disappearing message timer to $time$",
+  "theyChangedTheTimer": "$name$ set the disappearing message timer to $time$",
+  "timerOption_0_seconds": "Tắt",
+  "timerOption_5_seconds": "5 giây",
+  "timerOption_10_seconds": "10 giây",
+  "timerOption_30_seconds": "30 giây",
+  "timerOption_1_minute": "1 phút",
+  "timerOption_5_minutes": "5 minutes",
+  "timerOption_30_minutes": "30 minutes",
+  "timerOption_1_hour": "1 giờ",
+  "timerOption_6_hours": "6 hours",
+  "timerOption_12_hours": "12 hours",
+  "timerOption_1_day": "1 ngày",
+  "timerOption_1_week": "1 tuần",
+  "disappearingMessages": "Xóa (tự động) tin nhắn",
+  "changeNickname": "Change Nickname",
+  "clearNickname": "Clear nickname",
+  "timerOption_0_seconds_abbreviated": "tắt",
+  "timerOption_5_seconds_abbreviated": "5 giây",
+  "timerOption_10_seconds_abbreviated": "10 giây",
+  "timerOption_30_seconds_abbreviated": "30 giây",
+  "timerOption_1_minute_abbreviated": "1 phút",
+  "timerOption_5_minutes_abbreviated": "5 phút",
+  "timerOption_30_minutes_abbreviated": "30 phút",
+  "timerOption_1_hour_abbreviated": "1 giờ",
+  "timerOption_6_hours_abbreviated": "6 giờ",
+  "timerOption_12_hours_abbreviated": "12 giờ",
+  "timerOption_1_day_abbreviated": "1 ngày",
+  "timerOption_1_week_abbreviated": "1 tuần",
+  "disappearingMessagesDisabled": "Disappearing messages disabled",
+  "disabledDisappearingMessages": "$name$ disabled disappearing messages",
+  "youDisabledDisappearingMessages": "You disabled disappearing messages",
+  "timerSetTo": "Thời gian thiết lập đến $time$",
+  "noteToSelf": "Note to Self",
+  "hideMenuBarTitle": "Hide Menu Bar",
+  "hideMenuBarDescription": "Toggle system menu bar visibility",
+  "startConversation": "Start new conversation…",
+  "invalidNumberError": "Số không chính xác",
+  "successUnlinked": "Thiết bị của bạn đã được ngắt liên kết thành công",
+  "autoUpdateSettingTitle": "Auto Update",
+  "autoUpdateSettingDescription": "Automatically check for updates on launch",
+  "autoUpdateNewVersionTitle": "Session update available",
+  "autoUpdateNewVersionMessage": "There is a new version of Session available.",
+  "autoUpdateNewVersionInstructions": "Press Restart Session to apply the updates.",
+  "autoUpdateRestartButtonLabel": "Restart Session",
+  "autoUpdateLaterButtonLabel": "Sau này",
+  "autoUpdateDownloadButtonLabel": "Download",
+  "autoUpdateDownloadedMessage": "The new update has been downloaded.",
+  "autoUpdateDownloadInstructions": "Would you like to download the update?",
+  "leftTheGroup": "$name$ đã rời khỏi nhóm.",
+  "multipleLeftTheGroup": "$name$ left the group",
+  "updatedTheGroup": "Group updated",
+  "titleIsNow": "Tên nhóm hiện giờ là '$name$'.",
+  "joinedTheGroup": "$name$ joined the group",
+  "multipleJoinedTheGroup": "$name$ đã tham gia nhóm.",
+  "kickedFromTheGroup": "$name$ was removed from the group.",
+  "multipleKickedFromTheGroup": "$name$ were removed from the group.",
+  "blockUser": "Chặn",
+  "unblockUser": "Không chặn",
+  "unblocked": "Unblocked",
+  "blockedSettingsTitle": "Chặn các liên lạc",
+  "unbanUser": "Unban User",
+  "unbanUserConfirm": "Are you sure you want to unban user?",
+  "userUnbanned": "User unbanned successfully",
+  "userUnbanFailed": "Unban failed!",
+  "banUser": "Ban User",
+  "banUserConfirm": "Are you sure you want to ban user?",
+  "userBanned": "User banned successfully",
+  "userBanFailed": "Ban failed!",
+  "leaveGroup": "Rời nhóm",
+  "leaveAndRemoveForEveryone": "Leave Group and remove for everyone",
+  "leaveGroupConfirmation": "Bạn có chắc chắn rằng bạn muốn rời nhóm này không?",
+  "leaveGroupConfirmationAdmin": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
+  "cannotRemoveCreatorFromGroup": "Cannot remove this user",
+  "cannotRemoveCreatorFromGroupDesc": "You cannot remove this user as they are the creator of the group.",
+  "userNeedsToHaveJoined": "User needs to have joined",
+  "userNeedsToHaveJoinedDesc": "An error happened. The user needs to have already joined the server for this ADD to work.",
+  "noContactsForGroup": "Bạn chưa có danh bạ nào",
+  "copyMessage": "Copy message text",
+  "selectMessage": "Select message",
+  "editGroup": "Edit group",
+  "editGroupName": "Edit group name",
+  "updateGroupDialogTitle": "Cập nhật $name$...",
+  "showRecoveryPhrase": "Cụm từ khôi phục",
+  "yourSessionID": "Session ID của bạn",
+  "setAccountPasswordTitle": "Set Account Password",
+  "setAccountPasswordDescription": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+  "changeAccountPasswordTitle": "Change Account Password",
+  "changeAccountPasswordDescription": "Change your password",
+  "removeAccountPasswordTitle": "Remove Account Password",
+  "removeAccountPasswordDescription": "Remove the password associated with your account",
+  "enterPassword": "Please enter your password",
+  "confirmPassword": "Confirm password",
+  "pasteLongPasswordToastTitle": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+  "showRecoveryPhrasePasswordRequest": "Please enter your password",
+  "recoveryPhraseSavePromptMain": "Cụm từ khôi phục của bạn là chìa khoá chủ cho Session ID của bạn — bạn có thể sử dụng nó để khôi phục Session ID khi bị mất tiếp cận với thiết bị của bạn. Hãy lưu cụm từ khôi phục của bạn ở một nơi an toàn và không cung cấp cho bất kì ai.",
+  "invalidOpenGroupUrl": "Invalid URL",
+  "copiedToClipboard": "Sao chép vào bộ nhớ tạm",
+  "passwordViewTitle": "Type In Your Password",
+  "unlock": "Mở khóa",
+  "password": "Password",
+  "setPassword": "Set Password",
+  "changePassword": "Change Password",
+  "removePassword": "Remove Password",
+  "maxPasswordAttempts": "Invalid Password. Would you like to reset the database?",
+  "typeInOldPassword": "Please type in your old password",
+  "invalidOldPassword": "Old password is invalid",
+  "invalidPassword": "Invalid password",
+  "noGivenPassword": "Please enter your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "setPasswordInvalid": "Passwords do not match",
+  "changePasswordInvalid": "The old password you entered is incorrect",
+  "removePasswordInvalid": "Incorrect password",
+  "setPasswordTitle": "Set Password",
+  "changePasswordTitle": "Changed Password",
+  "removePasswordTitle": "Removed Password",
+  "setPasswordToastDescription": "Your password has been set. Please keep it safe.",
+  "changePasswordToastDescription": "Your password has been changed. Please keep it safe.",
+  "removePasswordToastDescription": "You have removed your password.",
+  "publicChatExists": "You are already connected to this open group",
+  "connectToServerFail": "Không thể tham gia nhóm",
+  "connectingToServer": "Đang kết nối...",
+  "connectToServerSuccess": "Successfully connected to open group",
+  "setPasswordFail": "Failed to set password",
+  "passwordLengthError": "Password must be between 6 and 64 characters long",
+  "passwordTypeError": "Password must be a string",
+  "passwordCharacterError": "Password must only contain letters, numbers and symbols",
+  "remove": "Bỏ",
+  "invalidSessionId": "Session ID không hợp lệ",
+  "invalidPubkeyFormat": "Invalid Pubkey Format",
+  "emptyGroupNameError": "Vui lòng nhập tên nhóm",
+  "editProfileModalTitle": "Profile",
+  "groupNamePlaceholder": "Tên nhóm",
+  "inviteContacts": "Mời bạn bè",
+  "addModerators": "Add Moderators",
+  "removeModerators": "Remove Moderators",
+  "addAsModerator": "Add As Moderator",
+  "removeFromModerators": "Remove From Moderators",
+  "add": "Add",
+  "groupInvitation": "Group Invitation",
+  "addingContacts": "Adding contacts to",
+  "noContactsToAdd": "No contacts to add",
+  "noMembersInThisGroup": "No other members in this group",
+  "noModeratorsToRemove": "no moderators to remove",
+  "onlyAdminCanRemoveMembers": "You are not the creator",
+  "onlyAdminCanRemoveMembersDesc": "Only the creator of the group can remove users",
+  "createAccount": "Create Account",
+  "signIn": "Sign In",
+  "yourUniqueSessionID": "Bắt đầu với Session ID của bạn",
+  "allUsersAreRandomly...": "Session ID của bạn là địa chỉ duy nhất mà mọi người có thể dùng để liên lạc với bạn trên ứng dụng Session. Session ID của bạn được thiết kế đảm bảo tuyệt đối ẩn danh và riêng tư vì nó không liên kết với danh tính thật của bạn.",
+  "getStarted": "Get started",
+  "createSessionID": "Tạo Session ID",
+  "recoveryPhrase": "Cụm từ khôi phục",
+  "enterRecoveryPhrase": "Nhập cụm từ khôi phục của bạn.",
+  "displayName": "Display Name",
+  "anonymous": "Anonymous",
+  "removeResidueMembers": "Clicking ok will also remove those members as they left the group.",
+  "enterDisplayName": "Nhập một tên hiển thị",
+  "enterOptionalPassword": "Enter password (optional)",
+  "continueYourSession": "Tiếp tục Session của bạn",
+  "linkDevice": "Liên kết Thiết bị",
+  "restoreUsingRecoveryPhrase": "Khôi phục lại tài khoản của bạn",
+  "or": "or",
+  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>",
+  "beginYourSession": "Begin<br />your<br />Session.",
+  "welcomeToYourSession": "Welcome to your Session",
+  "newSession": "Session mới",
+  "searchFor...": "Search for conversations, contacts, and messages",
+  "enterSessionID": "Nhập Session ID",
+  "enterSessionIDOfRecipient": "Nhập Session ID của người nhận",
+  "usersCanShareTheir...": "Người dùng có thể chia sẻ Session ID của mình bằng cách tới mục cài đặt tài khoản và chạm vào “Chia sẻ Session ID”, hoặc bằng cách chia sẻ mã QR của họ.",
+  "message": "Message",
+  "appearanceSettingsTitle": "Diện mạo",
+  "permissionSettingsTitle": "Permissions",
+  "privacySettingsTitle": "Riêng tư",
+  "notificationsSettingsTitle": "Thông báo",
+  "recoveryPhraseEmpty": "Nhập cụm từ khôi phục của bạn.",
+  "displayNameEmpty": "Vui lòng chọn một tên hiển thị",
+  "members": "$count$ members",
+  "joinOpenGroup": "Tham gia nhóm mở",
+  "newClosedGroup": "Nhóm kín mới",
+  "createClosedGroupNamePrompt": "Tên nhóm",
+  "createClosedGroupPlaceholder": "Nhập tên nhóm",
+  "openGroupURL": "URL của nhóm mở",
+  "enterAnOpenGroupURL": "Nhập URL của nhóm mở",
+  "next": "Next",
+  "description": "Description",
+  "invalidGroupNameTooShort": "Vui lòng nhập tên nhóm",
+  "invalidGroupNameTooLong": "Vui lòng nhập một tên nhóm ngắn hơn",
+  "pickClosedGroupMember": "Vui lòng chọn ít nhất 2 thành viên trong nhóm",
+  "closedGroupMaxSize": "Một nhóm kín không thể có nhiều hơn 100 thành viên",
+  "noBlockedContacts": "No blocked contacts",
+  "userAddedToModerators": "User added to moderator list",
+  "userRemovedFromModerators": "User removed from moderator list",
+  "errorHappenedWhileRemovingModerator": "An error happened",
+  "errorHappenedWhileRemovingModeratorDesc": "An error happened while removing this user from the moderator list.",
+  "orJoinOneOfThese": "Or join one of these...",
   "helpUsTranslateSession": "Help us Translate Session",
   "translation": "Translation"
 }

@@ -1,1177 +1,395 @@
 {
-  "privacyPolicy": {
-    "message": "Terms & Privacy Policy"
-  },
-  "copyErrorAndQuit": {
-    "message": "Kopiraj napako in zapusti aplikacijo"
-  },
-  "unknown": {
-    "message": "Unknown"
-  },
-  "databaseError": {
-    "message": "Napaka v bazi podatkov"
-  },
-  "mainMenuFile": {
-    "message": "&Datoteka"
-  },
-  "mainMenuEdit": {
-    "message": "&Urejanje"
-  },
-  "mainMenuView": {
-    "message": "&Pogled"
-  },
-  "mainMenuWindow": {
-    "message": "&Okno"
-  },
-  "mainMenuHelp": {
-    "message": "&Pomoč"
-  },
-  "appMenuHide": {
-    "message": "Skrij"
-  },
-  "appMenuHideOthers": {
-    "message": "Skrij ostale"
-  },
-  "appMenuUnhide": {
-    "message": "Prikaži vse"
-  },
-  "appMenuQuit": {
-    "message": "Zapusti Session"
-  },
-  "editMenuUndo": {
-    "message": "Razveljavi"
-  },
-  "editMenuRedo": {
-    "message": "Ponovno uveljavi"
-  },
-  "editMenuCut": {
-    "message": "Odreži"
-  },
-  "editMenuCopy": {
-    "message": "Kopiraj"
-  },
-  "editMenuPaste": {
-    "message": "Prilepi"
-  },
-  "editMenuPasteAndMatchStyle": {
-    "message": "Prilepi in spoji oblikovanje"
-  },
-  "editMenuDelete": {
-    "message": "Izbriši"
-  },
-  "editMenuSelectAll": {
-    "message": "Izberi vse"
-  },
-  "editMenuStartSpeaking": {
-    "message": "Začnite govoriti"
-  },
-  "editMenuStopSpeaking": {
-    "message": "Prenehajte govoriti"
-  },
-  "windowMenuClose": {
-    "message": "Zapri okno"
-  },
-  "windowMenuMinimize": {
-    "message": "Pomanjšaj"
-  },
-  "windowMenuZoom": {
-    "message": "Povečava"
-  },
-  "windowMenuBringAllToFront": {
-    "message": "Prikaži vse na površju"
-  },
-  "viewMenuResetZoom": {
-    "message": "Privzeta velikost"
-  },
-  "viewMenuZoomIn": {
-    "message": "Približaj"
-  },
-  "viewMenuZoomOut": {
-    "message": "Oddalji"
-  },
-  "viewMenuToggleFullScreen": {
-    "message": "Celozaslonski način"
-  },
-  "viewMenuToggleDevTools": {
-    "message": "Vklopi razvijalska orodja"
-  },
-  "menuSetupWithImport": {
-    "message": "Nastavi z uvozom podatkov"
-  },
-  "contextMenuNoSuggestions": {
-    "message": "No Suggestions"
-  },
-  "loading": {
-    "message": "Nalagam ..."
-  },
-  "optimizingApplication": {
-    "message": "Optimiziranje nastavitev ..."
-  },
-  "chooseDirectory": {
-    "message": "Izberite mapo"
-  },
-  "done": {
-    "message": "Done"
-  },
-  "loadDataHeader": {
-    "message": "Naložite svoje podatke"
-  },
-  "loadDataDescription": {
-    "message": "Pravkar ste šli skozi fazo izvoza podatkov. Izvoženi stiki in sporočila čakajo na vašem računalniku. Izberite mapo, kamor ste shranili te podatke."
-  },
-  "importChooserTitle": {
-    "message": "Izberite mapo z izvoženimi podatki"
-  },
-  "importErrorHeader": {
-    "message": "Nekaj je šlo narobe!"
-  },
-  "importingHeader": {
-    "message": "Nalagam stike in sporočila"
-  },
-  "importErrorFirst": {
-    "message": "Preverite, če ste izbrali pravo mapo s shranjenimi podatki. Ime mape bi moralo biti \"Session Export\". Lahko tudi ponovno izvozite podatke iz aplikacije v brskalniku Chrome."
-  },
-  "importErrorSecond": {
-    "message": "Če ti koraki ne bodo uspešni, nam prosim posredujte sistemsko zabeležbo (Pogled -> Sistemska zabeležba), da vam lahko pomagamo pri prehodu!"
-  },
-  "importAgain": {
-    "message": "Izberite mapo in poskusite znova"
-  },
-  "importCompleteHeader": {
-    "message": "Uspeh!"
-  },
-  "importCompleteStartButton": {
-    "message": "Začni z uporabo aplikacije Session Desktop"
-  },
-  "importCompleteLinkButton": {
-    "message": "Povežite napravo s svojim telefonom"
-  },
-  "me": {
-    "message": "Jaz"
-  },
-  "view": {
-    "message": "Preglej"
-  },
-  "youLeftTheGroup": {
-    "message": "Zapustili ste skupino"
-  },
-  "youGotKickedFromGroup": {
-    "message": "You were removed from the group."
-  },
-  "unreadMessage": {
-    "message": "1 novo sporočilo"
-  },
-  "unreadMessages": {
-    "message": "$count$ Neprebrana sporočila"
-  },
-  "debugLogExplanation": {
-    "message": "Ta sistemska zabeležba bo javno objavljena na spletu za razvijalce aplikacije. Pred objavo jo lahko pregledate."
-  },
-  "debugLogError": {
-    "message": "Prišlo je do težav pri prenosu! Morda bi želeli priložiti sistemsko zabeležbo prijavi hrošča razvijalcem."
-  },
-  "reportIssue": {
-    "message": "Prijava napake"
-  },
-  "gotIt": {
-    "message": "Razumem!"
-  },
-  "submit": {
-    "message": "Objavi"
-  },
-  "markAllAsRead": {
-    "message": "Mark All as Read"
-  },
-  "incomingError": {
-    "message": "Napaka pri obdelavi dohodnega sporočila"
-  },
-  "media": {
-    "message": "Medijske datoteke"
-  },
-  "mediaEmptyState": {
-    "message": "V tem pogovoru ni nobene medijske datoteke"
-  },
-  "documents": {
-    "message": "Dokumenti"
-  },
-  "documentsEmptyState": {
-    "message": "V tem pogovoru ni nobenega dokumenta"
-  },
-  "today": {
-    "message": "Danes"
-  },
-  "yesterday": {
-    "message": "Včeraj"
-  },
-  "thisWeek": {
-    "message": "Ta teden"
-  },
-  "thisMonth": {
-    "message": "Ta mesec"
-  },
-  "voiceMessage": {
-    "message": "Glasovno sporočilo"
-  },
-  "dangerousFileType": {
-    "message": "Ta vrsta priponke iz varnostnih razlogov ni dovoljena"
-  },
-  "stagedPreviewThumbnail": {
-    "message": "Osnutek predogledne sličice povezave na: $domain$"
-  },
-  "previewThumbnail": {
-    "message": "Predogledna sličica povezave na: $domain$"
-  },
-  "stagedImageAttachment": {
-    "message": "Osnutek slikovne priponke: $path$"
-  },
-  "oneNonImageAtATimeToast": {
-    "message": "Neslikovne datoteke so omejene na eno priponko na sporočilo."
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "V istem sporočilu ne morete kombinirati neslikovnih in slikovnih priponk."
-  },
-  "maximumAttachments": {
-    "message": "K sporočilu ne morete več dodajati priponk."
-  },
-  "fileSizeWarning": {
-    "message": "Izbrana datoteka presega največjo dovoljeno velikost."
-  },
-  "unableToLoadAttachment": {
-    "message": "Izbrane priponke ni bilo mogoče zagnati."
-  },
-  "offline": {
-    "message": "Ni povezave z internetom"
-  },
-  "checkNetworkConnection": {
-    "message": "Preverite svojo internetno povezavo"
-  },
-  "attemptingReconnection": {
-    "message": "Naslednji poskus povezave: $reconnect_duration_in_seconds$ s"
-  },
-  "submitDebugLog": {
-    "message": "Sistemska zabeležba"
-  },
-  "debugLog": {
-    "message": "Sistemska zabeležba"
-  },
-  "goToReleaseNotes": {
-    "message": "Opombe k izdaji"
-  },
-  "goToSupportPage": {
-    "message": "Podporna stran"
-  },
-  "menuReportIssue": {
-    "message": "Prijava napake"
-  },
-  "about": {
-    "message": "About"
-  },
-  "speech": {
-    "message": "Nagovor"
-  },
-  "show": {
-    "message": "Prikaži"
-  },
-  "sessionMessenger": {
-    "message": "Session"
-  },
-  "search": {
-    "message": "Iskanje"
-  },
-  "noSearchResults": {
-    "message": "Ni rezultata za \"$searchTerm$\""
-  },
-  "conversationsHeader": {
-    "message": "Pogovori"
-  },
-  "contactsHeader": {
-    "message": "Stiki"
-  },
-  "messagesHeader": {
-    "message": "Sporočila"
-  },
-  "settingsHeader": {
-    "message": "Settings"
-  },
-  "typingAlt": {
-    "message": "Animacija tipkanja za ta pogovor"
-  },
-  "contactAvatarAlt": {
-    "message": "Avatar uporabnika $name$"
-  },
-  "downloadAttachment": {
-    "message": "Prenesi priponko"
-  },
-  "replyToMessage": {
-    "message": "Odgovor na sporočilo"
-  },
-  "replyingToMessage": {
-    "message": "Replying to:"
-  },
-  "originalMessageNotFound": {
-    "message": "Izvorno sporočilo ni bilo najdeno"
-  },
-  "originalMessageNotAvailable": {
-    "message": "Izvorno sporočilo ni več na voljo"
-  },
-  "messageFoundButNotLoaded": {
-    "message": "Izvorno sporočilo je bilo najdeno, vendar še ni naloženo. Če ga želite naložiti, se pomaknite navzgor."
-  },
-  "recording": {
-    "message": "Recording"
-  },
-  "you": {
-    "message": "Vi"
-  },
-  "audioPermissionNeededTitle": {
-    "message": "Microphone access required"
-  },
-  "audioPermissionNeeded": {
-    "message": "Za pošiljanje glasovnih sporočil potrebuje aplikacija Session Desktop dostop do vašega mikrofona."
-  },
-  "audio": {
-    "message": "Zvok"
-  },
-  "video": {
-    "message": "Video"
-  },
-  "photo": {
-    "message": "Slika"
-  },
-  "cannotUpdate": {
-    "message": "Cannot Update"
-  },
-  "cannotUpdateDetail": {
-    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem."
-  },
-  "ok": {
-    "message": "OK"
-  },
-  "cancel": {
-    "message": "Prekliči"
-  },
-  "close": {
-    "message": "Close"
-  },
-  "continue": {
-    "message": "Continue"
-  },
-  "error": {
-    "message": "Napaka"
-  },
-  "delete": {
-    "message": "Izbriši"
-  },
-  "deletePublicWarning": {
-    "message": "Are you sure? This will permanently remove this message for everyone in this open group."
-  },
-  "deleteMultiplePublicWarning": {
-    "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
-  },
-  "deleteWarning": {
-    "message": "Ste prepričani? S klikom na 'izbriši' boste nepovratno izbrisali sporočilo s te naprave."
-  },
-  "deleteMultipleWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
-  },
-  "messageDeletionForbidden": {
-    "message": "You don’t have permission to delete others’ messages"
-  },
-  "deleteThisMessage": {
-    "message": "Izbriši to sporočilo"
-  },
-  "deleted": {
-    "message": "Deleted"
-  },
-  "from": {
-    "message": "Pošiljatelj"
-  },
-  "to": {
-    "message": "v"
-  },
-  "sent": {
-    "message": "Poslano"
-  },
-  "received": {
-    "message": "Prejeto"
-  },
-  "sendMessage": {
-    "message": "Pošlji sporočilo"
-  },
-  "groupMembers": {
-    "message": "Člani skupine"
-  },
-  "moreInformation": {
-    "message": "More information"
-  },
-  "resend": {
-    "message": "Resend"
-  },
-  "deleteMessage": {
-    "message": "Izbriši sporočilo"
-  },
-  "deleteMessages": {
-    "message": "Izbriši sporočila"
-  },
-  "deleteMessageForEveryone": {
-    "message": "Delete Message For Everyone"
-  },
-  "deleteMessagesForEveryone": {
-    "message": "Delete Messages For Everyone"
-  },
-  "deleteForEveryone": {
-    "message": "Delete For Everyone"
-  },
-  "deleteConversationConfirmation": {
-    "message": "Ali res želite nepovratno izbrisati ta pogovor?"
-  },
-  "clearAllData": {
-    "message": "Clear All Data"
-  },
-  "deleteAccountWarning": {
-    "message": "This will permanently delete your messages, sessions, and contacts."
-  },
-  "deleteContactConfirmation": {
-    "message": "Are you sure you want to delete this conversation?"
-  },
-  "quoteThumbnailAlt": {
-    "message": "Predogled slike citiranega sporočila"
-  },
-  "imageAttachmentAlt": {
-    "message": "Slika je priložena sporočilu"
-  },
-  "videoAttachmentAlt": {
-    "message": "Zajem slike videa je priložen k sporočilu"
-  },
-  "lightboxImageAlt": {
-    "message": "Slika je bila poslana tekom pogovora"
-  },
-  "imageCaptionIconAlt": {
-    "message": "Ikona, ki označuje, da ima ta slika besedilo"
-  },
-  "addACaption": {
-    "message": "Dodaj besedilo ..."
-  },
-  "copy": {
-    "message": "Copy"
-  },
-  "copySessionID": {
-    "message": "Copy Session ID"
-  },
-  "copyOpenGroupURL": {
-    "message": "Copy Group's URL"
-  },
-  "save": {
-    "message": "Shrani"
-  },
-  "saved": {
-    "message": "Saved"
-  },
-  "permissions": {
-    "message": "Dovoljenja"
-  },
-  "general": {
-    "message": "Splošno"
-  },
-  "linkPreviewsTitle": {
-    "message": "Send Link Previews"
-  },
-  "linkPreviewDescription": {
-    "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links"
-  },
-  "linkPreviewsConfirmMessage": {
-    "message": "You will not have full metadata protection when sending or receiving link previews."
-  },
-  "mediaPermissionsTitle": {
-    "message": "Microphone and Camera"
-  },
-  "mediaPermissionsDescription": {
-    "message": "Dovoli dostop do kamere in mikrofona"
-  },
-  "spellCheckTitle": {
-    "message": "Spell Check"
-  },
-  "spellCheckDescription": {
-    "message": "Vklop črkovalnika v okencu za vnašanje sporočila"
-  },
-  "spellCheckDirty": {
-    "message": "You must restart Session to apply your new settings"
-  },
-  "notifications": {
-    "message": "Obvestila"
-  },
-  "readReceiptSettingDescription": {
-    "message": "See and share when messages have been read (enables read receipts in all sessions)."
-  },
-  "readReceiptSettingTitle": {
-    "message": "Read Receipts"
-  },
-  "typingIndicatorsSettingDescription": {
-    "message": "See and share when messages are being typed (applies to all sessions)."
-  },
-  "typingIndicatorsSettingTitle": {
-    "message": "Typing Indicators"
-  },
-  "zoomFactorSettingTitle": {
-    "message": "Zoom Factor"
-  },
-  "notificationSettingsDialog": {
-    "message": "Vsebina obvestila o prejemu sporočila:"
-  },
-  "disableNotifications": {
-    "message": "obvestila so izklopljena"
-  },
-  "nameAndMessage": {
-    "message": "ime pošiljatelja in sporočilo"
-  },
-  "noNameOrMessage": {
-    "message": "brez imena pošiljatelja in sporočila"
-  },
-  "nameOnly": {
-    "message": "samo ime pošiljatelja"
-  },
-  "newMessage": {
-    "message": "Novo sporočilo"
-  },
-  "newMessages": {
-    "message": "Novo sporočilo"
-  },
-  "notificationMostRecentFrom": {
-    "message": "Najnovejše od:"
-  },
-  "notificationFrom": {
-    "message": "Od:"
-  },
-  "notificationMostRecent": {
-    "message": "Najnovejše:"
-  },
-  "sendFailed": {
-    "message": "Pošiljanje ni uspelo"
-  },
-  "expiredWarning": {
-    "message": "Pričujoča različica programa Session Desktop je potekla. Za ponovno delovanje morate program posodobiti na zadnjo različico."
-  },
-  "upgrade": {
-    "message": "Posodobi"
-  },
-  "mediaMessage": {
-    "message": "Multimedijsko sporočilo"
-  },
-  "timestamp_s": {
-    "message": "ravnokar"
-  },
-  "timestamp_m": {
-    "message": "1 minuto"
-  },
-  "timestamp_h": {
-    "message": "1 uro"
-  },
-  "timestampFormat_M": {
-    "message": "D. MMM"
-  },
-  "messageBodyMissing": {
-    "message": "Please enter a message body."
-  },
-  "unblockToSend": {
-    "message": "Za pošiljanje sporočila morate najprej odblokirati ta stik"
-  },
-  "unblockGroupToSend": {
-    "message": "Odblokiraj to skupino za pošiljanje sporočila."
-  },
-  "youChangedTheTimer": {
-    "message": "Odštevanje za izginjajoča sporočila ste nastavili na $time$"
-  },
-  "timerSetOnSync": {
-    "message": "Odštevanje za izginjajoča števila je bilo posodobljeno na $time$"
-  },
-  "theyChangedTheTimer": {
-    "message": "Uporabnik $name$ je nastavil odštevanje za izginjajoča števila na $time$"
-  },
-  "timerOption_0_seconds": {
-    "message": "Izključeno"
-  },
-  "timerOption_5_seconds": {
-    "message": "5 sekund"
-  },
-  "timerOption_10_seconds": {
-    "message": "10 sekund"
-  },
-  "timerOption_30_seconds": {
-    "message": "30 sekund"
-  },
-  "timerOption_1_minute": {
-    "message": "1 minuta"
-  },
-  "timerOption_5_minutes": {
-    "message": "5 minut"
-  },
-  "timerOption_30_minutes": {
-    "message": "30 minut"
-  },
-  "timerOption_1_hour": {
-    "message": "1 ura"
-  },
-  "timerOption_6_hours": {
-    "message": "6 ur"
-  },
-  "timerOption_12_hours": {
-    "message": "12 ur"
-  },
-  "timerOption_1_day": {
-    "message": "1 dan"
-  },
-  "timerOption_1_week": {
-    "message": "1 teden"
-  },
-  "disappearingMessages": {
-    "message": "Izginjajoča sporočila"
-  },
-  "changeNickname": {
-    "message": "Change Nickname"
-  },
-  "clearNickname": {
-    "message": "Clear nickname"
-  },
-  "timerOption_0_seconds_abbreviated": {
-    "message": "Izključeno"
-  },
-  "timerOption_5_seconds_abbreviated": {
-    "message": "5 s"
-  },
-  "timerOption_10_seconds_abbreviated": {
-    "message": "10 s"
-  },
-  "timerOption_30_seconds_abbreviated": {
-    "message": "30 s"
-  },
-  "timerOption_1_minute_abbreviated": {
-    "message": "1 min"
-  },
-  "timerOption_5_minutes_abbreviated": {
-    "message": "5 min"
-  },
-  "timerOption_30_minutes_abbreviated": {
-    "message": "30 min"
-  },
-  "timerOption_1_hour_abbreviated": {
-    "message": "1 h"
-  },
-  "timerOption_6_hours_abbreviated": {
-    "message": "6 h"
-  },
-  "timerOption_12_hours_abbreviated": {
-    "message": "12 h"
-  },
-  "timerOption_1_day_abbreviated": {
-    "message": "1 d"
-  },
-  "timerOption_1_week_abbreviated": {
-    "message": "1 t"
-  },
-  "disappearingMessagesDisabled": {
-    "message": "Izginjajoča sporočila so izključena"
-  },
-  "disabledDisappearingMessages": {
-    "message": "Uporabnik $name$ je izključil izginjajoča sporočila"
-  },
-  "youDisabledDisappearingMessages": {
-    "message": "Izključili ste izginjajoča sporočila"
-  },
-  "timerSetTo": {
-    "message": "Čas izginjanja je nastavljen na $time$"
-  },
-  "noteToSelf": {
-    "message": "Osebna zabeležka"
-  },
-  "hideMenuBarTitle": {
-    "message": "Hide Menu Bar"
-  },
-  "hideMenuBarDescription": {
-    "message": "Toggle system menu bar visibility"
-  },
-  "startConversation": {
-    "message": "Začni nov pogovor ..."
-  },
-  "invalidNumberError": {
-    "message": "Neveljavna številka"
-  },
-  "successUnlinked": {
-    "message": "Your device was unlinked successfully"
-  },
-  "autoUpdateSettingTitle": {
-    "message": "Auto Update"
-  },
-  "autoUpdateSettingDescription": {
-    "message": "Automatically check for updates on launch"
-  },
-  "autoUpdateNewVersionTitle": {
-    "message": "Na voljo je posodobitev aplikacije Session"
-  },
-  "autoUpdateNewVersionMessage": {
-    "message": "Na voljo je nova različica aplikacije Session."
-  },
-  "autoUpdateNewVersionInstructions": {
-    "message": "Za uveljavitev nadgradenj pritisnite tipko Ponovno zaženi Session"
-  },
-  "autoUpdateRestartButtonLabel": {
-    "message": "Ponovno zaženi Session"
-  },
-  "autoUpdateLaterButtonLabel": {
-    "message": "Kasneje"
-  },
-  "autoUpdateDownloadButtonLabel": {
-    "message": "Download"
-  },
-  "autoUpdateDownloadedMessage": {
-    "message": "The new update has been downloaded."
-  },
-  "autoUpdateDownloadInstructions": {
-    "message": "Would you like to download the update?"
-  },
-  "leftTheGroup": {
-    "message": "Uporabnik $name$ je zapustil skupino"
-  },
-  "multipleLeftTheGroup": {
-    "message": "Uporabnik $name$ je zapustil skupino"
-  },
-  "updatedTheGroup": {
-    "message": "Skpina je bila posodobljena"
-  },
-  "titleIsNow": {
-    "message": "Novo ime je '$name$'"
-  },
-  "joinedTheGroup": {
-    "message": "Uporabnik $name$ se je pridružil skupini"
-  },
-  "multipleJoinedTheGroup": {
-    "message": "Uporabnik $names$ se je pridružil skupini"
-  },
-  "kickedFromTheGroup": {
-    "message": "$name$ was removed from the group."
-  },
-  "multipleKickedFromTheGroup": {
-    "message": "$name$ were removed from the group."
-  },
-  "blockUser": {
-    "message": "Block"
-  },
-  "unblockUser": {
-    "message": "Unblock"
-  },
-  "unblocked": {
-    "message": "Unblocked"
-  },
-  "blockedSettingsTitle": {
-    "message": "Blocked contacts"
-  },
-  "unbanUser": {
-    "message": "Unban User"
-  },
-  "unbanUserConfirm": {
-    "message": "Are you sure you want to unban user?"
-  },
-  "userUnbanned": {
-    "message": "User unbanned successfully"
-  },
-  "userUnbanFailed": {
-    "message": "Unban failed!"
-  },
-  "banUser": {
-    "message": "Ban User"
-  },
-  "banUserConfirm": {
-    "message": "Are you sure you want to ban user?"
-  },
-  "userBanned": {
-    "message": "User banned successfully"
-  },
-  "userBanFailed": {
-    "message": "Ban failed!"
-  },
-  "leaveGroup": {
-    "message": "Leave Group"
-  },
-  "leaveAndRemoveForEveryone": {
-    "message": "Leave Group and remove for everyone"
-  },
-  "leaveGroupConfirmation": {
-    "message": "Are you sure you want to leave this group?"
-  },
-  "leaveGroupConfirmationAdmin": {
-    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?"
-  },
-  "cannotRemoveCreatorFromGroup": {
-    "message": "Cannot remove this user"
-  },
-  "cannotRemoveCreatorFromGroupDesc": {
-    "message": "You cannot remove this user as they are the creator of the group."
-  },
-  "userNeedsToHaveJoined": {
-    "message": "User needs to have joined"
-  },
-  "userNeedsToHaveJoinedDesc": {
-    "message": "An error happened. The user needs to have already joined the server for this ADD to work."
-  },
-  "noContactsForGroup": {
-    "message": "You don't have any contacts yet"
-  },
-  "copyMessage": {
-    "message": "Copy message text"
-  },
-  "selectMessage": {
-    "message": "Select message"
-  },
-  "editGroup": {
-    "message": "Edit group"
-  },
-  "editGroupName": {
-    "message": "Edit group name"
-  },
-  "updateGroupDialogTitle": {
-    "message": "Updating $name$..."
-  },
-  "showRecoveryPhrase": {
-    "message": "Recovery Phrase"
-  },
-  "yourSessionID": {
-    "message": "Your Session ID"
-  },
-  "setAccountPasswordTitle": {
-    "message": "Set Account Password"
-  },
-  "setAccountPasswordDescription": {
-    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed"
-  },
-  "changeAccountPasswordTitle": {
-    "message": "Change Account Password"
-  },
-  "changeAccountPasswordDescription": {
-    "message": "Change your password"
-  },
-  "removeAccountPasswordTitle": {
-    "message": "Remove Account Password"
-  },
-  "removeAccountPasswordDescription": {
-    "message": "Remove the password associated with your account"
-  },
-  "enterPassword": {
-    "message": "Please enter your password"
-  },
-  "confirmPassword": {
-    "message": "Confirm password"
-  },
-  "pasteLongPasswordToastTitle": {
-    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters."
-  },
-  "showRecoveryPhrasePasswordRequest": {
-    "message": "Please enter your password"
-  },
-  "recoveryPhraseSavePromptMain": {
-    "message": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone."
-  },
-  "invalidOpenGroupUrl": {
-    "message": "Invalid URL"
-  },
-  "copiedToClipboard": {
-    "message": "Copied to clipboard"
-  },
-  "passwordViewTitle": {
-    "message": "Type In Your Password"
-  },
-  "unlock": {
-    "message": "Unlock"
-  },
-  "password": {
-    "message": "Password"
-  },
-  "setPassword": {
-    "message": "Set Password"
-  },
-  "changePassword": {
-    "message": "Change Password"
-  },
-  "removePassword": {
-    "message": "Remove Password"
-  },
-  "maxPasswordAttempts": {
-    "message": "Invalid Password. Would you like to reset the database?"
-  },
-  "typeInOldPassword": {
-    "message": "Please type in your old password"
-  },
-  "invalidOldPassword": {
-    "message": "Old password is invalid"
-  },
-  "invalidPassword": {
-    "message": "Invalid password"
-  },
-  "noGivenPassword": {
-    "message": "Please enter your password"
-  },
-  "passwordsDoNotMatch": {
-    "message": "Passwords do not match"
-  },
-  "setPasswordInvalid": {
-    "message": "Passwords do not match"
-  },
-  "changePasswordInvalid": {
-    "message": "The old password you entered is incorrect"
-  },
-  "removePasswordInvalid": {
-    "message": "Incorrect password"
-  },
-  "setPasswordTitle": {
-    "message": "Set Password"
-  },
-  "changePasswordTitle": {
-    "message": "Changed Password"
-  },
-  "removePasswordTitle": {
-    "message": "Removed Password"
-  },
-  "setPasswordToastDescription": {
-    "message": "Your password has been set. Please keep it safe."
-  },
-  "changePasswordToastDescription": {
-    "message": "Your password has been changed. Please keep it safe."
-  },
-  "removePasswordToastDescription": {
-    "message": "You have removed your password."
-  },
-  "publicChatExists": {
-    "message": "You are already connected to this open group"
-  },
-  "connectToServerFail": {
-    "message": "Couldn't join group"
-  },
-  "connectingToServer": {
-    "message": "Connecting..."
-  },
-  "connectToServerSuccess": {
-    "message": "Successfully connected to open group"
-  },
-  "setPasswordFail": {
-    "message": "Failed to set password"
-  },
-  "passwordLengthError": {
-    "message": "Password must be between 6 and 64 characters long"
-  },
-  "passwordTypeError": {
-    "message": "Password must be a string"
-  },
-  "passwordCharacterError": {
-    "message": "Password must only contain letters, numbers and symbols"
-  },
-  "remove": {
-    "message": "Remove"
-  },
-  "invalidSessionId": {
-    "message": "Invalid Session ID"
-  },
-  "invalidPubkeyFormat": {
-    "message": "Invalid Pubkey Format"
-  },
-  "emptyGroupNameError": {
-    "message": "Please enter a group name"
-  },
-  "editProfileModalTitle": {
-    "message": "Profile"
-  },
-  "groupNamePlaceholder": {
-    "message": "Group Name"
-  },
-  "inviteContacts": {
-    "message": "Invite Contacts"
-  },
-  "addModerators": {
-    "message": "Add Moderators"
-  },
-  "removeModerators": {
-    "message": "Remove Moderators"
-  },
-  "addAsModerator": {
-    "message": "Add As Moderator"
-  },
-  "removeFromModerators": {
-    "message": "Remove From Moderators"
-  },
-  "add": {
-    "message": "Add"
-  },
-  "groupInvitation": {
-    "message": "Group Invitation"
-  },
-  "addingContacts": {
-    "message": "Adding contacts to"
-  },
-  "noContactsToAdd": {
-    "message": "No contacts to add"
-  },
-  "noMembersInThisGroup": {
-    "message": "No other members in this group"
-  },
-  "noModeratorsToRemove": {
-    "message": "no moderators to remove"
-  },
-  "onlyAdminCanRemoveMembers": {
-    "message": "You are not the creator"
-  },
-  "onlyAdminCanRemoveMembersDesc": {
-    "message": "Only the creator of the group can remove users"
-  },
-  "createAccount": {
-    "message": "Create Account"
-  },
-  "signIn": {
-    "message": "Sign In"
-  },
-  "yourUniqueSessionID": {
-    "message": "Say hello to your Session ID"
-  },
-  "allUsersAreRandomly...": {
-    "message": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design."
-  },
-  "getStarted": {
-    "message": "Get started"
-  },
-  "createSessionID": {
-    "message": "Create Session ID"
-  },
-  "recoveryPhrase": {
-    "message": "Recovery Phrase"
-  },
-  "enterRecoveryPhrase": {
-    "message": "Enter your recovery phrase"
-  },
-  "displayName": {
-    "message": "Display Name"
-  },
-  "anonymous": {
-    "message": "Anonymous"
-  },
-  "removeResidueMembers": {
-    "message": "Clicking ok will also remove those members as they left the group."
-  },
-  "enterDisplayName": {
-    "message": "Enter a display name"
-  },
-  "enterOptionalPassword": {
-    "message": "Enter password (optional)"
-  },
-  "continueYourSession": {
-    "message": "Continue Your Session"
-  },
-  "linkDevice": {
-    "message": "Link Device"
-  },
-  "restoreUsingRecoveryPhrase": {
-    "message": "Restore your account"
-  },
-  "or": {
-    "message": "or"
-  },
-  "ByUsingThisService...": {
-    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
-  },
-  "beginYourSession": {
-    "message": "Begin<br />your<br />Session."
-  },
-  "welcomeToYourSession": {
-    "message": "Welcome to your Session"
-  },
-  "newSession": {
-    "message": "New Session"
-  },
-  "searchFor...": {
-    "message": "Search for conversations, contacts, and messages"
-  },
-  "enterSessionID": {
-    "message": "Enter Session ID"
-  },
-  "enterSessionIDOfRecipient": {
-    "message": "Enter Session ID of recipient"
-  },
-  "usersCanShareTheir...": {
-    "message": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code."
-  },
-  "message": {
-    "message": "Message"
-  },
-  "appearanceSettingsTitle": {
-    "message": "Appearance"
-  },
-  "permissionSettingsTitle": {
-    "message": "Permissions"
-  },
-  "privacySettingsTitle": {
-    "message": "Privacy"
-  },
-  "notificationsSettingsTitle": {
-    "message": "Notifications"
-  },
-  "recoveryPhraseEmpty": {
-    "message": "Enter your recovery phrase"
-  },
-  "displayNameEmpty": {
-    "message": "Please pick a display name"
-  },
-  "members": {
-    "message": "$count$ members"
-  },
-  "joinOpenGroup": {
-    "message": "Join Open Group"
-  },
-  "newClosedGroup": {
-    "message": "New Closed Group"
-  },
-  "createClosedGroupNamePrompt": {
-    "message": "Group Name"
-  },
-  "createClosedGroupPlaceholder": {
-    "message": "Enter a group name"
-  },
-  "openGroupURL": {
-    "message": "Open Group URL"
-  },
-  "enterAnOpenGroupURL": {
-    "message": "Enter an open group URL"
-  },
-  "next": {
-    "message": "Next"
-  },
-  "description": {
-    "message": "Description"
-  },
-  "invalidGroupNameTooShort": {
-    "message": "Please enter a group name"
-  },
-  "invalidGroupNameTooLong": {
-    "message": "Please enter a shorter group name"
-  },
-  "pickClosedGroupMember": {
-    "message": "Please pick at least 1 group member"
-  },
-  "closedGroupMaxSize": {
-    "message": "A closed group cannot have more than 100 members"
-  },
-  "noBlockedContacts": {
-    "message": "No blocked contacts"
-  },
-  "userAddedToModerators": {
-    "message": "User added to moderator list"
-  },
-  "userRemovedFromModerators": {
-    "message": "User removed from moderator list"
-  },
-  "errorHappenedWhileRemovingModerator": {
-    "message": "An error happened"
-  },
-  "errorHappenedWhileRemovingModeratorDesc": {
-    "message": "An error happened while removing this user from the moderator list."
-  },
-  "orJoinOneOfThese": {
-    "message": "Or join one of these..."
-  },
+  "privacyPolicy": "Terms & Privacy Policy",
+  "copyErrorAndQuit": "Kopiraj napako in zapusti aplikacijo",
+  "unknown": "Unknown",
+  "databaseError": "Napaka v bazi podatkov",
+  "mainMenuFile": "&Datoteka",
+  "mainMenuEdit": "&Urejanje",
+  "mainMenuView": "&Pogled",
+  "mainMenuWindow": "&Okno",
+  "mainMenuHelp": "&Pomoč",
+  "appMenuHide": "Skrij",
+  "appMenuHideOthers": "Skrij ostale",
+  "appMenuUnhide": "Prikaži vse",
+  "appMenuQuit": "Zapusti Session",
+  "editMenuUndo": "Razveljavi",
+  "editMenuRedo": "Ponovno uveljavi",
+  "editMenuCut": "Odreži",
+  "editMenuCopy": "Kopiraj",
+  "editMenuPaste": "Prilepi",
+  "editMenuPasteAndMatchStyle": "Prilepi in spoji oblikovanje",
+  "editMenuDelete": "Izbriši",
+  "editMenuSelectAll": "Izberi vse",
+  "editMenuStartSpeaking": "Začnite govoriti",
+  "editMenuStopSpeaking": "Prenehajte govoriti",
+  "windowMenuClose": "Zapri okno",
+  "windowMenuMinimize": "Pomanjšaj",
+  "windowMenuZoom": "Povečava",
+  "windowMenuBringAllToFront": "Prikaži vse na površju",
+  "viewMenuResetZoom": "Privzeta velikost",
+  "viewMenuZoomIn": "Približaj",
+  "viewMenuZoomOut": "Oddalji",
+  "viewMenuToggleFullScreen": "Celozaslonski način",
+  "viewMenuToggleDevTools": "Vklopi razvijalska orodja",
+  "menuSetupWithImport": "Nastavi z uvozom podatkov",
+  "contextMenuNoSuggestions": "No Suggestions",
+  "loading": "Nalagam ...",
+  "optimizingApplication": "Optimiziranje nastavitev ...",
+  "chooseDirectory": "Izberite mapo",
+  "done": "Done",
+  "loadDataHeader": "Naložite svoje podatke",
+  "loadDataDescription": "Pravkar ste šli skozi fazo izvoza podatkov. Izvoženi stiki in sporočila čakajo na vašem računalniku. Izberite mapo, kamor ste shranili te podatke.",
+  "importChooserTitle": "Izberite mapo z izvoženimi podatki",
+  "importErrorHeader": "Nekaj je šlo narobe!",
+  "importingHeader": "Nalagam stike in sporočila",
+  "importErrorFirst": "Preverite, če ste izbrali pravo mapo s shranjenimi podatki. Ime mape bi moralo biti \"Session Export\". Lahko tudi ponovno izvozite podatke iz aplikacije v brskalniku Chrome.",
+  "importErrorSecond": "Če ti koraki ne bodo uspešni, nam prosim posredujte sistemsko zabeležbo (Pogled -> Sistemska zabeležba), da vam lahko pomagamo pri prehodu!",
+  "importAgain": "Izberite mapo in poskusite znova",
+  "importCompleteHeader": "Uspeh!",
+  "importCompleteStartButton": "Začni z uporabo aplikacije Session Desktop",
+  "importCompleteLinkButton": "Povežite napravo s svojim telefonom",
+  "me": "Jaz",
+  "view": "Preglej",
+  "youLeftTheGroup": "Zapustili ste skupino",
+  "youGotKickedFromGroup": "You were removed from the group.",
+  "unreadMessage": "1 novo sporočilo",
+  "unreadMessages": "$count$ Neprebrana sporočila",
+  "debugLogExplanation": "Ta sistemska zabeležba bo javno objavljena na spletu za razvijalce aplikacije. Pred objavo jo lahko pregledate.",
+  "debugLogError": "Prišlo je do težav pri prenosu! Morda bi želeli priložiti sistemsko zabeležbo prijavi hrošča razvijalcem.",
+  "reportIssue": "Prijava napake",
+  "gotIt": "Razumem!",
+  "submit": "Objavi",
+  "markAllAsRead": "Mark All as Read",
+  "incomingError": "Napaka pri obdelavi dohodnega sporočila",
+  "media": "Medijske datoteke",
+  "mediaEmptyState": "V tem pogovoru ni nobene medijske datoteke",
+  "documents": "Dokumenti",
+  "documentsEmptyState": "V tem pogovoru ni nobenega dokumenta",
+  "today": "Danes",
+  "yesterday": "Včeraj",
+  "thisWeek": "Ta teden",
+  "thisMonth": "Ta mesec",
+  "voiceMessage": "Glasovno sporočilo",
+  "dangerousFileType": "Ta vrsta priponke iz varnostnih razlogov ni dovoljena",
+  "stagedPreviewThumbnail": "Osnutek predogledne sličice povezave na: $domain$",
+  "previewThumbnail": "Predogledna sličica povezave na: $domain$",
+  "stagedImageAttachment": "Osnutek slikovne priponke: $path$",
+  "oneNonImageAtATimeToast": "Neslikovne datoteke so omejene na eno priponko na sporočilo.",
+  "cannotMixImageAndNonImageAttachments": "V istem sporočilu ne morete kombinirati neslikovnih in slikovnih priponk.",
+  "maximumAttachments": "K sporočilu ne morete več dodajati priponk.",
+  "fileSizeWarning": "Izbrana datoteka presega največjo dovoljeno velikost.",
+  "unableToLoadAttachment": "Izbrane priponke ni bilo mogoče zagnati.",
+  "offline": "Ni povezave z internetom",
+  "checkNetworkConnection": "Preverite svojo internetno povezavo",
+  "attemptingReconnection": "Naslednji poskus povezave: $reconnect_duration_in_seconds$ s",
+  "submitDebugLog": "Sistemska zabeležba",
+  "debugLog": "Sistemska zabeležba",
+  "goToReleaseNotes": "Opombe k izdaji",
+  "goToSupportPage": "Podporna stran",
+  "menuReportIssue": "Prijava napake",
+  "about": "About",
+  "speech": "Nagovor",
+  "show": "Prikaži",
+  "sessionMessenger": "Session",
+  "search": "Iskanje",
+  "noSearchResults": "Ni rezultata za \"$searchTerm$\"",
+  "conversationsHeader": "Pogovori",
+  "contactsHeader": "Stiki",
+  "messagesHeader": "Sporočila",
+  "settingsHeader": "Settings",
+  "typingAlt": "Animacija tipkanja za ta pogovor",
+  "contactAvatarAlt": "Avatar uporabnika $name$",
+  "downloadAttachment": "Prenesi priponko",
+  "replyToMessage": "Odgovor na sporočilo",
+  "replyingToMessage": "Replying to:",
+  "originalMessageNotFound": "Izvorno sporočilo ni bilo najdeno",
+  "originalMessageNotAvailable": "Izvorno sporočilo ni več na voljo",
+  "messageFoundButNotLoaded": "Izvorno sporočilo je bilo najdeno, vendar še ni naloženo. Če ga želite naložiti, se pomaknite navzgor.",
+  "recording": "Recording",
+  "you": "Vi",
+  "audioPermissionNeededTitle": "Microphone access required",
+  "audioPermissionNeeded": "Za pošiljanje glasovnih sporočil potrebuje aplikacija Session Desktop dostop do vašega mikrofona.",
+  "audio": "Zvok",
+  "video": "Video",
+  "photo": "Slika",
+  "cannotUpdate": "Cannot Update",
+  "cannotUpdateDetail": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+  "ok": "OK",
+  "cancel": "Prekliči",
+  "close": "Close",
+  "continue": "Continue",
+  "error": "Napaka",
+  "delete": "Izbriši",
+  "deletePublicWarning": "Are you sure? This will permanently remove this message for everyone in this open group.",
+  "deleteMultiplePublicWarning": "Are you sure? This will permanently remove these messages for everyone in this open group.",
+  "deleteWarning": "Ste prepričani? S klikom na 'izbriši' boste nepovratno izbrisali sporočilo s te naprave.",
+  "deleteMultipleWarning": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only.",
+  "messageDeletionForbidden": "You don’t have permission to delete others’ messages",
+  "deleteThisMessage": "Izbriši to sporočilo",
+  "deleted": "Deleted",
+  "from": "Pošiljatelj",
+  "to": "v",
+  "sent": "Poslano",
+  "received": "Prejeto",
+  "sendMessage": "Pošlji sporočilo",
+  "groupMembers": "Člani skupine",
+  "moreInformation": "More information",
+  "resend": "Resend",
+  "deleteMessage": "Izbriši sporočilo",
+  "deleteMessages": "Izbriši sporočila",
+  "deleteMessageForEveryone": "Delete Message For Everyone",
+  "deleteMessagesForEveryone": "Delete Messages For Everyone",
+  "deleteForEveryone": "Delete For Everyone",
+  "deleteConversationConfirmation": "Ali res želite nepovratno izbrisati ta pogovor?",
+  "clearAllData": "Clear All Data",
+  "deleteAccountWarning": "This will permanently delete your messages, sessions, and contacts.",
+  "deleteContactConfirmation": "Are you sure you want to delete this conversation?",
+  "quoteThumbnailAlt": "Predogled slike citiranega sporočila",
+  "imageAttachmentAlt": "Slika je priložena sporočilu",
+  "videoAttachmentAlt": "Zajem slike videa je priložen k sporočilu",
+  "lightboxImageAlt": "Slika je bila poslana tekom pogovora",
+  "imageCaptionIconAlt": "Ikona, ki označuje, da ima ta slika besedilo",
+  "addACaption": "Dodaj besedilo ...",
+  "copy": "Copy",
+  "copySessionID": "Copy Session ID",
+  "copyOpenGroupURL": "Copy Group's URL",
+  "save": "Shrani",
+  "saved": "Saved",
+  "permissions": "Dovoljenja",
+  "general": "Splošno",
+  "linkPreviewsTitle": "Send Link Previews",
+  "linkPreviewDescription": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links",
+  "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
+  "mediaPermissionsTitle": "Microphone and Camera",
+  "mediaPermissionsDescription": "Dovoli dostop do kamere in mikrofona",
+  "spellCheckTitle": "Spell Check",
+  "spellCheckDescription": "Vklop črkovalnika v okencu za vnašanje sporočila",
+  "spellCheckDirty": "You must restart Session to apply your new settings",
+  "notifications": "Obvestila",
+  "readReceiptSettingDescription": "See and share when messages have been read (enables read receipts in all sessions).",
+  "readReceiptSettingTitle": "Read Receipts",
+  "typingIndicatorsSettingDescription": "See and share when messages are being typed (applies to all sessions).",
+  "typingIndicatorsSettingTitle": "Typing Indicators",
+  "zoomFactorSettingTitle": "Zoom Factor",
+  "notificationSettingsDialog": "Vsebina obvestila o prejemu sporočila:",
+  "disableNotifications": "obvestila so izklopljena",
+  "nameAndMessage": "ime pošiljatelja in sporočilo",
+  "noNameOrMessage": "brez imena pošiljatelja in sporočila",
+  "nameOnly": "samo ime pošiljatelja",
+  "newMessage": "Novo sporočilo",
+  "newMessages": "Novo sporočilo",
+  "notificationMostRecentFrom": "Najnovejše od:",
+  "notificationFrom": "Od:",
+  "notificationMostRecent": "Najnovejše:",
+  "sendFailed": "Pošiljanje ni uspelo",
+  "expiredWarning": "Pričujoča različica programa Session Desktop je potekla. Za ponovno delovanje morate program posodobiti na zadnjo različico.",
+  "upgrade": "Posodobi",
+  "mediaMessage": "Multimedijsko sporočilo",
+  "timestamp_s": "ravnokar",
+  "timestamp_m": "1 minuto",
+  "timestamp_h": "1 uro",
+  "timestampFormat_M": "D. MMM",
+  "messageBodyMissing": "Please enter a message body.",
+  "unblockToSend": "Za pošiljanje sporočila morate najprej odblokirati ta stik",
+  "unblockGroupToSend": "Odblokiraj to skupino za pošiljanje sporočila.",
+  "youChangedTheTimer": "Odštevanje za izginjajoča sporočila ste nastavili na $time$",
+  "timerSetOnSync": "Odštevanje za izginjajoča števila je bilo posodobljeno na $time$",
+  "theyChangedTheTimer": "Uporabnik $name$ je nastavil odštevanje za izginjajoča števila na $time$",
+  "timerOption_0_seconds": "Izključeno",
+  "timerOption_5_seconds": "5 sekund",
+  "timerOption_10_seconds": "10 sekund",
+  "timerOption_30_seconds": "30 sekund",
+  "timerOption_1_minute": "1 minuta",
+  "timerOption_5_minutes": "5 minut",
+  "timerOption_30_minutes": "30 minut",
+  "timerOption_1_hour": "1 ura",
+  "timerOption_6_hours": "6 ur",
+  "timerOption_12_hours": "12 ur",
+  "timerOption_1_day": "1 dan",
+  "timerOption_1_week": "1 teden",
+  "disappearingMessages": "Izginjajoča sporočila",
+  "changeNickname": "Change Nickname",
+  "clearNickname": "Clear nickname",
+  "timerOption_0_seconds_abbreviated": "Izključeno",
+  "timerOption_5_seconds_abbreviated": "5 s",
+  "timerOption_10_seconds_abbreviated": "10 s",
+  "timerOption_30_seconds_abbreviated": "30 s",
+  "timerOption_1_minute_abbreviated": "1 min",
+  "timerOption_5_minutes_abbreviated": "5 min",
+  "timerOption_30_minutes_abbreviated": "30 min",
+  "timerOption_1_hour_abbreviated": "1 h",
+  "timerOption_6_hours_abbreviated": "6 h",
+  "timerOption_12_hours_abbreviated": "12 h",
+  "timerOption_1_day_abbreviated": "1 d",
+  "timerOption_1_week_abbreviated": "1 t",
+  "disappearingMessagesDisabled": "Izginjajoča sporočila so izključena",
+  "disabledDisappearingMessages": "Uporabnik $name$ je izključil izginjajoča sporočila",
+  "youDisabledDisappearingMessages": "Izključili ste izginjajoča sporočila",
+  "timerSetTo": "Čas izginjanja je nastavljen na $time$",
+  "noteToSelf": "Osebna zabeležka",
+  "hideMenuBarTitle": "Hide Menu Bar",
+  "hideMenuBarDescription": "Toggle system menu bar visibility",
+  "startConversation": "Začni nov pogovor ...",
+  "invalidNumberError": "Neveljavna številka",
+  "successUnlinked": "Your device was unlinked successfully",
+  "autoUpdateSettingTitle": "Auto Update",
+  "autoUpdateSettingDescription": "Automatically check for updates on launch",
+  "autoUpdateNewVersionTitle": "Na voljo je posodobitev aplikacije Session",
+  "autoUpdateNewVersionMessage": "Na voljo je nova različica aplikacije Session.",
+  "autoUpdateNewVersionInstructions": "Za uveljavitev nadgradenj pritisnite tipko Ponovno zaženi Session",
+  "autoUpdateRestartButtonLabel": "Ponovno zaženi Session",
+  "autoUpdateLaterButtonLabel": "Kasneje",
+  "autoUpdateDownloadButtonLabel": "Download",
+  "autoUpdateDownloadedMessage": "The new update has been downloaded.",
+  "autoUpdateDownloadInstructions": "Would you like to download the update?",
+  "leftTheGroup": "Uporabnik $name$ je zapustil skupino",
+  "multipleLeftTheGroup": "Uporabnik $name$ je zapustil skupino",
+  "updatedTheGroup": "Skpina je bila posodobljena",
+  "titleIsNow": "Novo ime je '$name$'",
+  "joinedTheGroup": "Uporabnik $name$ se je pridružil skupini",
+  "multipleJoinedTheGroup": "Uporabnik $names$ se je pridružil skupini",
+  "kickedFromTheGroup": "$name$ was removed from the group.",
+  "multipleKickedFromTheGroup": "$name$ were removed from the group.",
+  "blockUser": "Block",
+  "unblockUser": "Unblock",
+  "unblocked": "Unblocked",
+  "blockedSettingsTitle": "Blocked contacts",
+  "unbanUser": "Unban User",
+  "unbanUserConfirm": "Are you sure you want to unban user?",
+  "userUnbanned": "User unbanned successfully",
+  "userUnbanFailed": "Unban failed!",
+  "banUser": "Ban User",
+  "banUserConfirm": "Are you sure you want to ban user?",
+  "userBanned": "User banned successfully",
+  "userBanFailed": "Ban failed!",
+  "leaveGroup": "Leave Group",
+  "leaveAndRemoveForEveryone": "Leave Group and remove for everyone",
+  "leaveGroupConfirmation": "Are you sure you want to leave this group?",
+  "leaveGroupConfirmationAdmin": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
+  "cannotRemoveCreatorFromGroup": "Cannot remove this user",
+  "cannotRemoveCreatorFromGroupDesc": "You cannot remove this user as they are the creator of the group.",
+  "userNeedsToHaveJoined": "User needs to have joined",
+  "userNeedsToHaveJoinedDesc": "An error happened. The user needs to have already joined the server for this ADD to work.",
+  "noContactsForGroup": "You don't have any contacts yet",
+  "copyMessage": "Copy message text",
+  "selectMessage": "Select message",
+  "editGroup": "Edit group",
+  "editGroupName": "Edit group name",
+  "updateGroupDialogTitle": "Updating $name$...",
+  "showRecoveryPhrase": "Recovery Phrase",
+  "yourSessionID": "Your Session ID",
+  "setAccountPasswordTitle": "Set Account Password",
+  "setAccountPasswordDescription": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+  "changeAccountPasswordTitle": "Change Account Password",
+  "changeAccountPasswordDescription": "Change your password",
+  "removeAccountPasswordTitle": "Remove Account Password",
+  "removeAccountPasswordDescription": "Remove the password associated with your account",
+  "enterPassword": "Please enter your password",
+  "confirmPassword": "Confirm password",
+  "pasteLongPasswordToastTitle": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+  "showRecoveryPhrasePasswordRequest": "Please enter your password",
+  "recoveryPhraseSavePromptMain": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone.",
+  "invalidOpenGroupUrl": "Invalid URL",
+  "copiedToClipboard": "Copied to clipboard",
+  "passwordViewTitle": "Type In Your Password",
+  "unlock": "Unlock",
+  "password": "Password",
+  "setPassword": "Set Password",
+  "changePassword": "Change Password",
+  "removePassword": "Remove Password",
+  "maxPasswordAttempts": "Invalid Password. Would you like to reset the database?",
+  "typeInOldPassword": "Please type in your old password",
+  "invalidOldPassword": "Old password is invalid",
+  "invalidPassword": "Invalid password",
+  "noGivenPassword": "Please enter your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "setPasswordInvalid": "Passwords do not match",
+  "changePasswordInvalid": "The old password you entered is incorrect",
+  "removePasswordInvalid": "Incorrect password",
+  "setPasswordTitle": "Set Password",
+  "changePasswordTitle": "Changed Password",
+  "removePasswordTitle": "Removed Password",
+  "setPasswordToastDescription": "Your password has been set. Please keep it safe.",
+  "changePasswordToastDescription": "Your password has been changed. Please keep it safe.",
+  "removePasswordToastDescription": "You have removed your password.",
+  "publicChatExists": "You are already connected to this open group",
+  "connectToServerFail": "Couldn't join group",
+  "connectingToServer": "Connecting...",
+  "connectToServerSuccess": "Successfully connected to open group",
+  "setPasswordFail": "Failed to set password",
+  "passwordLengthError": "Password must be between 6 and 64 characters long",
+  "passwordTypeError": "Password must be a string",
+  "passwordCharacterError": "Password must only contain letters, numbers and symbols",
+  "remove": "Remove",
+  "invalidSessionId": "Invalid Session ID",
+  "invalidPubkeyFormat": "Invalid Pubkey Format",
+  "emptyGroupNameError": "Please enter a group name",
+  "editProfileModalTitle": "Profile",
+  "groupNamePlaceholder": "Group Name",
+  "inviteContacts": "Invite Contacts",
+  "addModerators": "Add Moderators",
+  "removeModerators": "Remove Moderators",
+  "addAsModerator": "Add As Moderator",
+  "removeFromModerators": "Remove From Moderators",
+  "add": "Add",
+  "groupInvitation": "Group Invitation",
+  "addingContacts": "Adding contacts to",
+  "noContactsToAdd": "No contacts to add",
+  "noMembersInThisGroup": "No other members in this group",
+  "noModeratorsToRemove": "no moderators to remove",
+  "onlyAdminCanRemoveMembers": "You are not the creator",
+  "onlyAdminCanRemoveMembersDesc": "Only the creator of the group can remove users",
+  "createAccount": "Create Account",
+  "signIn": "Sign In",
+  "yourUniqueSessionID": "Say hello to your Session ID",
+  "allUsersAreRandomly...": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design.",
+  "getStarted": "Get started",
+  "createSessionID": "Create Session ID",
+  "recoveryPhrase": "Recovery Phrase",
+  "enterRecoveryPhrase": "Enter your recovery phrase",
+  "displayName": "Display Name",
+  "anonymous": "Anonymous",
+  "removeResidueMembers": "Clicking ok will also remove those members as they left the group.",
+  "enterDisplayName": "Enter a display name",
+  "enterOptionalPassword": "Enter password (optional)",
+  "continueYourSession": "Continue Your Session",
+  "linkDevice": "Link Device",
+  "restoreUsingRecoveryPhrase": "Restore your account",
+  "or": "or",
+  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>",
+  "beginYourSession": "Begin<br />your<br />Session.",
+  "welcomeToYourSession": "Welcome to your Session",
+  "newSession": "New Session",
+  "searchFor...": "Search for conversations, contacts, and messages",
+  "enterSessionID": "Enter Session ID",
+  "enterSessionIDOfRecipient": "Enter Session ID of recipient",
+  "usersCanShareTheir...": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code.",
+  "message": "Message",
+  "appearanceSettingsTitle": "Appearance",
+  "permissionSettingsTitle": "Permissions",
+  "privacySettingsTitle": "Privacy",
+  "notificationsSettingsTitle": "Notifications",
+  "recoveryPhraseEmpty": "Enter your recovery phrase",
+  "displayNameEmpty": "Please pick a display name",
+  "members": "$count$ members",
+  "joinOpenGroup": "Join Open Group",
+  "newClosedGroup": "New Closed Group",
+  "createClosedGroupNamePrompt": "Group Name",
+  "createClosedGroupPlaceholder": "Enter a group name",
+  "openGroupURL": "Open Group URL",
+  "enterAnOpenGroupURL": "Enter an open group URL",
+  "next": "Next",
+  "description": "Description",
+  "invalidGroupNameTooShort": "Please enter a group name",
+  "invalidGroupNameTooLong": "Please enter a shorter group name",
+  "pickClosedGroupMember": "Please pick at least 1 group member",
+  "closedGroupMaxSize": "A closed group cannot have more than 100 members",
+  "noBlockedContacts": "No blocked contacts",
+  "userAddedToModerators": "User added to moderator list",
+  "userRemovedFromModerators": "User removed from moderator list",
+  "errorHappenedWhileRemovingModerator": "An error happened",
+  "errorHappenedWhileRemovingModeratorDesc": "An error happened while removing this user from the moderator list.",
+  "orJoinOneOfThese": "Or join one of these...",
   "helpUsTranslateSession": "Help us Translate Session",
   "translation": "Translation"
 }

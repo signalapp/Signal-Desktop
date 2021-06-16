@@ -1,1177 +1,395 @@
 {
-  "privacyPolicy": {
-    "message": "Terms & Privacy Policy"
-  },
-  "copyErrorAndQuit": {
-    "message": "Copy error and quit"
-  },
-  "unknown": {
-    "message": "Unknown"
-  },
-  "databaseError": {
-    "message": "Database Error"
-  },
-  "mainMenuFile": {
-    "message": "&Fail"
-  },
-  "mainMenuEdit": {
-    "message": "&Muuda"
-  },
-  "mainMenuView": {
-    "message": "&Vaade"
-  },
-  "mainMenuWindow": {
-    "message": "&Aken"
-  },
-  "mainMenuHelp": {
-    "message": "A&bi"
-  },
-  "appMenuHide": {
-    "message": "Peida"
-  },
-  "appMenuHideOthers": {
-    "message": "Peida teised"
-  },
-  "appMenuUnhide": {
-    "message": "Näita kõiki"
-  },
-  "appMenuQuit": {
-    "message": "Välju Signalist"
-  },
-  "editMenuUndo": {
-    "message": "Võta tagasi"
-  },
-  "editMenuRedo": {
-    "message": "Tee uuesti"
-  },
-  "editMenuCut": {
-    "message": "Lõika"
-  },
-  "editMenuCopy": {
-    "message": "Kopeeri"
-  },
-  "editMenuPaste": {
-    "message": "Aseta"
-  },
-  "editMenuPasteAndMatchStyle": {
-    "message": "Aseta ja sobita stiiliga"
-  },
-  "editMenuDelete": {
-    "message": "Kustuta"
-  },
-  "editMenuSelectAll": {
-    "message": "Vali kõik"
-  },
-  "editMenuStartSpeaking": {
-    "message": "Alusta rääkimist"
-  },
-  "editMenuStopSpeaking": {
-    "message": "Lõpeta rääkimine"
-  },
-  "windowMenuClose": {
-    "message": "Sulge aken"
-  },
-  "windowMenuMinimize": {
-    "message": "Minimeeri"
-  },
-  "windowMenuZoom": {
-    "message": "Suurenda"
-  },
-  "windowMenuBringAllToFront": {
-    "message": "Too kõik ette"
-  },
-  "viewMenuResetZoom": {
-    "message": "Tegelik suurus"
-  },
-  "viewMenuZoomIn": {
-    "message": "Suurenda"
-  },
-  "viewMenuZoomOut": {
-    "message": "Vähenda"
-  },
-  "viewMenuToggleFullScreen": {
-    "message": "Lülita täisekraanirežiimi"
-  },
-  "viewMenuToggleDevTools": {
-    "message": "Lülita arendusvahendid sisse/välja"
-  },
-  "menuSetupWithImport": {
-    "message": "Seadista importimise abil"
-  },
-  "contextMenuNoSuggestions": {
-    "message": "No Suggestions"
-  },
-  "loading": {
-    "message": "Laadimine..."
-  },
-  "optimizingApplication": {
-    "message": "Rakenduse optimeerimine..."
-  },
-  "chooseDirectory": {
-    "message": "Vali kaust"
-  },
-  "done": {
-    "message": "Done"
-  },
-  "loadDataHeader": {
-    "message": "Sinu andmete laadimine"
-  },
-  "loadDataDescription": {
-    "message": "Sa läbisid just eksportimisprotsessi ja sinu kontaktid ning sõnumid ootavad nüüd kannatlikult arvutis. Vali kaust, mis sisaldab sinu salvestatud Signali andmeid."
-  },
-  "importChooserTitle": {
-    "message": "Vali eksporditud andmetega kataloog"
-  },
-  "importErrorHeader": {
-    "message": "Midagi läks valesti!"
-  },
-  "importingHeader": {
-    "message": "Kontaktide ja sõnumite laadimine"
-  },
-  "importErrorFirst": {
-    "message": "Ole kindel, et oled valinud õige kataloogi, mis sisaldab sinu salvestatud Signali andmeid. Selle nimi peaks algama fraasiga \"Session Export\". Sul on võimalik salvestada andmetest ka uus koopia rakendusest Chrome App."
-  },
-  "importErrorSecond": {
-    "message": "Kui need sammud ei aita, siis saada palun silumisinfo (Vaade->Silumisinfo), et saaksime aidata sul migreerumine lõpule viia!"
-  },
-  "importAgain": {
-    "message": "Vali kaust ja proovi uuesti"
-  },
-  "importCompleteHeader": {
-    "message": "Õnnestus!"
-  },
-  "importCompleteStartButton": {
-    "message": "Alusta Session Desktopi kasutamist"
-  },
-  "importCompleteLinkButton": {
-    "message": "Ühenda see seade enda telefoniga"
-  },
-  "me": {
-    "message": "Mina"
-  },
-  "view": {
-    "message": "Näita"
-  },
-  "youLeftTheGroup": {
-    "message": "Sa lahkusid grupist"
-  },
-  "youGotKickedFromGroup": {
-    "message": "You were removed from the group."
-  },
-  "unreadMessage": {
-    "message": "1 lugemata sõnum"
-  },
-  "unreadMessages": {
-    "message": "$count$ lugemata sõnumit"
-  },
-  "debugLogExplanation": {
-    "message": "See logi postitatakse avalikult internetti kaastöötajatele nägemiseks. Kontrolli üle ja vajadusel muuda enne postitamist."
-  },
-  "debugLogError": {
-    "message": "Midagi läks üleslaadimisega kehvasti! Palun lisa logifailid sellele raportile käsitsi."
-  },
-  "reportIssue": {
-    "message": "Teavita probleemist"
-  },
-  "gotIt": {
-    "message": "Sain aru!"
-  },
-  "submit": {
-    "message": "Postita"
-  },
-  "markAllAsRead": {
-    "message": "Mark All as Read"
-  },
-  "incomingError": {
-    "message": "Sissetuleva sõnumi käsitlemisel tekkis tõrge."
-  },
-  "media": {
-    "message": "Meedia"
-  },
-  "mediaEmptyState": {
-    "message": "Selles vestluses pole meediaelemente"
-  },
-  "documents": {
-    "message": "Dokumendid"
-  },
-  "documentsEmptyState": {
-    "message": "Selles vestluses pole dokumente"
-  },
-  "today": {
-    "message": "Täna"
-  },
-  "yesterday": {
-    "message": "Eile"
-  },
-  "thisWeek": {
-    "message": "See nädal"
-  },
-  "thisMonth": {
-    "message": "See kuu"
-  },
-  "voiceMessage": {
-    "message": "Häälsõnum"
-  },
-  "dangerousFileType": {
-    "message": "Manuse tüüp pole turvakaalutlustel lubatud."
-  },
-  "stagedPreviewThumbnail": {
-    "message": "Lingi eelvaate pisipildi mustand: $domain$"
-  },
-  "previewThumbnail": {
-    "message": "Lingi eelvaate pisipilt: $domain$"
-  },
-  "stagedImageAttachment": {
-    "message": "Piltmanuse mustand: $path$"
-  },
-  "oneNonImageAtATimeToast": {
-    "message": "Mittepildilisi manuseid sõnumile lisades kehtiv ühe manuse piirang."
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Piltmanuseid ja teisi manuseid ei saa koos ühte sõnumisse panna."
-  },
-  "maximumAttachments": {
-    "message": "Sellele sõnumile pole võimalik rohkem manuseid lisada."
-  },
-  "fileSizeWarning": {
-    "message": "Kahjuks ületab valitud fail sõnumi suuruse piirangu."
-  },
-  "unableToLoadAttachment": {
-    "message": "Valitud manuse laadimine ei õnnestunud."
-  },
-  "offline": {
-    "message": "Ühenduseta"
-  },
-  "checkNetworkConnection": {
-    "message": "Kontrolli enda võrguühendust."
-  },
-  "attemptingReconnection": {
-    "message": "$reconnect_duration_in_seconds$ sekundi pärast proovitakse uuesti ühenduda."
-  },
-  "submitDebugLog": {
-    "message": "Silumisinfo"
-  },
-  "debugLog": {
-    "message": "Silumisinfo"
-  },
-  "goToReleaseNotes": {
-    "message": "Mine väljalaskemärkmete juurde"
-  },
-  "goToSupportPage": {
-    "message": "Mine kasutajatoelehele"
-  },
-  "menuReportIssue": {
-    "message": "Teavita probleemist"
-  },
-  "about": {
-    "message": "About"
-  },
-  "speech": {
-    "message": "Kõne"
-  },
-  "show": {
-    "message": "Näita"
-  },
-  "sessionMessenger": {
-    "message": "Session"
-  },
-  "search": {
-    "message": "Otsi"
-  },
-  "noSearchResults": {
-    "message": "No results for \"$searchTerm$\""
-  },
-  "conversationsHeader": {
-    "message": "Vestlused"
-  },
-  "contactsHeader": {
-    "message": "Kontaktid"
-  },
-  "messagesHeader": {
-    "message": "Sõnumid"
-  },
-  "settingsHeader": {
-    "message": "Settings"
-  },
-  "typingAlt": {
-    "message": "Selle vestluse sisestuse animatsioon"
-  },
-  "contactAvatarAlt": {
-    "message": "Kontakti $name$ pilt"
-  },
-  "downloadAttachment": {
-    "message": "Laadi manus alla"
-  },
-  "replyToMessage": {
-    "message": "Vasta sõnumile"
-  },
-  "replyingToMessage": {
-    "message": "Replying to:"
-  },
-  "originalMessageNotFound": {
-    "message": "Algset sõnumit ei leitud"
-  },
-  "originalMessageNotAvailable": {
-    "message": "Algne sõnum ei ole enam saadaval"
-  },
-  "messageFoundButNotLoaded": {
-    "message": "Algne sõnum on leitud, kuid mitte laaditud. Keri üles selle laadimiseks."
-  },
-  "recording": {
-    "message": "Recording"
-  },
-  "you": {
-    "message": "Sina"
-  },
-  "audioPermissionNeededTitle": {
-    "message": "Microphone access required"
-  },
-  "audioPermissionNeeded": {
-    "message": "Audiosõnumite saatmiseks luba Session Desktopil mikrofoni kasutada."
-  },
-  "audio": {
-    "message": "Audio"
-  },
-  "video": {
-    "message": "Video"
-  },
-  "photo": {
-    "message": "Foto"
-  },
-  "cannotUpdate": {
-    "message": "Cannot Update"
-  },
-  "cannotUpdateDetail": {
-    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem."
-  },
-  "ok": {
-    "message": "Sobib"
-  },
-  "cancel": {
-    "message": "Loobu"
-  },
-  "close": {
-    "message": "Close"
-  },
-  "continue": {
-    "message": "Continue"
-  },
-  "error": {
-    "message": "Tõrge"
-  },
-  "delete": {
-    "message": "Kustuta"
-  },
-  "deletePublicWarning": {
-    "message": "Are you sure? This will permanently remove this message for everyone in this open group."
-  },
-  "deleteMultiplePublicWarning": {
-    "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
-  },
-  "deleteWarning": {
-    "message": "Kas sa oled kindel? Klõpsates \"Kustuta\" eemaldatakse see sõnum ainult sellest seadmest."
-  },
-  "deleteMultipleWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
-  },
-  "messageDeletionForbidden": {
-    "message": "You don’t have permission to delete others’ messages"
-  },
-  "deleteThisMessage": {
-    "message": "Kustuta see sõnum"
-  },
-  "deleted": {
-    "message": "Deleted"
-  },
-  "from": {
-    "message": "Saatja"
-  },
-  "to": {
-    "message": "to"
-  },
-  "sent": {
-    "message": "Saadetud"
-  },
-  "received": {
-    "message": "Saadud"
-  },
-  "sendMessage": {
-    "message": "Saada sõnum"
-  },
-  "groupMembers": {
-    "message": "Grupi liikmed"
-  },
-  "moreInformation": {
-    "message": "More information"
-  },
-  "resend": {
-    "message": "Resend"
-  },
-  "deleteMessage": {
-    "message": "Kustuta sõnum"
-  },
-  "deleteMessages": {
-    "message": "Kustuta sõnumid"
-  },
-  "deleteMessageForEveryone": {
-    "message": "Delete Message For Everyone"
-  },
-  "deleteMessagesForEveryone": {
-    "message": "Delete Messages For Everyone"
-  },
-  "deleteForEveryone": {
-    "message": "Delete For Everyone"
-  },
-  "deleteConversationConfirmation": {
-    "message": "Kas kustutada see vestlus jäädavalt?"
-  },
-  "clearAllData": {
-    "message": "Clear All Data"
-  },
-  "deleteAccountWarning": {
-    "message": "This will permanently delete your messages, sessions, and contacts."
-  },
-  "deleteContactConfirmation": {
-    "message": "Are you sure you want to delete this conversation?"
-  },
-  "quoteThumbnailAlt": {
-    "message": "Tsiteeritud sõnumist pärit pildi pisipilt"
-  },
-  "imageAttachmentAlt": {
-    "message": "Pilt lisatud sõnumile"
-  },
-  "videoAttachmentAlt": {
-    "message": "Sõnumile lisatud video ekraanipilt"
-  },
-  "lightboxImageAlt": {
-    "message": "Vestluses saadetud pilt"
-  },
-  "imageCaptionIconAlt": {
-    "message": "Ikoon näitamaks, et sellel pildil on seletus."
-  },
-  "addACaption": {
-    "message": "Lisa pealkiri..."
-  },
-  "copy": {
-    "message": "Copy"
-  },
-  "copySessionID": {
-    "message": "Copy Session ID"
-  },
-  "copyOpenGroupURL": {
-    "message": "Copy Group's URL"
-  },
-  "save": {
-    "message": "Salvesta"
-  },
-  "saved": {
-    "message": "Saved"
-  },
-  "permissions": {
-    "message": "Õigused"
-  },
-  "general": {
-    "message": "Üldine"
-  },
-  "linkPreviewsTitle": {
-    "message": "Send Link Previews"
-  },
-  "linkPreviewDescription": {
-    "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links"
-  },
-  "linkPreviewsConfirmMessage": {
-    "message": "You will not have full metadata protection when sending or receiving link previews."
-  },
-  "mediaPermissionsTitle": {
-    "message": "Microphone and Camera"
-  },
-  "mediaPermissionsDescription": {
-    "message": "Luba ligipääs kaamerale ja mikrofonile"
-  },
-  "spellCheckTitle": {
-    "message": "Spell Check"
-  },
-  "spellCheckDescription": {
-    "message": "Luba sõnumite kasti teksti õigekirja kontroll"
-  },
-  "spellCheckDirty": {
-    "message": "You must restart Session to apply your new settings"
-  },
-  "notifications": {
-    "message": "Teavitused"
-  },
-  "readReceiptSettingDescription": {
-    "message": "See and share when messages have been read (enables read receipts in all sessions)."
-  },
-  "readReceiptSettingTitle": {
-    "message": "Read Receipts"
-  },
-  "typingIndicatorsSettingDescription": {
-    "message": "See and share when messages are being typed (applies to all sessions)."
-  },
-  "typingIndicatorsSettingTitle": {
-    "message": "Typing Indicators"
-  },
-  "zoomFactorSettingTitle": {
-    "message": "Zoom Factor"
-  },
-  "notificationSettingsDialog": {
-    "message": "Kui saabub sõnum, siis kuva teavitusi, mis avaldavad:"
-  },
-  "disableNotifications": {
-    "message": "Keela teavitused"
-  },
-  "nameAndMessage": {
-    "message": "Nii saatja nime kui sõnumi sisu"
-  },
-  "noNameOrMessage": {
-    "message": "Ei nime ega sisu"
-  },
-  "nameOnly": {
-    "message": "Ainult saatja nime"
-  },
-  "newMessage": {
-    "message": "Uus sõnum"
-  },
-  "newMessages": {
-    "message": "Uued sõnumid"
-  },
-  "notificationMostRecentFrom": {
-    "message": "Kõige uuem saatjalt:"
-  },
-  "notificationFrom": {
-    "message": "Saatjalt:"
-  },
-  "notificationMostRecent": {
-    "message": "Kõige uuem:"
-  },
-  "sendFailed": {
-    "message": "Saatmine ei õnnestunud"
-  },
-  "expiredWarning": {
-    "message": "See Session Desktopi versioon on aegunud. Palun uuenda uusimale versioonile sõnumite saatmiseks jätkamiseks."
-  },
-  "upgrade": {
-    "message": "Uuenda"
-  },
-  "mediaMessage": {
-    "message": "Meediasõnum"
-  },
-  "timestamp_s": {
-    "message": "nüüd"
-  },
-  "timestamp_m": {
-    "message": "1 minut"
-  },
-  "timestamp_h": {
-    "message": "1 tund"
-  },
-  "timestampFormat_M": {
-    "message": "D. MMM"
-  },
-  "messageBodyMissing": {
-    "message": "Please enter a message body."
-  },
-  "unblockToSend": {
-    "message": "Sõnumi saatmiseks eemalda selle kontakti blokeering."
-  },
-  "unblockGroupToSend": {
-    "message": "Sõnumi saatmiseks eemalda selle grupi blokeering."
-  },
-  "youChangedTheTimer": {
-    "message": "Sina määrasid kaduvate sõnumite taimeriks $time$"
-  },
-  "timerSetOnSync": {
-    "message": "Kaduvate sõnumite taimer seati väärtusele $time$"
-  },
-  "theyChangedTheTimer": {
-    "message": "$name$ seadis kaduvate sõnumite taimeri väärtusele $time$"
-  },
-  "timerOption_0_seconds": {
-    "message": "väljas"
-  },
-  "timerOption_5_seconds": {
-    "message": "5 sekundit"
-  },
-  "timerOption_10_seconds": {
-    "message": "10 sekundit"
-  },
-  "timerOption_30_seconds": {
-    "message": "30 sekundit"
-  },
-  "timerOption_1_minute": {
-    "message": "1 minut"
-  },
-  "timerOption_5_minutes": {
-    "message": "5 minutit"
-  },
-  "timerOption_30_minutes": {
-    "message": "30 minutit"
-  },
-  "timerOption_1_hour": {
-    "message": "1 tund"
-  },
-  "timerOption_6_hours": {
-    "message": "6 tundi"
-  },
-  "timerOption_12_hours": {
-    "message": "12 tundi"
-  },
-  "timerOption_1_day": {
-    "message": "1 päev"
-  },
-  "timerOption_1_week": {
-    "message": "1 nädal"
-  },
-  "disappearingMessages": {
-    "message": "Kaduvad sõnumid"
-  },
-  "changeNickname": {
-    "message": "Change Nickname"
-  },
-  "clearNickname": {
-    "message": "Clear nickname"
-  },
-  "timerOption_0_seconds_abbreviated": {
-    "message": "väljas"
-  },
-  "timerOption_5_seconds_abbreviated": {
-    "message": "5s"
-  },
-  "timerOption_10_seconds_abbreviated": {
-    "message": "10s"
-  },
-  "timerOption_30_seconds_abbreviated": {
-    "message": "30s"
-  },
-  "timerOption_1_minute_abbreviated": {
-    "message": "1m"
-  },
-  "timerOption_5_minutes_abbreviated": {
-    "message": "5m"
-  },
-  "timerOption_30_minutes_abbreviated": {
-    "message": "30m"
-  },
-  "timerOption_1_hour_abbreviated": {
-    "message": "1h"
-  },
-  "timerOption_6_hours_abbreviated": {
-    "message": "6h"
-  },
-  "timerOption_12_hours_abbreviated": {
-    "message": "12h"
-  },
-  "timerOption_1_day_abbreviated": {
-    "message": "1p"
-  },
-  "timerOption_1_week_abbreviated": {
-    "message": "1ndl"
-  },
-  "disappearingMessagesDisabled": {
-    "message": "Kaduvad sõnumid on keelatud"
-  },
-  "disabledDisappearingMessages": {
-    "message": "$name$ keelas kaduvad sõnumid"
-  },
-  "youDisabledDisappearingMessages": {
-    "message": "Sa keelasid kaduvad sõnumid"
-  },
-  "timerSetTo": {
-    "message": "Taimer on määratud: $time$"
-  },
-  "noteToSelf": {
-    "message": "Märkus endale"
-  },
-  "hideMenuBarTitle": {
-    "message": "Hide Menu Bar"
-  },
-  "hideMenuBarDescription": {
-    "message": "Toggle system menu bar visibility"
-  },
-  "startConversation": {
-    "message": "Start new conversation…"
-  },
-  "invalidNumberError": {
-    "message": "Vigane number"
-  },
-  "successUnlinked": {
-    "message": "Your device was unlinked successfully"
-  },
-  "autoUpdateSettingTitle": {
-    "message": "Auto Update"
-  },
-  "autoUpdateSettingDescription": {
-    "message": "Automatically check for updates on launch"
-  },
-  "autoUpdateNewVersionTitle": {
-    "message": "Session uuendus on saadaval"
-  },
-  "autoUpdateNewVersionMessage": {
-    "message": "Session on saadaval uus versioon."
-  },
-  "autoUpdateNewVersionInstructions": {
-    "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Session\"."
-  },
-  "autoUpdateRestartButtonLabel": {
-    "message": "Taaskäivita Session"
-  },
-  "autoUpdateLaterButtonLabel": {
-    "message": "Hiljem"
-  },
-  "autoUpdateDownloadButtonLabel": {
-    "message": "Download"
-  },
-  "autoUpdateDownloadedMessage": {
-    "message": "The new update has been downloaded."
-  },
-  "autoUpdateDownloadInstructions": {
-    "message": "Would you like to download the update?"
-  },
-  "leftTheGroup": {
-    "message": "$name$ lahkus grupist"
-  },
-  "multipleLeftTheGroup": {
-    "message": "$name$ lahkusid grupist"
-  },
-  "updatedTheGroup": {
-    "message": "Grupp on uuendatud"
-  },
-  "titleIsNow": {
-    "message": "Pealkiri on nüüd '$name$'"
-  },
-  "joinedTheGroup": {
-    "message": "$name$ ühines grupiga"
-  },
-  "multipleJoinedTheGroup": {
-    "message": "$names$ ühinesid grupiga"
-  },
-  "kickedFromTheGroup": {
-    "message": "$name$ was removed from the group."
-  },
-  "multipleKickedFromTheGroup": {
-    "message": "$name$ were removed from the group."
-  },
-  "blockUser": {
-    "message": "Block"
-  },
-  "unblockUser": {
-    "message": "Unblock"
-  },
-  "unblocked": {
-    "message": "Unblocked"
-  },
-  "blockedSettingsTitle": {
-    "message": "Blocked contacts"
-  },
-  "unbanUser": {
-    "message": "Unban User"
-  },
-  "unbanUserConfirm": {
-    "message": "Are you sure you want to unban user?"
-  },
-  "userUnbanned": {
-    "message": "User unbanned successfully"
-  },
-  "userUnbanFailed": {
-    "message": "Unban failed!"
-  },
-  "banUser": {
-    "message": "Ban User"
-  },
-  "banUserConfirm": {
-    "message": "Are you sure you want to ban user?"
-  },
-  "userBanned": {
-    "message": "User banned successfully"
-  },
-  "userBanFailed": {
-    "message": "Ban failed!"
-  },
-  "leaveGroup": {
-    "message": "Leave Group"
-  },
-  "leaveAndRemoveForEveryone": {
-    "message": "Leave Group and remove for everyone"
-  },
-  "leaveGroupConfirmation": {
-    "message": "Are you sure you want to leave this group?"
-  },
-  "leaveGroupConfirmationAdmin": {
-    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?"
-  },
-  "cannotRemoveCreatorFromGroup": {
-    "message": "Cannot remove this user"
-  },
-  "cannotRemoveCreatorFromGroupDesc": {
-    "message": "You cannot remove this user as they are the creator of the group."
-  },
-  "userNeedsToHaveJoined": {
-    "message": "User needs to have joined"
-  },
-  "userNeedsToHaveJoinedDesc": {
-    "message": "An error happened. The user needs to have already joined the server for this ADD to work."
-  },
-  "noContactsForGroup": {
-    "message": "You don't have any contacts yet"
-  },
-  "copyMessage": {
-    "message": "Copy message text"
-  },
-  "selectMessage": {
-    "message": "Select message"
-  },
-  "editGroup": {
-    "message": "Edit group"
-  },
-  "editGroupName": {
-    "message": "Edit group name"
-  },
-  "updateGroupDialogTitle": {
-    "message": "Updating $name$..."
-  },
-  "showRecoveryPhrase": {
-    "message": "Recovery Phrase"
-  },
-  "yourSessionID": {
-    "message": "Your Session ID"
-  },
-  "setAccountPasswordTitle": {
-    "message": "Set Account Password"
-  },
-  "setAccountPasswordDescription": {
-    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed"
-  },
-  "changeAccountPasswordTitle": {
-    "message": "Change Account Password"
-  },
-  "changeAccountPasswordDescription": {
-    "message": "Change your password"
-  },
-  "removeAccountPasswordTitle": {
-    "message": "Remove Account Password"
-  },
-  "removeAccountPasswordDescription": {
-    "message": "Remove the password associated with your account"
-  },
-  "enterPassword": {
-    "message": "Please enter your password"
-  },
-  "confirmPassword": {
-    "message": "Confirm password"
-  },
-  "pasteLongPasswordToastTitle": {
-    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters."
-  },
-  "showRecoveryPhrasePasswordRequest": {
-    "message": "Please enter your password"
-  },
-  "recoveryPhraseSavePromptMain": {
-    "message": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone."
-  },
-  "invalidOpenGroupUrl": {
-    "message": "Invalid URL"
-  },
-  "copiedToClipboard": {
-    "message": "Copied to clipboard"
-  },
-  "passwordViewTitle": {
-    "message": "Type In Your Password"
-  },
-  "unlock": {
-    "message": "Unlock"
-  },
-  "password": {
-    "message": "Password"
-  },
-  "setPassword": {
-    "message": "Set Password"
-  },
-  "changePassword": {
-    "message": "Change Password"
-  },
-  "removePassword": {
-    "message": "Remove Password"
-  },
-  "maxPasswordAttempts": {
-    "message": "Invalid Password. Would you like to reset the database?"
-  },
-  "typeInOldPassword": {
-    "message": "Please type in your old password"
-  },
-  "invalidOldPassword": {
-    "message": "Old password is invalid"
-  },
-  "invalidPassword": {
-    "message": "Invalid password"
-  },
-  "noGivenPassword": {
-    "message": "Please enter your password"
-  },
-  "passwordsDoNotMatch": {
-    "message": "Passwords do not match"
-  },
-  "setPasswordInvalid": {
-    "message": "Passwords do not match"
-  },
-  "changePasswordInvalid": {
-    "message": "The old password you entered is incorrect"
-  },
-  "removePasswordInvalid": {
-    "message": "Incorrect password"
-  },
-  "setPasswordTitle": {
-    "message": "Set Password"
-  },
-  "changePasswordTitle": {
-    "message": "Changed Password"
-  },
-  "removePasswordTitle": {
-    "message": "Removed Password"
-  },
-  "setPasswordToastDescription": {
-    "message": "Your password has been set. Please keep it safe."
-  },
-  "changePasswordToastDescription": {
-    "message": "Your password has been changed. Please keep it safe."
-  },
-  "removePasswordToastDescription": {
-    "message": "You have removed your password."
-  },
-  "publicChatExists": {
-    "message": "You are already connected to this open group"
-  },
-  "connectToServerFail": {
-    "message": "Couldn't join group"
-  },
-  "connectingToServer": {
-    "message": "Connecting..."
-  },
-  "connectToServerSuccess": {
-    "message": "Successfully connected to open group"
-  },
-  "setPasswordFail": {
-    "message": "Failed to set password"
-  },
-  "passwordLengthError": {
-    "message": "Password must be between 6 and 64 characters long"
-  },
-  "passwordTypeError": {
-    "message": "Password must be a string"
-  },
-  "passwordCharacterError": {
-    "message": "Password must only contain letters, numbers and symbols"
-  },
-  "remove": {
-    "message": "Remove"
-  },
-  "invalidSessionId": {
-    "message": "Invalid Session ID"
-  },
-  "invalidPubkeyFormat": {
-    "message": "Invalid Pubkey Format"
-  },
-  "emptyGroupNameError": {
-    "message": "Please enter a group name"
-  },
-  "editProfileModalTitle": {
-    "message": "Profile"
-  },
-  "groupNamePlaceholder": {
-    "message": "Group Name"
-  },
-  "inviteContacts": {
-    "message": "Invite Contacts"
-  },
-  "addModerators": {
-    "message": "Add Moderators"
-  },
-  "removeModerators": {
-    "message": "Remove Moderators"
-  },
-  "addAsModerator": {
-    "message": "Add As Moderator"
-  },
-  "removeFromModerators": {
-    "message": "Remove From Moderators"
-  },
-  "add": {
-    "message": "Add"
-  },
-  "groupInvitation": {
-    "message": "Group Invitation"
-  },
-  "addingContacts": {
-    "message": "Adding contacts to"
-  },
-  "noContactsToAdd": {
-    "message": "No contacts to add"
-  },
-  "noMembersInThisGroup": {
-    "message": "No other members in this group"
-  },
-  "noModeratorsToRemove": {
-    "message": "no moderators to remove"
-  },
-  "onlyAdminCanRemoveMembers": {
-    "message": "You are not the creator"
-  },
-  "onlyAdminCanRemoveMembersDesc": {
-    "message": "Only the creator of the group can remove users"
-  },
-  "createAccount": {
-    "message": "Create Account"
-  },
-  "signIn": {
-    "message": "Sign In"
-  },
-  "yourUniqueSessionID": {
-    "message": "Say hello to your Session ID"
-  },
-  "allUsersAreRandomly...": {
-    "message": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design."
-  },
-  "getStarted": {
-    "message": "Get started"
-  },
-  "createSessionID": {
-    "message": "Create Session ID"
-  },
-  "recoveryPhrase": {
-    "message": "Recovery Phrase"
-  },
-  "enterRecoveryPhrase": {
-    "message": "Enter your recovery phrase"
-  },
-  "displayName": {
-    "message": "Display Name"
-  },
-  "anonymous": {
-    "message": "Anonymous"
-  },
-  "removeResidueMembers": {
-    "message": "Clicking ok will also remove those members as they left the group."
-  },
-  "enterDisplayName": {
-    "message": "Enter a display name"
-  },
-  "enterOptionalPassword": {
-    "message": "Enter password (optional)"
-  },
-  "continueYourSession": {
-    "message": "Continue Your Session"
-  },
-  "linkDevice": {
-    "message": "Link Device"
-  },
-  "restoreUsingRecoveryPhrase": {
-    "message": "Restore your account"
-  },
-  "or": {
-    "message": "or"
-  },
-  "ByUsingThisService...": {
-    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
-  },
-  "beginYourSession": {
-    "message": "Begin<br />your<br />Session."
-  },
-  "welcomeToYourSession": {
-    "message": "Welcome to your Session"
-  },
-  "newSession": {
-    "message": "New Session"
-  },
-  "searchFor...": {
-    "message": "Search for conversations, contacts, and messages"
-  },
-  "enterSessionID": {
-    "message": "Enter Session ID"
-  },
-  "enterSessionIDOfRecipient": {
-    "message": "Enter Session ID of recipient"
-  },
-  "usersCanShareTheir...": {
-    "message": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code."
-  },
-  "message": {
-    "message": "Message"
-  },
-  "appearanceSettingsTitle": {
-    "message": "Appearance"
-  },
-  "permissionSettingsTitle": {
-    "message": "Permissions"
-  },
-  "privacySettingsTitle": {
-    "message": "Privacy"
-  },
-  "notificationsSettingsTitle": {
-    "message": "Notifications"
-  },
-  "recoveryPhraseEmpty": {
-    "message": "Enter your recovery phrase"
-  },
-  "displayNameEmpty": {
-    "message": "Please pick a display name"
-  },
-  "members": {
-    "message": "$count$ members"
-  },
-  "joinOpenGroup": {
-    "message": "Join Open Group"
-  },
-  "newClosedGroup": {
-    "message": "New Closed Group"
-  },
-  "createClosedGroupNamePrompt": {
-    "message": "Group Name"
-  },
-  "createClosedGroupPlaceholder": {
-    "message": "Enter a group name"
-  },
-  "openGroupURL": {
-    "message": "Open Group URL"
-  },
-  "enterAnOpenGroupURL": {
-    "message": "Enter an open group URL"
-  },
-  "next": {
-    "message": "Next"
-  },
-  "description": {
-    "message": "Description"
-  },
-  "invalidGroupNameTooShort": {
-    "message": "Please enter a group name"
-  },
-  "invalidGroupNameTooLong": {
-    "message": "Please enter a shorter group name"
-  },
-  "pickClosedGroupMember": {
-    "message": "Please pick at least 1 group member"
-  },
-  "closedGroupMaxSize": {
-    "message": "A closed group cannot have more than 100 members"
-  },
-  "noBlockedContacts": {
-    "message": "No blocked contacts"
-  },
-  "userAddedToModerators": {
-    "message": "User added to moderator list"
-  },
-  "userRemovedFromModerators": {
-    "message": "User removed from moderator list"
-  },
-  "errorHappenedWhileRemovingModerator": {
-    "message": "An error happened"
-  },
-  "errorHappenedWhileRemovingModeratorDesc": {
-    "message": "An error happened while removing this user from the moderator list."
-  },
-  "orJoinOneOfThese": {
-    "message": "Or join one of these..."
-  },
+  "privacyPolicy": "Terms & Privacy Policy",
+  "copyErrorAndQuit": "Copy error and quit",
+  "unknown": "Unknown",
+  "databaseError": "Database Error",
+  "mainMenuFile": "&Fail",
+  "mainMenuEdit": "&Muuda",
+  "mainMenuView": "&Vaade",
+  "mainMenuWindow": "&Aken",
+  "mainMenuHelp": "A&bi",
+  "appMenuHide": "Peida",
+  "appMenuHideOthers": "Peida teised",
+  "appMenuUnhide": "Näita kõiki",
+  "appMenuQuit": "Välju Signalist",
+  "editMenuUndo": "Võta tagasi",
+  "editMenuRedo": "Tee uuesti",
+  "editMenuCut": "Lõika",
+  "editMenuCopy": "Kopeeri",
+  "editMenuPaste": "Aseta",
+  "editMenuPasteAndMatchStyle": "Aseta ja sobita stiiliga",
+  "editMenuDelete": "Kustuta",
+  "editMenuSelectAll": "Vali kõik",
+  "editMenuStartSpeaking": "Alusta rääkimist",
+  "editMenuStopSpeaking": "Lõpeta rääkimine",
+  "windowMenuClose": "Sulge aken",
+  "windowMenuMinimize": "Minimeeri",
+  "windowMenuZoom": "Suurenda",
+  "windowMenuBringAllToFront": "Too kõik ette",
+  "viewMenuResetZoom": "Tegelik suurus",
+  "viewMenuZoomIn": "Suurenda",
+  "viewMenuZoomOut": "Vähenda",
+  "viewMenuToggleFullScreen": "Lülita täisekraanirežiimi",
+  "viewMenuToggleDevTools": "Lülita arendusvahendid sisse/välja",
+  "menuSetupWithImport": "Seadista importimise abil",
+  "contextMenuNoSuggestions": "No Suggestions",
+  "loading": "Laadimine...",
+  "optimizingApplication": "Rakenduse optimeerimine...",
+  "chooseDirectory": "Vali kaust",
+  "done": "Done",
+  "loadDataHeader": "Sinu andmete laadimine",
+  "loadDataDescription": "Sa läbisid just eksportimisprotsessi ja sinu kontaktid ning sõnumid ootavad nüüd kannatlikult arvutis. Vali kaust, mis sisaldab sinu salvestatud Signali andmeid.",
+  "importChooserTitle": "Vali eksporditud andmetega kataloog",
+  "importErrorHeader": "Midagi läks valesti!",
+  "importingHeader": "Kontaktide ja sõnumite laadimine",
+  "importErrorFirst": "Ole kindel, et oled valinud õige kataloogi, mis sisaldab sinu salvestatud Signali andmeid. Selle nimi peaks algama fraasiga \"Session Export\". Sul on võimalik salvestada andmetest ka uus koopia rakendusest Chrome App.",
+  "importErrorSecond": "Kui need sammud ei aita, siis saada palun silumisinfo (Vaade->Silumisinfo), et saaksime aidata sul migreerumine lõpule viia!",
+  "importAgain": "Vali kaust ja proovi uuesti",
+  "importCompleteHeader": "Õnnestus!",
+  "importCompleteStartButton": "Alusta Session Desktopi kasutamist",
+  "importCompleteLinkButton": "Ühenda see seade enda telefoniga",
+  "me": "Mina",
+  "view": "Näita",
+  "youLeftTheGroup": "Sa lahkusid grupist",
+  "youGotKickedFromGroup": "You were removed from the group.",
+  "unreadMessage": "1 lugemata sõnum",
+  "unreadMessages": "$count$ lugemata sõnumit",
+  "debugLogExplanation": "See logi postitatakse avalikult internetti kaastöötajatele nägemiseks. Kontrolli üle ja vajadusel muuda enne postitamist.",
+  "debugLogError": "Midagi läks üleslaadimisega kehvasti! Palun lisa logifailid sellele raportile käsitsi.",
+  "reportIssue": "Teavita probleemist",
+  "gotIt": "Sain aru!",
+  "submit": "Postita",
+  "markAllAsRead": "Mark All as Read",
+  "incomingError": "Sissetuleva sõnumi käsitlemisel tekkis tõrge.",
+  "media": "Meedia",
+  "mediaEmptyState": "Selles vestluses pole meediaelemente",
+  "documents": "Dokumendid",
+  "documentsEmptyState": "Selles vestluses pole dokumente",
+  "today": "Täna",
+  "yesterday": "Eile",
+  "thisWeek": "See nädal",
+  "thisMonth": "See kuu",
+  "voiceMessage": "Häälsõnum",
+  "dangerousFileType": "Manuse tüüp pole turvakaalutlustel lubatud.",
+  "stagedPreviewThumbnail": "Lingi eelvaate pisipildi mustand: $domain$",
+  "previewThumbnail": "Lingi eelvaate pisipilt: $domain$",
+  "stagedImageAttachment": "Piltmanuse mustand: $path$",
+  "oneNonImageAtATimeToast": "Mittepildilisi manuseid sõnumile lisades kehtiv ühe manuse piirang.",
+  "cannotMixImageAndNonImageAttachments": "Piltmanuseid ja teisi manuseid ei saa koos ühte sõnumisse panna.",
+  "maximumAttachments": "Sellele sõnumile pole võimalik rohkem manuseid lisada.",
+  "fileSizeWarning": "Kahjuks ületab valitud fail sõnumi suuruse piirangu.",
+  "unableToLoadAttachment": "Valitud manuse laadimine ei õnnestunud.",
+  "offline": "Ühenduseta",
+  "checkNetworkConnection": "Kontrolli enda võrguühendust.",
+  "attemptingReconnection": "$reconnect_duration_in_seconds$ sekundi pärast proovitakse uuesti ühenduda.",
+  "submitDebugLog": "Silumisinfo",
+  "debugLog": "Silumisinfo",
+  "goToReleaseNotes": "Mine väljalaskemärkmete juurde",
+  "goToSupportPage": "Mine kasutajatoelehele",
+  "menuReportIssue": "Teavita probleemist",
+  "about": "About",
+  "speech": "Kõne",
+  "show": "Näita",
+  "sessionMessenger": "Session",
+  "search": "Otsi",
+  "noSearchResults": "No results for \"$searchTerm$\"",
+  "conversationsHeader": "Vestlused",
+  "contactsHeader": "Kontaktid",
+  "messagesHeader": "Sõnumid",
+  "settingsHeader": "Settings",
+  "typingAlt": "Selle vestluse sisestuse animatsioon",
+  "contactAvatarAlt": "Kontakti $name$ pilt",
+  "downloadAttachment": "Laadi manus alla",
+  "replyToMessage": "Vasta sõnumile",
+  "replyingToMessage": "Replying to:",
+  "originalMessageNotFound": "Algset sõnumit ei leitud",
+  "originalMessageNotAvailable": "Algne sõnum ei ole enam saadaval",
+  "messageFoundButNotLoaded": "Algne sõnum on leitud, kuid mitte laaditud. Keri üles selle laadimiseks.",
+  "recording": "Recording",
+  "you": "Sina",
+  "audioPermissionNeededTitle": "Microphone access required",
+  "audioPermissionNeeded": "Audiosõnumite saatmiseks luba Session Desktopil mikrofoni kasutada.",
+  "audio": "Audio",
+  "video": "Video",
+  "photo": "Foto",
+  "cannotUpdate": "Cannot Update",
+  "cannotUpdateDetail": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+  "ok": "Sobib",
+  "cancel": "Loobu",
+  "close": "Close",
+  "continue": "Continue",
+  "error": "Tõrge",
+  "delete": "Kustuta",
+  "deletePublicWarning": "Are you sure? This will permanently remove this message for everyone in this open group.",
+  "deleteMultiplePublicWarning": "Are you sure? This will permanently remove these messages for everyone in this open group.",
+  "deleteWarning": "Kas sa oled kindel? Klõpsates \"Kustuta\" eemaldatakse see sõnum ainult sellest seadmest.",
+  "deleteMultipleWarning": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only.",
+  "messageDeletionForbidden": "You don’t have permission to delete others’ messages",
+  "deleteThisMessage": "Kustuta see sõnum",
+  "deleted": "Deleted",
+  "from": "Saatja",
+  "to": "to",
+  "sent": "Saadetud",
+  "received": "Saadud",
+  "sendMessage": "Saada sõnum",
+  "groupMembers": "Grupi liikmed",
+  "moreInformation": "More information",
+  "resend": "Resend",
+  "deleteMessage": "Kustuta sõnum",
+  "deleteMessages": "Kustuta sõnumid",
+  "deleteMessageForEveryone": "Delete Message For Everyone",
+  "deleteMessagesForEveryone": "Delete Messages For Everyone",
+  "deleteForEveryone": "Delete For Everyone",
+  "deleteConversationConfirmation": "Kas kustutada see vestlus jäädavalt?",
+  "clearAllData": "Clear All Data",
+  "deleteAccountWarning": "This will permanently delete your messages, sessions, and contacts.",
+  "deleteContactConfirmation": "Are you sure you want to delete this conversation?",
+  "quoteThumbnailAlt": "Tsiteeritud sõnumist pärit pildi pisipilt",
+  "imageAttachmentAlt": "Pilt lisatud sõnumile",
+  "videoAttachmentAlt": "Sõnumile lisatud video ekraanipilt",
+  "lightboxImageAlt": "Vestluses saadetud pilt",
+  "imageCaptionIconAlt": "Ikoon näitamaks, et sellel pildil on seletus.",
+  "addACaption": "Lisa pealkiri...",
+  "copy": "Copy",
+  "copySessionID": "Copy Session ID",
+  "copyOpenGroupURL": "Copy Group's URL",
+  "save": "Salvesta",
+  "saved": "Saved",
+  "permissions": "Õigused",
+  "general": "Üldine",
+  "linkPreviewsTitle": "Send Link Previews",
+  "linkPreviewDescription": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links",
+  "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
+  "mediaPermissionsTitle": "Microphone and Camera",
+  "mediaPermissionsDescription": "Luba ligipääs kaamerale ja mikrofonile",
+  "spellCheckTitle": "Spell Check",
+  "spellCheckDescription": "Luba sõnumite kasti teksti õigekirja kontroll",
+  "spellCheckDirty": "You must restart Session to apply your new settings",
+  "notifications": "Teavitused",
+  "readReceiptSettingDescription": "See and share when messages have been read (enables read receipts in all sessions).",
+  "readReceiptSettingTitle": "Read Receipts",
+  "typingIndicatorsSettingDescription": "See and share when messages are being typed (applies to all sessions).",
+  "typingIndicatorsSettingTitle": "Typing Indicators",
+  "zoomFactorSettingTitle": "Zoom Factor",
+  "notificationSettingsDialog": "Kui saabub sõnum, siis kuva teavitusi, mis avaldavad:",
+  "disableNotifications": "Keela teavitused",
+  "nameAndMessage": "Nii saatja nime kui sõnumi sisu",
+  "noNameOrMessage": "Ei nime ega sisu",
+  "nameOnly": "Ainult saatja nime",
+  "newMessage": "Uus sõnum",
+  "newMessages": "Uued sõnumid",
+  "notificationMostRecentFrom": "Kõige uuem saatjalt:",
+  "notificationFrom": "Saatjalt:",
+  "notificationMostRecent": "Kõige uuem:",
+  "sendFailed": "Saatmine ei õnnestunud",
+  "expiredWarning": "See Session Desktopi versioon on aegunud. Palun uuenda uusimale versioonile sõnumite saatmiseks jätkamiseks.",
+  "upgrade": "Uuenda",
+  "mediaMessage": "Meediasõnum",
+  "timestamp_s": "nüüd",
+  "timestamp_m": "1 minut",
+  "timestamp_h": "1 tund",
+  "timestampFormat_M": "D. MMM",
+  "messageBodyMissing": "Please enter a message body.",
+  "unblockToSend": "Sõnumi saatmiseks eemalda selle kontakti blokeering.",
+  "unblockGroupToSend": "Sõnumi saatmiseks eemalda selle grupi blokeering.",
+  "youChangedTheTimer": "Sina määrasid kaduvate sõnumite taimeriks $time$",
+  "timerSetOnSync": "Kaduvate sõnumite taimer seati väärtusele $time$",
+  "theyChangedTheTimer": "$name$ seadis kaduvate sõnumite taimeri väärtusele $time$",
+  "timerOption_0_seconds": "väljas",
+  "timerOption_5_seconds": "5 sekundit",
+  "timerOption_10_seconds": "10 sekundit",
+  "timerOption_30_seconds": "30 sekundit",
+  "timerOption_1_minute": "1 minut",
+  "timerOption_5_minutes": "5 minutit",
+  "timerOption_30_minutes": "30 minutit",
+  "timerOption_1_hour": "1 tund",
+  "timerOption_6_hours": "6 tundi",
+  "timerOption_12_hours": "12 tundi",
+  "timerOption_1_day": "1 päev",
+  "timerOption_1_week": "1 nädal",
+  "disappearingMessages": "Kaduvad sõnumid",
+  "changeNickname": "Change Nickname",
+  "clearNickname": "Clear nickname",
+  "timerOption_0_seconds_abbreviated": "väljas",
+  "timerOption_5_seconds_abbreviated": "5s",
+  "timerOption_10_seconds_abbreviated": "10s",
+  "timerOption_30_seconds_abbreviated": "30s",
+  "timerOption_1_minute_abbreviated": "1m",
+  "timerOption_5_minutes_abbreviated": "5m",
+  "timerOption_30_minutes_abbreviated": "30m",
+  "timerOption_1_hour_abbreviated": "1h",
+  "timerOption_6_hours_abbreviated": "6h",
+  "timerOption_12_hours_abbreviated": "12h",
+  "timerOption_1_day_abbreviated": "1p",
+  "timerOption_1_week_abbreviated": "1ndl",
+  "disappearingMessagesDisabled": "Kaduvad sõnumid on keelatud",
+  "disabledDisappearingMessages": "$name$ keelas kaduvad sõnumid",
+  "youDisabledDisappearingMessages": "Sa keelasid kaduvad sõnumid",
+  "timerSetTo": "Taimer on määratud: $time$",
+  "noteToSelf": "Märkus endale",
+  "hideMenuBarTitle": "Hide Menu Bar",
+  "hideMenuBarDescription": "Toggle system menu bar visibility",
+  "startConversation": "Start new conversation…",
+  "invalidNumberError": "Vigane number",
+  "successUnlinked": "Your device was unlinked successfully",
+  "autoUpdateSettingTitle": "Auto Update",
+  "autoUpdateSettingDescription": "Automatically check for updates on launch",
+  "autoUpdateNewVersionTitle": "Session uuendus on saadaval",
+  "autoUpdateNewVersionMessage": "Session on saadaval uus versioon.",
+  "autoUpdateNewVersionInstructions": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Session\".",
+  "autoUpdateRestartButtonLabel": "Taaskäivita Session",
+  "autoUpdateLaterButtonLabel": "Hiljem",
+  "autoUpdateDownloadButtonLabel": "Download",
+  "autoUpdateDownloadedMessage": "The new update has been downloaded.",
+  "autoUpdateDownloadInstructions": "Would you like to download the update?",
+  "leftTheGroup": "$name$ lahkus grupist",
+  "multipleLeftTheGroup": "$name$ lahkusid grupist",
+  "updatedTheGroup": "Grupp on uuendatud",
+  "titleIsNow": "Pealkiri on nüüd '$name$'",
+  "joinedTheGroup": "$name$ ühines grupiga",
+  "multipleJoinedTheGroup": "$names$ ühinesid grupiga",
+  "kickedFromTheGroup": "$name$ was removed from the group.",
+  "multipleKickedFromTheGroup": "$name$ were removed from the group.",
+  "blockUser": "Block",
+  "unblockUser": "Unblock",
+  "unblocked": "Unblocked",
+  "blockedSettingsTitle": "Blocked contacts",
+  "unbanUser": "Unban User",
+  "unbanUserConfirm": "Are you sure you want to unban user?",
+  "userUnbanned": "User unbanned successfully",
+  "userUnbanFailed": "Unban failed!",
+  "banUser": "Ban User",
+  "banUserConfirm": "Are you sure you want to ban user?",
+  "userBanned": "User banned successfully",
+  "userBanFailed": "Ban failed!",
+  "leaveGroup": "Leave Group",
+  "leaveAndRemoveForEveryone": "Leave Group and remove for everyone",
+  "leaveGroupConfirmation": "Are you sure you want to leave this group?",
+  "leaveGroupConfirmationAdmin": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
+  "cannotRemoveCreatorFromGroup": "Cannot remove this user",
+  "cannotRemoveCreatorFromGroupDesc": "You cannot remove this user as they are the creator of the group.",
+  "userNeedsToHaveJoined": "User needs to have joined",
+  "userNeedsToHaveJoinedDesc": "An error happened. The user needs to have already joined the server for this ADD to work.",
+  "noContactsForGroup": "You don't have any contacts yet",
+  "copyMessage": "Copy message text",
+  "selectMessage": "Select message",
+  "editGroup": "Edit group",
+  "editGroupName": "Edit group name",
+  "updateGroupDialogTitle": "Updating $name$...",
+  "showRecoveryPhrase": "Recovery Phrase",
+  "yourSessionID": "Your Session ID",
+  "setAccountPasswordTitle": "Set Account Password",
+  "setAccountPasswordDescription": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+  "changeAccountPasswordTitle": "Change Account Password",
+  "changeAccountPasswordDescription": "Change your password",
+  "removeAccountPasswordTitle": "Remove Account Password",
+  "removeAccountPasswordDescription": "Remove the password associated with your account",
+  "enterPassword": "Please enter your password",
+  "confirmPassword": "Confirm password",
+  "pasteLongPasswordToastTitle": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+  "showRecoveryPhrasePasswordRequest": "Please enter your password",
+  "recoveryPhraseSavePromptMain": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone.",
+  "invalidOpenGroupUrl": "Invalid URL",
+  "copiedToClipboard": "Copied to clipboard",
+  "passwordViewTitle": "Type In Your Password",
+  "unlock": "Unlock",
+  "password": "Password",
+  "setPassword": "Set Password",
+  "changePassword": "Change Password",
+  "removePassword": "Remove Password",
+  "maxPasswordAttempts": "Invalid Password. Would you like to reset the database?",
+  "typeInOldPassword": "Please type in your old password",
+  "invalidOldPassword": "Old password is invalid",
+  "invalidPassword": "Invalid password",
+  "noGivenPassword": "Please enter your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "setPasswordInvalid": "Passwords do not match",
+  "changePasswordInvalid": "The old password you entered is incorrect",
+  "removePasswordInvalid": "Incorrect password",
+  "setPasswordTitle": "Set Password",
+  "changePasswordTitle": "Changed Password",
+  "removePasswordTitle": "Removed Password",
+  "setPasswordToastDescription": "Your password has been set. Please keep it safe.",
+  "changePasswordToastDescription": "Your password has been changed. Please keep it safe.",
+  "removePasswordToastDescription": "You have removed your password.",
+  "publicChatExists": "You are already connected to this open group",
+  "connectToServerFail": "Couldn't join group",
+  "connectingToServer": "Connecting...",
+  "connectToServerSuccess": "Successfully connected to open group",
+  "setPasswordFail": "Failed to set password",
+  "passwordLengthError": "Password must be between 6 and 64 characters long",
+  "passwordTypeError": "Password must be a string",
+  "passwordCharacterError": "Password must only contain letters, numbers and symbols",
+  "remove": "Remove",
+  "invalidSessionId": "Invalid Session ID",
+  "invalidPubkeyFormat": "Invalid Pubkey Format",
+  "emptyGroupNameError": "Please enter a group name",
+  "editProfileModalTitle": "Profile",
+  "groupNamePlaceholder": "Group Name",
+  "inviteContacts": "Invite Contacts",
+  "addModerators": "Add Moderators",
+  "removeModerators": "Remove Moderators",
+  "addAsModerator": "Add As Moderator",
+  "removeFromModerators": "Remove From Moderators",
+  "add": "Add",
+  "groupInvitation": "Group Invitation",
+  "addingContacts": "Adding contacts to",
+  "noContactsToAdd": "No contacts to add",
+  "noMembersInThisGroup": "No other members in this group",
+  "noModeratorsToRemove": "no moderators to remove",
+  "onlyAdminCanRemoveMembers": "You are not the creator",
+  "onlyAdminCanRemoveMembersDesc": "Only the creator of the group can remove users",
+  "createAccount": "Create Account",
+  "signIn": "Sign In",
+  "yourUniqueSessionID": "Say hello to your Session ID",
+  "allUsersAreRandomly...": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design.",
+  "getStarted": "Get started",
+  "createSessionID": "Create Session ID",
+  "recoveryPhrase": "Recovery Phrase",
+  "enterRecoveryPhrase": "Enter your recovery phrase",
+  "displayName": "Display Name",
+  "anonymous": "Anonymous",
+  "removeResidueMembers": "Clicking ok will also remove those members as they left the group.",
+  "enterDisplayName": "Enter a display name",
+  "enterOptionalPassword": "Enter password (optional)",
+  "continueYourSession": "Continue Your Session",
+  "linkDevice": "Link Device",
+  "restoreUsingRecoveryPhrase": "Restore your account",
+  "or": "or",
+  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>",
+  "beginYourSession": "Begin<br />your<br />Session.",
+  "welcomeToYourSession": "Welcome to your Session",
+  "newSession": "New Session",
+  "searchFor...": "Search for conversations, contacts, and messages",
+  "enterSessionID": "Enter Session ID",
+  "enterSessionIDOfRecipient": "Enter Session ID of recipient",
+  "usersCanShareTheir...": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code.",
+  "message": "Message",
+  "appearanceSettingsTitle": "Appearance",
+  "permissionSettingsTitle": "Permissions",
+  "privacySettingsTitle": "Privacy",
+  "notificationsSettingsTitle": "Notifications",
+  "recoveryPhraseEmpty": "Enter your recovery phrase",
+  "displayNameEmpty": "Please pick a display name",
+  "members": "$count$ members",
+  "joinOpenGroup": "Join Open Group",
+  "newClosedGroup": "New Closed Group",
+  "createClosedGroupNamePrompt": "Group Name",
+  "createClosedGroupPlaceholder": "Enter a group name",
+  "openGroupURL": "Open Group URL",
+  "enterAnOpenGroupURL": "Enter an open group URL",
+  "next": "Next",
+  "description": "Description",
+  "invalidGroupNameTooShort": "Please enter a group name",
+  "invalidGroupNameTooLong": "Please enter a shorter group name",
+  "pickClosedGroupMember": "Please pick at least 1 group member",
+  "closedGroupMaxSize": "A closed group cannot have more than 100 members",
+  "noBlockedContacts": "No blocked contacts",
+  "userAddedToModerators": "User added to moderator list",
+  "userRemovedFromModerators": "User removed from moderator list",
+  "errorHappenedWhileRemovingModerator": "An error happened",
+  "errorHappenedWhileRemovingModeratorDesc": "An error happened while removing this user from the moderator list.",
+  "orJoinOneOfThese": "Or join one of these...",
   "helpUsTranslateSession": "Help us Translate Session",
   "translation": "Translation"
 }

@@ -1,1177 +1,395 @@
 {
-  "privacyPolicy": {
-    "message": "Istilah & Kebijakan Privasi"
-  },
-  "copyErrorAndQuit": {
-    "message": "Copy error and quit"
-  },
-  "unknown": {
-    "message": "Tidak dikenal"
-  },
-  "databaseError": {
-    "message": "Database Error"
-  },
-  "mainMenuFile": {
-    "message": "&Berkas"
-  },
-  "mainMenuEdit": {
-    "message": "&Edit"
-  },
-  "mainMenuView": {
-    "message": "&Lihat"
-  },
-  "mainMenuWindow": {
-    "message": "&Jendela"
-  },
-  "mainMenuHelp": {
-    "message": "&Bantuan"
-  },
-  "appMenuHide": {
-    "message": "Sembunyikan"
-  },
-  "appMenuHideOthers": {
-    "message": "Sembuyikan lainnya"
-  },
-  "appMenuUnhide": {
-    "message": "Tampilkan Semua"
-  },
-  "appMenuQuit": {
-    "message": "Keluar dari Session"
-  },
-  "editMenuUndo": {
-    "message": "Ulang"
-  },
-  "editMenuRedo": {
-    "message": "mengulang"
-  },
-  "editMenuCut": {
-    "message": "Potong"
-  },
-  "editMenuCopy": {
-    "message": "Salin"
-  },
-  "editMenuPaste": {
-    "message": "Tempel"
-  },
-  "editMenuPasteAndMatchStyle": {
-    "message": "Tempelkan dan cocokkan model"
-  },
-  "editMenuDelete": {
-    "message": "Hapus"
-  },
-  "editMenuSelectAll": {
-    "message": "Pilih semua"
-  },
-  "editMenuStartSpeaking": {
-    "message": "Mulai bicara"
-  },
-  "editMenuStopSpeaking": {
-    "message": "Berhenti berbicara"
-  },
-  "windowMenuClose": {
-    "message": "Tutup Jendela"
-  },
-  "windowMenuMinimize": {
-    "message": "Kecilkan"
-  },
-  "windowMenuZoom": {
-    "message": "Perbesar"
-  },
-  "windowMenuBringAllToFront": {
-    "message": "Bawa Semua ke Depan"
-  },
-  "viewMenuResetZoom": {
-    "message": "Ukuran Sebenarnya"
-  },
-  "viewMenuZoomIn": {
-    "message": "Memperbesar"
-  },
-  "viewMenuZoomOut": {
-    "message": "Memperkecil"
-  },
-  "viewMenuToggleFullScreen": {
-    "message": "Toggle layar penuh"
-  },
-  "viewMenuToggleDevTools": {
-    "message": "Toggle perangkat pengembangan"
-  },
-  "menuSetupWithImport": {
-    "message": "Siapkan dengan Impor"
-  },
-  "contextMenuNoSuggestions": {
-    "message": "No Suggestions"
-  },
-  "loading": {
-    "message": "Memuat..."
-  },
-  "optimizingApplication": {
-    "message": "Mengoptimalkan aplikasi..."
-  },
-  "chooseDirectory": {
-    "message": "Pilih map"
-  },
-  "done": {
-    "message": "Done"
-  },
-  "loadDataHeader": {
-    "message": "Memuat data Anda"
-  },
-  "loadDataDescription": {
-    "message": "Anda telah melewati proses ekspor. Kontak dan pesan Anda sedang menanti dengan sabar di komputer. Pilih map berisikan data Session Anda."
-  },
-  "importChooserTitle": {
-    "message": "Pilih direktori dengan data telah diekspor"
-  },
-  "importErrorHeader": {
-    "message": "Sesuatu berjalan keliru!"
-  },
-  "importingHeader": {
-    "message": "Memuat kontak dan pesan"
-  },
-  "importErrorFirst": {
-    "message": "Pastikan Anda memilih direktori tepat, yang berisi data Session yang telah tersimpan. Nama direktori itu seharusnya 'Expor Session'. Anda bisa juga membuat data salinan baru dari Chrome App."
-  },
-  "importErrorSecond": {
-    "message": "Jika langkah ini tidak berhasil bagi Anda, silakan masukkan catatan awakutu (Tampilan -> Catatan Awakutu) sehingga kami dapat membantu Anda untuk bermigrasi!"
-  },
-  "importAgain": {
-    "message": "Pilih map dan coba lagi"
-  },
-  "importCompleteHeader": {
-    "message": "Berhasil!"
-  },
-  "importCompleteStartButton": {
-    "message": "Mulai menggunakan Session Desktop"
-  },
-  "importCompleteLinkButton": {
-    "message": "Sambungkan perangkat ini dengan telpon Anda"
-  },
-  "me": {
-    "message": "Saya"
-  },
-  "view": {
-    "message": "Lihat"
-  },
-  "youLeftTheGroup": {
-    "message": "Anda telah keluar dari grup."
-  },
-  "youGotKickedFromGroup": {
-    "message": "You were removed from the group."
-  },
-  "unreadMessage": {
-    "message": "1 Pesan Belum Dibaca"
-  },
-  "unreadMessages": {
-    "message": "$count$ pesan belum dibaca"
-  },
-  "debugLogExplanation": {
-    "message": "Catatan ini akan diunggah secara publik agar kontributor dapat melihat. Anda dapat memeriksa kembali dan menyunting sebelum mengunggahnya."
-  },
-  "debugLogError": {
-    "message": "Terjadi kesalahan ketika mengunggah! Harap perhatikan manual menambahkan catatan bug dalam file Anda. "
-  },
-  "reportIssue": {
-    "message": "Laporkan masalah"
-  },
-  "gotIt": {
-    "message": "Paham"
-  },
-  "submit": {
-    "message": "Kirim"
-  },
-  "markAllAsRead": {
-    "message": "Mark All as Read"
-  },
-  "incomingError": {
-    "message": "Gagal dalam menangani pesan masuk"
-  },
-  "media": {
-    "message": "Media"
-  },
-  "mediaEmptyState": {
-    "message": "Tidak ada media"
-  },
-  "documents": {
-    "message": "Dokumen"
-  },
-  "documentsEmptyState": {
-    "message": "Tidak ada dokumen"
-  },
-  "today": {
-    "message": "Hari ini"
-  },
-  "yesterday": {
-    "message": "Kemarin"
-  },
-  "thisWeek": {
-    "message": "Minggu ini"
-  },
-  "thisMonth": {
-    "message": "Bulan ini"
-  },
-  "voiceMessage": {
-    "message": "Pesan Suara"
-  },
-  "dangerousFileType": {
-    "message": "Jenis lampiran tidak diperbolehkan untuk alasan keamanan"
-  },
-  "stagedPreviewThumbnail": {
-    "message": "Draft thumbnail link preview for $domain$"
-  },
-  "previewThumbnail": {
-    "message": "Thumbnail link preview for $domain$"
-  },
-  "stagedImageAttachment": {
-    "message": "Draft image attachment: $path$"
-  },
-  "oneNonImageAtATimeToast": {
-    "message": "Ketika menyertakan lampiran bukan gambar, batasnya adalah satu lampiran per pesan."
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Anda tidak bisa mencampur lampiran gambar dan bukan gambar dalam satu pesan."
-  },
-  "maximumAttachments": {
-    "message": "Anda tidak bisa lagi menambahkan lampiran untuk pesan ini."
-  },
-  "fileSizeWarning": {
-    "message": "Lampiran melebihi batas ukuran untuk tipe pesan yang Anda kirimkan."
-  },
-  "unableToLoadAttachment": {
-    "message": "Maaf, terjadi kesalahan pada pengaturan lampiran anda."
-  },
-  "offline": {
-    "message": "Luring"
-  },
-  "checkNetworkConnection": {
-    "message": "Periksa koneksi jaringan Anda."
-  },
-  "attemptingReconnection": {
-    "message": "Mencoba menyambung kembali dalam $reconnect_duration_in_seconds$ detik"
-  },
-  "submitDebugLog": {
-    "message": "Catatan Awakutu"
-  },
-  "debugLog": {
-    "message": "Catatan Awakutu"
-  },
-  "goToReleaseNotes": {
-    "message": "Lihat Catatan Rilis"
-  },
-  "goToSupportPage": {
-    "message": "Cek halaman bantuan"
-  },
-  "menuReportIssue": {
-    "message": "Laporkan masalah "
-  },
-  "about": {
-    "message": "Tentang"
-  },
-  "speech": {
-    "message": "Bicara"
-  },
-  "show": {
-    "message": "Tampilkan"
-  },
-  "sessionMessenger": {
-    "message": "Session"
-  },
-  "search": {
-    "message": "Cari"
-  },
-  "noSearchResults": {
-    "message": "Tidak ditemukan hasil untuk \"$searchTerm$\""
-  },
-  "conversationsHeader": {
-    "message": "Percakapan"
-  },
-  "contactsHeader": {
-    "message": "Kontak"
-  },
-  "messagesHeader": {
-    "message": "Pesan"
-  },
-  "settingsHeader": {
-    "message": "Pengaturan"
-  },
-  "typingAlt": {
-    "message": "Animasi pengetikan untuk percakapan ini"
-  },
-  "contactAvatarAlt": {
-    "message": "Avatar untuk kontak $name$"
-  },
-  "downloadAttachment": {
-    "message": "Unduh Lampiran"
-  },
-  "replyToMessage": {
-    "message": "Balas pesan"
-  },
-  "replyingToMessage": {
-    "message": "Replying to:"
-  },
-  "originalMessageNotFound": {
-    "message": "Pesan asli tidak ditemukan."
-  },
-  "originalMessageNotAvailable": {
-    "message": "Pesan asli tidak lagi tersedia"
-  },
-  "messageFoundButNotLoaded": {
-    "message": "Original message found, but not loaded. Scroll up to load it."
-  },
-  "recording": {
-    "message": "Recording"
-  },
-  "you": {
-    "message": "Anda"
-  },
-  "audioPermissionNeededTitle": {
-    "message": "Microphone access required"
-  },
-  "audioPermissionNeeded": {
-    "message": "Untuk mengirim pesan suara, izinkan Session mengakses mikrofon Anda."
-  },
-  "audio": {
-    "message": "Audio"
-  },
-  "video": {
-    "message": "Video"
-  },
-  "photo": {
-    "message": "Foto"
-  },
-  "cannotUpdate": {
-    "message": "Cannot Update"
-  },
-  "cannotUpdateDetail": {
-    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem."
-  },
-  "ok": {
-    "message": "OK"
-  },
-  "cancel": {
-    "message": "Batal"
-  },
-  "close": {
-    "message": "Close"
-  },
-  "continue": {
-    "message": "Lanjutkan"
-  },
-  "error": {
-    "message": "Galat"
-  },
-  "delete": {
-    "message": "Hapus"
-  },
-  "deletePublicWarning": {
-    "message": "Are you sure? This will permanently remove this message for everyone in this open group."
-  },
-  "deleteMultiplePublicWarning": {
-    "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
-  },
-  "deleteWarning": {
-    "message": "Apakah Anda yakin? Menekan \"hapus\" akan menghapus pesan secara permanen hanya pada perangkat ini."
-  },
-  "deleteMultipleWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
-  },
-  "messageDeletionForbidden": {
-    "message": "You don’t have permission to delete others’ messages"
-  },
-  "deleteThisMessage": {
-    "message": "Hapus pesan"
-  },
-  "deleted": {
-    "message": "Deleted"
-  },
-  "from": {
-    "message": "Dari:"
-  },
-  "to": {
-    "message": "Kepada:"
-  },
-  "sent": {
-    "message": "Terkirim"
-  },
-  "received": {
-    "message": "Diterima"
-  },
-  "sendMessage": {
-    "message": "Mengirim pesan"
-  },
-  "groupMembers": {
-    "message": "Anggota grup"
-  },
-  "moreInformation": {
-    "message": "Informasi lebih lanjut"
-  },
-  "resend": {
-    "message": "Kirim ulang"
-  },
-  "deleteMessage": {
-    "message": "Hapus pesan"
-  },
-  "deleteMessages": {
-    "message": "Hapus pesan"
-  },
-  "deleteMessageForEveryone": {
-    "message": "Delete Message For Everyone"
-  },
-  "deleteMessagesForEveryone": {
-    "message": "Delete Messages For Everyone"
-  },
-  "deleteForEveryone": {
-    "message": "Delete For Everyone"
-  },
-  "deleteConversationConfirmation": {
-    "message": "Hapus obrolan ini selamanya?"
-  },
-  "clearAllData": {
-    "message": "Hapus semua data"
-  },
-  "deleteAccountWarning": {
-    "message": "Pesan, Session, dan kontak anda akan dihapus secara permanen"
-  },
-  "deleteContactConfirmation": {
-    "message": "Apakah anda yakin ingin menghapus percakapan ini?"
-  },
-  "quoteThumbnailAlt": {
-    "message": "Cuplikan gambar dari pesan yang dikutip"
-  },
-  "imageAttachmentAlt": {
-    "message": "Gambar dilampirkan kedalam pesan"
-  },
-  "videoAttachmentAlt": {
-    "message": "Hasil tangkapan layar dari video dilampirkan dalam pesan"
-  },
-  "lightboxImageAlt": {
-    "message": "Gambar telah terkirim dalam percakapan"
-  },
-  "imageCaptionIconAlt": {
-    "message": "Ikon mengindikasikan jika gambar ini memiliki takarir"
-  },
-  "addACaption": {
-    "message": "Tambah keterangan..."
-  },
-  "copy": {
-    "message": "Salin"
-  },
-  "copySessionID": {
-    "message": "Copy Session ID"
-  },
-  "copyOpenGroupURL": {
-    "message": "Copy Group's URL"
-  },
-  "save": {
-    "message": "Simpan"
-  },
-  "saved": {
-    "message": "Saved"
-  },
-  "permissions": {
-    "message": "Perizinan"
-  },
-  "general": {
-    "message": "Umum"
-  },
-  "linkPreviewsTitle": {
-    "message": "Kirim pratinjau tautan"
-  },
-  "linkPreviewDescription": {
-    "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links"
-  },
-  "linkPreviewsConfirmMessage": {
-    "message": "You will not have full metadata protection when sending or receiving link previews."
-  },
-  "mediaPermissionsTitle": {
-    "message": "Microphone and Camera"
-  },
-  "mediaPermissionsDescription": {
-    "message": "Izinkan akses ke kamera dan mikrofon"
-  },
-  "spellCheckTitle": {
-    "message": "Spell Check"
-  },
-  "spellCheckDescription": {
-    "message": "Aktifkan pengecek ejaan dalam kotak pesan"
-  },
-  "spellCheckDirty": {
-    "message": "You must restart Session to apply your new settings"
-  },
-  "notifications": {
-    "message": "Pemberitahuan"
-  },
-  "readReceiptSettingDescription": {
-    "message": "See and share when messages have been read (enables read receipts in all sessions)."
-  },
-  "readReceiptSettingTitle": {
-    "message": "Pesan terbaca"
-  },
-  "typingIndicatorsSettingDescription": {
-    "message": "See and share when messages are being typed (applies to all sessions)."
-  },
-  "typingIndicatorsSettingTitle": {
-    "message": "Indikator penulisan"
-  },
-  "zoomFactorSettingTitle": {
-    "message": "Zoom Factor"
-  },
-  "notificationSettingsDialog": {
-    "message": "Saat pesan sampai, tampilkan pemberitahuan yang menampilkan:"
-  },
-  "disableNotifications": {
-    "message": "Bisukan pemberitahuan"
-  },
-  "nameAndMessage": {
-    "message": "nama pengirim dan pesannya"
-  },
-  "noNameOrMessage": {
-    "message": "Nama atau pesan saja"
-  },
-  "nameOnly": {
-    "message": "Nama pengirim saja"
-  },
-  "newMessage": {
-    "message": "Pesan Baru"
-  },
-  "newMessages": {
-    "message": "Pesan Baru"
-  },
-  "notificationMostRecentFrom": {
-    "message": "Paling baru dari: $name$"
-  },
-  "notificationFrom": {
-    "message": "Dari:"
-  },
-  "notificationMostRecent": {
-    "message": "Terkini:"
-  },
-  "sendFailed": {
-    "message": "Gagal Mengirim"
-  },
-  "expiredWarning": {
-    "message": "Versi Session Desktop ini telah kedaluwarsa. Mohom memutakhirkan ke versi terbaru untuk melanjutkan pengiriman pesan."
-  },
-  "upgrade": {
-    "message": "Pemutakhiran"
-  },
-  "mediaMessage": {
-    "message": "Pesan media"
-  },
-  "timestamp_s": {
-    "message": "Sekarang"
-  },
-  "timestamp_m": {
-    "message": "1 menit"
-  },
-  "timestamp_h": {
-    "message": "1 jam"
-  },
-  "timestampFormat_M": {
-    "message": "MMM D"
-  },
-  "messageBodyMissing": {
-    "message": "Please enter a message body."
-  },
-  "unblockToSend": {
-    "message": "Lepaskan blokir kontak ini untuk mengirim pesan"
-  },
-  "unblockGroupToSend": {
-    "message": "Lepaskan blokir grup ini untuk mengirim pesan."
-  },
-  "youChangedTheTimer": {
-    "message": "Anda mengatur pesan menghilang dalam $time$"
-  },
-  "timerSetOnSync": {
-    "message": "Memperbarui pesan menghilang menjadi dalam waktu $time$ "
-  },
-  "theyChangedTheTimer": {
-    "message": "$name$ atur pesan menghilang menjadi $time$"
-  },
-  "timerOption_0_seconds": {
-    "message": "Mati"
-  },
-  "timerOption_5_seconds": {
-    "message": "5 detik"
-  },
-  "timerOption_10_seconds": {
-    "message": "10 detik"
-  },
-  "timerOption_30_seconds": {
-    "message": "30 detik"
-  },
-  "timerOption_1_minute": {
-    "message": "1 menit"
-  },
-  "timerOption_5_minutes": {
-    "message": "5 menit"
-  },
-  "timerOption_30_minutes": {
-    "message": "30 menit"
-  },
-  "timerOption_1_hour": {
-    "message": "1 jam"
-  },
-  "timerOption_6_hours": {
-    "message": "6 jam"
-  },
-  "timerOption_12_hours": {
-    "message": "12 jam"
-  },
-  "timerOption_1_day": {
-    "message": "1 hari"
-  },
-  "timerOption_1_week": {
-    "message": "1 minggu"
-  },
-  "disappearingMessages": {
-    "message": "Pesan hilang"
-  },
-  "changeNickname": {
-    "message": "Change Nickname"
-  },
-  "clearNickname": {
-    "message": "Clear nickname"
-  },
-  "timerOption_0_seconds_abbreviated": {
-    "message": "padam"
-  },
-  "timerOption_5_seconds_abbreviated": {
-    "message": "5d"
-  },
-  "timerOption_10_seconds_abbreviated": {
-    "message": "10d"
-  },
-  "timerOption_30_seconds_abbreviated": {
-    "message": "30d"
-  },
-  "timerOption_1_minute_abbreviated": {
-    "message": "1m"
-  },
-  "timerOption_5_minutes_abbreviated": {
-    "message": "5m"
-  },
-  "timerOption_30_minutes_abbreviated": {
-    "message": "30m"
-  },
-  "timerOption_1_hour_abbreviated": {
-    "message": "1j"
-  },
-  "timerOption_6_hours_abbreviated": {
-    "message": "6j"
-  },
-  "timerOption_12_hours_abbreviated": {
-    "message": "12j"
-  },
-  "timerOption_1_day_abbreviated": {
-    "message": "1h"
-  },
-  "timerOption_1_week_abbreviated": {
-    "message": "1mg"
-  },
-  "disappearingMessagesDisabled": {
-    "message": "Pesan menghilang dinonaktifkan"
-  },
-  "disabledDisappearingMessages": {
-    "message": "$name$ menonaktifkan pesan menghilang."
-  },
-  "youDisabledDisappearingMessages": {
-    "message": "Anda menonaktifkan pesan menghilang."
-  },
-  "timerSetTo": {
-    "message": "Waktu pesan hilang diatur ke $time$"
-  },
-  "noteToSelf": {
-    "message": "Catatan Pribadi"
-  },
-  "hideMenuBarTitle": {
-    "message": "Hide Menu Bar"
-  },
-  "hideMenuBarDescription": {
-    "message": "Toggle system menu bar visibility"
-  },
-  "startConversation": {
-    "message": "Start new conversation…"
-  },
-  "invalidNumberError": {
-    "message": "Nomor salah"
-  },
-  "successUnlinked": {
-    "message": "Sukses memutus koneksi perangkat"
-  },
-  "autoUpdateSettingTitle": {
-    "message": "Auto Update"
-  },
-  "autoUpdateSettingDescription": {
-    "message": "Automatically check for updates on launch"
-  },
-  "autoUpdateNewVersionTitle": {
-    "message": "Tersedia Session versi terbaru"
-  },
-  "autoUpdateNewVersionMessage": {
-    "message": "Tersedia versi terbaru Session."
-  },
-  "autoUpdateNewVersionInstructions": {
-    "message": "Tekan memulai awal Session untuk mendapatkan versi terbaru."
-  },
-  "autoUpdateRestartButtonLabel": {
-    "message": "Mulai ulang Session"
-  },
-  "autoUpdateLaterButtonLabel": {
-    "message": "Nanti"
-  },
-  "autoUpdateDownloadButtonLabel": {
-    "message": "Unduh"
-  },
-  "autoUpdateDownloadedMessage": {
-    "message": "The new update has been downloaded."
-  },
-  "autoUpdateDownloadInstructions": {
-    "message": "Would you like to download the update?"
-  },
-  "leftTheGroup": {
-    "message": "$name$ telah meninggalkan grup."
-  },
-  "multipleLeftTheGroup": {
-    "message": "$name$ telah meninggalkan grup"
-  },
-  "updatedTheGroup": {
-    "message": "Grup diperbarui"
-  },
-  "titleIsNow": {
-    "message": "Nama grup sekarang '$name$'."
-  },
-  "joinedTheGroup": {
-    "message": "$name$ bergabung dengan grup."
-  },
-  "multipleJoinedTheGroup": {
-    "message": "$name$ bergabung dengan grup"
-  },
-  "kickedFromTheGroup": {
-    "message": "$name$ was removed from the group."
-  },
-  "multipleKickedFromTheGroup": {
-    "message": "$name$ were removed from the group."
-  },
-  "blockUser": {
-    "message": "Blokir"
-  },
-  "unblockUser": {
-    "message": "Buka blokir"
-  },
-  "unblocked": {
-    "message": "Unblocked"
-  },
-  "blockedSettingsTitle": {
-    "message": "Kontak yang diblokir"
-  },
-  "unbanUser": {
-    "message": "Unban User"
-  },
-  "unbanUserConfirm": {
-    "message": "Are you sure you want to unban user?"
-  },
-  "userUnbanned": {
-    "message": "User unbanned successfully"
-  },
-  "userUnbanFailed": {
-    "message": "Unban failed!"
-  },
-  "banUser": {
-    "message": "Ban User"
-  },
-  "banUserConfirm": {
-    "message": "Are you sure you want to ban user?"
-  },
-  "userBanned": {
-    "message": "User banned successfully"
-  },
-  "userBanFailed": {
-    "message": "Ban failed!"
-  },
-  "leaveGroup": {
-    "message": "Keluar grup"
-  },
-  "leaveAndRemoveForEveryone": {
-    "message": "Leave Group and remove for everyone"
-  },
-  "leaveGroupConfirmation": {
-    "message": "Apakah anda yakin ingin meninggalkan grup ini?"
-  },
-  "leaveGroupConfirmationAdmin": {
-    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?"
-  },
-  "cannotRemoveCreatorFromGroup": {
-    "message": "Cannot remove this user"
-  },
-  "cannotRemoveCreatorFromGroupDesc": {
-    "message": "You cannot remove this user as they are the creator of the group."
-  },
-  "userNeedsToHaveJoined": {
-    "message": "User needs to have joined"
-  },
-  "userNeedsToHaveJoinedDesc": {
-    "message": "An error happened. The user needs to have already joined the server for this ADD to work."
-  },
-  "noContactsForGroup": {
-    "message": "anda belum memiliki kontak"
-  },
-  "copyMessage": {
-    "message": "Copy message text"
-  },
-  "selectMessage": {
-    "message": "Select message"
-  },
-  "editGroup": {
-    "message": "Ubah grup"
-  },
-  "editGroupName": {
-    "message": "Edit group name"
-  },
-  "updateGroupDialogTitle": {
-    "message": "Memperbarui $name$..."
-  },
-  "showRecoveryPhrase": {
-    "message": "Kata pemulihan"
-  },
-  "yourSessionID": {
-    "message": "Session ID anda"
-  },
-  "setAccountPasswordTitle": {
-    "message": "Set Account Password"
-  },
-  "setAccountPasswordDescription": {
-    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed"
-  },
-  "changeAccountPasswordTitle": {
-    "message": "Change Account Password"
-  },
-  "changeAccountPasswordDescription": {
-    "message": "Change your password"
-  },
-  "removeAccountPasswordTitle": {
-    "message": "Remove Account Password"
-  },
-  "removeAccountPasswordDescription": {
-    "message": "Remove the password associated with your account"
-  },
-  "enterPassword": {
-    "message": "Please enter your password"
-  },
-  "confirmPassword": {
-    "message": "Confirm password"
-  },
-  "pasteLongPasswordToastTitle": {
-    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters."
-  },
-  "showRecoveryPhrasePasswordRequest": {
-    "message": "Please enter your password"
-  },
-  "recoveryPhraseSavePromptMain": {
-    "message": "Kata pemulihan adalah kunci Session ID -- bisa digunakan untuk mengembalikan Session ID ketika anda kehilangan perangkat. Simpan kata pemulihan di tempat yang aman dan jangan berikan kepada siapapun"
-  },
-  "invalidOpenGroupUrl": {
-    "message": "Invalid URL"
-  },
-  "copiedToClipboard": {
-    "message": "Salin ke clipboard"
-  },
-  "passwordViewTitle": {
-    "message": "Type In Your Password"
-  },
-  "unlock": {
-    "message": "Buka Kunci"
-  },
-  "password": {
-    "message": "Password"
-  },
-  "setPassword": {
-    "message": "Set Password"
-  },
-  "changePassword": {
-    "message": "Change Password"
-  },
-  "removePassword": {
-    "message": "Remove Password"
-  },
-  "maxPasswordAttempts": {
-    "message": "Invalid Password. Would you like to reset the database?"
-  },
-  "typeInOldPassword": {
-    "message": "Please type in your old password"
-  },
-  "invalidOldPassword": {
-    "message": "Old password is invalid"
-  },
-  "invalidPassword": {
-    "message": "Invalid password"
-  },
-  "noGivenPassword": {
-    "message": "Please enter your password"
-  },
-  "passwordsDoNotMatch": {
-    "message": "Passwords do not match"
-  },
-  "setPasswordInvalid": {
-    "message": "Passwords do not match"
-  },
-  "changePasswordInvalid": {
-    "message": "The old password you entered is incorrect"
-  },
-  "removePasswordInvalid": {
-    "message": "Incorrect password"
-  },
-  "setPasswordTitle": {
-    "message": "Set Password"
-  },
-  "changePasswordTitle": {
-    "message": "Changed Password"
-  },
-  "removePasswordTitle": {
-    "message": "Removed Password"
-  },
-  "setPasswordToastDescription": {
-    "message": "Your password has been set. Please keep it safe."
-  },
-  "changePasswordToastDescription": {
-    "message": "Your password has been changed. Please keep it safe."
-  },
-  "removePasswordToastDescription": {
-    "message": "You have removed your password."
-  },
-  "publicChatExists": {
-    "message": "You are already connected to this open group"
-  },
-  "connectToServerFail": {
-    "message": "Tak bisa bergabung dengan grup"
-  },
-  "connectingToServer": {
-    "message": "Menghubungkan..."
-  },
-  "connectToServerSuccess": {
-    "message": "Successfully connected to open group"
-  },
-  "setPasswordFail": {
-    "message": "Failed to set password"
-  },
-  "passwordLengthError": {
-    "message": "Password must be between 6 and 64 characters long"
-  },
-  "passwordTypeError": {
-    "message": "Password must be a string"
-  },
-  "passwordCharacterError": {
-    "message": "Password must only contain letters, numbers and symbols"
-  },
-  "remove": {
-    "message": "Hapus"
-  },
-  "invalidSessionId": {
-    "message": "Session salah"
-  },
-  "invalidPubkeyFormat": {
-    "message": "Invalid Pubkey Format"
-  },
-  "emptyGroupNameError": {
-    "message": "Masukkan nama grup"
-  },
-  "editProfileModalTitle": {
-    "message": "Profile"
-  },
-  "groupNamePlaceholder": {
-    "message": "Nama grup"
-  },
-  "inviteContacts": {
-    "message": "Undang teman"
-  },
-  "addModerators": {
-    "message": "Add Moderators"
-  },
-  "removeModerators": {
-    "message": "Remove Moderators"
-  },
-  "addAsModerator": {
-    "message": "Add As Moderator"
-  },
-  "removeFromModerators": {
-    "message": "Remove From Moderators"
-  },
-  "add": {
-    "message": "Add"
-  },
-  "groupInvitation": {
-    "message": "Group Invitation"
-  },
-  "addingContacts": {
-    "message": "Adding contacts to"
-  },
-  "noContactsToAdd": {
-    "message": "No contacts to add"
-  },
-  "noMembersInThisGroup": {
-    "message": "No other members in this group"
-  },
-  "noModeratorsToRemove": {
-    "message": "no moderators to remove"
-  },
-  "onlyAdminCanRemoveMembers": {
-    "message": "You are not the creator"
-  },
-  "onlyAdminCanRemoveMembersDesc": {
-    "message": "Only the creator of the group can remove users"
-  },
-  "createAccount": {
-    "message": "Create Account"
-  },
-  "signIn": {
-    "message": "Sign In"
-  },
-  "yourUniqueSessionID": {
-    "message": "Ucapkan halo pada Session ID anda"
-  },
-  "allUsersAreRandomly...": {
-    "message": "Session ID adalah alamat unik yang bisa digunakan untuk mengontak anda. Tanpa koneksi dengan identitas asli, Session ID anda didesain bersifat anonim dan rahasia."
-  },
-  "getStarted": {
-    "message": "Get started"
-  },
-  "createSessionID": {
-    "message": "Buat Session ID"
-  },
-  "recoveryPhrase": {
-    "message": "Kata pemulihan"
-  },
-  "enterRecoveryPhrase": {
-    "message": "masukan kata pemulihan"
-  },
-  "displayName": {
-    "message": "Display Name"
-  },
-  "anonymous": {
-    "message": "Anonymous"
-  },
-  "removeResidueMembers": {
-    "message": "Clicking ok will also remove those members as they left the group."
-  },
-  "enterDisplayName": {
-    "message": "Masukkan nama"
-  },
-  "enterOptionalPassword": {
-    "message": "Enter password (optional)"
-  },
-  "continueYourSession": {
-    "message": "Lanjutkan Session"
-  },
-  "linkDevice": {
-    "message": "Tautkan perangkat"
-  },
-  "restoreUsingRecoveryPhrase": {
-    "message": "Kembalikan akun"
-  },
-  "or": {
-    "message": "or"
-  },
-  "ByUsingThisService...": {
-    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
-  },
-  "beginYourSession": {
-    "message": "Begin<br />your<br />Session."
-  },
-  "welcomeToYourSession": {
-    "message": "Welcome to your Session"
-  },
-  "newSession": {
-    "message": "Session baru"
-  },
-  "searchFor...": {
-    "message": "Cari untuk percakapan, daftar kontak dan pesan"
-  },
-  "enterSessionID": {
-    "message": "Masuk ke Session ID"
-  },
-  "enterSessionIDOfRecipient": {
-    "message": "Masukkan Session ID penerima"
-  },
-  "usersCanShareTheir...": {
-    "message": "Pengguna bisa membagikan Session ID miliknya dengan masuk ke pengaturan akun dan mengetuk \"Bagikan Session ID\" atau dengan membagikan kode QR mereka"
-  },
-  "message": {
-    "message": "Message"
-  },
-  "appearanceSettingsTitle": {
-    "message": "Penampilan"
-  },
-  "permissionSettingsTitle": {
-    "message": "Permissions"
-  },
-  "privacySettingsTitle": {
-    "message": "Privasi"
-  },
-  "notificationsSettingsTitle": {
-    "message": "Pemberitahuan"
-  },
-  "recoveryPhraseEmpty": {
-    "message": "masukan kata pemulihan"
-  },
-  "displayNameEmpty": {
-    "message": "Pilih nama yang ditampilkan"
-  },
-  "members": {
-    "message": "$count$ members"
-  },
-  "joinOpenGroup": {
-    "message": "Gabung ke grup terbuka"
-  },
-  "newClosedGroup": {
-    "message": "Grup tertutup baru"
-  },
-  "createClosedGroupNamePrompt": {
-    "message": "Nama grup"
-  },
-  "createClosedGroupPlaceholder": {
-    "message": "Masukkan nama grup"
-  },
-  "openGroupURL": {
-    "message": "Buka URL grup"
-  },
-  "enterAnOpenGroupURL": {
-    "message": "Masukkan sebuah URL grup terbuka"
-  },
-  "next": {
-    "message": "Berikutnya"
-  },
-  "description": {
-    "message": "Description"
-  },
-  "invalidGroupNameTooShort": {
-    "message": "Masukkan nama grup"
-  },
-  "invalidGroupNameTooLong": {
-    "message": "Masukkan nama grup yang lebih pendek"
-  },
-  "pickClosedGroupMember": {
-    "message": "Pilih setidaknya 2 anggota grup"
-  },
-  "closedGroupMaxSize": {
-    "message": "Grup tertutup maksimal berisi 100 anggota"
-  },
-  "noBlockedContacts": {
-    "message": "Tidak ada kontak yang diblokir"
-  },
-  "userAddedToModerators": {
-    "message": "User added to moderator list"
-  },
-  "userRemovedFromModerators": {
-    "message": "User removed from moderator list"
-  },
-  "errorHappenedWhileRemovingModerator": {
-    "message": "An error happened"
-  },
-  "errorHappenedWhileRemovingModeratorDesc": {
-    "message": "An error happened while removing this user from the moderator list."
-  },
-  "orJoinOneOfThese": {
-    "message": "Or join one of these..."
-  },
+  "privacyPolicy": "Istilah & Kebijakan Privasi",
+  "copyErrorAndQuit": "Copy error and quit",
+  "unknown": "Tidak dikenal",
+  "databaseError": "Database Error",
+  "mainMenuFile": "&Berkas",
+  "mainMenuEdit": "&Edit",
+  "mainMenuView": "&Lihat",
+  "mainMenuWindow": "&Jendela",
+  "mainMenuHelp": "&Bantuan",
+  "appMenuHide": "Sembunyikan",
+  "appMenuHideOthers": "Sembuyikan lainnya",
+  "appMenuUnhide": "Tampilkan Semua",
+  "appMenuQuit": "Keluar dari Session",
+  "editMenuUndo": "Ulang",
+  "editMenuRedo": "mengulang",
+  "editMenuCut": "Potong",
+  "editMenuCopy": "Salin",
+  "editMenuPaste": "Tempel",
+  "editMenuPasteAndMatchStyle": "Tempelkan dan cocokkan model",
+  "editMenuDelete": "Hapus",
+  "editMenuSelectAll": "Pilih semua",
+  "editMenuStartSpeaking": "Mulai bicara",
+  "editMenuStopSpeaking": "Berhenti berbicara",
+  "windowMenuClose": "Tutup Jendela",
+  "windowMenuMinimize": "Kecilkan",
+  "windowMenuZoom": "Perbesar",
+  "windowMenuBringAllToFront": "Bawa Semua ke Depan",
+  "viewMenuResetZoom": "Ukuran Sebenarnya",
+  "viewMenuZoomIn": "Memperbesar",
+  "viewMenuZoomOut": "Memperkecil",
+  "viewMenuToggleFullScreen": "Toggle layar penuh",
+  "viewMenuToggleDevTools": "Toggle perangkat pengembangan",
+  "menuSetupWithImport": "Siapkan dengan Impor",
+  "contextMenuNoSuggestions": "No Suggestions",
+  "loading": "Memuat...",
+  "optimizingApplication": "Mengoptimalkan aplikasi...",
+  "chooseDirectory": "Pilih map",
+  "done": "Done",
+  "loadDataHeader": "Memuat data Anda",
+  "loadDataDescription": "Anda telah melewati proses ekspor. Kontak dan pesan Anda sedang menanti dengan sabar di komputer. Pilih map berisikan data Session Anda.",
+  "importChooserTitle": "Pilih direktori dengan data telah diekspor",
+  "importErrorHeader": "Sesuatu berjalan keliru!",
+  "importingHeader": "Memuat kontak dan pesan",
+  "importErrorFirst": "Pastikan Anda memilih direktori tepat, yang berisi data Session yang telah tersimpan. Nama direktori itu seharusnya 'Expor Session'. Anda bisa juga membuat data salinan baru dari Chrome App.",
+  "importErrorSecond": "Jika langkah ini tidak berhasil bagi Anda, silakan masukkan catatan awakutu (Tampilan -> Catatan Awakutu) sehingga kami dapat membantu Anda untuk bermigrasi!",
+  "importAgain": "Pilih map dan coba lagi",
+  "importCompleteHeader": "Berhasil!",
+  "importCompleteStartButton": "Mulai menggunakan Session Desktop",
+  "importCompleteLinkButton": "Sambungkan perangkat ini dengan telpon Anda",
+  "me": "Saya",
+  "view": "Lihat",
+  "youLeftTheGroup": "Anda telah keluar dari grup.",
+  "youGotKickedFromGroup": "You were removed from the group.",
+  "unreadMessage": "1 Pesan Belum Dibaca",
+  "unreadMessages": "$count$ pesan belum dibaca",
+  "debugLogExplanation": "Catatan ini akan diunggah secara publik agar kontributor dapat melihat. Anda dapat memeriksa kembali dan menyunting sebelum mengunggahnya.",
+  "debugLogError": "Terjadi kesalahan ketika mengunggah! Harap perhatikan manual menambahkan catatan bug dalam file Anda. ",
+  "reportIssue": "Laporkan masalah",
+  "gotIt": "Paham",
+  "submit": "Kirim",
+  "markAllAsRead": "Mark All as Read",
+  "incomingError": "Gagal dalam menangani pesan masuk",
+  "media": "Media",
+  "mediaEmptyState": "Tidak ada media",
+  "documents": "Dokumen",
+  "documentsEmptyState": "Tidak ada dokumen",
+  "today": "Hari ini",
+  "yesterday": "Kemarin",
+  "thisWeek": "Minggu ini",
+  "thisMonth": "Bulan ini",
+  "voiceMessage": "Pesan Suara",
+  "dangerousFileType": "Jenis lampiran tidak diperbolehkan untuk alasan keamanan",
+  "stagedPreviewThumbnail": "Draft thumbnail link preview for $domain$",
+  "previewThumbnail": "Thumbnail link preview for $domain$",
+  "stagedImageAttachment": "Draft image attachment: $path$",
+  "oneNonImageAtATimeToast": "Ketika menyertakan lampiran bukan gambar, batasnya adalah satu lampiran per pesan.",
+  "cannotMixImageAndNonImageAttachments": "Anda tidak bisa mencampur lampiran gambar dan bukan gambar dalam satu pesan.",
+  "maximumAttachments": "Anda tidak bisa lagi menambahkan lampiran untuk pesan ini.",
+  "fileSizeWarning": "Lampiran melebihi batas ukuran untuk tipe pesan yang Anda kirimkan.",
+  "unableToLoadAttachment": "Maaf, terjadi kesalahan pada pengaturan lampiran anda.",
+  "offline": "Luring",
+  "checkNetworkConnection": "Periksa koneksi jaringan Anda.",
+  "attemptingReconnection": "Mencoba menyambung kembali dalam $reconnect_duration_in_seconds$ detik",
+  "submitDebugLog": "Catatan Awakutu",
+  "debugLog": "Catatan Awakutu",
+  "goToReleaseNotes": "Lihat Catatan Rilis",
+  "goToSupportPage": "Cek halaman bantuan",
+  "menuReportIssue": "Laporkan masalah ",
+  "about": "Tentang",
+  "speech": "Bicara",
+  "show": "Tampilkan",
+  "sessionMessenger": "Session",
+  "search": "Cari",
+  "noSearchResults": "Tidak ditemukan hasil untuk \"$searchTerm$\"",
+  "conversationsHeader": "Percakapan",
+  "contactsHeader": "Kontak",
+  "messagesHeader": "Pesan",
+  "settingsHeader": "Pengaturan",
+  "typingAlt": "Animasi pengetikan untuk percakapan ini",
+  "contactAvatarAlt": "Avatar untuk kontak $name$",
+  "downloadAttachment": "Unduh Lampiran",
+  "replyToMessage": "Balas pesan",
+  "replyingToMessage": "Replying to:",
+  "originalMessageNotFound": "Pesan asli tidak ditemukan.",
+  "originalMessageNotAvailable": "Pesan asli tidak lagi tersedia",
+  "messageFoundButNotLoaded": "Original message found, but not loaded. Scroll up to load it.",
+  "recording": "Recording",
+  "you": "Anda",
+  "audioPermissionNeededTitle": "Microphone access required",
+  "audioPermissionNeeded": "Untuk mengirim pesan suara, izinkan Session mengakses mikrofon Anda.",
+  "audio": "Audio",
+  "video": "Video",
+  "photo": "Foto",
+  "cannotUpdate": "Cannot Update",
+  "cannotUpdateDetail": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+  "ok": "OK",
+  "cancel": "Batal",
+  "close": "Close",
+  "continue": "Lanjutkan",
+  "error": "Galat",
+  "delete": "Hapus",
+  "deletePublicWarning": "Are you sure? This will permanently remove this message for everyone in this open group.",
+  "deleteMultiplePublicWarning": "Are you sure? This will permanently remove these messages for everyone in this open group.",
+  "deleteWarning": "Apakah Anda yakin? Menekan \"hapus\" akan menghapus pesan secara permanen hanya pada perangkat ini.",
+  "deleteMultipleWarning": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only.",
+  "messageDeletionForbidden": "You don’t have permission to delete others’ messages",
+  "deleteThisMessage": "Hapus pesan",
+  "deleted": "Deleted",
+  "from": "Dari:",
+  "to": "Kepada:",
+  "sent": "Terkirim",
+  "received": "Diterima",
+  "sendMessage": "Mengirim pesan",
+  "groupMembers": "Anggota grup",
+  "moreInformation": "Informasi lebih lanjut",
+  "resend": "Kirim ulang",
+  "deleteMessage": "Hapus pesan",
+  "deleteMessages": "Hapus pesan",
+  "deleteMessageForEveryone": "Delete Message For Everyone",
+  "deleteMessagesForEveryone": "Delete Messages For Everyone",
+  "deleteForEveryone": "Delete For Everyone",
+  "deleteConversationConfirmation": "Hapus obrolan ini selamanya?",
+  "clearAllData": "Hapus semua data",
+  "deleteAccountWarning": "Pesan, Session, dan kontak anda akan dihapus secara permanen",
+  "deleteContactConfirmation": "Apakah anda yakin ingin menghapus percakapan ini?",
+  "quoteThumbnailAlt": "Cuplikan gambar dari pesan yang dikutip",
+  "imageAttachmentAlt": "Gambar dilampirkan kedalam pesan",
+  "videoAttachmentAlt": "Hasil tangkapan layar dari video dilampirkan dalam pesan",
+  "lightboxImageAlt": "Gambar telah terkirim dalam percakapan",
+  "imageCaptionIconAlt": "Ikon mengindikasikan jika gambar ini memiliki takarir",
+  "addACaption": "Tambah keterangan...",
+  "copy": "Salin",
+  "copySessionID": "Copy Session ID",
+  "copyOpenGroupURL": "Copy Group's URL",
+  "save": "Simpan",
+  "saved": "Saved",
+  "permissions": "Perizinan",
+  "general": "Umum",
+  "linkPreviewsTitle": "Kirim pratinjau tautan",
+  "linkPreviewDescription": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links",
+  "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
+  "mediaPermissionsTitle": "Microphone and Camera",
+  "mediaPermissionsDescription": "Izinkan akses ke kamera dan mikrofon",
+  "spellCheckTitle": "Spell Check",
+  "spellCheckDescription": "Aktifkan pengecek ejaan dalam kotak pesan",
+  "spellCheckDirty": "You must restart Session to apply your new settings",
+  "notifications": "Pemberitahuan",
+  "readReceiptSettingDescription": "See and share when messages have been read (enables read receipts in all sessions).",
+  "readReceiptSettingTitle": "Pesan terbaca",
+  "typingIndicatorsSettingDescription": "See and share when messages are being typed (applies to all sessions).",
+  "typingIndicatorsSettingTitle": "Indikator penulisan",
+  "zoomFactorSettingTitle": "Zoom Factor",
+  "notificationSettingsDialog": "Saat pesan sampai, tampilkan pemberitahuan yang menampilkan:",
+  "disableNotifications": "Bisukan pemberitahuan",
+  "nameAndMessage": "nama pengirim dan pesannya",
+  "noNameOrMessage": "Nama atau pesan saja",
+  "nameOnly": "Nama pengirim saja",
+  "newMessage": "Pesan Baru",
+  "newMessages": "Pesan Baru",
+  "notificationMostRecentFrom": "Paling baru dari: $name$",
+  "notificationFrom": "Dari:",
+  "notificationMostRecent": "Terkini:",
+  "sendFailed": "Gagal Mengirim",
+  "expiredWarning": "Versi Session Desktop ini telah kedaluwarsa. Mohom memutakhirkan ke versi terbaru untuk melanjutkan pengiriman pesan.",
+  "upgrade": "Pemutakhiran",
+  "mediaMessage": "Pesan media",
+  "timestamp_s": "Sekarang",
+  "timestamp_m": "1 menit",
+  "timestamp_h": "1 jam",
+  "timestampFormat_M": "MMM D",
+  "messageBodyMissing": "Please enter a message body.",
+  "unblockToSend": "Lepaskan blokir kontak ini untuk mengirim pesan",
+  "unblockGroupToSend": "Lepaskan blokir grup ini untuk mengirim pesan.",
+  "youChangedTheTimer": "Anda mengatur pesan menghilang dalam $time$",
+  "timerSetOnSync": "Memperbarui pesan menghilang menjadi dalam waktu $time$ ",
+  "theyChangedTheTimer": "$name$ atur pesan menghilang menjadi $time$",
+  "timerOption_0_seconds": "Mati",
+  "timerOption_5_seconds": "5 detik",
+  "timerOption_10_seconds": "10 detik",
+  "timerOption_30_seconds": "30 detik",
+  "timerOption_1_minute": "1 menit",
+  "timerOption_5_minutes": "5 menit",
+  "timerOption_30_minutes": "30 menit",
+  "timerOption_1_hour": "1 jam",
+  "timerOption_6_hours": "6 jam",
+  "timerOption_12_hours": "12 jam",
+  "timerOption_1_day": "1 hari",
+  "timerOption_1_week": "1 minggu",
+  "disappearingMessages": "Pesan hilang",
+  "changeNickname": "Change Nickname",
+  "clearNickname": "Clear nickname",
+  "timerOption_0_seconds_abbreviated": "padam",
+  "timerOption_5_seconds_abbreviated": "5d",
+  "timerOption_10_seconds_abbreviated": "10d",
+  "timerOption_30_seconds_abbreviated": "30d",
+  "timerOption_1_minute_abbreviated": "1m",
+  "timerOption_5_minutes_abbreviated": "5m",
+  "timerOption_30_minutes_abbreviated": "30m",
+  "timerOption_1_hour_abbreviated": "1j",
+  "timerOption_6_hours_abbreviated": "6j",
+  "timerOption_12_hours_abbreviated": "12j",
+  "timerOption_1_day_abbreviated": "1h",
+  "timerOption_1_week_abbreviated": "1mg",
+  "disappearingMessagesDisabled": "Pesan menghilang dinonaktifkan",
+  "disabledDisappearingMessages": "$name$ menonaktifkan pesan menghilang.",
+  "youDisabledDisappearingMessages": "Anda menonaktifkan pesan menghilang.",
+  "timerSetTo": "Waktu pesan hilang diatur ke $time$",
+  "noteToSelf": "Catatan Pribadi",
+  "hideMenuBarTitle": "Hide Menu Bar",
+  "hideMenuBarDescription": "Toggle system menu bar visibility",
+  "startConversation": "Start new conversation…",
+  "invalidNumberError": "Nomor salah",
+  "successUnlinked": "Sukses memutus koneksi perangkat",
+  "autoUpdateSettingTitle": "Auto Update",
+  "autoUpdateSettingDescription": "Automatically check for updates on launch",
+  "autoUpdateNewVersionTitle": "Tersedia Session versi terbaru",
+  "autoUpdateNewVersionMessage": "Tersedia versi terbaru Session.",
+  "autoUpdateNewVersionInstructions": "Tekan memulai awal Session untuk mendapatkan versi terbaru.",
+  "autoUpdateRestartButtonLabel": "Mulai ulang Session",
+  "autoUpdateLaterButtonLabel": "Nanti",
+  "autoUpdateDownloadButtonLabel": "Unduh",
+  "autoUpdateDownloadedMessage": "The new update has been downloaded.",
+  "autoUpdateDownloadInstructions": "Would you like to download the update?",
+  "leftTheGroup": "$name$ telah meninggalkan grup.",
+  "multipleLeftTheGroup": "$name$ telah meninggalkan grup",
+  "updatedTheGroup": "Grup diperbarui",
+  "titleIsNow": "Nama grup sekarang '$name$'.",
+  "joinedTheGroup": "$name$ bergabung dengan grup.",
+  "multipleJoinedTheGroup": "$name$ bergabung dengan grup",
+  "kickedFromTheGroup": "$name$ was removed from the group.",
+  "multipleKickedFromTheGroup": "$name$ were removed from the group.",
+  "blockUser": "Blokir",
+  "unblockUser": "Buka blokir",
+  "unblocked": "Unblocked",
+  "blockedSettingsTitle": "Kontak yang diblokir",
+  "unbanUser": "Unban User",
+  "unbanUserConfirm": "Are you sure you want to unban user?",
+  "userUnbanned": "User unbanned successfully",
+  "userUnbanFailed": "Unban failed!",
+  "banUser": "Ban User",
+  "banUserConfirm": "Are you sure you want to ban user?",
+  "userBanned": "User banned successfully",
+  "userBanFailed": "Ban failed!",
+  "leaveGroup": "Keluar grup",
+  "leaveAndRemoveForEveryone": "Leave Group and remove for everyone",
+  "leaveGroupConfirmation": "Apakah anda yakin ingin meninggalkan grup ini?",
+  "leaveGroupConfirmationAdmin": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
+  "cannotRemoveCreatorFromGroup": "Cannot remove this user",
+  "cannotRemoveCreatorFromGroupDesc": "You cannot remove this user as they are the creator of the group.",
+  "userNeedsToHaveJoined": "User needs to have joined",
+  "userNeedsToHaveJoinedDesc": "An error happened. The user needs to have already joined the server for this ADD to work.",
+  "noContactsForGroup": "anda belum memiliki kontak",
+  "copyMessage": "Copy message text",
+  "selectMessage": "Select message",
+  "editGroup": "Ubah grup",
+  "editGroupName": "Edit group name",
+  "updateGroupDialogTitle": "Memperbarui $name$...",
+  "showRecoveryPhrase": "Kata pemulihan",
+  "yourSessionID": "Session ID anda",
+  "setAccountPasswordTitle": "Set Account Password",
+  "setAccountPasswordDescription": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+  "changeAccountPasswordTitle": "Change Account Password",
+  "changeAccountPasswordDescription": "Change your password",
+  "removeAccountPasswordTitle": "Remove Account Password",
+  "removeAccountPasswordDescription": "Remove the password associated with your account",
+  "enterPassword": "Please enter your password",
+  "confirmPassword": "Confirm password",
+  "pasteLongPasswordToastTitle": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+  "showRecoveryPhrasePasswordRequest": "Please enter your password",
+  "recoveryPhraseSavePromptMain": "Kata pemulihan adalah kunci Session ID -- bisa digunakan untuk mengembalikan Session ID ketika anda kehilangan perangkat. Simpan kata pemulihan di tempat yang aman dan jangan berikan kepada siapapun",
+  "invalidOpenGroupUrl": "Invalid URL",
+  "copiedToClipboard": "Salin ke clipboard",
+  "passwordViewTitle": "Type In Your Password",
+  "unlock": "Buka Kunci",
+  "password": "Password",
+  "setPassword": "Set Password",
+  "changePassword": "Change Password",
+  "removePassword": "Remove Password",
+  "maxPasswordAttempts": "Invalid Password. Would you like to reset the database?",
+  "typeInOldPassword": "Please type in your old password",
+  "invalidOldPassword": "Old password is invalid",
+  "invalidPassword": "Invalid password",
+  "noGivenPassword": "Please enter your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "setPasswordInvalid": "Passwords do not match",
+  "changePasswordInvalid": "The old password you entered is incorrect",
+  "removePasswordInvalid": "Incorrect password",
+  "setPasswordTitle": "Set Password",
+  "changePasswordTitle": "Changed Password",
+  "removePasswordTitle": "Removed Password",
+  "setPasswordToastDescription": "Your password has been set. Please keep it safe.",
+  "changePasswordToastDescription": "Your password has been changed. Please keep it safe.",
+  "removePasswordToastDescription": "You have removed your password.",
+  "publicChatExists": "You are already connected to this open group",
+  "connectToServerFail": "Tak bisa bergabung dengan grup",
+  "connectingToServer": "Menghubungkan...",
+  "connectToServerSuccess": "Successfully connected to open group",
+  "setPasswordFail": "Failed to set password",
+  "passwordLengthError": "Password must be between 6 and 64 characters long",
+  "passwordTypeError": "Password must be a string",
+  "passwordCharacterError": "Password must only contain letters, numbers and symbols",
+  "remove": "Hapus",
+  "invalidSessionId": "Session salah",
+  "invalidPubkeyFormat": "Invalid Pubkey Format",
+  "emptyGroupNameError": "Masukkan nama grup",
+  "editProfileModalTitle": "Profile",
+  "groupNamePlaceholder": "Nama grup",
+  "inviteContacts": "Undang teman",
+  "addModerators": "Add Moderators",
+  "removeModerators": "Remove Moderators",
+  "addAsModerator": "Add As Moderator",
+  "removeFromModerators": "Remove From Moderators",
+  "add": "Add",
+  "groupInvitation": "Group Invitation",
+  "addingContacts": "Adding contacts to",
+  "noContactsToAdd": "No contacts to add",
+  "noMembersInThisGroup": "No other members in this group",
+  "noModeratorsToRemove": "no moderators to remove",
+  "onlyAdminCanRemoveMembers": "You are not the creator",
+  "onlyAdminCanRemoveMembersDesc": "Only the creator of the group can remove users",
+  "createAccount": "Create Account",
+  "signIn": "Sign In",
+  "yourUniqueSessionID": "Ucapkan halo pada Session ID anda",
+  "allUsersAreRandomly...": "Session ID adalah alamat unik yang bisa digunakan untuk mengontak anda. Tanpa koneksi dengan identitas asli, Session ID anda didesain bersifat anonim dan rahasia.",
+  "getStarted": "Get started",
+  "createSessionID": "Buat Session ID",
+  "recoveryPhrase": "Kata pemulihan",
+  "enterRecoveryPhrase": "masukan kata pemulihan",
+  "displayName": "Display Name",
+  "anonymous": "Anonymous",
+  "removeResidueMembers": "Clicking ok will also remove those members as they left the group.",
+  "enterDisplayName": "Masukkan nama",
+  "enterOptionalPassword": "Enter password (optional)",
+  "continueYourSession": "Lanjutkan Session",
+  "linkDevice": "Tautkan perangkat",
+  "restoreUsingRecoveryPhrase": "Kembalikan akun",
+  "or": "or",
+  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>",
+  "beginYourSession": "Begin<br />your<br />Session.",
+  "welcomeToYourSession": "Welcome to your Session",
+  "newSession": "Session baru",
+  "searchFor...": "Cari untuk percakapan, daftar kontak dan pesan",
+  "enterSessionID": "Masuk ke Session ID",
+  "enterSessionIDOfRecipient": "Masukkan Session ID penerima",
+  "usersCanShareTheir...": "Pengguna bisa membagikan Session ID miliknya dengan masuk ke pengaturan akun dan mengetuk \"Bagikan Session ID\" atau dengan membagikan kode QR mereka",
+  "message": "Message",
+  "appearanceSettingsTitle": "Penampilan",
+  "permissionSettingsTitle": "Permissions",
+  "privacySettingsTitle": "Privasi",
+  "notificationsSettingsTitle": "Pemberitahuan",
+  "recoveryPhraseEmpty": "masukan kata pemulihan",
+  "displayNameEmpty": "Pilih nama yang ditampilkan",
+  "members": "$count$ members",
+  "joinOpenGroup": "Gabung ke grup terbuka",
+  "newClosedGroup": "Grup tertutup baru",
+  "createClosedGroupNamePrompt": "Nama grup",
+  "createClosedGroupPlaceholder": "Masukkan nama grup",
+  "openGroupURL": "Buka URL grup",
+  "enterAnOpenGroupURL": "Masukkan sebuah URL grup terbuka",
+  "next": "Berikutnya",
+  "description": "Description",
+  "invalidGroupNameTooShort": "Masukkan nama grup",
+  "invalidGroupNameTooLong": "Masukkan nama grup yang lebih pendek",
+  "pickClosedGroupMember": "Pilih setidaknya 2 anggota grup",
+  "closedGroupMaxSize": "Grup tertutup maksimal berisi 100 anggota",
+  "noBlockedContacts": "Tidak ada kontak yang diblokir",
+  "userAddedToModerators": "User added to moderator list",
+  "userRemovedFromModerators": "User removed from moderator list",
+  "errorHappenedWhileRemovingModerator": "An error happened",
+  "errorHappenedWhileRemovingModeratorDesc": "An error happened while removing this user from the moderator list.",
+  "orJoinOneOfThese": "Or join one of these...",
   "helpUsTranslateSession": "Help us Translate Session",
   "translation": "Translation"
 }

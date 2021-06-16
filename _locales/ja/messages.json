@@ -1,1177 +1,395 @@
 {
-  "privacyPolicy": {
-    "message": "利用規約とプライバシーポリシー"
-  },
-  "copyErrorAndQuit": {
-    "message": "Copy error and quit"
-  },
-  "unknown": {
-    "message": "不明"
-  },
-  "databaseError": {
-    "message": "Database Error"
-  },
-  "mainMenuFile": {
-    "message": "ファイル (&F)"
-  },
-  "mainMenuEdit": {
-    "message": "編集 (&E)"
-  },
-  "mainMenuView": {
-    "message": "見る (&V)"
-  },
-  "mainMenuWindow": {
-    "message": "ウィンドウ (&W)"
-  },
-  "mainMenuHelp": {
-    "message": "ヘルプ (&H)"
-  },
-  "appMenuHide": {
-    "message": "最小化"
-  },
-  "appMenuHideOthers": {
-    "message": "他のウィンドウを隠す"
-  },
-  "appMenuUnhide": {
-    "message": "すべて表示"
-  },
-  "appMenuQuit": {
-    "message": "Sessionを終了する"
-  },
-  "editMenuUndo": {
-    "message": "元に戻す"
-  },
-  "editMenuRedo": {
-    "message": "やり直す"
-  },
-  "editMenuCut": {
-    "message": "切り取り"
-  },
-  "editMenuCopy": {
-    "message": "コピーする"
-  },
-  "editMenuPaste": {
-    "message": "貼り付け"
-  },
-  "editMenuPasteAndMatchStyle": {
-    "message": "貼り付けてスタイルをマッチさせる"
-  },
-  "editMenuDelete": {
-    "message": "削除"
-  },
-  "editMenuSelectAll": {
-    "message": "すべて選択"
-  },
-  "editMenuStartSpeaking": {
-    "message": "話し始める"
-  },
-  "editMenuStopSpeaking": {
-    "message": "話し終わる"
-  },
-  "windowMenuClose": {
-    "message": "ウィンドウを閉じる"
-  },
-  "windowMenuMinimize": {
-    "message": "最小化する"
-  },
-  "windowMenuZoom": {
-    "message": "ズーム"
-  },
-  "windowMenuBringAllToFront": {
-    "message": "すべてを前面に表示する"
-  },
-  "viewMenuResetZoom": {
-    "message": "実サイズ"
-  },
-  "viewMenuZoomIn": {
-    "message": "拡大"
-  },
-  "viewMenuZoomOut": {
-    "message": "縮小"
-  },
-  "viewMenuToggleFullScreen": {
-    "message": "フルスクリーンを切り替える"
-  },
-  "viewMenuToggleDevTools": {
-    "message": "開発者ツールを切り替える"
-  },
-  "menuSetupWithImport": {
-    "message": "インポートデータを使ってセットアップ"
-  },
-  "contextMenuNoSuggestions": {
-    "message": "No Suggestions"
-  },
-  "loading": {
-    "message": "読込中..."
-  },
-  "optimizingApplication": {
-    "message": "アプリケーションを最適化しています..."
-  },
-  "chooseDirectory": {
-    "message": "フォルダを選択"
-  },
-  "done": {
-    "message": "Done"
-  },
-  "loadDataHeader": {
-    "message": "データを読み込む"
-  },
-  "loadDataDescription": {
-    "message": "Sessionの保存データが含まれたフォルダーを選択してください。"
-  },
-  "importChooserTitle": {
-    "message": "エクスポートされたデータがあるフォルダを選んで下さい。"
-  },
-  "importErrorHeader": {
-    "message": "エラーが発生しました。"
-  },
-  "importingHeader": {
-    "message": "連絡先とメッセージを読み込み中"
-  },
-  "importErrorFirst": {
-    "message": "正しいディレクトリを選択したか確認してください。ディレクトリ名は「Session Export」から始まります。なお、旧式のChromeアプリからもデータをコピーできます。"
-  },
-  "importErrorSecond": {
-    "message": "もしこれらの方法がうまく作用しない場合、デバッグログを提出していただけると将来的な解決につながります!"
-  },
-  "importAgain": {
-    "message": "フォルダーを選択して再度お試しください。"
-  },
-  "importCompleteHeader": {
-    "message": "成功しました!"
-  },
-  "importCompleteStartButton": {
-    "message": "Session Desktopを使い始める"
-  },
-  "importCompleteLinkButton": {
-    "message": "この端末をモバイル端末とリンクする"
-  },
-  "me": {
-    "message": "自分"
-  },
-  "view": {
-    "message": "見る"
-  },
-  "youLeftTheGroup": {
-    "message": "グループを抜けました"
-  },
-  "youGotKickedFromGroup": {
-    "message": "You were removed from the group."
-  },
-  "unreadMessage": {
-    "message": "$count$通の未読メッセージ"
-  },
-  "unreadMessages": {
-    "message": "$count$通の未読メッセージ"
-  },
-  "debugLogExplanation": {
-    "message": "このログはネット上に公開され，開発者が閲覧します。提出前に編集することができます。"
-  },
-  "debugLogError": {
-    "message": "アップロードには失敗ありました！手入力でログをバグ報告に付けることを考慮して下さい。"
-  },
-  "reportIssue": {
-    "message": "問題を報告"
-  },
-  "gotIt": {
-    "message": "分かりました"
-  },
-  "submit": {
-    "message": "送信する"
-  },
-  "markAllAsRead": {
-    "message": "Mark All as Read"
-  },
-  "incomingError": {
-    "message": "受信中にエラー"
-  },
-  "media": {
-    "message": "メディア"
-  },
-  "mediaEmptyState": {
-    "message": "メディアがありません"
-  },
-  "documents": {
-    "message": "ドキュメント"
-  },
-  "documentsEmptyState": {
-    "message": "ドキュメントが見つかりません"
-  },
-  "today": {
-    "message": "今日"
-  },
-  "yesterday": {
-    "message": "昨日"
-  },
-  "thisWeek": {
-    "message": "今週"
-  },
-  "thisMonth": {
-    "message": "今月"
-  },
-  "voiceMessage": {
-    "message": "音声メッセージ"
-  },
-  "dangerousFileType": {
-    "message": "セキュリティ上の理由で許可されていない種類の添付ファイルです"
-  },
-  "stagedPreviewThumbnail": {
-    "message": "Draft thumbnail link preview for $domain$"
-  },
-  "previewThumbnail": {
-    "message": "Thumbnail link preview for $domain$"
-  },
-  "stagedImageAttachment": {
-    "message": "Draft image attachment: $path$"
-  },
-  "oneNonImageAtATimeToast": {
-    "message": "When including a non-image attachment, the limit is one attachment per message."
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "You cannot mix non-image and image attachments in one message."
-  },
-  "maximumAttachments": {
-    "message": "You cannot add any more attachments to this message."
-  },
-  "fileSizeWarning": {
-    "message": "添付ファイルのサイズが上限を超えています"
-  },
-  "unableToLoadAttachment": {
-    "message": "添付中にエラーが発生しました。"
-  },
-  "offline": {
-    "message": "オフライン"
-  },
-  "checkNetworkConnection": {
-    "message": "ネットワーク接続をご確認ください。"
-  },
-  "attemptingReconnection": {
-    "message": "$reconnect_duration_in_seconds$ 秒後に再接続を行います。"
-  },
-  "submitDebugLog": {
-    "message": "デバッグログ"
-  },
-  "debugLog": {
-    "message": "デバッグログ"
-  },
-  "goToReleaseNotes": {
-    "message": "リリースノートを閲覧"
-  },
-  "goToSupportPage": {
-    "message": "サポートページへ"
-  },
-  "menuReportIssue": {
-    "message": "バグを報告"
-  },
-  "about": {
-    "message": "Sessionについて"
-  },
-  "speech": {
-    "message": "スピーチ"
-  },
-  "show": {
-    "message": "表示"
-  },
-  "sessionMessenger": {
-    "message": "Session"
-  },
-  "search": {
-    "message": "検索"
-  },
-  "noSearchResults": {
-    "message": "「%s」に一致する情報は見つかりませんでした。"
-  },
-  "conversationsHeader": {
-    "message": "会話"
-  },
-  "contactsHeader": {
-    "message": "連絡先"
-  },
-  "messagesHeader": {
-    "message": "メッセージ"
-  },
-  "settingsHeader": {
-    "message": "設定"
-  },
-  "typingAlt": {
-    "message": "Typing animation for this conversation"
-  },
-  "contactAvatarAlt": {
-    "message": "$name$のアイコン"
-  },
-  "downloadAttachment": {
-    "message": "添付ファイルをダウンロード"
-  },
-  "replyToMessage": {
-    "message": "メッセージに返信"
-  },
-  "replyingToMessage": {
-    "message": "Replying to:"
-  },
-  "originalMessageNotFound": {
-    "message": "元のメッセージが見つかりません"
-  },
-  "originalMessageNotAvailable": {
-    "message": "元のメッセージはすでに削除されています"
-  },
-  "messageFoundButNotLoaded": {
-    "message": "元のメッセージを見つけたが、ロードされていません。ロードするのにスクロールアップして下さい。"
-  },
-  "recording": {
-    "message": "Recording"
-  },
-  "you": {
-    "message": "あなた"
-  },
-  "audioPermissionNeededTitle": {
-    "message": "Microphone access required"
-  },
-  "audioPermissionNeeded": {
-    "message": "音声メッセージを送るには、Sessionのマイクへのアクセスを許可してください。"
-  },
-  "audio": {
-    "message": "音声"
-  },
-  "video": {
-    "message": "動画"
-  },
-  "photo": {
-    "message": "写真"
-  },
-  "cannotUpdate": {
-    "message": "Cannot Update"
-  },
-  "cannotUpdateDetail": {
-    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem."
-  },
-  "ok": {
-    "message": "OK"
-  },
-  "cancel": {
-    "message": "キャンセル"
-  },
-  "close": {
-    "message": "Close"
-  },
-  "continue": {
-    "message": "続行"
-  },
-  "error": {
-    "message": "エラー"
-  },
-  "delete": {
-    "message": "削除"
-  },
-  "deletePublicWarning": {
-    "message": "Are you sure? This will permanently remove this message for everyone in this open group."
-  },
-  "deleteMultiplePublicWarning": {
-    "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
-  },
-  "deleteWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
-  },
-  "deleteMultipleWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
-  },
-  "messageDeletionForbidden": {
-    "message": "You don’t have permission to delete others’ messages"
-  },
-  "deleteThisMessage": {
-    "message": "メッセージの削除"
-  },
-  "deleted": {
-    "message": "Deleted"
-  },
-  "from": {
-    "message": "From:"
-  },
-  "to": {
-    "message": "To:"
-  },
-  "sent": {
-    "message": "送信"
-  },
-  "received": {
-    "message": "受信"
-  },
-  "sendMessage": {
-    "message": "メッセージ"
-  },
-  "groupMembers": {
-    "message": "グループメンバー"
-  },
-  "moreInformation": {
-    "message": "詳細"
-  },
-  "resend": {
-    "message": "再送"
-  },
-  "deleteMessage": {
-    "message": "メッセージの削除"
-  },
-  "deleteMessages": {
-    "message": "メッセージを削除"
-  },
-  "deleteMessageForEveryone": {
-    "message": "Delete Message For Everyone"
-  },
-  "deleteMessagesForEveryone": {
-    "message": "Delete Messages For Everyone"
-  },
-  "deleteForEveryone": {
-    "message": "Delete For Everyone"
-  },
-  "deleteConversationConfirmation": {
-    "message": "この会話を完全に消去しますが，よろしいですか？"
-  },
-  "clearAllData": {
-    "message": "すべてのデータを消去する"
-  },
-  "deleteAccountWarning": {
-    "message": "これにより、メッセージ、Session、連絡先が完全に削除されます。"
-  },
-  "deleteContactConfirmation": {
-    "message": "この会話を削除してもよろしいですか？"
-  },
-  "quoteThumbnailAlt": {
-    "message": "引用されたメッセージから画像のサムネール"
-  },
-  "imageAttachmentAlt": {
-    "message": "メッセージにイメージを添付する"
-  },
-  "videoAttachmentAlt": {
-    "message": "メッセージに添付された動画のスクリーンショット"
-  },
-  "lightboxImageAlt": {
-    "message": "会話に送られた画像"
-  },
-  "imageCaptionIconAlt": {
-    "message": "Icon showing that this image has a caption"
-  },
-  "addACaption": {
-    "message": "キャプション追加..."
-  },
-  "copy": {
-    "message": "コピーする"
-  },
-  "copySessionID": {
-    "message": "Copy Session ID"
-  },
-  "copyOpenGroupURL": {
-    "message": "Copy Group's URL"
-  },
-  "save": {
-    "message": "保存"
-  },
-  "saved": {
-    "message": "Saved"
-  },
-  "permissions": {
-    "message": "アクセス許可"
-  },
-  "general": {
-    "message": "一般"
-  },
-  "linkPreviewsTitle": {
-    "message": "リンクプレビューを送る"
-  },
-  "linkPreviewDescription": {
-    "message": "プレビューはImgur、Instagram、Pinterest、RedditおよびYouTubeリンクをサポートしています"
-  },
-  "linkPreviewsConfirmMessage": {
-    "message": "You will not have full metadata protection when sending or receiving link previews."
-  },
-  "mediaPermissionsTitle": {
-    "message": "Microphone and Camera"
-  },
-  "mediaPermissionsDescription": {
-    "message": "カメラとマイクへのアクセスを許可する"
-  },
-  "spellCheckTitle": {
-    "message": "Spell Check"
-  },
-  "spellCheckDescription": {
-    "message": "メッセージボックスに入力されたテキストのスペルチェックを有効にする"
-  },
-  "spellCheckDirty": {
-    "message": "You must restart Session to apply your new settings"
-  },
-  "notifications": {
-    "message": "通知"
-  },
-  "readReceiptSettingDescription": {
-    "message": "See and share when messages have been read (enables read receipts in all sessions)."
-  },
-  "readReceiptSettingTitle": {
-    "message": "既読通知"
-  },
-  "typingIndicatorsSettingDescription": {
-    "message": "See and share when messages are being typed (applies to all sessions)."
-  },
-  "typingIndicatorsSettingTitle": {
-    "message": "入力中アイコン"
-  },
-  "zoomFactorSettingTitle": {
-    "message": "Zoom Factor"
-  },
-  "notificationSettingsDialog": {
-    "message": "新着メッセージの通知で表示する項目："
-  },
-  "disableNotifications": {
-    "message": "通知をミュート"
-  },
-  "nameAndMessage": {
-    "message": "差出人名とメッセージ"
-  },
-  "noNameOrMessage": {
-    "message": "なし"
-  },
-  "nameOnly": {
-    "message": "差出人名のみ"
-  },
-  "newMessage": {
-    "message": "新着メッセージ"
-  },
-  "newMessages": {
-    "message": "新着メッセージ"
-  },
-  "notificationMostRecentFrom": {
-    "message": "最新の受信: $name$"
-  },
-  "notificationFrom": {
-    "message": "From:"
-  },
-  "notificationMostRecent": {
-    "message": "最近の受信："
-  },
-  "sendFailed": {
-    "message": "送信失敗"
-  },
-  "expiredWarning": {
-    "message": "アプリのバージョンが古すぎます。最新版に更新してください。"
-  },
-  "upgrade": {
-    "message": "最新版に更新"
-  },
-  "mediaMessage": {
-    "message": "メディアでのメッセージ"
-  },
-  "timestamp_s": {
-    "message": "今"
-  },
-  "timestamp_m": {
-    "message": "1分"
-  },
-  "timestamp_h": {
-    "message": "1時間"
-  },
-  "timestampFormat_M": {
-    "message": "MMM D"
-  },
-  "messageBodyMissing": {
-    "message": "Please enter a message body."
-  },
-  "unblockToSend": {
-    "message": "この連絡先にメッセージを送るためにブロックを解除する。"
-  },
-  "unblockGroupToSend": {
-    "message": "このグループにメッセージを送信するには、ブロックを解除してください。"
-  },
-  "youChangedTheTimer": {
-    "message": "消えるメッセージの消去時間を$time$に設定しました"
-  },
-  "timerSetOnSync": {
-    "message": "消えるメッセージのタイマーを$time$に更新しました"
-  },
-  "theyChangedTheTimer": {
-    "message": "$name$が消えるメッセージの消去時間を$time$に設定しました"
-  },
-  "timerOption_0_seconds": {
-    "message": "オフ"
-  },
-  "timerOption_5_seconds": {
-    "message": "5秒"
-  },
-  "timerOption_10_seconds": {
-    "message": "10秒"
-  },
-  "timerOption_30_seconds": {
-    "message": "30秒"
-  },
-  "timerOption_1_minute": {
-    "message": "1分"
-  },
-  "timerOption_5_minutes": {
-    "message": "5分"
-  },
-  "timerOption_30_minutes": {
-    "message": "30分"
-  },
-  "timerOption_1_hour": {
-    "message": "1時間"
-  },
-  "timerOption_6_hours": {
-    "message": "6時間"
-  },
-  "timerOption_12_hours": {
-    "message": "12時間"
-  },
-  "timerOption_1_day": {
-    "message": "1日"
-  },
-  "timerOption_1_week": {
-    "message": "1週間"
-  },
-  "disappearingMessages": {
-    "message": "消えるメッセージ"
-  },
-  "changeNickname": {
-    "message": "Change Nickname"
-  },
-  "clearNickname": {
-    "message": "Clear nickname"
-  },
-  "timerOption_0_seconds_abbreviated": {
-    "message": "オフ"
-  },
-  "timerOption_5_seconds_abbreviated": {
-    "message": "5秒"
-  },
-  "timerOption_10_seconds_abbreviated": {
-    "message": "10秒"
-  },
-  "timerOption_30_seconds_abbreviated": {
-    "message": "30秒"
-  },
-  "timerOption_1_minute_abbreviated": {
-    "message": "1分"
-  },
-  "timerOption_5_minutes_abbreviated": {
-    "message": "5分"
-  },
-  "timerOption_30_minutes_abbreviated": {
-    "message": "30分"
-  },
-  "timerOption_1_hour_abbreviated": {
-    "message": "1時間"
-  },
-  "timerOption_6_hours_abbreviated": {
-    "message": "6時間"
-  },
-  "timerOption_12_hours_abbreviated": {
-    "message": "12時間"
-  },
-  "timerOption_1_day_abbreviated": {
-    "message": "1日"
-  },
-  "timerOption_1_week_abbreviated": {
-    "message": "1週間"
-  },
-  "disappearingMessagesDisabled": {
-    "message": "消えるメッセージが無効にされました"
-  },
-  "disabledDisappearingMessages": {
-    "message": "$name$ が消えるメッセージを無効にしました。"
-  },
-  "youDisabledDisappearingMessages": {
-    "message": "消えるメッセージを無効にしました。"
-  },
-  "timerSetTo": {
-    "message": "消えるメッセージの消去時間が$time$に設定されました"
-  },
-  "noteToSelf": {
-    "message": "自分用メモ"
-  },
-  "hideMenuBarTitle": {
-    "message": "Hide Menu Bar"
-  },
-  "hideMenuBarDescription": {
-    "message": "Toggle system menu bar visibility"
-  },
-  "startConversation": {
-    "message": "Start new conversation…"
-  },
-  "invalidNumberError": {
-    "message": "不正な番号です"
-  },
-  "successUnlinked": {
-    "message": "端末は正常にリンク解除されました"
-  },
-  "autoUpdateSettingTitle": {
-    "message": "Auto Update"
-  },
-  "autoUpdateSettingDescription": {
-    "message": "Automatically check for updates on launch"
-  },
-  "autoUpdateNewVersionTitle": {
-    "message": "Sessionの新しい更新があります"
-  },
-  "autoUpdateNewVersionMessage": {
-    "message": "新しく生まれ変わったSessionがあります"
-  },
-  "autoUpdateNewVersionInstructions": {
-    "message": "更新を適用するにはSessionを再起動してください。"
-  },
-  "autoUpdateRestartButtonLabel": {
-    "message": "Sessionを再起動"
-  },
-  "autoUpdateLaterButtonLabel": {
-    "message": "後で"
-  },
-  "autoUpdateDownloadButtonLabel": {
-    "message": "ダウンロード"
-  },
-  "autoUpdateDownloadedMessage": {
-    "message": "The new update has been downloaded."
-  },
-  "autoUpdateDownloadInstructions": {
-    "message": "Would you like to download the update?"
-  },
-  "leftTheGroup": {
-    "message": "$name$がグループを抜けました。"
-  },
-  "multipleLeftTheGroup": {
-    "message": "$name$ がグループを退会しました"
-  },
-  "updatedTheGroup": {
-    "message": "グループが更新されました"
-  },
-  "titleIsNow": {
-    "message": "グループ名が「$name$」になりました"
-  },
-  "joinedTheGroup": {
-    "message": "$name$がグループに加わりました"
-  },
-  "multipleJoinedTheGroup": {
-    "message": "$name$がグループに加わりました"
-  },
-  "kickedFromTheGroup": {
-    "message": "$name$ was removed from the group."
-  },
-  "multipleKickedFromTheGroup": {
-    "message": "$name$ were removed from the group."
-  },
-  "blockUser": {
-    "message": "ブロック"
-  },
-  "unblockUser": {
-    "message": "ブロック解除"
-  },
-  "unblocked": {
-    "message": "Unblocked"
-  },
-  "blockedSettingsTitle": {
-    "message": "ブロックした連絡先"
-  },
-  "unbanUser": {
-    "message": "Unban User"
-  },
-  "unbanUserConfirm": {
-    "message": "Are you sure you want to unban user?"
-  },
-  "userUnbanned": {
-    "message": "User unbanned successfully"
-  },
-  "userUnbanFailed": {
-    "message": "Unban failed!"
-  },
-  "banUser": {
-    "message": "Ban User"
-  },
-  "banUserConfirm": {
-    "message": "Are you sure you want to ban user?"
-  },
-  "userBanned": {
-    "message": "User banned successfully"
-  },
-  "userBanFailed": {
-    "message": "Ban failed!"
-  },
-  "leaveGroup": {
-    "message": "グループを抜ける"
-  },
-  "leaveAndRemoveForEveryone": {
-    "message": "Leave Group and remove for everyone"
-  },
-  "leaveGroupConfirmation": {
-    "message": "このグループを退会しますか？"
-  },
-  "leaveGroupConfirmationAdmin": {
-    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?"
-  },
-  "cannotRemoveCreatorFromGroup": {
-    "message": "Cannot remove this user"
-  },
-  "cannotRemoveCreatorFromGroupDesc": {
-    "message": "You cannot remove this user as they are the creator of the group."
-  },
-  "userNeedsToHaveJoined": {
-    "message": "User needs to have joined"
-  },
-  "userNeedsToHaveJoinedDesc": {
-    "message": "An error happened. The user needs to have already joined the server for this ADD to work."
-  },
-  "noContactsForGroup": {
-    "message": "まだ連絡先がありません"
-  },
-  "copyMessage": {
-    "message": "Copy message text"
-  },
-  "selectMessage": {
-    "message": "Select message"
-  },
-  "editGroup": {
-    "message": "グループを編集する"
-  },
-  "editGroupName": {
-    "message": "Edit group name"
-  },
-  "updateGroupDialogTitle": {
-    "message": "$name$を更新中..."
-  },
-  "showRecoveryPhrase": {
-    "message": "リカバリーフレーズ"
-  },
-  "yourSessionID": {
-    "message": "あなたの Session ID"
-  },
-  "setAccountPasswordTitle": {
-    "message": "Set Account Password"
-  },
-  "setAccountPasswordDescription": {
-    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed"
-  },
-  "changeAccountPasswordTitle": {
-    "message": "Change Account Password"
-  },
-  "changeAccountPasswordDescription": {
-    "message": "Change your password"
-  },
-  "removeAccountPasswordTitle": {
-    "message": "Remove Account Password"
-  },
-  "removeAccountPasswordDescription": {
-    "message": "Remove the password associated with your account"
-  },
-  "enterPassword": {
-    "message": "Please enter your password"
-  },
-  "confirmPassword": {
-    "message": "Confirm password"
-  },
-  "pasteLongPasswordToastTitle": {
-    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters."
-  },
-  "showRecoveryPhrasePasswordRequest": {
-    "message": "Please enter your password"
-  },
-  "recoveryPhraseSavePromptMain": {
-    "message": "リカバリーフレーズは、Session ID のマスターキーです。端末にアクセスできなくなった場合、これを使用して Session ID を復元できます。リカバリーフレーズを安全な場所に保管し、誰にも教えないでください。"
-  },
-  "invalidOpenGroupUrl": {
-    "message": "Invalid URL"
-  },
-  "copiedToClipboard": {
-    "message": "クリップボードにコピーされました"
-  },
-  "passwordViewTitle": {
-    "message": "Type In Your Password"
-  },
-  "unlock": {
-    "message": "ロック解除"
-  },
-  "password": {
-    "message": "Password"
-  },
-  "setPassword": {
-    "message": "Set Password"
-  },
-  "changePassword": {
-    "message": "Change Password"
-  },
-  "removePassword": {
-    "message": "Remove Password"
-  },
-  "maxPasswordAttempts": {
-    "message": "Invalid Password. Would you like to reset the database?"
-  },
-  "typeInOldPassword": {
-    "message": "Please type in your old password"
-  },
-  "invalidOldPassword": {
-    "message": "Old password is invalid"
-  },
-  "invalidPassword": {
-    "message": "Invalid password"
-  },
-  "noGivenPassword": {
-    "message": "Please enter your password"
-  },
-  "passwordsDoNotMatch": {
-    "message": "Passwords do not match"
-  },
-  "setPasswordInvalid": {
-    "message": "Passwords do not match"
-  },
-  "changePasswordInvalid": {
-    "message": "The old password you entered is incorrect"
-  },
-  "removePasswordInvalid": {
-    "message": "Incorrect password"
-  },
-  "setPasswordTitle": {
-    "message": "Set Password"
-  },
-  "changePasswordTitle": {
-    "message": "Changed Password"
-  },
-  "removePasswordTitle": {
-    "message": "Removed Password"
-  },
-  "setPasswordToastDescription": {
-    "message": "Your password has been set. Please keep it safe."
-  },
-  "changePasswordToastDescription": {
-    "message": "Your password has been changed. Please keep it safe."
-  },
-  "removePasswordToastDescription": {
-    "message": "You have removed your password."
-  },
-  "publicChatExists": {
-    "message": "You are already connected to this open group"
-  },
-  "connectToServerFail": {
-    "message": "グループに参加できませんでした"
-  },
-  "connectingToServer": {
-    "message": "接続中..."
-  },
-  "connectToServerSuccess": {
-    "message": "Successfully connected to open group"
-  },
-  "setPasswordFail": {
-    "message": "Failed to set password"
-  },
-  "passwordLengthError": {
-    "message": "Password must be between 6 and 64 characters long"
-  },
-  "passwordTypeError": {
-    "message": "Password must be a string"
-  },
-  "passwordCharacterError": {
-    "message": "Password must only contain letters, numbers and symbols"
-  },
-  "remove": {
-    "message": "削除"
-  },
-  "invalidSessionId": {
-    "message": "Session ID が不正です"
-  },
-  "invalidPubkeyFormat": {
-    "message": "Invalid Pubkey Format"
-  },
-  "emptyGroupNameError": {
-    "message": "グループ名を入力してください"
-  },
-  "editProfileModalTitle": {
-    "message": "Profile"
-  },
-  "groupNamePlaceholder": {
-    "message": "グループ名"
-  },
-  "inviteContacts": {
-    "message": "友達にオススメする"
-  },
-  "addModerators": {
-    "message": "Add Moderators"
-  },
-  "removeModerators": {
-    "message": "Remove Moderators"
-  },
-  "addAsModerator": {
-    "message": "Add As Moderator"
-  },
-  "removeFromModerators": {
-    "message": "Remove From Moderators"
-  },
-  "add": {
-    "message": "Add"
-  },
-  "groupInvitation": {
-    "message": "Group Invitation"
-  },
-  "addingContacts": {
-    "message": "Adding contacts to"
-  },
-  "noContactsToAdd": {
-    "message": "No contacts to add"
-  },
-  "noMembersInThisGroup": {
-    "message": "No other members in this group"
-  },
-  "noModeratorsToRemove": {
-    "message": "no moderators to remove"
-  },
-  "onlyAdminCanRemoveMembers": {
-    "message": "You are not the creator"
-  },
-  "onlyAdminCanRemoveMembersDesc": {
-    "message": "Only the creator of the group can remove users"
-  },
-  "createAccount": {
-    "message": "Create Account"
-  },
-  "signIn": {
-    "message": "Sign In"
-  },
-  "yourUniqueSessionID": {
-    "message": "Session ID をご紹介します"
-  },
-  "allUsersAreRandomly...": {
-    "message": "Session ID は、Session で連絡を取るために使用できる一意のアドレスです。本当のアイデンティティに関係なく、あなたの Session ID は設計上完全に匿名でプライベートです。"
-  },
-  "getStarted": {
-    "message": "Get started"
-  },
-  "createSessionID": {
-    "message": "Session ID を作成する"
-  },
-  "recoveryPhrase": {
-    "message": "リカバリーフレーズ"
-  },
-  "enterRecoveryPhrase": {
-    "message": "リカバリーフレーズを入力してください"
-  },
-  "displayName": {
-    "message": "Display Name"
-  },
-  "anonymous": {
-    "message": "Anonymous"
-  },
-  "removeResidueMembers": {
-    "message": "Clicking ok will also remove those members as they left the group."
-  },
-  "enterDisplayName": {
-    "message": "表示名を入力してください"
-  },
-  "enterOptionalPassword": {
-    "message": "Enter password (optional)"
-  },
-  "continueYourSession": {
-    "message": "Session を続ける"
-  },
-  "linkDevice": {
-    "message": "端末をリンクする"
-  },
-  "restoreUsingRecoveryPhrase": {
-    "message": "アカウントを復元する"
-  },
-  "or": {
-    "message": "or"
-  },
-  "ByUsingThisService...": {
-    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
-  },
-  "beginYourSession": {
-    "message": "Begin<br />your<br />Session."
-  },
-  "welcomeToYourSession": {
-    "message": "Welcome to your Session"
-  },
-  "newSession": {
-    "message": "新しい Session"
-  },
-  "searchFor...": {
-    "message": "会話やメッセージ、連絡先を検索します。"
-  },
-  "enterSessionID": {
-    "message": "Session ID を入力してください"
-  },
-  "enterSessionIDOfRecipient": {
-    "message": "受信者の Session ID を入力してください"
-  },
-  "usersCanShareTheir...": {
-    "message": "ユーザーは、アカウント設定に移動して「Session ID を共有」をタップするか、QR コードを共有することで、Session ID を共有できます。"
-  },
-  "message": {
-    "message": "Message"
-  },
-  "appearanceSettingsTitle": {
-    "message": "デザイン設定"
-  },
-  "permissionSettingsTitle": {
-    "message": "Permissions"
-  },
-  "privacySettingsTitle": {
-    "message": "プライバシー"
-  },
-  "notificationsSettingsTitle": {
-    "message": "通知"
-  },
-  "recoveryPhraseEmpty": {
-    "message": "リカバリーフレーズを入力してください"
-  },
-  "displayNameEmpty": {
-    "message": "表示名を選択してください"
-  },
-  "members": {
-    "message": "$count$ members"
-  },
-  "joinOpenGroup": {
-    "message": "公開グループに参加する"
-  },
-  "newClosedGroup": {
-    "message": "新しい非公開グループ"
-  },
-  "createClosedGroupNamePrompt": {
-    "message": "グループ名"
-  },
-  "createClosedGroupPlaceholder": {
-    "message": "グループ名を入力してください"
-  },
-  "openGroupURL": {
-    "message": "グループの URL を開く"
-  },
-  "enterAnOpenGroupURL": {
-    "message": "公開グループの URL を入力する"
-  },
-  "next": {
-    "message": "進む"
-  },
-  "description": {
-    "message": "Description"
-  },
-  "invalidGroupNameTooShort": {
-    "message": "グループ名を入力してください"
-  },
-  "invalidGroupNameTooLong": {
-    "message": "短いグループ名を入力してください"
-  },
-  "pickClosedGroupMember": {
-    "message": "グループメンバーを少なくとも 2 人選択してください"
-  },
-  "closedGroupMaxSize": {
-    "message": "非公開グループは 100 人を超えるメンバーを抱えることはできません"
-  },
-  "noBlockedContacts": {
-    "message": "ブロックしている連絡先はありません"
-  },
-  "userAddedToModerators": {
-    "message": "User added to moderator list"
-  },
-  "userRemovedFromModerators": {
-    "message": "User removed from moderator list"
-  },
-  "errorHappenedWhileRemovingModerator": {
-    "message": "An error happened"
-  },
-  "errorHappenedWhileRemovingModeratorDesc": {
-    "message": "An error happened while removing this user from the moderator list."
-  },
-  "orJoinOneOfThese": {
-    "message": "Or join one of these..."
-  },
+  "privacyPolicy": "利用規約とプライバシーポリシー",
+  "copyErrorAndQuit": "Copy error and quit",
+  "unknown": "不明",
+  "databaseError": "Database Error",
+  "mainMenuFile": "ファイル (&F)",
+  "mainMenuEdit": "編集 (&E)",
+  "mainMenuView": "見る (&V)",
+  "mainMenuWindow": "ウィンドウ (&W)",
+  "mainMenuHelp": "ヘルプ (&H)",
+  "appMenuHide": "最小化",
+  "appMenuHideOthers": "他のウィンドウを隠す",
+  "appMenuUnhide": "すべて表示",
+  "appMenuQuit": "Sessionを終了する",
+  "editMenuUndo": "元に戻す",
+  "editMenuRedo": "やり直す",
+  "editMenuCut": "切り取り",
+  "editMenuCopy": "コピーする",
+  "editMenuPaste": "貼り付け",
+  "editMenuPasteAndMatchStyle": "貼り付けてスタイルをマッチさせる",
+  "editMenuDelete": "削除",
+  "editMenuSelectAll": "すべて選択",
+  "editMenuStartSpeaking": "話し始める",
+  "editMenuStopSpeaking": "話し終わる",
+  "windowMenuClose": "ウィンドウを閉じる",
+  "windowMenuMinimize": "最小化する",
+  "windowMenuZoom": "ズーム",
+  "windowMenuBringAllToFront": "すべてを前面に表示する",
+  "viewMenuResetZoom": "実サイズ",
+  "viewMenuZoomIn": "拡大",
+  "viewMenuZoomOut": "縮小",
+  "viewMenuToggleFullScreen": "フルスクリーンを切り替える",
+  "viewMenuToggleDevTools": "開発者ツールを切り替える",
+  "menuSetupWithImport": "インポートデータを使ってセットアップ",
+  "contextMenuNoSuggestions": "No Suggestions",
+  "loading": "読込中...",
+  "optimizingApplication": "アプリケーションを最適化しています...",
+  "chooseDirectory": "フォルダを選択",
+  "done": "Done",
+  "loadDataHeader": "データを読み込む",
+  "loadDataDescription": "Sessionの保存データが含まれたフォルダーを選択してください。",
+  "importChooserTitle": "エクスポートされたデータがあるフォルダを選んで下さい。",
+  "importErrorHeader": "エラーが発生しました。",
+  "importingHeader": "連絡先とメッセージを読み込み中",
+  "importErrorFirst": "正しいディレクトリを選択したか確認してください。ディレクトリ名は「Session Export」から始まります。なお、旧式のChromeアプリからもデータをコピーできます。",
+  "importErrorSecond": "もしこれらの方法がうまく作用しない場合、デバッグログを提出していただけると将来的な解決につながります!",
+  "importAgain": "フォルダーを選択して再度お試しください。",
+  "importCompleteHeader": "成功しました!",
+  "importCompleteStartButton": "Session Desktopを使い始める",
+  "importCompleteLinkButton": "この端末をモバイル端末とリンクする",
+  "me": "自分",
+  "view": "見る",
+  "youLeftTheGroup": "グループを抜けました",
+  "youGotKickedFromGroup": "You were removed from the group.",
+  "unreadMessage": "$count$通の未読メッセージ",
+  "unreadMessages": "$count$通の未読メッセージ",
+  "debugLogExplanation": "このログはネット上に公開され，開発者が閲覧します。提出前に編集することができます。",
+  "debugLogError": "アップロードには失敗ありました！手入力でログをバグ報告に付けることを考慮して下さい。",
+  "reportIssue": "問題を報告",
+  "gotIt": "分かりました",
+  "submit": "送信する",
+  "markAllAsRead": "Mark All as Read",
+  "incomingError": "受信中にエラー",
+  "media": "メディア",
+  "mediaEmptyState": "メディアがありません",
+  "documents": "ドキュメント",
+  "documentsEmptyState": "ドキュメントが見つかりません",
+  "today": "今日",
+  "yesterday": "昨日",
+  "thisWeek": "今週",
+  "thisMonth": "今月",
+  "voiceMessage": "音声メッセージ",
+  "dangerousFileType": "セキュリティ上の理由で許可されていない種類の添付ファイルです",
+  "stagedPreviewThumbnail": "Draft thumbnail link preview for $domain$",
+  "previewThumbnail": "Thumbnail link preview for $domain$",
+  "stagedImageAttachment": "Draft image attachment: $path$",
+  "oneNonImageAtATimeToast": "When including a non-image attachment, the limit is one attachment per message.",
+  "cannotMixImageAndNonImageAttachments": "You cannot mix non-image and image attachments in one message.",
+  "maximumAttachments": "You cannot add any more attachments to this message.",
+  "fileSizeWarning": "添付ファイルのサイズが上限を超えています",
+  "unableToLoadAttachment": "添付中にエラーが発生しました。",
+  "offline": "オフライン",
+  "checkNetworkConnection": "ネットワーク接続をご確認ください。",
+  "attemptingReconnection": "$reconnect_duration_in_seconds$ 秒後に再接続を行います。",
+  "submitDebugLog": "デバッグログ",
+  "debugLog": "デバッグログ",
+  "goToReleaseNotes": "リリースノートを閲覧",
+  "goToSupportPage": "サポートページへ",
+  "menuReportIssue": "バグを報告",
+  "about": "Sessionについて",
+  "speech": "スピーチ",
+  "show": "表示",
+  "sessionMessenger": "Session",
+  "search": "検索",
+  "noSearchResults": "「%s」に一致する情報は見つかりませんでした。",
+  "conversationsHeader": "会話",
+  "contactsHeader": "連絡先",
+  "messagesHeader": "メッセージ",
+  "settingsHeader": "設定",
+  "typingAlt": "Typing animation for this conversation",
+  "contactAvatarAlt": "$name$のアイコン",
+  "downloadAttachment": "添付ファイルをダウンロード",
+  "replyToMessage": "メッセージに返信",
+  "replyingToMessage": "Replying to:",
+  "originalMessageNotFound": "元のメッセージが見つかりません",
+  "originalMessageNotAvailable": "元のメッセージはすでに削除されています",
+  "messageFoundButNotLoaded": "元のメッセージを見つけたが、ロードされていません。ロードするのにスクロールアップして下さい。",
+  "recording": "Recording",
+  "you": "あなた",
+  "audioPermissionNeededTitle": "Microphone access required",
+  "audioPermissionNeeded": "音声メッセージを送るには、Sessionのマイクへのアクセスを許可してください。",
+  "audio": "音声",
+  "video": "動画",
+  "photo": "写真",
+  "cannotUpdate": "Cannot Update",
+  "cannotUpdateDetail": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+  "ok": "OK",
+  "cancel": "キャンセル",
+  "close": "Close",
+  "continue": "続行",
+  "error": "エラー",
+  "delete": "削除",
+  "deletePublicWarning": "Are you sure? This will permanently remove this message for everyone in this open group.",
+  "deleteMultiplePublicWarning": "Are you sure? This will permanently remove these messages for everyone in this open group.",
+  "deleteWarning": "Are you sure? Clicking 'delete' will permanently remove this message from this device only.",
+  "deleteMultipleWarning": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only.",
+  "messageDeletionForbidden": "You don’t have permission to delete others’ messages",
+  "deleteThisMessage": "メッセージの削除",
+  "deleted": "Deleted",
+  "from": "From:",
+  "to": "To:",
+  "sent": "送信",
+  "received": "受信",
+  "sendMessage": "メッセージ",
+  "groupMembers": "グループメンバー",
+  "moreInformation": "詳細",
+  "resend": "再送",
+  "deleteMessage": "メッセージの削除",
+  "deleteMessages": "メッセージを削除",
+  "deleteMessageForEveryone": "Delete Message For Everyone",
+  "deleteMessagesForEveryone": "Delete Messages For Everyone",
+  "deleteForEveryone": "Delete For Everyone",
+  "deleteConversationConfirmation": "この会話を完全に消去しますが，よろしいですか？",
+  "clearAllData": "すべてのデータを消去する",
+  "deleteAccountWarning": "これにより、メッセージ、Session、連絡先が完全に削除されます。",
+  "deleteContactConfirmation": "この会話を削除してもよろしいですか？",
+  "quoteThumbnailAlt": "引用されたメッセージから画像のサムネール",
+  "imageAttachmentAlt": "メッセージにイメージを添付する",
+  "videoAttachmentAlt": "メッセージに添付された動画のスクリーンショット",
+  "lightboxImageAlt": "会話に送られた画像",
+  "imageCaptionIconAlt": "Icon showing that this image has a caption",
+  "addACaption": "キャプション追加...",
+  "copy": "コピーする",
+  "copySessionID": "Copy Session ID",
+  "copyOpenGroupURL": "Copy Group's URL",
+  "save": "保存",
+  "saved": "Saved",
+  "permissions": "アクセス許可",
+  "general": "一般",
+  "linkPreviewsTitle": "リンクプレビューを送る",
+  "linkPreviewDescription": "プレビューはImgur、Instagram、Pinterest、RedditおよびYouTubeリンクをサポートしています",
+  "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
+  "mediaPermissionsTitle": "Microphone and Camera",
+  "mediaPermissionsDescription": "カメラとマイクへのアクセスを許可する",
+  "spellCheckTitle": "Spell Check",
+  "spellCheckDescription": "メッセージボックスに入力されたテキストのスペルチェックを有効にする",
+  "spellCheckDirty": "You must restart Session to apply your new settings",
+  "notifications": "通知",
+  "readReceiptSettingDescription": "See and share when messages have been read (enables read receipts in all sessions).",
+  "readReceiptSettingTitle": "既読通知",
+  "typingIndicatorsSettingDescription": "See and share when messages are being typed (applies to all sessions).",
+  "typingIndicatorsSettingTitle": "入力中アイコン",
+  "zoomFactorSettingTitle": "Zoom Factor",
+  "notificationSettingsDialog": "新着メッセージの通知で表示する項目：",
+  "disableNotifications": "通知をミュート",
+  "nameAndMessage": "差出人名とメッセージ",
+  "noNameOrMessage": "なし",
+  "nameOnly": "差出人名のみ",
+  "newMessage": "新着メッセージ",
+  "newMessages": "新着メッセージ",
+  "notificationMostRecentFrom": "最新の受信: $name$",
+  "notificationFrom": "From:",
+  "notificationMostRecent": "最近の受信：",
+  "sendFailed": "送信失敗",
+  "expiredWarning": "アプリのバージョンが古すぎます。最新版に更新してください。",
+  "upgrade": "最新版に更新",
+  "mediaMessage": "メディアでのメッセージ",
+  "timestamp_s": "今",
+  "timestamp_m": "1分",
+  "timestamp_h": "1時間",
+  "timestampFormat_M": "MMM D",
+  "messageBodyMissing": "Please enter a message body.",
+  "unblockToSend": "この連絡先にメッセージを送るためにブロックを解除する。",
+  "unblockGroupToSend": "このグループにメッセージを送信するには、ブロックを解除してください。",
+  "youChangedTheTimer": "消えるメッセージの消去時間を$time$に設定しました",
+  "timerSetOnSync": "消えるメッセージのタイマーを$time$に更新しました",
+  "theyChangedTheTimer": "$name$が消えるメッセージの消去時間を$time$に設定しました",
+  "timerOption_0_seconds": "オフ",
+  "timerOption_5_seconds": "5秒",
+  "timerOption_10_seconds": "10秒",
+  "timerOption_30_seconds": "30秒",
+  "timerOption_1_minute": "1分",
+  "timerOption_5_minutes": "5分",
+  "timerOption_30_minutes": "30分",
+  "timerOption_1_hour": "1時間",
+  "timerOption_6_hours": "6時間",
+  "timerOption_12_hours": "12時間",
+  "timerOption_1_day": "1日",
+  "timerOption_1_week": "1週間",
+  "disappearingMessages": "消えるメッセージ",
+  "changeNickname": "Change Nickname",
+  "clearNickname": "Clear nickname",
+  "timerOption_0_seconds_abbreviated": "オフ",
+  "timerOption_5_seconds_abbreviated": "5秒",
+  "timerOption_10_seconds_abbreviated": "10秒",
+  "timerOption_30_seconds_abbreviated": "30秒",
+  "timerOption_1_minute_abbreviated": "1分",
+  "timerOption_5_minutes_abbreviated": "5分",
+  "timerOption_30_minutes_abbreviated": "30分",
+  "timerOption_1_hour_abbreviated": "1時間",
+  "timerOption_6_hours_abbreviated": "6時間",
+  "timerOption_12_hours_abbreviated": "12時間",
+  "timerOption_1_day_abbreviated": "1日",
+  "timerOption_1_week_abbreviated": "1週間",
+  "disappearingMessagesDisabled": "消えるメッセージが無効にされました",
+  "disabledDisappearingMessages": "$name$ が消えるメッセージを無効にしました。",
+  "youDisabledDisappearingMessages": "消えるメッセージを無効にしました。",
+  "timerSetTo": "消えるメッセージの消去時間が$time$に設定されました",
+  "noteToSelf": "自分用メモ",
+  "hideMenuBarTitle": "Hide Menu Bar",
+  "hideMenuBarDescription": "Toggle system menu bar visibility",
+  "startConversation": "Start new conversation…",
+  "invalidNumberError": "不正な番号です",
+  "successUnlinked": "端末は正常にリンク解除されました",
+  "autoUpdateSettingTitle": "Auto Update",
+  "autoUpdateSettingDescription": "Automatically check for updates on launch",
+  "autoUpdateNewVersionTitle": "Sessionの新しい更新があります",
+  "autoUpdateNewVersionMessage": "新しく生まれ変わったSessionがあります",
+  "autoUpdateNewVersionInstructions": "更新を適用するにはSessionを再起動してください。",
+  "autoUpdateRestartButtonLabel": "Sessionを再起動",
+  "autoUpdateLaterButtonLabel": "後で",
+  "autoUpdateDownloadButtonLabel": "ダウンロード",
+  "autoUpdateDownloadedMessage": "The new update has been downloaded.",
+  "autoUpdateDownloadInstructions": "Would you like to download the update?",
+  "leftTheGroup": "$name$がグループを抜けました。",
+  "multipleLeftTheGroup": "$name$ がグループを退会しました",
+  "updatedTheGroup": "グループが更新されました",
+  "titleIsNow": "グループ名が「$name$」になりました",
+  "joinedTheGroup": "$name$がグループに加わりました",
+  "multipleJoinedTheGroup": "$name$がグループに加わりました",
+  "kickedFromTheGroup": "$name$ was removed from the group.",
+  "multipleKickedFromTheGroup": "$name$ were removed from the group.",
+  "blockUser": "ブロック",
+  "unblockUser": "ブロック解除",
+  "unblocked": "Unblocked",
+  "blockedSettingsTitle": "ブロックした連絡先",
+  "unbanUser": "Unban User",
+  "unbanUserConfirm": "Are you sure you want to unban user?",
+  "userUnbanned": "User unbanned successfully",
+  "userUnbanFailed": "Unban failed!",
+  "banUser": "Ban User",
+  "banUserConfirm": "Are you sure you want to ban user?",
+  "userBanned": "User banned successfully",
+  "userBanFailed": "Ban failed!",
+  "leaveGroup": "グループを抜ける",
+  "leaveAndRemoveForEveryone": "Leave Group and remove for everyone",
+  "leaveGroupConfirmation": "このグループを退会しますか？",
+  "leaveGroupConfirmationAdmin": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
+  "cannotRemoveCreatorFromGroup": "Cannot remove this user",
+  "cannotRemoveCreatorFromGroupDesc": "You cannot remove this user as they are the creator of the group.",
+  "userNeedsToHaveJoined": "User needs to have joined",
+  "userNeedsToHaveJoinedDesc": "An error happened. The user needs to have already joined the server for this ADD to work.",
+  "noContactsForGroup": "まだ連絡先がありません",
+  "copyMessage": "Copy message text",
+  "selectMessage": "Select message",
+  "editGroup": "グループを編集する",
+  "editGroupName": "Edit group name",
+  "updateGroupDialogTitle": "$name$を更新中...",
+  "showRecoveryPhrase": "リカバリーフレーズ",
+  "yourSessionID": "あなたの Session ID",
+  "setAccountPasswordTitle": "Set Account Password",
+  "setAccountPasswordDescription": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+  "changeAccountPasswordTitle": "Change Account Password",
+  "changeAccountPasswordDescription": "Change your password",
+  "removeAccountPasswordTitle": "Remove Account Password",
+  "removeAccountPasswordDescription": "Remove the password associated with your account",
+  "enterPassword": "Please enter your password",
+  "confirmPassword": "Confirm password",
+  "pasteLongPasswordToastTitle": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+  "showRecoveryPhrasePasswordRequest": "Please enter your password",
+  "recoveryPhraseSavePromptMain": "リカバリーフレーズは、Session ID のマスターキーです。端末にアクセスできなくなった場合、これを使用して Session ID を復元できます。リカバリーフレーズを安全な場所に保管し、誰にも教えないでください。",
+  "invalidOpenGroupUrl": "Invalid URL",
+  "copiedToClipboard": "クリップボードにコピーされました",
+  "passwordViewTitle": "Type In Your Password",
+  "unlock": "ロック解除",
+  "password": "Password",
+  "setPassword": "Set Password",
+  "changePassword": "Change Password",
+  "removePassword": "Remove Password",
+  "maxPasswordAttempts": "Invalid Password. Would you like to reset the database?",
+  "typeInOldPassword": "Please type in your old password",
+  "invalidOldPassword": "Old password is invalid",
+  "invalidPassword": "Invalid password",
+  "noGivenPassword": "Please enter your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "setPasswordInvalid": "Passwords do not match",
+  "changePasswordInvalid": "The old password you entered is incorrect",
+  "removePasswordInvalid": "Incorrect password",
+  "setPasswordTitle": "Set Password",
+  "changePasswordTitle": "Changed Password",
+  "removePasswordTitle": "Removed Password",
+  "setPasswordToastDescription": "Your password has been set. Please keep it safe.",
+  "changePasswordToastDescription": "Your password has been changed. Please keep it safe.",
+  "removePasswordToastDescription": "You have removed your password.",
+  "publicChatExists": "You are already connected to this open group",
+  "connectToServerFail": "グループに参加できませんでした",
+  "connectingToServer": "接続中...",
+  "connectToServerSuccess": "Successfully connected to open group",
+  "setPasswordFail": "Failed to set password",
+  "passwordLengthError": "Password must be between 6 and 64 characters long",
+  "passwordTypeError": "Password must be a string",
+  "passwordCharacterError": "Password must only contain letters, numbers and symbols",
+  "remove": "削除",
+  "invalidSessionId": "Session ID が不正です",
+  "invalidPubkeyFormat": "Invalid Pubkey Format",
+  "emptyGroupNameError": "グループ名を入力してください",
+  "editProfileModalTitle": "Profile",
+  "groupNamePlaceholder": "グループ名",
+  "inviteContacts": "友達にオススメする",
+  "addModerators": "Add Moderators",
+  "removeModerators": "Remove Moderators",
+  "addAsModerator": "Add As Moderator",
+  "removeFromModerators": "Remove From Moderators",
+  "add": "Add",
+  "groupInvitation": "Group Invitation",
+  "addingContacts": "Adding contacts to",
+  "noContactsToAdd": "No contacts to add",
+  "noMembersInThisGroup": "No other members in this group",
+  "noModeratorsToRemove": "no moderators to remove",
+  "onlyAdminCanRemoveMembers": "You are not the creator",
+  "onlyAdminCanRemoveMembersDesc": "Only the creator of the group can remove users",
+  "createAccount": "Create Account",
+  "signIn": "Sign In",
+  "yourUniqueSessionID": "Session ID をご紹介します",
+  "allUsersAreRandomly...": "Session ID は、Session で連絡を取るために使用できる一意のアドレスです。本当のアイデンティティに関係なく、あなたの Session ID は設計上完全に匿名でプライベートです。",
+  "getStarted": "Get started",
+  "createSessionID": "Session ID を作成する",
+  "recoveryPhrase": "リカバリーフレーズ",
+  "enterRecoveryPhrase": "リカバリーフレーズを入力してください",
+  "displayName": "Display Name",
+  "anonymous": "Anonymous",
+  "removeResidueMembers": "Clicking ok will also remove those members as they left the group.",
+  "enterDisplayName": "表示名を入力してください",
+  "enterOptionalPassword": "Enter password (optional)",
+  "continueYourSession": "Session を続ける",
+  "linkDevice": "端末をリンクする",
+  "restoreUsingRecoveryPhrase": "アカウントを復元する",
+  "or": "or",
+  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>",
+  "beginYourSession": "Begin<br />your<br />Session.",
+  "welcomeToYourSession": "Welcome to your Session",
+  "newSession": "新しい Session",
+  "searchFor...": "会話やメッセージ、連絡先を検索します。",
+  "enterSessionID": "Session ID を入力してください",
+  "enterSessionIDOfRecipient": "受信者の Session ID を入力してください",
+  "usersCanShareTheir...": "ユーザーは、アカウント設定に移動して「Session ID を共有」をタップするか、QR コードを共有することで、Session ID を共有できます。",
+  "message": "Message",
+  "appearanceSettingsTitle": "デザイン設定",
+  "permissionSettingsTitle": "Permissions",
+  "privacySettingsTitle": "プライバシー",
+  "notificationsSettingsTitle": "通知",
+  "recoveryPhraseEmpty": "リカバリーフレーズを入力してください",
+  "displayNameEmpty": "表示名を選択してください",
+  "members": "$count$ members",
+  "joinOpenGroup": "公開グループに参加する",
+  "newClosedGroup": "新しい非公開グループ",
+  "createClosedGroupNamePrompt": "グループ名",
+  "createClosedGroupPlaceholder": "グループ名を入力してください",
+  "openGroupURL": "グループの URL を開く",
+  "enterAnOpenGroupURL": "公開グループの URL を入力する",
+  "next": "進む",
+  "description": "Description",
+  "invalidGroupNameTooShort": "グループ名を入力してください",
+  "invalidGroupNameTooLong": "短いグループ名を入力してください",
+  "pickClosedGroupMember": "グループメンバーを少なくとも 2 人選択してください",
+  "closedGroupMaxSize": "非公開グループは 100 人を超えるメンバーを抱えることはできません",
+  "noBlockedContacts": "ブロックしている連絡先はありません",
+  "userAddedToModerators": "User added to moderator list",
+  "userRemovedFromModerators": "User removed from moderator list",
+  "errorHappenedWhileRemovingModerator": "An error happened",
+  "errorHappenedWhileRemovingModeratorDesc": "An error happened while removing this user from the moderator list.",
+  "orJoinOneOfThese": "Or join one of these...",
   "helpUsTranslateSession": "Help us Translate Session",
   "translation": "Translation"
 }

@@ -1,1177 +1,395 @@
 {
-  "privacyPolicy": {
-    "message": "Terms & Privacy Policy"
-  },
-  "copyErrorAndQuit": {
-    "message": "Kopiera felmeddelande och avsluta"
-  },
-  "unknown": {
-    "message": "Unknown"
-  },
-  "databaseError": {
-    "message": "Databasfel"
-  },
-  "mainMenuFile": {
-    "message": "&Arkiv"
-  },
-  "mainMenuEdit": {
-    "message": "&Redigera"
-  },
-  "mainMenuView": {
-    "message": "&Visa"
-  },
-  "mainMenuWindow": {
-    "message": "&Fönster"
-  },
-  "mainMenuHelp": {
-    "message": "&Hjälp"
-  },
-  "appMenuHide": {
-    "message": "Göm"
-  },
-  "appMenuHideOthers": {
-    "message": "Dölj andra"
-  },
-  "appMenuUnhide": {
-    "message": "Visa alla"
-  },
-  "appMenuQuit": {
-    "message": "Stäng Session"
-  },
-  "editMenuUndo": {
-    "message": "Ångra"
-  },
-  "editMenuRedo": {
-    "message": "Gör om"
-  },
-  "editMenuCut": {
-    "message": "Klipp ut"
-  },
-  "editMenuCopy": {
-    "message": "Kopiera"
-  },
-  "editMenuPaste": {
-    "message": "Klistra in"
-  },
-  "editMenuPasteAndMatchStyle": {
-    "message": "Klistra in och matcha stil"
-  },
-  "editMenuDelete": {
-    "message": "Radera"
-  },
-  "editMenuSelectAll": {
-    "message": "Markera alla"
-  },
-  "editMenuStartSpeaking": {
-    "message": "Börja prata"
-  },
-  "editMenuStopSpeaking": {
-    "message": "Sluta prata"
-  },
-  "windowMenuClose": {
-    "message": "Stäng fönster"
-  },
-  "windowMenuMinimize": {
-    "message": "Minimera"
-  },
-  "windowMenuZoom": {
-    "message": "Zooma"
-  },
-  "windowMenuBringAllToFront": {
-    "message": "Ta fram alla"
-  },
-  "viewMenuResetZoom": {
-    "message": "Aktuella storlek"
-  },
-  "viewMenuZoomIn": {
-    "message": "Zooma in"
-  },
-  "viewMenuZoomOut": {
-    "message": "Zooma ut"
-  },
-  "viewMenuToggleFullScreen": {
-    "message": "Slå av/på fullskärm"
-  },
-  "viewMenuToggleDevTools": {
-    "message": "Slå på utvecklingsverktyg"
-  },
-  "menuSetupWithImport": {
-    "message": "Ställ in med import"
-  },
-  "contextMenuNoSuggestions": {
-    "message": "No Suggestions"
-  },
-  "loading": {
-    "message": "Läser in..."
-  },
-  "optimizingApplication": {
-    "message": "Optimerar applikationen..."
-  },
-  "chooseDirectory": {
-    "message": "Välj mapp"
-  },
-  "done": {
-    "message": "Done"
-  },
-  "loadDataHeader": {
-    "message": "Läs in din data"
-  },
-  "loadDataDescription": {
-    "message": "Du har just gått igenom exporteringsprocessen och dina kontakter och meddelanden ligger nu på din dator. Vänligen välj mappen som innehåller din sparade data för Session."
-  },
-  "importChooserTitle": {
-    "message": "Välj mapp där exporterad data lagras"
-  },
-  "importErrorHeader": {
-    "message": "Något gick fel!"
-  },
-  "importingHeader": {
-    "message": "Läser in kontakter och meddelanden"
-  },
-  "importErrorFirst": {
-    "message": "Kontrollera att du valt rätt mapp som innehåller dina sparade Session-data. Dess namn borde börja med 'Session Export.' Du kan också spara en ny kopia av din data från Chrome-appen."
-  },
-  "importErrorSecond": {
-    "message": "Om dessa steg inte funkar för dig, vänligen skicka in en felsökningslogg (Visa -> Felsökningslogg) så att vi kan hjälpa dig migrera!"
-  },
-  "importAgain": {
-    "message": "Välj mapp och försök igen"
-  },
-  "importCompleteHeader": {
-    "message": "Det funkade!"
-  },
-  "importCompleteStartButton": {
-    "message": "Börja använd Session Desktop"
-  },
-  "importCompleteLinkButton": {
-    "message": "Länka denna enhet till din mobil"
-  },
-  "me": {
-    "message": "Jag"
-  },
-  "view": {
-    "message": "Visa"
-  },
-  "youLeftTheGroup": {
-    "message": "Du lämnade gruppen"
-  },
-  "youGotKickedFromGroup": {
-    "message": "You were removed from the group."
-  },
-  "unreadMessage": {
-    "message": "1 oläst meddelande"
-  },
-  "unreadMessages": {
-    "message": "$count$ olästa meddelanden"
-  },
-  "debugLogExplanation": {
-    "message": "Den här loggen kommer att bli postad publikt på internet så att våra medarbetare kan kolla igenom den. Du kan gå igenom och ändra på den innan du skickar in den."
-  },
-  "debugLogError": {
-    "message": "Något gick fel med sändningen! Vänligen överväg att manuellt lägga till loggen till rapporten du skriver."
-  },
-  "reportIssue": {
-    "message": "Anmäl ett programfel"
-  },
-  "gotIt": {
-    "message": "Uppfattat!"
-  },
-  "submit": {
-    "message": "Skicka"
-  },
-  "markAllAsRead": {
-    "message": "Mark All as Read"
-  },
-  "incomingError": {
-    "message": "Fel med att hantera inkommande meddelande"
-  },
-  "media": {
-    "message": "Media"
-  },
-  "mediaEmptyState": {
-    "message": "Du har inga mediefiler i denna konversation"
-  },
-  "documents": {
-    "message": "Dokument"
-  },
-  "documentsEmptyState": {
-    "message": "Du har inga dokument i denna konversation"
-  },
-  "today": {
-    "message": "Idag"
-  },
-  "yesterday": {
-    "message": "Igår"
-  },
-  "thisWeek": {
-    "message": "Denna vecka"
-  },
-  "thisMonth": {
-    "message": "Denna månad"
-  },
-  "voiceMessage": {
-    "message": "Röstmeddelande"
-  },
-  "dangerousFileType": {
-    "message": "Bilagor av denna typ tillåts inte på grund av säkerhetsskäl"
-  },
-  "stagedPreviewThumbnail": {
-    "message": "Utkast av länkförhandsvisning i miniatyrbild för $domain$"
-  },
-  "previewThumbnail": {
-    "message": "Länkförhandsvisning i miniatyrbild för $domain$"
-  },
-  "stagedImageAttachment": {
-    "message": "Utkast till bildbilaga: $path$"
-  },
-  "oneNonImageAtATimeToast": {
-    "message": "När man inkluderar bilagor som inte är bilder, är begränsningen en bilaga per meddelande."
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Du kan inte blanda bilagor som både är, och inte är, bilder i ett meddelande."
-  },
-  "maximumAttachments": {
-    "message": "Du kan inte lägga till fler bilagor till det här meddelandet."
-  },
-  "fileSizeWarning": {
-    "message": "Tyvärr, filen du har valt överstiger maximalt tillåten filstorlek."
-  },
-  "unableToLoadAttachment": {
-    "message": "Kunde inte läsa in vald bilaga"
-  },
-  "offline": {
-    "message": "Ej ansluten"
-  },
-  "checkNetworkConnection": {
-    "message": "Kontrollera din nätverksanslutning."
-  },
-  "attemptingReconnection": {
-    "message": "Försöker återansluta om $reconnect_duration_in_seconds$  sekunder"
-  },
-  "submitDebugLog": {
-    "message": "Loggfil för felsökning"
-  },
-  "debugLog": {
-    "message": "Felsökningslogg"
-  },
-  "goToReleaseNotes": {
-    "message": "Gå till versionsanteckningar"
-  },
-  "goToSupportPage": {
-    "message": "Gå till supportsidan"
-  },
-  "menuReportIssue": {
-    "message": "Rapportera ett fel"
-  },
-  "about": {
-    "message": "About"
-  },
-  "speech": {
-    "message": "Tal"
-  },
-  "show": {
-    "message": "Visa"
-  },
-  "sessionMessenger": {
-    "message": "Session"
-  },
-  "search": {
-    "message": "Sök"
-  },
-  "noSearchResults": {
-    "message": "Inga resultat för \"$searchTerm$\""
-  },
-  "conversationsHeader": {
-    "message": "Konversationer"
-  },
-  "contactsHeader": {
-    "message": "Kontakter"
-  },
-  "messagesHeader": {
-    "message": "Meddelanden"
-  },
-  "settingsHeader": {
-    "message": "Settings"
-  },
-  "typingAlt": {
-    "message": "Skrivanimation för denna konversation"
-  },
-  "contactAvatarAlt": {
-    "message": "Avatar för kontakten $name$"
-  },
-  "downloadAttachment": {
-    "message": "Hämta bifogad fil"
-  },
-  "replyToMessage": {
-    "message": "Svara på meddelande"
-  },
-  "replyingToMessage": {
-    "message": "Replying to:"
-  },
-  "originalMessageNotFound": {
-    "message": "Originalmeddelande hittades inte"
-  },
-  "originalMessageNotAvailable": {
-    "message": "Originalmeddelande inte längre tillgängligt"
-  },
-  "messageFoundButNotLoaded": {
-    "message": "Originalmeddelande hittades, men lästes inte in. Skrolla upp för att läsa in det."
-  },
-  "recording": {
-    "message": "Recording"
-  },
-  "you": {
-    "message": "Du"
-  },
-  "audioPermissionNeededTitle": {
-    "message": "Microphone access required"
-  },
-  "audioPermissionNeeded": {
-    "message": "Om du vill skicka röstmeddelanden måste Session Desktop ha tillgång till din mikrofon."
-  },
-  "audio": {
-    "message": "Ljud"
-  },
-  "video": {
-    "message": "Video"
-  },
-  "photo": {
-    "message": "Foto"
-  },
-  "cannotUpdate": {
-    "message": "Cannot Update"
-  },
-  "cannotUpdateDetail": {
-    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem."
-  },
-  "ok": {
-    "message": "OK"
-  },
-  "cancel": {
-    "message": "Avbryt"
-  },
-  "close": {
-    "message": "Close"
-  },
-  "continue": {
-    "message": "Continue"
-  },
-  "error": {
-    "message": "Fel"
-  },
-  "delete": {
-    "message": "Radera"
-  },
-  "deletePublicWarning": {
-    "message": "Are you sure? This will permanently remove this message for everyone in this open group."
-  },
-  "deleteMultiplePublicWarning": {
-    "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
-  },
-  "deleteWarning": {
-    "message": "Är du säker? Om du klickar 'radera' så tas detta meddelande bort permanent, men bara från denna enhet."
-  },
-  "deleteMultipleWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
-  },
-  "messageDeletionForbidden": {
-    "message": "You don’t have permission to delete others’ messages"
-  },
-  "deleteThisMessage": {
-    "message": "Radera detta meddelande"
-  },
-  "deleted": {
-    "message": "Deleted"
-  },
-  "from": {
-    "message": "Från"
-  },
-  "to": {
-    "message": "till"
-  },
-  "sent": {
-    "message": "Skickat"
-  },
-  "received": {
-    "message": "Mottagit"
-  },
-  "sendMessage": {
-    "message": "Skicka ett meddelande"
-  },
-  "groupMembers": {
-    "message": "Gruppmedlemmar"
-  },
-  "moreInformation": {
-    "message": "More information"
-  },
-  "resend": {
-    "message": "Resend"
-  },
-  "deleteMessage": {
-    "message": "Radera meddelande"
-  },
-  "deleteMessages": {
-    "message": "Radera meddelanden"
-  },
-  "deleteMessageForEveryone": {
-    "message": "Delete Message For Everyone"
-  },
-  "deleteMessagesForEveryone": {
-    "message": "Delete Messages For Everyone"
-  },
-  "deleteForEveryone": {
-    "message": "Delete For Everyone"
-  },
-  "deleteConversationConfirmation": {
-    "message": "Vill du radera denna konversation för alltid?"
-  },
-  "clearAllData": {
-    "message": "Clear All Data"
-  },
-  "deleteAccountWarning": {
-    "message": "This will permanently delete your messages, sessions, and contacts."
-  },
-  "deleteContactConfirmation": {
-    "message": "Are you sure you want to delete this conversation?"
-  },
-  "quoteThumbnailAlt": {
-    "message": "Miniatyr av bild för citerat meddelande"
-  },
-  "imageAttachmentAlt": {
-    "message": "Bild bifogat till meddelande"
-  },
-  "videoAttachmentAlt": {
-    "message": "Skärmbild av video bifogat till meddelande"
-  },
-  "lightboxImageAlt": {
-    "message": "Bild skickad i konversation"
-  },
-  "imageCaptionIconAlt": {
-    "message": "Ikon visandes att denna bild har en bildtext"
-  },
-  "addACaption": {
-    "message": "Lägg till en rubrik..."
-  },
-  "copy": {
-    "message": "Copy"
-  },
-  "copySessionID": {
-    "message": "Copy Session ID"
-  },
-  "copyOpenGroupURL": {
-    "message": "Copy Group's URL"
-  },
-  "save": {
-    "message": "Spara"
-  },
-  "saved": {
-    "message": "Saved"
-  },
-  "permissions": {
-    "message": "Behörigheter"
-  },
-  "general": {
-    "message": "Generell"
-  },
-  "linkPreviewsTitle": {
-    "message": "Send Link Previews"
-  },
-  "linkPreviewDescription": {
-    "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links"
-  },
-  "linkPreviewsConfirmMessage": {
-    "message": "You will not have full metadata protection when sending or receiving link previews."
-  },
-  "mediaPermissionsTitle": {
-    "message": "Microphone and Camera"
-  },
-  "mediaPermissionsDescription": {
-    "message": "Tillåt åtkomst till kameran och mikrofonen"
-  },
-  "spellCheckTitle": {
-    "message": "Spell Check"
-  },
-  "spellCheckDescription": {
-    "message": "Slå på stavningskontroll för text som anges i meddelandefältet"
-  },
-  "spellCheckDirty": {
-    "message": "You must restart Session to apply your new settings"
-  },
-  "notifications": {
-    "message": "Aviseringar"
-  },
-  "readReceiptSettingDescription": {
-    "message": "See and share when messages have been read (enables read receipts in all sessions)."
-  },
-  "readReceiptSettingTitle": {
-    "message": "Read Receipts"
-  },
-  "typingIndicatorsSettingDescription": {
-    "message": "See and share when messages are being typed (applies to all sessions)."
-  },
-  "typingIndicatorsSettingTitle": {
-    "message": "Typing Indicators"
-  },
-  "zoomFactorSettingTitle": {
-    "message": "Zoom Factor"
-  },
-  "notificationSettingsDialog": {
-    "message": "När du får meddelanden, visa aviseringar som visar:"
-  },
-  "disableNotifications": {
-    "message": "Stäng av aviseringar"
-  },
-  "nameAndMessage": {
-    "message": "Både sändarens namn och meddelande"
-  },
-  "noNameOrMessage": {
-    "message": "Varken namn eller meddelande"
-  },
-  "nameOnly": {
-    "message": "Enbart sändarens namn"
-  },
-  "newMessage": {
-    "message": "Nytt meddelande"
-  },
-  "newMessages": {
-    "message": "Nya meddelanden"
-  },
-  "notificationMostRecentFrom": {
-    "message": "Nyligen från:"
-  },
-  "notificationFrom": {
-    "message": "Från:"
-  },
-  "notificationMostRecent": {
-    "message": "Nyligen:"
-  },
-  "sendFailed": {
-    "message": "Att skicka meddelandet misslyckades"
-  },
-  "expiredWarning": {
-    "message": "Den här versionen av Session Desktop har utgått. Vänligen uppgradera till den senaste versionen för att fortsätta chatta."
-  },
-  "upgrade": {
-    "message": "Uppgradera"
-  },
-  "mediaMessage": {
-    "message": "Mediameddelande"
-  },
-  "timestamp_s": {
-    "message": "nyss"
-  },
-  "timestamp_m": {
-    "message": "1 minut"
-  },
-  "timestamp_h": {
-    "message": "1 timme"
-  },
-  "timestampFormat_M": {
-    "message": "D MMM"
-  },
-  "messageBodyMissing": {
-    "message": "Please enter a message body."
-  },
-  "unblockToSend": {
-    "message": "Avblockera denna kontakt för att skicka meddelanden."
-  },
-  "unblockGroupToSend": {
-    "message": "Avblockera denna grupp för att skicka meddelanden."
-  },
-  "youChangedTheTimer": {
-    "message": "Du satte tiden för försvinnande meddelanden till $time$"
-  },
-  "timerSetOnSync": {
-    "message": "Uppdaterade tidsgränsen för försvinnande meddelanden till $time$"
-  },
-  "theyChangedTheTimer": {
-    "message": "$name$ satte tiden för försvinnande meddelanden till $time$"
-  },
-  "timerOption_0_seconds": {
-    "message": "av"
-  },
-  "timerOption_5_seconds": {
-    "message": "5 sekunder"
-  },
-  "timerOption_10_seconds": {
-    "message": "10 sekunder"
-  },
-  "timerOption_30_seconds": {
-    "message": "30 sekunder"
-  },
-  "timerOption_1_minute": {
-    "message": "1 minut"
-  },
-  "timerOption_5_minutes": {
-    "message": "5 minuter"
-  },
-  "timerOption_30_minutes": {
-    "message": "30 minuter"
-  },
-  "timerOption_1_hour": {
-    "message": "1 timme"
-  },
-  "timerOption_6_hours": {
-    "message": "6 timmar"
-  },
-  "timerOption_12_hours": {
-    "message": "12 timmar"
-  },
-  "timerOption_1_day": {
-    "message": "1 dag"
-  },
-  "timerOption_1_week": {
-    "message": "1 vecka"
-  },
-  "disappearingMessages": {
-    "message": "Försvinnande meddelanden"
-  },
-  "changeNickname": {
-    "message": "Change Nickname"
-  },
-  "clearNickname": {
-    "message": "Clear nickname"
-  },
-  "timerOption_0_seconds_abbreviated": {
-    "message": "av"
-  },
-  "timerOption_5_seconds_abbreviated": {
-    "message": "5s"
-  },
-  "timerOption_10_seconds_abbreviated": {
-    "message": "10s"
-  },
-  "timerOption_30_seconds_abbreviated": {
-    "message": "30s"
-  },
-  "timerOption_1_minute_abbreviated": {
-    "message": "1m"
-  },
-  "timerOption_5_minutes_abbreviated": {
-    "message": "5m"
-  },
-  "timerOption_30_minutes_abbreviated": {
-    "message": "30m"
-  },
-  "timerOption_1_hour_abbreviated": {
-    "message": "1h"
-  },
-  "timerOption_6_hours_abbreviated": {
-    "message": "6h"
-  },
-  "timerOption_12_hours_abbreviated": {
-    "message": "12h"
-  },
-  "timerOption_1_day_abbreviated": {
-    "message": "1d"
-  },
-  "timerOption_1_week_abbreviated": {
-    "message": "1v"
-  },
-  "disappearingMessagesDisabled": {
-    "message": "Försvinnande meddelanden inaktiverat"
-  },
-  "disabledDisappearingMessages": {
-    "message": "$name$ stängde av att meddelanden försvinner."
-  },
-  "youDisabledDisappearingMessages": {
-    "message": "Du stängde av att meddelanden försvinner."
-  },
-  "timerSetTo": {
-    "message": "Tidsgräns inställt till $time$"
-  },
-  "noteToSelf": {
-    "message": "Notera till mig själv"
-  },
-  "hideMenuBarTitle": {
-    "message": "Hide Menu Bar"
-  },
-  "hideMenuBarDescription": {
-    "message": "Toggle system menu bar visibility"
-  },
-  "startConversation": {
-    "message": "Starta en ny konversation…"
-  },
-  "invalidNumberError": {
-    "message": "Felaktigt nummer"
-  },
-  "successUnlinked": {
-    "message": "Your device was unlinked successfully"
-  },
-  "autoUpdateSettingTitle": {
-    "message": "Auto Update"
-  },
-  "autoUpdateSettingDescription": {
-    "message": "Automatically check for updates on launch"
-  },
-  "autoUpdateNewVersionTitle": {
-    "message": "Uppdatering för Session tillgänglig"
-  },
-  "autoUpdateNewVersionMessage": {
-    "message": "Det finns en ny version av Session tillgänglig."
-  },
-  "autoUpdateNewVersionInstructions": {
-    "message": "Vänligen starta om Session för att uppdatera"
-  },
-  "autoUpdateRestartButtonLabel": {
-    "message": "Starta om Session"
-  },
-  "autoUpdateLaterButtonLabel": {
-    "message": "Senare"
-  },
-  "autoUpdateDownloadButtonLabel": {
-    "message": "Download"
-  },
-  "autoUpdateDownloadedMessage": {
-    "message": "The new update has been downloaded."
-  },
-  "autoUpdateDownloadInstructions": {
-    "message": "Would you like to download the update?"
-  },
-  "leftTheGroup": {
-    "message": "$name$ lämnade gruppen"
-  },
-  "multipleLeftTheGroup": {
-    "message": "$name$ lämnade gruppen"
-  },
-  "updatedTheGroup": {
-    "message": "Grupp uppdaterad"
-  },
-  "titleIsNow": {
-    "message": "Gruppnamnet är nu '$name$'"
-  },
-  "joinedTheGroup": {
-    "message": "$name$ gick med i gruppen"
-  },
-  "multipleJoinedTheGroup": {
-    "message": "$names$ gick med i gruppen"
-  },
-  "kickedFromTheGroup": {
-    "message": "$name$ was removed from the group."
-  },
-  "multipleKickedFromTheGroup": {
-    "message": "$name$ were removed from the group."
-  },
-  "blockUser": {
-    "message": "Block"
-  },
-  "unblockUser": {
-    "message": "Unblock"
-  },
-  "unblocked": {
-    "message": "Unblocked"
-  },
-  "blockedSettingsTitle": {
-    "message": "Blocked contacts"
-  },
-  "unbanUser": {
-    "message": "Unban User"
-  },
-  "unbanUserConfirm": {
-    "message": "Are you sure you want to unban user?"
-  },
-  "userUnbanned": {
-    "message": "User unbanned successfully"
-  },
-  "userUnbanFailed": {
-    "message": "Unban failed!"
-  },
-  "banUser": {
-    "message": "Ban User"
-  },
-  "banUserConfirm": {
-    "message": "Are you sure you want to ban user?"
-  },
-  "userBanned": {
-    "message": "User banned successfully"
-  },
-  "userBanFailed": {
-    "message": "Ban failed!"
-  },
-  "leaveGroup": {
-    "message": "Leave Group"
-  },
-  "leaveAndRemoveForEveryone": {
-    "message": "Leave Group and remove for everyone"
-  },
-  "leaveGroupConfirmation": {
-    "message": "Are you sure you want to leave this group?"
-  },
-  "leaveGroupConfirmationAdmin": {
-    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?"
-  },
-  "cannotRemoveCreatorFromGroup": {
-    "message": "Cannot remove this user"
-  },
-  "cannotRemoveCreatorFromGroupDesc": {
-    "message": "You cannot remove this user as they are the creator of the group."
-  },
-  "userNeedsToHaveJoined": {
-    "message": "User needs to have joined"
-  },
-  "userNeedsToHaveJoinedDesc": {
-    "message": "An error happened. The user needs to have already joined the server for this ADD to work."
-  },
-  "noContactsForGroup": {
-    "message": "You don't have any contacts yet"
-  },
-  "copyMessage": {
-    "message": "Copy message text"
-  },
-  "selectMessage": {
-    "message": "Select message"
-  },
-  "editGroup": {
-    "message": "Edit group"
-  },
-  "editGroupName": {
-    "message": "Edit group name"
-  },
-  "updateGroupDialogTitle": {
-    "message": "Updating $name$..."
-  },
-  "showRecoveryPhrase": {
-    "message": "Recovery Phrase"
-  },
-  "yourSessionID": {
-    "message": "Your Session ID"
-  },
-  "setAccountPasswordTitle": {
-    "message": "Set Account Password"
-  },
-  "setAccountPasswordDescription": {
-    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed"
-  },
-  "changeAccountPasswordTitle": {
-    "message": "Change Account Password"
-  },
-  "changeAccountPasswordDescription": {
-    "message": "Change your password"
-  },
-  "removeAccountPasswordTitle": {
-    "message": "Remove Account Password"
-  },
-  "removeAccountPasswordDescription": {
-    "message": "Remove the password associated with your account"
-  },
-  "enterPassword": {
-    "message": "Please enter your password"
-  },
-  "confirmPassword": {
-    "message": "Confirm password"
-  },
-  "pasteLongPasswordToastTitle": {
-    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters."
-  },
-  "showRecoveryPhrasePasswordRequest": {
-    "message": "Please enter your password"
-  },
-  "recoveryPhraseSavePromptMain": {
-    "message": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone."
-  },
-  "invalidOpenGroupUrl": {
-    "message": "Invalid URL"
-  },
-  "copiedToClipboard": {
-    "message": "Copied to clipboard"
-  },
-  "passwordViewTitle": {
-    "message": "Type In Your Password"
-  },
-  "unlock": {
-    "message": "Unlock"
-  },
-  "password": {
-    "message": "Password"
-  },
-  "setPassword": {
-    "message": "Set Password"
-  },
-  "changePassword": {
-    "message": "Change Password"
-  },
-  "removePassword": {
-    "message": "Remove Password"
-  },
-  "maxPasswordAttempts": {
-    "message": "Invalid Password. Would you like to reset the database?"
-  },
-  "typeInOldPassword": {
-    "message": "Please type in your old password"
-  },
-  "invalidOldPassword": {
-    "message": "Old password is invalid"
-  },
-  "invalidPassword": {
-    "message": "Invalid password"
-  },
-  "noGivenPassword": {
-    "message": "Please enter your password"
-  },
-  "passwordsDoNotMatch": {
-    "message": "Passwords do not match"
-  },
-  "setPasswordInvalid": {
-    "message": "Passwords do not match"
-  },
-  "changePasswordInvalid": {
-    "message": "The old password you entered is incorrect"
-  },
-  "removePasswordInvalid": {
-    "message": "Incorrect password"
-  },
-  "setPasswordTitle": {
-    "message": "Set Password"
-  },
-  "changePasswordTitle": {
-    "message": "Changed Password"
-  },
-  "removePasswordTitle": {
-    "message": "Removed Password"
-  },
-  "setPasswordToastDescription": {
-    "message": "Your password has been set. Please keep it safe."
-  },
-  "changePasswordToastDescription": {
-    "message": "Your password has been changed. Please keep it safe."
-  },
-  "removePasswordToastDescription": {
-    "message": "You have removed your password."
-  },
-  "publicChatExists": {
-    "message": "You are already connected to this open group"
-  },
-  "connectToServerFail": {
-    "message": "Couldn't join group"
-  },
-  "connectingToServer": {
-    "message": "Connecting..."
-  },
-  "connectToServerSuccess": {
-    "message": "Successfully connected to open group"
-  },
-  "setPasswordFail": {
-    "message": "Failed to set password"
-  },
-  "passwordLengthError": {
-    "message": "Password must be between 6 and 64 characters long"
-  },
-  "passwordTypeError": {
-    "message": "Password must be a string"
-  },
-  "passwordCharacterError": {
-    "message": "Password must only contain letters, numbers and symbols"
-  },
-  "remove": {
-    "message": "Remove"
-  },
-  "invalidSessionId": {
-    "message": "Invalid Session ID"
-  },
-  "invalidPubkeyFormat": {
-    "message": "Invalid Pubkey Format"
-  },
-  "emptyGroupNameError": {
-    "message": "Please enter a group name"
-  },
-  "editProfileModalTitle": {
-    "message": "Profile"
-  },
-  "groupNamePlaceholder": {
-    "message": "Group Name"
-  },
-  "inviteContacts": {
-    "message": "Invite Contacts"
-  },
-  "addModerators": {
-    "message": "Add Moderators"
-  },
-  "removeModerators": {
-    "message": "Remove Moderators"
-  },
-  "addAsModerator": {
-    "message": "Add As Moderator"
-  },
-  "removeFromModerators": {
-    "message": "Remove From Moderators"
-  },
-  "add": {
-    "message": "Add"
-  },
-  "groupInvitation": {
-    "message": "Group Invitation"
-  },
-  "addingContacts": {
-    "message": "Adding contacts to"
-  },
-  "noContactsToAdd": {
-    "message": "No contacts to add"
-  },
-  "noMembersInThisGroup": {
-    "message": "No other members in this group"
-  },
-  "noModeratorsToRemove": {
-    "message": "no moderators to remove"
-  },
-  "onlyAdminCanRemoveMembers": {
-    "message": "You are not the creator"
-  },
-  "onlyAdminCanRemoveMembersDesc": {
-    "message": "Only the creator of the group can remove users"
-  },
-  "createAccount": {
-    "message": "Create Account"
-  },
-  "signIn": {
-    "message": "Sign In"
-  },
-  "yourUniqueSessionID": {
-    "message": "Say hello to your Session ID"
-  },
-  "allUsersAreRandomly...": {
-    "message": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design."
-  },
-  "getStarted": {
-    "message": "Get started"
-  },
-  "createSessionID": {
-    "message": "Create Session ID"
-  },
-  "recoveryPhrase": {
-    "message": "Recovery Phrase"
-  },
-  "enterRecoveryPhrase": {
-    "message": "Enter your recovery phrase"
-  },
-  "displayName": {
-    "message": "Display Name"
-  },
-  "anonymous": {
-    "message": "Anonymous"
-  },
-  "removeResidueMembers": {
-    "message": "Clicking ok will also remove those members as they left the group."
-  },
-  "enterDisplayName": {
-    "message": "Enter a display name"
-  },
-  "enterOptionalPassword": {
-    "message": "Enter password (optional)"
-  },
-  "continueYourSession": {
-    "message": "Continue Your Session"
-  },
-  "linkDevice": {
-    "message": "Link Device"
-  },
-  "restoreUsingRecoveryPhrase": {
-    "message": "Restore your account"
-  },
-  "or": {
-    "message": "or"
-  },
-  "ByUsingThisService...": {
-    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
-  },
-  "beginYourSession": {
-    "message": "Begin<br />your<br />Session."
-  },
-  "welcomeToYourSession": {
-    "message": "Welcome to your Session"
-  },
-  "newSession": {
-    "message": "New Session"
-  },
-  "searchFor...": {
-    "message": "Search for conversations, contacts, and messages"
-  },
-  "enterSessionID": {
-    "message": "Enter Session ID"
-  },
-  "enterSessionIDOfRecipient": {
-    "message": "Enter Session ID of recipient"
-  },
-  "usersCanShareTheir...": {
-    "message": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code."
-  },
-  "message": {
-    "message": "Message"
-  },
-  "appearanceSettingsTitle": {
-    "message": "Appearance"
-  },
-  "permissionSettingsTitle": {
-    "message": "Permissions"
-  },
-  "privacySettingsTitle": {
-    "message": "Privacy"
-  },
-  "notificationsSettingsTitle": {
-    "message": "Notifications"
-  },
-  "recoveryPhraseEmpty": {
-    "message": "Enter your recovery phrase"
-  },
-  "displayNameEmpty": {
-    "message": "Please pick a display name"
-  },
-  "members": {
-    "message": "$count$ members"
-  },
-  "joinOpenGroup": {
-    "message": "Join Open Group"
-  },
-  "newClosedGroup": {
-    "message": "New Closed Group"
-  },
-  "createClosedGroupNamePrompt": {
-    "message": "Group Name"
-  },
-  "createClosedGroupPlaceholder": {
-    "message": "Enter a group name"
-  },
-  "openGroupURL": {
-    "message": "Open Group URL"
-  },
-  "enterAnOpenGroupURL": {
-    "message": "Enter an open group URL"
-  },
-  "next": {
-    "message": "Next"
-  },
-  "description": {
-    "message": "Description"
-  },
-  "invalidGroupNameTooShort": {
-    "message": "Please enter a group name"
-  },
-  "invalidGroupNameTooLong": {
-    "message": "Please enter a shorter group name"
-  },
-  "pickClosedGroupMember": {
-    "message": "Please pick at least 1 group member"
-  },
-  "closedGroupMaxSize": {
-    "message": "A closed group cannot have more than 100 members"
-  },
-  "noBlockedContacts": {
-    "message": "No blocked contacts"
-  },
-  "userAddedToModerators": {
-    "message": "User added to moderator list"
-  },
-  "userRemovedFromModerators": {
-    "message": "User removed from moderator list"
-  },
-  "errorHappenedWhileRemovingModerator": {
-    "message": "An error happened"
-  },
-  "errorHappenedWhileRemovingModeratorDesc": {
-    "message": "An error happened while removing this user from the moderator list."
-  },
-  "orJoinOneOfThese": {
-    "message": "Or join one of these..."
-  },
+  "privacyPolicy": "Terms & Privacy Policy",
+  "copyErrorAndQuit": "Kopiera felmeddelande och avsluta",
+  "unknown": "Unknown",
+  "databaseError": "Databasfel",
+  "mainMenuFile": "&Arkiv",
+  "mainMenuEdit": "&Redigera",
+  "mainMenuView": "&Visa",
+  "mainMenuWindow": "&Fönster",
+  "mainMenuHelp": "&Hjälp",
+  "appMenuHide": "Göm",
+  "appMenuHideOthers": "Dölj andra",
+  "appMenuUnhide": "Visa alla",
+  "appMenuQuit": "Stäng Session",
+  "editMenuUndo": "Ångra",
+  "editMenuRedo": "Gör om",
+  "editMenuCut": "Klipp ut",
+  "editMenuCopy": "Kopiera",
+  "editMenuPaste": "Klistra in",
+  "editMenuPasteAndMatchStyle": "Klistra in och matcha stil",
+  "editMenuDelete": "Radera",
+  "editMenuSelectAll": "Markera alla",
+  "editMenuStartSpeaking": "Börja prata",
+  "editMenuStopSpeaking": "Sluta prata",
+  "windowMenuClose": "Stäng fönster",
+  "windowMenuMinimize": "Minimera",
+  "windowMenuZoom": "Zooma",
+  "windowMenuBringAllToFront": "Ta fram alla",
+  "viewMenuResetZoom": "Aktuella storlek",
+  "viewMenuZoomIn": "Zooma in",
+  "viewMenuZoomOut": "Zooma ut",
+  "viewMenuToggleFullScreen": "Slå av/på fullskärm",
+  "viewMenuToggleDevTools": "Slå på utvecklingsverktyg",
+  "menuSetupWithImport": "Ställ in med import",
+  "contextMenuNoSuggestions": "No Suggestions",
+  "loading": "Läser in...",
+  "optimizingApplication": "Optimerar applikationen...",
+  "chooseDirectory": "Välj mapp",
+  "done": "Done",
+  "loadDataHeader": "Läs in din data",
+  "loadDataDescription": "Du har just gått igenom exporteringsprocessen och dina kontakter och meddelanden ligger nu på din dator. Vänligen välj mappen som innehåller din sparade data för Session.",
+  "importChooserTitle": "Välj mapp där exporterad data lagras",
+  "importErrorHeader": "Något gick fel!",
+  "importingHeader": "Läser in kontakter och meddelanden",
+  "importErrorFirst": "Kontrollera att du valt rätt mapp som innehåller dina sparade Session-data. Dess namn borde börja med 'Session Export.' Du kan också spara en ny kopia av din data från Chrome-appen.",
+  "importErrorSecond": "Om dessa steg inte funkar för dig, vänligen skicka in en felsökningslogg (Visa -> Felsökningslogg) så att vi kan hjälpa dig migrera!",
+  "importAgain": "Välj mapp och försök igen",
+  "importCompleteHeader": "Det funkade!",
+  "importCompleteStartButton": "Börja använd Session Desktop",
+  "importCompleteLinkButton": "Länka denna enhet till din mobil",
+  "me": "Jag",
+  "view": "Visa",
+  "youLeftTheGroup": "Du lämnade gruppen",
+  "youGotKickedFromGroup": "You were removed from the group.",
+  "unreadMessage": "1 oläst meddelande",
+  "unreadMessages": "$count$ olästa meddelanden",
+  "debugLogExplanation": "Den här loggen kommer att bli postad publikt på internet så att våra medarbetare kan kolla igenom den. Du kan gå igenom och ändra på den innan du skickar in den.",
+  "debugLogError": "Något gick fel med sändningen! Vänligen överväg att manuellt lägga till loggen till rapporten du skriver.",
+  "reportIssue": "Anmäl ett programfel",
+  "gotIt": "Uppfattat!",
+  "submit": "Skicka",
+  "markAllAsRead": "Mark All as Read",
+  "incomingError": "Fel med att hantera inkommande meddelande",
+  "media": "Media",
+  "mediaEmptyState": "Du har inga mediefiler i denna konversation",
+  "documents": "Dokument",
+  "documentsEmptyState": "Du har inga dokument i denna konversation",
+  "today": "Idag",
+  "yesterday": "Igår",
+  "thisWeek": "Denna vecka",
+  "thisMonth": "Denna månad",
+  "voiceMessage": "Röstmeddelande",
+  "dangerousFileType": "Bilagor av denna typ tillåts inte på grund av säkerhetsskäl",
+  "stagedPreviewThumbnail": "Utkast av länkförhandsvisning i miniatyrbild för $domain$",
+  "previewThumbnail": "Länkförhandsvisning i miniatyrbild för $domain$",
+  "stagedImageAttachment": "Utkast till bildbilaga: $path$",
+  "oneNonImageAtATimeToast": "När man inkluderar bilagor som inte är bilder, är begränsningen en bilaga per meddelande.",
+  "cannotMixImageAndNonImageAttachments": "Du kan inte blanda bilagor som både är, och inte är, bilder i ett meddelande.",
+  "maximumAttachments": "Du kan inte lägga till fler bilagor till det här meddelandet.",
+  "fileSizeWarning": "Tyvärr, filen du har valt överstiger maximalt tillåten filstorlek.",
+  "unableToLoadAttachment": "Kunde inte läsa in vald bilaga",
+  "offline": "Ej ansluten",
+  "checkNetworkConnection": "Kontrollera din nätverksanslutning.",
+  "attemptingReconnection": "Försöker återansluta om $reconnect_duration_in_seconds$  sekunder",
+  "submitDebugLog": "Loggfil för felsökning",
+  "debugLog": "Felsökningslogg",
+  "goToReleaseNotes": "Gå till versionsanteckningar",
+  "goToSupportPage": "Gå till supportsidan",
+  "menuReportIssue": "Rapportera ett fel",
+  "about": "About",
+  "speech": "Tal",
+  "show": "Visa",
+  "sessionMessenger": "Session",
+  "search": "Sök",
+  "noSearchResults": "Inga resultat för \"$searchTerm$\"",
+  "conversationsHeader": "Konversationer",
+  "contactsHeader": "Kontakter",
+  "messagesHeader": "Meddelanden",
+  "settingsHeader": "Settings",
+  "typingAlt": "Skrivanimation för denna konversation",
+  "contactAvatarAlt": "Avatar för kontakten $name$",
+  "downloadAttachment": "Hämta bifogad fil",
+  "replyToMessage": "Svara på meddelande",
+  "replyingToMessage": "Replying to:",
+  "originalMessageNotFound": "Originalmeddelande hittades inte",
+  "originalMessageNotAvailable": "Originalmeddelande inte längre tillgängligt",
+  "messageFoundButNotLoaded": "Originalmeddelande hittades, men lästes inte in. Skrolla upp för att läsa in det.",
+  "recording": "Recording",
+  "you": "Du",
+  "audioPermissionNeededTitle": "Microphone access required",
+  "audioPermissionNeeded": "Om du vill skicka röstmeddelanden måste Session Desktop ha tillgång till din mikrofon.",
+  "audio": "Ljud",
+  "video": "Video",
+  "photo": "Foto",
+  "cannotUpdate": "Cannot Update",
+  "cannotUpdateDetail": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+  "ok": "OK",
+  "cancel": "Avbryt",
+  "close": "Close",
+  "continue": "Continue",
+  "error": "Fel",
+  "delete": "Radera",
+  "deletePublicWarning": "Are you sure? This will permanently remove this message for everyone in this open group.",
+  "deleteMultiplePublicWarning": "Are you sure? This will permanently remove these messages for everyone in this open group.",
+  "deleteWarning": "Är du säker? Om du klickar 'radera' så tas detta meddelande bort permanent, men bara från denna enhet.",
+  "deleteMultipleWarning": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only.",
+  "messageDeletionForbidden": "You don’t have permission to delete others’ messages",
+  "deleteThisMessage": "Radera detta meddelande",
+  "deleted": "Deleted",
+  "from": "Från",
+  "to": "till",
+  "sent": "Skickat",
+  "received": "Mottagit",
+  "sendMessage": "Skicka ett meddelande",
+  "groupMembers": "Gruppmedlemmar",
+  "moreInformation": "More information",
+  "resend": "Resend",
+  "deleteMessage": "Radera meddelande",
+  "deleteMessages": "Radera meddelanden",
+  "deleteMessageForEveryone": "Delete Message For Everyone",
+  "deleteMessagesForEveryone": "Delete Messages For Everyone",
+  "deleteForEveryone": "Delete For Everyone",
+  "deleteConversationConfirmation": "Vill du radera denna konversation för alltid?",
+  "clearAllData": "Clear All Data",
+  "deleteAccountWarning": "This will permanently delete your messages, sessions, and contacts.",
+  "deleteContactConfirmation": "Are you sure you want to delete this conversation?",
+  "quoteThumbnailAlt": "Miniatyr av bild för citerat meddelande",
+  "imageAttachmentAlt": "Bild bifogat till meddelande",
+  "videoAttachmentAlt": "Skärmbild av video bifogat till meddelande",
+  "lightboxImageAlt": "Bild skickad i konversation",
+  "imageCaptionIconAlt": "Ikon visandes att denna bild har en bildtext",
+  "addACaption": "Lägg till en rubrik...",
+  "copy": "Copy",
+  "copySessionID": "Copy Session ID",
+  "copyOpenGroupURL": "Copy Group's URL",
+  "save": "Spara",
+  "saved": "Saved",
+  "permissions": "Behörigheter",
+  "general": "Generell",
+  "linkPreviewsTitle": "Send Link Previews",
+  "linkPreviewDescription": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links",
+  "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
+  "mediaPermissionsTitle": "Microphone and Camera",
+  "mediaPermissionsDescription": "Tillåt åtkomst till kameran och mikrofonen",
+  "spellCheckTitle": "Spell Check",
+  "spellCheckDescription": "Slå på stavningskontroll för text som anges i meddelandefältet",
+  "spellCheckDirty": "You must restart Session to apply your new settings",
+  "notifications": "Aviseringar",
+  "readReceiptSettingDescription": "See and share when messages have been read (enables read receipts in all sessions).",
+  "readReceiptSettingTitle": "Read Receipts",
+  "typingIndicatorsSettingDescription": "See and share when messages are being typed (applies to all sessions).",
+  "typingIndicatorsSettingTitle": "Typing Indicators",
+  "zoomFactorSettingTitle": "Zoom Factor",
+  "notificationSettingsDialog": "När du får meddelanden, visa aviseringar som visar:",
+  "disableNotifications": "Stäng av aviseringar",
+  "nameAndMessage": "Både sändarens namn och meddelande",
+  "noNameOrMessage": "Varken namn eller meddelande",
+  "nameOnly": "Enbart sändarens namn",
+  "newMessage": "Nytt meddelande",
+  "newMessages": "Nya meddelanden",
+  "notificationMostRecentFrom": "Nyligen från:",
+  "notificationFrom": "Från:",
+  "notificationMostRecent": "Nyligen:",
+  "sendFailed": "Att skicka meddelandet misslyckades",
+  "expiredWarning": "Den här versionen av Session Desktop har utgått. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
+  "upgrade": "Uppgradera",
+  "mediaMessage": "Mediameddelande",
+  "timestamp_s": "nyss",
+  "timestamp_m": "1 minut",
+  "timestamp_h": "1 timme",
+  "timestampFormat_M": "D MMM",
+  "messageBodyMissing": "Please enter a message body.",
+  "unblockToSend": "Avblockera denna kontakt för att skicka meddelanden.",
+  "unblockGroupToSend": "Avblockera denna grupp för att skicka meddelanden.",
+  "youChangedTheTimer": "Du satte tiden för försvinnande meddelanden till $time$",
+  "timerSetOnSync": "Uppdaterade tidsgränsen för försvinnande meddelanden till $time$",
+  "theyChangedTheTimer": "$name$ satte tiden för försvinnande meddelanden till $time$",
+  "timerOption_0_seconds": "av",
+  "timerOption_5_seconds": "5 sekunder",
+  "timerOption_10_seconds": "10 sekunder",
+  "timerOption_30_seconds": "30 sekunder",
+  "timerOption_1_minute": "1 minut",
+  "timerOption_5_minutes": "5 minuter",
+  "timerOption_30_minutes": "30 minuter",
+  "timerOption_1_hour": "1 timme",
+  "timerOption_6_hours": "6 timmar",
+  "timerOption_12_hours": "12 timmar",
+  "timerOption_1_day": "1 dag",
+  "timerOption_1_week": "1 vecka",
+  "disappearingMessages": "Försvinnande meddelanden",
+  "changeNickname": "Change Nickname",
+  "clearNickname": "Clear nickname",
+  "timerOption_0_seconds_abbreviated": "av",
+  "timerOption_5_seconds_abbreviated": "5s",
+  "timerOption_10_seconds_abbreviated": "10s",
+  "timerOption_30_seconds_abbreviated": "30s",
+  "timerOption_1_minute_abbreviated": "1m",
+  "timerOption_5_minutes_abbreviated": "5m",
+  "timerOption_30_minutes_abbreviated": "30m",
+  "timerOption_1_hour_abbreviated": "1h",
+  "timerOption_6_hours_abbreviated": "6h",
+  "timerOption_12_hours_abbreviated": "12h",
+  "timerOption_1_day_abbreviated": "1d",
+  "timerOption_1_week_abbreviated": "1v",
+  "disappearingMessagesDisabled": "Försvinnande meddelanden inaktiverat",
+  "disabledDisappearingMessages": "$name$ stängde av att meddelanden försvinner.",
+  "youDisabledDisappearingMessages": "Du stängde av att meddelanden försvinner.",
+  "timerSetTo": "Tidsgräns inställt till $time$",
+  "noteToSelf": "Notera till mig själv",
+  "hideMenuBarTitle": "Hide Menu Bar",
+  "hideMenuBarDescription": "Toggle system menu bar visibility",
+  "startConversation": "Starta en ny konversation…",
+  "invalidNumberError": "Felaktigt nummer",
+  "successUnlinked": "Your device was unlinked successfully",
+  "autoUpdateSettingTitle": "Auto Update",
+  "autoUpdateSettingDescription": "Automatically check for updates on launch",
+  "autoUpdateNewVersionTitle": "Uppdatering för Session tillgänglig",
+  "autoUpdateNewVersionMessage": "Det finns en ny version av Session tillgänglig.",
+  "autoUpdateNewVersionInstructions": "Vänligen starta om Session för att uppdatera",
+  "autoUpdateRestartButtonLabel": "Starta om Session",
+  "autoUpdateLaterButtonLabel": "Senare",
+  "autoUpdateDownloadButtonLabel": "Download",
+  "autoUpdateDownloadedMessage": "The new update has been downloaded.",
+  "autoUpdateDownloadInstructions": "Would you like to download the update?",
+  "leftTheGroup": "$name$ lämnade gruppen",
+  "multipleLeftTheGroup": "$name$ lämnade gruppen",
+  "updatedTheGroup": "Grupp uppdaterad",
+  "titleIsNow": "Gruppnamnet är nu '$name$'",
+  "joinedTheGroup": "$name$ gick med i gruppen",
+  "multipleJoinedTheGroup": "$names$ gick med i gruppen",
+  "kickedFromTheGroup": "$name$ was removed from the group.",
+  "multipleKickedFromTheGroup": "$name$ were removed from the group.",
+  "blockUser": "Block",
+  "unblockUser": "Unblock",
+  "unblocked": "Unblocked",
+  "blockedSettingsTitle": "Blocked contacts",
+  "unbanUser": "Unban User",
+  "unbanUserConfirm": "Are you sure you want to unban user?",
+  "userUnbanned": "User unbanned successfully",
+  "userUnbanFailed": "Unban failed!",
+  "banUser": "Ban User",
+  "banUserConfirm": "Are you sure you want to ban user?",
+  "userBanned": "User banned successfully",
+  "userBanFailed": "Ban failed!",
+  "leaveGroup": "Leave Group",
+  "leaveAndRemoveForEveryone": "Leave Group and remove for everyone",
+  "leaveGroupConfirmation": "Are you sure you want to leave this group?",
+  "leaveGroupConfirmationAdmin": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
+  "cannotRemoveCreatorFromGroup": "Cannot remove this user",
+  "cannotRemoveCreatorFromGroupDesc": "You cannot remove this user as they are the creator of the group.",
+  "userNeedsToHaveJoined": "User needs to have joined",
+  "userNeedsToHaveJoinedDesc": "An error happened. The user needs to have already joined the server for this ADD to work.",
+  "noContactsForGroup": "You don't have any contacts yet",
+  "copyMessage": "Copy message text",
+  "selectMessage": "Select message",
+  "editGroup": "Edit group",
+  "editGroupName": "Edit group name",
+  "updateGroupDialogTitle": "Updating $name$...",
+  "showRecoveryPhrase": "Recovery Phrase",
+  "yourSessionID": "Your Session ID",
+  "setAccountPasswordTitle": "Set Account Password",
+  "setAccountPasswordDescription": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+  "changeAccountPasswordTitle": "Change Account Password",
+  "changeAccountPasswordDescription": "Change your password",
+  "removeAccountPasswordTitle": "Remove Account Password",
+  "removeAccountPasswordDescription": "Remove the password associated with your account",
+  "enterPassword": "Please enter your password",
+  "confirmPassword": "Confirm password",
+  "pasteLongPasswordToastTitle": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+  "showRecoveryPhrasePasswordRequest": "Please enter your password",
+  "recoveryPhraseSavePromptMain": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone.",
+  "invalidOpenGroupUrl": "Invalid URL",
+  "copiedToClipboard": "Copied to clipboard",
+  "passwordViewTitle": "Type In Your Password",
+  "unlock": "Unlock",
+  "password": "Password",
+  "setPassword": "Set Password",
+  "changePassword": "Change Password",
+  "removePassword": "Remove Password",
+  "maxPasswordAttempts": "Invalid Password. Would you like to reset the database?",
+  "typeInOldPassword": "Please type in your old password",
+  "invalidOldPassword": "Old password is invalid",
+  "invalidPassword": "Invalid password",
+  "noGivenPassword": "Please enter your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "setPasswordInvalid": "Passwords do not match",
+  "changePasswordInvalid": "The old password you entered is incorrect",
+  "removePasswordInvalid": "Incorrect password",
+  "setPasswordTitle": "Set Password",
+  "changePasswordTitle": "Changed Password",
+  "removePasswordTitle": "Removed Password",
+  "setPasswordToastDescription": "Your password has been set. Please keep it safe.",
+  "changePasswordToastDescription": "Your password has been changed. Please keep it safe.",
+  "removePasswordToastDescription": "You have removed your password.",
+  "publicChatExists": "You are already connected to this open group",
+  "connectToServerFail": "Couldn't join group",
+  "connectingToServer": "Connecting...",
+  "connectToServerSuccess": "Successfully connected to open group",
+  "setPasswordFail": "Failed to set password",
+  "passwordLengthError": "Password must be between 6 and 64 characters long",
+  "passwordTypeError": "Password must be a string",
+  "passwordCharacterError": "Password must only contain letters, numbers and symbols",
+  "remove": "Remove",
+  "invalidSessionId": "Invalid Session ID",
+  "invalidPubkeyFormat": "Invalid Pubkey Format",
+  "emptyGroupNameError": "Please enter a group name",
+  "editProfileModalTitle": "Profile",
+  "groupNamePlaceholder": "Group Name",
+  "inviteContacts": "Invite Contacts",
+  "addModerators": "Add Moderators",
+  "removeModerators": "Remove Moderators",
+  "addAsModerator": "Add As Moderator",
+  "removeFromModerators": "Remove From Moderators",
+  "add": "Add",
+  "groupInvitation": "Group Invitation",
+  "addingContacts": "Adding contacts to",
+  "noContactsToAdd": "No contacts to add",
+  "noMembersInThisGroup": "No other members in this group",
+  "noModeratorsToRemove": "no moderators to remove",
+  "onlyAdminCanRemoveMembers": "You are not the creator",
+  "onlyAdminCanRemoveMembersDesc": "Only the creator of the group can remove users",
+  "createAccount": "Create Account",
+  "signIn": "Sign In",
+  "yourUniqueSessionID": "Say hello to your Session ID",
+  "allUsersAreRandomly...": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design.",
+  "getStarted": "Get started",
+  "createSessionID": "Create Session ID",
+  "recoveryPhrase": "Recovery Phrase",
+  "enterRecoveryPhrase": "Enter your recovery phrase",
+  "displayName": "Display Name",
+  "anonymous": "Anonymous",
+  "removeResidueMembers": "Clicking ok will also remove those members as they left the group.",
+  "enterDisplayName": "Enter a display name",
+  "enterOptionalPassword": "Enter password (optional)",
+  "continueYourSession": "Continue Your Session",
+  "linkDevice": "Link Device",
+  "restoreUsingRecoveryPhrase": "Restore your account",
+  "or": "or",
+  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>",
+  "beginYourSession": "Begin<br />your<br />Session.",
+  "welcomeToYourSession": "Welcome to your Session",
+  "newSession": "New Session",
+  "searchFor...": "Search for conversations, contacts, and messages",
+  "enterSessionID": "Enter Session ID",
+  "enterSessionIDOfRecipient": "Enter Session ID of recipient",
+  "usersCanShareTheir...": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code.",
+  "message": "Message",
+  "appearanceSettingsTitle": "Appearance",
+  "permissionSettingsTitle": "Permissions",
+  "privacySettingsTitle": "Privacy",
+  "notificationsSettingsTitle": "Notifications",
+  "recoveryPhraseEmpty": "Enter your recovery phrase",
+  "displayNameEmpty": "Please pick a display name",
+  "members": "$count$ members",
+  "joinOpenGroup": "Join Open Group",
+  "newClosedGroup": "New Closed Group",
+  "createClosedGroupNamePrompt": "Group Name",
+  "createClosedGroupPlaceholder": "Enter a group name",
+  "openGroupURL": "Open Group URL",
+  "enterAnOpenGroupURL": "Enter an open group URL",
+  "next": "Next",
+  "description": "Description",
+  "invalidGroupNameTooShort": "Please enter a group name",
+  "invalidGroupNameTooLong": "Please enter a shorter group name",
+  "pickClosedGroupMember": "Please pick at least 1 group member",
+  "closedGroupMaxSize": "A closed group cannot have more than 100 members",
+  "noBlockedContacts": "No blocked contacts",
+  "userAddedToModerators": "User added to moderator list",
+  "userRemovedFromModerators": "User removed from moderator list",
+  "errorHappenedWhileRemovingModerator": "An error happened",
+  "errorHappenedWhileRemovingModeratorDesc": "An error happened while removing this user from the moderator list.",
+  "orJoinOneOfThese": "Or join one of these...",
   "helpUsTranslateSession": "Help us Translate Session",
   "translation": "Translation"
 }

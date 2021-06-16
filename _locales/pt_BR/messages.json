@@ -1,1177 +1,395 @@
 {
-  "privacyPolicy": {
-    "message": "Termos & Política de Privacidade"
-  },
-  "copyErrorAndQuit": {
-    "message": "Copiar erro e sair"
-  },
-  "unknown": {
-    "message": "Desconhecida"
-  },
-  "databaseError": {
-    "message": "Erro na base de dados"
-  },
-  "mainMenuFile": {
-    "message": "&Arquivo"
-  },
-  "mainMenuEdit": {
-    "message": "&Editar"
-  },
-  "mainMenuView": {
-    "message": "&Ver"
-  },
-  "mainMenuWindow": {
-    "message": "&Janela"
-  },
-  "mainMenuHelp": {
-    "message": "&Ajuda"
-  },
-  "appMenuHide": {
-    "message": "Esconder"
-  },
-  "appMenuHideOthers": {
-    "message": "Esconder todas"
-  },
-  "appMenuUnhide": {
-    "message": "Mostrar todas"
-  },
-  "appMenuQuit": {
-    "message": "Sair do Session"
-  },
-  "editMenuUndo": {
-    "message": "Desfazer"
-  },
-  "editMenuRedo": {
-    "message": "Refazer"
-  },
-  "editMenuCut": {
-    "message": "Cortar"
-  },
-  "editMenuCopy": {
-    "message": "Copiar"
-  },
-  "editMenuPaste": {
-    "message": "Colar"
-  },
-  "editMenuPasteAndMatchStyle": {
-    "message": "Colar texto sem formatação"
-  },
-  "editMenuDelete": {
-    "message": "Excluir"
-  },
-  "editMenuSelectAll": {
-    "message": "Selecionar Todas"
-  },
-  "editMenuStartSpeaking": {
-    "message": "Começar ditado"
-  },
-  "editMenuStopSpeaking": {
-    "message": "Parar ditado"
-  },
-  "windowMenuClose": {
-    "message": "Fechar janela"
-  },
-  "windowMenuMinimize": {
-    "message": "Minimizar"
-  },
-  "windowMenuZoom": {
-    "message": "Zoom"
-  },
-  "windowMenuBringAllToFront": {
-    "message": "Trazer todas para a frente"
-  },
-  "viewMenuResetZoom": {
-    "message": "Tamanho normal"
-  },
-  "viewMenuZoomIn": {
-    "message": "Aumentar zoom"
-  },
-  "viewMenuZoomOut": {
-    "message": "Diminuir zoom"
-  },
-  "viewMenuToggleFullScreen": {
-    "message": "Tela inteira"
-  },
-  "viewMenuToggleDevTools": {
-    "message": "Ferramentas de desenvolvimento"
-  },
-  "menuSetupWithImport": {
-    "message": "Configurar e importar"
-  },
-  "contextMenuNoSuggestions": {
-    "message": "No Suggestions"
-  },
-  "loading": {
-    "message": "Carregando..."
-  },
-  "optimizingApplication": {
-    "message": "Otimizando o aplicativo..."
-  },
-  "chooseDirectory": {
-    "message": "Escolher pasta"
-  },
-  "done": {
-    "message": "Done"
-  },
-  "loadDataHeader": {
-    "message": "Carregar seus dados"
-  },
-  "loadDataDescription": {
-    "message": "Você acabou de terminar o processo de exportação, e os seus contatos e mensagens esperam por você. Selecione a pasta que contém os seus dados do Session salvos."
-  },
-  "importChooserTitle": {
-    "message": "Escolha o diretório com os dados exportados"
-  },
-  "importErrorHeader": {
-    "message": "Alguma coisa deu errado!"
-  },
-  "importingHeader": {
-    "message": "Carregando contatos e mensagens"
-  },
-  "importErrorFirst": {
-    "message": "Confira se escolheu o diretório certo, que contém seus dados exportados do Session. O nome da pasta deve começar com 'Session Export'. Você também pode baixar seus dados novamente usando o Chrome App."
-  },
-  "importErrorSecond": {
-    "message": "Se não funcionar, envie-nos o registro de depuração (Exibir -> Registro de depuração) para que possamos ajudar você a migrar sua conta!"
-  },
-  "importAgain": {
-    "message": "Escolha uma pasta e tente de novo"
-  },
-  "importCompleteHeader": {
-    "message": "Deu certo!"
-  },
-  "importCompleteStartButton": {
-    "message": "Comece a usar o Session Desktop"
-  },
-  "importCompleteLinkButton": {
-    "message": "Religar este aparelho ao seu telefone"
-  },
-  "me": {
-    "message": "Eu"
-  },
-  "view": {
-    "message": "Ver"
-  },
-  "youLeftTheGroup": {
-    "message": "Você saiu do grupo."
-  },
-  "youGotKickedFromGroup": {
-    "message": "You were removed from the group."
-  },
-  "unreadMessage": {
-    "message": "$count$ Mensagem Não Lida"
-  },
-  "unreadMessages": {
-    "message": "$count$ Mensagens Não Lidas"
-  },
-  "debugLogExplanation": {
-    "message": "Esse registro será postado online publicamente para que colaboradores possam vê-lo. Antes de enviar, você pode verificá-lo e editá-lo."
-  },
-  "debugLogError": {
-    "message": "Algo deu errado no carregamento do registro! Por favor, considere adicioná-lo manualmente quando for relatar o problema."
-  },
-  "reportIssue": {
-    "message": "Relatar um problema"
-  },
-  "gotIt": {
-    "message": "Entendi"
-  },
-  "submit": {
-    "message": "Enviar"
-  },
-  "markAllAsRead": {
-    "message": "Mark All as Read"
-  },
-  "incomingError": {
-    "message": "Erro ao receber mensagem"
-  },
-  "media": {
-    "message": "Mídia"
-  },
-  "mediaEmptyState": {
-    "message": "Nenhuma mídia"
-  },
-  "documents": {
-    "message": "Documentos"
-  },
-  "documentsEmptyState": {
-    "message": "Nenhum documento"
-  },
-  "today": {
-    "message": "Hoje"
-  },
-  "yesterday": {
-    "message": "Ontem"
-  },
-  "thisWeek": {
-    "message": "Esta Semana"
-  },
-  "thisMonth": {
-    "message": "Este Mês"
-  },
-  "voiceMessage": {
-    "message": "Mensagem de Voz"
-  },
-  "dangerousFileType": {
-    "message": "Tipo de anexo não permitido por motivos de segurança"
-  },
-  "stagedPreviewThumbnail": {
-    "message": "Pré-visualização em miniatura do link $domain$ (rascunho)"
-  },
-  "previewThumbnail": {
-    "message": "Pré-visualização em miniatura do link $domain$"
-  },
-  "stagedImageAttachment": {
-    "message": "Rascunho de imagem anexa: $path$"
-  },
-  "oneNonImageAtATimeToast": {
-    "message": "O limite para inclusão de anexos que não sejam imagens é de um por mensagem."
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Você não pode combinar imagens e anexos que não sejam imagens na mesma mensagem."
-  },
-  "maximumAttachments": {
-    "message": "Você não pode adicionar mais nenhum anexo a esta mensagem."
-  },
-  "fileSizeWarning": {
-    "message": "O anexo excede os limites de tamanho para o tipo de mensagem sendo enviada."
-  },
-  "unableToLoadAttachment": {
-    "message": "Desculpe, ocorreu um erro ao anexar o documento."
-  },
-  "offline": {
-    "message": "Offline"
-  },
-  "checkNetworkConnection": {
-    "message": "Verifique a sua conexão de rede."
-  },
-  "attemptingReconnection": {
-    "message": "Tentando reconectar em $reconnect_duration_in_seconds$ segundos"
-  },
-  "submitDebugLog": {
-    "message": "Registro de depuração "
-  },
-  "debugLog": {
-    "message": "Registro de depuração "
-  },
-  "goToReleaseNotes": {
-    "message": "Ir para Notas de Lançamento"
-  },
-  "goToSupportPage": {
-    "message": "Ir para Página de Suporte"
-  },
-  "menuReportIssue": {
-    "message": "Relatar um problema"
-  },
-  "about": {
-    "message": "Sobre"
-  },
-  "speech": {
-    "message": "Fala"
-  },
-  "show": {
-    "message": "Exibir"
-  },
-  "sessionMessenger": {
-    "message": "Session"
-  },
-  "search": {
-    "message": "Procurar"
-  },
-  "noSearchResults": {
-    "message": "Nenhum resultado encontrado para \"$searchTerm$\""
-  },
-  "conversationsHeader": {
-    "message": "Conversas"
-  },
-  "contactsHeader": {
-    "message": "Contatos"
-  },
-  "messagesHeader": {
-    "message": "Mensagens"
-  },
-  "settingsHeader": {
-    "message": "Configurações"
-  },
-  "typingAlt": {
-    "message": "Animação de digitação para esta conversa"
-  },
-  "contactAvatarAlt": {
-    "message": "Avatar de $name$"
-  },
-  "downloadAttachment": {
-    "message": "Baixar anexo"
-  },
-  "replyToMessage": {
-    "message": "Responder à mensagem"
-  },
-  "replyingToMessage": {
-    "message": "Replying to:"
-  },
-  "originalMessageNotFound": {
-    "message": "Mensagem original não encontrada"
-  },
-  "originalMessageNotAvailable": {
-    "message": "Mensagem original indisponível"
-  },
-  "messageFoundButNotLoaded": {
-    "message": "Mensagem original encontrada. Role para cima para carregar."
-  },
-  "recording": {
-    "message": "Recording"
-  },
-  "you": {
-    "message": "Você"
-  },
-  "audioPermissionNeededTitle": {
-    "message": "Microphone access required"
-  },
-  "audioPermissionNeeded": {
-    "message": "Para enviar mensagens de áudio permita ao Session acessar o microfone."
-  },
-  "audio": {
-    "message": "Áudio"
-  },
-  "video": {
-    "message": "Vídeo"
-  },
-  "photo": {
-    "message": "Foto"
-  },
-  "cannotUpdate": {
-    "message": "Cannot Update"
-  },
-  "cannotUpdateDetail": {
-    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem."
-  },
-  "ok": {
-    "message": "OK"
-  },
-  "cancel": {
-    "message": "Cancelar"
-  },
-  "close": {
-    "message": "Close"
-  },
-  "continue": {
-    "message": "Continuar"
-  },
-  "error": {
-    "message": "Erro"
-  },
-  "delete": {
-    "message": "Excluir"
-  },
-  "deletePublicWarning": {
-    "message": "Are you sure? This will permanently remove this message for everyone in this open group."
-  },
-  "deleteMultiplePublicWarning": {
-    "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
-  },
-  "deleteWarning": {
-    "message": "Tem certeza? Ao clicar em 'Excluir', você remove esta mensagem permanentemente deste dispositivo apenas."
-  },
-  "deleteMultipleWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
-  },
-  "messageDeletionForbidden": {
-    "message": "You don’t have permission to delete others’ messages"
-  },
-  "deleteThisMessage": {
-    "message": "Excluir mensagem"
-  },
-  "deleted": {
-    "message": "Deleted"
-  },
-  "from": {
-    "message": "De:"
-  },
-  "to": {
-    "message": "Para:"
-  },
-  "sent": {
-    "message": "Enviada"
-  },
-  "received": {
-    "message": "Recebida"
-  },
-  "sendMessage": {
-    "message": "Enviar uma mensagem"
-  },
-  "groupMembers": {
-    "message": "Membros do grupo"
-  },
-  "moreInformation": {
-    "message": "Mais informações"
-  },
-  "resend": {
-    "message": "Reenviar"
-  },
-  "deleteMessage": {
-    "message": "Excluir Mensagem"
-  },
-  "deleteMessages": {
-    "message": "Apagar mensagens"
-  },
-  "deleteMessageForEveryone": {
-    "message": "Delete Message For Everyone"
-  },
-  "deleteMessagesForEveryone": {
-    "message": "Delete Messages For Everyone"
-  },
-  "deleteForEveryone": {
-    "message": "Delete For Everyone"
-  },
-  "deleteConversationConfirmation": {
-    "message": "Você deseja apagar esta conversa definitivamente?"
-  },
-  "clearAllData": {
-    "message": "Limpar todos os dados"
-  },
-  "deleteAccountWarning": {
-    "message": "Isso excluirá permanentemente suas mensagens, sessões e contatos."
-  },
-  "deleteContactConfirmation": {
-    "message": "Tem certeza de que deseja excluir esta conversa?"
-  },
-  "quoteThumbnailAlt": {
-    "message": "Miniatura da imagem na citação"
-  },
-  "imageAttachmentAlt": {
-    "message": "Imagem anexa à mensagem"
-  },
-  "videoAttachmentAlt": {
-    "message": "Frame do vídeo anexo à mensagem"
-  },
-  "lightboxImageAlt": {
-    "message": "Imagem enviada na conversa"
-  },
-  "imageCaptionIconAlt": {
-    "message": "Ícone mostrando que esta imagem possui uma legenda"
-  },
-  "addACaption": {
-    "message": "Adicionar legenda..."
-  },
-  "copy": {
-    "message": "Copiar"
-  },
-  "copySessionID": {
-    "message": "Copy Session ID"
-  },
-  "copyOpenGroupURL": {
-    "message": "Copy Group's URL"
-  },
-  "save": {
-    "message": "Salvar"
-  },
-  "saved": {
-    "message": "Saved"
-  },
-  "permissions": {
-    "message": "Permissões"
-  },
-  "general": {
-    "message": "Geral"
-  },
-  "linkPreviewsTitle": {
-    "message": "Enviar Pré-Visualizações De Links"
-  },
-  "linkPreviewDescription": {
-    "message": "Visualizações são suportadas para links do Imgur, Instagram, Pinterest, Reddit e YouTube"
-  },
-  "linkPreviewsConfirmMessage": {
-    "message": "You will not have full metadata protection when sending or receiving link previews."
-  },
-  "mediaPermissionsTitle": {
-    "message": "Microphone and Camera"
-  },
-  "mediaPermissionsDescription": {
-    "message": "Permitir acesso à câmera e ao microfone"
-  },
-  "spellCheckTitle": {
-    "message": "Spell Check"
-  },
-  "spellCheckDescription": {
-    "message": "Ativar a verificação ortográfica do texto digitado na caixa de edição de mensagens"
-  },
-  "spellCheckDirty": {
-    "message": "You must restart Session to apply your new settings"
-  },
-  "notifications": {
-    "message": "Notificações"
-  },
-  "readReceiptSettingDescription": {
-    "message": "See and share when messages have been read (enables read receipts in all sessions)."
-  },
-  "readReceiptSettingTitle": {
-    "message": "Confirmações De Leitura"
-  },
-  "typingIndicatorsSettingDescription": {
-    "message": "See and share when messages are being typed (applies to all sessions)."
-  },
-  "typingIndicatorsSettingTitle": {
-    "message": "Indicadores De Digitação"
-  },
-  "zoomFactorSettingTitle": {
-    "message": "Zoom Factor"
-  },
-  "notificationSettingsDialog": {
-    "message": "Quando mensagens chegarem, exibir notificações que mostrem:"
-  },
-  "disableNotifications": {
-    "message": "Silenciar notificações"
-  },
-  "nameAndMessage": {
-    "message": "Nome da pessoa remetente e mensagem"
-  },
-  "noNameOrMessage": {
-    "message": "Nem nome nem mensagem"
-  },
-  "nameOnly": {
-    "message": "Apenas o nome da pessoa remetente"
-  },
-  "newMessage": {
-    "message": "Nova mensagem"
-  },
-  "newMessages": {
-    "message": "Novas mensagens"
-  },
-  "notificationMostRecentFrom": {
-    "message": "Mais recente de: $name$"
-  },
-  "notificationFrom": {
-    "message": "De:"
-  },
-  "notificationMostRecent": {
-    "message": "Última:"
-  },
-  "sendFailed": {
-    "message": "Envio Falhou"
-  },
-  "expiredWarning": {
-    "message": "Esta versão do Session Desktop expirou. Por favor, atualize-o para a versão mais recente para continuar enviando mensagens."
-  },
-  "upgrade": {
-    "message": "Atualizar"
-  },
-  "mediaMessage": {
-    "message": "MMS"
-  },
-  "timestamp_s": {
-    "message": "Agora"
-  },
-  "timestamp_m": {
-    "message": "1 minuto"
-  },
-  "timestamp_h": {
-    "message": "1 hora"
-  },
-  "timestampFormat_M": {
-    "message": "MMM D"
-  },
-  "messageBodyMissing": {
-    "message": "Please enter a message body."
-  },
-  "unblockToSend": {
-    "message": "Desbloquear este contato para enviar uma mensagem."
-  },
-  "unblockGroupToSend": {
-    "message": "Desbloquear este grupo para enviar uma mensagem."
-  },
-  "youChangedTheTimer": {
-    "message": "Você definiu o tempo de duração das mensagens efêmeras como $time$."
-  },
-  "timerSetOnSync": {
-    "message": "Cronômetro atualizado para $time$"
-  },
-  "theyChangedTheTimer": {
-    "message": "$name$ definiu o tempo de duração das mensagens efêmeras como $time$."
-  },
-  "timerOption_0_seconds": {
-    "message": "Desligado"
-  },
-  "timerOption_5_seconds": {
-    "message": "5 segundos"
-  },
-  "timerOption_10_seconds": {
-    "message": "10 segundos"
-  },
-  "timerOption_30_seconds": {
-    "message": "30 segundos"
-  },
-  "timerOption_1_minute": {
-    "message": "1 minuto"
-  },
-  "timerOption_5_minutes": {
-    "message": "5 minutos"
-  },
-  "timerOption_30_minutes": {
-    "message": "30 minutos"
-  },
-  "timerOption_1_hour": {
-    "message": "1 hora"
-  },
-  "timerOption_6_hours": {
-    "message": "6 horas"
-  },
-  "timerOption_12_hours": {
-    "message": "12 horas"
-  },
-  "timerOption_1_day": {
-    "message": "1 dia"
-  },
-  "timerOption_1_week": {
-    "message": "1 semana"
-  },
-  "disappearingMessages": {
-    "message": "Mensagens efêmeras"
-  },
-  "changeNickname": {
-    "message": "Change Nickname"
-  },
-  "clearNickname": {
-    "message": "Clear nickname"
-  },
-  "timerOption_0_seconds_abbreviated": {
-    "message": "desligado"
-  },
-  "timerOption_5_seconds_abbreviated": {
-    "message": "5s"
-  },
-  "timerOption_10_seconds_abbreviated": {
-    "message": "10s"
-  },
-  "timerOption_30_seconds_abbreviated": {
-    "message": "30s"
-  },
-  "timerOption_1_minute_abbreviated": {
-    "message": "1min"
-  },
-  "timerOption_5_minutes_abbreviated": {
-    "message": "5min"
-  },
-  "timerOption_30_minutes_abbreviated": {
-    "message": "30min"
-  },
-  "timerOption_1_hour_abbreviated": {
-    "message": "1h"
-  },
-  "timerOption_6_hours_abbreviated": {
-    "message": "6h"
-  },
-  "timerOption_12_hours_abbreviated": {
-    "message": "12h"
-  },
-  "timerOption_1_day_abbreviated": {
-    "message": "1 dia"
-  },
-  "timerOption_1_week_abbreviated": {
-    "message": "1 semana"
-  },
-  "disappearingMessagesDisabled": {
-    "message": "Mensagens efêmeras desabilitadas"
-  },
-  "disabledDisappearingMessages": {
-    "message": "$name$ desabilitou as mensagens efêmeras."
-  },
-  "youDisabledDisappearingMessages": {
-    "message": "Você desabilitou as mensagens efêmeras."
-  },
-  "timerSetTo": {
-    "message": "Expiração da mensagem efêmera definida para $time$"
-  },
-  "noteToSelf": {
-    "message": "Recado pra mim"
-  },
-  "hideMenuBarTitle": {
-    "message": "Hide Menu Bar"
-  },
-  "hideMenuBarDescription": {
-    "message": "Toggle system menu bar visibility"
-  },
-  "startConversation": {
-    "message": "Iniciar uma conversa…"
-  },
-  "invalidNumberError": {
-    "message": "Número inválido"
-  },
-  "successUnlinked": {
-    "message": "O seu dispositivo foi dessincronizado com sucesso"
-  },
-  "autoUpdateSettingTitle": {
-    "message": "Auto Update"
-  },
-  "autoUpdateSettingDescription": {
-    "message": "Automatically check for updates on launch"
-  },
-  "autoUpdateNewVersionTitle": {
-    "message": "Atualização do Session disponível"
-  },
-  "autoUpdateNewVersionMessage": {
-    "message": "Uma nova versão do Session está disponível."
-  },
-  "autoUpdateNewVersionInstructions": {
-    "message": "Por favor, toque em 'reiniciar Session' para aplicar as atualizações."
-  },
-  "autoUpdateRestartButtonLabel": {
-    "message": "Reiniciar Session"
-  },
-  "autoUpdateLaterButtonLabel": {
-    "message": "Mais tarde"
-  },
-  "autoUpdateDownloadButtonLabel": {
-    "message": "Baixar"
-  },
-  "autoUpdateDownloadedMessage": {
-    "message": "The new update has been downloaded."
-  },
-  "autoUpdateDownloadInstructions": {
-    "message": "Would you like to download the update?"
-  },
-  "leftTheGroup": {
-    "message": "$name$ saiu do grupo."
-  },
-  "multipleLeftTheGroup": {
-    "message": "$name$ saiu do grupo"
-  },
-  "updatedTheGroup": {
-    "message": "Grupo atualizado"
-  },
-  "titleIsNow": {
-    "message": "O nome do grupo agora é '$name$'."
-  },
-  "joinedTheGroup": {
-    "message": "$name$ entrou no  grupo."
-  },
-  "multipleJoinedTheGroup": {
-    "message": "$name$ entraram no  grupo."
-  },
-  "kickedFromTheGroup": {
-    "message": "$name$ was removed from the group."
-  },
-  "multipleKickedFromTheGroup": {
-    "message": "$name$ were removed from the group."
-  },
-  "blockUser": {
-    "message": "Bloquear"
-  },
-  "unblockUser": {
-    "message": "Desbloquear"
-  },
-  "unblocked": {
-    "message": "Unblocked"
-  },
-  "blockedSettingsTitle": {
-    "message": "Contatos bloqueados"
-  },
-  "unbanUser": {
-    "message": "Unban User"
-  },
-  "unbanUserConfirm": {
-    "message": "Are you sure you want to unban user?"
-  },
-  "userUnbanned": {
-    "message": "User unbanned successfully"
-  },
-  "userUnbanFailed": {
-    "message": "Unban failed!"
-  },
-  "banUser": {
-    "message": "Ban User"
-  },
-  "banUserConfirm": {
-    "message": "Are you sure you want to ban user?"
-  },
-  "userBanned": {
-    "message": "User banned successfully"
-  },
-  "userBanFailed": {
-    "message": "Ban failed!"
-  },
-  "leaveGroup": {
-    "message": "Sair Do Grupo"
-  },
-  "leaveAndRemoveForEveryone": {
-    "message": "Leave Group and remove for everyone"
-  },
-  "leaveGroupConfirmation": {
-    "message": "Tem certeza de que deseja sair deste grupo?"
-  },
-  "leaveGroupConfirmationAdmin": {
-    "message": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?"
-  },
-  "cannotRemoveCreatorFromGroup": {
-    "message": "Cannot remove this user"
-  },
-  "cannotRemoveCreatorFromGroupDesc": {
-    "message": "You cannot remove this user as they are the creator of the group."
-  },
-  "userNeedsToHaveJoined": {
-    "message": "User needs to have joined"
-  },
-  "userNeedsToHaveJoinedDesc": {
-    "message": "An error happened. The user needs to have already joined the server for this ADD to work."
-  },
-  "noContactsForGroup": {
-    "message": "Você ainda não possui contatos"
-  },
-  "copyMessage": {
-    "message": "Copy message text"
-  },
-  "selectMessage": {
-    "message": "Select message"
-  },
-  "editGroup": {
-    "message": "Editar grupo"
-  },
-  "editGroupName": {
-    "message": "Edit group name"
-  },
-  "updateGroupDialogTitle": {
-    "message": "Atualizando $name$..."
-  },
-  "showRecoveryPhrase": {
-    "message": "Frase de recuperação"
-  },
-  "yourSessionID": {
-    "message": "Seu ID Session"
-  },
-  "setAccountPasswordTitle": {
-    "message": "Set Account Password"
-  },
-  "setAccountPasswordDescription": {
-    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed"
-  },
-  "changeAccountPasswordTitle": {
-    "message": "Change Account Password"
-  },
-  "changeAccountPasswordDescription": {
-    "message": "Change your password"
-  },
-  "removeAccountPasswordTitle": {
-    "message": "Remove Account Password"
-  },
-  "removeAccountPasswordDescription": {
-    "message": "Remove the password associated with your account"
-  },
-  "enterPassword": {
-    "message": "Please enter your password"
-  },
-  "confirmPassword": {
-    "message": "Confirm password"
-  },
-  "pasteLongPasswordToastTitle": {
-    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters."
-  },
-  "showRecoveryPhrasePasswordRequest": {
-    "message": "Please enter your password"
-  },
-  "recoveryPhraseSavePromptMain": {
-    "message": "Sua frase de recuperação é a chave mestra do seu ID Session - você pode usá-la para restaurar seu ID Session se perder o acesso ao seu dispositivo. Armazene sua frase de recuperação em um local seguro e não a entregue a ninguém."
-  },
-  "invalidOpenGroupUrl": {
-    "message": "Invalid URL"
-  },
-  "copiedToClipboard": {
-    "message": "Copiado para a área de transferência"
-  },
-  "passwordViewTitle": {
-    "message": "Type In Your Password"
-  },
-  "unlock": {
-    "message": "Destrancar"
-  },
-  "password": {
-    "message": "Password"
-  },
-  "setPassword": {
-    "message": "Set Password"
-  },
-  "changePassword": {
-    "message": "Change Password"
-  },
-  "removePassword": {
-    "message": "Remove Password"
-  },
-  "maxPasswordAttempts": {
-    "message": "Invalid Password. Would you like to reset the database?"
-  },
-  "typeInOldPassword": {
-    "message": "Please type in your old password"
-  },
-  "invalidOldPassword": {
-    "message": "Old password is invalid"
-  },
-  "invalidPassword": {
-    "message": "Invalid password"
-  },
-  "noGivenPassword": {
-    "message": "Please enter your password"
-  },
-  "passwordsDoNotMatch": {
-    "message": "Passwords do not match"
-  },
-  "setPasswordInvalid": {
-    "message": "Passwords do not match"
-  },
-  "changePasswordInvalid": {
-    "message": "The old password you entered is incorrect"
-  },
-  "removePasswordInvalid": {
-    "message": "Incorrect password"
-  },
-  "setPasswordTitle": {
-    "message": "Set Password"
-  },
-  "changePasswordTitle": {
-    "message": "Changed Password"
-  },
-  "removePasswordTitle": {
-    "message": "Removed Password"
-  },
-  "setPasswordToastDescription": {
-    "message": "Your password has been set. Please keep it safe."
-  },
-  "changePasswordToastDescription": {
-    "message": "Your password has been changed. Please keep it safe."
-  },
-  "removePasswordToastDescription": {
-    "message": "You have removed your password."
-  },
-  "publicChatExists": {
-    "message": "You are already connected to this open group"
-  },
-  "connectToServerFail": {
-    "message": "Não foi possível entrar no grupo"
-  },
-  "connectingToServer": {
-    "message": "Conectando..."
-  },
-  "connectToServerSuccess": {
-    "message": "Successfully connected to open group"
-  },
-  "setPasswordFail": {
-    "message": "Failed to set password"
-  },
-  "passwordLengthError": {
-    "message": "Password must be between 6 and 64 characters long"
-  },
-  "passwordTypeError": {
-    "message": "Password must be a string"
-  },
-  "passwordCharacterError": {
-    "message": "Password must only contain letters, numbers and symbols"
-  },
-  "remove": {
-    "message": "Remover"
-  },
-  "invalidSessionId": {
-    "message": "ID Session inválido"
-  },
-  "invalidPubkeyFormat": {
-    "message": "Invalid Pubkey Format"
-  },
-  "emptyGroupNameError": {
-    "message": "Digite um nome de grupo"
-  },
-  "editProfileModalTitle": {
-    "message": "Profile"
-  },
-  "groupNamePlaceholder": {
-    "message": "Nome Do Grupo"
-  },
-  "inviteContacts": {
-    "message": "Convidar Amigos"
-  },
-  "addModerators": {
-    "message": "Add Moderators"
-  },
-  "removeModerators": {
-    "message": "Remove Moderators"
-  },
-  "addAsModerator": {
-    "message": "Add As Moderator"
-  },
-  "removeFromModerators": {
-    "message": "Remove From Moderators"
-  },
-  "add": {
-    "message": "Add"
-  },
-  "groupInvitation": {
-    "message": "Group Invitation"
-  },
-  "addingContacts": {
-    "message": "Adding contacts to"
-  },
-  "noContactsToAdd": {
-    "message": "No contacts to add"
-  },
-  "noMembersInThisGroup": {
-    "message": "No other members in this group"
-  },
-  "noModeratorsToRemove": {
-    "message": "no moderators to remove"
-  },
-  "onlyAdminCanRemoveMembers": {
-    "message": "You are not the creator"
-  },
-  "onlyAdminCanRemoveMembersDesc": {
-    "message": "Only the creator of the group can remove users"
-  },
-  "createAccount": {
-    "message": "Create Account"
-  },
-  "signIn": {
-    "message": "Sign In"
-  },
-  "yourUniqueSessionID": {
-    "message": "Diga olá ao seu ID Session"
-  },
-  "allUsersAreRandomly...": {
-    "message": "Seu ID Session é o endereço exclusivo que as pessoas podem usar para entrar em contato com você no Session. Sem conexão com sua identidade real, seu ID Session é totalmente anônimo e privado por definição."
-  },
-  "getStarted": {
-    "message": "Get started"
-  },
-  "createSessionID": {
-    "message": "Criar ID Session"
-  },
-  "recoveryPhrase": {
-    "message": "Frase de recuperação"
-  },
-  "enterRecoveryPhrase": {
-    "message": "Digite sua frase de recuperação"
-  },
-  "displayName": {
-    "message": "Display Name"
-  },
-  "anonymous": {
-    "message": "Anonymous"
-  },
-  "removeResidueMembers": {
-    "message": "Clicking ok will also remove those members as they left the group."
-  },
-  "enterDisplayName": {
-    "message": "Digite um nome de exibição"
-  },
-  "enterOptionalPassword": {
-    "message": "Enter password (optional)"
-  },
-  "continueYourSession": {
-    "message": "Continuar com seu Session"
-  },
-  "linkDevice": {
-    "message": "Sincronize dispositivo"
-  },
-  "restoreUsingRecoveryPhrase": {
-    "message": "Restaurar sua conta"
-  },
-  "or": {
-    "message": "or"
-  },
-  "ByUsingThisService...": {
-    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
-  },
-  "beginYourSession": {
-    "message": "Begin<br />your<br />Session."
-  },
-  "welcomeToYourSession": {
-    "message": "Welcome to your Session"
-  },
-  "newSession": {
-    "message": "Nova Sessão"
-  },
-  "searchFor...": {
-    "message": "Buscar conversas, contatos e mensagens"
-  },
-  "enterSessionID": {
-    "message": "Digite o ID Session"
-  },
-  "enterSessionIDOfRecipient": {
-    "message": "Digite o ID Session do destinatário"
-  },
-  "usersCanShareTheir...": {
-    "message": "Os usuários podem compartilhar seus IDs Session acessando as configurações da conta e tocando em Compartilhar ID Session, ou compartilhando o código QR."
-  },
-  "message": {
-    "message": "Message"
-  },
-  "appearanceSettingsTitle": {
-    "message": "Aparência"
-  },
-  "permissionSettingsTitle": {
-    "message": "Permissions"
-  },
-  "privacySettingsTitle": {
-    "message": "Privacidade"
-  },
-  "notificationsSettingsTitle": {
-    "message": "Notificações"
-  },
-  "recoveryPhraseEmpty": {
-    "message": "Digite sua frase de recuperação"
-  },
-  "displayNameEmpty": {
-    "message": "Escolha um nome de exibição"
-  },
-  "members": {
-    "message": "$count$ members"
-  },
-  "joinOpenGroup": {
-    "message": "Participar em grupo aberto"
-  },
-  "newClosedGroup": {
-    "message": "Novo grupo fechado"
-  },
-  "createClosedGroupNamePrompt": {
-    "message": "Nome Do Grupo"
-  },
-  "createClosedGroupPlaceholder": {
-    "message": "Digite o nome do grupo"
-  },
-  "openGroupURL": {
-    "message": "URL do grupo aberto"
-  },
-  "enterAnOpenGroupURL": {
-    "message": "Digite a URL do grupo aberto"
-  },
-  "next": {
-    "message": "Avançar"
-  },
-  "description": {
-    "message": "Description"
-  },
-  "invalidGroupNameTooShort": {
-    "message": "Digite um nome de grupo"
-  },
-  "invalidGroupNameTooLong": {
-    "message": "Digite um nome de grupo mais curto"
-  },
-  "pickClosedGroupMember": {
-    "message": "Escolha pelo menos 2 membros do grupo"
-  },
-  "closedGroupMaxSize": {
-    "message": "Um grupo fechado não pode ter mais de 100 membros"
-  },
-  "noBlockedContacts": {
-    "message": "No blocked contacts"
-  },
-  "userAddedToModerators": {
-    "message": "User added to moderator list"
-  },
-  "userRemovedFromModerators": {
-    "message": "User removed from moderator list"
-  },
-  "errorHappenedWhileRemovingModerator": {
-    "message": "An error happened"
-  },
-  "errorHappenedWhileRemovingModeratorDesc": {
-    "message": "An error happened while removing this user from the moderator list."
-  },
-  "orJoinOneOfThese": {
-    "message": "Or join one of these..."
-  },
+  "privacyPolicy": "Termos & Política de Privacidade",
+  "copyErrorAndQuit": "Copiar erro e sair",
+  "unknown": "Desconhecida",
+  "databaseError": "Erro na base de dados",
+  "mainMenuFile": "&Arquivo",
+  "mainMenuEdit": "&Editar",
+  "mainMenuView": "&Ver",
+  "mainMenuWindow": "&Janela",
+  "mainMenuHelp": "&Ajuda",
+  "appMenuHide": "Esconder",
+  "appMenuHideOthers": "Esconder todas",
+  "appMenuUnhide": "Mostrar todas",
+  "appMenuQuit": "Sair do Session",
+  "editMenuUndo": "Desfazer",
+  "editMenuRedo": "Refazer",
+  "editMenuCut": "Cortar",
+  "editMenuCopy": "Copiar",
+  "editMenuPaste": "Colar",
+  "editMenuPasteAndMatchStyle": "Colar texto sem formatação",
+  "editMenuDelete": "Excluir",
+  "editMenuSelectAll": "Selecionar Todas",
+  "editMenuStartSpeaking": "Começar ditado",
+  "editMenuStopSpeaking": "Parar ditado",
+  "windowMenuClose": "Fechar janela",
+  "windowMenuMinimize": "Minimizar",
+  "windowMenuZoom": "Zoom",
+  "windowMenuBringAllToFront": "Trazer todas para a frente",
+  "viewMenuResetZoom": "Tamanho normal",
+  "viewMenuZoomIn": "Aumentar zoom",
+  "viewMenuZoomOut": "Diminuir zoom",
+  "viewMenuToggleFullScreen": "Tela inteira",
+  "viewMenuToggleDevTools": "Ferramentas de desenvolvimento",
+  "menuSetupWithImport": "Configurar e importar",
+  "contextMenuNoSuggestions": "No Suggestions",
+  "loading": "Carregando...",
+  "optimizingApplication": "Otimizando o aplicativo...",
+  "chooseDirectory": "Escolher pasta",
+  "done": "Done",
+  "loadDataHeader": "Carregar seus dados",
+  "loadDataDescription": "Você acabou de terminar o processo de exportação, e os seus contatos e mensagens esperam por você. Selecione a pasta que contém os seus dados do Session salvos.",
+  "importChooserTitle": "Escolha o diretório com os dados exportados",
+  "importErrorHeader": "Alguma coisa deu errado!",
+  "importingHeader": "Carregando contatos e mensagens",
+  "importErrorFirst": "Confira se escolheu o diretório certo, que contém seus dados exportados do Session. O nome da pasta deve começar com 'Session Export'. Você também pode baixar seus dados novamente usando o Chrome App.",
+  "importErrorSecond": "Se não funcionar, envie-nos o registro de depuração (Exibir -> Registro de depuração) para que possamos ajudar você a migrar sua conta!",
+  "importAgain": "Escolha uma pasta e tente de novo",
+  "importCompleteHeader": "Deu certo!",
+  "importCompleteStartButton": "Comece a usar o Session Desktop",
+  "importCompleteLinkButton": "Religar este aparelho ao seu telefone",
+  "me": "Eu",
+  "view": "Ver",
+  "youLeftTheGroup": "Você saiu do grupo.",
+  "youGotKickedFromGroup": "You were removed from the group.",
+  "unreadMessage": "$count$ Mensagem Não Lida",
+  "unreadMessages": "$count$ Mensagens Não Lidas",
+  "debugLogExplanation": "Esse registro será postado online publicamente para que colaboradores possam vê-lo. Antes de enviar, você pode verificá-lo e editá-lo.",
+  "debugLogError": "Algo deu errado no carregamento do registro! Por favor, considere adicioná-lo manualmente quando for relatar o problema.",
+  "reportIssue": "Relatar um problema",
+  "gotIt": "Entendi",
+  "submit": "Enviar",
+  "markAllAsRead": "Mark All as Read",
+  "incomingError": "Erro ao receber mensagem",
+  "media": "Mídia",
+  "mediaEmptyState": "Nenhuma mídia",
+  "documents": "Documentos",
+  "documentsEmptyState": "Nenhum documento",
+  "today": "Hoje",
+  "yesterday": "Ontem",
+  "thisWeek": "Esta Semana",
+  "thisMonth": "Este Mês",
+  "voiceMessage": "Mensagem de Voz",
+  "dangerousFileType": "Tipo de anexo não permitido por motivos de segurança",
+  "stagedPreviewThumbnail": "Pré-visualização em miniatura do link $domain$ (rascunho)",
+  "previewThumbnail": "Pré-visualização em miniatura do link $domain$",
+  "stagedImageAttachment": "Rascunho de imagem anexa: $path$",
+  "oneNonImageAtATimeToast": "O limite para inclusão de anexos que não sejam imagens é de um por mensagem.",
+  "cannotMixImageAndNonImageAttachments": "Você não pode combinar imagens e anexos que não sejam imagens na mesma mensagem.",
+  "maximumAttachments": "Você não pode adicionar mais nenhum anexo a esta mensagem.",
+  "fileSizeWarning": "O anexo excede os limites de tamanho para o tipo de mensagem sendo enviada.",
+  "unableToLoadAttachment": "Desculpe, ocorreu um erro ao anexar o documento.",
+  "offline": "Offline",
+  "checkNetworkConnection": "Verifique a sua conexão de rede.",
+  "attemptingReconnection": "Tentando reconectar em $reconnect_duration_in_seconds$ segundos",
+  "submitDebugLog": "Registro de depuração ",
+  "debugLog": "Registro de depuração ",
+  "goToReleaseNotes": "Ir para Notas de Lançamento",
+  "goToSupportPage": "Ir para Página de Suporte",
+  "menuReportIssue": "Relatar um problema",
+  "about": "Sobre",
+  "speech": "Fala",
+  "show": "Exibir",
+  "sessionMessenger": "Session",
+  "search": "Procurar",
+  "noSearchResults": "Nenhum resultado encontrado para \"$searchTerm$\"",
+  "conversationsHeader": "Conversas",
+  "contactsHeader": "Contatos",
+  "messagesHeader": "Mensagens",
+  "settingsHeader": "Configurações",
+  "typingAlt": "Animação de digitação para esta conversa",
+  "contactAvatarAlt": "Avatar de $name$",
+  "downloadAttachment": "Baixar anexo",
+  "replyToMessage": "Responder à mensagem",
+  "replyingToMessage": "Replying to:",
+  "originalMessageNotFound": "Mensagem original não encontrada",
+  "originalMessageNotAvailable": "Mensagem original indisponível",
+  "messageFoundButNotLoaded": "Mensagem original encontrada. Role para cima para carregar.",
+  "recording": "Recording",
+  "you": "Você",
+  "audioPermissionNeededTitle": "Microphone access required",
+  "audioPermissionNeeded": "Para enviar mensagens de áudio permita ao Session acessar o microfone.",
+  "audio": "Áudio",
+  "video": "Vídeo",
+  "photo": "Foto",
+  "cannotUpdate": "Cannot Update",
+  "cannotUpdateDetail": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+  "ok": "OK",
+  "cancel": "Cancelar",
+  "close": "Close",
+  "continue": "Continuar",
+  "error": "Erro",
+  "delete": "Excluir",
+  "deletePublicWarning": "Are you sure? This will permanently remove this message for everyone in this open group.",
+  "deleteMultiplePublicWarning": "Are you sure? This will permanently remove these messages for everyone in this open group.",
+  "deleteWarning": "Tem certeza? Ao clicar em 'Excluir', você remove esta mensagem permanentemente deste dispositivo apenas.",
+  "deleteMultipleWarning": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only.",
+  "messageDeletionForbidden": "You don’t have permission to delete others’ messages",
+  "deleteThisMessage": "Excluir mensagem",
+  "deleted": "Deleted",
+  "from": "De:",
+  "to": "Para:",
+  "sent": "Enviada",
+  "received": "Recebida",
+  "sendMessage": "Enviar uma mensagem",
+  "groupMembers": "Membros do grupo",
+  "moreInformation": "Mais informações",
+  "resend": "Reenviar",
+  "deleteMessage": "Excluir Mensagem",
+  "deleteMessages": "Apagar mensagens",
+  "deleteMessageForEveryone": "Delete Message For Everyone",
+  "deleteMessagesForEveryone": "Delete Messages For Everyone",
+  "deleteForEveryone": "Delete For Everyone",
+  "deleteConversationConfirmation": "Você deseja apagar esta conversa definitivamente?",
+  "clearAllData": "Limpar todos os dados",
+  "deleteAccountWarning": "Isso excluirá permanentemente suas mensagens, sessões e contatos.",
+  "deleteContactConfirmation": "Tem certeza de que deseja excluir esta conversa?",
+  "quoteThumbnailAlt": "Miniatura da imagem na citação",
+  "imageAttachmentAlt": "Imagem anexa à mensagem",
+  "videoAttachmentAlt": "Frame do vídeo anexo à mensagem",
+  "lightboxImageAlt": "Imagem enviada na conversa",
+  "imageCaptionIconAlt": "Ícone mostrando que esta imagem possui uma legenda",
+  "addACaption": "Adicionar legenda...",
+  "copy": "Copiar",
+  "copySessionID": "Copy Session ID",
+  "copyOpenGroupURL": "Copy Group's URL",
+  "save": "Salvar",
+  "saved": "Saved",
+  "permissions": "Permissões",
+  "general": "Geral",
+  "linkPreviewsTitle": "Enviar Pré-Visualizações De Links",
+  "linkPreviewDescription": "Visualizações são suportadas para links do Imgur, Instagram, Pinterest, Reddit e YouTube",
+  "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
+  "mediaPermissionsTitle": "Microphone and Camera",
+  "mediaPermissionsDescription": "Permitir acesso à câmera e ao microfone",
+  "spellCheckTitle": "Spell Check",
+  "spellCheckDescription": "Ativar a verificação ortográfica do texto digitado na caixa de edição de mensagens",
+  "spellCheckDirty": "You must restart Session to apply your new settings",
+  "notifications": "Notificações",
+  "readReceiptSettingDescription": "See and share when messages have been read (enables read receipts in all sessions).",
+  "readReceiptSettingTitle": "Confirmações De Leitura",
+  "typingIndicatorsSettingDescription": "See and share when messages are being typed (applies to all sessions).",
+  "typingIndicatorsSettingTitle": "Indicadores De Digitação",
+  "zoomFactorSettingTitle": "Zoom Factor",
+  "notificationSettingsDialog": "Quando mensagens chegarem, exibir notificações que mostrem:",
+  "disableNotifications": "Silenciar notificações",
+  "nameAndMessage": "Nome da pessoa remetente e mensagem",
+  "noNameOrMessage": "Nem nome nem mensagem",
+  "nameOnly": "Apenas o nome da pessoa remetente",
+  "newMessage": "Nova mensagem",
+  "newMessages": "Novas mensagens",
+  "notificationMostRecentFrom": "Mais recente de: $name$",
+  "notificationFrom": "De:",
+  "notificationMostRecent": "Última:",
+  "sendFailed": "Envio Falhou",
+  "expiredWarning": "Esta versão do Session Desktop expirou. Por favor, atualize-o para a versão mais recente para continuar enviando mensagens.",
+  "upgrade": "Atualizar",
+  "mediaMessage": "MMS",
+  "timestamp_s": "Agora",
+  "timestamp_m": "1 minuto",
+  "timestamp_h": "1 hora",
+  "timestampFormat_M": "MMM D",
+  "messageBodyMissing": "Please enter a message body.",
+  "unblockToSend": "Desbloquear este contato para enviar uma mensagem.",
+  "unblockGroupToSend": "Desbloquear este grupo para enviar uma mensagem.",
+  "youChangedTheTimer": "Você definiu o tempo de duração das mensagens efêmeras como $time$.",
+  "timerSetOnSync": "Cronômetro atualizado para $time$",
+  "theyChangedTheTimer": "$name$ definiu o tempo de duração das mensagens efêmeras como $time$.",
+  "timerOption_0_seconds": "Desligado",
+  "timerOption_5_seconds": "5 segundos",
+  "timerOption_10_seconds": "10 segundos",
+  "timerOption_30_seconds": "30 segundos",
+  "timerOption_1_minute": "1 minuto",
+  "timerOption_5_minutes": "5 minutos",
+  "timerOption_30_minutes": "30 minutos",
+  "timerOption_1_hour": "1 hora",
+  "timerOption_6_hours": "6 horas",
+  "timerOption_12_hours": "12 horas",
+  "timerOption_1_day": "1 dia",
+  "timerOption_1_week": "1 semana",
+  "disappearingMessages": "Mensagens efêmeras",
+  "changeNickname": "Change Nickname",
+  "clearNickname": "Clear nickname",
+  "timerOption_0_seconds_abbreviated": "desligado",
+  "timerOption_5_seconds_abbreviated": "5s",
+  "timerOption_10_seconds_abbreviated": "10s",
+  "timerOption_30_seconds_abbreviated": "30s",
+  "timerOption_1_minute_abbreviated": "1min",
+  "timerOption_5_minutes_abbreviated": "5min",
+  "timerOption_30_minutes_abbreviated": "30min",
+  "timerOption_1_hour_abbreviated": "1h",
+  "timerOption_6_hours_abbreviated": "6h",
+  "timerOption_12_hours_abbreviated": "12h",
+  "timerOption_1_day_abbreviated": "1 dia",
+  "timerOption_1_week_abbreviated": "1 semana",
+  "disappearingMessagesDisabled": "Mensagens efêmeras desabilitadas",
+  "disabledDisappearingMessages": "$name$ desabilitou as mensagens efêmeras.",
+  "youDisabledDisappearingMessages": "Você desabilitou as mensagens efêmeras.",
+  "timerSetTo": "Expiração da mensagem efêmera definida para $time$",
+  "noteToSelf": "Recado pra mim",
+  "hideMenuBarTitle": "Hide Menu Bar",
+  "hideMenuBarDescription": "Toggle system menu bar visibility",
+  "startConversation": "Iniciar uma conversa…",
+  "invalidNumberError": "Número inválido",
+  "successUnlinked": "O seu dispositivo foi dessincronizado com sucesso",
+  "autoUpdateSettingTitle": "Auto Update",
+  "autoUpdateSettingDescription": "Automatically check for updates on launch",
+  "autoUpdateNewVersionTitle": "Atualização do Session disponível",
+  "autoUpdateNewVersionMessage": "Uma nova versão do Session está disponível.",
+  "autoUpdateNewVersionInstructions": "Por favor, toque em 'reiniciar Session' para aplicar as atualizações.",
+  "autoUpdateRestartButtonLabel": "Reiniciar Session",
+  "autoUpdateLaterButtonLabel": "Mais tarde",
+  "autoUpdateDownloadButtonLabel": "Baixar",
+  "autoUpdateDownloadedMessage": "The new update has been downloaded.",
+  "autoUpdateDownloadInstructions": "Would you like to download the update?",
+  "leftTheGroup": "$name$ saiu do grupo.",
+  "multipleLeftTheGroup": "$name$ saiu do grupo",
+  "updatedTheGroup": "Grupo atualizado",
+  "titleIsNow": "O nome do grupo agora é '$name$'.",
+  "joinedTheGroup": "$name$ entrou no  grupo.",
+  "multipleJoinedTheGroup": "$name$ entraram no  grupo.",
+  "kickedFromTheGroup": "$name$ was removed from the group.",
+  "multipleKickedFromTheGroup": "$name$ were removed from the group.",
+  "blockUser": "Bloquear",
+  "unblockUser": "Desbloquear",
+  "unblocked": "Unblocked",
+  "blockedSettingsTitle": "Contatos bloqueados",
+  "unbanUser": "Unban User",
+  "unbanUserConfirm": "Are you sure you want to unban user?",
+  "userUnbanned": "User unbanned successfully",
+  "userUnbanFailed": "Unban failed!",
+  "banUser": "Ban User",
+  "banUserConfirm": "Are you sure you want to ban user?",
+  "userBanned": "User banned successfully",
+  "userBanFailed": "Ban failed!",
+  "leaveGroup": "Sair Do Grupo",
+  "leaveAndRemoveForEveryone": "Leave Group and remove for everyone",
+  "leaveGroupConfirmation": "Tem certeza de que deseja sair deste grupo?",
+  "leaveGroupConfirmationAdmin": "As you are the admin of this group, if you leave it it will be removed for every current members. Are you sure you want to leave this group?",
+  "cannotRemoveCreatorFromGroup": "Cannot remove this user",
+  "cannotRemoveCreatorFromGroupDesc": "You cannot remove this user as they are the creator of the group.",
+  "userNeedsToHaveJoined": "User needs to have joined",
+  "userNeedsToHaveJoinedDesc": "An error happened. The user needs to have already joined the server for this ADD to work.",
+  "noContactsForGroup": "Você ainda não possui contatos",
+  "copyMessage": "Copy message text",
+  "selectMessage": "Select message",
+  "editGroup": "Editar grupo",
+  "editGroupName": "Edit group name",
+  "updateGroupDialogTitle": "Atualizando $name$...",
+  "showRecoveryPhrase": "Frase de recuperação",
+  "yourSessionID": "Seu ID Session",
+  "setAccountPasswordTitle": "Set Account Password",
+  "setAccountPasswordDescription": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+  "changeAccountPasswordTitle": "Change Account Password",
+  "changeAccountPasswordDescription": "Change your password",
+  "removeAccountPasswordTitle": "Remove Account Password",
+  "removeAccountPasswordDescription": "Remove the password associated with your account",
+  "enterPassword": "Please enter your password",
+  "confirmPassword": "Confirm password",
+  "pasteLongPasswordToastTitle": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+  "showRecoveryPhrasePasswordRequest": "Please enter your password",
+  "recoveryPhraseSavePromptMain": "Sua frase de recuperação é a chave mestra do seu ID Session - você pode usá-la para restaurar seu ID Session se perder o acesso ao seu dispositivo. Armazene sua frase de recuperação em um local seguro e não a entregue a ninguém.",
+  "invalidOpenGroupUrl": "Invalid URL",
+  "copiedToClipboard": "Copiado para a área de transferência",
+  "passwordViewTitle": "Type In Your Password",
+  "unlock": "Destrancar",
+  "password": "Password",
+  "setPassword": "Set Password",
+  "changePassword": "Change Password",
+  "removePassword": "Remove Password",
+  "maxPasswordAttempts": "Invalid Password. Would you like to reset the database?",
+  "typeInOldPassword": "Please type in your old password",
+  "invalidOldPassword": "Old password is invalid",
+  "invalidPassword": "Invalid password",
+  "noGivenPassword": "Please enter your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "setPasswordInvalid": "Passwords do not match",
+  "changePasswordInvalid": "The old password you entered is incorrect",
+  "removePasswordInvalid": "Incorrect password",
+  "setPasswordTitle": "Set Password",
+  "changePasswordTitle": "Changed Password",
+  "removePasswordTitle": "Removed Password",
+  "setPasswordToastDescription": "Your password has been set. Please keep it safe.",
+  "changePasswordToastDescription": "Your password has been changed. Please keep it safe.",
+  "removePasswordToastDescription": "You have removed your password.",
+  "publicChatExists": "You are already connected to this open group",
+  "connectToServerFail": "Não foi possível entrar no grupo",
+  "connectingToServer": "Conectando...",
+  "connectToServerSuccess": "Successfully connected to open group",
+  "setPasswordFail": "Failed to set password",
+  "passwordLengthError": "Password must be between 6 and 64 characters long",
+  "passwordTypeError": "Password must be a string",
+  "passwordCharacterError": "Password must only contain letters, numbers and symbols",
+  "remove": "Remover",
+  "invalidSessionId": "ID Session inválido",
+  "invalidPubkeyFormat": "Invalid Pubkey Format",
+  "emptyGroupNameError": "Digite um nome de grupo",
+  "editProfileModalTitle": "Profile",
+  "groupNamePlaceholder": "Nome Do Grupo",
+  "inviteContacts": "Convidar Amigos",
+  "addModerators": "Add Moderators",
+  "removeModerators": "Remove Moderators",
+  "addAsModerator": "Add As Moderator",
+  "removeFromModerators": "Remove From Moderators",
+  "add": "Add",
+  "groupInvitation": "Group Invitation",
+  "addingContacts": "Adding contacts to",
+  "noContactsToAdd": "No contacts to add",
+  "noMembersInThisGroup": "No other members in this group",
+  "noModeratorsToRemove": "no moderators to remove",
+  "onlyAdminCanRemoveMembers": "You are not the creator",
+  "onlyAdminCanRemoveMembersDesc": "Only the creator of the group can remove users",
+  "createAccount": "Create Account",
+  "signIn": "Sign In",
+  "yourUniqueSessionID": "Diga olá ao seu ID Session",
+  "allUsersAreRandomly...": "Seu ID Session é o endereço exclusivo que as pessoas podem usar para entrar em contato com você no Session. Sem conexão com sua identidade real, seu ID Session é totalmente anônimo e privado por definição.",
+  "getStarted": "Get started",
+  "createSessionID": "Criar ID Session",
+  "recoveryPhrase": "Frase de recuperação",
+  "enterRecoveryPhrase": "Digite sua frase de recuperação",
+  "displayName": "Display Name",
+  "anonymous": "Anonymous",
+  "removeResidueMembers": "Clicking ok will also remove those members as they left the group.",
+  "enterDisplayName": "Digite um nome de exibição",
+  "enterOptionalPassword": "Enter password (optional)",
+  "continueYourSession": "Continuar com seu Session",
+  "linkDevice": "Sincronize dispositivo",
+  "restoreUsingRecoveryPhrase": "Restaurar sua conta",
+  "or": "or",
+  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>",
+  "beginYourSession": "Begin<br />your<br />Session.",
+  "welcomeToYourSession": "Welcome to your Session",
+  "newSession": "Nova Sessão",
+  "searchFor...": "Buscar conversas, contatos e mensagens",
+  "enterSessionID": "Digite o ID Session",
+  "enterSessionIDOfRecipient": "Digite o ID Session do destinatário",
+  "usersCanShareTheir...": "Os usuários podem compartilhar seus IDs Session acessando as configurações da conta e tocando em Compartilhar ID Session, ou compartilhando o código QR.",
+  "message": "Message",
+  "appearanceSettingsTitle": "Aparência",
+  "permissionSettingsTitle": "Permissions",
+  "privacySettingsTitle": "Privacidade",
+  "notificationsSettingsTitle": "Notificações",
+  "recoveryPhraseEmpty": "Digite sua frase de recuperação",
+  "displayNameEmpty": "Escolha um nome de exibição",
+  "members": "$count$ members",
+  "joinOpenGroup": "Participar em grupo aberto",
+  "newClosedGroup": "Novo grupo fechado",
+  "createClosedGroupNamePrompt": "Nome Do Grupo",
+  "createClosedGroupPlaceholder": "Digite o nome do grupo",
+  "openGroupURL": "URL do grupo aberto",
+  "enterAnOpenGroupURL": "Digite a URL do grupo aberto",
+  "next": "Avançar",
+  "description": "Description",
+  "invalidGroupNameTooShort": "Digite um nome de grupo",
+  "invalidGroupNameTooLong": "Digite um nome de grupo mais curto",
+  "pickClosedGroupMember": "Escolha pelo menos 2 membros do grupo",
+  "closedGroupMaxSize": "Um grupo fechado não pode ter mais de 100 membros",
+  "noBlockedContacts": "No blocked contacts",
+  "userAddedToModerators": "User added to moderator list",
+  "userRemovedFromModerators": "User removed from moderator list",
+  "errorHappenedWhileRemovingModerator": "An error happened",
+  "errorHappenedWhileRemovingModeratorDesc": "An error happened while removing this user from the moderator list.",
+  "orJoinOneOfThese": "Or join one of these...",
   "helpUsTranslateSession": "Help us Translate Session",
   "translation": "Translation"
 }
