@@ -156,9 +156,9 @@ export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
 /**
  * If we don't know which nodes is causing trouble, increment the issue with this full path.
  */
-export async function incrementBadPathCountOrDrop(sndeEd25519: string) {
+export async function incrementBadPathCountOrDrop(snodeEd25519: string) {
   const pathWithSnodeIndex = onionPaths.findIndex(path =>
-    path.some(snode => snode.pubkey_ed25519 === sndeEd25519)
+    path.some(snode => snode.pubkey_ed25519 === snodeEd25519)
   );
 
   if (pathWithSnodeIndex === -1) {
@@ -187,7 +187,7 @@ export async function incrementBadPathCountOrDrop(sndeEd25519: string) {
   // a guard node is dropped when the path is dropped completely (in dropPathStartingWithGuardNode)
   for (let index = 1; index < pathWithIssues.length; index++) {
     const snode = pathWithIssues[index];
-    await incrementBadSnodeCountOrDrop({ snodeEd25519: snode.pubkey_ed25519 });
+    await incrementBadSnodeCountOrDrop({ snodeEd25519: snode.pubkey_ed25519, guardNodeEd25519 });
   }
 
   if (newPathFailureCount >= pathFailureThreshold) {

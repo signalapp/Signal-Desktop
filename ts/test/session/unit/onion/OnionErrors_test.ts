@@ -287,6 +287,7 @@ describe('OnionPathsErrors', () => {
           expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
           expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
             snodeEd25519: targetNode,
+            guardNodeEd25519: guardSnode1.pubkey_ed25519,
             associatedWith,
           });
         });
@@ -331,6 +332,7 @@ describe('OnionPathsErrors', () => {
           expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
           expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
             snodeEd25519: targetNode,
+            guardNodeEd25519: guardSnode1.pubkey_ed25519,
             associatedWith,
           });
         });
@@ -368,6 +370,7 @@ describe('OnionPathsErrors', () => {
           expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
           expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
             snodeEd25519: targetNode,
+            guardNodeEd25519: guardSnode1.pubkey_ed25519,
             associatedWith,
           });
         });
@@ -407,6 +410,7 @@ describe('OnionPathsErrors', () => {
           expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
           expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
             snodeEd25519: targetNode,
+            guardNodeEd25519: guardSnode1.pubkey_ed25519,
             associatedWith,
           });
         });
@@ -483,6 +487,7 @@ describe('OnionPathsErrors', () => {
       expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
       expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
     });
@@ -518,6 +523,7 @@ describe('OnionPathsErrors', () => {
       expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
       expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
     });
@@ -560,14 +566,17 @@ describe('OnionPathsErrors', () => {
       expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(3);
       expect(incrementBadSnodeCountOrDropSpy.args[0][0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
       expect(incrementBadSnodeCountOrDropSpy.args[1][0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
       expect(incrementBadSnodeCountOrDropSpy.args[2][0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
       expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
@@ -610,6 +619,7 @@ describe('OnionPathsErrors', () => {
     for (let index = 0; index < 6; index++) {
       expect(incrementBadSnodeCountOrDropSpy.args[index][0]).to.deep.eq({
         snodeEd25519: oldOnionPaths[0][(index % 2) + 1].pubkey_ed25519,
+        guardNodeEd25519: guardNode.pubkey_ed25519,
       });
     }
 

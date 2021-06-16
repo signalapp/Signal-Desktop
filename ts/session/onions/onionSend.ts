@@ -190,7 +190,7 @@ export const sendViaOnion = async (
     );
   } catch (e) {
     window?.log?.warn('sendViaOnionRetryable failed ', e);
-    console.warn('error to show to user', e);
+    // console.warn('error to show to user', e);
     return null;
   }
 
