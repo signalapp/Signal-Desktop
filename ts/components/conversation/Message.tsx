@@ -216,7 +216,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             withContentAbove={withContentAbove}
             withContentBelow={withContentBelow}
             bottomOverlay={!collapseMetadata}
-            i18n={window.i18n}
             onError={this.handleImageErrorBound}
             onClickAttachment={(attachment: AttachmentType) => {
               if (multiSelectMode) {
@@ -358,7 +357,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             withContentAbove={withContentAbove}
             withContentBelow={true}
             onError={this.handleImageErrorBound}
-            i18n={window.i18n}
           />
         ) : null}
         <div
@@ -380,7 +378,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
                 url={first.image.url}
                 attachment={first.image}
                 onError={this.handleImageErrorBound}
-                i18n={window.i18n}
               />
             </div>
           ) : null}
@@ -423,7 +420,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
 
     return (
       <Quote
-        i18n={window.i18n}
         onClick={(e: any) => {
           e.preventDefault();
           e.stopPropagation();
@@ -519,7 +515,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       >
         <MessageBody
           text={contents || ''}
-          i18n={window.i18n}
           isGroup={conversationType === 'group'}
           convoId={convoId}
           disableLinks={multiSelectMode}
@@ -872,7 +867,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           name={authorName}
           profileName={authorProfileName}
           module="module-message__author"
-          i18n={window.i18n}
           boldProfileName={true}
           shouldShowPubkey={Boolean(isPublic)}
         />

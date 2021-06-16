@@ -6,11 +6,10 @@ import { AddNewLines } from './conversation/AddNewLines';
 
 import { SizeClassType } from '../util/emoji';
 
-import { LocalizerType, RenderTextCallbackType } from '../types/Util';
+import { RenderTextCallbackType } from '../types/Util';
 
 interface Props {
   text: string;
-  i18n: LocalizerType;
 }
 
 const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
@@ -18,30 +17,20 @@ const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
 );
 
 const renderEmoji = ({
-  i18n,
   text,
   key,
   sizeClass,
   renderNonEmoji,
 }: {
-  i18n: LocalizerType;
   text: string;
   key: number;
   sizeClass?: SizeClassType;
   renderNonEmoji: RenderTextCallbackType;
-}) => (
-  <Emojify
-    i18n={i18n}
-    key={key}
-    text={text}
-    sizeClass={sizeClass}
-    renderNonEmoji={renderNonEmoji}
-  />
-);
+}) => <Emojify key={key} text={text} sizeClass={sizeClass} renderNonEmoji={renderNonEmoji} />;
 
 export class MessageBodyHighlight extends React.Component<Props> {
   public render() {
-    const { text, i18n } = this.props;
+    const { text } = this.props;
     const results: Array<any> = [];
     const FIND_BEGIN_END = /<<left>>(.+?)<<right>>/g;
 
@@ -50,7 +39,7 @@ export class MessageBodyHighlight extends React.Component<Props> {
     let count = 1;
 
     if (!match) {
-      return <MessageBody disableJumbomoji={true} disableLinks={true} text={text} i18n={i18n} />;
+      return <MessageBody disableJumbomoji={true} disableLinks={true} text={text} />;
     }
 
     const sizeClass = '';
@@ -63,7 +52,6 @@ export class MessageBodyHighlight extends React.Component<Props> {
             text: beforeText,
             sizeClass,
             key: count++,
-            i18n,
             renderNonEmoji: renderNewLines,
           })
         );
@@ -76,7 +64,6 @@ export class MessageBodyHighlight extends React.Component<Props> {
             text: toHighlight,
             sizeClass,
             key: count++,
-            i18n,
             renderNonEmoji: renderNewLines,
           })}
         </span>
@@ -93,7 +80,6 @@ export class MessageBodyHighlight extends React.Component<Props> {
           text: text.slice(last),
           sizeClass,
           key: count++,
-          i18n,
           renderNonEmoji: renderNewLines,
         })
       );

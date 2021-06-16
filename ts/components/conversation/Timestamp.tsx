@@ -68,7 +68,7 @@ export const Timestamp = (props: Props) => {
 
   let dateString;
   if (messageAgeInDays > daysBeforeRelativeTiming) {
-    dateString = formatRelativeTime(timestamp, { i18n: window.i18n, extended });
+    dateString = formatRelativeTime(timestamp, { extended });
   } else {
     dateString = moment(timestamp).fromNow();
     // Prevent times reading "NOW AGO"

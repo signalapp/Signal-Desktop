@@ -93,8 +93,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         left,
         isBlocked,
         timerOptions,
-        onSetDisappearingMessages,
-        window.i18n
+        onSetDisappearingMessages
       )}
       {getNotificationForConvoMenuItem(
         isKickedFromGroup,
@@ -102,31 +101,22 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         isBlocked,
         notificationForConvo,
         currentNotificationSetting,
-        onSetNotificationForConvo,
-        window.i18n
+        onSetNotificationForConvo
       )}
-      {getBlockMenuItem(isMe, isPrivate, isBlocked, onBlockUser, onUnblockUser, window.i18n)}
+      {getBlockMenuItem(isMe, isPrivate, isBlocked, onBlockUser, onUnblockUser)}
 
-      {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey, window.i18n)}
-      {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
-      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, window.i18n)}
-      {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup, window.i18n)}
-      {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
-      {getAddModeratorsMenuItem(isAdmin, isKickedFromGroup, onAddModerators, window.i18n)}
-      {getRemoveModeratorsMenuItem(isAdmin, isKickedFromGroup, onRemoveModerators, window.i18n)}
-      {getUpdateGroupNameMenuItem(isAdmin, isKickedFromGroup, left, onUpdateGroupName, window.i18n)}
-      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n)}
+      {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey)}
+      {getMarkAllReadMenuItem(onMarkAllRead)}
+      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup)}
+      {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup)}
+      {getDeleteMessagesMenuItem(isPublic, onDeleteMessages)}
+      {getAddModeratorsMenuItem(isAdmin, isKickedFromGroup, onAddModerators)}
+      {getRemoveModeratorsMenuItem(isAdmin, isKickedFromGroup, onRemoveModerators)}
+      {getUpdateGroupNameMenuItem(isAdmin, isKickedFromGroup, left, onUpdateGroupName)}
+      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup)}
       {/* TODO: add delete group */}
-      {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts, window.i18n)}
-      {getDeleteContactMenuItem(
-        isMe,
-        isGroup,
-        isPublic,
-        left,
-        isKickedFromGroup,
-        onDeleteContact,
-        window.i18n
-      )}
+      {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts)}
+      {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, onDeleteContact)}
     </Menu>
   );
 };

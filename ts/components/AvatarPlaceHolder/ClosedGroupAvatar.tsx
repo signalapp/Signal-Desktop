@@ -1,12 +1,10 @@
 import React from 'react';
 import { Avatar, AvatarSize } from '../Avatar';
-import { LocalizerType } from '../../types/Util';
 import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 
 interface Props {
   size: number;
   memberAvatars: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
-  i18n: LocalizerType;
   onAvatarClick?: () => void;
 }
 

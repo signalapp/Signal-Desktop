@@ -1,12 +1,10 @@
 import React from 'react';
 
 import { AttachmentType, getExtensionForDisplay } from '../../types/Attachment';
-import { LocalizerType } from '../../types/Util';
 
 interface Props {
   attachment: AttachmentType;
   onClose: (attachment: AttachmentType) => void;
-  i18n: LocalizerType;
 }
 
 export class StagedGenericAttachment extends React.Component<Props> {

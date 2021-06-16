@@ -13,15 +13,11 @@ import {
 
 import { Image } from './Image';
 
-import { LocalizerType } from '../../types/Util';
-
 type Props = {
   attachments: Array<AttachmentType>;
   withContentAbove?: boolean;
   withContentBelow?: boolean;
   bottomOverlay?: boolean;
-
-  i18n: LocalizerType;
 
   onError: () => void;
   onClickAttachment?: (attachment: AttachmentType) => void;
@@ -32,7 +28,6 @@ export const ImageGrid = (props: Props) => {
   const {
     attachments,
     bottomOverlay,
-    i18n,
     onError,
     onClickAttachment,
     withContentAbove,
@@ -58,8 +53,7 @@ export const ImageGrid = (props: Props) => {
     return (
       <div className={classNames('module-image-grid', 'module-image-grid--one-image')}>
         <Image
-          alt={getAlt(attachments[0], i18n)}
-          i18n={i18n}
+          alt={getAlt(attachments[0])}
           bottomOverlay={withBottomOverlay}
           curveTopLeft={curveTopLeft}
           curveTopRight={curveTopRight}
@@ -81,8 +75,7 @@ export const ImageGrid = (props: Props) => {
     return (
       <div className="module-image-grid">
         <Image
-          alt={getAlt(attachments[0], i18n)}
-          i18n={i18n}
+          alt={getAlt(attachments[0])}
           attachment={attachments[0]}
           bottomOverlay={withBottomOverlay}
           curveTopLeft={curveTopLeft}
@@ -95,8 +88,7 @@ export const ImageGrid = (props: Props) => {
           onError={onError}
         />
         <Image
-          alt={getAlt(attachments[1], i18n)}
-          i18n={i18n}
+          alt={getAlt(attachments[1])}
           bottomOverlay={withBottomOverlay}
           curveTopRight={curveTopRight}
           curveBottomRight={curveBottomRight}
@@ -116,8 +108,7 @@ export const ImageGrid = (props: Props) => {
     return (
       <div className="module-image-grid">
         <Image
-          alt={getAlt(attachments[0], i18n)}
-          i18n={i18n}
+          alt={getAlt(attachments[0])}
           bottomOverlay={withBottomOverlay}
           curveTopLeft={curveTopLeft}
           curveBottomLeft={curveBottomLeft}
@@ -131,8 +122,7 @@ export const ImageGrid = (props: Props) => {
         />
         <div className="module-image-grid__column">
           <Image
-            alt={getAlt(attachments[1], i18n)}
-            i18n={i18n}
+            alt={getAlt(attachments[1])}
             curveTopRight={curveTopRight}
             height={99}
             width={99}
@@ -143,8 +133,7 @@ export const ImageGrid = (props: Props) => {
             onError={onError}
           />
           <Image
-            alt={getAlt(attachments[2], i18n)}
-            i18n={i18n}
+            alt={getAlt(attachments[2])}
             bottomOverlay={withBottomOverlay}
             curveBottomRight={curveBottomRight}
             height={99}
@@ -166,8 +155,7 @@ export const ImageGrid = (props: Props) => {
         <div className="module-image-grid__column">
           <div className="module-image-grid__row">
             <Image
-              alt={getAlt(attachments[0], i18n)}
-              i18n={i18n}
+              alt={getAlt(attachments[0])}
               curveTopLeft={curveTopLeft}
               attachment={attachments[0]}
               playIconOverlay={isVideoAttachment(attachments[0])}
@@ -178,8 +166,7 @@ export const ImageGrid = (props: Props) => {
               onError={onError}
             />
             <Image
-              alt={getAlt(attachments[1], i18n)}
-              i18n={i18n}
+              alt={getAlt(attachments[1])}
               curveTopRight={curveTopRight}
               playIconOverlay={isVideoAttachment(attachments[1])}
               height={149}
@@ -192,8 +179,7 @@ export const ImageGrid = (props: Props) => {
           </div>
           <div className="module-image-grid__row">
             <Image
-              alt={getAlt(attachments[2], i18n)}
-              i18n={i18n}
+              alt={getAlt(attachments[2])}
               bottomOverlay={withBottomOverlay}
               curveBottomLeft={curveBottomLeft}
               playIconOverlay={isVideoAttachment(attachments[2])}
@@ -205,8 +191,7 @@ export const ImageGrid = (props: Props) => {
               onError={onError}
             />
             <Image
-              alt={getAlt(attachments[3], i18n)}
-              i18n={i18n}
+              alt={getAlt(attachments[3])}
               bottomOverlay={withBottomOverlay}
               curveBottomRight={curveBottomRight}
               playIconOverlay={isVideoAttachment(attachments[3])}
@@ -231,8 +216,7 @@ export const ImageGrid = (props: Props) => {
       <div className="module-image-grid__column">
         <div className="module-image-grid__row">
           <Image
-            alt={getAlt(attachments[0], i18n)}
-            i18n={i18n}
+            alt={getAlt(attachments[0])}
             curveTopLeft={curveTopLeft}
             attachment={attachments[0]}
             playIconOverlay={isVideoAttachment(attachments[0])}
@@ -243,8 +227,7 @@ export const ImageGrid = (props: Props) => {
             onError={onError}
           />
           <Image
-            alt={getAlt(attachments[1], i18n)}
-            i18n={i18n}
+            alt={getAlt(attachments[1])}
             curveTopRight={curveTopRight}
             playIconOverlay={isVideoAttachment(attachments[1])}
             height={149}
@@ -257,8 +240,7 @@ export const ImageGrid = (props: Props) => {
         </div>
         <div className="module-image-grid__row">
           <Image
-            alt={getAlt(attachments[2], i18n)}
-            i18n={i18n}
+            alt={getAlt(attachments[2])}
             bottomOverlay={withBottomOverlay}
             curveBottomLeft={curveBottomLeft}
             playIconOverlay={isVideoAttachment(attachments[2])}
@@ -270,8 +252,7 @@ export const ImageGrid = (props: Props) => {
             onError={onError}
           />
           <Image
-            alt={getAlt(attachments[3], i18n)}
-            i18n={i18n}
+            alt={getAlt(attachments[3])}
             bottomOverlay={withBottomOverlay}
             playIconOverlay={isVideoAttachment(attachments[3])}
             height={99}
@@ -282,8 +263,7 @@ export const ImageGrid = (props: Props) => {
             onError={onError}
           />
           <Image
-            alt={getAlt(attachments[4], i18n)}
-            i18n={i18n}
+            alt={getAlt(attachments[4])}
             bottomOverlay={withBottomOverlay}
             curveBottomRight={curveBottomRight}
             playIconOverlay={isVideoAttachment(attachments[4])}

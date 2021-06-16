@@ -28,7 +28,7 @@ export const TimerNotification = (props: Props) => {
 
     switch (type) {
       case 'fromOther':
-        return <Intl i18n={window.i18n} id={changeKey} components={[contact, timespan]} />;
+        return <Intl id={changeKey} components={[contact, timespan]} />;
       case 'fromMe':
         return disabled
           ? window.i18n('youDisabledDisappearingMessages')

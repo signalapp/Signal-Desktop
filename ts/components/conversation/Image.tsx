@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Spinner } from '../basic/Spinner';
-import { LocalizerType } from '../../types/Util';
 import { AttachmentType } from '../../types/Attachment';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 
@@ -29,7 +28,6 @@ type Props = {
   playIconOverlay?: boolean;
   softCorners?: boolean;
 
-  i18n: LocalizerType;
   onClick?: (attachment: AttachmentType) => void;
   onClickClose?: (attachment: AttachmentType) => void;
   onError?: () => void;
@@ -48,7 +46,6 @@ export const Image = (props: Props) => {
     curveTopRight,
     darkOverlay,
     height,
-    i18n,
     onClick,
     onClickClose,
     onError,
@@ -114,7 +111,7 @@ export const Image = (props: Props) => {
         <img
           className="module-image__caption-icon"
           src="images/caption-shadow.svg"
-          alt={i18n('imageCaptionIconAlt')}
+          alt={window.i18n('imageCaptionIconAlt')}
         />
       ) : null}
       <div

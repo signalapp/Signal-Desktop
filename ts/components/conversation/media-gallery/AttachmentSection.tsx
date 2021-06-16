@@ -5,10 +5,8 @@ import { ItemClickEvent } from './types/ItemClickEvent';
 import { MediaGridItem } from './MediaGridItem';
 import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
-import { LocalizerType } from '../../../types/Util';
 
 interface Props {
-  i18n: LocalizerType;
   type: 'media' | 'documents';
   mediaItems: Array<MediaItemType>;
   onItemClick?: (event: ItemClickEvent) => void;
@@ -28,7 +26,7 @@ export class AttachmentSection extends React.Component<Props> {
   }
 
   private renderItems() {
-    const { i18n, mediaItems, type } = this.props;
+    const { mediaItems, type } = this.props;
 
     return mediaItems.map((mediaItem, position, array) => {
       const shouldShowSeparator = position < array.length - 1;
@@ -38,12 +36,7 @@ export class AttachmentSection extends React.Component<Props> {
       switch (type) {
         case 'media':
           return (
-            <MediaGridItem
-              key={`${message.id}-${index}`}
-              mediaItem={mediaItem}
-              onClick={onClick}
-              i18n={i18n}
-            />
+            <MediaGridItem key={`${message.id}-${index}`} mediaItem={mediaItem} onClick={onClick} />
           );
         case 'documents':
           return (

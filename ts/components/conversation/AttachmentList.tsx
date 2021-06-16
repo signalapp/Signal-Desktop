@@ -58,7 +58,6 @@ export class AttachmentList extends React.Component<Props> {
                 <Image
                   key={imageKey}
                   alt={window.i18n('stagedImageAttachment', [attachment.fileName])}
-                  i18n={window.i18n}
                   attachment={attachment}
                   softCorners={true}
                   playIconOverlay={isVideoAttachment(attachment)}
@@ -78,7 +77,6 @@ export class AttachmentList extends React.Component<Props> {
               <StagedGenericAttachment
                 key={genericKey}
                 attachment={attachment}
-                i18n={window.i18n}
                 onClose={onCloseAttachment}
               />
             );

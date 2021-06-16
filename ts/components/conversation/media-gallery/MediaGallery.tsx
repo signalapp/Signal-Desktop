@@ -114,7 +114,6 @@ export class MediaGallery extends React.Component<Props, State> {
       <div className="module-media-gallery__sections">
         <AttachmentSection
           key="mediaItems"
-          i18n={window.i18n}
           type={type}
           mediaItems={mediaItems}
           onItemClick={onItemClick}

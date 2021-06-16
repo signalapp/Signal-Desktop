@@ -93,7 +93,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         style={style}
         {...conversation}
         onClick={openConversationExternal}
-        i18n={window.i18n}
       />
     );
   };
@@ -108,7 +107,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           {...searchResults}
           contacts={contacts}
           openConversationExternal={openConversationExternal}
-          i18n={window.i18n}
         />
       );
     }

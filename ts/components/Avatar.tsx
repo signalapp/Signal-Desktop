@@ -53,7 +53,6 @@ const NoImage = (props: {
       <ClosedGroupAvatar
         size={size}
         memberAvatars={memberAvatars}
-        i18n={window.i18n}
         onAvatarClick={props.onAvatarClick}
       />
     );

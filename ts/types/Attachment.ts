@@ -6,7 +6,6 @@ import * as MIME from './MIME';
 import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import { isImageTypeSupported, isVideoTypeSupported } from '../util/GoogleChrome';
-import { LocalizerType } from './Util';
 import { fromHexToArray } from '../session/utils/String';
 import { getSodium } from '../session/crypto';
 
@@ -225,8 +224,10 @@ export function getGridDimensions(attachments?: Array<AttachmentType>): null | D
   };
 }
 
-export function getAlt(attachment: AttachmentType, i18n: LocalizerType): string {
-  return isVideoAttachment(attachment) ? i18n('videoAttachmentAlt') : i18n('imageAttachmentAlt');
+export function getAlt(attachment: AttachmentType): string {
+  return isVideoAttachment(attachment)
+    ? window.i18n('videoAttachmentAlt')
+    : window.i18n('imageAttachmentAlt');
 }
 
 // Migration-related attachment stuff

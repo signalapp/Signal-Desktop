@@ -144,12 +144,12 @@ const showResetSessionIDDialogIfNeeded = async () => {
 
 const cleanUpMediasInterval = DURATION.MINUTES * 30;
 
-const setupTheme = (dispatch: Dispatch<any>) => {
+const setupTheme = () => {
   const theme = window.Events.getThemeSetting();
   window.setTheme(theme);
 
   const newThemeObject = theme === 'dark' ? darkTheme : lightTheme;
-  dispatch(applyTheme(newThemeObject));
+  window?.inboxStore?.dispatch(applyTheme(newThemeObject));
 };
 
 // Do this only if we created a new Session ID, or if we already received the initial configuration message
@@ -273,7 +273,7 @@ const triggerAvatarReUploadIfNeeded = async () => {
 /**
  * This function is called only once: on app startup with a logged in user
  */
-const doAppStartUp = (dispatch: Dispatch<any>) => {
+const doAppStartUp = () => {
   if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
     // Initialize paths for onion requests
     void OnionPaths.buildNewOnionPathsOneAtATime();
@@ -282,7 +282,7 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
   // init the messageQueue. In the constructor, we add all not send messages
   // this call does nothing except calling the constructor, which will continue sending message in the pipeline
   void getMessageQueue().processAllPending();
-  void setupTheme(dispatch);
+  void setupTheme();
 
   // keep that one to make sure our users upgrade to new sessionIDS
   void showResetSessionIDDialogIfNeeded();
@@ -310,7 +310,6 @@ const doAppStartUp = (dispatch: Dispatch<any>) => {
  * The panel with buttons to switch between the message/contact/settings/theme views
  */
 export const ActionsPanel = () => {
-  const dispatch = useDispatch();
   const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
 
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
@@ -318,7 +317,7 @@ export const ActionsPanel = () => {
   // this maxi useEffect is called only once: when the component is mounted.
   // For the action panel, it means this is called only one per app start/with a user loggedin
   useEffect(() => {
-    void doAppStartUp(dispatch);
+    void doAppStartUp();
   }, []);
 
   // wait for cleanUpMediasInterval and then start cleaning up medias

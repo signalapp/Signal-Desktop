@@ -6,7 +6,7 @@ import { AddNewLines } from './AddNewLines';
 import { AddMentions } from './AddMentions';
 import { Linkify } from './Linkify';
 
-import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
+import { RenderTextCallbackType } from '../../types/Util';
 
 interface Props {
   text: string;
@@ -15,7 +15,6 @@ interface Props {
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
   disableLinks?: boolean;
   isGroup?: boolean;
-  i18n: LocalizerType;
   convoId: string;
 }
 
@@ -44,7 +43,6 @@ const renderNewLines: RenderTextCallbackType = ({
 };
 
 const renderEmoji = ({
-  i18n,
   text,
   key,
   sizeClass,
@@ -52,7 +50,6 @@ const renderEmoji = ({
   isGroup,
   convoId,
 }: {
-  i18n: LocalizerType;
   text: string;
   key: number;
   sizeClass?: SizeClassType;
@@ -61,7 +58,6 @@ const renderEmoji = ({
   convoId?: string;
 }) => (
   <Emojify
-    i18n={i18n}
     key={key}
     text={text}
     sizeClass={sizeClass}
@@ -87,13 +83,12 @@ export class MessageBody extends React.Component<Props> {
   }
 
   public render() {
-    const { text, disableJumbomoji, disableLinks, i18n, isGroup, convoId } = this.props;
+    const { text, disableJumbomoji, disableLinks, isGroup, convoId } = this.props;
     const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
 
     if (disableLinks) {
       return this.renderJsxSelectable(
         renderEmoji({
-          i18n,
           text,
           sizeClass,
           key: 0,
@@ -109,7 +104,6 @@ export class MessageBody extends React.Component<Props> {
         text={text}
         renderNonLink={({ key, text: nonLinkText }) => {
           return renderEmoji({
-            i18n,
             text: nonLinkText,
             sizeClass,
             key,

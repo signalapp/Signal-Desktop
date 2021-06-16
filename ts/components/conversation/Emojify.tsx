@@ -1,11 +1,8 @@
 import React from 'react';
 
-import classNames from 'classnames';
-import is from '@sindresorhus/is';
-
 import { getRegex, SizeClassType } from '../../util/emoji';
 
-import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
+import { RenderTextCallbackType } from '../../types/Util';
 import { Twemoji } from 'react-emoji-render';
 
 interface Props {
@@ -14,7 +11,6 @@ interface Props {
   sizeClass?: SizeClassType;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonEmoji?: RenderTextCallbackType;
-  i18n: LocalizerType;
   isGroup?: boolean;
   convoId: string;
 }
@@ -26,7 +22,7 @@ export class Emojify extends React.Component<Props> {
   };
 
   public render() {
-    const { text, sizeClass, renderNonEmoji, i18n, isGroup, convoId } = this.props;
+    const { text, sizeClass, renderNonEmoji, isGroup, convoId } = this.props;
     const results: Array<any> = [];
     const regex = getRegex();
 
