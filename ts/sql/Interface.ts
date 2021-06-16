@@ -221,10 +221,6 @@ export type DataInterface = {
 
   getMessageCount: (conversationId?: string) => Promise<number>;
   hasUserInitiatedMessages: (conversationId: string) => Promise<boolean>;
-  saveMessages: (
-    arrayOfMessages: Array<MessageType>,
-    options: { forceSave?: boolean }
-  ) => Promise<void>;
   getAllMessageIds: () => Promise<Array<string>>;
   getMessageMetricsForConversation: (
     conversationId: string
@@ -313,6 +309,7 @@ export type DataInterface = {
   getMessageServerGuidsForSpam: (
     conversationId: string
   ) => Promise<Array<string>>;
+  getSoonestMessageExpiry: () => Promise<undefined | number>;
 
   getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
   insertJob(job: Readonly<StoredJob>): Promise<void>;
@@ -370,8 +367,7 @@ export type ServerInterface = DataInterface & {
     conversationId: string;
     ourConversationId: string;
   }) => Promise<MessageType | undefined>;
-  getNextExpiringMessage: () => Promise<MessageType | undefined>;
-  getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
+  getOutgoingWithoutExpirationStartTimestamp: () => Promise<Array<MessageType>>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
   getUnreadCountForConversation: (conversationId: string) => Promise<number>;
   getUnreadByConversationAndMarkRead: (
@@ -416,6 +412,10 @@ export type ServerInterface = DataInterface & {
     data: MessageType,
     options: { forceSave?: boolean }
   ) => Promise<string>;
+  saveMessages: (
+    arrayOfMessages: Array<MessageType>,
+    options: { forceSave?: boolean }
+  ) => Promise<void>;
   updateConversation: (data: ConversationType) => Promise<void>;
 
   // For testing only
@@ -505,10 +505,7 @@ export type ClientInterface = DataInterface & {
     ourConversationId: string;
     Message: typeof MessageModel;
   }) => Promise<MessageModel | undefined>;
-  getNextExpiringMessage: (options: {
-    Message: typeof MessageModel;
-  }) => Promise<MessageModel | null>;
-  getOutgoingWithoutExpiresAt: (options: {
+  getOutgoingWithoutExpirationStartTimestamp: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
   getTapToViewMessagesNeedingErase: (options: {
@@ -557,6 +554,10 @@ export type ClientInterface = DataInterface & {
     data: MessageType,
     options: { forceSave?: boolean; Message: typeof MessageModel }
   ) => Promise<string>;
+  saveMessages: (
+    arrayOfMessages: Array<MessageType>,
+    options: { forceSave?: boolean; Message: typeof MessageModel }
+  ) => Promise<void>;
   searchMessages: (
     query: string,
     options?: { limit?: number }

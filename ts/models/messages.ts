@@ -56,7 +56,7 @@ import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { MIMEType } from '../types/MIME';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
 import { ourProfileKeyService } from '../services/ourProfileKey';
-import { markRead, setToExpire } from '../services/MessageUpdater';
+import { markRead } from '../services/MessageUpdater';
 import {
   isDirectConversation,
   isGroupV1,
@@ -256,8 +256,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isSelected?: boolean;
 
-  hasExpired?: boolean;
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   quotedMessage: any;
 
@@ -281,10 +279,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.OUR_UUID = window.textsecure.storage.user.getUuid();
 
     this.on('destroy', this.onDestroy);
-    this.on('change:expirationStartTimestamp', this.setToExpire);
-    this.on('change:expireTimer', this.setToExpire);
     this.on('unload', this.unload);
-    this.setToExpire();
 
     this.on('change', this.notifyRedux);
   }
@@ -1035,7 +1030,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       attachments: this.getAttachmentsForMessage(),
       previews: this.getPropsForPreview(),
       quote: this.getPropsForQuote(),
-      isExpired: this.hasExpired,
       expirationLength,
       expirationTimestamp,
       reactions,
@@ -2028,10 +2022,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
   }
 
-  onExpired(): void {
-    this.hasExpired = true;
-  }
-
   isUnidentifiedDelivery(
     contactId: string,
     lookup: Record<string, unknown>
@@ -2161,29 +2151,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isExpiring(): number | null {
     return this.get('expireTimer') && this.get('expirationStartTimestamp');
-  }
-
-  setToExpire(force = false, options = {}): void {
-    this.set(setToExpire(this.attributes, { ...options, force }));
-  }
-
-  isExpired(): boolean {
-    return this.msTilExpire() <= 0;
-  }
-
-  msTilExpire(): number {
-    if (!this.isExpiring()) {
-      return Infinity;
-    }
-    const now = Date.now();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const start = this.get('expirationStartTimestamp')!;
-    const delta = this.get('expireTimer') * 1000;
-    let msFromNow = start + delta - now;
-    if (msFromNow < 0) {
-      msFromNow = 0;
-    }
-    return msFromNow;
   }
 
   getIncomingContact(): ConversationModel | undefined | null {

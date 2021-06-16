@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global
@@ -119,10 +119,6 @@
             Math.min(existingTimestamp || now, readAt || now)
           );
           message.set({ expirationStartTimestamp });
-
-          const force = true;
-          // TODO DESKTOP-1509: use setToExpire once this is TS
-          await message.setToExpire(force, { skipSave: true });
 
           const conversation = message.getConversation();
           if (conversation) {

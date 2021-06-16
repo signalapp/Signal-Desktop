@@ -24,14 +24,13 @@ import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import { ConversationModel } from './models/conversations';
-import { getMessageById } from './models/messages';
+import { getMessageById, MessageModel } from './models/messages';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
 import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
 import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 import { ourProfileKeyService } from './services/ourProfileKey';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
-import { setToExpire } from './services/MessageUpdater';
 import { LatestQueue } from './util/LatestQueue';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
 import {
@@ -1642,7 +1641,7 @@ export async function startApp(): Promise<void> {
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('Cleanup: starting...');
-    const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(
+    const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpirationStartTimestamp(
       {
         MessageCollection: window.Whisper.MessageCollection,
       }
@@ -1652,11 +1651,13 @@ export async function startApp(): Promise<void> {
     );
     await Promise.all(
       messagesForCleanup.map(async message => {
+        assert(
+          !message.get('expirationStartTimestamp'),
+          'Cleanup should not have messages with an expirationStartTimestamp'
+        );
+
         const delivered = message.get('delivered');
         const sentAt = message.get('sent_at');
-        const expirationStartTimestamp = message.get(
-          'expirationStartTimestamp'
-        );
 
         if (message.hasErrors()) {
           return;
@@ -1666,12 +1667,7 @@ export async function startApp(): Promise<void> {
           window.log.info(
             `Cleanup: Starting timer for delivered message ${sentAt}`
           );
-          message.set(
-            setToExpire({
-              ...message.attributes,
-              expirationStartTimestamp: expirationStartTimestamp || sentAt,
-            })
-          );
+          message.set('expirationStartTimestamp', sentAt);
           return;
         }
 
@@ -1685,6 +1681,9 @@ export async function startApp(): Promise<void> {
         }
       })
     );
+    if (messagesForCleanup.length) {
+      window.Whisper.ExpiringMessagesListener.update();
+    }
     window.log.info('Cleanup: complete');
 
     window.log.info('listening for registration events');
@@ -2389,7 +2388,9 @@ export async function startApp(): Promise<void> {
         messagesToSave.push(message.attributes);
       }
     });
-    await window.Signal.Data.saveMessages(messagesToSave, {});
+    await window.Signal.Data.saveMessages(messagesToSave, {
+      Message: MessageModel,
+    });
   }
   function onReconnect() {
     // We disable notifications on first connect, but the same applies to reconnect. In

@@ -1,4 +1,4 @@
-// Copyright 2016-2020 Signal Messenger, LLC
+// Copyright 2016-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global
@@ -96,11 +96,6 @@
           expirationStartTimestamp: expirationStartTimestamp || Date.now(),
           sent: true,
         });
-
-        if (message.isExpiring() && !expirationStartTimestamp) {
-          // TODO DESKTOP-1509: use setToExpire once this is TS
-          await message.setToExpire(false, { skipSave: true });
-        }
 
         window.Signal.Util.queueUpdateMessage(message.attributes);
 

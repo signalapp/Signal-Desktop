@@ -152,7 +152,6 @@ export type PropsData = {
     isViewOnce: boolean;
   };
   previews: Array<LinkPreviewType>;
-  isExpired?: boolean;
 
   isTapToView?: boolean;
   isTapToViewExpired?: boolean;
@@ -497,7 +496,7 @@ export class Message extends React.Component<Props, State> {
 
   public checkExpired(): void {
     const now = Date.now();
-    const { isExpired, expirationTimestamp, expirationLength } = this.props;
+    const { expirationTimestamp, expirationLength } = this.props;
 
     if (!expirationTimestamp || !expirationLength) {
       return;
@@ -506,7 +505,7 @@ export class Message extends React.Component<Props, State> {
       return;
     }
 
-    if (isExpired || now >= expirationTimestamp) {
+    if (now >= expirationTimestamp) {
       this.setState({
         expiring: true,
       });

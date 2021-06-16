@@ -189,8 +189,8 @@ const dataInterface: ClientInterface = {
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
-  getOutgoingWithoutExpiresAt,
-  getNextExpiringMessage,
+  getOutgoingWithoutExpirationStartTimestamp,
+  getSoonestMessageExpiry,
   getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
@@ -997,12 +997,13 @@ async function saveMessage(
 
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
-  { forceSave }: { forceSave?: boolean } = {}
+  { forceSave, Message }: { forceSave?: boolean; Message: typeof MessageModel }
 ) {
   await channels.saveMessages(
     arrayOfMessages.map(message => _cleanMessageData(message)),
     { forceSave }
   );
+  Message.updateTimers();
 }
 
 async function removeMessage(
@@ -1300,28 +1301,18 @@ async function getExpiredMessages({
   return new MessageCollection(messages);
 }
 
-async function getOutgoingWithoutExpiresAt({
+async function getOutgoingWithoutExpirationStartTimestamp({
   MessageCollection,
 }: {
   MessageCollection: typeof MessageModelCollectionType;
 }) {
-  const messages = await channels.getOutgoingWithoutExpiresAt();
+  const messages = await channels.getOutgoingWithoutExpirationStartTimestamp();
 
   return new MessageCollection(messages);
 }
 
-async function getNextExpiringMessage({
-  Message,
-}: {
-  Message: typeof MessageModel;
-}) {
-  const message = await channels.getNextExpiringMessage();
-
-  if (message) {
-    return new Message(message);
-  }
-
-  return null;
+function getSoonestMessageExpiry() {
+  return channels.getSoonestMessageExpiry();
 }
 
 async function getNextTapToViewMessageTimestampToAgeOut() {

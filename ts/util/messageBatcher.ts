@@ -11,7 +11,9 @@ const updateMessageBatcher = createBatcher<MessageAttributesType>({
   maxSize: 50,
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
     window.log.info('updateMessageBatcher', messageAttrs.length);
-    await window.Signal.Data.saveMessages(messageAttrs, {});
+    await window.Signal.Data.saveMessages(messageAttrs, {
+      Message: window.Whisper.Message,
+    });
   },
 });
 
@@ -37,6 +39,9 @@ export const saveNewMessageBatcher = createWaitBatcher<MessageAttributesType>({
   maxSize: 30,
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
     window.log.info('saveNewMessageBatcher', messageAttrs.length);
-    await window.Signal.Data.saveMessages(messageAttrs, { forceSave: true });
+    await window.Signal.Data.saveMessages(messageAttrs, {
+      forceSave: true,
+      Message: window.Whisper.Message,
+    });
   },
 });

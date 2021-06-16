@@ -90,7 +90,6 @@ export type MessageAttributesType = {
   errors?: Array<CustomError>;
   expirationStartTimestamp: number | null;
   expireTimer: number;
-  expires_at: number;
   groupMigration?: GroupMigrationType;
   group_update: {
     avatarUpdated: boolean;

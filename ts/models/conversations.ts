@@ -1234,9 +1234,6 @@ export class ConversationModel extends window.Backbone
   }
 
   addSingleMessage(message: MessageModel): MessageModel {
-    // TODO use MessageUpdater.setToExpire
-    message.setToExpire();
-
     const { messagesAdded } = window.reduxActions.conversations;
     const isNewMessage = true;
     messagesAdded(
