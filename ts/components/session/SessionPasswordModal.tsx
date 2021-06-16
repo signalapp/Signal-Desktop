@@ -154,7 +154,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
    */
   private validatePassword(firstPassword: string) {
     // if user did not fill the first password field, we can't do anything
-    const errorFirstInput = PasswordUtil.validatePassword(firstPassword, window.i18n);
+    const errorFirstInput = PasswordUtil.validatePassword(firstPassword);
     if (errorFirstInput !== null) {
       this.setState({
         error: errorFirstInput,

@@ -12,4 +12,7 @@ export const getOurNumber = createSelector(
   (state: UserStateType): string => state.ourNumber
 );
 
-export const getIntl = createSelector(getUser, (state: UserStateType): LocalizerType => state.i18n);
+export const getIntl = createSelector(
+  getUser,
+  (state: UserStateType): LocalizerType => window.i18n
+);

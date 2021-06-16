@@ -6,7 +6,6 @@ import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 
-import { LocalizerType } from '../types/Util';
 import { DefaultTheme, withTheme } from 'styled-components';
 
 export type MessageSearchResultProps = {
@@ -37,7 +36,6 @@ export type MessageSearchResultProps = {
 type PropsHousekeeping = {
   isSelected?: boolean;
   theme: DefaultTheme;
-  i18n: LocalizerType;
   onClick: (conversationId: string, messageId?: string) => void;
 };
 
@@ -45,15 +43,19 @@ type Props = MessageSearchResultProps & PropsHousekeeping;
 
 class MessageSearchResultInner extends React.PureComponent<Props> {
   public renderFromName() {
-    const { from, i18n, to } = this.props;
+    const { from, to } = this.props;
 
     if (from.isMe && to.isMe) {
       return (
-        <span className="module-message-search-result__header__name">{i18n('noteToSelf')}</span>
+        <span className="module-message-search-result__header__name">
+          {window.i18n('noteToSelf')}
+        </span>
       );
     }
     if (from.isMe) {
-      return <span className="module-message-search-result__header__name">{i18n('you')}</span>;
+      return (
+        <span className="module-message-search-result__header__name">{window.i18n('you')}</span>
+      );
     }
 
     return (
@@ -61,7 +63,6 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
         phoneNumber={from.phoneNumber}
         name={from.name}
         profileName={from.profileName}
-        i18n={i18n}
         module="module-message-search-result__header__name"
         shouldShowPubkey={false}
       />
@@ -69,19 +70,18 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
   }
 
   public renderFrom() {
-    const { i18n, to } = this.props;
+    const { to } = this.props;
     const fromName = this.renderFromName();
 
     if (!to.isMe) {
       return (
         <div className="module-message-search-result__header__from">
-          {fromName} {i18n('to')}{' '}
+          {fromName} {window.i18n('to')}{' '}
           <span className="module-mesages-search-result__header__group">
             <ContactName
               phoneNumber={to.phoneNumber}
               name={to.name}
               profileName={to.profileName}
-              i18n={i18n}
               shouldShowPubkey={false}
             />
           </span>
@@ -107,17 +107,7 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
   }
 
   public render() {
-    const {
-      from,
-      i18n,
-      id,
-      isSelected,
-      conversationId,
-      onClick,
-      receivedAt,
-      snippet,
-      to,
-    } = this.props;
+    const { from, id, isSelected, conversationId, onClick, receivedAt, snippet, to } = this.props;
 
     if (!from || !to) {
       return null;
@@ -145,7 +135,7 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
             </div>
           </div>
           <div className="module-message-search-result__body">
-            <MessageBodyHighlight text={snippet} i18n={i18n} />
+            <MessageBodyHighlight text={snippet} />
           </div>
         </div>
       </div>

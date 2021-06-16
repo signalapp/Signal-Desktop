@@ -31,7 +31,7 @@ export const TypingBubble = (props: TypingBubbleProps) => {
 
   return (
     <TypingBubbleContainer {...props}>
-      <TypingAnimation i18n={window.i18n} />
+      <TypingAnimation />
     </TypingBubbleContainer>
   );
 };

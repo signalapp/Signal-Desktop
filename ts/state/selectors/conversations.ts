@@ -10,8 +10,8 @@ import {
 
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
-import { LocalizerType } from '../../types/Util';
 import { ConversationTypeEnum } from '../../models/conversation';
+import { LocalizerType } from '../../types/Util';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -49,20 +49,20 @@ export const getMessagesOfSelectedConversation = createSelector(
   (state: ConversationsStateType): Array<MessageTypeInConvo> => state.messages
 );
 
-function getConversationTitle(conversation: ConversationType, i18n: LocalizerType): string {
+function getConversationTitle(conversation: ConversationType, testingi18n?: LocalizerType): string {
   if (conversation.name) {
     return conversation.name;
   }
 
   if (conversation.type === 'group') {
-    return i18n('unknown');
+    return (testingi18n || window.i18n)('unknown');
   }
   return conversation.id;
 }
 
 const collator = new Intl.Collator();
 
-export const _getConversationComparator = (i18n: LocalizerType) => {
+export const _getConversationComparator = (testingi18n?: LocalizerType) => {
   return (left: ConversationType, right: ConversationType): number => {
     const leftActiveAt = left.activeAt;
     const rightActiveAt = right.activeAt;
@@ -75,8 +75,8 @@ export const _getConversationComparator = (i18n: LocalizerType) => {
     if (leftActiveAt && rightActiveAt && leftActiveAt !== rightActiveAt) {
       return rightActiveAt - leftActiveAt;
     }
-    const leftTitle = getConversationTitle(left, i18n || window?.i18n).toLowerCase();
-    const rightTitle = getConversationTitle(right, i18n || window?.i18n).toLowerCase();
+    const leftTitle = getConversationTitle(left, testingi18n).toLowerCase();
+    const rightTitle = getConversationTitle(right, testingi18n).toLowerCase();
 
     return collator.compare(leftTitle, rightTitle);
   };
@@ -120,7 +120,7 @@ export const _getLeftPaneLists = (
       };
     }
 
-    conversation.index = index;
+    // conversation.index = index;
 
     // Add Open Group to list as soon as the name has been set
     if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {

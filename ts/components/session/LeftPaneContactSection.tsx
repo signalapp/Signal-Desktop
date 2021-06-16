@@ -42,7 +42,6 @@ export class LeftPaneContactSection extends React.Component<Props> {
         key={item.id}
         style={style}
         {...item}
-        i18n={window.i18n}
         onClick={this.props.openConversationExternal}
       />
     );

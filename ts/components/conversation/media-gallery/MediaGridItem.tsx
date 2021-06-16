@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { isImageTypeSupported, isVideoTypeSupported } from '../../../util/GoogleChrome';
-import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 import { useEncryptedFileFetch } from '../../../hooks/useEncryptedFileFetch';
 
 type Props = {
   mediaItem: MediaItemType;
   onClick?: () => void;
-  i18n: LocalizerType;
 };
 
 const MediaGridItemContent = (props: Props) => {
-  const { mediaItem, i18n } = props;
+  const { mediaItem } = props;
+  const i18n = window.i18n;
   const { attachment, contentType } = mediaItem;
 
   const urlToDecrypt = mediaItem.thumbnailObjectUrl || '';

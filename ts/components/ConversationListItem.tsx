@@ -9,8 +9,6 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { LocalizerType } from '../types/Util';
-
 import {
   ConversationAvatar,
   usingClosedConversationDetails,
@@ -31,7 +29,6 @@ export interface ConversationListItemProps extends ConversationType {
 }
 
 type PropsHousekeeping = {
-  i18n: LocalizerType;
   style?: Object;
   onClick?: (id: string) => void;
   onDeleteMessages?: () => void;
@@ -120,7 +117,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderMessage() {
-    const { lastMessage, isTyping, unreadCount, i18n } = this.props;
+    const { lastMessage, isTyping, unreadCount } = this.props;
 
     if (!lastMessage && !isTyping) {
       return null;
@@ -140,15 +137,9 @@ class ConversationListItem extends React.PureComponent<Props> {
           )}
         >
           {isTyping ? (
-            <TypingAnimation i18n={i18n} />
+            <TypingAnimation />
           ) : (
-            <MessageBody
-              isGroup={true}
-              text={text}
-              disableJumbomoji={true}
-              disableLinks={true}
-              i18n={i18n}
-            />
+            <MessageBody isGroup={true} text={text} disableJumbomoji={true} disableLinks={true} />
           )}
         </div>
         {lastMessage && lastMessage.status ? (
@@ -221,12 +212,12 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   private renderUser() {
-    const { name, phoneNumber, profileName, isMe, i18n } = this.props;
+    const { name, phoneNumber, profileName, isMe } = this.props;
 
     const shortenedPubkey = PubKey.shorten(phoneNumber);
 
     const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
-    const displayName = isMe ? i18n('noteToSelf') : profileName;
+    const displayName = isMe ? window.i18n('noteToSelf') : profileName;
 
     let shouldShowPubkey = false;
     if ((!name || name.length === 0) && (!displayName || displayName.length === 0)) {
@@ -240,7 +231,6 @@ class ConversationListItem extends React.PureComponent<Props> {
           name={name}
           profileName={displayName}
           module="module-conversation__user"
-          i18n={window.i18n}
           boldProfileName={true}
           shouldShowPubkey={shouldShowPubkey}
         />

@@ -6,7 +6,6 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../session
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { DefaultTheme } from 'styled-components';
 import { ToastUtils } from '../../session/utils';
-import { LocalizerType } from '../../types/Util';
 import autoBind from 'auto-bind';
 import { ConversationController } from '../../session/conversations';
 
@@ -25,7 +24,6 @@ interface Props {
   existingZombies: Array<string>;
   admins: Array<string>; // used for closed group
 
-  i18n: LocalizerType;
   onSubmit: (membersLeft: Array<string>) => void;
   onClose: () => void;
   theme: DefaultTheme;

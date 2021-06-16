@@ -67,26 +67,17 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
         type === ConversationTypeEnum.PRIVATE,
         isBlocked,
         onBlockContact,
-        onUnblockContact,
-        window.i18n
+        onUnblockContact
       )}
-      {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey, window.i18n)}
-      {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
-      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, window.i18n)}
-      {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup, window.i18n)}
+      {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey)}
+      {getMarkAllReadMenuItem(onMarkAllRead)}
+      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup)}
+      {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup)}
 
-      {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
-      {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts, window.i18n)}
-      {getDeleteContactMenuItem(
-        isMe,
-        isGroup,
-        isPublic,
-        left,
-        isKickedFromGroup,
-        onDeleteContact,
-        window.i18n
-      )}
-      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n)}
+      {getDeleteMessagesMenuItem(isPublic, onDeleteMessages)}
+      {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts)}
+      {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, onDeleteContact)}
+      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup)}
     </Menu>
   );
 };

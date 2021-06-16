@@ -1,13 +1,12 @@
 import React from 'react';
 
-import { LocalizerType, RenderTextCallbackType } from '../types/Util';
+import { RenderTextCallbackType } from '../types/Util';
 
 type FullJSX = Array<JSX.Element | string> | JSX.Element | string;
 
 interface Props {
   /** The translation string id */
   id: string;
-  i18n: LocalizerType;
   components?: Array<FullJSX>;
   renderText?: RenderTextCallbackType;
 }
@@ -31,9 +30,9 @@ export class Intl extends React.Component<Props> {
   }
 
   public render() {
-    const { id, i18n, renderText } = this.props;
+    const { id, renderText } = this.props;
 
-    const text = i18n(id);
+    const text = window.i18n(id);
     const results: Array<any> = [];
     const FIND_REPLACEMENTS = /\$[^$]+\$/g;
 
