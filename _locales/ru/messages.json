@@ -158,7 +158,7 @@
   "permissions": "Разрешения",
   "general": "Общие",
   "linkPreviewsTitle": "Отправлять Предпросмотр Ссылки",
-  "linkPreviewDescription": "Предварительный просмотр поддерживается для ссылок Imgur, Instagram, Pinterest, Reddit и YouTube.",
+  "linkPreviewDescription": "Previews are supported for most urls.",
   "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
   "mediaPermissionsTitle": "Microphone and Camera",
   "mediaPermissionsDescription": "Разрешить доступ к камере и микрофону",

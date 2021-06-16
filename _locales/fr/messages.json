@@ -158,7 +158,7 @@
   "permissions": "Autorisations",
   "general": "Général",
   "linkPreviewsTitle": "Envoyer des aperçus de liens",
-  "linkPreviewDescription": "Les aperçus sont pris en charge pour les liens Imgur, Instagram, Pinterest, Reddit et YouTube",
+  "linkPreviewDescription": "Les aperçus sont pris en charge pour la plupart des URLs",
   "linkPreviewsConfirmMessage": "Vous n'aurez pas une protection complète des métadonnées en envoyant ou recevant des aperçu de liens.",
   "mediaPermissionsTitle": "Microphone et caméra",
   "mediaPermissionsDescription": "Autoriser l’accès à la caméra et au micro",

@@ -230,7 +230,7 @@
   "hideMenuBarTitle": "Hide Menu Bar",
   "hideMenuBarDescription": "Toggle system menu bar visibility",
   "startConversation": "Start New Conversation",
-  "invalidNumberError": "Invalid public key",
+  "invalidNumberError": "Invalid Session ID or ONS Name",
   "successUnlinked": "Your device was unlinked successfully",
   "autoUpdateSettingTitle": "Auto Update",
   "autoUpdateSettingDescription": "Automatically check for updates on launch",

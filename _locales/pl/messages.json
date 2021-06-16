@@ -158,7 +158,7 @@
   "permissions": "Uprawnienia",
   "general": "Ogólne",
   "linkPreviewsTitle": "Podgląd linków",
-  "linkPreviewDescription": "Podglądy linków są wspierane dla Imgur, Instagram, Pinterest, Reddit i YouTube.",
+  "linkPreviewDescription": "Previews are supported for most urls.",
   "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
   "mediaPermissionsTitle": "Microphone and Camera",
   "mediaPermissionsDescription": "Zezwól na dostęp do kamery i mikrofonu",

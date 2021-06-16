@@ -158,7 +158,7 @@
   "permissions": "Permessi",
   "general": "Generale",
   "linkPreviewsTitle": "Invia Anteprime Dei Link",
-  "linkPreviewDescription": "Le anteprime sono supportate per link di Imgur, Instagram, Pinterest, Reddit e YouTube.",
+  "linkPreviewDescription": "Previews are supported for most urls.",
   "linkPreviewsConfirmMessage": "You will not have full metadata protection when sending or receiving link previews.",
   "mediaPermissionsTitle": "Microphone and Camera",
   "mediaPermissionsDescription": "Concedi l'accesso alla fotocamera e al microfono",
