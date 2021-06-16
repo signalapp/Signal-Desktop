@@ -481,7 +481,7 @@ export function reducer(
     return {
       ...state,
       messageIds: reject(messageIds, messageId => id === messageId),
-      messageLookup: omit(messageLookup, ['id']),
+      messageLookup: omit(messageLookup, id),
     };
   }
 
