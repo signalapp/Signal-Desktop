@@ -29,11 +29,11 @@ export const Inbox = ({ hasInitialLoadCompleted }: PropsType): JSX.Element => {
     viewRef.current = view;
 
     return () => {
-      if (!viewRef || !viewRef.current) {
-        return;
-      }
-
-      viewRef.current.remove();
+      // [`Backbone.View.prototype.remove`][0] removes the DOM element and stops listening
+      //   to event listeners. Because React will do the first, we only want to do the
+      //   second.
+      // [0]: https://github.com/jashkenas/backbone/blob/153dc41616a1f2663e4a86b705fefd412ecb4a7a/backbone.js#L1336-L1342
+      viewRef.current?.stopListening();
       viewRef.current = undefined;
     };
   }, []);
