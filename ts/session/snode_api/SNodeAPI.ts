@@ -27,7 +27,7 @@ import { Snode } from '../../data/data';
 
 // ONS name can have [a-zA-Z0-9_-] except that - is not allowed as start or end
 // do not define a regex but rather create it on the fly to avoid https://stackoverflow.com/questions/3891641/regex-test-only-works-every-other-time
-export const onsNameRegex = '^[a-zA-Z0-9_][a-zA-Z0-9_-]*[a-zA-Z0-9_]$';
+export const onsNameRegex = '^\\w([\\w-]*[\\w])?$';
 
 const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   let filePrefix = '';
