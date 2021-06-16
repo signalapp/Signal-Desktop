@@ -71,10 +71,10 @@ import { useTheme, withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
-import { ConversationController } from '../../session/conversations';
 import { MessageRegularProps } from '../../models/messageType';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { addSenderAsModerator, removeSenderFromModerator } from '../../interactions/message';
+import { UserDetailsDialog } from '../UserDetailsDialog';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -467,8 +467,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       conversationType,
       direction,
       isPublic,
-      onShowUserDetails,
       firstMessageOfSeries,
+      updateSessionConversationModal
     } = this.props;
 
     if (collapseMetadata || conversationType !== 'group' || direction === 'outgoing') {
@@ -480,15 +480,24 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       return <div style={{ marginInlineEnd: '60px' }} />;
     }
 
+    const onAvatarClick = () => {
+      updateSessionConversationModal(<UserDetailsDialog 
+        i18n={window.i18n}
+        profileName={userName}
+        avatarPath={authorAvatarPath || ''}
+        pubkey={authorPhoneNumber}
+        onClose={() => updateSessionConversationModal(null)}
+        theme={this.props.theme}
+      />)
+    }
+
     return (
       <div className="module-message__author-avatar">
         <Avatar
           avatarPath={authorAvatarPath}
           name={userName}
           size={AvatarSize.S}
-          onAvatarClick={() => {
-            onShowUserDetails(authorPhoneNumber);
-          }}
+          onAvatarClick={onAvatarClick}
           pubkey={authorPhoneNumber}
         />
         {isPublic && isAdmin && (

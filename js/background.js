@@ -419,40 +419,40 @@
       window.setMediaPermissions(!value);
     };
 
-    Whisper.events.on('updateGroupName', async groupConvo => {
-      if (appView) {
-        appView.showUpdateGroupNameDialog(groupConvo);
-      }
-    });
-    Whisper.events.on('updateGroupMembers', async groupConvo => {
-      if (appView) {
-        appView.showUpdateGroupMembersDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('updateGroupName', async groupConvo => {
+    //   if (appView) {
+    //     appView.showUpdateGroupNameDialog(groupConvo);
+    //   }
+    // });
+    // Whisper.events.on('updateGroupMembers', async groupConvo => {
+    //   if (appView) {
+    //     appView.showUpdateGroupMembersDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('inviteContacts', async groupConvo => {
-      if (appView) {
-        appView.showInviteContactsDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('inviteContacts', async groupConvo => {
+    //   if (appView) {
+    //     appView.showInviteContactsDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('addModerators', async groupConvo => {
-      if (appView) {
-        appView.showAddModeratorsDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('addModerators', async groupConvo => {
+    //   if (appView) {
+    //     appView.showAddModeratorsDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('removeModerators', async groupConvo => {
-      if (appView) {
-        appView.showRemoveModeratorsDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('removeModerators', async groupConvo => {
+    //   if (appView) {
+    //     appView.showRemoveModeratorsDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('leaveClosedGroup', async groupConvo => {
-      if (appView) {
-        appView.showLeaveGroupDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('leaveClosedGroup', async groupConvo => {
+    //   if (appView) {
+    //     appView.showLeaveGroupDialog(groupConvo);
+    //   }
+    // });
 
     Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
@@ -471,28 +471,28 @@
       });
     });
 
-    Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
-      const conversation = await window
-        .getConversationController()
-        .getOrCreateAndWait(userPubKey, 'private');
+    // Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
+    //   const conversation = await window
+    //     .getConversationController()
+    //     .getOrCreateAndWait(userPubKey, 'private');
 
-      const avatarPath = conversation.getAvatarPath();
-      const profile = conversation.getLokiProfile();
-      const displayName = profile && profile.displayName;
+    //   const avatarPath = conversation.getAvatarPath();
+    //   const profile = conversation.getLokiProfile();
+    //   const displayName = profile && profile.displayName;
 
-      if (appView) {
-        appView.showUserDetailsDialog({
-          profileName: displayName,
-          pubkey: userPubKey,
-          avatarPath,
-          onStartConversation: () => {
-            window.inboxStore.dispatch(
-              window.actionsCreators.openConversationExternal(conversation.id)
-            );
-          },
-        });
-      }
-    });
+    //   if (appView) {
+    //     appView.showUserDetailsDialog({
+    //       profileName: displayName,
+    //       pubkey: userPubKey,
+    //       avatarPath,
+    //       onStartConversation: () => {
+    //         window.inboxStore.dispatch(
+    //           window.actionsCreators.openConversationExternal(conversation.id)
+    //         );
+    //       },
+    //     });
+    //   }
+    // });
 
 
     Whisper.events.on('password-updated', () => {
