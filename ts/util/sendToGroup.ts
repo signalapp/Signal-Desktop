@@ -150,7 +150,7 @@ export async function sendContentMessageToGroup({
     timestamp,
     contentHint,
     groupId,
-    sendOptions
+    { ...sendOptions, online }
   );
 }
 
@@ -438,7 +438,7 @@ export async function sendToGroupViaSenderKey(options: {
     timestamp,
     contentHint,
     groupId,
-    sendOptions
+    { ...sendOptions, online }
   );
 
   return {
