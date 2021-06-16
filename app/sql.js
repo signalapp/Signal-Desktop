@@ -1276,10 +1276,10 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
     }
     console.log('Database startup error:', error.stack);
     const buttonIndex = dialog.showMessageBox({
-      buttons: [messages.copyErrorAndQuit.message, messages.clearAllData.message],
+      buttons: [messages.copyErrorAndQuit, messages.clearAllData],
       defaultId: 0,
       detail: redactAll(error.stack),
-      message: messages.databaseError.message,
+      message: messages.databaseError,
       noLink: true,
       type: 'error',
     });
