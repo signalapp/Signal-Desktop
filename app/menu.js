@@ -18,85 +18,85 @@ exports.createTemplate = (options, messages) => {
 
   const template = [
     {
-      label: messages.mainMenuFile.message,
+      label: messages.mainMenuFile,
       submenu: [
         {
           type: 'separator',
         },
         {
           role: 'quit',
-          label: messages.appMenuQuit.message,
+          label: messages.appMenuQuit,
         },
       ],
     },
     {
-      label: messages.mainMenuEdit.message,
+      label: messages.mainMenuEdit,
       submenu: [
         {
           role: 'undo',
-          label: messages.editMenuUndo.message,
+          label: messages.editMenuUndo,
         },
         {
           role: 'redo',
-          label: messages.editMenuRedo.message,
+          label: messages.editMenuRedo,
         },
         {
           type: 'separator',
         },
         {
           role: 'cut',
-          label: messages.editMenuCut.message,
+          label: messages.editMenuCut,
         },
         {
           role: 'copy',
-          label: messages.editMenuCopy.message,
+          label: messages.editMenuCopy,
         },
         {
           role: 'paste',
-          label: messages.editMenuPaste.message,
+          label: messages.editMenuPaste,
         },
         {
           role: 'pasteandmatchstyle',
-          label: messages.editMenuPasteAndMatchStyle.message,
+          label: messages.editMenuPasteAndMatchStyle,
         },
         {
           role: 'delete',
-          label: messages.editMenuDelete.message,
+          label: messages.editMenuDelete,
         },
         {
           role: 'selectall',
-          label: messages.editMenuSelectAll.message,
+          label: messages.editMenuSelectAll,
         },
       ],
     },
     {
-      label: messages.mainMenuView.message,
+      label: messages.mainMenuView,
       submenu: [
         {
           role: 'resetzoom',
-          label: messages.viewMenuResetZoom.message,
+          label: messages.viewMenuResetZoom,
         },
         {
           accelerator: platform === 'darwin' ? 'Command+=' : 'Control+Plus',
           role: 'zoomin',
-          label: messages.viewMenuZoomIn.message,
+          label: messages.viewMenuZoomIn,
         },
         {
           role: 'zoomout',
-          label: messages.viewMenuZoomOut.message,
+          label: messages.viewMenuZoomOut,
         },
         {
           type: 'separator',
         },
         {
           role: 'togglefullscreen',
-          label: messages.viewMenuToggleFullScreen.message,
+          label: messages.viewMenuToggleFullScreen,
         },
         {
           type: 'separator',
         },
         {
-          label: messages.debugLog.message,
+          label: messages.debugLog,
           click: showDebugLog,
         },
         {
@@ -104,44 +104,44 @@ exports.createTemplate = (options, messages) => {
         },
         {
           role: 'toggledevtools',
-          label: messages.viewMenuToggleDevTools.message,
+          label: messages.viewMenuToggleDevTools,
         },
       ],
     },
     {
-      label: messages.mainMenuWindow.message,
+      label: messages.mainMenuWindow,
       role: 'window',
       submenu: [
         {
           role: 'minimize',
-          label: messages.windowMenuMinimize.message,
+          label: messages.windowMenuMinimize,
         },
       ],
     },
     {
-      label: messages.mainMenuHelp.message,
+      label: messages.mainMenuHelp,
       role: 'help',
       submenu: [
         {
-          label: messages.goToReleaseNotes.message,
+          label: messages.goToReleaseNotes,
           click: openReleaseNotes,
         },
         {
           type: 'separator',
         },
         {
-          label: messages.goToSupportPage.message,
+          label: messages.goToSupportPage,
           click: openSupportPage,
         },
         {
-          label: messages.menuReportIssue.message,
+          label: messages.menuReportIssue,
           click: openNewBugForm,
         },
         {
           type: 'separator',
         },
         {
-          label: messages.about.message,
+          label: messages.about,
           click: showAbout,
         },
       ],
@@ -157,7 +157,7 @@ exports.createTemplate = (options, messages) => {
       type: 'separator',
     });
     fileMenu.submenu.unshift({
-      label: messages.menuSetupWithImport.message,
+      label: messages.menuSetupWithImport,
       click: setupWithImport,
     });
   }
@@ -183,10 +183,10 @@ function updateForMac(template, messages, options) {
     // Add a File menu just for these setup options. Because we're using unshift(), we add
     //   the file menu first, though it ends up to the right of the Signal Desktop menu.
     const fileMenu = {
-      label: messages.mainMenuFile.message,
+      label: messages.mainMenuFile,
       submenu: [
         {
-          label: messages.menuSetupWithImport.message,
+          label: messages.menuSetupWithImport,
           click: setupWithImport,
         },
       ],
@@ -197,10 +197,10 @@ function updateForMac(template, messages, options) {
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
-    label: messages.sessionMessenger.message,
+    label: messages.sessionMessenger,
     submenu: [
       {
-        label: messages.about.message,
+        label: messages.about,
         click: showAbout,
       },
       {
@@ -210,22 +210,22 @@ function updateForMac(template, messages, options) {
         type: 'separator',
       },
       {
-        label: messages.appMenuHide.message,
+        label: messages.appMenuHide,
         role: 'hide',
       },
       {
-        label: messages.appMenuHideOthers.message,
+        label: messages.appMenuHideOthers,
         role: 'hideothers',
       },
       {
-        label: messages.appMenuUnhide.message,
+        label: messages.appMenuUnhide,
         role: 'unhide',
       },
       {
         type: 'separator',
       },
       {
-        label: messages.appMenuQuit.message,
+        label: messages.appMenuQuit,
         role: 'quit',
       },
     ],
@@ -238,15 +238,15 @@ function updateForMac(template, messages, options) {
       type: 'separator',
     },
     {
-      label: messages.speech.message,
+      label: messages.speech,
       submenu: [
         {
           role: 'startspeaking',
-          label: messages.editMenuStartSpeaking.message,
+          label: messages.editMenuStartSpeaking,
         },
         {
           role: 'stopspeaking',
-          label: messages.editMenuStopSpeaking.message,
+          label: messages.editMenuStopSpeaking,
         },
       ],
     }
@@ -257,21 +257,21 @@ function updateForMac(template, messages, options) {
   // eslint-disable-next-line no-param-reassign
   template[windowMenuTemplateIndex].submenu = [
     {
-      label: messages.windowMenuClose.message,
+      label: messages.windowMenuClose,
       accelerator: 'CmdOrCtrl+W',
       role: 'close',
     },
     {
-      label: messages.windowMenuMinimize.message,
+      label: messages.windowMenuMinimize,
       accelerator: 'CmdOrCtrl+M',
       role: 'minimize',
     },
     {
-      label: messages.windowMenuZoom.message,
+      label: messages.windowMenuZoom,
       role: 'zoom',
     },
     {
-      label: messages.show.message,
+      label: messages.show,
       click: showWindow,
     },
     {
@@ -279,7 +279,7 @@ function updateForMac(template, messages, options) {
     },
     {
       role: 'front',
-      label: messages.windowMenuBringAllToFront.message,
+      label: messages.windowMenuBringAllToFront,
     },
   ];
 

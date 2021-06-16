@@ -550,7 +550,7 @@ function showAbout() {
     width: 500,
     height: 400,
     resizable: false,
-    title: locale.messages.about.message,
+    title: locale.messages.about,
     autoHideMenuBar: true,
     backgroundColor: '#2090EA',
     show: false,
@@ -592,7 +592,7 @@ async function showDebugLogWindow() {
     width: Math.max(size[0] - 100, WINDOW_SIZE.minWidth),
     height: Math.max(size[1] - 100, WINDOW_SIZE.minHeight),
     resizable: false,
-    title: locale.messages.debugLog.message,
+    title: locale.messages.debugLog,
     autoHideMenuBar: true,
     backgroundColor: '#FFFFFF',
     show: false,
@@ -909,7 +909,7 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     await showMainWindow(passPhrase, passwordAttempt);
     sendResponse();
   } catch (e) {
-    const localisedError = locale.messages.invalidPassword.message;
+    const localisedError = locale.messages.invalidPassword;
     sendResponse(localisedError || 'Invalid password');
   }
 });
@@ -922,7 +922,7 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
     const hash = await sql.getPasswordHash();
     const hashMatches = oldPhrase && passwordUtil.matchesHash(oldPhrase, hash);
     if (hash && !hashMatches) {
-      const incorrectOldPassword = locale.messages.invalidOldPassword.message;
+      const incorrectOldPassword = locale.messages.invalidOldPassword;
       sendResponse(
         incorrectOldPassword || 'Failed to set password: Old password provided is invalid'
       );
@@ -943,7 +943,7 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
 
     sendResponse();
   } catch (e) {
-    const localisedError = locale.messages.setPasswordFail.message;
+    const localisedError = locale.messages.setPasswordFail;
     sendResponse(localisedError || 'Failed to set password');
   }
 });
