@@ -590,7 +590,6 @@ try {
   require('./ts/background');
 
   // Pulling these in separately since they access filesystem, electron
-  window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Debug = require('./js/modules/debug');
   window.Signal.Logs = require('./js/modules/logs');
 
