@@ -3,340 +3,340 @@
     "message": "Terms & Privacy Policy"
   },
   "copyErrorAndQuit": {
-    "message": "Kopier feil og avslutt"
+    "message": "Copy error and quit"
   },
   "unknown": {
     "message": "Unknown"
   },
   "databaseError": {
-    "message": "Databasefeil"
+    "message": "Database Error"
   },
   "mainMenuFile": {
-    "message": "&Fil"
+    "message": "&File"
   },
   "mainMenuEdit": {
-    "message": "&Rediger"
+    "message": "&Edit"
   },
   "mainMenuView": {
-    "message": "&Se"
+    "message": "&View"
   },
   "mainMenuWindow": {
-    "message": "&Vindu"
+    "message": "&Window"
   },
   "mainMenuHelp": {
-    "message": "&Hjelp"
+    "message": "&Help"
   },
   "appMenuHide": {
-    "message": "Skjul"
+    "message": "Hide"
   },
   "appMenuHideOthers": {
-    "message": "Gjem Andre"
+    "message": "Hide Others"
   },
   "appMenuUnhide": {
-    "message": "Vis Alle"
+    "message": "Show All"
   },
   "appMenuQuit": {
-    "message": "Avslutt Session"
+    "message": "Quit Session"
   },
   "editMenuUndo": {
-    "message": "Angre"
+    "message": "Undo"
   },
   "editMenuRedo": {
-    "message": "Gjenopprett"
+    "message": "Redo"
   },
   "editMenuCut": {
-    "message": "Klipp ut"
+    "message": "Cut"
   },
   "editMenuCopy": {
-    "message": "Kopier"
+    "message": "Copy"
   },
   "editMenuPaste": {
-    "message": "Lim inn"
+    "message": "Paste"
   },
   "editMenuPasteAndMatchStyle": {
-    "message": "Lim inn uten formattering"
+    "message": "Paste and Match Style"
   },
   "editMenuDelete": {
-    "message": "Slett"
+    "message": "Delete"
   },
   "editMenuSelectAll": {
-    "message": "Velg Alt"
+    "message": "Select all"
   },
   "editMenuStartSpeaking": {
-    "message": "Begynn å snakke"
+    "message": "Start speaking"
   },
   "editMenuStopSpeaking": {
-    "message": "Slutt å snakke"
+    "message": "Stop speaking"
   },
   "windowMenuClose": {
-    "message": "Lukk Vindu"
+    "message": "Close Window"
   },
   "windowMenuMinimize": {
-    "message": "Minimer"
+    "message": "Minimize"
   },
   "windowMenuZoom": {
     "message": "Zoom"
   },
   "windowMenuBringAllToFront": {
-    "message": "Bring alle vinduer til front"
+    "message": "Bring All to Front"
   },
   "viewMenuResetZoom": {
-    "message": "Faktisk Størrelse"
+    "message": "Actual Size"
   },
   "viewMenuZoomIn": {
-    "message": "Zoom Inn"
+    "message": "Zoom In"
   },
   "viewMenuZoomOut": {
-    "message": "Zoom Ut"
+    "message": "Zoom Out"
   },
   "viewMenuToggleFullScreen": {
-    "message": "Skru av/på Fullskjerm"
+    "message": "Toggle Full Screen"
   },
   "viewMenuToggleDevTools": {
-    "message": "Skru av/på Utviklerverktøy"
+    "message": "Toggle Developer Tools"
   },
   "menuSetupWithImport": {
-    "message": "Sett Opp med Import"
+    "message": "Set Up with Import"
   },
   "contextMenuNoSuggestions": {
     "message": "No Suggestions"
   },
   "loading": {
-    "message": "Laster..."
+    "message": "Loading..."
   },
   "optimizingApplication": {
-    "message": "Optimaliserer applikasjon..."
+    "message": "Optimizing application..."
   },
   "chooseDirectory": {
-    "message": "Velg mappe"
+    "message": "Choose folder"
   },
   "done": {
     "message": "Done"
   },
   "loadDataHeader": {
-    "message": "Last inn din data"
+    "message": "Load your data"
   },
   "loadDataDescription": {
-    "message": "Du har akkurat gått igjennom eksportprosessen og dine kontaker og meldinger venter tålmodig på din datamaskin. Velg mappen som inneholder dine lagrede Session data."
+    "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Session data."
   },
   "importChooserTitle": {
-    "message": "Velg mappe med eksporterte data"
+    "message": "Choose directory with exported data"
   },
   "importErrorHeader": {
-    "message": "Noe gikk galt!"
+    "message": "Something went wrong!"
   },
   "importingHeader": {
-    "message": "Laster kontaker og meldinger"
+    "message": "Loading contacts and messages"
   },
   "importErrorFirst": {
-    "message": "Vær sikker på at du har valgt mappen som inneholder dine lagrede Session-data. Navnet skal begynne med «Session Export». Du kan også lagre en ny kopi av dine data fra den gamle Chrome-appen."
+    "message": "Make sure you have chosen the correct directory that contains your saved Session data. Its name should begin with 'Session Export.' You can also save a new copy of your data from the Chrome App."
   },
   "importErrorSecond": {
-    "message": "Hvis disse stegene ikke fungerte for deg, send oss en debug-logg (Vis -> Debug-logg) slik at vi kan hjelpe deg med migreringen."
+    "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!"
   },
   "importAgain": {
-    "message": "Velg mappe og prøv igjen"
+    "message": "Choose folder and try again"
   },
   "importCompleteHeader": {
-    "message": "Fullført!"
+    "message": "Success!"
   },
   "importCompleteStartButton": {
-    "message": "Start å bruke Session Desktop"
+    "message": "Start using Session"
   },
   "importCompleteLinkButton": {
-    "message": "Koble denne enheten til telefonen din"
+    "message": "Link this device to your phone"
   },
   "me": {
-    "message": "Meg"
+    "message": "Me"
   },
   "view": {
-    "message": "Se"
+    "message": "View"
   },
   "youLeftTheGroup": {
-    "message": "Du forlot gruppen"
+    "message": "You have left the group."
   },
   "youGotKickedFromGroup": {
     "message": "You were removed from the group."
   },
   "unreadMessage": {
-    "message": "1 Ulest melding"
+    "message": "$count$ Unread Message"
   },
   "unreadMessages": {
-    "message": "$count$ Uleste meldinger"
+    "message": "$count$ Unread Messages"
   },
   "debugLogExplanation": {
-    "message": "Denne logg-meldingen vil bli publisert på nettet for deltakere i prosjektet. Du kan se på og redigere den før du sender den inn."
+    "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
   },
   "debugLogError": {
-    "message": "Noe gikk galt med opplastingen! Fint om du vurderer å legge loggen til feilrapporten manuelt."
+    "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
   },
   "reportIssue": {
-    "message": "Rapporter et problem"
+    "message": "Report an issue"
   },
   "gotIt": {
-    "message": "Perfekt!"
+    "message": "Got it"
   },
   "submit": {
-    "message": "Send"
+    "message": "Submit"
   },
   "markAllAsRead": {
     "message": "Mark All as Read"
   },
   "incomingError": {
-    "message": "Feil ved håndtering av innkommende melding"
+    "message": "Error handling incoming message"
   },
   "media": {
     "message": "Media"
   },
   "mediaEmptyState": {
-    "message": "Du har ikke noe media i denne samtalen"
+    "message": "No media"
   },
   "documents": {
-    "message": "Dokumenter"
+    "message": "Documents"
   },
   "documentsEmptyState": {
-    "message": "Du har ingen dokumenter i denne samtalen"
+    "message": "No documents"
   },
   "today": {
-    "message": "I dag"
+    "message": "Today"
   },
   "yesterday": {
-    "message": "I går"
+    "message": "Yesterday"
   },
   "thisWeek": {
-    "message": "Denne Uken"
+    "message": "This week"
   },
   "thisMonth": {
-    "message": "Denne Måneden"
+    "message": "This Month"
   },
   "voiceMessage": {
-    "message": "Talemelding"
+    "message": "Voice Message"
   },
   "dangerousFileType": {
-    "message": "Vedleggstypen er ikke tillatt av sikkerhetsårsaker"
+    "message": "For security reasons, this file type cannot be sent"
   },
   "stagedPreviewThumbnail": {
-    "message": "Førehandsvisning (kladd) av lenkje til $domain$"
+    "message": "Draft thumbnail link preview for $domain$"
   },
   "previewThumbnail": {
-    "message": "Førehandsvisning av lenkje til $domain$"
+    "message": "Thumbnail link preview for $domain$"
   },
   "stagedImageAttachment": {
-    "message": "Bildevedlegg (kladd): $path$"
+    "message": "Draft image attachment: $path$"
   },
   "oneNonImageAtATimeToast": {
-    "message": "Når du inkluderer et vedlegg som ikke er et bilde, er begrensningen ett vedlegg per melding."
+    "message": "Sorry, there is a limit of one non-image attachment per message"
   },
   "cannotMixImageAndNonImageAttachments": {
-    "message": "Du kan ikke blande vedlegg som er bilder med vedlegg som ikke er bilder i samme melding."
+    "message": "Sorry, you cannot mix images with other file types in one message"
   },
   "maximumAttachments": {
-    "message": "Du kan ikke legge til flere vedlegg i denne meldingen."
+    "message": "Maximum number of attachments reached. Please send remaining attachments in a separate message."
   },
   "fileSizeWarning": {
-    "message": "Beklager, den valgte filen overskrider begrensninger for meldingsstørrelse."
+    "message": "Attachment exceeds size limits for the type of message you're sending."
   },
   "unableToLoadAttachment": {
-    "message": "Kunne ikke laste valgt vedlegg."
+    "message": "Sorry, there was an error setting your attachment."
   },
   "offline": {
-    "message": "Frakoblet"
+    "message": "Offline"
   },
   "checkNetworkConnection": {
-    "message": "Sjekk din nettverkstilkobling."
+    "message": "Check your network connection."
   },
   "attemptingReconnection": {
-    "message": "Forsøker å koble til på nytt om $reconnect_duration_in_seconds$ sekunder"
+    "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds"
   },
   "submitDebugLog": {
-    "message": "Debug logg"
+    "message": "Debug log"
   },
   "debugLog": {
-    "message": "Debug Logg"
+    "message": "Debug Log"
   },
   "goToReleaseNotes": {
-    "message": "Se Endringslogg"
+    "message": "Go to Release Notes"
   },
   "goToSupportPage": {
-    "message": "Gå til Side for Brukerstøtte"
+    "message": "Go to Support Page"
   },
   "menuReportIssue": {
-    "message": "Rapporter et Problem"
+    "message": "Report an Issue"
   },
   "about": {
     "message": "About"
   },
   "speech": {
-    "message": "Tale"
+    "message": "Speech"
   },
   "show": {
-    "message": "Vis"
+    "message": "Show"
   },
   "sessionMessenger": {
     "message": "Session"
   },
   "search": {
-    "message": "Søk"
+    "message": "Search"
   },
   "noSearchResults": {
-    "message": "No results for \"$searchTerm$\""
+    "message": "No results found for \"$searchTerm$\""
   },
   "conversationsHeader": {
-    "message": "Samtalar"
+    "message": "Conversations"
   },
   "contactsHeader": {
-    "message": "Kontakt"
+    "message": "Contacts"
   },
   "messagesHeader": {
-    "message": "Meldingar"
+    "message": "Messages"
   },
   "settingsHeader": {
     "message": "Settings"
   },
   "typingAlt": {
-    "message": "Markør som viser at noen holder på å skrive i samtalen."
+    "message": "Typing animation for this conversation"
   },
   "contactAvatarAlt": {
-    "message": "Bilde for kontakt $name$"
+    "message": "Avatar for contact $name$"
   },
   "downloadAttachment": {
-    "message": "Last ned Vedlegg"
+    "message": "Download Attachment"
   },
   "replyToMessage": {
-    "message": "Svar på Melding"
+    "message": "Reply to message"
   },
   "replyingToMessage": {
     "message": "Replying to:"
   },
   "originalMessageNotFound": {
-    "message": "Fant ikke Original melding"
+    "message": "Original message not found"
   },
   "originalMessageNotAvailable": {
-    "message": "Den Originale meldingen er ikke tilgjengelig lenger"
+    "message": "Original message no longer available"
   },
   "messageFoundButNotLoaded": {
-    "message": "Originalmelding funnet, men ikke lastet. Rull opp for å laste den."
+    "message": "Original message found, but not loaded. Scroll up to load it."
   },
   "recording": {
     "message": "Recording"
   },
   "you": {
-    "message": "Du"
+    "message": "You"
   },
   "audioPermissionNeededTitle": {
     "message": "Microphone access required"
   },
   "audioPermissionNeeded": {
-    "message": "For å sende lydmeldinger, gi Session Desktop tilgang til mikrofonen din."
+    "message": "You can enable microphone access under: Settings (Gear icon) => Privacy"
   },
   "audio": {
-    "message": "Lyd"
+    "message": "Audio"
   },
   "video": {
     "message": "Video"
   },
   "photo": {
-    "message": "Bilde"
+    "message": "Photo"
   },
   "cannotUpdate": {
     "message": "Cannot Update"
@@ -348,7 +348,7 @@
     "message": "OK"
   },
   "cancel": {
-    "message": "Avbryt"
+    "message": "Cancel"
   },
   "close": {
     "message": "Close"
@@ -357,10 +357,10 @@
     "message": "Continue"
   },
   "error": {
-    "message": "Feil"
+    "message": "Error"
   },
   "delete": {
-    "message": "Slett"
+    "message": "Delete"
   },
   "deletePublicWarning": {
     "message": "Are you sure? This will permanently remove this message for everyone in this open group."
@@ -369,7 +369,7 @@
     "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
   },
   "deleteWarning": {
-    "message": "Er du sikker? Om du trykker «slett» vil meldingen fjernes fra kun denne enheten."
+    "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
   },
   "deleteMultipleWarning": {
     "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
@@ -378,28 +378,28 @@
     "message": "You don’t have permission to delete others’ messages"
   },
   "deleteThisMessage": {
-    "message": "Slett denne meldingen"
+    "message": "Delete message"
   },
   "deleted": {
     "message": "Deleted"
   },
   "from": {
-    "message": "Fra"
+    "message": "From:"
   },
   "to": {
-    "message": "to"
+    "message": "To:"
   },
   "sent": {
-    "message": "Sendt"
+    "message": "Sent"
   },
   "received": {
-    "message": "Mottatt"
+    "message": "Received"
   },
   "sendMessage": {
-    "message": "Send en melding"
+    "message": "Message"
   },
   "groupMembers": {
-    "message": "Gruppemedlemmer"
+    "message": "Group members"
   },
   "moreInformation": {
     "message": "More information"
@@ -408,10 +408,10 @@
     "message": "Resend"
   },
   "deleteMessage": {
-    "message": "Slett Melding"
+    "message": "Delete Message"
   },
   "deleteMessages": {
-    "message": "Slett meldinger"
+    "message": "Delete Messages"
   },
   "deleteMessageForEveryone": {
     "message": "Delete Message For Everyone"
@@ -423,7 +423,7 @@
     "message": "Delete For Everyone"
   },
   "deleteConversationConfirmation": {
-    "message": "Vil du slette denne samtalen?"
+    "message": "Permanently delete the messages in this conversation?"
   },
   "clearAllData": {
     "message": "Clear All Data"
@@ -435,22 +435,22 @@
     "message": "Are you sure you want to delete this conversation?"
   },
   "quoteThumbnailAlt": {
-    "message": "Miniatyrbilde i sitert melding"
+    "message": "Thumbnail of image from quoted message"
   },
   "imageAttachmentAlt": {
-    "message": "Bilde lagt ved i melding"
+    "message": "Image attached to message"
   },
   "videoAttachmentAlt": {
-    "message": "Skjermbilde av video vedlagt i melding"
+    "message": "Screenshot of video attached to message"
   },
   "lightboxImageAlt": {
-    "message": "Bilde sendt i samtale"
+    "message": "Image sent in conversation"
   },
   "imageCaptionIconAlt": {
-    "message": "Ikon som viser at bildet har bildetekst"
+    "message": "Icon showing that this image has a caption"
   },
   "addACaption": {
-    "message": "Legg til bildetekst…"
+    "message": "Add a caption..."
   },
   "copy": {
     "message": "Copy"
@@ -462,16 +462,16 @@
     "message": "Copy Group's URL"
   },
   "save": {
-    "message": "Lagre"
+    "message": "Save"
   },
   "saved": {
     "message": "Saved"
   },
   "permissions": {
-    "message": "Tillatelser"
+    "message": "Permissions"
   },
   "general": {
-    "message": "Generelt"
+    "message": "General"
   },
   "linkPreviewsTitle": {
     "message": "Send Link Previews"
@@ -486,19 +486,19 @@
     "message": "Microphone and Camera"
   },
   "mediaPermissionsDescription": {
-    "message": "Tillat tilgang til kamera og mikrofon"
+    "message": "Allow access to camera and microphone"
   },
   "spellCheckTitle": {
     "message": "Spell Check"
   },
   "spellCheckDescription": {
-    "message": "Slå på stavekontroll av tekst du skriver i meldingsvinduet"
+    "message": "Enable spell check of text entered in message composition box"
   },
   "spellCheckDirty": {
     "message": "You must restart Session to apply your new settings"
   },
   "notifications": {
-    "message": "Varslinger"
+    "message": "Notifications"
   },
   "readReceiptSettingDescription": {
     "message": "See and share when messages have been read (enables read receipts in all sessions)."
@@ -516,115 +516,115 @@
     "message": "Zoom Factor"
   },
   "notificationSettingsDialog": {
-    "message": "Når meldinger ankommer, vis varslinger som avslører:"
+    "message": "When messages arrive, display notifications that reveal..."
   },
   "disableNotifications": {
-    "message": "Deaktiver varslinger"
+    "message": "Mute notifications"
   },
   "nameAndMessage": {
-    "message": "Både navn og melding"
+    "message": "Name and content"
   },
   "noNameOrMessage": {
-    "message": "Verken navn eller melding"
+    "message": "No name or content"
   },
   "nameOnly": {
-    "message": "Kun navn"
+    "message": "Name Only"
   },
   "newMessage": {
-    "message": "Ny melding"
+    "message": "New Message"
   },
   "newMessages": {
-    "message": "Nye meldinger"
+    "message": "New Messages"
   },
   "notificationMostRecentFrom": {
-    "message": "Nyeste fra:"
+    "message": "Most recent from: $name$"
   },
   "notificationFrom": {
-    "message": "Fra:"
+    "message": "From:"
   },
   "notificationMostRecent": {
-    "message": "Siste:"
+    "message": "Most recent:"
   },
   "sendFailed": {
-    "message": "Sending feilet"
+    "message": "Send Failed"
   },
   "expiredWarning": {
-    "message": "Denne versjonen av Session Desktop er foreldet. Oppgrader til siste versjon for å fortsette."
+    "message": "This version of Session has expired. Please upgrade to the latest version to continue messaging."
   },
   "upgrade": {
-    "message": "Oppgrader"
+    "message": "Upgrade"
   },
   "mediaMessage": {
-    "message": "Mediemelding"
+    "message": "Media message"
   },
   "timestamp_s": {
-    "message": "nå"
+    "message": "Now"
   },
   "timestamp_m": {
-    "message": "1 minutt"
+    "message": "1 minute"
   },
   "timestamp_h": {
-    "message": "1 time"
+    "message": "1 hour"
   },
   "timestampFormat_M": {
-    "message": "D. MMM"
+    "message": "MMM D"
   },
   "messageBodyMissing": {
     "message": "Please enter a message body."
   },
   "unblockToSend": {
-    "message": "Opphev blokkeringen på denne kontakten for å sende en melding."
+    "message": "Unblock this contact to send a message."
   },
   "unblockGroupToSend": {
-    "message": "Opphev blokkeringen av denne gruppen for å sende."
+    "message": "This group is blocked. Unlock it if you would like to send a message."
   },
   "youChangedTheTimer": {
-    "message": "Du satt utløpstiden for meldingene i samtalen til $time$"
+    "message": "You set the disappearing message timer to $time$"
   },
   "timerSetOnSync": {
-    "message": "Oppdaterte utløpstiden til $time$"
+    "message": "Updated disappearing message timer to $time$"
   },
   "theyChangedTheTimer": {
-    "message": "$name$oppdaterte utløpstiden til $time$"
+    "message": "$name$ set the disappearing message timer to $time$"
   },
   "timerOption_0_seconds": {
-    "message": "av"
+    "message": "Off"
   },
   "timerOption_5_seconds": {
-    "message": "5 sekunder"
+    "message": "5 seconds"
   },
   "timerOption_10_seconds": {
-    "message": "10 sekunder"
+    "message": "10 seconds"
   },
   "timerOption_30_seconds": {
-    "message": "30 sekunder"
+    "message": "30 seconds"
   },
   "timerOption_1_minute": {
-    "message": "1 minutt"
+    "message": "1 minute"
   },
   "timerOption_5_minutes": {
-    "message": "5 minutter"
+    "message": "5 minutes"
   },
   "timerOption_30_minutes": {
-    "message": "30 minutter"
+    "message": "30 minutes"
   },
   "timerOption_1_hour": {
-    "message": "1 time"
+    "message": "1 hour"
   },
   "timerOption_6_hours": {
-    "message": "6 timer"
+    "message": "6 hours"
   },
   "timerOption_12_hours": {
-    "message": "12 timer"
+    "message": "12 hours"
   },
   "timerOption_1_day": {
-    "message": "1 dag"
+    "message": "1 day"
   },
   "timerOption_1_week": {
-    "message": "1 uke"
+    "message": "1 week"
   },
   "disappearingMessages": {
-    "message": "Tidsbegrensede meldinger"
+    "message": "Disappearing messages"
   },
   "changeNickname": {
     "message": "Change Nickname"
@@ -633,7 +633,7 @@
     "message": "Clear nickname"
   },
   "timerOption_0_seconds_abbreviated": {
-    "message": "av"
+    "message": "off"
   },
   "timerOption_5_seconds_abbreviated": {
     "message": "5s"
@@ -654,34 +654,34 @@
     "message": "30m"
   },
   "timerOption_1_hour_abbreviated": {
-    "message": "1t"
+    "message": "1h"
   },
   "timerOption_6_hours_abbreviated": {
-    "message": "6t"
+    "message": "6h"
   },
   "timerOption_12_hours_abbreviated": {
-    "message": "12t"
+    "message": "12h"
   },
   "timerOption_1_day_abbreviated": {
     "message": "1d"
   },
   "timerOption_1_week_abbreviated": {
-    "message": "1u"
+    "message": "1w"
   },
   "disappearingMessagesDisabled": {
-    "message": "Utløpstid for meldinger er slått av"
+    "message": "Disappearing messages disabled"
   },
   "disabledDisappearingMessages": {
-    "message": "$name$slo av utløpstid for meldinger"
+    "message": "$name$ disabled disappearing messages."
   },
   "youDisabledDisappearingMessages": {
-    "message": "Du slo av utløpstid for meldinger"
+    "message": "You disabled disappearing messages."
   },
   "timerSetTo": {
-    "message": "Tidtaker satt til $time$"
+    "message": "Disappearing message time set to $time$"
   },
   "noteToSelf": {
-    "message": "Notat til meg sjølv"
+    "message": "Note to Self"
   },
   "hideMenuBarTitle": {
     "message": "Hide Menu Bar"
@@ -690,10 +690,10 @@
     "message": "Toggle system menu bar visibility"
   },
   "startConversation": {
-    "message": "Start new conversation…"
+    "message": "Start New Conversation"
   },
   "invalidNumberError": {
-    "message": "Ugyldig nummer"
+    "message": "Invalid public key"
   },
   "successUnlinked": {
     "message": "Your device was unlinked successfully"
@@ -705,19 +705,19 @@
     "message": "Automatically check for updates on launch"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Session oppdatering tilgjengelig"
+    "message": "Session update available"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "En ny versjon av Session er tilgjengelig"
+    "message": "There is a new version of Session available."
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Trykk Restart Session for å fullføre oppgraderingen."
+    "message": "Press Restart Session to apply the updates."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Start Session På Nytt"
+    "message": "Restart Session"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Senere"
+    "message": "Later"
   },
   "autoUpdateDownloadButtonLabel": {
     "message": "Download"
@@ -729,22 +729,22 @@
     "message": "Would you like to download the update?"
   },
   "leftTheGroup": {
-    "message": "$name$ forlot gruppen"
+    "message": "$name$ has left the group."
   },
   "multipleLeftTheGroup": {
-    "message": "$name$ forlot gruppen"
+    "message": "$name$ left the group"
   },
   "updatedTheGroup": {
-    "message": "Gruppe oppdatert"
+    "message": "Group updated"
   },
   "titleIsNow": {
-    "message": "Tittel er nå «$name$»"
+    "message": "Group name is now '$name$'."
   },
   "joinedTheGroup": {
-    "message": "$name$ble med i gruppen"
+    "message": "$name$ joined the group."
   },
   "multipleJoinedTheGroup": {
-    "message": "$names$ble med i gruppen"
+    "message": "$name$ joined the group."
   },
   "kickedFromTheGroup": {
     "message": "$name$ was removed from the group."
@@ -971,15 +971,6 @@
   "invalidPubkeyFormat": {
     "message": "Invalid Pubkey Format"
   },
-  "lnsMappingNotFound": {
-    "message": "There is no LNS mapping associated with this name"
-  },
-  "lnsLookupTimeout": {
-    "message": "LNS lookup timed out"
-  },
-  "lnsTooFewNodes": {
-    "message": "Not enough nodes currently active for LNS lookup"
-  },
   "emptyGroupNameError": {
     "message": "Please enter a group name"
   },
@@ -1180,5 +1171,7 @@
   },
   "orJoinOneOfThese": {
     "message": "Or join one of these..."
-  }
+  },
+  "helpUsTranslateSession": "Help us Translate Session",
+  "translation": "Translation"
 }

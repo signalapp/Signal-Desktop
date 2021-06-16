@@ -971,15 +971,6 @@
   "invalidPubkeyFormat": {
     "message": "Invalid Pubkey Format"
   },
-  "lnsMappingNotFound": {
-    "message": "There is no LNS mapping associated with this name"
-  },
-  "lnsLookupTimeout": {
-    "message": "LNS lookup timed out"
-  },
-  "lnsTooFewNodes": {
-    "message": "Not enough nodes currently active for LNS lookup"
-  },
   "emptyGroupNameError": {
     "message": "Please enter a group name"
   },
@@ -1180,5 +1171,7 @@
   },
   "orJoinOneOfThese": {
     "message": "Or join one of these..."
-  }
+  },
+  "helpUsTranslateSession": "Help us Translate Session",
+  "translation": "Translation"
 }

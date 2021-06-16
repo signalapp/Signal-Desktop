@@ -971,15 +971,6 @@
   "invalidPubkeyFormat": {
     "message": "Format de clé publique non valide"
   },
-  "lnsMappingNotFound": {
-    "message": "Aucun mappage LNS n'est associé à ce nom"
-  },
-  "lnsLookupTimeout": {
-    "message": "La recherche LNS a expiré"
-  },
-  "lnsTooFewNodes": {
-    "message": "Il n'y a pas assez de nœuds actifs actuellement pour la recherche LNS"
-  },
   "emptyGroupNameError": {
     "message": "Veuillez saisir un nom de groupe"
   },
@@ -1180,5 +1171,7 @@
   },
   "orJoinOneOfThese": {
     "message": "Ou rejoignez un de ceux-ci..."
-  }
+  },
+  "helpUsTranslateSession": "Help us Translate Session",
+  "translation": "Translation"
 }

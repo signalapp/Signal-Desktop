@@ -85,7 +85,6 @@ declare global {
       expired: (boolean) => void;
       expiredStatus: () => boolean;
     };
-    openUrl: (string) => void;
     lightTheme: DefaultTheme;
     darkTheme: DefaultTheme;
     LokiPushNotificationServer: any;
