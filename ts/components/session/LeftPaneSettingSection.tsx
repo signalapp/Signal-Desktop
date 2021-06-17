@@ -104,42 +104,34 @@ const LeftPaneSettingsCategories = () => {
   );
 };
 
-const onDeleteAccount = ( setModal: any) => {
+const onDeleteAccount = (setModal: any) => {
   const title = window.i18n('clearAllData');
   const message = window.i18n('deleteAccountWarning');
 
   const clearModal = () => {
     setModal(null);
-  }
+  };
 
   setModal(
-  <SessionConfirm
-    title={title}
-    message={message}
-    onClickOk={deleteAccount}
-    okTheme={SessionButtonColor.Danger}
-    onClickClose={clearModal}
-  />)
+    <SessionConfirm
+      title={title}
+      message={message}
+      onClickOk={deleteAccount}
+      okTheme={SessionButtonColor.Danger}
+      onClickClose={clearModal}
+    />
+  );
 };
 
 const onShowRecoverPhrase = (setModal: any) => {
-
   const clearModal = () => {
     setModal(null);
-  }
+  };
 
-  setModal(
+  setModal(<SessionSeedModal onClose={clearModal}></SessionSeedModal>);
+};
 
-    <SessionSeedModal
-     onClose={clearModal} 
-    ></SessionSeedModal>
-  
-  )
-
-
-}
-
-const LeftPaneBottomButtons = (props: { setModal: any}) => {
+const LeftPaneBottomButtons = (props: { setModal: any }) => {
   const dangerButtonText = window.i18n('clearAllData');
   const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
   const { setModal } = props;
@@ -163,7 +155,7 @@ const LeftPaneBottomButtons = (props: { setModal: any}) => {
   );
 };
 
-export const LeftPaneSettingSection = (props: { setModal: any}) => {
+export const LeftPaneSettingSection = (props: { setModal: any }) => {
   const theme = useSelector(getTheme);
   const { setModal } = props;
 

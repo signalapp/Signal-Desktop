@@ -346,7 +346,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       };
     }
 
-    messageProps.updateSessionConversationModal = this.props.updateSessionConversationModal
+    messageProps.updateSessionConversationModal = this.props.updateSessionConversationModal;
 
     return <Message {...messageProps} key={messageProps.id} />;
   }

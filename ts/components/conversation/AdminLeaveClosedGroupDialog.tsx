@@ -1,19 +1,18 @@
 import React from 'react';
 
-import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { DefaultTheme } from 'styled-components';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { SpacerLG } from '../basic/Text';
 
-interface Props {
+type Props = {
   groupName: string;
   onSubmit: () => any;
   onClose: any;
   theme: DefaultTheme;
-}
+};
 
 const AdminLeaveClosedGroupDialogInner = (props: Props) => {
-
   const { groupName, theme, onSubmit, onClose } = props;
 
   const titleText = `${window.i18n('leaveGroup')} ${groupName}`;
@@ -24,31 +23,23 @@ const AdminLeaveClosedGroupDialogInner = (props: Props) => {
   const onClickOK = () => {
     void onSubmit();
     closeDialog();
-  }
+  };
 
   const closeDialog = () => {
     onClose();
-  }
+  };
 
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog} theme={theme}>
-
-      <div className="spacer-lg" />
+      <SpacerLG />
       <p>{warningAsAdmin}</p>
 
       <div className="session-modal__button-group">
-        <SessionButton
-          text={okText}
-          onClick={onClickOK}
-          buttonColor={SessionButtonColor.Danger}
-        />
-        <SessionButton
-          text={cancelText}
-          onClick={closeDialog}
-        />
+        <SessionButton text={okText} onClick={onClickOK} buttonColor={SessionButtonColor.Danger} />
+        <SessionButton text={cancelText} onClick={closeDialog} />
       </div>
     </SessionWrapperModal>
   );
-}
+};
 
 export const AdminLeaveClosedGroupDialog = AdminLeaveClosedGroupDialogInner;

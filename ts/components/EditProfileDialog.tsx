@@ -17,6 +17,7 @@ import { ConversationTypeEnum } from '../models/conversation';
 import { SessionWrapperModal } from './session/SessionWrapperModal';
 import { AttachmentUtil } from '../util';
 import { ConversationController } from '../session/conversations';
+import { SpacerLG, SpacerMD } from './basic/Text';
 
 interface Props {
   profileName?: string;
@@ -128,7 +129,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
           showExitIcon={true}
           theme={this.props.theme}
         >
-          <div className="spacer-md" />
+          <SpacerMD />
 
           {viewQR && this.renderQRView(sessionID)}
           {viewDefault && this.renderDefaultView()}
@@ -140,7 +141,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
               {sessionID}
             </p>
 
-            <div className="spacer-lg" />
+            <SpacerLG />
             <SessionSpinner loading={this.state.loading} />
 
             {viewDefault || viewQR ? (
@@ -164,7 +165,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
               )
             )}
 
-            <div className="spacer-lg" />
+            <SpacerLG />
           </div>
         </SessionWrapperModal>
       </div>

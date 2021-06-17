@@ -12,6 +12,7 @@ import { getCompleteUrlForV2ConvoId } from '../../interactions/conversation';
 import _ from 'lodash';
 import { VALIDATION } from '../../session/constants';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { SpacerLG } from '../basic/Text';
 
 type Props = {
   // contactList: Array<any>;
@@ -202,18 +203,18 @@ const InviteContactsDialogInner = (props: Props) => {
 
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog} theme={props.theme}>
-      <div className="spacer-lg" />
+      <SpacerLG />
 
       <div className="contact-selection-list">{renderMemberList()}</div>
       {hasContacts ? null : (
         <>
-          <div className="spacer-lg" />
+          <SpacerLG />
           <p className="no-contacts">{window.i18n('noContactsToAdd')}</p>
-          <div className="spacer-lg" />
+          <SpacerLG />
         </>
       )}
 
-      <div className="spacer-lg" />
+      <SpacerLG />
 
       <div className="session-modal__button-group">
         <SessionButton text={cancelText} onClick={closeDialog} />

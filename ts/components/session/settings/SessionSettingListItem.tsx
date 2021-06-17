@@ -21,7 +21,7 @@ interface Props {
   confirmationDialogParams?: SessionConfirmDialogProps;
 
   // for updating modal in redux
-  updateConfirmModal?: any
+  updateConfirmModal?: any;
 }
 
 interface State {

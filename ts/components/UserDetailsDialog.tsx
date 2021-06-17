@@ -9,6 +9,7 @@ import { ConversationController } from '../session/conversations';
 import { ConversationTypeEnum } from '../models/conversation';
 import { Session } from 'electron';
 import { SessionWrapperModal } from './session/SessionWrapperModal';
+import { SpacerMD } from './basic/Text';
 
 interface Props {
   i18n: any;
@@ -48,7 +49,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
           <div className="avatar-center-inner">{this.renderAvatar()}</div>
         </div>
 
-        <div className="spacer-md"></div>
+        <SpacerMD />
         <SessionIdEditable editable={false} text={this.props.pubkey} />
 
         <div className="session-modal__button-group__center">
@@ -86,7 +87,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
   private onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
-        this.onClickStartConversation();
+        void this.onClickStartConversation();
         break;
       case 'Esc':
       case 'Escape':
@@ -103,11 +104,12 @@ export class UserDetailsDialog extends React.Component<Props, State> {
 
   private async onClickStartConversation() {
     // this.props.onStartConversation();
-    const conversation = await ConversationController.getInstance().getOrCreateAndWait(this.props.pubkey, ConversationTypeEnum.PRIVATE);
-
-    window.inboxStore?.dispatch(
-      window.actionsCreators.openConversationExternal(conversation.id)
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      this.props.pubkey,
+      ConversationTypeEnum.PRIVATE
     );
+
+    window.inboxStore?.dispatch(window.actionsCreators.openConversationExternal(conversation.id));
 
     this.closeDialog();
   }

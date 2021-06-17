@@ -10,7 +10,7 @@ import autoBind from 'auto-bind';
 import { ConversationController } from '../../session/conversations';
 
 import _ from 'lodash';
-import { Text } from '../basic/Text';
+import { SpacerLG, SpacerMD, Text } from '../basic/Text';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
 interface Props {
@@ -50,8 +50,8 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       const name = nickname
         ? nickname
         : lokiProfile
-          ? lokiProfile.displayName
-          : window.i18n('anonymous');
+        ? lokiProfile.displayName
+        : window.i18n('anonymous');
 
       const existingMember = this.props.existingMembers.includes(d.id);
 
@@ -130,16 +130,16 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         onClose={() => this.closeDialog()}
         theme={this.props.theme}
       >
-        <div className="spacer-md" />
+        <SpacerMD />
 
         <p className={errorMessageClasses}>{errorMsg}</p>
-        <div className="spacer-md" />
+        <SpacerMD />
 
         <div className="group-member-list__selection">{this.renderMemberList()}</div>
         {this.renderZombiesList()}
         {showNoMembersMessage && <p>{window.i18n('noMembersInThisGroup')}</p>}
 
-        <div className="spacer-lg" />
+        <SpacerLG />
 
         <div className="session-modal__button-group">
           <SessionButton text={cancelText} onClick={this.closeDialog} />
@@ -200,7 +200,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     });
     return (
       <>
-        <div className="spacer-lg" />
+        <SpacerLG />
         {isAdmin && (
           <Text
             padding="20px"
@@ -228,7 +228,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       default:
     }
   }
-
 
   // Return members that would comprise the group given the
   // current state in `users`

@@ -86,7 +86,7 @@ const InnerLeftPaneContactSection = () => {
   );
 };
 
-const LeftPaneSection = (props: { isExpired: boolean, setModal: any}) => {
+const LeftPaneSection = (props: { isExpired: boolean; setModal: any }) => {
   const focusedSection = useSelector(getFocusedSection);
   const { setModal } = props;
 
@@ -110,7 +110,7 @@ export const LeftPane = (props: Props) => {
 
   return (
     <>
-      { modal ? modal : null}
+      {modal ? modal : null}
       <SessionTheme theme={theme}>
         <div className="module-left-pane-session">
           <ActionsPanel />

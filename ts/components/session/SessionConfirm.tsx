@@ -8,6 +8,7 @@ import { SessionWrapperModal } from './SessionWrapperModal';
 import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { update } from 'lodash';
+import { SpacerLG } from '../basic/Text';
 
 export interface SessionConfirmDialogProps {
   message?: string;
@@ -27,7 +28,7 @@ export interface SessionConfirmDialogProps {
   theme?: DefaultTheme;
   closeAfterClickOk?: boolean;
   shouldShowConfirm?: () => boolean | undefined;
-};
+}
 
 const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
   const {
@@ -55,7 +56,7 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
   const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
 
   /**
-   * Calls close function after the ok button is clicked. If no close method specified, closes the modal 
+   * Calls close function after the ok button is clicked. If no close method specified, closes the modal
    */
   const onClickOkWithClose = () => {
     if (onClickOk) {
@@ -65,17 +66,15 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     if (onClickClose) {
       onClickClose();
     }
-  }
-
+  };
 
   const onClickOkHandler = () => {
     if (onClickOk) {
       onClickOk();
     }
 
-
     window.inboxStore?.dispatch(updateConfirmModal(null));
-  }
+  };
 
   if (shouldShowConfirm && !shouldShowConfirm()) {
     return null;
@@ -87,8 +86,7 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     }
 
     window.inboxStore?.dispatch(updateConfirmModal(null));
-  }
-
+  };
 
   return (
     <SessionWrapperModal
@@ -98,14 +96,13 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
       showHeader={showHeader}
       theme={theme}
     >
-
-      {!showHeader && <div className="spacer-lg" />}
+      {!showHeader && <SpacerLG />}
 
       <div className="session-modal__centered">
         {sessionIcon && iconSize && (
           <>
             <SessionIcon iconType={sessionIcon} iconSize={iconSize} theme={theme} />
-            <div className="spacer-lg" />
+            <SpacerLG />
           </>
         )}
 
@@ -123,10 +120,13 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
 
         {!hideCancel && (
           // <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickClose} />
-          <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickCancelHandler} />
+          <SessionButton
+            text={cancelText}
+            buttonColor={closeTheme}
+            onClick={onClickCancelHandler}
+          />
         )}
       </div>
-
     </SessionWrapperModal>
   );
 };

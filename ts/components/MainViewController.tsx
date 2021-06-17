@@ -38,7 +38,7 @@ export class MessageView extends React.Component {
  */
 async function createClosedGroup(
   groupName: string,
-  groupMembers: Array<ContactType>,
+  groupMembers: Array<ContactType>
 ): Promise<boolean> {
   // Validate groupName and groupMembers length
   if (groupName.length === 0) {

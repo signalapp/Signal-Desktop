@@ -6,6 +6,7 @@ import { DefaultTheme, withTheme, useTheme } from 'styled-components';
 
 import _ from 'lodash';
 import { SessionWrapperModal } from './SessionWrapperModal';
+import { SpacerLG } from '../basic/Text';
 
 type Props = {
   onClickOk?: any;
@@ -69,7 +70,7 @@ const SessionNicknameInner = (props: Props) => {
     >
       <div className="session-modal__centered">
         <span className="subtle">{window.i18n('changeNicknameMessage')}</span>
-        <div className="spacer-lg" />
+        <SpacerLG />
       </div>
 
       <input

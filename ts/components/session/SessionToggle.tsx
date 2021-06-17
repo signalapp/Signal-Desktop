@@ -71,7 +71,7 @@ export class SessionToggle extends React.PureComponent<Props, State> {
       // If item needs a confirmation dialog to turn ON, render it
       const closeConfirmModal = () => {
         this.props.updateConfirmModal(null);
-      }
+      };
 
       this.props.updateConfirmModal({
         onClickOk: () => {
@@ -83,7 +83,7 @@ export class SessionToggle extends React.PureComponent<Props, State> {
         },
         ...this.props.confirmationDialogParams,
         updateConfirmModal,
-      })
+      });
 
       return;
     }

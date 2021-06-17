@@ -246,10 +246,10 @@ class SessionRightPanel extends React.Component<Props, State> {
     const leaveGroupString = isPublic
       ? window.i18n('leaveGroup')
       : isKickedFromGroup
-        ? window.i18n('youGotKickedFromGroup')
-        : left
-          ? window.i18n('youLeftTheGroup')
-          : window.i18n('leaveGroup');
+      ? window.i18n('youGotKickedFromGroup')
+      : left
+      ? window.i18n('youLeftTheGroup')
+      : window.i18n('leaveGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
       return {

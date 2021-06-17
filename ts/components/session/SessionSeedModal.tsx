@@ -9,6 +9,7 @@ import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
 import { SessionWrapperModal } from './SessionWrapperModal';
+import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
 
 interface Props {
   onClose: any;
@@ -68,7 +69,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
             onClose={onClose}
             theme={this.props.theme}
           >
-            <div className="spacer-sm" />
+            <SpacerSM />
 
             {hasPassword && !passwordValid ? (
               <>{this.renderPasswordView()}</>
@@ -98,12 +99,12 @@ class SessionSeedModalInner extends React.Component<Props, State> {
 
         {error && (
           <>
-            <div className="spacer-xs" />
+            <SpacerXS />
             <div className="session-label danger">{error}</div>
           </>
         )}
 
-        <div className="spacer-lg" />
+        <SpacerLG />
 
         <div className="session-modal__button-group">
           <SessionButton text={i18n('ok')} onClick={this.confirmPassword} />
@@ -125,15 +126,15 @@ class SessionSeedModalInner extends React.Component<Props, State> {
       <>
         <div className="session-modal__centered text-center">
           <p className="session-modal__description">{i18n('recoveryPhraseSavePromptMain')}</p>
-          <div className="spacer-xs" />
+          <SpacerXS />
 
           <i className="session-modal__text-highlight">{this.state.recoveryPhrase}</i>
         </div>
-        <div className="spacer-lg" />
+        <SpacerLG />
         <div className="qr-image">
           <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
         </div>
-        <div className="spacer-lg" />
+        <SpacerLG />
         <div className="session-modal__button-group">
           <SessionButton
             text={i18n('copy')}

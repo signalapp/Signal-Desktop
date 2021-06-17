@@ -6,6 +6,7 @@ import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { Avatar, AvatarSize } from '../Avatar';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { SpacerMD } from '../basic/Text';
 
 interface Props {
   titleText: string;
@@ -85,19 +86,16 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
         onClose={() => this.closeDialog()}
         theme={this.props.theme}
       >
-
-        { this.state.errorDisplayed ?
+        {this.state.errorDisplayed ? (
           <>
-            <div className="spacer-md" />
+            <SpacerMD />
             <p className={errorMessageClasses}>{errorMsg}</p>
-            <div className="spacer-md" />
+            <SpacerMD />
           </>
-          :
-          null
-        }
+        ) : null}
 
         {this.renderAvatar()}
-        <div className="spacer-md" />
+        <SpacerMD />
 
         <input
           type="text"

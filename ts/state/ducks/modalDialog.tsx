@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SessionConfirmDialogProps  } from '../../components/session/SessionConfirm';
+import { SessionConfirmDialogProps } from '../../components/session/SessionConfirm';
 
 export type ConfirmModalState = SessionConfirmDialogProps | null;
 
@@ -12,9 +12,9 @@ const confirmModalSlice = createSlice({
     updateConfirmModal(state, action: PayloadAction<ConfirmModalState | null>) {
       state = action.payload;
       return action.payload;
-    }
-  }
-})
+    },
+  },
+});
 
 export const { actions, reducer } = confirmModalSlice;
 export const { updateConfirmModal } = actions;

@@ -11,7 +11,7 @@ import { ConversationController } from '../../../session/conversations';
 import { getConversationLookup } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
-import { SpacerLG } from '../../basic/Text';
+import { SpacerLG, SpacerXS } from '../../basic/Text';
 import { shell } from 'electron';
 import { PasswordAction, SessionPasswordModal } from '../SessionPasswordModal';
 import { SessionConfirmDialogProps } from '../SessionConfirm';
@@ -173,8 +173,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           <h3>{window.i18n('password')}</h3>
           <input type="password" id="password-lock-input" defaultValue="" placeholder="Password" />
 
-          <div className="spacer-xs" />
-
+          <SpacerXS />
           {this.state.pwdLockError && (
             <>
               <div className="session-label warning">{this.state.pwdLockError}</div>

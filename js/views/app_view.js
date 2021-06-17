@@ -1,4 +1,4 @@
-/* global Backbone, i18n, Whisper, storage, _, $ */
+/* global Backbone, Whisper, storage, _, $ */
 
 /* eslint-disable more/no-then */
 

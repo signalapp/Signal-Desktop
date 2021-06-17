@@ -116,8 +116,7 @@ export type AttachmentFileType = {
   attachment: any;
   data: ArrayBuffer;
   size: number;
-}
-
+};
 
 // export async function readFile(attachment: any): Promise<object> {
 export async function readFile(attachment: any): Promise<AttachmentFileType> {
