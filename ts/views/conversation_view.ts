@@ -21,7 +21,6 @@ import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollis
 import {
   isDirectConversation,
   isGroupV1,
-  isGroupV2,
   isMe,
 } from '../util/whatTypeOfConversation';
 import {
@@ -31,6 +30,8 @@ import {
   isOutgoing,
   isTapToView,
 } from '../state/selectors/message';
+import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
+import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -367,7 +368,6 @@ Whisper.ConversationView = Whisper.View.extend({
 
     // Events on Conversation model
     this.listenTo(this.model, 'destroy', this.stopListening);
-    this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
     this.listenTo(this.model, 'newmessage', this.lazyUpdateVerified);
 
     // These are triggered by InboxView
@@ -573,8 +573,8 @@ Whisper.ConversationView = Whisper.View.extend({
           onShowAllMedia: () => {
             this.showAllMedia();
           },
-          onShowGroupMembers: async () => {
-            await this.showMembers();
+          onShowGroupMembers: () => {
+            this.showGV1Members();
           },
           onGoBack: () => {
             this.resetPanel();
@@ -1446,9 +1446,6 @@ Whisper.ConversationView = Whisper.View.extend({
     if (this.captureAudioView) {
       this.captureAudioView.remove();
     }
-    if (this.banner) {
-      this.banner.remove();
-    }
     if (this.lastSeenIndicator) {
       this.lastSeenIndicator.remove();
     }
@@ -2132,55 +2129,6 @@ Whisper.ConversationView = Whisper.View.extend({
     return Promise.all(untrusted.map((contact: any) => contact.setApproved()));
   },
 
-  openSafetyNumberScreens(unverified: any) {
-    if (unverified.length === 1) {
-      this.showSafetyNumber(unverified.at(0).id);
-      return;
-    }
-
-    this.showMembers(null, unverified, { needVerify: true });
-  },
-
-  onVerifiedChange() {
-    const { model }: { model: ConversationModel } = this;
-    if (model.isUnverified()) {
-      const unverified = model.getUnverified();
-      let message;
-      if (!unverified.length) {
-        return;
-      }
-      if (unverified.length > 1) {
-        message = window.i18n('multipleNoLongerVerified');
-      } else {
-        message = window.i18n('noLongerVerified', [
-          unverified.at(0).getTitle(),
-        ]);
-      }
-
-      // Need to re-add, since unverified set may have changed
-      if (this.banner) {
-        this.banner.remove();
-        this.banner = null;
-      }
-
-      this.banner = new Whisper.BannerView({
-        message,
-        onDismiss: () => {
-          this.markAllAsVerifiedDefault(unverified);
-        },
-        onClick: () => {
-          this.openSafetyNumberScreens(unverified);
-        },
-      });
-
-      const container = this.$('.discussion-container');
-      container.append(this.banner.el);
-    } else if (this.banner) {
-      this.banner.remove();
-      this.banner = null;
-    }
-  },
-
   toggleMicrophone() {
     this.compositionApi.current.setShowMic(!this.hasFiles());
   },
@@ -2314,7 +2262,6 @@ Whisper.ConversationView = Whisper.View.extend({
     this.statusFetch = statusPromise.then(() =>
       // eslint-disable-next-line more/no-then
       model.updateVerified().then(() => {
-        this.onVerifiedChange();
         this.statusFetch = null;
       })
     );
@@ -2736,35 +2683,32 @@ Whisper.ConversationView = Whisper.View.extend({
     this.compositionApi.current.resetEmojiResults(false);
   },
 
-  async showMembers(
-    _e: unknown,
-    providedMembers: void | Backbone.Collection<ConversationModel>,
-    options: any = {}
-  ) {
+  showGV1Members() {
     const { model }: { model: ConversationModel } = this;
-    window._.defaults(options, { needVerify: false });
+    const { contactCollection } = model;
 
-    let contactCollection = providedMembers || model.contactCollection;
+    const memberships =
+      contactCollection?.map((conversation: ConversationModel) => {
+        return {
+          isAdmin: false,
+          member: conversation.format(),
+        };
+      }) || [];
 
-    if (!providedMembers && isGroupV2(model.attributes)) {
-      contactCollection = new Whisper.GroupConversationCollection(
-        this.model.get('membersV2').map(({ conversationId, role }: any) => ({
-          conversation: window.ConversationController.get(conversationId),
-          isAdmin:
-            role === window.textsecure.protobuf.Member.Role.ADMINISTRATOR,
-        }))
-      );
-    }
-
-    const view = new Whisper.GroupMemberList({
-      model: contactCollection,
-      // we pass this in to allow nested panels
-      listenBack: this.listenBack.bind(this),
-      needVerify: options.needVerify,
-      conversation: model,
+    const view = new Whisper.ReactWrapperView({
+      className: 'group-member-list panel',
+      Component: ConversationDetailsMembershipList,
+      props: {
+        canAddNewMembers: false,
+        i18n: window.i18n,
+        maxShownMemberCount: 32,
+        memberships,
+        showContactModal: this.showContactModal.bind(this),
+      },
     });
 
     this.listenBack(view);
+    view.render();
   },
 
   forceSend({
@@ -3695,7 +3639,7 @@ Whisper.ConversationView = Whisper.View.extend({
     confirmText?: string
   ) {
     return new Promise(resolve => {
-      const dialog = new Whisper.SafetyNumberChangeDialogView({
+      showSafetyNumberChangeDialog({
         confirmText,
         contacts,
         reject: () => {
@@ -3705,8 +3649,6 @@ Whisper.ConversationView = Whisper.View.extend({
           resolve(true);
         },
       });
-
-      this.$el.prepend(dialog.el);
     });
   },
 

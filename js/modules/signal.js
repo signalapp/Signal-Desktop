@@ -52,9 +52,6 @@ const {
 const { Quote } = require('../../ts/components/conversation/Quote');
 const { ProgressModal } = require('../../ts/components/ProgressModal');
 const {
-  SafetyNumberChangeDialog,
-} = require('../../ts/components/SafetyNumberChangeDialog');
-const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
 const {
@@ -79,13 +76,9 @@ const {
   createConversationHeader,
 } = require('../../ts/state/roots/createConversationHeader');
 const { createApp } = require('../../ts/state/roots/createApp');
-const { createCallManager } = require('../../ts/state/roots/createCallManager');
 const {
   createForwardMessageModal,
 } = require('../../ts/state/roots/createForwardMessageModal');
-const {
-  createGlobalModalContainer,
-} = require('../../ts/state/roots/createGlobalModalContainer');
 const {
   createGroupLinkManagement,
 } = require('../../ts/state/roots/createGroupLinkManagement');
@@ -347,7 +340,6 @@ exports.setup = (options = {}) => {
     MessageDetail,
     Quote,
     ProgressModal,
-    SafetyNumberChangeDialog,
     StagedLinkPreview,
     DisappearingTimeDialog,
     Types: {
@@ -357,14 +349,12 @@ exports.setup = (options = {}) => {
 
   const Roots = {
     createApp,
-    createCallManager,
     createChatColorPicker,
     createCompositionArea,
     createContactModal,
     createConversationDetails,
     createConversationHeader,
     createForwardMessageModal,
-    createGlobalModalContainer,
     createGroupLinkManagement,
     createGroupV1MigrationModal,
     createGroupV2JoinModal,

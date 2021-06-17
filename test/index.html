@@ -43,7 +43,6 @@
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='module-title-bar-drag-area'></div>
 
-    <div class='call-manager-placeholder'></div>
     <div class='inbox-container'>
       <div class='gutter'>
         <div class='left-pane-placeholder'></div>
@@ -92,30 +91,14 @@
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header'></div>
     <div class='main panel'>
-      <div class='discussion-container'>
-          <div class='bar-container hide'>
-            <div class='bar active progress-bar-striped progress-bar'></div>
-          </div>
-      </div>
-
+      <div class='timeline-placeholder' aria-live='polite'></div>
       <div class='bottom-bar' id='footer'>
-          <div class='emoji-panel-container'></div>
-          <div class='attachment-list'></div>
-          <div class='compose'>
-            <form class='send clearfix file-input'>
-              <div class='flex'>
-                <button class='emoji'></button>
-                <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
-                <div class='capture-audio'>
-                    <button class='microphone'></button>
-                </div>
-                <div class='choose-file'>
-                    <button class='paperclip thumbnail'></button>
-                    <input type='file' class='file-input' multiple='multiple'>
-                </div>
-              </div>
-            </form>
-          </div>
+        <div class='compose'>
+          <form class='send clearfix file-input'>
+            <input type="file" class="file-input" multiple="multiple">
+            <div class='composition-area-placeholder'></div>
+          </form>
+        </div>
       </div>
     </div>
   </script>
@@ -129,10 +112,6 @@
       <button class='finish'><span class='icon'></span></button>
       <span class='time'>0:00</span>
       <button class='close'><span class='icon'></span></button>
-  </script>
-
-  <script type='text/x-tmpl-mustache' id='safety-number-change-dialog'>
-    <div class='safety-number-change-dialog-wrapper'></div>
   </script>
 
   <script type='text/x-tmpl-mustache' id='identicon-svg'>

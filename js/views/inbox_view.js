@@ -137,8 +137,6 @@
         this.startConnectionListener();
       } else {
         this.setupLeftPane();
-        this.setupCallManagerUI();
-        this.setupGlobalModalContainer();
       }
 
       Whisper.events.on('pack-install-failed', () => {
@@ -154,28 +152,6 @@
     },
     events: {
       click: 'onClick',
-    },
-    setupCallManagerUI() {
-      if (this.callManagerView) {
-        return;
-      }
-      this.callManagerView = new Whisper.ReactWrapperView({
-        className: 'call-manager-wrapper',
-        JSX: Signal.State.Roots.createCallManager(window.reduxStore),
-      });
-      this.$('.call-manager-placeholder').append(this.callManagerView.el);
-    },
-    setupGlobalModalContainer() {
-      if (this.globalModalContainerView) {
-        return;
-      }
-      this.globalModalContainerView = new Whisper.ReactWrapperView({
-        JSX: Signal.State.Roots.createGlobalModalContainer(window.reduxStore),
-      });
-      const node = document.querySelector('.inbox-container');
-      if (node) {
-        node.appendChild(this.globalModalContainerView.el);
-      }
     },
     setupLeftPane() {
       if (this.leftPaneView) {
@@ -217,8 +193,6 @@
     },
     onEmpty() {
       this.setupLeftPane();
-      this.setupCallManagerUI();
-      this.setupGlobalModalContainer();
 
       const view = this.appLoadingScreen;
       if (view) {
@@ -240,14 +214,6 @@
 
       this.$('#header, .gutter').addClass('inactive');
       this.$('.conversation-stack').removeClass('inactive');
-    },
-    focusHeader() {
-      this.$('.conversation-stack').addClass('inactive');
-      this.$('#header, .gutter').removeClass('inactive');
-      this.$('.conversation:first .menu').trigger('close');
-    },
-    reloadBackgroundPage() {
-      window.location.reload();
     },
     closeRecording(e) {
       if (e && this.$(e.target).closest('.capture-audio').length > 0) {

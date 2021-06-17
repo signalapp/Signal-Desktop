@@ -48,14 +48,12 @@ import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
 import { createApp } from './state/roots/createApp';
-import { createCallManager } from './state/roots/createCallManager';
 import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createCompositionArea } from './state/roots/createCompositionArea';
 import { createContactModal } from './state/roots/createContactModal';
 import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createConversationHeader } from './state/roots/createConversationHeader';
 import { createForwardMessageModal } from './state/roots/createForwardMessageModal';
-import { createGlobalModalContainer } from './state/roots/createGlobalModalContainer';
 import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
 import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
@@ -480,14 +478,12 @@ declare global {
         createStore: typeof createStore;
         Roots: {
           createApp: typeof createApp;
-          createCallManager: typeof createCallManager;
           createChatColorPicker: typeof createChatColorPicker;
           createCompositionArea: typeof createCompositionArea;
           createContactModal: typeof createContactModal;
           createConversationDetails: typeof createConversationDetails;
           createConversationHeader: typeof createConversationHeader;
           createForwardMessageModal: typeof createForwardMessageModal;
-          createGlobalModalContainer: typeof createGlobalModalContainer;
           createGroupLinkManagement: typeof createGroupLinkManagement;
           createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
           createGroupV2JoinModal: typeof createGroupV2JoinModal;
@@ -658,7 +654,6 @@ export type WhisperType = {
       reject: Function
     ) => void;
   };
-  GroupConversationCollection: typeof ConversationModelCollectionType;
   ConversationCollection: typeof ConversationModelCollectionType;
   ConversationCollectionType: ConversationModelCollectionType;
   Conversation: typeof ConversationModel;

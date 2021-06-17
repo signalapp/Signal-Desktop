@@ -5405,23 +5405,3 @@ const sortConversationTitles = (
 ) => {
   return collator.compare(left.getTitle(), right.getTitle());
 };
-
-// We need a custom collection here to get the sorting we need
-window.Whisper.GroupConversationCollection = window.Backbone.Collection.extend({
-  model: window.Whisper.GroupMemberConversation,
-
-  initialize() {
-    this.collator = new Intl.Collator(undefined, { sensitivity: 'base' });
-  },
-
-  comparator(left: WhatIsThis, right: WhatIsThis) {
-    if (left.isAdmin && !right.isAdmin) {
-      return -1;
-    }
-    if (!left.isAdmin && right.isAdmin) {
-      return 1;
-    }
-
-    return sortConversationTitles(left, right, this.collator);
-  },
-});
