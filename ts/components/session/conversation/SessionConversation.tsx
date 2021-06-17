@@ -651,10 +651,7 @@ export class SessionConversation extends React.Component<Props, State> {
         };
 
         const onSubmit = async (newMembers: Array<string>) => {
-          const _ = window.Lodash;
-          const ourPK = Utils.UserUtils.getOurPubKeyStrFromCache();
-
-          const allMembersAfterUpdate = window.Lodash.concat(newMembers, [ourPK]);
+          const allMembersAfterUpdate = _.concat(newMembers, [ourPK]);
 
           if (!isAdmin) {
             window.log.warn('Skipping update of members, we are not the admin');

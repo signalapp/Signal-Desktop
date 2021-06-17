@@ -46,7 +46,6 @@ const OnionPathModalInner = (props: any) => {
       label: window.i18n('device'),
     },
     ...onionNodes,
-    ,
     {
       label: window.i18n('destination'),
     },
@@ -63,6 +62,7 @@ const OnionPathModalInner = (props: any) => {
               glowStartDelay={index}
               label={snode.label}
               snode={snode}
+              key={index}
             />
           );
         })}
@@ -80,8 +80,6 @@ export type OnionNodeStatusLightType = {
 
 /**
  * Component containing a coloured status light and an adjacent country label.
- * @param props
- * @returns
  */
 export const OnionNodeStatusLight = (props: OnionNodeStatusLightType): JSX.Element => {
   const { snode, label, glowStartDelay, glowDuration } = props;
@@ -97,7 +95,7 @@ export const OnionNodeStatusLight = (props: OnionNodeStatusLightType): JSX.Eleme
         glowDuration={glowDuration}
         glowStartDelay={glowStartDelay}
         color={theme.colors.accent}
-      ></ModalStatusLight>
+      />
       {labelText ? (
         <>
           <div className="onion-node__country">{labelText}</div>
@@ -156,7 +154,7 @@ export const ActionPanelOnionStatusLight = (props: {
   } else {
     const onionSnodePath = onionState.snodePath;
     if (onionState && onionSnodePath && onionSnodePath.length > 0) {
-      let onionNodeCount = onionSnodePath.length;
+      const onionNodeCount = onionSnodePath.length;
       iconColor = onionNodeCount > 2 ? green : onionNodeCount > 1 ? orange : red;
     }
   }
@@ -175,9 +173,10 @@ export const ActionPanelOnionStatusLight = (props: {
 
 export const OnionPathModal = (props: OnionPathModalType) => {
   const onConfirm = () => {
-    shell.openExternal('https://getsession.org/faq/#onion-routing');
+    void shell.openExternal('https://getsession.org/faq/#onion-routing');
   };
   return (
+    // tslint:disable-next-line: use-simple-attributes
     <SessionWrapperModal
       title={props.title || window.i18n('onionPathIndicatorTitle')}
       confirmText={props.confirmText || window.i18n('learnMore')}
@@ -186,7 +185,7 @@ export const OnionPathModal = (props: OnionPathModalType) => {
       onClose={props.onClose}
       showExitIcon={true}
     >
-      <OnionPathModalInner {...props}></OnionPathModalInner>
+      <OnionPathModalInner {...props} />
     </SessionWrapperModal>
   );
 };

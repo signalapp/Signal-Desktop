@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { ConversationController } from '../../session/conversations/ConversationController';
-import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
-import { DefaultTheme, withTheme, useTheme } from 'styled-components';
+import { DefaultTheme, useTheme, withTheme } from 'styled-components';
 
 import _ from 'lodash';
 import { SessionWrapperModal } from './SessionWrapperModal';

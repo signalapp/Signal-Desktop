@@ -25,8 +25,6 @@ if (config.appInstance) {
   title += ` - ${config.appInstance}`;
 }
 
-window.Lodash = require('lodash');
-
 global.dcodeIO = global.dcodeIO || {};
 global.dcodeIO.ByteBuffer = require('bytebuffer');
 
