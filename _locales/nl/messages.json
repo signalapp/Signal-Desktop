@@ -124,7 +124,7 @@
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Alle vensters naar voorgrond brengen",
+        "message": "Alle vensters naar de voorgrond brengen",
         "description": "Window menu command to bring all windows of current application to front"
     },
     "viewMenuResetZoom": {
@@ -1050,7 +1050,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Verzend een bericht",
+        "message": "Een bericht verzenden",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -1324,11 +1324,11 @@
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Scherm laten zien beginnen",
+        "message": "Scherm laten zien",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "Scherm laten zien stoppen",
+        "message": "Stoppen met scherm laten zien",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__your-video-is-off": {
@@ -1336,7 +1336,7 @@
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__lobby-summary--zero": {
-        "message": "Er is niemand behalve jou in dit gesprek",
+        "message": "Er is niemand behalve jij in dit gesprek",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
     "calling__lobby-summary--single": {
@@ -1404,7 +1404,7 @@
         }
     },
     "calling__in-this-call--zero": {
-        "message": "Er is niemand behalve jou in dit gesprek",
+        "message": "Er is niemand behalve jij in dit gesprek",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
@@ -1530,11 +1530,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Geef toestemming om de microfoon te gebruiken",
+        "message": "Toestemming geven om de microfoon te gebruiken",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Geef toestemming om de camera te gebruiken",
+        "message": "Toestemming geven om de camera te gebruiken",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1554,7 +1554,7 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "autoLaunchDescription": {
-        "message": "Start Signal wanneer je inlogt op je computer",
+        "message": "Signal starten wanneer je inlogt op je computer",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -1598,7 +1598,7 @@
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Toon wanneer een bericht ontvangen wordt meldingen die het volgende weergeven:",
+        "message": "Geef bij meldingen van binnenkomende berichten de volgende inhoud weer:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -1606,11 +1606,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Naam, berichtinhoud en handelingen",
+        "message": "Naam, berichtinhoud en gebeurtenissen",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Geen naam of berichtinhoud",
+        "message": "Geen naam en geen berichtinhoud",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1872,11 +1872,11 @@
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "Laat oproepgeluid horen",
+        "message": "Oproepgeluid laten horen",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Geef meldingen weer voor oproepen",
+        "message": "Over oproepen meldingen weergeven",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
@@ -1960,7 +1960,7 @@
         "description": "Label text for dark theme"
     },
     "themeSystem": {
-        "message": "Systeem",
+        "message": "Systeemstandaard volgen",
         "description": "Label text for system theme"
     },
     "noteToSelf": {
@@ -2210,7 +2210,7 @@
         }
     },
     "ConversationListItem--message-request": {
-        "message": "Gespreksverzoeken",
+        "message": "Gespreksverzoek",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
@@ -2265,15 +2265,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "Eenmaligeweergave-media",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "Eenmaligeweergave-afbeelding",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "Eenmaligeweergave-video",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "Dit bericht is gewist.",
@@ -2590,7 +2590,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Emoji-reactie keuzemenu openen of sluiten voor het geselecteerde bericht",
+        "message": "Emoji-reactie keuzemenu voor het geselecteerde bericht openen of sluiten",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2602,7 +2602,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Regeleinde toevoegen aan bericht",
+        "message": "Regeleinde aan bericht toevoegen",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -2694,7 +2694,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
-        "message": "Zet camera aan of uit",
+        "message": "Camera aan- of uitzetten",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
@@ -3427,7 +3427,17 @@
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
         "message": "Het volledige scherm",
-        "description": "Title for the select your screen sharing sources modal"
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Scherm $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
     },
     "calling__SelectPresentingSourcesModal--window": {
         "message": "Een bepaald venster",
@@ -4878,7 +4888,7 @@
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
-        "message": "Groepsinstellingen",
+        "message": "Groepsgesprek-instellingen",
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "ConversationDetails--group-link": {
@@ -5469,20 +5479,28 @@
         "message": "Kleurinstelling verwijderen",
         "description": "Button label for resetting chat colors"
     },
+    "ChatColorPicker__resetDefault": {
+        "message": "Kleurinstellingen verwijderen",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
     "ChatColorPicker__resetAll": {
         "message": "Alle kleurinstellingen verwijderen",
         "description": "Button label for resetting all chat colors"
     },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Alleen standaardkleurinstelling verwijderen",
+        "description": "Button label for resetting only global chat color"
+    },
     "ChatColorPicker__confirm-reset": {
-        "message": "Voor dit gesprek verwijderen",
+        "message": "Alle kleurinstellingen verwijderen",
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Wil je alleen de standaardkleur verwijderen of wil je de kleurinstellingen van alle gesprekken verwijderen?",
+        "message": "Wil je de kleurinstellingen van alle gesprekken verwijderen?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Zelfgekozen-kleurmaker weergeven",
+        "message": "Zelfgekozen-kleur-maker weergeven",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
@@ -5530,15 +5548,15 @@
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
-        "message": "Zelf gekozen tijdspanne …",
+        "message": "Zelfgekozen tijdspanne …",
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
-        "message": "Zelf gekozen tijdspanne",
+        "message": "Zelfgekozen tijdspanne",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
-        "message": "Zelf gekozen tijdspanne",
+        "message": "Zelfgekozen tijdspanne",
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
