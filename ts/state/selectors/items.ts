@@ -20,6 +20,11 @@ export const getUserAgent = createSelector(
   (state: ItemsStateType): string => state.userAgent as string
 );
 
+export const getReadReceiptSetting = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state['read-receipt-setting'])
+);
+
 export const getPinnedConversationIds = createSelector(
   getItems,
   (state: ItemsStateType): Array<string> =>

@@ -60,6 +60,7 @@ story.add('Multiple Visual Attachments', () => {
           width: 112,
           url: '/fixtures/kitten-4-112-112.jpg',
           contentType: IMAGE_JPEG,
+          path: 'originalpath',
         },
       },
       {
@@ -100,6 +101,7 @@ story.add('Multiple with Non-Visual Types', () => {
           width: 112,
           url: '/fixtures/kitten-4-112-112.jpg',
           contentType: IMAGE_JPEG,
+          path: 'originalpath',
         },
       },
       {

@@ -43,7 +43,16 @@ import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
 import { BackOff } from './util/BackOff';
 import { AppViewType } from './state/ducks/app';
+import { hasErrors, isIncoming } from './state/selectors/message';
 import { actionCreators } from './state/actions';
+import { Deletes } from './messageModifiers/Deletes';
+import { DeliveryReceipts } from './messageModifiers/DeliveryReceipts';
+import { MessageRequests } from './messageModifiers/MessageRequests';
+import { Reactions } from './messageModifiers/Reactions';
+import { ReadReceipts } from './messageModifiers/ReadReceipts';
+import { ReadSyncs } from './messageModifiers/ReadSyncs';
+import { ViewSyncs } from './messageModifiers/ViewSyncs';
+import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -337,13 +346,15 @@ export async function startApp(): Promise<void> {
         PASSWORD
       );
       accountManager.addEventListener('registration', () => {
+        const ourDeviceId = window.textsecure.storage.user.getDeviceId();
         const ourNumber = window.textsecure.storage.user.getNumber();
         const ourUuid = window.textsecure.storage.user.getUuid();
         const user = {
-          regionCode: window.storage.get('regionCode'),
+          ourConversationId: window.ConversationController.getOurConversationId(),
+          ourDeviceId,
           ourNumber,
           ourUuid,
-          ourConversationId: window.ConversationController.getOurConversationId(),
+          regionCode: window.storage.get('regionCode'),
         };
         window.Whisper.events.trigger('userChanged', user);
 
@@ -548,7 +559,7 @@ export async function startApp(): Promise<void> {
       shutdown: async () => {
         window.log.info('background/shutdown');
         // Stop background processing
-        window.Signal.AttachmentDownloads.stop();
+        AttachmentDownloads.stop();
         if (idleDetector) {
           idleDetector.stop();
         }
@@ -957,6 +968,7 @@ export async function startApp(): Promise<void> {
     // Binding these actions to our redux store and exposing them allows us to update
     //   redux when things change in the backbone world.
     window.reduxActions = {
+      accounts: bindActionCreators(actionCreators.accounts, store.dispatch),
       app: bindActionCreators(actionCreators.app, store.dispatch),
       audioPlayer: bindActionCreators(
         actionCreators.audioPlayer,
@@ -1659,7 +1671,7 @@ export async function startApp(): Promise<void> {
         const delivered = message.get('delivered');
         const sentAt = message.get('sent_at');
 
-        if (message.hasErrors()) {
+        if (hasErrors(message.attributes)) {
           return;
         }
 
@@ -1887,7 +1899,7 @@ export async function startApp(): Promise<void> {
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = null;
 
-    window.Signal.AttachmentDownloads.stop();
+    AttachmentDownloads.stop();
     if (messageReceiver) {
       await messageReceiver.close();
     }
@@ -2063,7 +2075,7 @@ export async function startApp(): Promise<void> {
       addQueuedEventListener('fetchLatest', onFetchLatestSync);
       addQueuedEventListener('keys', onKeysSync);
 
-      window.Signal.AttachmentDownloads.start({
+      AttachmentDownloads.start({
         getMessageReceiver: () => messageReceiver,
         logger: window.log,
       });
@@ -2859,7 +2871,10 @@ export async function startApp(): Promise<void> {
 
     const message = initIncomingMessage(data, messageDescriptor);
 
-    if (message.isIncoming() && message.get('unidentifiedDeliveryReceived')) {
+    if (
+      isIncoming(message.attributes) &&
+      message.get('unidentifiedDeliveryReceived')
+    ) {
       const sender = message.getContact();
 
       if (!sender) {
@@ -2890,7 +2905,7 @@ export async function startApp(): Promise<void> {
         'Queuing incoming reaction for',
         reaction.targetTimestamp
       );
-      const reactionModel = window.Whisper.Reactions.add({
+      const reactionModel = Reactions.getSingleton().add({
         emoji: reaction.emoji,
         remove: reaction.remove,
         targetAuthorUuid: reaction.targetAuthorUuid,
@@ -2902,7 +2917,7 @@ export async function startApp(): Promise<void> {
         }),
       });
       // Note: We do not wait for completion here
-      window.Whisper.Reactions.onReaction(reactionModel);
+      Reactions.getSingleton().onReaction(reactionModel);
       confirm();
       return Promise.resolve();
     }
@@ -2910,7 +2925,7 @@ export async function startApp(): Promise<void> {
     if (data.message.delete) {
       const { delete: del } = data.message;
       window.log.info('Queuing incoming DOE for', del.targetSentTimestamp);
-      const deleteModel = window.Whisper.Deletes.add({
+      const deleteModel = Deletes.getSingleton().add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
         fromId: window.ConversationController.ensureContactIds({
@@ -2919,7 +2934,7 @@ export async function startApp(): Promise<void> {
         }),
       });
       // Note: We do not wait for completion here
-      window.Whisper.Deletes.onDelete(deleteModel);
+      Deletes.getSingleton().onDelete(deleteModel);
       confirm();
       return Promise.resolve();
     }
@@ -3184,7 +3199,7 @@ export async function startApp(): Promise<void> {
       }
 
       window.log.info('Queuing sent reaction for', reaction.targetTimestamp);
-      const reactionModel = window.Whisper.Reactions.add({
+      const reactionModel = Reactions.getSingleton().add({
         emoji: reaction.emoji,
         remove: reaction.remove,
         targetAuthorUuid: reaction.targetAuthorUuid,
@@ -3194,7 +3209,7 @@ export async function startApp(): Promise<void> {
         fromSync: true,
       });
       // Note: We do not wait for completion here
-      window.Whisper.Reactions.onReaction(reactionModel);
+      Reactions.getSingleton().onReaction(reactionModel);
 
       event.confirm();
       return Promise.resolve();
@@ -3203,13 +3218,13 @@ export async function startApp(): Promise<void> {
     if (data.message.delete) {
       const { delete: del } = data.message;
       window.log.info('Queuing sent DOE for', del.targetSentTimestamp);
-      const deleteModel = window.Whisper.Deletes.add({
+      const deleteModel = Deletes.getSingleton().add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: del.serverTimestamp,
         fromId: window.ConversationController.getOurConversationId(),
       });
       // Note: We do not wait for completion here
-      window.Whisper.Deletes.onDelete(deleteModel);
+      Deletes.getSingleton().onDelete(deleteModel);
       confirm();
       return Promise.resolve();
     }
@@ -3299,11 +3314,13 @@ export async function startApp(): Promise<void> {
     window.Signal.Util.Registration.remove();
 
     const NUMBER_ID_KEY = 'number_id';
+    const UUID_ID_KEY = 'uuid_id';
     const VERSION_KEY = 'version';
     const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
     const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
 
     const previousNumberId = window.textsecure.storage.get(NUMBER_ID_KEY);
+    const previousUuidId = window.textsecure.storage.get(UUID_ID_KEY);
     const lastProcessedIndex = window.textsecure.storage.get(
       LAST_PROCESSED_INDEX_KEY
     );
@@ -3326,6 +3343,9 @@ export async function startApp(): Promise<void> {
       window.Signal.Util.Registration.markEverDone();
       if (previousNumberId !== undefined) {
         await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+      }
+      if (previousUuidId !== undefined) {
+        await window.textsecure.storage.put(UUID_ID_KEY, previousUuidId);
       }
 
       // These two are important to ensure we don't rip through every message
@@ -3782,13 +3802,13 @@ export async function startApp(): Promise<void> {
     const { source, sourceUuid, timestamp } = ev;
     window.log.info(`view sync ${source} ${timestamp}`);
 
-    const sync = window.Whisper.ViewSyncs.add({
+    const sync = ViewSyncs.getSingleton().add({
       source,
       sourceUuid,
       timestamp,
     });
 
-    window.Whisper.ViewSyncs.onSync(sync);
+    ViewSyncs.getSingleton().onSync(sync);
   }
 
   async function onFetchLatestSync(ev: WhatIsThis) {
@@ -3855,7 +3875,7 @@ export async function startApp(): Promise<void> {
       messageRequestResponseType,
     });
 
-    const sync = window.Whisper.MessageRequests.add({
+    const sync = MessageRequests.getSingleton().add({
       threadE164,
       threadUuid,
       groupId,
@@ -3863,7 +3883,7 @@ export async function startApp(): Promise<void> {
       type: messageRequestResponseType,
     });
 
-    window.Whisper.MessageRequests.onResponse(sync);
+    MessageRequests.getSingleton().onResponse(sync);
   }
 
   function onReadReceipt(ev: WhatIsThis) {
@@ -3890,14 +3910,14 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const receipt = window.Whisper.ReadReceipts.add({
+    const receipt = ReadReceipts.getSingleton().add({
       reader,
       timestamp,
-      read_at: readAt,
+      readAt,
     });
 
     // Note: We do not wait for completion here
-    window.Whisper.ReadReceipts.onReceipt(receipt);
+    ReadReceipts.getSingleton().onReceipt(receipt);
   }
 
   function onReadSync(ev: WhatIsThis) {
@@ -3918,19 +3938,19 @@ export async function startApp(): Promise<void> {
       timestamp
     );
 
-    const receipt = window.Whisper.ReadSyncs.add({
+    const receipt = ReadSyncs.getSingleton().add({
       senderId,
       sender,
       senderUuid,
       timestamp,
-      read_at: readAt,
+      readAt,
     });
 
     receipt.on('remove', ev.confirm);
 
     // Note: Here we wait, because we want read states to be in the database
     //   before we move on.
-    return window.Whisper.ReadSyncs.onReceipt(receipt);
+    return ReadSyncs.getSingleton().onReceipt(receipt);
   }
 
   async function onVerified(ev: WhatIsThis) {
@@ -4037,13 +4057,13 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const receipt = window.Whisper.DeliveryReceipts.add({
+    const receipt = DeliveryReceipts.getSingleton().add({
       timestamp,
       deliveredTo,
     });
 
     // Note: We don't wait for completion here
-    window.Whisper.DeliveryReceipts.onReceipt(receipt);
+    DeliveryReceipts.getSingleton().onReceipt(receipt);
   }
 }
 

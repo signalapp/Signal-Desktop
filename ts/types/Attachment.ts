@@ -21,10 +21,11 @@ const MIN_HEIGHT = 50;
 // Used for display
 
 export type AttachmentType = {
+  error?: boolean;
   blurHash?: string;
   caption?: string;
   contentType: MIME.MIMEType;
-  fileName: string;
+  fileName?: string;
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
@@ -40,16 +41,25 @@ export type AttachmentType = {
     width: number;
     url: string;
     contentType: MIME.MIMEType;
-  };
-  flags?: number;
-  thumbnail?: {
-    height: number;
-    width: number;
-    url: string;
-    contentType: MIME.MIMEType;
     path: string;
   };
+  flags?: number;
+  thumbnail?: ThumbnailType;
   isCorrupted?: boolean;
+  downloadJobId?: string;
+  cdnNumber?: number;
+  cdnId?: string;
+  cdnKey?: string;
+};
+
+export type ThumbnailType = {
+  height: number;
+  width: number;
+  url: string;
+  contentType: MIME.MIMEType;
+  path: string;
+  // Only used when quote needed to make an in-memory thumbnail
+  objectUrl?: string;
 };
 
 // UI-focused functions
@@ -58,7 +68,7 @@ export function getExtensionForDisplay({
   fileName,
   contentType,
 }: {
-  fileName: string;
+  fileName?: string;
   contentType: MIME.MIMEType;
 }): string | undefined {
   if (fileName && fileName.indexOf('.') >= 0) {
@@ -354,7 +364,9 @@ export const isFile = (attachment: Attachment): boolean => {
   return true;
 };
 
-export const isVoiceMessage = (attachment: Attachment): boolean => {
+export const isVoiceMessage = (
+  attachment: Attachment | AttachmentType
+): boolean => {
   const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
   const hasFlag =
     // eslint-disable-next-line no-bitwise

@@ -61,26 +61,32 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   sendAnyway: action('onSendAnyway'),
   showSafetyNumber: action('onShowSafetyNumber'),
 
-  clearSelectedMessage: () => null,
+  checkForAccount: action('checkForAccount'),
+  clearSelectedMessage: action('clearSelectedMessage'),
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
-  displayTapToViewMessage: () => null,
-  downloadAttachment: () => null,
+  displayTapToViewMessage: action('displayTapToViewMessage'),
+  downloadAttachment: action('downloadAttachment'),
+  doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
-  openConversation: () => null,
-  openLink: () => null,
-  reactToMessage: () => null,
+  openConversation: action('openConversation'),
+  openLink: action('openLink'),
+  reactToMessage: action('reactToMessage'),
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   renderEmojiPicker: () => <div />,
-  replyToMessage: () => null,
-  retrySend: () => null,
-  showContactDetail: () => null,
-  showContactModal: () => null,
-  showExpiredIncomingTapToViewToast: () => null,
-  showExpiredOutgoingTapToViewToast: () => null,
-  showForwardMessageModal: () => null,
-  showVisualAttachment: () => null,
+  replyToMessage: action('replyToMessage'),
+  retrySend: action('retrySend'),
+  showContactDetail: action('showContactDetail'),
+  showContactModal: action('showContactModal'),
+  showExpiredIncomingTapToViewToast: action(
+    'showExpiredIncomingTapToViewToast'
+  ),
+  showExpiredOutgoingTapToViewToast: action(
+    'showExpiredOutgoingTapToViewToast'
+  ),
+  showForwardMessageModal: action('showForwardMessageModal'),
+  showVisualAttachment: action('showVisualAttachment'),
 });
 
 story.add('Delivered Incoming', () => {

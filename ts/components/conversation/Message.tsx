@@ -8,7 +8,11 @@ import { drop, groupBy, orderBy, take } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
 
-import { ConversationType } from '../../state/ducks/conversations';
+import {
+  ConversationType,
+  ConversationTypeType,
+  InteractionModeType,
+} from '../../state/ducks/conversations';
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
@@ -80,14 +84,8 @@ export const MessageStatuses = [
 ] as const;
 export type MessageStatusType = typeof MessageStatuses[number];
 
-export const InteractionModes = ['mouse', 'keyboard'] as const;
-export type InteractionModeType = typeof InteractionModes[number];
-
 export const Directions = ['incoming', 'outgoing'] as const;
 export type DirectionType = typeof Directions[number];
-
-export const ConversationTypes = ['direct', 'group'] as const;
-export type ConversationTypesType = typeof ConversationTypes[number];
 
 export type AudioAttachmentProps = {
   id: string;
@@ -133,7 +131,7 @@ export type PropsData = {
     | 'unblurredAvatarPath'
   >;
   reducedMotion?: boolean;
-  conversationType: ConversationTypesType;
+  conversationType: ConversationTypeType;
   attachments?: Array<AttachmentType>;
   quote?: {
     conversationColor: ConversationColorType;
@@ -185,6 +183,9 @@ export type PropsHousekeeping = {
 
 export type PropsActions = {
   clearSelectedMessage: () => unknown;
+  doubleCheckMissingQuoteReference: (messageId: string) => unknown;
+  onHeightChange: () => unknown;
+  checkForAccount: (identifier: string) => unknown;
 
   reactToMessage: (
     id: string,
@@ -405,18 +406,21 @@ export class Message extends React.Component<Props, State> {
     }
 
     const { expirationLength } = this.props;
-    if (!expirationLength) {
-      return;
+    if (expirationLength) {
+      const increment = getIncrement(expirationLength);
+      const checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
+
+      this.checkExpired();
+
+      this.expirationCheckInterval = setInterval(() => {
+        this.checkExpired();
+      }, checkFrequency);
     }
 
-    const increment = getIncrement(expirationLength);
-    const checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
-
-    this.checkExpired();
-
-    this.expirationCheckInterval = setInterval(() => {
-      this.checkExpired();
-    }, checkFrequency);
+    const { contact, checkForAccount } = this.props;
+    if (contact && contact.firstNumber && !contact.isNumberOnSignal) {
+      checkForAccount(contact.firstNumber);
+    }
   }
 
   public componentWillUnmount(): void {
@@ -448,9 +452,28 @@ export class Message extends React.Component<Props, State> {
     }
 
     this.checkExpired();
+    this.checkForHeightChange(prevProps);
 
     if (canDeleteForEveryone !== prevProps.canDeleteForEveryone) {
       this.startDeleteForEveryoneTimer();
+    }
+  }
+
+  public checkForHeightChange(prevProps: Props): void {
+    const { contact, onHeightChange } = this.props;
+    const willRenderSendMessageButton = Boolean(
+      contact && contact.firstNumber && contact.isNumberOnSignal
+    );
+
+    const { contact: previousContact } = prevProps;
+    const previouslyRenderedSendMessageButton = Boolean(
+      previousContact &&
+        previousContact.firstNumber &&
+        previousContact.isNumberOnSignal
+    );
+
+    if (willRenderSendMessageButton !== previouslyRenderedSendMessageButton) {
+      onHeightChange();
     }
   }
 
@@ -1064,7 +1087,9 @@ export class Message extends React.Component<Props, State> {
       customColor,
       direction,
       disableScroll,
+      doubleCheckMissingQuoteReference,
       i18n,
+      id,
       quote,
       scrollToQuotedMessage,
     } = this.props;
@@ -1104,6 +1129,9 @@ export class Message extends React.Component<Props, State> {
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
+        doubleCheckMissingQuoteReference={() =>
+          doubleCheckMissingQuoteReference(id)
+        }
       />
     );
   }
@@ -1127,7 +1155,9 @@ export class Message extends React.Component<Props, State> {
       conversationType === 'group' && direction === 'incoming';
     const withContentBelow = withCaption || !collapseMetadata;
 
-    const otherContent = (contact && contact.signalAccount) || withCaption;
+    const otherContent =
+      (contact && contact.firstNumber && contact.isNumberOnSignal) ||
+      withCaption;
     const tabIndex = otherContent ? 0 : -1;
 
     return (
@@ -1136,7 +1166,7 @@ export class Message extends React.Component<Props, State> {
         isIncoming={direction === 'incoming'}
         i18n={i18n}
         onClick={() => {
-          showContactDetail({ contact, signalAccount: contact.signalAccount });
+          showContactDetail({ contact, signalAccount: contact.firstNumber });
         }}
         withContentAbove={withContentAbove}
         withContentBelow={withContentBelow}
@@ -1147,18 +1177,18 @@ export class Message extends React.Component<Props, State> {
 
   public renderSendMessageButton(): JSX.Element | null {
     const { contact, openConversation, i18n } = this.props;
-    if (!contact || !contact.signalAccount) {
+    if (!contact) {
+      return null;
+    }
+    const { firstNumber, isNumberOnSignal } = contact;
+    if (!firstNumber || !isNumberOnSignal) {
       return null;
     }
 
     return (
       <button
         type="button"
-        onClick={() => {
-          if (contact.signalAccount) {
-            openConversation(contact.signalAccount);
-          }
-        }}
+        onClick={() => openConversation(firstNumber)}
         className="module-message__send-message-button"
       >
         {i18n('sendMessageToContact')}
@@ -2181,15 +2211,15 @@ export class Message extends React.Component<Props, State> {
       this.audioButtonRef.current.click();
     }
 
-    if (contact && contact.signalAccount) {
-      openConversation(contact.signalAccount);
+    if (contact && contact.firstNumber && contact.isNumberOnSignal) {
+      openConversation(contact.firstNumber);
 
       event.preventDefault();
       event.stopPropagation();
     }
 
     if (contact) {
-      showContactDetail({ contact, signalAccount: contact.signalAccount });
+      showContactDetail({ contact, signalAccount: contact.firstNumber });
 
       event.preventDefault();
       event.stopPropagation();

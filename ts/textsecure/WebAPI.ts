@@ -17,6 +17,7 @@ import {
   compact,
   Dictionary,
   escapeRegExp,
+  isNumber,
   mapValues,
   zipObject,
 } from 'lodash';
@@ -933,7 +934,7 @@ export type WebAPIType = {
     group: GroupClass,
     options: GroupCredentialsType
   ) => Promise<void>;
-  getAttachment: (cdnKey: string, cdnNumber: number) => Promise<any>;
+  getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<any>;
   getAvatar: (path: string) => Promise<any>;
   getDevices: () => Promise<any>;
   getGroup: (options: GroupCredentialsType) => Promise<GroupClass>;
@@ -1976,8 +1977,10 @@ export function initialize({
       return packId;
     }
 
-    async function getAttachment(cdnKey: string, cdnNumber: number) {
-      const cdnUrl = cdnUrlObject[cdnNumber] || cdnUrlObject['0'];
+    async function getAttachment(cdnKey: string, cdnNumber?: number) {
+      const cdnUrl = isNumber(cdnNumber)
+        ? cdnUrlObject[cdnNumber] || cdnUrlObject['0']
+        : cdnUrlObject['0'];
       // This is going to the CDN, not the service, so we use _outerAjax
       return _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
         certificateAuthority,

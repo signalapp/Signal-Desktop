@@ -62,6 +62,14 @@ import {
   isMe,
 } from '../util/whatTypeOfConversation';
 import { deprecated } from '../util/deprecated';
+import {
+  hasErrors,
+  isIncoming,
+  isTapToView,
+  getMessagePropStatus,
+} from '../state/selectors/message';
+import { Deletes } from '../messageModifiers/Deletes';
+import { Reactions } from '../messageModifiers/Reactions';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -1238,7 +1246,7 @@ export class ConversationModel extends window.Backbone
     const isNewMessage = true;
     messagesAdded(
       this.id,
-      [message.getReduxData()],
+      [{ ...message.attributes }],
       isNewMessage,
       window.isActive()
     );
@@ -1560,7 +1568,7 @@ export class ConversationModel extends window.Backbone
       }
 
       const readMessages = messages.filter(
-        m => !m.hasErrors() && m.isIncoming()
+        m => !hasErrors(m.attributes) && isIncoming(m.attributes)
       );
       const receiptSpecs = readMessages.map(m => ({
         senderE164: m.get('source'),
@@ -1570,7 +1578,7 @@ export class ConversationModel extends window.Backbone
           uuid: m.get('sourceUuid'),
         }),
         timestamp: m.get('sent_at'),
-        hasErrors: m.hasErrors(),
+        hasErrors: hasErrors(m.attributes),
       }));
 
       if (isLocalAction) {
@@ -2324,27 +2332,6 @@ export class ConversationModel extends window.Backbone
     return this.get('messageRequestResponseType') || 0;
   }
 
-  isMissingRequiredProfileSharing(): boolean {
-    const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
-      'desktop.mandatoryProfileSharing'
-    );
-
-    if (!mandatoryProfileSharingEnabled) {
-      return false;
-    }
-
-    const hasNoMessages = (this.get('messageCount') || 0) === 0;
-    if (hasNoMessages) {
-      return false;
-    }
-
-    if (!isGroupV1(this.attributes) && !isDirectConversation(this.attributes)) {
-      return false;
-    }
-
-    return !this.get('profileSharing');
-  }
-
   getAboutText(): string | undefined {
     if (!this.get('about')) {
       return undefined;
@@ -3006,9 +2993,9 @@ export class ConversationModel extends window.Backbone
   }
 
   async getQuoteAttachment(
-    attachments: Array<WhatIsThis>,
-    preview: Array<WhatIsThis>,
-    sticker: WhatIsThis
+    attachments?: Array<WhatIsThis>,
+    preview?: Array<WhatIsThis>,
+    sticker?: WhatIsThis
   ): Promise<WhatIsThis> {
     if (attachments && attachments.length) {
       const validAttachments = filter(
@@ -3104,8 +3091,8 @@ export class ConversationModel extends window.Backbone
       bodyRanges: quotedMessage.get('bodyRanges'),
       id: quotedMessage.get('sent_at'),
       text: body || embeddedContactName,
-      isViewOnce: quotedMessage.isTapToView(),
-      attachments: quotedMessage.isTapToView()
+      isViewOnce: isTapToView(quotedMessage.attributes),
+      attachments: isTapToView(quotedMessage.attributes)
         ? [{ contentType: 'image/jpeg', fileName: null }]
         : await this.getQuoteAttachment(attachments, preview, sticker),
     };
@@ -3166,7 +3153,7 @@ export class ConversationModel extends window.Backbone
       throw new Error('Cannot send DOE for a message older than three hours');
     }
 
-    const deleteModel = window.Whisper.Deletes.add({
+    const deleteModel = Deletes.getSingleton().add({
       targetSentTimestamp: targetTimestamp,
       fromId: window.ConversationController.getOurConversationId(),
     });
@@ -3264,7 +3251,7 @@ export class ConversationModel extends window.Backbone
         // send error.
         throw new Error('No successful delivery for delete for everyone');
       }
-      window.Whisper.Deletes.onDelete(deleteModel);
+      Deletes.getSingleton().onDelete(deleteModel);
 
       return result;
     }).catch(error => {
@@ -3289,7 +3276,7 @@ export class ConversationModel extends window.Backbone
     const timestamp = Date.now();
     const outgoingReaction = { ...reaction, ...target };
 
-    const reactionModel = window.Whisper.Reactions.add({
+    const reactionModel = Reactions.getSingleton().add({
       ...outgoingReaction,
       fromId: window.ConversationController.getOurConversationId(),
       timestamp,
@@ -3297,7 +3284,7 @@ export class ConversationModel extends window.Backbone
     });
 
     // Apply reaction optimistically
-    const oldReaction = await window.Whisper.Reactions.onReaction(
+    const oldReaction = await Reactions.getSingleton().onReaction(
       reactionModel
     );
 
@@ -3367,7 +3354,7 @@ export class ConversationModel extends window.Backbone
           timestamp,
         });
         const result = await message.sendSyncMessageOnly(dataMessage);
-        window.Whisper.Reactions.onReaction(reactionModel);
+        Reactions.getSingleton().onReaction(reactionModel);
         return result;
       }
 
@@ -3426,7 +3413,7 @@ export class ConversationModel extends window.Backbone
       let reverseReaction: ReactionModelType;
       if (oldReaction) {
         // Either restore old reaction
-        reverseReaction = window.Whisper.Reactions.add({
+        reverseReaction = Reactions.getSingleton().add({
           ...oldReaction,
           fromId: window.ConversationController.getOurConversationId(),
           timestamp,
@@ -3437,7 +3424,7 @@ export class ConversationModel extends window.Backbone
         reverseReaction.set('remove', !reverseReaction.get('remove'));
       }
 
-      window.Whisper.Reactions.onReaction(reverseReaction);
+      Reactions.getSingleton().onReaction(reverseReaction);
     });
   }
 
@@ -3762,7 +3749,12 @@ export class ConversationModel extends window.Backbone
       lastMessage:
         (previewMessage ? previewMessage.getNotificationText() : '') || '',
       lastMessageStatus:
-        (previewMessage ? previewMessage.getMessagePropStatus() : null) || null,
+        (previewMessage
+          ? getMessagePropStatus(
+              previewMessage.attributes,
+              window.storage.get('read-receipt-setting', false)
+            )
+          : null) || null,
       timestamp,
       lastMessageDeletedForEveryone: previewMessage
         ? previewMessage.get('deletedForEveryone')
@@ -5024,7 +5016,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    if (!message.isIncoming() && !reaction) {
+    if (!isIncoming(message.attributes) && !reaction) {
       return;
     }
 

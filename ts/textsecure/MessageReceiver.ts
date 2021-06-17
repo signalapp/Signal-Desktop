@@ -2489,10 +2489,14 @@ class MessageReceiverInner extends EventTarget {
   async downloadAttachment(
     attachment: AttachmentPointerClass
   ): Promise<DownloadAttachmentType> {
-    const encrypted = await this.server.getAttachment(
-      attachment.cdnId || attachment.cdnKey,
-      attachment.cdnNumber || 0
-    );
+    const cdnId = attachment.cdnId || attachment.cdnKey;
+    const { cdnNumber } = attachment;
+
+    if (!cdnId) {
+      throw new Error('downloadAttachment: Attachment was missing cdnId!');
+    }
+
+    const encrypted = await this.server.getAttachment(cdnId, cdnNumber);
     const { key, digest, size } = attachment;
 
     if (!digest) {

@@ -3061,7 +3061,7 @@ function saveMessageSync(
     isErased: isErased ? 1 : 0,
     isViewOnce: isViewOnce ? 1 : 0,
     received_at: received_at || null,
-    schemaVersion,
+    schemaVersion: schemaVersion || 0,
     serverGuid: serverGuid || null,
     sent_at: sent_at || null,
     source: source || null,

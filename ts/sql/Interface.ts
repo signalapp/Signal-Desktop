@@ -16,12 +16,25 @@ import { StoredJob } from '../jobs/types';
 import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 import { StorageAccessType } from '../types/Storage.d';
+import { AttachmentType } from '../types/Attachment';
+
+export type AttachmentDownloadJobTypeType =
+  | 'long-message'
+  | 'attachment'
+  | 'preview'
+  | 'contact'
+  | 'quote'
+  | 'sticker';
 
 export type AttachmentDownloadJobType = {
-  id: string;
-  timestamp: number;
-  pending: number;
+  attachment: AttachmentType;
   attempts: number;
+  id: string;
+  index: number;
+  messageId: string;
+  pending: number;
+  timestamp: number;
+  type: AttachmentDownloadJobTypeType;
 };
 export type MessageMetricsType = {
   id: string;

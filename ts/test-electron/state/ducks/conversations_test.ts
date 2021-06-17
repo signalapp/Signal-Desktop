@@ -292,6 +292,7 @@ describe('both/state/ducks/conversations', () => {
 
   describe('reducer', () => {
     const time = Date.now();
+    const previousTime = time - 1;
     const conversationId = 'conversation-guid-1';
     const messageId = 'message-guid-1';
     const messageIdTwo = 'message-guid-2';
@@ -299,14 +300,15 @@ describe('both/state/ducks/conversations', () => {
 
     function getDefaultMessage(id: string): MessageType {
       return {
-        id,
+        attachments: [],
         conversationId: 'conversationId',
+        id,
+        received_at: previousTime,
+        sent_at: previousTime,
         source: 'source',
         sourceUuid: 'sourceUuid',
+        timestamp: previousTime,
         type: 'incoming' as const,
-        received_at: Date.now(),
-        attachments: [],
-        sticker: {},
         unread: false,
       };
     }
@@ -953,6 +955,7 @@ describe('both/state/ducks/conversations', () => {
             [messageId]: {
               ...getDefaultMessage(messageId),
               received_at: time,
+              sent_at: time,
             },
           },
           messagesByConversation: {
@@ -972,6 +975,7 @@ describe('both/state/ducks/conversations', () => {
             [messageId]: {
               ...getDefaultMessage(messageId),
               received_at: time,
+              sent_at: time,
             },
           },
           messagesByConversation: {
@@ -983,6 +987,7 @@ describe('both/state/ducks/conversations', () => {
                 newest: {
                   id: messageId,
                   received_at: time,
+                  sent_at: time,
                 },
               },
             },
@@ -1060,6 +1065,7 @@ describe('both/state/ducks/conversations', () => {
             [messageId]: {
               ...getDefaultMessage(messageId),
               received_at: time,
+              sent_at: time,
             },
           },
           messagesByConversation: {
@@ -1079,6 +1085,7 @@ describe('both/state/ducks/conversations', () => {
             [messageId]: {
               ...getDefaultMessage(messageId),
               received_at: time,
+              sent_at: time,
             },
           },
           messagesByConversation: {
@@ -1090,6 +1097,7 @@ describe('both/state/ducks/conversations', () => {
                 oldest: {
                   id: messageId,
                   received_at: time,
+                  sent_at: time,
                 },
               },
             },

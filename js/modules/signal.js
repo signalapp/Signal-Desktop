@@ -22,7 +22,6 @@ const Settings = require('./settings');
 const RemoteConfig = require('../../ts/RemoteConfig');
 const Util = require('../../ts/util');
 const LinkPreviews = require('./link_previews');
-const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
 const {
@@ -443,7 +442,6 @@ exports.setup = (options = {}) => {
   };
 
   return {
-    AttachmentDownloads,
     Backbone,
     Components,
     Crypto,

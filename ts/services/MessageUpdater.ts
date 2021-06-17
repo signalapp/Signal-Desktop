@@ -37,8 +37,8 @@ export function getExpiresAt(
     'expireTimer' | 'expirationStartTimestamp'
   >
 ): number | undefined {
-  const expireTimerMs = messageAttrs.expireTimer * 1000;
-  return messageAttrs.expirationStartTimestamp
-    ? messageAttrs.expirationStartTimestamp + expireTimerMs
+  const { expireTimer, expirationStartTimestamp } = messageAttrs;
+  return expirationStartTimestamp && expireTimer
+    ? expirationStartTimestamp + expireTimer * 1000
     : undefined;
 }

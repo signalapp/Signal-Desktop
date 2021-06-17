@@ -298,6 +298,7 @@ const actions = () => ({
   acknowledgeGroupMemberNameCollisions: action(
     'acknowledgeGroupMemberNameCollisions'
   ),
+  checkForAccount: action('checkForAccount'),
   clearChangedMessages: action('clearChangedMessages'),
   clearInvitedConversationsForNewlyCreatedGroup: action(
     'clearInvitedConversationsForNewlyCreatedGroup'
@@ -327,7 +328,9 @@ const actions = () => ({
   showVisualAttachment: action('showVisualAttachment'),
   downloadAttachment: action('downloadAttachment'),
   displayTapToViewMessage: action('displayTapToViewMessage'),
+  doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
 
+  onHeightChange: action('onHeightChange'),
   openLink: action('openLink'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showExpiredIncomingTapToViewToast: action(

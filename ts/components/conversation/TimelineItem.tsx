@@ -4,9 +4,9 @@
 import React from 'react';
 import { LocalizerType, ThemeType } from '../../types/Util';
 
+import { InteractionModeType } from '../../state/ducks/conversations';
 import {
   Message,
-  InteractionModeType,
   Props as AllMessageProps,
   PropsActions as MessageActionsType,
   PropsData as MessageProps,

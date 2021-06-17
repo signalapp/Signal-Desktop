@@ -19,7 +19,11 @@ import {
   ReactionAttributesType,
   ReactionModelType,
 } from './model-types.d';
-import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
+import {
+  ContactRecordIdentityState,
+  TextSecureType,
+  DownloadAttachmentType,
+} from './textsecure.d';
 import { Storage } from './textsecure/Storage';
 import {
   ChallengeHandler,
@@ -107,6 +111,7 @@ import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/conversation/DisappearingTimeDialog';
 import { MIMEType } from './types/MIME';
+import { AttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
 import { StartupQueue } from './util/StartupQueue';
@@ -222,16 +227,7 @@ declare global {
       getRegionCodeForNumber: (number: string) => string;
       format: (number: string, format: PhoneNumberFormat) => string;
     };
-    log: {
-      fatal: LoggerType;
-      info: LoggerType;
-      warn: LoggerType;
-      error: LoggerType;
-      debug: LoggerType;
-      trace: LoggerType;
-      fetch: () => Promise<string>;
-      publish: typeof uploadDebugLogs;
-    };
+    log: LoggerType;
     nodeSetImmediate: typeof setImmediate;
     normalizeUuids: (obj: any, paths: Array<string>, context: string) => void;
     onFullScreenChange: (fullScreen: boolean) => void;
@@ -275,14 +271,6 @@ declare global {
     };
     Signal: {
       Backbone: any;
-      AttachmentDownloads: {
-        addJob: <T = unknown>(
-          attachment: unknown,
-          options: unknown
-        ) => Promise<T>;
-        start: (options: WhatIsThis) => void;
-        stop: () => void;
-      };
       Crypto: typeof Crypto;
       Curve: typeof Curve;
       Data: typeof Data;
@@ -317,6 +305,9 @@ declare global {
         loadStickerData: (sticker: unknown) => WhatIsThis;
         readStickerData: (path: string) => Promise<ArrayBuffer>;
         upgradeMessageSchema: (attributes: unknown) => WhatIsThis;
+        processNewAttachment: (
+          attachment: DownloadAttachmentType
+        ) => Promise<AttachmentType>;
 
         copyIntoTempDirectory: any;
         deleteDraftFile: any;
@@ -545,13 +536,6 @@ declare global {
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
 
-    AccountCache: Record<string, boolean>;
-    AccountJobs: Record<string, Promise<void>>;
-
-    doesAccountCheckJobExist: (number: string) => boolean;
-    checkForSignalAccount: (number: string) => Promise<void>;
-    isSignalAccountCheckComplete: (number: string) => boolean;
-    hasSignalAccount: (number: string) => boolean;
     getServerTrustRoot: () => WhatIsThis;
     readyForUpdates: () => void;
     logAppLoadedEvent: (options: { processedCount?: number }) => void;
@@ -648,7 +632,18 @@ export class CanvasVideoRenderer {
   constructor(canvas: Ref<HTMLCanvasElement>);
 }
 
-export type LoggerType = (...args: Array<unknown>) => void;
+export type LoggerType = {
+  fatal: LogFunctionType;
+  info: LogFunctionType;
+  warn: LogFunctionType;
+  error: LogFunctionType;
+  debug: LogFunctionType;
+  trace: LogFunctionType;
+  fetch: () => Promise<string>;
+  publish: typeof uploadDebugLogs;
+};
+
+export type LogFunctionType = (...args: Array<unknown>) => void;
 
 export type WhisperType = {
   events: {
@@ -685,7 +680,6 @@ export type WhisperType = {
   ConversationUnarchivedToast: WhatIsThis;
   ConversationMarkedUnreadToast: WhatIsThis;
   WallClockListener: WhatIsThis;
-  MessageRequests: WhatIsThis;
   BannerView: any;
   RecorderView: any;
   GroupMemberList: any;
@@ -710,42 +704,6 @@ export type WhisperType = {
       event: string,
       callback: (id: string, messageId: string) => void
     ) => void;
-  };
-
-  DeliveryReceipts: {
-    add: (receipt: WhatIsThis) => void;
-    forMessage: (conversation: unknown, message: unknown) => Array<WhatIsThis>;
-    onReceipt: (receipt: WhatIsThis) => void;
-  };
-
-  ReadReceipts: {
-    add: (receipt: WhatIsThis) => WhatIsThis;
-    forMessage: (conversation: unknown, message: unknown) => Array<WhatIsThis>;
-    onReceipt: (receipt: WhatIsThis) => void;
-  };
-
-  ReadSyncs: {
-    add: (sync: WhatIsThis) => WhatIsThis;
-    forMessage: (message: unknown) => WhatIsThis;
-    onReceipt: (receipt: WhatIsThis) => WhatIsThis;
-  };
-
-  ViewSyncs: {
-    add: (sync: WhatIsThis) => WhatIsThis;
-    forMessage: (message: unknown) => Array<WhatIsThis>;
-    onSync: (sync: WhatIsThis) => WhatIsThis;
-  };
-
-  Reactions: {
-    forMessage: (message: unknown) => Array<ReactionModelType>;
-    add: (reaction: ReactionAttributesType) => ReactionModelType;
-    onReaction: (reactionModel: ReactionModelType) => ReactionAttributesType;
-  };
-
-  Deletes: {
-    add: (model: WhatIsThis) => WhatIsThis;
-    forMessage: (message: unknown) => Array<WhatIsThis>;
-    onDelete: (model: WhatIsThis) => void;
   };
 
   IdenticonSVGView: WhatIsThis;

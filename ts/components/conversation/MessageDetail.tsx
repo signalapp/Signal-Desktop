@@ -4,6 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import { noop } from 'lodash';
 
 import { GlobalAudioProvider } from '../GlobalAudioContext';
 import { Avatar } from '../Avatar';
@@ -55,11 +56,13 @@ export type Props = {
   i18n: LocalizerType;
 } & Pick<
   MessagePropsType,
+  | 'checkForAccount'
   | 'clearSelectedMessage'
   | 'deleteMessage'
   | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
   | 'downloadAttachment'
+  | 'doubleCheckMissingQuoteReference'
   | 'interactionMode'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
@@ -233,12 +236,14 @@ export class MessageDetail extends React.Component<Props> {
       receivedAt,
       sentAt,
 
+      checkForAccount,
       clearSelectedMessage,
       contactNameColor,
       deleteMessage,
       deleteMessageForEveryone,
       displayTapToViewMessage,
       downloadAttachment,
+      doubleCheckMissingQuoteReference,
       i18n,
       interactionMode,
       kickOffAttachmentDownload,
@@ -265,6 +270,7 @@ export class MessageDetail extends React.Component<Props> {
           <GlobalAudioProvider conversationId={message.conversationId}>
             <Message
               {...message}
+              checkForAccount={checkForAccount}
               clearSelectedMessage={clearSelectedMessage}
               contactNameColor={contactNameColor}
               deleteMessage={deleteMessage}
@@ -273,10 +279,14 @@ export class MessageDetail extends React.Component<Props> {
               disableScroll
               displayTapToViewMessage={displayTapToViewMessage}
               downloadAttachment={downloadAttachment}
+              doubleCheckMissingQuoteReference={
+                doubleCheckMissingQuoteReference
+              }
               i18n={i18n}
               interactionMode={interactionMode}
               kickOffAttachmentDownload={kickOffAttachmentDownload}
               markAttachmentAsCorrupted={markAttachmentAsCorrupted}
+              onHeightChange={noop}
               openConversation={openConversation}
               openLink={openLink}
               reactToMessage={reactToMessage}

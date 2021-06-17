@@ -8,11 +8,11 @@ import { ConversationModel } from '../models/conversations';
 import {
   GroupV2PendingMemberType,
   MessageModelCollectionType,
+  MessageAttributesType,
 } from '../model-types.d';
 import { LinkPreviewType } from '../types/message/LinkPreviews';
 import { MediaItemType } from '../components/LightboxGallery';
 import { MessageModel } from '../models/messages';
-import { MessageType } from '../state/ducks/conversations';
 import { assert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
@@ -24,6 +24,13 @@ import {
   isGroupV2,
   isMe,
 } from '../util/whatTypeOfConversation';
+import {
+  canReply,
+  getAttachmentsForMessage,
+  getPropsForQuote,
+  isOutgoing,
+  isTapToView,
+} from '../state/selectors/message';
 
 type GetLinkPreviewImageResult = {
   data: ArrayBuffer;
@@ -910,9 +917,9 @@ Whisper.ConversationView = Whisper.View.extend({
         const isNewMessage = false;
         messagesAdded(
           id,
-          cleaned.map((messageModel: MessageModel) =>
-            messageModel.getReduxData()
-          ),
+          cleaned.map((messageModel: MessageModel) => ({
+            ...messageModel.attributes,
+          })),
           isNewMessage,
           window.isActive()
         );
@@ -965,9 +972,9 @@ Whisper.ConversationView = Whisper.View.extend({
         const isNewMessage = false;
         messagesAdded(
           id,
-          cleaned.map((messageModel: MessageModel) =>
-            messageModel.getReduxData()
-          ),
+          cleaned.map((messageModel: MessageModel) => ({
+            ...messageModel.attributes,
+          })),
           isNewMessage,
           window.isActive()
         );
@@ -1210,9 +1217,9 @@ Whisper.ConversationView = Whisper.View.extend({
 
       messagesReset(
         conversationId,
-        cleaned.map((messageModel: MessageModel) =>
-          messageModel.getReduxData()
-        ),
+        cleaned.map((messageModel: MessageModel) => ({
+          ...messageModel.attributes,
+        })),
         metrics,
         scrollToMessageId
       );
@@ -1294,9 +1301,9 @@ Whisper.ConversationView = Whisper.View.extend({
       const unboundedFetch = true;
       messagesReset(
         conversationId,
-        cleaned.map((messageModel: MessageModel) =>
-          messageModel.getReduxData()
-        ),
+        cleaned.map((messageModel: MessageModel) => ({
+          ...messageModel.attributes,
+        })),
         metrics,
         scrollToMessageId,
         unboundedFetch
@@ -2327,7 +2334,7 @@ Whisper.ConversationView = Whisper.View.extend({
       throw new Error(`showForwardMessageModal: Message ${messageId} missing!`);
     }
 
-    const attachments = message.getAttachmentsForMessage();
+    const attachments = getAttachmentsForMessage(message.attributes);
     this.forwardMessageModal = new Whisper.ReactWrapperView({
       JSX: window.Signal.State.Roots.createForwardMessageModal(
         window.reduxStore,
@@ -2557,7 +2564,10 @@ Whisper.ConversationView = Whisper.View.extend({
         const message = rawMedia[i];
         const { schemaVersion } = message;
 
-        if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
+        if (
+          schemaVersion &&
+          schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY
+        ) {
           // Yep, we really do want to wait for each of these
           // eslint-disable-next-line no-await-in-loop
           rawMedia[i] = await upgradeMessageSchema(message);
@@ -2871,7 +2881,7 @@ Whisper.ConversationView = Whisper.View.extend({
       throw new Error(`displayTapToViewMessage: Message ${messageId} missing!`);
     }
 
-    if (!message.isTapToView()) {
+    if (!isTapToView(message.attributes)) {
       throw new Error(
         `displayTapToViewMessage: Message ${message.idForLogging()} is not a tap to view message`
       );
@@ -2883,7 +2893,7 @@ Whisper.ConversationView = Whisper.View.extend({
       );
     }
 
-    const firstAttachment = message.get('attachments')[0];
+    const firstAttachment = (message.get('attachments') || [])[0];
     if (!firstAttachment || !firstAttachment.path) {
       throw new Error(
         `displayTapToViewMessage: Message ${message.idForLogging()} had no first attachment with path`
@@ -2955,7 +2965,7 @@ Whisper.ConversationView = Whisper.View.extend({
           Message: Whisper.Message,
         });
         message.cleanup();
-        if (message.isOutgoing()) {
+        if (isOutgoing(message.attributes)) {
           this.model.decrementSentMessageCount();
         } else {
           this.model.decrementMessageCount();
@@ -3531,7 +3541,7 @@ Whisper.ConversationView = Whisper.View.extend({
   async loadRecentMediaItems(limit: number): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
-    const messages: Array<MessageType> = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
+    const messages: Array<MessageAttributesType> = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
       model.id,
       {
         limit,
@@ -3543,7 +3553,7 @@ Whisper.ConversationView = Whisper.View.extend({
       .reduce(
         (acc, message) => [
           ...acc,
-          ...message.attachments.map(
+          ...(message.attachments || []).map(
             (attachment: AttachmentType, index: number): MediaItemType => {
               const { thumbnail } = attachment;
 
@@ -3792,7 +3802,12 @@ Whisper.ConversationView = Whisper.View.extend({
         })
       : undefined;
 
-    if (message && !message.canReply()) {
+    if (
+      message &&
+      !canReply(message.attributes, (id?: string) =>
+        message.findAndFormatContact(id)
+      )
+    ) {
       return;
     }
 
@@ -3855,7 +3870,11 @@ Whisper.ConversationView = Whisper.View.extend({
     message.quotedMessage = this.quotedMessage;
     this.quoteHolder = message;
 
-    const props = message.getPropsForQuote();
+    const props = getPropsForQuote(
+      message.attributes,
+      (id?: string) => message.findAndFormatContact(id),
+      window.ConversationController.getOurConversationIdOrThrow()
+    );
 
     const contact = this.quotedMessage.getContact();
 

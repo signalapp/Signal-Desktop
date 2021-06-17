@@ -5,6 +5,12 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
+import {
+  isEndSession,
+  isGroupUpdate,
+  isIncoming,
+  isOutgoing,
+} from '../../state/selectors/message';
 
 describe('Message', () => {
   const i18n = setupI18n('en', enMessages);
@@ -122,9 +128,9 @@ describe('Message', () => {
     it('checks if is incoming message', () => {
       const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
-      assert.notOk(message.isIncoming());
+      assert.notOk(isIncoming(message.attributes));
       message = messages.add({ type: 'incoming' });
-      assert.ok(message.isIncoming());
+      assert.ok(isIncoming(message.attributes));
     });
   });
 
@@ -132,9 +138,9 @@ describe('Message', () => {
     it('checks if is outgoing message', () => {
       const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
-      assert.ok(message.isOutgoing());
+      assert.ok(isOutgoing(message.attributes));
       message = messages.add({ type: 'incoming' });
-      assert.notOk(message.isOutgoing());
+      assert.notOk(isOutgoing(message.attributes));
     });
   });
 
@@ -142,10 +148,10 @@ describe('Message', () => {
     it('checks if is group update', () => {
       const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
-      assert.notOk(message.isGroupUpdate());
+      assert.notOk(isGroupUpdate(message.attributes));
 
       message = messages.add({ group_update: true });
-      assert.ok(message.isGroupUpdate());
+      assert.ok(isGroupUpdate(message.attributes));
     });
   });
 
@@ -553,10 +559,10 @@ describe('Message', () => {
     it('checks if it is end of the session', () => {
       const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
-      assert.notOk(message.isEndSession());
+      assert.notOk(isEndSession(message.attributes));
 
       message = messages.add({ type: 'incoming', source, flags: true });
-      assert.ok(message.isEndSession());
+      assert.ok(isEndSession(message.attributes));
     });
   });
 });

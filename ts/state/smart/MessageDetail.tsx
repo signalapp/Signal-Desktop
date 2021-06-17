@@ -33,10 +33,12 @@ export type OwnProps = {
 } & Pick<
   MessageDetailProps,
   | 'clearSelectedMessage'
+  | 'checkForAccount'
   | 'deleteMessage'
   | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
   | 'downloadAttachment'
+  | 'doubleCheckMissingQuoteReference'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
   | 'openConversation'
@@ -66,11 +68,13 @@ const mapStateToProps = (
     sendAnyway,
     showSafetyNumber,
 
+    checkForAccount,
     clearSelectedMessage,
     deleteMessage,
     deleteMessageForEveryone,
     displayTapToViewMessage,
     downloadAttachment,
+    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     openConversation,
@@ -108,11 +112,13 @@ const mapStateToProps = (
     sendAnyway,
     showSafetyNumber,
 
+    checkForAccount,
     clearSelectedMessage,
     deleteMessage,
     deleteMessageForEveryone,
     displayTapToViewMessage,
     downloadAttachment,
+    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     openConversation,
