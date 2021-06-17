@@ -30,3 +30,37 @@ story.add('Long', () => (
     })}
   />
 ));
+
+story.add('With newlines', () => (
+  <GroupDescription
+    {...createProps({
+      text: 'This is long\n\nSo many lines\n\nToo many lines?',
+    })}
+  />
+));
+
+story.add('With emoji', () => (
+  <GroupDescription
+    {...createProps({
+      text: '🍒🍩🌭',
+    })}
+  />
+));
+
+story.add('With link', () => (
+  <GroupDescription
+    {...createProps({
+      text:
+        'I love https://example.com and http://example.com and example.com, but not https://user:bar@example.com',
+    })}
+  />
+));
+
+story.add('Kitchen sink', () => (
+  <GroupDescription
+    {...createProps({
+      text:
+        '🍒 https://example.com this is a long thing\nhttps://example.com on another line\nhttps://example.com',
+    })}
+  />
+));

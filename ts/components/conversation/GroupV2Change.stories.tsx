@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable-next-line max-classes-per-file */
@@ -1368,7 +1368,7 @@ storiesOf('Components/Conversation/GroupV2Change', module)
               {
                 type: 'description',
                 description:
-                  'This is a long description.\n\nWe need a dialog to view it all!',
+                  'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
               },
             ],
           },
@@ -1381,7 +1381,7 @@ storiesOf('Components/Conversation/GroupV2Change', module)
               {
                 type: 'description',
                 description:
-                  'This is a long description.\n\nWe need a dialog to view it all!',
+                  'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
               },
             ],
           },
@@ -1393,7 +1393,7 @@ storiesOf('Components/Conversation/GroupV2Change', module)
               {
                 type: 'description',
                 description:
-                  'This is a long description.\n\nWe need a dialog to view it all!',
+                  'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
               },
             ],
           },

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { ReactElement, useState } from 'react';
@@ -6,7 +6,7 @@ import React, { ReactElement, useState } from 'react';
 import { ReplacementValuesType } from '../../types/I18N';
 import { FullJSXType, Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
-import { AddNewLines } from './AddNewLines';
+import { GroupDescriptionText } from '../GroupDescriptionText';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 
 import { GroupV2ChangeType, GroupV2DescriptionChangeType } from '../../groups';
@@ -55,10 +55,10 @@ export function GroupV2Change(props: PropsType): ReactElement {
     setIsGroupDescriptionDialogOpen,
   ] = useState<boolean>(false);
 
-  const groupDescriptionChange = change.details.find(
+  const newGroupDescription = change.details.find(
     (item): item is GroupV2DescriptionChangeType =>
       Boolean(item.type === 'description' && item.description)
-  );
+  )?.description;
 
   return (
     <div className="module-group-v2-change">
@@ -75,7 +75,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
         // eslint-disable-next-line react/no-array-index-key
         <div key={index}>{item}</div>
       ))}
-      {groupDescriptionChange ? (
+      {newGroupDescription ? (
         <div className="module-group-v2-change--button-container">
           <Button
             size={ButtonSize.Small}
@@ -86,14 +86,14 @@ export function GroupV2Change(props: PropsType): ReactElement {
           </Button>
         </div>
       ) : null}
-      {groupDescriptionChange && isGroupDescriptionDialogOpen ? (
+      {newGroupDescription && isGroupDescriptionDialogOpen ? (
         <Modal
           hasXButton
           i18n={i18n}
           title={groupName}
           onClose={() => setIsGroupDescriptionDialogOpen(false)}
         >
-          <AddNewLines text={groupDescriptionChange.description} />
+          <GroupDescriptionText text={newGroupDescription} />
         </Modal>
       ) : null}
     </div>
