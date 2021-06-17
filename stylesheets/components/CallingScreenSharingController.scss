@@ -15,7 +15,14 @@
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;
-    width: 212px;
+    width: 350px;
+  }
+
+  &__button {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__buttons {
