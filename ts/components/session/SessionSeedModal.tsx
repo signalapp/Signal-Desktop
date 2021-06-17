@@ -63,19 +63,11 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     return (
       <>
         {!loading && (
-          // <SessionModal
-          //   title={i18n('showRecoveryPhrase')}
-          //   onClose={onClose}
-          //   theme={this.props.theme}
-          // >
-
-            <SessionWrapperModal
+          <SessionWrapperModal
             title={i18n('showRecoveryPhrase')}
             onClose={onClose}
             theme={this.props.theme}
-            >
-
-
+          >
             <div className="spacer-sm" />
 
             {hasPassword && !passwordValid ? (
@@ -83,8 +75,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
             ) : (
               <>{this.renderSeedView()}</>
             )}
-            </SessionWrapperModal>
-          // </SessionModal>
+          </SessionWrapperModal>
         )}
       </>
     );

@@ -12,8 +12,6 @@ const LinkPreviews = require('./link_previews');
 const { Message } = require('../../ts/components/conversation/Message');
 
 // Components
-const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
-const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const { SessionSeedModal } = require('../../ts/components/session/SessionSeedModal');
 const { SessionNicknameDialog } = require('../../ts/components/session/SessionNicknameDialog');
 const { SessionIDResetDialog } = require('../../ts/components/session/SessionIDResetDialog');
@@ -140,8 +138,6 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
-    EditProfileDialog,
-    UserDetailsDialog,
     SessionInboxView,
     UpdateGroupNameDialog,
     UpdateGroupMembersDialog,

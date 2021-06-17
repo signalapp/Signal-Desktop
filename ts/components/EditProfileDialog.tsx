@@ -8,21 +8,17 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from './session/
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
 import { PillDivider } from './session/PillDivider';
-import { AttachmentUtils, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { SyncUtils, ToastUtils, UserUtils } from '../session/utils';
+import { DefaultTheme } from 'styled-components';
 import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 import { SessionSpinner } from './session/SessionSpinner';
 import { ConversationTypeEnum } from '../models/conversation';
 
 import { SessionWrapperModal } from './session/SessionWrapperModal';
-import { AttachmentUtil, } from '../util';
-import { LocalizerType } from '../types/Util';
+import { AttachmentUtil } from '../util';
 import { ConversationController } from '../session/conversations';
 
-
-
 interface Props {
-  i18n?: LocalizerType;
   profileName?: string;
   avatarPath?: string;
   pubkey?: string;
@@ -41,7 +37,6 @@ interface State {
 
 export class EditProfileDialog extends React.Component<Props, State> {
   private readonly inputEl: any;
-  private conversationController = ConversationController.getInstance();
 
   constructor(props: any) {
     super(props);
@@ -66,13 +61,14 @@ export class EditProfileDialog extends React.Component<Props, State> {
     window.addEventListener('keyup', this.onKeyUp);
   }
 
-
-
-  async componentDidMount() {
+  public async componentDidMount() {
     const ourNumber = window.storage.get('primaryDevicePubKey');
-    const conversation = await this.conversationController.getOrCreateAndWait(ourNumber, ConversationTypeEnum.PRIVATE);
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      ourNumber,
+      ConversationTypeEnum.PRIVATE
+    );
 
-    const readFile = (attachment: any) =>
+    const readFile = async (attachment: any) =>
       new Promise((resolve, reject) => {
         const fileReader = new FileReader();
         fileReader.onload = (e: any) => {
@@ -96,9 +92,8 @@ export class EditProfileDialog extends React.Component<Props, State> {
       ...this.state,
       profileName: profile.profileName,
       avatar: avatarPath || '',
-      setProfileName: profile.profileName
-    })
-
+      setProfileName: profile.profileName,
+    });
   }
 
   public render() {
@@ -114,19 +109,18 @@ export class EditProfileDialog extends React.Component<Props, State> {
     const backButton =
       viewEdit || viewQR
         ? [
-          {
-            iconType: SessionIconType.Chevron,
-            iconRotation: 90,
-            onClick: () => {
-              this.setState({ mode: 'default' });
+            {
+              iconType: SessionIconType.Chevron,
+              iconRotation: 90,
+              onClick: () => {
+                this.setState({ mode: 'default' });
+              },
             },
-          },
-        ]
+          ]
         : undefined;
 
     return (
       <div className="edit-profile-dialog">
-
         <SessionWrapperModal
           title={i18n('editProfileModalTitle')}
           onClose={this.closeDialog}
@@ -142,7 +136,9 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
           <div className="session-id-section">
             <PillDivider text={window.i18n('yourSessionID')} />
-            <p className={classNames('text-selectable', 'session-id-section-display')}>{sessionID}</p>
+            <p className={classNames('text-selectable', 'session-id-section-display')}>
+              {sessionID}
+            </p>
 
             <div className="spacer-lg" />
             <SessionSpinner loading={this.state.loading} />
@@ -174,8 +170,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
       </div>
     );
   }
-
-
 
   private renderProfileHeader() {
     return (
@@ -324,7 +318,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
   /**
    * Tidy the profile name input text and save the new profile name and avatar
-   * @returns 
    */
   private onClickOK() {
     const newName = this.state.profileName ? this.state.profileName.trim() : '';
@@ -335,9 +328,9 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
     const avatar =
       this.inputEl &&
-        this.inputEl.current &&
-        this.inputEl.current.files &&
-        this.inputEl.current.files.length > 0
+      this.inputEl.current &&
+      this.inputEl.current.files &&
+      this.inputEl.current.files.length > 0
         ? this.inputEl.current.files[0]
         : null;
 
@@ -364,8 +357,11 @@ export class EditProfileDialog extends React.Component<Props, State> {
   }
 
   private async commitProfileEdits(newName: string, avatar: any) {
-    let ourNumber = window.storage.get('primaryDevicePubKey');
-    const conversation = await this.conversationController.getOrCreateAndWait(ourNumber, ConversationTypeEnum.PRIVATE);
+    const ourNumber = window.storage.get('primaryDevicePubKey');
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      ourNumber,
+      ConversationTypeEnum.PRIVATE
+    );
 
     let newAvatarPath = '';
     let url: any = null;
@@ -375,7 +371,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
       // Ensure that this file is either small enough or is resized to meet our
       //   requirements for attachments
       try {
-
         const withBlob = await AttachmentUtil.autoScale(
           {
             contentType: avatar.type,
@@ -388,16 +383,14 @@ export class EditProfileDialog extends React.Component<Props, State> {
             maxSize: 1000 * 1024,
           }
         );
-        const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
-          withBlob.file
-        );
+        const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(withBlob.file);
 
         // For simplicity we use the same attachment pointer that would send to
         // others, which means we need to wait for the database response.
         // To avoid the wait, we create a temporary url for the local image
         // and use it until we the the response from the server
         const tempUrl = window.URL.createObjectURL(avatar);
-        conversation.setLokiProfile({ displayName: newName });
+        await conversation.setLokiProfile({ displayName: newName });
         conversation.set('avatar', tempUrl);
 
         // Encrypt with a new key every time
@@ -407,32 +400,34 @@ export class EditProfileDialog extends React.Component<Props, State> {
           profileKey
         );
 
-        const avatarPointer = await AttachmentUtils.uploadAvatarV1({
-          ...dataResized,
-          data: encryptedData,
-          size: encryptedData.byteLength,
-        });
+        throw new Error('uploadAvatarV1 to move to v2');
 
-        url = avatarPointer ? avatarPointer.url : null;
-        window.storage.put('profileKey', profileKey);
-        conversation.set('avatarPointer', url);
+        // const avatarPointer = await AttachmentUtils.uploadAvatarV1({
+        //   ...dataResized,
+        //   data: encryptedData,
+        //   size: encryptedData.byteLength,
+        // });
 
-        const upgraded = await window.Signal.Migrations.processNewAttachment({
-          isRaw: true,
-          data: data.data,
-          url,
-        });
-        newAvatarPath = upgraded.path;
-        // Replace our temporary image with the attachment pointer from the server:
-        conversation.set('avatar', null);
-        conversation.setLokiProfile({
-          displayName: newName,
-          avatar: newAvatarPath,
-        });
+        // url = avatarPointer ? avatarPointer.url : null;
+        // window.storage.put('profileKey', profileKey);
+        // conversation.set('avatarPointer', url);
 
-        await conversation.commit();
-        UserUtils.setLastProfileUpdateTimestamp(Date.now());
-        await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+        // const upgraded = await window.Signal.Migrations.processNewAttachment({
+        //   isRaw: true,
+        //   data: data.data,
+        //   url,
+        // });
+        // newAvatarPath = upgraded.path;
+        // // Replace our temporary image with the attachment pointer from the server:
+        // conversation.set('avatar', null);
+        // await conversation.setLokiProfile({
+        //   displayName: newName,
+        //   avatar: newAvatarPath,
+        // });
+
+        // await conversation.commit();
+        // UserUtils.setLastProfileUpdateTimestamp(Date.now());
+        // await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
       } catch (error) {
         window.log.error(
           'showEditProfileDialog Error ensuring that image is properly sized:',
@@ -441,7 +436,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
       }
     } else {
       // do not update the avatar if it did not change
-      conversation.setLokiProfile({
+      await conversation.setLokiProfile({
         displayName: newName,
       });
       // might be good to not trigger a sync if the name did not change
@@ -450,15 +445,9 @@ export class EditProfileDialog extends React.Component<Props, State> {
       await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
     }
 
-    // inform all your registered public servers
-    // could put load on all the servers
-    // if they just keep changing their names without sending messages
-    // so we could disable this here
-    // or least it enable for the quickest response
-    window.lokiPublicChatAPI.setProfileName(newName);
-
     if (avatar) {
-        this.conversationController.getConversations()
+      ConversationController.getInstance()
+        .getConversations()
         .filter(convo => convo.isPublic())
         .forEach(convo => convo.trigger('ourAvatarChanged', { url, profileKey }));
     }

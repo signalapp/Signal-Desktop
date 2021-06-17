@@ -39,7 +39,7 @@ const SessionNicknameInner = (props: Props) => {
    */
   const saveNickname = async () => {
     if (!conversationId) {
-      throw "Cant save withou conversation id"
+      throw 'Cant save withou conversation id';
       // return;
     }
     const conversation = ConversationController.getInstance().get(conversationId);
@@ -60,36 +60,33 @@ const SessionNicknameInner = (props: Props) => {
     // >
 
     // TODO: Implement showHeader option for modal
-      <SessionWrapperModal
-        title={window.i18n('changeNickname')}
-        onClose={onClickClose}
-        showExitIcon={false}
-        // showHeader={true}
-        theme={theme}
-      >
+    <SessionWrapperModal
+      title={window.i18n('changeNickname')}
+      onClose={onClickClose}
+      showExitIcon={false}
+      showHeader={true}
+      theme={theme}
+    >
+      <div className="session-modal__centered">
+        <span className="subtle">{window.i18n('changeNicknameMessage')}</span>
+        <div className="spacer-lg" />
+      </div>
 
-        <div className="session-modal__centered">
-          <span className="subtle">{window.i18n('changeNicknameMessage')}</span>
-          <div className="spacer-lg" />
-        </div>
+      <input
+        autoFocus={true}
+        type="nickname"
+        id="nickname-modal-input"
+        placeholder={window.i18n('nicknamePlaceholder')}
+        onKeyUp={e => {
+          void onNicknameInput(_.cloneDeep(e));
+        }}
+      />
 
-        <input
-          autoFocus
-          type="nickname"
-          id="nickname-modal-input"
-          placeholder={window.i18n('nicknamePlaceholder')}
-          onKeyUp={e => {
-            void onNicknameInput(_.cloneDeep(e));
-          }}
-        />
-
-        <div className="session-modal__button-group">
-          <SessionButton text={window.i18n('ok')} onClick={saveNickname} />
-          <SessionButton text={window.i18n('cancel')} onClick={onClickClose} />
-        </div>
-      </SessionWrapperModal>
-
-
+      <div className="session-modal__button-group">
+        <SessionButton text={window.i18n('ok')} onClick={saveNickname} />
+        <SessionButton text={window.i18n('cancel')} onClick={onClickClose} />
+      </div>
+    </SessionWrapperModal>
   );
 };
 

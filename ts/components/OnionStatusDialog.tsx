@@ -4,19 +4,20 @@ import _ from 'lodash';
 
 import { getTheme } from '../state/selectors/theme';
 
-import electron from 'electron';
+import Electron from 'electron';
+const { shell } = Electron;
+
 import { useSelector } from 'react-redux';
 import { StateType } from '../state/reducer';
 import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
-const { shell } = electron;
 
 import { SessionWrapperModal } from '../components/session/SessionWrapperModal';
-import { Snode } from '../session/onions';
 
 import ip2country from 'ip2country';
 import countryLookup from 'country-code-lookup';
 import { useTheme } from 'styled-components';
 import { useNetwork } from '../hooks/useNetwork';
+import { Snode } from '../data/data';
 
 export type OnionPathModalType = {
   onConfirm?: () => void;
@@ -36,7 +37,7 @@ const OnionPathModalInner = (props: any) => {
   const onionNodes = useSelector((state: StateType) => state.onionPaths.snodePath);
   const confirmModalState = useSelector((state: StateType) => state);
   console.log('onion path: ', confirmModalState);
-  const onionPath = onionNodes.path;
+  const onionPath = onionNodes;
   // including the device and destination in calculation
   const glowDuration = onionPath.length + 2;
 
@@ -44,7 +45,7 @@ const OnionPathModalInner = (props: any) => {
     {
       label: window.i18n('device'),
     },
-    ...onionNodes.path,
+    ...onionNodes,
     ,
     {
       label: window.i18n('destination'),
@@ -126,23 +127,24 @@ export const ModalStatusLight = (props: StatusLightType) => {
   );
 };
 
-
 /**
  * A status light specifically for the action panel. Color is based on aggregate node states instead of individual onion node state
  */
-export const ActionPanelOnionStatusLight = (props: { isSelected: boolean, handleClick: () => void }) => {
+export const ActionPanelOnionStatusLight = (props: {
+  isSelected: boolean;
+  handleClick: () => void;
+}) => {
   const { isSelected, handleClick } = props;
 
   let iconColor;
   const theme = useTheme();
-  const firstOnionPath = useSelector((state: StateType) => state.onionPaths.snodePath.path);
+  const firstOnionPath = useSelector((state: StateType) => state.onionPaths.snodePath);
   const hasOnionPath = firstOnionPath.length > 2;
 
   // Set icon color based on result
   const red = theme.colors.destructive;
   const green = theme.colors.accent;
   const orange = theme.colors.warning;
-
 
   iconColor = hasOnionPath ? theme.colors.accent : theme.colors.destructive;
   const onionState = useSelector((state: StateType) => state.onionPaths);
@@ -153,21 +155,23 @@ export const ActionPanelOnionStatusLight = (props: { isSelected: boolean, handle
     iconColor = red;
   } else {
     const onionSnodePath = onionState.snodePath;
-    if (onionState && onionSnodePath && onionSnodePath.path.length > 0) {
-      let onionNodeCount = onionSnodePath.path.length;
+    if (onionState && onionSnodePath && onionSnodePath.length > 0) {
+      let onionNodeCount = onionSnodePath.length;
       iconColor = onionNodeCount > 2 ? green : onionNodeCount > 1 ? orange : red;
     }
   }
 
-  return <SessionIconButton
-    iconSize={SessionIconSize.Medium}
-    iconType={SessionIconType.Circle}
-    iconColor={iconColor}
-    onClick={handleClick}
-    isSelected={isSelected}
-    theme={theme}
-  />
-}
+  return (
+    <SessionIconButton
+      iconSize={SessionIconSize.Medium}
+      iconType={SessionIconType.Circle}
+      iconColor={iconColor}
+      onClick={handleClick}
+      isSelected={isSelected}
+      theme={theme}
+    />
+  );
+};
 
 export const OnionPathModal = (props: OnionPathModalType) => {
   const onConfirm = () => {

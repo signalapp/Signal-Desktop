@@ -10,6 +10,7 @@ import * as SNodeAPI from '../../../../session/snode_api';
 
 import chaiAsPromised from 'chai-as-promised';
 import * as OnionPaths from '../../../../session/onions/onionPath';
+import { Snode } from '../../../../data/data';
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -120,7 +121,7 @@ const fakeGuardNodes = fakeSnodePool.filter(m => fakeGuardNodesEd25519.includes(
 describe('OnionPaths', () => {
   // Initialize new stubbed cache
   const sandbox = sinon.createSandbox();
-  let oldOnionPaths: Array<OnionPaths.SnodePath>;
+  let oldOnionPaths: Array<Array<Snode>>;
 
   beforeEach(async () => {
     // Utils Stubs

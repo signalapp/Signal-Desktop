@@ -1,5 +1,4 @@
 import * as crypto from 'crypto';
-import { LocalizerType } from '../types/Util';
 
 const ERRORS = {
   TYPE: 'Password must be a string',
