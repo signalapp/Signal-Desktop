@@ -82,6 +82,18 @@ export interface ConversationType {
   avatarPath?: string; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
+
+  onClick?: () => void;
+  onBlockContact?: () => void;
+  onUnblockContact?: () => void;
+  onCopyPublicKey?: () => void;
+  onDeleteContact?: () => void;
+  onLeaveGroup?: () => void;
+  onDeleteMessages?: () => void;
+  onInviteContacts?: () => void;
+  onMarkAllRead?: () => void;
+  onClearNickname?: () => void;
+  onChangeNickname?: () => void;
 }
 
 export type ConversationLookupType = {

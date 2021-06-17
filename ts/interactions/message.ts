@@ -8,6 +8,9 @@ import { ConversationController } from '../session/conversations';
 import { PubKey } from '../session/types';
 import { ToastUtils } from '../session/utils';
 
+import { useDispatch } from 'react-redux';
+import { updateConfirmModal } from '../state/ducks/modalDialog';
+
 export function banUser(userToBan: string, conversation?: ConversationModel) {
   let pubKeyToBan: PubKey;
   try {
@@ -17,25 +20,31 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
     ToastUtils.pushUserBanFailure();
     return;
   }
-  window.confirmationDialog({
+
+  const dispatch = useDispatch();
+  const onClickClose = () => {
+    dispatch(updateConfirmModal(null));
+  };
+
+  const confirmationModalProps = {
     title: window.i18n('banUser'),
     message: window.i18n('banUserConfirm'),
-    resolve: async () => {
+    onClickClose,
+    onClickOk: async () => {
       if (!conversation) {
-        window?.log?.info('cannot ban user, the corresponding conversation was not found.');
+        window.log.info('cannot ban user, the corresponding conversation was not found.');
         return;
       }
       let success = false;
       if (isOpenGroupV2(conversation.id)) {
         const roomInfos = await getV2OpenGroupRoom(conversation.id);
         if (!roomInfos) {
-          window?.log?.warn('banUser room not found');
+          window.log.warn('banUser room not found');
         } else {
           success = await ApiV2.banUser(pubKeyToBan, _.pick(roomInfos, 'serverUrl', 'roomId'));
         }
       } else {
-        window?.log?.info('cannot ban user, the not an opengroupv2.');
-        return;
+        throw new Error('V1 opengroup are not supported');
       }
       if (success) {
         ToastUtils.pushUserBanSuccess();
@@ -43,7 +52,9 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
         ToastUtils.pushUserBanFailure();
       }
     },
-  });
+  };
+
+  dispatch(updateConfirmModal(confirmationModalProps));
 }
 
 /**
@@ -64,31 +75,40 @@ export function unbanUser(userToUnBan: string, conversation?: ConversationModel)
     ToastUtils.pushUserBanFailure();
     return;
   }
-  window.confirmationDialog({
-    title: window.i18n('unbanUser'),
-    message: window.i18n('unbanUserConfirm'),
-    resolve: async () => {
-      if (!conversation) {
-        // double check here. the convo might have been removed since the dialog was opened
-        window?.log?.info('cannot unban user, the corresponding conversation was not found.');
-        return;
-      }
-      let success = false;
-      if (isOpenGroupV2(conversation.id)) {
-        const roomInfos = await getV2OpenGroupRoom(conversation.id);
-        if (!roomInfos) {
-          window?.log?.warn('unbanUser room not found');
-        } else {
-          success = await ApiV2.unbanUser(pubKeyToUnban, _.pick(roomInfos, 'serverUrl', 'roomId'));
-        }
-      }
-      if (success) {
-        ToastUtils.pushUserUnbanSuccess();
+
+  const dispatch = useDispatch();
+  const onClickClose = () => dispatch(updateConfirmModal(null));
+
+  const onClickOk = async () => {
+    if (!conversation) {
+      // double check here. the convo might have been removed since the dialog was opened
+      window.log.info('cannot unban user, the corresponding conversation was not found.');
+      return;
+    }
+    let success = false;
+    if (isOpenGroupV2(conversation.id)) {
+      const roomInfos = await getV2OpenGroupRoom(conversation.id);
+      if (!roomInfos) {
+        window.log.warn('unbanUser room not found');
       } else {
-        ToastUtils.pushUserUnbanFailure();
+        success = await ApiV2.unbanUser(pubKeyToUnban, _.pick(roomInfos, 'serverUrl', 'roomId'));
       }
-    },
-  });
+    }
+    if (success) {
+      ToastUtils.pushUserUnbanSuccess();
+    } else {
+      ToastUtils.pushUserUnbanFailure();
+    }
+  };
+
+  dispatch(
+    updateConfirmModal({
+      title: window.i18n('unbanUser'),
+      message: window.i18n('unbanUserConfirm'),
+      onClickOk,
+      onClickClose,
+    })
+  );
 }
 
 export function copyBodyToClipboard(body?: string) {
@@ -145,11 +165,21 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
 }
 
 const acceptOpenGroupInvitationV2 = (completeUrl: string, roomName?: string) => {
-  window.confirmationDialog({
-    title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', roomName),
-    message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', roomName),
-    resolve: () => joinOpenGroupV2WithUIEvents(completeUrl, true, false),
-  });
+  const dispatch = useDispatch();
+
+  const onClickClose = () => {
+    dispatch(updateConfirmModal(null));
+  };
+
+  dispatch(
+    updateConfirmModal({
+      title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', roomName),
+      message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', roomName),
+      onClickOk: () => joinOpenGroupV2WithUIEvents(completeUrl, true, false),
+
+      onClickClose,
+    })
+  );
   // this function does not throw, and will showToasts if anything happens
 };
 

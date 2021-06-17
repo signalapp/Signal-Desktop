@@ -476,6 +476,7 @@ label {
     }
     &__close > div {
       float: left;
+      margin: 0px;
     }
     &__icons > div {
       float: right;
@@ -1197,6 +1198,35 @@ input {
     margin: auto auto;
   }
 }
+
+
+.onion__description {
+  min-width: 100%;
+  width: 0;
+}
+
+.onion__node-list {
+  display: flex;
+  flex-direction: column;
+  margin: $session-margin-sm;
+  align-items: flex-start;
+
+  .onion__node {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    margin: $session-margin-xs;
+
+    * {
+      margin: $session-margin-sm;
+    }
+
+    .session-icon-button {
+      margin: $session-margin-sm !important;
+    }
+  }
+}
+
 
 .session-nickname-wrapper {
   position: absolute;

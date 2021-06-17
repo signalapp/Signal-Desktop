@@ -5,6 +5,7 @@ import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { Avatar, AvatarSize } from '../Avatar';
 import { DefaultTheme, withTheme } from 'styled-components';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
 interface Props {
   titleText: string;
@@ -78,15 +79,23 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
     );
 
     return (
-      <SessionModal
+      <SessionWrapperModal
         title={titleText}
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
         theme={this.props.theme}
       >
-        <div className="spacer-md" />
-        <p className={errorMessageClasses}>{errorMsg}</p>
-        <div className="spacer-md" />
+
+        { this.state.errorDisplayed ?
+          <>
+            <div className="spacer-md" />
+            <p className={errorMessageClasses}>{errorMsg}</p>
+            <div className="spacer-md" />
+          </>
+          :
+          null
+        }
+
         {this.renderAvatar()}
         <div className="spacer-md" />
 
@@ -94,7 +103,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
           type="text"
           className="profile-name-input"
           value={this.state.groupName}
-          placeholder={this.props.i18n('groupNamePlaceholder')}
+          placeholder={window.i18n('groupNamePlaceholder')}
           onChange={this.onGroupNameChanged}
           tabIndex={0}
           required={true}
@@ -112,7 +121,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
             buttonColor={SessionButtonColor.Green}
           />
         </div>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 

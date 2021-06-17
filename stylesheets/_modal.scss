@@ -2,8 +2,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 0 20px;
   z-index: 100;
@@ -302,6 +302,104 @@
         font-size: $session-font-md;
         padding: 0px $session-margin-sm;
       }
+
+      .session-icon-button {
+        padding: 0px;
+      }
     }
+  }
+}
+
+// .modal {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   z-index: 10000;
+//   padding: 2rem;
+//   background-color: rgba(0, 0, 0, 0.55);
+
+// }
+
+.onion-status-dialog {
+  .session-modal__header__title {
+    font-size: $session-font-lg;
+  }
+
+  .session-modal {
+    width: $session-modal-size-md;
+
+    &__header {
+      height: 68.45px;
+    }
+  }
+
+  .session-modal__body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    line-height: 1.5em;
+
+    .onionDescriptionContainer {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .onionPath {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 2em auto;
+
+      .dotContainer:not(:last-child) {
+        padding-bottom: 2em;
+      }
+
+      .dotContainer {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        p {
+          margin-bottom: 0 !important;
+          margin-top: 0;
+          margin-left: 2em;
+          text-align: left;
+        }
+
+        .dot {
+          height: 15px;
+          width: 15px;
+          border-radius: 50%;
+          display: inline-block;
+        }
+      }
+    }
+
+    .lineContainer {
+      height: 50px;
+    }
+
+    // .line {
+    //   height: 100%;
+    //   @include themify($themes) {
+    //     border-left: 1px solid themed('textColor');
+    //   }
+    //   display: relative;
+    //   // align-self: flex-start;
+    //   margin-left: 7px;
+    //   // z-index: -1;
+    // }
+
+    // .dot:after {
+    //   position: absolute;
+    //   left: 0;
+    //   top: 0;
+    //   content: '';
+    //   border-left: 2px solid black;
+    //   margin-left: 5px;
+    //   height: 100%;
+    // }
   }
 }

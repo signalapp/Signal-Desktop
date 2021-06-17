@@ -2,11 +2,8 @@
   $,
   _,
   Backbone,
-  Signal,
   storage,
-  textsecure,
   Whisper,
-  libsignal,
   BlockedNumberController,
 */
 
@@ -315,149 +312,8 @@
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
-    window.confirmationDialog = params => {
-      const confirmDialog = new Whisper.SessionConfirmView({
-        el: $('body'),
-        title: params.title,
-        message: params.message,
-        messageSub: params.messageSub || undefined,
-        resolve: params.resolve || undefined,
-        reject: params.reject || undefined,
-        okText: params.okText || undefined,
-        okTheme: params.okTheme || undefined,
-        closeTheme: params.closeTheme || undefined,
-        cancelText: params.cancelText || undefined,
-        hideCancel: params.hideCancel || false,
-        sessionIcon: params.sessionIcon || undefined,
-        iconSize: params.iconSize || undefined,
-      });
-
-      confirmDialog.render();
-    };
-
-    window.showNicknameDialog = params => {
-      if (appView) {
-        appView.showNicknameDialog(params);
-      }
-    };
-
     window.showResetSessionIdDialog = () => {
       appView.showResetSessionIdDialog();
-    };
-
-    window.showEditProfileDialog = async () => {
-      const ourNumber = window.storage.get('primaryDevicePubKey');
-      const conversation = await window
-        .getConversationController()
-        .getOrCreateAndWait(ourNumber, 'private');
-
-      const readFile = attachment =>
-        new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.onload = e => {
-            const data = e.target.result;
-            resolve({
-              ...attachment,
-              data,
-              size: data.byteLength,
-            });
-          };
-          fileReader.onerror = reject;
-          fileReader.onabort = reject;
-          fileReader.readAsArrayBuffer(attachment.file);
-        });
-
-      const avatarPath = conversation.getAvatarPath();
-      const profile = conversation.getLokiProfile();
-      const displayName = profile && profile.displayName;
-
-      if (appView) {
-        appView.showEditProfileDialog({
-          profileName: displayName,
-          pubkey: ourNumber,
-          avatarPath,
-          onOk: async (newName, avatar) => {
-            let newAvatarPath = '';
-            let fileUrl = null;
-            let profileKey = null;
-            if (avatar) {
-              const data = await readFile({ file: avatar });
-              // Ensure that this file is either small enough or is resized to meet our
-              //   requirements for attachments
-              try {
-                const withBlob = await window.Signal.Util.AttachmentUtil.autoScale(
-                  {
-                    contentType: avatar.type,
-                    file: new Blob([data.data], {
-                      type: avatar.contentType,
-                    }),
-                  },
-                  {
-                    maxSide: 640,
-                    maxSize: 1000 * 1024,
-                  }
-                );
-                const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(
-                  withBlob.file
-                );
-
-                // For simplicity we use the same attachment pointer that would send to
-                // others, which means we need to wait for the database response.
-                // To avoid the wait, we create a temporary url for the local image
-                // and use it until we the the response from the server
-                const tempUrl = window.URL.createObjectURL(avatar);
-                conversation.setLokiProfile({ displayName: newName });
-                conversation.set('avatar', tempUrl);
-
-                // Encrypt with a new key every time
-                profileKey = libsignal.crypto.getRandomBytes(32);
-                const encryptedData = await textsecure.crypto.encryptProfile(
-                  dataResized,
-                  profileKey
-                );
-
-                const avatarPointer = await window.Fsv2.uploadFileToFsV2(encryptedData);
-
-                ({ fileUrl } = avatarPointer);
-
-                storage.put('profileKey', profileKey);
-
-                conversation.set('avatarPointer', fileUrl);
-
-                const upgraded = await Signal.Migrations.processNewAttachment({
-                  isRaw: true,
-                  data: data.data,
-                  url: fileUrl,
-                });
-                newAvatarPath = upgraded.path;
-                // Replace our temporary image with the attachment pointer from the server:
-                conversation.set('avatar', null);
-                conversation.setLokiProfile({
-                  displayName: newName,
-                  avatar: newAvatarPath,
-                });
-                await conversation.commit();
-                window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(Date.now());
-                await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(true);
-              } catch (error) {
-                window.log.error(
-                  'showEditProfileDialog Error ensuring that image is properly sized:',
-                  error && error.stack ? error.stack : error
-                );
-              }
-            } else {
-              // do not update the avatar if it did not change
-              conversation.setLokiProfile({
-                displayName: newName,
-              });
-              // might be good to not trigger a sync if the name did not change
-              await conversation.commit();
-              window.libsession.Utils.UserUtils.setLastProfileUpdateTimestamp(Date.now());
-              await window.libsession.Utils.SyncUtils.forceSyncConfigurationNowIfNeeded(true);
-            }
-          },
-        });
-      }
     };
 
     // Set user's launch count.
@@ -509,40 +365,40 @@
       window.setMediaPermissions(!value);
     };
 
-    Whisper.events.on('updateGroupName', async groupConvo => {
-      if (appView) {
-        appView.showUpdateGroupNameDialog(groupConvo);
-      }
-    });
-    Whisper.events.on('updateGroupMembers', async groupConvo => {
-      if (appView) {
-        appView.showUpdateGroupMembersDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('updateGroupName', async groupConvo => {
+    //   if (appView) {
+    //     appView.showUpdateGroupNameDialog(groupConvo);
+    //   }
+    // });
+    // Whisper.events.on('updateGroupMembers', async groupConvo => {
+    //   if (appView) {
+    //     appView.showUpdateGroupMembersDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('inviteContacts', async groupConvo => {
-      if (appView) {
-        appView.showInviteContactsDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('inviteContacts', async groupConvo => {
+    //   if (appView) {
+    //     appView.showInviteContactsDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('addModerators', async groupConvo => {
-      if (appView) {
-        appView.showAddModeratorsDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('addModerators', async groupConvo => {
+    //   if (appView) {
+    //     appView.showAddModeratorsDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('removeModerators', async groupConvo => {
-      if (appView) {
-        appView.showRemoveModeratorsDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('removeModerators', async groupConvo => {
+    //   if (appView) {
+    //     appView.showRemoveModeratorsDialog(groupConvo);
+    //   }
+    // });
 
-    Whisper.events.on('leaveClosedGroup', async groupConvo => {
-      if (appView) {
-        appView.showLeaveGroupDialog(groupConvo);
-      }
-    });
+    // Whisper.events.on('leaveClosedGroup', async groupConvo => {
+    //   if (appView) {
+    //     appView.showLeaveGroupDialog(groupConvo);
+    //   }
+    // });
 
     Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
@@ -561,40 +417,28 @@
       });
     });
 
-    Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
-      const conversation = await window
-        .getConversationController()
-        .getOrCreateAndWait(userPubKey, 'private');
+    // Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
+    //   const conversation = await window
+    //     .getConversationController()
+    //     .getOrCreateAndWait(userPubKey, 'private');
 
-      const avatarPath = conversation.getAvatarPath();
-      const profile = conversation.getLokiProfile();
-      const displayName = profile && profile.displayName;
+    //   const avatarPath = conversation.getAvatarPath();
+    //   const profile = conversation.getLokiProfile();
+    //   const displayName = profile && profile.displayName;
 
-      if (appView) {
-        appView.showUserDetailsDialog({
-          profileName: displayName,
-          pubkey: userPubKey,
-          avatarPath,
-          onStartConversation: () => {
-            window.inboxStore.dispatch(
-              window.actionsCreators.openConversationExternal(conversation.id)
-            );
-          },
-        });
-      }
-    });
-
-    Whisper.events.on('showSeedDialog', async () => {
-      if (appView) {
-        appView.showSeedDialog();
-      }
-    });
-
-    Whisper.events.on('showPasswordDialog', async options => {
-      if (appView) {
-        appView.showPasswordDialog(options);
-      }
-    });
+    //   if (appView) {
+    //     appView.showUserDetailsDialog({
+    //       profileName: displayName,
+    //       pubkey: userPubKey,
+    //       avatarPath,
+    //       onStartConversation: () => {
+    //         window.inboxStore.dispatch(
+    //           window.actionsCreators.openConversationExternal(conversation.id)
+    //         );
+    //       },
+    //     });
+    //   }
+    // });
 
     Whisper.events.on('password-updated', () => {
       if (appView && appView.inboxView) {

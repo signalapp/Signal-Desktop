@@ -1,7 +1,15 @@
 import React from 'react';
+
 import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
+import { SessionNicknameDialog } from '../SessionNicknameDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { ConversationController } from '../../../session/conversations';
+import { UserUtils } from '../../../session/utils';
+import { AdminLeaveClosedGroupDialog } from '../../conversation/AdminLeaveClosedGroupDialog';
+import { useTheme } from 'styled-components';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -100,7 +108,8 @@ export function getDeleteContactMenuItem(
   isPublic: boolean | undefined,
   isLeft: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
-  action: any
+  action: any,
+  id: string
 ): JSX.Element | null {
   if (
     showDeleteContact(
@@ -111,10 +120,35 @@ export function getDeleteContactMenuItem(
       Boolean(isKickedFromGroup)
     )
   ) {
+    let menuItemText: string;
     if (isPublic) {
-      return <Item onClick={action}>{window.i18n('leaveGroup')}</Item>;
+      menuItemText = window.i18n('leaveGroup');
+    } else {
+      menuItemText = window.i18n('delete');
     }
-    return <Item onClick={action}>{window.i18n('delete')}</Item>;
+
+    const dispatch = useDispatch();
+    const onClickClose = () => {
+      dispatch(updateConfirmModal(null));
+    };
+
+    const showConfirmationModal = () => {
+      dispatch(
+        updateConfirmModal({
+          title: menuItemText,
+          message: isGroup
+            ? window.i18n('leaveGroupConfirmation')
+            : window.i18n('deleteContactConfirmation'),
+          onClickClose,
+          onClickOk: () => {
+            void ConversationController.getInstance().deleteContact(id);
+            onClickClose();
+          },
+        })
+      );
+    };
+
+    return <Item onClick={showConfirmationModal}>{menuItemText}</Item>;
   }
   return null;
 }
@@ -124,12 +158,60 @@ export function getLeaveGroupMenuItem(
   left: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
-  action: any
+  action: any,
+  id: string,
+  setModal: any
 ): JSX.Element | null {
   if (
     showLeaveGroup(Boolean(isKickedFromGroup), Boolean(left), Boolean(isGroup), Boolean(isPublic))
   ) {
-    return <Item onClick={action}>{window.i18n('leaveGroup')}</Item>;
+    const dispatch = useDispatch();
+    const theme = useTheme();
+    const conversation = ConversationController.getInstance().get(id);
+
+    const onClickClose = () => {
+      dispatch(updateConfirmModal(null));
+    };
+
+    const openConfirmationModal = () => {
+      if (!conversation.isGroup()) {
+        throw new Error('showLeaveGroupDialog() called with a non group convo.');
+      }
+
+      const title = window.i18n('leaveGroup');
+      const message = window.i18n('leaveGroupConfirmation');
+      const ourPK = UserUtils.getOurPubKeyStrFromCache();
+      const isAdmin = (conversation.get('groupAdmins') || []).includes(ourPK);
+      const isClosedGroup = conversation.get('is_medium_group') || false;
+
+      // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
+      if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
+        dispatch(
+          updateConfirmModal({
+            title,
+            message,
+            onClickOk: () => {
+              void conversation.leaveClosedGroup();
+              onClickClose();
+            },
+            onClickClose,
+          })
+        );
+      } else {
+        setModal(
+          <AdminLeaveClosedGroupDialog
+            groupName={conversation.getName()}
+            onSubmit={conversation.leaveClosedGroup}
+            onClose={() => {
+              setModal(null);
+            }}
+            theme={theme}
+          />
+        );
+      }
+    };
+
+    return <Item onClick={openConfirmationModal}>{window.i18n('leaveGroup')}</Item>;
   }
   return null;
 }
@@ -302,20 +384,58 @@ export function getClearNicknameMenuItem(
 export function getChangeNicknameMenuItem(
   isMe: boolean | undefined,
   action: any,
-  isGroup: boolean | undefined
+  isGroup: boolean | undefined,
+  conversationId?: string,
+  setModal?: any
 ): JSX.Element | null {
   if (showChangeNickname(Boolean(isMe), Boolean(isGroup))) {
-    return <Item onClick={action}>{window.i18n('changeNickname')}</Item>;
+    const clearModal = () => {
+      setModal(null);
+    };
+
+    const onClickCustom = () => {
+      setModal(<SessionNicknameDialog onClickClose={clearModal} conversationId={conversationId} />);
+    };
+
+    return (
+      <>
+        <Item onClick={onClickCustom}>{window.i18n('changeNickname')}</Item>
+      </>
+    );
   }
   return null;
 }
 
 export function getDeleteMessagesMenuItem(
   isPublic: boolean | undefined,
-  action: any
+  action: any,
+  id: string
 ): JSX.Element | null {
   if (showDeleteMessages(Boolean(isPublic))) {
-    return <Item onClick={action}>{window.i18n('deleteMessages')}</Item>;
+    const dispatch = useDispatch();
+    const conversation = ConversationController.getInstance().get(id);
+
+    const onClickClose = () => {
+      dispatch(updateConfirmModal(null));
+    };
+
+    const onClickOk = () => {
+      void conversation.destroyMessages();
+      onClickClose();
+    };
+
+    const openConfirmationModal = () => {
+      dispatch(
+        updateConfirmModal({
+          title: window.i18n('deleteMessages'),
+          message: window.i18n('deleteConversationConfirmation'),
+          onClickOk,
+          onClickClose,
+        })
+      );
+    };
+
+    return <Item onClick={openConfirmationModal}>{window.i18n('deleteMessages')}</Item>;
   }
   return null;
 }

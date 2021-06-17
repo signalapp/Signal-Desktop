@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
@@ -10,29 +10,38 @@ import { initiateGroupUpdate } from '../../session/group';
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { getCompleteUrlForV2ConvoId } from '../../interactions/conversation';
 import _ from 'lodash';
-import autoBind from 'auto-bind';
 import { VALIDATION } from '../../session/constants';
-interface Props {
-  contactList: Array<any>;
-  chatName: string;
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
+
+type Props = {
+  // contactList: Array<any>;
   onClose: any;
   theme: DefaultTheme;
   convo: ConversationModel;
-}
+};
 
-interface State {
-  contactList: Array<ContactType>;
-}
+const InviteContactsDialogInner = (props: Props) => {
+  const { convo, onClose, theme } = props;
+  // tslint:disable-next-line: max-func-body-length
 
-class InviteContactsDialogInner extends React.Component<Props, State> {
-  constructor(props: any) {
-    super(props);
+  let contacts = ConversationController.getInstance()
+    .getConversations()
+    .filter(d => !!d && !d.isBlocked() && d.isPrivate() && !d.isMe() && !!d.get('active_at'));
+  if (!convo.isPublic()) {
+    // filter our zombies and current members from the list of contact we can add
 
-    autoBind(this);
+    const members = convo.get('members') || [];
+    const zombies = convo.get('zombies') || [];
+    contacts = contacts.filter(d => !members.includes(d.id) && !zombies.includes(d.id));
+  }
 
-    let contacts = this.props.contactList;
+  const chatName = convo.get('name');
+  // const chatServer = convo.get('server');
+  // const channelId = convo.get('channelId');
+  const isPublicConvo = convo.isPublic();
 
-    contacts = contacts.map(d => {
+  const [contactList, setContactList] = useState(
+    contacts.map((d: ConversationModel) => {
       const lokiProfile = d.getLokiProfile();
       const nickname = d.getNickname();
       const name = nickname
@@ -48,79 +57,77 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
         id: d.id,
         authorPhoneNumber: d.id,
         authorProfileName: name,
-        authorAvatarPath: d?.getAvatarPath(),
+        authorAvatarPath: d?.getAvatarPath() || '',
         selected: false,
         authorName: name,
         checkmarked: false,
         existingMember,
       };
-    });
+    })
+  );
 
-    this.state = {
-      contactList: contacts,
-    };
+  const closeDialog = () => {
+    window.removeEventListener('keyup', onKeyUp);
+    onClose();
+  };
 
-    window.addEventListener('keyup', this.onKeyUp);
-  }
+  const onClickOK = () => {
+    const selectedContacts = contactList
+      .filter((d: ContactType) => d.checkmarked)
+      .map((d: ContactType) => d.id);
 
-  public render() {
-    const titleText = `${window.i18n('addingContacts')} ${this.props.chatName}`;
-    const cancelText = window.i18n('cancel');
-    const okText = window.i18n('ok');
-
-    const hasContacts = this.state.contactList.length !== 0;
-
-    return (
-      <SessionModal title={titleText} onClose={this.closeDialog} theme={this.props.theme}>
-        <div className="spacer-lg" />
-
-        <div className="contact-selection-list">{this.renderMemberList()}</div>
-        {hasContacts ? null : (
-          <>
-            <div className="spacer-lg" />
-            <p className="no-contacts">{window.i18n('noContactsToAdd')}</p>
-            <div className="spacer-lg" />
-          </>
-        )}
-
-        <div className="spacer-lg" />
-
-        <div className="session-modal__button-group">
-          <SessionButton text={cancelText} onClick={this.closeDialog} />
-          <SessionButton
-            text={okText}
-            disabled={!hasContacts}
-            onClick={this.onClickOK}
-            buttonColor={SessionButtonColor.Green}
-          />
-        </div>
-      </SessionModal>
-    );
-  }
-
-  private async submitForOpenGroup(pubkeys: Array<string>) {
-    const { convo } = this.props;
-
-    const completeUrl = await getCompleteUrlForV2ConvoId(convo.id);
-    const groupInvitation = {
-      serverAddress: completeUrl,
-      serverName: convo.getName(),
-    };
-    pubkeys.forEach(async pubkeyStr => {
-      const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
-        pubkeyStr,
-        ConversationTypeEnum.PRIVATE
-      );
-
-      if (privateConvo) {
-        void privateConvo.sendMessage('', null, null, null, groupInvitation);
+    if (selectedContacts.length > 0) {
+      if (isPublicConvo) {
+        void submitForOpenGroup(selectedContacts);
+      } else {
+        void submitForClosedGroup(selectedContacts);
       }
-    });
-  }
+    }
 
-  private async submitForClosedGroup(pubkeys: Array<string>) {
-    const { convo } = this.props;
+    closeDialog();
+  };
 
+  const onKeyUp = (event: any) => {
+    switch (event.key) {
+      case 'Enter':
+        onClickOK();
+        break;
+      case 'Esc':
+      case 'Escape':
+        closeDialog();
+        break;
+      default:
+    }
+  };
+  window.addEventListener('keyup', onKeyUp);
+
+  const titleText = `${window.i18n('addingContacts')} ${chatName}`;
+  const cancelText = window.i18n('cancel');
+  const okText = window.i18n('ok');
+
+  const hasContacts = contactList.length !== 0;
+
+  const submitForOpenGroup = async (pubkeys: Array<string>) => {
+    if (convo.isOpenGroupV2()) {
+      const completeUrl = await getCompleteUrlForV2ConvoId(convo.id);
+      const groupInvitation = {
+        serverAddress: completeUrl,
+        serverName: convo.getName(),
+      };
+      pubkeys.forEach(async pubkeyStr => {
+        const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
+          pubkeyStr,
+          ConversationTypeEnum.PRIVATE
+        );
+
+        if (privateConvo) {
+          void privateConvo.sendMessage('', null, null, null, groupInvitation);
+        }
+      });
+    }
+  };
+
+  const submitForClosedGroup = async (pubkeys: Array<string>) => {
     // closed group chats
     const ourPK = UserUtils.getOurPubKeyStrFromCache();
     // we only care about real members. If a member is currently a zombie we have to be able to add him back
@@ -157,25 +164,13 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
         undefined
       );
     }
-  }
+  };
 
-  private onClickOK() {
-    const selectedContacts = this.state.contactList.filter(d => d.checkmarked).map(d => d.id);
-
-    if (selectedContacts.length > 0) {
-      if (this.props.convo.isPublic()) {
-        void this.submitForOpenGroup(selectedContacts);
-      } else {
-        void this.submitForClosedGroup(selectedContacts);
-      }
-    }
-
-    this.closeDialog();
-  }
-
-  private renderMemberList() {
-    const members = this.state.contactList;
-    const selectedContacts = this.state.contactList.filter(d => d.checkmarked).map(d => d.id);
+  const renderMemberList = () => {
+    const members = contactList;
+    const selectedContacts = contactList
+      .filter((d: ContactType) => d.checkmarked)
+      .map((d: ContactType) => d.id);
 
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
@@ -184,50 +179,53 @@ class InviteContactsDialogInner extends React.Component<Props, State> {
         index={index}
         isSelected={selectedContacts.some(m => m === member.id)}
         onSelect={(selectedMember: ContactType) => {
-          this.onMemberClicked(selectedMember);
+          onMemberClicked(selectedMember);
         }}
         onUnselect={(selectedMember: ContactType) => {
-          this.onMemberClicked(selectedMember);
+          onMemberClicked(selectedMember);
         }}
-        theme={this.props.theme}
+        theme={theme}
       />
     ));
-  }
+  };
 
-  private onKeyUp(event: any) {
-    switch (event.key) {
-      case 'Enter':
-        this.onClickOK();
-        break;
-      case 'Esc':
-      case 'Escape':
-        this.closeDialog();
-        break;
-      default:
-    }
-  }
-
-  private onMemberClicked(clickedMember: ContactType) {
-    const updatedContacts = this.state.contactList.map(member => {
+  const onMemberClicked = (clickedMember: ContactType) => {
+    const updatedContacts = contactList.map((member: ContactType) => {
       if (member.id === clickedMember.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {
         return member;
       }
     });
+    setContactList(updatedContacts);
+  };
 
-    this.setState(state => {
-      return {
-        ...state,
-        contactList: updatedContacts,
-      };
-    });
-  }
+  return (
+    <SessionWrapperModal title={titleText} onClose={closeDialog} theme={props.theme}>
+      <div className="spacer-lg" />
 
-  private closeDialog() {
-    window.removeEventListener('keyup', this.onKeyUp);
-    this.props.onClose();
-  }
-}
+      <div className="contact-selection-list">{renderMemberList()}</div>
+      {hasContacts ? null : (
+        <>
+          <div className="spacer-lg" />
+          <p className="no-contacts">{window.i18n('noContactsToAdd')}</p>
+          <div className="spacer-lg" />
+        </>
+      )}
+
+      <div className="spacer-lg" />
+
+      <div className="session-modal__button-group">
+        <SessionButton text={cancelText} onClick={closeDialog} />
+        <SessionButton
+          text={okText}
+          disabled={!hasContacts}
+          onClick={onClickOK}
+          buttonColor={SessionButtonColor.Green}
+        />
+      </div>
+    </SessionWrapperModal>
+  );
+};
 
 export const InviteContactsDialog = InviteContactsDialogInner;

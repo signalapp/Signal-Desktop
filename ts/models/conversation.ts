@@ -41,6 +41,8 @@ import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMes
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
 import { NotificationForConvoOption } from '../components/conversation/ConversationHeader';
+import { useDispatch } from 'react-redux';
+import { updateConfirmModal } from '../state/ducks/modalDialog';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -427,8 +429,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       onBlockContact: this.block,
       onUnblockContact: this.unblock,
       onCopyPublicKey: this.copyPublicKey,
-      onDeleteContact: this.deleteContact,
-      onChangeNickname: this.changeNickname,
       onClearNickname: this.clearNickname,
       onDeleteMessages: this.deleteMessages,
       onLeaveGroup: () => {
@@ -1234,38 +1234,27 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     void ConversationInteraction.copyPublicKey(this.id);
   }
 
-  public changeNickname() {
-    if (this.isGroup()) {
-      throw new Error(
-        'Called changeNickname() on a group. This is only supported in 1-on-1 conversation items and 1-on-1 conversation headers'
-      );
-    }
-    window.showNicknameDialog({
-      convoId: this.id,
-    });
-  }
-
   public clearNickname = () => {
     void this.setNickname('');
   };
 
-  public deleteContact() {
-    let title = window.i18n('delete');
-    let message = window.i18n('deleteContactConfirmation');
+  // public deleteContact() {
+  //   let title = window.i18n('delete');
+  //   let message = window.i18n('deleteContactConfirmation');
 
-    if (this.isGroup()) {
-      title = window.i18n('leaveGroup');
-      message = window.i18n('leaveGroupConfirmation');
-    }
+  //   if (this.isGroup()) {
+  //     title = window.i18n('leaveGroup');
+  //     message = window.i18n('leaveGroupConfirmation');
+  //   }
 
-    window.confirmationDialog({
-      title,
-      message,
-      resolve: () => {
-        void ConversationController.getInstance().deleteContact(this.id);
-      },
-    });
-  }
+  //   window.confirmationDialog({
+  //     title,
+  //     message,
+  //     resolve: () => {
+  //       void ConversationController.getInstance().deleteContact(this.id);
+  //     },
+  //   });
+  // }
 
   public async removeMessage(messageId: any) {
     await dataRemoveMessage(messageId);
@@ -1291,7 +1280,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       };
     }
 
-    window.confirmationDialog(params);
+    // window.confirmationDialog(params);
+
+    const dispatch = useDispatch();
+    dispatch(
+      updateConfirmModal({
+        title: window.i18n('deleteMessages'),
+        message: window.i18n('deleteConversationConfirmation'),
+        onClickOk: () => this.destroyMessages(),
+      })
+    );
   }
 
   public async destroyMessages() {

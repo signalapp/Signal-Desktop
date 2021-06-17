@@ -11,6 +11,7 @@ const desiredGuardCount = 3;
 const minimumGuardCount = 2;
 
 export type SnodePath = Array<Snode>;
+import { updateOnionPaths } from '../../state/ducks/onion';
 
 const onionRequestHops = 3;
 let onionPaths: Array<SnodePath> = [];
@@ -131,6 +132,12 @@ export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
 
     // reload goodPaths now
     attemptNumber += 1;
+  }
+
+  if (onionPaths.length <= 0) {
+    window.inboxStore?.dispatch(updateOnionPaths({ path: new Array<Snode>(), bad: true }));
+  } else {
+    window.inboxStore?.dispatch(updateOnionPaths(goodPaths[0]));
   }
 
   const onionPathsWithoutExcluded = toExclude

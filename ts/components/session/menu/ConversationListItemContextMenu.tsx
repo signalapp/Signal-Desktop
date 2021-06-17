@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { animation, Menu } from 'react-contexify';
 import { ConversationTypeEnum } from '../../../models/conversation';
 
@@ -15,6 +15,7 @@ import {
 } from './Menu';
 
 export type PropsContextConversationItem = {
+  id: string;
   triggerId: string;
   type: ConversationTypeEnum;
   isMe: boolean;
@@ -23,6 +24,7 @@ export type PropsContextConversationItem = {
   hasNickname?: boolean;
   isKickedFromGroup?: boolean;
   left?: boolean;
+  theme?: any;
 
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
@@ -38,6 +40,7 @@ export type PropsContextConversationItem = {
 
 export const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
   const {
+    id,
     triggerId,
     isBlocked,
     isMe,
@@ -56,28 +59,51 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     onInviteContacts,
     onLeaveGroup,
     onChangeNickname,
+    theme,
   } = props;
 
   const isGroup = type === 'group';
 
-  return (
-    <Menu id={triggerId} animation={animation.fade}>
-      {getBlockMenuItem(
-        isMe,
-        type === ConversationTypeEnum.PRIVATE,
-        isBlocked,
-        onBlockContact,
-        onUnblockContact
-      )}
-      {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey)}
-      {getMarkAllReadMenuItem(onMarkAllRead)}
-      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup)}
-      {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup)}
+  const [modal, setModal] = useState<any>(null);
 
-      {getDeleteMessagesMenuItem(isPublic, onDeleteMessages)}
-      {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts)}
-      {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, onDeleteContact)}
-      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup)}
-    </Menu>
+  return (
+    <>
+      {modal ? modal : null}
+
+      <Menu id={triggerId} animation={animation.fade}>
+        {getBlockMenuItem(
+          isMe,
+          type === ConversationTypeEnum.PRIVATE,
+          isBlocked,
+          onBlockContact,
+          onUnblockContact
+        )}
+        {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey)}
+        {getMarkAllReadMenuItem(onMarkAllRead)}
+        {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, id, setModal)}
+        {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup)}
+
+        {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, id)}
+        {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts)}
+        {getDeleteContactMenuItem(
+          isMe,
+          isGroup,
+          isPublic,
+          left,
+          isKickedFromGroup,
+          onDeleteContact,
+          id
+        )}
+        {getLeaveGroupMenuItem(
+          isKickedFromGroup,
+          left,
+          isGroup,
+          isPublic,
+          onLeaveGroup,
+          id,
+          setModal
+        )}
+      </Menu>
+    </>
   );
 };

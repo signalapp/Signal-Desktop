@@ -30,6 +30,8 @@ import autoBind from 'auto-bind';
 import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
 import { SNodeAPI } from '../../session/snode_api';
 
+import { createClosedGroup } from "../../receiver/closedGroups";
+
 export interface Props {
   searchTerm: string;
 
@@ -60,6 +62,7 @@ interface State {
   loading: boolean;
   overlay: false | SessionComposeToType;
   valuePasted: string;
+  modal: null | JSX.Element;
 }
 
 export class LeftPaneMessageSection extends React.Component<Props, State> {
@@ -72,6 +75,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       loading: false,
       overlay: false,
       valuePasted: '',
+      modal: null
     };
 
     autoBind(this);
@@ -165,9 +169,18 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
+        { this.state.modal ? this.state.modal : null }
         {overlay ? this.renderClosableOverlay(overlay) : this.renderConversations()}
       </div>
     );
+  }
+
+
+  
+  public setModal (modal: null | JSX.Element) {
+    this.setState({
+      modal
+    });
   }
 
   public renderConversations() {

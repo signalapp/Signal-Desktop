@@ -45,6 +45,10 @@ import { FSv2 } from '../../fileserver';
 import { debounce } from 'lodash';
 import { DURATION } from '../../session/constants';
 import { actions as conversationActions } from '../../state/ducks/conversations';
+import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusDialog';
+import { EditProfileDialog } from '../EditProfileDialog';
+import { StateType } from '../../state/reducer';
+import { SessionConfirm } from './SessionConfirm';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -55,22 +59,34 @@ export enum SectionType {
   Channel,
   Settings,
   Moon,
+  PathIndicator,
 }
 
-const Section = (props: { type: SectionType; avatarPath?: string }) => {
+const Section = (props: { setModal?: any; type: SectionType; avatarPath?: string }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
   const theme = useSelector(getTheme);
   const dispatch = useDispatch();
-  const { type, avatarPath } = props;
+  const { setModal, type, avatarPath } = props;
 
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
+  const handleModalClose = () => {
+    setModal(null);
+  };
+
   const handleClick = () => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
-      window.showEditProfileDialog();
+      // window.showEditProfileDialog();
+
+      // window.inboxStore?.dispatch(updateConfirmModal({ title: "title test" }));
+
+      // dispatch(updateConfirmModal({ title: "title test" }));
+
+      // setModal(<EditProfileDialog2 onClose={() => setModal(null)}></EditProfileDialog2>);
+      setModal(<EditProfileDialog onClose={handleModalClose} theme={theme} />);
     } else if (type === SectionType.Moon) {
       const themeFromSettings = window.Events.getThemeSetting();
       const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
@@ -78,6 +94,9 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
 
       const newThemeObject = updatedTheme === 'dark' ? darkTheme : lightTheme;
       dispatch(applyTheme(newThemeObject));
+    } else if (type === SectionType.PathIndicator) {
+      // Show Path Indicator Modal
+      setModal(<OnionPathModal onClose={handleModalClose} />);
     } else {
       dispatch(clearSearch());
       dispatch(showLeftPaneSection(type));
@@ -100,6 +119,12 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     );
   }
 
+  let iconColor = undefined;
+  if (type === SectionType.PathIndicator) {
+  }
+
+  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
+
   let iconType: SessionIconType;
   switch (type) {
     case SectionType.Message:
@@ -114,22 +139,26 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     case SectionType.Moon:
       iconType = SessionIconType.Moon;
       break;
-
     default:
       iconType = SessionIconType.Moon;
   }
 
-  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
-
   return (
-    <SessionIconButton
-      iconSize={SessionIconSize.Medium}
-      iconType={iconType}
-      notificationCount={unreadToShow}
-      onClick={handleClick}
-      isSelected={isSelected}
-      theme={theme}
-    />
+    <>
+      {type === SectionType.PathIndicator ? (
+        <ActionPanelOnionStatusLight handleClick={handleClick} isSelected={isSelected} />
+      ) : (
+        <SessionIconButton
+          iconSize={SessionIconSize.Medium}
+          iconType={iconType}
+          iconColor={iconColor}
+          notificationCount={unreadToShow}
+          onClick={handleClick}
+          isSelected={isSelected}
+          theme={theme}
+        />
+      )}
+    </>
   );
 };
 
@@ -311,8 +340,8 @@ const doAppStartUp = () => {
  */
 export const ActionsPanel = () => {
   const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
-
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
+  const [modal, setModal] = useState<any>(null);
 
   // this maxi useEffect is called only once: when the component is mounted.
   // For the action panel, it means this is called only one per app start/with a user loggedin
@@ -353,15 +382,42 @@ export const ActionsPanel = () => {
     void triggerAvatarReUploadIfNeeded();
   }, DURATION.DAYS * 1);
 
-  return (
-    <div className="module-left-pane__sections-container">
-      <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
-      <Section type={SectionType.Message} />
-      <Section type={SectionType.Contact} />
-      <Section type={SectionType.Settings} />
+  const formatLog = (s: any) => {
+    console.log('@@@@:: ', s);
+  };
 
-      <SessionToastContainer />
-      <Section type={SectionType.Moon} />
-    </div>
+  // const confirmModalState = useSelector((state: StateType) => state);
+
+  const confirmModalState = useSelector((state: StateType) => state.confirmModal);
+
+  console.log('@@@ confirm modal state', confirmModalState);
+
+  // formatLog(confirmModalState.modalState.title);
+
+  formatLog(confirmModalState);
+
+  // formatLog(confirmModalState2);
+
+  return (
+    <>
+      {modal ? modal : null}
+      {/* { confirmModalState && confirmModalState.title ? <div>{confirmModalState.title}</div> : null} */}
+      {confirmModalState ? <SessionConfirm {...confirmModalState} /> : null}
+      <div className="module-left-pane__sections-container">
+        <Section
+          setModal={setModal}
+          type={SectionType.Profile}
+          avatarPath={ourPrimaryConversation.avatarPath}
+        />
+        <Section type={SectionType.Message} />
+        <Section type={SectionType.Contact} />
+        <Section type={SectionType.Settings} />
+
+        <SessionToastContainer />
+
+        <Section setModal={setModal} type={SectionType.PathIndicator} />
+        <Section type={SectionType.Moon} />
+      </div>
+    </>
   );
 };

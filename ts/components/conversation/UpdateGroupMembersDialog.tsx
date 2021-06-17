@@ -11,6 +11,7 @@ import { ConversationController } from '../../session/conversations';
 
 import _ from 'lodash';
 import { Text } from '../basic/Text';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
 
 interface Props {
   titleText: string;
@@ -49,8 +50,8 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       const name = nickname
         ? nickname
         : lokiProfile
-        ? lokiProfile.displayName
-        : window.i18n('anonymous');
+          ? lokiProfile.displayName
+          : window.i18n('anonymous');
 
       const existingMember = this.props.existingMembers.includes(d.id);
 
@@ -123,7 +124,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     const hasZombies = Boolean(existingZombies.length);
 
     return (
-      <SessionModal
+      <SessionWrapperModal
         title={titleText}
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
@@ -150,7 +151,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
             />
           )}
         </div>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 
@@ -227,6 +228,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       default:
     }
   }
+
 
   // Return members that would comprise the group given the
   // current state in `users`

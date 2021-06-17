@@ -36,6 +36,8 @@ import { actions as conversationActions } from '../state/ducks/conversations';
 import { SwarmPolling } from '../session/snode_api/swarmPolling';
 import { MessageModel } from '../models/message';
 
+import { updateConfirmModal } from '../state/ducks/modalDialog';
+
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
 export async function handleClosedGroupControlMessage(
@@ -969,54 +971,65 @@ async function sendToGroupMembers(
   const inviteResults = await Promise.all(promises);
   const allInvitesSent = _.every(inviteResults, Boolean);
 
+  console.log('@@@@', inviteResults);
+  throw new Error('audric: TODEBUG');
+
   if (allInvitesSent) {
+    // if (true) {
     if (isRetry) {
       const invitesTitle =
         inviteResults.length > 1
           ? window.i18n('closedGroupInviteSuccessTitlePlural')
           : window.i18n('closedGroupInviteSuccessTitle');
-      window.confirmationDialog({
-        title: invitesTitle,
-        message: window.i18n('closedGroupInviteSuccessMessage'),
-      });
+
+      window.inboxStore?.dispatch(
+        updateConfirmModal({
+          title: invitesTitle,
+          message: window.i18n('closedGroupInviteSuccessMessage'),
+          hideCancel: true,
+        })
+      );
     }
     return allInvitesSent;
   } else {
     // Confirmation dialog that recursively calls sendToGroupMembers on resolve
-    window.confirmationDialog({
-      title:
-        inviteResults.length > 1
-          ? window.i18n('closedGroupInviteFailTitlePlural')
-          : window.i18n('closedGroupInviteFailTitle'),
-      message:
-        inviteResults.length > 1
-          ? window.i18n('closedGroupInviteFailMessagePlural')
-          : window.i18n('closedGroupInviteFailMessage'),
-      okText: window.i18n('closedGroupInviteOkText'),
-      resolve: async () => {
-        const membersToResend: Array<string> = new Array<string>();
-        inviteResults.forEach((result, index) => {
-          const member = listOfMembers[index];
-          // group invite must always contain the admin member.
-          if (result !== true || admins.includes(member)) {
-            membersToResend.push(member);
+
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title:
+          inviteResults.length > 1
+            ? window.i18n('closedGroupInviteFailTitlePlural')
+            : window.i18n('closedGroupInviteFailTitle'),
+        message:
+          inviteResults.length > 1
+            ? window.i18n('closedGroupInviteFailMessagePlural')
+            : window.i18n('closedGroupInviteFailMessage'),
+        okText: window.i18n('closedGroupInviteOkText'),
+        onClickOk: async () => {
+          const membersToResend: Array<string> = new Array<string>();
+          inviteResults.forEach((result, index) => {
+            const member = listOfMembers[index];
+            // group invite must always contain the admin member.
+            if (result !== true || admins.includes(member)) {
+              membersToResend.push(member);
+            }
+          });
+          if (membersToResend.length > 0) {
+            const isRetrySend = true;
+            await sendToGroupMembers(
+              membersToResend,
+              groupPublicKey,
+              groupName,
+              admins,
+              encryptionKeyPair,
+              dbMessage,
+              existingExpireTimer,
+              isRetrySend
+            );
           }
-        });
-        if (membersToResend.length > 0) {
-          const isRetrySend = true;
-          await sendToGroupMembers(
-            membersToResend,
-            groupPublicKey,
-            groupName,
-            admins,
-            encryptionKeyPair,
-            dbMessage,
-            existingExpireTimer,
-            isRetrySend
-          );
-        }
-      },
-    });
+        },
+      })
+    );
   }
   return allInvitesSent;
 }

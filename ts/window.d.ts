@@ -13,8 +13,9 @@ import { Store } from 'redux';
 import { MessageController } from './session/messages/MessageController';
 import { DefaultTheme } from 'styled-components';
 
-import { ConversationCollection } from './models/conversation';
+import { ConversationCollection, ConversationModel } from './models/conversation';
 import { ConversationType } from './state/ducks/conversations';
+import { ConversationController } from './session/conversations';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -35,7 +36,6 @@ declare global {
     Whisper: any;
     clearLocalData: any;
     clipboard: any;
-    confirmationDialog: (params: ConfirmationDialogParams) => any;
     dcodeIO: any;
     displayNameRegex: any;
     friends: any;
@@ -60,8 +60,6 @@ declare global {
     getSeedNodeList: () => Array<any> | undefined;
     setPassword: any;
     setSettingValue: any;
-    showEditProfileDialog: any;
-    showNicknameDialog: (options: { convoId: string }) => void;
     showResetSessionIdDialog: any;
     storage: any;
     textsecure: LibTextsecure;
@@ -89,5 +87,6 @@ declare global {
     darkTheme: DefaultTheme;
     LokiPushNotificationServer: any;
     globalOnlineStatus: boolean;
+    confirmationDialog: any;
   }
 }

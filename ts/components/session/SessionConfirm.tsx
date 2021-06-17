@@ -3,60 +3,108 @@ import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { DefaultTheme, useTheme, withTheme } from 'styled-components';
+import { SessionWrapperModal } from './SessionWrapperModal';
+import { useDispatch } from 'react-redux';
+import { updateConfirmModal } from '../../state/ducks/modalDialog';
+import { update } from 'lodash';
 
-type Props = {
-  message: string;
-  messageSub: string;
-  title: string;
+export interface SessionConfirmDialogProps {
+  message?: string;
+  messageSub?: string;
+  title?: string;
   onOk?: any;
   onClose?: any;
-  onClickOk: any;
-  onClickClose: any;
+  onClickOk?: () => any;
+  onClickClose?: () => any;
   okText?: string;
   cancelText?: string;
-  hideCancel: boolean;
-  okTheme: SessionButtonColor;
-  closeTheme: SessionButtonColor;
+  hideCancel?: boolean;
+  okTheme?: SessionButtonColor;
+  closeTheme?: SessionButtonColor;
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;
-  theme: DefaultTheme;
+  theme?: DefaultTheme;
+  closeAfterClickOk?: boolean;
+  shouldShowConfirm?: () => boolean | undefined;
 };
 
-const SessionConfirmInner = (props: Props) => {
+const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
   const {
     title = '',
-    message,
+    message = '',
     messageSub = '',
     okTheme = SessionButtonColor.Primary,
     closeTheme = SessionButtonColor.Primary,
     onClickOk,
     onClickClose,
+    closeAfterClickOk = true,
     hideCancel = false,
     sessionIcon,
     iconSize,
+    shouldShowConfirm,
+    // updateConfirmModal
   } = props;
 
   const okText = props.okText || window.i18n('ok');
   const cancelText = props.cancelText || window.i18n('cancel');
   const showHeader = !!props.title;
 
+  const theme = useTheme();
+
   const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
 
+  /**
+   * Calls close function after the ok button is clicked. If no close method specified, closes the modal 
+   */
+  const onClickOkWithClose = () => {
+    if (onClickOk) {
+      onClickOk();
+    }
+
+    if (onClickClose) {
+      onClickClose();
+    }
+  }
+
+
+  const onClickOkHandler = () => {
+    if (onClickOk) {
+      onClickOk();
+    }
+
+
+    window.inboxStore?.dispatch(updateConfirmModal(null));
+  }
+
+  if (shouldShowConfirm && !shouldShowConfirm()) {
+    return null;
+  }
+
+  const onClickCancelHandler = () => {
+    if (onClickClose) {
+      onClickClose();
+    }
+
+    window.inboxStore?.dispatch(updateConfirmModal(null));
+  }
+
+
   return (
-    <SessionModal
+    <SessionWrapperModal
       title={title}
       onClose={onClickClose}
       showExitIcon={false}
       showHeader={showHeader}
-      theme={props.theme}
+      theme={theme}
     >
+
       {!showHeader && <div className="spacer-lg" />}
 
       <div className="session-modal__centered">
         {sessionIcon && iconSize && (
           <>
-            <SessionIcon iconType={sessionIcon} iconSize={iconSize} theme={props.theme} />
+            <SessionIcon iconType={sessionIcon} iconSize={iconSize} theme={theme} />
             <div className="spacer-lg" />
           </>
         )}
@@ -70,13 +118,16 @@ const SessionConfirmInner = (props: Props) => {
       </div>
 
       <div className="session-modal__button-group">
-        <SessionButton text={okText} buttonColor={okTheme} onClick={onClickOk} />
+        {/* <SessionButton text={okText} buttonColor={okTheme} onClick={closeAfterClickOk ? onClickOk : onClickOkWithClose} /> */}
+        <SessionButton text={okText} buttonColor={okTheme} onClick={onClickOkHandler} />
 
         {!hideCancel && (
-          <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickClose} />
+          // <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickClose} />
+          <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickCancelHandler} />
         )}
       </div>
-    </SessionModal>
+
+    </SessionWrapperModal>
   );
 };
 
