@@ -178,7 +178,7 @@ const dataInterface: ServerInterface = {
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
-  getOutgoingWithoutExpirationStartTimestamp,
+  getMessagesUnexpectedlyMissingExpirationStartTimestamp,
   getSoonestMessageExpiry,
   getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
@@ -1889,6 +1889,27 @@ function updateToSchemaVersion33(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion33: success!');
 }
 
+function updateToSchemaVersion34(currentVersion: number, db: Database) {
+  if (currentVersion >= 34) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      -- This index should exist, but we add "IF EXISTS" for safety.
+      DROP INDEX IF EXISTS outgoing_messages_without_expiration_start_timestamp;
+
+      CREATE INDEX messages_unexpectedly_missing_expiration_start_timestamp ON messages (
+        expireTimer, expirationStartTimestamp, type
+      )
+      WHERE expireTimer IS NOT NULL AND expirationStartTimestamp IS NULL;
+    `);
+
+    db.pragma('user_version = 34');
+  })();
+  console.log('updateToSchemaVersion34: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1923,6 +1944,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion31,
   updateToSchemaVersion32,
   updateToSchemaVersion33,
+  updateToSchemaVersion34,
 ];
 
 function updateSchema(db: Database): void {
@@ -3906,7 +3928,7 @@ async function getExpiredMessages(): Promise<Array<MessageType>> {
   return rows.map(row => jsonToObject(row.json));
 }
 
-async function getOutgoingWithoutExpirationStartTimestamp(): Promise<
+async function getMessagesUnexpectedlyMissingExpirationStartTimestamp(): Promise<
   Array<MessageType>
 > {
   const db = getInstance();
@@ -3914,11 +3936,17 @@ async function getOutgoingWithoutExpirationStartTimestamp(): Promise<
     .prepare<EmptyQuery>(
       `
       SELECT json FROM messages
-      INDEXED BY outgoing_messages_without_expiration_start_timestamp
+      INDEXED BY messages_unexpectedly_missing_expiration_start_timestamp
       WHERE
         expireTimer > 0 AND
         expirationStartTimestamp IS NULL AND
-        type IS 'outgoing';
+        (
+          type IS 'outgoing' OR
+          (type IS 'incoming' AND (
+            unread = 0 OR
+            unread IS NULL
+          ))
+        );
       `
     )
     .all();

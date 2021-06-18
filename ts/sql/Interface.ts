@@ -322,6 +322,9 @@ export type DataInterface = {
   getMessageServerGuidsForSpam: (
     conversationId: string
   ) => Promise<Array<string>>;
+  getMessagesUnexpectedlyMissingExpirationStartTimestamp: () => Promise<
+    Array<MessageType>
+  >;
   getSoonestMessageExpiry: () => Promise<undefined | number>;
 
   getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
@@ -380,7 +383,6 @@ export type ServerInterface = DataInterface & {
     conversationId: string;
     ourConversationId: string;
   }) => Promise<MessageType | undefined>;
-  getOutgoingWithoutExpirationStartTimestamp: () => Promise<Array<MessageType>>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
   getUnreadCountForConversation: (conversationId: string) => Promise<number>;
   getUnreadByConversationAndMarkRead: (
@@ -518,9 +520,6 @@ export type ClientInterface = DataInterface & {
     ourConversationId: string;
     Message: typeof MessageModel;
   }) => Promise<MessageModel | undefined>;
-  getOutgoingWithoutExpirationStartTimestamp: (options: {
-    MessageCollection: typeof MessageModelCollectionType;
-  }) => Promise<MessageModelCollectionType>;
   getTapToViewMessagesNeedingErase: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
