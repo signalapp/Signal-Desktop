@@ -6,7 +6,7 @@ export type DefaultRoomsState = {
   inProgress: boolean;
 };
 
-const initialState: DefaultRoomsState = {
+export const initialDefaultRoomState: DefaultRoomsState = {
   rooms: [],
   inProgress: false,
 };
@@ -24,7 +24,7 @@ export type Base64Update = {
  */
 const defaultRoomsSlice = createSlice({
   name: 'defaultRooms',
-  initialState,
+  initialState: initialDefaultRoomState,
   reducers: {
     updateDefaultRooms(state, action) {
       window?.log?.info('updating default rooms', action.payload);

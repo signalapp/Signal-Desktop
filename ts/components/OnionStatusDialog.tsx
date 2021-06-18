@@ -35,8 +35,6 @@ export type StatusLightType = {
 
 const OnionPathModalInner = (props: any) => {
   const onionNodes = useSelector((state: StateType) => state.onionPaths.snodePath);
-  const confirmModalState = useSelector((state: StateType) => state);
-  console.log('onion path: ', confirmModalState);
   const onionPath = onionNodes;
   // including the device and destination in calculation
   const glowDuration = onionPath.length + 2;

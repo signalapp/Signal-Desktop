@@ -25,22 +25,11 @@ export type PropsContextConversationItem = {
   isKickedFromGroup?: boolean;
   left?: boolean;
   theme?: any;
-
-  onDeleteMessages?: () => void;
-  onDeleteContact?: () => void;
-  onLeaveGroup?: () => void;
-  onBlockContact?: () => void;
-  onMarkAllRead: () => void;
-  onCopyPublicKey?: () => void;
-  onUnblockContact?: () => void;
-  onInviteContacts?: () => void;
-  onClearNickname?: () => void;
-  onChangeNickname?: () => void;
 };
 
 export const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
   const {
-    id,
+    id: conversationId,
     triggerId,
     isBlocked,
     isMe,
@@ -49,16 +38,6 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     type,
     left,
     isKickedFromGroup,
-    onDeleteContact,
-    onDeleteMessages,
-    onBlockContact,
-    onClearNickname,
-    onCopyPublicKey,
-    onMarkAllRead,
-    onUnblockContact,
-    onInviteContacts,
-    onLeaveGroup,
-    onChangeNickname,
     theme,
   } = props;
 
@@ -71,36 +50,21 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
       {modal ? modal : null}
 
       <Menu id={triggerId} animation={animation.fade}>
-        {getBlockMenuItem(
-          isMe,
-          type === ConversationTypeEnum.PRIVATE,
-          isBlocked,
-          onBlockContact,
-          onUnblockContact
-        )}
-        {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey)}
-        {getMarkAllReadMenuItem(onMarkAllRead)}
-        {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, id, setModal)}
-        {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup)}
+        {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
+        {getCopyMenuItem(isPublic, isGroup, conversationId)}
+        {getMarkAllReadMenuItem(conversationId)}
+        {getChangeNicknameMenuItem(isMe, isGroup, conversationId, setModal)}
+        {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
 
-        {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, id)}
-        {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts)}
-        {getDeleteContactMenuItem(
-          isMe,
-          isGroup,
-          isPublic,
-          left,
-          isKickedFromGroup,
-          onDeleteContact,
-          id
-        )}
+        {getDeleteMessagesMenuItem(isPublic, conversationId)}
+        {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
+        {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
         {getLeaveGroupMenuItem(
           isKickedFromGroup,
           left,
           isGroup,
           isPublic,
-          onLeaveGroup,
-          id,
+          conversationId,
           setModal
         )}
       </Menu>

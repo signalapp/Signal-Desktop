@@ -378,7 +378,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           data={this.fetchUsersForGroup}
           renderSuggestion={(suggestion, _search, _highlightedDisplay, _index, focused) => (
             <SessionMemberListItem
-              theme={theme}
               isSelected={focused}
               index={index++}
               member={{

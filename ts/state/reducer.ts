@@ -11,29 +11,22 @@ import {
   MentionsInputState,
 } from './ducks/mentionsInput';
 import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
-import { confirmModalReducer as confirmModal, ConfirmModalState } from './ducks/modalDialog';
+import { modalReducer as modals, ModalState } from './ducks/modalDialog';
 
 export type StateType = {
   search: SearchStateType;
-  // messages: MessagesStateType;
   user: UserStateType;
   conversations: ConversationsStateType;
   theme: ThemeStateType;
   section: SectionStateType;
   defaultRooms: DefaultRoomsState;
   mentionsInput: MentionsInputState;
-
   onionPaths: OnionState;
-
-  confirmModal: ConfirmModalState;
-  // modalState: ConfirmModalState
+  modals: ModalState;
 };
 
 export const reducers = {
   search,
-  // Temporary until ./ducks/messages is working
-  // messages,
-  // messages: search,
   conversations,
   user,
   theme,
@@ -41,7 +34,7 @@ export const reducers = {
   defaultRooms,
   mentionsInput,
   onionPaths,
-  confirmModal,
+  modals,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

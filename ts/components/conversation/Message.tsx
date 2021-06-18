@@ -72,8 +72,12 @@ import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
 import { MessageRegularProps } from '../../models/messageType';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import { addSenderAsModerator, removeSenderFromModerator } from '../../interactions/message';
-import { UserDetailsDialog } from '../UserDetailsDialog';
+import {
+  addSenderAsModerator,
+  removeSenderFromModerator,
+} from '../../interactions/messageInteractions';
+import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
+import { MessageInteraction } from '../../interactions';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -463,7 +467,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       direction,
       isPublic,
       firstMessageOfSeries,
-      updateSessionConversationModal,
     } = this.props;
 
     if (collapseMetadata || conversationType !== 'group' || direction === 'outgoing') {
@@ -475,26 +478,21 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       return <div style={{ marginInlineEnd: '60px' }} />;
     }
 
-    const onAvatarClick = () => {
-      updateSessionConversationModal(
-        <UserDetailsDialog
-          i18n={window.i18n}
-          profileName={userName}
-          avatarPath={authorAvatarPath || ''}
-          pubkey={authorPhoneNumber}
-          onClose={() => updateSessionConversationModal(null)}
-          theme={this.props.theme}
-        />
-      );
-    };
-
     return (
       <div className="module-message__author-avatar">
         <Avatar
           avatarPath={authorAvatarPath}
           name={userName}
           size={AvatarSize.S}
-          onAvatarClick={onAvatarClick}
+          onAvatarClick={() => {
+            window.inboxStore?.dispatch(
+              updateUserDetailsModal({
+                conversationId: this.props.convoId,
+                userName,
+                authorAvatarPath,
+              })
+            );
+          }}
           pubkey={authorPhoneNumber}
         />
         {isPublic && isAdmin && (
@@ -554,6 +552,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   public renderContextMenu() {
     const {
       attachments,
+      authorPhoneNumber,
+      convoId,
       onCopyText,
       direction,
       status,
@@ -568,8 +568,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       isOpenGroupV2,
       weAreAdmin,
       isAdmin,
-      onBanUser,
-      onUnbanUser,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
@@ -632,9 +630,23 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             </Item>
           </>
         ) : null}
-        {weAreAdmin && isPublic ? <Item onClick={onBanUser}>{window.i18n('banUser')}</Item> : null}
+        {weAreAdmin && isPublic ? (
+          <Item
+            onClick={() => {
+              MessageInteraction.banUser(authorPhoneNumber, convoId);
+            }}
+          >
+            {window.i18n('banUser')}
+          </Item>
+        ) : null}
         {weAreAdmin && isOpenGroupV2 ? (
-          <Item onClick={onUnbanUser}>{window.i18n('unbanUser')}</Item>
+          <Item
+            onClick={() => {
+              MessageInteraction.unbanUser(authorPhoneNumber, convoId);
+            }}
+          >
+            {window.i18n('unbanUser')}
+          </Item>
         ) : null}
         {weAreAdmin && isPublic && !isAdmin ? (
           <Item onClick={this.onAddModerator}>{window.i18n('addAsModerator')}</Item>

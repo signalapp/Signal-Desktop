@@ -94,7 +94,6 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
       onClose={onClickClose}
       showExitIcon={false}
       showHeader={showHeader}
-      theme={theme}
     >
       {!showHeader && <SpacerLG />}
 

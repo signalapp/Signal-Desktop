@@ -9,10 +9,10 @@ export const applyTheme = (theme: ThemeStateType) => {
 };
 import { lightTheme } from './SessionTheme';
 
-const initialState = lightTheme;
+export const initialThemeState = lightTheme;
 
 export const reducer = (
-  state: any = initialState,
+  state: any = initialThemeState,
   {
     type,
     payload,

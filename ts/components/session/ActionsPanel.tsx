@@ -47,8 +47,22 @@ import { DURATION } from '../../session/constants';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusDialog';
 import { EditProfileDialog } from '../EditProfileDialog';
-import { StateType } from '../../state/reducer';
 import { SessionConfirm } from './SessionConfirm';
+import {
+  getAddModeratorsModal,
+  getConfirmModal,
+  getInviteContactModal,
+  getRemoveModeratorsModal,
+  getUpdateGroupMembersModal,
+  getUpdateGroupNameModal,
+  getUserDetailsModal,
+} from '../../state/selectors/modal';
+import { InviteContactsDialog } from '../conversation/InviteContactsDialog';
+import { AddModeratorsDialog } from '../conversation/ModeratorsAddDialog';
+import { RemoveModeratorsDialog } from '../conversation/ModeratorsRemoveDialog';
+import { UpdateGroupNameDialog } from '../conversation/UpdateGroupNameDialog';
+import { UpdateGroupMembersDialog } from '../conversation/UpdateGroupMembersDialog';
+import { UserDetailsDialog } from '../UserDetailsDialog';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -112,10 +126,6 @@ const Section = (props: { setModal?: any; type: SectionType; avatarPath?: string
     );
   }
 
-  let iconColor = undefined;
-  if (type === SectionType.PathIndicator) {
-  }
-
   const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
 
   let iconType: SessionIconType;
@@ -135,6 +145,7 @@ const Section = (props: { setModal?: any; type: SectionType; avatarPath?: string
     default:
       iconType = SessionIconType.Moon;
   }
+  const iconColor = undefined;
 
   return (
     <>
@@ -327,6 +338,30 @@ const doAppStartUp = () => {
   SwarmPolling.getInstance().start();
 };
 
+const ModalContainer = () => {
+  const confirmModalState = useSelector(getConfirmModal);
+  const inviteModalState = useSelector(getInviteContactModal);
+  const addModeratorsModalState = useSelector(getAddModeratorsModal);
+  const removeModeratorsModalState = useSelector(getRemoveModeratorsModal);
+  const updateGroupMembersModalState = useSelector(getUpdateGroupMembersModal);
+  const updateGroupNameModalState = useSelector(getUpdateGroupNameModal);
+  const userDetailsModalState = useSelector(getUserDetailsModal);
+
+  return (
+    <React.Fragment>
+      {confirmModalState && <SessionConfirm {...confirmModalState} />}
+      {inviteModalState && <InviteContactsDialog {...inviteModalState} />}
+      {addModeratorsModalState && <AddModeratorsDialog {...addModeratorsModalState} />}
+      {removeModeratorsModalState && <RemoveModeratorsDialog {...removeModeratorsModalState} />}
+      {updateGroupMembersModalState && (
+        <UpdateGroupMembersDialog {...updateGroupMembersModalState} />
+      )}
+      {updateGroupNameModalState && <UpdateGroupNameDialog {...updateGroupNameModalState} />}
+      {userDetailsModalState && <UserDetailsDialog {...userDetailsModalState} />}
+    </React.Fragment>
+  );
+};
+
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
@@ -375,27 +410,10 @@ export const ActionsPanel = () => {
     void triggerAvatarReUploadIfNeeded();
   }, DURATION.DAYS * 1);
 
-  const formatLog = (s: any) => {
-    console.log('@@@@:: ', s);
-  };
-
-  // const confirmModalState = useSelector((state: StateType) => state);
-
-  const confirmModalState = useSelector((state: StateType) => state.confirmModal);
-
-  console.log('@@@ confirm modal state', confirmModalState);
-
-  // formatLog(confirmModalState.modalState.title);
-
-  formatLog(confirmModalState);
-
-  // formatLog(confirmModalState2);
-
   return (
     <>
-      {modal ? modal : null}
-      {/* { confirmModalState && confirmModalState.title ? <div>{confirmModalState.title}</div> : null} */}
-      {confirmModalState ? <SessionConfirm {...confirmModalState} /> : null}
+      {modal && modal}
+      <ModalContainer />
       <div className="module-left-pane__sections-container">
         <Section
           setModal={setModal}

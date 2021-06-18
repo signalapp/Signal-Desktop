@@ -1,77 +1,75 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { Avatar, AvatarSize } from '../Avatar';
-import { DefaultTheme, withTheme } from 'styled-components';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerMD } from '../basic/Text';
+import { updateGroupNameModal } from '../../state/ducks/modalDialog';
+import autoBind from 'auto-bind';
+import { ConversationModel } from '../../models/conversation';
+import { ConversationController } from '../../session/conversations';
+import { ClosedGroup } from '../../session';
 
-interface Props {
-  titleText: string;
-  pubkey: string;
-  isPublic: boolean;
-  groupName: string;
-  okText: string;
-  cancelText: string;
-  isAdmin: boolean;
-  i18n: any;
-  onSubmit: any;
-  onClose: any;
-  // avatar stuff
-  avatarPath: string;
-  theme: DefaultTheme;
-}
+type Props = {
+  conversationId: string;
+};
 
 interface State {
   groupName: string;
   errorDisplayed: boolean;
   errorMessage: string;
-  avatar: string;
+  avatar: string | null;
 }
 
-class UpdateGroupNameDialogInner extends React.Component<Props, State> {
+export class UpdateGroupNameDialog extends React.Component<Props, State> {
   private readonly inputEl: any;
+  private readonly convo: ConversationModel;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
 
-    this.onClickOK = this.onClickOK.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.closeDialog = this.closeDialog.bind(this);
-    this.onFileSelected = this.onFileSelected.bind(this);
-    this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
+    autoBind(this);
+    this.convo = ConversationController.getInstance().get(props.conversationId);
 
     this.state = {
-      groupName: this.props.groupName,
+      groupName: this.convo.getName(),
       errorDisplayed: false,
       errorMessage: 'placeholder',
-      avatar: this.props.avatarPath,
+      avatar: this.convo.getAvatarPath(),
     };
     this.inputEl = React.createRef();
     window.addEventListener('keyup', this.onKeyUp);
   }
 
   public onClickOK() {
-    const { i18n, onSubmit } = this.props;
     if (!this.state.groupName.trim()) {
-      this.onShowError(i18n('emptyGroupNameError'));
+      this.onShowError(window.i18n('emptyGroupNameError'));
 
       return;
     }
 
-    const avatar = this?.inputEl?.current?.files?.length > 0 ? this.inputEl.current.files[0] : null; // otherwise use the current avatar
+    const newAvatarPath =
+      this?.inputEl?.current?.files?.length > 0 ? this.inputEl.current.files[0] : null; // otherwise use the current avatar
 
-    onSubmit(this.state.groupName, avatar);
+    if (this.state.groupName !== this.convo.getName() || newAvatarPath !== this.state.avatar) {
+      const members = this.convo.get('members') || [];
+
+      void ClosedGroup.initiateGroupUpdate(
+        this.convo.id,
+        this.state.groupName,
+        members,
+        newAvatarPath
+      );
+    }
 
     this.closeDialog();
   }
 
   public render() {
-    const { okText, cancelText } = this.props;
-
-    const titleText = `${this.props.titleText}`;
+    const okText = window.i18n('ok');
+    const cancelText = window.i18n('cancel');
+    const titleText = window.i18n('updateGroupDialogTitle', this.convo.getName());
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
@@ -79,12 +77,15 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
       this.state.errorDisplayed ? 'error-shown' : 'error-faded'
     );
 
+    const isAdmin = this.convo.isPublic()
+      ? this.convo.isAdmin(window.storage.get('primaryDevicePubKey'))
+      : true;
+
     return (
       <SessionWrapperModal
         title={titleText}
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
-        theme={this.props.theme}
         additionalClassName="update-group-dialog"
       >
         {this.state.errorDisplayed ? (
@@ -108,7 +109,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
           required={true}
           aria-required={true}
           autoFocus={true}
-          disabled={!this.props.isAdmin}
+          disabled={!isAdmin}
         />
 
         <div className="session-modal__button-group">
@@ -157,7 +158,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
 
-    this.props.onClose();
+    window.inboxStore?.dispatch(updateGroupNameModal(null));
   }
 
   private onGroupNameChanged(event: any) {
@@ -171,17 +172,18 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
   }
 
   private renderAvatar() {
-    const avatarPath = this.state.avatar;
-    const isPublic = this.props.isPublic;
+    const isPublic = this.convo.isPublic();
+    const pubkey = this.convo.id;
 
     if (!isPublic) {
       return undefined;
     }
+    // tslint:disable: use-simple-attributes
 
     return (
       <div className="avatar-center">
         <div className="avatar-center-inner">
-          <Avatar avatarPath={avatarPath} size={AvatarSize.XL} pubkey={this.props.pubkey} />
+          <Avatar avatarPath={this.state.avatar || ''} size={AvatarSize.XL} pubkey={pubkey} />
           <div
             className="image-upload-section"
             role="button"
@@ -214,5 +216,3 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
     });
   }
 }
-
-export const UpdateGroupNameDialog = withTheme(UpdateGroupNameDialogInner);

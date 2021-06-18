@@ -37,7 +37,7 @@ export const actions = {
   showSettingsSection,
 };
 
-const initialState = {
+export const initialSectionState = {
   focusedSection: SectionType.Message,
   focusedSettingsSection: undefined,
 };
@@ -48,7 +48,7 @@ export type SectionStateType = {
 };
 
 export const reducer = (
-  state: any = initialState,
+  state: any = initialSectionState,
   {
     type,
     payload,
