@@ -85,6 +85,7 @@ class UpdateGroupNameDialogInner extends React.Component<Props, State> {
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
         theme={this.props.theme}
+        additionalClassName="update-group-dialog"
       >
         {this.state.errorDisplayed ? (
           <>

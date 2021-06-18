@@ -41,6 +41,7 @@ export type SessionWrapperModalType = {
   headerIconButtons?: any[];
   children: any;
   headerReverse?: boolean;
+  additionalClassName?: string;
 };
 
 export const SessionWrapperModal = (props: SessionWrapperModalType) => {
@@ -56,6 +57,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     theme,
     headerIconButtons,
     headerReverse,
+    additionalClassName
   } = props;
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
   };
 
   return (
-    <div className="loki-dialog modal">
+    <div className={"loki-dialog modal " + additionalClassName}>
       <div className="session-confirm-wrapper">
         <div className="session-modal">
           {showHeader ? (
