@@ -39,12 +39,10 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     closeTheme = SessionButtonColor.Primary,
     onClickOk,
     onClickClose,
-    closeAfterClickOk = true,
     hideCancel = false,
     sessionIcon,
     iconSize,
     shouldShowConfirm,
-    // updateConfirmModal
   } = props;
 
   const okText = props.okText || window.i18n('ok');
@@ -54,19 +52,6 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
   const theme = useTheme();
 
   const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
-
-  /**
-   * Calls close function after the ok button is clicked. If no close method specified, closes the modal
-   */
-  const onClickOkWithClose = () => {
-    if (onClickOk) {
-      onClickOk();
-    }
-
-    if (onClickClose) {
-      onClickClose();
-    }
-  };
 
   const onClickOkHandler = () => {
     if (onClickOk) {
@@ -80,6 +65,9 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     return null;
   }
 
+  /**
+   * Performs specified on close action then removes the modal.
+   */
   const onClickCancelHandler = () => {
     if (onClickClose) {
       onClickClose();
@@ -114,11 +102,9 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
       </div>
 
       <div className="session-modal__button-group">
-        {/* <SessionButton text={okText} buttonColor={okTheme} onClick={closeAfterClickOk ? onClickOk : onClickOkWithClose} /> */}
         <SessionButton text={okText} buttonColor={okTheme} onClick={onClickOkHandler} />
 
         {!hideCancel && (
-          // <SessionButton text={cancelText} buttonColor={closeTheme} onClick={onClickClose} />
           <SessionButton
             text={cancelText}
             buttonColor={closeTheme}

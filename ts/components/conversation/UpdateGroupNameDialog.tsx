@@ -86,6 +86,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         title={titleText}
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
+        additionalClassName="update-group-dialog"
       >
         {this.state.errorDisplayed ? (
           <>
