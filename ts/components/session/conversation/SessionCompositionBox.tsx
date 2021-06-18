@@ -215,16 +215,16 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const { items } = e.clipboardData;
     let imgBlob = null;
     for (const item of items) {
-      const pasteType = item.type.split('/')[0]
+      const pasteType = item.type.split('/')[0];
       if (pasteType === 'image') {
         imgBlob = item.getAsFile();
       }
 
       switch (pasteType) {
-        case ('image'):
+        case 'image':
           imgBlob = item.getAsFile();
           break;
-        case ('text'):
+        case 'text':
           this.showLinkSharingConfirmationModalDialog(e);
       }
     }
@@ -252,18 +252,19 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         okTheme: SessionButtonColor.Danger,
         onClickOk: () => {
           window.setSettingValue('link-preview-setting', true);
-        }
+        },
       });
     }
   }
 
   /**
-   * 
+   *
    * @param str String to evaluate
    * @returns boolean if the string is true or false
    */
   private isURL(str: string) {
-    var urlRegex = '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+    var urlRegex =
+      '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
     var url = new RegExp(urlRegex, 'i');
     return str.length < 2083 && url.test(str);
   }
@@ -389,12 +390,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
       : left
-        ? i18n('youLeftTheGroup')
-        : isBlocked && isPrivate
-          ? i18n('unblockToSend')
-          : isBlocked && !isPrivate
-            ? i18n('unblockGroupToSend')
-            : i18n('sendMessage');
+      ? i18n('youLeftTheGroup')
+      : isBlocked && isPrivate
+      ? i18n('unblockToSend')
+      : isBlocked && !isPrivate
+      ? i18n('unblockGroupToSend')
+      : i18n('sendMessage');
     const typingEnabled = this.isTypingEnabled();
     let index = 0;
 
