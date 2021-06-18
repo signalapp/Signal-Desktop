@@ -1591,7 +1591,7 @@ Signal Desktop makes use of the following open source projects.
 
 ## jquery
 
-    Copyright JS Foundation and other contributors, https://js.foundation/
+    Copyright OpenJS Foundation and other contributors, https://openjsf.org/
 
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
