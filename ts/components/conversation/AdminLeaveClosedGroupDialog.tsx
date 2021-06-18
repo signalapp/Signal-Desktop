@@ -1,32 +1,31 @@
 import React from 'react';
 
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { DefaultTheme } from 'styled-components';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG } from '../basic/Text';
+import { ConversationController } from '../../session/conversations';
+import { adminLeaveClosedGroup } from '../../state/ducks/modalDialog';
 
 type Props = {
-  groupName: string;
-  onSubmit: () => any;
-  onClose: any;
-  theme: DefaultTheme;
+  conversationId: string;
 };
 
-const AdminLeaveClosedGroupDialogInner = (props: Props) => {
-  const { groupName, theme, onSubmit, onClose } = props;
-
-  const titleText = `${window.i18n('leaveGroup')} ${groupName}`;
+export const AdminLeaveClosedGroupDialog = (props: Props) => {
+  const convo = ConversationController.getInstance().get(props.conversationId);
+  const titleText = `${window.i18n('leaveGroup')} ${convo.getName()}`;
   const warningAsAdmin = `${window.i18n('leaveGroupConfirmationAdmin')}`;
   const okText = window.i18n('leaveAndRemoveForEveryone');
   const cancelText = window.i18n('cancel');
 
-  const onClickOK = () => {
-    void onSubmit();
+  const onClickOK = async () => {
+    await ConversationController.getInstance()
+      .get(props.conversationId)
+      .leaveClosedGroup();
     closeDialog();
   };
 
   const closeDialog = () => {
-    onClose();
+    window.inboxStore?.dispatch(adminLeaveClosedGroup(null));
   };
 
   return (
@@ -41,5 +40,3 @@ const AdminLeaveClosedGroupDialogInner = (props: Props) => {
     </SessionWrapperModal>
   );
 };
-
-export const AdminLeaveClosedGroupDialog = AdminLeaveClosedGroupDialogInner;

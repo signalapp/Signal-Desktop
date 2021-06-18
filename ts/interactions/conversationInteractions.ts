@@ -17,6 +17,7 @@ import _ from 'lodash';
 import { ConversationController } from '../session/conversations';
 import { BlockedNumberController } from '../util/blockedNumberController';
 import {
+  changeNickNameModal,
   updateAddModeratorsModal,
   updateConfirmModal,
   updateGroupMembersModal,
@@ -233,6 +234,10 @@ export async function setNotificationForConvoId(
 export async function clearNickNameByConvoId(conversationId: string) {
   const conversation = ConversationController.getInstance().get(conversationId);
   await conversation.setNickname('');
+}
+
+export function showChangeNickNameByConvoId(conversationId: string) {
+  window.inboxStore?.dispatch(changeNickNameModal({ conversationId }));
 }
 
 export async function deleteMessagesByConvoIdNoConfirmation(conversationId: string) {

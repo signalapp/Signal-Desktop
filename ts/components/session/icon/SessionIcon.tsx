@@ -1,6 +1,6 @@
 import React from 'react';
 import { icons, SessionIconSize, SessionIconType } from '../icon';
-import styled, { css, DefaultTheme, keyframes } from 'styled-components';
+import styled, { css, DefaultTheme, keyframes, useTheme } from 'styled-components';
 import _ from 'lodash';
 
 export type SessionIconProps = {
@@ -12,7 +12,7 @@ export type SessionIconProps = {
   glowDuration?: number;
   borderRadius?: number;
   glowStartDelay?: number;
-  theme: DefaultTheme;
+  theme?: DefaultTheme;
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
@@ -157,6 +157,8 @@ export const SessionIcon = (props: SessionIconProps) => {
   iconSize = iconSize || SessionIconSize.Medium;
   iconRotation = iconRotation || 0;
 
+  const themeToUse = theme || useTheme();
+
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
@@ -176,7 +178,7 @@ export const SessionIcon = (props: SessionIconProps) => {
       borderRadius={borderRadius}
       iconRotation={iconRotation}
       iconColor={iconColor}
-      theme={theme}
+      theme={themeToUse}
     />
   );
 };

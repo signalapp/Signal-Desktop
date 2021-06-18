@@ -7,7 +7,7 @@ import { getTheme } from '../state/selectors/theme';
 import Electron from 'electron';
 const { shell } = Electron;
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { StateType } from '../state/reducer';
 import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
 
@@ -18,10 +18,9 @@ import countryLookup from 'country-code-lookup';
 import { useTheme } from 'styled-components';
 import { useNetwork } from '../hooks/useNetwork';
 import { Snode } from '../data/data';
+import { onionPathModal } from '../state/ducks/modalDialog';
 
 export type OnionPathModalType = {
-  onConfirm?: () => void;
-  onClose?: () => void;
   confirmText?: string;
   cancelText?: string;
   title?: string;
@@ -33,7 +32,7 @@ export type StatusLightType = {
   color?: string;
 };
 
-const OnionPathModalInner = (props: any) => {
+const OnionPathModalInner = () => {
   const onionNodes = useSelector((state: StateType) => state.onionPaths.snodePath);
   const onionPath = onionNodes;
   // including the device and destination in calculation
@@ -173,17 +172,18 @@ export const OnionPathModal = (props: OnionPathModalType) => {
   const onConfirm = () => {
     void shell.openExternal('https://getsession.org/faq/#onion-routing');
   };
+  const dispatch = useDispatch();
   return (
     // tslint:disable-next-line: use-simple-attributes
     <SessionWrapperModal
-      title={props.title || window.i18n('onionPathIndicatorTitle')}
-      confirmText={props.confirmText || window.i18n('learnMore')}
-      cancelText={props.cancelText || window.i18n('cancel')}
+      title={window.i18n('onionPathIndicatorTitle')}
+      confirmText={window.i18n('learnMore')}
+      cancelText={window.i18n('cancel')}
       onConfirm={onConfirm}
-      onClose={props.onClose}
+      onClose={() => dispatch(onionPathModal(null))}
       showExitIcon={true}
     >
-      <OnionPathModalInner {...props} />
+      <OnionPathModalInner />
     </SessionWrapperModal>
   );
 };
