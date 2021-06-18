@@ -225,27 +225,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           imgBlob = item.getAsFile();
           break;
         case ('text'):
-          // check for links
-          console.log('is a text');
-          let x = e.clipboardData.getData('text');
-          console.log({ x });
-          if (this.isURL(x)) {
-            console.log('IS A URL!');
-            // const dispatch = useDispatch();
-            // dispatch(updateConfirmModal({
-            //   shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
-            //   title: window.i18n('linkPreviewsTitle'),
-            //   message: window.i18n('linkPreviewsConfirmMessage'),
-            //   okTheme: SessionButtonColor.Danger,
-            // }))
-            this.props.updateConfirmModal({
-              shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
-              title: window.i18n('linkPreviewsTitle'),
-              message: window.i18n('linkPreviewsConfirmMessage'),
-              okTheme: SessionButtonColor.Danger,
-            })
-          }
-
+          this.showLinkSharingConfirmationModalDialog(e);
       }
     }
     if (imgBlob !== null) {
@@ -255,6 +235,22 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
       e.preventDefault();
       e.stopPropagation();
+    }
+  }
+
+  /**
+   * Check if what is pasted is a URL and prompt confirmation for a setting change
+   * @param e paste event
+   */
+  private showLinkSharingConfirmationModalDialog(e: any) {
+    let pastedText = e.clipboardData.getData('text');
+    if (this.isURL(pastedText)) {
+      this.props.updateConfirmModal({
+        shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
+        title: window.i18n('linkPreviewsTitle'),
+        message: window.i18n('linkPreviewsConfirmMessage'),
+        okTheme: SessionButtonColor.Danger,
+      });
     }
   }
 
