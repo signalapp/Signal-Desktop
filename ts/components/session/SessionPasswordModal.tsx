@@ -74,11 +74,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       action === PasswordAction.Remove ? SessionButtonColor.Danger : SessionButtonColor.Primary;
 
     return (
-      <SessionWrapperModal
-        title={window.i18n(`${action}Password`)}
-        onClose={this.closeDialog}
-        theme={this.props.theme}
-      >
+      <SessionWrapperModal title={window.i18n(`${action}Password`)} onClose={this.closeDialog}>
         <SpacerSM />
 
         <div className="session-modal__input-group">

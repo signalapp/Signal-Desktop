@@ -16,6 +16,7 @@ import { shell } from 'electron';
 import { PasswordAction, SessionPasswordModal } from '../SessionPasswordModal';
 import { SessionConfirmDialogProps } from '../SessionConfirm';
 import { mapDispatchToProps } from '../../../state/actions';
+import { unblockConvoById } from '../../../interactions/conversationInteractions';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -602,13 +603,9 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         },
         comparisonValue: undefined,
         setFn: async () => {
-          if (currentModel) {
-            await currentModel.unblock();
-          } else {
-            await BlockedNumberController.unblock(blockedNumber);
-            this.forceUpdate();
-          }
-          ToastUtils.pushToastSuccess('unblocked', window.i18n('unblocked'));
+          await unblockConvoById(blockedNumber);
+
+          this.forceUpdate();
         },
         hidden: false,
         onClick: undefined,

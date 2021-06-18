@@ -3,26 +3,30 @@ import React, { useState } from 'react';
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme, useTheme } from 'styled-components';
 import { ConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { initiateGroupUpdate } from '../../session/group';
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
-import { getCompleteUrlForV2ConvoId } from '../../interactions/conversation';
+import { getCompleteUrlForV2ConvoId } from '../../interactions/conversationInteractions';
 import _ from 'lodash';
 import { VALIDATION } from '../../session/constants';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG } from '../basic/Text';
+import { useDispatch } from 'react-redux';
+import { updateInviteContactModal } from '../../state/ducks/modalDialog';
 
 type Props = {
-  // contactList: Array<any>;
-  onClose: any;
-  theme: DefaultTheme;
-  convo: ConversationModel;
+  conversationId: string;
 };
 
 const InviteContactsDialogInner = (props: Props) => {
-  const { convo, onClose, theme } = props;
+  const { conversationId } = props;
+
+  const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const convo = ConversationController.getInstance().get(conversationId);
   // tslint:disable-next-line: max-func-body-length
 
   let contacts = ConversationController.getInstance()
@@ -69,7 +73,7 @@ const InviteContactsDialogInner = (props: Props) => {
 
   const closeDialog = () => {
     window.removeEventListener('keyup', onKeyUp);
-    onClose();
+    dispatch(updateInviteContactModal(null));
   };
 
   const onClickOK = () => {
@@ -185,7 +189,6 @@ const InviteContactsDialogInner = (props: Props) => {
         onUnselect={(selectedMember: ContactType) => {
           onMemberClicked(selectedMember);
         }}
-        theme={theme}
       />
     ));
   };
@@ -202,7 +205,7 @@ const InviteContactsDialogInner = (props: Props) => {
   };
 
   return (
-    <SessionWrapperModal title={titleText} onClose={closeDialog} theme={props.theme}>
+    <SessionWrapperModal title={titleText} onClose={closeDialog}>
       <SpacerLG />
 
       <div className="contact-selection-list">{renderMemberList()}</div>

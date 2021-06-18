@@ -29,7 +29,7 @@ import { ConversationController } from '../../../session/conversations';
 import { getMessageById, getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
-import { deleteOpenGroupMessages } from '../../../interactions/conversation';
+import { deleteOpenGroupMessages } from '../../../interactions/conversationInteractions';
 import {
   ConversationNotificationSetting,
   ConversationNotificationSettingType,
@@ -39,12 +39,6 @@ import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
 import { SessionButtonColor } from '../SessionButton';
-import { AddModeratorsDialog } from '../../conversation/ModeratorsAddDialog';
-import { RemoveModeratorsDialog } from '../../conversation/ModeratorsRemoveDialog';
-import { UpdateGroupNameDialog } from '../../conversation/UpdateGroupNameDialog';
-import { UpdateGroupMembersDialog } from '../../conversation/UpdateGroupMembersDialog';
-import { InviteContactsDialog } from '../../conversation/InviteContactsDialog';
-
 interface State {
   // Message sending progress
   messageProgressVisible: boolean;
@@ -76,7 +70,6 @@ interface State {
 
   // lightbox options
   lightBoxOptions?: LightBoxOptions;
-  modal: JSX.Element | null;
 }
 
 export interface LightBoxOptions {
@@ -117,7 +110,6 @@ export class SessionConversation extends React.Component<Props, State> {
       showOptionsPane: false,
       stagedAttachments: [],
       isDraggingFile: false,
-      modal: null,
     };
     this.compositionBoxRef = React.createRef();
     this.messageContainerRef = React.createRef();
@@ -316,7 +308,6 @@ export class SessionConversation extends React.Component<Props, State> {
           />
         </div>
 
-        {this.state.modal ? this.state.modal : null}
         <div className={classNames('conversation-item__options-pane', showOptionsPane && 'show')}>
           <SessionRightPanelWithDetails {...this.getRightPanelProps()} />
         </div>
@@ -397,11 +388,8 @@ export class SessionConversation extends React.Component<Props, State> {
       hasNickname: !!conversation.getNickname(),
       selectionMode: !!selectedMessages.length,
 
-      onSetDisappearingMessages: conversation.updateExpirationTimer,
-      onSetNotificationForConvo: conversation.setNotificationOption,
-      onDeleteMessages: conversation.deleteMessages,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
-      onClearNickname: conversation.clearNickname,
+
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
       },
@@ -410,38 +398,6 @@ export class SessionConversation extends React.Component<Props, State> {
         this.setState({
           messageDetailShowProps: undefined,
         });
-      },
-
-      onUpdateGroupName: () => {
-        window.Whisper.events.trigger('updateGroupName', conversation);
-      },
-
-      onBlockUser: () => {
-        void conversation.block();
-      },
-      onUnblockUser: () => {
-        void conversation.unblock();
-      },
-      onCopyPublicKey: () => {
-        conversation.copyPublicKey();
-      },
-      onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveClosedGroup', conversation);
-      },
-      onInviteContacts: () => {
-        window.Whisper.events.trigger('inviteContacts', conversation);
-      },
-
-      onMarkAllRead: () => {
-        void conversation.markReadBouncy(Date.now());
-      },
-
-      onAddModerators: () => {
-        window.Whisper.events.trigger('addModerators', conversation);
-      },
-
-      onRemoveModerators: () => {
-        window.Whisper.events.trigger('removeModerators', conversation);
       },
 
       onAvatarClick: (pubkey: any) => {
@@ -479,21 +435,8 @@ export class SessionConversation extends React.Component<Props, State> {
       onDownloadAttachment: this.saveAttachment,
       messageContainerRef: this.messageContainerRef,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
-      updateSessionConversationModal: this.updateSessionConversationModal,
     };
   }
-
-  /**
-   * Setting this to a JSX element that will be rendered if non-null.
-   * @param update Value to set the modal state to
-   */
-  private updateSessionConversationModal(update: JSX.Element | null) {
-    this.setState({
-      ...this.state,
-      modal: update,
-    });
-  }
-  // tslint:disable: member-ordering
 
   // tslint:disable-next-line: max-func-body-length
   public getRightPanelProps() {
@@ -527,237 +470,8 @@ export class SessionConversation extends React.Component<Props, State> {
         value: item.get('seconds'),
       })),
 
-      onSetDisappearingMessages: (seconds: any) => {
-        if (seconds > 0) {
-          void conversation.updateExpirationTimer(seconds);
-        } else {
-          void conversation.updateExpirationTimer(null);
-        }
-      },
-
       onGoBack: () => {
         this.toggleRightPanel();
-      },
-
-      onUpdateGroupName: () => {
-        // warrick: remove trigger once everything is cleaned up
-        // window.Whisper.events.trigger('updateGroupName', conversation);
-        const avatarPath = conversation.getAvatarPath();
-        const groupName = conversation.getName();
-        const groupId = conversation.id;
-        const members = conversation.get('members') || [];
-        const isPublic = conversation.isPublic();
-
-        let isAdmin = true;
-        let titleText;
-
-        titleText = window.i18n('updateGroupDialogTitle', groupName);
-
-        if (isPublic) {
-          // fix the title
-          // I'd much prefer to integrate mods with groupAdmins
-          // but lets discuss first...
-          isAdmin = conversation.isAdmin(window.storage.get('primaryDevicePubKey'));
-        }
-
-        const onClose = () => {
-          this.setState({ ...this.state, modal: null });
-        };
-
-        const onUpdateGroupNameSubmit = (newGroupName: string, newAvatarPath: string) => {
-          if (newGroupName !== groupName || newAvatarPath !== avatarPath) {
-            void ClosedGroup.initiateGroupUpdate(groupId, newGroupName, members, newAvatarPath);
-          }
-        };
-
-        this.setState({
-          ...this.state,
-          modal: (
-            <UpdateGroupNameDialog
-              titleText={titleText}
-              pubkey={conversation.id}
-              isPublic={conversation.isPublic()}
-              groupName={groupName}
-              okText={window.i18n('ok')}
-              cancelText={window.i18n('cancel')}
-              isAdmin={isAdmin}
-              i18n={window.i18n}
-              onSubmit={onUpdateGroupNameSubmit}
-              onClose={onClose}
-              // avatar stuff
-              avatarPath={avatarPath || ''}
-              theme={this.props.theme}
-            />
-          ),
-        });
-      },
-      onUpdateGroupMembers: async () => {
-        // window.Whisper.events.trigger('updateGroupMembers', conversation);
-        // return;
-
-        if (conversation.isMediumGroup()) {
-          // make sure all the members' convo exists so we can add or remove them
-          await Promise.all(
-            conversation
-              .get('members')
-              .map(m =>
-                ConversationController.getInstance().getOrCreateAndWait(
-                  m,
-                  ConversationTypeEnum.PRIVATE
-                )
-              )
-          );
-        }
-
-        const groupName = conversation.getName();
-        const isPublic = conversation.isPublic();
-        const groupId = conversation.id;
-        const members = conversation.get('members') || [];
-        const avatarPath = conversation.getAvatarPath();
-        const theme = this.props.theme;
-
-        const titleText = window.i18n('updateGroupDialogTitle', groupName);
-
-        const ourPK = Utils.UserUtils.getOurPubKeyStrFromCache();
-
-        let admins = conversation.get('groupAdmins');
-        const isAdmin = conversation.get('groupAdmins')?.includes(ourPK) ? true : false;
-
-        const convos = ConversationController.getInstance()
-          .getConversations()
-          .filter(d => !!d);
-
-        let existingMembers = conversation.get('members') || [];
-        let existingZombies = conversation.get('zombies') || [];
-
-        let contactsAndMembers = convos.filter(
-          d => existingMembers.includes(d.id) && d.isPrivate() && !d.isMe()
-        );
-
-        // contactsAndMembers = _.uniqBy(contactsAndMembers, true, d => d.id);
-        contactsAndMembers = _.uniqBy(contactsAndMembers, 'id');
-
-        // at least make sure it's an array
-        if (!Array.isArray(existingMembers)) {
-          existingMembers = [];
-        }
-
-        const onClose = () => {
-          this.setState({
-            ...this.state,
-            modal: null,
-          });
-        };
-
-        const onSubmit = async (newMembers: Array<string>) => {
-          const allMembersAfterUpdate = _.concat(newMembers, [ourPK]);
-
-          if (!isAdmin) {
-            window.log.warn('Skipping update of members, we are not the admin');
-            return;
-          }
-          // new members won't include the zombies. We are the admin and we want to remove them not matter what
-
-          // We need to NOT trigger an group update if the list of member is the same.
-          // we need to merge all members, including zombies for this call.
-
-          // we consider that the admin ALWAYS wants to remove zombies (actually they should be removed
-          // automatically by him when the LEFT message is received)
-          const allExistingMembersWithZombies = _.uniq(existingMembers.concat(existingZombies));
-
-          const notPresentInOld = allMembersAfterUpdate.filter(
-            (m: string) => !allExistingMembersWithZombies.includes(m)
-          );
-
-          // be sure to include zombies in here
-          const membersToRemove = allExistingMembersWithZombies.filter(
-            (m: string) => !allMembersAfterUpdate.includes(m)
-          );
-
-          const xor = _.xor(membersToRemove, notPresentInOld);
-          if (xor.length === 0) {
-            window.log.info('skipping group update: no detected changes in group member list');
-
-            return;
-          }
-
-          // If any extra devices of removed exist in newMembers, ensure that you filter them
-          // Note: I think this is useless
-          const filteredMembers = allMembersAfterUpdate.filter(
-            (member: string) => !_.includes(membersToRemove, member)
-          );
-
-          void ClosedGroup.initiateGroupUpdate(groupId, groupName, filteredMembers, avatarPath);
-        };
-
-        this.setState({
-          ...this.state,
-          modal: (
-            // tslint:disable-next-line: use-simple-attributes
-            <UpdateGroupMembersDialog
-              titleText={titleText}
-              isPublic={isPublic}
-              admins={admins || []}
-              onSubmit={onSubmit}
-              onClose={onClose}
-              okText={window.i18n('ok')}
-              cancelText={window.i18n('cancel')}
-              contactList={contactsAndMembers}
-              isAdmin={isAdmin}
-              existingMembers={existingMembers}
-              existingZombies={existingZombies}
-              theme={this.props.theme}
-            />
-          ),
-        });
-      },
-      onInviteContacts: () => {
-        this.setState({
-          ...this.state,
-          modal: (
-            <InviteContactsDialog
-              convo={conversation}
-              onClose={() => {
-                this.setState({ ...this.state, modal: null });
-              }}
-              theme={this.props.theme}
-            />
-          ),
-        });
-      },
-      onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveClosedGroup', conversation);
-      },
-      onAddModerators: () => {
-        // window.Whisper.events.trigger('addModerators', conversation);
-        this.setState({
-          ...this.state,
-          modal: (
-            <AddModeratorsDialog
-              convo={conversation}
-              onClose={() => {
-                this.setState({ ...this.state, modal: null });
-              }}
-              theme={this.props.theme}
-            />
-          ),
-        });
-      },
-
-      onRemoveModerators: () => {
-        // window.Whisper.events.trigger('removeModerators', conversation);
-        this.setState({
-          ...this.state,
-          modal: (
-            <RemoveModeratorsDialog
-              convo={conversation}
-              onClose={() => {
-                this.setState({ ...this.state, modal: null });
-              }}
-              theme={this.props.theme}
-            />
-          ),
-        });
       },
       onShowLightBox: (lightBoxOptions?: LightBoxOptions) => {
         this.setState({ lightBoxOptions });

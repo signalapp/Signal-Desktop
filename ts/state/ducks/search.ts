@@ -280,14 +280,16 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
 
 // Reducer
 
+export const initialSearchState: SearchStateType = {
+  query: '',
+  messages: [],
+  messageLookup: {},
+  conversations: [],
+  contacts: [],
+};
+
 function getEmptyState(): SearchStateType {
-  return {
-    query: '',
-    messages: [],
-    messageLookup: {},
-    conversations: [],
-    contacts: [],
-  };
+  return initialSearchState;
 }
 
 export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES): SearchStateType {

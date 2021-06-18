@@ -255,7 +255,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         onUnselect={(selectedMember: ContactType) => {
           this.handleUnselectMember(selectedMember);
         }}
-        theme={this.props.theme}
       />
     ));
   }

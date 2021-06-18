@@ -4,12 +4,26 @@ import { NotificationForConvoOption, TimerOption } from '../../conversation/Conv
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
 import { SessionNicknameDialog } from '../SessionNicknameDialog';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { ConversationController } from '../../../session/conversations';
 import { UserUtils } from '../../../session/utils';
 import { AdminLeaveClosedGroupDialog } from '../../conversation/AdminLeaveClosedGroupDialog';
 import { useTheme } from 'styled-components';
+import {
+  blockConvoById,
+  clearNickNameByConvoId,
+  copyPublicKeyByConvoId,
+  deleteMessagesByConvoIdWithConfirmation,
+  markAllReadByConvoId,
+  setDisappearingMessagesByConvoId,
+  setNotificationForConvoId,
+  showAddModeratorsByConvoId,
+  showInviteContactByConvoId,
+  showRemoveModeratorsByConvoId,
+  showUpdateGroupNameByConvoId,
+  unblockConvoById,
+} from '../../../interactions/conversationInteractions';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -94,10 +108,18 @@ function showInviteContact(isGroup: boolean, isPublic: boolean): boolean {
 export function getInviteContactMenuItem(
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
-  action: any
+  conversationId: string
 ): JSX.Element | null {
   if (showInviteContact(Boolean(isGroup), Boolean(isPublic))) {
-    return <Item onClick={action}>{window.i18n('inviteContacts')}</Item>;
+    return (
+      <Item
+        onClick={() => {
+          showInviteContactByConvoId(conversationId);
+        }}
+      >
+        {window.i18n('inviteContacts')}
+      </Item>
+    );
   }
   return null;
 }
@@ -108,8 +130,7 @@ export function getDeleteContactMenuItem(
   isPublic: boolean | undefined,
   isLeft: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
-  action: any,
-  id: string
+  conversationId: string
 ): JSX.Element | null {
   if (
     showDeleteContact(
@@ -141,7 +162,7 @@ export function getDeleteContactMenuItem(
             : window.i18n('deleteContactConfirmation'),
           onClickClose,
           onClickOk: () => {
-            void ConversationController.getInstance().deleteContact(id);
+            void ConversationController.getInstance().deleteContact(conversationId);
             onClickClose();
           },
         })
@@ -158,8 +179,7 @@ export function getLeaveGroupMenuItem(
   left: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
-  action: any,
-  id: string,
+  conversationId: string,
   setModal: any
 ): JSX.Element | null {
   if (
@@ -167,7 +187,7 @@ export function getLeaveGroupMenuItem(
   ) {
     const dispatch = useDispatch();
     const theme = useTheme();
-    const conversation = ConversationController.getInstance().get(id);
+    const conversation = ConversationController.getInstance().get(conversationId);
 
     const onClickClose = () => {
       dispatch(updateConfirmModal(null));
@@ -220,10 +240,18 @@ export function getUpdateGroupNameMenuItem(
   isAdmin: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
   left: boolean | undefined,
-  action: any
+  conversationId: string
 ): JSX.Element | null {
   if (showUpdateGroupName(Boolean(isAdmin), Boolean(isKickedFromGroup), Boolean(left))) {
-    return <Item onClick={action}>{window.i18n('editGroup')}</Item>;
+    return (
+      <Item
+        onClick={async () => {
+          await showUpdateGroupNameByConvoId(conversationId);
+        }}
+      >
+        {window.i18n('editGroup')}
+      </Item>
+    );
   }
   return null;
 }
@@ -231,10 +259,18 @@ export function getUpdateGroupNameMenuItem(
 export function getRemoveModeratorsMenuItem(
   isAdmin: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
-  action: any
+  conversationId: string
 ): JSX.Element | null {
   if (showRemoveModerators(Boolean(isAdmin), Boolean(isKickedFromGroup))) {
-    return <Item onClick={action}>{window.i18n('removeModerators')}</Item>;
+    return (
+      <Item
+        onClick={() => {
+          showRemoveModeratorsByConvoId(conversationId);
+        }}
+      >
+        {window.i18n('removeModerators')}
+      </Item>
+    );
   }
   return null;
 }
@@ -242,10 +278,18 @@ export function getRemoveModeratorsMenuItem(
 export function getAddModeratorsMenuItem(
   isAdmin: boolean | undefined,
   isKickedFromGroup: boolean | undefined,
-  action: any
+  conversationId: string
 ): JSX.Element | null {
   if (showAddModerators(Boolean(isAdmin), Boolean(isKickedFromGroup))) {
-    return <Item onClick={action}>{window.i18n('addModerators')}</Item>;
+    return (
+      <Item
+        onClick={() => {
+          showAddModeratorsByConvoId(conversationId);
+        }}
+      >
+        {window.i18n('addModerators')}
+      </Item>
+    );
   }
   return null;
 }
@@ -253,17 +297,19 @@ export function getAddModeratorsMenuItem(
 export function getCopyMenuItem(
   isPublic: boolean | undefined,
   isGroup: boolean | undefined,
-  action: any
+  conversationId: string
 ): JSX.Element | null {
   if (showCopyId(Boolean(isPublic), Boolean(isGroup))) {
     const copyIdLabel = isPublic ? window.i18n('copyOpenGroupURL') : window.i18n('copySessionID');
-    return <Item onClick={action}>{copyIdLabel}</Item>;
+    return <Item onClick={() => copyPublicKeyByConvoId(conversationId)}>{copyIdLabel}</Item>;
   }
   return null;
 }
 
-export function getMarkAllReadMenuItem(action: any): JSX.Element | null {
-  return <Item onClick={action}>{window.i18n('markAllAsRead')}</Item>;
+export function getMarkAllReadMenuItem(conversationId: string): JSX.Element | null {
+  return (
+    <Item onClick={() => markAllReadByConvoId(conversationId)}>{window.i18n('markAllAsRead')}</Item>
+  );
 }
 
 export function getDisappearingMenuItem(
@@ -272,7 +318,7 @@ export function getDisappearingMenuItem(
   left: boolean | undefined,
   isBlocked: boolean | undefined,
   timerOptions: Array<TimerOption>,
-  action: any
+  conversationId: string
 ): JSX.Element | null {
   if (
     showTimerOptions(
@@ -283,6 +329,7 @@ export function getDisappearingMenuItem(
     )
   ) {
     const isRtlMode = isRtlBody();
+
     return (
       // Remove the && false to make context menu work with RTL support
       <Submenu
@@ -292,8 +339,8 @@ export function getDisappearingMenuItem(
         {(timerOptions || []).map(item => (
           <Item
             key={item.value}
-            onClick={() => {
-              action(item.value);
+            onClick={async () => {
+              await setDisappearingMessagesByConvoId(conversationId, item.value);
             }}
           >
             {item.name}
@@ -311,28 +358,32 @@ export function getNotificationForConvoMenuItem(
   isBlocked: boolean | undefined,
   notificationForConvoOptions: Array<NotificationForConvoOption>,
   currentNotificationSetting: ConversationNotificationSettingType,
-  action: (selected: ConversationNotificationSettingType) => any
+  conversationId: string
 ): JSX.Element | null {
   if (showNotificationConvo(Boolean(isKickedFromGroup), Boolean(left), Boolean(isBlocked))) {
-    // const isRtlMode = isRtlBody();
+    // const isRtlMode = isRtlBody();'
+
     return (
       // Remove the && false to make context menu work with RTL support
       <Submenu
         label={window.i18n('notificationForConvo') as any}
         // rtl={isRtlMode && false}
       >
-        {(notificationForConvoOptions || []).map(item => (
-          // tslint:disable-next-line: use-simple-attributes
-          <Item
-            key={item.value}
-            onClick={() => {
-              action(item.value);
-            }}
-            disabled={item.value === currentNotificationSetting}
-          >
-            {item.name}
-          </Item>
-        ))}
+        {(notificationForConvoOptions || []).map(item => {
+          const disabled = item.value === currentNotificationSetting;
+
+          return (
+            <Item
+              key={item.value}
+              onClick={async () => {
+                await setNotificationForConvoId(conversationId, item.value);
+              }}
+              disabled={disabled}
+            >
+              {item.name}
+            </Item>
+          );
+        })}
       </Submenu>
     );
   }
@@ -343,27 +394,17 @@ export function isRtlBody(): boolean {
   return ($('body') as any).hasClass('rtl');
 }
 
-export function getShowMemberMenuItem(
-  isPublic: boolean | undefined,
-  isGroup: boolean | undefined,
-  action: any
-): JSX.Element | null {
-  if (showMemberMenu(Boolean(isPublic), Boolean(isGroup))) {
-    return <Item onClick={action}>{window.i18n('groupMembers')}</Item>;
-  }
-  return null;
-}
-
 export function getBlockMenuItem(
   isMe: boolean | undefined,
   isPrivate: boolean | undefined,
   isBlocked: boolean | undefined,
-  actionBlock: any,
-  actionUnblock: any
+  conversationId: string
 ): JSX.Element | null {
   if (showBlock(Boolean(isMe), Boolean(isPrivate))) {
     const blockTitle = isBlocked ? window.i18n('unblockUser') : window.i18n('blockUser');
-    const blockHandler = isBlocked ? actionUnblock : actionBlock;
+    const blockHandler = isBlocked
+      ? () => unblockConvoById(conversationId)
+      : () => blockConvoById(conversationId);
     return <Item onClick={blockHandler}>{blockTitle}</Item>;
   }
   return null;
@@ -372,18 +413,21 @@ export function getBlockMenuItem(
 export function getClearNicknameMenuItem(
   isMe: boolean | undefined,
   hasNickname: boolean | undefined,
-  action: any,
-  isGroup: boolean | undefined
+  isGroup: boolean | undefined,
+  conversationId: string
 ): JSX.Element | null {
   if (showClearNickname(Boolean(isMe), Boolean(hasNickname), Boolean(isGroup))) {
-    return <Item onClick={action}>{window.i18n('clearNickname')}</Item>;
+    return (
+      <Item onClick={() => clearNickNameByConvoId(conversationId)}>
+        {window.i18n('clearNickname')}
+      </Item>
+    );
   }
   return null;
 }
 
 export function getChangeNicknameMenuItem(
   isMe: boolean | undefined,
-  action: any,
   isGroup: boolean | undefined,
   conversationId?: string,
   setModal?: any
@@ -408,34 +452,18 @@ export function getChangeNicknameMenuItem(
 
 export function getDeleteMessagesMenuItem(
   isPublic: boolean | undefined,
-  action: any,
-  id: string
+  conversationId: string
 ): JSX.Element | null {
   if (showDeleteMessages(Boolean(isPublic))) {
-    const dispatch = useDispatch();
-    const conversation = ConversationController.getInstance().get(id);
-
-    const onClickClose = () => {
-      dispatch(updateConfirmModal(null));
-    };
-
-    const onClickOk = () => {
-      void conversation.destroyMessages();
-      onClickClose();
-    };
-
-    const openConfirmationModal = () => {
-      dispatch(
-        updateConfirmModal({
-          title: window.i18n('deleteMessages'),
-          message: window.i18n('deleteConversationConfirmation'),
-          onClickOk,
-          onClickClose,
-        })
-      );
-    };
-
-    return <Item onClick={openConfirmationModal}>{window.i18n('deleteMessages')}</Item>;
+    return (
+      <Item
+        onClick={() => {
+          deleteMessagesByConvoIdWithConfirmation(conversationId);
+        }}
+      >
+        {window.i18n('deleteMessages')}
+      </Item>
+    );
   }
   return null;
 }

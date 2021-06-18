@@ -250,14 +250,7 @@ export interface MessageRegularProps {
   onRetrySend?: () => void;
   onDownload?: (attachment: AttachmentType) => void;
   onDeleteMessage: (messageId: string) => void;
-  onCopyPubKey?: () => void;
-  onBanUser?: () => void;
-  onUnbanUser?: () => void;
-  // setModal?: any;
-  updateSessionConversationModal: (modal: JSX.Element | null) => any;
-
   onShowDetail: () => void;
-  onShowUserDetails: (userPubKey: string) => void;
   markRead: (readAt: number) => Promise<void>;
   theme: DefaultTheme;
 }

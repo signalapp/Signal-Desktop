@@ -55,7 +55,6 @@ interface Props {
     messageSender: string;
   }) => void;
   onDeleteSelectedMessages: () => Promise<void>;
-  updateSessionConversationModal: (modal: JSX.Element | null) => any;
 }
 
 export class SessionMessagesList extends React.Component<Props, State> {
@@ -345,8 +344,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
         void this.scrollToQuoteMessage(options);
       };
     }
-
-    messageProps.updateSessionConversationModal = this.props.updateSessionConversationModal;
 
     return <Message {...messageProps} key={messageProps.id} />;
   }

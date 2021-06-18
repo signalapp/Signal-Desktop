@@ -11,7 +11,7 @@ import { ToastUtils } from '../session/utils';
 import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../state/ducks/modalDialog';
 
-export function banUser(userToBan: string, conversation?: ConversationModel) {
+export function banUser(userToBan: string, conversationId: string) {
   let pubKeyToBan: PubKey;
   try {
     pubKeyToBan = PubKey.cast(userToBan);
@@ -31,6 +31,7 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
     message: window.i18n('banUserConfirm'),
     onClickClose,
     onClickOk: async () => {
+      const conversation = ConversationController.getInstance().get(conversationId);
       if (!conversation) {
         window.log.info('cannot ban user, the corresponding conversation was not found.');
         return;
@@ -61,7 +62,7 @@ export function banUser(userToBan: string, conversation?: ConversationModel) {
  * There is no way to unban on an opengroupv1 server.
  * This function only works for opengroupv2 server
  */
-export function unbanUser(userToUnBan: string, conversation?: ConversationModel) {
+export function unbanUser(userToUnBan: string, conversationId: string) {
   let pubKeyToUnban: PubKey;
   try {
     pubKeyToUnban = PubKey.cast(userToUnBan);
@@ -70,7 +71,7 @@ export function unbanUser(userToUnBan: string, conversation?: ConversationModel)
     ToastUtils.pushUserBanFailure();
     return;
   }
-  if (!isOpenGroupV2(conversation?.id || '')) {
+  if (!isOpenGroupV2(conversationId || '')) {
     window?.log?.warn('no way to unban on a opengroupv1');
     ToastUtils.pushUserBanFailure();
     return;
@@ -80,6 +81,8 @@ export function unbanUser(userToUnBan: string, conversation?: ConversationModel)
   const onClickClose = () => dispatch(updateConfirmModal(null));
 
   const onClickOk = async () => {
+    const conversation = ConversationController.getInstance().get(conversationId);
+
     if (!conversation) {
       // double check here. the convo might have been removed since the dialog was opened
       window.log.info('cannot unban user, the corresponding conversation was not found.');

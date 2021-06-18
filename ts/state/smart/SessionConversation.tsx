@@ -17,9 +17,6 @@ const mapStateToProps = (state: StateType) => {
     theme: getTheme(state),
     messages: getMessagesOfSelectedConversation(state),
     ourNumber: getOurNumber(state),
-    confirmModal: (state: StateType) => {
-      state.confirmModal;
-    },
   };
 };
 

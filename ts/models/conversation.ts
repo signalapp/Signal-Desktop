@@ -247,28 +247,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isActive() {
     return Boolean(this.get('active_at'));
   }
-  public async block() {
-    if (!this.id || this.isPublic()) {
-      return;
-    }
 
-    const promise = this.isPrivate()
-      ? BlockedNumberController.block(this.id)
-      : BlockedNumberController.blockGroup(this.id);
-    await promise;
-    await this.commit();
-  }
-
-  public async unblock() {
-    if (!this.id || this.isPublic()) {
-      return;
-    }
-    const promise = this.isPrivate()
-      ? BlockedNumberController.unblock(this.id)
-      : BlockedNumberController.unblockGroup(this.id);
-    await promise;
-    await this.commit();
-  }
   public async bumpTyping() {
     // We don't send typing messages if the setting is disabled
     // or we blocked that user
@@ -425,21 +404,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       left: !!this.get('left'),
       groupAdmins,
       members,
-      onClick: () => this.trigger('select', this),
-      onBlockContact: this.block,
-      onUnblockContact: this.unblock,
-      onCopyPublicKey: this.copyPublicKey,
-      onClearNickname: this.clearNickname,
-      onDeleteMessages: this.deleteMessages,
-      onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveClosedGroup', this);
-      },
-      onInviteContacts: () => {
-        window.Whisper.events.trigger('inviteContacts', this);
-      },
-      onMarkAllRead: () => {
-        void this.markReadBouncy(Date.now());
-      },
     };
   }
 
@@ -789,14 +753,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     (this as any).changed = {};
     this.set(lastMessageUpdate);
     if (this.hasChanged()) {
-      await this.commit();
-    }
-  }
-
-  public async setNotificationOption(selected: ConversationNotificationSettingType) {
-    const existingSettings = this.get('triggerNotificationsFor');
-    if (existingSettings !== selected) {
-      this.set({ triggerNotificationsFor: selected });
       await this.commit();
     }
   }
@@ -1230,14 +1186,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return this.get('type') === 'group';
   }
 
-  public copyPublicKey() {
-    void ConversationInteraction.copyPublicKey(this.id);
-  }
-
-  public clearNickname = () => {
-    void this.setNickname('');
-  };
-
   // public deleteContact() {
   //   let title = window.i18n('delete');
   //   let message = window.i18n('deleteContactConfirmation');
@@ -1266,49 +1214,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         messageId,
       })
     );
-  }
-
-  public deleteMessages() {
-    let params;
-    if (this.isPublic()) {
-      throw new Error('Called deleteMessages() on an open group. Only leave group is supported.');
-    } else {
-      params = {
-        title: window.i18n('deleteMessages'),
-        message: window.i18n('deleteConversationConfirmation'),
-        resolve: () => this.destroyMessages(),
-      };
-    }
-
-    // window.confirmationDialog(params);
-
-    const dispatch = useDispatch();
-    dispatch(
-      updateConfirmModal({
-        title: window.i18n('deleteMessages'),
-        message: window.i18n('deleteConversationConfirmation'),
-        onClickOk: () => this.destroyMessages(),
-      })
-    );
-  }
-
-  public async destroyMessages() {
-    await removeAllMessagesInConversation(this.id);
-    window.inboxStore?.dispatch(
-      conversationActions.conversationReset({
-        conversationKey: this.id,
-      })
-    );
-
-    // destroy message keeps the active timestamp set so the
-    // conversation still appears on the conversation list but is empty
-    this.set({
-      lastMessage: null,
-      unreadCount: 0,
-      mentionedUs: false,
-    });
-
-    await this.commit();
   }
 
   public getName() {
