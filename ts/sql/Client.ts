@@ -189,7 +189,7 @@ const dataInterface: ClientInterface = {
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
-  getOutgoingWithoutExpirationStartTimestamp,
+  getMessagesUnexpectedlyMissingExpirationStartTimestamp,
   getSoonestMessageExpiry,
   getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
@@ -1301,14 +1301,8 @@ async function getExpiredMessages({
   return new MessageCollection(messages);
 }
 
-async function getOutgoingWithoutExpirationStartTimestamp({
-  MessageCollection,
-}: {
-  MessageCollection: typeof MessageModelCollectionType;
-}) {
-  const messages = await channels.getOutgoingWithoutExpirationStartTimestamp();
-
-  return new MessageCollection(messages);
+function getMessagesUnexpectedlyMissingExpirationStartTimestamp() {
+  return channels.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
 }
 
 function getSoonestMessageExpiry() {
