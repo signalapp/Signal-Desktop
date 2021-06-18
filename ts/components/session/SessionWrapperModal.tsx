@@ -3,11 +3,9 @@ import classNames from 'classnames';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon/';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme, useTheme } from 'styled-components';
 
-import { useKeyPress } from 'use-hooks';
-
-interface Props {
+type Props = {
   title: string;
   onClose: any;
   showExitIcon?: boolean;
@@ -26,7 +24,7 @@ interface Props {
     onClick?: any;
   }>;
   theme: DefaultTheme;
-}
+};
 
 export type SessionWrapperModalType = {
   title?: string;
@@ -37,8 +35,7 @@ export type SessionWrapperModalType = {
   confirmText?: string;
   cancelText?: string;
   showExitIcon?: boolean;
-  theme?: any;
-  headerIconButtons?: any[];
+  headerIconButtons?: Array<any>;
   children: any;
   headerReverse?: boolean;
 };
@@ -53,10 +50,11 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     confirmText,
     cancelText,
     showExitIcon,
-    theme,
     headerIconButtons,
     headerReverse,
   } = props;
+
+  const theme = useTheme();
 
   useEffect(() => {
     window.addEventListener('keyup', keyUpHandler);
@@ -86,7 +84,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
                     iconType={SessionIconType.Exit}
                     iconSize={SessionIconSize.Small}
                     onClick={props.onClose}
-                    theme={props.theme}
+                    theme={theme}
                   />
                 ) : null}
               </div>
@@ -101,7 +99,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
                           iconSize={SessionIconSize.Large}
                           iconRotation={iconItem.iconRotation}
                           onClick={iconItem.onClick}
-                          theme={props.theme}
+                          theme={theme}
                         />
                       );
                     })

@@ -128,7 +128,7 @@ const onShowRecoverPhrase = (setModal: any) => {
     setModal(null);
   };
 
-  setModal(<SessionSeedModal onClose={clearModal}></SessionSeedModal>);
+  setModal(<SessionSeedModal onClose={clearModal} />);
 };
 
 const LeftPaneBottomButtons = (props: { setModal: any }) => {
@@ -142,14 +142,18 @@ const LeftPaneBottomButtons = (props: { setModal: any }) => {
         text={dangerButtonText}
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.Danger}
-        onClick={() => onDeleteAccount(setModal)}
+        onClick={() => {
+          onDeleteAccount(setModal);
+        }}
       />
 
       <SessionButton
         text={showRecoveryPhrase}
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.White}
-        onClick={() => onShowRecoverPhrase(setModal)}
+        onClick={() => {
+          onShowRecoverPhrase(setModal);
+        }}
       />
     </div>
   );

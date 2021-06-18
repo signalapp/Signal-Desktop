@@ -13,27 +13,11 @@ const { Message } = require('../../ts/components/conversation/Message');
 
 // Components
 const { SessionSeedModal } = require('../../ts/components/session/SessionSeedModal');
-const { SessionNicknameDialog } = require('../../ts/components/session/SessionNicknameDialog');
 const { SessionIDResetDialog } = require('../../ts/components/session/SessionIDResetDialog');
 const { SessionRegistrationView } = require('../../ts/components/session/SessionRegistrationView');
 
 const { SessionInboxView } = require('../../ts/components/session/SessionInboxView');
 const { SessionPasswordModal } = require('../../ts/components/session/SessionPasswordModal');
-const { SessionConfirm } = require('../../ts/components/session/SessionConfirm');
-
-const { UpdateGroupNameDialog } = require('../../ts/components/conversation/UpdateGroupNameDialog');
-const {
-  UpdateGroupMembersDialog,
-} = require('../../ts/components/conversation/UpdateGroupMembersDialog');
-const { InviteContactsDialog } = require('../../ts/components/conversation/InviteContactsDialog');
-const {
-  AdminLeaveClosedGroupDialog,
-} = require('../../ts/components/conversation/AdminLeaveClosedGroupDialog');
-
-const { AddModeratorsDialog } = require('../../ts/components/conversation/ModeratorsAddDialog');
-const {
-  RemoveModeratorsDialog,
-} = require('../../ts/components/conversation/ModeratorsRemoveDialog');
 
 // Types
 const AttachmentType = require('./types/attachment');
@@ -139,16 +123,8 @@ exports.setup = (options = {}) => {
 
   const Components = {
     SessionInboxView,
-    UpdateGroupNameDialog,
-    UpdateGroupMembersDialog,
-    InviteContactsDialog,
-    AdminLeaveClosedGroupDialog,
-    AddModeratorsDialog,
-    RemoveModeratorsDialog,
-    SessionConfirm,
     SessionSeedModal,
     SessionIDResetDialog,
-    SessionNicknameDialog,
     SessionPasswordModal,
     SessionRegistrationView,
     Message,

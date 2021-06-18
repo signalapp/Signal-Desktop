@@ -39,8 +39,7 @@ const SessionNicknameInner = (props: Props) => {
    */
   const saveNickname = async () => {
     if (!conversationId) {
-      throw 'Cant save withou conversation id';
-      // return;
+      throw new Error('Cant save without conversation id');
     }
     const conversation = ConversationController.getInstance().get(conversationId);
     if (onClickOk) {
@@ -65,7 +64,6 @@ const SessionNicknameInner = (props: Props) => {
       onClose={onClickClose}
       showExitIcon={false}
       showHeader={true}
-      theme={theme}
     >
       <div className="session-modal__centered">
         <span className="subtle">{window.i18n('changeNicknameMessage')}</span>

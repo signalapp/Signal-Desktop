@@ -5,7 +5,7 @@ export type OnionState = {
   snodePath: Array<Snode>;
 };
 
-const initialState = {
+export const initialOnionPathState = {
   snodePath: new Array<Snode>(),
 };
 
@@ -14,7 +14,7 @@ const initialState = {
  */
 const onionSlice = createSlice({
   name: 'onionPaths',
-  initialState,
+  initialState: initialOnionPathState,
   reducers: {
     updateOnionPaths(state: OnionState, action: PayloadAction<Array<Snode>>) {
       return { snodePath: action.payload };

@@ -127,7 +127,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
           onClose={this.closeDialog}
           headerIconButtons={backButton}
           showExitIcon={true}
-          theme={this.props.theme}
         >
           <SpacerMD />
 
@@ -358,14 +357,13 @@ export class EditProfileDialog extends React.Component<Props, State> {
   }
 
   private async commitProfileEdits(newName: string, avatar: any) {
-    const ourNumber = window.storage.get('primaryDevicePubKey');
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
       ourNumber,
       ConversationTypeEnum.PRIVATE
     );
 
-    let newAvatarPath = '';
-    let url: any = null;
+    const url: any = null;
     let profileKey: any = null;
     if (avatar) {
       const data = await AttachmentUtil.readFile({ file: avatar });

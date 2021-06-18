@@ -30,7 +30,7 @@ const AdminLeaveClosedGroupDialogInner = (props: Props) => {
   };
 
   return (
-    <SessionWrapperModal title={titleText} onClose={closeDialog} theme={theme}>
+    <SessionWrapperModal title={titleText} onClose={closeDialog}>
       <SpacerLG />
       <p>{warningAsAdmin}</p>
 

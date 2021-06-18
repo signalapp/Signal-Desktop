@@ -2,21 +2,25 @@ import React, { useState } from 'react';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme, useTheme } from 'styled-components';
 import { SessionSpinner } from '../session/SessionSpinner';
 import { Flex } from '../basic/Flex';
-import { ConversationModel } from '../../models/conversation';
 import { ApiV2 } from '../../opengroup/opengroupV2';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { ConversationController } from '../../session/conversations';
+import { useDispatch } from 'react-redux';
+import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
 
 type Props = {
-  convo: ConversationModel;
-  onClose: any;
-  theme: DefaultTheme;
+  conversationId: string;
 };
 
 export const AddModeratorsDialog = (props: Props) => {
-  const { convo, onClose, theme } = props;
+  const { conversationId } = props;
+
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const convo = ConversationController.getInstance().get(conversationId);
 
   const [inputBoxValue, setInputBoxValue] = useState('');
   const [addingInProgress, setAddingInProgress] = useState(false);
@@ -58,7 +62,7 @@ export const AddModeratorsDialog = (props: Props) => {
   };
 
   const { i18n } = window;
-  const chatName = props.convo.get('name');
+  const chatName = convo.get('name');
 
   const title = `${i18n('addModerators')}: ${chatName}`;
 
@@ -72,9 +76,8 @@ export const AddModeratorsDialog = (props: Props) => {
       showExitIcon={true}
       title={title}
       onClose={() => {
-        onClose();
+        dispatch(updateAddModeratorsModal(null));
       }}
-      theme={theme}
     >
       <Flex container={true} flexDirection="column" alignItems="center">
         <p>Add Moderator:</p>
