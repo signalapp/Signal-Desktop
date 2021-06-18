@@ -250,6 +250,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         title: window.i18n('linkPreviewsTitle'),
         message: window.i18n('linkPreviewsConfirmMessage'),
         okTheme: SessionButtonColor.Danger,
+        onClickOk: () => {
+          window.setSettingValue('link-preview-setting', true);
+        }
       });
     }
   }
