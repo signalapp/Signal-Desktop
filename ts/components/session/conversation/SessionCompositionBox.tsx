@@ -1,5 +1,5 @@
 import React from 'react';
-import _, { debounce } from 'lodash';
+import _, { debounce, update } from 'lodash';
 
 import { Attachment, AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
@@ -38,6 +38,9 @@ import {
   updateMentionsMembers,
 } from '../../../state/ducks/mentionsInput';
 import { getMentionsInput } from '../../../state/selectors/mentionsInput';
+import { useDispatch } from 'react-redux';
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { SessionButtonColor } from '../SessionButton';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -209,8 +212,31 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const { items } = e.clipboardData;
     let imgBlob = null;
     for (const item of items) {
-      if (item.type.split('/')[0] === 'image') {
+      const pasteType = item.type.split('/')[0]
+      if (pasteType === 'image') {
         imgBlob = item.getAsFile();
+      }
+
+      switch (pasteType) {
+        case ('image'):
+          imgBlob = item.getAsFile();
+          break;
+        case ('text'):
+          // check for links
+          console.log('is a text');
+          let x = e.clipboardData.getData('text');
+          console.log({ x });
+          if (this.isURL(x)) {
+            console.log('IS A URL!');
+            // const dispatch = useDispatch();
+            // dispatch(updateConfirmModal({
+            //   shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
+            //   title: window.i18n('linkPreviewsTitle'),
+            //   message: window.i18n('linkPreviewsConfirmMessage'),
+            //   okTheme: SessionButtonColor.Danger,
+            // }))
+          }
+
       }
     }
     if (imgBlob !== null) {
@@ -221,6 +247,17 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       e.preventDefault();
       e.stopPropagation();
     }
+  }
+
+  /**
+   * 
+   * @param str String to evaluate
+   * @returns boolean if the string is true or false
+   */
+  private isURL(str: string) {
+    var urlRegex = '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+    var url = new RegExp(urlRegex, 'i');
+    return str.length < 2083 && url.test(str);
   }
 
   private showEmojiPanel() {
@@ -344,12 +381,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const messagePlaceHolder = isKickedFromGroup
       ? i18n('youGotKickedFromGroup')
       : left
-      ? i18n('youLeftTheGroup')
-      : isBlocked && isPrivate
-      ? i18n('unblockToSend')
-      : isBlocked && !isPrivate
-      ? i18n('unblockGroupToSend')
-      : i18n('sendMessage');
+        ? i18n('youLeftTheGroup')
+        : isBlocked && isPrivate
+          ? i18n('unblockToSend')
+          : isBlocked && !isPrivate
+            ? i18n('unblockGroupToSend')
+            : i18n('sendMessage');
     const typingEnabled = this.isTypingEnabled();
     let index = 0;
 
@@ -516,8 +553,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         }}
       />
     );
-
-    return <></>;
   }
 
   private fetchLinkPreview(firstLink: string) {

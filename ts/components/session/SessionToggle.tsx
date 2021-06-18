@@ -5,15 +5,6 @@ import { updateConfirmModal } from '../../state/ducks/modalDialog';
 interface Props {
   active: boolean;
   onClick: any;
-  // If you require the toggle to be confirmed, use
-  // a confirmation dialog. The parameters needed in the
-  // setting item in SessionSettings.tsx are like such:
-  // confirmationDialogParams: {
-  //  shouldShowConfirm: false,
-  //  title: window.i18n('linkPreviewsTitle'),
-  //  message: window.i18n('linkPreviewsConfirmMessage'),
-  //  okTheme: 'danger',
-  // }
   confirmationDialogParams?: any | undefined;
 
   updateConfirmModal?: any;
