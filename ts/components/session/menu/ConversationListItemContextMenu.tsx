@@ -43,30 +43,19 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
 
   const isGroup = type === 'group';
 
-  const [modal, setModal] = useState<any>(null);
-
   return (
     <>
-      {modal ? modal : null}
-
       <Menu id={triggerId} animation={animation.fade}>
         {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
         {getCopyMenuItem(isPublic, isGroup, conversationId)}
         {getMarkAllReadMenuItem(conversationId)}
-        {getChangeNicknameMenuItem(isMe, isGroup, conversationId, setModal)}
+        {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
         {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
 
         {getDeleteMessagesMenuItem(isPublic, conversationId)}
         {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
         {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
-        {getLeaveGroupMenuItem(
-          isKickedFromGroup,
-          left,
-          isGroup,
-          isPublic,
-          conversationId,
-          setModal
-        )}
+        {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
       </Menu>
     </>
   );

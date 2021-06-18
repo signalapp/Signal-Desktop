@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
 import { ConversationController } from '../../session/conversations/ConversationController';
 import { SessionButton } from './SessionButton';
-import { DefaultTheme, useTheme, withTheme } from 'styled-components';
 
 import _ from 'lodash';
 import { SessionWrapperModal } from './SessionWrapperModal';
 import { SpacerLG } from '../basic/Text';
+import { useDispatch } from 'react-redux';
+import { changeNickNameModal } from '../../state/ducks/modalDialog';
 
 type Props = {
-  onClickOk?: any;
-  onClickClose?: any;
-  theme?: DefaultTheme;
-  conversationId?: string;
+  conversationId: string;
 };
 
-const SessionNicknameInner = (props: Props) => {
-  const { onClickOk, onClickClose, conversationId } = props;
-  let { theme } = props;
+export const SessionNicknameDialog = (props: Props) => {
+  const { conversationId } = props;
   const [nickname, setNickname] = useState('');
 
-  theme = theme ? theme : useTheme();
+  const dispatch = useDispatch();
 
   /**
    * Changes the state of nickname variable. If enter is pressed, saves the current
@@ -34,6 +31,10 @@ const SessionNicknameInner = (props: Props) => {
     }
   };
 
+  const onClickClose = () => {
+    dispatch(changeNickNameModal(null));
+  };
+
   /**
    * Saves the currently entered nickname.
    */
@@ -42,23 +43,11 @@ const SessionNicknameInner = (props: Props) => {
       throw new Error('Cant save without conversation id');
     }
     const conversation = ConversationController.getInstance().get(conversationId);
-    if (onClickOk) {
-      onClickOk(nickname);
-    }
     await conversation.setNickname(nickname);
     onClickClose();
   };
 
   return (
-    // <SessionModal
-    //   title={window.i18n('changeNickname')}
-    //   onClose={onClickClose}
-    //   showExitIcon={false}
-    //   showHeader={true}
-    //   theme={theme}
-    // >
-
-    // TODO: Implement showHeader option for modal
     <SessionWrapperModal
       title={window.i18n('changeNickname')}
       onClose={onClickClose}
@@ -87,5 +76,3 @@ const SessionNicknameInner = (props: Props) => {
     </SessionWrapperModal>
   );
 };
-
-export const SessionNicknameDialog = withTheme(SessionNicknameInner);

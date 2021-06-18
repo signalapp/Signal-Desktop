@@ -3,9 +3,12 @@ import React from 'react';
 import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
-import { SessionNicknameDialog } from '../SessionNicknameDialog';
 import { useDispatch } from 'react-redux';
-import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import {
+  adminLeaveClosedGroup,
+  changeNickNameModal,
+  updateConfirmModal,
+} from '../../../state/ducks/modalDialog';
 import { ConversationController } from '../../../session/conversations';
 import { UserUtils } from '../../../session/utils';
 import { AdminLeaveClosedGroupDialog } from '../../conversation/AdminLeaveClosedGroupDialog';
@@ -179,8 +182,7 @@ export function getLeaveGroupMenuItem(
   left: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
-  conversationId: string,
-  setModal: any
+  conversationId: string
 ): JSX.Element | null {
   if (
     showLeaveGroup(Boolean(isKickedFromGroup), Boolean(left), Boolean(isGroup), Boolean(isPublic))
@@ -218,15 +220,10 @@ export function getLeaveGroupMenuItem(
           })
         );
       } else {
-        setModal(
-          <AdminLeaveClosedGroupDialog
-            groupName={conversation.getName()}
-            onSubmit={conversation.leaveClosedGroup}
-            onClose={() => {
-              setModal(null);
-            }}
-            theme={theme}
-          />
+        dispatch(
+          adminLeaveClosedGroup({
+            conversationId,
+          })
         );
       }
     };
@@ -429,22 +426,18 @@ export function getClearNicknameMenuItem(
 export function getChangeNicknameMenuItem(
   isMe: boolean | undefined,
   isGroup: boolean | undefined,
-  conversationId?: string,
-  setModal?: any
+  conversationId: string
 ): JSX.Element | null {
+  const dispatch = useDispatch();
   if (showChangeNickname(Boolean(isMe), Boolean(isGroup))) {
-    const clearModal = () => {
-      setModal(null);
-    };
-
-    const onClickCustom = () => {
-      setModal(<SessionNicknameDialog onClickClose={clearModal} conversationId={conversationId} />);
-    };
-
     return (
-      <>
-        <Item onClick={onClickCustom}>{window.i18n('changeNickname')}</Item>
-      </>
+      <Item
+        onClick={() => {
+          dispatch(changeNickNameModal({ conversationId }));
+        }}
+      >
+        {window.i18n('changeNickname')}
+      </Item>
     );
   }
   return null;

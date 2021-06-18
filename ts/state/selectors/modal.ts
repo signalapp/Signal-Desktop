@@ -3,9 +3,14 @@ import { createSelector } from 'reselect';
 import { StateType } from '../reducer';
 import {
   AddModeratorsModalState,
+  AdminLeaveClosedGroupModalState,
+  ChangeNickNameModalState,
   ConfirmModalState,
+  EditProfileModalState,
   InviteContactModalState,
   ModalState,
+  OnionPathModalState,
+  RecoveryPhraseModalState,
   RemoveModeratorsModalState,
   UpdateGroupMembersModalState,
   UpdateGroupNameModalState,
@@ -49,4 +54,29 @@ export const getUpdateGroupMembersModal = createSelector(
 export const getUserDetailsModal = createSelector(
   getModal,
   (state: ModalState): UserDetailsModalState => state.userDetailsModal
+);
+
+export const getChangeNickNameDialog = createSelector(
+  getModal,
+  (state: ModalState): ChangeNickNameModalState => state.nickNameModal
+);
+
+export const getEditProfileDialog = createSelector(
+  getModal,
+  (state: ModalState): EditProfileModalState => state.editProfileModal
+);
+
+export const getOnionPathDialog = createSelector(
+  getModal,
+  (state: ModalState): OnionPathModalState => state.onionPathModal
+);
+
+export const getRecoveryPhraseDialog = createSelector(
+  getModal,
+  (state: ModalState): RecoveryPhraseModalState => state.recoveryPhraseModal
+);
+
+export const getAdminLeaveClosedGroupDialog = createSelector(
+  getModal,
+  (state: ModalState): AdminLeaveClosedGroupModalState => state.adminLeaveClosedGroup
 );

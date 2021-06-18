@@ -50,8 +50,13 @@ import { EditProfileDialog } from '../EditProfileDialog';
 import { SessionConfirm } from './SessionConfirm';
 import {
   getAddModeratorsModal,
+  getAdminLeaveClosedGroupDialog,
+  getChangeNickNameDialog,
   getConfirmModal,
+  getEditProfileDialog,
   getInviteContactModal,
+  getOnionPathDialog,
+  getRecoveryPhraseDialog,
   getRemoveModeratorsModal,
   getUpdateGroupMembersModal,
   getUpdateGroupNameModal,
@@ -63,6 +68,10 @@ import { RemoveModeratorsDialog } from '../conversation/ModeratorsRemoveDialog';
 import { UpdateGroupNameDialog } from '../conversation/UpdateGroupNameDialog';
 import { UpdateGroupMembersDialog } from '../conversation/UpdateGroupMembersDialog';
 import { UserDetailsDialog } from '../UserDetailsDialog';
+import { SessionNicknameDialog } from './SessionNicknameDialog';
+import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
+import { SessionSeedModal } from './SessionSeedModal';
+import { AdminLeaveClosedGroupDialog } from '../conversation/AdminLeaveClosedGroupDialog';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -76,24 +85,20 @@ export enum SectionType {
   PathIndicator,
 }
 
-const Section = (props: { setModal?: any; type: SectionType; avatarPath?: string }) => {
+const Section = (props: { type: SectionType; avatarPath?: string }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
   const theme = useSelector(getTheme);
   const dispatch = useDispatch();
-  const { setModal, type, avatarPath } = props;
+  const { type, avatarPath } = props;
 
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
-  const handleModalClose = () => {
-    setModal(null);
-  };
-
   const handleClick = () => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
-      setModal(<EditProfileDialog onClose={handleModalClose} theme={theme} />);
+      dispatch(editProfileModal({}));
     } else if (type === SectionType.Moon) {
       const themeFromSettings = window.Events.getThemeSetting();
       const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
@@ -103,7 +108,7 @@ const Section = (props: { setModal?: any; type: SectionType; avatarPath?: string
       dispatch(applyTheme(newThemeObject));
     } else if (type === SectionType.PathIndicator) {
       // Show Path Indicator Modal
-      setModal(<OnionPathModal onClose={handleModalClose} />);
+      dispatch(onionPathModal({}));
     } else {
       dispatch(clearSearch());
       dispatch(showLeftPaneSection(type));
@@ -346,9 +351,14 @@ const ModalContainer = () => {
   const updateGroupMembersModalState = useSelector(getUpdateGroupMembersModal);
   const updateGroupNameModalState = useSelector(getUpdateGroupNameModal);
   const userDetailsModalState = useSelector(getUserDetailsModal);
+  const changeNicknameModal = useSelector(getChangeNickNameDialog);
+  const editProfileModalState = useSelector(getEditProfileDialog);
+  const onionPathModalState = useSelector(getOnionPathDialog);
+  const recoveryPhraseModalState = useSelector(getRecoveryPhraseDialog);
+  const adminLeaveClosedGroupModalState = useSelector(getAdminLeaveClosedGroupDialog);
 
   return (
-    <React.Fragment>
+    <>
       {confirmModalState && <SessionConfirm {...confirmModalState} />}
       {inviteModalState && <InviteContactsDialog {...inviteModalState} />}
       {addModeratorsModalState && <AddModeratorsDialog {...addModeratorsModalState} />}
@@ -358,7 +368,14 @@ const ModalContainer = () => {
       )}
       {updateGroupNameModalState && <UpdateGroupNameDialog {...updateGroupNameModalState} />}
       {userDetailsModalState && <UserDetailsDialog {...userDetailsModalState} />}
-    </React.Fragment>
+      {changeNicknameModal && <SessionNicknameDialog {...changeNicknameModal} />}
+      {editProfileModalState && <EditProfileDialog {...editProfileModalState} />}
+      {onionPathModalState && <OnionPathModal {...onionPathModalState} />}
+      {recoveryPhraseModalState && <SessionSeedModal {...recoveryPhraseModalState} />}
+      {adminLeaveClosedGroupModalState && (
+        <AdminLeaveClosedGroupDialog {...adminLeaveClosedGroupModalState} />
+      )}
+    </>
   );
 };
 
@@ -369,7 +386,6 @@ const ModalContainer = () => {
 export const ActionsPanel = () => {
   const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
-  const [modal, setModal] = useState<any>(null);
 
   // this maxi useEffect is called only once: when the component is mounted.
   // For the action panel, it means this is called only one per app start/with a user loggedin
@@ -412,21 +428,16 @@ export const ActionsPanel = () => {
 
   return (
     <>
-      {modal && modal}
       <ModalContainer />
       <div className="module-left-pane__sections-container">
-        <Section
-          setModal={setModal}
-          type={SectionType.Profile}
-          avatarPath={ourPrimaryConversation.avatarPath}
-        />
+        <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
         <Section type={SectionType.Message} />
         <Section type={SectionType.Contact} />
         <Section type={SectionType.Settings} />
 
         <SessionToastContainer />
 
-        <Section setModal={setModal} type={SectionType.PathIndicator} />
+        <Section type={SectionType.PathIndicator} />
         <Section type={SectionType.Moon} />
       </div>
     </>

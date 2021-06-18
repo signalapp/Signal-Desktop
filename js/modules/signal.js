@@ -12,12 +12,10 @@ const LinkPreviews = require('./link_previews');
 const { Message } = require('../../ts/components/conversation/Message');
 
 // Components
-const { SessionSeedModal } = require('../../ts/components/session/SessionSeedModal');
 const { SessionIDResetDialog } = require('../../ts/components/session/SessionIDResetDialog');
 const { SessionRegistrationView } = require('../../ts/components/session/SessionRegistrationView');
 
 const { SessionInboxView } = require('../../ts/components/session/SessionInboxView');
-const { SessionPasswordModal } = require('../../ts/components/session/SessionPasswordModal');
 
 // Types
 const AttachmentType = require('./types/attachment');
@@ -123,9 +121,7 @@ exports.setup = (options = {}) => {
 
   const Components = {
     SessionInboxView,
-    SessionSeedModal,
     SessionIDResetDialog,
-    SessionPasswordModal,
     SessionRegistrationView,
     Message,
   };

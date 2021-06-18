@@ -2,13 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import { SessionIcon, SessionIconProps } from '../icon';
 import { SessionNotificationCount } from '../SessionNotificationCount';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme, useTheme } from 'styled-components';
 
 interface SProps extends SessionIconProps {
   onClick?: any;
   notificationCount?: number;
   isSelected?: boolean;
-  theme: DefaultTheme;
+  theme?: DefaultTheme;
 }
 
 export const SessionIconButton = (props: SProps) => {
@@ -28,6 +28,8 @@ export const SessionIconButton = (props: SProps) => {
     }
   };
 
+  const themeToUSe = theme || useTheme();
+
   return (
     <div
       className={classNames('session-icon-button', iconSize, isSelected ? 'no-opacity' : '')}
@@ -39,7 +41,7 @@ export const SessionIconButton = (props: SProps) => {
         iconSize={iconSize}
         iconColor={iconColor}
         iconRotation={iconRotation}
-        theme={theme}
+        theme={themeToUSe}
       />
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
     </div>

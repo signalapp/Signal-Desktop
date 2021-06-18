@@ -3,10 +3,16 @@ import { SessionConfirmDialogProps } from '../../components/session/SessionConfi
 
 export type ConfirmModalState = SessionConfirmDialogProps | null;
 export type InviteContactModalState = { conversationId: string } | null;
-export type AddModeratorsModalState = { conversationId: string } | null;
-export type RemoveModeratorsModalState = { conversationId: string } | null;
-export type UpdateGroupMembersModalState = { conversationId: string } | null;
-export type UpdateGroupNameModalState = { conversationId: string } | null;
+export type AddModeratorsModalState = InviteContactModalState;
+export type RemoveModeratorsModalState = InviteContactModalState;
+export type UpdateGroupMembersModalState = InviteContactModalState;
+export type UpdateGroupNameModalState = InviteContactModalState;
+export type ChangeNickNameModalState = InviteContactModalState;
+export type AdminLeaveClosedGroupModalState = InviteContactModalState;
+export type EditProfileModalState = {} | null;
+export type OnionPathModalState = EditProfileModalState;
+export type RecoveryPhraseModalState = EditProfileModalState;
+
 export type UserDetailsModalState = {
   conversationId: string;
   authorAvatarPath?: string;
@@ -21,6 +27,11 @@ export type ModalState = {
   groupNameModal: UpdateGroupNameModalState;
   groupMembersModal: UpdateGroupMembersModalState;
   userDetailsModal: UserDetailsModalState;
+  nickNameModal: ChangeNickNameModalState;
+  editProfileModal: EditProfileModalState;
+  onionPathModal: OnionPathModalState;
+  recoveryPhraseModal: RecoveryPhraseModalState;
+  adminLeaveClosedGroup: AdminLeaveClosedGroupModalState;
 };
 
 export const initialModalState: ModalState = {
@@ -31,6 +42,11 @@ export const initialModalState: ModalState = {
   groupNameModal: null,
   groupMembersModal: null,
   userDetailsModal: null,
+  nickNameModal: null,
+  editProfileModal: null,
+  onionPathModal: null,
+  recoveryPhraseModal: null,
+  adminLeaveClosedGroup: null,
 };
 
 const ModalSlice = createSlice({
@@ -58,6 +74,21 @@ const ModalSlice = createSlice({
     updateUserDetailsModal(state, action: PayloadAction<UserDetailsModalState | null>) {
       return { ...state, userDetailsModal: action.payload };
     },
+    changeNickNameModal(state, action: PayloadAction<ChangeNickNameModalState | null>) {
+      return { ...state, nickNameModal: action.payload };
+    },
+    editProfileModal(state, action: PayloadAction<EditProfileModalState | null>) {
+      return { ...state, editProfileModal: action.payload };
+    },
+    onionPathModal(state, action: PayloadAction<OnionPathModalState | null>) {
+      return { ...state, onionPathModal: action.payload };
+    },
+    recoveryPhraseModal(state, action: PayloadAction<RecoveryPhraseModalState | null>) {
+      return { ...state, onionPathModal: action.payload };
+    },
+    adminLeaveClosedGroup(state, action: PayloadAction<AdminLeaveClosedGroupModalState | null>) {
+      return { ...state, adminLeaveClosedGroup: action.payload };
+    },
   },
 });
 
@@ -70,5 +101,10 @@ export const {
   updateGroupNameModal,
   updateGroupMembersModal,
   updateUserDetailsModal,
+  changeNickNameModal,
+  editProfileModal,
+  onionPathModal,
+  recoveryPhraseModal,
+  adminLeaveClosedGroup,
 } = actions;
 export const modalReducer = reducer;

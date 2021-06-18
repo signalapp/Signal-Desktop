@@ -9,6 +9,7 @@ import { SessionWrapperModal } from './session/SessionWrapperModal';
 import { SpacerMD } from './basic/Text';
 import autoBind from 'auto-bind';
 import { updateUserDetailsModal } from '../state/ducks/modalDialog';
+import { openConversationExternal } from '../state/ducks/conversations';
 
 type Props = {
   conversationId: string;
@@ -99,7 +100,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
       ConversationTypeEnum.PRIVATE
     );
 
-    window.inboxStore?.dispatch(window.actionsCreators.openConversationExternal(conversation.id));
+    window.inboxStore?.dispatch(openConversationExternal(conversation.id));
 
     this.closeDialog();
   }

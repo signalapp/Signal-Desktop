@@ -9,24 +9,16 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from './session/
 import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
 import { PillDivider } from './session/PillDivider';
 import { SyncUtils, ToastUtils, UserUtils } from '../session/utils';
-import { DefaultTheme } from 'styled-components';
 import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 import { SessionSpinner } from './session/SessionSpinner';
-import { ConversationTypeEnum } from '../models/conversation';
+import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 
 import { SessionWrapperModal } from './session/SessionWrapperModal';
 import { AttachmentUtil } from '../util';
 import { ConversationController } from '../session/conversations';
 import { SpacerLG, SpacerMD } from './basic/Text';
-
-interface Props {
-  profileName?: string;
-  avatarPath?: string;
-  pubkey?: string;
-  onClose?: any;
-  onOk?: any;
-  theme: DefaultTheme;
-}
+import autoBind from 'auto-bind';
+import { editProfileModal } from '../state/ducks/modalDialog';
 
 interface State {
   profileName: string;
@@ -36,23 +28,21 @@ interface State {
   loading: boolean;
 }
 
-export class EditProfileDialog extends React.Component<Props, State> {
+export class EditProfileDialog extends React.Component<{}, State> {
   private readonly inputEl: any;
+  private readonly convo: ConversationModel;
 
   constructor(props: any) {
     super(props);
 
-    this.onNameEdited = this.onNameEdited.bind(this);
-    this.closeDialog = this.closeDialog.bind(this);
-    this.onClickOK = this.onClickOK.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.onFileSelected = this.onFileSelected.bind(this);
-    this.fireInputEvent = this.fireInputEvent.bind(this);
+    autoBind(this);
+
+    this.convo = ConversationController.getInstance().get(UserUtils.getOurPubKeyStrFromCache());
 
     this.state = {
-      profileName: this.props.profileName || '',
-      setProfileName: this.props.profileName || '',
-      avatar: this.props.avatarPath || '',
+      profileName: this.convo.getProfileName() || '',
+      setProfileName: this.convo.getProfileName() || '',
+      avatar: this.convo.getAvatarPath() || '',
       mode: 'default',
       loading: false,
     };
@@ -98,7 +88,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    // const i18n = this.props.i18n;
     const i18n = window.i18n;
 
     const viewDefault = this.state.mode === 'default';
@@ -194,7 +183,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
                 onClick={() => {
                   this.setState({ mode: 'qr' });
                 }}
-                theme={this.props.theme}
               />
             </div>
           </div>
@@ -226,7 +214,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
             onClick={() => {
               this.setState({ mode: 'edit' });
             }}
-            theme={this.props.theme}
           />
         </div>
       </>
@@ -278,10 +265,11 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
   private renderAvatar() {
     const { avatar, profileName } = this.state;
-    const { pubkey } = this.props;
-    const userName = profileName || pubkey;
+    const userName = profileName || this.convo.id;
 
-    return <Avatar avatarPath={avatar} name={userName} size={AvatarSize.XL} pubkey={pubkey} />;
+    return (
+      <Avatar avatarPath={avatar} name={userName} size={AvatarSize.XL} pubkey={this.convo.id} />
+    );
   }
 
   private onNameEdited(event: any) {
@@ -299,7 +287,6 @@ export class EditProfileDialog extends React.Component<Props, State> {
     switch (event.key) {
       case 'Enter':
         if (this.state.mode === 'edit') {
-          // this.onClickOK();
           this.onClickOK();
         }
         break;
@@ -353,7 +340,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
 
-    this.props.onClose();
+    window.inboxStore?.dispatch(editProfileModal(null));
   }
 
   private async commitProfileEdits(newName: string, avatar: any) {

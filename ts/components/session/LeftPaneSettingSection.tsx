@@ -14,6 +14,7 @@ import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
 import { SessionConfirm } from './SessionConfirm';
 import { SessionSeedModal } from './SessionSeedModal';
+import { recoveryPhraseModal, updateConfirmModal } from '../../state/ducks/modalDialog';
 
 type Props = {
   settingsCategory: SessionSettingCategory;
@@ -104,37 +105,33 @@ const LeftPaneSettingsCategories = () => {
   );
 };
 
-const onDeleteAccount = (setModal: any) => {
+const onDeleteAccount = () => {
   const title = window.i18n('clearAllData');
   const message = window.i18n('deleteAccountWarning');
 
-  const clearModal = () => {
-    setModal(null);
+  const onClickClose = () => {
+    window.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
-  setModal(
-    <SessionConfirm
-      title={title}
-      message={message}
-      onClickOk={deleteAccount}
-      okTheme={SessionButtonColor.Danger}
-      onClickClose={clearModal}
-    />
+  window.inboxStore?.dispatch(
+    updateConfirmModal({
+      title,
+      message,
+      okTheme: SessionButtonColor.Danger,
+      onClickOk: deleteAccount,
+      onClickClose,
+      closeAfterClickOk: true,
+    })
   );
 };
 
-const onShowRecoverPhrase = (setModal: any) => {
-  const clearModal = () => {
-    setModal(null);
-  };
-
-  setModal(<SessionSeedModal onClose={clearModal} />);
+const onShowRecoveryPhrase = () => {
+  window.inboxStore?.dispatch(recoveryPhraseModal({}));
 };
 
-const LeftPaneBottomButtons = (props: { setModal: any }) => {
+const LeftPaneBottomButtons = () => {
   const dangerButtonText = window.i18n('clearAllData');
   const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
-  const { setModal } = props;
 
   return (
     <div className="left-pane-setting-bottom-buttons">
@@ -143,7 +140,7 @@ const LeftPaneBottomButtons = (props: { setModal: any }) => {
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.Danger}
         onClick={() => {
-          onDeleteAccount(setModal);
+          onDeleteAccount();
         }}
       />
 
@@ -152,23 +149,21 @@ const LeftPaneBottomButtons = (props: { setModal: any }) => {
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.White}
         onClick={() => {
-          onShowRecoverPhrase(setModal);
+          onShowRecoveryPhrase();
         }}
       />
     </div>
   );
 };
 
-export const LeftPaneSettingSection = (props: { setModal: any }) => {
+export const LeftPaneSettingSection = () => {
   const theme = useSelector(getTheme);
-  const { setModal } = props;
-
   return (
     <div className="left-pane-setting-section">
       <LeftPaneSectionHeader label={window.i18n('settingsHeader')} theme={theme} />
       <div className="left-pane-setting-content">
         <LeftPaneSettingsCategories />
-        <LeftPaneBottomButtons setModal={setModal} />
+        <LeftPaneBottomButtons />
       </div>
     </div>
   );
