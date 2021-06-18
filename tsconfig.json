@@ -57,6 +57,7 @@
   },
   "include": [
     "ts/**/*",
+    "app/*",
     "node_modules/zkgroup/zkgroup/modules/*",
     "package.json"
   ]

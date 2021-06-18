@@ -1,9 +1,41 @@
 // Copyright 2017-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const { isString } = require('lodash');
+import { isString } from 'lodash';
+import { MenuItemConstructorOptions } from 'electron';
 
-exports.createTemplate = (options, messages) => {
+import { LocaleMessagesType } from '../ts/types/I18N';
+
+export type MenuListType = Array<MenuItemConstructorOptions>;
+
+type OptionsType = {
+  // options
+  development: boolean;
+  devTools: boolean;
+  includeSetup: boolean;
+  isBeta: (version: string) => boolean;
+  platform: string;
+
+  // actions
+  openContactUs: () => unknown;
+  openForums: () => unknown;
+  openJoinTheBeta: () => unknown;
+  openReleaseNotes: () => unknown;
+  openSupportPage: () => unknown;
+  setupAsNewDevice: () => unknown;
+  setupAsStandalone: () => unknown;
+  showAbout: () => unknown;
+  showDebugLog: () => unknown;
+  showKeyboardShortcuts: () => unknown;
+  showSettings: () => unknown;
+  showStickerCreator: () => unknown;
+  showWindow: () => unknown;
+};
+
+export const createTemplate = (
+  options: OptionsType,
+  messages: LocaleMessagesType
+): MenuListType => {
   if (!isString(options.platform)) {
     throw new TypeError('`options.platform` must be a string');
   }
@@ -27,7 +59,7 @@ exports.createTemplate = (options, messages) => {
     showStickerCreator,
   } = options;
 
-  const template = [
+  const template: MenuListType = [
     {
       label: messages.mainMenuFile.message,
       submenu: [
@@ -76,7 +108,7 @@ exports.createTemplate = (options, messages) => {
           label: messages.editMenuPaste.message,
         },
         {
-          role: 'pasteandmatchstyle',
+          role: 'pasteAndMatchStyle',
           label: messages.editMenuPasteAndMatchStyle.message,
         },
         {
@@ -84,7 +116,7 @@ exports.createTemplate = (options, messages) => {
           label: messages.editMenuDelete.message,
         },
         {
-          role: 'selectall',
+          role: 'selectAll',
           label: messages.editMenuSelectAll.message,
         },
       ],
@@ -93,16 +125,16 @@ exports.createTemplate = (options, messages) => {
       label: messages.mainMenuView.message,
       submenu: [
         {
-          role: 'resetzoom',
+          role: 'resetZoom',
           label: messages.viewMenuResetZoom.message,
         },
         {
           accelerator: platform === 'darwin' ? 'Command+=' : 'Control+=',
-          role: 'zoomin',
+          role: 'zoomIn',
           label: messages.viewMenuZoomIn.message,
         },
         {
-          role: 'zoomout',
+          role: 'zoomOut',
           label: messages.viewMenuZoomOut.message,
         },
         {
@@ -122,10 +154,10 @@ exports.createTemplate = (options, messages) => {
         ...(devTools
           ? [
               {
-                type: 'separator',
+                type: 'separator' as const,
               },
               {
-                role: 'toggledevtools',
+                role: 'toggleDevTools' as const,
                 label: messages.viewMenuToggleDevTools.message,
               },
             ]
@@ -192,21 +224,25 @@ exports.createTemplate = (options, messages) => {
   if (includeSetup) {
     const fileMenu = template[0];
 
-    // These are in reverse order, since we're prepending them one at a time
-    if (options.development) {
-      fileMenu.submenu.unshift({
-        label: messages.menuSetupAsStandalone.message,
-        click: setupAsStandalone,
-      });
-    }
+    if (Array.isArray(fileMenu.submenu)) {
+      // These are in reverse order, since we're prepending them one at a time
+      if (options.development) {
+        fileMenu.submenu.unshift({
+          label: messages.menuSetupAsStandalone.message,
+          click: setupAsStandalone,
+        });
+      }
 
-    fileMenu.submenu.unshift({
-      type: 'separator',
-    });
-    fileMenu.submenu.unshift({
-      label: messages.menuSetupAsNewDevice.message,
-      click: setupAsNewDevice,
-    });
+      fileMenu.submenu.unshift({
+        type: 'separator',
+      });
+      fileMenu.submenu.unshift({
+        label: messages.menuSetupAsNewDevice.message,
+        click: setupAsNewDevice,
+      });
+    } else {
+      throw new Error('createTemplate: fileMenu.submenu was not an array!');
+    }
   }
 
   if (platform === 'darwin') {
@@ -216,30 +252,43 @@ exports.createTemplate = (options, messages) => {
   return template;
 };
 
-function updateForMac(template, messages, options) {
+function updateForMac(
+  template: MenuListType,
+  messages: LocaleMessagesType,
+  options: OptionsType
+): MenuListType {
   const { showAbout, showSettings, showWindow } = options;
 
   // Remove About item and separator from Help menu, since they're in the app menu
-  template[4].submenu.pop();
-  template[4].submenu.pop();
+  const aboutMenu = template[4];
+  if (Array.isArray(aboutMenu.submenu)) {
+    aboutMenu.submenu.pop();
+    aboutMenu.submenu.pop();
+  } else {
+    throw new Error('updateForMac: help.submenu was not an array!');
+  }
 
   // Remove preferences, separator, and quit from the File menu, since they're
   // in the app menu
   const fileMenu = template[0];
-  fileMenu.submenu.pop();
-  fileMenu.submenu.pop();
-  fileMenu.submenu.pop();
-  // And insert "close".
-  fileMenu.submenu.push(
-    {
-      type: 'separator',
-    },
-    {
-      label: messages.windowMenuClose.message,
-      accelerator: 'CmdOrCtrl+W',
-      role: 'close',
-    }
-  );
+  if (Array.isArray(fileMenu.submenu)) {
+    fileMenu.submenu.pop();
+    fileMenu.submenu.pop();
+    fileMenu.submenu.pop();
+    // And insert "close".
+    fileMenu.submenu.push(
+      {
+        type: 'separator',
+      },
+      {
+        label: messages.windowMenuClose.message,
+        accelerator: 'CmdOrCtrl+W',
+        role: 'close',
+      }
+    );
+  } else {
+    throw new Error('updateForMac: fileMenu.submenu was not an array!');
+  }
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
@@ -273,7 +322,7 @@ function updateForMac(template, messages, options) {
       },
       {
         label: messages.appMenuHideOthers.message,
-        role: 'hideothers',
+        role: 'hideOthers',
       },
       {
         label: messages.appMenuUnhide.message,
@@ -289,25 +338,29 @@ function updateForMac(template, messages, options) {
     ],
   });
 
-  // Add to Edit menu
-  template[2].submenu.push(
-    {
-      type: 'separator',
-    },
-    {
-      label: messages.speech.message,
-      submenu: [
-        {
-          role: 'startspeaking',
-          label: messages.editMenuStartSpeaking.message,
-        },
-        {
-          role: 'stopspeaking',
-          label: messages.editMenuStopSpeaking.message,
-        },
-      ],
-    }
-  );
+  const editMenu = template[2];
+  if (Array.isArray(editMenu.submenu)) {
+    editMenu.submenu.push(
+      {
+        type: 'separator',
+      },
+      {
+        label: messages.speech.message,
+        submenu: [
+          {
+            role: 'startSpeaking',
+            label: messages.editMenuStartSpeaking.message,
+          },
+          {
+            role: 'stopSpeaking',
+            label: messages.editMenuStopSpeaking.message,
+          },
+        ],
+      }
+    );
+  } else {
+    throw new Error('updateForMac: edit.submenu was not an array!');
+  }
 
   // Replace Window menu
   // eslint-disable-next-line no-param-reassign

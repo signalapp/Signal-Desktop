@@ -4,7 +4,11 @@
 // The list of permissions is here:
 //   https://electronjs.org/docs/api/session#sessetpermissionrequesthandlerhandler
 
-const PERMISSIONS = {
+import { session as ElectronSession } from 'electron';
+
+import { ConfigType } from './config';
+
+const PERMISSIONS: Record<string, boolean> = {
   // Allowed
   fullscreen: true, // required to show videos in full-screen
   notifications: true, // required to show OS notifications for new messages
@@ -19,47 +23,60 @@ const PERMISSIONS = {
   pointerLock: false,
 };
 
-function _createPermissionHandler(userConfig) {
-  return (webContents, permission, callback, details) => {
+function _createPermissionHandler(
+  userConfig: ConfigType
+): Parameters<typeof ElectronSession.prototype.setPermissionRequestHandler>[0] {
+  return (_webContents, permission, callback, details): void => {
     // We default 'media' permission to false, but the user can override that for
     // the microphone and camera.
     if (permission === 'media') {
       if (
-        details.mediaTypes.includes('audio') ||
-        details.mediaTypes.includes('video')
+        details.mediaTypes?.includes('audio') ||
+        details.mediaTypes?.includes('video')
       ) {
         if (
-          details.mediaTypes.includes('audio') &&
+          details.mediaTypes?.includes('audio') &&
           userConfig.get('mediaPermissions')
         ) {
-          return callback(true);
+          callback(true);
+          return;
         }
         if (
-          details.mediaTypes.includes('video') &&
+          details.mediaTypes?.includes('video') &&
           userConfig.get('mediaCameraPermissions')
         ) {
-          return callback(true);
+          callback(true);
+          return;
         }
 
-        return callback(false);
+        callback(false);
+        return;
       }
 
       // If it doesn't have 'video' or 'audio', it's probably screenshare.
       // TODO: DESKTOP-1611
-      return callback(true);
+      callback(true);
+      return;
     }
 
     if (PERMISSIONS[permission]) {
       console.log(`Approving request for permission '${permission}'`);
-      return callback(true);
+      callback(true);
+      return;
     }
 
     console.log(`Denying request for permission '${permission}'`);
-    return callback(false);
+    callback(false);
   };
 }
 
-function installPermissionsHandler({ session, userConfig }) {
+export function installPermissionsHandler({
+  session,
+  userConfig,
+}: {
+  session: typeof ElectronSession;
+  userConfig: ConfigType;
+}): void {
   // Setting the permission request handler to null first forces any permissions to be
   //   requested again. Without this, revoked permissions might still be available if
   //   they've already been used successfully.
@@ -69,7 +86,3 @@ function installPermissionsHandler({ session, userConfig }) {
     _createPermissionHandler(userConfig)
   );
 }
-
-module.exports = {
-  installPermissionsHandler,
-};

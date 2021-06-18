@@ -30,7 +30,7 @@
       },
       {
         "label": "Hide Others",
-        "role": "hideothers"
+        "role": "hideOthers"
       },
       {
         "label": "Show All",
@@ -97,7 +97,7 @@
       },
       {
         "label": "Paste and Match Style",
-        "role": "pasteandmatchstyle"
+        "role": "pasteAndMatchStyle"
       },
       {
         "label": "Delete",
@@ -105,7 +105,7 @@
       },
       {
         "label": "Select All",
-        "role": "selectall"
+        "role": "selectAll"
       },
       {
         "type": "separator"
@@ -115,11 +115,11 @@
         "submenu": [
           {
             "label": "Start speaking",
-            "role": "startspeaking"
+            "role": "startSpeaking"
           },
           {
             "label": "Stop speaking",
-            "role": "stopspeaking"
+            "role": "stopSpeaking"
           }
         ]
       }
@@ -130,16 +130,16 @@
     "submenu": [
       {
         "label": "Actual Size",
-        "role": "resetzoom"
+        "role": "resetZoom"
       },
       {
         "accelerator": "Command+=",
         "label": "Zoom In",
-        "role": "zoomin"
+        "role": "zoomIn"
       },
       {
         "label": "Zoom Out",
-        "role": "zoomout"
+        "role": "zoomOut"
       },
       {
         "type": "separator"
@@ -160,7 +160,7 @@
       },
       {
         "label": "Toggle Developer Tools",
-        "role": "toggledevtools"
+        "role": "toggleDevTools"
       }
     ]
   },
