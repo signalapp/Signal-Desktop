@@ -41,6 +41,8 @@ import { getMentionsInput } from '../../../state/selectors/mentionsInput';
 import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../SessionButton';
+import { any } from 'underscore';
+import { SessionConfirmDialogProps } from '../SessionConfirm';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -91,6 +93,7 @@ interface Props {
   showLeftPaneSection: (section: SectionType) => void;
   showSettingsSection: (category: SessionSettingCategory) => void;
   theme: DefaultTheme;
+  updateConfirmModal: (props: SessionConfirmDialogProps) => any;
 }
 
 interface State {
@@ -235,6 +238,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             //   message: window.i18n('linkPreviewsConfirmMessage'),
             //   okTheme: SessionButtonColor.Danger,
             // }))
+            this.props.updateConfirmModal({
+              shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
+              title: window.i18n('linkPreviewsTitle'),
+              message: window.i18n('linkPreviewsConfirmMessage'),
+              okTheme: SessionButtonColor.Danger,
+            })
           }
 
       }

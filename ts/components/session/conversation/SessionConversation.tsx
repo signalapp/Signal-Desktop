@@ -43,8 +43,6 @@ import { AddModeratorsDialog } from '../../conversation/ModeratorsAddDialog';
 import { RemoveModeratorsDialog } from '../../conversation/ModeratorsRemoveDialog';
 import { UpdateGroupNameDialog } from '../../conversation/UpdateGroupNameDialog';
 import { UpdateGroupMembersDialog } from '../../conversation/UpdateGroupMembersDialog';
-import { getOurNumber } from '../../../state/selectors/user';
-import { useSelector } from 'react-redux';
 import { InviteContactsDialog } from '../../conversation/InviteContactsDialog';
 
 interface State {
@@ -314,6 +312,7 @@ export class SessionConversation extends React.Component<Props, State> {
             removeAttachment={this.removeAttachment}
             onChoseAttachments={this.onChoseAttachments}
             theme={this.props.theme}
+            updateConfirmModal={actions.updateConfirmModal}
           />
         </div>
 
