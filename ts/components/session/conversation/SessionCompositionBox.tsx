@@ -226,6 +226,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           break;
         case 'text':
           this.showLinkSharingConfirmationModalDialog(e);
+          break;
+        default:
       }
     }
     if (imgBlob !== null) {
@@ -243,7 +245,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
    * @param e paste event
    */
   private showLinkSharingConfirmationModalDialog(e: any) {
-    let pastedText = e.clipboardData.getData('text');
+    const pastedText = e.clipboardData.getData('text');
     if (this.isURL(pastedText)) {
       this.props.updateConfirmModal({
         shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
@@ -263,9 +265,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
    * @returns boolean if the string is true or false
    */
   private isURL(str: string) {
-    var urlRegex =
+    const urlRegex =
       '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
-    var url = new RegExp(urlRegex, 'i');
+    const url = new RegExp(urlRegex, 'i');
     return str.length < 2083 && url.test(str);
   }
 

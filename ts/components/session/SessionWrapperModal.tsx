@@ -75,7 +75,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
   };
 
   return (
-    <div className={'loki-dialog modal ' + additionalClassName}>
+    <div className={`loki-dialog modal ${additionalClassName}`}>
       <div className="session-confirm-wrapper">
         <div className="session-modal">
           {showHeader ? (
