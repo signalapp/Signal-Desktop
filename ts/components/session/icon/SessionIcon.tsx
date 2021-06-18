@@ -133,19 +133,13 @@ const SessionSvg = (props: {
     rotateDuration: props.rotateDuration,
     iconRotation: props.iconRotation,
     viewBox: props.viewBox,
+    glowDuration: props.glowDuration,
+    glowStartDelay: props.glowStartDelay,
+    iconColor: props.iconColor 
   };
 
   return (
     <Svg {...propsToPick}>
-      {/* { props.glowDuration ?
-        <defs>
-          <filter>
-            <feDropShadow dx="0.2" dy="0.4" stdDeviation="0.2" />
-          </filter>
-        </defs>
-        :
-        null
-      } */}
       {pathArray.map((path, index) => {
         return <path key={index} fill={colorSvg} d={path} />;
       })}
