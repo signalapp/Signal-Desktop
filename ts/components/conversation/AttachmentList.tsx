@@ -77,7 +77,7 @@ export const AttachmentList = ({
               <Image
                 key={key}
                 alt={i18n('stagedImageAttachment', [
-                  url || attachment.fileName,
+                  attachment.fileName || url || index.toString(),
                 ])}
                 i18n={i18n}
                 attachment={attachment}

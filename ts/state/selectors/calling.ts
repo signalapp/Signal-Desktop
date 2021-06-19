@@ -8,16 +8,18 @@ import {
   CallingStateType,
   CallsByConversationType,
   DirectCallStateType,
-  getActiveCall,
+  GroupCallStateType,
 } from '../ducks/calling';
 import { CallMode, CallState } from '../../types/Calling';
 import { getOwn } from '../../util/getOwn';
 
+export type CallStateType = DirectCallStateType | GroupCallStateType;
+
 const getCalling = (state: StateType): CallingStateType => state.calling;
 
-export const isInCall = createSelector(
+export const getActiveCallState = createSelector(
   getCalling,
-  (state: CallingStateType): boolean => Boolean(getActiveCall(state))
+  (state: CallingStateType) => state.activeCallState
 );
 
 export const getCallsByConversation = createSelector(
@@ -26,10 +28,31 @@ export const getCallsByConversation = createSelector(
     state.callsByConversation
 );
 
+export type CallSelectorType = (
+  conversationId: string
+) => CallStateType | undefined;
 export const getCallSelector = createSelector(
   getCallsByConversation,
-  (callsByConversation: CallsByConversationType) => (conversationId: string) =>
-    getOwn(callsByConversation, conversationId)
+  (callsByConversation: CallsByConversationType): CallSelectorType => (
+    conversationId: string
+  ) => getOwn(callsByConversation, conversationId)
+);
+
+export const getActiveCall = createSelector(
+  getActiveCallState,
+  getCallSelector,
+  (activeCallState, callSelector): undefined | CallStateType => {
+    if (activeCallState && activeCallState.conversationId) {
+      return callSelector(activeCallState.conversationId);
+    }
+
+    return undefined;
+  }
+);
+
+export const isInCall = createSelector(
+  getActiveCall,
+  (call: CallStateType | undefined): boolean => Boolean(call)
 );
 
 // In theory, there could be multiple incoming calls. In practice, neither RingRTC nor the

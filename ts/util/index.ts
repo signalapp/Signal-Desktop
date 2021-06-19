@@ -38,6 +38,7 @@ import { postLinkExperience } from './postLinkExperience';
 import { sendToGroup, sendContentMessageToGroup } from './sendToGroup';
 import { RetryPlaceholders } from './retryPlaceholders';
 import * as expirationTimer from './expirationTimer';
+import { MessageController } from './MessageController';
 
 export {
   GoogleChrome,
@@ -60,6 +61,7 @@ export {
   longRunningTaskWrapper,
   makeLookup,
   mapToSupportLocale,
+  MessageController,
   missingCaseError,
   parseRemoteClientExpiration,
   postLinkExperience,

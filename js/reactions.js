@@ -65,67 +65,70 @@
         }
 
         // awaiting is safe since `onReaction` is never called from inside the queue
-        return await targetConversation.queueJob(async () => {
-          window.log.info(
-            'Handling reaction for',
-            reaction.get('targetTimestamp')
-          );
-
-          const messages = await window.Signal.Data.getMessagesBySentAt(
-            reaction.get('targetTimestamp'),
-            {
-              MessageCollection: Whisper.MessageCollection,
-            }
-          );
-          // Message is fetched inside the conversation queue so we have the
-          // most recent data
-          const targetMessage = messages.find(m => {
-            const contact = m.getContact();
-
-            if (!contact) {
-              return false;
-            }
-
-            const mcid = contact.get('id');
-            const recid = ConversationController.ensureContactIds({
-              uuid: reaction.get('targetAuthorUuid'),
-            });
-            return mcid === recid;
-          });
-
-          if (!targetMessage) {
+        return await targetConversation.queueJob(
+          'Reactions.onReaction',
+          async () => {
             window.log.info(
-              'No message for reaction',
-              reaction.get('targetAuthorUuid'),
+              'Handling reaction for',
               reaction.get('targetTimestamp')
             );
 
-            // Since we haven't received the message for which we are removing a
-            // reaction, we can just remove those pending reactions
-            if (reaction.get('remove')) {
-              this.remove(reaction);
-              const oldReaction = this.where({
-                targetAuthorUuid: reaction.get('targetAuthorUuid'),
-                targetTimestamp: reaction.get('targetTimestamp'),
-                emoji: reaction.get('emoji'),
+            const messages = await window.Signal.Data.getMessagesBySentAt(
+              reaction.get('targetTimestamp'),
+              {
+                MessageCollection: Whisper.MessageCollection,
+              }
+            );
+            // Message is fetched inside the conversation queue so we have the
+            // most recent data
+            const targetMessage = messages.find(m => {
+              const contact = m.getContact();
+
+              if (!contact) {
+                return false;
+              }
+
+              const mcid = contact.get('id');
+              const recid = ConversationController.ensureContactIds({
+                uuid: reaction.get('targetAuthorUuid'),
               });
-              oldReaction.forEach(r => this.remove(r));
+              return mcid === recid;
+            });
+
+            if (!targetMessage) {
+              window.log.info(
+                'No message for reaction',
+                reaction.get('targetAuthorUuid'),
+                reaction.get('targetTimestamp')
+              );
+
+              // Since we haven't received the message for which we are removing a
+              // reaction, we can just remove those pending reactions
+              if (reaction.get('remove')) {
+                this.remove(reaction);
+                const oldReaction = this.where({
+                  targetAuthorUuid: reaction.get('targetAuthorUuid'),
+                  targetTimestamp: reaction.get('targetTimestamp'),
+                  emoji: reaction.get('emoji'),
+                });
+                oldReaction.forEach(r => this.remove(r));
+              }
+
+              return undefined;
             }
 
-            return undefined;
+            const message = MessageController.register(
+              targetMessage.id,
+              targetMessage
+            );
+
+            const oldReaction = await message.handleReaction(reaction);
+
+            this.remove(reaction);
+
+            return oldReaction;
           }
-
-          const message = MessageController.register(
-            targetMessage.id,
-            targetMessage
-          );
-
-          const oldReaction = await message.handleReaction(reaction);
-
-          this.remove(reaction);
-
-          return oldReaction;
-        });
+        );
       } catch (error) {
         window.log.error(
           'Reactions.onReaction error:',

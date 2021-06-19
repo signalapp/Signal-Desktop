@@ -143,7 +143,7 @@ export const getCachedSelectorForMessageSearchResult = createSelector(
           id: message.id,
           conversationId: message.conversationId,
           sentAt: message.sent_at,
-          snippet: message.snippet,
+          snippet: message.snippet || '',
           bodyRanges: bodyRanges.map((bodyRange: BodyRangeType) => {
             const conversation = conversationSelector(bodyRange.mentionUuid);
 
@@ -152,7 +152,7 @@ export const getCachedSelectorForMessageSearchResult = createSelector(
               replacementText: conversation.title,
             };
           }),
-          body: message.body,
+          body: message.body || '',
 
           isSelected: Boolean(
             selectedMessageId && message.id === selectedMessageId

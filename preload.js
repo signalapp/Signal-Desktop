@@ -489,7 +489,6 @@ try {
   window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
   window.imageToBlurHash = imageToBlurHash;
   window.emojiData = require('emoji-datasource');
-  window.filesize = require('filesize');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.loadImage = require('blueimp-load-image');
@@ -590,7 +589,6 @@ try {
   require('./ts/background');
 
   // Pulling these in separately since they access filesystem, electron
-  window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Debug = require('./js/modules/debug');
   window.Signal.Logs = require('./js/modules/logs');
 

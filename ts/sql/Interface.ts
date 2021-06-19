@@ -15,12 +15,26 @@ import { ConversationModel } from '../models/conversations';
 import { StoredJob } from '../jobs/types';
 import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
+import { StorageAccessType } from '../types/Storage.d';
+import { AttachmentType } from '../types/Attachment';
+
+export type AttachmentDownloadJobTypeType =
+  | 'long-message'
+  | 'attachment'
+  | 'preview'
+  | 'contact'
+  | 'quote'
+  | 'sticker';
 
 export type AttachmentDownloadJobType = {
-  id: string;
-  timestamp: number;
-  pending: number;
+  attachment: AttachmentType;
   attempts: number;
+  id: string;
+  index: number;
+  messageId: string;
+  pending: number;
+  timestamp: number;
+  type: AttachmentDownloadJobTypeType;
 };
 export type MessageMetricsType = {
   id: string;
@@ -48,7 +62,12 @@ export type IdentityKeyType = {
   timestamp: number;
   verified: number;
 };
-export type ItemType = any;
+export type ItemKeyType = keyof StorageAccessType;
+export type AllItemsType = Partial<StorageAccessType>;
+export type ItemType<K extends ItemKeyType> = {
+  id: K;
+  value: StorageAccessType[K];
+};
 export type MessageType = MessageAttributesType;
 export type MessageTypeUnhydrated = {
   json: string;
@@ -177,12 +196,11 @@ export type DataInterface = {
   removeAllSignedPreKeys: () => Promise<void>;
   getAllSignedPreKeys: () => Promise<Array<SignedPreKeyType>>;
 
-  createOrUpdateItem: (data: ItemType) => Promise<void>;
-  getItemById: (id: string) => Promise<ItemType | undefined>;
-  bulkAddItems: (array: Array<ItemType>) => Promise<void>;
-  removeItemById: (id: string) => Promise<void>;
+  createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>): Promise<void>;
+  getItemById<K extends ItemKeyType>(id: K): Promise<ItemType<K> | undefined>;
+  removeItemById: (id: ItemKeyType) => Promise<void>;
   removeAllItems: () => Promise<void>;
-  getAllItems: () => Promise<Array<ItemType>>;
+  getAllItems: () => Promise<AllItemsType>;
 
   createOrUpdateSenderKey: (key: SenderKeyType) => Promise<void>;
   getSenderKeyById: (id: string) => Promise<SenderKeyType | undefined>;
@@ -216,10 +234,6 @@ export type DataInterface = {
 
   getMessageCount: (conversationId?: string) => Promise<number>;
   hasUserInitiatedMessages: (conversationId: string) => Promise<boolean>;
-  saveMessages: (
-    arrayOfMessages: Array<MessageType>,
-    options: { forceSave?: boolean }
-  ) => Promise<void>;
   getAllMessageIds: () => Promise<Array<string>>;
   getMessageMetricsForConversation: (
     conversationId: string
@@ -308,6 +322,7 @@ export type DataInterface = {
   getMessageServerGuidsForSpam: (
     conversationId: string
   ) => Promise<Array<string>>;
+  getSoonestMessageExpiry: () => Promise<undefined | number>;
 
   getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
   insertJob(job: Readonly<StoredJob>): Promise<void>;
@@ -365,8 +380,7 @@ export type ServerInterface = DataInterface & {
     conversationId: string;
     ourConversationId: string;
   }) => Promise<MessageType | undefined>;
-  getNextExpiringMessage: () => Promise<MessageType | undefined>;
-  getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
+  getOutgoingWithoutExpirationStartTimestamp: () => Promise<Array<MessageType>>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
   getUnreadCountForConversation: (conversationId: string) => Promise<number>;
   getUnreadByConversationAndMarkRead: (
@@ -411,6 +425,10 @@ export type ServerInterface = DataInterface & {
     data: MessageType,
     options: { forceSave?: boolean }
   ) => Promise<string>;
+  saveMessages: (
+    arrayOfMessages: Array<MessageType>,
+    options: { forceSave?: boolean }
+  ) => Promise<void>;
   updateConversation: (data: ConversationType) => Promise<void>;
 
   // For testing only
@@ -500,10 +518,7 @@ export type ClientInterface = DataInterface & {
     ourConversationId: string;
     Message: typeof MessageModel;
   }) => Promise<MessageModel | undefined>;
-  getNextExpiringMessage: (options: {
-    Message: typeof MessageModel;
-  }) => Promise<MessageModel | null>;
-  getOutgoingWithoutExpiresAt: (options: {
+  getOutgoingWithoutExpirationStartTimestamp: (options: {
     MessageCollection: typeof MessageModelCollectionType;
   }) => Promise<MessageModelCollectionType>;
   getTapToViewMessagesNeedingErase: (options: {
@@ -552,6 +567,10 @@ export type ClientInterface = DataInterface & {
     data: MessageType,
     options: { forceSave?: boolean; Message: typeof MessageModel }
   ) => Promise<string>;
+  saveMessages: (
+    arrayOfMessages: Array<MessageType>,
+    options: { forceSave?: boolean; Message: typeof MessageModel }
+  ) => Promise<void>;
   searchMessages: (
     query: string,
     options?: { limit?: number }

@@ -55,6 +55,7 @@ import {
   uuidToArrayBuffer,
   arrayBufferToUuid,
 } from '../Crypto';
+import { assert } from '../util/assert';
 import { getOwn } from '../util/getOwn';
 import {
   fetchMembershipProof,
@@ -1257,9 +1258,13 @@ export class CallingClass {
     }
     const senderIdentityKey = senderIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
-    const receiverIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
+    const ourIdentifier =
       window.textsecure.storage.user.getUuid() ||
-        window.textsecure.storage.user.getNumber()
+      window.textsecure.storage.user.getNumber();
+    assert(ourIdentifier, 'We should have either uuid or number');
+
+    const receiverIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
+      ourIdentifier
     );
     if (!receiverIdentityRecord) {
       window.log.error(

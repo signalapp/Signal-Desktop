@@ -3,7 +3,6 @@
 
 // The idea with this file is to make it webpackable for the style guide
 
-const { bindActionCreators } = require('redux');
 const Backbone = require('../../ts/backbone');
 const Crypto = require('../../ts/Crypto');
 const Curve = require('../../ts/Curve');
@@ -23,7 +22,6 @@ const Settings = require('./settings');
 const RemoteConfig = require('../../ts/RemoteConfig');
 const Util = require('../../ts/util');
 const LinkPreviews = require('./link_previews');
-const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
 const {
@@ -54,9 +52,6 @@ const {
 const { Quote } = require('../../ts/components/conversation/Quote');
 const { ProgressModal } = require('../../ts/components/ProgressModal');
 const {
-  SafetyNumberChangeDialog,
-} = require('../../ts/components/SafetyNumberChangeDialog');
-const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
 const {
@@ -80,13 +75,10 @@ const {
 const {
   createConversationHeader,
 } = require('../../ts/state/roots/createConversationHeader');
-const { createCallManager } = require('../../ts/state/roots/createCallManager');
+const { createApp } = require('../../ts/state/roots/createApp');
 const {
   createForwardMessageModal,
 } = require('../../ts/state/roots/createForwardMessageModal');
-const {
-  createGlobalModalContainer,
-} = require('../../ts/state/roots/createGlobalModalContainer');
 const {
   createGroupLinkManagement,
 } = require('../../ts/state/roots/createGroupLinkManagement');
@@ -120,6 +112,7 @@ const {
 } = require('../../ts/state/roots/createShortcutGuideModal');
 
 const { createStore } = require('../../ts/state/createStore');
+const appDuck = require('../../ts/state/ducks/app');
 const callingDuck = require('../../ts/state/ducks/calling');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const emojisDuck = require('../../ts/state/ducks/emojis');
@@ -347,7 +340,6 @@ exports.setup = (options = {}) => {
     MessageDetail,
     Quote,
     ProgressModal,
-    SafetyNumberChangeDialog,
     StagedLinkPreview,
     DisappearingTimeDialog,
     Types: {
@@ -356,14 +348,13 @@ exports.setup = (options = {}) => {
   };
 
   const Roots = {
-    createCallManager,
+    createApp,
     createChatColorPicker,
     createCompositionArea,
     createContactModal,
     createConversationDetails,
     createConversationHeader,
     createForwardMessageModal,
-    createGlobalModalContainer,
     createGroupLinkManagement,
     createGroupV1MigrationModal,
     createGroupV2JoinModal,
@@ -379,6 +370,7 @@ exports.setup = (options = {}) => {
   };
 
   const Ducks = {
+    app: appDuck,
     calling: callingDuck,
     conversations: conversationsDuck,
     emojis: emojisDuck,
@@ -412,7 +404,6 @@ exports.setup = (options = {}) => {
   };
 
   const State = {
-    bindActionCreators,
     createStore,
     Roots,
     Ducks,
@@ -441,7 +432,6 @@ exports.setup = (options = {}) => {
   };
 
   return {
-    AttachmentDownloads,
     Backbone,
     Components,
     Crypto,

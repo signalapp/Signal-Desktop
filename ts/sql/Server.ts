@@ -33,7 +33,6 @@ import { ReactionType } from '../types/Reactions';
 import { StoredJob } from '../jobs/types';
 import { assert } from '../util/assert';
 import { combineNames } from '../util/combineNames';
-import { getExpiresAt } from '../services/MessageUpdater';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
@@ -44,6 +43,8 @@ import {
   ConversationType,
   EmojiType,
   IdentityKeyType,
+  AllItemsType,
+  ItemKeyType,
   ItemType,
   MessageType,
   MessageTypeUnhydrated,
@@ -123,7 +124,6 @@ const dataInterface: ServerInterface = {
   createOrUpdateItem,
   getItemById,
   getAllItems,
-  bulkAddItems,
   removeItemById,
   removeAllItems,
 
@@ -178,8 +178,8 @@ const dataInterface: ServerInterface = {
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
-  getOutgoingWithoutExpiresAt,
-  getNextExpiringMessage,
+  getOutgoingWithoutExpirationStartTimestamp,
+  getSoonestMessageExpiry,
   getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
@@ -1857,6 +1857,38 @@ function updateToSchemaVersion32(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion32: success!');
 }
 
+function updateToSchemaVersion33(currentVersion: number, db: Database) {
+  if (currentVersion >= 33) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      -- These indexes should exist, but we add "IF EXISTS" for safety.
+      DROP INDEX IF EXISTS messages_expires_at;
+      DROP INDEX IF EXISTS messages_without_timer;
+
+      ALTER TABLE messages
+      ADD COLUMN
+      expiresAt INT
+      GENERATED ALWAYS
+      AS (expirationStartTimestamp + (expireTimer * 1000));
+
+      CREATE INDEX message_expires_at ON messages (
+        expiresAt
+      );
+
+      CREATE INDEX outgoing_messages_without_expiration_start_timestamp ON messages (
+        expireTimer, expirationStartTimestamp, type
+      )
+      WHERE expireTimer IS NOT NULL AND expirationStartTimestamp IS NULL;
+    `);
+
+    db.pragma('user_version = 33');
+  })();
+  console.log('updateToSchemaVersion33: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1890,6 +1922,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion30,
   updateToSchemaVersion31,
   updateToSchemaVersion32,
+  updateToSchemaVersion33,
 ];
 
 function updateSchema(db: Database): void {
@@ -2170,24 +2203,34 @@ async function getAllSignedPreKeys(): Promise<Array<SignedPreKeyType>> {
 }
 
 const ITEMS_TABLE = 'items';
-function createOrUpdateItem(data: ItemType): Promise<void> {
+function createOrUpdateItem<K extends ItemKeyType>(
+  data: ItemType<K>
+): Promise<void> {
   return createOrUpdate(ITEMS_TABLE, data);
 }
-function getItemById(id: string): Promise<ItemType> {
+function getItemById<K extends ItemKeyType>(
+  id: K
+): Promise<ItemType<K> | undefined> {
   return getById(ITEMS_TABLE, id);
 }
-async function getAllItems(): Promise<Array<ItemType>> {
+async function getAllItems(): Promise<AllItemsType> {
   const db = getInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>('SELECT json FROM items ORDER BY id ASC;')
     .all();
 
-  return rows.map(row => jsonToObject(row.json));
+  const items = rows.map(row => jsonToObject(row.json));
+
+  const result: AllItemsType = Object.create(null);
+
+  for (const { id, value } of items) {
+    const key = id as ItemKeyType;
+    result[key] = value;
+  }
+
+  return result;
 }
-function bulkAddItems(array: Array<ItemType>): Promise<void> {
-  return bulkAdd(ITEMS_TABLE, array);
-}
-function removeItemById(id: string): Promise<void> {
+function removeItemById(id: ItemKeyType): Promise<void> {
   return removeById(ITEMS_TABLE, id);
 }
 function removeAllItems(): Promise<void> {
@@ -2985,7 +3028,6 @@ function saveMessageSync(
   const {
     body,
     conversationId,
-    expires_at,
     hasAttachments,
     hasFileAttachments,
     hasVisualMediaAttachments,
@@ -3012,7 +3054,6 @@ function saveMessageSync(
     body: body || null,
     conversationId,
     expirationStartTimestamp: expirationStartTimestamp || null,
-    expires_at: expires_at || null,
     expireTimer: expireTimer || null,
     hasAttachments: hasAttachments ? 1 : 0,
     hasFileAttachments: hasFileAttachments ? 1 : 0,
@@ -3020,7 +3061,7 @@ function saveMessageSync(
     isErased: isErased ? 1 : 0,
     isViewOnce: isViewOnce ? 1 : 0,
     received_at: received_at || null,
-    schemaVersion,
+    schemaVersion: schemaVersion || 0,
     serverGuid: serverGuid || null,
     sent_at: sent_at || null,
     source: source || null,
@@ -3041,7 +3082,6 @@ function saveMessageSync(
         body = $body,
         conversationId = $conversationId,
         expirationStartTimestamp = $expirationStartTimestamp,
-        expires_at = $expires_at,
         expireTimer = $expireTimer,
         hasAttachments = $hasAttachments,
         hasFileAttachments = $hasFileAttachments,
@@ -3079,7 +3119,6 @@ function saveMessageSync(
       body,
       conversationId,
       expirationStartTimestamp,
-      expires_at,
       expireTimer,
       hasAttachments,
       hasFileAttachments,
@@ -3102,7 +3141,6 @@ function saveMessageSync(
       $body,
       $conversationId,
       $expirationStartTimestamp,
-      $expires_at,
       $expireTimer,
       $hasAttachments,
       $hasFileAttachments,
@@ -3231,98 +3269,6 @@ async function getMessageBySender({
   return rows.map(row => jsonToObject(row.json));
 }
 
-function getExpireData(
-  expireTimer: number,
-  readAt?: number
-): {
-  expirationStartTimestamp: number;
-  expiresAt: number;
-} {
-  const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
-  const expiresAt = getExpiresAt({
-    expireTimer,
-    expirationStartTimestamp,
-  });
-
-  // We are guaranteeing an expirationStartTimestamp above so this should
-  // definitely return a number.
-  if (!expiresAt || typeof expiresAt !== 'number') {
-    assert(false, 'Expected expiresAt to be a number');
-  }
-
-  return {
-    expirationStartTimestamp,
-    expiresAt,
-  };
-}
-
-function updateExpirationTimers(
-  conversationId: string,
-  newestUnreadId: number,
-  messagesWithExpireTimer: Map<
-    string,
-    {
-      id: string;
-      expireTimer: number;
-    }
-  >,
-  readAt?: number
-) {
-  const db = getInstance();
-
-  const rowsWithSameExpireTimer = new Map();
-  for (const row of messagesWithExpireTimer.values()) {
-    const { expireTimer } = row;
-    const expireTimerRow = rowsWithSameExpireTimer.get(expireTimer);
-
-    if (expireTimerRow) {
-      return;
-    }
-
-    const { expirationStartTimestamp, expiresAt } = getExpireData(
-      expireTimer,
-      readAt
-    );
-
-    rowsWithSameExpireTimer.set(expireTimer, {
-      expirationStartTimestamp,
-      expireTimer,
-      expiresAt,
-    });
-  }
-
-  rowsWithSameExpireTimer.forEach(
-    ({ expirationStartTimestamp, expireTimer, expiresAt }) => {
-      db.prepare<Query>(
-        `
-      UPDATE messages
-      SET
-        unread = 0,
-        expires_at = $expiresAt,
-        expirationStartTimestamp = $expirationStartTimestamp,
-        json = json_patch(json, $jsonPatch)
-      WHERE
-        unread = 0 AND
-        conversationId = $conversationId AND
-        received_at <= $newestUnreadId AND
-        expireTimer = $expireTimer
-      `
-      ).run({
-        conversationId,
-        expirationStartTimestamp,
-        expireTimer,
-        expiresAt,
-        jsonPatch: JSON.stringify({
-          expirationStartTimestamp,
-          expires_at: expiresAt,
-          unread: 0,
-        }),
-        newestUnreadId,
-      });
-    }
-  );
-}
-
 async function getUnreadCountForConversation(
   conversationId: string
 ): Promise<number> {
@@ -3351,10 +3297,33 @@ async function getUnreadByConversationAndMarkRead(
 > {
   const db = getInstance();
   return db.transaction(() => {
+    const expirationStartTimestamp = Math.min(Date.now(), readAt ?? Infinity);
+    db.prepare<Query>(
+      `
+      UPDATE messages
+      SET
+        expirationStartTimestamp = $expirationStartTimestamp,
+        json = json_patch(json, $jsonPatch)
+      WHERE
+        (
+          expirationStartTimestamp IS NULL OR
+          expirationStartTimestamp > $expirationStartTimestamp
+        ) AND
+        expireTimer IS NOT NULL AND
+        conversationId = $conversationId AND
+        received_at <= $newestUnreadId;
+      `
+    ).run({
+      conversationId,
+      expirationStartTimestamp,
+      jsonPatch: JSON.stringify({ expirationStartTimestamp }),
+      newestUnreadId,
+    });
+
     const rows = db
       .prepare<Query>(
         `
-        SELECT id, expires_at, expireTimer, expirationStartTimestamp, json
+        SELECT id, json
         FROM messages WHERE
           unread = $unread AND
           conversationId = $conversationId AND
@@ -3367,30 +3336,6 @@ async function getUnreadByConversationAndMarkRead(
         conversationId,
         newestUnreadId,
       });
-
-    if (!rows.length) {
-      return [];
-    }
-
-    const messagesWithExpireTimer: Map<
-      string,
-      {
-        id: string;
-        expireTimer: number;
-      }
-    > = new Map();
-
-    rows.forEach(row => {
-      if (
-        row.expireTimer &&
-        (!row.expirationStartTimestamp || !row.expires_at)
-      ) {
-        messagesWithExpireTimer.set(row.id, {
-          id: row.id,
-          expireTimer: row.expireTimer,
-        });
-      }
-    });
 
     db.prepare<Query>(
       `
@@ -3410,34 +3355,18 @@ async function getUnreadByConversationAndMarkRead(
       unread: 1,
     });
 
-    if (messagesWithExpireTimer.size) {
-      updateExpirationTimers(
-        conversationId,
-        newestUnreadId,
-        messagesWithExpireTimer,
-        readAt
-      );
-    }
-
     return rows.map(row => {
       const json = jsonToObject(row.json);
-      const expireAttrs = {};
-      const expiringMessage = messagesWithExpireTimer.get(row.id);
-      if (expiringMessage) {
-        const { expirationStartTimestamp, expiresAt } = getExpireData(
-          expiringMessage.expireTimer,
-          readAt
-        );
-        Object.assign(expireAttrs, {
-          expirationStartTimestamp,
-          expires_at: expiresAt,
-        });
-      }
-
       return {
         unread: false,
-        ...pick(json, ['id', 'sent_at', 'source', 'sourceUuid', 'type']),
-        ...expireAttrs,
+        ...pick(json, [
+          'expirationStartTimestamp',
+          'id',
+          'sent_at',
+          'source',
+          'sourceUuid',
+          'type',
+        ]),
       };
     });
   })();
@@ -3967,30 +3896,29 @@ async function getExpiredMessages(): Promise<Array<MessageType>> {
     .prepare<Query>(
       `
       SELECT json FROM messages WHERE
-        expires_at IS NOT NULL AND
-        expires_at <= $expires_at
-      ORDER BY expires_at ASC;
+        expiresAt IS NOT NULL AND
+        expiresAt <= $now
+      ORDER BY expiresAt ASC;
       `
     )
-    .all({
-      expires_at: now,
-    });
+    .all({ now });
 
   return rows.map(row => jsonToObject(row.json));
 }
 
-async function getOutgoingWithoutExpiresAt(): Promise<Array<MessageType>> {
+async function getOutgoingWithoutExpirationStartTimestamp(): Promise<
+  Array<MessageType>
+> {
   const db = getInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>(
       `
       SELECT json FROM messages
-      INDEXED BY messages_without_timer
+      INDEXED BY outgoing_messages_without_expiration_start_timestamp
       WHERE
         expireTimer > 0 AND
-        expires_at IS NULL AND
-        type IS 'outgoing'
-      ORDER BY expires_at ASC;
+        expirationStartTimestamp IS NULL AND
+        type IS 'outgoing';
       `
     )
     .all();
@@ -3998,26 +3926,21 @@ async function getOutgoingWithoutExpiresAt(): Promise<Array<MessageType>> {
   return rows.map(row => jsonToObject(row.json));
 }
 
-async function getNextExpiringMessage(): Promise<MessageType | undefined> {
+async function getSoonestMessageExpiry(): Promise<undefined | number> {
   const db = getInstance();
 
-  // Note: we avoid 'IS NOT NULL' here because it does seem to bypass our index
-  const rows: JSONRows = db
+  // Note: we use `pluck` to only get the first column.
+  const result: null | number = db
     .prepare<EmptyQuery>(
       `
-      SELECT json FROM messages
-      WHERE expires_at > 0
-      ORDER BY expires_at ASC
-      LIMIT 1;
+      SELECT MIN(expiresAt)
+      FROM messages;
       `
     )
-    .all();
+    .pluck(true)
+    .get();
 
-  if (!rows || rows.length < 1) {
-    return undefined;
-  }
-
-  return jsonToObject(rows[0].json);
+  return result || undefined;
 }
 
 async function getNextTapToViewMessageTimestampToAgeOut(): Promise<

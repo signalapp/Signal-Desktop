@@ -27,13 +27,18 @@ export type OwnProps = {
   message: MessagePropsDataType;
   receivedAt: number;
   sentAt: number;
+
+  sendAnyway: (contactId: string, messageId: string) => unknown;
+  showSafetyNumber: (contactId: string) => void;
 } & Pick<
   MessageDetailProps,
   | 'clearSelectedMessage'
+  | 'checkForAccount'
   | 'deleteMessage'
   | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
   | 'downloadAttachment'
+  | 'doubleCheckMissingQuoteReference'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
   | 'openConversation'
@@ -60,11 +65,16 @@ const mapStateToProps = (
     receivedAt,
     sentAt,
 
+    sendAnyway,
+    showSafetyNumber,
+
+    checkForAccount,
     clearSelectedMessage,
     deleteMessage,
     deleteMessageForEveryone,
     displayTapToViewMessage,
     downloadAttachment,
+    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     openConversation,
@@ -99,11 +109,16 @@ const mapStateToProps = (
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
 
+    sendAnyway,
+    showSafetyNumber,
+
+    checkForAccount,
     clearSelectedMessage,
     deleteMessage,
     deleteMessageForEveryone,
     displayTapToViewMessage,
     downloadAttachment,
+    doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     openConversation,

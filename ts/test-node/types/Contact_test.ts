@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 
+import { IMAGE_GIF } from '../../types/MIME';
 import { contactSelector, getName } from '../../types/Contact';
 
 describe('Contact', () => {
@@ -66,7 +67,8 @@ describe('Contact', () => {
   });
   describe('contactSelector', () => {
     const regionCode = '1';
-    const signalAccount = '+1202555000';
+    const firstNumber = '+1202555000';
+    const isNumberOnSignal = false;
     const getAbsoluteAttachmentPath = (path: string) => `absolute:${path}`;
 
     it('eliminates avatar if it has had an attachment download error', () => {
@@ -81,6 +83,7 @@ describe('Contact', () => {
           isProfile: true,
           avatar: {
             error: true,
+            contentType: IMAGE_GIF,
           },
         },
       };
@@ -92,12 +95,14 @@ describe('Contact', () => {
         },
         organization: 'Somewhere, Inc.',
         avatar: undefined,
-        signalAccount,
+        firstNumber,
+        isNumberOnSignal,
         number: undefined,
       };
       const actual = contactSelector(contact, {
         regionCode,
-        signalAccount,
+        firstNumber,
+        isNumberOnSignal,
         getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);
@@ -115,6 +120,7 @@ describe('Contact', () => {
           isProfile: true,
           avatar: {
             pending: true,
+            contentType: IMAGE_GIF,
           },
         },
       };
@@ -130,14 +136,17 @@ describe('Contact', () => {
           avatar: {
             pending: true,
             path: undefined,
+            contentType: IMAGE_GIF,
           },
         },
-        signalAccount,
+        firstNumber,
+        isNumberOnSignal,
         number: undefined,
       };
       const actual = contactSelector(contact, {
         regionCode,
-        signalAccount,
+        firstNumber,
+        isNumberOnSignal,
         getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);
@@ -155,6 +164,7 @@ describe('Contact', () => {
           isProfile: true,
           avatar: {
             path: 'somewhere',
+            contentType: IMAGE_GIF,
           },
         },
       };
@@ -169,14 +179,17 @@ describe('Contact', () => {
           isProfile: true,
           avatar: {
             path: 'absolute:somewhere',
+            contentType: IMAGE_GIF,
           },
         },
-        signalAccount,
+        firstNumber,
+        isNumberOnSignal: true,
         number: undefined,
       };
       const actual = contactSelector(contact, {
         regionCode,
-        signalAccount,
+        firstNumber,
+        isNumberOnSignal: true,
         getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);

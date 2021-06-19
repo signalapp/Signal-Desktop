@@ -3846,6 +3846,7 @@ arr-flatten@^1.0.1, arr-flatten@^1.1.0:
 arr-union@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/arr-union/-/arr-union-3.1.0.tgz#e39b09aea9def866a8f206e288af63919bae39c4"
+  integrity sha1-45sJrqne+Gao8gbiiK9jkZuuOcQ=
 
 array-each@^1.0.1:
   version "1.0.1"
@@ -6812,8 +6813,9 @@ dns-equal@^1.0.0:
   resolved "https://registry.yarnpkg.com/dns-equal/-/dns-equal-1.0.0.tgz#b39e7f1da6eb0a75ba9c17324b34753c47e0654d"
 
 dns-packet@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/dns-packet/-/dns-packet-1.3.1.tgz#12aa426981075be500b910eedcd0b47dd7deda5a"
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/dns-packet/-/dns-packet-1.3.4.tgz#e3455065824a2507ba886c55a89963bb107dec6f"
+  integrity sha512-BQ6F4vycLXBvdrJZ6S3gZewt6rcrks9KBgM9vrhW+knGRqc8uEdT7fuCwloc7nny5xNoMJ17HGH0R/6fpo8ECA==
   dependencies:
     ip "^1.1.0"
     safe-buffer "^5.0.1"
@@ -7142,10 +7144,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@13.1.0:
-  version "13.1.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-13.1.0.tgz#6d960bcc0dfb8663dd511b59a697e2fad35b2b6a"
-  integrity sha512-ykRAaPWrVQkm2Lju4O4rMQzahNcxWLeLMrhBw8WnmIiugkvUH0MhZ85jsOTrAoQ2Zl1FC542bloKFWGSkeVjkg==
+electron@13.1.2:
+  version "13.1.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-13.1.2.tgz#8c9abf9015766c9cbc16f10c99282d00d6ae1b90"
+  integrity sha512-aNT9t+LgdQaZ7FgN36pN7MjSEoj+EWc2T9yuOqBApbmR4HavGRadSz7u9N2Erw2ojdIXtei2RVIAvVm8mbDZ0g==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^14.6.2"
@@ -8568,6 +8570,7 @@ for-in@^0.1.3:
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
+  integrity sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=
 
 for-own@^0.1.3, for-own@^0.1.4:
   version "0.1.5"
@@ -10423,6 +10426,7 @@ is-binary-path@^1.0.0:
 is-buffer@^1.0.2, is-buffer@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
+  integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
 
 is-buffer@~2.0.3:
   version "2.0.3"
@@ -10726,6 +10730,7 @@ is-plain-obj@^3.0.0:
 is-plain-object@^2.0.1, is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
+  integrity sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==
   dependencies:
     isobject "^3.0.1"
 
@@ -11244,6 +11249,7 @@ kind-of@^2.0.1:
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
+  integrity sha1-MeohpzS6ubuw8yRm2JOupR5KPGQ=
   dependencies:
     is-buffer "^1.1.5"
 
@@ -11315,6 +11321,7 @@ lazy-cache@^0.2.3:
 lazy-cache@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
+  integrity sha1-odePw6UEdMuAhF07O24dpJpEbo4=
 
 lazy-universal-dotenv@^3.0.0:
   version "3.0.1"
@@ -11890,9 +11897,9 @@ meow@^3.1.0, meow@^3.7.0:
     trim-newlines "^1.0.0"
 
 merge-deep@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/merge-deep/-/merge-deep-3.0.2.tgz#f39fa100a4f1bd34ff29f7d2bf4508fbb8d83ad2"
-  integrity sha512-T7qC8kg4Zoti1cFd8Cr0M+qaZfOwjlPDEdZIIPPB2JZctjaPM4fX+i7HOId69tAti2fvO6X5ldfYUONDODsrkA==
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/merge-deep/-/merge-deep-3.0.3.tgz#1a2b2ae926da8b2ae93a0ac15d90cd1922766003"
+  integrity sha512-qtmzAS6t6grwEkNrunqTBdn0qKwFgNWvlxUbAV8es9M7Ot1EbyApytCnvE0jALPa46ZpKDUo527kKiaWplmlFA==
   dependencies:
     arr-union "^3.1.0"
     clone-deep "^0.2.4"

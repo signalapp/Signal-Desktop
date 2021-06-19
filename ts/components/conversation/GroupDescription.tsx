@@ -1,10 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Modal } from '../Modal';
 import { LocalizerType } from '../../types/Util';
-import { AddNewLines } from './AddNewLines';
+import { GroupDescriptionText } from '../GroupDescriptionText';
+
+// Emojification can cause the scroll height to be *slightly* larger than the client
+//   height, so we add a little wiggle room.
+const SHOW_READ_MORE_THRESHOLD = 5;
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -21,13 +25,16 @@ export const GroupDescription = ({
   const [hasReadMore, setHasReadMore] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!textRef || !textRef.current) {
       return;
     }
 
-    setHasReadMore(textRef.current.scrollHeight > textRef.current.clientHeight);
-  }, [setHasReadMore, textRef]);
+    setHasReadMore(
+      textRef.current.scrollHeight - SHOW_READ_MORE_THRESHOLD >
+        textRef.current.clientHeight
+    );
+  }, [setHasReadMore, text, textRef]);
 
   return (
     <>
@@ -38,11 +45,11 @@ export const GroupDescription = ({
           onClose={() => setShowFullDescription(false)}
           title={title}
         >
-          <AddNewLines text={text} />
+          <GroupDescriptionText text={text} />
         </Modal>
       )}
       <div className="GroupDescription__text" ref={textRef}>
-        {text}
+        <GroupDescriptionText text={text} />
       </div>
       {hasReadMore && (
         <button

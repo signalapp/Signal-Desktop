@@ -24,7 +24,11 @@ export const CallingScreenSharingController = ({
         {i18n('calling__presenting--info', [presentedSourceName])}
       </div>
       <div className="module-CallingScreenSharingController__buttons">
-        <Button onClick={onStopSharing} variant={ButtonVariant.Destructive}>
+        <Button
+          className="module-CallingScreenSharingController__button"
+          onClick={onStopSharing}
+          variant={ButtonVariant.Destructive}
+        >
           {i18n('calling__presenting--stop')}
         </Button>
         <button

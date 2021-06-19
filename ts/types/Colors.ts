@@ -105,3 +105,8 @@ export type DefaultConversationColorType = {
 export const DEFAULT_CONVERSATION_COLOR: DefaultConversationColorType = {
   color: 'ultramarine',
 };
+
+export type CustomColorsItemType = {
+  readonly colors: Record<string, CustomColorType>;
+  readonly version: number;
+};

@@ -14,31 +14,35 @@ import {
   ConversationType,
   MessageLookupType,
   MessagesByConversationType,
-  MessageType,
   OneTimeModalState,
   PreJoinConversationType,
 } from '../ducks/conversations';
 import { getOwn } from '../../util/getOwn';
 import { deconstructLookup } from '../../util/deconstructLookup';
-import type { CallsByConversationType } from '../ducks/calling';
-import { getCallsByConversation } from './calling';
-import { getBubbleProps } from '../../shims/Whisper';
 import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
 import { assert } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { filterAndSortConversationsByTitle } from '../../util/filterAndSortConversations';
 import { ContactNameColors, ContactNameColorType } from '../../types/Colors';
+import { isInSystemContacts } from '../../util/isInSystemContacts';
 
 import {
-  getInteractionMode,
   getIntl,
   getRegionCode,
   getUserConversationId,
   getUserNumber,
+  getUserUuid,
 } from './user';
-import { getPinnedConversationIds } from './items';
-import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { getPinnedConversationIds, getReadReceiptSetting } from './items';
+import { getPropsForBubble } from './message';
+import {
+  CallSelectorType,
+  CallStateType,
+  getActiveCall,
+  getCallSelector,
+} from './calling';
+import { getAccountSelector, AccountSelectorType } from './accounts';
 
 let placeholderContact: ConversationType;
 export const getPlaceholderContact = (): ConversationType => {
@@ -640,66 +644,15 @@ export const getConversationByIdSelector = createSelector(
     getOwn(conversationLookup, id)
 );
 
-// For now we use a shim, as selector logic is still happening in the Backbone Model.
-// What needs to happen to pull that selector logic here?
-//   1) translate ~500 lines of selector logic into TypeScript
-//   2) other places still rely on that prop-gen code - need to put these under Roots:
-//     - quote compose
-//     - message details
-export function _messageSelector(
-  message: MessageType,
-  _ourNumber: string,
-  _regionCode: string,
-  interactionMode: 'mouse' | 'keyboard',
-  _getConversationById: GetConversationByIdType,
-  _callsByConversation: CallsByConversationType,
-  selectedMessageId?: string,
-  selectedMessageCounter?: number
-): TimelineItemType {
-  // Note: We don't use all of those parameters here, but the shim we call does.
-  //   We want to call this function again if any of those parameters change.
-  const props = getBubbleProps(message);
-
-  if (selectedMessageId === message.id) {
-    return {
-      ...props,
-      data: {
-        ...props.data,
-        interactionMode,
-        isSelected: true,
-        isSelectedCounter: selectedMessageCounter,
-      },
-    };
-  }
-
-  return {
-    ...props,
-    data: {
-      ...props.data,
-      interactionMode,
-    },
-  };
-}
-
 // A little optimization to reset our selector cache whenever high-level application data
 //   changes: regionCode and userNumber.
-type CachedMessageSelectorType = (
-  message: MessageType,
-  ourNumber: string,
-  regionCode: string,
-  interactionMode: 'mouse' | 'keyboard',
-  getConversationById: GetConversationByIdType,
-  callsByConversation: CallsByConversationType,
-  selectedMessageId?: string,
-  selectedMessageCounter?: number
-) => TimelineItemType;
 export const getCachedSelectorForMessage = createSelector(
   getRegionCode,
   getUserNumber,
-  (): CachedMessageSelectorType => {
+  (): typeof getPropsForBubble => {
     // Note: memoizee will check all parameters provided, and only run our selector
     //   if any of them have changed.
-    return memoizee(_messageSelector, { max: 2000 });
+    return memoizee(getPropsForBubble, { max: 2000 });
   }
 );
 
@@ -710,18 +663,26 @@ export const getMessageSelector = createSelector(
   getSelectedMessage,
   getConversationSelector,
   getRegionCode,
+  getReadReceiptSetting,
   getUserNumber,
-  getInteractionMode,
-  getCallsByConversation,
+  getUserUuid,
+  getUserConversationId,
+  getCallSelector,
+  getActiveCall,
+  getAccountSelector,
   (
-    messageSelector: CachedMessageSelectorType,
+    messageSelector: typeof getPropsForBubble,
     messageLookup: MessageLookupType,
     selectedMessage: SelectedMessageType | undefined,
     conversationSelector: GetConversationByIdType,
     regionCode: string,
+    readReceiptSetting: boolean,
     ourNumber: string,
-    interactionMode: 'keyboard' | 'mouse',
-    callsByConversation: CallsByConversationType
+    ourUuid: string,
+    ourConversationId: string,
+    callSelector: CallSelectorType,
+    activeCall: undefined | CallStateType,
+    accountSelector: AccountSelectorType
   ): GetMessageByIdType => {
     return (id: string) => {
       const message = messageLookup[id];
@@ -731,13 +692,17 @@ export const getMessageSelector = createSelector(
 
       return messageSelector(
         message,
-        ourNumber,
-        regionCode,
-        interactionMode,
         conversationSelector,
-        callsByConversation,
+        ourConversationId,
+        ourNumber,
+        ourUuid,
+        regionCode,
+        readReceiptSetting,
         selectedMessage ? selectedMessage.id : undefined,
-        selectedMessage ? selectedMessage.counter : undefined
+        selectedMessage ? selectedMessage.counter : undefined,
+        callSelector,
+        activeCall,
+        accountSelector
       );
     };
   }
@@ -911,3 +876,14 @@ export const getConversationsWithCustomColorSelector = createSelector(
     };
   }
 );
+
+export function isMissingRequiredProfileSharing(
+  conversation: ConversationType
+): boolean {
+  return Boolean(
+    !conversation.profileSharing &&
+      window.Signal.RemoteConfig.isEnabled('desktop.mandatoryProfileSharing') &&
+      conversation.messageCount &&
+      conversation.messageCount > 0
+  );
+}

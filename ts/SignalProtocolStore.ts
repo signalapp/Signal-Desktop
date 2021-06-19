@@ -36,6 +36,7 @@ import {
   KeyPairType,
   IdentityKeyType,
   SenderKeyType,
+  SessionResetsType,
   SessionType,
   SignedPreKeyType,
   OuterSignedPrekeyType,
@@ -113,8 +114,6 @@ type MapFields =
   | 'senderKeys'
   | 'sessions'
   | 'signedPreKeys';
-
-type SessionResetsType = Record<string, number>;
 
 export type SessionTransactionOptions = {
   readonly zone?: Zone;
@@ -1199,8 +1198,8 @@ export class SignalProtocolStore extends EventsMixin {
 
     const sessionResets = window.storage.get(
       'sessionResets',
-      {}
-    ) as SessionResetsType;
+      <SessionResetsType>{}
+    );
 
     const lastReset = sessionResets[id];
 

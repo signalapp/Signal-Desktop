@@ -1,16 +1,22 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global
-  Whisper,
-  Signal,
-  setTimeout,
-  clearTimeout,
-  MessageController
-*/
+import { isFunction, isNumber, omit } from 'lodash';
+import { v4 as getGuid } from 'uuid';
 
-const { isFunction, isNumber, omit } = require('lodash');
-const getGuid = require('uuid/v4');
+import dataInterface from '../sql/Client';
+import { downloadAttachment } from '../util/downloadAttachment';
+import { stringFromBytes } from '../Crypto';
+import MessageReceiver from '../textsecure/MessageReceiver';
+import {
+  AttachmentDownloadJobType,
+  AttachmentDownloadJobTypeType,
+} from '../sql/Interface';
+
+import { MessageModel } from '../models/messages';
+import { AttachmentType } from '../types/Attachment';
+import { LoggerType } from '../window.d';
+
 const {
   getMessageById,
   getNextAttachmentDownloadJobs,
@@ -19,15 +25,7 @@ const {
   saveAttachmentDownloadJob,
   saveMessage,
   setAttachmentDownloadJobPending,
-} = require('../../ts/sql/Client').default;
-const { downloadAttachment } = require('../../ts/util/downloadAttachment');
-const { stringFromBytes } = require('../../ts/Crypto');
-
-module.exports = {
-  start,
-  stop,
-  addJob,
-};
+} = dataInterface;
 
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
@@ -36,19 +34,27 @@ const MINUTE = 60 * SECOND;
 const HOUR = 60 * MINUTE;
 const TICK_INTERVAL = MINUTE;
 
-const RETRY_BACKOFF = {
+const RETRY_BACKOFF: Record<number, number> = {
   1: 30 * SECOND,
   2: 30 * MINUTE,
   3: 6 * HOUR,
 };
 
 let enabled = false;
-let timeout;
-let getMessageReceiver;
-let logger;
-const _activeAttachmentDownloadJobs = {};
+let timeout: NodeJS.Timeout | null;
+let getMessageReceiver: () => MessageReceiver | undefined;
+let logger: LoggerType;
+const _activeAttachmentDownloadJobs: Record<
+  string,
+  Promise<void> | undefined
+> = {};
 
-async function start(options = {}) {
+type StartOptionsType = {
+  getMessageReceiver: () => MessageReceiver | undefined;
+  logger: LoggerType;
+};
+
+export async function start(options: StartOptionsType): Promise<void> {
   ({ getMessageReceiver, logger } = options);
   if (!isFunction(getMessageReceiver)) {
     throw new Error(
@@ -66,7 +72,7 @@ async function start(options = {}) {
   _tick();
 }
 
-async function stop() {
+export async function stop(): Promise<void> {
   // If `.start()` wasn't called - the `logger` is `undefined`
   if (logger) {
     logger.info('attachment_downloads/stop: disabling');
@@ -78,7 +84,10 @@ async function stop() {
   }
 }
 
-async function addJob(attachment, job = {}) {
+export async function addJob(
+  attachment: AttachmentType,
+  job: { messageId: string; type: AttachmentDownloadJobTypeType; index: number }
+): Promise<AttachmentType> {
   if (!attachment) {
     throw new Error('attachments_download/addJob: attachment is required');
   }
@@ -96,7 +105,7 @@ async function addJob(attachment, job = {}) {
 
   const id = getGuid();
   const timestamp = Date.now();
-  const toSave = {
+  const toSave: AttachmentDownloadJobType = {
     ...job,
     id,
     attachment,
@@ -116,7 +125,7 @@ async function addJob(attachment, job = {}) {
   };
 }
 
-async function _tick() {
+async function _tick(): Promise<void> {
   if (timeout) {
     clearTimeout(timeout);
     timeout = null;
@@ -126,7 +135,7 @@ async function _tick() {
   timeout = setTimeout(_tick, TICK_INTERVAL);
 }
 
-async function _maybeStartJob() {
+async function _maybeStartJob(): Promise<void> {
   if (!enabled) {
     logger.info('attachment_downloads/_maybeStartJob: not enabled, returning');
     return;
@@ -178,8 +187,13 @@ async function _maybeStartJob() {
   }
 }
 
-async function _runJob(job) {
-  const { id, messageId, attachment, type, index, attempts } = job || {};
+async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
+  if (!job) {
+    window.log.warn('_runJob: Job was missing!');
+    return;
+  }
+
+  const { id, messageId, attachment, type, index, attempts } = job;
   let message;
 
   try {
@@ -192,16 +206,16 @@ async function _runJob(job) {
     logger.info(`attachment_downloads/_runJob for job id ${id}`);
 
     const found =
-      MessageController.getById(messageId) ||
+      window.MessageController.getById(messageId) ||
       (await getMessageById(messageId, {
-        Message: Whisper.Message,
+        Message: window.Whisper.Message,
       }));
     if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
       await _finishJob(null, id);
       return;
     }
-    message = MessageController.register(found.id, found);
+    message = window.MessageController.register(found.id, found);
 
     const pending = true;
     await setAttachmentDownloadJobPending(id, pending);
@@ -231,7 +245,7 @@ async function _runJob(job) {
       return;
     }
 
-    const upgradedAttachment = await Signal.Migrations.processNewAttachment(
+    const upgradedAttachment = await window.Signal.Migrations.processNewAttachment(
       downloaded
     );
 
@@ -239,11 +253,12 @@ async function _runJob(job) {
 
     await _finishJob(message, id);
   } catch (error) {
+    const logId = message ? message.idForLogging() : id || '<no id>';
     const currentAttempt = (attempts || 0) + 1;
 
     if (currentAttempt >= 3) {
       logger.error(
-        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${message.idForLogging()} as permament error:`,
+        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${logId} as permament error:`,
         error && error.stack ? error.stack : error
       );
 
@@ -258,7 +273,7 @@ async function _runJob(job) {
     }
 
     logger.error(
-      `_runJob: Failed to download attachment type ${type} for message ${message.idForLogging()}, attempt ${currentAttempt}:`,
+      `_runJob: Failed to download attachment type ${type} for message ${logId}, attempt ${currentAttempt}:`,
       error && error.stack ? error.stack : error
     );
 
@@ -266,7 +281,8 @@ async function _runJob(job) {
       ...job,
       pending: 0,
       attempts: currentAttempt,
-      timestamp: Date.now() + RETRY_BACKOFF[currentAttempt],
+      timestamp:
+        Date.now() + (RETRY_BACKOFF[currentAttempt] || RETRY_BACKOFF[3]),
     };
 
     await saveAttachmentDownloadJob(failedJob);
@@ -275,20 +291,15 @@ async function _runJob(job) {
   }
 }
 
-async function _finishJob(message, id) {
+async function _finishJob(
+  message: MessageModel | null | undefined,
+  id: string
+): Promise<void> {
   if (message) {
     logger.info(`attachment_downloads/_finishJob for job id: ${id}`);
     await saveMessage(message.attributes, {
-      Message: Whisper.Message,
+      Message: window.Whisper.Message,
     });
-    const conversation = message.getConversation();
-    if (conversation) {
-      const fromConversation = conversation.messageCollection.get(message.id);
-
-      if (fromConversation && message !== fromConversation) {
-        fromConversation.set(message.attributes);
-      }
-    }
   }
 
   await removeAttachmentDownloadJob(id);
@@ -296,18 +307,22 @@ async function _finishJob(message, id) {
   _maybeStartJob();
 }
 
-function getActiveJobCount() {
+function getActiveJobCount(): number {
   return Object.keys(_activeAttachmentDownloadJobs).length;
 }
 
-function _markAttachmentAsError(attachment) {
+function _markAttachmentAsError(attachment: AttachmentType): AttachmentType {
   return {
     ...omit(attachment, ['key', 'digest', 'id']),
     error: true,
   };
 }
 
-async function _addAttachmentToMessage(message, attachment, { type, index }) {
+async function _addAttachmentToMessage(
+  message: MessageModel | null | undefined,
+  attachment: AttachmentType,
+  { type, index }: { type: AttachmentDownloadJobTypeType; index: number }
+): Promise<void> {
   if (!message) {
     return;
   }
@@ -316,13 +331,17 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
 
   if (type === 'long-message') {
     try {
-      const { data } = await Signal.Migrations.loadAttachmentData(attachment);
+      const { data } = await window.Signal.Migrations.loadAttachmentData(
+        attachment
+      );
       message.set({
-        body: attachment.isError ? message.get('body') : stringFromBytes(data),
+        body: attachment.error ? message.get('body') : stringFromBytes(data),
         bodyPending: false,
       });
     } finally {
-      Signal.Migrations.deleteAttachmentData(attachment.path);
+      if (attachment.path) {
+        window.Signal.Migrations.deleteAttachmentData(attachment.path);
+      }
     }
     return;
   }
@@ -334,7 +353,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
         `_addAttachmentToMessage: attachments didn't exist or ${index} was too large`
       );
     }
-    _checkOldAttachment(attachments, index, attachment, logPrefix);
+    _checkOldAttachment(attachments, index.toString(), logPrefix);
 
     const newAttachments = [...attachments];
     newAttachments[index] = attachment;
@@ -356,7 +375,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
       throw new Error(`_addAttachmentToMessage: preview ${index} was falsey`);
     }
 
-    _checkOldAttachment(item, 'image', attachment, logPrefix);
+    _checkOldAttachment(item, 'image', logPrefix);
 
     const newPreview = [...preview];
     newPreview[index] = {
@@ -378,13 +397,13 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
     }
     const item = contact[index];
     if (item && item.avatar && item.avatar.avatar) {
-      _checkOldAttachment(item.avatar, 'avatar', attachment, logPrefix);
+      _checkOldAttachment(item.avatar, 'avatar', logPrefix);
 
       const newContact = [...contact];
       newContact[index] = {
-        ...contact[index],
+        ...item,
         avatar: {
-          ...contact[index].avatar,
+          ...item.avatar,
           avatar: attachment,
         },
       };
@@ -418,7 +437,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
       );
     }
 
-    _checkOldAttachment(item, 'thumbnail', attachment, logPrefix);
+    _checkOldAttachment(item, 'thumbnail', logPrefix);
 
     const newAttachments = [...attachments];
     newAttachments[index] = {
@@ -456,7 +475,12 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
   );
 }
 
-function _checkOldAttachment(object, key, newAttachment, logPrefix) {
+function _checkOldAttachment(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  object: any,
+  key: string,
+  logPrefix: string
+): void {
   const oldAttachment = object[key];
   if (oldAttachment && oldAttachment.path) {
     logger.error(

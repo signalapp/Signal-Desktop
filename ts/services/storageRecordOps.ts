@@ -229,7 +229,7 @@ export async function toAccountRecord(
   }
 
   const pinnedConversations = window.storage
-    .get<Array<string>>('pinnedConversationIds', [])
+    .get('pinnedConversationIds', new Array<string>())
     .map(id => {
       const pinnedConversation = window.ConversationController.get(id);
 
@@ -824,7 +824,7 @@ export async function mergeAccountRecord(
     universalExpireTimer,
   } = accountRecord;
 
-  window.storage.put('read-receipt-setting', readReceipts);
+  window.storage.put('read-receipt-setting', Boolean(readReceipts));
 
   if (typeof sealedSenderIndicators === 'boolean') {
     window.storage.put('sealedSenderIndicators', sealedSenderIndicators);
@@ -842,9 +842,7 @@ export async function mergeAccountRecord(
     window.storage.put('primarySendsSms', primarySendsSms);
   }
 
-  if (typeof universalExpireTimer === 'number') {
-    setUniversalExpireTimer(universalExpireTimer);
-  }
+  setUniversalExpireTimer(universalExpireTimer || 0);
 
   const PHONE_NUMBER_SHARING_MODE_ENUM =
     window.textsecure.protobuf.AccountRecord.PhoneNumberSharingMode;
@@ -890,7 +888,7 @@ export async function mergeAccountRecord(
     );
 
     const missingStoragePinnedConversationIds = window.storage
-      .get<Array<string>>('pinnedConversationIds', [])
+      .get('pinnedConversationIds', new Array<string>())
       .filter(id => !modelPinnedConversationIds.includes(id));
 
     if (missingStoragePinnedConversationIds.length !== 0) {

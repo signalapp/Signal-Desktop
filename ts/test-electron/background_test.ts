@@ -44,14 +44,15 @@ describe('#cleanupSessionResets', () => {
   it('filters out falsey items', () => {
     const startValue = {
       one: 0,
-      two: false,
-      three: Date.now(),
+      two: Date.now(),
     };
     window.storage.put('sessionResets', startValue);
     cleanupSessionResets();
     const actual = window.storage.get('sessionResets');
 
-    const expected = window._.pick(startValue, ['three']);
+    const expected = window._.pick(startValue, ['two']);
     assert.deepEqual(actual, expected);
+
+    assert.deepEqual(Object.keys(startValue), ['two']);
   });
 });

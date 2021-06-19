@@ -1,6 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { actions as accounts } from './ducks/accounts';
+import { actions as app } from './ducks/app';
 import { actions as audioPlayer } from './ducks/audioPlayer';
 import { actions as calling } from './ducks/calling';
 import { actions as conversations } from './ducks/conversations';
@@ -17,6 +19,8 @@ import { actions as updates } from './ducks/updates';
 import { actions as user } from './ducks/user';
 
 export type ReduxActions = {
+  accounts: typeof accounts;
+  app: typeof app;
   audioPlayer: typeof audioPlayer;
   calling: typeof calling;
   conversations: typeof conversations;

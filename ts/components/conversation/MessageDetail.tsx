@@ -4,6 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import { noop } from 'lodash';
 
 import { GlobalAudioProvider } from '../GlobalAudioContext';
 import { Avatar } from '../Avatar';
@@ -24,6 +25,7 @@ export type Contact = Pick<
   | 'acceptedMessageRequest'
   | 'avatarPath'
   | 'color'
+  | 'id'
   | 'isMe'
   | 'name'
   | 'phoneNumber'
@@ -39,9 +41,6 @@ export type Contact = Pick<
   unblurredAvatarPath?: string;
 
   errors?: Array<Error>;
-
-  onSendAnyway: () => void;
-  onShowSafetyNumber: () => void;
 };
 
 export type Props = {
@@ -52,14 +51,18 @@ export type Props = {
   receivedAt: number;
   sentAt: number;
 
+  sendAnyway: (contactId: string, messageId: string) => unknown;
+  showSafetyNumber: (contactId: string) => void;
   i18n: LocalizerType;
 } & Pick<
   MessagePropsType,
+  | 'checkForAccount'
   | 'clearSelectedMessage'
   | 'deleteMessage'
   | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
   | 'downloadAttachment'
+  | 'doubleCheckMissingQuoteReference'
   | 'interactionMode'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
@@ -148,7 +151,7 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderContact(contact: Contact): JSX.Element {
-    const { i18n } = this.props;
+    const { i18n, message, showSafetyNumber, sendAnyway } = this.props;
     const errors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (
@@ -156,14 +159,14 @@ export class MessageDetail extends React.Component<Props> {
         <button
           type="button"
           className="module-message-detail__contact__show-safety-number"
-          onClick={contact.onShowSafetyNumber}
+          onClick={() => showSafetyNumber(contact.id)}
         >
           {i18n('showSafetyNumber')}
         </button>
         <button
           type="button"
           className="module-message-detail__contact__send-anyway"
-          onClick={contact.onSendAnyway}
+          onClick={() => sendAnyway(contact.id, message.id)}
         >
           {i18n('sendAnyway')}
         </button>
@@ -233,12 +236,14 @@ export class MessageDetail extends React.Component<Props> {
       receivedAt,
       sentAt,
 
+      checkForAccount,
       clearSelectedMessage,
       contactNameColor,
       deleteMessage,
       deleteMessageForEveryone,
       displayTapToViewMessage,
       downloadAttachment,
+      doubleCheckMissingQuoteReference,
       i18n,
       interactionMode,
       kickOffAttachmentDownload,
@@ -265,6 +270,7 @@ export class MessageDetail extends React.Component<Props> {
           <GlobalAudioProvider conversationId={message.conversationId}>
             <Message
               {...message}
+              checkForAccount={checkForAccount}
               clearSelectedMessage={clearSelectedMessage}
               contactNameColor={contactNameColor}
               deleteMessage={deleteMessage}
@@ -273,10 +279,14 @@ export class MessageDetail extends React.Component<Props> {
               disableScroll
               displayTapToViewMessage={displayTapToViewMessage}
               downloadAttachment={downloadAttachment}
+              doubleCheckMissingQuoteReference={
+                doubleCheckMissingQuoteReference
+              }
               i18n={i18n}
               interactionMode={interactionMode}
               kickOffAttachmentDownload={kickOffAttachmentDownload}
               markAttachmentAsCorrupted={markAttachmentAsCorrupted}
+              onHeightChange={noop}
               openConversation={openConversation}
               openLink={openLink}
               reactToMessage={reactToMessage}

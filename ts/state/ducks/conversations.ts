@@ -21,7 +21,7 @@ import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
 import { assert } from '../../util/assert';
 import { trigger } from '../../shims/events';
-import { AttachmentType } from '../../types/Attachment';
+
 import {
   AvatarColorType,
   ConversationColorType,
@@ -29,9 +29,13 @@ import {
   DefaultConversationColorType,
   DEFAULT_CONVERSATION_COLOR,
 } from '../../types/Colors';
-import { ConversationAttributesType } from '../../model-types.d';
+import {
+  LastMessageStatus,
+  ConversationAttributesType,
+  MessageAttributesType,
+} from '../../model-types.d';
 import { BodyRangeType } from '../../types/Util';
-import { CallMode, CallHistoryDetailsFromDiskType } from '../../types/Calling';
+import { CallMode } from '../../types/Calling';
 import { MediaItemType } from '../../components/LightboxGallery';
 import {
   getGroupSizeRecommendedLimit,
@@ -40,6 +44,8 @@ import {
 import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition';
 import { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
+
+import { NoopActionType } from './noop';
 
 // State
 
@@ -50,16 +56,15 @@ export type DBConversationType = {
   type: string;
 };
 
-export type LastMessageStatus =
-  | 'paused'
-  | 'error'
-  | 'partial-sent'
-  | 'sending'
-  | 'sent'
-  | 'delivered'
-  | 'read';
+export const InteractionModes = ['mouse', 'keyboard'] as const;
+export type InteractionModeType = typeof InteractionModes[number];
 
-export type ConversationTypeType = 'direct' | 'group';
+export type MessageType = MessageAttributesType & {
+  interactionType?: InteractionModeType;
+};
+
+export const ConversationTypes = ['direct', 'group'] as const;
+export type ConversationTypeType = typeof ConversationTypes[number];
 
 export type ConversationType = {
   id: string;
@@ -159,52 +164,6 @@ export type CustomError = Error & {
   identifier?: string;
   number?: string;
 };
-export type MessageType = {
-  id: string;
-  conversationId: string;
-  source?: string;
-  sourceUuid?: string;
-  type?:
-    | 'call-history'
-    | 'chat-session-refreshed'
-    | 'delivery-issue'
-    | 'group'
-    | 'group-v1-migration'
-    | 'group-v2-change'
-    | 'incoming'
-    | 'keychange'
-    | 'message-history-unsynced'
-    | 'outgoing'
-    | 'profile-change'
-    | 'timer-notification'
-    | 'universal-timer-notification'
-    | 'verified-change';
-  quote?: { author?: string; authorUuid?: string };
-  received_at: number;
-  sent_at?: number;
-  hasSignalAccount?: boolean;
-  bodyPending?: boolean;
-  attachments: Array<AttachmentType>;
-  sticker: {
-    data?: {
-      pending?: boolean;
-      blurHash?: string;
-    };
-  };
-  unread: boolean;
-  reactions?: Array<{
-    emoji: string;
-    timestamp: number;
-  }>;
-  deletedForEveryone?: boolean;
-
-  errors?: Array<CustomError>;
-  group_update?: unknown;
-  callHistoryDetails?: CallHistoryDetailsFromDiskType;
-
-  // No need to go beyond this; unused at this stage, since this goes into
-  //   a reducer still in plain JavaScript and comes out well-formed
-};
 
 type MessagePointerType = {
   id: string;
@@ -219,7 +178,7 @@ type MessageMetricsType = {
 };
 
 export type MessageLookupType = {
-  [key: string]: MessageType;
+  [key: string]: MessageAttributesType;
 };
 export type ConversationMessageType = {
   heightChangeMessageIds: Array<string>;
@@ -460,7 +419,7 @@ export type MessageChangedActionType = {
   payload: {
     id: string;
     conversationId: string;
-    data: MessageType;
+    data: MessageAttributesType;
   };
 };
 export type MessageDeletedActionType = {
@@ -481,7 +440,7 @@ export type MessagesAddedActionType = {
   type: 'MESSAGES_ADDED';
   payload: {
     conversationId: string;
-    messages: Array<MessageType>;
+    messages: Array<MessageAttributesType>;
     isNewMessage: boolean;
     isActive: boolean;
   };
@@ -503,7 +462,7 @@ export type MessagesResetActionType = {
   type: 'MESSAGES_RESET';
   payload: {
     conversationId: string;
-    messages: Array<MessageType>;
+    messages: Array<MessageAttributesType>;
     metrics: MessageMetricsType;
     scrollToMessageId?: string;
     // The set of provided messages should be trusted, even if it conflicts with metrics,
@@ -701,6 +660,7 @@ export const actions = {
   conversationUnloaded,
   colorSelected,
   createGroup,
+  doubleCheckMissingQuoteReference,
   messageChanged,
   messageDeleted,
   messagesAdded,
@@ -990,7 +950,7 @@ function selectMessage(
 function messageChanged(
   id: string,
   conversationId: string,
-  data: MessageType
+  data: MessageAttributesType
 ): MessageChangedActionType {
   return {
     type: 'MESSAGE_CHANGED',
@@ -1027,7 +987,7 @@ function messageSizeChanged(
 }
 function messagesAdded(
   conversationId: string,
-  messages: Array<MessageType>,
+  messages: Array<MessageAttributesType>,
   isNewMessage: boolean,
   isActive: boolean
 ): MessagesAddedActionType {
@@ -1082,7 +1042,7 @@ function reviewMessageRequestNameCollision(
 
 function messagesReset(
   conversationId: string,
-  messages: Array<MessageType>,
+  messages: Array<MessageAttributesType>,
   metrics: MessageMetricsType,
   scrollToMessageId?: string,
   unboundedFetch?: boolean
@@ -1345,6 +1305,18 @@ function showArchivedConversations(): ShowArchivedConversationsActionType {
   };
 }
 
+function doubleCheckMissingQuoteReference(messageId: string): NoopActionType {
+  const message = window.MessageController.getById(messageId);
+  if (message) {
+    message.doubleCheckMissingQuoteReference();
+  }
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): ConversationsStateType {
@@ -1363,8 +1335,8 @@ export function getEmptyState(): ConversationsStateType {
 }
 
 function hasMessageHeightChanged(
-  message: MessageType,
-  previous: MessageType
+  message: MessageAttributesType,
+  previous: MessageAttributesType
 ): boolean {
   const messageAttachments = message.attachments || [];
   const previousAttachments = previous.attachments || [];
@@ -1407,13 +1379,6 @@ function hasMessageHeightChanged(
     messageAttachments[0] &&
     !messageAttachments[0].pending;
   if (firstAttachmentNoLongerPending) {
-    return true;
-  }
-
-  const signalAccountChanged =
-    Boolean(message.hasSignalAccount || previous.hasSignalAccount) &&
-    message.hasSignalAccount !== previous.hasSignalAccount;
-  if (signalAccountChanged) {
     return true;
   }
 

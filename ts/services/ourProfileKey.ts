@@ -4,22 +4,16 @@
 import { assert } from '../util/assert';
 import * as log from '../logging/log';
 
-// We define a stricter storage here that returns `unknown` instead of `any`.
-type Storage = {
-  get(key: string): unknown;
-  put(key: string, value: unknown): Promise<void>;
-  remove(key: string): Promise<void>;
-  onready: (callback: () => unknown) => void;
-};
+import { StorageInterface } from '../types/Storage.d';
 
 export class OurProfileKeyService {
   private getPromise: undefined | Promise<undefined | ArrayBuffer>;
 
   private promisesBlockingGet: Array<Promise<unknown>> = [];
 
-  private storage?: Storage;
+  private storage?: StorageInterface;
 
-  initialize(storage: Storage): void {
+  initialize(storage: StorageInterface): void {
     log.info('Our profile key service: initializing');
 
     const storageReadyPromise = new Promise<void>(resolve => {

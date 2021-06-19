@@ -4,6 +4,7 @@
 import { ConversationAttributesType } from '../model-types.d';
 import { handleMessageSend } from './handleMessageSend';
 import { sendReadReceiptsFor } from './sendReadReceiptsFor';
+import { hasErrors } from '../state/selectors/message';
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,
@@ -74,7 +75,7 @@ export async function markConversationRead(
         uuid: messageSyncData.sourceUuid,
       }),
       timestamp: messageSyncData.sent_at,
-      hasErrors: message ? message.hasErrors() : false,
+      hasErrors: message ? hasErrors(message.attributes) : false,
     };
   });
 

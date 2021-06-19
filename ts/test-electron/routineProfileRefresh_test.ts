@@ -66,7 +66,7 @@ describe('routineProfileRefresh', () => {
     return result;
   }
 
-  function makeStorage(lastAttemptAt: undefined | number = undefined) {
+  function makeStorage(lastAttemptAt?: number) {
     return {
       get: sinonSandbox
         .stub()

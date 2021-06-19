@@ -19,6 +19,7 @@ import { isNotNil } from './util/isNotNil';
 import { isOlderThan } from './util/timestamp';
 import { parseRetryAfter } from './util/parseRetryAfter';
 import { getEnvironment, Environment } from './environment';
+import { StorageInterface } from './types/Storage.d';
 
 export type ChallengeResponse = {
   readonly captcha: string;
@@ -62,10 +63,7 @@ export type MinimalMessage = Pick<
 };
 
 export type Options = {
-  readonly storage: {
-    get(key: string): ReadonlyArray<StoredEntity>;
-    put(key: string, value: ReadonlyArray<StoredEntity>): Promise<void>;
-  };
+  readonly storage: Pick<StorageInterface, 'get' | 'put'>;
 
   requestChallenge(request: IPCRequest): void;
 

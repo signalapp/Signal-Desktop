@@ -79,6 +79,10 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
         <button
           type="button"
           onClick={ev => {
+            if (ev.target instanceof HTMLAnchorElement) {
+              return;
+            }
+
             ev.preventDefault();
             ev.stopPropagation();
             startEditing(false);

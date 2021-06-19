@@ -18,7 +18,7 @@ describe('RetryPlaceholders', () => {
   let clock: any;
 
   beforeEach(() => {
-    window.storage.put(STORAGE_KEY, null);
+    window.storage.put(STORAGE_KEY, undefined as any);
 
     clock = sinon.useFakeTimers({
       now: NOW,
@@ -55,7 +55,7 @@ describe('RetryPlaceholders', () => {
       window.storage.put(STORAGE_KEY, [
         { item: 'is wrong shape!' },
         { bad: 'is not good!' },
-      ]);
+      ] as any);
 
       const placeholders = new RetryPlaceholders();
 

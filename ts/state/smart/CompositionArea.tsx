@@ -10,7 +10,10 @@ import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 
 import { selectRecentEmojis } from '../selectors/emojis';
 import { getIntl } from '../selectors/user';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getConversationSelector,
+  isMissingRequiredProfileSharing,
+} from '../selectors/conversations';
 import {
   getBlessedStickerPacks,
   getInstalledStickerPacks,
@@ -75,13 +78,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     conversationType: conversation.type,
     isSMSOnly: Boolean(isConversationSMSOnly(conversation)),
     isFetchingUUID: conversation.isFetchingUUID,
-    isMissingMandatoryProfileSharing: Boolean(
-      !conversation.profileSharing &&
-        window.Signal.RemoteConfig.isEnabled(
-          'desktop.mandatoryProfileSharing'
-        ) &&
-        conversation.messageCount &&
-        conversation.messageCount > 0
+    isMissingMandatoryProfileSharing: isMissingRequiredProfileSharing(
+      conversation
     ),
   };
 };

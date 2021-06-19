@@ -106,6 +106,30 @@
         this.conversation_stack.unload();
       });
 
+      window.Whisper.events.on('showConversation', async (id, messageId) => {
+        const conversation = await ConversationController.getOrCreateAndWait(
+          id,
+          'private'
+        );
+
+        conversation.setMarkedUnread(false);
+
+        const { openConversationExternal } = window.reduxActions.conversations;
+        if (openConversationExternal) {
+          openConversationExternal(conversation.id, messageId);
+        }
+
+        this.conversation_stack.open(conversation, messageId);
+        this.focusConversation();
+      });
+
+      window.Whisper.events.on('loadingProgress', count => {
+        const view = this.appLoadingScreen;
+        if (view) {
+          view.updateProgress(count);
+        }
+      });
+
       if (!options.initialLoadComplete) {
         this.appLoadingScreen = new Whisper.AppLoadingScreen();
         this.appLoadingScreen.render();
@@ -113,8 +137,6 @@
         this.startConnectionListener();
       } else {
         this.setupLeftPane();
-        this.setupCallManagerUI();
-        this.setupGlobalModalContainer();
       }
 
       Whisper.events.on('pack-install-failed', () => {
@@ -130,28 +152,6 @@
     },
     events: {
       click: 'onClick',
-    },
-    setupCallManagerUI() {
-      if (this.callManagerView) {
-        return;
-      }
-      this.callManagerView = new Whisper.ReactWrapperView({
-        className: 'call-manager-wrapper',
-        JSX: Signal.State.Roots.createCallManager(window.reduxStore),
-      });
-      this.$('.call-manager-placeholder').append(this.callManagerView.el);
-    },
-    setupGlobalModalContainer() {
-      if (this.globalModalContainerView) {
-        return;
-      }
-      this.globalModalContainerView = new Whisper.ReactWrapperView({
-        JSX: Signal.State.Roots.createGlobalModalContainer(window.reduxStore),
-      });
-      const node = document.querySelector('.inbox-container');
-      if (node) {
-        node.appendChild(this.globalModalContainerView.el);
-      }
     },
     setupLeftPane() {
       if (this.leftPaneView) {
@@ -193,8 +193,6 @@
     },
     onEmpty() {
       this.setupLeftPane();
-      this.setupCallManagerUI();
-      this.setupGlobalModalContainer();
 
       const view = this.appLoadingScreen;
       if (view) {
@@ -209,12 +207,6 @@
         }
       }
     },
-    onProgress(count) {
-      const view = this.appLoadingScreen;
-      if (view) {
-        view.updateProgress(count);
-      }
-    },
     focusConversation(e) {
       if (e && this.$(e.target).closest('.placeholder').length) {
         return;
@@ -222,30 +214,6 @@
 
       this.$('#header, .gutter').addClass('inactive');
       this.$('.conversation-stack').removeClass('inactive');
-    },
-    focusHeader() {
-      this.$('.conversation-stack').addClass('inactive');
-      this.$('#header, .gutter').removeClass('inactive');
-      this.$('.conversation:first .menu').trigger('close');
-    },
-    reloadBackgroundPage() {
-      window.location.reload();
-    },
-    async openConversation(id, messageId) {
-      const conversation = await ConversationController.getOrCreateAndWait(
-        id,
-        'private'
-      );
-
-      conversation.setMarkedUnread(false);
-
-      const { openConversationExternal } = window.reduxActions.conversations;
-      if (openConversationExternal) {
-        openConversationExternal(conversation.id, messageId);
-      }
-
-      this.conversation_stack.open(conversation, messageId);
-      this.focusConversation();
     },
     closeRecording(e) {
       if (e && this.$(e.target).closest('.capture-audio').length > 0) {

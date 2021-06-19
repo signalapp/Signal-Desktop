@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import sinon from 'sinon';
 
 import {
   ConversationType,
@@ -24,20 +25,35 @@ import { getDefaultConversation } from '../../helpers/getDefaultConversation';
 import { StateType, reducer as rootReducer } from '../../../state/reducer';
 
 describe('both/state/selectors/search', () => {
+  const NOW = 1_000_000;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let clock: any;
+
+  beforeEach(() => {
+    clock = sinon.useFakeTimers({
+      now: NOW,
+    });
+  });
+
+  afterEach(() => {
+    clock.restore();
+  });
+
   const getEmptyRootState = (): StateType => {
     return rootReducer(undefined, noopAction());
   };
 
   function getDefaultMessage(id: string): MessageType {
     return {
-      id,
+      attachments: [],
       conversationId: 'conversationId',
+      id,
+      received_at: NOW,
+      sent_at: NOW,
       source: 'source',
       sourceUuid: 'sourceUuid',
+      timestamp: NOW,
       type: 'incoming' as const,
-      received_at: Date.now(),
-      attachments: [],
-      sticker: {},
       unread: false,
     };
   }
@@ -126,7 +142,7 @@ describe('both/state/selectors/search', () => {
 
         id: searchId,
         conversationId: toId,
-        sentAt: undefined,
+        sentAt: NOW,
         snippet: 'snippet',
         body: 'snippet',
         bodyRanges: [],
@@ -227,7 +243,7 @@ describe('both/state/selectors/search', () => {
 
         id: searchId,
         conversationId: toId,
-        sentAt: undefined,
+        sentAt: NOW,
         snippet: 'snippet',
         body: 'snippet',
         bodyRanges: [],

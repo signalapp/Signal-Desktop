@@ -5,6 +5,12 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
+import {
+  isEndSession,
+  isGroupUpdate,
+  isIncoming,
+  isOutgoing,
+} from '../../state/selectors/message';
 
 describe('Message', () => {
   const i18n = setupI18n('en', enMessages);
@@ -37,8 +43,8 @@ describe('Message', () => {
   });
 
   after(async () => {
-    window.textsecure.storage.put('number_id', null);
-    window.textsecure.storage.put('uuid_id', null);
+    window.textsecure.storage.remove('number_id');
+    window.textsecure.storage.remove('uuid_id');
 
     await window.Signal.Data.removeAll();
     await window.storage.fetch();
@@ -73,42 +79,6 @@ describe('Message', () => {
       await message.send(Promise.resolve({}));
 
       assert.isTrue(message.get('sent'));
-    });
-
-    it("triggers the 'done' event on success", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      let callCount = 0;
-      message.on('done', () => {
-        callCount += 1;
-      });
-
-      await message.send(Promise.resolve({}));
-
-      assert.strictEqual(callCount, 1);
-    });
-
-    it("triggers the 'sent' event on success", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      const listener = sinon.spy();
-      message.on('sent', listener);
-
-      await message.send(Promise.resolve({}));
-
-      sinon.assert.calledOnce(listener);
-      sinon.assert.calledWith(listener, message);
-    });
-
-    it("triggers the 'done' event on failure", async () => {
-      const message = createMessage({ type: 'outgoing', source });
-
-      const listener = sinon.spy();
-      message.on('done', listener);
-
-      await message.send(Promise.reject(new Error('something went wrong!')));
-
-      sinon.assert.calledOnce(listener);
     });
 
     it('saves errors from promise rejections with errors', async () => {
@@ -158,9 +128,9 @@ describe('Message', () => {
     it('checks if is incoming message', () => {
       const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
-      assert.notOk(message.isIncoming());
+      assert.notOk(isIncoming(message.attributes));
       message = messages.add({ type: 'incoming' });
-      assert.ok(message.isIncoming());
+      assert.ok(isIncoming(message.attributes));
     });
   });
 
@@ -168,9 +138,9 @@ describe('Message', () => {
     it('checks if is outgoing message', () => {
       const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
-      assert.ok(message.isOutgoing());
+      assert.ok(isOutgoing(message.attributes));
       message = messages.add({ type: 'incoming' });
-      assert.notOk(message.isOutgoing());
+      assert.notOk(isOutgoing(message.attributes));
     });
   });
 
@@ -178,10 +148,10 @@ describe('Message', () => {
     it('checks if is group update', () => {
       const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
-      assert.notOk(message.isGroupUpdate());
+      assert.notOk(isGroupUpdate(message.attributes));
 
       message = messages.add({ group_update: true });
-      assert.ok(message.isGroupUpdate());
+      assert.ok(isGroupUpdate(message.attributes));
     });
   });
 
@@ -589,10 +559,10 @@ describe('Message', () => {
     it('checks if it is end of the session', () => {
       const messages = new window.Whisper.MessageCollection();
       let message = messages.add(attributes);
-      assert.notOk(message.isEndSession());
+      assert.notOk(isEndSession(message.attributes));
 
       message = messages.add({ type: 'incoming', source, flags: true });
-      assert.ok(message.isEndSession());
+      assert.ok(isEndSession(message.attributes));
     });
   });
 });

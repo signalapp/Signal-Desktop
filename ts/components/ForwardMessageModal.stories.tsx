@@ -109,6 +109,7 @@ story.add('media attachments', () => {
               width: 112,
               url: '/fixtures/kitten-4-112-112.jpg',
               contentType: IMAGE_JPEG,
+              path: 'originalPath',
             },
           }),
         ],

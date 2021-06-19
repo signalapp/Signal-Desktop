@@ -11,7 +11,6 @@ import {
 } from '../../sql/Interface';
 import dataInterface from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
-import { BodyRangesType } from '../../types/Util';
 
 import {
   ConversationUnloadedActionType,
@@ -32,9 +31,7 @@ const {
 // State
 
 export type MessageSearchResultType = MessageType & {
-  snippet: string;
-  body: string;
-  bodyRanges: BodyRangesType;
+  snippet?: string;
 };
 
 export type MessageSearchResultLookupType = {
@@ -481,7 +478,7 @@ export function reducer(
     return {
       ...state,
       messageIds: reject(messageIds, messageId => id === messageId),
-      messageLookup: omit(messageLookup, ['id']),
+      messageLookup: omit(messageLookup, id),
     };
   }
 

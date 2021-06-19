@@ -14,7 +14,11 @@ import { WebAPIType } from './textsecure/WebAPI';
 import utils from './textsecure/Helpers';
 import { CallingMessage as CallingMessageClass } from 'ringrtc';
 import { WhatIsThis } from './window.d';
-import { SignalProtocolStore } from './SignalProtocolStore';
+import { Storage } from './textsecure/Storage';
+import {
+  StorageServiceCallOptionsType,
+  StorageServiceCredentials,
+} from './textsecure/Types.d';
 
 export type UnprocessedType = {
   attempts: number;
@@ -30,15 +34,7 @@ export type UnprocessedType = {
   version: number;
 };
 
-export type StorageServiceCallOptionsType = {
-  credentials?: StorageServiceCredentials;
-  greaterThanVersion?: string;
-};
-
-export type StorageServiceCredentials = {
-  username: string;
-  password: string;
-};
+export { StorageServiceCallOptionsType, StorageServiceCredentials };
 
 export type TextSecureType = {
   createTaskWithTimeout: (
@@ -47,34 +43,7 @@ export type TextSecureType = {
     options?: { timeout?: number }
   ) => () => Promise<any>;
   crypto: typeof Crypto;
-  storage: {
-    user: {
-      getNumber: () => string;
-      getUuid: () => string | undefined;
-      getDeviceId: () => number | string;
-      getDeviceName: () => string;
-      getDeviceNameEncrypted: () => boolean;
-      setDeviceNameEncrypted: () => Promise<void>;
-      getSignalingKey: () => ArrayBuffer;
-      setNumberAndDeviceId: (
-        number: string,
-        deviceId: number,
-        deviceName?: string | null
-      ) => Promise<void>;
-      setUuidAndDeviceId: (uuid: string, deviceId: number) => Promise<void>;
-    };
-    unprocessed: {
-      remove: (id: string | Array<string>) => Promise<void>;
-      getCount: () => Promise<number>;
-      removeAll: () => Promise<void>;
-      getAll: () => Promise<Array<UnprocessedType>>;
-      updateAttempts: (id: string, attempts: number) => Promise<void>;
-    };
-    get: (key: string, defaultValue?: any) => any;
-    put: (key: string, value: any) => Promise<void>;
-    remove: (key: string | Array<string>) => Promise<void>;
-    protocol: SignalProtocolStore;
-  };
+  storage: Storage;
   messageReceiver: MessageReceiver;
   messageSender: MessageSender;
   messaging: SendMessage;

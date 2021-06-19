@@ -59,6 +59,7 @@ type ExternalProps = {
 function renderItem(
   messageId: string,
   conversationId: string,
+  onHeightChange: (messageId: string) => unknown,
   actionProps: Record<string, unknown>
 ): JSX.Element {
   return (
@@ -66,6 +67,7 @@ function renderItem(
       {...actionProps}
       conversationId={conversationId}
       id={messageId}
+      onHeightChange={() => onHeightChange(messageId)}
       renderEmojiPicker={renderEmojiPicker}
       renderAudioAttachment={renderAudioAttachment}
     />

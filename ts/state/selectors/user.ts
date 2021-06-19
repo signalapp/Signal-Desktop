@@ -15,6 +15,11 @@ export const getUserNumber = createSelector(
   (state: UserStateType): string => state.ourNumber
 );
 
+export const getUserDeviceId = createSelector(
+  getUser,
+  (state: UserStateType): number => state.ourDeviceId
+);
+
 export const getRegionCode = createSelector(
   getUser,
   (state: UserStateType): string => state.regionCode

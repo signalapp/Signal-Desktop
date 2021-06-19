@@ -715,7 +715,7 @@ export class ConversationController {
   async getConversationForTargetMessage(
     targetFromId: string,
     targetTimestamp: number
-  ): Promise<boolean | ConversationModel | null | undefined> {
+  ): Promise<ConversationModel | null | undefined> {
     const messages = await getMessagesBySentAt(targetTimestamp, {
       MessageCollection: window.Whisper.MessageCollection,
     });

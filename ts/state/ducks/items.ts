@@ -11,9 +11,11 @@ import {
   ConversationColors,
   ConversationColorType,
   CustomColorType,
+  CustomColorsItemType,
   DefaultConversationColorType,
 } from '../../types/Colors';
 import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation';
+import { StorageAccessType } from '../../types/Storage.d';
 
 // State
 
@@ -25,10 +27,7 @@ export type ItemsStateType = {
   // This property should always be set and this is ensured in background.ts
   readonly defaultConversationColor?: DefaultConversationColorType;
 
-  readonly customColors?: {
-    readonly colors: Record<string, CustomColorType>;
-    readonly version: number;
-  };
+  readonly customColors?: CustomColorsItemType;
 };
 
 // Actions
@@ -85,7 +84,10 @@ export const actions = {
 
 export const useActions = (): typeof actions => useBoundActions(actions);
 
-function putItem(key: string, value: unknown): ItemPutAction {
+function putItem<K extends keyof StorageAccessType>(
+  key: K,
+  value: StorageAccessType[K]
+): ItemPutAction {
   storageShim.put(key, value);
 
   return {
@@ -108,7 +110,7 @@ function putItemExternal(key: string, value: unknown): ItemPutExternalAction {
   };
 }
 
-function removeItem(key: string): ItemRemoveAction {
+function removeItem(key: keyof StorageAccessType): ItemRemoveAction {
   storageShim.remove(key);
 
   return {

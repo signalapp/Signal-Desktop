@@ -47,6 +47,7 @@ const getDefaultProps = () => ({
   interactionMode: 'keyboard' as const,
   selectMessage: action('selectMessage'),
   reactToMessage: action('reactToMessage'),
+  checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),
   contactSupport: action('contactSupport'),
   replyToMessage: action('replyToMessage'),
@@ -63,12 +64,14 @@ const getDefaultProps = () => ({
   showVisualAttachment: action('showVisualAttachment'),
   downloadAttachment: action('downloadAttachment'),
   displayTapToViewMessage: action('displayTapToViewMessage'),
+  doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
+  onHeightChange: action('onHeightChange'),
   openLink: action('openLink'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   downloadNewVersion: action('downloadNewVersion'),

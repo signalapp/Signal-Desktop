@@ -8,6 +8,8 @@ import * as path from 'path';
 import AbortController from 'abort-controller';
 import { MIMEType, IMAGE_JPEG } from '../../types/MIME';
 
+import { typedArrayToArrayBuffer } from '../../Crypto';
+
 import {
   fetchLinkPreviewImage,
   fetchLinkPreviewMetadata,
@@ -1155,7 +1157,7 @@ describe('link preview fetching', () => {
             new AbortController().signal
           ),
           {
-            data: fixture.buffer,
+            data: typedArrayToArrayBuffer(fixture),
             contentType: contentType as MIMEType,
           }
         );
@@ -1240,7 +1242,7 @@ describe('link preview fetching', () => {
           new AbortController().signal
         ),
         {
-          data: fixture.buffer,
+          data: typedArrayToArrayBuffer(fixture),
           contentType: IMAGE_JPEG,
         }
       );

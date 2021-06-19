@@ -1259,7 +1259,7 @@ export async function modifyGroupV2({
       window.log.info(`modifyGroupV2/${idLog}: Queuing attempt ${attempt}`);
 
       // eslint-disable-next-line no-await-in-loop
-      await conversation.queueJob(async () => {
+      await conversation.queueJob('modifyGroupV2', async () => {
         window.log.info(`modifyGroupV2/${idLog}: Running attempt ${attempt}`);
 
         const actions = await createGroupChange();
@@ -1670,7 +1670,7 @@ export async function createGroupV2({
     }
   );
 
-  await conversation.queueJob(() => {
+  await conversation.queueJob('storageServiceUploadJob', () => {
     window.Signal.Services.storageServiceUploadJob();
   });
 
@@ -1717,6 +1717,7 @@ export async function createGroupV2({
   };
   await window.Signal.Data.saveMessages([createdTheGroupMessage], {
     forceSave: true,
+    Message: window.Whisper.Message,
   });
   const model = new window.Whisper.Message(createdTheGroupMessage);
   window.MessageController.register(model.id, model);
@@ -2023,7 +2024,7 @@ export async function initiateMigrationToGroupV2(
   await maybeFetchNewCredentials();
 
   try {
-    await conversation.queueJob(async () => {
+    await conversation.queueJob('initiateMigrationToGroupV2', async () => {
       const ACCESS_ENUM =
         window.textsecure.protobuf.AccessControl.AccessRequired;
 
@@ -2171,8 +2172,8 @@ export async function initiateMigrationToGroupV2(
         },
       });
 
-      if (window.storage.isGroupBlocked(previousGroupV1Id)) {
-        window.storage.addBlockedGroup(groupId);
+      if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
+        window.storage.blocked.addBlockedGroup(groupId);
       }
 
       // Save these most recent updates to conversation
@@ -2310,7 +2311,7 @@ export async function waitThenRespondToGroupV2Migration(
   // Then wait to process all outstanding messages for this conversation
   const { conversation } = options;
 
-  await conversation.queueJob(async () => {
+  await conversation.queueJob('waitThenRespondToGroupV2Migration', async () => {
     try {
       // And finally try to migrate the group
       await respondToGroupV2Migration(options);
@@ -2646,8 +2647,8 @@ export async function respondToGroupV2Migration({
     },
   });
 
-  if (window.storage.isGroupBlocked(previousGroupV1Id)) {
-    window.storage.addBlockedGroup(groupId);
+  if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
+    window.storage.blocked.addBlockedGroup(groupId);
   }
 
   // Save these most recent updates to conversation
@@ -2698,7 +2699,7 @@ export async function waitThenMaybeUpdateGroup(
     return;
   }
 
-  await conversation.queueJob(async () => {
+  await conversation.queueJob('waitThenMaybeUpdateGroup', async () => {
     try {
       // And finally try to update the group
       await maybeUpdateGroup(options, { viaSync });
@@ -2831,6 +2832,7 @@ async function updateGroup(
   if (changeMessagesToSave.length > 0) {
     await window.Signal.Data.saveMessages(changeMessagesToSave, {
       forceSave: true,
+      Message: window.Whisper.Message,
     });
     changeMessagesToSave.forEach(changeMessage => {
       const model = new window.Whisper.Message(changeMessage);

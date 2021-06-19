@@ -39,6 +39,7 @@ import {
 } from './Errors';
 import { isValidNumber } from '../types/PhoneNumber';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
+import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { getKeysForIdentifier } from './getKeysForIdentifier';
 
@@ -309,7 +310,7 @@ export default class OutgoingMessage {
         this.plaintext = message.serialize();
       }
     }
-    return this.plaintext;
+    return toArrayBuffer(this.plaintext);
   }
 
   async getCiphertextMessage({

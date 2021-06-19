@@ -33,6 +33,7 @@ export type Props = {
   rawAttachment?: QuotedAttachmentType;
   isViewOnce: boolean;
   referencedMessageNotFound: boolean;
+  doubleCheckMissingQuoteReference: () => unknown;
 };
 
 type State = {
@@ -41,7 +42,7 @@ type State = {
 
 export type QuotedAttachmentType = {
   contentType: MIME.MIMEType;
-  fileName: string;
+  fileName?: string;
   /** Not included in protobuf */
   isVoiceMessage: boolean;
   thumbnail?: Attachment;
@@ -123,6 +124,17 @@ export class Quote extends React.Component<Props, State> {
     this.state = {
       imageBroken: false,
     };
+  }
+
+  componentDidMount(): void {
+    const {
+      doubleCheckMissingQuoteReference,
+      referencedMessageNotFound,
+    } = this.props;
+
+    if (referencedMessageNotFound) {
+      doubleCheckMissingQuoteReference();
+    }
   }
 
   public handleKeyDown = (

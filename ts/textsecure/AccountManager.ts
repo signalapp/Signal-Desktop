@@ -36,7 +36,7 @@ const PREKEY_ROTATION_AGE = 24 * 60 * 60 * 1000;
 const PROFILE_KEY_LENGTH = 32;
 const SIGNED_KEY_GEN_BATCH_SIZE = 100;
 
-function getIdentifier(id: string) {
+function getIdentifier(id: string | undefined) {
   if (!id || !id.length) {
     return id;
   }
@@ -137,7 +137,7 @@ export default class AccountManager extends EventTarget {
       return;
     }
     const deviceName = window.textsecure.storage.user.getDeviceName();
-    const base64 = await this.encryptDeviceName(deviceName);
+    const base64 = await this.encryptDeviceName(deviceName || '');
 
     if (base64) {
       await this.server.updateDeviceName(base64);
@@ -578,7 +578,7 @@ export default class AccountManager extends EventTarget {
       window.textsecure.storage.remove('regionCode'),
       window.textsecure.storage.remove('userAgent'),
       window.textsecure.storage.remove('profileKey'),
-      window.textsecure.storage.remove('read-receipts-setting'),
+      window.textsecure.storage.remove('read-receipt-setting'),
     ]);
 
     // `setNumberAndDeviceId` and `setUuidAndDeviceId` need to be called
@@ -590,7 +590,7 @@ export default class AccountManager extends EventTarget {
     await window.textsecure.storage.user.setNumberAndDeviceId(
       number,
       response.deviceId || 1,
-      deviceName
+      deviceName || undefined
     );
 
     if (uuid) {

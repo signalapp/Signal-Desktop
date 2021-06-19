@@ -253,46 +253,6 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "js/views/app_view.js",
-    "line": "      this.el.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded string"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/app_view.js",
-    "line": "      this.el.append(view.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/views/app_view.js",
-    "line": "      this.debugLogView.$el.appendTo(this.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/banner_view.js",
-    "line": "    template: () => $('#banner').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/banner_view.js",
-    "line": "    template: () => $('#banner').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/views/clear_data_view.js",
     "line": "    template: () => $('#clear-data').html(),",
@@ -304,30 +264,6 @@
     "rule": "jQuery-html(",
     "path": "js/views/clear_data_view.js",
     "line": "    template: () => $('#clear-data').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/contact_list_view.js",
-    "line": "      template: () => $('#contact').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/contact_list_view.js",
-    "line": "        this.$el.append(this.contactView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
-    "reasonDetail": "Known DOM elements"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/contact_list_view.js",
-    "line": "      template: () => $('#contact').html(),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, read-only access"
@@ -446,38 +382,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/views/group_member_list_view.js",
-    "line": "      this.$('.container').append(this.member_list_view.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, adding sub-view to DOM"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/group_member_list_view.js",
-    "line": "    template: () => $('#group-member-list').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/group_member_list_view.js",
-    "line": "      this.$('.container').append(this.member_list_view.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, adding sub-view to DOM"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/group_member_list_view.js",
-    "line": "    template: () => $('#group-member-list').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/views/identicon_svg_view.js",
     "line": "    template: () => $('#identicon-svg').html(),",
     "reasonCategory": "usageTrusted",
@@ -503,14 +407,6 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Adding sub-view to DOM"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
@@ -527,31 +423,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, adding or removing classes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').removeClass('inactive');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, adding or removing classes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, adding or removing classes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "      this.$('#header, .gutter').removeClass('inactive');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, adding or removing classes"
@@ -607,18 +479,9 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      this.$('.conversation:first .menu').trigger('close');",
+    "line": "      this.$('#header, .gutter').addClass('inactive');",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, trigging DOM event"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/inbox_view.js",
-    "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Adding sub-view to DOM"
+    "updated": "2021-06-15T23:46:51.629Z"
   },
   {
     "rule": "jQuery-append(",
@@ -837,22 +700,6 @@
     "reasonDetail": "Static selector, read-only access"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "js/views/list_view.js",
-    "line": "        this.$el.append(view.render().el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/list_view.js",
-    "line": "      this.$el.html('');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/views/phone-input-view.js",
     "line": "      this.$('input.number').intlTelInput();",
@@ -952,36 +799,6 @@
     "rule": "jQuery-html(",
     "path": "js/views/recorder_view.js",
     "line": "    template: () => $('#recorder').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/safety_number_change_dialog_view.js",
-    "line": "      this.$('.safety-number-change-dialog-wrapper').append(dialog.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-23T06:48:06.829Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/safety_number_change_dialog_view.js",
-    "line": "    template: () => $('#safety-number-change-dialog').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/safety_number_change_dialog_view.js",
-    "line": "      this.$('.safety-number-change-dialog-wrapper').append(dialog.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-23T06:48:06.829Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/safety_number_change_dialog_view.js",
-    "line": "    template: () => $('#safety-number-change-dialog').html(),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-26T18:44:56.450Z",
     "reasonDetail": "Static selector, read-only access"
@@ -13512,6 +13329,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/BackboneHost.js",
+    "line": "    const hostRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-09T04:02:08.305Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/BackboneHost.js",
+    "line": "    const viewRef = react_1.useRef(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-09T04:02:08.305Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallNeedPermissionScreen.js",
     "line": "    const autoCloseAtRef = react_1.useRef(Date.now() + AUTO_CLOSE_MS);",
     "reasonCategory": "falseMatch",
@@ -13811,6 +13642,20 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T16:51:54.214Z",
     "reasonDetail": "Used to handle an <input> element. Only updates the value and selection state."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Inbox.js",
+    "line": "    const hostRef = react_1.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-08T02:49:25.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Inbox.js",
+    "line": "    const viewRef = react_1.useRef(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-08T02:49:25.154Z"
   },
   {
     "rule": "jQuery-$(",

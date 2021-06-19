@@ -1144,7 +1144,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Delivery issue",
+        "message": "مشاكل التوصيل",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
@@ -1162,7 +1162,7 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Delivery Issue",
+        "message": "مشاكل التوصيل",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
@@ -2265,15 +2265,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "ملف وسائط للعرض مرة واحدة",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "الصورة للعرض مرة واحدة",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "مقطع فيديو للعرض مرة واحدة",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "حُذفَت هذه الرسالة.",
@@ -3427,7 +3427,17 @@
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
         "message": "Entire screen",
-        "description": "Title for the select your screen sharing sources modal"
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Screen $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
     },
     "calling__SelectPresentingSourcesModal--window": {
         "message": "A window",
@@ -5469,9 +5479,17 @@
         "message": "إعادة تعيين الألوان",
         "description": "Button label for resetting chat colors"
     },
+    "ChatColorPicker__resetDefault": {
+        "message": "Reset Chat Colors",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
     "ChatColorPicker__resetAll": {
         "message": "Reset all chat colors",
         "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Reset default",
+        "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
         "message": "إعادة التعيين",
@@ -5486,7 +5504,7 @@
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Here's a preview of the chat color.",
+        "message": "إليك معاينة لون المحادثة.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
@@ -5494,7 +5512,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "The color is visible to only you.",
+        "message": "إن اللون يظهر عندك فقط.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
@@ -5510,19 +5528,19 @@
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
-        "message": "Solid",
+        "message": "موحَّد",
         "description": "Tab label for selecting solid colors"
     },
     "CustomColorEditor__gradient": {
-        "message": "Gradient",
+        "message": "مُتدرِّج",
         "description": "Tab label for selecting a gradient"
     },
     "CustomColorEditor__hue": {
-        "message": "Hue",
+        "message": "الصبغة",
         "description": "Label for the hue slider"
     },
     "CustomColorEditor__saturation": {
-        "message": "Saturation",
+        "message": "صفاء اللون",
         "description": "Label for the saturation slider"
     },
     "CustomColorEditor__title": {
@@ -5570,7 +5588,7 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Set a default disappearing message timer for all new chats started by you.",
+        "message": "تحديد مدة افتراضية لمؤقت اختفاء الرسائل، لجميع المحادثات الجديدة التي قمت ببدئها.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {

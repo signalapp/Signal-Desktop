@@ -13,13 +13,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import { waitForOnline } from '../util/waitForOnline';
 import * as log from '../logging/log';
 import { connectToServerWithStoredCredentials } from '../util/connectToServerWithStoredCredentials';
-
-// We define a stricter storage here that returns `unknown` instead of `any`.
-type Storage = {
-  get(key: string): unknown;
-  put(key: string, value: unknown): Promise<void>;
-  remove(key: string): Promise<void>;
-};
+import { StorageInterface } from '../types/Storage.d';
 
 function isWellFormed(data: unknown): data is SerializedCertificateType {
   return serializedCertificateSchema.safeParse(data).success;
@@ -43,7 +37,7 @@ export class SenderCertificateService {
 
   private onlineEventTarget?: EventTarget;
 
-  private storage?: Storage;
+  private storage?: StorageInterface;
 
   initialize({
     SenderCertificate,
@@ -56,7 +50,7 @@ export class SenderCertificateService {
     navigator: Readonly<{ onLine: boolean }>;
     onlineEventTarget: EventTarget;
     SenderCertificate: typeof SenderCertificateClass;
-    storage: Storage;
+    storage: StorageInterface;
   }): void {
     log.info('Sender certificate service initialized');
 

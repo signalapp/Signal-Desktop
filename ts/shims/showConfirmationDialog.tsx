@@ -17,8 +17,8 @@ type ConfirmationDialogViewProps = {
   resolve: () => void;
 };
 
-let confirmationDialogViewNode: HTMLElement | null = null;
-let confirmationDialogPreviousFocus: HTMLElement | null = null;
+let confirmationDialogViewNode: HTMLElement | undefined;
+let confirmationDialogPreviousFocus: HTMLElement | undefined;
 
 function removeConfirmationDialog() {
   if (!confirmationDialogViewNode) {
@@ -34,7 +34,7 @@ function removeConfirmationDialog() {
   ) {
     confirmationDialogPreviousFocus.focus();
   }
-  confirmationDialogViewNode = null;
+  confirmationDialogViewNode = undefined;
 }
 
 function showConfirmationDialog(options: ConfirmationDialogViewProps) {

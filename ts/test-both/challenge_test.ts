@@ -118,10 +118,10 @@ describe('ChallengeHandler', () => {
       expireAfter,
 
       storage: {
-        get(key) {
+        get(key: string) {
           return storage.get(key);
         },
-        async put(key, value) {
+        async put(key: string, value: unknown) {
           storage.set(key, value);
         },
       },

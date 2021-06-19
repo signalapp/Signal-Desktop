@@ -104,6 +104,7 @@ type PropsHousekeepingType = {
   renderItem: (
     id: string,
     conversationId: string,
+    onHeightChange: (messageId: string) => unknown,
     actions: Record<string, unknown>
   ) => JSX.Element;
   renderLastSeenIndicator: (id: string) => JSX.Element;
@@ -365,6 +366,22 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
   public resizeHeroRow = (): void => {
     this.resize(0);
+  };
+
+  public resizeMessage = (messageId: string): void => {
+    const { items } = this.props;
+
+    if (!items || !items.length) {
+      return;
+    }
+
+    const index = items.findIndex(item => item === messageId);
+    if (index < 0) {
+      return;
+    }
+
+    const row = this.fromItemIndexToRow(index);
+    this.resize(row);
   };
 
   public onScroll = (data: OnScrollParamsType): void => {
@@ -711,7 +728,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           style={styleWithWidth}
           role="row"
         >
-          {renderItem(messageId, id, this.props)}
+          {renderItem(messageId, id, this.resizeMessage, this.props)}
         </div>
       );
     }

@@ -12,6 +12,8 @@ import * as sinon from 'sinon';
 import EventEmitter from 'events';
 import { connection as WebSocket } from 'websocket';
 
+import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
+
 import WebSocketResource from '../textsecure/WebsocketResources';
 
 describe('WebSocket-Resource', () => {
@@ -29,7 +31,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake((data: Uint8Array) => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,
@@ -86,7 +88,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake((data: Uint8Array) => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,
@@ -166,7 +168,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake(data => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,
@@ -189,7 +191,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake(data => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,
@@ -223,6 +225,20 @@ describe('WebSocket-Resource', () => {
       this.clock.next();
     });
 
+    it('optionally disconnects if suspended', function thisNeeded1(done) {
+      const socket = new FakeSocket();
+
+      sinon.stub(socket, 'close').callsFake(() => done());
+
+      new WebSocketResource(socket as WebSocket, {
+        keepalive: true,
+      });
+
+      // Just skip one hour immediately
+      this.clock.setSystemTime(NOW + 3600 * 1000);
+      this.clock.next();
+    });
+
     it('allows resetting the keepalive timer', function thisNeeded2(done) {
       const startTime = Date.now();
 
@@ -230,7 +246,7 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'sendBytes').callsFake(data => {
         const message = window.textsecure.protobuf.WebSocketMessage.decode(
-          data
+          toArrayBuffer(data)
         );
         assert.strictEqual(
           message.type,
