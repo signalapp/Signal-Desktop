@@ -131,7 +131,7 @@ const SessionSvg = (props: {
     viewBox: props.viewBox,
     glowDuration: props.glowDuration,
     glowStartDelay: props.glowStartDelay,
-    iconColor: props.iconColor 
+    iconColor: props.iconColor,
   };
 
   return (
