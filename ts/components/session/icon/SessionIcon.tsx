@@ -92,7 +92,7 @@ const animation = (props: any) => {
     `;
   } else if (props.glowDuration !== undefined && props.glowStartDelay !== undefined) {
     return css`
-      ${glow(props.iconColor, props.glowDuration, props.glowStartDelay)} ${2}s ease-in infinite;
+      ${glow(props.iconColor, props.glowDuration, props.glowStartDelay)} ${props.glowDuration}s ease-in infinite;
     `;
   } else {
     return;
