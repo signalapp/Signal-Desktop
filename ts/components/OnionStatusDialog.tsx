@@ -16,9 +16,11 @@ import { SessionWrapperModal } from '../components/session/SessionWrapperModal';
 import ip2country from 'ip2country';
 import countryLookup from 'country-code-lookup';
 import { useTheme } from 'styled-components';
-import { useNetwork } from '../hooks/useNetwork';
 import { Snode } from '../data/data';
 import { onionPathModal } from '../state/ducks/modalDialog';
+
+// tslint:disable-next-line: no-submodule-imports
+import useNetworkState from 'react-use/lib/useNetworkState';
 
 export type OnionPathModalType = {
   confirmText?: string;
@@ -145,7 +147,7 @@ export const ActionPanelOnionStatusLight = (props: {
   const onionState = useSelector((state: StateType) => state.onionPaths);
 
   iconColor = red;
-  const isOnline = useNetwork();
+  const isOnline = useNetworkState().online;
   if (!(onionState && onionState.snodePath) || !isOnline) {
     iconColor = red;
   } else {
