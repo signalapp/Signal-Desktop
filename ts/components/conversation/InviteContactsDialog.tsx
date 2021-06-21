@@ -116,8 +116,8 @@ const InviteContactsDialogInner = (props: Props) => {
     if (convo.isOpenGroupV2()) {
       const completeUrl = await getCompleteUrlForV2ConvoId(convo.id);
       const groupInvitation = {
-        serverAddress: completeUrl,
-        serverName: convo.getName(),
+        url: completeUrl,
+        name: convo.getName(),
       };
       pubkeys.forEach(async pubkeyStr => {
         const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(

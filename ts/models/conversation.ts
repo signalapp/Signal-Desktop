@@ -612,8 +612,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           const groupInvitMessage = new GroupInvitationMessage({
             identifier: id,
             timestamp: sentAt,
-            serverName: groupInvitation.serverName,
-            serverAddress: groupInvitation.serverAddress,
+            name: groupInvitation.name,
+            url: groupInvitation.url,
             expireTimer: this.get('expireTimer'),
           });
           // we need the return await so that errors are caught in the catch {}

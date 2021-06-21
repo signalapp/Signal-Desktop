@@ -1,12 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SessionButton, SessionButtonType } from '../session/SessionButton';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
 import { useTheme } from 'styled-components';
 
 type Props = {
-  serverName: string;
-  serverAddress: string;
+  name: string;
+  url: string;
   direction: string;
   onJoinClick: () => void;
 };
@@ -32,9 +31,9 @@ export const GroupInvitation = (props: Props) => {
             onClick={props.onJoinClick}
           />
           <span className="group-details">
-            <span className="group-name">{props.serverName}</span>
+            <span className="group-name">{props.name}</span>
             <span className="group-type">{openGroupInvitation}</span>
-            <span className="group-address">{props.serverAddress}</span>
+            <span className="group-address">{props.url}</span>
           </span>
         </div>
       </div>

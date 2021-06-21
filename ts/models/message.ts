@@ -314,18 +314,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     let serverAddress = '';
     try {
-      const url = new URL(invitation.serverAddress);
+      const url = new URL(invitation.url);
       serverAddress = url.origin;
     } catch (e) {
       window?.log?.warn('failed to get hostname from opengroupv2 invitation', invitation);
     }
 
     return {
-      serverName: invitation.serverName,
-      serverAddress,
+      serverName: invitation.name,
+      url: serverAddress,
       direction,
       onJoinClick: () => {
-        acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
+        acceptOpenGroupInvitation(invitation.url, invitation.name);
       },
     };
   }
