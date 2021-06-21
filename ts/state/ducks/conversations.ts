@@ -378,7 +378,7 @@ function messageDeleted({
   };
 }
 
-function conversationReset({
+export function conversationReset({
   conversationKey,
 }: {
   conversationKey: string;

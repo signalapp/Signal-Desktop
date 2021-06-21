@@ -695,6 +695,15 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/react@^16.8.3":
+  version "16.14.7"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.7.tgz#b62bd8cc4675d6fe3976126cdd208deda267f1fb"
+  integrity sha512-JhbikeQ1i18ut9Sro3j/xvhN073zJA9sqGqbwJByhOfLPXxEJdqjal9piZd9tmVEC+LP6RN2dLvWx9Hbr0reTw==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
 "@types/redux-logger@3.0.7":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@types/redux-logger/-/redux-logger-3.0.7.tgz#163f6f6865c69c21d56f9356dc8d741718ec0db0"
@@ -714,6 +723,11 @@
   dependencies:
     "@types/glob" "*"
     "@types/node" "*"
+
+"@types/scheduler@*":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.1.tgz#18845205e86ff0038517aab7a18a62a6b9f71275"
+  integrity sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
 
 "@types/semver@5.5.0":
   version "5.5.0"
@@ -1249,6 +1263,14 @@ asar@0.14.0:
     mksnapshot "^0.3.0"
     tmp "0.0.28"
 
+asbycountry@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/asbycountry/-/asbycountry-1.4.2.tgz#26bf0e090225b93f7d1fc5a177899c900b5c8258"
+  integrity sha512-NnIJ1lUYJ/M0XmoOA1T5uLQWbD81MDz5MpwufSHymw8j3DauFyTDki7ixxG8nMeUo5GBkFT1U/USOcz0mJnrNQ==
+  dependencies:
+    chalk "^1.1.3"
+    fetch "^1.1.0"
+
 asn1.js@^4.0.0:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/asn1.js/-/asn1.js-4.10.1.tgz#b9c2bf5805f1e64aadeed6df3a2bfafb5a73f5a0"
@@ -1562,6 +1584,13 @@ bindings@^1.5.0:
   integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   dependencies:
     file-uri-to-path "1.0.0"
+
+biskviit@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/biskviit/-/biskviit-1.0.1.tgz#037a0cd4b71b9e331fd90a1122de17dc49e420a7"
+  integrity sha1-A3oM1LcbnjMf2QoRIt4X3EnkIKc=
+  dependencies:
+    psl "^1.1.7"
 
 bl@^1.0.0:
   version "1.2.2"
@@ -2766,6 +2795,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+country-code-lookup@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/country-code-lookup/-/country-code-lookup-0.0.19.tgz#3fbf0192758ecf0d5eee0efbc220d62706c50fd6"
+  integrity sha512-lpvgdPyj8RuP0CSZhACNf5ueKlLbv/IQUAQfg7yr/qJbFrdcWV7Y+aDN9K/u/bx3MXRfcsjuW+TdIc0AEj7kDw==
+
 crc32-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/crc32-stream/-/crc32-stream-2.0.0.tgz#e3cdd3b4df3168dd74e3de3fbbcb7b297fe908f4"
@@ -3715,6 +3749,13 @@ encodeurl@^1.0.2, encodeurl@~1.0.2:
   resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
   integrity sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=
 
+encoding@0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/encoding/-/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"
+  integrity sha1-U4tm8+5izRq1HsMjgp0flIDHS+s=
+  dependencies:
+    iconv-lite "~0.4.13"
+
 end-of-stream@^1.0.0, end-of-stream@^1.1.0:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.4.tgz#5ae64a5f45057baf3626ec14da0ca5e4b2431eb0"
@@ -4318,6 +4359,14 @@ fd-slicer@~1.1.0:
   integrity sha1-JcfInLH5B3+IkbvmHY85Dq4lbx4=
   dependencies:
     pend "~1.2.0"
+
+fetch@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/fetch/-/fetch-1.1.0.tgz#0a8279f06be37f9f0ebb567560a30a480da59a2e"
+  integrity sha1-CoJ58Gvjf58Ou1Z1YKMKSA2lmi4=
+  dependencies:
+    biskviit "1.0.1"
+    encoding "0.1.12"
 
 figures@^2.0.0:
   version "2.0.0"
@@ -5673,6 +5722,13 @@ ip-regex@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-1.0.3.tgz#dc589076f659f419c222039a33316f1c7387effd"
   integrity sha1-3FiQdvZZ9BnCIgOaMzFvHHOH7/0=
+
+ip2country@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ip2country/-/ip2country-1.0.1.tgz#e2ab284b774b65c89509679fcb82552afcff9804"
+  integrity sha512-wYhIyQzcP85tKo17HwitnHB7F3vbN+gA7DqZzeE5K1NLfr4XnKZQ1RNsMGm3bNhf1eA3bz9QFjSXo4q6VKRqCw==
+  dependencies:
+    asbycountry "^1.4.2"
 
 ip@^1.1.0, ip@^1.1.5:
   version "1.1.5"
@@ -8859,7 +8915,7 @@ pseudomap@^1.0.2:
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
   integrity sha1-8FKijacOYYkX7wqKw0wa5aaChrM=
 
-psl@^1.1.28:
+psl@^1.1.28, psl@^1.1.7:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.8.0.tgz#9326f8bcfb013adcc005fdff056acce020e51c24"
   integrity sha512-RIdOzyoavK+hA18OGGWDqUTsCLhtA7IcZ/6NCs4fFJaHBDab+pDDmDIByWFRQJq2Cd7r1OoQxBGKOaztq+hjIQ==
@@ -11853,6 +11909,13 @@ url@^0.11.0, url@~0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-hooks@^2.0.0-rc.5:
+  version "2.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/use-hooks/-/use-hooks-2.0.0-rc.5.tgz#05bdfb89cf088ef49961858b529d090a15f48680"
+  integrity sha512-85OzZPao3Rk6GFJqaeTHRj5MluTFhzDxUikwytiwJYGR4+2tEeH86Ym1DMDM6NzJ3bwueaX7kc+rlF/5J074TA==
+  dependencies:
+    "@types/react" "^16.8.3"
 
 use-strict@1.0.1:
   version "1.0.1"

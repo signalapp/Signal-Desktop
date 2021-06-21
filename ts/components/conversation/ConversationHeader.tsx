@@ -62,31 +62,10 @@ interface Props {
   left: boolean;
   selectionMode: boolean; // is the UI on the message selection mode or not
 
-  onInviteContacts: () => void;
-  onSetDisappearingMessages: (seconds: number) => void;
-  onSetNotificationForConvo: (selected: ConversationNotificationSettingType) => void;
-  onDeleteMessages: () => void;
-  onDeleteContact: () => void;
-  onChangeNickname?: () => void;
-  onClearNickname?: () => void;
-
   onCloseOverlay: () => void;
   onDeleteSelectedMessages: () => void;
-
+  onAvatarClick?: (pubkey: string) => void;
   onGoBack: () => void;
-
-  onBlockUser: () => void;
-  onUnblockUser: () => void;
-
-  onCopyPublicKey: () => void;
-
-  onLeaveGroup: () => void;
-  onAddModerators: () => void;
-  onRemoveModerators: () => void;
-  onAvatarClick?: (userPubKey: string) => void;
-  onUpdateGroupName: () => void;
-
-  onMarkAllRead: () => void;
 
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   theme: DefaultTheme;
@@ -278,6 +257,7 @@ class ConversationHeaderInner extends React.Component<Props> {
   private getHeaderMenuProps(triggerId: string): PropsConversationHeaderMenu {
     return {
       triggerId,
+      conversationId: this.props.id,
       ...this.props,
     };
   }

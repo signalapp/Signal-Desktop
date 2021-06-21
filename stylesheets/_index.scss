@@ -9,7 +9,9 @@
 
 .edit-profile-dialog,
 .create-group-dialog,
-.user-details-dialog {
+.user-details-dialog,
+.update-group-dialog,
+.onion-status-dialog {
   .content {
     max-width: 100% !important;
   }
@@ -47,7 +49,6 @@
 
   .avatar-center-inner {
     display: flex;
-    padding-top: 30px;
   }
 
   .upload-btn-background {

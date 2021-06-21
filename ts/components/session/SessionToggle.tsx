@@ -1,19 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
+import { updateConfirmModal } from '../../state/ducks/modalDialog';
 
 interface Props {
   active: boolean;
   onClick: any;
-  // If you require the toggle to be confirmed, use
-  // a confirmation dialog. The parameters needed in the
-  // setting item in SessionSettings.tsx are like such:
-  // confirmationDialogParams: {
-  //  shouldShowConfirm: false,
-  //  title: window.i18n('linkPreviewsTitle'),
-  //  message: window.i18n('linkPreviewsConfirmMessage'),
-  //  okTheme: 'danger',
-  // }
   confirmationDialogParams?: any | undefined;
+
+  updateConfirmModal?: any;
 }
 
 interface State {
@@ -62,14 +56,24 @@ export class SessionToggle extends React.PureComponent<Props, State> {
 
     if (
       this.props.confirmationDialogParams &&
+      this.props.updateConfirmModal &&
       this.props.confirmationDialogParams.shouldShowConfirm()
     ) {
       // If item needs a confirmation dialog to turn ON, render it
-      window.confirmationDialog({
-        resolve: () => {
+      const closeConfirmModal = () => {
+        this.props.updateConfirmModal(null);
+      };
+
+      this.props.updateConfirmModal({
+        onClickOk: () => {
           stateManager(event);
+          closeConfirmModal();
+        },
+        onClickClose: () => {
+          this.props.updateConfirmModal(null);
         },
         ...this.props.confirmationDialogParams,
+        updateConfirmModal,
       });
 
       return;

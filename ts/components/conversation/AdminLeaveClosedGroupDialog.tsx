@@ -1,53 +1,42 @@
 import React from 'react';
 
-import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { DefaultTheme } from 'styled-components';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { SpacerLG } from '../basic/Text';
+import { ConversationController } from '../../session/conversations';
+import { adminLeaveClosedGroup } from '../../state/ducks/modalDialog';
 
-interface Props {
-  groupName: string;
-  onSubmit: any;
-  onClose: any;
-  theme: DefaultTheme;
-}
+type Props = {
+  conversationId: string;
+};
 
-class AdminLeaveClosedGroupDialogInner extends React.Component<Props> {
-  constructor(props: any) {
-    super(props);
+export const AdminLeaveClosedGroupDialog = (props: Props) => {
+  const convo = ConversationController.getInstance().get(props.conversationId);
+  const titleText = `${window.i18n('leaveGroup')} ${convo.getName()}`;
+  const warningAsAdmin = `${window.i18n('leaveGroupConfirmationAdmin')}`;
+  const okText = window.i18n('leaveAndRemoveForEveryone');
+  const cancelText = window.i18n('cancel');
 
-    this.closeDialog = this.closeDialog.bind(this);
-    this.onClickOK = this.onClickOK.bind(this);
-  }
+  const onClickOK = async () => {
+    await ConversationController.getInstance()
+      .get(props.conversationId)
+      .leaveClosedGroup();
+    closeDialog();
+  };
 
-  public render() {
-    const titleText = `${window.i18n('leaveGroup')} ${this.props.groupName}`;
-    const warningAsAdmin = `${window.i18n('leaveGroupConfirmationAdmin')}`;
-    const okText = window.i18n('leaveAndRemoveForEveryone');
+  const closeDialog = () => {
+    window.inboxStore?.dispatch(adminLeaveClosedGroup(null));
+  };
 
-    return (
-      <SessionModal title={titleText} onClose={this.closeDialog} theme={this.props.theme}>
-        <div className="spacer-lg" />
-        <p>{warningAsAdmin}</p>
+  return (
+    <SessionWrapperModal title={titleText} onClose={closeDialog}>
+      <SpacerLG />
+      <p>{warningAsAdmin}</p>
 
-        <div className="session-modal__button-group">
-          <SessionButton
-            text={okText}
-            onClick={this.onClickOK}
-            buttonColor={SessionButtonColor.Danger}
-          />
-        </div>
-      </SessionModal>
-    );
-  }
-
-  private onClickOK() {
-    this.props.onSubmit();
-    this.closeDialog();
-  }
-
-  private closeDialog() {
-    this.props.onClose();
-  }
-}
-
-export const AdminLeaveClosedGroupDialog = AdminLeaveClosedGroupDialogInner;
+      <div className="session-modal__button-group">
+        <SessionButton text={okText} onClick={onClickOK} buttonColor={SessionButtonColor.Danger} />
+        <SessionButton text={cancelText} onClick={closeDialog} />
+      </div>
+    </SessionWrapperModal>
+  );
+};

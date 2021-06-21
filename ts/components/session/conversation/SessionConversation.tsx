@@ -6,13 +6,13 @@ import classNames from 'classnames';
 
 import { SessionCompositionBox, StagedAttachmentType } from './SessionCompositionBox';
 
-import { Constants } from '../../../session';
+import { ClosedGroup, Constants, Utils } from '../../../session';
 import _ from 'lodash';
 import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme, useTheme } from 'styled-components';
 import { SessionMessagesList } from './SessionMessagesList';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
@@ -29,7 +29,7 @@ import { ConversationController } from '../../../session/conversations';
 import { getMessageById, getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
-import { deleteOpenGroupMessages } from '../../../interactions/conversation';
+import { deleteOpenGroupMessages } from '../../../interactions/conversationInteractions';
 import {
   ConversationNotificationSetting,
   ConversationNotificationSettingType,
@@ -38,6 +38,7 @@ import {
 import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
+import { SessionButtonColor } from '../SessionButton';
 interface State {
   // Message sending progress
   messageProgressVisible: boolean;
@@ -303,6 +304,7 @@ export class SessionConversation extends React.Component<Props, State> {
             removeAttachment={this.removeAttachment}
             onChoseAttachments={this.onChoseAttachments}
             theme={this.props.theme}
+            updateConfirmModal={actions.updateConfirmModal}
           />
         </div>
 
@@ -386,53 +388,16 @@ export class SessionConversation extends React.Component<Props, State> {
       hasNickname: !!conversation.getNickname(),
       selectionMode: !!selectedMessages.length,
 
-      onSetDisappearingMessages: conversation.updateExpirationTimer,
-      onSetNotificationForConvo: conversation.setNotificationOption,
-      onDeleteMessages: conversation.deleteMessages,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
-      onChangeNickname: conversation.changeNickname,
-      onClearNickname: conversation.clearNickname,
+
       onCloseOverlay: () => {
         this.setState({ selectedMessages: [] });
       },
-      onDeleteContact: conversation.deleteContact,
 
       onGoBack: () => {
         this.setState({
           messageDetailShowProps: undefined,
         });
-      },
-
-      onUpdateGroupName: () => {
-        window.Whisper.events.trigger('updateGroupName', conversation);
-      },
-
-      onBlockUser: () => {
-        void conversation.block();
-      },
-      onUnblockUser: () => {
-        void conversation.unblock();
-      },
-      onCopyPublicKey: () => {
-        conversation.copyPublicKey();
-      },
-      onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveClosedGroup', conversation);
-      },
-      onInviteContacts: () => {
-        window.Whisper.events.trigger('inviteContacts', conversation);
-      },
-
-      onMarkAllRead: () => {
-        void conversation.markReadBouncy(Date.now());
-      },
-
-      onAddModerators: () => {
-        window.Whisper.events.trigger('addModerators', conversation);
-      },
-
-      onRemoveModerators: () => {
-        window.Whisper.events.trigger('removeModerators', conversation);
       },
 
       onAvatarClick: (pubkey: any) => {
@@ -473,6 +438,7 @@ export class SessionConversation extends React.Component<Props, State> {
     };
   }
 
+  // tslint:disable-next-line: max-func-body-length
   public getRightPanelProps() {
     const { selectedConversationKey } = this.props;
     const conversation = ConversationController.getInstance().getOrThrow(selectedConversationKey);
@@ -504,50 +470,8 @@ export class SessionConversation extends React.Component<Props, State> {
         value: item.get('seconds'),
       })),
 
-      onSetDisappearingMessages: (seconds: any) => {
-        if (seconds > 0) {
-          void conversation.updateExpirationTimer(seconds);
-        } else {
-          void conversation.updateExpirationTimer(null);
-        }
-      },
-
       onGoBack: () => {
         this.toggleRightPanel();
-      },
-
-      onUpdateGroupName: () => {
-        window.Whisper.events.trigger('updateGroupName', conversation);
-      },
-      onUpdateGroupMembers: async () => {
-        if (conversation.isMediumGroup()) {
-          // make sure all the members' convo exists so we can add or remove them
-          await Promise.all(
-            conversation
-              .get('members')
-              .map(m =>
-                ConversationController.getInstance().getOrCreateAndWait(
-                  m,
-                  ConversationTypeEnum.PRIVATE
-                )
-              )
-          );
-        }
-        window.Whisper.events.trigger('updateGroupMembers', conversation);
-      },
-      onInviteContacts: () => {
-        window.Whisper.events.trigger('inviteContacts', conversation);
-      },
-      onDeleteContact: conversation.deleteContact,
-      onLeaveGroup: () => {
-        window.Whisper.events.trigger('leaveClosedGroup', conversation);
-      },
-      onAddModerators: () => {
-        window.Whisper.events.trigger('addModerators', conversation);
-      },
-
-      onRemoveModerators: () => {
-        window.Whisper.events.trigger('removeModerators', conversation);
       },
       onShowLightBox: (lightBoxOptions?: LightBoxOptions) => {
         this.setState({ lightBoxOptions });
@@ -692,13 +616,20 @@ export class SessionConversation extends React.Component<Props, State> {
     }
 
     const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
+
     if (askUserForConfirmation) {
-      window.confirmationDialog({
+      const onClickClose = () => {
+        this.props.actions.updateConfirmModal(null);
+      };
+
+      this.props.actions.updateConfirmModal({
         title,
         message: warningMessage,
         okText,
-        okTheme: 'danger',
-        resolve: doDelete,
+        okTheme: SessionButtonColor.Danger,
+        onClickOk: doDelete,
+        onClickClose,
+        closeAfterClick: true,
       });
     } else {
       void doDelete();

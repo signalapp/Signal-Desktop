@@ -7,6 +7,8 @@ import { ToastUtils } from '../../session/utils';
 import { SessionIconType } from './icon';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { getPasswordHash } from '../../data/data';
+import { SessionWrapperModal } from './SessionWrapperModal';
+import { SpacerLG, SpacerSM } from '../basic/Text';
 export enum PasswordAction {
   Set = 'set',
   Change = 'change',
@@ -72,12 +74,8 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       action === PasswordAction.Remove ? SessionButtonColor.Danger : SessionButtonColor.Primary;
 
     return (
-      <SessionModal
-        title={window.i18n(`${action}Password`)}
-        onClose={this.closeDialog}
-        theme={this.props.theme}
-      >
-        <div className="spacer-sm" />
+      <SessionWrapperModal title={window.i18n(`${action}Password`)} onClose={this.closeDialog}>
+        <SpacerSM />
 
         <div className="session-modal__input-group">
           <input
@@ -107,7 +105,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
           )}
         </div>
 
-        <div className="spacer-sm" />
+        <SpacerSM />
         {this.showError()}
 
         <div className="session-modal__button-group">
@@ -119,7 +117,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
 
           <SessionButton text={window.i18n('cancel')} onClick={this.closeDialog} />
         </div>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 
@@ -141,7 +139,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
         {message && (
           <>
             <div className="session-label warning">{message}</div>
-            <div className="spacer-lg" />
+            <SpacerLG />
           </>
         )}
       </>

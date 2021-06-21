@@ -17,7 +17,7 @@ import {
 } from '../../../../session/snode_api/onions';
 import AbortController from 'abort-controller';
 import * as Data from '../../../../../ts/data/data';
-import { pathFailureCount, SnodePath } from '../../../../session/onions/onionPath';
+import { pathFailureCount } from '../../../../session/onions/onionPath';
 
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -62,7 +62,7 @@ describe('OnionPathsErrors', () => {
     associatedWith: string,
     fakeSwarmForAssociatedWith: Array<string>;
 
-  let oldOnionPaths: Array<SnodePath>;
+  let oldOnionPaths: Array<Array<Data.Snode>>;
   const fakeIP = '8.8.8.8';
   let fakePortCurrent = 20000;
 

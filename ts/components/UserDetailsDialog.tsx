@@ -1,74 +1,71 @@
 import React from 'react';
 import { Avatar, AvatarSize } from './Avatar';
 
-import { SessionModal } from './session/SessionModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import { SessionIdEditable } from './session/SessionIdEditable';
-import { DefaultTheme } from 'styled-components';
+import { ConversationController } from '../session/conversations';
+import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
+import { SessionWrapperModal } from './session/SessionWrapperModal';
+import { SpacerMD } from './basic/Text';
+import autoBind from 'auto-bind';
+import { updateUserDetailsModal } from '../state/ducks/modalDialog';
+import { openConversationExternal } from '../state/ducks/conversations';
 
-interface Props {
-  i18n: any;
-  profileName: string;
-  avatarPath: string;
-  pubkey: string;
-  onClose: any;
-  onStartConversation: any;
-  theme: DefaultTheme;
-}
+type Props = {
+  conversationId: string;
+  authorAvatarPath?: string;
+  userName: string;
+};
 
 interface State {
   isEnlargedImageShown: boolean;
 }
 
 export class UserDetailsDialog extends React.Component<Props, State> {
-  constructor(props: any) {
+  private readonly convo: ConversationModel;
+  constructor(props: Props) {
     super(props);
 
-    this.closeDialog = this.closeDialog.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.onClickStartConversation = this.onClickStartConversation.bind(this);
+    autoBind(this);
+    this.convo = ConversationController.getInstance().get(props.conversationId);
     window.addEventListener('keyup', this.onKeyUp);
+
     this.state = { isEnlargedImageShown: false };
   }
 
   public render() {
-    const { i18n } = this.props;
-
     return (
-      <SessionModal
-        title={this.props.profileName}
-        onClose={this.closeDialog}
-        theme={this.props.theme}
-      >
+      <SessionWrapperModal title={this.props.userName} onClose={this.closeDialog}>
         <div className="avatar-center">
           <div className="avatar-center-inner">{this.renderAvatar()}</div>
         </div>
-        <SessionIdEditable editable={false} text={this.props.pubkey} />
+
+        <SpacerMD />
+        <SessionIdEditable editable={false} text={this.convo.id} />
 
         <div className="session-modal__button-group__center">
           <SessionButton
-            text={i18n('startConversation')}
+            text={window.i18n('startConversation')}
             buttonType={SessionButtonType.Default}
             buttonColor={SessionButtonColor.Primary}
             onClick={this.onClickStartConversation}
           />
         </div>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 
   private renderAvatar() {
-    const { avatarPath, pubkey, profileName } = this.props;
     const size = this.state.isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
-    const userName = profileName || pubkey;
+    const userName = this.props.userName || this.props.conversationId;
 
     return (
       <Avatar
-        avatarPath={avatarPath}
+        avatarPath={this.props.authorAvatarPath}
         name={userName}
         size={size}
         onAvatarClick={this.handleShowEnlargedDialog}
-        pubkey={pubkey}
+        pubkey={this.props.conversationId}
       />
     );
   }
@@ -80,7 +77,7 @@ export class UserDetailsDialog extends React.Component<Props, State> {
   private onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
-        this.onClickStartConversation();
+        void this.onClickStartConversation();
         break;
       case 'Esc':
       case 'Escape':
@@ -92,11 +89,19 @@ export class UserDetailsDialog extends React.Component<Props, State> {
 
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
-    this.props.onClose();
+
+    window.inboxStore?.dispatch(updateUserDetailsModal(null));
   }
 
-  private onClickStartConversation() {
-    this.props.onStartConversation();
+  private async onClickStartConversation() {
+    // this.props.onStartConversation();
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      this.convo.id,
+      ConversationTypeEnum.PRIVATE
+    );
+
+    window.inboxStore?.dispatch(openConversationExternal(conversation.id));
+
     this.closeDialog();
   }
 }

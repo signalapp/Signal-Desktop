@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <meta charset='utf-8'>
-  <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0'
-    name='viewport'>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none';
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"
+      name="viewport"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none';
             child-src 'self';
             connect-src 'self' https: wss: blob:;
             font-src 'self';
@@ -18,152 +21,137 @@
             media-src 'self' blob:;
             object-src 'none';
             script-src 'self' 'unsafe-eval';
-            style-src 'self' 'unsafe-inline';">
-  <title>Session</title>
-  <link href='images/sesion/session_icon_128.png' rel='shortcut icon'>
-  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+            style-src 'self' 'unsafe-inline';"
+    />
+    <title>Session</title>
+    <link href="images/sesion/session_icon_128.png" rel="shortcut icon" />
+    <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
 
-  <!--
+    <!--
     When making changes to these templates, be sure to update test/index.html as well
   -->
 
-
-  <script type='text/x-tmpl-mustache' id='identicon-svg'>
+    <script type="text/x-tmpl-mustache" id="identicon-svg">
       <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>
          <circle cx='50' cy='50' r='40' fill='{{ color }}' />
           <text text-anchor='middle' fill='white' font-family='sans-serif' font-size='24px' x='50' y='50' baseline-shift='-8px'>
               {{ content }}
           </text>
       </svg>
-  </script>
+    </script>
 
-  <script type='text/x-tmpl-mustache' id='import-flow-template'>
-    {{#isStep2}}
-    <div id='step2' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon folder-outline'></span>
-          <div class='header'>{{ chooseHeader }}</div>
-          <div class='body-text'>{{ choose }}</div>
-        </div>
-        <div class='nav'>
-          <div>
-            <a class='button choose'>{{ chooseButton }}</a>
+    <script type="text/x-tmpl-mustache" id="import-flow-template">
+      {{#isStep2}}
+      <div id='step2' class='step'>
+        <div class='inner'>
+          <div class='step-body'>
+            <span class='banner-icon folder-outline'></span>
+            <div class='header'>{{ chooseHeader }}</div>
+            <div class='body-text'>{{ choose }}</div>
+          </div>
+          <div class='nav'>
+            <div>
+              <a class='button choose'>{{ chooseButton }}</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    {{/isStep2}}
-    {{#isStep3}}
-    <div id='step3' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon import'></span>
-          <div class='header'>{{ importingHeader }}</div>
-        </div>
-      </div>
-    </div>
-    {{/isStep3}}
-    {{#isStep4}}
-    <div id='step4' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon'></span>
-          <div class='header'>{{ completeHeader }}</div>
-        </div>
-        <div class='nav'>
-          {{#restartButton}}
-          <div>
-            <a class='button restart'>{{ restartButton }}</a>
-          </div>
-          {{/restartButton}}
-          {{#registerButton}}
-          <div>
-            <a class='button register'>{{ registerButton }}</a>
-          </div>
-          {{/registerButton}}
-        </div>
-      </div>
-    </div>
-    {{/isStep4}}
-
-    {{#isError}}
-    <div id='error' class='step'>
-      <div class='inner error-dialog clearfix'>
-        <div class='step-body'>
-          <span class='banner-icon alert-outline'></span>
-          <div class='header'>{{ errorHeader }}</div>
-          <div class='body-text-wide'>
-            {{ errorMessageFirst }}
-            <p>{{ errorMessageSecond }}</p>
-          </div>
-        </div>
-        <div class='nav'>
-          <div>
-            <a class='button choose'>{{ chooseButton }}</a>
+      {{/isStep2}}
+      {{#isStep3}}
+      <div id='step3' class='step'>
+        <div class='inner'>
+          <div class='step-body'>
+            <span class='banner-icon import'></span>
+            <div class='header'>{{ importingHeader }}</div>
           </div>
         </div>
       </div>
+      {{/isStep3}}
+      {{#isStep4}}
+      <div id='step4' class='step'>
+        <div class='inner'>
+          <div class='step-body'>
+            <span class='banner-icon'></span>
+            <div class='header'>{{ completeHeader }}</div>
+          </div>
+          <div class='nav'>
+            {{#restartButton}}
+            <div>
+              <a class='button restart'>{{ restartButton }}</a>
+            </div>
+            {{/restartButton}}
+            {{#registerButton}}
+            <div>
+              <a class='button register'>{{ registerButton }}</a>
+            </div>
+            {{/registerButton}}
+          </div>
+        </div>
+      </div>
+      {{/isStep4}}
+
+      {{#isError}}
+      <div id='error' class='step'>
+        <div class='clearfix inner error-dialog'>
+          <div class='step-body'>
+            <span class='banner-icon alert-outline'></span>
+            <div class='header'>{{ errorHeader }}</div>
+            <div class='body-text-wide'>
+              {{ errorMessageFirst }}
+              <p>{{ errorMessageSecond }}</p>
+            </div>
+          </div>
+          <div class='nav'>
+            <div>
+              <a class='button choose'>{{ chooseButton }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/isError}}
+    </script>
+
+    <script type="text/javascript" src="js/components.js"></script>
+    <script type="text/javascript" src="js/reliable_trigger.js"></script>
+    <script type="text/javascript" src="js/database.js"></script>
+    <script type="text/javascript" src="js/storage.js"></script>
+    <script type="text/javascript" src="js/legacy_storage.js"></script>
+    <script type="text/javascript" src="js/libtextsecure.js"></script>
+    <script type="text/javascript" src="js/libloki.js"></script>
+
+    <script type="text/javascript" src="js/focus_listener.js"></script>
+    <script type="text/javascript" src="js/notifications.js"></script>
+    <script type="text/javascript" src="js/read_receipts.js"></script>
+    <script type="text/javascript" src="js/read_syncs.js"></script>
+    <script type="text/javascript" src="js/expiring_messages.js"></script>
+
+    <script type="text/javascript" src="js/chromium.js"></script>
+    <script type="text/javascript" src="js/registration.js"></script>
+    <script type="text/javascript" src="js/expire.js"></script>
+
+    <script type="text/javascript" src="js/views/react_wrapper_view.js"></script>
+    <script type="text/javascript" src="js/views/whisper_view.js"></script>
+
+    <script type="text/javascript" src="js/views/session_inbox_view.js"></script>
+    <script type="text/javascript" src="js/views/identicon_svg_view.js"></script>
+    <script type="text/javascript" src="js/views/session_registration_view.js"></script>
+    <script type="text/javascript" src="js/views/app_view.js"></script>
+    <script type="text/javascript" src="js/views/import_view.js"></script>
+
+    <script type="text/javascript" src="js/views/session_id_reset_view.js"></script>
+
+    <!-- CRYPTO -->
+    <script type="text/javascript" src="js/wall_clock_listener.js"></script>
+  </head>
+
+  <body>
+    <div class="app-loading-screen">
+      <div class="content session-full-logo">
+        <img src="images/session/brand.svg" class="session-brand-logo" />
+        <img src="images/session/session-text.svg" class="session-text-logo" />
+      </div>
     </div>
-    {{/isError}}
-  </script>
 
-  <script type='text/javascript' src='js/components.js'></script>
-  <script type='text/javascript' src='js/reliable_trigger.js'></script>
-  <script type='text/javascript' src='js/database.js'></script>
-  <script type='text/javascript' src='js/storage.js'></script>
-  <script type='text/javascript' src='js/legacy_storage.js'></script>
-  <script type='text/javascript' src='js/libtextsecure.js'></script>
-  <script type='text/javascript' src='js/libloki.js'></script>
-
-  <script type='text/javascript' src='js/focus_listener.js'></script>
-  <script type='text/javascript' src='js/notifications.js'></script>
-  <script type='text/javascript' src='js/read_receipts.js'></script>
-  <script type='text/javascript' src='js/read_syncs.js'></script>
-  <script type='text/javascript' src='js/expiring_messages.js'></script>
-
-  <script type='text/javascript' src='js/chromium.js'></script>
-  <script type='text/javascript' src='js/registration.js'></script>
-  <script type='text/javascript' src='js/expire.js'></script>
-
-  <script type='text/javascript' src='js/views/react_wrapper_view.js'></script>
-  <script type='text/javascript' src='js/views/whisper_view.js'></script>
-  <script type='text/javascript' src='js/views/session_confirm_view.js'></script>
-
-  <script type='text/javascript' src='js/views/session_inbox_view.js'></script>
-  <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
-  <script type='text/javascript' src='js/views/session_registration_view.js'></script>
-  <script type='text/javascript' src='js/views/app_view.js'></script>
-  <script type='text/javascript' src='js/views/import_view.js'></script>
-
-
-  <!-- DIALOGS-->
-  <script type='text/javascript' src='js/views/update_group_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/edit_profile_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/session_change_nickname_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/invite_contacts_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/admin_leave_closed_group_dialog_view.js'></script>
-
-  <script type='text/javascript' src='js/views/moderators_add_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/moderators_remove_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/user_details_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/session_id_reset_view.js'></script>
-
-  <!-- CRYPTO -->
-  <script type='text/javascript' src='js/wall_clock_listener.js'></script>
-</head>
-
-<body>
-  <div class='app-loading-screen'>
-    <div class="content session-full-logo">
-      <img src="images/session/brand.svg" class="session-brand-logo" />
-      <img src="images/session/session-text.svg" class="session-text-logo" />
-    </div>
-  </div>
-
-  <script type='text/javascript' src='js/background.js'></script>
-</body>
-
+    <script type="text/javascript" src="js/background.js"></script>
+  </body>
 </html>

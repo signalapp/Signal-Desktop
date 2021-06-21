@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { ConversationController } from '../../session/conversations/ConversationController';
-import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
-import { DefaultTheme, withTheme } from 'styled-components';
 
 import _ from 'lodash';
+import { SessionWrapperModal } from './SessionWrapperModal';
+import { SpacerLG } from '../basic/Text';
+import { useDispatch } from 'react-redux';
+import { changeNickNameModal } from '../../state/ducks/modalDialog';
 
 type Props = {
-  onClickOk: any;
-  onClickClose: any;
-  theme: DefaultTheme;
-  convoId: string;
+  conversationId: string;
 };
 
-const SessionNicknameInner = (props: Props) => {
-  const { onClickOk, onClickClose, convoId, theme } = props;
+export const SessionNicknameDialog = (props: Props) => {
+  const { conversationId } = props;
   const [nickname, setNickname] = useState('');
+
+  const dispatch = useDispatch();
 
   /**
    * Changes the state of nickname variable. If enter is pressed, saves the current
@@ -30,32 +31,36 @@ const SessionNicknameInner = (props: Props) => {
     }
   };
 
+  const onClickClose = () => {
+    dispatch(changeNickNameModal(null));
+  };
+
   /**
    * Saves the currently entered nickname.
    */
   const saveNickname = async () => {
-    if (!convoId) {
-      return;
+    if (!conversationId) {
+      throw new Error('Cant save without conversation id');
     }
-    const convo = ConversationController.getInstance().get(convoId);
-    onClickOk(nickname);
-    await convo.setNickname(nickname);
+    const conversation = ConversationController.getInstance().get(conversationId);
+    await conversation.setNickname(nickname);
+    onClickClose();
   };
 
   return (
-    <SessionModal
+    <SessionWrapperModal
       title={window.i18n('changeNickname')}
       onClose={onClickClose}
       showExitIcon={false}
       showHeader={true}
-      theme={theme}
     >
       <div className="session-modal__centered">
         <span className="subtle">{window.i18n('changeNicknameMessage')}</span>
-        <div className="spacer-lg" />
+        <SpacerLG />
       </div>
 
       <input
+        autoFocus={true}
         type="nickname"
         id="nickname-modal-input"
         placeholder={window.i18n('nicknamePlaceholder')}
@@ -68,8 +73,6 @@ const SessionNicknameInner = (props: Props) => {
         <SessionButton text={window.i18n('ok')} onClick={saveNickname} />
         <SessionButton text={window.i18n('cancel')} onClick={onClickClose} />
       </div>
-    </SessionModal>
+    </SessionWrapperModal>
   );
 };
-
-export const SessionNicknameDialog = withTheme(SessionNicknameInner);

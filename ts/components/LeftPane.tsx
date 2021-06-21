@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ActionsPanel, SectionType } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
@@ -86,10 +86,6 @@ const InnerLeftPaneContactSection = () => {
   );
 };
 
-const LeftPaneSettingsSection = () => {
-  return <LeftPaneSettingSection />;
-};
-
 const LeftPaneSection = (props: { isExpired: boolean }) => {
   const focusedSection = useSelector(getFocusedSection);
 
@@ -101,7 +97,7 @@ const LeftPaneSection = (props: { isExpired: boolean }) => {
     return <InnerLeftPaneContactSection />;
   }
   if (focusedSection === SectionType.Settings) {
-    return <LeftPaneSettingsSection />;
+    return <LeftPaneSettingSection />;
   }
   return <></>;
 };
@@ -110,13 +106,16 @@ export const LeftPane = (props: Props) => {
   const theme = useSelector(getTheme);
 
   return (
-    <SessionTheme theme={theme}>
-      <div className="module-left-pane-session">
-        <ActionsPanel />
-        <div className="module-left-pane">
-          <LeftPaneSection isExpired={props.isExpired} />
+    <>
+      <SessionTheme theme={theme}>
+        <div className="module-left-pane-session">
+          <ActionsPanel />
+
+          <div className="module-left-pane">
+            <LeftPaneSection isExpired={props.isExpired} />
+          </div>
         </div>
-      </div>
-    </SessionTheme>
+      </SessionTheme>
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
@@ -7,22 +7,19 @@ import { Avatar, AvatarSize } from './Avatar';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
-import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
-import { ToastUtils, UserUtils } from '../session/utils';
-import { DefaultTheme } from 'styled-components';
+import { SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 import { MAX_USERNAME_LENGTH } from './session/registration/RegistrationTabs';
 import { SessionSpinner } from './session/SessionSpinner';
+import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 
-interface Props {
-  i18n: any;
-  profileName: string;
-  avatarPath: string;
-  pubkey: string;
-  onClose: any;
-  onOk: any;
-  theme: DefaultTheme;
-}
+import { SessionWrapperModal } from './session/SessionWrapperModal';
+import { AttachmentUtil } from '../util';
+import { ConversationController } from '../session/conversations';
+import { SpacerLG, SpacerMD } from './basic/Text';
+import autoBind from 'auto-bind';
+import { editProfileModal } from '../state/ducks/modalDialog';
+import { uploadOurAvatar } from '../interactions/conversationInteractions';
 
 interface State {
   profileName: string;
@@ -32,23 +29,21 @@ interface State {
   loading: boolean;
 }
 
-export class EditProfileDialog extends React.Component<Props, State> {
+export class EditProfileDialog extends React.Component<{}, State> {
   private readonly inputEl: any;
+  private readonly convo: ConversationModel;
 
   constructor(props: any) {
     super(props);
 
-    this.onNameEdited = this.onNameEdited.bind(this);
-    this.closeDialog = this.closeDialog.bind(this);
-    this.onClickOK = this.onClickOK.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.onFileSelected = this.onFileSelected.bind(this);
-    this.fireInputEvent = this.fireInputEvent.bind(this);
+    autoBind(this);
+
+    this.convo = ConversationController.getInstance().get(UserUtils.getOurPubKeyStrFromCache());
 
     this.state = {
-      profileName: this.props.profileName,
-      setProfileName: this.props.profileName,
-      avatar: this.props.avatarPath,
+      profileName: this.convo.getProfileName() || '',
+      setProfileName: this.convo.getProfileName() || '',
+      avatar: this.convo.getAvatarPath() || '',
       mode: 'default',
       loading: false,
     };
@@ -59,7 +54,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const i18n = this.props.i18n;
+    const i18n = window.i18n;
 
     const viewDefault = this.state.mode === 'default';
     const viewEdit = this.state.mode === 'edit';
@@ -81,50 +76,53 @@ export class EditProfileDialog extends React.Component<Props, State> {
         : undefined;
 
     return (
-      <SessionModal
-        title={i18n('editProfileModalTitle')}
-        onClose={this.closeDialog}
-        headerReverse={viewEdit || viewQR}
-        headerIconButtons={backButton}
-        theme={this.props.theme}
-      >
-        <div className="spacer-md" />
+      <div className="edit-profile-dialog">
+        <SessionWrapperModal
+          title={i18n('editProfileModalTitle')}
+          onClose={this.closeDialog}
+          headerIconButtons={backButton}
+          showExitIcon={true}
+        >
+          <SpacerMD />
 
-        {viewQR && this.renderQRView(sessionID)}
-        {viewDefault && this.renderDefaultView()}
-        {viewEdit && this.renderEditView()}
+          {viewQR && this.renderQRView(sessionID)}
+          {viewDefault && this.renderDefaultView()}
+          {viewEdit && this.renderEditView()}
 
-        <div className="session-id-section">
-          <PillDivider text={window.i18n('yourSessionID')} />
-          <p className={classNames('text-selectable', 'session-id-section-display')}>{sessionID}</p>
+          <div className="session-id-section">
+            <PillDivider text={window.i18n('yourSessionID')} />
+            <p className={classNames('text-selectable', 'session-id-section-display')}>
+              {sessionID}
+            </p>
 
-          <div className="spacer-lg" />
-          <SessionSpinner loading={this.state.loading} />
+            <SpacerLG />
+            <SessionSpinner loading={this.state.loading} />
 
-          {viewDefault || viewQR ? (
-            <SessionButton
-              text={window.i18n('editMenuCopy')}
-              buttonType={SessionButtonType.BrandOutline}
-              buttonColor={SessionButtonColor.Green}
-              onClick={() => {
-                this.copySessionID(sessionID);
-              }}
-            />
-          ) : (
-            !this.state.loading && (
+            {viewDefault || viewQR ? (
               <SessionButton
-                text={window.i18n('save')}
+                text={window.i18n('editMenuCopy')}
                 buttonType={SessionButtonType.BrandOutline}
                 buttonColor={SessionButtonColor.Green}
-                onClick={this.onClickOK}
-                disabled={this.state.loading}
+                onClick={() => {
+                  this.copySessionID(sessionID);
+                }}
               />
-            )
-          )}
+            ) : (
+              !this.state.loading && (
+                <SessionButton
+                  text={window.i18n('save')}
+                  buttonType={SessionButtonType.BrandOutline}
+                  buttonColor={SessionButtonColor.Green}
+                  onClick={this.onClickOK}
+                  disabled={this.state.loading}
+                />
+              )
+            )}
 
-          <div className="spacer-lg" />
-        </div>
-      </SessionModal>
+            <SpacerLG />
+          </div>
+        </SessionWrapperModal>
+      </div>
     );
   }
 
@@ -147,11 +145,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
               <SessionIconButton
                 iconType={SessionIconType.QR}
                 iconSize={SessionIconSize.Small}
-                iconColor={'#000000'}
+                iconColor={'rgb(0, 0, 0)'}
                 onClick={() => {
-                  this.setState({ mode: 'qr' });
+                  this.setState(state => ({ ...state, mode: 'qr' }));
                 }}
-                theme={this.props.theme}
               />
             </div>
           </div>
@@ -161,28 +158,31 @@ export class EditProfileDialog extends React.Component<Props, State> {
   }
 
   private fireInputEvent() {
-    this.setState({ mode: 'edit' }, () => {
-      const el = this.inputEl.current;
-      if (el) {
-        el.click();
+    this.setState(
+      state => ({ ...state, mode: 'edit' }),
+      () => {
+        const el = this.inputEl.current;
+        if (el) {
+          el.click();
+        }
       }
-    });
+    );
   }
 
   private renderDefaultView() {
+    const name = this.state.setProfileName || this.state.profileName;
     return (
       <>
         {this.renderProfileHeader()}
 
         <div className="profile-name-uneditable">
-          <p>{this.state.setProfileName}</p>
+          <p>{name}</p>
           <SessionIconButton
             iconType={SessionIconType.Pencil}
             iconSize={SessionIconSize.Medium}
             onClick={() => {
               this.setState({ mode: 'edit' });
             }}
-            theme={this.props.theme}
           />
         </div>
       </>
@@ -234,15 +234,15 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
   private renderAvatar() {
     const { avatar, profileName } = this.state;
-    const { pubkey } = this.props;
-    const userName = profileName || pubkey;
+    const userName = profileName || this.convo.id;
 
-    return <Avatar avatarPath={avatar} name={userName} size={AvatarSize.XL} pubkey={pubkey} />;
+    return (
+      <Avatar avatarPath={avatar} name={userName} size={AvatarSize.XL} pubkey={this.convo.id} />
+    );
   }
 
   private onNameEdited(event: any) {
     const newName = event.target.value.replace(window.displayNameRegex, '');
-
     this.setState(state => {
       return {
         ...state,
@@ -271,8 +271,11 @@ export class EditProfileDialog extends React.Component<Props, State> {
     ToastUtils.pushCopiedToClipBoard();
   }
 
+  /**
+   * Tidy the profile name input text and save the new profile name and avatar
+   */
   private onClickOK() {
-    const newName = this.state.profileName.trim();
+    const newName = this.state.profileName ? this.state.profileName.trim() : '';
 
     if (newName.length === 0 || newName.length > MAX_USERNAME_LENGTH) {
       return;
@@ -291,7 +294,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
         loading: true,
       },
       async () => {
-        await this.props.onOk(newName, avatar);
+        await this.commitProfileEdits(newName, avatar);
         this.setState({
           loading: false,
 
@@ -305,6 +308,59 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
 
-    this.props.onClose();
+    window.inboxStore?.dispatch(editProfileModal(null));
+  }
+
+  private async commitProfileEdits(newName: string, avatar: any) {
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      ourNumber,
+      ConversationTypeEnum.PRIVATE
+    );
+
+    if (avatar) {
+      const data = await AttachmentUtil.readFile({ file: avatar });
+      // Ensure that this file is either small enough or is resized to meet our
+      //   requirements for attachments
+      try {
+        const withBlob = await AttachmentUtil.autoScale(
+          {
+            contentType: avatar.type,
+            file: new Blob([data.data], {
+              type: avatar.contentType,
+            }),
+          },
+          {
+            maxSide: 640,
+            maxSize: 1000 * 1024,
+          }
+        );
+        const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(withBlob.file);
+
+        // For simplicity we use the same attachment pointer that would send to
+        // others, which means we need to wait for the database response.
+        // To avoid the wait, we create a temporary url for the local image
+        // and use it until we the the response from the server
+        // const tempUrl = window.URL.createObjectURL(avatar);
+        // await conversation.setLokiProfile({ displayName: newName });
+        // conversation.set('avatar', tempUrl);
+
+        await uploadOurAvatar(dataResized);
+      } catch (error) {
+        window.log.error(
+          'showEditProfileDialog Error ensuring that image is properly sized:',
+          error && error.stack ? error.stack : error
+        );
+      }
+      return;
+    }
+    // do not update the avatar if it did not change
+    await conversation.setLokiProfile({
+      displayName: newName,
+    });
+    // might be good to not trigger a sync if the name did not change
+    await conversation.commit();
+    UserUtils.setLastProfileUpdateTimestamp(Date.now());
+    await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
   }
 }

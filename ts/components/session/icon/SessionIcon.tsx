@@ -1,6 +1,6 @@
 import React from 'react';
 import { icons, SessionIconSize, SessionIconType } from '../icon';
-import styled, { css, DefaultTheme, keyframes } from 'styled-components';
+import styled, { css, DefaultTheme, keyframes, useTheme } from 'styled-components';
 import _ from 'lodash';
 
 export type SessionIconProps = {
@@ -9,7 +9,10 @@ export type SessionIconProps = {
   iconColor?: string;
   iconRotation?: number;
   rotateDuration?: number;
-  theme: DefaultTheme;
+  glowDuration?: number;
+  borderRadius?: number;
+  glowStartDelay?: number;
+  theme?: DefaultTheme;
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
@@ -35,6 +38,17 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
   }
 };
 
+type StyledSvgProps = {
+  width: string | number;
+  height: string | number;
+  iconRotation: number;
+  rotateDuration?: number;
+  borderRadius?: number;
+  glowDuration?: number;
+  glowStartDelay?: number;
+  iconColor?: string;
+};
+
 const rotate = keyframes`
   from {
     transform: rotate(0deg);
@@ -44,20 +58,45 @@ const rotate = keyframes`
   }
 `;
 
-const animation = (props: { rotateDuration?: any }) => {
+/**
+ * Creates a glow animation made for multiple element sequentially
+ */
+const glow = (color: string, glowDuration: number, glowStartDelay: number) => {
+  const dropShadowType = `drop-shadow(0px 0px 6px ${color}) `;
+  //increase shadow intensity by 3
+  const dropShadow = `${dropShadowType.repeat(2)};`;
+
+  // TODO: Decrease dropshadow for last frame
+  // creating keyframe for sequential animations
+  let kf = '';
+  for (let i = 0; i <= glowDuration; i++) {
+    // const percent = (100 / glowDuration) * i;
+    const percent = (100 / glowDuration) * i;
+    if (i === glowStartDelay) {
+      kf += `${percent}% {
+        filter: ${dropShadow}
+      }`;
+    } else {
+      kf += `${percent}% {
+        filter: none;
+      }`;
+    }
+  }
+  return keyframes`${kf}`;
+};
+
+const animation = (props: any) => {
   if (props.rotateDuration) {
     return css`
       ${rotate} ${props.rotateDuration}s infinite linear;
     `;
+  } else if (props.glowDuration !== undefined && props.glowStartDelay !== undefined) {
+    return css`
+      ${glow(props.iconColor, props.glowDuration, props.glowStartDelay)} ${2}s ease-in infinite;
+    `;
   } else {
     return;
   }
-};
-
-type StyledSvgProps = {
-  width: string | number;
-  iconRotation: number;
-  rotateDuration?: number;
 };
 
 //tslint:disable no-unnecessary-callback-wrapper
@@ -65,6 +104,7 @@ const Svg = styled.svg<StyledSvgProps>`
   width: ${props => props.width};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   animation: ${props => animation(props)};
+  border-radius: ${props => props.borderRadius};
 `;
 //tslint:enable no-unnecessary-callback-wrapper
 
@@ -76,6 +116,9 @@ const SessionSvg = (props: {
   iconRotation: number;
   iconColor?: string;
   rotateDuration?: number;
+  glowDuration?: number;
+  glowStartDelay?: number;
+  borderRadius?: number;
   theme: DefaultTheme;
 }) => {
   const colorSvg = props.iconColor || props?.theme?.colors.textColor;
@@ -86,6 +129,9 @@ const SessionSvg = (props: {
     rotateDuration: props.rotateDuration,
     iconRotation: props.iconRotation,
     viewBox: props.viewBox,
+    glowDuration: props.glowDuration,
+    glowStartDelay: props.glowStartDelay,
+    iconColor: props.iconColor,
   };
 
   return (
@@ -98,10 +144,20 @@ const SessionSvg = (props: {
 };
 
 export const SessionIcon = (props: SessionIconProps) => {
-  const { iconType, iconColor, theme, rotateDuration } = props;
+  const {
+    iconType,
+    iconColor,
+    theme,
+    rotateDuration,
+    glowDuration,
+    borderRadius,
+    glowStartDelay,
+  } = props;
   let { iconSize, iconRotation } = props;
   iconSize = iconSize || SessionIconSize.Medium;
   iconRotation = iconRotation || 0;
+
+  const themeToUse = theme || useTheme();
 
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
@@ -117,9 +173,12 @@ export const SessionIcon = (props: SessionIconProps) => {
       width={iconDimensions * ratio}
       height={iconDimensions}
       rotateDuration={rotateDuration}
+      glowDuration={glowDuration}
+      glowStartDelay={glowStartDelay}
+      borderRadius={borderRadius}
       iconRotation={iconRotation}
       iconColor={iconColor}
-      theme={theme}
+      theme={themeToUse}
     />
   );
 };

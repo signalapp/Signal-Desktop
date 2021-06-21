@@ -11,8 +11,12 @@ import { ConversationController } from '../../../session/conversations';
 import { getConversationLookup } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
-import { SpacerLG } from '../../basic/Text';
+import { SpacerLG, SpacerXS } from '../../basic/Text';
 import { shell } from 'electron';
+import { PasswordAction, SessionPasswordModal } from '../SessionPasswordModal';
+import { SessionConfirmDialogProps } from '../SessionConfirm';
+import { mapDispatchToProps } from '../../../state/actions';
+import { unblockConvoById } from '../../../interactions/conversationInteractions';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -35,6 +39,7 @@ export interface SettingsViewProps {
   // pass the conversation as props, so our render is called everytime they change.
   // we have to do this to make the list refresh on unblock()
   conversations?: ConversationLookupType;
+  updateConfirmModal?: any;
 }
 
 interface State {
@@ -42,6 +47,11 @@ interface State {
   pwdLockError: string | null;
   mediaSetting: boolean | null;
   shouldLockSettings: boolean | null;
+  modal: JSX.Element | null;
+}
+
+interface ConfirmationDialogParams extends SessionConfirmDialogProps {
+  shouldShowConfirm: () => boolean | undefined;
 }
 
 interface LocalSettingType {
@@ -56,7 +66,7 @@ interface LocalSettingType {
   type: SessionSettingType | undefined;
   setFn: any;
   onClick: any;
-  confirmationDialogParams: any | undefined;
+  confirmationDialogParams: ConfirmationDialogParams | undefined;
 }
 
 class SettingsViewInner extends React.Component<SettingsViewProps, State> {
@@ -70,6 +80,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
       pwdLockError: null,
       mediaSetting: null,
       shouldLockSettings: true,
+      modal: null,
     };
 
     this.settingsViewRef = React.createRef();
@@ -146,6 +157,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
                     onSliderChange={sliderFn}
                     content={content}
                     confirmationDialogParams={setting.confirmationDialogParams}
+                    updateConfirmModal={this.props.updateConfirmModal}
                   />
                 )}
               </div>
@@ -162,8 +174,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           <h3>{window.i18n('password')}</h3>
           <input type="password" id="password-lock-input" defaultValue="" placeholder="Password" />
 
-          <div className="spacer-xs" />
-
+          <SpacerXS />
           {this.state.pwdLockError && (
             <>
               <div className="session-label warning">{this.state.pwdLockError}</div>
@@ -222,6 +233,8 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           category={category}
           categoryTitle={window.i18n(`${category}SettingsTitle`)}
         />
+
+        {this.state.modal ? this.state.modal : null}
 
         <div className="session-settings-view">
           {shouldRenderPasswordLock ? (
@@ -341,7 +354,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
-          okTheme: 'danger',
+          okTheme: SessionButtonColor.Danger,
         },
       },
       {
@@ -499,10 +512,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Primary,
         },
         onClick: () => {
-          window.Whisper.events.trigger('showPasswordDialog', {
-            action: 'set',
-            onSuccess: this.onPasswordUpdated,
-          });
+          this.displayPasswordModal(PasswordAction.Set);
         },
         confirmationDialogParams: undefined,
       },
@@ -520,10 +530,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Primary,
         },
         onClick: () => {
-          window.Whisper.events.trigger('showPasswordDialog', {
-            action: 'change',
-            onSuccess: this.onPasswordUpdated,
-          });
+          this.displayPasswordModal(PasswordAction.Change);
         },
         confirmationDialogParams: undefined,
       },
@@ -541,14 +548,33 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Danger,
         },
         onClick: () => {
-          window.Whisper.events.trigger('showPasswordDialog', {
-            action: 'remove',
-            onSuccess: this.onPasswordUpdated,
-          });
+          this.displayPasswordModal(PasswordAction.Remove);
         },
         confirmationDialogParams: undefined,
       },
     ];
+  }
+
+  private displayPasswordModal(passwordAction: PasswordAction) {
+    this.setState({
+      ...this.state,
+      modal: (
+        <SessionPasswordModal
+          onClose={() => {
+            this.clearModal();
+          }}
+          onOk={this.onPasswordUpdated}
+          action={passwordAction}
+        />
+      ),
+    });
+  }
+
+  private clearModal(): void {
+    this.setState({
+      ...this.state,
+      modal: null,
+    });
   }
 
   private getBlockedUserSettings(): Array<LocalSettingType> {
@@ -577,13 +603,9 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         },
         comparisonValue: undefined,
         setFn: async () => {
-          if (currentModel) {
-            await currentModel.unblock();
-          } else {
-            await BlockedNumberController.unblock(blockedNumber);
-            this.forceUpdate();
-          }
-          ToastUtils.pushToastSuccess('unblocked', window.i18n('unblocked'));
+          await unblockConvoById(blockedNumber);
+
+          this.forceUpdate();
         },
         hidden: false,
         onClick: undefined,
@@ -629,5 +651,5 @@ const mapStateToProps = (state: StateType) => {
   };
 };
 
-const smart = connect(mapStateToProps);
+const smart = connect(mapStateToProps, mapDispatchToProps);
 export const SmartSettingsView = smart(SettingsViewInner);

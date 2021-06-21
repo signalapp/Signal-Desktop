@@ -72,7 +72,12 @@ import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
 import { MessageRegularProps } from '../../models/messageType';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import { addSenderAsModerator, removeSenderFromModerator } from '../../interactions/message';
+import {
+  addSenderAsModerator,
+  removeSenderFromModerator,
+} from '../../interactions/messageInteractions';
+import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
+import { MessageInteraction } from '../../interactions';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -461,7 +466,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       conversationType,
       direction,
       isPublic,
-      onShowUserDetails,
       firstMessageOfSeries,
     } = this.props;
 
@@ -481,7 +485,13 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           name={userName}
           size={AvatarSize.S}
           onAvatarClick={() => {
-            onShowUserDetails(authorPhoneNumber);
+            window.inboxStore?.dispatch(
+              updateUserDetailsModal({
+                conversationId: this.props.convoId,
+                userName,
+                authorAvatarPath,
+              })
+            );
           }}
           pubkey={authorPhoneNumber}
         />
@@ -542,6 +552,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   public renderContextMenu() {
     const {
       attachments,
+      authorPhoneNumber,
+      convoId,
       onCopyText,
       direction,
       status,
@@ -556,8 +568,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       isOpenGroupV2,
       weAreAdmin,
       isAdmin,
-      onBanUser,
-      onUnbanUser,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
@@ -620,9 +630,23 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             </Item>
           </>
         ) : null}
-        {weAreAdmin && isPublic ? <Item onClick={onBanUser}>{window.i18n('banUser')}</Item> : null}
+        {weAreAdmin && isPublic ? (
+          <Item
+            onClick={() => {
+              MessageInteraction.banUser(authorPhoneNumber, convoId);
+            }}
+          >
+            {window.i18n('banUser')}
+          </Item>
+        ) : null}
         {weAreAdmin && isOpenGroupV2 ? (
-          <Item onClick={onUnbanUser}>{window.i18n('unbanUser')}</Item>
+          <Item
+            onClick={() => {
+              MessageInteraction.unbanUser(authorPhoneNumber, convoId);
+            }}
+          >
+            {window.i18n('unbanUser')}
+          </Item>
         ) : null}
         {weAreAdmin && isPublic && !isAdmin ? (
           <Item onClick={this.onAddModerator}>{window.i18n('addAsModerator')}</Item>

@@ -5,6 +5,7 @@ import { SessionButton, SessionButtonColor } from './SessionButton';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { deleteAccount } from '../../util/accountManager';
+import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
 
 type Props = {
   onClose: any;
@@ -19,19 +20,19 @@ const SessionIDResetDialogInner = (props: Props) => {
 
   return (
     <SessionModal title="Mandatory Upgrade Session ID" onClose={() => null} theme={props.theme}>
-      <div className="spacer-sm" />
+      <SpacerSM />
       <div className="session-modal__centered text-center">
         <SessionIcon
           iconType={SessionIconType.Shield}
           iconSize={SessionIconSize.Max}
           theme={props.theme}
         />
-        <div className="spacer-lg" />
+        <SpacerLG />
 
         {description}
-        <div className="spacer-xs" />
+        <SpacerXS />
       </div>
-      <div className="spacer-lg" />
+      <SpacerLG />
 
       <div className="session-modal__button-group">
         <SessionButton

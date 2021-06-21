@@ -3,6 +3,7 @@
 $white: #ffffff;
 $black: #000000;
 $destructive: #ff453a;
+$warning: #e7b100;
 $accentLightTheme: #00e97b;
 $accentDarkTheme: #00f782;
 
@@ -19,6 +20,7 @@ $themes: (
     accent: $accentLightTheme,
     accentButton: $black,
     cellBackground: #fcfcfc,
+    warning: $warning,
     destructive: $destructive,
     modalBackground: #fcfcfc,
     fakeChatBubbleBackground: #f5f5f5,
@@ -68,6 +70,7 @@ $themes: (
   dark: (
     accent: $accentDarkTheme,
     accentButton: $accentDarkTheme,
+    warning: $warning,
     destructive: $destructive,
     cellBackground: #1b1b1b,
     modalBackground: #101011,

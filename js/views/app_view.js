@@ -1,4 +1,4 @@
-/* global Backbone, i18n, Whisper, storage, _, $ */
+/* global Backbone, Whisper, storage, _, $ */
 
 /* eslint-disable more/no-then */
 
@@ -15,9 +15,6 @@
       this.applyTheme();
       this.applyRtl();
       this.applyHideMenu();
-
-      this.showSeedDialog = this.showSeedDialog.bind(this);
-      this.showPasswordDialog = this.showPasswordDialog.bind(this);
     },
     events: {
       openInbox: 'openInbox',
@@ -113,110 +110,16 @@
       window.focus(); // FIXME
       return Promise.resolve();
     },
-    showEditProfileDialog(options) {
-      // eslint-disable-next-line no-param-reassign
-      options.theme = this.getThemeObject();
-      const dialog = new Whisper.EditProfileDialogView(options);
-      this.el.prepend(dialog.el);
-    },
-    showNicknameDialog(options) {
-      // // eslint-disable-next-line no-param-reassign
-      const modifiedOptions = { ...options };
-      modifiedOptions.theme = this.getThemeObject();
-      const dialog = new Whisper.SessionNicknameDialog(modifiedOptions);
-      this.el.prepend(dialog.el);
-    },
     showResetSessionIdDialog() {
       const theme = this.getThemeObject();
       const resetSessionIDDialog = new Whisper.SessionIDResetDialog({ theme });
 
       this.el.prepend(resetSessionIDDialog.el);
     },
-    showUserDetailsDialog(options) {
-      // eslint-disable-next-line no-param-reassign
-      options.theme = this.getThemeObject();
-      const dialog = new Whisper.UserDetailsDialogView(options);
-      this.el.prepend(dialog.el);
-    },
-    showPasswordDialog(options) {
-      // eslint-disable-next-line no-param-reassign
-      options.theme = this.getThemeObject();
-      const dialog = new Whisper.PasswordDialogView(options);
-      this.el.prepend(dialog.el);
-    },
-    showSeedDialog() {
-      const dialog = new Whisper.SeedDialogView({
-        theme: this.getThemeObject(),
-      });
-      this.el.prepend(dialog.el);
-    },
     getThemeObject() {
       const themeSettings = storage.get('theme-setting') || 'light';
       const theme = themeSettings === 'light' ? window.lightTheme : window.darkTheme;
       return theme;
-    },
-    showUpdateGroupNameDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-
-      const dialog = new Whisper.UpdateGroupNameDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
-    showUpdateGroupMembersDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-
-      const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
-    showLeaveGroupDialog(groupConvo) {
-      if (!groupConvo.isGroup()) {
-        throw new Error('showLeaveGroupDialog() called with a non group convo.');
-      }
-
-      const title = i18n('leaveGroup');
-      const message = i18n('leaveGroupConfirmation');
-      const ourPK = window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache();
-      const isAdmin = (groupConvo.get('groupAdmins') || []).includes(ourPK);
-      const isClosedGroup = groupConvo.get('is_medium_group') || false;
-
-      // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
-      if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
-        window.confirmationDialog({
-          title,
-          message,
-          resolve: () => groupConvo.leaveClosedGroup(),
-          theme: this.getThemeObject(),
-        });
-      } else {
-        // we are the admin on a closed group. We have to warn the user about the group Deletion
-        this.showAdminLeaveClosedGroupDialog(groupConvo);
-      }
-    },
-    showInviteContactsDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-      const dialog = new Whisper.InviteContactsDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
-
-    showAdminLeaveClosedGroupDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-      const dialog = new Whisper.AdminLeaveClosedGroupDialog(groupConvo);
-      this.el.append(dialog.el);
-    },
-    showAddModeratorsDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-      const dialog = new Whisper.AddModeratorsDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
-    showRemoveModeratorsDialog(groupConvo) {
-      // eslint-disable-next-line no-param-reassign
-      groupConvo.theme = this.getThemeObject();
-      const dialog = new Whisper.RemoveModeratorsDialogView(groupConvo);
-      this.el.append(dialog.el);
     },
   });
 })();

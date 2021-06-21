@@ -31,7 +31,7 @@ import {
   uploadLinkPreviewsV2,
   uploadQuoteThumbnailsV2,
 } from '../session/utils/AttachmentsV2';
-import { acceptOpenGroupInvitation } from '../interactions/message';
+import { acceptOpenGroupInvitation } from '../interactions/messageInteractions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { getV2OpenGroupRoom } from '../data/opengroups';
 
@@ -549,9 +549,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       isKickedFromGroup: conversation && conversation.get('isKickedFromGroup'),
 
       onCopyText: this.copyText,
-      onCopyPubKey: this.copyPubKey,
-      onBanUser: this.banUser,
-      onUnbanUser: this.unbanUser,
       onRetrySend: this.retrySend,
       markRead: this.markRead,
 
@@ -759,13 +756,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public copyPubKey() {
     // this.getSource return out pubkey if this is an outgoing message, or the sender pubkey
     MessageInteraction.copyPubKey(this.getSource());
-  }
-
-  public banUser() {
-    MessageInteraction.banUser(this.get('source'), this.getConversation());
-  }
-  public unbanUser() {
-    MessageInteraction.unbanUser(this.get('source'), this.getConversation());
   }
 
   public copyText() {

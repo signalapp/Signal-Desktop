@@ -45,6 +45,34 @@ import { FSv2 } from '../../fileserver';
 import { debounce } from 'lodash';
 import { DURATION } from '../../session/constants';
 import { actions as conversationActions } from '../../state/ducks/conversations';
+import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusDialog';
+import { EditProfileDialog } from '../EditProfileDialog';
+import { SessionConfirm } from './SessionConfirm';
+import {
+  getAddModeratorsModal,
+  getAdminLeaveClosedGroupDialog,
+  getChangeNickNameDialog,
+  getConfirmModal,
+  getEditProfileDialog,
+  getInviteContactModal,
+  getOnionPathDialog,
+  getRecoveryPhraseDialog,
+  getRemoveModeratorsModal,
+  getUpdateGroupMembersModal,
+  getUpdateGroupNameModal,
+  getUserDetailsModal,
+} from '../../state/selectors/modal';
+import { InviteContactsDialog } from '../conversation/InviteContactsDialog';
+import { AddModeratorsDialog } from '../conversation/ModeratorsAddDialog';
+import { RemoveModeratorsDialog } from '../conversation/ModeratorsRemoveDialog';
+import { UpdateGroupNameDialog } from '../conversation/UpdateGroupNameDialog';
+import { UpdateGroupMembersDialog } from '../conversation/UpdateGroupMembersDialog';
+import { UserDetailsDialog } from '../UserDetailsDialog';
+import { SessionNicknameDialog } from './SessionNicknameDialog';
+import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
+import { SessionSeedModal } from './SessionSeedModal';
+import { AdminLeaveClosedGroupDialog } from '../conversation/AdminLeaveClosedGroupDialog';
+import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -55,6 +83,7 @@ export enum SectionType {
   Channel,
   Settings,
   Moon,
+  PathIndicator,
 }
 
 const Section = (props: { type: SectionType; avatarPath?: string }) => {
@@ -70,7 +99,7 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
   const handleClick = () => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
-      window.showEditProfileDialog();
+      dispatch(editProfileModal({}));
     } else if (type === SectionType.Moon) {
       const themeFromSettings = window.Events.getThemeSetting();
       const updatedTheme = themeFromSettings === 'dark' ? 'light' : 'dark';
@@ -78,6 +107,9 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
 
       const newThemeObject = updatedTheme === 'dark' ? darkTheme : lightTheme;
       dispatch(applyTheme(newThemeObject));
+    } else if (type === SectionType.PathIndicator) {
+      // Show Path Indicator Modal
+      dispatch(onionPathModal({}));
     } else {
       dispatch(clearSearch());
       dispatch(showLeftPaneSection(type));
@@ -100,6 +132,8 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     );
   }
 
+  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
+
   let iconType: SessionIconType;
   switch (type) {
     case SectionType.Message:
@@ -114,22 +148,27 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
     case SectionType.Moon:
       iconType = SessionIconType.Moon;
       break;
-
     default:
       iconType = SessionIconType.Moon;
   }
-
-  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
+  const iconColor = undefined;
 
   return (
-    <SessionIconButton
-      iconSize={SessionIconSize.Medium}
-      iconType={iconType}
-      notificationCount={unreadToShow}
-      onClick={handleClick}
-      isSelected={isSelected}
-      theme={theme}
-    />
+    <>
+      {type === SectionType.PathIndicator ? (
+        <ActionPanelOnionStatusLight handleClick={handleClick} isSelected={isSelected} />
+      ) : (
+        <SessionIconButton
+          iconSize={SessionIconSize.Medium}
+          iconType={iconType}
+          iconColor={iconColor}
+          notificationCount={unreadToShow}
+          onClick={handleClick}
+          isSelected={isSelected}
+          theme={theme}
+        />
+      )}
+    </>
   );
 };
 
@@ -201,72 +240,7 @@ const triggerAvatarReUploadIfNeeded = async () => {
   if (Date.now() - lastTimeStampAvatarUpload > DURATION.DAYS * 14) {
     window.log.info('Reuploading avatar...');
     // reupload the avatar
-    const ourConvo = ConversationController.getInstance().get(UserUtils.getOurPubKeyStrFromCache());
-    if (!ourConvo) {
-      window.log.warn('ourConvo not found... This is not a valid case');
-      return;
-    }
-    const profileKey = window.textsecure.storage.get('profileKey');
-    if (!profileKey) {
-      window.log.warn('our profileKey not found... This is not a valid case');
-      return;
-    }
-
-    const currentAttachmentPath = ourConvo.getAvatarPath();
-
-    if (!currentAttachmentPath) {
-      window.log.warn('No attachment currently set for our convo.. Nothing to do.');
-      return;
-    }
-
-    const decryptedAvatarUrl = await getDecryptedMediaUrl(currentAttachmentPath, IMAGE_JPEG);
-
-    if (!decryptedAvatarUrl) {
-      window.log.warn('Could not decrypt avatar stored locally..');
-      return;
-    }
-    const response = await fetch(decryptedAvatarUrl);
-    const blob = await response.blob();
-    const decryptedAvatarData = await blob.arrayBuffer();
-
-    if (!decryptedAvatarData?.byteLength) {
-      window.log.warn('Could not read blob of avatar locally..');
-      return;
-    }
-
-    const encryptedData = await window.textsecure.crypto.encryptProfile(
-      decryptedAvatarData,
-      profileKey
-    );
-
-    const avatarPointer = await FSv2.uploadFileToFsV2(encryptedData);
-    let fileUrl;
-    if (!avatarPointer) {
-      window.log.warn('failed to reupload avatar to fsv2');
-      return;
-    }
-    ({ fileUrl } = avatarPointer);
-
-    ourConvo.set('avatarPointer', fileUrl);
-
-    // this encrypts and save the new avatar and returns a new attachment path
-    const upgraded = await window.Signal.Migrations.processNewAttachment({
-      isRaw: true,
-      data: decryptedAvatarData,
-      url: fileUrl,
-    });
-    const newAvatarPath = upgraded.path;
-    // Replace our temporary image with the attachment pointer from the server:
-    ourConvo.set('avatar', null);
-    const existingHash = ourConvo.get('avatarHash');
-    const displayName = ourConvo.get('profileName');
-    // this commits already
-    await ourConvo.setLokiProfile({ avatar: newAvatarPath, displayName, avatarHash: existingHash });
-    const newTimestampReupload = Date.now();
-    await createOrUpdateItem({ id: lastAvatarUploadTimestamp, value: newTimestampReupload });
-    window.log.info(
-      `Reuploading avatar finished at ${newTimestampReupload}, newAttachmentPointer ${fileUrl}`
-    );
+    await uploadOurAvatar();
   }
 };
 
@@ -305,13 +279,48 @@ const doAppStartUp = () => {
   SwarmPolling.getInstance().start();
 };
 
+const ModalContainer = () => {
+  const confirmModalState = useSelector(getConfirmModal);
+  const inviteModalState = useSelector(getInviteContactModal);
+  const addModeratorsModalState = useSelector(getAddModeratorsModal);
+  const removeModeratorsModalState = useSelector(getRemoveModeratorsModal);
+  const updateGroupMembersModalState = useSelector(getUpdateGroupMembersModal);
+  const updateGroupNameModalState = useSelector(getUpdateGroupNameModal);
+  const userDetailsModalState = useSelector(getUserDetailsModal);
+  const changeNicknameModal = useSelector(getChangeNickNameDialog);
+  const editProfileModalState = useSelector(getEditProfileDialog);
+  const onionPathModalState = useSelector(getOnionPathDialog);
+  const recoveryPhraseModalState = useSelector(getRecoveryPhraseDialog);
+  const adminLeaveClosedGroupModalState = useSelector(getAdminLeaveClosedGroupDialog);
+
+  return (
+    <>
+      {confirmModalState && <SessionConfirm {...confirmModalState} />}
+      {inviteModalState && <InviteContactsDialog {...inviteModalState} />}
+      {addModeratorsModalState && <AddModeratorsDialog {...addModeratorsModalState} />}
+      {removeModeratorsModalState && <RemoveModeratorsDialog {...removeModeratorsModalState} />}
+      {updateGroupMembersModalState && (
+        <UpdateGroupMembersDialog {...updateGroupMembersModalState} />
+      )}
+      {updateGroupNameModalState && <UpdateGroupNameDialog {...updateGroupNameModalState} />}
+      {userDetailsModalState && <UserDetailsDialog {...userDetailsModalState} />}
+      {changeNicknameModal && <SessionNicknameDialog {...changeNicknameModal} />}
+      {editProfileModalState && <EditProfileDialog {...editProfileModalState} />}
+      {onionPathModalState && <OnionPathModal {...onionPathModalState} />}
+      {recoveryPhraseModalState && <SessionSeedModal {...recoveryPhraseModalState} />}
+      {adminLeaveClosedGroupModalState && (
+        <AdminLeaveClosedGroupDialog {...adminLeaveClosedGroupModalState} />
+      )}
+    </>
+  );
+};
+
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
  */
 export const ActionsPanel = () => {
   const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
-
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
 
   // this maxi useEffect is called only once: when the component is mounted.
@@ -354,14 +363,19 @@ export const ActionsPanel = () => {
   }, DURATION.DAYS * 1);
 
   return (
-    <div className="module-left-pane__sections-container">
-      <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
-      <Section type={SectionType.Message} />
-      <Section type={SectionType.Contact} />
-      <Section type={SectionType.Settings} />
+    <>
+      <ModalContainer />
+      <div className="module-left-pane__sections-container">
+        <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
+        <Section type={SectionType.Message} />
+        <Section type={SectionType.Contact} />
+        <Section type={SectionType.Settings} />
 
-      <SessionToastContainer />
-      <Section type={SectionType.Moon} />
-    </div>
+        <SessionToastContainer />
+
+        <Section type={SectionType.PathIndicator} />
+        <Section type={SectionType.Moon} />
+      </div>
+    </>
   );
 };

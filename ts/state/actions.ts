@@ -5,6 +5,7 @@ import { actions as conversations } from './ducks/conversations';
 import { actions as user } from './ducks/user';
 import { actions as sections } from './ducks/section';
 import { actions as theme } from './ducks/theme';
+import { actions as modalDialog } from './ducks/modalDialog';
 
 export function mapDispatchToProps(dispatch: Dispatch): Object {
   return {
@@ -15,6 +16,7 @@ export function mapDispatchToProps(dispatch: Dispatch): Object {
         ...user,
         ...theme,
         ...sections,
+        ...modalDialog,
       },
       dispatch
     ),

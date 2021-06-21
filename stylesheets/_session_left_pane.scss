@@ -123,8 +123,9 @@ $session-compose-margin: 20px;
       cursor: pointer;
       padding: 30px;
 
-      &:last-child {
+      &:nth-last-child(2) {
         margin: auto auto 0px auto;
+        opacity: 1 !important;
         /* Hide theme icon until light theme is ready */
       }
 

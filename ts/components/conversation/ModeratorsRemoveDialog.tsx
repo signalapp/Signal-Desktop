@@ -11,10 +11,10 @@ import { ContactType, SessionMemberListItem } from '../session/SessionMemberList
 import { SessionModal } from '../session/SessionModal';
 import { SessionSpinner } from '../session/SessionSpinner';
 import _ from 'lodash';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { updateRemoveModeratorsModal } from '../../state/ducks/modalDialog';
 interface Props {
-  convo: ConversationModel;
-  onClose: any;
-  theme: DefaultTheme;
+  conversationId: string;
 }
 
 interface State {
@@ -47,14 +47,16 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     const { removingInProgress, firstLoading } = this.state;
     const hasMods = this.state.modList.length !== 0;
 
-    const chatName = this.props.convo.get('name');
+    const convo = ConversationController.getInstance().get(this.props.conversationId);
+
+    const chatName = convo.get('name');
 
     const title = `${i18n('removeModerators')}: ${chatName}`;
 
     const renderContent = !firstLoading;
 
     return (
-      <SessionModal title={title} onClose={this.closeDialog} theme={this.props.theme}>
+      <SessionWrapperModal title={title} onClose={this.closeDialog}>
         <Flex container={true} flexDirection="column" alignItems="center">
           {renderContent && (
             <>
@@ -85,12 +87,12 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
 
           <SessionSpinner loading={firstLoading} />
         </Flex>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 
   private closeDialog() {
-    this.props.onClose();
+    window.inboxStore?.dispatch(updateRemoveModeratorsModal(null));
   }
 
   private renderMemberList() {
@@ -109,7 +111,6 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         onUnselect={(selectedMember: ContactType) => {
           this.onModClicked(selectedMember);
         }}
-        theme={this.props.theme}
       />
     ));
   }
@@ -133,7 +134,9 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
 
   private refreshModList() {
     let modPubKeys: Array<string> = [];
-    modPubKeys = this.props.convo.getGroupAdmins() || [];
+    const convo = ConversationController.getInstance().get(this.props.conversationId);
+
+    modPubKeys = convo.getGroupAdmins() || [];
 
     const convos = ConversationController.getInstance().getConversations();
     const moderatorsConvos = modPubKeys
@@ -187,7 +190,9 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         removingInProgress: true,
       });
       let res;
-      const roomInfos = this.props.convo.toOpenGroupV2();
+      const convo = ConversationController.getInstance().get(this.props.conversationId);
+
+      const roomInfos = convo.toOpenGroupV2();
       const modsToRemove = _.compact(removedMods.map(m => PubKey.from(m)));
       res = await Promise.all(
         modsToRemove.map(async m => {

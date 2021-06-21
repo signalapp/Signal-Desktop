@@ -262,6 +262,7 @@
   "blockUser": "Block",
   "unblockUser": "Unblock",
   "unblocked": "Unblocked",
+  "blocked": "Blocked",
   "blockedSettingsTitle": "Blocked contacts",
   "unbanUser": "Unban User",
   "unbanUserConfirm": "Are you sure you want to unban this user?",
@@ -411,5 +412,11 @@
   "notificationForConvo": "Notifications",
   "notificationForConvo_all": "All",
   "notificationForConvo_disabled": "Disabled",
-  "notificationForConvo_mentions_only": "Mentions only"
+  "notificationForConvo_mentions_only": "Mentions only",
+  "onionPathIndicatorTitle": "Path",
+  "onionPathIndicatorDescription": "Session hides your IP by bouncing your messages through several Service Nodes in Session's decentralized network. These are the countries your connection is currently being bounced through:",
+  "unknownCountry": "Unknown Country",
+  "device": "Device",
+  "destination": "Destination",
+  "learnMore": "Learn more"
 }

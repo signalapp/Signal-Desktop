@@ -8,11 +8,10 @@ import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
-
-interface Props {
-  onClose: any;
-  theme: DefaultTheme;
-}
+import { SessionWrapperModal } from './SessionWrapperModal';
+import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
+import autoBind from 'auto-bind';
+import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 
 interface State {
   error: string;
@@ -24,7 +23,7 @@ interface State {
   passwordValid: boolean;
 }
 
-class SessionSeedModalInner extends React.Component<Props, State> {
+class SessionSeedModalInner extends React.Component<{}, State> {
   constructor(props: any) {
     super(props);
 
@@ -38,11 +37,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
       passwordValid: false,
     };
 
-    this.copyRecoveryPhrase = this.copyRecoveryPhrase.bind(this);
-    this.getRecoveryPhrase = this.getRecoveryPhrase.bind(this);
-    this.confirmPassword = this.confirmPassword.bind(this);
-    this.checkHasPassword = this.checkHasPassword.bind(this);
-    this.onEnter = this.onEnter.bind(this);
+    autoBind(this);
   }
 
   public componentDidMount() {
@@ -55,26 +50,22 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     void this.checkHasPassword();
     void this.getRecoveryPhrase();
 
-    const { onClose } = this.props;
     const { hasPassword, passwordValid } = this.state;
     const loading = this.state.loadingPassword || this.state.loadingSeed;
+    const onClose = () => window.inboxStore?.dispatch(recoveryPhraseModal(null));
 
     return (
       <>
         {!loading && (
-          <SessionModal
-            title={i18n('showRecoveryPhrase')}
-            onClose={onClose}
-            theme={this.props.theme}
-          >
-            <div className="spacer-sm" />
+          <SessionWrapperModal title={i18n('showRecoveryPhrase')} onClose={onClose}>
+            <SpacerSM />
 
             {hasPassword && !passwordValid ? (
               <>{this.renderPasswordView()}</>
             ) : (
               <>{this.renderSeedView()}</>
             )}
-          </SessionModal>
+          </SessionWrapperModal>
         )}
       </>
     );
@@ -83,7 +74,8 @@ class SessionSeedModalInner extends React.Component<Props, State> {
   private renderPasswordView() {
     const error = this.state.error;
     const i18n = window.i18n;
-    const { onClose } = this.props;
+
+    const onClose = () => window.inboxStore?.dispatch(recoveryPhraseModal(null));
 
     return (
       <>
@@ -97,12 +89,12 @@ class SessionSeedModalInner extends React.Component<Props, State> {
 
         {error && (
           <>
-            <div className="spacer-xs" />
+            <SpacerXS />
             <div className="session-label danger">{error}</div>
           </>
         )}
 
-        <div className="spacer-lg" />
+        <SpacerLG />
 
         <div className="session-modal__button-group">
           <SessionButton text={i18n('ok')} onClick={this.confirmPassword} />
@@ -119,20 +111,21 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     const fgColor = '#1B1B1B';
 
     const hexEncodedSeed = mn_decode(this.state.recoveryPhrase, 'english');
+    const onClose = () => window.inboxStore?.dispatch(recoveryPhraseModal(null));
 
     return (
       <>
         <div className="session-modal__centered text-center">
           <p className="session-modal__description">{i18n('recoveryPhraseSavePromptMain')}</p>
-          <div className="spacer-xs" />
+          <SpacerXS />
 
           <i className="session-modal__text-highlight">{this.state.recoveryPhrase}</i>
         </div>
-        <div className="spacer-lg" />
+        <SpacerLG />
         <div className="qr-image">
           <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
         </div>
-        <div className="spacer-lg" />
+        <SpacerLG />
         <div className="session-modal__button-group">
           <SessionButton
             text={i18n('copy')}
@@ -140,6 +133,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
               this.copyRecoveryPhrase(this.state.recoveryPhrase);
             }}
           />
+          <SessionButton text={i18n('cancel')} onClick={onClose} />
         </div>
       </>
     );
@@ -208,7 +202,7 @@ class SessionSeedModalInner extends React.Component<Props, State> {
     window.clipboard.writeText(recoveryPhrase);
 
     ToastUtils.pushCopiedToClipBoard();
-    this.props.onClose();
+    window.inboxStore?.dispatch(recoveryPhraseModal(null));
   }
 
   private onEnter(event: any) {

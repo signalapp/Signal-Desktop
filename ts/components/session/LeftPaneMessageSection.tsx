@@ -30,6 +30,8 @@ import autoBind from 'auto-bind';
 import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
 import { SNodeAPI } from '../../session/snode_api';
 
+import { createClosedGroup } from '../../receiver/closedGroups';
+
 export interface Props {
   searchTerm: string;
 

@@ -6,14 +6,14 @@ export type MentionsInputState = Array<{
   authorProfileName: string;
 }>;
 
-const initialState: MentionsInputState = [];
+export const initialMentionsState: MentionsInputState = [];
 
 /**
  * This slice is the one holding the default joinable rooms fetched once in a while from the default opengroup v2 server.
  */
 const mentionsInputSlice = createSlice({
   name: 'mentionsInput',
-  initialState,
+  initialState: initialMentionsState,
   reducers: {
     updateMentionsMembers(state, action) {
       window?.log?.warn('updating mentions input members', action.payload);

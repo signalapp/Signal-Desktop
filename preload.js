@@ -25,8 +25,6 @@ if (config.appInstance) {
   title += ` - ${config.appInstance}`;
 }
 
-window.Lodash = require('lodash');
-
 global.dcodeIO = global.dcodeIO || {};
 global.dcodeIO.ByteBuffer = require('bytebuffer');
 
@@ -184,23 +182,6 @@ window.restart = () => {
 window.resetDatabase = () => {
   window.log.info('reset database');
   ipc.send('resetDatabase');
-};
-
-window.onUnblockNumber = async number => {
-  // Unblock the number
-  if (window.BlockedNumberController) {
-    window.BlockedNumberController.unblock(number);
-  }
-
-  // Update the conversation
-  if (window.getConversationController()) {
-    try {
-      const conversation = window.getConversationController().get(number);
-      await conversation.unblock();
-    } catch (e) {
-      window.log.info('IPC on unblock: failed to fetch conversation for number: ', number);
-    }
-  }
 };
 
 ipc.on('mediaPermissionsChanged', () => {

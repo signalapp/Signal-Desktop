@@ -10,29 +10,31 @@ import {
   defaultMentionsInputReducer as mentionsInput,
   MentionsInputState,
 } from './ducks/mentionsInput';
+import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
+import { modalReducer as modals, ModalState } from './ducks/modalDialog';
 
 export type StateType = {
   search: SearchStateType;
-  // messages: MessagesStateType;
   user: UserStateType;
   conversations: ConversationsStateType;
   theme: ThemeStateType;
   section: SectionStateType;
   defaultRooms: DefaultRoomsState;
   mentionsInput: MentionsInputState;
+  onionPaths: OnionState;
+  modals: ModalState;
 };
 
 export const reducers = {
   search,
-  // Temporary until ./ducks/messages is working
-  // messages,
-  // messages: search,
   conversations,
   user,
   theme,
   section,
   defaultRooms,
   mentionsInput,
+  onionPaths,
+  modals,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

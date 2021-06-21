@@ -1,49 +1,58 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
-import { DefaultTheme } from 'styled-components';
-import { ToastUtils } from '../../session/utils';
+import { ToastUtils, UserUtils } from '../../session/utils';
 import autoBind from 'auto-bind';
 import { ConversationController } from '../../session/conversations';
 
 import _ from 'lodash';
-import { Text } from '../basic/Text';
+import { SpacerLG, SpacerMD, Text } from '../basic/Text';
+import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
+import { updateGroupMembersModal } from '../../state/ducks/modalDialog';
+import { ClosedGroup } from '../../session';
 
-interface Props {
-  titleText: string;
-  okText: string;
-  isPublic: boolean;
-  cancelText: string;
-  // contacts not in the group
-  contactList: Array<any>;
-  isAdmin: boolean;
-  existingMembers: Array<string>;
-  existingZombies: Array<string>;
-  admins: Array<string>; // used for closed group
-
-  onSubmit: (membersLeft: Array<string>) => void;
-  onClose: () => void;
-  theme: DefaultTheme;
-}
+type Props = {
+  conversationId: string;
+};
 
 interface State {
   contactList: Array<ContactType>;
   zombies: Array<ContactType>;
   errorDisplayed: boolean;
   errorMessage: string;
+  admins: Array<string>;
+  isAdmin: boolean;
 }
 
 export class UpdateGroupMembersDialog extends React.Component<Props, State> {
+  private readonly convo: ConversationModel;
+
   constructor(props: Props) {
     super(props);
 
     autoBind(this);
+    this.convo = ConversationController.getInstance().get(props.conversationId);
+    const admins = this.convo.get('groupAdmins') || [];
+    const ourPK = UserUtils.getOurPubKeyStrFromCache();
 
-    let contacts = this.props.contactList;
-    contacts = contacts.map(d => {
+    const isAdmin = this.convo.get('groupAdmins')?.includes(ourPK) ? true : false;
+
+    const convos = ConversationController.getInstance()
+      .getConversations()
+      .filter(d => !!d);
+
+    const existingMembers = this.convo.get('members') || [];
+
+    let contactList = convos.filter(
+      d => existingMembers.includes(d.id) && d.isPrivate() && !d.isMe()
+    );
+
+    contactList = _.uniqBy(contactList, 'id');
+
+    const contacts = contactList.map(d => {
       const lokiProfile = d.getLokiProfile();
       const nickname = d.getNickname();
       const name = nickname
@@ -52,13 +61,13 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         ? lokiProfile.displayName
         : window.i18n('anonymous');
 
-      const existingMember = this.props.existingMembers.includes(d.id);
+      const existingMember = existingMembers.includes(d.id);
 
       return {
         id: d.id,
         authorPhoneNumber: d.id,
         authorProfileName: name,
-        authorAvatarPath: d?.getAvatarPath(),
+        authorAvatarPath: d?.getAvatarPath() as string,
         selected: false,
         authorName: name, // different from ProfileName?
         checkmarked: false,
@@ -66,22 +75,24 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       };
     });
 
+    const existingZombies = this.convo.get('zombies') || [];
+
     const zombies = _.compact(
-      this.props.existingZombies.map(d => {
-        const convo = ConversationController.getInstance().get(d);
-        if (!convo) {
+      existingZombies.map(d => {
+        const zombieConvo = ConversationController.getInstance().get(d);
+        if (!zombieConvo) {
           window?.log?.warn('Zombie convo not found');
           return null;
         }
-        const lokiProfile = convo.getLokiProfile();
+        const lokiProfile = zombieConvo.getLokiProfile();
         const name = lokiProfile ? lokiProfile.displayName : window.i18n('anonymous');
 
-        const existingZombie = this.props.existingZombies.includes(convo.id);
+        const existingZombie = existingZombies.includes(zombieConvo.id);
         return {
-          id: convo.id,
-          authorPhoneNumber: convo.id,
+          id: zombieConvo.id,
+          authorPhoneNumber: zombieConvo.id,
           authorProfileName: name,
-          authorAvatarPath: convo?.getAvatarPath() as string,
+          authorAvatarPath: zombieConvo?.getAvatarPath() as string,
           selected: false,
           authorName: name,
           checkmarked: false,
@@ -95,6 +106,8 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       zombies,
       errorDisplayed: false,
       errorMessage: '',
+      admins,
+      isAdmin,
     };
 
     window.addEventListener('keyup', this.onKeyUp);
@@ -104,45 +117,46 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     const members = this.getWouldBeMembers(this.state.contactList).map(d => d.id);
 
     // do not include zombies here, they are removed by force
-    this.props.onSubmit(members);
+    void this.onSubmit(members);
 
     this.closeDialog();
   }
 
   public render() {
-    const { okText, cancelText, isAdmin, contactList, titleText, existingZombies } = this.props;
-
-    const showNoMembersMessage = contactList.length === 0;
+    const showNoMembersMessage = this.state.contactList.length === 0;
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
       'error-message',
       this.state.errorDisplayed ? 'error-shown' : 'error-faded'
     );
+    const existingZombies = this.convo.get('zombies') || [];
 
     const hasZombies = Boolean(existingZombies.length);
+    const okText = window.i18n('ok');
+    const cancelText = window.i18n('cancel');
+    const titleText = window.i18n('updateGroupDialogTitle', this.convo.getName());
 
     return (
-      <SessionModal
+      <SessionWrapperModal
         title={titleText}
         // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
-        theme={this.props.theme}
       >
-        <div className="spacer-md" />
+        <SpacerMD />
 
         <p className={errorMessageClasses}>{errorMsg}</p>
-        <div className="spacer-md" />
+        <SpacerMD />
 
         <div className="group-member-list__selection">{this.renderMemberList()}</div>
         {this.renderZombiesList()}
         {showNoMembersMessage && <p>{window.i18n('noMembersInThisGroup')}</p>}
 
-        <div className="spacer-lg" />
+        <SpacerLG />
 
         <div className="session-modal__button-group">
           <SessionButton text={cancelText} onClick={this.closeDialog} />
-          {isAdmin && (
+          {this.state.isAdmin && (
             <SessionButton
               text={okText}
               onClick={this.onClickOK}
@@ -150,15 +164,13 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
             />
           )}
         </div>
-      </SessionModal>
+      </SessionWrapperModal>
     );
   }
 
   private renderMemberList() {
-    const members = this.state.contactList;
-
-    return members.map((member: ContactType, index: number) => {
-      const isSelected = this.props.isAdmin && !member.checkmarked;
+    return this.state.contactList.map((member: ContactType, index: number) => {
+      const isSelected = this.state.isAdmin && !member.checkmarked;
 
       return (
         <SessionMemberListItem
@@ -168,14 +180,12 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
           onSelect={this.onMemberClicked}
           onUnselect={this.onMemberClicked}
           key={member.id}
-          theme={this.props.theme}
         />
       );
     });
   }
 
   private renderZombiesList() {
-    const { isAdmin } = this.props;
     const { zombies } = this.state;
 
     if (!zombies.length) {
@@ -183,7 +193,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     }
 
     const zombieElements = zombies.map((member: ContactType, index: number) => {
-      const isSelected = isAdmin && !member.checkmarked;
+      const isSelected = this.state.isAdmin && !member.checkmarked;
       return (
         <SessionMemberListItem
           member={member}
@@ -193,17 +203,15 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
           onUnselect={this.onZombieClicked}
           isZombie={true}
           key={member.id}
-          theme={this.props.theme}
         />
       );
     });
     return (
       <>
-        <div className="spacer-lg" />
-        {isAdmin && (
+        <SpacerLG />
+        {this.state.isAdmin && (
           <Text
             padding="20px"
-            theme={this.props.theme}
             text={window.i18n('removeResidueMembers')}
             subtle={true}
             maxWidth="400px"
@@ -239,24 +247,22 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
 
-    this.props.onClose();
+    window.inboxStore?.dispatch(updateGroupMembersModal(null));
   }
 
   private onMemberClicked(selected: ContactType) {
-    const { isAdmin, admins } = this.props;
     const { contactList } = this.state;
-
-    if (!isAdmin) {
+    if (!this.state.isAdmin) {
       ToastUtils.pushOnlyAdminCanRemove();
       return;
     }
 
-    if (selected.existingMember && !isAdmin) {
+    if (selected.existingMember && !this.state.isAdmin) {
       window?.log?.warn('Only group admin can remove members!');
       return;
     }
 
-    if (selected.existingMember && admins.includes(selected.id)) {
+    if (selected.existingMember && this.state.admins.includes(selected.id)) {
       window?.log?.warn(
         `User ${selected.id} cannot be removed as they are the creator of the closed group.`
       );
@@ -281,11 +287,59 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   private onZombieClicked(selected: ContactType) {
-    const { isAdmin } = this.props;
-
-    if (!isAdmin) {
+    if (!this.state.isAdmin) {
       ToastUtils.pushOnlyAdminCanRemove();
       return;
     }
+  }
+
+  private async onSubmit(newMembers: Array<string>) {
+    const ourPK = UserUtils.getOurPubKeyStrFromCache();
+
+    const allMembersAfterUpdate = _.concat(newMembers, [ourPK]);
+
+    if (!this.state.isAdmin) {
+      window.log.warn('Skipping update of members, we are not the admin');
+      return;
+    }
+    // new members won't include the zombies. We are the admin and we want to remove them not matter what
+
+    // We need to NOT trigger an group update if the list of member is the same.
+    // we need to merge all members, including zombies for this call.
+
+    // we consider that the admin ALWAYS wants to remove zombies (actually they should be removed
+    // automatically by him when the LEFT message is received)
+    const existingMembers = this.convo.get('members') || [];
+    const existingZombies = this.convo.get('zombies') || [];
+
+    const allExistingMembersWithZombies = _.uniq(existingMembers.concat(existingZombies));
+
+    const notPresentInOld = allMembersAfterUpdate.filter(
+      (m: string) => !allExistingMembersWithZombies.includes(m)
+    );
+
+    // be sure to include zombies in here
+    const membersToRemove = allExistingMembersWithZombies.filter(
+      (m: string) => !allMembersAfterUpdate.includes(m)
+    );
+
+    const xor = _.xor(membersToRemove, notPresentInOld);
+    if (xor.length === 0) {
+      window.log.info('skipping group update: no detected changes in group member list');
+
+      return;
+    }
+
+    // If any extra devices of removed exist in newMembers, ensure that you filter them
+    // Note: I think this is useless
+    const filteredMembers = allMembersAfterUpdate.filter(
+      (member: string) => !_.includes(membersToRemove, member)
+    );
+
+    const avatarPath = this.convo.getAvatarPath();
+    const groupId = this.convo.id;
+    const groupName = this.convo.getName();
+
+    void ClosedGroup.initiateGroupUpdate(groupId, groupName, filteredMembers, avatarPath);
   }
 }

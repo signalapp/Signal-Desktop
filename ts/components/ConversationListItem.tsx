@@ -21,7 +21,7 @@ import { createPortal } from 'react-dom';
 import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { PubKey } from '../session/types';
-import { ConversationType } from '../state/ducks/conversations';
+import { ConversationType, openConversationExternal } from '../state/ducks/conversations';
 
 export interface ConversationListItemProps extends ConversationType {
   index?: number; // used to force a refresh when one conversation is removed on top of the list
@@ -30,17 +30,6 @@ export interface ConversationListItemProps extends ConversationType {
 
 type PropsHousekeeping = {
   style?: Object;
-  onClick?: (id: string) => void;
-  onDeleteMessages?: () => void;
-  onDeleteContact?: () => void;
-  onLeaveGroup?: () => void;
-  onBlockContact?: () => void;
-  onCopyPublicKey?: () => void;
-  onUnblockContact?: () => void;
-  onInviteContacts?: () => void;
-  onClearNickname?: () => void;
-  onChangeNickname?: () => void;
-  onMarkAllRead: () => void;
   theme: DefaultTheme;
 };
 
@@ -154,16 +143,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public render() {
-    const {
-      phoneNumber,
-      unreadCount,
-      onClick,
-      id,
-      isSelected,
-      isBlocked,
-      style,
-      mentionedUs,
-    } = this.props;
+    const { phoneNumber, unreadCount, id, isSelected, isBlocked, style, mentionedUs } = this.props;
     const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
     const key = `conversation-item-${phoneNumber}`;
 
@@ -172,9 +152,7 @@ class ConversationListItem extends React.PureComponent<Props> {
         <div
           role="button"
           onClick={() => {
-            if (onClick) {
-              onClick(id);
-            }
+            window.inboxStore?.dispatch(openConversationExternal(id));
           }}
           onContextMenu={(e: any) => {
             contextMenu.show({

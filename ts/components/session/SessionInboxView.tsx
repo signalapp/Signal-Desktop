@@ -6,6 +6,14 @@ import { ConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { createStore } from '../../state/createStore';
 import { actions as conversationActions } from '../../state/ducks/conversations';
+import { initialDefaultRoomState } from '../../state/ducks/defaultRooms';
+import { initialMentionsState } from '../../state/ducks/mentionsInput';
+import { initialModalState } from '../../state/ducks/modalDialog';
+import { initialOnionPathState } from '../../state/ducks/onion';
+import { initialSearchState } from '../../state/ducks/search';
+import { initialSectionState } from '../../state/ducks/section';
+import { initialThemeState } from '../../state/ducks/theme';
+import { StateType } from '../../state/reducer';
 import { makeLookup } from '../../util';
 import { LeftPane } from '../LeftPane';
 import { SessionMainPanel } from '../SessionMainPanel';
@@ -73,18 +81,21 @@ export class SessionInboxView extends React.Component<any, State> {
 
     const fullFilledConversations = await Promise.all(filledConversations);
 
-    const initialState = {
+    const initialState: StateType = {
       conversations: {
         conversationLookup: makeLookup(fullFilledConversations, 'id'),
+        messages: [],
       },
       user: {
-        ourPrimary: window.storage.get('primaryDevicePubKey'),
         ourNumber: UserUtils.getOurPubKeyStrFromCache(),
-        i18n: window.i18n,
       },
-      section: {
-        focusedSection: 1,
-      },
+      section: initialSectionState,
+      defaultRooms: initialDefaultRoomState,
+      search: initialSearchState,
+      theme: initialThemeState,
+      mentionsInput: initialMentionsState,
+      onionPaths: initialOnionPathState,
+      modals: initialModalState,
     };
 
     this.store = createStore(initialState);
