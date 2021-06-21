@@ -27,12 +27,6 @@ import {
 // tslint:disable-next-line: no-submodule-imports
 import useNetworkState from 'react-use/lib/useNetworkState';
 
-export type OnionPathModalType = {
-  confirmText?: string;
-  cancelText?: string;
-  title?: string;
-};
-
 export type StatusLightType = {
   glowStartDelay: number;
   glowDuration: number;

@@ -876,10 +876,9 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
    * Doubles / halves the playback speed based on the current playback speed.
    */
   private updatePlaybackSpeed() {
-    this.setState({
-      ...this.state,
-      playbackSpeed: this.state.playbackSpeed === 1 ? 2 : 1,
-    });
+    this.setState(prevState => ({
+      playbackSpeed: prevState.playbackSpeed === 1 ? 2 : 1,
+    }));
   }
 
   private handleContextMenu(e: any) {
