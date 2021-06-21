@@ -43,6 +43,7 @@ import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUt
 import { NotificationForConvoOption } from '../components/conversation/ConversationHeader';
 import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../state/ducks/modalDialog';
+import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -455,10 +456,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // tslint:disable-next-line: no-promise-as-boolean
     const previous = this.pending || Promise.resolve();
 
-    const taskWithTimeout = window.textsecure.createTaskWithTimeout(
-      callback,
-      `conversation ${this.idForLogging()}`
-    );
+    const taskWithTimeout = createTaskWithTimeout(callback, `conversation ${this.idForLogging()}`);
 
     this.pending = previous.then(taskWithTimeout, taskWithTimeout);
     const current = this.pending;

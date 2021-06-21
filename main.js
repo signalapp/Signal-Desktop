@@ -351,8 +351,6 @@ async function createWindow() {
 
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
-  } else if (config.environment === 'test-lib') {
-    mainWindow.loadURL(prepareURL([__dirname, 'libtextsecure', 'test', 'index.html']));
   } else if (config.environment.includes('test-integration')) {
     mainWindow.loadURL(prepareURL([__dirname, 'background_test.html']));
   } else {
@@ -377,7 +375,6 @@ async function createWindow() {
     // If the application is terminating, just do the default
     if (
       config.environment === 'test' ||
-      config.environment === 'test-lib' ||
       config.environment.includes('test-integration') ||
       (mainWindow.readyForShutdown && windowState.shouldQuit())
     ) {
@@ -503,11 +500,7 @@ function showPasswordWindow() {
 
   passwordWindow.on('close', e => {
     // If the application is terminating, just do the default
-    if (
-      config.environment === 'test' ||
-      config.environment === 'test-lib' ||
-      windowState.shouldQuit()
-    ) {
+    if (config.environment === 'test' || windowState.shouldQuit()) {
       return;
     }
 
@@ -632,11 +625,7 @@ app.on('ready', async () => {
   const userDataPath = await getRealPath(app.getPath('userData'));
   const installPath = await getRealPath(app.getAppPath());
 
-  if (
-    process.env.NODE_ENV !== 'test' &&
-    process.env.NODE_ENV !== 'test-lib' &&
-    !process.env.NODE_ENV.includes('test-integration')
-  ) {
+  if (process.env.NODE_ENV !== 'test' && !process.env.NODE_ENV.includes('test-integration')) {
     installFileHandler({
       protocol: electronProtocol,
       userDataPath,
@@ -805,7 +794,6 @@ app.on('window-all-closed', () => {
   if (
     process.platform !== 'darwin' ||
     config.environment === 'test' ||
-    config.environment === 'test-lib' ||
     config.environment.includes('test-integration')
   ) {
     app.quit();
