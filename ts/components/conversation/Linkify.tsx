@@ -78,13 +78,13 @@ export class Linkify extends React.Component<Props> {
     const url = e.target.href;
 
     const openLink = () => {
-      // window.open(e.target.href);
       void shell.openExternal(url);
     }
 
     window.inboxStore?.dispatch(updateConfirmModal({
-      title: "Hello",
-      message: "Are you sure you want to open this link?",
+      title: window.i18n('linkVisitWarningTitle'),
+      message: window.i18n("linkVisitWarningMessage", url),
+      okText: window.i18n("open"),
       onClickOk: openLink,
       onClickClose: () => {
         window.inboxStore?.dispatch(updateConfirmModal(null));

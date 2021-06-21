@@ -419,5 +419,8 @@
   "device": "Device",
   "destination": "Destination",
   "learnMore": "Learn more",
-  "playAtCustomSpeed": "Play at $multipler$x speed"
+  "playAtCustomSpeed": "Play at $multipler$x speed",
+  "linkVisitWarningTitle": "Open this URL in your browser?",
+  "linkVisitWarningMessage": "Are you sure you wish to open $url$ in your browser?",
+  "open": "Open"
 }
