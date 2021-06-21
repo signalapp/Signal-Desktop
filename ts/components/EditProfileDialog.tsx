@@ -19,6 +19,7 @@ import { ConversationController } from '../session/conversations';
 import { SpacerLG, SpacerMD } from './basic/Text';
 import autoBind from 'auto-bind';
 import { editProfileModal } from '../state/ducks/modalDialog';
+import { uploadOurAvatar } from '../interactions/conversationInteractions';
 
 interface State {
   profileName: string;
@@ -317,8 +318,6 @@ export class EditProfileDialog extends React.Component<{}, State> {
       ConversationTypeEnum.PRIVATE
     );
 
-    const url: any = null;
-    let profileKey: any = null;
     if (avatar) {
       const data = await AttachmentUtil.readFile({ file: avatar });
       // Ensure that this file is either small enough or is resized to meet our
@@ -342,67 +341,26 @@ export class EditProfileDialog extends React.Component<{}, State> {
         // others, which means we need to wait for the database response.
         // To avoid the wait, we create a temporary url for the local image
         // and use it until we the the response from the server
-        const tempUrl = window.URL.createObjectURL(avatar);
-        await conversation.setLokiProfile({ displayName: newName });
-        conversation.set('avatar', tempUrl);
+        // const tempUrl = window.URL.createObjectURL(avatar);
+        // await conversation.setLokiProfile({ displayName: newName });
+        // conversation.set('avatar', tempUrl);
 
-        // Encrypt with a new key every time
-        profileKey = window.libsignal.crypto.getRandomBytes(32);
-        const encryptedData = await window.textsecure.crypto.encryptProfile(
-          dataResized,
-          profileKey
-        );
-
-        throw new Error('uploadAvatarV1 to move to v2');
-
-        // const avatarPointer = await AttachmentUtils.uploadAvatarV1({
-        //   ...dataResized,
-        //   data: encryptedData,
-        //   size: encryptedData.byteLength,
-        // });
-
-        // url = avatarPointer ? avatarPointer.url : null;
-        // window.storage.put('profileKey', profileKey);
-        // conversation.set('avatarPointer', url);
-
-        // const upgraded = await window.Signal.Migrations.processNewAttachment({
-        //   isRaw: true,
-        //   data: data.data,
-        //   url,
-        // });
-        // newAvatarPath = upgraded.path;
-        // // Replace our temporary image with the attachment pointer from the server:
-        // conversation.set('avatar', null);
-        // await conversation.setLokiProfile({
-        //   displayName: newName,
-        //   avatar: newAvatarPath,
-        // });
-
-        // await conversation.commit();
-        // UserUtils.setLastProfileUpdateTimestamp(Date.now());
-        // await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+        await uploadOurAvatar(dataResized);
       } catch (error) {
         window.log.error(
           'showEditProfileDialog Error ensuring that image is properly sized:',
           error && error.stack ? error.stack : error
         );
       }
-    } else {
-      // do not update the avatar if it did not change
-      await conversation.setLokiProfile({
-        displayName: newName,
-      });
-      // might be good to not trigger a sync if the name did not change
-      await conversation.commit();
-      UserUtils.setLastProfileUpdateTimestamp(Date.now());
-      await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+      return;
     }
-
-    if (avatar) {
-      ConversationController.getInstance()
-        .getConversations()
-        .filter(convo => convo.isPublic())
-        .forEach(convo => convo.trigger('ourAvatarChanged', { url, profileKey }));
-    }
+    // do not update the avatar if it did not change
+    await conversation.setLokiProfile({
+      displayName: newName,
+    });
+    // might be good to not trigger a sync if the name did not change
+    await conversation.commit();
+    UserUtils.setLastProfileUpdateTimestamp(Date.now());
+    await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
   }
 }

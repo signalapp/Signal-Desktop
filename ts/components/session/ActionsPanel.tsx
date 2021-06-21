@@ -72,6 +72,7 @@ import { SessionNicknameDialog } from './SessionNicknameDialog';
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { SessionSeedModal } from './SessionSeedModal';
 import { AdminLeaveClosedGroupDialog } from '../conversation/AdminLeaveClosedGroupDialog';
+import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -239,72 +240,7 @@ const triggerAvatarReUploadIfNeeded = async () => {
   if (Date.now() - lastTimeStampAvatarUpload > DURATION.DAYS * 14) {
     window.log.info('Reuploading avatar...');
     // reupload the avatar
-    const ourConvo = ConversationController.getInstance().get(UserUtils.getOurPubKeyStrFromCache());
-    if (!ourConvo) {
-      window.log.warn('ourConvo not found... This is not a valid case');
-      return;
-    }
-    const profileKey = window.textsecure.storage.get('profileKey');
-    if (!profileKey) {
-      window.log.warn('our profileKey not found... This is not a valid case');
-      return;
-    }
-
-    const currentAttachmentPath = ourConvo.getAvatarPath();
-
-    if (!currentAttachmentPath) {
-      window.log.warn('No attachment currently set for our convo.. Nothing to do.');
-      return;
-    }
-
-    const decryptedAvatarUrl = await getDecryptedMediaUrl(currentAttachmentPath, IMAGE_JPEG);
-
-    if (!decryptedAvatarUrl) {
-      window.log.warn('Could not decrypt avatar stored locally..');
-      return;
-    }
-    const response = await fetch(decryptedAvatarUrl);
-    const blob = await response.blob();
-    const decryptedAvatarData = await blob.arrayBuffer();
-
-    if (!decryptedAvatarData?.byteLength) {
-      window.log.warn('Could not read blob of avatar locally..');
-      return;
-    }
-
-    const encryptedData = await window.textsecure.crypto.encryptProfile(
-      decryptedAvatarData,
-      profileKey
-    );
-
-    const avatarPointer = await FSv2.uploadFileToFsV2(encryptedData);
-    let fileUrl;
-    if (!avatarPointer) {
-      window.log.warn('failed to reupload avatar to fsv2');
-      return;
-    }
-    ({ fileUrl } = avatarPointer);
-
-    ourConvo.set('avatarPointer', fileUrl);
-
-    // this encrypts and save the new avatar and returns a new attachment path
-    const upgraded = await window.Signal.Migrations.processNewAttachment({
-      isRaw: true,
-      data: decryptedAvatarData,
-      url: fileUrl,
-    });
-    const newAvatarPath = upgraded.path;
-    // Replace our temporary image with the attachment pointer from the server:
-    ourConvo.set('avatar', null);
-    const existingHash = ourConvo.get('avatarHash');
-    const displayName = ourConvo.get('profileName');
-    // this commits already
-    await ourConvo.setLokiProfile({ avatar: newAvatarPath, displayName, avatarHash: existingHash });
-    const newTimestampReupload = Date.now();
-    await createOrUpdateItem({ id: lastAvatarUploadTimestamp, value: newTimestampReupload });
-    window.log.info(
-      `Reuploading avatar finished at ${newTimestampReupload}, newAttachmentPointer ${fileUrl}`
-    );
+    await uploadOurAvatar();
   }
 };
 
