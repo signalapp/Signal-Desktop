@@ -4,7 +4,6 @@ import LinkifyIt from 'linkify-it';
 
 import { RenderTextCallbackType } from '../../types/Util';
 import { isLinkSneaky } from '../../../js/modules/link_previews';
-import { SessionHtmlRenderer } from '../session/SessionHTMLRenderer';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { shell } from 'electron';
 
