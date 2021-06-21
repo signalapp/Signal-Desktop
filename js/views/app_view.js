@@ -55,21 +55,6 @@
         this.debugLogView = null;
       }
     },
-    openImporter() {
-      window.addSetupMenuItems();
-      this.resetViews();
-
-      const importView = new Whisper.ImportView();
-      this.importView = importView;
-
-      this.openView(this.importView);
-    },
-    closeImporter() {
-      if (this.importView) {
-        this.importView.remove();
-        this.importView = null;
-      }
-    },
     openStandalone() {
       window.addSetupMenuItems();
       this.resetViews();
@@ -83,7 +68,6 @@
       }
     },
     resetViews() {
-      this.closeImporter();
       this.closeStandalone();
     },
     openInbox(options = {}) {

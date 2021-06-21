@@ -231,27 +231,6 @@ function updateForMac(template, messages, options) {
     ],
   });
 
-  // Add to Edit menu
-  const editIndex = includeSetup ? 2 : 1;
-  template[editIndex].submenu.push(
-    {
-      type: 'separator',
-    },
-    {
-      label: messages.speech,
-      submenu: [
-        {
-          role: 'startspeaking',
-          label: messages.editMenuStartSpeaking,
-        },
-        {
-          role: 'stopspeaking',
-          label: messages.editMenuStopSpeaking,
-        },
-      ],
-    }
-  );
-
   // Replace Window menu
   const windowMenuTemplateIndex = includeSetup ? 4 : 3;
   // eslint-disable-next-line no-param-reassign

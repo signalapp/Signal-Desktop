@@ -40,77 +40,6 @@
       </svg>
     </script>
 
-    <script type="text/x-tmpl-mustache" id="import-flow-template">
-      {{#isStep2}}
-      <div id='step2' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <span class='banner-icon folder-outline'></span>
-            <div class='header'>{{ chooseHeader }}</div>
-            <div class='body-text'>{{ choose }}</div>
-          </div>
-          <div class='nav'>
-            <div>
-              <a class='button choose'>{{ chooseButton }}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{/isStep2}}
-      {{#isStep3}}
-      <div id='step3' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <span class='banner-icon import'></span>
-            <div class='header'>{{ importingHeader }}</div>
-          </div>
-        </div>
-      </div>
-      {{/isStep3}}
-      {{#isStep4}}
-      <div id='step4' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <span class='banner-icon'></span>
-            <div class='header'>{{ completeHeader }}</div>
-          </div>
-          <div class='nav'>
-            {{#restartButton}}
-            <div>
-              <a class='button restart'>{{ restartButton }}</a>
-            </div>
-            {{/restartButton}}
-            {{#registerButton}}
-            <div>
-              <a class='button register'>{{ registerButton }}</a>
-            </div>
-            {{/registerButton}}
-          </div>
-        </div>
-      </div>
-      {{/isStep4}}
-
-      {{#isError}}
-      <div id='error' class='step'>
-        <div class='clearfix inner error-dialog'>
-          <div class='step-body'>
-            <span class='banner-icon alert-outline'></span>
-            <div class='header'>{{ errorHeader }}</div>
-            <div class='body-text-wide'>
-              {{ errorMessageFirst }}
-              <p>{{ errorMessageSecond }}</p>
-            </div>
-          </div>
-          <div class='nav'>
-            <div>
-              <a class='button choose'>{{ chooseButton }}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{/isError}}
-    </script>
-
     <script type="text/javascript" src="js/components.js"></script>
     <script type="text/javascript" src="js/reliable_trigger.js"></script>
     <script type="text/javascript" src="js/database.js"></script>
@@ -136,7 +65,6 @@
     <script type="text/javascript" src="js/views/identicon_svg_view.js"></script>
     <script type="text/javascript" src="js/views/session_registration_view.js"></script>
     <script type="text/javascript" src="js/views/app_view.js"></script>
-    <script type="text/javascript" src="js/views/import_view.js"></script>
 
     <script type="text/javascript" src="js/views/session_id_reset_view.js"></script>
 

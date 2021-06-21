@@ -38,7 +38,6 @@ window.getEnvironment = () => config.environment;
 window.isDev = () => config.environment === 'development';
 window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
-window.isImportMode = () => config.importMode;
 window.getExpiration = () => config.buildExpiration;
 window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
@@ -192,10 +191,6 @@ window.closeAbout = () => ipc.send('close-about');
 window.readyForUpdates = () => ipc.send('ready-for-updates');
 
 window.updateTrayIcon = unreadCount => ipc.send('update-tray-icon', unreadCount);
-
-ipc.on('set-up-with-import', () => {
-  Whisper.events.trigger('setupWithImport');
-});
 
 ipc.on('get-theme-setting', () => {
   const theme = window.Events.getThemeSetting();

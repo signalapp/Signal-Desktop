@@ -55,8 +55,6 @@ const config = require('./app/config');
 const userConfig = require('./app/user_config');
 const passwordUtil = require('./ts/util/passwordUtils');
 
-const importMode = process.argv.some(arg => arg === '--import') || config.get('import');
-
 const development = config.environment === 'development';
 const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 
@@ -177,7 +175,6 @@ function prepareURL(pathSegments, moreKeys) {
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
       contentProxyUrl: config.contentProxyUrl,
-      importMode: importMode ? true : undefined, // for stringify()
       serverTrustRoot: config.get('serverTrustRoot'),
       appStartInitialSpellcheckSetting,
       defaultFileServer: config.get('defaultFileServer'),
@@ -462,12 +459,6 @@ function openSupportPage() {
   shell.openExternal('https://docs.oxen.io/products-built-on-oxen/session');
 }
 
-function setupWithImport() {
-  if (mainWindow) {
-    mainWindow.webContents.send('set-up-with-import');
-  }
-}
-
 let passwordWindow;
 function showPasswordWindow() {
   if (passwordWindow) {
@@ -736,7 +727,6 @@ function setupMenu(options) {
     openNewBugForm,
     openSupportPage,
     platform,
-    setupWithImport,
   });
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);
