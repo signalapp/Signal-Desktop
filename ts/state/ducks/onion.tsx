@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Snode } from '../../data/data';
 
 export type OnionState = {
-  snodePath: Array<Snode>;
+  snodePaths: Array<Array<Snode>>;
 };
 
 export const initialOnionPathState = {
-  snodePath: new Array<Snode>(),
+  snodePaths: new Array<Array<Snode>>(),
 };
 
 /**
@@ -16,8 +16,8 @@ const onionSlice = createSlice({
   name: 'onionPaths',
   initialState: initialOnionPathState,
   reducers: {
-    updateOnionPaths(state: OnionState, action: PayloadAction<Array<Snode>>) {
-      return { snodePath: action.payload };
+    updateOnionPaths(state: OnionState, action: PayloadAction<Array<Array<Snode>>>) {
+      return { snodePaths: action.payload };
     },
   },
 });

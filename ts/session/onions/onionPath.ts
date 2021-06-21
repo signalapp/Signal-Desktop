@@ -136,7 +136,7 @@ export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
   if (onionPaths.length <= 0) {
     window.inboxStore?.dispatch(updateOnionPaths([]));
   } else {
-    window.inboxStore?.dispatch(updateOnionPaths(onionPaths[0]));
+    window.inboxStore?.dispatch(updateOnionPaths(onionPaths));
   }
 
   const onionPathsWithoutExcluded = toExclude

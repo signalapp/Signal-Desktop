@@ -18,6 +18,11 @@ import countryLookup from 'country-code-lookup';
 import { useTheme } from 'styled-components';
 import { Snode } from '../data/data';
 import { onionPathModal } from '../state/ducks/modalDialog';
+import {
+  getFirstOnionPath,
+  getFirstOnionPathLength,
+  getOnionPathsCount,
+} from '../state/selectors/onions';
 
 // tslint:disable-next-line: no-submodule-imports
 import useNetworkState from 'react-use/lib/useNetworkState';
@@ -35,8 +40,7 @@ export type StatusLightType = {
 };
 
 const OnionPathModalInner = () => {
-  const onionNodes = useSelector((state: StateType) => state.onionPaths.snodePath);
-  const onionPath = onionNodes;
+  const onionPath = useSelector(getFirstOnionPath);
   // including the device and destination in calculation
   const glowDuration = onionPath.length + 2;
 
@@ -44,7 +48,7 @@ const OnionPathModalInner = () => {
     {
       label: window.i18n('device'),
     },
-    ...onionNodes,
+    ...onionPath,
     {
       label: window.i18n('destination'),
     },
@@ -133,29 +137,21 @@ export const ActionPanelOnionStatusLight = (props: {
 }) => {
   const { isSelected, handleClick } = props;
 
-  let iconColor;
   const theme = useTheme();
-  const firstOnionPath = useSelector((state: StateType) => state.onionPaths.snodePath);
-  const hasOnionPath = firstOnionPath.length > 2;
+  const onionPathsCount = useSelector(getOnionPathsCount);
+  const firstPathLength = useSelector(getFirstOnionPathLength);
+  const isOnline = useNetworkState().online;
 
   // Set icon color based on result
   const red = theme.colors.destructive;
   const green = theme.colors.accent;
   const orange = theme.colors.warning;
 
-  iconColor = hasOnionPath ? theme.colors.accent : theme.colors.destructive;
-  const onionState = useSelector((state: StateType) => state.onionPaths);
-
-  iconColor = red;
-  const isOnline = useNetworkState().online;
-  if (!(onionState && onionState.snodePath) || !isOnline) {
-    iconColor = red;
-  } else {
-    const onionSnodePath = onionState.snodePath;
-    if (onionState && onionSnodePath && onionSnodePath.length > 0) {
-      const onionNodeCount = onionSnodePath.length;
-      iconColor = onionNodeCount > 2 ? green : onionNodeCount > 1 ? orange : red;
-    }
+  // start with red
+  let iconColor = red;
+  //if we are not online or the first path is not valid, we keep red as color
+  if (isOnline && firstPathLength > 1) {
+    iconColor = onionPathsCount > 2 ? green : onionPathsCount > 1 ? orange : red;
   }
 
   return (
