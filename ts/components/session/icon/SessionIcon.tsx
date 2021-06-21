@@ -66,7 +66,6 @@ const glow = (color: string, glowDuration: number, glowStartDelay: number) => {
   //increase shadow intensity by 3
   const dropShadow = `${dropShadowType.repeat(2)};`;
 
-  // TODO: Decrease dropshadow for last frame
   // creating keyframe for sequential animations
   let kf = '';
   for (let i = 0; i <= glowDuration; i++) {
@@ -94,7 +93,11 @@ const animation = (props: any) => {
     `;
   } else if (props.glowDuration !== undefined && props.glowStartDelay !== undefined) {
     return css`
-      ${glow(props.iconColor, props.glowDuration, props.glowStartDelay)} ${props.glowDuration}s ease-in infinite;
+      ${glow(
+        props.iconColor,
+        props.glowDuration,
+        props.glowStartDelay
+      )} ${props.glowDuration}s ease-in infinite;
     `;
   } else {
     return;

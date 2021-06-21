@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React, { createRef, useEffect } from 'react';
 import classNames from 'classnames';
 
 import { Avatar, AvatarSize } from '../Avatar';
@@ -13,19 +13,22 @@ import { Quote } from './Quote';
 import H5AudioPlayer from 'react-h5-audio-player';
 // import 'react-h5-audio-player/lib/styles.css';
 
-const AudioPlayerWithEncryptedFile = (props: { src: string; contentType: string, playbackSpeed: number }) => {
+const AudioPlayerWithEncryptedFile = (props: {
+  src: string;
+  contentType: string;
+  playbackSpeed: number;
+}) => {
   const theme = useTheme();
   const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
   const { playbackSpeed } = props;
   const player = createRef<H5AudioPlayer>();
 
   useEffect(() => {
-
     // updates playback speed to value selected in context menu
     if (player.current?.audio.current?.playbackRate) {
       player.current.audio.current.playbackRate = playbackSpeed;
     }
-  }, [playbackSpeed])
+  }, [playbackSpeed]);
 
   return (
     <H5AudioPlayer
@@ -90,7 +93,6 @@ import {
 } from '../../interactions/messageInteractions';
 import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
 import { MessageInteraction } from '../../interactions';
-import { useEffect } from 'react';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -126,7 +128,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       expiring: false,
       expired: false,
       imageBroken: false,
-      playbackSpeed: 1
+      playbackSpeed: 1,
     };
     this.ctxMenuID = `ctx-menu-message-${uuid()}`;
   }
@@ -188,18 +190,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   public handleImageError() {
     this.setState({
       imageBroken: true,
-    });
-  }
-
-
-  /**
-   * Doubles / halves the playback speed based on the current playback speed.
-   */
-  private updatePlaybackSpeed() {
-    console.log('updating playback speed');
-    this.setState({
-      ...this.state,
-      playbackSpeed: this.state.playbackSpeed === 1 ? 2 : 1
     });
   }
 
@@ -618,7 +608,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     const selectMessageText = window.i18n('selectMessage');
     const deleteMessageText = window.i18n('deleteMessage');
 
-
     return (
       <Menu
         id={this.ctxMenuID}
@@ -638,7 +627,11 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           </Item>
         ) : null}
 
-        <Item onClick={this.updatePlaybackSpeed}>{window.i18n('playAtCustomSpeed', this.state.playbackSpeed === 1 ? 2 : 1)}</Item>
+        {isAudio(attachments) ? (
+          <Item onClick={this.updatePlaybackSpeed}>
+            {window.i18n('playAtCustomSpeed', this.state.playbackSpeed === 1 ? 2 : 1)}
+          </Item>
+        ) : null}
         <Item onClick={onCopyText}>{window.i18n('copyMessage')}</Item>
         <Item onClick={this.onReplyPrivate}>{window.i18n('replyToMessage')}</Item>
         <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
@@ -731,8 +724,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
 
       return Boolean(
         displayImage &&
-        ((isImage(attachments) && hasImage(attachments)) ||
-          (isVideo(attachments) && hasVideoScreenshot(attachments)))
+          ((isImage(attachments) && hasImage(attachments)) ||
+            (isVideo(attachments) && hasVideoScreenshot(attachments)))
       );
     }
 
@@ -877,6 +870,16 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         </div>
       </InView>
     );
+  }
+
+  /**
+   * Doubles / halves the playback speed based on the current playback speed.
+   */
+  private updatePlaybackSpeed() {
+    this.setState({
+      ...this.state,
+      playbackSpeed: this.state.playbackSpeed === 1 ? 2 : 1,
+    });
   }
 
   private handleContextMenu(e: any) {
