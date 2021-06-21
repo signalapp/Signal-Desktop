@@ -244,7 +244,6 @@ export interface MessageRegularProps {
 
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
-  onCopyText?: () => void;
   onSelectMessage: (messageId: string) => void;
   onReply?: (messagId: number) => void;
   onRetrySend?: () => void;

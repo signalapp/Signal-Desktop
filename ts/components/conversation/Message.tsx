@@ -11,7 +11,6 @@ import { Quote } from './Quote';
 
 // Audio Player
 import H5AudioPlayer from 'react-h5-audio-player';
-// import 'react-h5-audio-player/lib/styles.css';
 
 const AudioPlayerWithEncryptedFile = (props: { src: string; contentType: string }) => {
   const theme = useTheme();
@@ -78,6 +77,7 @@ import {
 } from '../../interactions/messageInteractions';
 import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
 import { MessageInteraction } from '../../interactions';
+import autoBind from 'auto-bind';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -92,8 +92,6 @@ const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
 class MessageInner extends React.PureComponent<MessageRegularProps, State> {
-  public handleImageErrorBound: () => void;
-
   public expirationCheckInterval: any;
   public expiredTimeout: any;
   public ctxMenuID: string;
@@ -101,11 +99,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   public constructor(props: MessageRegularProps) {
     super(props);
 
-    this.handleImageErrorBound = this.handleImageError.bind(this);
-    this.onReplyPrivate = this.onReplyPrivate.bind(this);
-    this.handleContextMenu = this.handleContextMenu.bind(this);
-    this.onAddModerator = this.onAddModerator.bind(this);
-    this.onRemoveFromModerator = this.onRemoveFromModerator.bind(this);
+    autoBind(this);
 
     this.state = {
       expiring: false,
@@ -221,7 +215,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             withContentAbove={withContentAbove}
             withContentBelow={withContentBelow}
             bottomOverlay={!collapseMetadata}
-            onError={this.handleImageErrorBound}
+            onError={this.handleImageError}
             onClickAttachment={(attachment: AttachmentType) => {
               if (multiSelectMode) {
                 onSelectMessage(id);
@@ -361,7 +355,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             attachments={[first.image]}
             withContentAbove={withContentAbove}
             withContentBelow={true}
-            onError={this.handleImageErrorBound}
+            onError={this.handleImageError}
           />
         ) : null}
         <div
@@ -382,7 +376,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
                 width={72}
                 url={first.image.url}
                 attachment={first.image}
-                onError={this.handleImageErrorBound}
+                onError={this.handleImageError}
               />
             </div>
           ) : null}
@@ -554,7 +548,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       attachments,
       authorPhoneNumber,
       convoId,
-      onCopyText,
       direction,
       status,
       isDeletable,
@@ -568,6 +561,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       isOpenGroupV2,
       weAreAdmin,
       isAdmin,
+      text,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
@@ -608,7 +602,13 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           </Item>
         ) : null}
 
-        <Item onClick={onCopyText}>{window.i18n('copyMessage')}</Item>
+        <Item
+          onClick={() => {
+            MessageInteraction.copyBodyToClipboard(text);
+          }}
+        >
+          {window.i18n('copyMessage')}
+        </Item>
         <Item onClick={this.onReplyPrivate}>{window.i18n('replyToMessage')}</Item>
         <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
         {showRetry ? <Item onClick={onRetrySend}>{window.i18n('resend')}</Item> : null}
