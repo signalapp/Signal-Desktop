@@ -5,6 +5,8 @@ import LinkifyIt from 'linkify-it';
 import { RenderTextCallbackType } from '../../types/Util';
 import { isLinkSneaky } from '../../../js/modules/link_previews';
 import { SessionHtmlRenderer } from '../session/SessionHTMLRenderer';
+import { updateConfirmModal } from '../../state/ducks/modalDialog';
+import { shell } from 'electron';
 
 const linkify = LinkifyIt();
 
@@ -70,6 +72,23 @@ export class Linkify extends React.Component<Props> {
   // disable click on <a> elements so clicking a message containing a link doesn't
   // select the message.The link will still be opened in the browser.
   public handleClick = (e: any) => {
+    e.preventDefault();
     e.stopPropagation();
+
+    const url = e.target.href;
+
+    const openLink = () => {
+      // window.open(e.target.href);
+      void shell.openExternal(url);
+    }
+
+    window.inboxStore?.dispatch(updateConfirmModal({
+      title: "Hello",
+      message: "Are you sure you want to open this link?",
+      onClickOk: openLink,
+      onClickClose: () => {
+        window.inboxStore?.dispatch(updateConfirmModal(null));
+      }
+    }))
   };
 }
