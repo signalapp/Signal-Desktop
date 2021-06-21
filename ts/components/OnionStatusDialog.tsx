@@ -16,7 +16,6 @@ import { SessionWrapperModal } from '../components/session/SessionWrapperModal';
 import ip2country from 'ip2country';
 import countryLookup from 'country-code-lookup';
 import { useTheme } from 'styled-components';
-import { useNetwork } from '../hooks/useNetwork';
 import { Snode } from '../data/data';
 import { onionPathModal } from '../state/ducks/modalDialog';
 import {
@@ -24,6 +23,9 @@ import {
   getFirstOnionPathLength,
   getOnionPathsCount,
 } from '../state/selectors/onions';
+
+// tslint:disable-next-line: no-submodule-imports
+import useNetworkState from 'react-use/lib/useNetworkState';
 
 export type StatusLightType = {
   glowStartDelay: number;
@@ -132,7 +134,7 @@ export const ActionPanelOnionStatusLight = (props: {
   const theme = useTheme();
   const onionPathsCount = useSelector(getOnionPathsCount);
   const firstPathLength = useSelector(getFirstOnionPathLength);
-  const isOnline = useNetwork();
+  const isOnline = useNetworkState().online;
 
   // Set icon color based on result
   const red = theme.colors.destructive;
