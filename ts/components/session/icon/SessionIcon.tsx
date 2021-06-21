@@ -63,8 +63,9 @@ const rotate = keyframes`
  */
 const glow = (color: string, glowDuration: number, glowStartDelay: number) => {
   const dropShadowType = `drop-shadow(0px 0px 4px ${color}) `;
+
   //increase shadow intensity by 3
-  const dropShadow = `${dropShadowType.repeat(2)};`;
+  const dropShadow = `${dropShadowType.repeat(1)};`;
 
   // creating keyframe for sequential animations
   let kf = '';
