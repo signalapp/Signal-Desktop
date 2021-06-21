@@ -1,5 +1,5 @@
 // Audio Player
-import React, { createRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import H5AudioPlayer from 'react-h5-audio-player';
 import { useTheme } from 'styled-components';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
@@ -13,7 +13,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
   const theme = useTheme();
   const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
   const { playbackSpeed } = props;
-  const player = createRef<H5AudioPlayer>();
+  const player = useRef<H5AudioPlayer | null>(null);
 
   useEffect(() => {
     // updates playback speed to value selected in context menu
