@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, useEffect } from 'react';
 import classNames from 'classnames';
 
 import { Avatar, AvatarSize } from '../Avatar';
@@ -13,9 +13,23 @@ import { Quote } from './Quote';
 import H5AudioPlayer from 'react-h5-audio-player';
 // import 'react-h5-audio-player/lib/styles.css';
 
-const AudioPlayerWithEncryptedFile = (props: { src: string; contentType: string }) => {
+const AudioPlayerWithEncryptedFile = (props: {
+  src: string;
+  contentType: string;
+  playbackSpeed: number;
+}) => {
   const theme = useTheme();
   const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
+  const { playbackSpeed } = props;
+  const player = createRef<H5AudioPlayer>();
+
+  useEffect(() => {
+    // updates playback speed to value selected in context menu
+    if (player.current?.audio.current?.playbackRate) {
+      player.current.audio.current.playbackRate = playbackSpeed;
+    }
+  }, [playbackSpeed]);
+
   return (
     <H5AudioPlayer
       src={urlToLoad}
@@ -24,6 +38,7 @@ const AudioPlayerWithEncryptedFile = (props: { src: string; contentType: string 
       showJumpControls={false}
       showDownloadProgress={false}
       listenInterval={100}
+      ref={player}
       customIcons={{
         play: (
           <SessionIcon
@@ -86,6 +101,7 @@ interface State {
   expiring: boolean;
   expired: boolean;
   imageBroken: boolean;
+  playbackSpeed: number;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -106,11 +122,13 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     this.handleContextMenu = this.handleContextMenu.bind(this);
     this.onAddModerator = this.onAddModerator.bind(this);
     this.onRemoveFromModerator = this.onRemoveFromModerator.bind(this);
+    this.updatePlaybackSpeed = this.updatePlaybackSpeed.bind(this);
 
     this.state = {
       expiring: false,
       expired: false,
       imageBroken: false,
+      playbackSpeed: 1,
     };
     this.ctxMenuID = `ctx-menu-message-${uuid()}`;
   }
@@ -241,6 +259,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           }}
         >
           <AudioPlayerWithEncryptedFile
+            playbackSpeed={this.state.playbackSpeed}
             src={firstAttachment.url}
             contentType={firstAttachment.contentType}
           />
@@ -608,6 +627,11 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           </Item>
         ) : null}
 
+        {isAudio(attachments) ? (
+          <Item onClick={this.updatePlaybackSpeed}>
+            {window.i18n('playAtCustomSpeed', this.state.playbackSpeed === 1 ? 2 : 1)}
+          </Item>
+        ) : null}
         <Item onClick={onCopyText}>{window.i18n('copyMessage')}</Item>
         <Item onClick={this.onReplyPrivate}>{window.i18n('replyToMessage')}</Item>
         <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
@@ -846,6 +870,15 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         </div>
       </InView>
     );
+  }
+
+  /**
+   * Doubles / halves the playback speed based on the current playback speed.
+   */
+  private updatePlaybackSpeed() {
+    this.setState(prevState => ({
+      playbackSpeed: prevState.playbackSpeed === 1 ? 2 : 1,
+    }));
   }
 
   private handleContextMenu(e: any) {

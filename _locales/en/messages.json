@@ -418,5 +418,6 @@
   "unknownCountry": "Unknown Country",
   "device": "Device",
   "destination": "Destination",
-  "learnMore": "Learn more"
+  "learnMore": "Learn more",
+  "playAtCustomSpeed": "Play at $multipler$x speed"
 }
