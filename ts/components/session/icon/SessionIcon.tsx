@@ -62,7 +62,7 @@ const rotate = keyframes`
  * Creates a glow animation made for multiple element sequentially
  */
 const glow = (color: string, glowDuration: number, glowStartDelay: number) => {
-  const dropShadowType = `drop-shadow(0px 0px 6px ${color}) `;
+  const dropShadowType = `drop-shadow(0px 0px 4px ${color}) `;
   //increase shadow intensity by 3
   const dropShadow = `${dropShadowType.repeat(2)};`;
 
@@ -75,10 +75,12 @@ const glow = (color: string, glowDuration: number, glowStartDelay: number) => {
     if (i === glowStartDelay) {
       kf += `${percent}% {
         filter: ${dropShadow}
+        transform: scale(1.5);
       }`;
     } else {
       kf += `${percent}% {
         filter: none;
+        transform: scale(0.8);
       }`;
     }
   }
