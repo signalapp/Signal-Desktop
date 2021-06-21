@@ -305,7 +305,15 @@ async function _connectSocket(
 
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
-      reject(new Error('Connection timed out'));
+      reject(
+        makeHTTPError(
+          '_connectSocket: Connection timed out',
+          -1,
+          {},
+          'Connection timed out',
+          stack
+        )
+      );
 
       client.abort();
     }, timeout);
@@ -322,7 +330,7 @@ async function _connectSocket(
       await _handleStatusCode(statusCode);
 
       const error = makeHTTPError(
-        'promiseAjax: invalid websocket response',
+        '_connectSocket: invalid websocket response',
         statusCode || -1,
         {}, // headers
         undefined,
@@ -342,8 +350,8 @@ async function _connectSocket(
 
       reject(
         makeHTTPError(
-          '_connectSocket connectFailed',
-          0,
+          '_connectSocket: connectFailed',
+          -1,
           {},
           e.toString(),
           stack
