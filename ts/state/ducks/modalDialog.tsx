@@ -84,7 +84,7 @@ const ModalSlice = createSlice({
       return { ...state, onionPathModal: action.payload };
     },
     recoveryPhraseModal(state, action: PayloadAction<RecoveryPhraseModalState | null>) {
-      return { ...state, onionPathModal: action.payload };
+      return { ...state, recoveryPhraseModal: action.payload };
     },
     adminLeaveClosedGroup(state, action: PayloadAction<AdminLeaveClosedGroupModalState | null>) {
       return { ...state, adminLeaveClosedGroup: action.payload };

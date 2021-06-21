@@ -11,8 +11,6 @@ import {
 } from '../../../state/ducks/modalDialog';
 import { ConversationController } from '../../../session/conversations';
 import { UserUtils } from '../../../session/utils';
-import { AdminLeaveClosedGroupDialog } from '../../conversation/AdminLeaveClosedGroupDialog';
-import { useTheme } from 'styled-components';
 import {
   blockConvoById,
   clearNickNameByConvoId,
@@ -23,6 +21,7 @@ import {
   setNotificationForConvoId,
   showAddModeratorsByConvoId,
   showInviteContactByConvoId,
+  showLeaveGroupByConvoId,
   showRemoveModeratorsByConvoId,
   showUpdateGroupNameByConvoId,
   unblockConvoById,
@@ -187,49 +186,17 @@ export function getLeaveGroupMenuItem(
   if (
     showLeaveGroup(Boolean(isKickedFromGroup), Boolean(left), Boolean(isGroup), Boolean(isPublic))
   ) {
-    const dispatch = useDispatch();
-    const theme = useTheme();
-    const conversation = ConversationController.getInstance().get(conversationId);
-
-    const onClickClose = () => {
-      dispatch(updateConfirmModal(null));
-    };
-
-    const openConfirmationModal = () => {
-      if (!conversation.isGroup()) {
-        throw new Error('showLeaveGroupDialog() called with a non group convo.');
-      }
-
-      const title = window.i18n('leaveGroup');
-      const message = window.i18n('leaveGroupConfirmation');
-      const ourPK = UserUtils.getOurPubKeyStrFromCache();
-      const isAdmin = (conversation.get('groupAdmins') || []).includes(ourPK);
-      const isClosedGroup = conversation.get('is_medium_group') || false;
-
-      // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
-      if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
-        dispatch(
-          updateConfirmModal({
-            title,
-            message,
-            onClickOk: () => {
-              void conversation.leaveClosedGroup();
-              onClickClose();
-            },
-            onClickClose,
-          })
-        );
-      } else {
-        dispatch(
-          adminLeaveClosedGroup({
-            conversationId,
-          })
-        );
-      }
-    };
-
-    return <Item onClick={openConfirmationModal}>{window.i18n('leaveGroup')}</Item>;
+    return (
+      <Item
+        onClick={() => {
+          showLeaveGroupByConvoId(conversationId);
+        }}
+      >
+        {window.i18n('leaveGroup')}
+      </Item>
+    );
   }
+
   return null;
 }
 

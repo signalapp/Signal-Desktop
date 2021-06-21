@@ -29,6 +29,7 @@ import {
   showInviteContactByConvoId,
   showLeaveGroupByConvoId,
   showRemoveModeratorsByConvoId,
+  showUpdateGroupMembersByConvoId,
   showUpdateGroupNameByConvoId,
 } from '../../../interactions/conversationInteractions';
 
@@ -326,7 +327,7 @@ class SessionRightPanel extends React.Component<Props, State> {
             className="group-settings-item"
             role="button"
             onClick={async () => {
-              await showUpdateGroupNameByConvoId(id);
+              await showUpdateGroupMembersByConvoId(id);
             }}
           >
             {window.i18n('groupMembers')}

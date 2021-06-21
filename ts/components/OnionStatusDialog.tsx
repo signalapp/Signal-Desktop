@@ -20,12 +20,6 @@ import { useNetwork } from '../hooks/useNetwork';
 import { Snode } from '../data/data';
 import { onionPathModal } from '../state/ducks/modalDialog';
 
-export type OnionPathModalType = {
-  confirmText?: string;
-  cancelText?: string;
-  title?: string;
-};
-
 export type StatusLightType = {
   glowStartDelay: number;
   glowDuration: number;
@@ -168,7 +162,7 @@ export const ActionPanelOnionStatusLight = (props: {
   );
 };
 
-export const OnionPathModal = (props: OnionPathModalType) => {
+export const OnionPathModal = () => {
   const onConfirm = () => {
     void shell.openExternal('https://getsession.org/faq/#onion-routing');
   };

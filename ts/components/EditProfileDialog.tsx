@@ -52,41 +52,6 @@ export class EditProfileDialog extends React.Component<{}, State> {
     window.addEventListener('keyup', this.onKeyUp);
   }
 
-  public async componentDidMount() {
-    const ourNumber = window.storage.get('primaryDevicePubKey');
-    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
-      ourNumber,
-      ConversationTypeEnum.PRIVATE
-    );
-
-    const readFile = async (attachment: any) =>
-      new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.onload = (e: any) => {
-          const data = e.target.result;
-          resolve({
-            ...attachment,
-            data,
-            size: data.byteLength,
-          });
-        };
-        fileReader.onerror = reject;
-        fileReader.onabort = reject;
-        fileReader.readAsArrayBuffer(attachment.file);
-      });
-
-    const avatarPath = conversation.getAvatarPath();
-    const profile = conversation.getLokiProfile();
-    const displayName = profile && profile.displayName;
-
-    this.setState({
-      ...this.state,
-      profileName: profile.profileName,
-      avatar: avatarPath || '',
-      setProfileName: profile.profileName,
-    });
-  }
-
   public render() {
     const i18n = window.i18n;
 
@@ -179,9 +144,9 @@ export class EditProfileDialog extends React.Component<{}, State> {
               <SessionIconButton
                 iconType={SessionIconType.QR}
                 iconSize={SessionIconSize.Small}
-                iconColor={'#000000'}
+                iconColor={'rgb(0, 0, 0)'}
                 onClick={() => {
-                  this.setState({ mode: 'qr' });
+                  this.setState(state => ({ ...state, mode: 'qr' }));
                 }}
               />
             </div>
@@ -192,16 +157,19 @@ export class EditProfileDialog extends React.Component<{}, State> {
   }
 
   private fireInputEvent() {
-    this.setState({ mode: 'edit' }, () => {
-      const el = this.inputEl.current;
-      if (el) {
-        el.click();
+    this.setState(
+      state => ({ ...state, mode: 'edit' }),
+      () => {
+        const el = this.inputEl.current;
+        if (el) {
+          el.click();
+        }
       }
-    });
+    );
   }
 
   private renderDefaultView() {
-    const name = this.state.setProfileName ? this.state.setProfileName : this.state.profileName;
+    const name = this.state.setProfileName || this.state.profileName;
     return (
       <>
         {this.renderProfileHeader()}
@@ -274,7 +242,6 @@ export class EditProfileDialog extends React.Component<{}, State> {
 
   private onNameEdited(event: any) {
     const newName = event.target.value.replace(window.displayNameRegex, '');
-
     this.setState(state => {
       return {
         ...state,

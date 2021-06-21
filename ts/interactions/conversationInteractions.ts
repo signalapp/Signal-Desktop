@@ -4,7 +4,7 @@ import {
   openGroupV2ConversationIdRegex,
 } from '../opengroup/utils/OpenGroupUtils';
 import { getV2OpenGroupRoom } from '../data/opengroups';
-import { ToastUtils } from '../session/utils';
+import { ToastUtils, UserUtils } from '../session/utils';
 import {
   ConversationModel,
   ConversationNotificationSettingType,
@@ -17,6 +17,7 @@ import _ from 'lodash';
 import { ConversationController } from '../session/conversations';
 import { BlockedNumberController } from '../util/blockedNumberController';
 import {
+  adminLeaveClosedGroup,
   changeNickNameModal,
   updateAddModeratorsModal,
   updateConfirmModal,
@@ -194,8 +195,40 @@ export async function showUpdateGroupMembersByConvoId(conversationId: string) {
 
 export function showLeaveGroupByConvoId(conversationId: string) {
   const conversation = ConversationController.getInstance().get(conversationId);
-  throw new Error('Audric TODO');
-  window.Whisper.events.trigger('leaveClosedGroup', conversation);
+
+  if (!conversation.isGroup()) {
+    throw new Error('showLeaveGroupDialog() called with a non group convo.');
+  }
+
+  const title = window.i18n('leaveGroup');
+  const message = window.i18n('leaveGroupConfirmation');
+  const ourPK = UserUtils.getOurPubKeyStrFromCache();
+  const isAdmin = (conversation.get('groupAdmins') || []).includes(ourPK);
+  const isClosedGroup = conversation.get('is_medium_group') || false;
+
+  // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
+  if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
+    const onClickClose = () => {
+      window.inboxStore?.dispatch(updateConfirmModal(null));
+    };
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title,
+        message,
+        onClickOk: () => {
+          void conversation.leaveClosedGroup();
+          onClickClose();
+        },
+        onClickClose,
+      })
+    );
+  } else {
+    window.inboxStore?.dispatch(
+      adminLeaveClosedGroup({
+        conversationId,
+      })
+    );
+  }
 }
 export function showInviteContactByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateInviteContactModal({ conversationId }));
