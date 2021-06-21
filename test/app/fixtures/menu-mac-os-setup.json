@@ -34,13 +34,7 @@
     ]
   },
   {
-    "label": "&File",
-    "submenu": [
-      {
-        "label": "Set Up with Import",
-        "click": null
-      }
-    ]
+    "label": "&File"
   },
   {
     "label": "&Edit",
@@ -79,22 +73,6 @@
       {
         "label": "Select all",
         "role": "selectall"
-      },
-      {
-        "type": "separator"
-      },
-      {
-        "label": "Speech",
-        "submenu": [
-          {
-            "label": "Start speaking",
-            "role": "startspeaking"
-          },
-          {
-            "label": "Stop speaking",
-            "role": "stopspeaking"
-          }
-        ]
       }
     ]
   },

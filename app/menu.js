@@ -11,7 +11,6 @@ exports.createTemplate = (options, messages) => {
     openReleaseNotes,
     openSupportPage,
     platform,
-    setupWithImport,
     showAbout,
     showDebugLog,
   } = options;
@@ -156,10 +155,6 @@ exports.createTemplate = (options, messages) => {
     fileMenu.submenu.unshift({
       type: 'separator',
     });
-    fileMenu.submenu.unshift({
-      label: messages.menuSetupWithImport,
-      click: setupWithImport,
-    });
   }
 
   if (platform === 'darwin') {
@@ -170,7 +165,7 @@ exports.createTemplate = (options, messages) => {
 };
 
 function updateForMac(template, messages, options) {
-  const { includeSetup, setupWithImport, showAbout, showWindow } = options;
+  const { includeSetup, showAbout, showWindow } = options;
 
   // Remove About item and separator from Help menu, since it's on the first menu
   template[4].submenu.pop();
@@ -184,12 +179,6 @@ function updateForMac(template, messages, options) {
     //   the file menu first, though it ends up to the right of the Signal Desktop menu.
     const fileMenu = {
       label: messages.mainMenuFile,
-      submenu: [
-        {
-          label: messages.menuSetupWithImport,
-          click: setupWithImport,
-        },
-      ],
     };
 
     template.unshift(fileMenu);
