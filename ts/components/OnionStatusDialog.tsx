@@ -143,7 +143,7 @@ export const ActionPanelOnionStatusLight = (props: {
   let iconColor = red;
   //if we are not online or the first path is not valid, we keep red as color
   if (isOnline && firstPathLength > 1) {
-    iconColor = onionPathsCount > 2 ? green : onionPathsCount > 1 ? orange : red;
+    iconColor = onionPathsCount >= 2 ? green : onionPathsCount >= 1 ? orange : red;
   }
 
   return (

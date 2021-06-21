@@ -209,9 +209,10 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
       } else {
         window?.log?.info(`${removedMods} removed from moderators...`);
         ToastUtils.pushUserRemovedFromModerators();
+        this.closeDialog();
       }
     } catch (e) {
-      window?.log?.error('Got error while adding moderator:', e);
+      window?.log?.error('Got error while removing moderator:', e);
     } finally {
       this.refreshModList();
     }

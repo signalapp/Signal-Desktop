@@ -487,7 +487,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           onAvatarClick={() => {
             window.inboxStore?.dispatch(
               updateUserDetailsModal({
-                conversationId: this.props.convoId,
+                conversationId: authorPhoneNumber,
                 userName,
                 authorAvatarPath,
               })

@@ -408,8 +408,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>) {
-    const existingAdmins = _.sortBy(this.getGroupAdmins());
-    const newAdmins = _.sortBy(groupAdmins);
+    const existingAdmins = _.uniq(_.sortBy(this.getGroupAdmins()));
+    const newAdmins = _.uniq(_.sortBy(groupAdmins));
 
     if (_.isEqual(existingAdmins, newAdmins)) {
       // window?.log?.info(

@@ -149,17 +149,17 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
 
 export async function addSenderAsModerator(sender: string, convoId: string) {
   try {
-    const pubKeyToRemove = PubKey.cast(sender);
+    const pubKeyToAdd = PubKey.cast(sender);
     const convo = ConversationController.getInstance().getOrThrow(convoId);
 
     const roomInfo = convo.toOpenGroupV2();
-    const res = await ApiV2.addModerator(pubKeyToRemove, roomInfo);
+    const res = await ApiV2.addModerator(pubKeyToAdd, roomInfo);
     if (!res) {
       window?.log?.warn('failed to add moderator:', res);
 
       ToastUtils.pushUserNeedsToHaveJoined();
     } else {
-      window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
+      window?.log?.info(`${pubKeyToAdd.key} added to moderators...`);
       ToastUtils.pushUserAddedToModerators();
     }
   } catch (e) {

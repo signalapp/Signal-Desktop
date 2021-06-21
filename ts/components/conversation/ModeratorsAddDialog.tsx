@@ -10,6 +10,7 @@ import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { ConversationController } from '../../session/conversations';
 import { useDispatch } from 'react-redux';
 import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
+import _ from 'lodash';
 
 type Props = {
   conversationId: string;
