@@ -4,7 +4,7 @@ import {
   openGroupV2ConversationIdRegex,
 } from '../opengroup/utils/OpenGroupUtils';
 import { getV2OpenGroupRoom } from '../data/opengroups';
-import { ToastUtils } from '../session/utils';
+import { SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 import {
   ConversationModel,
   ConversationNotificationSettingType,
@@ -17,6 +17,7 @@ import _ from 'lodash';
 import { ConversationController } from '../session/conversations';
 import { BlockedNumberController } from '../util/blockedNumberController';
 import {
+  adminLeaveClosedGroup,
   changeNickNameModal,
   updateAddModeratorsModal,
   updateConfirmModal,
@@ -25,8 +26,16 @@ import {
   updateInviteContactModal,
   updateRemoveModeratorsModal,
 } from '../state/ducks/modalDialog';
-import { removeAllMessagesInConversation } from '../data/data';
+import {
+  createOrUpdateItem,
+  lastAvatarUploadTimestamp,
+  removeAllMessagesInConversation,
+} from '../data/data';
 import { conversationReset } from '../state/ducks/conversations';
+import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
+import { IMAGE_JPEG } from '../types/MIME';
+import { FSv2 } from '../fileserver';
+import { fromBase64ToArray, toHex } from '../session/utils/String';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -194,8 +203,40 @@ export async function showUpdateGroupMembersByConvoId(conversationId: string) {
 
 export function showLeaveGroupByConvoId(conversationId: string) {
   const conversation = ConversationController.getInstance().get(conversationId);
-  throw new Error('Audric TODO');
-  window.Whisper.events.trigger('leaveClosedGroup', conversation);
+
+  if (!conversation.isGroup()) {
+    throw new Error('showLeaveGroupDialog() called with a non group convo.');
+  }
+
+  const title = window.i18n('leaveGroup');
+  const message = window.i18n('leaveGroupConfirmation');
+  const ourPK = UserUtils.getOurPubKeyStrFromCache();
+  const isAdmin = (conversation.get('groupAdmins') || []).includes(ourPK);
+  const isClosedGroup = conversation.get('is_medium_group') || false;
+
+  // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
+  if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
+    const onClickClose = () => {
+      window.inboxStore?.dispatch(updateConfirmModal(null));
+    };
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title,
+        message,
+        onClickOk: () => {
+          void conversation.leaveClosedGroup();
+          onClickClose();
+        },
+        onClickClose,
+      })
+    );
+  } else {
+    window.inboxStore?.dispatch(
+      adminLeaveClosedGroup({
+        conversationId,
+      })
+    );
+  }
 }
 export function showInviteContactByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateInviteContactModal({ conversationId }));
@@ -290,5 +331,100 @@ export async function setDisappearingMessagesByConvoId(
     await conversation.updateExpirationTimer(null);
   } else {
     await conversation.updateExpirationTimer(seconds);
+  }
+}
+
+/**
+ * This function can be used for reupload our avatar to the fsv2 or upload a new avatar.
+ *
+ * If this is a reupload, the old profileKey is used, otherwise a new one is generated
+ */
+export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
+  const ourConvo = ConversationController.getInstance().get(UserUtils.getOurPubKeyStrFromCache());
+  if (!ourConvo) {
+    window.log.warn('ourConvo not found... This is not a valid case');
+    return;
+  }
+
+  let profileKey;
+  let decryptedAvatarData;
+  if (newAvatarDecrypted) {
+    // Encrypt with a new key every time
+    profileKey = window.libsignal.crypto.getRandomBytes(32);
+    decryptedAvatarData = newAvatarDecrypted;
+  } else {
+    // this is a reupload. no need to generate a new profileKey
+    profileKey = window.textsecure.storage.get('profileKey');
+    if (!profileKey) {
+      window.log.warn('our profileKey not found');
+      return;
+    }
+    const currentAttachmentPath = ourConvo.getAvatarPath();
+
+    if (!currentAttachmentPath) {
+      window.log.warn('No attachment currently set for our convo.. Nothing to do.');
+      return;
+    }
+
+    const decryptedAvatarUrl = await getDecryptedMediaUrl(currentAttachmentPath, IMAGE_JPEG);
+
+    if (!decryptedAvatarUrl) {
+      window.log.warn('Could not decrypt avatar stored locally..');
+      return;
+    }
+    const response = await fetch(decryptedAvatarUrl);
+    const blob = await response.blob();
+    decryptedAvatarData = await blob.arrayBuffer();
+  }
+
+  if (!decryptedAvatarData?.byteLength) {
+    window.log.warn('Could not read content of avatar ...');
+    return;
+  }
+
+  const encryptedData = await window.textsecure.crypto.encryptProfile(
+    decryptedAvatarData,
+    profileKey
+  );
+
+  const avatarPointer = await FSv2.uploadFileToFsV2(encryptedData);
+  let fileUrl;
+  if (!avatarPointer) {
+    window.log.warn('failed to upload avatar to fsv2');
+    return;
+  }
+  ({ fileUrl } = avatarPointer);
+
+  ourConvo.set('avatarPointer', fileUrl);
+
+  // this encrypts and save the new avatar and returns a new attachment path
+  const upgraded = await window.Signal.Migrations.processNewAttachment({
+    isRaw: true,
+    data: decryptedAvatarData,
+    url: fileUrl,
+  });
+  // Replace our temporary image with the attachment pointer from the server:
+  ourConvo.set('avatar', null);
+  const displayName = ourConvo.get('profileName');
+
+  // write the profileKey even if it did not change
+  window.storage.put('profileKey', profileKey);
+  ourConvo.set({ profileKey: toHex(profileKey) });
+  // Replace our temporary image with the attachment pointer from the server:
+  // this commits already
+  await ourConvo.setLokiProfile({
+    avatar: upgraded.path,
+    displayName,
+  });
+  const newTimestampReupload = Date.now();
+  await createOrUpdateItem({ id: lastAvatarUploadTimestamp, value: newTimestampReupload });
+
+  if (newAvatarDecrypted) {
+    UserUtils.setLastProfileUpdateTimestamp(Date.now());
+    await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+  } else {
+    window.log.info(
+      `Reuploading avatar finished at ${newTimestampReupload}, newAttachmentPointer ${fileUrl}`
+    );
   }
 }

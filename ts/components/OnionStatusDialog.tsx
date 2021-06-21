@@ -170,7 +170,7 @@ export const ActionPanelOnionStatusLight = (props: {
   );
 };
 
-export const OnionPathModal = (props: OnionPathModalType) => {
+export const OnionPathModal = () => {
   const onConfirm = () => {
     void shell.openExternal('https://getsession.org/faq/#onion-routing');
   };

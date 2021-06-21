@@ -262,6 +262,7 @@
   "blockUser": "Block",
   "unblockUser": "Unblock",
   "unblocked": "Unblocked",
+  "blocked": "Blocked",
   "blockedSettingsTitle": "Blocked contacts",
   "unbanUser": "Unban User",
   "unbanUserConfirm": "Are you sure you want to unban this user?",

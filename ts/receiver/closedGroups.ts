@@ -971,8 +971,6 @@ async function sendToGroupMembers(
   const inviteResults = await Promise.all(promises);
   const allInvitesSent = _.every(inviteResults, Boolean);
 
-  throw new Error('audric: TODEBUG');
-
   if (allInvitesSent) {
     // if (true) {
     if (isRetry) {
