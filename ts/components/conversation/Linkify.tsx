@@ -79,16 +79,18 @@ export class Linkify extends React.Component<Props> {
 
     const openLink = () => {
       void shell.openExternal(url);
-    }
+    };
 
-    window.inboxStore?.dispatch(updateConfirmModal({
-      title: window.i18n('linkVisitWarningTitle'),
-      message: window.i18n("linkVisitWarningMessage", url),
-      okText: window.i18n("open"),
-      onClickOk: openLink,
-      onClickClose: () => {
-        window.inboxStore?.dispatch(updateConfirmModal(null));
-      }
-    }))
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title: window.i18n('linkVisitWarningTitle'),
+        message: window.i18n('linkVisitWarningMessage', url),
+        okText: window.i18n('open'),
+        onClickOk: openLink,
+        onClickClose: () => {
+          window.inboxStore?.dispatch(updateConfirmModal(null));
+        },
+      })
+    );
   };
 }
