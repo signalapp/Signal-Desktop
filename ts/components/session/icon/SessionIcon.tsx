@@ -62,43 +62,51 @@ const rotate = keyframes`
  * Creates a glow animation made for multiple element sequentially
  */
 const glow = (color: string, glowDuration: number, glowStartDelay: number) => {
-  const dropShadowType = `drop-shadow(0px 0px 4px ${color}) `;
-
   //increase shadow intensity by 3
-  const dropShadow = `${dropShadowType.repeat(1)};`;
+  const dropShadow = `drop-shadow(0px 0px 6px ${color});`;
 
   // creating keyframe for sequential animations
   let kf = '';
-  for (let i = 0; i <= glowDuration; i++) {
-    // const percent = (100 / glowDuration) * i;
-    const percent = (100 / glowDuration) * i;
-    if (i === glowStartDelay) {
+  const durationWithLoop = glowDuration + 1;
+  for (let i = 0; i <= durationWithLoop; i++) {
+    const percent = (100 / durationWithLoop) * i;
+
+    if (i === glowStartDelay + 1) {
       kf += `${percent}% {
         filter: ${dropShadow}
-        transform: scale(1.5);
+        transform: scale(1.1);
       }`;
     } else {
       kf += `${percent}% {
         filter: none;
-        transform: scale(0.8);
+        transform: scale(0.9);
       }`;
     }
   }
   return keyframes`${kf}`;
 };
 
-const animation = (props: any) => {
+const animation = (props: {
+  rotateDuration?: number;
+  glowDuration?: number;
+  glowStartDelay?: number;
+  iconColor?: string;
+}) => {
   if (props.rotateDuration) {
     return css`
       ${rotate} ${props.rotateDuration}s infinite linear;
     `;
-  } else if (props.glowDuration !== undefined && props.glowStartDelay !== undefined) {
+  } else if (
+    props.glowDuration !== undefined &&
+    props.glowStartDelay !== undefined &&
+    props.iconColor
+  ) {
     return css`
       ${glow(
         props.iconColor,
         props.glowDuration,
         props.glowStartDelay
-      )} ${props.glowDuration}s ease-in infinite;
+      )} ${props.glowDuration}s ease infinite;
     `;
   } else {
     return;

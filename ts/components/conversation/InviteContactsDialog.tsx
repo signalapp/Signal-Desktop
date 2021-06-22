@@ -41,8 +41,6 @@ const InviteContactsDialogInner = (props: Props) => {
   }
 
   const chatName = convo.get('name');
-  // const chatServer = convo.get('server');
-  // const channelId = convo.get('channelId');
   const isPublicConvo = convo.isPublic();
 
   const [contactList, setContactList] = useState(
