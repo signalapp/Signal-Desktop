@@ -1,6 +1,8 @@
 import React from 'react';
+
+// tslint:disable-next-line: no-submodule-imports
+import useNetworkState from 'react-use/lib/useNetworkState';
 import styled from 'styled-components';
-import { useNetwork } from '../../../hooks/useNetwork';
 
 type ContainerProps = {
   show: boolean;
@@ -24,8 +26,7 @@ const OfflineTitle = styled.h3`
 const OfflineMessage = styled.div``;
 
 export const SessionOffline = () => {
-  const isOnline = useNetwork();
-
+  const isOnline = useNetworkState().online;
   return (
     <OfflineContainer show={!isOnline}>
       <OfflineTitle>{window.i18n('offline')}</OfflineTitle>
