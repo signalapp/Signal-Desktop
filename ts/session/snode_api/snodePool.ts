@@ -281,9 +281,11 @@ export async function refreshRandomPool(forceRefresh = false): Promise<void> {
       if (fetchedFromDb?.length) {
         window?.log?.info(`refreshRandomPool: fetched from db ${fetchedFromDb.length} snodes.`);
         randomSnodePool = fetchedFromDb;
-
+        randomSnodePool = [];
         if (randomSnodePool.length < minSnodePoolCount) {
           window?.log?.warn('refreshRandomPool: not enough snodes in db, going to fetch from seed');
+        } else {
+          return;
         }
       } else {
         window?.log?.warn('refreshRandomPool: did not find snodes in db.');
