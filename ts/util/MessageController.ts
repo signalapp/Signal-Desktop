@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { MessageModel } from '../models/messages';
+import { map, filter } from './iterables';
+import { isNotNil } from './isNotNil';
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
@@ -19,7 +21,7 @@ export class MessageController {
 
   private msgIDsBySender = new Map<string, string>();
 
-  private msgIDsBySentAt = new Map<number, string>();
+  private msgIDsBySentAt = new Map<number, Set<string>>();
 
   static install(): MessageController {
     const instance = new MessageController();
@@ -48,7 +50,14 @@ export class MessageController {
       timestamp: Date.now(),
     };
 
-    this.msgIDsBySentAt.set(message.get('sent_at'), id);
+    const sentAt = message.get('sent_at');
+    const previousIdsBySentAt = this.msgIDsBySentAt.get(sentAt);
+    if (previousIdsBySentAt) {
+      previousIdsBySentAt.add(id);
+    } else {
+      this.msgIDsBySentAt.set(sentAt, new Set([id]));
+    }
+
     this.msgIDsBySender.set(message.getSenderIdentifier(), id);
 
     return message;
@@ -58,7 +67,13 @@ export class MessageController {
     const { message } = this.messageLookup[id] || {};
     if (message) {
       this.msgIDsBySender.delete(message.getSenderIdentifier());
-      this.msgIDsBySentAt.delete(message.get('sent_at'));
+
+      const sentAt = message.get('sent_at');
+      const idsBySentAt = this.msgIDsBySentAt.get(sentAt) || new Set();
+      idsBySentAt.delete(id);
+      if (!idsBySentAt.size) {
+        this.msgIDsBySentAt.delete(sentAt);
+      }
     }
     delete this.messageLookup[id];
   }
@@ -87,12 +102,10 @@ export class MessageController {
     return existing && existing.message ? existing.message : undefined;
   }
 
-  findBySentAt(sentAt: number): MessageModel | undefined {
-    const id = this.msgIDsBySentAt.get(sentAt);
-    if (!id) {
-      return undefined;
-    }
-    return this.getById(id);
+  filterBySentAt(sentAt: number): Iterable<MessageModel> {
+    const ids = this.msgIDsBySentAt.get(sentAt) || [];
+    const maybeMessages = map(ids, id => this.getById(id));
+    return filter(maybeMessages, isNotNil);
   }
 
   findBySender(sender: string): MessageModel | undefined {

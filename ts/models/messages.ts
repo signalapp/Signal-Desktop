@@ -10,6 +10,7 @@ import {
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
+import { find } from '../util/iterables';
 import { DataMessageClass } from '../textsecure.d';
 import { ConversationModel } from './conversations';
 import { ConversationType } from '../state/ducks/conversations';
@@ -970,10 +971,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       window.log.info(
         `doubleCheckMissingQuoteReference/${logId}: Verifying reference to ${sentAt}`
       );
-      const inMemoryMessage = window.MessageController.findBySentAt(
+      const inMemoryMessages = window.MessageController.filterBySentAt(
         Number(sentAt)
       );
-      if (!isQuoteAMatch(inMemoryMessage, this.get('conversationId'), quote)) {
+      const matchingMessage = find(inMemoryMessages, message =>
+        isQuoteAMatch(message, this.get('conversationId'), quote)
+      );
+      if (!matchingMessage) {
         window.log.info(
           `doubleCheckMissingQuoteReference/${logId}: No match for ${sentAt}.`
         );
@@ -992,7 +996,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         `doubleCheckMissingQuoteReference/${logId}: Found match for ${sentAt}, updating.`
       );
 
-      await this.copyQuoteContentFromOriginal(inMemoryMessage, quote);
+      await this.copyQuoteContentFromOriginal(matchingMessage, quote);
       this.set({
         quote: {
           ...quote,
@@ -2287,12 +2291,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const { id } = quote;
-    const inMemoryMessage = window.MessageController.findBySentAt(id);
+    const inMemoryMessages = window.MessageController.filterBySentAt(id);
+    const matchingMessage = find(inMemoryMessages, item =>
+      isQuoteAMatch(item, conversationId, quote)
+    );
 
-    let queryMessage;
+    let queryMessage: undefined | MessageModel;
 
-    if (isQuoteAMatch(inMemoryMessage, conversationId, quote)) {
-      queryMessage = inMemoryMessage;
+    if (matchingMessage) {
+      queryMessage = matchingMessage;
     } else {
       window.log.info('copyFromQuotedMessage: db lookup needed', id);
       const collection = await window.Signal.Data.getMessagesBySentAt(id, {

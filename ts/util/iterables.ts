@@ -90,6 +90,18 @@ class FilterIterator<T> implements Iterator<T> {
   }
 }
 
+export function find<T>(
+  iterable: Iterable<T>,
+  predicate: (value: T) => unknown
+): undefined | T {
+  for (const value of iterable) {
+    if (predicate(value)) {
+      return value;
+    }
+  }
+  return undefined;
+}
+
 export function groupBy<T>(
   iterable: Iterable<T>,
   fn: (value: T) => string
