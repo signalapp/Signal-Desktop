@@ -9,6 +9,7 @@ import {
   deriveMasterKeyFromGroupV1,
   fromEncodedBinaryToArrayBuffer,
 } from '../Crypto';
+import * as Bytes from '../Bytes';
 import dataInterface from '../sql/Client';
 import {
   AccountRecordClass,
@@ -46,6 +47,9 @@ import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
 
 const { updateConversation } = dataInterface;
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 type RecordClass =
   | AccountRecordClass
@@ -520,8 +524,8 @@ export async function mergeGroupV1Record(
     // retrieve the master key and find the conversation locally. If we
     // are successful then we continue setting and applying state.
     const masterKeyBuffer = await deriveMasterKeyFromGroupV1(groupId);
-    const fields = deriveGroupFields(masterKeyBuffer);
-    const derivedGroupV2Id = arrayBufferToBase64(fields.id);
+    const fields = deriveGroupFields(new FIXMEU8(masterKeyBuffer));
+    const derivedGroupV2Id = Bytes.toBase64(fields.id);
 
     window.log.info(
       'storageService.mergeGroupV1Record: failed to find group by v1 id ' +
@@ -596,12 +600,12 @@ export async function mergeGroupV1Record(
 async function getGroupV2Conversation(
   masterKeyBuffer: ArrayBuffer
 ): Promise<ConversationModel> {
-  const groupFields = deriveGroupFields(masterKeyBuffer);
+  const groupFields = deriveGroupFields(new FIXMEU8(masterKeyBuffer));
 
-  const groupId = arrayBufferToBase64(groupFields.id);
+  const groupId = Bytes.toBase64(groupFields.id);
   const masterKey = arrayBufferToBase64(masterKeyBuffer);
-  const secretParams = arrayBufferToBase64(groupFields.secretParams);
-  const publicParams = arrayBufferToBase64(groupFields.publicParams);
+  const secretParams = Bytes.toBase64(groupFields.secretParams);
+  const publicParams = Bytes.toBase64(groupFields.publicParams);
 
   // First we check for an existing GroupV2 group
   const groupV2 = window.ConversationController.get(groupId);
@@ -944,7 +948,7 @@ export async function mergeAccountRecord(
             }
             const masterKeyBuffer = pinnedConversation.groupMasterKey.toArrayBuffer();
             const groupFields = deriveGroupFields(masterKeyBuffer);
-            const groupId = arrayBufferToBase64(groupFields.id);
+            const groupId = Bytes.toBase64(groupFields.id);
 
             conversationId = groupId;
             break;

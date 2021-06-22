@@ -43,10 +43,6 @@ import {
   CallingMessageClass,
   ContentClass,
   DataMessageClass,
-  GroupChangeClass,
-  GroupClass,
-  GroupExternalCredentialClass,
-  GroupJoinInfoClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
   SyncMessageClass,
@@ -58,6 +54,7 @@ import {
   LinkPreviewMetadata,
 } from '../linkPreviews/linkPreviewFetch';
 import { concat } from '../util/iterables';
+import { SignalService as Proto } from '../protobuf';
 
 function stringToArrayBuffer(str: string): ArrayBuffer {
   if (typeof str !== 'string') {
@@ -108,8 +105,8 @@ type QuoteAttachmentType = {
 };
 
 export type GroupV2InfoType = {
-  groupChange?: ArrayBuffer;
-  masterKey: ArrayBuffer;
+  groupChange?: Uint8Array;
+  masterKey: Uint8Array;
   revision: number;
   members: Array<string>;
 };
@@ -1961,27 +1958,27 @@ export default class MessageSender {
   }
 
   async createGroup(
-    group: GroupClass,
+    group: Proto.IGroup,
     options: GroupCredentialsType
   ): Promise<void> {
     return this.server.createGroup(group, options);
   }
 
   async uploadGroupAvatar(
-    avatar: ArrayBuffer,
+    avatar: Uint8Array,
     options: GroupCredentialsType
   ): Promise<string> {
     return this.server.uploadGroupAvatar(avatar, options);
   }
 
-  async getGroup(options: GroupCredentialsType): Promise<GroupClass> {
+  async getGroup(options: GroupCredentialsType): Promise<Proto.Group> {
     return this.server.getGroup(options);
   }
 
   async getGroupFromLink(
     groupInviteLink: string,
     auth: GroupCredentialsType
-  ): Promise<GroupJoinInfoClass> {
+  ): Promise<Proto.GroupJoinInfo> {
     return this.server.getGroupFromLink(groupInviteLink, auth);
   }
 
@@ -1997,10 +1994,10 @@ export default class MessageSender {
   }
 
   async modifyGroup(
-    changes: GroupChangeClass.Actions,
+    changes: Proto.GroupChange.IActions,
     options: GroupCredentialsType,
     inviteLinkBase64?: string
-  ): Promise<GroupChangeClass> {
+  ): Promise<Proto.IGroupChange> {
     return this.server.modifyGroup(changes, options, inviteLinkBase64);
   }
 
@@ -2060,7 +2057,7 @@ export default class MessageSender {
 
   async getGroupMembershipToken(
     options: GroupCredentialsType
-  ): Promise<GroupExternalCredentialClass> {
+  ): Promise<Proto.GroupExternalCredential> {
     return this.server.getGroupExternalCredential(options);
   }
 

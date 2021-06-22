@@ -11,14 +11,14 @@ import {
   LINK_VERSION_ERROR,
   parseGroupLink,
 } from '../groups';
-import { arrayBufferToBase64, base64ToArrayBuffer } from '../Crypto';
+import * as Bytes from '../Bytes';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { isGroupV1 } from '../util/whatTypeOfConversation';
 
-import type { GroupJoinInfoClass } from '../textsecure.d';
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import type { PreJoinConversationType } from '../state/ducks/conversations';
+import { SignalService as Proto } from '../protobuf';
 
 export async function joinViaLink(hash: string): Promise<void> {
   let inviteLinkPassword: string;
@@ -42,11 +42,11 @@ export async function joinViaLink(hash: string): Promise<void> {
     return;
   }
 
-  const data = deriveGroupFields(base64ToArrayBuffer(masterKey));
-  const id = arrayBufferToBase64(data.id);
+  const data = deriveGroupFields(Bytes.fromBase64(masterKey));
+  const id = Bytes.toBase64(data.id);
   const logId = `groupv2(${id})`;
-  const secretParams = arrayBufferToBase64(data.secretParams);
-  const publicParams = arrayBufferToBase64(data.publicParams);
+  const secretParams = Bytes.toBase64(data.secretParams);
+  const publicParams = Bytes.toBase64(data.publicParams);
 
   const existingConversation =
     window.ConversationController.get(id) ||
@@ -70,7 +70,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     return;
   }
 
-  let result: GroupJoinInfoClass;
+  let result: Proto.GroupJoinInfo;
 
   try {
     result = await longRunningTaskWrapper({

@@ -54,6 +54,7 @@ import {
   base64ToArrayBuffer,
   uuidToArrayBuffer,
   arrayBufferToUuid,
+  typedArrayToArrayBuffer,
 } from '../Crypto';
 import { assert } from '../util/assert';
 import { getOwn } from '../util/getOwn';
@@ -384,7 +385,7 @@ export class CallingClass {
       member =>
         new GroupMemberInfo(
           uuidToArrayBuffer(member.uuid),
-          member.uuidCiphertext
+          typedArrayToArrayBuffer(member.uuidCiphertext)
         )
     );
   }

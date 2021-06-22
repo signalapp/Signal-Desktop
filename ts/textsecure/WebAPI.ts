@@ -47,22 +47,22 @@ import {
   getBytes,
   getRandomValue,
   splitUuids,
+  typedArrayToArrayBuffer,
 } from '../Crypto';
 import { calculateAgreement, generateKeyPair } from '../Curve';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 
 import {
   AvatarUploadAttributesClass,
-  GroupChangeClass,
-  GroupChangesClass,
-  GroupClass,
-  GroupJoinInfoClass,
-  GroupExternalCredentialClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
+import { SignalService as Proto } from '../protobuf';
 
 import MessageSender from './SendMessage';
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -881,7 +881,7 @@ type AjaxOptionsType = {
   basicAuth?: string;
   call: keyof typeof URL_CALLS;
   contentType?: string;
-  data?: ArrayBuffer | Buffer | string;
+  data?: ArrayBuffer | Buffer | Uint8Array | string;
   headers?: HeaderListType;
   host?: string;
   httpType: HTTPCodeType;
@@ -926,7 +926,7 @@ export type GroupLogResponseType = {
   currentRevision?: number;
   start?: number;
   end?: number;
-  changes: GroupChangesClass;
+  changes: Proto.GroupChanges;
 };
 
 export type WebAPIType = {
@@ -939,17 +939,17 @@ export type WebAPIType = {
     options?: { accessKey?: ArrayBuffer }
   ) => Promise<any>;
   createGroup: (
-    group: GroupClass,
+    group: Proto.IGroup,
     options: GroupCredentialsType
   ) => Promise<void>;
   getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<any>;
   getAvatar: (path: string) => Promise<any>;
   getDevices: () => Promise<any>;
-  getGroup: (options: GroupCredentialsType) => Promise<GroupClass>;
+  getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
   getGroupFromLink: (
     inviteLinkPassword: string,
     auth: GroupCredentialsType
-  ) => Promise<GroupJoinInfoClass>;
+  ) => Promise<Proto.GroupJoinInfo>;
   getGroupAvatar: (key: string) => Promise<ArrayBuffer>;
   getGroupCredentials: (
     startDay: number,
@@ -957,7 +957,7 @@ export type WebAPIType = {
   ) => Promise<Array<GroupCredentialType>>;
   getGroupExternalCredential: (
     options: GroupCredentialsType
-  ) => Promise<GroupExternalCredentialClass>;
+  ) => Promise<Proto.GroupExternalCredential>;
   getGroupLog: (
     startVersion: number,
     options: GroupCredentialsType
@@ -1020,10 +1020,10 @@ export type WebAPIType = {
     body: ArrayBuffer | undefined
   ) => Promise<ArrayBufferWithDetailsType>;
   modifyGroup: (
-    changes: GroupChangeClass.Actions,
+    changes: Proto.GroupChange.IActions,
     options: GroupCredentialsType,
     inviteLinkBase64?: string
-  ) => Promise<GroupChangeClass>;
+  ) => Promise<Proto.IGroupChange>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
@@ -1060,7 +1060,7 @@ export type WebAPIType = {
   setSignedPreKey: (signedPreKey: SignedPreKeyType) => Promise<void>;
   updateDeviceName: (deviceName: string) => Promise<void>;
   uploadGroupAvatar: (
-    avatarData: ArrayBuffer,
+    avatarData: Uint8Array,
     options: GroupCredentialsType
   ) => Promise<string>;
   whoami: () => Promise<any>;
@@ -2150,7 +2150,7 @@ export function initialize({
 
     async function getGroupExternalCredential(
       options: GroupCredentialsType
-    ): Promise<GroupExternalCredentialClass> {
+    ): Promise<Proto.GroupExternalCredential> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
@@ -2165,9 +2165,7 @@ export function initialize({
         host: storageUrl,
       });
 
-      return window.textsecure.protobuf.GroupExternalCredential.decode(
-        response
-      );
+      return Proto.GroupExternalCredential.decode(new FIXMEU8(response));
     }
 
     function verifyAttributes(attributes: AvatarUploadAttributesClass) {
@@ -2207,7 +2205,7 @@ export function initialize({
     }
 
     async function uploadGroupAvatar(
-      avatarData: ArrayBuffer,
+      avatarData: Uint8Array,
       options: GroupCredentialsType
     ): Promise<string> {
       const basicAuth = generateGroupAuth(
@@ -2229,7 +2227,10 @@ export function initialize({
       const verified = verifyAttributes(attributes);
       const { key } = verified;
 
-      const manifestParams = makePutParams(verified, avatarData);
+      const manifestParams = makePutParams(
+        verified,
+        typedArrayToArrayBuffer(avatarData)
+      );
 
       await _outerAjax(`${cdnUrlObject['0']}/`, {
         ...manifestParams,
@@ -2255,14 +2256,14 @@ export function initialize({
     }
 
     async function createGroup(
-      group: GroupClass,
+      group: Proto.IGroup,
       options: GroupCredentialsType
     ): Promise<void> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
       );
-      const data = group.toArrayBuffer();
+      const data = Proto.Group.encode(group).finish();
 
       await _ajax({
         basicAuth,
@@ -2276,7 +2277,7 @@ export function initialize({
 
     async function getGroup(
       options: GroupCredentialsType
-    ): Promise<GroupClass> {
+    ): Promise<Proto.Group> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
@@ -2291,13 +2292,13 @@ export function initialize({
         responseType: 'arraybuffer',
       });
 
-      return window.textsecure.protobuf.Group.decode(response);
+      return Proto.Group.decode(new FIXMEU8(response));
     }
 
     async function getGroupFromLink(
       inviteLinkPassword: string,
       auth: GroupCredentialsType
-    ): Promise<GroupJoinInfoClass> {
+    ): Promise<Proto.GroupJoinInfo> {
       const basicAuth = generateGroupAuth(
         auth.groupPublicParamsHex,
         auth.authCredentialPresentationHex
@@ -2315,19 +2316,19 @@ export function initialize({
         redactUrl: _createRedactor(safeInviteLinkPassword),
       });
 
-      return window.textsecure.protobuf.GroupJoinInfo.decode(response);
+      return Proto.GroupJoinInfo.decode(new FIXMEU8(response));
     }
 
     async function modifyGroup(
-      changes: GroupChangeClass.Actions,
+      changes: Proto.GroupChange.IActions,
       options: GroupCredentialsType,
       inviteLinkBase64?: string
-    ): Promise<GroupChangeClass> {
+    ): Promise<Proto.IGroupChange> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
       );
-      const data = changes.toArrayBuffer();
+      const data = Proto.GroupChange.Actions.encode(changes).finish();
       const safeInviteLinkPassword = inviteLinkBase64
         ? toWebSafeBase64(inviteLinkBase64)
         : undefined;
@@ -2348,7 +2349,7 @@ export function initialize({
           : undefined,
       });
 
-      return window.textsecure.protobuf.GroupChange.decode(response);
+      return Proto.GroupChange.decode(new FIXMEU8(response));
     }
 
     async function getGroupLog(
@@ -2370,7 +2371,7 @@ export function initialize({
         urlParameters: `/${startVersion}`,
       });
       const { data, response } = withDetails;
-      const changes = window.textsecure.protobuf.GroupChanges.decode(data);
+      const changes = Proto.GroupChanges.decode(new FIXMEU8(data));
 
       if (response && response.status === 206) {
         const range = response.headers.get('Content-Range');

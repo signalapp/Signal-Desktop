@@ -20,6 +20,10 @@ setEnvironment(parseEnvironment(config.environment));
 
 const { nativeTheme } = remote.require('electron');
 
+const { Context: SignalContext } = require('./ts/context');
+
+window.SignalContext = new SignalContext();
+
 window.platform = process.platform;
 window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);

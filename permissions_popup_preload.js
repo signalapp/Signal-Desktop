@@ -19,10 +19,14 @@ const {
 
 const { nativeTheme } = remote.require('electron');
 
+const { Context: SignalContext } = require('./ts/context');
+
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 setEnvironment(parseEnvironment(config.environment));
+
+window.SignalContext = new SignalContext();
 
 window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;

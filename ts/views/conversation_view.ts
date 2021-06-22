@@ -23,6 +23,7 @@ import {
   isGroupV1,
   isMe,
 } from '../util/whatTypeOfConversation';
+import * as Bytes from '../Bytes';
 import {
   canReply,
   getAttachmentsForMessage,
@@ -4157,13 +4158,11 @@ Whisper.ConversationView = Whisper.View.extend({
     } = window.Signal.Groups.parseGroupLink(groupData);
 
     const fields = window.Signal.Groups.deriveGroupFields(
-      window.Signal.Crypto.base64ToArrayBuffer(masterKey)
+      Bytes.fromBase64(masterKey)
     );
-    const id = window.Signal.Crypto.arrayBufferToBase64(fields.id);
+    const id = Bytes.toBase64(fields.id);
     const logId = `groupv2(${id})`;
-    const secretParams = window.Signal.Crypto.arrayBufferToBase64(
-      fields.secretParams
-    );
+    const secretParams = Bytes.toBase64(fields.secretParams);
 
     window.log.info(`getGroupPreview/${logId}: Fetching pre-join state`);
     const result = await window.Signal.Groups.getPreJoinGroupInfo(

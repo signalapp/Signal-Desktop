@@ -39,7 +39,8 @@ import {
   trimForDisplay,
   verifyAccessKey,
 } from '../Crypto';
-import { GroupChangeClass, DataMessageClass } from '../textsecure.d';
+import * as Bytes from '../Bytes';
+import { DataMessageClass } from '../textsecure.d';
 import { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util';
 import { migrateColor } from '../util/migrateColor';
@@ -62,6 +63,7 @@ import {
   isMe,
 } from '../util/whatTypeOfConversation';
 import { deprecated } from '../util/deprecated';
+import { SignalService as Proto } from '../protobuf';
 import {
   hasErrors,
   isIncoming,
@@ -70,6 +72,9 @@ import {
 } from '../state/selectors/message';
 import { Deletes } from '../messageModifiers/Deletes';
 import { Reactions } from '../messageModifiers/Reactions';
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -385,7 +390,7 @@ export class ConversationModel extends window.Backbone
 
   async updateExpirationTimerInGroupV2(
     seconds?: number
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
     const current = this.get('expireTimer');
     const bothFalsey = Boolean(current) === false && Boolean(seconds) === false;
@@ -405,7 +410,7 @@ export class ConversationModel extends window.Backbone
 
   async promotePendingMember(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -449,7 +454,7 @@ export class ConversationModel extends window.Backbone
 
   async approvePendingApprovalRequest(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -484,7 +489,7 @@ export class ConversationModel extends window.Backbone
 
   async denyPendingApprovalRequest(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -518,7 +523,7 @@ export class ConversationModel extends window.Backbone
   }
 
   async addPendingApprovalRequest(): Promise<
-    GroupChangeClass.Actions | undefined
+    Proto.GroupChange.Actions | undefined
   > {
     const idLog = this.idForLogging();
 
@@ -566,7 +571,7 @@ export class ConversationModel extends window.Backbone
 
   async addMember(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     const toRequest = window.ConversationController.get(conversationId);
@@ -610,7 +615,7 @@ export class ConversationModel extends window.Backbone
 
   async removePendingMember(
     conversationIds: Array<string>
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     const uuids = conversationIds
@@ -656,7 +661,7 @@ export class ConversationModel extends window.Backbone
 
   async removeMember(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -691,7 +696,7 @@ export class ConversationModel extends window.Backbone
 
   async toggleAdminChange(
     conversationId: string
-  ): Promise<GroupChangeClass.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions | undefined> {
     if (!isGroupV2(this.attributes)) {
       return undefined;
     }
@@ -738,7 +743,7 @@ export class ConversationModel extends window.Backbone
     inviteLinkPassword,
     name,
   }: {
-    createGroupChange: () => Promise<GroupChangeClass.Actions | undefined>;
+    createGroupChange: () => Promise<Proto.GroupChange.Actions | undefined>;
     extraConversationsForSend?: Array<string>;
     inviteLinkPassword?: string;
     name: string;
@@ -1099,7 +1104,7 @@ export class ConversationModel extends window.Backbone
       return undefined;
     }
     return {
-      masterKey: window.Signal.Crypto.base64ToArrayBuffer(
+      masterKey: Bytes.fromBase64(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.get('masterKey')!
       ),
@@ -1109,7 +1114,7 @@ export class ConversationModel extends window.Backbone
         includePendingMembers,
         extraConversationsForSend,
       }),
-      groupChange,
+      groupChange: groupChange ? new FIXMEU8(groupChange) : undefined,
     };
   }
 
@@ -2832,8 +2837,7 @@ export class ConversationModel extends window.Backbone
 
   validateUuid(): string | null {
     if (isDirectConversation(this.attributes) && this.get('uuid')) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      if (window.isValidGuid(this.get('uuid')!)) {
+      if (window.isValidGuid(this.get('uuid'))) {
         return null;
       }
 

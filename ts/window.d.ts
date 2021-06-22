@@ -112,12 +112,14 @@ import { MIMEType } from './types/MIME';
 import { AttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
+import { Context as SignalContext } from './context';
 import { StartupQueue } from './util/StartupQueue';
 import * as synchronousCrypto from './util/synchronousCrypto';
 import { SocketStatus } from './types/SocketStatus';
 import SyncRequest from './textsecure/SyncRequest';
 import { ConversationColorType, CustomColorType } from './types/Colors';
 import { MessageController } from './util/MessageController';
+import { isValidGuid } from './util/isValidGuid';
 import { StateType } from './state/reducer';
 
 export { Long } from 'long';
@@ -211,7 +213,7 @@ declare global {
     isAfterVersion: (version: string, anotherVersion: string) => boolean;
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
-    isValidGuid: (maybeGuid: string | null) => boolean;
+    isValidGuid: typeof isValidGuid;
     isValidE164: (maybeE164: unknown) => boolean;
     libphonenumber: {
       util: {
@@ -524,6 +526,7 @@ declare global {
       };
       challengeHandler: ChallengeHandler;
     };
+    SignalContext: SignalContext;
 
     ConversationController: ConversationController;
     Events: WhatIsThis;
