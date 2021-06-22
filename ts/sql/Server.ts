@@ -91,6 +91,9 @@ type EmptyQuery = [];
 type ArrayQuery = Array<Array<null | number | string>>;
 type Query = { [key: string]: null | number | string | Buffer };
 
+// This value needs to be below SQLITE_MAX_VARIABLE_NUMBER.
+const MAX_VARIABLE_COUNT = 100;
+
 // Because we can't force this module to conform to an interface, we narrow our exports
 //   to this one default export, which does conform to the interface.
 // Note: In Javascript, you need to access the .default property when requiring it
@@ -2151,6 +2154,24 @@ function getInstance(): Database {
   return globalInstance;
 }
 
+function batchMultiVarQuery<T>(
+  values: Array<T>,
+  query: (batch: Array<T>) => void
+): void {
+  const db = getInstance();
+  if (values.length > MAX_VARIABLE_COUNT) {
+    db.transaction(() => {
+      for (let i = 0; i < values.length; i += MAX_VARIABLE_COUNT) {
+        const batch = values.slice(i, i + MAX_VARIABLE_COUNT);
+        query(batch);
+      }
+    })();
+    return;
+  }
+
+  query(values);
+}
+
 const IDENTITY_KEYS_TABLE = 'identityKeys';
 function createOrUpdateIdentityKey(data: IdentityKeyType): Promise<void> {
   return createOrUpdate(IDENTITY_KEYS_TABLE, data);
@@ -2477,6 +2498,7 @@ async function removeById(
   id: string | number | Array<string | number>
 ): Promise<void> {
   const db = getInstance();
+
   if (!Array.isArray(id)) {
     db.prepare<Query>(
       `
@@ -2491,13 +2513,16 @@ async function removeById(
     throw new Error('removeById: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare<ArrayQuery>(
-    `
-    DELETE FROM ${table}
-    WHERE id IN ( ${id.map(() => '?').join(', ')} );
-    `
-  ).run(id);
+  const removeByIdsSync = (ids: Array<string | number>): void => {
+    db.prepare<ArrayQuery>(
+      `
+      DELETE FROM ${table}
+      WHERE id IN ( ${id.map(() => '?').join(', ')} );
+      `
+    ).run(ids);
+  };
+
+  batchMultiVarQuery(id, removeByIdsSync);
 }
 
 async function removeAllFromTable(table: string): Promise<void> {
@@ -2711,9 +2736,21 @@ async function updateConversations(
   })();
 }
 
-async function removeConversation(id: Array<string> | string): Promise<void> {
+function removeConversationsSync(ids: Array<string>): void {
   const db = getInstance();
+
+  // Our node interface doesn't seem to allow you to replace one single ? with an array
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM conversations
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
+}
+
+async function removeConversation(id: Array<string> | string): Promise<void> {
   if (!Array.isArray(id)) {
+    const db = getInstance();
     db.prepare<Query>('DELETE FROM conversations WHERE id = $id;').run({
       id,
     });
@@ -2725,13 +2762,7 @@ async function removeConversation(id: Array<string> | string): Promise<void> {
     throw new Error('removeConversation: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare<ArrayQuery>(
-    `
-    DELETE FROM conversations
-    WHERE id IN ( ${id.map(() => '?').join(', ')} );
-    `
-  ).run(id);
+  batchMultiVarQuery(id, removeConversationsSync);
 }
 
 async function getConversationById(
@@ -3217,7 +3248,7 @@ async function removeMessage(id: string): Promise<void> {
   db.prepare<Query>('DELETE FROM messages WHERE id = $id;').run({ id });
 }
 
-async function removeMessages(ids: Array<string>): Promise<void> {
+function removeMessagesSync(ids: Array<string>): void {
   const db = getInstance();
 
   db.prepare<ArrayQuery>(
@@ -3226,6 +3257,10 @@ async function removeMessages(ids: Array<string>): Promise<void> {
     WHERE id IN ( ${ids.map(() => '?').join(', ')} );
     `
   ).run(ids);
+}
+
+async function removeMessages(ids: Array<string>): Promise<void> {
+  batchMultiVarQuery(ids, removeMessagesSync);
 }
 
 async function getMessageById(id: string): Promise<MessageType | undefined> {
@@ -4197,10 +4232,21 @@ async function getAllUnprocessed(): Promise<Array<UnprocessedType>> {
   return rows;
 }
 
-async function removeUnprocessed(id: string | Array<string>): Promise<void> {
+function removeUnprocessedsSync(ids: Array<string>): void {
   const db = getInstance();
 
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM unprocessed
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
+}
+
+async function removeUnprocessed(id: string | Array<string>): Promise<void> {
   if (!Array.isArray(id)) {
+    const db = getInstance();
+
     prepare(db, 'DELETE FROM unprocessed WHERE id = $id;').run({ id });
 
     return;
@@ -4210,13 +4256,7 @@ async function removeUnprocessed(id: string | Array<string>): Promise<void> {
     throw new Error('removeUnprocessed: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare<ArrayQuery>(
-    `
-    DELETE FROM unprocessed
-    WHERE id IN ( ${id.map(() => '?').join(', ')} );
-    `
-  ).run(id);
+  batchMultiVarQuery(id, removeUnprocessedsSync);
 }
 
 async function removeAllUnprocessed(): Promise<void> {
