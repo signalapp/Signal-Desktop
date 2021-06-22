@@ -13,7 +13,6 @@ import {
 import { find } from '../util/iterables';
 import { DataMessageClass } from '../textsecure.d';
 import { ConversationModel } from './conversations';
-import { ConversationType } from '../state/ducks/conversations';
 import { MessageStatusType } from '../components/conversation/Message';
 import {
   OwnProps as SmartMessageDetailPropsType,
@@ -36,6 +35,7 @@ import {
 } from '../util/whatTypeOfConversation';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
+import { findAndFormatContact } from '../util/findAndFormatContact';
 import {
   getLastChallengeError,
   getMessagePropStatus,
@@ -83,27 +83,6 @@ type PropsForMessageDetail = Pick<
   'sentAt' | 'receivedAt' | 'message' | 'errors' | 'contacts'
 >;
 
-type FormattedContact = Partial<ConversationType> &
-  Pick<
-    ConversationType,
-    | 'acceptedMessageRequest'
-    | 'id'
-    | 'isMe'
-    | 'sharedGroupNames'
-    | 'title'
-    | 'type'
-    | 'unblurredAvatarPath'
-  >;
-
-export const PLACEHOLDER_CONTACT: FormattedContact = {
-  acceptedMessageRequest: false,
-  id: 'placeholder-contact',
-  isMe: false,
-  sharedGroupNames: [],
-  title: window.i18n('unknownContact'),
-  type: 'direct',
-};
-
 declare const _: typeof window._;
 
 window.Whisper = window.Whisper || {};
@@ -113,7 +92,6 @@ const {
   Attachment,
   MIME,
   Contact,
-  PhoneNumber,
   Errors,
 } = window.Signal.Types;
 const {
@@ -181,9 +159,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isSelected?: boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  quotedMessage: any;
-
   syncPromise?: Promise<unknown>;
 
   initialize(attributes: unknown): void {
@@ -203,7 +178,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.OUR_NUMBER = window.textsecure.storage.user.getNumber();
     this.OUR_UUID = window.textsecure.storage.user.getUuid();
 
-    this.on('unload', this.unload);
     this.on('change', this.notifyRedux);
   }
 
@@ -327,7 +301,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
         return {
-          ...this.findAndFormatContact(id),
+          ...findAndFormatContact(id),
 
           status: this.getStatus(id),
           errors: errorsForContact,
@@ -363,7 +337,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       receivedAt: this.getReceivedAt(),
       message: getPropsForMessage(
         this.attributes,
-        (id?: string | undefined) => this.findAndFormatContact(id),
+        findAndFormatContact,
         window.ConversationController.getOurConversationIdOrThrow(),
         this.OUR_NUMBER,
         this.OUR_UUID,
@@ -383,44 +357,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // Dependencies of prop-generation functions
-  findAndFormatContact(identifier?: string): FormattedContact {
-    if (!identifier) {
-      return PLACEHOLDER_CONTACT;
-    }
-
-    const contactModel = this.findContact(identifier);
-    if (contactModel) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return contactModel.format()!;
-    }
-
-    const { format, isValidNumber } = PhoneNumber;
-    const regionCode = window.storage.get('regionCode');
-
-    if (!isValidNumber(identifier, { regionCode })) {
-      return PLACEHOLDER_CONTACT;
-    }
-
-    const phoneNumber = format(identifier, {
-      ourRegionCode: regionCode,
-    });
-
-    return {
-      acceptedMessageRequest: false,
-      id: 'phone-only',
-      isMe: false,
-      phoneNumber,
-      sharedGroupNames: [],
-      title: phoneNumber,
-      type: 'direct',
-    };
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  findContact(identifier?: string): ConversationModel | undefined {
-    return window.ConversationController.get(identifier);
-  }
-
   getConversation(): ConversationModel | undefined {
     return window.ConversationController.get(this.get('conversationId'));
   }
@@ -484,7 +420,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (isProfileChange(attributes)) {
       const change = this.get('profileChange');
       const changedId = this.get('changedId');
-      const changedContact = this.findAndFormatContact(changedId);
+      const changedContact = findAndFormatContact(changedId);
       if (!change) {
         throw new Error('getNotificationData: profileChange was missing!');
       }
@@ -694,7 +630,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const state = window.reduxStore.getState();
       const callingNotification = getPropsForCallHistory(
         attributes,
-        (id?: string | undefined) => this.findAndFormatContact(id),
+        findAndFormatContact,
         getCallSelector(state),
         getActiveCall(state)
       );
@@ -724,7 +660,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     if (isKeyChange(attributes)) {
       const identifier = this.get('key_changed');
-      const conversation = this.findContact(identifier);
+      const conversation = window.ConversationController.get(identifier);
       return {
         text: window.i18n('safetyNumberChangedGroup', [
           conversation ? conversation.getTitle() : null,
@@ -752,7 +688,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const bodyRanges = processBodyRanges(
       attributes.bodyRanges,
-      (id?: string | undefined) => this.findAndFormatContact(id)
+      findAndFormatContact
     );
     if (bodyRanges) {
       return getTextWithMentions(bodyRanges, body);
@@ -769,7 +705,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const bodyRanges = processBodyRanges(
       attributes.bodyRanges,
-      (id?: string | undefined) => this.findAndFormatContact(id)
+      findAndFormatContact
     );
 
     if (bodyRanges && bodyRanges.length) {
@@ -839,7 +775,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.getConversation()?.debouncedUpdateLastMessage?.();
 
     window.MessageController.unregister(this.id);
-    this.unload();
     await this.deleteData();
   }
 
@@ -963,7 +898,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const { authorUuid, author, id: sentAt, referencedMessageNotFound } = quote;
-    const contact = this.findContact(authorUuid || author);
+    const contact = window.ConversationController.get(authorUuid || author);
 
     // Is the quote really without a reference? Check with our in memory store
     // first to make sure it's not there.
@@ -1112,12 +1047,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       isUniversalTimerNotificationValue;
 
     return !hasSomethingToDisplay;
-  }
-
-  unload(): void {
-    if (this.quotedMessage) {
-      this.quotedMessage = null;
-    }
   }
 
   isUnidentifiedDelivery(

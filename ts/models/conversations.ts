@@ -2831,7 +2831,13 @@ export class ConversationModel extends window.Backbone
         return null;
       }
 
-      return number.error || 'Invalid phone number';
+      let errorMessage: undefined | string;
+      if (number.error instanceof Error) {
+        errorMessage = number.error.message;
+      } else if (typeof number.error === 'string') {
+        errorMessage = number.error;
+      }
+      return errorMessage || 'Invalid phone number';
     }
 
     return null;

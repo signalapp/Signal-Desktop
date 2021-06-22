@@ -291,7 +291,7 @@ export function getContact(
 }
 
 export function getConversation(
-  message: MessageAttributesType,
+  message: Pick<MessageAttributesType, 'conversationId'>,
   conversationSelector: GetConversationByIdType
 ): ConversationType {
   return conversationSelector(message.conversationId);
@@ -987,7 +987,7 @@ function getPropsForPreview(
 }
 
 export function getPropsForQuote(
-  message: MessageAttributesType,
+  message: Pick<MessageAttributesType, 'conversationId' | 'quote'>,
   conversationSelector: GetConversationByIdType,
   ourConversationId: string | undefined
 ): PropsData['quote'] {

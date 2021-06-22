@@ -137,7 +137,6 @@ const Errors = require('./types/errors');
 const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
 const MessageType = require('./types/message');
 const MIME = require('../../ts/types/MIME');
-const PhoneNumber = require('../../ts/types/PhoneNumber');
 const SettingsType = require('../../ts/types/Settings');
 
 // Views
@@ -417,7 +416,6 @@ exports.setup = (options = {}) => {
     Errors,
     Message: MessageType,
     MIME,
-    PhoneNumber,
     Settings: SettingsType,
     VisualAttachment,
   };
