@@ -407,5 +407,7 @@
   "playAtCustomSpeed": "Play at $multipler$x speed",
   "linkVisitWarningTitle": "Open this link in your browser?",
   "linkVisitWarningMessage": "Are you sure you want to open $url$ in your browser?",
-  "open": "Open"
+  "open": "Open",
+  "audioMessageAutoplayTitle": "Audio Message Autoplay",
+  "audioMessageAutoplayDescription": "Automatically play consecutively sent audio messages"
 }

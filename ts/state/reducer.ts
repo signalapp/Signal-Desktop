@@ -12,6 +12,7 @@ import {
 } from './ducks/mentionsInput';
 import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
 import { modalReducer as modals, ModalState } from './ducks/modalDialog';
+import { userConfigReducer as userConfig, UserConfigState } from './ducks/userConfig';
 
 export type StateType = {
   search: SearchStateType;
@@ -23,6 +24,7 @@ export type StateType = {
   mentionsInput: MentionsInputState;
   onionPaths: OnionState;
   modals: ModalState;
+  userConfig: UserConfigState;
 };
 
 export const reducers = {
@@ -35,6 +37,7 @@ export const reducers = {
   mentionsInput,
   onionPaths,
   modals,
+  userConfig
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not
