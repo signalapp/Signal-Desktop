@@ -534,11 +534,25 @@ export async function startApp(): Promise<void> {
         newValue: number | undefined
       ): Promise<void> => {
         await universalExpireTimer.set(newValue);
+
+        // Update account in Storage Service
         const conversationId = window.ConversationController.getOurConversationIdOrThrow();
         const account = window.ConversationController.get(conversationId);
         assert(account, "Account wasn't found");
 
         account.captureChange('universalExpireTimer');
+
+        // Add a notification to the currently open conversation
+        const state = window.reduxStore.getState();
+        const selectedId = state.conversations.selectedConversationId;
+        if (selectedId) {
+          const conversation = window.ConversationController.get(selectedId);
+          assert(conversation, "Conversation wasn't found");
+
+          conversation.queueJob('maybeSetPendingUniversalTimer', () =>
+            conversation.maybeSetPendingUniversalTimer()
+          );
+        }
       },
 
       addDarkOverlay: () => {
