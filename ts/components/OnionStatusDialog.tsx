@@ -116,7 +116,7 @@ export const ModalStatusLight = (props: StatusLightType) => {
       glowDuration={glowDuration}
       glowStartDelay={glowStartDelay}
       iconType={SessionIconType.Circle}
-      iconSize={SessionIconSize.Medium}
+      iconSize={SessionIconSize.Small}
       theme={theme}
     />
   );
