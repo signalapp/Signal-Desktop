@@ -19,15 +19,13 @@
   }
 
   &__button {
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   &__buttons {
     align-items: center;
     display: flex;
+    margin-left: 6px;
     -webkit-app-region: no-drag;
   }
 
