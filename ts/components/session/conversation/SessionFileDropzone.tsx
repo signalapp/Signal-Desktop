@@ -3,9 +3,6 @@ import styled, { ThemeContext } from 'styled-components';
 import { Flex } from '../../basic/Flex';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 
-// padding-inline-end: ${props => props.theme.common.margins.md};
-// padding-inline-start: ${props => props.theme.common.margins.md};
-
 const DropZoneContainer = styled.div`
   display: inline-block;
   position: absolute;
