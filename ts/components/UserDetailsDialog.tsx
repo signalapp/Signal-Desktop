@@ -1,107 +1,80 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, AvatarSize } from './Avatar';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import { SessionIdEditable } from './session/SessionIdEditable';
 import { ConversationController } from '../session/conversations';
-import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
+import { ConversationTypeEnum } from '../models/conversation';
 import { SessionWrapperModal } from './session/SessionWrapperModal';
 import { SpacerMD } from './basic/Text';
-import autoBind from 'auto-bind';
 import { updateUserDetailsModal } from '../state/ducks/modalDialog';
 import { openConversationExternal } from '../state/ducks/conversations';
-
+// tslint:disable-next-line: no-submodule-imports
+import useKey from 'react-use/lib/useKey';
 type Props = {
   conversationId: string;
   authorAvatarPath?: string;
   userName: string;
 };
 
-interface State {
-  isEnlargedImageShown: boolean;
-}
+export const UserDetailsDialog = (props: Props) => {
+  const [isEnlargedImageShown, setIsEnlargedImageShown] = useState(false);
+  const convo = ConversationController.getInstance().get(props.conversationId);
 
-export class UserDetailsDialog extends React.Component<Props, State> {
-  private readonly convo: ConversationModel;
-  constructor(props: Props) {
-    super(props);
+  const size = isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
+  const userName = props.userName || props.conversationId;
 
-    autoBind(this);
-    this.convo = ConversationController.getInstance().get(props.conversationId);
-    window.addEventListener('keyup', this.onKeyUp);
-
-    this.state = { isEnlargedImageShown: false };
-  }
-
-  public render() {
-    return (
-      <SessionWrapperModal title={this.props.userName} onClose={this.closeDialog}>
-        <div className="avatar-center">
-          <div className="avatar-center-inner">{this.renderAvatar()}</div>
-        </div>
-
-        <SpacerMD />
-        <SessionIdEditable editable={false} text={this.convo.id} />
-
-        <div className="session-modal__button-group__center">
-          <SessionButton
-            text={window.i18n('startConversation')}
-            buttonType={SessionButtonType.Default}
-            buttonColor={SessionButtonColor.Primary}
-            onClick={this.onClickStartConversation}
-          />
-        </div>
-      </SessionWrapperModal>
-    );
-  }
-
-  private renderAvatar() {
-    const size = this.state.isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
-    const userName = this.props.userName || this.props.conversationId;
-
-    return (
-      <Avatar
-        avatarPath={this.props.authorAvatarPath}
-        name={userName}
-        size={size}
-        onAvatarClick={this.handleShowEnlargedDialog}
-        pubkey={this.props.conversationId}
-      />
-    );
-  }
-
-  private readonly handleShowEnlargedDialog = () => {
-    this.setState({ isEnlargedImageShown: !this.state.isEnlargedImageShown });
-  };
-
-  private onKeyUp(event: any) {
-    switch (event.key) {
-      case 'Enter':
-        void this.onClickStartConversation();
-        break;
-      case 'Esc':
-      case 'Escape':
-        this.closeDialog();
-        break;
-      default:
-    }
-  }
-
-  private closeDialog() {
-    window.removeEventListener('keyup', this.onKeyUp);
-
+  function closeDialog() {
     window.inboxStore?.dispatch(updateUserDetailsModal(null));
   }
 
-  private async onClickStartConversation() {
-    // this.props.onStartConversation();
+  async function onClickStartConversation() {
     const conversation = await ConversationController.getInstance().getOrCreateAndWait(
-      this.convo.id,
+      convo.id,
       ConversationTypeEnum.PRIVATE
     );
 
     window.inboxStore?.dispatch(openConversationExternal(conversation.id));
 
-    this.closeDialog();
+    closeDialog();
   }
-}
+
+  useKey(
+    'Enter',
+    () => {
+      void onClickStartConversation();
+    },
+    undefined,
+    [props.conversationId]
+  );
+
+  return (
+    <SessionWrapperModal title={props.userName} onClose={closeDialog} showExitIcon={true}>
+      <div className="avatar-center">
+        <div className="avatar-center-inner">
+          <Avatar
+            avatarPath={props.authorAvatarPath}
+            name={userName}
+            size={size}
+            onAvatarClick={() => {
+              setIsEnlargedImageShown(!isEnlargedImageShown);
+            }}
+            pubkey={props.conversationId}
+          />
+        </div>
+      </div>
+
+      <SpacerMD />
+      <SessionIdEditable editable={false} text={convo.id} />
+
+      <div className="session-modal__button-group__center">
+        <SessionButton
+          text={window.i18n('startConversation')}
+          buttonType={SessionButtonType.Default}
+          buttonColor={SessionButtonColor.Primary}
+          onClick={onClickStartConversation}
+        />
+      </div>
+    </SessionWrapperModal>
+  );
+};

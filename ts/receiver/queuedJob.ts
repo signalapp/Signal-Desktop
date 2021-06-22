@@ -295,8 +295,8 @@ async function handleRegularMessage(
     }
   }
 
-  if (dataMessage.groupInvitation) {
-    message.set({ groupInvitation: dataMessage.groupInvitation });
+  if (dataMessage.openGroupInvitation) {
+    message.set({ groupInvitation: dataMessage.openGroupInvitation });
   }
 
   handleLinkPreviews(dataMessage.body, dataMessage.preview, message);

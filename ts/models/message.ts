@@ -314,18 +314,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     let serverAddress = '';
     try {
-      const url = new URL(invitation.serverAddress);
+      const url = new URL(invitation.url);
       serverAddress = url.origin;
     } catch (e) {
       window?.log?.warn('failed to get hostname from opengroupv2 invitation', invitation);
     }
 
     return {
-      serverName: invitation.serverName,
-      serverAddress,
+      serverName: invitation.name,
+      url: serverAddress,
       direction,
       onJoinClick: () => {
-        acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
+        acceptOpenGroupInvitation(invitation.url, invitation.name);
       },
     };
   }
@@ -548,14 +548,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       isOpenGroupV2: isPublicOpenGroupV2,
       isKickedFromGroup: conversation && conversation.get('isKickedFromGroup'),
 
-      onCopyText: this.copyText,
       onRetrySend: this.retrySend,
       markRead: this.markRead,
-
-      onShowUserDetails: (pubkey: string) =>
-        window.Whisper.events.trigger('onShowUserDetails', {
-          userPubKey: pubkey,
-        }),
     };
   }
 
@@ -756,10 +750,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public copyPubKey() {
     // this.getSource return out pubkey if this is an outgoing message, or the sender pubkey
     MessageInteraction.copyPubKey(this.getSource());
-  }
-
-  public copyText() {
-    MessageInteraction.copyBodyToClipboard(this.get('body'));
   }
 
   /**

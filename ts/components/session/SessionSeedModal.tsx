@@ -57,7 +57,11 @@ class SessionSeedModalInner extends React.Component<{}, State> {
     return (
       <>
         {!loading && (
-          <SessionWrapperModal title={i18n('showRecoveryPhrase')} onClose={onClose}>
+          <SessionWrapperModal
+            title={i18n('showRecoveryPhrase')}
+            onClose={onClose}
+            showExitIcon={true}
+          >
             <SpacerSM />
 
             {hasPassword && !passwordValid ? (
@@ -111,7 +115,6 @@ class SessionSeedModalInner extends React.Component<{}, State> {
     const fgColor = '#1B1B1B';
 
     const hexEncodedSeed = mn_decode(this.state.recoveryPhrase, 'english');
-    const onClose = () => window.inboxStore?.dispatch(recoveryPhraseModal(null));
 
     return (
       <>
@@ -133,7 +136,6 @@ class SessionSeedModalInner extends React.Component<{}, State> {
               this.copyRecoveryPhrase(this.state.recoveryPhrase);
             }}
           />
-          <SessionButton text={i18n('cancel')} onClick={onClose} />
         </div>
       </>
     );

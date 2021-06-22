@@ -38,6 +38,7 @@ import { handleMessageJob } from './queuedJob';
 import { fromBase64ToArray } from '../session/utils/String';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { isDuplicateBasedOnHash } from './hashDuplicateFilter';
+import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 
 // TODO: check if some of these exports no longer needed
 
@@ -93,7 +94,7 @@ function queueEnvelope(envelope: EnvelopePlus) {
   window?.log?.info('queueing envelope', id);
 
   const task = handleEnvelope.bind(null, envelope);
-  const taskWithTimeout = window.textsecure.createTaskWithTimeout(task, `queueEnvelope ${id}`);
+  const taskWithTimeout = createTaskWithTimeout(task, `queueEnvelope ${id}`);
 
   try {
     envelopeQueue.add(taskWithTimeout);
@@ -248,10 +249,7 @@ function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
   window?.log?.info('queueing decrypted envelope', id);
 
   const task = handleDecryptedEnvelope.bind(null, envelope, plaintext);
-  const taskWithTimeout = window.textsecure.createTaskWithTimeout(
-    task,
-    `queueEncryptedEnvelope ${id}`
-  );
+  const taskWithTimeout = createTaskWithTimeout(task, `queueEncryptedEnvelope ${id}`);
   try {
     envelopeQueue.add(taskWithTimeout);
   } catch (error) {

@@ -5,6 +5,9 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon/';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { DefaultTheme, useTheme } from 'styled-components';
 
+// tslint:disable-next-line: no-submodule-imports
+import useKey from 'react-use/lib/useKey';
+
 type Props = {
   title: string;
   onClose: any;
@@ -58,21 +61,23 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
 
   const theme = useTheme();
 
-  useEffect(() => {
-    window.addEventListener('keyup', keyUpHandler);
+  useKey(
+    'Esc',
+    () => {
+      props.onClose?.();
+    },
+    undefined,
+    [props.onClose]
+  );
 
-    return () => {
-      window.removeEventListener('keyup', keyUpHandler);
-    };
-  }, []);
-
-  const keyUpHandler = ({ key }: any) => {
-    if (key === 'Escape') {
-      if (props.onClose) {
-        props.onClose();
-      }
-    }
-  };
+  useKey(
+    'Escape',
+    () => {
+      props.onClose?.();
+    },
+    undefined,
+    [props.onClose]
+  );
 
   return (
     <div className={`loki-dialog modal ${additionalClassName}`}>

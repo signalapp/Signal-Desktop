@@ -205,13 +205,6 @@
     }
   });
 
-  Whisper.events.on('setupWithImport', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openImporter();
-    }
-  });
-
   Whisper.events.on('deleteLocalPublicMessages', async ({ messageServerIds, conversationId }) => {
     if (!Array.isArray(messageServerIds)) {
       return;
@@ -288,19 +281,11 @@
     Whisper.WallClockListener.init(Whisper.events);
     Whisper.ExpiringMessagesListener.init(Whisper.events);
 
-    if (Whisper.Import.isIncomplete()) {
-      window.log.info('Import was interrupted, showing import error screen');
-      appView.openImporter();
-    } else if (
-      Whisper.Registration.isDone() &&
-      !window.textsecure.storage.user.isSignInByLinking()
-    ) {
+    if (Whisper.Registration.isDone() && !window.textsecure.storage.user.isSignInByLinking()) {
       connect();
       appView.openInbox({
         initialLoadComplete,
       });
-    } else if (window.isImportMode()) {
-      appView.openImporter();
     } else {
       appView.openStandalone();
     }
@@ -455,9 +440,6 @@
     }
 
     if (!Whisper.Registration.everDone()) {
-      return;
-    }
-    if (Whisper.Import.isIncomplete()) {
       return;
     }
 

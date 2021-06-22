@@ -3,10 +3,6 @@
     "label": "&File",
     "submenu": [
       {
-        "label": "Set Up with Import",
-        "click": null
-      },
-      {
         "type": "separator"
       },
       {

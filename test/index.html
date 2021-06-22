@@ -18,143 +18,6 @@
   </div>
   </div>
 
-  <script type="text/x-tmpl-mustache" id="banner">
-    <div class="body">
-      <span class="icon warning"></span>
-      {{ message }}
-      <span class="icon dismiss"></span>
-    </div>
-  </script>
-
-  <script type="text/x-tmpl-mustache" id="nickname-dialog">
-    <div class="content">
-      <div class="message">{{ message }}</div>
-      <input type="text" name="name" class="name" placeholder="Type a name" value="{{ name }}">
-      <div class="buttons">
-        <button class="clear" tabindex="3">{{ clear }}</button>
-        <button class="cancel" tabindex="2">{{ cancel }}</button>
-        <button class="ok" tabindex="1">{{ ok }}</button>
-      </div>
-    </div>
-  </script>
-  <script type="text/x-tmpl-mustache" id="beta-disclaimer-dialog">
-    <div class="content">
-      <div class="betaDisclaimerView" style="display: none;">
-        <h2>
-          Thanks for testing Session!
-        </h2>
-        <p>
-            Thanks for testing Session! This software is a beta version of the full Session software suite, and so is missing some of the features the full version will have.
-        </p>
-
-        <p>
-          <b>
-            This version of Session provides no guarantees of metadata privacy.
-          </b>
-        </p>
-
-        <p>
-            While your messages are secured using end to end encryption, in this beta version of Loki messenger, <b>third parties (like your ISP or the Service Node network) can see who you’re talking to</b> and when you’re sending or receiving messages.
-        </p>
-
-        <p>
-            It is also possible that <b>third parties could correlate your public key to your IP address</b> and your real identity if they learn your public key.
-        </p>
-
-        <p>
-            However, no one except you and your intended recipients will be able to see the contents of your messages. We recommend using existing methods, like Tor or I2P to mask your IP address while using Session beta version.
-        </p>
-
-        <p>
-            As a beta, this software is still experimental. When things aren't working for you, or you feel confused by the app, please let us know by filing an issue on <a href="https://github.com/loki-project/loki-messenger">Github</a> or making suggestions on <a href="https://discordapp.com/invite/67GXfD6">Discord</a>.
-        </p>
-
-        <button class="ok" tabindex="1">{{ ok }}</button>
-      </div>
-    </div>
-  </script>
-  <script type="text/x-tmpl-mustache" id="identicon-svg">
-      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
-         <circle cx="50" cy="50" r="40" fill="{{ color }}" />
-          <text text-anchor="middle" fill="white" font-family="sans-serif" font-size="24px" x="50" y="50" baseline-shift="-8px">
-              {{ content }}
-          </text>
-      </svg>
-  </script>
-
-  <script type="text/x-tmpl-mustache" id="import-flow-template">
-    {{#isStep2}}
-    <div id="step2" class="step">
-      <div class="inner">
-        <div class="step-body">
-          <span class="banner-icon"></span>
-          <div class="header">{{ chooseHeader }}</div>
-          <div class="body-text">{{ choose }}</div>
-        </div>
-        <div class="nav">
-          <div>
-            <a class="button choose">{{ chooseButton }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isStep2}}
-    {{#isStep3}}
-    <div id="step3" class="step">
-      <div class="inner">
-        <div class="step-body">
-          <span class="banner-icon import"></span>
-          <div class="header">{{ importingHeader }}</div>
-        </div>
-        <div class="progress">
-
-        </div>
-      </div>
-    </div>
-    {{/isStep3}}
-    {{#isStep4}}
-    <div id="step4" class="step">
-      <div class="inner">
-        <div class="step-body">
-          <span class="banner-icon"></span>
-          <div class="header">{{ completeHeader }}</div>
-        </div>
-        <div class="nav">
-          {{#restartButton}}
-          <div>
-            <a class="button restart">{{ restartButton }}</a>
-          </div>
-          {{/restartButton}}
-          {{#registerButton}}
-          <div>
-            <a class="button register">{{ registerButton }}</a>
-          </div>
-          {{/registerButton}}
-        </div>
-      </div>
-    </div>
-    {{/isStep4}}
-
-    {{#isError}}
-    <div id="error" class="step">
-      <div class="clearfix inner error-dialog">
-        <div class="step-body">
-          <span class="banner-icon alert-outline"></span>
-          <div class="header">{{ errorHeader }}</div>
-          <div class="body-text-wide">
-            {{ errorMessageFirst }}
-            <p>{{ errorMessageSecond }}</p>
-          </div>
-        </div>
-        <div class="nav">
-          <div>
-            <a class="button choose">{{ chooseButton }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isError}}
-  </script>
 
 
   <script type="text/javascript" src="../js/components.js"></script>
@@ -183,14 +46,9 @@
   <script type="text/javascript" src="../js/views/identicon_svg_view.js"></script>
   <script type="text/javascript" src="../js/views/session_registration_view.js"></script>
   <script type="text/javascript" src="../js/views/app_view.js"></script>
-  <script type="text/javascript" src="../js/views/import_view.js"></script>
 
   <!-- DIALOGS-->
-  <script type="text/javascript" src="../js/views/password_dialog_view.js"></script>
-  <script type="text/javascript" src="../js/views/seed_dialog_view.js"></script>
-
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
-  <script type="text/javascript" src="views/timestamp_view_test.js"></script>
 
   <script type="text/javascript" src="models/conversations_test.js"></script>
   <script type="text/javascript" src="models/messages_test.js"></script>

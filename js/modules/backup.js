@@ -1,6 +1,5 @@
 /* global Signal: false */
 /* global _: false */
-/* global i18n: false */
 
 /* eslint-env browser */
 /* eslint-env node */
@@ -24,7 +23,6 @@ const { dialog, BrowserWindow } = electronRemote;
 module.exports = {
   getDirectoryForExport,
   exportToDirectory,
-  getDirectoryForImport,
   importFromDirectory,
   // for testing
   _sanitizeFileName,
@@ -1170,13 +1168,6 @@ async function exportToDirectory(directory, options) {
       await deleteAll(encryptionDir);
     }
   }
-}
-
-function getDirectoryForImport() {
-  const options = {
-    title: i18n('importChooserTitle'),
-  };
-  return getDirectory(options);
 }
 
 async function importFromDirectory(directory, options) {

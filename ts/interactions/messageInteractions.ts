@@ -8,7 +8,6 @@ import { ConversationController } from '../session/conversations';
 import { PubKey } from '../session/types';
 import { ToastUtils } from '../session/utils';
 
-import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../state/ducks/modalDialog';
 
 export function banUser(userToBan: string, conversationId: string) {
@@ -21,9 +20,8 @@ export function banUser(userToBan: string, conversationId: string) {
     return;
   }
 
-  const dispatch = useDispatch();
   const onClickClose = () => {
-    dispatch(updateConfirmModal(null));
+    window.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
   const confirmationModalProps = {
@@ -55,7 +53,7 @@ export function banUser(userToBan: string, conversationId: string) {
     },
   };
 
-  dispatch(updateConfirmModal(confirmationModalProps));
+  window.inboxStore?.dispatch(updateConfirmModal(confirmationModalProps));
 }
 
 /**
@@ -77,8 +75,7 @@ export function unbanUser(userToUnBan: string, conversationId: string) {
     return;
   }
 
-  const dispatch = useDispatch();
-  const onClickClose = () => dispatch(updateConfirmModal(null));
+  const onClickClose = () => window.inboxStore?.dispatch(updateConfirmModal(null));
 
   const onClickOk = async () => {
     const conversation = ConversationController.getInstance().get(conversationId);
@@ -104,7 +101,7 @@ export function unbanUser(userToUnBan: string, conversationId: string) {
     }
   };
 
-  dispatch(
+  window.inboxStore?.dispatch(
     updateConfirmModal({
       title: window.i18n('unbanUser'),
       message: window.i18n('unbanUserConfirm'),
@@ -149,17 +146,17 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
 
 export async function addSenderAsModerator(sender: string, convoId: string) {
   try {
-    const pubKeyToRemove = PubKey.cast(sender);
+    const pubKeyToAdd = PubKey.cast(sender);
     const convo = ConversationController.getInstance().getOrThrow(convoId);
 
     const roomInfo = convo.toOpenGroupV2();
-    const res = await ApiV2.addModerator(pubKeyToRemove, roomInfo);
+    const res = await ApiV2.addModerator(pubKeyToAdd, roomInfo);
     if (!res) {
       window?.log?.warn('failed to add moderator:', res);
 
       ToastUtils.pushUserNeedsToHaveJoined();
     } else {
-      window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
+      window?.log?.info(`${pubKeyToAdd.key} added to moderators...`);
       ToastUtils.pushUserAddedToModerators();
     }
   } catch (e) {
@@ -168,13 +165,11 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
 }
 
 const acceptOpenGroupInvitationV2 = (completeUrl: string, roomName?: string) => {
-  const dispatch = useDispatch();
-
   const onClickClose = () => {
-    dispatch(updateConfirmModal(null));
+    window.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
-  dispatch(
+  window.inboxStore?.dispatch(
     updateConfirmModal({
       title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', roomName),
       message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', roomName),

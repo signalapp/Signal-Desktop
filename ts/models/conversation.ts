@@ -43,6 +43,7 @@ import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUt
 import { NotificationForConvoOption } from '../components/conversation/ConversationHeader';
 import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../state/ducks/modalDialog';
+import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -408,8 +409,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>) {
-    const existingAdmins = _.sortBy(this.getGroupAdmins());
-    const newAdmins = _.sortBy(groupAdmins);
+    const existingAdmins = _.uniq(_.sortBy(this.getGroupAdmins()));
+    const newAdmins = _.uniq(_.sortBy(groupAdmins));
 
     if (_.isEqual(existingAdmins, newAdmins)) {
       // window?.log?.info(
@@ -455,10 +456,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // tslint:disable-next-line: no-promise-as-boolean
     const previous = this.pending || Promise.resolve();
 
-    const taskWithTimeout = window.textsecure.createTaskWithTimeout(
-      callback,
-      `conversation ${this.idForLogging()}`
-    );
+    const taskWithTimeout = createTaskWithTimeout(callback, `conversation ${this.idForLogging()}`);
 
     this.pending = previous.then(taskWithTimeout, taskWithTimeout);
     const current = this.pending;
@@ -612,8 +610,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           const groupInvitMessage = new GroupInvitationMessage({
             identifier: id,
             timestamp: sentAt,
-            serverName: groupInvitation.serverName,
-            serverAddress: groupInvitation.serverAddress,
+            name: groupInvitation.name,
+            url: groupInvitation.url,
             expireTimer: this.get('expireTimer'),
           });
           // we need the return await so that errors are caught in the catch {}

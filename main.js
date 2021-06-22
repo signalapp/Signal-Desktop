@@ -55,8 +55,6 @@ const config = require('./app/config');
 const userConfig = require('./app/user_config');
 const passwordUtil = require('./ts/util/passwordUtils');
 
-const importMode = process.argv.some(arg => arg === '--import') || config.get('import');
-
 const development = config.environment === 'development';
 const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 
@@ -177,7 +175,6 @@ function prepareURL(pathSegments, moreKeys) {
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
       contentProxyUrl: config.contentProxyUrl,
-      importMode: importMode ? true : undefined, // for stringify()
       serverTrustRoot: config.get('serverTrustRoot'),
       appStartInitialSpellcheckSetting,
       defaultFileServer: config.get('defaultFileServer'),
@@ -351,8 +348,6 @@ async function createWindow() {
 
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
-  } else if (config.environment === 'test-lib') {
-    mainWindow.loadURL(prepareURL([__dirname, 'libtextsecure', 'test', 'index.html']));
   } else if (config.environment.includes('test-integration')) {
     mainWindow.loadURL(prepareURL([__dirname, 'background_test.html']));
   } else {
@@ -377,7 +372,6 @@ async function createWindow() {
     // If the application is terminating, just do the default
     if (
       config.environment === 'test' ||
-      config.environment === 'test-lib' ||
       config.environment.includes('test-integration') ||
       (mainWindow.readyForShutdown && windowState.shouldQuit())
     ) {
@@ -465,12 +459,6 @@ function openSupportPage() {
   shell.openExternal('https://docs.oxen.io/products-built-on-oxen/session');
 }
 
-function setupWithImport() {
-  if (mainWindow) {
-    mainWindow.webContents.send('set-up-with-import');
-  }
-}
-
 let passwordWindow;
 function showPasswordWindow() {
   if (passwordWindow) {
@@ -503,11 +491,7 @@ function showPasswordWindow() {
 
   passwordWindow.on('close', e => {
     // If the application is terminating, just do the default
-    if (
-      config.environment === 'test' ||
-      config.environment === 'test-lib' ||
-      windowState.shouldQuit()
-    ) {
+    if (config.environment === 'test' || windowState.shouldQuit()) {
       return;
     }
 
@@ -632,11 +616,7 @@ app.on('ready', async () => {
   const userDataPath = await getRealPath(app.getPath('userData'));
   const installPath = await getRealPath(app.getAppPath());
 
-  if (
-    process.env.NODE_ENV !== 'test' &&
-    process.env.NODE_ENV !== 'test-lib' &&
-    !process.env.NODE_ENV.includes('test-integration')
-  ) {
+  if (process.env.NODE_ENV !== 'test' && !process.env.NODE_ENV.includes('test-integration')) {
     installFileHandler({
       protocol: electronProtocol,
       userDataPath,
@@ -747,7 +727,6 @@ function setupMenu(options) {
     openNewBugForm,
     openSupportPage,
     platform,
-    setupWithImport,
   });
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);
@@ -805,7 +784,6 @@ app.on('window-all-closed', () => {
   if (
     process.platform !== 'darwin' ||
     config.environment === 'test' ||
-    config.environment === 'test-lib' ||
     config.environment.includes('test-integration')
   ) {
     app.quit();
