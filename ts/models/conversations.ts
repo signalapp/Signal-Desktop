@@ -2751,7 +2751,9 @@ export class ConversationModel extends window.Backbone
 
     const expireTimer = universalExpireTimer.get();
     if (expireTimer) {
-      await this.updateExpirationTimer(expireTimer);
+      // `updateExpirationTimer` calls `modifyGroupV2` and shouldn't be awaited
+      // since we run both on conversation's queue.
+      this.updateExpirationTimer(expireTimer);
     }
 
     this.set('pendingUniversalTimer', undefined);
