@@ -1,8 +1,10 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { isEmpty } from 'lodash';
 import {
   CustomError,
+  GroupV1Update,
   MessageAttributesType,
   RetryOptions,
   ReactionAttributesType,
@@ -10,7 +12,8 @@ import {
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
-import { find } from '../util/iterables';
+import { map, filter, find } from '../util/iterables';
+import { isNotNil } from '../util/isNotNil';
 import { DataMessageClass } from '../textsecure.d';
 import { ConversationModel } from './conversations';
 import { MessageStatusType } from '../components/conversation/Message';
@@ -2687,7 +2690,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
           // GroupV1
           if (!hasGroupV2Prop && dataMessage.group) {
-            const pendingGroupUpdate = [];
+            const pendingGroupUpdate: GroupV1Update = {};
+
             const memberConversations: Array<ConversationModel> = await Promise.all(
               dataMessage.group.membersE164.map((e164: string) =>
                 window.ConversationController.getOrCreateAndWait(
@@ -2710,7 +2714,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               };
 
               if (dataMessage.group.name !== conversation.get('name')) {
-                pendingGroupUpdate.push(['name', dataMessage.group.name]);
+                pendingGroupUpdate.name = dataMessage.group.name;
               }
 
               const avatarAttachment = dataMessage.group.avatar;
@@ -2773,7 +2777,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
                 attributes.avatar = avatar;
 
-                pendingGroupUpdate.push(['avatarUpdated', true]);
+                pendingGroupUpdate.avatarUpdated = true;
               } else {
                 window.log.info(
                   'handleDataMessage: Group avatar hash matched; not replacing group avatar'
@@ -2787,11 +2791,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               );
               if (difference.length > 0) {
                 // Because GroupV1 groups are based on e164 only
-                const e164s = difference.map(id => {
-                  const c = window.ConversationController.get(id);
-                  return c ? c.get('e164') : null;
-                });
-                pendingGroupUpdate.push(['joined', e164s]);
+                const maybeE164s = map(difference, id =>
+                  window.ConversationController.get(id)?.get('e164')
+                );
+                const e164s = filter(maybeE164s, isNotNil);
+                pendingGroupUpdate.joined = [...e164s];
               }
               if (conversation.get('left')) {
                 window.log.warn('re-added to a left group');
@@ -2815,9 +2819,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
               if (isMe(sender.attributes)) {
                 attributes.left = true;
-                pendingGroupUpdate.push(['left', 'You']);
+                pendingGroupUpdate.left = 'You';
               } else {
-                pendingGroupUpdate.push(['left', sender.get('id')]);
+                pendingGroupUpdate.left = sender.get('id');
               }
               attributes.members = _.without(
                 conversation.get('members'),
@@ -2825,15 +2829,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               );
             }
 
-            if (pendingGroupUpdate.length) {
-              const groupUpdate = pendingGroupUpdate.reduce(
-                (acc, [key, value]) => {
-                  acc[key] = value;
-                  return acc;
-                },
-                {} as typeof window.WhatIsThis
-              );
-              message.set({ group_update: groupUpdate });
+            if (!isEmpty(pendingGroupUpdate)) {
+              message.set('group_update', pendingGroupUpdate);
             }
           }
 

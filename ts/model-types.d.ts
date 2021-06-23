@@ -71,6 +71,13 @@ export type RetryOptions = Readonly<{
   now: number;
 }>;
 
+export type GroupV1Update = {
+  avatarUpdated?: boolean;
+  joined?: Array<string>;
+  left?: string | 'You';
+  name?: string;
+};
+
 export type MessageAttributesType = {
   bodyPending?: boolean;
   bodyRanges?: BodyRangesType;
@@ -86,12 +93,7 @@ export type MessageAttributesType = {
   expirationStartTimestamp?: number | null;
   expireTimer?: number;
   groupMigration?: GroupMigrationType;
-  group_update?: {
-    avatarUpdated: boolean;
-    joined: Array<string>;
-    left: string | 'You';
-    name: string;
-  };
+  group_update?: GroupV1Update;
   hasAttachments?: boolean;
   hasFileAttachments?: boolean;
   hasVisualMediaAttachments?: boolean;

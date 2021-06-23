@@ -671,7 +671,7 @@ function getPropsForGroupNotification(
     });
   }
 
-  if (groupUpdate.joined) {
+  if (groupUpdate.joined?.length) {
     changes.push({
       type: 'add' as ChangeType,
       contacts: map(

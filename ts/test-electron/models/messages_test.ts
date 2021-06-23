@@ -150,7 +150,7 @@ describe('Message', () => {
       let message = messages.add(attributes);
       assert.notOk(isGroupUpdate(message.attributes));
 
-      message = messages.add({ group_update: true });
+      message = messages.add({ group_update: { left: 'You' } });
       assert.ok(isGroupUpdate(message.attributes));
     });
   });
