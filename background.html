@@ -1,4 +1,4 @@
-<!-- Copyright 2014-2020 Signal Messenger, LLC -->
+<!-- Copyright 2014-2021 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <!DOCTYPE html>
@@ -352,17 +352,19 @@
   <script type='text/javascript' src='js/keychange_listener.js'></script>
 </head>
 <body class="overflow-hidden">
-  <div class='app-loading-screen'>
-    <div class='module-title-bar-drag-area'></div>
+  <div id='app-container'>
+    <div class='app-loading-screen'>
+      <div class='module-title-bar-drag-area'></div>
 
-    <div class='content'>
-      <div class="module-splash-screen__logo module-img--150"></div>
-      <div class='container'>
-        <span class='dot'></span>
-        <span class='dot'></span>
-        <span class='dot'></span>
+      <div class='content'>
+        <div class="module-splash-screen__logo module-img--150"></div>
+        <div class='container'>
+          <span class='dot'></span>
+          <span class='dot'></span>
+          <span class='dot'></span>
+        </div>
+        <div class='message'></div>
       </div>
-      <div class='message'></div>
     </div>
   </div>
 

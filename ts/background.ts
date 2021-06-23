@@ -1715,7 +1715,7 @@ export async function startApp(): Promise<void> {
     cancelInitializationMessage();
     render(
       window.Signal.State.Roots.createApp(window.reduxStore),
-      document.body
+      document.getElementById('app-container')
     );
     const hideMenuBar = window.storage.get('hide-menu-bar', false);
     window.setAutoHideMenuBar(hideMenuBar);
