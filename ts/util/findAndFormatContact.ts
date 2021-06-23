@@ -3,6 +3,7 @@
 
 import { ConversationType } from '../state/ducks/conversations';
 import { format, isValidNumber } from '../types/PhoneNumber';
+import { normalizeUuid } from './normalizeUuid';
 
 type FormattedContact = Partial<ConversationType> &
   Pick<
@@ -30,7 +31,9 @@ export function findAndFormatContact(identifier?: string): FormattedContact {
     return PLACEHOLDER_CONTACT;
   }
 
-  const contactModel = window.ConversationController.get(identifier);
+  const contactModel = window.ConversationController.get(
+    normalizeUuid(identifier, 'findAndFormatContact')
+  );
   if (contactModel) {
     return contactModel.format();
   }
