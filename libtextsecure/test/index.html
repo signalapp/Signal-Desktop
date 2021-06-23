@@ -1,51 +1,61 @@
-<!-- Copyright 2015-2020 Signal Messenger, LLC -->
+<!-- Copyright 2015-2021 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>libtextsecure test runner</title>
+    <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <div id="tests"></div>
 
-<head>
-  <meta charset='utf-8'>
-  <title>libtextsecure test runner</title>
-  <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
-</head>
-<body>
+    <script type="text/javascript" src="fake_web_api.js"></script>
 
-  <div id="mocha">
-  </div>
-  <div id="tests">
-  </div>
+    <script type="text/javascript" src="test.js"></script>
+    <script
+      type="text/javascript"
+      src="in_memory_signal_protocol_store.js"
+    ></script>
 
-  <script type="text/javascript" src="fake_web_api.js"></script>
+    <script type="text/javascript" src="../components.js"></script>
+    <script type="text/javascript" src="../protobufs.js" data-cover></script>
+    <script
+      type="text/javascript"
+      src="../protocol_wrapper.js"
+      data-cover
+    ></script>
 
-  <script type="text/javascript" src="test.js"></script>
-  <script type="text/javascript" src="in_memory_signal_protocol_store.js"></script>
+    <script
+      type="text/javascript"
+      src="../../js/libphonenumber-util.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../js/components.js"
+      data-cover
+    ></script>
 
-  <script type="text/javascript" src="../components.js"></script>
-  <script type="text/javascript" src="../protobufs.js" data-cover></script>
-  <script type="text/javascript" src="../protocol_wrapper.js" data-cover></script>
+    <script type="text/javascript" src="helpers_test.js"></script>
+    <script type="text/javascript" src="crypto_test.js"></script>
+    <script type="text/javascript" src="contacts_parser_test.js"></script>
+    <script type="text/javascript" src="generate_keys_test.js"></script>
+    <script type="text/javascript" src="task_with_timeout_test.js"></script>
+    <script type="text/javascript" src="account_manager_test.js"></script>
+    <script type="text/javascript" src="message_receiver_test.js"></script>
+    <script type="text/javascript" src="sendmessage_test.js"></script>
 
-  <script type="text/javascript" src="../../js/libphonenumber-util.js"></script>
-  <script type="text/javascript" src="../../js/components.js" data-cover></script>
+    <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
+    <!--   NOTE: blanket doesn't support modern syntax and will choke until we find a replacement. :0( -->
+    <!-- <script type="text/javascript" src="blanket_mocha.js"></script> -->
 
-  <script type="text/javascript" src="helpers_test.js"></script>
-  <script type="text/javascript" src="crypto_test.js"></script>
-  <script type="text/javascript" src="contacts_parser_test.js"></script>
-  <script type="text/javascript" src="generate_keys_test.js"></script>
-  <script type="text/javascript" src="task_with_timeout_test.js"></script>
-  <script type="text/javascript" src="account_manager_test.js"></script>
-  <script type="text/javascript" src="message_receiver_test.js"></script>
-  <script type="text/javascript" src="sendmessage_test.js"></script>
-
-  <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
-  <!--   NOTE: blanket doesn't support modern syntax and will choke until we find a replacement. :0( -->
-  <!-- <script type="text/javascript" src="blanket_mocha.js"></script> -->
-
-  <!-- Uncomment to start tests without code coverage enabled -->
-  <script type="text/javascript">
-    window.textsecure.protobuf.onLoad(() => {
-      mocha.run();
-      window.Signal.conversationControllerStart();
-    });
-  </script>
-</body>
+    <!-- Uncomment to start tests without code coverage enabled -->
+    <script type="text/javascript">
+      window.textsecure.protobuf.onLoad(() => {
+        mocha.run();
+        window.Signal.conversationControllerStart();
+      });
+    </script>
+  </body>
 </html>
