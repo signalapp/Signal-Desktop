@@ -1125,7 +1125,9 @@ export async function startApp(): Promise<void> {
           document.querySelector(
             '.module-left-pane__compose-search-form__input'
           ),
-          document.querySelector('.module-left-pane__list'),
+          document.querySelector(
+            '.module-conversation-list__item--contact-or-conversation'
+          ),
           document.querySelector('.module-search-results'),
           document.querySelector('.module-composition-area .ql-editor'),
         ];
