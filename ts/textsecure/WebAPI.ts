@@ -59,6 +59,7 @@ import {
 } from '../textsecure.d';
 import { SignalService as Proto } from '../protobuf';
 
+import { ConnectTimeoutError } from './Errors';
 import MessageSender from './SendMessage';
 
 // TODO: remove once we move away from ArrayBuffers
@@ -305,15 +306,7 @@ async function _connectSocket(
 
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
-      reject(
-        makeHTTPError(
-          '_connectSocket: Connection timed out',
-          -1,
-          {},
-          'Connection timed out',
-          stack
-        )
-      );
+      reject(new ConnectTimeoutError('Connection timed out'));
 
       client.abort();
     }, timeout);
