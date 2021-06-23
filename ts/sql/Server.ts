@@ -337,7 +337,7 @@ function keyDatabase(db: Database, key: string): void {
 function switchToWAL(db: Database): void {
   // https://sqlite.org/wal.html
   db.pragma('journal_mode = WAL');
-  db.pragma('synchronous = NORMAL');
+  db.pragma('synchronous = FULL');
 }
 function getUserVersion(db: Database): number {
   return db.pragma('user_version', { simple: true });
