@@ -55,6 +55,10 @@
         "message": "Innstillinger…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
+    "appMenuServices": {
+        "message": "Services",
+        "description": "Application menu item for macOS 'Services'"
+    },
     "appMenuHide": {
         "message": "Skjul",
         "description": "Application menu command to hide the window"
@@ -2048,7 +2052,7 @@
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" kan ikke legges til gruppen fordi de bruker en gammel versjon av Signal. Du kan legge dem til gruppen etter at de har oppdatert Signal.",
+        "message": "«$name$» kan ikke legges til gruppen fordi de bruker en gammel versjon av Signal. Du kan legge dem til gruppen etter at de har oppdatert Signal.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -5224,7 +5228,7 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "Legg til $person$til #$group$\"?",
+        "message": "Legg til $person$ i «$group$»?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -5238,7 +5242,7 @@
         }
     },
     "AddGroupMembersModal--confirm-title--many": {
-        "message": "Legg til $count$medlemmer til \"$group$\"?",
+        "message": "Legg til $count$ medlemmer i «$group$»?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "count": {
