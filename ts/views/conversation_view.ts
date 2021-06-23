@@ -2939,7 +2939,7 @@ Whisper.ConversationView = Whisper.View.extend({
         } catch (error) {
           window.log.error(
             'Error sending delete-for-everyone',
-            error,
+            error && error.stack,
             messageId
           );
           this.showToast(Whisper.DeleteForEveryoneFailedToast);

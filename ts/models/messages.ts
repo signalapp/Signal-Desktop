@@ -1366,6 +1366,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   public hasSuccessfulDelivery(): boolean {
+    const recipients = this.get('recipients') || [];
+    if (recipients.length === 0) {
+      return true;
+    }
+
     return (this.get('sent_to') || []).length !== 0;
   }
 
