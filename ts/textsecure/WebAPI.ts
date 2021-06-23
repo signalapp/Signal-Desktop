@@ -62,6 +62,7 @@ import {
   StorageServiceCredentials,
 } from '../textsecure.d';
 
+import { ConnectTimeoutError } from './Errors';
 import MessageSender from './SendMessage';
 
 // Note: this will break some code that expects to be able to use err.response when a
@@ -305,15 +306,7 @@ async function _connectSocket(
 
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
-      reject(
-        makeHTTPError(
-          '_connectSocket: Connection timed out',
-          -1,
-          {},
-          'Connection timed out',
-          stack
-        )
-      );
+      reject(new ConnectTimeoutError('Connection timed out'));
 
       client.abort();
     }, timeout);

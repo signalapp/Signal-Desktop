@@ -186,3 +186,5 @@ export class UnregisteredUserError extends Error {
     appendStack(this, httpError);
   }
 }
+
+export class ConnectTimeoutError extends Error {}

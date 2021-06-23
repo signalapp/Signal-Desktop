@@ -43,7 +43,7 @@ import { connectToServerWithStoredCredentials } from './util/connectToServerWith
 import * as universalExpireTimer from './util/universalExpireTimer';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
-import { BackOff } from './util/BackOff';
+import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { AppViewType } from './state/ducks/app';
 import { isIncoming } from './state/selectors/message';
 import { actionCreators } from './state/actions';
@@ -113,14 +113,7 @@ export async function startApp(): Promise<void> {
     resolveOnAppView = resolve;
   });
 
-  // Fibonacci timeouts
-  const reconnectBackOff = new BackOff([
-    5 * 1000,
-    10 * 1000,
-    15 * 1000,
-    25 * 1000,
-    40 * 1000,
-  ]);
+  const reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
   window.textsecure.protobuf.onLoad(() => {
     window.storage.onready(() => {
