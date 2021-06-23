@@ -3259,7 +3259,7 @@ export class ConversationModel extends window.Backbone
         'Error sending deleteForEveryone',
         deleteModel,
         targetTimestamp,
-        error
+        error && error.stack
       );
 
       throw error;
