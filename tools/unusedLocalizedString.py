@@ -13,8 +13,8 @@ files = [y for x in os.walk(dir_path) for y in glob(os.path.join(x[0], '*.js'))]
 files += [y for x in os.walk(dir_path) for y in glob(os.path.join(x[0], '*.ts'))]
 files += [y for x in os.walk(dir_path) for y in glob(os.path.join(x[0], '*.tsx'))]
 
-# exclude node_modules and session-file-server directories
-filtered_files = [f for f in files if "node_modules" not in f and "session-file-server" not in f]
+# exclude node_modules directories
+filtered_files = [f for f in files if "node_modules" not in f]
 
 # search for this pattern in _locales/en/messages.json: it is a defined localized string
 patternLocalizedString = re.compile("^  \".*\"\: {")
