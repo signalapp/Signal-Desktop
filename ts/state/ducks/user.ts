@@ -1,10 +1,7 @@
-import { LocalizerType } from '../../types/Util';
-
 // State
 
 export type UserStateType = {
   ourNumber: string;
-  i18n: LocalizerType;
 };
 
 // Actions
@@ -37,7 +34,6 @@ function userChanged(attributes: { ourNumber: string; ourPrimary: string }): Use
 function getEmptyState(): UserStateType {
   return {
     ourNumber: 'missing',
-    i18n: () => 'missing',
   };
 }
 

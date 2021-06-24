@@ -1,19 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { LocalizerType } from '../../types/Util';
-
 interface Props {
-  i18n: LocalizerType;
   color?: string;
 }
 
 export class TypingAnimation extends React.Component<Props> {
   public render() {
-    const { i18n, color } = this.props;
+    const { color } = this.props;
 
     return (
-      <div className="module-typing-animation" title={i18n('typingAlt')}>
+      <div className="module-typing-animation" title={window.i18n('typingAlt')}>
         <div
           className={classNames(
             'module-typing-animation__dot',

@@ -228,10 +228,10 @@ async function doDecrypt(
   }
 
   switch (envelope.type) {
-    // Only UNIDENTIFIED_SENDER and CLOSED_GROUP_CIPHERTEXT are supported
-    case SignalService.Envelope.Type.CLOSED_GROUP_CIPHERTEXT:
+    // Only SESSION_MESSAGE and CLOSED_GROUP_MESSAGE are supported
+    case SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE:
       return decryptForClosedGroup(envelope, ciphertext);
-    case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
+    case SignalService.Envelope.Type.SESSION_MESSAGE: {
       return decryptUnidentifiedSender(envelope, ciphertext);
     }
     default:
@@ -297,10 +297,9 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   const data = content.dataMessage;
   const isControlDataMessageOnly =
     !data.body &&
-    !data.contact?.length &&
     !data.preview?.length &&
     !data.attachments?.length &&
-    !data.groupInvitation &&
+    !data.openGroupInvitation &&
     !data.quote;
 
   return !isControlDataMessageOnly;
@@ -384,20 +383,6 @@ function onReadReceipt(readAt: any, timestamp: any, reader: any) {
   return Whisper.ReadReceipts.onReceipt(receipt);
 }
 
-export function onDeliveryReceipt(source: any, timestamp: any) {
-  const { Whisper } = window;
-
-  window?.log?.info('delivery receipt from', `${source}.${1}`, timestamp);
-
-  const receipt = Whisper.DeliveryReceipts.add({
-    timestamp,
-    source,
-  });
-
-  // Calling this directly so we can wait for completion
-  return Whisper.DeliveryReceipts.onReceipt(receipt);
-}
-
 async function handleReceiptMessage(
   envelope: EnvelopePlus,
   receiptMessage: SignalService.IReceiptMessage
@@ -407,12 +392,7 @@ async function handleReceiptMessage(
   const { type, timestamp } = receipt;
 
   const results = [];
-  if (type === SignalService.ReceiptMessage.Type.DELIVERY) {
-    for (const ts of timestamp) {
-      const promise = onDeliveryReceipt(envelope.source, Lodash.toNumber(ts));
-      results.push(promise);
-    }
-  } else if (type === SignalService.ReceiptMessage.Type.READ) {
+  if (type === SignalService.ReceiptMessage.Type.READ) {
     for (const ts of timestamp) {
       const promise = onReadReceipt(
         Lodash.toNumber(envelope.timestamp),

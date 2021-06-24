@@ -31,7 +31,7 @@ import {
   uploadLinkPreviewsV2,
   uploadQuoteThumbnailsV2,
 } from '../session/utils/AttachmentsV2';
-import { acceptOpenGroupInvitation } from '../interactions/message';
+import { acceptOpenGroupInvitation } from '../interactions/messageInteractions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { getV2OpenGroupRoom } from '../data/opengroups';
 
@@ -259,10 +259,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         window.Whisper.ExpirationTimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0)
       );
     }
-    const contacts = this.get('contact');
-    if (contacts && contacts.length) {
-      return window.Signal.Types.Contact.getName(contacts[0]);
-    }
 
     return '';
   }
@@ -318,18 +314,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     let serverAddress = '';
     try {
-      const url = new URL(invitation.serverAddress);
+      const url = new URL(invitation.url);
       serverAddress = url.origin;
     } catch (e) {
       window?.log?.warn('failed to get hostname from opengroupv2 invitation', invitation);
     }
 
     return {
-      serverName: invitation.serverName,
-      serverAddress,
+      serverName: invitation.name,
+      url: serverAddress,
       direction,
       onJoinClick: () => {
-        acceptOpenGroupInvitation(invitation.serverAddress, invitation.serverName);
+        acceptOpenGroupInvitation(invitation.url, invitation.name);
       },
     };
   }
@@ -467,11 +463,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (window.storage.get('read-receipt-setting') && readBy.length > 0) {
       return 'read';
     }
-    const delivered = this.get('delivered');
-    const deliveredTo = this.get('delivered_to') || [];
-    if (delivered || deliveredTo.length > 0) {
-      return 'delivered';
-    }
     const sent = this.get('sent');
     const sentTo = this.get('sent_to') || [];
     if (sent || sentTo.length > 0) {
@@ -557,17 +548,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       isOpenGroupV2: isPublicOpenGroupV2,
       isKickedFromGroup: conversation && conversation.get('isKickedFromGroup'),
 
-      onCopyText: this.copyText,
-      onCopyPubKey: this.copyPubKey,
-      onBanUser: this.banUser,
-      onUnbanUser: this.unbanUser,
       onRetrySend: this.retrySend,
       markRead: this.markRead,
-
-      onShowUserDetails: (pubkey: string) =>
-        window.Whisper.events.trigger('onShowUserDetails', {
-          userPubKey: pubkey,
-        }),
     };
   }
 
@@ -643,9 +625,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { author, id, referencedMessageNotFound } = quote;
-    const contact = author && ConversationController.getInstance().get(author);
+    const contact: ConversationModel = author && ConversationController.getInstance().get(author);
 
-    const authorName = contact ? contact.getName() : null;
+    const authorName = contact ? contact.getContactProfileNameOrShortenedPubKey() : null;
+
     const isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
     const onClick = noClick
       ? null
@@ -767,17 +750,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public copyPubKey() {
     // this.getSource return out pubkey if this is an outgoing message, or the sender pubkey
     MessageInteraction.copyPubKey(this.getSource());
-  }
-
-  public banUser() {
-    MessageInteraction.banUser(this.get('source'), this.getConversation());
-  }
-  public unbanUser() {
-    MessageInteraction.unbanUser(this.get('source'), this.getConversation());
-  }
-
-  public copyText() {
-    MessageInteraction.copyBodyToClipboard(this.get('body'));
   }
 
   /**
@@ -980,10 +952,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const readBy = this.get('read_by') || [];
     if (readBy.indexOf(pubkey) >= 0) {
       return 'read';
-    }
-    const deliveredTo = this.get('delivered_to') || [];
-    if (deliveredTo.indexOf(pubkey) >= 0) {
-      return 'delivered';
     }
     const sentTo = this.get('sent_to') || [];
     if (sentTo.indexOf(pubkey) >= 0) {

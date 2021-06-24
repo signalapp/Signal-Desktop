@@ -39,12 +39,6 @@ mnemonic_languages/**
 # Test fixtures
 test/fixtures.js
 
-# Managed by Transifex:
-# Note: the negate pattern only works because it's targeting the same depth as the
-#   glob on the previous line.
-_locales/**/*.json
-!_locales/en/messages.json
-
 # Managed by package manager (`bower` and `yarn`/`npm`):
 /bower.json
 /package.json
@@ -55,5 +49,4 @@ stylesheets/_intlTelInput.scss
 # Coverage
 coverage/**
 .nyc_output/**
-session-file-server/**
 release/**

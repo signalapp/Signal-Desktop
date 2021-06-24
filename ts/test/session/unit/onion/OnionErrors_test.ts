@@ -17,12 +17,7 @@ import {
 } from '../../../../session/snode_api/onions';
 import AbortController from 'abort-controller';
 import * as Data from '../../../../../ts/data/data';
-import { Snode } from '../../../../session/snode_api/snodePool';
-import {
-  pathFailureCount,
-  SnodePath,
-  TEST_getTestguardNodes,
-} from '../../../../session/onions/onionPath';
+import { pathFailureCount } from '../../../../session/onions/onionPath';
 
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -60,14 +55,14 @@ describe('OnionPathsErrors', () => {
   // tslint:disable-next-line: one-variable-per-declaration
   let guardPubkeys: Array<string>,
     otherNodesPubkeys: Array<string>,
-    guardNodesArray: Array<Snode>,
-    guardSnode1: Snode,
-    otherNodesArray: Array<Snode>,
-    fakeSnodePool: Array<Snode>,
+    guardNodesArray: Array<Data.Snode>,
+    guardSnode1: Data.Snode,
+    otherNodesArray: Array<Data.Snode>,
+    fakeSnodePool: Array<Data.Snode>,
     associatedWith: string,
     fakeSwarmForAssociatedWith: Array<string>;
 
-  let oldOnionPaths: Array<SnodePath>;
+  let oldOnionPaths: Array<Array<Data.Snode>>;
   const fakeIP = '8.8.8.8';
   let fakePortCurrent = 20000;
 
@@ -119,6 +114,11 @@ describe('OnionPathsErrors', () => {
 
     // those are still doing what they do, but we spy on their executation
     updateSwarmSpy = sandbox.stub(Data, 'updateSwarmNodesForPubkey').resolves();
+    sandbox
+      .stub(Data, 'getItemById')
+      .withArgs(Data.SNODE_POOL_ITEM_ID)
+      .resolves({ id: Data.SNODE_POOL_ITEM_ID, value: '' });
+    sandbox.stub(Data, 'createOrUpdateItem').resolves();
     dropSnodeFromSnodePool = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSnodePool');
     dropSnodeFromSwarmIfNeededSpy = sandbox.spy(SNodeAPI.SnodePool, 'dropSnodeFromSwarmIfNeeded');
     dropSnodeFromPathSpy = sandbox.spy(OnionPaths, 'dropSnodeFromPath');
@@ -287,6 +287,7 @@ describe('OnionPathsErrors', () => {
           expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
           expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
             snodeEd25519: targetNode,
+            guardNodeEd25519: guardSnode1.pubkey_ed25519,
             associatedWith,
           });
         });
@@ -296,7 +297,7 @@ describe('OnionPathsErrors', () => {
         it('throws a non-retryable error we get a 421 status code with a new swarm', async () => {
           const targetNode = otherNodesPubkeys[0];
 
-          const resultExpected: Array<Snode> = [
+          const resultExpected: Array<Data.Snode> = [
             otherNodesArray[4],
             otherNodesArray[5],
             otherNodesArray[6],
@@ -331,6 +332,7 @@ describe('OnionPathsErrors', () => {
           expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
           expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
             snodeEd25519: targetNode,
+            guardNodeEd25519: guardSnode1.pubkey_ed25519,
             associatedWith,
           });
         });
@@ -368,6 +370,7 @@ describe('OnionPathsErrors', () => {
           expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
           expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
             snodeEd25519: targetNode,
+            guardNodeEd25519: guardSnode1.pubkey_ed25519,
             associatedWith,
           });
         });
@@ -407,6 +410,7 @@ describe('OnionPathsErrors', () => {
           expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
           expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
             snodeEd25519: targetNode,
+            guardNodeEd25519: guardSnode1.pubkey_ed25519,
             associatedWith,
           });
         });
@@ -483,6 +487,7 @@ describe('OnionPathsErrors', () => {
       expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
       expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
     });
@@ -518,6 +523,7 @@ describe('OnionPathsErrors', () => {
       expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(1);
       expect(incrementBadSnodeCountOrDropSpy.firstCall.args[0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
     });
@@ -560,14 +566,17 @@ describe('OnionPathsErrors', () => {
       expect(incrementBadSnodeCountOrDropSpy.callCount).to.eq(3);
       expect(incrementBadSnodeCountOrDropSpy.args[0][0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
       expect(incrementBadSnodeCountOrDropSpy.args[1][0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
       expect(incrementBadSnodeCountOrDropSpy.args[2][0]).to.deep.eq({
         snodeEd25519: failingSnode.pubkey_ed25519,
+        guardNodeEd25519: guardSnode1.pubkey_ed25519,
         associatedWith,
       });
       expect(incrementBadPathCountOrDropSpy.callCount).to.eq(0);
@@ -610,6 +619,7 @@ describe('OnionPathsErrors', () => {
     for (let index = 0; index < 6; index++) {
       expect(incrementBadSnodeCountOrDropSpy.args[index][0]).to.deep.eq({
         snodeEd25519: oldOnionPaths[0][(index % 2) + 1].pubkey_ed25519,
+        guardNodeEd25519: guardNode.pubkey_ed25519,
       });
     }
 

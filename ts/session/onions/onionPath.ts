@@ -1,18 +1,19 @@
-import { getGuardNodes, updateGuardNodes } from '../../../ts/data/data';
+import { getGuardNodes, Snode, updateGuardNodes } from '../../../ts/data/data';
 import * as SnodePool from '../snode_api/snodePool';
 import _ from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
 import { incrementBadSnodeCountOrDrop, snodeHttpsAgent } from '../snode_api/onions';
 import { allowOnlyOneAtATime } from '../utils/Promise';
+import pRetry from 'p-retry';
 
 const desiredGuardCount = 3;
 const minimumGuardCount = 2;
 
-export type SnodePath = Array<SnodePool.Snode>;
+import { updateOnionPaths } from '../../state/ducks/onion';
 
 const onionRequestHops = 3;
-let onionPaths: Array<SnodePath> = [];
+let onionPaths: Array<Array<Snode>> = [];
 
 /**
  * Used for testing only
@@ -56,7 +57,7 @@ const pathFailureThreshold = 3;
 // This array is meant to store nodes will full info,
 // so using GuardNode would not be correct (there is
 // some naming issue here it seems)
-let guardNodes: Array<SnodePool.Snode> = [];
+let guardNodes: Array<Snode> = [];
 
 export const ed25519Str = (ed25519Key: string) => `(...${ed25519Key.substr(58)})`;
 
@@ -91,8 +92,7 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
     window?.log?.warn(
       `Could not drop ${ed25519Str(snodeEd25519)} from path index: ${pathWithSnodeIndex}`
     );
-
-    return;
+    throw new Error(`Could not drop snode ${ed25519Str(snodeEd25519)} from path: not in any paths`);
   }
   window?.log?.info(
     `dropping snode ${ed25519Str(snodeEd25519)} from path index: ${pathWithSnodeIndex}`
@@ -119,7 +119,7 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
   onionPaths[pathWithSnodeIndex] = pathtoPatchUp;
 }
 
-export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<SnodePool.Snode>> {
+export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
   let attemptNumber = 0;
   while (onionPaths.length < minimumGuardCount) {
     window?.log?.error(
@@ -131,6 +131,12 @@ export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<S
 
     // reload goodPaths now
     attemptNumber += 1;
+  }
+
+  if (onionPaths.length <= 0) {
+    window.inboxStore?.dispatch(updateOnionPaths([]));
+  } else {
+    window.inboxStore?.dispatch(updateOnionPaths(onionPaths));
   }
 
   const onionPathsWithoutExcluded = toExclude
@@ -156,20 +162,28 @@ export async function getOnionPath(toExclude?: SnodePool.Snode): Promise<Array<S
 /**
  * If we don't know which nodes is causing trouble, increment the issue with this full path.
  */
-export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
-  const pathIndex = onionPaths.findIndex(p => p[0].pubkey_ed25519 === guardNodeEd25519);
+export async function incrementBadPathCountOrDrop(snodeEd25519: string) {
+  const pathWithSnodeIndex = onionPaths.findIndex(path =>
+    path.some(snode => snode.pubkey_ed25519 === snodeEd25519)
+  );
+
+  if (pathWithSnodeIndex === -1) {
+    (window?.log?.info || console.warn)('Did not find any path containing this snode');
+    // this can only be bad. throw an abortError so we use another path if needed
+    throw new pRetry.AbortError(
+      'incrementBadPathCountOrDrop: Did not find any path containing this snode'
+    );
+  }
+
+  const guardNodeEd25519 = onionPaths[pathWithSnodeIndex][0].pubkey_ed25519;
+
   window?.log?.info(
     `\t\tincrementBadPathCountOrDrop starting with guard ${ed25519Str(guardNodeEd25519)}`
   );
 
-  if (pathIndex === -1) {
-    (window?.log?.info || console.warn)('Did not find path with this guard node');
-    return;
-  }
+  const pathWithIssues = onionPaths[pathWithSnodeIndex];
 
-  const pathWithIssues = onionPaths[pathIndex];
-
-  window?.log?.info('handling bad path for path index', pathIndex);
+  window?.log?.info('handling bad path for path index', pathWithSnodeIndex);
   const oldPathFailureCount = pathFailureCount[guardNodeEd25519] || 0;
 
   // tslint:disable: prefer-for-of
@@ -179,7 +193,7 @@ export async function incrementBadPathCountOrDrop(guardNodeEd25519: string) {
   // a guard node is dropped when the path is dropped completely (in dropPathStartingWithGuardNode)
   for (let index = 1; index < pathWithIssues.length; index++) {
     const snode = pathWithIssues[index];
-    await incrementBadSnodeCountOrDrop({ snodeEd25519: snode.pubkey_ed25519 });
+    await incrementBadSnodeCountOrDrop({ snodeEd25519: snode.pubkey_ed25519, guardNodeEd25519 });
   }
 
   if (newPathFailureCount >= pathFailureThreshold) {
@@ -215,14 +229,14 @@ async function dropPathStartingWithGuardNode(guardNodeEd25519: string) {
   guardNodes = guardNodes.filter(g => g.pubkey_ed25519 !== guardNodeEd25519);
   pathFailureCount[guardNodeEd25519] = 0;
 
-  SnodePool.dropSnodeFromSnodePool(guardNodeEd25519);
+  await SnodePool.dropSnodeFromSnodePool(guardNodeEd25519);
 
   // write the updates guard nodes to the db.
   // the next call to getOnionPath will trigger a rebuild of the path
   await updateGuardNodes(edKeys);
 }
 
-async function testGuardNode(snode: SnodePool.Snode) {
+async function testGuardNode(snode: Snode) {
   window?.log?.info(`Testing a candidate guard node ${ed25519Str(snode.pubkey_ed25519)}`);
 
   // Send a post request and make sure it is OK
@@ -276,7 +290,7 @@ async function testGuardNode(snode: SnodePool.Snode) {
 /**
  * Only exported for testing purpose. DO NOT use this directly
  */
-export async function selectGuardNodes(): Promise<Array<SnodePool.Snode>> {
+export async function selectGuardNodes(): Promise<Array<Snode>> {
   // `getRandomSnodePool` is expected to refresh itself on low nodes
   const nodePool = await SnodePool.getRandomSnodePool();
   if (nodePool.length < desiredGuardCount) {
@@ -289,7 +303,7 @@ export async function selectGuardNodes(): Promise<Array<SnodePool.Snode>> {
 
   const shuffled = _.shuffle(nodePool);
 
-  let selectedGuardNodes: Array<SnodePool.Snode> = [];
+  let selectedGuardNodes: Array<Snode> = [];
 
   // The use of await inside while is intentional:
   // we only want to repeat if the await fails
@@ -308,7 +322,7 @@ export async function selectGuardNodes(): Promise<Array<SnodePool.Snode>> {
 
     const goodNodes = _.zip(idxOk, candidateNodes)
       .filter(x => x[0])
-      .map(x => x[1]) as Array<SnodePool.Snode>;
+      .map(x => x[1]) as Array<Snode>;
 
     selectedGuardNodes = _.concat(selectedGuardNodes, goodNodes);
   }

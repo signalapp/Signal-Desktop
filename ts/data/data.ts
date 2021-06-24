@@ -46,12 +46,15 @@ export type GuardNode = {
   ed25519PubKey: string;
 };
 
-export type SwarmNode = {
-  address: string;
+export interface Snode {
   ip: string;
-  port: string;
-  pubkey_ed25519: string;
+  port: number;
   pubkey_x25519: string;
+  pubkey_ed25519: string;
+}
+
+export type SwarmNode = Snode & {
+  address: string;
 };
 
 export type ServerToken = {
@@ -68,12 +71,6 @@ const channelsToMake = {
   removeDB,
   getPasswordHash,
 
-  getIdentityKeyById,
-  removeAllPreKeys,
-  removeAllSignedPreKeys,
-  removeAllContactPreKeys,
-  removeAllContactSignedPreKeys,
-
   getGuardNodes,
   updateGuardNodes,
 
@@ -81,8 +78,6 @@ const channelsToMake = {
   getItemById,
   getAllItems,
   removeItemById,
-
-  removeAllSessions,
 
   getSwarmNodesForPubkey,
   updateSwarmNodesForPubkey,
@@ -96,8 +91,6 @@ const channelsToMake = {
   getAllConversationIds,
   getAllOpenGroupV1Conversations,
   getPubkeysInPublicConversation,
-  savePublicServerToken,
-  getPublicServerTokenByServerUrl,
   getAllGroupsInvolvingId,
 
   searchConversations,
@@ -163,6 +156,7 @@ const channelsToMake = {
   addClosedGroupEncryptionKeyPair,
   isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
+  removeOneOpenGroupV1Message,
 
   // open group v2
   ...channelstoMakeOpenGroupV2,
@@ -405,34 +399,6 @@ export async function getPasswordHash(): Promise<string | null> {
   return channels.getPasswordHash();
 }
 
-// Identity Keys
-
-const IDENTITY_KEY_KEYS = ['publicKey'];
-
-// Identity Keys
-// TODO: identity key has different shape depending on how it is called,
-// so we need to come up with a way to make TS work with all of them
-
-export async function getIdentityKeyById(id: string): Promise<IdentityKey | null> {
-  const data = await channels.getIdentityKeyById(id);
-  return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
-}
-
-// Those removeAll are not used anymore except to cleanup the app since we removed all of those tables
-export async function removeAllPreKeys(): Promise<void> {
-  await channels.removeAllPreKeys();
-}
-const PRE_KEY_KEYS = ['privateKey', 'publicKey', 'signature'];
-export async function removeAllSignedPreKeys(): Promise<void> {
-  await channels.removeAllSignedPreKeys();
-}
-export async function removeAllContactPreKeys(): Promise<void> {
-  await channels.removeAllContactPreKeys();
-}
-export async function removeAllContactSignedPreKeys(): Promise<void> {
-  await channels.removeAllContactSignedPreKeys();
-}
-
 // Guard Nodes
 export async function getGuardNodes(): Promise<Array<GuardNode>> {
   return channels.getGuardNodes();
@@ -489,10 +455,6 @@ export async function getAllItems(): Promise<Array<StorageItem>> {
 }
 export async function removeItemById(id: string): Promise<void> {
   await channels.removeItemById(id);
-}
-// Sessions
-export async function removeAllSessions(): Promise<void> {
-  await channels.removeAllSessions();
 }
 
 // Swarm nodes
@@ -595,20 +557,13 @@ export async function getAllOpenGroupV1Conversations(): Promise<ConversationColl
   return collection;
 }
 
+/**
+ * This returns at most MAX_PUBKEYS_MEMBERS members, the last MAX_PUBKEYS_MEMBERS members who wrote in the chat
+ */
 export async function getPubkeysInPublicConversation(id: string): Promise<Array<string>> {
   return channels.getPubkeysInPublicConversation(id);
 }
 
-// open groups v1 only
-export async function savePublicServerToken(data: ServerToken): Promise<void> {
-  await channels.savePublicServerToken(data);
-}
-
-// open groups v1 only
-export async function getPublicServerTokenByServerUrl(serverUrl: string): Promise<string> {
-  const token = await channels.getPublicServerTokenByServerUrl(serverUrl);
-  return token;
-}
 export async function getAllGroupsInvolvingId(id: string): Promise<ConversationCollection> {
   const conversations = await channels.getAllGroupsInvolvingId(id);
 
@@ -975,4 +930,26 @@ export async function getMessagesWithFileAttachments(
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit: options?.limit,
   });
+}
+
+export const SNODE_POOL_ITEM_ID = 'SNODE_POOL_ITEM_ID';
+
+export async function getSnodePoolFromDb(): Promise<Array<Snode> | null> {
+  // this is currently all stored as a big string as we don't really need to do anything with them (no filtering or anything)
+  // everything is made in memory and written to disk
+  const snodesJson = await exports.getItemById(SNODE_POOL_ITEM_ID);
+  if (!snodesJson || !snodesJson.value) {
+    return null;
+  }
+
+  return JSON.parse(snodesJson.value);
+}
+
+export async function updateSnodePoolOnDb(snodesAsJsonString: string): Promise<void> {
+  await exports.createOrUpdateItem({ id: SNODE_POOL_ITEM_ID, value: snodesAsJsonString });
+}
+
+/** Returns the number of message left to remove (opengroupv1) */
+export async function removeOneOpenGroupV1Message(): Promise<number> {
+  return channels.removeOneOpenGroupV1Message();
 }

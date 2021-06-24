@@ -181,42 +181,6 @@ async function processPreviews(message: MessageModel, convo: ConversationModel):
   return addedCount;
 }
 
-async function processAvatars(message: MessageModel, convo: ConversationModel): Promise<number> {
-  let addedCount = 0;
-  const isOpenGroupV2 = convo.isOpenGroupV2();
-
-  const contacts = message.get('contact') || [];
-
-  const contact = await Promise.all(
-    contacts.map(async (item: any, index: any) => {
-      if (!item.avatar || !item.avatar.avatar) {
-        return item;
-      }
-
-      addedCount += 1;
-
-      const avatarJob = await AttachmentDownloads.addJob(item.avatar.avatar, {
-        messaeId: message.id,
-        type: 'contact',
-        index,
-        isOpenGroupV2,
-      });
-
-      return {
-        ...item,
-        avatar: {
-          ...item.avatar,
-          avatar: avatarJob,
-        },
-      };
-    })
-  );
-
-  message.set({ contact });
-
-  return addedCount;
-}
-
 async function processQuoteAttachments(
   message: MessageModel,
   convo: ConversationModel
@@ -292,10 +256,9 @@ export async function queueAttachmentDownloads(
 
   count += await processPreviews(message, conversation);
 
-  count += await processAvatars(message, conversation);
-
   count += await processQuoteAttachments(message, conversation);
 
+  // I don 't think we rely on this for anything
   if (await processGroupAvatar(message, conversation)) {
     count += 1;
   }

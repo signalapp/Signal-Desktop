@@ -70,22 +70,6 @@
       {
         "label": "Select all",
         "role": "selectall"
-      },
-      {
-        "type": "separator"
-      },
-      {
-        "label": "Speech",
-        "submenu": [
-          {
-            "label": "Start speaking",
-            "role": "startspeaking"
-          },
-          {
-            "label": "Stop speaking",
-            "role": "stopspeaking"
-          }
-        ]
       }
     ]
   },

@@ -26,6 +26,7 @@ declare module 'styled-components' {
     colors: {
       accent: string;
       accentButton: string;
+      warning: string;
       destructive: string;
       cellBackground: string;
       modalBackground: string;

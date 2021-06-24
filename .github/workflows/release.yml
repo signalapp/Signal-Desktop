@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-      - clearnet
 
 jobs:
   build:
@@ -20,9 +19,6 @@ jobs:
     steps:
       - name: Checkout git repo
         uses: actions/checkout@v2
-
-      - name: Pull git submodules
-        run: git submodule update --init
 
       - name: Install node
         uses: actions/setup-node@v1

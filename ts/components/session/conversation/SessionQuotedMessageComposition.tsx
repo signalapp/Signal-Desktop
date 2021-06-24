@@ -83,8 +83,7 @@ export const SessionQuotedMessageComposition = (props: Props) => {
 
           {hasImageAttachment && (
             <Image
-              alt={getAlt(firstImageAttachment, window.i18n)}
-              i18n={window.i18n}
+              alt={getAlt(firstImageAttachment)}
               attachment={firstImageAttachment}
               height={100}
               width={100}

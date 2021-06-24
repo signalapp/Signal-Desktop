@@ -80,7 +80,6 @@ module.exports = grunt => {
           'libtextsecure/event_target.js',
           'libtextsecure/http-resources.js',
           'libtextsecure/message_receiver.js',
-          'libtextsecure/task_with_timeout.js',
         ],
         dest: 'js/libtextsecure.js',
       },
@@ -346,17 +345,6 @@ module.exports = grunt => {
     runTests(environment, done);
   });
 
-  grunt.registerTask(
-    'lib-unit-tests',
-    'Run libtextsecure unit tests w/Electron',
-    function thisNeeded() {
-      const environment = grunt.option('env') || 'test-lib';
-      const done = this.async();
-
-      runTests(environment, done);
-    }
-  );
-
   grunt.registerMultiTask('test-release', 'Test packaged releases', function thisNeeded() {
     const dir = grunt.option('dir') || 'release';
     const environment = grunt.option('env') || 'production';
@@ -440,7 +428,7 @@ module.exports = grunt => {
 
   grunt.registerTask('tx', ['exec:tx-pull-new', 'exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
+  grunt.registerTask('test', ['unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', [
     'exec:build-protobuf',

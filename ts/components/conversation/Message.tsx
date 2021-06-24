@@ -9,43 +9,6 @@ import { Image } from './Image';
 import { ContactName } from './ContactName';
 import { Quote } from './Quote';
 
-// Audio Player
-import H5AudioPlayer from 'react-h5-audio-player';
-// import 'react-h5-audio-player/lib/styles.css';
-
-const AudioPlayerWithEncryptedFile = (props: { src: string; contentType: string }) => {
-  const theme = useTheme();
-  const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
-  return (
-    <H5AudioPlayer
-      src={urlToLoad}
-      layout="horizontal-reverse"
-      showSkipControls={false}
-      showJumpControls={false}
-      showDownloadProgress={false}
-      listenInterval={100}
-      customIcons={{
-        play: (
-          <SessionIcon
-            iconType={SessionIconType.Play}
-            iconSize={SessionIconSize.Small}
-            iconColor={theme.colors.textColorSubtle}
-            theme={theme}
-          />
-        ),
-        pause: (
-          <SessionIcon
-            iconType={SessionIconType.Pause}
-            iconSize={SessionIconSize.Small}
-            iconColor={theme.colors.textColorSubtle}
-            theme={theme}
-          />
-        ),
-      }}
-    />
-  );
-};
-
 import {
   canDisplayImage,
   getExtensionForDisplay,
@@ -62,17 +25,22 @@ import { AttachmentType } from '../../types/Attachment';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
-import { useTheme, withTheme } from 'styled-components';
+import { withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
 import { MessageRegularProps } from '../../models/messageType';
-import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import { addSenderAsModerator, removeSenderFromModerator } from '../../interactions/message';
+import {
+  addSenderAsModerator,
+  removeSenderFromModerator,
+} from '../../interactions/messageInteractions';
+import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
+import { MessageInteraction } from '../../interactions';
+import autoBind from 'auto-bind';
+import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -81,31 +49,26 @@ interface State {
   expiring: boolean;
   expired: boolean;
   imageBroken: boolean;
+  playbackSpeed: number;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
 class MessageInner extends React.PureComponent<MessageRegularProps, State> {
-  public handleImageErrorBound: () => void;
-
   public expirationCheckInterval: any;
   public expiredTimeout: any;
   public ctxMenuID: string;
 
   public constructor(props: MessageRegularProps) {
     super(props);
-
-    this.handleImageErrorBound = this.handleImageError.bind(this);
-    this.onReplyPrivate = this.onReplyPrivate.bind(this);
-    this.handleContextMenu = this.handleContextMenu.bind(this);
-    this.onAddModerator = this.onAddModerator.bind(this);
-    this.onRemoveFromModerator = this.onRemoveFromModerator.bind(this);
+    autoBind(this);
 
     this.state = {
       expiring: false,
       expired: false,
       imageBroken: false,
+      playbackSpeed: 1,
     };
     this.ctxMenuID = `ctx-menu-message-${uuid()}`;
   }
@@ -216,8 +179,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             withContentAbove={withContentAbove}
             withContentBelow={withContentBelow}
             bottomOverlay={!collapseMetadata}
-            i18n={window.i18n}
-            onError={this.handleImageErrorBound}
+            onError={this.handleImageError}
             onClickAttachment={(attachment: AttachmentType) => {
               if (multiSelectMode) {
                 onSelectMessage(id);
@@ -237,6 +199,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           }}
         >
           <AudioPlayerWithEncryptedFile
+            playbackSpeed={this.state.playbackSpeed}
             src={firstAttachment.url}
             contentType={firstAttachment.contentType}
           />
@@ -357,8 +320,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             attachments={[first.image]}
             withContentAbove={withContentAbove}
             withContentBelow={true}
-            onError={this.handleImageErrorBound}
-            i18n={window.i18n}
+            onError={this.handleImageError}
           />
         ) : null}
         <div
@@ -379,8 +341,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
                 width={72}
                 url={first.image.url}
                 attachment={first.image}
-                onError={this.handleImageErrorBound}
-                i18n={window.i18n}
+                onError={this.handleImageError}
               />
             </div>
           ) : null}
@@ -423,7 +384,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
 
     return (
       <Quote
-        i18n={window.i18n}
         onClick={(e: any) => {
           e.preventDefault();
           e.stopPropagation();
@@ -465,7 +425,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       conversationType,
       direction,
       isPublic,
-      onShowUserDetails,
       firstMessageOfSeries,
     } = this.props;
 
@@ -485,7 +444,13 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           name={userName}
           size={AvatarSize.S}
           onAvatarClick={() => {
-            onShowUserDetails(authorPhoneNumber);
+            window.inboxStore?.dispatch(
+              updateUserDetailsModal({
+                conversationId: authorPhoneNumber,
+                userName,
+                authorAvatarPath,
+              })
+            );
           }}
           pubkey={authorPhoneNumber}
         />
@@ -519,7 +484,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       >
         <MessageBody
           text={contents || ''}
-          i18n={window.i18n}
           isGroup={conversationType === 'group'}
           convoId={convoId}
           disableLinks={multiSelectMode}
@@ -547,7 +511,8 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
   public renderContextMenu() {
     const {
       attachments,
-      onCopyText,
+      authorPhoneNumber,
+      convoId,
       direction,
       status,
       isDeletable,
@@ -561,8 +526,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       isOpenGroupV2,
       weAreAdmin,
       isAdmin,
-      onBanUser,
-      onUnbanUser,
+      text,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
@@ -603,7 +567,18 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           </Item>
         ) : null}
 
-        <Item onClick={onCopyText}>{window.i18n('copyMessage')}</Item>
+        {isAudio(attachments) ? (
+          <Item onClick={this.updatePlaybackSpeed}>
+            {window.i18n('playAtCustomSpeed', this.state.playbackSpeed === 1 ? 2 : 1)}
+          </Item>
+        ) : null}
+        <Item
+          onClick={() => {
+            MessageInteraction.copyBodyToClipboard(text);
+          }}
+        >
+          {window.i18n('copyMessage')}
+        </Item>
         <Item onClick={this.onReplyPrivate}>{window.i18n('replyToMessage')}</Item>
         <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
         {showRetry ? <Item onClick={onRetrySend}>{window.i18n('resend')}</Item> : null}
@@ -625,9 +600,23 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             </Item>
           </>
         ) : null}
-        {weAreAdmin && isPublic ? <Item onClick={onBanUser}>{window.i18n('banUser')}</Item> : null}
+        {weAreAdmin && isPublic ? (
+          <Item
+            onClick={() => {
+              MessageInteraction.banUser(authorPhoneNumber, convoId);
+            }}
+          >
+            {window.i18n('banUser')}
+          </Item>
+        ) : null}
         {weAreAdmin && isOpenGroupV2 ? (
-          <Item onClick={onUnbanUser}>{window.i18n('unbanUser')}</Item>
+          <Item
+            onClick={() => {
+              MessageInteraction.unbanUser(authorPhoneNumber, convoId);
+            }}
+          >
+            {window.i18n('unbanUser')}
+          </Item>
         ) : null}
         {weAreAdmin && isPublic && !isAdmin ? (
           <Item onClick={this.onAddModerator}>{window.i18n('addAsModerator')}</Item>
@@ -829,6 +818,15 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     );
   }
 
+  /**
+   * Doubles / halves the playback speed based on the current playback speed.
+   */
+  private updatePlaybackSpeed() {
+    this.setState(prevState => ({
+      playbackSpeed: prevState.playbackSpeed === 1 ? 2 : 1,
+    }));
+  }
+
   private handleContextMenu(e: any) {
     e.preventDefault();
     e.stopPropagation();
@@ -872,7 +870,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           name={authorName}
           profileName={authorProfileName}
           module="module-message__author"
-          i18n={window.i18n}
           boldProfileName={true}
           shouldShowPubkey={Boolean(isPublic)}
         />

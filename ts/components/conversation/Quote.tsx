@@ -7,7 +7,6 @@ import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
-import { ColorType, LocalizerType } from '../../types/Util';
 import { ContactName } from './ContactName';
 import { PubKey } from '../../session/types';
 import { ConversationTypeEnum } from '../../models/conversation';
@@ -19,7 +18,6 @@ interface QuoteProps {
   authorPhoneNumber: string;
   authorProfileName?: string;
   authorName?: string;
-  i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
   conversationType: ConversationTypeEnum;
@@ -66,25 +64,23 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
 }
 
 function getTypeLabel({
-  i18n,
   contentType,
   isVoiceMessage,
 }: {
-  i18n: LocalizerType;
   contentType: MIME.MIMEType;
   isVoiceMessage: boolean;
 }): string | undefined {
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
-    return i18n('video');
+    return window.i18n('video');
   }
   if (GoogleChrome.isImageTypeSupported(contentType)) {
-    return i18n('photo');
+    return window.i18n('photo');
   }
   if (MIME.isAudio(contentType) && isVoiceMessage) {
-    return i18n('voiceMessage');
+    return window.i18n('voiceMessage');
   }
   if (MIME.isAudio(contentType)) {
-    return i18n('audio');
+    return window.i18n('audio');
   }
 
   return;
@@ -109,7 +105,7 @@ export const QuoteIcon = (props: any) => {
 };
 
 export const QuoteImage = (props: any) => {
-  const { url, i18n, icon, contentType, handleImageErrorBound } = props;
+  const { url, icon, contentType, handleImageErrorBound } = props;
 
   const { loading, urlToLoad } = useEncryptedFileFetch(url, contentType);
   const srcData = !loading ? urlToLoad : '';
@@ -129,7 +125,7 @@ export const QuoteImage = (props: any) => {
 
   return (
     <div className="module-quote__icon-container">
-      <img src={srcData} alt={i18n('quoteThumbnailAlt')} onError={handleImageErrorBound} />
+      <img src={srcData} alt={window.i18n('quoteThumbnailAlt')} onError={handleImageErrorBound} />
       {iconElement}
     </div>
   );
@@ -168,7 +164,7 @@ export const QuoteGenericFile = (props: any) => {
 };
 
 export const QuoteIconContainer = (props: any) => {
-  const { attachment, i18n, imageBroken, handleImageErrorBound } = props;
+  const { attachment, imageBroken, handleImageErrorBound } = props;
 
   if (!attachment) {
     return null;
@@ -179,7 +175,7 @@ export const QuoteIconContainer = (props: any) => {
 
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
     return objectUrl && !imageBroken ? (
-      <QuoteImage url={objectUrl} i18n={i18n} icon={'play'} />
+      <QuoteImage url={objectUrl} icon={'play'} />
     ) : (
       <QuoteIcon icon="movie" />
     );
@@ -188,7 +184,6 @@ export const QuoteIconContainer = (props: any) => {
     return objectUrl && !imageBroken ? (
       <QuoteImage
         url={objectUrl}
-        i18n={i18n}
         contentType={contentType}
         handleImageErrorBound={handleImageErrorBound}
       />
@@ -203,7 +198,7 @@ export const QuoteIconContainer = (props: any) => {
 };
 
 export const QuoteText = (props: any) => {
-  const { i18n, text, attachment, isIncoming, conversationType, convoId } = props;
+  const { text, attachment, isIncoming, conversationType, convoId } = props;
   const isGroup = conversationType === ConversationTypeEnum.GROUP;
 
   if (text) {
@@ -215,13 +210,7 @@ export const QuoteText = (props: any) => {
           isIncoming ? 'module-quote__primary__text--incoming' : null
         )}
       >
-        <MessageBody
-          isGroup={isGroup}
-          convoId={convoId}
-          text={text}
-          disableLinks={true}
-          i18n={i18n}
-        />
+        <MessageBody isGroup={isGroup} convoId={convoId} text={text} disableLinks={true} />
       </div>
     );
   }
@@ -232,7 +221,7 @@ export const QuoteText = (props: any) => {
 
   const { contentType, isVoiceMessage } = attachment;
 
-  const typeLabel = getTypeLabel({ i18n, contentType, isVoiceMessage });
+  const typeLabel = getTypeLabel({ contentType, isVoiceMessage });
   if (typeLabel) {
     return (
       <div
@@ -254,7 +243,6 @@ export const QuoteAuthor = (props: any) => {
     authorProfileName,
     authorPhoneNumber,
     authorName,
-    i18n,
     isFromMe,
     isIncoming,
     isPublic,
@@ -268,13 +256,12 @@ export const QuoteAuthor = (props: any) => {
       )}
     >
       {isFromMe ? (
-        i18n('you')
+        window.i18n('you')
       ) : (
         <ContactName
           phoneNumber={PubKey.shorten(authorPhoneNumber)}
           name={authorName}
           profileName={authorProfileName}
-          i18n={i18n}
           compact={true}
           shouldShowPubkey={Boolean(isPublic)}
         />
@@ -284,7 +271,7 @@ export const QuoteAuthor = (props: any) => {
 };
 
 export const QuoteReferenceWarning = (props: any) => {
-  const { i18n, isIncoming, referencedMessageNotFound } = props;
+  const { isIncoming, referencedMessageNotFound } = props;
 
   if (!referencedMessageNotFound) {
     return null;
@@ -309,7 +296,7 @@ export const QuoteReferenceWarning = (props: any) => {
           isIncoming ? 'module-quote__reference-warning__text--incoming' : null
         )}
       >
-        {i18n('originalMessageNotFound')}
+        {window.i18n('originalMessageNotFound')}
       </div>
     </div>
   );

@@ -22,6 +22,16 @@ import { LightBoxOptions } from './SessionConversation';
 import { UserUtils } from '../../../session/utils';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 import { SpacerLG } from '../../basic/Text';
+import {
+  deleteMessagesByConvoIdWithConfirmation,
+  setDisappearingMessagesByConvoId,
+  showAddModeratorsByConvoId,
+  showInviteContactByConvoId,
+  showLeaveGroupByConvoId,
+  showRemoveModeratorsByConvoId,
+  showUpdateGroupMembersByConvoId,
+  showUpdateGroupNameByConvoId,
+} from '../../../interactions/conversationInteractions';
 
 interface Props {
   id: string;
@@ -41,15 +51,7 @@ interface Props {
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 
   onGoBack: () => void;
-  onInviteContacts: () => void;
-  onLeaveGroup: () => void;
-  onDeleteContact: () => void;
-  onUpdateGroupName: () => void;
-  onAddModerators: () => void;
-  onRemoveModerators: () => void;
-  onUpdateGroupMembers: () => void;
   onShowLightBox: (lightboxOptions?: LightBoxOptions) => void;
-  onSetDisappearingMessages: (seconds: number) => void;
   theme: DefaultTheme;
 }
 
@@ -226,11 +228,10 @@ class SessionRightPanel extends React.Component<Props, State> {
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
     const {
+      id,
       memberCount,
       name,
       timerOptions,
-      onLeaveGroup,
-      onDeleteContact,
       isKickedFromGroup,
       left,
       isPublic,
@@ -254,8 +255,8 @@ class SessionRightPanel extends React.Component<Props, State> {
     const disappearingMessagesOptions = timerOptions.map(option => {
       return {
         content: option.name,
-        onClick: () => {
-          this.props.onSetDisappearingMessages(option.value);
+        onClick: async () => {
+          await setDisappearingMessagesByConvoId(id, option.value);
         },
       };
     });
@@ -264,6 +265,14 @@ class SessionRightPanel extends React.Component<Props, State> {
     const showAddRemoveModeratorsButton = isAdmin && !commonNoShow && isPublic;
 
     const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
+
+    const deleteConvoAction = isPublic
+      ? () => {
+          deleteMessagesByConvoIdWithConfirmation(id);
+        }
+      : () => {
+          showLeaveGroupByConvoId(id);
+        };
 
     return (
       <div className="group-settings">
@@ -280,19 +289,33 @@ class SessionRightPanel extends React.Component<Props, State> {
         )}
         <input className="description" placeholder={window.i18n('description')} />
         {showUpdateGroupNameButton && (
-          <div className="group-settings-item" role="button" onClick={this.props.onUpdateGroupName}>
+          <div
+            className="group-settings-item"
+            role="button"
+            onClick={async () => {
+              await showUpdateGroupNameByConvoId(id);
+            }}
+          >
             {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
           </div>
         )}
         {showAddRemoveModeratorsButton && (
           <>
-            <div className="group-settings-item" role="button" onClick={this.props.onAddModerators}>
+            <div
+              className="group-settings-item"
+              role="button"
+              onClick={() => {
+                showAddModeratorsByConvoId(id);
+              }}
+            >
               {window.i18n('addModerators')}
             </div>
             <div
               className="group-settings-item"
               role="button"
-              onClick={this.props.onRemoveModerators}
+              onClick={() => {
+                showRemoveModeratorsByConvoId(id);
+              }}
             >
               {window.i18n('removeModerators')}
             </div>
@@ -303,7 +326,9 @@ class SessionRightPanel extends React.Component<Props, State> {
           <div
             className="group-settings-item"
             role="button"
-            onClick={this.props.onUpdateGroupMembers}
+            onClick={async () => {
+              await showUpdateGroupMembersByConvoId(id);
+            }}
           >
             {window.i18n('groupMembers')}
           </div>
@@ -324,7 +349,7 @@ class SessionRightPanel extends React.Component<Props, State> {
             buttonColor={SessionButtonColor.Danger}
             disabled={isKickedFromGroup || left}
             buttonType={SessionButtonType.SquareOutline}
-            onClick={isPublic ? onDeleteContact : onLeaveGroup}
+            onClick={deleteConvoAction}
           />
         )}
       </div>
@@ -336,7 +361,6 @@ class SessionRightPanel extends React.Component<Props, State> {
       memberAvatars,
       id,
       onGoBack,
-      onInviteContacts,
       avatarPath,
       isAdmin,
       isPublic,
@@ -372,7 +396,9 @@ class SessionRightPanel extends React.Component<Props, State> {
             <SessionIconButton
               iconType={SessionIconType.AddUser}
               iconSize={SessionIconSize.Medium}
-              onClick={onInviteContacts}
+              onClick={() => {
+                showInviteContactByConvoId(this.props.id);
+              }}
               theme={this.props.theme}
             />
           )}

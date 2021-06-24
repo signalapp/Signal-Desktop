@@ -448,16 +448,9 @@ const handleCompactPollResults = async (
         window?.log?.warn('Could not find convo for compactPoll', convoId);
         return;
       }
-      const existingModerators = convo.get('moderators') || [];
-      let changeOnConvo = false;
-      if (!_.isEqual(existingModerators.sort(), res.moderators.sort())) {
-        convo.set({ moderators: res.moderators });
-        changeOnConvo = true;
-      }
 
-      if (changeOnConvo) {
-        await convo.commit();
-      }
+      // this already do the commit
+      await convo.updateGroupAdmins(res.moderators);
     })
   );
 };

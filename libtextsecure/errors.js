@@ -111,18 +111,6 @@
   }
   inherit(ReplayableError, TimestampError);
 
-  function PublicChatError(message) {
-    this.name = 'PublicChatError';
-    this.message = message;
-    Error.call(this, message);
-
-    // Maintains proper stack trace, where our error was thrown (only available on V8)
-    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this);
-    }
-  }
-
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.ReplayableError = ReplayableError;
   window.textsecure.EmptySwarmError = EmptySwarmError;
@@ -130,5 +118,4 @@
   window.textsecure.HTTPError = HTTPError;
   window.textsecure.NotFoundError = NotFoundError;
   window.textsecure.TimestampError = TimestampError;
-  window.textsecure.PublicChatError = PublicChatError;
 })();

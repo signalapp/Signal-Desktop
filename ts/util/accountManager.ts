@@ -4,13 +4,6 @@ import { UserUtils } from '../session/utils';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
-import {
-  removeAllContactPreKeys,
-  removeAllContactSignedPreKeys,
-  removeAllPreKeys,
-  removeAllSessions,
-  removeAllSignedPreKeys,
-} from '../data/data';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
@@ -86,7 +79,6 @@ export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: 
   UserUtils.setSignInByLinking(true);
   await createAccount(identityKeyPair);
   UserUtils.saveRecoveryPhrase(mnemonic);
-  await clearSessionsAndPreKeys();
   const pubKeyString = toHex(identityKeyPair.pubKey);
 
   // await for the first configuration message to come in.
@@ -117,7 +109,6 @@ export async function registerSingleDevice(
 
   await createAccount(identityKeyPair);
   UserUtils.saveRecoveryPhrase(generatedMnemonic);
-  await clearSessionsAndPreKeys();
   await UserUtils.setLastProfileUpdateTimestamp(Date.now());
 
   const pubKeyString = toHex(identityKeyPair.pubKey);
@@ -131,19 +122,6 @@ export async function generateMnemonic() {
   const seed = (await getSodium()).randombytes_buf(seedSize);
   const hex = toHex(seed);
   return mn_encode(hex);
-}
-
-export async function clearSessionsAndPreKeys() {
-  window?.log?.info('clearing all sessions');
-  // During secondary device registration we need to keep our prekeys sent
-  // to other pubkeys
-  await Promise.all([
-    removeAllPreKeys(),
-    removeAllSignedPreKeys(),
-    removeAllContactPreKeys(),
-    removeAllContactSignedPreKeys(),
-    removeAllSessions(),
-  ]);
 }
 
 async function bouncyDeleteAccount(reason?: string) {
@@ -178,7 +156,7 @@ async function bouncyDeleteAccount(reason?: string) {
 }
 
 export async function deleteAccount(reason?: string) {
-  return _.debounce(() => bouncyDeleteAccount(reason), 200);
+  return bouncyDeleteAccount(reason);
 }
 
 async function createAccount(identityKeyPair: any) {

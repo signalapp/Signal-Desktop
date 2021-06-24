@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
@@ -12,6 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { getTheme } from '../../state/selectors/theme';
+import { SessionConfirm } from './SessionConfirm';
+import { SessionSeedModal } from './SessionSeedModal';
+import { recoveryPhraseModal, updateConfirmModal } from '../../state/ducks/modalDialog';
 
 type Props = {
   settingsCategory: SessionSettingCategory;
@@ -106,12 +109,24 @@ const onDeleteAccount = () => {
   const title = window.i18n('clearAllData');
   const message = window.i18n('deleteAccountWarning');
 
-  window.confirmationDialog({
-    title,
-    message,
-    resolve: deleteAccount,
-    okTheme: 'danger',
-  });
+  const onClickClose = () => {
+    window.inboxStore?.dispatch(updateConfirmModal(null));
+  };
+
+  window.inboxStore?.dispatch(
+    updateConfirmModal({
+      title,
+      message,
+      okTheme: SessionButtonColor.Danger,
+      onClickOk: deleteAccount,
+      onClickClose,
+      closeAfterClickOk: true,
+    })
+  );
+};
+
+const onShowRecoveryPhrase = () => {
+  window.inboxStore?.dispatch(recoveryPhraseModal({}));
 };
 
 const LeftPaneBottomButtons = () => {
@@ -124,14 +139,18 @@ const LeftPaneBottomButtons = () => {
         text={dangerButtonText}
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.Danger}
-        onClick={onDeleteAccount}
+        onClick={() => {
+          onDeleteAccount();
+        }}
       />
 
       <SessionButton
         text={showRecoveryPhrase}
         buttonType={SessionButtonType.SquareOutline}
         buttonColor={SessionButtonColor.White}
-        onClick={() => window.Whisper.events.trigger('showSeedDialog')}
+        onClick={() => {
+          onShowRecoveryPhrase();
+        }}
       />
     </div>
   );
@@ -139,7 +158,6 @@ const LeftPaneBottomButtons = () => {
 
 export const LeftPaneSettingSection = () => {
   const theme = useSelector(getTheme);
-
   return (
     <div className="left-pane-setting-section">
       <LeftPaneSectionHeader label={window.i18n('settingsHeader')} theme={theme} />

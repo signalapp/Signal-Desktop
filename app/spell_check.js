@@ -37,7 +37,7 @@ exports.setup = (browserWindow, messages) => {
           );
         } else {
           template.push({
-            label: messages.contextMenuNoSuggestions.message,
+            label: messages.contextMenuNoSuggestions,
             enabled: false,
           });
         }
@@ -46,28 +46,28 @@ exports.setup = (browserWindow, messages) => {
 
       if (params.isEditable) {
         if (editFlags.canUndo) {
-          template.push({ label: messages.editMenuUndo.message, role: 'undo' });
+          template.push({ label: messages.editMenuUndo, role: 'undo' });
         }
         // This is only ever `true` if undo was triggered via the context menu
         // (not ctrl/cmd+z)
         if (editFlags.canRedo) {
-          template.push({ label: messages.editMenuRedo.message, role: 'redo' });
+          template.push({ label: messages.editMenuRedo, role: 'redo' });
         }
         if (editFlags.canUndo || editFlags.canRedo) {
           template.push({ type: 'separator' });
         }
         if (editFlags.canCut) {
-          template.push({ label: messages.editMenuCut.message, role: 'cut' });
+          template.push({ label: messages.editMenuCut, role: 'cut' });
         }
       }
 
       if (editFlags.canPaste) {
-        template.push({ label: messages.editMenuPaste.message, role: 'paste' });
+        template.push({ label: messages.editMenuPaste, role: 'paste' });
       }
 
       if (editFlags.canPaste) {
         template.push({
-          label: messages.editMenuPasteAndMatchStyle.message,
+          label: messages.editMenuPasteAndMatchStyle,
           role: 'pasteAndMatchStyle',
         });
       }
@@ -76,7 +76,7 @@ exports.setup = (browserWindow, messages) => {
       // results in all the UI being selected
       if (editFlags.canSelectAll && params.isEditable) {
         template.push({
-          label: messages.editMenuSelectAll.message,
+          label: messages.editMenuSelectAll,
           role: 'selectall',
         });
       }

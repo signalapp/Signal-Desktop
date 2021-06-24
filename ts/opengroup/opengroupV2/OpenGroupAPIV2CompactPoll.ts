@@ -143,8 +143,9 @@ const getAllValidRoomInfos = async (
             return null;
           }
           allServerPubKeys.push(fetchedInfo.serverPublicKey);
+          const tokenInProgress = await getAuthToken({ serverUrl, roomId });
 
-          return fetchedInfo;
+          return { ...fetchedInfo, token: tokenInProgress || undefined };
         } catch (e) {
           window?.log?.warn('failed to fetch roominfos for room', roomId);
           return null;

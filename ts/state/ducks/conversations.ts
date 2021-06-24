@@ -6,6 +6,7 @@ import { ConversationController } from '../../session/conversations';
 import { MessageModel } from '../../models/message';
 import { getMessagesByConversation } from '../../data/data';
 import { ConversationTypeEnum } from '../../models/conversation';
+import { MessageDeliveryStatus } from '../../models/messageType';
 
 // State
 
@@ -50,7 +51,7 @@ export type MessageTypeInConvo = {
   getPropsForMessageDetail(): Promise<any>;
 };
 
-export type LastMessageStatusType = 'error' | 'sending' | 'sent' | 'delivered' | 'read' | null;
+export type LastMessageStatusType = MessageDeliveryStatus | null;
 
 export type LastMessageType = {
   status: LastMessageStatusType;
@@ -81,18 +82,6 @@ export interface ConversationType {
   avatarPath?: string; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
-
-  onClick?: () => void;
-  onBlockContact?: () => void;
-  onUnblockContact?: () => void;
-  onCopyPublicKey?: () => void;
-  onDeleteContact?: () => void;
-  onLeaveGroup?: () => void;
-  onDeleteMessages?: () => void;
-  onInviteContacts?: () => void;
-  onMarkAllRead?: () => void;
-  onClearNickname?: () => void;
-  onChangeNickname?: () => void;
 }
 
 export type ConversationLookupType = {
@@ -389,7 +378,7 @@ function messageDeleted({
   };
 }
 
-function conversationReset({
+export function conversationReset({
   conversationKey,
 }: {
   conversationKey: string;

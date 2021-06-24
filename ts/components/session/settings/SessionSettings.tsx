@@ -8,10 +8,16 @@ import { ToastUtils } from '../../../session/utils';
 import { ConversationLookupType } from '../../../state/ducks/conversations';
 import { StateType } from '../../../state/reducer';
 import { ConversationController } from '../../../session/conversations';
-import { getConversationLookup, getConversations } from '../../../state/selectors/conversations';
+import { getConversationLookup } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
-import { SpacerLG } from '../../basic/Text';
+import { SpacerLG, SpacerXS } from '../../basic/Text';
+import { shell } from 'electron';
+import { SessionConfirmDialogProps } from '../SessionConfirm';
+import { mapDispatchToProps } from '../../../state/actions';
+import { unblockConvoById } from '../../../interactions/conversationInteractions';
+import { sessionPassword } from '../../../state/ducks/modalDialog';
+import { PasswordAction } from '../SessionPasswordModal';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -34,6 +40,7 @@ export interface SettingsViewProps {
   // pass the conversation as props, so our render is called everytime they change.
   // we have to do this to make the list refresh on unblock()
   conversations?: ConversationLookupType;
+  updateConfirmModal?: any;
 }
 
 interface State {
@@ -41,6 +48,10 @@ interface State {
   pwdLockError: string | null;
   mediaSetting: boolean | null;
   shouldLockSettings: boolean | null;
+}
+
+interface ConfirmationDialogParams extends SessionConfirmDialogProps {
+  shouldShowConfirm: () => boolean | undefined;
 }
 
 interface LocalSettingType {
@@ -55,7 +66,7 @@ interface LocalSettingType {
   type: SessionSettingType | undefined;
   setFn: any;
   onClick: any;
-  confirmationDialogParams: any | undefined;
+  confirmationDialogParams: ConfirmationDialogParams | undefined;
 }
 
 class SettingsViewInner extends React.Component<SettingsViewProps, State> {
@@ -145,6 +156,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
                     onSliderChange={sliderFn}
                     content={content}
                     confirmationDialogParams={setting.confirmationDialogParams}
+                    updateConfirmModal={this.props.updateConfirmModal}
                   />
                 )}
               </div>
@@ -161,13 +173,8 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           <h3>{window.i18n('password')}</h3>
           <input type="password" id="password-lock-input" defaultValue="" placeholder="Password" />
 
-          <div className="spacer-xs" />
-
           {this.state.pwdLockError && (
-            <>
-              <div className="session-label warning">{this.state.pwdLockError}</div>
-              <SpacerLG />
-            </>
+            <div className="session-label warning">{this.state.pwdLockError}</div>
           )}
 
           <SessionButton
@@ -340,7 +347,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
-          okTheme: 'danger',
+          okTheme: SessionButtonColor.Danger,
         },
       },
       {
@@ -415,6 +422,24 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: undefined,
       },
       {
+        id: 'help-translation',
+        title: window.i18n('translation'),
+        description: undefined,
+        hidden: false,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Appearance,
+        setFn: undefined,
+        comparisonValue: undefined,
+        onClick: () => {
+          void shell.openExternal('https://crowdin.com/project/session-desktop/');
+        },
+        content: {
+          buttonText: window.i18n('helpUsTranslateSession'),
+          buttonColor: SessionButtonColor.Primary,
+        },
+        confirmationDialogParams: undefined,
+      },
+      {
         id: 'media-permissions',
         title: window.i18n('mediaPermissionsTitle'),
         description: window.i18n('mediaPermissionsDescription'),
@@ -480,10 +505,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Primary,
         },
         onClick: () => {
-          window.Whisper.events.trigger('showPasswordDialog', {
-            action: 'set',
-            onSuccess: this.onPasswordUpdated,
-          });
+          this.displayPasswordModal('set');
         },
         confirmationDialogParams: undefined,
       },
@@ -501,10 +523,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Primary,
         },
         onClick: () => {
-          window.Whisper.events.trigger('showPasswordDialog', {
-            action: 'change',
-            onSuccess: this.onPasswordUpdated,
-          });
+          this.displayPasswordModal('change');
         },
         confirmationDialogParams: undefined,
       },
@@ -522,14 +541,22 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Danger,
         },
         onClick: () => {
-          window.Whisper.events.trigger('showPasswordDialog', {
-            action: 'remove',
-            onSuccess: this.onPasswordUpdated,
-          });
+          this.displayPasswordModal('remove');
         },
         confirmationDialogParams: undefined,
       },
     ];
+  }
+
+  private displayPasswordModal(passwordAction: PasswordAction) {
+    window.inboxStore?.dispatch(
+      sessionPassword({
+        passwordAction,
+        onOk: () => {
+          this.onPasswordUpdated(passwordAction);
+        },
+      })
+    );
   }
 
   private getBlockedUserSettings(): Array<LocalSettingType> {
@@ -558,13 +585,9 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         },
         comparisonValue: undefined,
         setFn: async () => {
-          if (currentModel) {
-            await currentModel.unblock();
-          } else {
-            await BlockedNumberController.unblock(blockedNumber);
-            this.forceUpdate();
-          }
-          ToastUtils.pushToastSuccess('unblocked', window.i18n('unblocked'));
+          await unblockConvoById(blockedNumber);
+
+          this.forceUpdate();
         },
         hidden: false,
         onClick: undefined,
@@ -610,5 +633,5 @@ const mapStateToProps = (state: StateType) => {
   };
 };
 
-const smart = connect(mapStateToProps);
+const smart = connect(mapStateToProps, mapDispatchToProps);
 export const SmartSettingsView = smart(SettingsViewInner);

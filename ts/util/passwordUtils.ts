@@ -1,5 +1,4 @@
 import * as crypto from 'crypto';
-import { LocalizerType } from '../types/Util';
 
 const ERRORS = {
   TYPE: 'Password must be a string',
@@ -19,24 +18,24 @@ export const generateHash = (phrase: string) => phrase && sha512(phrase.trim());
 export const matchesHash = (phrase: string | null, hash: string) =>
   phrase && sha512(phrase.trim()) === hash.trim();
 
-export const validatePassword = (phrase: string, i18n?: LocalizerType) => {
+export const validatePassword = (phrase: string) => {
   if (typeof phrase !== 'string') {
-    return i18n ? i18n('passwordTypeError') : ERRORS.TYPE;
+    return window?.i18n ? window?.i18n('passwordTypeError') : ERRORS.TYPE;
   }
 
   const trimmed = phrase.trim();
   if (trimmed.length === 0) {
-    return i18n ? i18n('noGivenPassword') : ERRORS.LENGTH;
+    return window?.i18n ? window?.i18n('noGivenPassword') : ERRORS.LENGTH;
   }
 
   if (trimmed.length < 6 || trimmed.length > MAX_PASSWORD_LENGTH) {
-    return i18n ? i18n('passwordLengthError') : ERRORS.LENGTH;
+    return window?.i18n ? window?.i18n('passwordLengthError') : ERRORS.LENGTH;
   }
 
   // Restrict characters to letters, numbers and symbols
   const characterRegex = /^[a-zA-Z0-9-!()._`~@#$%^&*+=[\]{}|<>,;: ]+$/;
   if (!characterRegex.test(trimmed)) {
-    return i18n ? i18n('passwordCharacterError') : ERRORS.CHARACTER;
+    return window?.i18n ? window?.i18n('passwordCharacterError') : ERRORS.CHARACTER;
   }
 
   return null;

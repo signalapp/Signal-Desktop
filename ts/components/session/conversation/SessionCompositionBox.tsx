@@ -1,5 +1,5 @@
 import React from 'react';
-import _, { debounce } from 'lodash';
+import _, { debounce, update } from 'lodash';
 
 import { Attachment, AttachmentType } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
@@ -33,11 +33,10 @@ import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
 import { SectionType } from '../ActionsPanel';
 import { SessionSettingCategory } from '../settings/SessionSettings';
-import {
-  defaultMentionsInputReducer,
-  updateMentionsMembers,
-} from '../../../state/ducks/mentionsInput';
 import { getMentionsInput } from '../../../state/selectors/mentionsInput';
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { SessionButtonColor } from '../SessionButton';
+import { SessionConfirmDialogProps } from '../SessionConfirm';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -209,8 +208,19 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const { items } = e.clipboardData;
     let imgBlob = null;
     for (const item of items) {
-      if (item.type.split('/')[0] === 'image') {
+      const pasteType = item.type.split('/')[0];
+      if (pasteType === 'image') {
         imgBlob = item.getAsFile();
+      }
+
+      switch (pasteType) {
+        case 'image':
+          imgBlob = item.getAsFile();
+          break;
+        case 'text':
+          this.showLinkSharingConfirmationModalDialog(e);
+          break;
+        default:
       }
     }
     if (imgBlob !== null) {
@@ -221,6 +231,39 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       e.preventDefault();
       e.stopPropagation();
     }
+  }
+
+  /**
+   * Check if what is pasted is a URL and prompt confirmation for a setting change
+   * @param e paste event
+   */
+  private showLinkSharingConfirmationModalDialog(e: any) {
+    const pastedText = e.clipboardData.getData('text');
+    if (this.isURL(pastedText)) {
+      window.inboxStore?.dispatch(
+        updateConfirmModal({
+          shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
+          title: window.i18n('linkPreviewsTitle'),
+          message: window.i18n('linkPreviewsConfirmMessage'),
+          okTheme: SessionButtonColor.Danger,
+          onClickOk: () => {
+            window.setSettingValue('link-preview-setting', true);
+          },
+        })
+      );
+    }
+  }
+
+  /**
+   *
+   * @param str String to evaluate
+   * @returns boolean if the string is true or false
+   */
+  private isURL(str: string) {
+    const urlRegex =
+      '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+    const url = new RegExp(urlRegex, 'i');
+    return str.length < 2083 && url.test(str);
   }
 
   private showEmojiPanel() {
@@ -378,7 +421,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           data={this.fetchUsersForGroup}
           renderSuggestion={(suggestion, _search, _highlightedDisplay, _index, focused) => (
             <SessionMemberListItem
-              theme={theme}
               isSelected={focused}
               index={index++}
               member={{
@@ -516,8 +558,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         }}
       />
     );
-
-    return <></>;
   }
 
   private fetchLinkPreview(firstLink: string) {

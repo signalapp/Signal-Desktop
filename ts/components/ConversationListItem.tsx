@@ -9,8 +9,6 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { LocalizerType } from '../types/Util';
-
 import {
   ConversationAvatar,
   usingClosedConversationDetails,
@@ -23,7 +21,7 @@ import { createPortal } from 'react-dom';
 import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { PubKey } from '../session/types';
-import { ConversationType } from '../state/ducks/conversations';
+import { ConversationType, openConversationExternal } from '../state/ducks/conversations';
 
 export interface ConversationListItemProps extends ConversationType {
   index?: number; // used to force a refresh when one conversation is removed on top of the list
@@ -31,19 +29,7 @@ export interface ConversationListItemProps extends ConversationType {
 }
 
 type PropsHousekeeping = {
-  i18n: LocalizerType;
   style?: Object;
-  onClick?: (id: string) => void;
-  onDeleteMessages?: () => void;
-  onDeleteContact?: () => void;
-  onLeaveGroup?: () => void;
-  onBlockContact?: () => void;
-  onCopyPublicKey?: () => void;
-  onUnblockContact?: () => void;
-  onInviteContacts?: () => void;
-  onClearNickname?: () => void;
-  onChangeNickname?: () => void;
-  onMarkAllRead: () => void;
   theme: DefaultTheme;
 };
 
@@ -120,7 +106,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderMessage() {
-    const { lastMessage, isTyping, unreadCount, i18n } = this.props;
+    const { lastMessage, isTyping, unreadCount } = this.props;
 
     if (!lastMessage && !isTyping) {
       return null;
@@ -140,15 +126,9 @@ class ConversationListItem extends React.PureComponent<Props> {
           )}
         >
           {isTyping ? (
-            <TypingAnimation i18n={i18n} />
+            <TypingAnimation />
           ) : (
-            <MessageBody
-              isGroup={true}
-              text={text}
-              disableJumbomoji={true}
-              disableLinks={true}
-              i18n={i18n}
-            />
+            <MessageBody isGroup={true} text={text} disableJumbomoji={true} disableLinks={true} />
           )}
         </div>
         {lastMessage && lastMessage.status ? (
@@ -163,16 +143,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public render() {
-    const {
-      phoneNumber,
-      unreadCount,
-      onClick,
-      id,
-      isSelected,
-      isBlocked,
-      style,
-      mentionedUs,
-    } = this.props;
+    const { phoneNumber, unreadCount, id, isSelected, isBlocked, style, mentionedUs } = this.props;
     const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
     const key = `conversation-item-${phoneNumber}`;
 
@@ -181,9 +152,7 @@ class ConversationListItem extends React.PureComponent<Props> {
         <div
           role="button"
           onClick={() => {
-            if (onClick) {
-              onClick(id);
-            }
+            window.inboxStore?.dispatch(openConversationExternal(id));
           }}
           onContextMenu={(e: any) => {
             contextMenu.show({
@@ -221,12 +190,12 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   private renderUser() {
-    const { name, phoneNumber, profileName, isMe, i18n } = this.props;
+    const { name, phoneNumber, profileName, isMe } = this.props;
 
     const shortenedPubkey = PubKey.shorten(phoneNumber);
 
     const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
-    const displayName = isMe ? i18n('noteToSelf') : profileName;
+    const displayName = isMe ? window.i18n('noteToSelf') : profileName;
 
     let shouldShowPubkey = false;
     if ((!name || name.length === 0) && (!displayName || displayName.length === 0)) {
@@ -240,7 +209,6 @@ class ConversationListItem extends React.PureComponent<Props> {
           name={name}
           profileName={displayName}
           module="module-conversation__user"
-          i18n={window.i18n}
           boldProfileName={true}
           shouldShowPubkey={shouldShowPubkey}
         />

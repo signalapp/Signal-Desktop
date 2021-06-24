@@ -8,23 +8,23 @@ import { GroupInvitationMessage } from '../../../../session/messages/outgoing/vi
 describe('GroupInvitationMessage', () => {
   let message: GroupInvitationMessage;
   const timestamp = Date.now();
-  const serverAddress = 'http://localhost';
-  const serverName = 'test';
+  const url = 'http://localhost';
+  const name = 'test';
 
   beforeEach(() => {
     message = new GroupInvitationMessage({
       timestamp,
-      serverAddress,
-      serverName,
+      url,
+      name,
     });
   });
 
-  it('dataMessage.groupInvitation has serverAddress, and serverName set', () => {
+  it('dataMessage.groupInvitation has url, and serverName set', () => {
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
 
-    expect(decoded.dataMessage?.groupInvitation).to.have.property('serverAddress', serverAddress);
-    expect(decoded.dataMessage?.groupInvitation).to.have.property('serverName', serverName);
+    expect(decoded.dataMessage?.openGroupInvitation).to.have.property('url', url);
+    expect(decoded.dataMessage?.openGroupInvitation).to.have.property('name', name);
   });
 
   it('correct ttl', () => {

@@ -2,14 +2,12 @@ import { PubKey } from '../types';
 
 import _ from 'lodash';
 
-import { fromHex, fromHexToArray, toHex } from '../utils/String';
+import { fromHexToArray, toHex } from '../utils/String';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { ConversationController } from '../conversations';
 import {
   addClosedGroupEncryptionKeyPair,
-  getIdentityKeyById,
   getLatestClosedGroupEncryptionKeyPair,
-  removeAllClosedGroupEncryptionKeyPairs,
 } from '../../../ts/data/data';
 import uuid from 'uuid';
 import { SignalService } from '../../protobuf';
@@ -63,21 +61,6 @@ export interface GroupDiff extends MemberChanges {
 export interface MemberChanges {
   joiningMembers?: Array<string>;
   leavingMembers?: Array<string>;
-}
-
-export async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
-  const groupIdentity = await getIdentityKeyById(groupId);
-  if (!groupIdentity) {
-    throw new Error(`Could not load secret key for group ${groupId}`);
-  }
-
-  const secretKey = groupIdentity.secretKey;
-
-  if (!secretKey) {
-    throw new Error(`Secret key not found in identity key record for group ${groupId}`);
-  }
-
-  return new Uint8Array(fromHex(secretKey));
 }
 
 export async function initiateGroupUpdate(
@@ -339,13 +322,11 @@ export async function leaveClosedGroup(groupId: string) {
     expireTimer: 0,
   });
   MessageController.getInstance().register(dbMessage.id, dbMessage);
-  const existingExpireTimer = convo.get('expireTimer') || 0;
   // Send the update to the group
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
     timestamp: Date.now(),
     groupId,
     identifier: dbMessage.id,
-    expireTimer: existingExpireTimer,
   });
 
   window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
@@ -372,7 +353,6 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
     timestamp: Date.now(),
     groupId,
     identifier: messageId,
-    expireTimer: 0,
     name,
   });
   await getMessageQueue().sendToGroup(nameChangeMessage);
@@ -399,15 +379,13 @@ async function sendAddedMembers(
   }
 
   const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
-  const expireTimer = convo.get('expireTimer') || 0;
-
+  const existingExpireTimer = convo.get('expireTimer') || 0;
   // Send the Added Members message to the group (only members already in the group will get it)
   const closedGroupControlMessage = new ClosedGroupAddedMembersMessage({
     timestamp: Date.now(),
     groupId,
     addedMembers,
     identifier: messageId,
-    expireTimer,
   });
   await getMessageQueue().sendToGroup(closedGroupControlMessage);
 
@@ -420,7 +398,7 @@ async function sendAddedMembers(
     members,
     keypair: encryptionKeyPair,
     identifier: messageId || uuid(),
-    expireTimer,
+    expireTimer: existingExpireTimer,
   });
 
   const promises = addedMembers.map(async m => {
@@ -453,15 +431,12 @@ export async function sendRemovedMembers(
   if (removedMembers.includes(admins[0]) && stillMembers.length !== 0) {
     throw new Error("Can't remove admin from closed group without removing everyone.");
   }
-  const expireTimer = convo.get('expireTimer') || 0;
-
   // Send the update to the group and generate + distribute a new encryption key pair if needed
   const mainClosedGroupControlMessage = new ClosedGroupRemovedMembersMessage({
     timestamp: Date.now(),
     groupId,
     removedMembers,
     identifier: messageId,
-    expireTimer,
   });
   // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
   await getMessageQueue().sendToGroup(mainClosedGroupControlMessage, async () => {
@@ -514,13 +489,10 @@ async function generateAndSendNewEncryptionKeyPair(
   // Distribute it
   const wrappers = await buildEncryptionKeyPairWrappers(targetMembers, newKeyPair);
 
-  const expireTimer = groupConvo.get('expireTimer') || 0;
-
   const keypairsMessage = new ClosedGroupEncryptionPairMessage({
     groupId: toHex(groupId),
     timestamp: Date.now(),
     encryptedKeyPairs: wrappers,
-    expireTimer,
   });
 
   distributingClosedGroupEncryptionKeyPairs.set(toHex(groupId), newKeyPair);
@@ -587,10 +559,8 @@ export async function requestEncryptionKeyPair(groupPublicKey: string | PubKey) 
     window?.log?.info('requestEncryptionKeyPair: We are not a member of this group.');
     return;
   }
-  const expireTimer = groupConvo.get('expireTimer') || 0;
 
   const ecRequestMessage = new ClosedGroupEncryptionPairRequestMessage({
-    expireTimer,
     groupId: groupPublicKey,
     timestamp: Date.now(),
   });

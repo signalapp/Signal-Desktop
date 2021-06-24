@@ -258,35 +258,15 @@ function handleSyncedReceipts(message: MessageModel, conversation: ConversationM
     });
   }
 
-  const deliveryReceipts = window.Whisper.DeliveryReceipts.forMessage(conversation, message);
-
-  if (deliveryReceipts.length) {
-    handleSyncDeliveryReceipts(message, deliveryReceipts);
-  }
-
-  // A sync'd message to ourself is automatically considered read and delivered
+  // A sync'd message to ourself is automatically considered read
   const recipients = conversation.getRecipients();
   if (conversation.isMe()) {
     message.set({
       read_by: recipients,
-      delivered_to: recipients,
     });
   }
 
   message.set({ recipients });
-}
-
-function handleSyncDeliveryReceipts(message: MessageModel, receipts: any) {
-  const sources = receipts.map((receipt: any) => receipt.get('source'));
-
-  const deliveredTo = _.union(message.get('delivered_to') || [], sources);
-
-  const deliveredCount = deliveredTo.length;
-
-  message.set({
-    delivered: deliveredCount,
-    delivered_to: deliveredTo,
-  });
 }
 
 async function handleRegularMessage(
@@ -315,8 +295,8 @@ async function handleRegularMessage(
     }
   }
 
-  if (dataMessage.groupInvitation) {
-    message.set({ groupInvitation: dataMessage.groupInvitation });
+  if (dataMessage.openGroupInvitation) {
+    message.set({ groupInvitation: dataMessage.openGroupInvitation });
   }
 
   handleLinkPreviews(dataMessage.body, dataMessage.preview, message);
@@ -331,7 +311,6 @@ async function handleRegularMessage(
     schemaVersion: dataMessage.schemaVersion,
     attachments: dataMessage.attachments,
     body: dataMessage.body,
-    contact: dataMessage.contact,
     conversationId: conversation.id,
     decrypted_at: now,
     errors: [],

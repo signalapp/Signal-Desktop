@@ -30,6 +30,8 @@ import autoBind from 'auto-bind';
 import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
 import { SNodeAPI } from '../../session/snode_api';
 
+import { createClosedGroup } from '../../receiver/closedGroups';
+
 export interface Props {
   searchTerm: string;
 
@@ -93,7 +95,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         style={style}
         {...conversation}
         onClick={openConversationExternal}
-        i18n={window.i18n}
       />
     );
   };
@@ -108,7 +109,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           {...searchResults}
           contacts={contacts}
           openConversationExternal={openConversationExternal}
-          i18n={window.i18n}
         />
       );
     }

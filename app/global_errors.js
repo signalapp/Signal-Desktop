@@ -37,8 +37,8 @@ function handleError(prefix, error) {
 }
 
 exports.updateLocale = messages => {
-  quitText = messages.quit.message;
-  copyErrorAndQuitText = messages.copyErrorAndQuit.message;
+  quitText = messages.quit;
+  copyErrorAndQuitText = messages.copyErrorAndQuit;
 };
 
 exports.addHandler = () => {

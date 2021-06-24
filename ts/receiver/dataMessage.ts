@@ -19,7 +19,6 @@ import {
   getMessageBySenderAndServerTimestamp,
 } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
-import { DeliveryReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/DeliveryReceiptMessage';
 import { allowOnlyOneAtATime } from '../session/utils/Promise';
 
 export async function updateProfileOneAtATime(
@@ -140,22 +139,6 @@ function cleanAttachments(decrypted: any) {
     };
   });
 
-  decrypted.contact = (decrypted.contact || []).map((item: any) => {
-    const { avatar } = item;
-
-    if (!avatar || !avatar.avatar) {
-      return item;
-    }
-
-    return {
-      ...item,
-      avatar: {
-        ...item.avatar,
-        avatar: cleanAttachment(item.avatar.avatar),
-      },
-    };
-  });
-
   if (quote) {
     if (quote.id) {
       quote.id = _.toNumber(quote.id);
@@ -249,7 +232,7 @@ export async function processDecrypted(
 }
 
 export function isMessageEmpty(message: SignalService.DataMessage) {
-  const { flags, body, attachments, group, quote, contact, preview, groupInvitation } = message;
+  const { flags, body, attachments, group, quote, preview, openGroupInvitation } = message;
 
   return (
     !flags &&
@@ -258,9 +241,8 @@ export function isMessageEmpty(message: SignalService.DataMessage) {
     _.isEmpty(attachments) &&
     _.isEmpty(group) &&
     _.isEmpty(quote) &&
-    _.isEmpty(contact) &&
     _.isEmpty(preview) &&
-    _.isEmpty(groupInvitation)
+    _.isEmpty(openGroupInvitation)
   );
 }
 
@@ -570,15 +552,6 @@ export function createMessage(data: MessageCreationData, isIncoming: boolean): M
   }
 }
 
-function sendDeliveryReceipt(source: string, timestamp: any) {
-  const receiptMessage = new DeliveryReceiptMessage({
-    timestamp: Date.now(),
-    timestamps: [timestamp],
-  });
-  const device = new PubKey(source);
-  void getMessageQueue().sendToPubKey(device, receiptMessage);
-}
-
 export interface MessageEvent {
   data: any;
   type: string;
@@ -621,12 +594,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   source = source || msg.get('source');
 
   const isOurDevice = UserUtils.isUsFromCache(source);
-
-  const shouldSendReceipt = isIncoming && !isGroupMessage && !isOurDevice;
-
-  if (shouldSendReceipt) {
-    sendDeliveryReceipt(source, data.timestamp);
-  }
 
   // Conversation Id is:
   //  - primarySource if it is an incoming DM message,

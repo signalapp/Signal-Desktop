@@ -1,6 +1,5 @@
 /* global Signal: false */
 /* global _: false */
-/* global i18n: false */
 
 /* eslint-env browser */
 /* eslint-env node */
@@ -24,7 +23,6 @@ const { dialog, BrowserWindow } = electronRemote;
 module.exports = {
   getDirectoryForExport,
   exportToDirectory,
-  getDirectoryForImport,
   importFromDirectory,
   // for testing
   _sanitizeFileName,
@@ -213,10 +211,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
     result.fullImport = false;
 
     delete importObject.items;
-    delete importObject.signedPreKeys;
-    delete importObject.preKeys;
     delete importObject.identityKeys;
-    delete importObject.sessions;
     delete importObject.unprocessed;
 
     window.log.info('This is a light import; contacts, groups and messages only');
@@ -1173,13 +1168,6 @@ async function exportToDirectory(directory, options) {
       await deleteAll(encryptionDir);
     }
   }
-}
-
-function getDirectoryForImport() {
-  const options = {
-    title: i18n('importChooserTitle'),
-  };
-  return getDirectory(options);
 }
 
 async function importFromDirectory(directory, options) {

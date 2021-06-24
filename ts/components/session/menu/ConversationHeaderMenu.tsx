@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { animation, Menu } from 'react-contexify';
 import {
   getAddModeratorsMenuItem,
@@ -20,6 +20,7 @@ import { NotificationForConvoOption, TimerOption } from '../../conversation/Conv
 import { ConversationNotificationSettingType } from '../../../models/conversation';
 
 export type PropsConversationHeaderMenu = {
+  conversationId: string;
   triggerId: string;
   isMe: boolean;
   isPublic?: boolean;
@@ -32,28 +33,13 @@ export type PropsConversationHeaderMenu = {
   currentNotificationSetting: ConversationNotificationSettingType;
   isPrivate: boolean;
   isBlocked: boolean;
+  theme: any;
   hasNickname?: boolean;
-
-  onDeleteMessages?: () => void;
-  onDeleteContact?: () => void;
-  onCopyPublicKey?: () => void;
-  onInviteContacts?: () => void;
-  onChangeNickname?: () => void;
-  onClearNickname?: () => void;
-
-  onLeaveGroup: () => void;
-  onMarkAllRead: () => void;
-  onAddModerators: () => void;
-  onRemoveModerators: () => void;
-  onUpdateGroupName: () => void;
-  onBlockUser: () => void;
-  onUnblockUser: () => void;
-  onSetDisappearingMessages: (seconds: number) => void;
-  onSetNotificationForConvo: (selected: ConversationNotificationSettingType) => void;
 };
 
 export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   const {
+    conversationId,
     triggerId,
     isMe,
     isPublic,
@@ -67,66 +53,42 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     hasNickname,
     notificationForConvo,
     currentNotificationSetting,
-
-    onClearNickname,
-    onChangeNickname,
-    onDeleteMessages,
-    onDeleteContact,
-    onCopyPublicKey,
-    onMarkAllRead,
-    onLeaveGroup,
-    onAddModerators,
-    onRemoveModerators,
-    onInviteContacts,
-    onUpdateGroupName,
-    onBlockUser,
-    onUnblockUser,
-    onSetDisappearingMessages,
-    onSetNotificationForConvo,
   } = props;
 
   return (
-    <Menu id={triggerId} animation={animation.fade}>
-      {getDisappearingMenuItem(
-        isPublic,
-        isKickedFromGroup,
-        left,
-        isBlocked,
-        timerOptions,
-        onSetDisappearingMessages,
-        window.i18n
-      )}
-      {getNotificationForConvoMenuItem(
-        isKickedFromGroup,
-        left,
-        isBlocked,
-        notificationForConvo,
-        currentNotificationSetting,
-        onSetNotificationForConvo,
-        window.i18n
-      )}
-      {getBlockMenuItem(isMe, isPrivate, isBlocked, onBlockUser, onUnblockUser, window.i18n)}
+    <>
+      <Menu id={triggerId} animation={animation.fade}>
+        {getDisappearingMenuItem(
+          isPublic,
+          isKickedFromGroup,
+          left,
+          isBlocked,
+          timerOptions,
+          conversationId
+        )}
+        {getNotificationForConvoMenuItem(
+          isKickedFromGroup,
+          left,
+          isBlocked,
+          notificationForConvo,
+          currentNotificationSetting,
+          conversationId
+        )}
+        {getBlockMenuItem(isMe, isPrivate, isBlocked, conversationId)}
 
-      {getCopyMenuItem(isPublic, isGroup, onCopyPublicKey, window.i18n)}
-      {getMarkAllReadMenuItem(onMarkAllRead, window.i18n)}
-      {getChangeNicknameMenuItem(isMe, onChangeNickname, isGroup, window.i18n)}
-      {getClearNicknameMenuItem(isMe, hasNickname, onClearNickname, isGroup, window.i18n)}
-      {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, window.i18n)}
-      {getAddModeratorsMenuItem(isAdmin, isKickedFromGroup, onAddModerators, window.i18n)}
-      {getRemoveModeratorsMenuItem(isAdmin, isKickedFromGroup, onRemoveModerators, window.i18n)}
-      {getUpdateGroupNameMenuItem(isAdmin, isKickedFromGroup, left, onUpdateGroupName, window.i18n)}
-      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, onLeaveGroup, window.i18n)}
-      {/* TODO: add delete group */}
-      {getInviteContactMenuItem(isGroup, isPublic, onInviteContacts, window.i18n)}
-      {getDeleteContactMenuItem(
-        isMe,
-        isGroup,
-        isPublic,
-        left,
-        isKickedFromGroup,
-        onDeleteContact,
-        window.i18n
-      )}
-    </Menu>
+        {getCopyMenuItem(isPublic, isGroup, conversationId)}
+        {getMarkAllReadMenuItem(conversationId)}
+        {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
+        {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
+        {getDeleteMessagesMenuItem(isPublic, conversationId)}
+        {getAddModeratorsMenuItem(isAdmin, isKickedFromGroup, conversationId)}
+        {getRemoveModeratorsMenuItem(isAdmin, isKickedFromGroup, conversationId)}
+        {getUpdateGroupNameMenuItem(isAdmin, isKickedFromGroup, left, conversationId)}
+        {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
+        {/* TODO: add delete group */}
+        {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
+        {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
+      </Menu>
+    </>
   );
 };

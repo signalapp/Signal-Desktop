@@ -1,102 +1,80 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, AvatarSize } from './Avatar';
 
-import { SessionModal } from './session/SessionModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import { SessionIdEditable } from './session/SessionIdEditable';
-import { DefaultTheme } from 'styled-components';
+import { ConversationController } from '../session/conversations';
+import { ConversationTypeEnum } from '../models/conversation';
+import { SessionWrapperModal } from './session/SessionWrapperModal';
+import { SpacerMD } from './basic/Text';
+import { updateUserDetailsModal } from '../state/ducks/modalDialog';
+import { openConversationExternal } from '../state/ducks/conversations';
+// tslint:disable-next-line: no-submodule-imports
+import useKey from 'react-use/lib/useKey';
+type Props = {
+  conversationId: string;
+  authorAvatarPath?: string;
+  userName: string;
+};
 
-interface Props {
-  i18n: any;
-  profileName: string;
-  avatarPath: string;
-  pubkey: string;
-  onClose: any;
-  onStartConversation: any;
-  theme: DefaultTheme;
-}
+export const UserDetailsDialog = (props: Props) => {
+  const [isEnlargedImageShown, setIsEnlargedImageShown] = useState(false);
+  const convo = ConversationController.getInstance().get(props.conversationId);
 
-interface State {
-  isEnlargedImageShown: boolean;
-}
+  const size = isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
+  const userName = props.userName || props.conversationId;
 
-export class UserDetailsDialog extends React.Component<Props, State> {
-  constructor(props: any) {
-    super(props);
-
-    this.closeDialog = this.closeDialog.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.onClickStartConversation = this.onClickStartConversation.bind(this);
-    window.addEventListener('keyup', this.onKeyUp);
-    this.state = { isEnlargedImageShown: false };
+  function closeDialog() {
+    window.inboxStore?.dispatch(updateUserDetailsModal(null));
   }
 
-  public render() {
-    const { i18n } = this.props;
+  async function onClickStartConversation() {
+    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      convo.id,
+      ConversationTypeEnum.PRIVATE
+    );
 
-    return (
-      <SessionModal
-        title={this.props.profileName}
-        onClose={this.closeDialog}
-        theme={this.props.theme}
-      >
-        <div className="avatar-center">
-          <div className="avatar-center-inner">{this.renderAvatar()}</div>
-        </div>
-        <SessionIdEditable editable={false} text={this.props.pubkey} />
+    window.inboxStore?.dispatch(openConversationExternal(conversation.id));
 
-        <div className="session-modal__button-group__center">
-          <SessionButton
-            text={i18n('startConversation')}
-            buttonType={SessionButtonType.Default}
-            buttonColor={SessionButtonColor.Primary}
-            onClick={this.onClickStartConversation}
+    closeDialog();
+  }
+
+  useKey(
+    'Enter',
+    () => {
+      void onClickStartConversation();
+    },
+    undefined,
+    [props.conversationId]
+  );
+
+  return (
+    <SessionWrapperModal title={props.userName} onClose={closeDialog} showExitIcon={true}>
+      <div className="avatar-center">
+        <div className="avatar-center-inner">
+          <Avatar
+            avatarPath={props.authorAvatarPath}
+            name={userName}
+            size={size}
+            onAvatarClick={() => {
+              setIsEnlargedImageShown(!isEnlargedImageShown);
+            }}
+            pubkey={props.conversationId}
           />
         </div>
-      </SessionModal>
-    );
-  }
+      </div>
 
-  private renderAvatar() {
-    const { avatarPath, pubkey, profileName } = this.props;
-    const size = this.state.isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
-    const userName = profileName || pubkey;
+      <SpacerMD />
+      <SessionIdEditable editable={false} text={convo.id} />
 
-    return (
-      <Avatar
-        avatarPath={avatarPath}
-        name={userName}
-        size={size}
-        onAvatarClick={this.handleShowEnlargedDialog}
-        pubkey={pubkey}
-      />
-    );
-  }
-
-  private readonly handleShowEnlargedDialog = () => {
-    this.setState({ isEnlargedImageShown: !this.state.isEnlargedImageShown });
-  };
-
-  private onKeyUp(event: any) {
-    switch (event.key) {
-      case 'Enter':
-        this.onClickStartConversation();
-        break;
-      case 'Esc':
-      case 'Escape':
-        this.closeDialog();
-        break;
-      default:
-    }
-  }
-
-  private closeDialog() {
-    window.removeEventListener('keyup', this.onKeyUp);
-    this.props.onClose();
-  }
-
-  private onClickStartConversation() {
-    this.props.onStartConversation();
-    this.closeDialog();
-  }
-}
+      <div className="session-modal__button-group__center">
+        <SessionButton
+          text={window.i18n('startConversation')}
+          buttonType={SessionButtonType.Default}
+          buttonColor={SessionButtonColor.Primary}
+          onClick={onClickStartConversation}
+        />
+      </div>
+    </SessionWrapperModal>
+  );
+};

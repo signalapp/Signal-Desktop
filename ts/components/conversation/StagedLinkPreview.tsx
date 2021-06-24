@@ -20,7 +20,6 @@ export const StagedLinkPreview = (props: Props) => {
   const { isLoaded, onClose, title, image, domain, description, url } = props;
 
   const isImage = image && isImageAttachment(image);
-  const i18n = window.i18n;
   if (isLoaded && !(title && domain)) {
     return <></>;
   }
@@ -33,18 +32,17 @@ export const StagedLinkPreview = (props: Props) => {
       )}
     >
       {!isLoaded ? (
-        <div className="module-staged-link-preview__loading">{i18n('loading')}</div>
+        <div className="module-staged-link-preview__loading">{window.i18n('loading')}</div>
       ) : null}
       {isLoaded && image && isImage ? (
         <div className="module-staged-link-preview__icon-container">
           <Image
-            alt={i18n('stagedPreviewThumbnail', [domain])}
+            alt={window.i18n('stagedPreviewThumbnail', [domain])}
             softCorners={true}
             height={72}
             width={72}
             url={image.url}
             attachment={image}
-            i18n={i18n}
           />
         </div>
       ) : null}
@@ -65,7 +63,7 @@ export const StagedLinkPreview = (props: Props) => {
         onClick={() => {
           onClose(url || '');
         }}
-        aria-label={i18n('close')}
+        aria-label={window.i18n('close')}
       />
     </div>
   );

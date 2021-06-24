@@ -10,13 +10,12 @@ exports.setup = (locale, messages) => {
   }
 
   function getMessage(key, substitutions) {
-    const entry = messages[key];
-    if (!entry) {
+    const message = messages[key];
+    if (!message) {
       log.error(`i18n: Attempted to get translation for nonexistent key '${key}'`);
       return '';
     }
 
-    const { message } = entry;
     if (Array.isArray(substitutions)) {
       return substitutions.reduce(
         (result, substitution) => result.replace(/\$.+?\$/, substitution),

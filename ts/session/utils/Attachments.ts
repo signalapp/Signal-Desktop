@@ -3,12 +3,16 @@ import { Attachment } from '../../types/Attachment';
 
 import {
   AttachmentPointer,
+  AttachmentPointerWithUrl,
   Preview,
+  PreviewWithAttachmentUrl,
   Quote,
   QuotedAttachment,
+  QuotedAttachmentWithUrl,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { FSv2 } from '../../fileserver';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
+import _ from 'lodash';
 
 interface UploadParams {
   attachment: Attachment;
@@ -17,21 +21,21 @@ interface UploadParams {
   shouldPad?: boolean;
 }
 
-interface RawPreview {
+export interface RawPreview {
   url?: string;
   title?: string;
   image: Attachment;
 }
 
-interface RawQuoteAttachment {
+export interface RawQuoteAttachment {
   contentType?: string;
   fileName?: string;
   thumbnail?: Attachment;
 }
 
-interface RawQuote {
-  id?: number;
-  author?: string;
+export interface RawQuote {
+  id: number;
+  author: string;
   text?: string;
   attachments?: Array<RawQuoteAttachment>;
 }
@@ -40,7 +44,7 @@ interface RawQuote {
 export class AttachmentFsV2Utils {
   private constructor() {}
 
-  public static async uploadToFsV2(params: UploadParams): Promise<AttachmentPointer> {
+  public static async uploadToFsV2(params: UploadParams): Promise<AttachmentPointerWithUrl> {
     const { attachment, isRaw = false, shouldPad = false } = params;
     if (typeof attachment !== 'object' || attachment == null) {
       throw new Error('Invalid attachment passed.');
@@ -84,20 +88,22 @@ export class AttachmentFsV2Utils {
     if (FSv2.useFileServerAPIV2Sending) {
       const uploadToV2Result = await FSv2.uploadFileToFsV2(attachmentData);
       if (uploadToV2Result) {
-        pointer.id = uploadToV2Result.fileId;
-        pointer.url = uploadToV2Result.fileUrl;
-      } else {
-        window?.log?.warn('upload to file server v2 failed');
+        const pointerWithUrl: AttachmentPointerWithUrl = {
+          ...pointer,
+          id: uploadToV2Result.fileId,
+          url: uploadToV2Result.fileUrl,
+        };
+        return pointerWithUrl;
       }
-      return pointer;
-    } else {
-      throw new Error('Only v2 fileserver upload is supported');
+      window?.log?.warn('upload to file server v2 failed');
+      throw new Error(`upload to file server v2 of ${attachment.fileName} failed`);
     }
+    throw new Error('Only v2 fileserver upload is supported');
   }
 
   public static async uploadAttachmentsToFsV2(
     attachments: Array<Attachment>
-  ): Promise<Array<AttachmentPointer>> {
+  ): Promise<Array<AttachmentPointerWithUrl>> {
     const promises = (attachments || []).map(async attachment =>
       this.uploadToFsV2({
         attachment,
@@ -110,20 +116,24 @@ export class AttachmentFsV2Utils {
 
   public static async uploadLinkPreviewsToFsV2(
     previews: Array<RawPreview>
-  ): Promise<Array<Preview>> {
-    const promises = (previews || []).map(async item => {
+  ): Promise<Array<PreviewWithAttachmentUrl>> {
+    const promises = (previews || []).map(async preview => {
       // some links does not have an image associated, and it makes the whole message fail to send
-      if (!item.image) {
-        return item;
+      if (!preview.image) {
+        window.log.warn('tried to upload file to fsv2 without image.. skipping');
+        return undefined;
       }
+      const image = await this.uploadToFsV2({
+        attachment: preview.image,
+      });
       return {
-        ...item,
-        image: await this.uploadToFsV2({
-          attachment: item.image,
-        }),
+        ...preview,
+        image,
+        url: image.url,
+        id: image.id,
       };
     });
-    return Promise.all(promises);
+    return _.compact(await Promise.all(promises));
   }
 
   public static async uploadQuoteThumbnailsToFsV2(quote?: RawQuote): Promise<Quote | undefined> {
@@ -138,13 +148,18 @@ export class AttachmentFsV2Utils {
           attachment: attachment.thumbnail,
         });
       }
+      if (!thumbnail) {
+        return attachment;
+      }
       return {
         ...attachment,
         thumbnail,
-      } as QuotedAttachment;
+        url: thumbnail.url,
+        id: thumbnail.id,
+      } as QuotedAttachmentWithUrl;
     });
 
-    const attachments = await Promise.all(promises);
+    const attachments = _.compact(await Promise.all(promises));
 
     return {
       ...quote,

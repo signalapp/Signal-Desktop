@@ -5,12 +5,13 @@ import { useInterval } from '../../hooks/useInterval';
 import styled, { DefaultTheme } from 'styled-components';
 import { OpacityMetadataComponent } from './message/MessageMetadata';
 import { SessionIcon, SessionIconSize } from '../session/icon';
+import { MessageModelType } from '../../models/messageType';
 
 type Props = {
   withImageNoCaption: boolean;
   expirationLength: number;
   expirationTimestamp: number;
-  direction: 'incoming' | 'outgoing';
+  direction: MessageModelType;
   theme: DefaultTheme;
 };
 

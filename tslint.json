@@ -121,6 +121,7 @@
     "newline-before-return": false,
     "number-literal-format": false,
     "no-unnecessary-local-variable": false,
+    "no-unnecessary-type-assertion": false,
     "react-no-dangerous-html": [
       true,
       {

@@ -38,7 +38,7 @@ export function validatePassword(password: string, verifyPassword: string) {
     };
   }
 
-  const error = PasswordUtil.validatePassword(trimmedPassword, window.i18n);
+  const error = PasswordUtil.validatePassword(trimmedPassword);
   if (error) {
     return {
       passwordErrorString: error,

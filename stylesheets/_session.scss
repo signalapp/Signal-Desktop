@@ -1,13 +1,3 @@
-div.spacer-sm {
-  height: $session-margin-sm;
-}
-div.spacer-md {
-  height: $session-margin-md;
-}
-div.spacer-lg {
-  height: $session-margin-lg;
-}
-
 .subtle {
   opacity: $session-subtle-factor;
 }
@@ -26,6 +16,10 @@ div.spacer-lg {
 
 .break-word {
   word-break: break-all;
+}
+
+.session-icon-button svg path {
+  transition: fill 0.3s ease;
 }
 
 input,
@@ -476,6 +470,7 @@ label {
     }
     &__close > div {
       float: left;
+      margin: 0px;
     }
     &__icons > div {
       float: right;
@@ -1195,6 +1190,33 @@ input {
 
   .session-modal {
     margin: auto auto;
+  }
+}
+
+.onion__description {
+  min-width: 100%;
+  width: 0;
+}
+
+.onion__node-list {
+  display: flex;
+  flex-direction: column;
+  margin: $session-margin-sm;
+  align-items: flex-start;
+
+  .onion__node {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    margin: $session-margin-xs;
+
+    * {
+      margin: $session-margin-sm;
+    }
+
+    .session-icon-button {
+      margin: $session-margin-sm !important;
+    }
   }
 }
 

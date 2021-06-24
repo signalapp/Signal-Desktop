@@ -26,7 +26,6 @@ type Props = {
 export const GroupNotification = (props: Props) => {
   function renderChange(change: Change) {
     const { isMe, contacts, type, newName } = change;
-    const { i18n } = window;
 
     const people = compact(
       flatten(
@@ -47,7 +46,7 @@ export const GroupNotification = (props: Props) => {
 
     switch (type) {
       case 'name':
-        return `${i18n('titleIsNow', [newName || ''])}.`;
+        return `${window.i18n('titleIsNow', [newName || ''])}.`;
       case 'add':
         if (!contacts || !contacts.length) {
           throw new Error('Group update add is missing contacts');
@@ -55,10 +54,10 @@ export const GroupNotification = (props: Props) => {
 
         const joinKey = contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
 
-        return <Intl i18n={i18n} id={joinKey} components={[people]} />;
+        return <Intl id={joinKey} components={[people]} />;
       case 'remove':
         if (isMe) {
-          return i18n('youLeftTheGroup');
+          return window.i18n('youLeftTheGroup');
         }
 
         if (!contacts || !contacts.length) {
@@ -67,10 +66,10 @@ export const GroupNotification = (props: Props) => {
 
         const leftKey = contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
 
-        return <Intl i18n={i18n} id={leftKey} components={[people]} />;
+        return <Intl id={leftKey} components={[people]} />;
       case 'kicked':
         if (isMe) {
-          return i18n('youGotKickedFromGroup');
+          return window.i18n('youGotKickedFromGroup');
         }
 
         if (!contacts || !contacts.length) {
@@ -79,9 +78,9 @@ export const GroupNotification = (props: Props) => {
 
         const kickedKey = contacts.length > 1 ? 'multipleKickedFromTheGroup' : 'kickedFromTheGroup';
 
-        return <Intl i18n={i18n} id={kickedKey} components={[people]} />;
+        return <Intl id={kickedKey} components={[people]} />;
       case 'general':
-        return i18n('updatedTheGroup');
+        return window.i18n('updatedTheGroup');
       default:
         throw missingCaseError(type);
     }

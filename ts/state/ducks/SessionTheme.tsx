@@ -3,9 +3,11 @@ import React from 'react';
 // import 'reset-css/reset.css';
 
 import { DefaultTheme, ThemeProvider } from 'styled-components';
+import { pushToastWarning } from '../../session/utils/Toast';
 
 const white = '#ffffff';
 const black = '#000000';
+const warning = '#e7b100';
 const destructive = '#ff453a';
 const accentLightTheme = '#00e97b';
 const accentDarkTheme = '#00f782';
@@ -40,6 +42,7 @@ export const lightTheme: DefaultTheme = {
   colors: {
     accent: accentLightTheme,
     accentButton: black,
+    warning: warning,
     destructive: destructive,
     cellBackground: '#fcfcfc',
     modalBackground: '#fcfcfc',
@@ -95,6 +98,7 @@ export const darkTheme = {
   colors: {
     accent: accentDarkTheme,
     accentButton: accentDarkTheme,
+    warning: warning,
     destructive: destructive,
     cellBackground: '#1b1b1b',
     modalBackground: '#101011',

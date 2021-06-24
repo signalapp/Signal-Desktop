@@ -1,10 +1,7 @@
 import { BrowserWindow, dialog } from 'electron';
 
 export type MessagesType = {
-  [key: string]: {
-    message: string;
-    description?: string;
-  };
+  [key: string]: string;
 };
 
 type LogFunction = (...args: Array<any>) => void;
@@ -26,13 +23,10 @@ export async function showDownloadUpdateDialog(
   const LATER_BUTTON = 1;
   const options = {
     type: 'info',
-    buttons: [
-      messages.autoUpdateDownloadButtonLabel.message,
-      messages.autoUpdateLaterButtonLabel.message,
-    ],
-    title: messages.autoUpdateNewVersionTitle.message,
-    message: messages.autoUpdateNewVersionMessage.message,
-    detail: messages.autoUpdateDownloadInstructions.message,
+    buttons: [messages.autoUpdateDownloadButtonLabel, messages.autoUpdateLaterButtonLabel],
+    title: messages.autoUpdateNewVersionTitle,
+    message: messages.autoUpdateNewVersionMessage,
+    detail: messages.autoUpdateDownloadInstructions,
     defaultId: LATER_BUTTON,
     cancelId: DOWNLOAD_BUTTON,
   };
@@ -50,13 +44,10 @@ export async function showUpdateDialog(
   const LATER_BUTTON = 1;
   const options = {
     type: 'info',
-    buttons: [
-      messages.autoUpdateRestartButtonLabel.message,
-      messages.autoUpdateLaterButtonLabel.message,
-    ],
-    title: messages.autoUpdateNewVersionTitle.message,
-    message: messages.autoUpdateDownloadedMessage.message,
-    detail: messages.autoUpdateNewVersionInstructions.message,
+    buttons: [messages.autoUpdateRestartButtonLabel, messages.autoUpdateLaterButtonLabel],
+    title: messages.autoUpdateNewVersionTitle,
+    message: messages.autoUpdateDownloadedMessage,
+    detail: messages.autoUpdateNewVersionInstructions,
     defaultId: LATER_BUTTON,
     cancelId: RESTART_BUTTON,
   };
@@ -68,9 +59,9 @@ export async function showUpdateDialog(
 export async function showCannotUpdateDialog(mainWindow: BrowserWindow, messages: MessagesType) {
   const options = {
     type: 'error',
-    buttons: [messages.ok.message],
-    title: messages.cannotUpdate.message,
-    message: messages.cannotUpdateDetail.message,
+    buttons: [messages.ok],
+    title: messages.cannotUpdate,
+    message: messages.cannotUpdateDetail,
   };
   await dialog.showMessageBox(mainWindow, options);
 }

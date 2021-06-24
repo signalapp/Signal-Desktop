@@ -16,7 +16,6 @@ export class ClosedGroupAddedMembersMessage extends ClosedGroupMessage {
       timestamp: params.timestamp,
       identifier: params.identifier,
       groupId: params.groupId,
-      expireTimer: params.expireTimer,
     });
     this.addedMembers = params.addedMembers;
     if (!this.addedMembers?.length) {

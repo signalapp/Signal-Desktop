@@ -229,7 +229,6 @@ Whisper.Fixtures = () => {
     type: 'outgoing',
     body: 'See you all there!',
     recipients: [MICHEL_ID, FRED_ID, NESTOR_ID],
-    delivered_to: [MICHEL_ID, FRED_ID],
     sent_to: [NESTOR_ID],
     conversationId: group.id,
   });

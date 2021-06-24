@@ -214,7 +214,6 @@ describe('Backup', () => {
 
       const OUR_NUMBER = '+12025550000';
       const CONTACT_ONE_NUMBER = '+12025550001';
-      const CONTACT_TWO_NUMBER = '+12025550002';
 
       const toArrayBuffer = nodeBuffer =>
         nodeBuffer.buffer.slice(
@@ -310,17 +309,6 @@ describe('Backup', () => {
         });
 
         return Object.assign({}, await loadThumbnails(message), {
-          contact: await Promise.all(
-            (message.contact || []).map(async contact => {
-              return contact && contact.avatar && contact.avatar.avatar
-                ? Object.assign({}, contact, {
-                    avatar: Object.assign({}, contact.avatar, {
-                      avatar: await wrappedLoadAttachment(contact.avatar.avatar),
-                    }),
-                  })
-                : contact;
-            })
-          ),
           attachments: await Promise.all(
             (message.attachments || []).map(async attachment => {
               await wrappedLoadAttachment(attachment);
@@ -401,26 +389,7 @@ describe('Backup', () => {
               },
             ],
           },
-          contact: [
-            {
-              name: {
-                displayName: 'Someone Somewhere',
-              },
-              number: [
-                {
-                  value: CONTACT_TWO_NUMBER,
-                  type: 1,
-                },
-              ],
-              avatar: {
-                isProfile: false,
-                avatar: {
-                  contentType: 'image/png',
-                  data: FIXTURES.png,
-                },
-              },
-            },
-          ],
+
           preview: [
             {
               url: 'https://www.instagram.com/p/BsOGulcndj-/',

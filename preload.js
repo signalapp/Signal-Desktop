@@ -25,8 +25,6 @@ if (config.appInstance) {
   title += ` - ${config.appInstance}`;
 }
 
-window.Lodash = require('lodash');
-
 global.dcodeIO = global.dcodeIO || {};
 global.dcodeIO.ByteBuffer = require('bytebuffer');
 
@@ -40,7 +38,6 @@ window.getEnvironment = () => config.environment;
 window.isDev = () => config.environment === 'development';
 window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
-window.isImportMode = () => config.importMode;
 window.getExpiration = () => config.buildExpiration;
 window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
@@ -186,23 +183,6 @@ window.resetDatabase = () => {
   ipc.send('resetDatabase');
 };
 
-window.onUnblockNumber = async number => {
-  // Unblock the number
-  if (window.BlockedNumberController) {
-    window.BlockedNumberController.unblock(number);
-  }
-
-  // Update the conversation
-  if (window.getConversationController()) {
-    try {
-      const conversation = window.getConversationController().get(number);
-      await conversation.unblock();
-    } catch (e) {
-      window.log.info('IPC on unblock: failed to fetch conversation for number: ', number);
-    }
-  }
-};
-
 ipc.on('mediaPermissionsChanged', () => {
   Whisper.events.trigger('mediaPermissionsChanged');
 });
@@ -211,10 +191,6 @@ window.closeAbout = () => ipc.send('close-about');
 window.readyForUpdates = () => ipc.send('ready-for-updates');
 
 window.updateTrayIcon = unreadCount => ipc.send('update-tray-icon', unreadCount);
-
-ipc.on('set-up-with-import', () => {
-  Whisper.events.trigger('setupWithImport');
-});
 
 ipc.on('get-theme-setting', () => {
   const theme = window.Events.getThemeSetting();
