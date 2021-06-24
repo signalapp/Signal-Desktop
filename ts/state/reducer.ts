@@ -37,7 +37,7 @@ export const reducers = {
   mentionsInput,
   onionPaths,
   modals,
-  userConfig
+  userConfig,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

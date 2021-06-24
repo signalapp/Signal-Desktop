@@ -69,7 +69,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     this.state = {
       showScrollButton: false,
-      nextMessageToPlay: null
+      nextMessageToPlay: null,
     };
     autoBind(this);
 
@@ -228,7 +228,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
             />
           );
 
-
           currentMessageIndex = currentMessageIndex + 1;
 
           if (groupNotificationProps) {
@@ -274,20 +273,20 @@ export class SessionMessagesList extends React.Component<Props, State> {
           }
 
           /**
-           * Sets the targeted index for the next 
+           * Sets the targeted index for the next
            * @param index index of message that just completed
            */
           const playNextMessage = (index: any) => {
-            index--;
-            if (messages[index]) {
+            const nextIndex = index - 1;
+            if (messages[nextIndex]) {
               this.setState({
-                nextMessageToPlay: index
-              })
+                nextMessageToPlay: nextIndex,
+              });
             }
-          }
+          };
 
           if (messageProps) {
-            messageProps.nextMessageToPlay = this.state.nextMessageToPlay
+            messageProps.nextMessageToPlay = this.state.nextMessageToPlay;
             messageProps.playableMessageIndex = playableMessageIndex;
             messageProps.playNextMessage = playNextMessage;
           }

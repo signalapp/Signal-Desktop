@@ -12,8 +12,8 @@ export const AudioPlayerWithEncryptedFile = (props: {
   contentType: string;
   playbackSpeed: number;
   playNextMessage?: (index: number) => void;
-  playableMessageIndex?: number
-  nextMessageToPlay?: number
+  playableMessageIndex?: number;
+  nextMessageToPlay?: number;
 }) => {
   const theme = useTheme();
   const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
@@ -28,13 +28,13 @@ export const AudioPlayerWithEncryptedFile = (props: {
   }, [playbackSpeed]);
 
   useEffect(() => {
-    if (props.playableMessageIndex == props.nextMessageToPlay) {
+    if (props.playableMessageIndex === props.nextMessageToPlay) {
       player.current?.audio.current?.play();
     }
-  })
+  });
 
   const onEnded = () => {
-    // if audio autoplay is enabled, call method to start playing 
+    // if audio autoplay is enabled, call method to start playing
     // the next playable message
     if (
       window.inboxStore?.getState().userConfig.audioAutoplay === true &&
@@ -43,7 +43,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
     ) {
       props.playNextMessage(props.playableMessageIndex);
     }
-  }
+  };
 
   return (
     <H5AudioPlayer

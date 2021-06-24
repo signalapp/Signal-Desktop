@@ -9,7 +9,7 @@ export interface UserConfigState {
 }
 
 export const initialUserConfigState = {
-  audioAutoplay: false
+  audioAutoplay: false,
 };
 
 const userConfigSlice = createSlice({
@@ -19,14 +19,14 @@ const userConfigSlice = createSlice({
     updateUserConfig(state: UserConfigState, action: PayloadAction<UserConfigState>) {
       return {
         ...state,
-        audioAutoplay: true
-      }
+        audioAutoplay: true,
+      };
     },
-    toggleAudioAutoplay: (state) => {
-      state.audioAutoplay = !state.audioAutoplay
-    }
+    toggleAudioAutoplay: state => {
+      state.audioAutoplay = !state.audioAutoplay;
+    },
   },
-})
+});
 
 const { actions, reducer } = userConfigSlice;
 export const { updateUserConfig, toggleAudioAutoplay } = actions;
