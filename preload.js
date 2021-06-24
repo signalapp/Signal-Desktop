@@ -55,7 +55,6 @@ window.lokiFeatureFlags = {
   useOnionRequests: true,
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
-  useRequestEncryptionKeyPair: false,
   padOutgoingAttachments: true,
 };
 
@@ -152,8 +151,7 @@ window.setPassword = (passPhrase, oldPhrase) =>
 
 window.libsession = require('./ts/session');
 
-window.getConversationController =
-  window.libsession.Conversations.ConversationController.getInstance;
+window.getConversationController = window.libsession.Conversations.getConversationController;
 
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
@@ -289,7 +287,7 @@ window.Signal = Signal.setup({
   logger: window.log,
 });
 
-window.SwarmPolling = require('./ts/session/snode_api/swarmPolling').SwarmPolling.getInstance();
+window.getSwarmPollingInstance = require('./ts/session/snode_api/').getSwarmPollingInstance;
 
 const WorkerInterface = require('./js/modules/util_worker_interface');
 
@@ -345,10 +343,7 @@ window.models = require('./ts/models');
 window.Signal = window.Signal || {};
 window.Signal.Data = require('./ts/data/data');
 
-window.getMessageController = () => window.libsession.Messages.MessageController.getInstance();
-
-window.getConversationController = () =>
-  window.libsession.Conversations.ConversationController.getInstance();
+window.getMessageController = () => window.libsession.Messages.getMessageController();
 
 // Pulling these in separately since they access filesystem, electron
 window.Signal.Backup = require('./js/modules/backup');
@@ -398,7 +393,6 @@ if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
     useOnionRequests: false,
     useFileOnionRequests: false,
-    useRequestEncryptionKeyPair: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.sinon = require('sinon');

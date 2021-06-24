@@ -3,7 +3,7 @@ import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
 import { PubKey } from '../session/types';
 import { toHex } from '../session/utils/String';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import * as ClosedGroup from '../session/group';
 import { BlockedNumberController } from '../util';
 import {
@@ -29,11 +29,11 @@ import { UserUtils } from '../session/utils';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import _ from 'lodash';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { MessageController } from '../session/messages';
+import { getMessageController } from '../session/messages';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { queueAllCachedFromSource } from './receiver';
 import { actions as conversationActions } from '../state/ducks/conversations';
-import { SwarmPolling } from '../session/snode_api/swarmPolling';
+import { getSwarmPollingInstance } from '../session/snode_api';
 import { MessageModel } from '../models/message';
 
 import { updateConfirmModal } from '../state/ducks/modalDialog';
@@ -188,7 +188,7 @@ export async function handleNewClosedGroup(
     await removeFromCache(envelope);
     return;
   }
-  const maybeConvo = ConversationController.getInstance().get(groupId);
+  const maybeConvo = getConversationController().get(groupId);
   const expireTimer = groupUpdate.expireTimer;
 
   if (maybeConvo) {
@@ -233,10 +233,7 @@ export async function handleNewClosedGroup(
 
   const convo =
     maybeConvo ||
-    (await ConversationController.getInstance().getOrCreateAndWait(
-      groupId,
-      ConversationTypeEnum.GROUP
-    ));
+    (await getConversationController().getOrCreateAndWait(groupId, ConversationTypeEnum.GROUP));
   // ***** Creating a new group *****
   window?.log?.info('Received a new ClosedGroup of id:', groupId);
 
@@ -278,7 +275,7 @@ export async function handleNewClosedGroup(
   await addClosedGroupEncryptionKeyPair(groupId, ecKeyPair.toHexKeyPair());
 
   // start polling for this new group
-  SwarmPolling.getInstance().addGroupId(PubKey.cast(groupId));
+  getSwarmPollingInstance().addGroupId(PubKey.cast(groupId));
 
   await removeFromCache(envelope);
   // trigger decrypting of all this group messages we did not decrypt successfully yet.
@@ -301,7 +298,7 @@ export async function markGroupAsLeftOrKicked(
   } else {
     groupConvo.set('left', true);
   }
-  SwarmPolling.getInstance().removePubkey(groupPublicKey);
+  getSwarmPollingInstance().removePubkey(groupPublicKey);
 }
 
 /**
@@ -336,7 +333,7 @@ async function handleClosedGroupEncryptionKeyPair(
     return;
   }
 
-  const groupConvo = ConversationController.getInstance().get(groupPublicKey);
+  const groupConvo = getConversationController().get(groupPublicKey);
   if (!groupConvo) {
     window?.log?.warn(
       `Ignoring closed group encryption key pair for nonexistent group. ${groupPublicKey}`
@@ -436,7 +433,7 @@ async function performIfValid(
   const groupPublicKey = envelope.source;
   const sender = envelope.senderIdentity;
 
-  const convo = ConversationController.getInstance().get(groupPublicKey);
+  const convo = getConversationController().get(groupPublicKey);
   if (!convo) {
     window?.log?.warn('dropping message for nonexistent group');
     return removeFromCache(envelope);
@@ -476,10 +473,7 @@ async function performIfValid(
     return;
   }
   // make sure the conversation with this user exist (even if it's just hidden)
-  await ConversationController.getInstance().getOrCreateAndWait(
-    sender,
-    ConversationTypeEnum.PRIVATE
-  );
+  await getConversationController().getOrCreateAndWait(sender, ConversationTypeEnum.PRIVATE);
 
   if (groupUpdate.type === Type.NAME_CHANGE) {
     await handleClosedGroupNameChanged(envelope, groupUpdate, convo);
@@ -490,14 +484,11 @@ async function performIfValid(
   } else if (groupUpdate.type === Type.MEMBER_LEFT) {
     await handleClosedGroupMemberLeft(envelope, convo);
   } else if (groupUpdate.type === Type.ENCRYPTION_KEY_PAIR_REQUEST) {
-    if (window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
-      await handleClosedGroupEncryptionKeyPairRequest(envelope, groupUpdate, convo);
-    } else {
-      window?.log?.warn(
-        'Received ENCRYPTION_KEY_PAIR_REQUEST message but it is not enabled for now.'
-      );
-      await removeFromCache(envelope);
-    }
+    window?.log?.warn(
+      'Received ENCRYPTION_KEY_PAIR_REQUEST message but it is not enabled for now.'
+    );
+    await removeFromCache(envelope);
+
     // if you add a case here, remember to add it where performIfValid is called too.
   }
 
@@ -566,7 +557,7 @@ async function handleClosedGroupMembersAdded(
   // make sure the conversation with those members (even if it's just hidden)
   await Promise.all(
     members.map(async m =>
-      ConversationController.getInstance().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE)
+      getConversationController().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE)
     )
   );
 
@@ -822,10 +813,7 @@ async function sendLatestKeyPairToUsers(
   await Promise.all(
     targetUsers.map(async member => {
       window?.log?.info(`Sending latest closed group encryption key pair to: ${member}`);
-      await ConversationController.getInstance().getOrCreateAndWait(
-        member,
-        ConversationTypeEnum.PRIVATE
-      );
+      await getConversationController().getOrCreateAndWait(member, ConversationTypeEnum.PRIVATE);
 
       const wrappers = await ClosedGroup.buildEncryptionKeyPairWrappers([member], keyPairToUse);
 
@@ -839,26 +827,6 @@ async function sendLatestKeyPairToUsers(
       await getMessageQueue().sendToPubKey(PubKey.cast(member), keypairsMessage);
     })
   );
-}
-
-async function handleClosedGroupEncryptionKeyPairRequest(
-  envelope: EnvelopePlus,
-  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
-  groupConvo: ConversationModel
-) {
-  if (!window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
-    throw new Error('useRequestEncryptionKeyPair is disabled');
-  }
-  const sender = envelope.senderIdentity;
-  const groupPublicKey = envelope.source;
-  // Guard against self-sends
-  if (UserUtils.isUsFromCache(sender)) {
-    window?.log?.info('Dropping self send message of type ENCRYPTION_KEYPAIR_REQUEST');
-    await removeFromCache(envelope);
-    return;
-  }
-  await sendLatestKeyPairToUsers(groupConvo, groupPublicKey, [sender]);
-  return removeFromCache(envelope);
 }
 
 export async function createClosedGroup(groupName: string, members: Array<string>) {
@@ -878,7 +846,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
   const listOfMembers = [...setOfMembers];
 
   // Create the group
-  const convo = await ConversationController.getInstance().getOrCreateAndWait(
+  const convo = await getConversationController().getOrCreateAndWait(
     groupPublicKey,
     ConversationTypeEnum.GROUP
   );
@@ -903,7 +871,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
   };
 
   const dbMessage = await ClosedGroup.addUpdateMessage(convo, groupDiff, 'outgoing', Date.now());
-  MessageController.getInstance().register(dbMessage.id, dbMessage);
+  getMessageController().register(dbMessage.id, dbMessage);
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
@@ -935,7 +903,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
     }
 
     // Subscribe to this group id
-    SwarmPolling.getInstance().addGroupId(new PubKey(groupPublicKey));
+    getSwarmPollingInstance().addGroupId(new PubKey(groupPublicKey));
   }
 
   await forceSyncConfigurationNowIfNeeded();

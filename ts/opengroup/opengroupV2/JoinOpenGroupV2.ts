@@ -1,5 +1,5 @@
 import { getV2OpenGroupRoomByRoomId, OpenGroupV2Room } from '../../data/opengroups';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { PromiseUtils, ToastUtils } from '../../session/utils';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import {
@@ -8,7 +8,7 @@ import {
   prefixify,
   publicKeyParam,
 } from '../utils/OpenGroupUtils';
-import { OpenGroupManagerV2 } from './OpenGroupManagerV2';
+import { getOpenGroupManager } from './OpenGroupManagerV2';
 
 // Inputs that should work:
 // https://sessionopengroup.co/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231c
@@ -65,7 +65,7 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
 
   const alreadyExist = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
   const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
-  const existingConvo = ConversationController.getInstance().get(conversationId);
+  const existingConvo = getConversationController().get(conversationId);
 
   if (alreadyExist && existingConvo) {
     window?.log?.warn('Skipping join opengroupv2: already exists');
@@ -73,17 +73,13 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
   } else if (existingConvo) {
     // we already have a convo associated with it. Remove everything related to it so we start fresh
     window?.log?.warn('leaving before rejoining open group v2 room', conversationId);
-    await ConversationController.getInstance().deleteContact(conversationId);
+    await getConversationController().deleteContact(conversationId);
   }
 
   // Try to connect to server
   try {
     const conversation = await PromiseUtils.timeout(
-      OpenGroupManagerV2.getInstance().attemptConnectionV2OneAtATime(
-        prefixedServer,
-        roomId,
-        publicKey
-      ),
+      getOpenGroupManager().attemptConnectionV2OneAtATime(prefixedServer, roomId, publicKey),
       20000
     );
 
@@ -132,7 +128,7 @@ export async function joinOpenGroupV2WithUIEvents(
       return false;
     }
     const conversationID = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
-    if (ConversationController.getInstance().get(conversationID)) {
+    if (getConversationController().get(conversationID)) {
       if (showToasts) {
         ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
       }
@@ -146,7 +142,7 @@ export async function joinOpenGroupV2WithUIEvents(
     }
     await joinOpenGroupV2(parsedRoom, fromConfigMessage);
 
-    const isConvoCreated = ConversationController.getInstance().get(conversationID);
+    const isConvoCreated = getConversationController().get(conversationID);
     if (isConvoCreated) {
       if (showToasts) {
         ToastUtils.pushToastSuccess(

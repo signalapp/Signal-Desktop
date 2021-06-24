@@ -4,7 +4,7 @@ import {
   getLatestClosedGroupEncryptionKeyPair,
 } from '../../../ts/data/data';
 import { getMessageQueue } from '..';
-import { ConversationController } from '../conversations';
+import { getConversationController } from '../conversations';
 import uuid from 'uuid';
 import { UserUtils } from '.';
 import { ECKeyPair } from '../../receiver/keypairs';
@@ -48,7 +48,7 @@ export const syncConfigurationIfNeeded = async () => {
     return;
   }
 
-  const allConvos = ConversationController.getInstance().getConversations();
+  const allConvos = getConversationController().getConversations();
   const configMessage = await getCurrentConfigurationMessage(allConvos);
   try {
     // window?.log?.info('syncConfigurationIfNeeded with', configMessage);
@@ -65,7 +65,7 @@ export const syncConfigurationIfNeeded = async () => {
 
 export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) =>
   new Promise(resolve => {
-    const allConvos = ConversationController.getInstance().getConversations();
+    const allConvos = getConversationController().getConversations();
 
     // if we hang for more than 10sec, force resolve this promise.
     setTimeout(() => {

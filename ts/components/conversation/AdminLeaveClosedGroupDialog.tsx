@@ -3,7 +3,7 @@ import React from 'react';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG } from '../basic/Text';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { adminLeaveClosedGroup } from '../../state/ducks/modalDialog';
 
 type Props = {
@@ -11,14 +11,14 @@ type Props = {
 };
 
 export const AdminLeaveClosedGroupDialog = (props: Props) => {
-  const convo = ConversationController.getInstance().get(props.conversationId);
+  const convo = getConversationController().get(props.conversationId);
   const titleText = `${window.i18n('leaveGroup')} ${convo.getName()}`;
   const warningAsAdmin = `${window.i18n('leaveGroupConfirmationAdmin')}`;
   const okText = window.i18n('leaveAndRemoveForEveryone');
   const cancelText = window.i18n('cancel');
 
   const onClickOK = async () => {
-    await ConversationController.getInstance()
+    await getConversationController()
       .get(props.conversationId)
       .leaveClosedGroup();
     closeDialog();

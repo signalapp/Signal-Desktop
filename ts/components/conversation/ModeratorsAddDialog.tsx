@@ -7,7 +7,7 @@ import { SessionSpinner } from '../session/SessionSpinner';
 import { Flex } from '../basic/Flex';
 import { ApiV2 } from '../../opengroup/opengroupV2';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { useDispatch } from 'react-redux';
 import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
 import _ from 'lodash';
@@ -21,7 +21,7 @@ export const AddModeratorsDialog = (props: Props) => {
 
   const theme = useTheme();
   const dispatch = useDispatch();
-  const convo = ConversationController.getInstance().get(conversationId);
+  const convo = getConversationController().get(conversationId);
 
   const [inputBoxValue, setInputBoxValue] = useState('');
   const [addingInProgress, setAddingInProgress] = useState(false);

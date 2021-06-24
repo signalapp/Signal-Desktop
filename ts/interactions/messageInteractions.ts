@@ -4,7 +4,7 @@ import { ConversationModel } from '../models/conversation';
 import { ApiV2 } from '../opengroup/opengroupV2';
 import { joinOpenGroupV2WithUIEvents } from '../opengroup/opengroupV2/JoinOpenGroupV2';
 import { isOpenGroupV2, openGroupV2CompleteURLRegex } from '../opengroup/utils/OpenGroupUtils';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { PubKey } from '../session/types';
 import { ToastUtils } from '../session/utils';
 
@@ -29,7 +29,7 @@ export function banUser(userToBan: string, conversationId: string) {
     message: window.i18n('banUserConfirm'),
     onClickClose,
     onClickOk: async () => {
-      const conversation = ConversationController.getInstance().get(conversationId);
+      const conversation = getConversationController().get(conversationId);
       if (!conversation) {
         window.log.info('cannot ban user, the corresponding conversation was not found.');
         return;
@@ -78,7 +78,7 @@ export function unbanUser(userToUnBan: string, conversationId: string) {
   const onClickClose = () => window.inboxStore?.dispatch(updateConfirmModal(null));
 
   const onClickOk = async () => {
-    const conversation = ConversationController.getInstance().get(conversationId);
+    const conversation = getConversationController().get(conversationId);
 
     if (!conversation) {
       // double check here. the convo might have been removed since the dialog was opened
@@ -127,7 +127,7 @@ export function copyPubKey(sender: string) {
 export async function removeSenderFromModerator(sender: string, convoId: string) {
   try {
     const pubKeyToRemove = PubKey.cast(sender);
-    const convo = ConversationController.getInstance().getOrThrow(convoId);
+    const convo = getConversationController().getOrThrow(convoId);
 
     const roomInfo = convo.toOpenGroupV2();
     const res = await ApiV2.removeModerator(pubKeyToRemove, roomInfo);
@@ -147,7 +147,7 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
 export async function addSenderAsModerator(sender: string, convoId: string) {
   try {
     const pubKeyToAdd = PubKey.cast(sender);
-    const convo = ConversationController.getInstance().getOrThrow(convoId);
+    const convo = getConversationController().getOrThrow(convoId);
 
     const roomInfo = convo.toOpenGroupV2();
     const res = await ApiV2.addModerator(pubKeyToAdd, roomInfo);

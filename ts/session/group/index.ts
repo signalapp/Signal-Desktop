@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { fromHexToArray, toHex } from '../utils/String';
 import { BlockedNumberController } from '../../util/blockedNumberController';
-import { ConversationController } from '../conversations';
+import { getConversationController } from '../conversations';
 import {
   addClosedGroupEncryptionKeyPair,
   getLatestClosedGroupEncryptionKeyPair,
@@ -19,7 +19,7 @@ import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessag
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
-import { MessageController } from '../messages';
+import { getMessageController } from '../messages';
 import {
   distributingClosedGroupEncryptionKeyPairs,
   markGroupAsLeftOrKicked,
@@ -30,9 +30,9 @@ import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMe
 import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairRequestMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
-import { SwarmPolling } from '../snode_api/swarmPolling';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
+import { getSwarmPollingInstance } from '../snode_api';
 
 export type GroupInfo = {
   id: string;
@@ -69,7 +69,7 @@ export async function initiateGroupUpdate(
   members: Array<string>,
   avatar: any
 ) {
-  const convo = await ConversationController.getInstance().getOrCreateAndWait(
+  const convo = await getConversationController().getOrCreateAndWait(
     groupId,
     ConversationTypeEnum.GROUP
   );
@@ -118,21 +118,21 @@ export async function initiateGroupUpdate(
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = { newName: diff.newName };
     const dbMessageName = await addUpdateMessage(convo, nameOnlyDiff, 'outgoing', Date.now());
-    MessageController.getInstance().register(dbMessageName.id, dbMessageName);
+    getMessageController().register(dbMessageName.id, dbMessageName);
     await sendNewName(convo, diff.newName, dbMessageName.id);
   }
 
   if (diff.joiningMembers?.length) {
     const joiningOnlyDiff: GroupDiff = { joiningMembers: diff.joiningMembers };
     const dbMessageAdded = await addUpdateMessage(convo, joiningOnlyDiff, 'outgoing', Date.now());
-    MessageController.getInstance().register(dbMessageAdded.id, dbMessageAdded);
+    getMessageController().register(dbMessageAdded.id, dbMessageAdded);
     await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id, updateObj);
   }
 
   if (diff.leavingMembers?.length) {
     const leavingOnlyDiff: GroupDiff = { leavingMembers: diff.leavingMembers };
     const dbMessageLeaving = await addUpdateMessage(convo, leavingOnlyDiff, 'outgoing', Date.now());
-    MessageController.getInstance().register(dbMessageLeaving.id, dbMessageLeaving);
+    getMessageController().register(dbMessageLeaving.id, dbMessageLeaving);
     const stillMembers = members;
     await sendRemovedMembers(convo, diff.leavingMembers, stillMembers, dbMessageLeaving.id);
   }
@@ -214,7 +214,7 @@ function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff 
 export async function updateOrCreateClosedGroup(details: GroupInfo) {
   const { id, weWereJustAdded } = details;
 
-  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+  const conversation = await getConversationController().getOrCreateAndWait(
     id,
     ConversationTypeEnum.GROUP
   );
@@ -284,7 +284,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 }
 
 export async function leaveClosedGroup(groupId: string) {
-  const convo = ConversationController.getInstance().get(groupId);
+  const convo = getConversationController().get(groupId);
 
   if (!convo) {
     window?.log?.error('Cannot leave non-existing group');
@@ -321,7 +321,7 @@ export async function leaveClosedGroup(groupId: string) {
     received_at: now,
     expireTimer: 0,
   });
-  MessageController.getInstance().register(dbMessage.id, dbMessage);
+  getMessageController().register(dbMessage.id, dbMessage);
   // Send the update to the group
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
     timestamp: Date.now(),
@@ -331,7 +331,7 @@ export async function leaveClosedGroup(groupId: string) {
 
   window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
   // sent the message to the group and once done, remove everything related to this group
-  SwarmPolling.getInstance().removePubkey(groupId);
+  getSwarmPollingInstance().removePubkey(groupId);
   await getMessageQueue().sendToGroup(ourLeavingMessage, async () => {
     window?.log?.info(
       `Leaving message sent ${groupId}. Removing everything related to this group.`
@@ -402,7 +402,7 @@ async function sendAddedMembers(
   });
 
   const promises = addedMembers.map(async m => {
-    await ConversationController.getInstance().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE);
+    await getConversationController().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE);
     const memberPubKey = PubKey.cast(m);
     await getMessageQueue().sendToPubKey(memberPubKey, newClosedGroupUpdate);
   });
@@ -455,7 +455,7 @@ async function generateAndSendNewEncryptionKeyPair(
   groupPublicKey: string,
   targetMembers: Array<string>
 ) {
-  const groupConvo = ConversationController.getInstance().get(groupPublicKey);
+  const groupConvo = getConversationController().get(groupPublicKey);
   const groupId = fromHexToArray(groupPublicKey);
 
   if (!groupConvo) {
@@ -538,32 +538,4 @@ export async function buildEncryptionKeyPairWrappers(
     })
   );
   return wrappers;
-}
-
-export async function requestEncryptionKeyPair(groupPublicKey: string | PubKey) {
-  if (!window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
-    throw new Error('useRequestEncryptionKeyPair is disabled');
-  }
-
-  const groupConvo = ConversationController.getInstance().get(PubKey.cast(groupPublicKey).key);
-
-  if (!groupConvo) {
-    window?.log?.warn(
-      'requestEncryptionKeyPair: Trying to request encryption key pair from unknown group'
-    );
-    return;
-  }
-
-  const ourNumber = UserUtils.getOurPubKeyFromCache();
-  if (!groupConvo.get('members').includes(ourNumber.key)) {
-    window?.log?.info('requestEncryptionKeyPair: We are not a member of this group.');
-    return;
-  }
-
-  const ecRequestMessage = new ClosedGroupEncryptionPairRequestMessage({
-    groupId: groupPublicKey,
-    timestamp: Date.now(),
-  });
-
-  await getMessageQueue().sendToGroup(ecRequestMessage);
 }

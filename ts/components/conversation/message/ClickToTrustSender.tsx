@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { getMessageById, getMessagesByConversation } from '../../../data/data';
-import { ConversationController } from '../../../session/conversations';
+import { getConversationController } from '../../../session/conversations';
 import { AttachmentDownloads } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../../session/icon';
@@ -27,7 +27,7 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
       return;
     }
     const sender = found.getSource();
-    const convo = ConversationController.getInstance().get(sender);
+    const convo = getConversationController().get(sender);
     window.inboxStore?.dispatch(
       updateConfirmModal({
         title: window.i18n(

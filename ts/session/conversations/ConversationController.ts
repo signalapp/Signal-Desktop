@@ -16,33 +16,37 @@ import { PubKey } from '../types';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
 import _ from 'lodash';
-import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
+import { getOpenGroupManager } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 import { deleteAuthToken, DeleteAuthTokenRequest } from '../../opengroup/opengroupV2/ApiAuth';
 import { deleteMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 
+let instance: ConversationController | null;
+
+export const getConversationController = () => {
+  if (instance) {
+    return instance;
+  }
+  instance = new ConversationController();
+
+  return instance;
+};
+
 export class ConversationController {
-  private static instance: ConversationController | null;
   private readonly conversations: ConversationCollection;
   private _initialFetchComplete: boolean = false;
   private _initialPromise?: Promise<any>;
 
-  private constructor() {
+  /**
+   * Do not call this constructor. You get the ConversationController through getConversationController() only
+   */
+  constructor() {
     this.conversations = new ConversationCollection();
-  }
-
-  public static getInstance() {
-    if (ConversationController.instance) {
-      return ConversationController.instance;
-    }
-    ConversationController.instance = new ConversationController();
-
-    return ConversationController.instance;
   }
 
   // FIXME this could return | undefined
   public get(id: string): ConversationModel {
     if (!this._initialFetchComplete) {
-      throw new Error('ConversationController.get() needs complete initial fetch');
+      throw new Error('getConversationController().get() needs complete initial fetch');
     }
 
     return this.conversations.get(id);
@@ -50,7 +54,7 @@ export class ConversationController {
 
   public getOrThrow(id: string): ConversationModel {
     if (!this._initialFetchComplete) {
-      throw new Error('ConversationController.get() needs complete initial fetch');
+      throw new Error('getConversationController().get() needs complete initial fetch');
     }
 
     const convo = this.conversations.get(id);
@@ -58,7 +62,7 @@ export class ConversationController {
     if (convo) {
       return convo;
     }
-    throw new Error(`Conversation ${id} does not exist on ConversationController.get()`);
+    throw new Error(`Conversation ${id} does not exist on getConversationController().get()`);
   }
   // Needed for some model setup which happens during the initial fetch() call below
   public getUnsafe(id: string): ConversationModel | undefined {
@@ -79,7 +83,7 @@ export class ConversationController {
     }
 
     if (!this._initialFetchComplete) {
-      throw new Error('ConversationController.get() needs complete initial fetch');
+      throw new Error('getConversationController().get() needs complete initial fetch');
     }
 
     let conversation = this.conversations.get(id);
@@ -130,7 +134,7 @@ export class ConversationController {
   }
 
   public getContactProfileNameOrShortenedPubKey(pubKey: string): string {
-    const conversation = ConversationController.getInstance().get(pubKey);
+    const conversation = getConversationController().get(pubKey);
     if (!conversation) {
       return pubKey;
     }
@@ -181,7 +185,7 @@ export class ConversationController {
 
   public async deleteContact(id: string) {
     if (!this._initialFetchComplete) {
-      throw new Error('ConversationController.get() needs complete initial fetch');
+      throw new Error('getConversationController().get() needs complete initial fetch');
     }
 
     window.log.info(`deleteContact with ${id}`);
@@ -207,7 +211,7 @@ export class ConversationController {
             _.pick(roomInfos, 'serverUrl', 'roomId', 'token') as DeleteAuthTokenRequest
           );
         }
-        OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(roomInfos);
+        getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
 
         // remove the roomInfos locally for this open group room
         try {

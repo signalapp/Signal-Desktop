@@ -3,7 +3,7 @@ import { Avatar, AvatarSize } from './Avatar';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import { SessionIdEditable } from './session/SessionIdEditable';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { ConversationTypeEnum } from '../models/conversation';
 import { SessionWrapperModal } from './session/SessionWrapperModal';
 import { SpacerMD } from './basic/Text';
@@ -19,7 +19,7 @@ type Props = {
 
 export const UserDetailsDialog = (props: Props) => {
   const [isEnlargedImageShown, setIsEnlargedImageShown] = useState(false);
-  const convo = ConversationController.getInstance().get(props.conversationId);
+  const convo = getConversationController().get(props.conversationId);
 
   const size = isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
   const userName = props.userName || props.conversationId;
@@ -29,7 +29,7 @@ export const UserDetailsDialog = (props: Props) => {
   }
 
   async function onClickStartConversation() {
-    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+    const conversation = await getConversationController().getOrCreateAndWait(
       convo.id,
       ConversationTypeEnum.PRIVATE
     );

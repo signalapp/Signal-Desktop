@@ -12,7 +12,7 @@ import {
 } from '../../../ts/data/data';
 import { MessageModel } from '../../models/message';
 import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
-import { MessageController } from '../messages';
+import { getMessageController } from '../messages';
 
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
@@ -162,7 +162,7 @@ async function _runJob(job: any) {
       return;
     }
 
-    message = MessageController.getInstance().register(found.id, found);
+    message = getMessageController().register(found.id, found);
 
     const pending = true;
     await setAttachmentDownloadJobPending(id, pending);

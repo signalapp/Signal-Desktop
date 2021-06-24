@@ -5,10 +5,10 @@ import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { SignalService } from '../protobuf';
 import { StringUtils, UserUtils } from '../session/utils';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { MessageModel } from '../models/message';
-import { MessageController } from '../session/messages';
+import { getMessageController } from '../session/messages';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
@@ -128,7 +128,7 @@ async function copyFromQuotedMessage(
   window?.log?.info(`Found quoted message id: ${id}`);
   quote.referencedMessageNotFound = false;
 
-  const queryMessage = MessageController.getInstance().register(found.id, found);
+  const queryMessage = getMessageController().register(found.id, found);
   quote.text = queryMessage.get('body') || '';
 
   if (attemptCount > 1) {
@@ -344,7 +344,7 @@ async function handleRegularMessage(
     });
   }
 
-  const sendingDeviceConversation = await ConversationController.getInstance().getOrCreateAndWait(
+  const sendingDeviceConversation = await getConversationController().getOrCreateAndWait(
     source,
     ConversationTypeEnum.PRIVATE
   );
@@ -444,7 +444,7 @@ export async function handleMessageJob(
         messageModel: message,
       })
     );
-    MessageController.getInstance().register(message.id, message);
+    getMessageController().register(message.id, message);
 
     // Note that this can save the message again, if jobs were queued. We need to
     //   call it after we have an id for this message, because the jobs refer back

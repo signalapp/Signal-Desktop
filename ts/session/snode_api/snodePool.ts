@@ -267,7 +267,6 @@ export async function refreshRandomPool(forceRefresh = false): Promise<void> {
 
     return;
   }
-  // tslint:disable-next-line:no-parameter-reassignment
   window?.log?.info("right before allowOnlyOneAtATime 'refreshRandomPool'");
 
   return allowOnlyOneAtATime('refreshRandomPool', async () => {
