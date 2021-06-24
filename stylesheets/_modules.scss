@@ -3938,7 +3938,6 @@ button.module-conversation-details__action-button {
 .module-image {
   position: relative;
   display: inline-block;
-  margin: 1px;
   vertical-align: middle;
   overflow: hidden;
 }
@@ -4061,6 +4060,10 @@ button.module-conversation-details__action-button {
   border-radius: 4px;
 }
 
+.module-image--cropped {
+  overflow: hidden;
+}
+
 .module-image--curved-top-left {
   border-top-left-radius: 16px;
 }
@@ -4105,8 +4108,6 @@ button.module-conversation-details__action-button {
 }
 
 .module-image--gif {
-  border-radius: 18px;
-
   &__filesize {
     position: absolute;
     top: 10px;
@@ -4279,7 +4280,7 @@ button.module-image__border-overlay:focus {
   flex-direction: row;
   align-items: center;
 
-  margin: -1px;
+  gap: 1px;
 }
 
 .module-image-grid--one-image {
@@ -4294,6 +4295,7 @@ button.module-image__border-overlay:focus {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
+  gap: 1px;
 }
 
 .module-image-grid__row {
@@ -4301,6 +4303,7 @@ button.module-image__border-overlay:focus {
   flex-direction: row;
   align-items: center;
   flex-grow: 1;
+  gap: 1px;
 }
 
 // Module: Typing Animation
@@ -10620,11 +10623,6 @@ $contact-modal-padding: 18px;
 
   &--deleted-for-everyone {
     font-style: italic;
-  }
-
-  &--gif {
-    border-radius: inherit;
-    background: inherit;
   }
 }
 
