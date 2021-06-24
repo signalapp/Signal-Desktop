@@ -1,12 +1,12 @@
 import Backbone from 'backbone';
 import _ from 'lodash';
 import { getMessageQueue } from '../session';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
-import { MessageController } from '../session/messages';
+import { getMessageController } from '../session/messages';
 import { leaveClosedGroup } from '../session/group';
 import { SignalService } from '../protobuf';
 import { MessageModel } from './message';
@@ -94,6 +94,7 @@ export interface ConversationAttributes {
   profileKey?: string;
   accessKey?: any;
   triggerNotificationsFor: ConversationNotificationSettingType;
+  isTrustedForAttachmentDownload: boolean;
 }
 
 export interface ConversationAttributesOptionals {
@@ -130,6 +131,7 @@ export interface ConversationAttributesOptionals {
   profileKey?: string;
   accessKey?: any;
   triggerNotificationsFor?: ConversationNotificationSettingType;
+  isTrustedForAttachmentDownload?: boolean;
 }
 
 /**
@@ -158,6 +160,7 @@ export const fillConvoAttributesWithDefaults = (
     mentionedUs: false,
     active_at: 0,
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
+    isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
   });
 };
 
@@ -177,7 +180,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   constructor(attributes: ConversationAttributesOptionals) {
     super(fillConvoAttributesWithDefaults(attributes));
 
-    // This may be overridden by ConversationController.getOrCreate, and signify
+    // This may be overridden by getConversationController().getOrCreate, and signify
     //   our first save to the database. Or first fetch from the database.
     this.initialPromise = Promise.resolve();
     autoBind(this);
@@ -873,7 +876,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (setToExpire) {
       await model.setToExpire();
     }
-    MessageController.getInstance().register(messageId, model);
+    getMessageController().register(messageId, model);
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: this.id,
@@ -1075,7 +1078,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   // This function is wrongly named by signal
   // This is basically an `update` function and thus we have overwritten it with such
   public async getProfile(id: string) {
-    const c = await ConversationController.getInstance().getOrCreateAndWait(
+    const c = await getConversationController().getOrCreateAndWait(
       id,
       ConversationTypeEnum.PRIVATE
     );
@@ -1197,7 +1200,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   //     title,
   //     message,
   //     resolve: () => {
-  //       void ConversationController.getInstance().deleteContact(this.id);
+  //       void getConversationController().deleteContact(this.id);
   //     },
   //   });
   // }
@@ -1346,7 +1349,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
     }
 
-    const convo = await ConversationController.getInstance().getOrCreateAndWait(
+    const convo = await getConversationController().getOrCreateAndWait(
       message.get('source'),
       ConversationTypeEnum.PRIVATE
     );

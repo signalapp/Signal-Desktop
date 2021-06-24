@@ -4,7 +4,7 @@ import { ContentMessage } from '..';
 import { v4 as uuid } from 'uuid';
 import { PubKey } from '../../../types';
 import { getMessageQueue } from '../../..';
-import { ConversationController } from '../../../conversations';
+import { getConversationController } from '../../../conversations';
 import { UserUtils } from '../../../utils';
 interface DataExtractionNotificationMessageParams extends MessageParams {
   referencedAttachmentTimestamp: number;
@@ -48,7 +48,7 @@ export const sendDataExtractionNotification = async (
   attachmentSender: string,
   referencedAttachmentTimestamp?: number
 ) => {
-  const convo = ConversationController.getInstance().get(conversationId);
+  const convo = getConversationController().get(conversationId);
   if (
     !convo ||
     !convo.isPrivate() ||

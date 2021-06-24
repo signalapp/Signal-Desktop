@@ -5,7 +5,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../session
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import autoBind from 'auto-bind';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 
 import _ from 'lodash';
 import { SpacerLG, SpacerMD, Text } from '../basic/Text';
@@ -34,13 +34,13 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     super(props);
 
     autoBind(this);
-    this.convo = ConversationController.getInstance().get(props.conversationId);
+    this.convo = getConversationController().get(props.conversationId);
     const admins = this.convo.get('groupAdmins') || [];
     const ourPK = UserUtils.getOurPubKeyStrFromCache();
 
     const isAdmin = this.convo.get('groupAdmins')?.includes(ourPK) ? true : false;
 
-    const convos = ConversationController.getInstance()
+    const convos = getConversationController()
       .getConversations()
       .filter(d => !!d);
 
@@ -79,7 +79,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
 
     const zombies = _.compact(
       existingZombies.map(d => {
-        const zombieConvo = ConversationController.getInstance().get(d);
+        const zombieConvo = getConversationController().get(d);
         if (!zombieConvo) {
           window?.log?.warn('Zombie convo not found');
           return null;

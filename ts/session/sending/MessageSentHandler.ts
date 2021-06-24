@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { getMessageById } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import { PnServer } from '../../pushnotification';
-import { MessageController } from '../messages';
+import { getMessageController } from '../messages';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { EncryptionType, RawMessage } from '../types';
 import { UserUtils } from '../utils';
@@ -176,7 +176,7 @@ export class MessageSentHandler {
   private static async fetchHandleMessageSentData(m: RawMessage | OpenGroupVisibleMessage) {
     // if a message was sent and this message was sent after the last app restart,
     // this message is still in memory in the MessageController
-    const msg = MessageController.getInstance().get(m.identifier);
+    const msg = getMessageController().get(m.identifier);
 
     if (!msg || !msg.message) {
       // otherwise, look for it in the database
@@ -187,7 +187,7 @@ export class MessageSentHandler {
       if (!dbMessage) {
         return null;
       }
-      MessageController.getInstance().register(m.identifier, dbMessage);
+      getMessageController().register(m.identifier, dbMessage);
       return dbMessage;
     }
 

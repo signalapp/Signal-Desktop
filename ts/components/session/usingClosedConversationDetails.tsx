@@ -2,7 +2,7 @@ import { GroupUtils, UserUtils } from '../../session/utils';
 import { PubKey } from '../../session/types';
 import React from 'react';
 import * as _ from 'lodash';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { ConversationTypeEnum } from '../../models/conversation';
 
 export type ConversationAvatar = {
@@ -55,10 +55,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         members = members.slice(0, 2);
         const memberConvos = await Promise.all(
           members.map(async m =>
-            ConversationController.getInstance().getOrCreateAndWait(
-              m.key,
-              ConversationTypeEnum.PRIVATE
-            )
+            getConversationController().getOrCreateAndWait(m.key, ConversationTypeEnum.PRIVATE)
           )
         );
         const memberAvatars = memberConvos.map(m => {

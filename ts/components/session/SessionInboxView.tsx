@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ConversationModel } from '../../models/conversation';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { createStore } from '../../state/createStore';
 import { actions as conversationActions } from '../../state/ducks/conversations';
@@ -79,7 +79,7 @@ export class SessionInboxView extends React.Component<any, State> {
 
   private async setupLeftPane() {
     // Here we set up a full redux store with initial state for our LeftPane Root
-    const convoCollection = ConversationController.getInstance().getConversations();
+    const convoCollection = getConversationController().getConversations();
     const conversations = convoCollection.map((conversation: ConversationModel) =>
       conversation.getProps()
     );

@@ -41,6 +41,7 @@ import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
 import { MessageInteraction } from '../../interactions';
 import autoBind from 'auto-bind';
 import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
+import { ClickToTrustSender } from './message/ClickToTrustSender';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -146,6 +147,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       onClickAttachment,
       multiSelectMode,
       onSelectMessage,
+      isTrustedForAttachmentDownload,
     } = this.props;
     const { imageBroken } = this.state;
 
@@ -159,6 +161,10 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     const withContentAbove =
       Boolean(quote) || (conversationType === 'group' && direction === 'incoming');
     const displayImage = canDisplayImage(attachments);
+
+    if (!isTrustedForAttachmentDownload) {
+      return <ClickToTrustSender messageId={id} />;
+    }
 
     if (
       displayImage &&

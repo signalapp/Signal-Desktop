@@ -25,7 +25,7 @@ import { ConversationType } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
-import { ConversationController } from '../../../session/conversations';
+import { getConversationController } from '../../../session/conversations';
 import { getMessageById, getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
@@ -221,7 +221,7 @@ export class SessionConversation extends React.Component<Props, State> {
       // return an empty message view
       return <MessageView />;
     }
-    const conversationModel = ConversationController.getInstance().get(selectedConversationKey);
+    const conversationModel = getConversationController().get(selectedConversationKey);
     // TODO VINCE: OPTIMISE FOR NEW SENDING???
     const sendMessageFn = (
       body: any,
@@ -329,7 +329,7 @@ export class SessionConversation extends React.Component<Props, State> {
     if (!selectedConversation) {
       return;
     }
-    const conversationModel = ConversationController.getInstance().get(selectedConversationKey);
+    const conversationModel = getConversationController().get(selectedConversationKey);
     const unreadCount = await conversationModel.getUnreadCount();
     const messagesToFetch = Math.max(
       Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
@@ -344,7 +344,7 @@ export class SessionConversation extends React.Component<Props, State> {
   public getHeaderProps() {
     const { selectedConversationKey, ourNumber } = this.props;
     const { selectedMessages, messageDetailShowProps } = this.state;
-    const conversation = ConversationController.getInstance().getOrThrow(selectedConversationKey);
+    const conversation = getConversationController().getOrThrow(selectedConversationKey);
     const expireTimer = conversation.get('expireTimer');
     const expirationSettingName = expireTimer
       ? window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
@@ -440,7 +440,7 @@ export class SessionConversation extends React.Component<Props, State> {
   // tslint:disable-next-line: max-func-body-length
   public getRightPanelProps() {
     const { selectedConversationKey } = this.props;
-    const conversation = ConversationController.getInstance().getOrThrow(selectedConversationKey);
+    const conversation = getConversationController().getOrThrow(selectedConversationKey);
     const ourPrimary = window.storage.get('primaryDevicePubKey');
 
     const members = conversation.get('members') || [];
@@ -529,9 +529,7 @@ export class SessionConversation extends React.Component<Props, State> {
     // Get message objects
     const { selectedConversationKey, selectedConversation, messages } = this.props;
 
-    const conversationModel = ConversationController.getInstance().getOrThrow(
-      selectedConversationKey
-    );
+    const conversationModel = getConversationController().getOrThrow(selectedConversationKey);
     if (!selectedConversation) {
       window?.log?.info('No valid selected conversation.');
       return;
@@ -685,9 +683,7 @@ export class SessionConversation extends React.Component<Props, State> {
     }
     if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
       const { messages, selectedConversationKey } = this.props;
-      const conversationModel = ConversationController.getInstance().getOrThrow(
-        selectedConversationKey
-      );
+      const conversationModel = getConversationController().getOrThrow(selectedConversationKey);
 
       let quotedMessageProps = null;
       if (quotedMessageTimestamp) {
@@ -1084,7 +1080,7 @@ export class SessionConversation extends React.Component<Props, State> {
     window?.log?.info(`getPubkeysInPublicConversation returned '${allPubKeys?.length}' members`);
 
     const allMembers = allPubKeys.map((pubKey: string) => {
-      const conv = ConversationController.getInstance().get(pubKey);
+      const conv = getConversationController().get(pubKey);
       const profileName = conv?.getProfileName() || 'Anonymous';
 
       return {

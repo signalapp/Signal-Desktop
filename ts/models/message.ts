@@ -4,8 +4,7 @@ import filesize from 'filesize';
 import _ from 'lodash';
 import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue, Utils } from '../../ts/session';
-import { ConversationController } from '../../ts/session/conversations';
-import { MessageController } from '../../ts/session/messages';
+import { getConversationController } from '../../ts/session/conversations';
 import { DataMessage } from '../../ts/session/messages/outgoing';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../ts/session/types';
@@ -34,6 +33,8 @@ import {
 import { acceptOpenGroupInvitation } from '../interactions/messageInteractions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { getV2OpenGroupRoom } from '../data/opengroups';
+import { getMessageController } from '../session/messages';
+import { isUsFromCache } from '../session/utils/User';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
@@ -150,9 +151,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       ) {
         return window.i18n(
           'leftTheGroup',
-          ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
-            groupUpdate.left
-          )
+          getConversationController().getContactProfileNameOrShortenedPubKey(groupUpdate.left)
         );
       }
       if (groupUpdate.kicked === 'You') {
@@ -168,7 +167,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
       if (groupUpdate.joined && groupUpdate.joined.length) {
         const names = groupUpdate.joined.map((pubKey: string) =>
-          ConversationController.getInstance().getContactProfileNameOrFullPubKey(pubKey)
+          getConversationController().getContactProfileNameOrFullPubKey(pubKey)
         );
 
         if (names.length > 1) {
@@ -181,7 +180,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (groupUpdate.kicked && groupUpdate.kicked.length) {
         const names = _.map(
           groupUpdate.kicked,
-          ConversationController.getInstance().getContactProfileNameOrShortenedPubKey
+          getConversationController().getContactProfileNameOrShortenedPubKey
         );
 
         if (names.length > 1) {
@@ -205,17 +204,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (dataExtraction.type === SignalService.DataExtractionNotification.Type.SCREENSHOT) {
         return window.i18n(
           'tookAScreenshot',
-          ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
-            dataExtraction.source
-          )
+          getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source)
         );
       }
 
       return window.i18n(
         'savedTheFile',
-        ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
-          dataExtraction.source
-        )
+        getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source)
       );
     }
     return this.get('body');
@@ -236,7 +231,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const regex = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
       const pubkeysInDesc = description.match(regex);
       (pubkeysInDesc || []).forEach((pubkey: string) => {
-        const displayName = ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
+        const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
           pubkey.slice(1)
         );
         if (displayName && displayName.length) {
@@ -268,7 +263,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async cleanup() {
-    MessageController.getInstance().unregister(this.id);
+    getMessageController().unregister(this.id);
     await window.Signal.Migrations.deleteExternalMessageFiles(this.attributes);
   }
 
@@ -347,7 +342,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public findContact(pubkey: string) {
-    return ConversationController.getInstance().get(pubkey);
+    return getConversationController().get(pubkey);
   }
 
   public findAndFormatContact(pubkey: string) {
@@ -522,6 +517,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const isPublicOpenGroupV2 = isOpenGroupV2(this.getConversation()?.id || '');
 
     const attachments = this.get('attachments') || [];
+    const isTrustedForAttachmentDownload = this.isTrustedForAttachmentDownload();
 
     return {
       text: this.createNonBreakingLastSeparator(this.get('body')),
@@ -547,6 +543,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       isPublic,
       isOpenGroupV2: isPublicOpenGroupV2,
       isKickedFromGroup: conversation && conversation.get('isKickedFromGroup'),
+      isTrustedForAttachmentDownload,
 
       onRetrySend: this.retrySend,
       markRead: this.markRead,
@@ -625,7 +622,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { author, id, referencedMessageNotFound } = quote;
-    const contact: ConversationModel = author && ConversationController.getInstance().get(author);
+    const contact: ConversationModel = author && getConversationController().get(author);
 
     const authorName = contact ? contact.getContactProfileNameOrShortenedPubKey() : null;
 
@@ -906,7 +903,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // This needs to be an unsafe call, because this method is called during
     //   initial module setup. We may be in the middle of the initial fetch to
     //   the database.
-    return ConversationController.getInstance().getUnsafe(this.get('conversationId'));
+    return getConversationController().getUnsafe(this.get('conversationId'));
   }
 
   public getQuoteContact() {
@@ -919,7 +916,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    return ConversationController.getInstance().get(author);
+    return getConversationController().get(author);
   }
 
   public getSource() {
@@ -937,7 +934,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    return ConversationController.getInstance().getOrCreate(source, ConversationTypeEnum.PRIVATE);
+    return getConversationController().getOrCreate(source, ConversationTypeEnum.PRIVATE);
   }
 
   public isOutgoing() {
@@ -1113,6 +1110,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         sentAt: this.get('sent_at'),
       });
     }
+  }
+
+  public isTrustedForAttachmentDownload() {
+    const convoId = this.getSource();
+    if (!!this.get('isPublic') || isUsFromCache(convoId)) {
+      return true;
+    }
+    // check the convo from this user
+    // we want the convo of the sender of this message
+    const senderConvo = getConversationController().get(convoId);
+    if (!senderConvo) {
+      return false;
+    }
+    return senderConvo.get('isTrustedForAttachmentDownload') || false;
   }
 }
 export class MessageCollection extends Backbone.Collection<MessageModel> {}

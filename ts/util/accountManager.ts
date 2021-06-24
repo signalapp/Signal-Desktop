@@ -1,4 +1,4 @@
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { getSodium } from '../session/crypto';
 import { UserUtils } from '../session/utils';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
@@ -197,7 +197,7 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   window.textsecure.storage.put('primaryDevicePubKey', ourPubkey);
 
   // Ensure that we always have a conversation for ourself
-  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+  const conversation = await getConversationController().getOrCreateAndWait(
     ourPubkey,
     ConversationTypeEnum.PRIVATE
   );

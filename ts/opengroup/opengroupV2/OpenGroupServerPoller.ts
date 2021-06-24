@@ -1,5 +1,5 @@
 import { AbortController } from 'abort-controller';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
 import {
@@ -433,7 +433,7 @@ const handleCompactPollResults = async (
   await Promise.all(
     results.map(async res => {
       const convoId = getOpenGroupV2ConversationId(serverUrl, res.roomId);
-      const convo = ConversationController.getInstance().get(convoId);
+      const convo = getConversationController().get(convoId);
 
       // we want to do deletions even if we somehow lost the convo.
       if (res.deletions.length) {
@@ -462,7 +462,7 @@ const handleBase64AvatarUpdate = async (
   await Promise.all(
     avatarResults.map(async res => {
       const convoId = getOpenGroupV2ConversationId(serverUrl, res.roomId);
-      const convo = ConversationController.getInstance().get(convoId);
+      const convo = getConversationController().get(convoId);
       if (!convo) {
         window?.log?.warn('Could not find convo for compactPoll', convoId);
         return;
@@ -511,7 +511,7 @@ async function handleAllMemberCount(
     memberCountGotResults.map(async roomCount => {
       const conversationId = getOpenGroupV2ConversationId(serverUrl, roomCount.roomId);
 
-      const convo = ConversationController.getInstance().get(conversationId);
+      const convo = getConversationController().get(conversationId);
       if (!convo) {
         window?.log?.warn('cannot update conversation memberCount as it does not exist');
         return;

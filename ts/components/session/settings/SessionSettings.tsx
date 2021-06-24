@@ -6,7 +6,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../Session
 import { BlockedNumberController, PasswordUtil } from '../../../util';
 import { ConversationLookupType } from '../../../state/ducks/conversations';
 import { StateType } from '../../../state/reducer';
-import { ConversationController } from '../../../session/conversations';
+import { getConversationController } from '../../../session/conversations';
 import { getConversationLookup } from '../../../state/selectors/conversations';
 import { connect, useSelector } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
@@ -585,7 +585,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     for (const blockedNumber of blockedNumbers) {
       let title: string;
 
-      const currentModel = ConversationController.getInstance().get(blockedNumber);
+      const currentModel = getConversationController().get(blockedNumber);
       if (currentModel) {
         title = currentModel.getProfileName() || currentModel.getName() || window.i18n('anonymous');
       } else {

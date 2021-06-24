@@ -10,11 +10,9 @@ import { BlockedNumberController } from '../util/blockedNumberController';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { getAllEncryptionKeyPairsForGroup } from '../../ts/data/data';
 import { ECKeyPair } from './keypairs';
-import { KeyPairRequestManager } from './keyPairRequestManager';
-import { requestEncryptionKeyPair } from '../session/group';
 import { handleConfigurationMessage } from './configMessage';
 import { ConversationTypeEnum } from '../models/conversation';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
@@ -107,14 +105,6 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
     window?.log?.warn('decryptWithSessionProtocol for medium group message throw:', e);
     const groupPubKey = PubKey.cast(envelope.source);
 
-    // To enable back if we decide to enable encryption key pair request work again
-    if (window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
-      const keypairRequestManager = KeyPairRequestManager.getInstance();
-      if (keypairRequestManager.canTriggerRequestWith(groupPubKey)) {
-        keypairRequestManager.markRequestSendFor(groupPubKey, Date.now());
-        await requestEncryptionKeyPair(groupPubKey);
-      }
-    }
     // IMPORTANT do not remove the message from the cache just yet.
     // We will try to decrypt it once we get the encryption keypair.
     // for that to work, we need to throw an error just like here.
@@ -274,7 +264,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   }
   const groupId = toHex(content.dataMessage.group.id);
 
-  const groupConvo = ConversationController.getInstance().get(groupId);
+  const groupConvo = getConversationController().get(groupId);
   if (!groupConvo) {
     return true;
   }
@@ -323,7 +313,7 @@ export async function innerHandleContentMessage(
       }
     }
 
-    await ConversationController.getInstance().getOrCreateAndWait(
+    await getConversationController().getOrCreateAndWait(
       envelope.source,
       ConversationTypeEnum.PRIVATE
     );
@@ -434,7 +424,7 @@ async function handleTypingMessage(
   }
 
   // typing message are only working with direct chats/ not groups
-  const conversation = ConversationController.getInstance().get(source);
+  const conversation = getConversationController().get(source);
 
   const started = action === SignalService.TypingMessage.Action.STARTED;
 
@@ -461,7 +451,7 @@ export async function handleDataExtractionNotification(
   const { source, timestamp } = envelope;
   await removeFromCache(envelope);
 
-  const convo = ConversationController.getInstance().get(source);
+  const convo = getConversationController().get(source);
   if (!convo || !convo.isPrivate()) {
     window?.log?.info('Got DataNotification for unknown or non private convo');
     return;

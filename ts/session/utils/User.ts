@@ -4,7 +4,7 @@ import { getItemById } from '../../../ts/data/data';
 import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { toHex } from './String';
-import { ConversationController } from '../conversations';
+import { getConversationController } from '../conversations';
 
 export type HexKeyPair = {
   pubKey: string;
@@ -90,7 +90,7 @@ export function getOurProfile(): OurLokiProfile | undefined {
     // Secondary devices have their profile stored
     // in their primary device's conversation
     const ourNumber = window.storage.get('primaryDevicePubKey');
-    const ourConversation = ConversationController.getInstance().get(ourNumber);
+    const ourConversation = getConversationController().get(ourNumber);
     const profileKey = new Uint8Array(window.storage.get('profileKey'));
 
     const avatarPointer = ourConversation.get('avatarPointer');

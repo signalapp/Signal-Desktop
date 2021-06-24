@@ -241,6 +241,7 @@ export interface MessageRegularProps {
   firstMessageOfSeries: boolean;
   isUnread: boolean;
   isQuotedMessageToAnimate?: boolean;
+  isTrustedForAttachmentDownload: boolean;
 
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;

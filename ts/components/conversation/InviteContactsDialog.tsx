@@ -4,7 +4,7 @@ import { SessionModal } from '../session/SessionModal';
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { DefaultTheme, useTheme } from 'styled-components';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { initiateGroupUpdate } from '../../session/group';
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
@@ -26,10 +26,10 @@ const InviteContactsDialogInner = (props: Props) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const convo = ConversationController.getInstance().get(conversationId);
+  const convo = getConversationController().get(conversationId);
   // tslint:disable-next-line: max-func-body-length
 
-  let contacts = ConversationController.getInstance()
+  let contacts = getConversationController()
     .getConversations()
     .filter(d => !!d && !d.isBlocked() && d.isPrivate() && !d.isMe() && !!d.get('active_at'));
   if (!convo.isPublic()) {
@@ -118,7 +118,7 @@ const InviteContactsDialogInner = (props: Props) => {
         name: convo.getName(),
       };
       pubkeys.forEach(async pubkeyStr => {
-        const privateConvo = await ConversationController.getInstance().getOrCreateAndWait(
+        const privateConvo = await getConversationController().getOrCreateAndWait(
           pubkeyStr,
           ConversationTypeEnum.PRIVATE
         );
