@@ -1,17 +1,22 @@
 // Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const path = require('path');
+import { join } from 'path';
+import { existsSync } from 'fs';
 
-const fs = require('fs');
-const { app, Menu, Tray } = require('electron');
-const dockIcon = require('../ts/dock_icon');
+import { BrowserWindow, app, Menu, Tray } from 'electron';
+import * as DockIcon from '../ts/dock_icon';
+
+import { LocaleMessagesType } from '../ts/types/I18N';
 
 let trayContextMenu = null;
-let tray = null;
+let tray: Tray | undefined;
 
-function createTrayIcon(getMainWindow, messages) {
-  let iconSize;
+export default function createTrayIcon(
+  getMainWindow: () => BrowserWindow | undefined,
+  messages: LocaleMessagesType
+): { updateContextMenu: () => void; updateIcon: (count: number) => void } {
+  let iconSize: string;
   switch (process.platform) {
     case 'darwin':
       iconSize = '16';
@@ -24,7 +29,7 @@ function createTrayIcon(getMainWindow, messages) {
       break;
   }
 
-  const iconNoNewMessages = path.join(
+  const iconNoNewMessages = join(
     __dirname,
     '..',
     'images',
@@ -33,7 +38,7 @@ function createTrayIcon(getMainWindow, messages) {
 
   tray = new Tray(iconNoNewMessages);
 
-  tray.forceOnTop = mainWindow => {
+  const forceOnTop = (mainWindow: BrowserWindow) => {
     if (mainWindow) {
       // On some versions of GNOME the window may not be on top when restored.
       // This trick should fix it.
@@ -44,35 +49,35 @@ function createTrayIcon(getMainWindow, messages) {
     }
   };
 
-  tray.toggleWindowVisibility = () => {
+  const toggleWindowVisibility = () => {
     const mainWindow = getMainWindow();
     if (mainWindow) {
       if (mainWindow.isVisible()) {
         mainWindow.hide();
-        dockIcon.hide();
+        DockIcon.hide();
       } else {
         mainWindow.show();
-        dockIcon.show();
+        DockIcon.show();
 
-        tray.forceOnTop(mainWindow);
+        forceOnTop(mainWindow);
       }
     }
-    tray.updateContextMenu();
+    updateContextMenu();
   };
 
-  tray.showWindow = () => {
+  const showWindow = () => {
     const mainWindow = getMainWindow();
     if (mainWindow) {
       if (!mainWindow.isVisible()) {
         mainWindow.show();
       }
 
-      tray.forceOnTop(mainWindow);
+      forceOnTop(mainWindow);
     }
-    tray.updateContextMenu();
+    updateContextMenu();
   };
 
-  tray.updateContextMenu = () => {
+  const updateContextMenu = () => {
     const mainWindow = getMainWindow();
 
     // NOTE: we want to have the show/hide entry available in the tray icon
@@ -85,7 +90,7 @@ function createTrayIcon(getMainWindow, messages) {
         label:
           messages[mainWindow && mainWindow.isVisible() ? 'hide' : 'show']
             .message,
-        click: tray.toggleWindowVisibility,
+        click: toggleWindowVisibility,
       },
       {
         id: 'quit',
@@ -94,25 +99,25 @@ function createTrayIcon(getMainWindow, messages) {
       },
     ]);
 
-    tray.setContextMenu(trayContextMenu);
+    tray?.setContextMenu(trayContextMenu);
   };
 
-  tray.updateIcon = unreadCount => {
+  const updateIcon = (unreadCount: number) => {
     let image;
 
     if (unreadCount > 0) {
       const filename = `${String(unreadCount >= 10 ? 10 : unreadCount)}.png`;
-      image = path.join(__dirname, '..', 'images', 'alert', iconSize, filename);
+      image = join(__dirname, '..', 'images', 'alert', iconSize, filename);
     } else {
       image = iconNoNewMessages;
     }
 
-    if (!fs.existsSync(image)) {
+    if (!existsSync(image)) {
       console.log('tray.updateIcon: Image for tray update does not exist!');
       return;
     }
     try {
-      tray.setImage(image);
+      tray?.setImage(image);
     } catch (error) {
       console.log(
         'tray.setImage error:',
@@ -121,12 +126,13 @@ function createTrayIcon(getMainWindow, messages) {
     }
   };
 
-  tray.on('click', tray.showWindow);
+  tray.on('click', showWindow);
 
   tray.setToolTip(messages.signalDesktop.message);
-  tray.updateContextMenu();
+  updateContextMenu();
 
-  return tray;
+  return {
+    updateContextMenu,
+    updateIcon,
+  };
 }
-
-module.exports = createTrayIcon;

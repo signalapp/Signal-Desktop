@@ -1,24 +1,23 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const electron = require('electron');
-const { remove: removeUserConfig } = require('./user_config');
-const { remove: removeEphemeralConfig } = require('./ephemeral_config');
+import { ipcMain } from 'electron';
 
-const { ipcMain } = electron;
+import { remove as removeUserConfig } from './user_config';
+import { remove as removeEphemeralConfig } from './ephemeral_config';
 
-let sql;
-
-module.exports = {
-  initialize,
+type SQLType = {
+  sqlCall(callName: string, args: ReadonlyArray<unknown>): unknown;
 };
+
+let sql: SQLType | undefined;
 
 let initialized = false;
 
 const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 
-function initialize(mainSQL) {
+export function initialize(mainSQL: SQLType): void {
   if (initialized) {
     throw new Error('sqlChannels: already initialized!');
   }
@@ -28,6 +27,9 @@ function initialize(mainSQL) {
 
   ipcMain.on(SQL_CHANNEL_KEY, async (event, jobId, callName, ...args) => {
     try {
+      if (!sql) {
+        throw new Error(`${SQL_CHANNEL_KEY}: Not yet initialized!`);
+      }
       const result = await sql.sqlCall(callName, args);
       event.sender.send(`${SQL_CHANNEL_KEY}-done`, jobId, null, result);
     } catch (error) {

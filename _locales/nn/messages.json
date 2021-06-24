@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Create/upload sticker pack",
+        "message": "Lag/opprett klistremerkepakke",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -54,6 +54,10 @@
     "mainMenuSettings": {
         "message": "Innstillingar …",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuServices": {
+        "message": "Tenester",
+        "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
         "message": "Skjul",
@@ -176,7 +180,7 @@
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Chat Color",
+        "message": "Samtalefarge",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -390,7 +394,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
+        "message": "Tryggingsnummeret du prøver å godkjenna har endra seg. Du må godkjenna det nye tryggingsnummeret til $name1$. Hugs at dette kan bety at nokon prøver å avlytta kommunikasjonen, eller at $name2$ berre har reinstallert Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -408,7 +412,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+        "message": "Tryggleiksnummeret ditt med $name1$ er endra. Dette kan anten bety at nokon prøver å fanga opp kommunikasjonen din, eller at $name2$ rett og slett har installert Signal på nytt. Du vil kanskje stadfesta tryggleiksnummeret ditt med denne kontakten.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -536,7 +540,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "allMedia": {
-        "message": "All Media",
+        "message": "All media",
         "description": "Header for the media gallery"
     },
     "documents": {
@@ -698,7 +702,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Sticker pack creator",
+        "message": "Klistremerkepakkeskapar",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -706,7 +710,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Sharing screen",
+        "message": "Deler skjerm",
         "description": "Title for screen sharing window"
     },
     "speech": {
@@ -1436,11 +1440,11 @@
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
-        "message": "Scroll up",
+        "message": "Rull opp",
         "description": "Label for the \"scroll up\" button in a call's overflow area"
     },
     "calling__overflow__scroll-down": {
-        "message": "Scroll down",
+        "message": "Rull ned",
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
@@ -1490,7 +1494,7 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Permission needed",
+        "message": "Treng tilgang",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
@@ -1542,7 +1546,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check",
+        "message": "Skru på stavekontroll",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1992,15 +1996,15 @@
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
-        "message": "No contacts found",
+        "message": "Fann ingen kontaktar",
         "description": "Label shown when there are no contacts to compose to"
     },
     "noConversationsFound": {
-        "message": "No conversations found",
+        "message": "Fann ingen samtalar",
         "description": "Label shown when there are no conversations to compose to"
     },
     "chooseGroupMembers__title": {
-        "message": "Choose members",
+        "message": "Vel medlemmar",
         "description": "The title for the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__back-button": {
@@ -2070,7 +2074,7 @@
         "description": "The placeholder for the group name placeholder"
     },
     "setGroupMetadata__group-description-placeholder": {
-        "message": "Description",
+        "message": "Skildring",
         "description": "The placeholder for the group description"
     },
     "setGroupMetadata__create-group": {
@@ -2265,15 +2269,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "View-once Media",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "View-once Photo",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "View-once Video",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "Meldinga er sletta.",
@@ -2402,7 +2406,7 @@
         }
     },
     "EmojiPicker__button--recents": {
-        "message": "Recents",
+        "message": "Nylege",
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
@@ -2426,7 +2430,7 @@
         "description": "Label for travel emoji picker button"
     },
     "EmojiPicker__button--object": {
-        "message": "Object",
+        "message": "Objekt",
         "description": "Label for object emoji picker button"
     },
     "EmojiPicker__button--symbol": {
@@ -2726,7 +2730,7 @@
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
-        "message": "Sticker pack creator",
+        "message": "Klistremerkepakkeskapar",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
@@ -3427,7 +3431,17 @@
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
         "message": "Entire screen",
-        "description": "Title for the select your screen sharing sources modal"
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Screen $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
     },
     "calling__SelectPresentingSourcesModal--window": {
         "message": "A window",
@@ -5462,16 +5476,24 @@
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
-        "message": "Chat Color",
+        "message": "Samtalefarge",
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
         "message": "Nullstill samtalefarge",
         "description": "Button label for resetting chat colors"
     },
+    "ChatColorPicker__resetDefault": {
+        "message": "Reset Chat Colors",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
     "ChatColorPicker__resetAll": {
         "message": "Reset all chat colors",
         "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Reset default",
+        "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
         "message": "Tilbakestill",

@@ -41,6 +41,7 @@ import {
   Sessions,
   SignedPreKeys,
 } from '../LibSignalStores';
+import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { BatcherType, createBatcher } from '../util/batcher';
 import { sleep } from '../util/sleep';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
@@ -51,6 +52,8 @@ import utils from './Helpers';
 import WebSocketResource, {
   IncomingWebSocketRequest,
 } from './WebsocketResources';
+import { ConnectTimeoutError } from './Errors';
+import * as Bytes from '../Bytes';
 import Crypto from './Crypto';
 import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
@@ -73,10 +76,12 @@ import { ByteBufferClass } from '../window.d';
 
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
 
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
+
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
-const RECONNECT_DELAY = 1 * 1000;
 
 const decryptionErrorTypeSchema = z
   .object({
@@ -225,6 +230,8 @@ class MessageReceiverInner extends EventTarget {
 
   wsr?: WebSocketResource;
 
+  private readonly reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
+
   constructor(
     oldUsername: string,
     username: string,
@@ -344,6 +351,11 @@ class MessageReceiverInner extends EventTarget {
     } catch (error) {
       this.socketStatus = SocketStatus.CLOSED;
 
+      if (error instanceof ConnectTimeoutError) {
+        await this.onclose(-1, 'Connection timed out');
+        return;
+      }
+
       const event = new Event('error');
       event.error = error;
       await this.dispatchAndWait(event);
@@ -439,7 +451,7 @@ class MessageReceiverInner extends EventTarget {
 
   async onclose(code: number, reason: string): Promise<void> {
     window.log.info(
-      'websocket closed',
+      'MessageReceiver: websocket closed',
       code,
       reason || '',
       'calledClose:',
@@ -460,12 +472,18 @@ class MessageReceiverInner extends EventTarget {
       this.onEmpty();
     }
 
-    await sleep(RECONNECT_DELAY);
+    const timeout = this.reconnectBackOff.getAndIncrement();
 
-    // Try to reconnect (if there is an error - we'll get an
-    // `error` event from `connect()` and hit the retry backoff logic in
-    // `ts/background.ts`)
+    window.log.info(`MessageReceiver: reconnecting after ${timeout}ms`);
+    await sleep(timeout);
+
+    // Try to reconnect (if there is an HTTP error - we'll get an
+    // `error` event from `connect()` and hit the secondary retry backoff
+    // logic in `ts/background.ts`)
     await this.connect();
+
+    // Successfull reconnect, reset the backoff timeouts
+    this.reconnectBackOff.reset();
   }
 
   checkSocket(): void {
@@ -1991,10 +2009,9 @@ class MessageReceiverInner extends EventTarget {
       );
     }
     const masterKey = await deriveMasterKeyFromGroupV1(groupId);
-    const data = deriveGroupFields(masterKey);
+    const data = deriveGroupFields(new FIXMEU8(masterKey));
 
-    const toBase64 = MessageReceiverInner.arrayBufferToStringBase64;
-    return toBase64(data.id);
+    return Bytes.toBase64(data.id);
   }
 
   async deriveGroupV1Data(message: DataMessageClass) {
@@ -2040,11 +2057,11 @@ class MessageReceiverInner extends EventTarget {
       );
     }
 
-    const fields = deriveGroupFields(masterKey);
+    const fields = deriveGroupFields(new FIXMEU8(masterKey));
     groupV2.masterKey = toBase64(masterKey);
-    groupV2.secretParams = toBase64(fields.secretParams);
-    groupV2.publicParams = toBase64(fields.publicParams);
-    groupV2.id = toBase64(fields.id);
+    groupV2.secretParams = Bytes.toBase64(fields.secretParams);
+    groupV2.publicParams = Bytes.toBase64(fields.publicParams);
+    groupV2.id = Bytes.toBase64(fields.id);
 
     if (groupV2.groupChange) {
       groupV2.groupChange = groupV2.groupChange.toString('base64');

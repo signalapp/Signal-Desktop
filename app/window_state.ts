@@ -3,15 +3,10 @@
 
 let shouldQuitFlag = false;
 
-function markShouldQuit() {
+export function markShouldQuit(): void {
   shouldQuitFlag = true;
 }
 
-function shouldQuit() {
+export function shouldQuit(): boolean {
   return shouldQuitFlag;
 }
-
-module.exports = {
-  shouldQuit,
-  markShouldQuit,
-};

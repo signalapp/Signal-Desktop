@@ -18,6 +18,10 @@ const {
   CallingScreenSharingController,
 } = require('./ts/components/CallingScreenSharingController');
 
+const { Context: SignalContext } = require('./ts/context');
+
+window.SignalContext = new SignalContext();
+
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');

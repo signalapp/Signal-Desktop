@@ -3,13 +3,20 @@
 
 /* eslint-disable strict */
 
-const { Menu, clipboard, nativeImage } = require('electron');
-const osLocale = require('os-locale');
-const { uniq } = require('lodash');
-const url = require('url');
-const { maybeParseUrl } = require('../ts/util/url');
+import { BrowserWindow, Menu, clipboard, nativeImage } from 'electron';
+import { sync as osLocaleSync } from 'os-locale';
+import { uniq } from 'lodash';
+import { fileURLToPath } from 'url';
 
-function getLanguages(userLocale, availableLocales) {
+import { maybeParseUrl } from '../ts/util/url';
+import { LocaleMessagesType } from '../ts/types/I18N';
+
+import { MenuListType } from './menu';
+
+export function getLanguages(
+  userLocale: string,
+  availableLocales: ReadonlyArray<string>
+): Array<string> {
   const baseLocale = userLocale.split('-')[0];
   // Attempt to find the exact locale
   const candidateLocales = uniq([userLocale, baseLocale]).filter(l =>
@@ -25,9 +32,12 @@ function getLanguages(userLocale, availableLocales) {
   return uniq(availableLocales.filter(l => l.startsWith(baseLocale)));
 }
 
-exports.setup = (browserWindow, messages) => {
+export const setup = (
+  browserWindow: BrowserWindow,
+  messages: LocaleMessagesType
+): void => {
   const { session } = browserWindow.webContents;
-  const userLocale = osLocale.sync().replace(/_/g, '-');
+  const userLocale = osLocaleSync().replace(/_/g, '-');
   const availableLocales = session.availableSpellCheckerLanguages;
   const languages = getLanguages(userLocale, availableLocales);
   console.log(`spellcheck: user locale: ${userLocale}`);
@@ -49,7 +59,7 @@ exports.setup = (browserWindow, messages) => {
 
     // Popup editor menu
     if (showMenu) {
-      const template = [];
+      const template: MenuListType = [];
 
       if (isMisspelled) {
         if (params.dictionarySuggestions.length > 0) {
@@ -104,7 +114,7 @@ exports.setup = (browserWindow, messages) => {
             }
 
             const image = nativeImage.createFromPath(
-              url.fileURLToPath(params.srcURL)
+              fileURLToPath(params.srcURL)
             );
             clipboard.writeImage(image);
           };
@@ -136,14 +146,14 @@ exports.setup = (browserWindow, messages) => {
       if (editFlags.canSelectAll && params.isEditable) {
         template.push({
           label: messages.editMenuSelectAll.message,
-          role: 'selectall',
+          role: 'selectAll',
         });
       }
 
       const menu = Menu.buildFromTemplate(template);
-      menu.popup(browserWindow);
+      menu.popup({
+        window: browserWindow,
+      });
     }
   });
 };
-
-exports.getLanguages = getLanguages;

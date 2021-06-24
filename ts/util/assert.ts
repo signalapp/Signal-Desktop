@@ -19,3 +19,15 @@ export function assert(condition: unknown, message: string): asserts condition {
     log.error('assert failure:', err && err.stack ? err.stack : err);
   }
 }
+
+/**
+ * Throws an error if the condition is falsy, regardless of environment.
+ */
+export function strictAssert(
+  condition: unknown,
+  message: string
+): asserts condition {
+  if (!condition) {
+    throw new Error(message);
+  }
+}

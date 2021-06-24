@@ -38,7 +38,6 @@ export type Contact = Pick<
 
   isOutgoingKeyError: boolean;
   isUnidentifiedDelivery: boolean;
-  unblurredAvatarPath?: string;
 
   errors?: Array<Error>;
 };

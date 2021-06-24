@@ -19,6 +19,8 @@ import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ChallengeHandler } from './challenge';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert } from './util/assert';
+import { filter } from './util/iterables';
+import { isNotNil } from './util/isNotNil';
 import { senderCertificateService } from './services/senderCertificate';
 import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan } from './util/timestamp';
@@ -41,9 +43,9 @@ import { connectToServerWithStoredCredentials } from './util/connectToServerWith
 import * as universalExpireTimer from './util/universalExpireTimer';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
-import { BackOff } from './util/BackOff';
+import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { AppViewType } from './state/ducks/app';
-import { hasErrors, isIncoming } from './state/selectors/message';
+import { isIncoming } from './state/selectors/message';
 import { actionCreators } from './state/actions';
 import { Deletes } from './messageModifiers/Deletes';
 import { DeliveryReceipts } from './messageModifiers/DeliveryReceipts';
@@ -111,14 +113,7 @@ export async function startApp(): Promise<void> {
     resolveOnAppView = resolve;
   });
 
-  // Fibonacci timeouts
-  const reconnectBackOff = new BackOff([
-    5 * 1000,
-    10 * 1000,
-    15 * 1000,
-    25 * 1000,
-    40 * 1000,
-  ]);
+  const reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
   window.textsecure.protobuf.onLoad(() => {
     window.storage.onready(() => {
@@ -532,11 +527,25 @@ export async function startApp(): Promise<void> {
         newValue: number | undefined
       ): Promise<void> => {
         await universalExpireTimer.set(newValue);
+
+        // Update account in Storage Service
         const conversationId = window.ConversationController.getOurConversationIdOrThrow();
         const account = window.ConversationController.get(conversationId);
         assert(account, "Account wasn't found");
 
         account.captureChange('universalExpireTimer');
+
+        // Add a notification to the currently open conversation
+        const state = window.reduxStore.getState();
+        const selectedId = state.conversations.selectedConversationId;
+        if (selectedId) {
+          const conversation = window.ConversationController.get(selectedId);
+          assert(conversation, "Conversation wasn't found");
+
+          conversation.queueJob('maybeSetPendingUniversalTimer', () =>
+            conversation.maybeSetPendingUniversalTimer()
+          );
+        }
       },
 
       addDarkOverlay: () => {
@@ -1116,7 +1125,9 @@ export async function startApp(): Promise<void> {
           document.querySelector(
             '.module-left-pane__compose-search-form__input'
           ),
-          document.querySelector('.module-left-pane__list'),
+          document.querySelector(
+            '.module-conversation-list__item--contact-or-conversation'
+          ),
           document.querySelector('.module-search-results'),
           document.querySelector('.module-composition-area .ql-editor'),
         ];
@@ -1652,51 +1663,43 @@ export async function startApp(): Promise<void> {
 
     window.dispatchEvent(new Event('storage_ready'));
 
-    window.log.info('Cleanup: starting...');
-    const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpirationStartTimestamp(
-      {
-        MessageCollection: window.Whisper.MessageCollection,
-      }
-    );
+    window.log.info('Expiration start timestamp cleanup: starting...');
+    const messagesUnexpectedlyMissingExpirationStartTimestamp = await window.Signal.Data.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
     window.log.info(
-      `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
+      `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
-    await Promise.all(
-      messagesForCleanup.map(async message => {
-        assert(
-          !message.get('expirationStartTimestamp'),
-          'Cleanup should not have messages with an expirationStartTimestamp'
-        );
-
-        const delivered = message.get('delivered');
-        const sentAt = message.get('sent_at');
-
-        if (hasErrors(message.attributes)) {
-          return;
-        }
-
-        if (delivered) {
-          window.log.info(
-            `Cleanup: Starting timer for delivered message ${sentAt}`
+    if (messagesUnexpectedlyMissingExpirationStartTimestamp.length) {
+      const newMessageAttributes = messagesUnexpectedlyMissingExpirationStartTimestamp.map(
+        message => {
+          const expirationStartTimestamp = Math.min(
+            ...filter(
+              [
+                // These messages should always have a sent_at, but we have fallbacks
+                //   just in case.
+                message.sent_at,
+                Date.now(),
+                // The query shouldn't return messages with expiration start timestamps,
+                //   but we're trying to be extra careful.
+                message.expirationStartTimestamp,
+              ],
+              isNotNil
+            )
           );
-          message.set('expirationStartTimestamp', sentAt);
-          return;
+          window.log.info(
+            `Expiration start timestamp cleanup: starting timer for ${message.type} message sent at ${message.sent_at}. Starting timer at ${message.expirationStartTimestamp}`
+          );
+          return {
+            ...message,
+            expirationStartTimestamp,
+          };
         }
+      );
 
-        window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
-        await window.Signal.Data.removeMessage(message.id, {
-          Message: window.Whisper.Message,
-        });
-        const conversation = message.getConversation();
-        if (conversation) {
-          await conversation.updateLastMessage();
-        }
-      })
-    );
-    if (messagesForCleanup.length) {
-      window.Whisper.ExpiringMessagesListener.update();
+      await window.Signal.Data.saveMessages(newMessageAttributes, {
+        Message: MessageModel,
+      });
     }
-    window.log.info('Cleanup: complete');
+    window.log.info('Expiration start timestamp cleanup: complete');
 
     window.log.info('listening for registration events');
     window.Whisper.events.on('registration_done', () => {
@@ -1707,7 +1710,7 @@ export async function startApp(): Promise<void> {
     cancelInitializationMessage();
     render(
       window.Signal.State.Roots.createApp(window.reduxStore),
-      document.body
+      document.getElementById('app-container')
     );
     const hideMenuBar = window.storage.get('hide-menu-bar', false);
     window.setAutoHideMenuBar(hideMenuBar);

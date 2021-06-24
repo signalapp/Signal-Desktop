@@ -112,12 +112,14 @@ import { MIMEType } from './types/MIME';
 import { AttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
+import { Context as SignalContext } from './context';
 import { StartupQueue } from './util/StartupQueue';
 import * as synchronousCrypto from './util/synchronousCrypto';
 import { SocketStatus } from './types/SocketStatus';
 import SyncRequest from './textsecure/SyncRequest';
 import { ConversationColorType, CustomColorType } from './types/Colors';
 import { MessageController } from './util/MessageController';
+import { isValidGuid } from './util/isValidGuid';
 import { StateType } from './state/reducer';
 
 export { Long } from 'long';
@@ -211,15 +213,23 @@ declare global {
     isAfterVersion: (version: string, anotherVersion: string) => boolean;
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
-    isValidGuid: (maybeGuid: string | null) => boolean;
+    isValidGuid: typeof isValidGuid;
     isValidE164: (maybeE164: unknown) => boolean;
     libphonenumber: {
       util: {
         getRegionCodeForNumber: (number: string) => string;
         parseNumber: (
           e164: string,
-          regionCode: string
-        ) => typeof window.Signal.Types.PhoneNumber;
+          defaultRegionCode: string
+        ) =>
+          | { isValidNumber: false; error: unknown }
+          | {
+              isValidNumber: true;
+              regionCode: string | undefined;
+              countryCode: string;
+              nationalNumber: string;
+              e164: string;
+            };
       };
       parse: (number: string) => string;
       getRegionCodeForNumber: (number: string) => string;
@@ -398,20 +408,6 @@ declare global {
             options: unknown
           ) => Promise<WhatIsThis>;
         };
-        PhoneNumber: {
-          format: (
-            identifier: string,
-            options: Record<string, unknown>
-          ) => string;
-          isValidNumber(
-            phoneNumber: string,
-            options?: {
-              regionCode?: string;
-            }
-          ): boolean;
-          e164: string;
-          error: string;
-        };
         Errors: typeof Errors;
         Message: {
           CURRENT_SCHEMA_VERSION: number;
@@ -524,6 +520,7 @@ declare global {
       };
       challengeHandler: ChallengeHandler;
     };
+    SignalContext: SignalContext;
 
     ConversationController: ConversationController;
     Events: WhatIsThis;

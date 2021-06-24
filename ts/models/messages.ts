@@ -1,8 +1,10 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { isEmpty } from 'lodash';
 import {
   CustomError,
+  GroupV1Update,
   MessageAttributesType,
   RetryOptions,
   ReactionAttributesType,
@@ -10,9 +12,10 @@ import {
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
+import { map, filter, find } from '../util/iterables';
+import { isNotNil } from '../util/isNotNil';
 import { DataMessageClass } from '../textsecure.d';
 import { ConversationModel } from './conversations';
-import { ConversationType } from '../state/ducks/conversations';
 import { MessageStatusType } from '../components/conversation/Message';
 import {
   OwnProps as SmartMessageDetailPropsType,
@@ -35,6 +38,7 @@ import {
 } from '../util/whatTypeOfConversation';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
+import { findAndFormatContact } from '../util/findAndFormatContact';
 import {
   getLastChallengeError,
   getMessagePropStatus,
@@ -82,27 +86,6 @@ type PropsForMessageDetail = Pick<
   'sentAt' | 'receivedAt' | 'message' | 'errors' | 'contacts'
 >;
 
-type FormattedContact = Partial<ConversationType> &
-  Pick<
-    ConversationType,
-    | 'acceptedMessageRequest'
-    | 'id'
-    | 'isMe'
-    | 'sharedGroupNames'
-    | 'title'
-    | 'type'
-    | 'unblurredAvatarPath'
-  >;
-
-export const PLACEHOLDER_CONTACT: FormattedContact = {
-  acceptedMessageRequest: false,
-  id: 'placeholder-contact',
-  isMe: false,
-  sharedGroupNames: [],
-  title: window.i18n('unknownContact'),
-  type: 'direct',
-};
-
 declare const _: typeof window._;
 
 window.Whisper = window.Whisper || {};
@@ -112,7 +95,6 @@ const {
   Attachment,
   MIME,
   Contact,
-  PhoneNumber,
   Errors,
 } = window.Signal.Types;
 const {
@@ -180,9 +162,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isSelected?: boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  quotedMessage: any;
-
   syncPromise?: Promise<unknown>;
 
   initialize(attributes: unknown): void {
@@ -202,7 +181,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.OUR_NUMBER = window.textsecure.storage.user.getNumber();
     this.OUR_UUID = window.textsecure.storage.user.getUuid();
 
-    this.on('unload', this.unload);
     this.on('change', this.notifyRedux);
   }
 
@@ -326,7 +304,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
         return {
-          ...this.findAndFormatContact(id),
+          ...findAndFormatContact(id),
 
           status: this.getStatus(id),
           errors: errorsForContact,
@@ -362,7 +340,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       receivedAt: this.getReceivedAt(),
       message: getPropsForMessage(
         this.attributes,
-        (id?: string | undefined) => this.findAndFormatContact(id),
+        findAndFormatContact,
         window.ConversationController.getOurConversationIdOrThrow(),
         this.OUR_NUMBER,
         this.OUR_UUID,
@@ -382,44 +360,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   // Dependencies of prop-generation functions
-  findAndFormatContact(identifier?: string): FormattedContact {
-    if (!identifier) {
-      return PLACEHOLDER_CONTACT;
-    }
-
-    const contactModel = this.findContact(identifier);
-    if (contactModel) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return contactModel.format()!;
-    }
-
-    const { format, isValidNumber } = PhoneNumber;
-    const regionCode = window.storage.get('regionCode');
-
-    if (!isValidNumber(identifier, { regionCode })) {
-      return PLACEHOLDER_CONTACT;
-    }
-
-    const phoneNumber = format(identifier, {
-      ourRegionCode: regionCode,
-    });
-
-    return {
-      acceptedMessageRequest: false,
-      id: 'phone-only',
-      isMe: false,
-      phoneNumber,
-      sharedGroupNames: [],
-      title: phoneNumber,
-      type: 'direct',
-    };
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  findContact(identifier?: string): ConversationModel | undefined {
-    return window.ConversationController.get(identifier);
-  }
-
   getConversation(): ConversationModel | undefined {
     return window.ConversationController.get(this.get('conversationId'));
   }
@@ -483,7 +423,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (isProfileChange(attributes)) {
       const change = this.get('profileChange');
       const changedId = this.get('changedId');
-      const changedContact = this.findAndFormatContact(changedId);
+      const changedContact = findAndFormatContact(changedId);
       if (!change) {
         throw new Error('getNotificationData: profileChange was missing!');
       }
@@ -693,7 +633,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const state = window.reduxStore.getState();
       const callingNotification = getPropsForCallHistory(
         attributes,
-        (id?: string | undefined) => this.findAndFormatContact(id),
+        findAndFormatContact,
         getCallSelector(state),
         getActiveCall(state)
       );
@@ -723,7 +663,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     if (isKeyChange(attributes)) {
       const identifier = this.get('key_changed');
-      const conversation = this.findContact(identifier);
+      const conversation = window.ConversationController.get(identifier);
       return {
         text: window.i18n('safetyNumberChangedGroup', [
           conversation ? conversation.getTitle() : null,
@@ -751,7 +691,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const bodyRanges = processBodyRanges(
       attributes.bodyRanges,
-      (id?: string | undefined) => this.findAndFormatContact(id)
+      findAndFormatContact
     );
     if (bodyRanges) {
       return getTextWithMentions(bodyRanges, body);
@@ -768,7 +708,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const bodyRanges = processBodyRanges(
       attributes.bodyRanges,
-      (id?: string | undefined) => this.findAndFormatContact(id)
+      findAndFormatContact
     );
 
     if (bodyRanges && bodyRanges.length) {
@@ -838,7 +778,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.getConversation()?.debouncedUpdateLastMessage?.();
 
     window.MessageController.unregister(this.id);
-    this.unload();
     await this.deleteData();
   }
 
@@ -962,7 +901,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const { authorUuid, author, id: sentAt, referencedMessageNotFound } = quote;
-    const contact = this.findContact(authorUuid || author);
+    const contact = window.ConversationController.get(authorUuid || author);
 
     // Is the quote really without a reference? Check with our in memory store
     // first to make sure it's not there.
@@ -970,10 +909,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       window.log.info(
         `doubleCheckMissingQuoteReference/${logId}: Verifying reference to ${sentAt}`
       );
-      const inMemoryMessage = window.MessageController.findBySentAt(
+      const inMemoryMessages = window.MessageController.filterBySentAt(
         Number(sentAt)
       );
-      if (!isQuoteAMatch(inMemoryMessage, this.get('conversationId'), quote)) {
+      const matchingMessage = find(inMemoryMessages, message =>
+        isQuoteAMatch(message, this.get('conversationId'), quote)
+      );
+      if (!matchingMessage) {
         window.log.info(
           `doubleCheckMissingQuoteReference/${logId}: No match for ${sentAt}.`
         );
@@ -992,7 +934,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         `doubleCheckMissingQuoteReference/${logId}: Found match for ${sentAt}, updating.`
       );
 
-      await this.copyQuoteContentFromOriginal(inMemoryMessage, quote);
+      await this.copyQuoteContentFromOriginal(matchingMessage, quote);
       this.set({
         quote: {
           ...quote,
@@ -1108,12 +1050,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       isUniversalTimerNotificationValue;
 
     return !hasSomethingToDisplay;
-  }
-
-  unload(): void {
-    if (this.quotedMessage) {
-      this.quotedMessage = null;
-    }
   }
 
   isUnidentifiedDelivery(
@@ -1430,6 +1366,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   public hasSuccessfulDelivery(): boolean {
+    const recipients = this.get('recipients') || [];
+    if (recipients.length === 0) {
+      return true;
+    }
+
     return (this.get('sent_to') || []).length !== 0;
   }
 
@@ -2287,12 +2228,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const { id } = quote;
-    const inMemoryMessage = window.MessageController.findBySentAt(id);
+    const inMemoryMessages = window.MessageController.filterBySentAt(id);
+    const matchingMessage = find(inMemoryMessages, item =>
+      isQuoteAMatch(item, conversationId, quote)
+    );
 
-    let queryMessage;
+    let queryMessage: undefined | MessageModel;
 
-    if (isQuoteAMatch(inMemoryMessage, conversationId, quote)) {
-      queryMessage = inMemoryMessage;
+    if (matchingMessage) {
+      queryMessage = matchingMessage;
     } else {
       window.log.info('copyFromQuotedMessage: db lookup needed', id);
       const collection = await window.Signal.Data.getMessagesBySentAt(id, {
@@ -2751,7 +2695,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
           // GroupV1
           if (!hasGroupV2Prop && dataMessage.group) {
-            const pendingGroupUpdate = [];
+            const pendingGroupUpdate: GroupV1Update = {};
+
             const memberConversations: Array<ConversationModel> = await Promise.all(
               dataMessage.group.membersE164.map((e164: string) =>
                 window.ConversationController.getOrCreateAndWait(
@@ -2774,7 +2719,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               };
 
               if (dataMessage.group.name !== conversation.get('name')) {
-                pendingGroupUpdate.push(['name', dataMessage.group.name]);
+                pendingGroupUpdate.name = dataMessage.group.name;
               }
 
               const avatarAttachment = dataMessage.group.avatar;
@@ -2837,7 +2782,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
                 attributes.avatar = avatar;
 
-                pendingGroupUpdate.push(['avatarUpdated', true]);
+                pendingGroupUpdate.avatarUpdated = true;
               } else {
                 window.log.info(
                   'handleDataMessage: Group avatar hash matched; not replacing group avatar'
@@ -2851,11 +2796,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               );
               if (difference.length > 0) {
                 // Because GroupV1 groups are based on e164 only
-                const e164s = difference.map(id => {
-                  const c = window.ConversationController.get(id);
-                  return c ? c.get('e164') : null;
-                });
-                pendingGroupUpdate.push(['joined', e164s]);
+                const maybeE164s = map(difference, id =>
+                  window.ConversationController.get(id)?.get('e164')
+                );
+                const e164s = filter(maybeE164s, isNotNil);
+                pendingGroupUpdate.joined = [...e164s];
               }
               if (conversation.get('left')) {
                 window.log.warn('re-added to a left group');
@@ -2879,9 +2824,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
               if (isMe(sender.attributes)) {
                 attributes.left = true;
-                pendingGroupUpdate.push(['left', 'You']);
+                pendingGroupUpdate.left = 'You';
               } else {
-                pendingGroupUpdate.push(['left', sender.get('id')]);
+                pendingGroupUpdate.left = sender.get('id');
               }
               attributes.members = _.without(
                 conversation.get('members'),
@@ -2889,15 +2834,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               );
             }
 
-            if (pendingGroupUpdate.length) {
-              const groupUpdate = pendingGroupUpdate.reduce(
-                (acc, [key, value]) => {
-                  acc[key] = value;
-                  return acc;
-                },
-                {} as typeof window.WhatIsThis
-              );
-              message.set({ group_update: groupUpdate });
+            if (!isEmpty(pendingGroupUpdate)) {
+              message.set('group_update', pendingGroupUpdate);
             }
           }
 

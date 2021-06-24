@@ -1,6 +1,20 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+const SECOND = 1000;
+
+export const FIBONACCI_TIMEOUTS: ReadonlyArray<number> = [
+  1 * SECOND,
+  2 * SECOND,
+  3 * SECOND,
+  5 * SECOND,
+  8 * SECOND,
+  13 * SECOND,
+  21 * SECOND,
+  34 * SECOND,
+  55 * SECOND,
+];
+
 export class BackOff {
   private count = 0;
 

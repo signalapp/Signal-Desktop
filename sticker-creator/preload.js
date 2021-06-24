@@ -21,11 +21,15 @@ const { makeGetter } = require('../preload_utils');
 const { dialog } = remote;
 const { nativeTheme } = remote.require('electron');
 
+const { Context: SignalContext } = require('../ts/context');
+
 const STICKER_SIZE = 512;
 const MIN_STICKER_DIMENSION = 10;
 const MAX_STICKER_DIMENSION = STICKER_SIZE;
 const MAX_WEBP_STICKER_BYTE_LENGTH = 100 * 1024;
 const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
+
+window.SignalContext = new SignalContext();
 
 setEnvironment(parseEnvironment(config.environment));
 

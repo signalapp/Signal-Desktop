@@ -71,7 +71,7 @@ const startInTray = process.argv.some(arg => arg === '--start-in-tray');
 const usingTrayIcon =
   startInTray || process.argv.some(arg => arg === '--use-tray-icon');
 
-const config = require('./app/config');
+const config = require('./app/config').default;
 
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
@@ -91,7 +91,7 @@ const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 const bounce = require('./ts/services/bounce');
 const updater = require('./ts/updater/index');
-const createTrayIcon = require('./app/tray_icon');
+const createTrayIcon = require('./app/tray_icon').default;
 const dockIcon = require('./ts/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./ts/logging/main_process_logging');
@@ -1353,7 +1353,7 @@ app.on('ready', async () => {
     );
     await attachments.deleteAllDraftAttachments({
       userDataPath,
-      stickers: orphanedDraftAttachments,
+      attachments: orphanedDraftAttachments,
     });
   }
 

@@ -91,6 +91,9 @@ type EmptyQuery = [];
 type ArrayQuery = Array<Array<null | number | string>>;
 type Query = { [key: string]: null | number | string | Buffer };
 
+// This value needs to be below SQLITE_MAX_VARIABLE_NUMBER.
+const MAX_VARIABLE_COUNT = 100;
+
 // Because we can't force this module to conform to an interface, we narrow our exports
 //   to this one default export, which does conform to the interface.
 // Note: In Javascript, you need to access the .default property when requiring it
@@ -178,7 +181,7 @@ const dataInterface: ServerInterface = {
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
-  getOutgoingWithoutExpirationStartTimestamp,
+  getMessagesUnexpectedlyMissingExpirationStartTimestamp,
   getSoonestMessageExpiry,
   getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
@@ -334,7 +337,7 @@ function keyDatabase(db: Database, key: string): void {
 function switchToWAL(db: Database): void {
   // https://sqlite.org/wal.html
   db.pragma('journal_mode = WAL');
-  db.pragma('synchronous = NORMAL');
+  db.pragma('synchronous = FULL');
 }
 function getUserVersion(db: Database): number {
   return db.pragma('user_version', { simple: true });
@@ -1889,6 +1892,27 @@ function updateToSchemaVersion33(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion33: success!');
 }
 
+function updateToSchemaVersion34(currentVersion: number, db: Database) {
+  if (currentVersion >= 34) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      -- This index should exist, but we add "IF EXISTS" for safety.
+      DROP INDEX IF EXISTS outgoing_messages_without_expiration_start_timestamp;
+
+      CREATE INDEX messages_unexpectedly_missing_expiration_start_timestamp ON messages (
+        expireTimer, expirationStartTimestamp, type
+      )
+      WHERE expireTimer IS NOT NULL AND expirationStartTimestamp IS NULL;
+    `);
+
+    db.pragma('user_version = 34');
+  })();
+  console.log('updateToSchemaVersion34: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1923,6 +1947,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion31,
   updateToSchemaVersion32,
   updateToSchemaVersion33,
+  updateToSchemaVersion34,
 ];
 
 function updateSchema(db: Database): void {
@@ -2127,6 +2152,24 @@ function getInstance(): Database {
   }
 
   return globalInstance;
+}
+
+function batchMultiVarQuery<T>(
+  values: Array<T>,
+  query: (batch: Array<T>) => void
+): void {
+  const db = getInstance();
+  if (values.length > MAX_VARIABLE_COUNT) {
+    db.transaction(() => {
+      for (let i = 0; i < values.length; i += MAX_VARIABLE_COUNT) {
+        const batch = values.slice(i, i + MAX_VARIABLE_COUNT);
+        query(batch);
+      }
+    })();
+    return;
+  }
+
+  query(values);
 }
 
 const IDENTITY_KEYS_TABLE = 'identityKeys';
@@ -2455,6 +2498,7 @@ async function removeById(
   id: string | number | Array<string | number>
 ): Promise<void> {
   const db = getInstance();
+
   if (!Array.isArray(id)) {
     db.prepare<Query>(
       `
@@ -2469,13 +2513,16 @@ async function removeById(
     throw new Error('removeById: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare<ArrayQuery>(
-    `
-    DELETE FROM ${table}
-    WHERE id IN ( ${id.map(() => '?').join(', ')} );
-    `
-  ).run(id);
+  const removeByIdsSync = (ids: Array<string | number>): void => {
+    db.prepare<ArrayQuery>(
+      `
+      DELETE FROM ${table}
+      WHERE id IN ( ${id.map(() => '?').join(', ')} );
+      `
+    ).run(ids);
+  };
+
+  batchMultiVarQuery(id, removeByIdsSync);
 }
 
 async function removeAllFromTable(table: string): Promise<void> {
@@ -2689,9 +2736,21 @@ async function updateConversations(
   })();
 }
 
-async function removeConversation(id: Array<string> | string): Promise<void> {
+function removeConversationsSync(ids: Array<string>): void {
   const db = getInstance();
+
+  // Our node interface doesn't seem to allow you to replace one single ? with an array
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM conversations
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
+}
+
+async function removeConversation(id: Array<string> | string): Promise<void> {
   if (!Array.isArray(id)) {
+    const db = getInstance();
     db.prepare<Query>('DELETE FROM conversations WHERE id = $id;').run({
       id,
     });
@@ -2703,13 +2762,7 @@ async function removeConversation(id: Array<string> | string): Promise<void> {
     throw new Error('removeConversation: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare<ArrayQuery>(
-    `
-    DELETE FROM conversations
-    WHERE id IN ( ${id.map(() => '?').join(', ')} );
-    `
-  ).run(id);
+  batchMultiVarQuery(id, removeConversationsSync);
 }
 
 async function getConversationById(
@@ -3195,7 +3248,7 @@ async function removeMessage(id: string): Promise<void> {
   db.prepare<Query>('DELETE FROM messages WHERE id = $id;').run({ id });
 }
 
-async function removeMessages(ids: Array<string>): Promise<void> {
+function removeMessagesSync(ids: Array<string>): void {
   const db = getInstance();
 
   db.prepare<ArrayQuery>(
@@ -3204,6 +3257,10 @@ async function removeMessages(ids: Array<string>): Promise<void> {
     WHERE id IN ( ${ids.map(() => '?').join(', ')} );
     `
   ).run(ids);
+}
+
+async function removeMessages(ids: Array<string>): Promise<void> {
+  batchMultiVarQuery(ids, removeMessagesSync);
 }
 
 async function getMessageById(id: string): Promise<MessageType | undefined> {
@@ -3906,7 +3963,7 @@ async function getExpiredMessages(): Promise<Array<MessageType>> {
   return rows.map(row => jsonToObject(row.json));
 }
 
-async function getOutgoingWithoutExpirationStartTimestamp(): Promise<
+async function getMessagesUnexpectedlyMissingExpirationStartTimestamp(): Promise<
   Array<MessageType>
 > {
   const db = getInstance();
@@ -3914,11 +3971,17 @@ async function getOutgoingWithoutExpirationStartTimestamp(): Promise<
     .prepare<EmptyQuery>(
       `
       SELECT json FROM messages
-      INDEXED BY outgoing_messages_without_expiration_start_timestamp
+      INDEXED BY messages_unexpectedly_missing_expiration_start_timestamp
       WHERE
         expireTimer > 0 AND
         expirationStartTimestamp IS NULL AND
-        type IS 'outgoing';
+        (
+          type IS 'outgoing' OR
+          (type IS 'incoming' AND (
+            unread = 0 OR
+            unread IS NULL
+          ))
+        );
       `
     )
     .all();
@@ -4169,10 +4232,21 @@ async function getAllUnprocessed(): Promise<Array<UnprocessedType>> {
   return rows;
 }
 
-async function removeUnprocessed(id: string | Array<string>): Promise<void> {
+function removeUnprocessedsSync(ids: Array<string>): void {
   const db = getInstance();
 
+  db.prepare<ArrayQuery>(
+    `
+    DELETE FROM unprocessed
+    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
+    `
+  ).run(ids);
+}
+
+async function removeUnprocessed(id: string | Array<string>): Promise<void> {
   if (!Array.isArray(id)) {
+    const db = getInstance();
+
     prepare(db, 'DELETE FROM unprocessed WHERE id = $id;').run({ id });
 
     return;
@@ -4182,13 +4256,7 @@ async function removeUnprocessed(id: string | Array<string>): Promise<void> {
     throw new Error('removeUnprocessed: No ids to delete!');
   }
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare<ArrayQuery>(
-    `
-    DELETE FROM unprocessed
-    WHERE id IN ( ${id.map(() => '?').join(', ')} );
-    `
-  ).run(id);
+  batchMultiVarQuery(id, removeUnprocessedsSync);
 }
 
 async function removeAllUnprocessed(): Promise<void> {

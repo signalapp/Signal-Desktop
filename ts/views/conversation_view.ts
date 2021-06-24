@@ -24,6 +24,8 @@ import {
   isMe,
 } from '../util/whatTypeOfConversation';
 import { clipboard } from 'electron';
+import { findAndFormatContact } from '../util/findAndFormatContact';
+import * as Bytes from '../Bytes';
 import {
   canReply,
   getAttachmentsForMessage,
@@ -2948,7 +2950,7 @@ Whisper.ConversationView = Whisper.View.extend({
         } catch (error) {
           window.log.error(
             'Error sending delete-for-everyone',
-            error,
+            error && error.stack,
             messageId
           );
           this.showToast(Whisper.DeleteForEveryoneFailedToast);
@@ -3755,12 +3757,7 @@ Whisper.ConversationView = Whisper.View.extend({
         })
       : undefined;
 
-    if (
-      message &&
-      !canReply(message.attributes, (id?: string) =>
-        message.findAndFormatContact(id)
-      )
-    ) {
+    if (message && !canReply(message.attributes, findAndFormatContact)) {
       return;
     }
 
@@ -3770,7 +3767,6 @@ Whisper.ConversationView = Whisper.View.extend({
 
     this.quote = null;
     this.quotedMessage = null;
-    this.quoteHolder = null;
 
     const existing = model.get('quotedMessageId');
     if (existing !== messageId) {
@@ -3816,16 +3812,12 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    const message = new Whisper.Message({
-      conversationId: model.id,
-      quote: this.quote,
-    } as any);
-    message.quotedMessage = this.quotedMessage;
-    this.quoteHolder = message;
-
     const props = getPropsForQuote(
-      message.attributes,
-      (id?: string) => message.findAndFormatContact(id),
+      {
+        conversationId: model.id,
+        quote: this.quote,
+      },
+      findAndFormatContact,
       window.ConversationController.getOurConversationIdOrThrow()
     );
 
@@ -3839,7 +3831,7 @@ Whisper.ConversationView = Whisper.View.extend({
       props: {
         ...props,
         withContentAbove: true,
-        onClick: () => this.scrollToMessage(message.quotedMessage.id),
+        onClick: () => this.scrollToMessage(this.quotedMessage.id),
         onClose: () => {
           // This can't be the normal 'onClose' because that is always run when this
           //   view is removed from the DOM, and would clear the draft quote.
@@ -4168,13 +4160,11 @@ Whisper.ConversationView = Whisper.View.extend({
     } = window.Signal.Groups.parseGroupLink(groupData);
 
     const fields = window.Signal.Groups.deriveGroupFields(
-      window.Signal.Crypto.base64ToArrayBuffer(masterKey)
+      Bytes.fromBase64(masterKey)
     );
-    const id = window.Signal.Crypto.arrayBufferToBase64(fields.id);
+    const id = Bytes.toBase64(fields.id);
     const logId = `groupv2(${id})`;
-    const secretParams = window.Signal.Crypto.arrayBufferToBase64(
-      fields.secretParams
-    );
+    const secretParams = Bytes.toBase64(fields.secretParams);
 
     window.log.info(`getGroupPreview/${logId}: Fetching pre-join state`);
     const result = await window.Signal.Groups.getPreJoinGroupInfo(

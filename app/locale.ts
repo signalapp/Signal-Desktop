@@ -1,12 +1,15 @@
 // Copyright 2017-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const path = require('path');
-const fs = require('fs');
-const _ = require('lodash');
-const { setup } = require('../js/modules/i18n');
+import { join } from 'path';
+import { readFileSync } from 'fs';
+import { merge } from 'lodash';
+import { setup } from '../js/modules/i18n';
 
-function normalizeLocaleName(locale) {
+import { LoggerType } from '../ts/types/Logging';
+import { LocalizerType, LocaleMessagesType } from '../ts/types/I18N';
+
+function normalizeLocaleName(locale: string): string {
   if (/^en-/.test(locale)) {
     return 'en';
   }
@@ -14,10 +17,10 @@ function normalizeLocaleName(locale) {
   return locale;
 }
 
-function getLocaleMessages(locale) {
+function getLocaleMessages(locale: string): LocaleMessagesType {
   const onDiskLocale = locale.replace('-', '_');
 
-  const targetFile = path.join(
+  const targetFile = join(
     __dirname,
     '..',
     '_locales',
@@ -25,10 +28,20 @@ function getLocaleMessages(locale) {
     'messages.json'
   );
 
-  return JSON.parse(fs.readFileSync(targetFile, 'utf-8'));
+  return JSON.parse(readFileSync(targetFile, 'utf-8'));
 }
 
-function load({ appLocale, logger } = {}) {
+export function load({
+  appLocale,
+  logger,
+}: {
+  appLocale: string;
+  logger: LoggerType;
+}): {
+  i18n: LocalizerType;
+  name: string;
+  messages: LocaleMessagesType;
+} {
   if (!appLocale) {
     throw new TypeError('`appLocale` is required');
   }
@@ -51,7 +64,7 @@ function load({ appLocale, logger } = {}) {
     messages = getLocaleMessages(localeName);
 
     // We start with english, then overwrite that with anything present in locale
-    messages = _.merge(english, messages);
+    messages = merge(english, messages);
   } catch (e) {
     logger.error(
       `Problem loading messages for locale ${localeName} ${e.stack}`
@@ -70,7 +83,3 @@ function load({ appLocale, logger } = {}) {
     messages,
   };
 }
-
-module.exports = {
-  load,
-};

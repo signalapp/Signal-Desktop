@@ -55,7 +55,7 @@
       },
       {
         "label": "Paste and Match Style",
-        "role": "pasteandmatchstyle"
+        "role": "pasteAndMatchStyle"
       },
       {
         "label": "Delete",
@@ -63,7 +63,7 @@
       },
       {
         "label": "Select All",
-        "role": "selectall"
+        "role": "selectAll"
       }
     ]
   },
@@ -72,16 +72,16 @@
     "submenu": [
       {
         "label": "Actual Size",
-        "role": "resetzoom"
+        "role": "resetZoom"
       },
       {
         "accelerator": "Control+=",
         "label": "Zoom In",
-        "role": "zoomin"
+        "role": "zoomIn"
       },
       {
         "label": "Zoom Out",
-        "role": "zoomout"
+        "role": "zoomOut"
       },
       {
         "type": "separator"
@@ -102,7 +102,7 @@
       },
       {
         "label": "Toggle Developer Tools",
-        "role": "toggledevtools"
+        "role": "toggleDevTools"
       }
     ]
   },

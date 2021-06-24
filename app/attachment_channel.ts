@@ -1,15 +1,14 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const electron = require('electron');
-const rimraf = require('rimraf');
-const Attachments = require('./attachments');
-
-const { ipcMain } = electron;
-
-module.exports = {
-  initialize,
-};
+import { ipcMain } from 'electron';
+import * as rimraf from 'rimraf';
+import {
+  getPath,
+  getStickersPath,
+  getTempPath,
+  getDraftPath,
+} from './attachments';
 
 let initialized = false;
 
@@ -19,16 +18,22 @@ const ERASE_TEMP_KEY = 'erase-temp';
 const ERASE_DRAFTS_KEY = 'erase-drafts';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
-function initialize({ configDir, cleanupOrphanedAttachments }) {
+export function initialize({
+  configDir,
+  cleanupOrphanedAttachments,
+}: {
+  configDir: string;
+  cleanupOrphanedAttachments: () => Promise<void>;
+}): void {
   if (initialized) {
     throw new Error('initialze: Already initialized!');
   }
   initialized = true;
 
-  const attachmentsDir = Attachments.getPath(configDir);
-  const stickersDir = Attachments.getStickersPath(configDir);
-  const tempDir = Attachments.getTempPath(configDir);
-  const draftDir = Attachments.getDraftPath(configDir);
+  const attachmentsDir = getPath(configDir);
+  const stickersDir = getStickersPath(configDir);
+  const tempDir = getTempPath(configDir);
+  const draftDir = getDraftPath(configDir);
 
   ipcMain.on(ERASE_TEMP_KEY, event => {
     try {

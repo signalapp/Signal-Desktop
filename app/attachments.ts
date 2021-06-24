@@ -1,26 +1,30 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const crypto = require('crypto');
-const path = require('path');
-const { app, dialog, shell, remote } = require('electron');
+import { randomBytes } from 'crypto';
+import { basename, extname, join, normalize, relative } from 'path';
+import { app, dialog, shell, remote } from 'electron';
 
-const fastGlob = require('fast-glob');
-const glob = require('glob');
-const pify = require('pify');
-const fse = require('fs-extra');
-const toArrayBuffer = require('to-arraybuffer');
-const { map, isArrayBuffer, isString } = require('lodash');
-const normalizePath = require('normalize-path');
-const sanitizeFilename = require('sanitize-filename');
-const getGuid = require('uuid/v4');
-const { isPathInside } = require('../ts/util/isPathInside');
-const { isWindows } = require('../ts/OS');
-const {
-  writeWindowsZoneIdentifier,
-} = require('../ts/util/windowsZoneIdentifier');
+import fastGlob from 'fast-glob';
+import glob from 'glob';
+import pify from 'pify';
+import fse from 'fs-extra';
+import { map, isArrayBuffer, isString } from 'lodash';
+import normalizePath from 'normalize-path';
+import sanitizeFilename from 'sanitize-filename';
+import getGuid from 'uuid/v4';
 
-let xattr;
+import { typedArrayToArrayBuffer } from '../ts/Crypto';
+import { isPathInside } from '../ts/util/isPathInside';
+import { isWindows } from '../ts/OS';
+import { writeWindowsZoneIdentifier } from '../ts/util/windowsZoneIdentifier';
+
+type FSAttrType = {
+  set: (path: string, attribute: string, value: string) => Promise<void>;
+};
+
+let xattr: FSAttrType | undefined;
+
 try {
   // eslint-disable-next-line max-len
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
@@ -36,113 +40,115 @@ const DRAFT_PATH = 'drafts.noindex';
 
 const getApp = () => app || remote.app;
 
-exports.getAllAttachments = async userDataPath => {
-  const dir = exports.getPath(userDataPath);
-  const pattern = normalizePath(path.join(dir, '**', '*'));
+export const getAllAttachments = async (
+  userDataPath: string
+): Promise<ReadonlyArray<string>> => {
+  const dir = getPath(userDataPath);
+  const pattern = normalizePath(join(dir, '**', '*'));
 
   const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => path.relative(dir, file));
+  return map(files, file => relative(dir, file));
 };
 
-exports.getAllStickers = async userDataPath => {
-  const dir = exports.getStickersPath(userDataPath);
-  const pattern = normalizePath(path.join(dir, '**', '*'));
+export const getAllStickers = async (
+  userDataPath: string
+): Promise<ReadonlyArray<string>> => {
+  const dir = getStickersPath(userDataPath);
+  const pattern = normalizePath(join(dir, '**', '*'));
 
   const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => path.relative(dir, file));
+  return map(files, file => relative(dir, file));
 };
 
-exports.getAllDraftAttachments = async userDataPath => {
-  const dir = exports.getDraftPath(userDataPath);
-  const pattern = normalizePath(path.join(dir, '**', '*'));
+export const getAllDraftAttachments = async (
+  userDataPath: string
+): Promise<ReadonlyArray<string>> => {
+  const dir = getDraftPath(userDataPath);
+  const pattern = normalizePath(join(dir, '**', '*'));
 
   const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => path.relative(dir, file));
+  return map(files, file => relative(dir, file));
 };
 
-exports.getBuiltInImages = async () => {
-  const dir = path.join(__dirname, '../images');
-  const pattern = path.join(dir, '**', '*.svg');
+export const getBuiltInImages = async (): Promise<ReadonlyArray<string>> => {
+  const dir = join(__dirname, '../images');
+  const pattern = join(dir, '**', '*.svg');
 
   // Note: we cannot use fast-glob here because, inside of .asar files, readdir will not
   //   honor the withFileTypes flag: https://github.com/electron/electron/issues/19074
   const files = await pify(glob)(pattern, { nodir: true });
-  return map(files, file => path.relative(dir, file));
+  return map(files, file => relative(dir, file));
 };
 
-//      getPath :: AbsolutePath -> AbsolutePath
-exports.getPath = userDataPath => {
+export const getPath = (userDataPath: string): string => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
-  return path.join(userDataPath, PATH);
+  return join(userDataPath, PATH);
 };
 
-//      getStickersPath :: AbsolutePath -> AbsolutePath
-exports.getStickersPath = userDataPath => {
+export const getStickersPath = (userDataPath: string): string => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
-  return path.join(userDataPath, STICKER_PATH);
+  return join(userDataPath, STICKER_PATH);
 };
 
-//      getTempPath :: AbsolutePath -> AbsolutePath
-exports.getTempPath = userDataPath => {
+export const getTempPath = (userDataPath: string): string => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
-  return path.join(userDataPath, TEMP_PATH);
+  return join(userDataPath, TEMP_PATH);
 };
 
-//      getDraftPath :: AbsolutePath -> AbsolutePath
-exports.getDraftPath = userDataPath => {
+export const getDraftPath = (userDataPath: string): string => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
-  return path.join(userDataPath, DRAFT_PATH);
+  return join(userDataPath, DRAFT_PATH);
 };
 
-//      clearTempPath :: AbsolutePath -> AbsolutePath
-exports.clearTempPath = userDataPath => {
-  const tempPath = exports.getTempPath(userDataPath);
+export const clearTempPath = (userDataPath: string): Promise<void> => {
+  const tempPath = getTempPath(userDataPath);
   return fse.emptyDir(tempPath);
 };
 
-//      createReader :: AttachmentsPath ->
-//                      RelativePath ->
-//                      IO (Promise ArrayBuffer)
-exports.createReader = root => {
+export const createReader = (
+  root: string
+): ((relativePath: string) => Promise<ArrayBuffer>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async relativePath => {
+  return async (relativePath: string): Promise<ArrayBuffer> => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
 
-    const absolutePath = path.join(root, relativePath);
-    const normalized = path.normalize(absolutePath);
+    const absolutePath = join(root, relativePath);
+    const normalized = normalize(absolutePath);
     if (!isPathInside(normalized, root)) {
       throw new Error('Invalid relative path');
     }
     const buffer = await fse.readFile(normalized);
-    return toArrayBuffer(buffer);
+    return typedArrayToArrayBuffer(buffer);
   };
 };
 
-exports.createDoesExist = root => {
+export const createDoesExist = (
+  root: string
+): ((relativePath: string) => Promise<boolean>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async relativePath => {
+  return async (relativePath: string): Promise<boolean> => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
 
-    const absolutePath = path.join(root, relativePath);
-    const normalized = path.normalize(absolutePath);
+    const absolutePath = join(root, relativePath);
+    const normalized = normalize(absolutePath);
     if (!isPathInside(normalized, root)) {
       throw new Error('Invalid relative path');
     }
@@ -155,14 +161,16 @@ exports.createDoesExist = root => {
   };
 };
 
-exports.copyIntoAttachmentsDirectory = root => {
+export const copyIntoAttachmentsDirectory = (
+  root: string
+): ((sourcePath: string) => Promise<string>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
   const userDataPath = getApp().getPath('userData');
 
-  return async sourcePath => {
+  return async (sourcePath: string): Promise<string> => {
     if (!isString(sourcePath)) {
       throw new TypeError('sourcePath must be a string');
     }
@@ -173,10 +181,10 @@ exports.copyIntoAttachmentsDirectory = root => {
       );
     }
 
-    const name = exports.createName();
-    const relativePath = exports.getRelativePath(name);
-    const absolutePath = path.join(root, relativePath);
-    const normalized = path.normalize(absolutePath);
+    const name = createName();
+    const relativePath = getRelativePath(name);
+    const absolutePath = join(root, relativePath);
+    const normalized = normalize(absolutePath);
     if (!isPathInside(normalized, root)) {
       throw new Error('Invalid relative path');
     }
@@ -187,15 +195,22 @@ exports.copyIntoAttachmentsDirectory = root => {
   };
 };
 
-exports.writeToDownloads = async ({ data, name }) => {
+export const writeToDownloads = async ({
+  data,
+  name,
+}: {
+  data: ArrayBuffer;
+  name: string;
+}): Promise<{ fullPath: string; name: string }> => {
   const appToUse = getApp();
   const downloadsPath =
     appToUse.getPath('downloads') || appToUse.getPath('home');
   const sanitized = sanitizeFilename(name);
 
-  const extension = path.extname(sanitized);
-  const basename = path.basename(sanitized, extension);
-  const getCandidateName = count => `${basename} (${count})${extension}`;
+  const extension = extname(sanitized);
+  const fileBasename = basename(sanitized, extension);
+  const getCandidateName = (count: number) =>
+    `${fileBasename} (${count})${extension}`;
 
   const existingFiles = await fse.readdir(downloadsPath);
   let candidateName = sanitized;
@@ -205,13 +220,13 @@ exports.writeToDownloads = async ({ data, name }) => {
     candidateName = getCandidateName(count);
   }
 
-  const target = path.join(downloadsPath, candidateName);
-  const normalized = path.normalize(target);
+  const target = join(downloadsPath, candidateName);
+  const normalized = normalize(target);
   if (!isPathInside(normalized, downloadsPath)) {
     throw new Error('Invalid filename!');
   }
 
-  await writeWithAttributes(normalized, Buffer.from(data));
+  await writeWithAttributes(normalized, data);
 
   return {
     fullPath: normalized,
@@ -219,7 +234,10 @@ exports.writeToDownloads = async ({ data, name }) => {
   };
 };
 
-async function writeWithAttributes(target, data) {
+async function writeWithAttributes(
+  target: string,
+  data: ArrayBuffer
+): Promise<void> {
   await fse.writeFile(target, Buffer.from(data));
 
   if (process.platform === 'darwin' && xattr) {
@@ -246,15 +264,15 @@ async function writeWithAttributes(target, data) {
   }
 }
 
-exports.openFileInDownloads = async name => {
+export const openFileInDownloads = async (name: string): Promise<void> => {
   const shellToUse = shell || remote.shell;
   const appToUse = getApp();
 
   const downloadsPath =
     appToUse.getPath('downloads') || appToUse.getPath('home');
-  const target = path.join(downloadsPath, name);
+  const target = join(downloadsPath, name);
 
-  const normalized = path.normalize(target);
+  const normalized = normalize(target);
   if (!isPathInside(normalized, downloadsPath)) {
     throw new Error('Invalid filename!');
   }
@@ -262,7 +280,13 @@ exports.openFileInDownloads = async name => {
   shellToUse.showItemInFolder(normalized);
 };
 
-exports.saveAttachmentToDisk = async ({ data, name }) => {
+export const saveAttachmentToDisk = async ({
+  data,
+  name,
+}: {
+  data: ArrayBuffer;
+  name: string;
+}): Promise<null | { fullPath: string; name: string }> => {
   const dialogToUse = dialog || remote.dialog;
   const browserWindow = remote.getCurrentWindow();
 
@@ -273,57 +297,61 @@ exports.saveAttachmentToDisk = async ({ data, name }) => {
     }
   );
 
-  if (canceled) {
+  if (canceled || !filePath) {
     return null;
   }
 
-  await writeWithAttributes(filePath, Buffer.from(data));
+  await writeWithAttributes(filePath, data);
 
-  const basename = path.basename(filePath);
+  const fileBasename = basename(filePath);
 
   return {
     fullPath: filePath,
-    name: basename,
+    name: fileBasename,
   };
 };
 
-exports.openFileInFolder = async target => {
+export const openFileInFolder = async (target: string): Promise<void> => {
   const shellToUse = shell || remote.shell;
 
   shellToUse.showItemInFolder(target);
 };
 
-//      createWriterForNew :: AttachmentsPath ->
-//                            ArrayBuffer ->
-//                            IO (Promise RelativePath)
-exports.createWriterForNew = root => {
+export const createWriterForNew = (
+  root: string
+): ((arrayBuffer: ArrayBuffer) => Promise<string>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async arrayBuffer => {
+  return async (arrayBuffer: ArrayBuffer) => {
     if (!isArrayBuffer(arrayBuffer)) {
       throw new TypeError("'arrayBuffer' must be an array buffer");
     }
 
-    const name = exports.createName();
-    const relativePath = exports.getRelativePath(name);
-    return exports.createWriterForExisting(root)({
+    const name = createName();
+    const relativePath = getRelativePath(name);
+    return createWriterForExisting(root)({
       data: arrayBuffer,
       path: relativePath,
     });
   };
 };
 
-//      createWriter :: AttachmentsPath ->
-//                      { data: ArrayBuffer, path: RelativePath } ->
-//                      IO (Promise RelativePath)
-exports.createWriterForExisting = root => {
+export const createWriterForExisting = (
+  root: string
+): ((options: { data: ArrayBuffer; path: string }) => Promise<string>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async ({ data: arrayBuffer, path: relativePath } = {}) => {
+  return async ({
+    data: arrayBuffer,
+    path: relativePath,
+  }: {
+    data: ArrayBuffer;
+    path: string;
+  }): Promise<string> => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a path");
     }
@@ -333,8 +361,8 @@ exports.createWriterForExisting = root => {
     }
 
     const buffer = Buffer.from(arrayBuffer);
-    const absolutePath = path.join(root, relativePath);
-    const normalized = path.normalize(absolutePath);
+    const absolutePath = join(root, relativePath);
+    const normalized = normalize(absolutePath);
     if (!isPathInside(normalized, root)) {
       throw new Error('Invalid relative path');
     }
@@ -345,21 +373,20 @@ exports.createWriterForExisting = root => {
   };
 };
 
-//      createDeleter :: AttachmentsPath ->
-//                       RelativePath ->
-//                       IO Unit
-exports.createDeleter = root => {
+export const createDeleter = (
+  root: string
+): ((relativePath: string) => Promise<void>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async relativePath => {
+  return async (relativePath: string): Promise<void> => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
 
-    const absolutePath = path.join(root, relativePath);
-    const normalized = path.normalize(absolutePath);
+    const absolutePath = join(root, relativePath);
+    const normalized = normalize(absolutePath);
     if (!isPathInside(normalized, root)) {
       throw new Error('Invalid relative path');
     }
@@ -367,8 +394,14 @@ exports.createDeleter = root => {
   };
 };
 
-exports.deleteAll = async ({ userDataPath, attachments }) => {
-  const deleteFromDisk = exports.createDeleter(exports.getPath(userDataPath));
+export const deleteAll = async ({
+  userDataPath,
+  attachments,
+}: {
+  userDataPath: string;
+  attachments: ReadonlyArray<string>;
+}): Promise<void> => {
+  const deleteFromDisk = createDeleter(getPath(userDataPath));
 
   for (let index = 0, max = attachments.length; index < max; index += 1) {
     const file = attachments[index];
@@ -379,10 +412,14 @@ exports.deleteAll = async ({ userDataPath, attachments }) => {
   console.log(`deleteAll: deleted ${attachments.length} files`);
 };
 
-exports.deleteAllStickers = async ({ userDataPath, stickers }) => {
-  const deleteFromDisk = exports.createDeleter(
-    exports.getStickersPath(userDataPath)
-  );
+export const deleteAllStickers = async ({
+  userDataPath,
+  stickers,
+}: {
+  userDataPath: string;
+  stickers: ReadonlyArray<string>;
+}): Promise<void> => {
+  const deleteFromDisk = createDeleter(getStickersPath(userDataPath));
 
   for (let index = 0, max = stickers.length; index < max; index += 1) {
     const file = stickers[index];
@@ -393,40 +430,43 @@ exports.deleteAllStickers = async ({ userDataPath, stickers }) => {
   console.log(`deleteAllStickers: deleted ${stickers.length} files`);
 };
 
-exports.deleteAllDraftAttachments = async ({ userDataPath, stickers }) => {
-  const deleteFromDisk = exports.createDeleter(
-    exports.getDraftPath(userDataPath)
-  );
+export const deleteAllDraftAttachments = async ({
+  userDataPath,
+  attachments,
+}: {
+  userDataPath: string;
+  attachments: ReadonlyArray<string>;
+}): Promise<void> => {
+  const deleteFromDisk = createDeleter(getDraftPath(userDataPath));
 
-  for (let index = 0, max = stickers.length; index < max; index += 1) {
-    const file = stickers[index];
+  for (let index = 0, max = attachments.length; index < max; index += 1) {
+    const file = attachments[index];
     // eslint-disable-next-line no-await-in-loop
     await deleteFromDisk(file);
   }
 
-  console.log(`deleteAllDraftAttachments: deleted ${stickers.length} files`);
+  console.log(`deleteAllDraftAttachments: deleted ${attachments.length} files`);
 };
 
-//      createName :: Unit -> IO String
-exports.createName = () => {
-  const buffer = crypto.randomBytes(32);
+export const createName = (): string => {
+  const buffer = randomBytes(32);
   return buffer.toString('hex');
 };
 
-//      getRelativePath :: String -> Path
-exports.getRelativePath = name => {
+export const getRelativePath = (name: string): string => {
   if (!isString(name)) {
     throw new TypeError("'name' must be a string");
   }
 
   const prefix = name.slice(0, 2);
-  return path.join(prefix, name);
+  return join(prefix, name);
 };
 
-//      createAbsolutePathGetter :: RootPath -> RelativePath -> AbsolutePath
-exports.createAbsolutePathGetter = rootPath => relativePath => {
-  const absolutePath = path.join(rootPath, relativePath);
-  const normalized = path.normalize(absolutePath);
+export const createAbsolutePathGetter = (rootPath: string) => (
+  relativePath: string
+): string => {
+  const absolutePath = join(rootPath, relativePath);
+  const normalized = normalize(absolutePath);
   if (!isPathInside(normalized, rootPath)) {
     throw new Error('Invalid relative path');
   }
