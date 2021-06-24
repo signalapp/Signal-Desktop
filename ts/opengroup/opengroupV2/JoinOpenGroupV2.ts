@@ -8,7 +8,7 @@ import {
   prefixify,
   publicKeyParam,
 } from '../utils/OpenGroupUtils';
-import { OpenGroupManagerV2 } from './OpenGroupManagerV2';
+import { getOpenGroupManager } from './OpenGroupManagerV2';
 
 // Inputs that should work:
 // https://sessionopengroup.co/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231c
@@ -79,11 +79,7 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
   // Try to connect to server
   try {
     const conversation = await PromiseUtils.timeout(
-      OpenGroupManagerV2.getInstance().attemptConnectionV2OneAtATime(
-        prefixedServer,
-        roomId,
-        publicKey
-      ),
+      getOpenGroupManager().attemptConnectionV2OneAtATime(prefixedServer, roomId, publicKey),
       20000
     );
 

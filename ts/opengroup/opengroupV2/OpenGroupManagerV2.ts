@@ -17,10 +17,17 @@ import _ from 'lodash';
 import { deleteAuthToken, DeleteAuthTokenRequest } from './ApiAuth';
 import autoBind from 'auto-bind';
 
+let instance: OpenGroupManagerV2 | undefined;
+
+export const getOpenGroupManager = () => {
+  if (!instance) {
+    instance = new OpenGroupManagerV2();
+  }
+  return instance;
+};
+
 export class OpenGroupManagerV2 {
   public static readonly useV2OpenGroups = false;
-
-  private static instance: OpenGroupManagerV2;
 
   /**
    * The map of opengroup pollers, by serverUrl.
@@ -29,15 +36,8 @@ export class OpenGroupManagerV2 {
   private readonly pollers: Map<string, OpenGroupServerPoller> = new Map();
   private isPolling = false;
 
-  private constructor() {
+  constructor() {
     autoBind(this);
-  }
-
-  public static getInstance() {
-    if (!OpenGroupManagerV2.instance) {
-      OpenGroupManagerV2.instance = new OpenGroupManagerV2();
-    }
-    return OpenGroupManagerV2.instance;
   }
 
   /**
@@ -138,7 +138,7 @@ export class OpenGroupManagerV2 {
               }
               // remove the roomInfos locally for this open group room
               await removeV2OpenGroupRoom(roomConvoId);
-              OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(infos);
+              getOpenGroupManager().removeRoomFromPolledRooms(infos);
               // no need to remove it from the ConversationController, the convo is already not there
             }
           } catch (e) {

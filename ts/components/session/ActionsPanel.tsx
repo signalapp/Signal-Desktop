@@ -32,48 +32,18 @@ import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
 import { showLeftPaneSection } from '../../state/ducks/section';
 
-import {
-  cleanUpOldDecryptedMedias,
-  getDecryptedMediaUrl,
-} from '../../session/crypto/DecryptedAttachmentsManager';
-import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
-import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
+import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
+import { getOpenGroupManager } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { getSwarmPollingInstance } from '../../session/snode_api';
-import { IMAGE_JPEG } from '../../types/MIME';
-import { FSv2 } from '../../fileserver';
-import { debounce } from 'lodash';
 import { DURATION } from '../../session/constants';
 import { actions as conversationActions } from '../../state/ducks/conversations';
-import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusPathDialog';
-import { EditProfileDialog } from '../EditProfileDialog';
-import { SessionConfirm } from './SessionConfirm';
-import {
-  getAddModeratorsModal,
-  getAdminLeaveClosedGroupDialog,
-  getChangeNickNameDialog,
-  getConfirmModal,
-  getEditProfileDialog,
-  getInviteContactModal,
-  getOnionPathDialog,
-  getRecoveryPhraseDialog,
-  getRemoveModeratorsModal,
-  getUpdateGroupMembersModal,
-  getUpdateGroupNameModal,
-  getUserDetailsModal,
-} from '../../state/selectors/modal';
-import { InviteContactsDialog } from '../conversation/InviteContactsDialog';
-import { AddModeratorsDialog } from '../conversation/ModeratorsAddDialog';
-import { RemoveModeratorsDialog } from '../conversation/ModeratorsRemoveDialog';
-import { UpdateGroupNameDialog } from '../conversation/UpdateGroupNameDialog';
-import { UpdateGroupMembersDialog } from '../conversation/UpdateGroupMembersDialog';
-import { UserDetailsDialog } from '../UserDetailsDialog';
-import { SessionNicknameDialog } from './SessionNicknameDialog';
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
-import { SessionSeedModal } from './SessionSeedModal';
-import { AdminLeaveClosedGroupDialog } from '../conversation/AdminLeaveClosedGroupDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ModalContainer } from './ModalContainer';
+import { debounce } from 'underscore';
+import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
+import { ActionPanelOnionStatusLight } from '../OnionStatusPathDialog';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -265,7 +235,7 @@ const doAppStartUp = () => {
 
   // this generates the key to encrypt attachments locally
   void generateAttachmentKeyIfEmpty();
-  void OpenGroupManagerV2.getInstance().startPolling();
+  void getOpenGroupManager().startPolling();
   // trigger a sync message if needed for our other devices
 
   void triggerSyncIfNeeded();

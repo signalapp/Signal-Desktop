@@ -16,7 +16,7 @@ import { PubKey } from '../types';
 import { actions as conversationActions } from '../../state/ducks/conversations';
 import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
 import _ from 'lodash';
-import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
+import { getOpenGroupManager } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 import { deleteAuthToken, DeleteAuthTokenRequest } from '../../opengroup/opengroupV2/ApiAuth';
 import { deleteMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 
@@ -211,7 +211,7 @@ export class ConversationController {
             _.pick(roomInfos, 'serverUrl', 'roomId', 'token') as DeleteAuthTokenRequest
           );
         }
-        OpenGroupManagerV2.getInstance().removeRoomFromPolledRooms(roomInfos);
+        getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
 
         // remove the roomInfos locally for this open group room
         try {
