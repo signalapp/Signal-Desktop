@@ -304,7 +304,6 @@ export class SessionConversation extends React.Component<Props, State> {
             removeAttachment={this.removeAttachment}
             onChoseAttachments={this.onChoseAttachments}
             theme={this.props.theme}
-            updateConfirmModal={actions.updateConfirmModal}
           />
         </div>
 

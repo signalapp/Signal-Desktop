@@ -13,10 +13,11 @@ import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
 import { SpacerLG, SpacerXS } from '../../basic/Text';
 import { shell } from 'electron';
-import { PasswordAction, SessionPasswordModal } from '../SessionPasswordModal';
 import { SessionConfirmDialogProps } from '../SessionConfirm';
 import { mapDispatchToProps } from '../../../state/actions';
 import { unblockConvoById } from '../../../interactions/conversationInteractions';
+import { sessionPassword } from '../../../state/ducks/modalDialog';
+import { PasswordAction } from '../SessionPasswordModal';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -47,7 +48,6 @@ interface State {
   pwdLockError: string | null;
   mediaSetting: boolean | null;
   shouldLockSettings: boolean | null;
-  modal: JSX.Element | null;
 }
 
 interface ConfirmationDialogParams extends SessionConfirmDialogProps {
@@ -80,7 +80,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
       pwdLockError: null,
       mediaSetting: null,
       shouldLockSettings: true,
-      modal: null,
     };
 
     this.settingsViewRef = React.createRef();
@@ -174,12 +173,8 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           <h3>{window.i18n('password')}</h3>
           <input type="password" id="password-lock-input" defaultValue="" placeholder="Password" />
 
-          <SpacerXS />
           {this.state.pwdLockError && (
-            <>
-              <div className="session-label warning">{this.state.pwdLockError}</div>
-              <SpacerLG />
-            </>
+            <div className="session-label warning">{this.state.pwdLockError}</div>
           )}
 
           <SessionButton
@@ -233,8 +228,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           category={category}
           categoryTitle={window.i18n(`${category}SettingsTitle`)}
         />
-
-        {this.state.modal ? this.state.modal : null}
 
         <div className="session-settings-view">
           {shouldRenderPasswordLock ? (
@@ -512,7 +505,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Primary,
         },
         onClick: () => {
-          this.displayPasswordModal(PasswordAction.Set);
+          this.displayPasswordModal('set');
         },
         confirmationDialogParams: undefined,
       },
@@ -530,7 +523,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Primary,
         },
         onClick: () => {
-          this.displayPasswordModal(PasswordAction.Change);
+          this.displayPasswordModal('change');
         },
         confirmationDialogParams: undefined,
       },
@@ -548,7 +541,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           buttonColor: SessionButtonColor.Danger,
         },
         onClick: () => {
-          this.displayPasswordModal(PasswordAction.Remove);
+          this.displayPasswordModal('remove');
         },
         confirmationDialogParams: undefined,
       },
@@ -556,25 +549,14 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
   }
 
   private displayPasswordModal(passwordAction: PasswordAction) {
-    this.setState({
-      ...this.state,
-      modal: (
-        <SessionPasswordModal
-          onClose={() => {
-            this.clearModal();
-          }}
-          onOk={this.onPasswordUpdated}
-          action={passwordAction}
-        />
-      ),
-    });
-  }
-
-  private clearModal(): void {
-    this.setState({
-      ...this.state,
-      modal: null,
-    });
+    window.inboxStore?.dispatch(
+      sessionPassword({
+        passwordAction,
+        onOk: () => {
+          this.onPasswordUpdated(passwordAction);
+        },
+      })
+    );
   }
 
   private getBlockedUserSettings(): Array<LocalSettingType> {

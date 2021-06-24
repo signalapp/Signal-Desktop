@@ -12,6 +12,7 @@ import {
   OnionPathModalState,
   RecoveryPhraseModalState,
   RemoveModeratorsModalState,
+  SessionPasswordModalState,
   UpdateGroupMembersModalState,
   UpdateGroupNameModalState,
   UserDetailsModalState,
@@ -79,4 +80,9 @@ export const getRecoveryPhraseDialog = createSelector(
 export const getAdminLeaveClosedGroupDialog = createSelector(
   getModal,
   (state: ModalState): AdminLeaveClosedGroupModalState => state.adminLeaveClosedGroup
+);
+
+export const getSessionPasswordDialog = createSelector(
+  getModal,
+  (state: ModalState): SessionPasswordModalState => state.sessionPasswordModal
 );

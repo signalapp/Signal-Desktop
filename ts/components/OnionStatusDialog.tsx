@@ -26,6 +26,7 @@ import {
 
 // tslint:disable-next-line: no-submodule-imports
 import useNetworkState from 'react-use/lib/useNetworkState';
+import { SessionSpinner } from './session/SessionSpinner';
 
 export type StatusLightType = {
   glowStartDelay: number;
@@ -37,6 +38,10 @@ const OnionPathModalInner = () => {
   const onionPath = useSelector(getFirstOnionPath);
   // including the device and destination in calculation
   const glowDuration = onionPath.length + 2;
+
+  if (!onionPath) {
+    return <SessionSpinner loading={true} />
+  }
 
   const nodes = [
     {
