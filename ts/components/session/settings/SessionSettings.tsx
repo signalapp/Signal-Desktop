@@ -362,7 +362,9 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         setFn: () => {
           window.inboxStore?.dispatch(toggleAudioAutoplay());
         },
-        content: undefined,
+        content: {
+          defaultValue: window.inboxStore?.getState().userConfig.audioAutoplay
+        },
         comparisonValue: undefined,
         onClick: undefined,
         confirmationDialogParams: undefined,
