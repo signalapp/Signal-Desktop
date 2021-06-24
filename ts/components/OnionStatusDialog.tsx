@@ -40,7 +40,7 @@ const OnionPathModalInner = () => {
   const glowDuration = onionPath.length + 2;
 
   if (!onionPath) {
-    return <SessionSpinner loading={true} />
+    return <SessionSpinner loading={true} />;
   }
 
   const nodes = [
