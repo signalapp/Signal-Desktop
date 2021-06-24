@@ -4,7 +4,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
-import formatFileSize from 'filesize';
 
 import { LocalizerType, ThemeType } from '../../types/Util';
 import { Spinner } from '../Spinner';
@@ -170,7 +169,7 @@ export const GIF: React.FC<Props> = props => {
   if (isNotDownloaded && attachment.fileSize) {
     fileSize = (
       <div className="module-image--gif__filesize">
-        {formatFileSize(attachment.fileSize || 0)} · GIF
+        {attachment.fileSize} · GIF
       </div>
     );
   }
