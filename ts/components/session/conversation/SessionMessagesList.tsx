@@ -277,12 +277,15 @@ export class SessionMessagesList extends React.Component<Props, State> {
            * @param index index of message that just completed
            */
           const playNextMessage = (index: any) => {
-            const nextIndex = index - 1;
-            if (messages[nextIndex]) {
-              this.setState({
-                nextMessageToPlay: nextIndex,
-              });
+            let nextIndex: number | null = index - 1;
+
+            if (index <= 0 || messages.length < index - 1) {
+              nextIndex = null;
             }
+
+            this.setState({
+              nextMessageToPlay: nextIndex,
+            });
           };
 
           if (messageProps) {

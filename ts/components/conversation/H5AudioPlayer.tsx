@@ -1,5 +1,5 @@
 // Audio Player
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import H5AudioPlayer from 'react-h5-audio-player';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
@@ -39,7 +39,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
     if (
       window.inboxStore?.getState().userConfig.audioAutoplay === true &&
       props.playNextMessage &&
-      props.playableMessageIndex
+      props.playableMessageIndex !== undefined 
     ) {
       props.playNextMessage(props.playableMessageIndex);
     }
