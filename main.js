@@ -137,7 +137,8 @@ let appStartInitialSpellcheckSetting = true;
 const defaultWebPrefs = {
   devTools:
     process.argv.some(arg => arg === '--enable-dev-tools') ||
-    config.environment !== Environment.Production,
+    config.environment !== Environment.Production ||
+    isBeta(app.getVersion()),
 };
 
 async function getSpellCheckSetting() {
