@@ -2416,15 +2416,14 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     const sendMessageOptions = { dontClearDraft: true };
-    let timestamp = Date.now();
+    const baseTimestamp = Date.now();
 
     // Actually send the message
     // load any sticker data, attachments, or link previews that we need to
     // send along with the message and do the send to each conversation.
     await Promise.all(
-      conversations.map(async conversation => {
-        timestamp += 1;
-
+      conversations.map(async (conversation, offset) => {
+        const timestamp = baseTimestamp + offset;
         if (conversation) {
           const sticker = message.get('sticker');
           if (sticker) {
