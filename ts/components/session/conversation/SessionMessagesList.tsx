@@ -25,6 +25,7 @@ import { DataExtractionNotification } from '../../conversation/DataExtractionNot
 interface State {
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
+  nextMessageToPlay: number | null;
 }
 
 interface Props {
@@ -68,6 +69,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     this.state = {
       showScrollButton: false,
+      nextMessageToPlay: null
     };
     autoBind(this);
 
@@ -196,6 +198,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const { conversation, ourPrimary, selectedMessages } = this.props;
     const multiSelectMode = Boolean(selectedMessages.length);
     let currentMessageIndex = 0;
+    let playableMessageIndex = 0;
     const displayUnreadBannerIndex = this.displayUnreadBannerIndex(messages);
 
     return (
@@ -224,6 +227,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
               key={`unread-indicator-${message.id}`}
             />
           );
+
 
           currentMessageIndex = currentMessageIndex + 1;
 
@@ -268,6 +272,22 @@ export class SessionMessagesList extends React.Component<Props, State> {
           if (!messageProps) {
             return;
           }
+
+          const changeTestList = (index: any) => {
+            index--;
+            if (messages[index]) {
+              this.setState({
+                nextMessageToPlay: index
+              })
+            }
+          }
+
+          if (messageProps) {
+            messageProps.nextMessageToPlay = this.state.nextMessageToPlay
+            messageProps.index = playableMessageIndex;
+            messageProps.changeTestList = changeTestList;
+          }
+          playableMessageIndex++;
 
           if (messageProps.conversationType === ConversationTypeEnum.GROUP) {
             messageProps.weAreAdmin = conversation.groupAdmins?.includes(ourPrimary);

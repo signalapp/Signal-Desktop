@@ -16,8 +16,7 @@ import { PasswordAction, SessionPasswordModal } from '../SessionPasswordModal';
 import { SessionConfirmDialogProps } from '../SessionConfirm';
 import { mapDispatchToProps } from '../../../state/actions';
 import { unblockConvoById } from '../../../interactions/conversationInteractions';
-import { getUserConfig } from '../../../state/selectors/userConfig';
-import { toggleAudioAutoplay, updateUserConfig } from '../../../state/ducks/userConfig';
+import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',

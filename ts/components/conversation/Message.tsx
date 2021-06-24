@@ -202,6 +202,10 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             playbackSpeed={this.state.playbackSpeed}
             src={firstAttachment.url}
             contentType={firstAttachment.contentType}
+            changeTestList={this.props.changeTestList}
+            shouldPlay={this.props.shouldPlay}
+            index={this.props.index}
+            nextMessageToPlay={this.props.nextMessageToPlay}
           />
         </div>
       );

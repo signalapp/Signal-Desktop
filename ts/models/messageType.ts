@@ -252,4 +252,9 @@ export interface MessageRegularProps {
   onShowDetail: () => void;
   markRead: (readAt: number) => Promise<void>;
   theme: DefaultTheme;
+
+  shouldPlay?: boolean;
+  index?: number;
+  nextMessageToPlay?: number;
+  changeTestList: (value: any) => any;
 }
