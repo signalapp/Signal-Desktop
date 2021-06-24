@@ -363,7 +363,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           window.inboxStore?.dispatch(toggleAudioAutoplay());
         },
         content: {
-          defaultValue: window.inboxStore?.getState().userConfig.audioAutoplay
+          defaultValue: window.inboxStore?.getState().userConfig.audioAutoplay,
         },
         comparisonValue: undefined,
         onClick: undefined,

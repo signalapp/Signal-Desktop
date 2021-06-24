@@ -19,6 +19,7 @@ import { makeLookup } from '../../util';
 import { LeftPane } from '../LeftPane';
 import { SessionMainPanel } from '../SessionMainPanel';
 
+// tslint:disable-next-line: no-submodule-imports
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
@@ -57,12 +58,11 @@ export class SessionInboxView extends React.Component<any, State> {
       return <></>;
     }
 
-    let persistor = persistStore(this.store);
+    const persistor = persistStore(this.store);
 
     return (
       <Provider store={this.store}>
         <PersistGate loading={null} persistor={persistor}>
-
           <div className="gutter">
             <div className="network-status-container" />
             {this.renderLeftPane()}

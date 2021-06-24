@@ -39,7 +39,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
     if (
       window.inboxStore?.getState().userConfig.audioAutoplay === true &&
       props.playNextMessage &&
-      props.playableMessageIndex !== undefined 
+      props.playableMessageIndex !== undefined
     ) {
       props.playNextMessage(props.playableMessageIndex);
     }

@@ -2,7 +2,9 @@ import promise from 'redux-promise-middleware';
 import { createLogger } from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
 import { reducer as allReducers } from './reducer';
-import { persistReducer } from "redux-persist";
+import { persistReducer } from 'redux-persist';
+
+// tslint:disable-next-line: no-submodule-imports match-default-export-name
 import storage from 'redux-persist/lib/storage';
 
 // @ts-ignore
@@ -27,8 +29,8 @@ const logger = createLogger({
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['userConfig']
-}
+  whitelist: ['userConfig'],
+};
 
 const persistedReducer = persistReducer(persistConfig, allReducers);
 
