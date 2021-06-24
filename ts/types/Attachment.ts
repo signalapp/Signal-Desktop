@@ -31,7 +31,7 @@ export type AttachmentType = {
   /** For messages not already on disk, this will be a data url */
   url?: string;
   size?: number;
-  fileSize?: number;
+  fileSize?: string;
   pending?: boolean;
   width?: number;
   height?: number;
