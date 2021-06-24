@@ -287,7 +287,7 @@ window.Signal = Signal.setup({
   logger: window.log,
 });
 
-window.SwarmPolling = require('./ts/session/snode_api/swarmPolling').SwarmPolling.getInstance();
+window.getSwarmPollingInstance = require('./ts/session/snode_api/').getSwarmPollingInstance;
 
 const WorkerInterface = require('./js/modules/util_worker_interface');
 

@@ -30,9 +30,9 @@ import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMe
 import { ClosedGroupEncryptionPairRequestMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairRequestMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
-import { SwarmPolling } from '../snode_api/swarmPolling';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
+import { getSwarmPollingInstance } from '../snode_api';
 
 export type GroupInfo = {
   id: string;
@@ -331,7 +331,7 @@ export async function leaveClosedGroup(groupId: string) {
 
   window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
   // sent the message to the group and once done, remove everything related to this group
-  SwarmPolling.getInstance().removePubkey(groupId);
+  getSwarmPollingInstance().removePubkey(groupId);
   await getMessageQueue().sendToGroup(ourLeavingMessage, async () => {
     window?.log?.info(
       `Leaving message sent ${groupId}. Removing everything related to this group.`

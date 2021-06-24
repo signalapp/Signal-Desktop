@@ -39,7 +39,7 @@ import {
 import { OpenGroupManagerV2 } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
-import { SwarmPolling } from '../../session/snode_api/swarmPolling';
+import { getSwarmPollingInstance } from '../../session/snode_api';
 import { IMAGE_JPEG } from '../../types/MIME';
 import { FSv2 } from '../../fileserver';
 import { debounce } from 'lodash';
@@ -276,8 +276,8 @@ const doAppStartUp = () => {
 
   // TODO: Investigate the case where we reconnect
   const ourKey = UserUtils.getOurPubKeyStrFromCache();
-  SwarmPolling.getInstance().addPubkey(ourKey);
-  SwarmPolling.getInstance().start();
+  getSwarmPollingInstance().addPubkey(ourKey);
+  getSwarmPollingInstance().start();
 };
 
 /**

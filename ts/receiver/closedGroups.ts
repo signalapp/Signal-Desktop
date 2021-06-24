@@ -33,7 +33,7 @@ import { getMessageController } from '../session/messages';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { queueAllCachedFromSource } from './receiver';
 import { actions as conversationActions } from '../state/ducks/conversations';
-import { SwarmPolling } from '../session/snode_api/swarmPolling';
+import { getSwarmPollingInstance } from '../session/snode_api';
 import { MessageModel } from '../models/message';
 
 import { updateConfirmModal } from '../state/ducks/modalDialog';
@@ -275,7 +275,7 @@ export async function handleNewClosedGroup(
   await addClosedGroupEncryptionKeyPair(groupId, ecKeyPair.toHexKeyPair());
 
   // start polling for this new group
-  SwarmPolling.getInstance().addGroupId(PubKey.cast(groupId));
+  getSwarmPollingInstance().addGroupId(PubKey.cast(groupId));
 
   await removeFromCache(envelope);
   // trigger decrypting of all this group messages we did not decrypt successfully yet.
@@ -298,7 +298,7 @@ export async function markGroupAsLeftOrKicked(
   } else {
     groupConvo.set('left', true);
   }
-  SwarmPolling.getInstance().removePubkey(groupPublicKey);
+  getSwarmPollingInstance().removePubkey(groupPublicKey);
 }
 
 /**
@@ -903,7 +903,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
     }
 
     // Subscribe to this group id
-    SwarmPolling.getInstance().addGroupId(new PubKey(groupPublicKey));
+    getSwarmPollingInstance().addGroupId(new PubKey(groupPublicKey));
   }
 
   await forceSyncConfigurationNowIfNeeded();

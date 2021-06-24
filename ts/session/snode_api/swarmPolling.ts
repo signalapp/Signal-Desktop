@@ -41,23 +41,23 @@ export function processMessage(message: string, options: any = {}) {
   }
 }
 
+let instance: SwarmPolling | undefined;
+export const getSwarmPollingInstance = () => {
+  if (!instance) {
+    instance = new SwarmPolling();
+  }
+  return instance;
+};
+
 export class SwarmPolling {
-  private static instance: SwarmPolling;
   private pubkeys: Array<PubKey>;
   private groupPubkeys: Array<PubKey>;
   private readonly lastHashes: { [key: string]: PubkeyToHash };
 
-  private constructor() {
+  constructor() {
     this.pubkeys = [];
     this.groupPubkeys = [];
     this.lastHashes = {};
-  }
-
-  public static getInstance() {
-    if (!SwarmPolling.instance) {
-      SwarmPolling.instance = new SwarmPolling();
-    }
-    return SwarmPolling.instance;
   }
 
   public start(): void {
