@@ -45,7 +45,7 @@ import { FSv2 } from '../../fileserver';
 import { debounce } from 'lodash';
 import { DURATION } from '../../session/constants';
 import { actions as conversationActions } from '../../state/ducks/conversations';
-import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusDialog';
+import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusPathDialog';
 import { EditProfileDialog } from '../EditProfileDialog';
 import { SessionConfirm } from './SessionConfirm';
 import {

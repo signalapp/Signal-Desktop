@@ -22,7 +22,7 @@ import { RemoveModeratorsDialog } from '../conversation/ModeratorsRemoveDialog';
 import { UpdateGroupMembersDialog } from '../conversation/UpdateGroupMembersDialog';
 import { UpdateGroupNameDialog } from '../conversation/UpdateGroupNameDialog';
 import { EditProfileDialog } from '../EditProfileDialog';
-import { OnionPathModal } from '../OnionStatusDialog';
+import { OnionPathModal } from '../OnionStatusPathDialog';
 import { UserDetailsDialog } from '../UserDetailsDialog';
 import { SessionConfirm } from './SessionConfirm';
 import { SessionNicknameDialog } from './SessionNicknameDialog';
