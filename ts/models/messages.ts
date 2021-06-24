@@ -387,7 +387,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return PLACEHOLDER_CONTACT;
     }
 
-    const contactModel = this.findContact(identifier);
+    const identifierHolder = { identifier };
+
+    window.normalizeUuids(
+      identifierHolder,
+      ['identifier'],
+      'findAndFormatContact'
+    );
+
+    const contactModel = this.findContact(identifierHolder.identifier);
     if (contactModel) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return contactModel.format()!;
