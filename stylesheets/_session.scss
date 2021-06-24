@@ -18,6 +18,10 @@
   word-break: break-all;
 }
 
+.session-icon-button svg path {
+  transition: fill 0.3s ease;
+}
+
 input,
 textarea {
   caret-color: $session-color-green !important;

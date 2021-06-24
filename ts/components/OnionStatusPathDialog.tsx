@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StateType } from '../state/reducer';
 import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
 
-import { SessionWrapperModal } from '../components/session/SessionWrapperModal';
+import { SessionWrapperModal } from './session/SessionWrapperModal';
 
 import ip2country from 'ip2country';
 import countryLookup from 'country-code-lookup';
@@ -26,6 +26,7 @@ import {
 
 // tslint:disable-next-line: no-submodule-imports
 import useNetworkState from 'react-use/lib/useNetworkState';
+import { SessionSpinner } from './session/SessionSpinner';
 
 export type StatusLightType = {
   glowStartDelay: number;
@@ -37,6 +38,10 @@ const OnionPathModalInner = () => {
   const onionPath = useSelector(getFirstOnionPath);
   // including the device and destination in calculation
   const glowDuration = onionPath.length + 2;
+  console.warn('onionPath', onionPath);
+  if (!onionPath || onionPath.length === 0) {
+    return <SessionSpinner loading={true} />;
+  }
 
   const nodes = [
     {
@@ -116,7 +121,7 @@ export const ModalStatusLight = (props: StatusLightType) => {
       glowDuration={glowDuration}
       glowStartDelay={glowStartDelay}
       iconType={SessionIconType.Circle}
-      iconSize={SessionIconSize.Medium}
+      iconSize={SessionIconSize.Small}
       theme={theme}
     />
   );

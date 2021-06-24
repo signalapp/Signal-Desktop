@@ -78,7 +78,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     );
 
     const isAdmin = this.convo.isPublic()
-      ? this.convo.isAdmin(window.storage.get('primaryDevicePubKey'))
+      ? false // disable editing of opengroup rooms as we don't handle them for now
       : true;
 
     return (

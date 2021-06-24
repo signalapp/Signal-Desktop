@@ -1,25 +1,19 @@
 import React from 'react';
 
-import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { missingCaseError, PasswordUtil } from '../../util/';
 import { ToastUtils } from '../../session/utils';
 import { SessionIconType } from './icon';
-import { DefaultTheme, withTheme } from 'styled-components';
 import { getPasswordHash } from '../../data/data';
 import { SessionWrapperModal } from './SessionWrapperModal';
 import { SpacerLG, SpacerSM } from '../basic/Text';
-export enum PasswordAction {
-  Set = 'set',
-  Change = 'change',
-  Remove = 'remove',
-}
+import autoBind from 'auto-bind';
+import { sessionPassword } from '../../state/ducks/modalDialog';
+export type PasswordAction = 'set' | 'change' | 'remove';
 
 interface Props {
-  action: PasswordAction;
-  onOk: any;
-  onClose: any;
-  theme: DefaultTheme;
+  passwordAction: PasswordAction;
+  onOk: () => void;
 }
 
 interface State {
@@ -29,7 +23,7 @@ interface State {
   currentPasswordRetypeEntered: string | null;
 }
 
-class SessionPasswordModalInner extends React.Component<Props, State> {
+export class SessionPasswordModal extends React.Component<Props, State> {
   private passportInput: HTMLInputElement | null = null;
 
   constructor(props: any) {
@@ -42,14 +36,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       currentPasswordRetypeEntered: null,
     };
 
-    this.showError = this.showError.bind(this);
-
-    this.setPassword = this.setPassword.bind(this);
-    this.closeDialog = this.closeDialog.bind(this);
-
-    this.onPasswordInput = this.onPasswordInput.bind(this);
-    this.onPasswordConfirmInput = this.onPasswordConfirmInput.bind(this);
-    this.onPasswordRetypeInput = this.onPasswordRetypeInput.bind(this);
+    autoBind(this);
   }
 
   public componentDidMount() {
@@ -60,9 +47,9 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
   }
 
   public render() {
-    const { action, onOk } = this.props;
+    const { passwordAction } = this.props;
     const placeholders =
-      action === PasswordAction.Change
+      passwordAction === 'change'
         ? [
             window.i18n('typeInOldPassword'),
             window.i18n('enterPassword'),
@@ -71,10 +58,13 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
         : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
 
     const confirmButtonColor =
-      action === PasswordAction.Remove ? SessionButtonColor.Danger : SessionButtonColor.Primary;
+      passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Primary;
 
     return (
-      <SessionWrapperModal title={window.i18n(`${action}Password`)} onClose={this.closeDialog}>
+      <SessionWrapperModal
+        title={window.i18n(`${passwordAction}Password`)}
+        onClose={this.closeDialog}
+      >
         <SpacerSM />
 
         <div className="session-modal__input-group">
@@ -87,7 +77,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
             placeholder={placeholders[0]}
             onKeyUp={this.onPasswordInput}
           />
-          {action !== PasswordAction.Remove && (
+          {passwordAction !== 'remove' && (
             <input
               type="password"
               id="password-modal-input-confirm"
@@ -95,7 +85,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
               onKeyUp={this.onPasswordConfirmInput}
             />
           )}
-          {action === PasswordAction.Change && (
+          {passwordAction === 'change' && (
             <input
               type="password"
               id="password-modal-input-reconfirm"
@@ -183,7 +173,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       SessionIconType.Lock
     );
 
-    this.props.onOk(this.props.action);
+    this.props.onOk();
     this.closeDialog();
   }
 
@@ -222,7 +212,7 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       SessionIconType.Lock
     );
 
-    this.props.onOk(this.props.action);
+    this.props.onOk();
     this.closeDialog();
   }
 
@@ -243,31 +233,30 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
       window.i18n('removePasswordToastDescription')
     );
 
-    this.props.onOk(this.props.action);
+    this.props.onOk();
     this.closeDialog();
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async setPassword() {
-    const { action } = this.props;
+    const { passwordAction } = this.props;
     const {
       currentPasswordEntered,
       currentPasswordConfirmEntered,
       currentPasswordRetypeEntered,
     } = this.state;
-    const { Set, Remove, Change } = PasswordAction;
 
     // Trim leading / trailing whitespace for UX
     const firstPasswordEntered = (currentPasswordEntered || '').trim();
     const secondPasswordEntered = (currentPasswordConfirmEntered || '').trim();
     const thirdPasswordEntered = (currentPasswordRetypeEntered || '').trim();
 
-    switch (action) {
-      case Set: {
+    switch (passwordAction) {
+      case 'set': {
         await this.handleActionSet(firstPasswordEntered, secondPasswordEntered);
         return;
       }
-      case Change: {
+      case 'change': {
         await this.handleActionChange(
           firstPasswordEntered,
           secondPasswordEntered,
@@ -275,19 +264,17 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
         );
         return;
       }
-      case Remove: {
+      case 'remove': {
         await this.handleActionRemove(firstPasswordEntered);
         return;
       }
       default:
-        throw missingCaseError(action);
+        throw missingCaseError(passwordAction);
     }
   }
 
   private closeDialog() {
-    if (this.props.onClose) {
-      this.props.onClose();
-    }
+    window.inboxStore?.dispatch(sessionPassword(null));
   }
 
   private async onPasswordInput(event: any) {
@@ -317,5 +304,3 @@ class SessionPasswordModalInner extends React.Component<Props, State> {
     this.setState({ currentPasswordRetypeEntered });
   }
 }
-
-export const SessionPasswordModal = withTheme(SessionPasswordModalInner);

@@ -45,7 +45,7 @@ import { FSv2 } from '../../fileserver';
 import { debounce } from 'lodash';
 import { DURATION } from '../../session/constants';
 import { actions as conversationActions } from '../../state/ducks/conversations';
-import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusDialog';
+import { ActionPanelOnionStatusLight, OnionPathModal } from '../OnionStatusPathDialog';
 import { EditProfileDialog } from '../EditProfileDialog';
 import { SessionConfirm } from './SessionConfirm';
 import {
@@ -73,6 +73,7 @@ import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog'
 import { SessionSeedModal } from './SessionSeedModal';
 import { AdminLeaveClosedGroupDialog } from '../conversation/AdminLeaveClosedGroupDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
+import { ModalContainer } from './ModalContainer';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -277,42 +278,6 @@ const doAppStartUp = () => {
   const ourKey = UserUtils.getOurPubKeyStrFromCache();
   SwarmPolling.getInstance().addPubkey(ourKey);
   SwarmPolling.getInstance().start();
-};
-
-const ModalContainer = () => {
-  const confirmModalState = useSelector(getConfirmModal);
-  const inviteModalState = useSelector(getInviteContactModal);
-  const addModeratorsModalState = useSelector(getAddModeratorsModal);
-  const removeModeratorsModalState = useSelector(getRemoveModeratorsModal);
-  const updateGroupMembersModalState = useSelector(getUpdateGroupMembersModal);
-  const updateGroupNameModalState = useSelector(getUpdateGroupNameModal);
-  const userDetailsModalState = useSelector(getUserDetailsModal);
-  const changeNicknameModal = useSelector(getChangeNickNameDialog);
-  const editProfileModalState = useSelector(getEditProfileDialog);
-  const onionPathModalState = useSelector(getOnionPathDialog);
-  const recoveryPhraseModalState = useSelector(getRecoveryPhraseDialog);
-  const adminLeaveClosedGroupModalState = useSelector(getAdminLeaveClosedGroupDialog);
-
-  return (
-    <>
-      {confirmModalState && <SessionConfirm {...confirmModalState} />}
-      {inviteModalState && <InviteContactsDialog {...inviteModalState} />}
-      {addModeratorsModalState && <AddModeratorsDialog {...addModeratorsModalState} />}
-      {removeModeratorsModalState && <RemoveModeratorsDialog {...removeModeratorsModalState} />}
-      {updateGroupMembersModalState && (
-        <UpdateGroupMembersDialog {...updateGroupMembersModalState} />
-      )}
-      {updateGroupNameModalState && <UpdateGroupNameDialog {...updateGroupNameModalState} />}
-      {userDetailsModalState && <UserDetailsDialog {...userDetailsModalState} />}
-      {changeNicknameModal && <SessionNicknameDialog {...changeNicknameModal} />}
-      {editProfileModalState && <EditProfileDialog {...editProfileModalState} />}
-      {onionPathModalState && <OnionPathModal {...onionPathModalState} />}
-      {recoveryPhraseModalState && <SessionSeedModal {...recoveryPhraseModalState} />}
-      {adminLeaveClosedGroupModalState && (
-        <AdminLeaveClosedGroupDialog {...adminLeaveClosedGroupModalState} />
-      )}
-    </>
-  );
 };
 
 /**

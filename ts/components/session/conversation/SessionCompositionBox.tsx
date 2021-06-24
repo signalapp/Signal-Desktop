@@ -33,15 +33,9 @@ import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
 import { SectionType } from '../ActionsPanel';
 import { SessionSettingCategory } from '../settings/SessionSettings';
-import {
-  defaultMentionsInputReducer,
-  updateMentionsMembers,
-} from '../../../state/ducks/mentionsInput';
 import { getMentionsInput } from '../../../state/selectors/mentionsInput';
-import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../SessionButton';
-import { any } from 'underscore';
 import { SessionConfirmDialogProps } from '../SessionConfirm';
 
 export interface ReplyingToMessageProps {
@@ -93,7 +87,6 @@ interface Props {
   showLeftPaneSection: (section: SectionType) => void;
   showSettingsSection: (category: SessionSettingCategory) => void;
   theme: DefaultTheme;
-  updateConfirmModal: (props: SessionConfirmDialogProps) => any;
 }
 
 interface State {
@@ -247,15 +240,17 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private showLinkSharingConfirmationModalDialog(e: any) {
     const pastedText = e.clipboardData.getData('text');
     if (this.isURL(pastedText)) {
-      this.props.updateConfirmModal({
-        shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
-        title: window.i18n('linkPreviewsTitle'),
-        message: window.i18n('linkPreviewsConfirmMessage'),
-        okTheme: SessionButtonColor.Danger,
-        onClickOk: () => {
-          window.setSettingValue('link-preview-setting', true);
-        },
-      });
+      window.inboxStore?.dispatch(
+        updateConfirmModal({
+          shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
+          title: window.i18n('linkPreviewsTitle'),
+          message: window.i18n('linkPreviewsConfirmMessage'),
+          okTheme: SessionButtonColor.Danger,
+          onClickOk: () => {
+            window.setSettingValue('link-preview-setting', true);
+          },
+        })
+      );
     }
   }
 

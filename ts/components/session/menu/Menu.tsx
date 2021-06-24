@@ -10,7 +10,6 @@ import {
   updateConfirmModal,
 } from '../../../state/ducks/modalDialog';
 import { ConversationController } from '../../../session/conversations';
-import { UserUtils } from '../../../session/utils';
 import {
   blockConvoById,
   clearNickNameByConvoId,

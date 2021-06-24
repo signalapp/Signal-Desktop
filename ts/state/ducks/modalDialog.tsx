@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SessionConfirmDialogProps } from '../../components/session/SessionConfirm';
+import { PasswordAction } from '../../components/session/SessionPasswordModal';
 
 export type ConfirmModalState = SessionConfirmDialogProps | null;
 export type InviteContactModalState = { conversationId: string } | null;
@@ -12,6 +13,8 @@ export type AdminLeaveClosedGroupModalState = InviteContactModalState;
 export type EditProfileModalState = {} | null;
 export type OnionPathModalState = EditProfileModalState;
 export type RecoveryPhraseModalState = EditProfileModalState;
+
+export type SessionPasswordModalState = { passwordAction: PasswordAction; onOk: () => void } | null;
 
 export type UserDetailsModalState = {
   conversationId: string;
@@ -32,6 +35,7 @@ export type ModalState = {
   onionPathModal: OnionPathModalState;
   recoveryPhraseModal: RecoveryPhraseModalState;
   adminLeaveClosedGroup: AdminLeaveClosedGroupModalState;
+  sessionPasswordModal: SessionPasswordModalState;
 };
 
 export const initialModalState: ModalState = {
@@ -47,6 +51,7 @@ export const initialModalState: ModalState = {
   onionPathModal: null,
   recoveryPhraseModal: null,
   adminLeaveClosedGroup: null,
+  sessionPasswordModal: null,
 };
 
 const ModalSlice = createSlice({
@@ -89,6 +94,9 @@ const ModalSlice = createSlice({
     adminLeaveClosedGroup(state, action: PayloadAction<AdminLeaveClosedGroupModalState | null>) {
       return { ...state, adminLeaveClosedGroup: action.payload };
     },
+    sessionPassword(state, action: PayloadAction<SessionPasswordModalState>) {
+      return { ...state, sessionPasswordModal: action.payload };
+    },
   },
 });
 
@@ -106,5 +114,6 @@ export const {
   onionPathModal,
   recoveryPhraseModal,
   adminLeaveClosedGroup,
+  sessionPassword,
 } = actions;
 export const modalReducer = reducer;
