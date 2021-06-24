@@ -30,6 +30,7 @@ import {
   isOutgoing,
   isTapToView,
 } from '../state/selectors/message';
+import { getMessagesByConversation } from '../state/selectors/conversations';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 
@@ -1142,7 +1143,20 @@ Whisper.ConversationView = Whisper.View.extend({
       throw new Error(`scrollToMessage: failed to load message ${messageId}`);
     }
 
-    const isInMemory = Boolean(window.MessageController.getById(messageId));
+    const state = window.reduxStore.getState();
+
+    let isInMemory = true;
+
+    if (!window.MessageController.getById(messageId)) {
+      isInMemory = false;
+    }
+
+    // Message might be in memory, but not in the redux anymore because
+    // we call `messageReset()` in `loadAndScroll()`.
+    const messagesByConversation = getMessagesByConversation(state)[model.id];
+    if (!messagesByConversation?.messageIds.includes(messageId)) {
+      isInMemory = false;
+    }
 
     if (isInMemory) {
       const { scrollToMessage } = window.reduxActions.conversations;
