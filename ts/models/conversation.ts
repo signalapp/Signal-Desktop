@@ -94,6 +94,7 @@ export interface ConversationAttributes {
   profileKey?: string;
   accessKey?: any;
   triggerNotificationsFor: ConversationNotificationSettingType;
+  isTrustedForAttachmentDownload: boolean;
 }
 
 export interface ConversationAttributesOptionals {
@@ -130,6 +131,7 @@ export interface ConversationAttributesOptionals {
   profileKey?: string;
   accessKey?: any;
   triggerNotificationsFor?: ConversationNotificationSettingType;
+  isTrustedForAttachmentDownload?: boolean;
 }
 
 /**
@@ -158,6 +160,7 @@ export const fillConvoAttributesWithDefaults = (
     mentionedUs: false,
     active_at: 0,
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
+    isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
   });
 };
 

@@ -34,6 +34,7 @@ import { acceptOpenGroupInvitation } from '../interactions/messageInteractions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { getMessageController } from '../session/messages';
+import { isUsFromCache } from '../session/utils/User';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
@@ -516,6 +517,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const isPublicOpenGroupV2 = isOpenGroupV2(this.getConversation()?.id || '');
 
     const attachments = this.get('attachments') || [];
+    const isTrustedForAttachmentDownload = this.isTrustedForAttachmentDownload();
 
     return {
       text: this.createNonBreakingLastSeparator(this.get('body')),
@@ -541,6 +543,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       isPublic,
       isOpenGroupV2: isPublicOpenGroupV2,
       isKickedFromGroup: conversation && conversation.get('isKickedFromGroup'),
+      isTrustedForAttachmentDownload,
 
       onRetrySend: this.retrySend,
       markRead: this.markRead,
@@ -1107,6 +1110,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         sentAt: this.get('sent_at'),
       });
     }
+  }
+
+  public isTrustedForAttachmentDownload() {
+    const convoId = this.getSource();
+    if (!!this.get('isPublic') || isUsFromCache(convoId)) {
+      return true;
+    }
+    // check the convo from this user
+    // we want the convo of the sender of this message
+    const senderConvo = getConversationController().get(convoId);
+    if (!senderConvo) {
+      return false;
+    }
+    return senderConvo.get('isTrustedForAttachmentDownload') || false;
   }
 }
 export class MessageCollection extends Backbone.Collection<MessageModel> {}

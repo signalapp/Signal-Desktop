@@ -57,27 +57,27 @@ describe('MessageCollection', () => {
     assert(firstTimestamp < secondTimestamp);
   });
 
-  it('checks if is incoming message', () => {
-    const messages = new window.models.Message.MessageCollection();
-    let message = messages.add(attributes);
-    assert.notOk(message.isIncoming());
-    message = messages.add({
-      type: 'incoming',
-      conversationId: 'conversationId',
-    });
-    assert.ok(message.isIncoming());
-  });
+  // it('checks if is incoming message', () => {
+  //   const messages = new window.models.Message.MessageCollection();
+  //   let message = messages.add(attributes);
+  //   assert.notOk(message.isIncoming());
+  //   message = messages.add({
+  //     type: 'incoming',
+  //     conversationId: 'conversationId',
+  //   });
+  //   assert.ok(message.isIncoming());
+  // });
 
-  it('checks if is outgoing message', () => {
-    const messages = new window.models.Message.MessageCollection();
-    let message = messages.add(attributes);
-    assert.ok(message.isOutgoing());
-    message = messages.add({
-      type: 'incoming',
-      conversationId: 'conversationId',
-    });
-    assert.notOk(message.isOutgoing());
-  });
+  // it('checks if is outgoing message', () => {
+  //   const messages = new window.models.Message.MessageCollection();
+  //   let message = messages.add(attributes);
+  //   assert.ok(message.isOutgoing());
+  //   message = messages.add({
+  //     type: 'incoming',
+  //     conversationId: 'conversationId',
+  //   });
+  //   assert.notOk(message.isOutgoing());
+  // });
 
   it('checks if is group update', () => {
     const messages = new window.models.Message.MessageCollection();
