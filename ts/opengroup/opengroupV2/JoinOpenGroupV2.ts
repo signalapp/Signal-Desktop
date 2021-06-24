@@ -1,5 +1,5 @@
 import { getV2OpenGroupRoomByRoomId, OpenGroupV2Room } from '../../data/opengroups';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { PromiseUtils, ToastUtils } from '../../session/utils';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import {
@@ -65,7 +65,7 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
 
   const alreadyExist = await getV2OpenGroupRoomByRoomId({ serverUrl, roomId });
   const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
-  const existingConvo = ConversationController.getInstance().get(conversationId);
+  const existingConvo = getConversationController().get(conversationId);
 
   if (alreadyExist && existingConvo) {
     window?.log?.warn('Skipping join opengroupv2: already exists');
@@ -73,7 +73,7 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
   } else if (existingConvo) {
     // we already have a convo associated with it. Remove everything related to it so we start fresh
     window?.log?.warn('leaving before rejoining open group v2 room', conversationId);
-    await ConversationController.getInstance().deleteContact(conversationId);
+    await getConversationController().deleteContact(conversationId);
   }
 
   // Try to connect to server
@@ -132,7 +132,7 @@ export async function joinOpenGroupV2WithUIEvents(
       return false;
     }
     const conversationID = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
-    if (ConversationController.getInstance().get(conversationID)) {
+    if (getConversationController().get(conversationID)) {
       if (showToasts) {
         ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
       }
@@ -146,7 +146,7 @@ export async function joinOpenGroupV2WithUIEvents(
     }
     await joinOpenGroupV2(parsedRoom, fromConfigMessage);
 
-    const isConvoCreated = ConversationController.getInstance().get(conversationID);
+    const isConvoCreated = getConversationController().get(conversationID);
     if (isConvoCreated) {
       if (showToasts) {
         ToastUtils.pushToastSuccess(

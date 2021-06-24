@@ -38,7 +38,6 @@ const OnionPathModalInner = () => {
   const onionPath = useSelector(getFirstOnionPath);
   // including the device and destination in calculation
   const glowDuration = onionPath.length + 2;
-  console.warn('onionPath', onionPath);
   if (!onionPath || onionPath.length === 0) {
     return <SessionSpinner loading={true} />;
   }

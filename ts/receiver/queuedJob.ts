@@ -5,7 +5,7 @@ import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { SignalService } from '../protobuf';
 import { StringUtils, UserUtils } from '../session/utils';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { MessageModel } from '../models/message';
 import { MessageController } from '../session/messages';
@@ -344,7 +344,7 @@ async function handleRegularMessage(
     });
   }
 
-  const sendingDeviceConversation = await ConversationController.getInstance().getOrCreateAndWait(
+  const sendingDeviceConversation = await getConversationController().getOrCreateAndWait(
     source,
     ConversationTypeEnum.PRIVATE
   );

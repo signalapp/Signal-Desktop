@@ -13,7 +13,7 @@ import {
 } from '../../../ts/data/data';
 
 import { StringUtils } from '../../session/utils';
-import { ConversationController } from '../conversations';
+import { getConversationController } from '../conversations';
 import { ConversationModel } from '../../models/conversation';
 
 type PubkeyToHash = { [key: string]: string };
@@ -155,7 +155,7 @@ export class SwarmPolling {
 
   private loadGroupIds() {
     // Start polling for medium size groups as well (they might be in different swarms)
-    const convos = ConversationController.getInstance().getConversations();
+    const convos = getConversationController().getConversations();
 
     const mediumGroupsOnly = convos.filter(
       (c: ConversationModel) =>

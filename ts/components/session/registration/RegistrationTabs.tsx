@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PromiseUtils, StringUtils, ToastUtils, UserUtils } from '../../../session/utils';
-import { ConversationController } from '../../../session/conversations';
+import { getConversationController } from '../../../session/conversations';
 import { createOrUpdateItem, removeAll } from '../../../data/data';
 import { SignUpTab } from './SignUpTab';
 import { SignInTab } from './SignInTab';
@@ -63,8 +63,8 @@ export async function resetRegistration() {
   await removeAll();
   await window.storage.reset();
   await window.storage.fetch();
-  ConversationController.getInstance().reset();
-  await ConversationController.getInstance().load();
+  getConversationController().reset();
+  await getConversationController().load();
 }
 
 const passwordsAreValid = (password: string, verifyPassword: string) => {

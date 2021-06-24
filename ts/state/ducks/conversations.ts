@@ -2,7 +2,7 @@ import _, { omit } from 'lodash';
 
 import { Constants } from '../../session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { MessageModel } from '../../models/message';
 import { getMessagesByConversation } from '../../data/data';
 import { ConversationTypeEnum } from '../../models/conversation';
@@ -98,7 +98,7 @@ async function getMessages(
   conversationKey: string,
   numMessages: number
 ): Promise<Array<MessageTypeInConvo>> {
-  const conversation = ConversationController.getInstance().get(conversationKey);
+  const conversation = getConversationController().get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
     window?.log?.error('Failed to get convo on reducer.');

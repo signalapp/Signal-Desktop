@@ -3,7 +3,7 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar, AvatarSize } from '../Avatar';
 import { darkTheme, lightTheme } from '../../state/ducks/SessionTheme';
 import { SessionToastContainer } from './SessionToastContainer';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 
@@ -118,7 +118,7 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
   };
 
   if (type === SectionType.Profile) {
-    const conversation = ConversationController.getInstance().get(ourNumber);
+    const conversation = getConversationController().get(ourNumber);
 
     const profile = conversation?.getLokiProfile();
     const userName = (profile && profile.displayName) || ourNumber;
@@ -220,7 +220,7 @@ const removeAllV1OpenGroups = async () => {
     try {
       await removeConversation(v1Convo.id);
       window.log.info(`deleting v1convo : ${v1Convo.id}`);
-      ConversationController.getInstance().unsafeDelete(v1Convo);
+      getConversationController().unsafeDelete(v1Convo);
       if (window.inboxStore) {
         window.inboxStore?.dispatch(conversationActions.conversationRemoved(v1Convo.id));
         window.inboxStore?.dispatch(

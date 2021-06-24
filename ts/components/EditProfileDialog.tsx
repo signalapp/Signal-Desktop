@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
@@ -15,7 +15,7 @@ import { ConversationModel, ConversationTypeEnum } from '../models/conversation'
 
 import { SessionWrapperModal } from './session/SessionWrapperModal';
 import { AttachmentUtil } from '../util';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { SpacerLG, SpacerMD } from './basic/Text';
 import autoBind from 'auto-bind';
 import { editProfileModal } from '../state/ducks/modalDialog';
@@ -38,7 +38,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
 
     autoBind(this);
 
-    this.convo = ConversationController.getInstance().get(UserUtils.getOurPubKeyStrFromCache());
+    this.convo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
 
     this.state = {
       profileName: this.convo.getProfileName() || '',
@@ -313,7 +313,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
 
   private async commitProfileEdits(newName: string, avatar: any) {
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+    const conversation = await getConversationController().getOrCreateAndWait(
       ourNumber,
       ConversationTypeEnum.PRIVATE
     );

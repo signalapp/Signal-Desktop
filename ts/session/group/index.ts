@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { fromHexToArray, toHex } from '../utils/String';
 import { BlockedNumberController } from '../../util/blockedNumberController';
-import { ConversationController } from '../conversations';
+import { getConversationController } from '../conversations';
 import {
   addClosedGroupEncryptionKeyPair,
   getLatestClosedGroupEncryptionKeyPair,
@@ -69,7 +69,7 @@ export async function initiateGroupUpdate(
   members: Array<string>,
   avatar: any
 ) {
-  const convo = await ConversationController.getInstance().getOrCreateAndWait(
+  const convo = await getConversationController().getOrCreateAndWait(
     groupId,
     ConversationTypeEnum.GROUP
   );
@@ -214,7 +214,7 @@ function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff 
 export async function updateOrCreateClosedGroup(details: GroupInfo) {
   const { id, weWereJustAdded } = details;
 
-  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+  const conversation = await getConversationController().getOrCreateAndWait(
     id,
     ConversationTypeEnum.GROUP
   );
@@ -284,7 +284,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 }
 
 export async function leaveClosedGroup(groupId: string) {
-  const convo = ConversationController.getInstance().get(groupId);
+  const convo = getConversationController().get(groupId);
 
   if (!convo) {
     window?.log?.error('Cannot leave non-existing group');
@@ -402,7 +402,7 @@ async function sendAddedMembers(
   });
 
   const promises = addedMembers.map(async m => {
-    await ConversationController.getInstance().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE);
+    await getConversationController().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE);
     const memberPubKey = PubKey.cast(m);
     await getMessageQueue().sendToPubKey(memberPubKey, newClosedGroupUpdate);
   });
@@ -455,7 +455,7 @@ async function generateAndSendNewEncryptionKeyPair(
   groupPublicKey: string,
   targetMembers: Array<string>
 ) {
-  const groupConvo = ConversationController.getInstance().get(groupPublicKey);
+  const groupConvo = getConversationController().get(groupPublicKey);
   const groupId = fromHexToArray(groupPublicKey);
 
   if (!groupConvo) {
@@ -545,7 +545,7 @@ export async function requestEncryptionKeyPair(groupPublicKey: string | PubKey) 
     throw new Error('useRequestEncryptionKeyPair is disabled');
   }
 
-  const groupConvo = ConversationController.getInstance().get(PubKey.cast(groupPublicKey).key);
+  const groupConvo = getConversationController().get(PubKey.cast(groupPublicKey).key);
 
   if (!groupConvo) {
     window?.log?.warn(

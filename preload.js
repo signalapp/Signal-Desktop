@@ -152,8 +152,7 @@ window.setPassword = (passPhrase, oldPhrase) =>
 
 window.libsession = require('./ts/session');
 
-window.getConversationController =
-  window.libsession.Conversations.ConversationController.getInstance;
+window.getConversationController = window.libsession.Conversations.getConversationController;
 
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
@@ -346,9 +345,6 @@ window.Signal = window.Signal || {};
 window.Signal.Data = require('./ts/data/data');
 
 window.getMessageController = () => window.libsession.Messages.MessageController.getInstance();
-
-window.getConversationController = () =>
-  window.libsession.Conversations.ConversationController.getInstance();
 
 // Pulling these in separately since they access filesystem, electron
 window.Signal.Backup = require('./js/modules/backup');

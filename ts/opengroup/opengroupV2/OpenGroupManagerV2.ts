@@ -6,7 +6,7 @@ import {
   saveV2OpenGroupRoom,
 } from '../../data/opengroups';
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { allowOnlyOneAtATime } from '../../session/utils/Promise';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
@@ -167,7 +167,7 @@ export class OpenGroupManagerV2 {
   ): Promise<ConversationModel | undefined> {
     const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
 
-    if (ConversationController.getInstance().get(conversationId)) {
+    if (getConversationController().get(conversationId)) {
       // Url incorrect or server not compatible
       throw new Error(window.i18n('publicChatExists'));
     }
@@ -190,7 +190,7 @@ export class OpenGroupManagerV2 {
       if (!roomInfos) {
         throw new Error('Invalid open group roomInfo result');
       }
-      const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+      const conversation = await getConversationController().getOrCreateAndWait(
         conversationId,
         ConversationTypeEnum.GROUP
       );

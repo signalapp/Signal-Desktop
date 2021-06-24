@@ -8,7 +8,7 @@ import { SpacerMD } from '../basic/Text';
 import { updateGroupNameModal } from '../../state/ducks/modalDialog';
 import autoBind from 'auto-bind';
 import { ConversationModel } from '../../models/conversation';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { ClosedGroup } from '../../session';
 
 type Props = {
@@ -30,7 +30,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     super(props);
 
     autoBind(this);
-    this.convo = ConversationController.getInstance().get(props.conversationId);
+    this.convo = getConversationController().get(props.conversationId);
 
     this.state = {
       groupName: this.convo.getName(),

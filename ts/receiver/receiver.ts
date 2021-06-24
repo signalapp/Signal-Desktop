@@ -25,7 +25,7 @@ import {
 import { getEnvelopeId } from './common';
 import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { removeUnprocessed } from '../data/data';
 import { ConversationTypeEnum } from '../models/conversation';
 import {
@@ -283,7 +283,7 @@ export async function handlePublicMessage(messageData: any) {
   const isMe = UserUtils.isUsFromCache(source);
 
   if (!isMe && profile) {
-    const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+    const conversation = await getConversationController().getOrCreateAndWait(
       source,
       ConversationTypeEnum.PRIVATE
     );
@@ -336,7 +336,7 @@ export async function handleOpenGroupV2Message(
   }
   const dataMessage = idataMessage as SignalService.DataMessage;
 
-  if (!ConversationController.getInstance().get(conversationId)) {
+  if (!getConversationController().get(conversationId)) {
     window?.log?.error('Received a message for an unknown convo. Skipping');
     return;
   }
@@ -344,7 +344,7 @@ export async function handleOpenGroupV2Message(
   // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
   // source = source || msg.get('source');
 
-  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
+  const conversation = await getConversationController().getOrCreateAndWait(
     conversationId,
     ConversationTypeEnum.GROUP
   );

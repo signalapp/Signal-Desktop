@@ -14,7 +14,7 @@ import { ConversationType } from '../../../state/ducks/conversations';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
-import { ConversationController } from '../../../session/conversations';
+import { getConversationController } from '../../../session/conversations';
 import { MessageModel } from '../../../models/message';
 import { MessageRegularProps } from '../../../models/messageType';
 import { getMessagesBySentAt } from '../../../data/data';
@@ -132,7 +132,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     let displayedName = null;
     if (conversation.type === ConversationTypeEnum.PRIVATE) {
-      displayedName = ConversationController.getInstance().getContactProfileNameOrShortenedPubKey(
+      displayedName = getConversationController().getContactProfileNameOrShortenedPubKey(
         conversationKey
       );
     }
@@ -358,7 +358,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       return;
     }
 
-    const conversation = ConversationController.getInstance().getOrThrow(conversationKey);
+    const conversation = getConversationController().getOrThrow(conversationKey);
 
     if (conversation.isBlocked()) {
       return;
