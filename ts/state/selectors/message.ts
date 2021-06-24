@@ -8,7 +8,6 @@ import {
   LastMessageStatus,
   MessageAttributesType,
   ShallowChallengeError,
-  WhatIsThis,
 } from '../../model-types.d';
 
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
@@ -940,7 +939,7 @@ export function getPropsForEmbeddedContact(
 }
 
 export function getPropsForAttachment(
-  attachment: WhatIsThis
+  attachment: AttachmentType
 ): AttachmentType | null {
   if (!attachment) {
     return null;
@@ -950,10 +949,12 @@ export function getPropsForAttachment(
 
   return {
     ...attachment,
-    fileSize: size ? filesize(size) : null,
+    fileSize: size ? filesize(size) : undefined,
     isVoiceMessage: isVoiceMessage(attachment),
     pending,
-    url: path ? window.Signal.Migrations.getAbsoluteAttachmentPath(path) : null,
+    url: path
+      ? window.Signal.Migrations.getAbsoluteAttachmentPath(path)
+      : undefined,
     screenshot: screenshot
       ? {
           ...screenshot,
@@ -961,7 +962,7 @@ export function getPropsForAttachment(
             screenshot.path
           ),
         }
-      : null,
+      : undefined,
     thumbnail: thumbnail
       ? {
           ...thumbnail,
@@ -969,7 +970,7 @@ export function getPropsForAttachment(
             thumbnail.path
           ),
         }
-      : null,
+      : undefined,
   };
 }
 
