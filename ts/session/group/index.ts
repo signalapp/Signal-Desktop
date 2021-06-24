@@ -19,7 +19,7 @@ import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessag
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
-import { MessageController } from '../messages';
+import { getMessageController } from '../messages';
 import {
   distributingClosedGroupEncryptionKeyPairs,
   markGroupAsLeftOrKicked,
@@ -118,21 +118,21 @@ export async function initiateGroupUpdate(
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = { newName: diff.newName };
     const dbMessageName = await addUpdateMessage(convo, nameOnlyDiff, 'outgoing', Date.now());
-    MessageController.getInstance().register(dbMessageName.id, dbMessageName);
+    getMessageController().register(dbMessageName.id, dbMessageName);
     await sendNewName(convo, diff.newName, dbMessageName.id);
   }
 
   if (diff.joiningMembers?.length) {
     const joiningOnlyDiff: GroupDiff = { joiningMembers: diff.joiningMembers };
     const dbMessageAdded = await addUpdateMessage(convo, joiningOnlyDiff, 'outgoing', Date.now());
-    MessageController.getInstance().register(dbMessageAdded.id, dbMessageAdded);
+    getMessageController().register(dbMessageAdded.id, dbMessageAdded);
     await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id, updateObj);
   }
 
   if (diff.leavingMembers?.length) {
     const leavingOnlyDiff: GroupDiff = { leavingMembers: diff.leavingMembers };
     const dbMessageLeaving = await addUpdateMessage(convo, leavingOnlyDiff, 'outgoing', Date.now());
-    MessageController.getInstance().register(dbMessageLeaving.id, dbMessageLeaving);
+    getMessageController().register(dbMessageLeaving.id, dbMessageLeaving);
     const stillMembers = members;
     await sendRemovedMembers(convo, diff.leavingMembers, stillMembers, dbMessageLeaving.id);
   }
@@ -321,7 +321,7 @@ export async function leaveClosedGroup(groupId: string) {
     received_at: now,
     expireTimer: 0,
   });
-  MessageController.getInstance().register(dbMessage.id, dbMessage);
+  getMessageController().register(dbMessage.id, dbMessage);
   // Send the update to the group
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
     timestamp: Date.now(),

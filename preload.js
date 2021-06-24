@@ -343,7 +343,7 @@ window.models = require('./ts/models');
 window.Signal = window.Signal || {};
 window.Signal.Data = require('./ts/data/data');
 
-window.getMessageController = () => window.libsession.Messages.MessageController.getInstance();
+window.getMessageController = () => window.libsession.Messages.getMessageController();
 
 // Pulling these in separately since they access filesystem, electron
 window.Signal.Backup = require('./js/modules/backup');

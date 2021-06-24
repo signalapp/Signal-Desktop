@@ -6,7 +6,7 @@ import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleM
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
-import { MessageController } from '../session/messages';
+import { getMessageController } from '../session/messages';
 import { leaveClosedGroup } from '../session/group';
 import { SignalService } from '../protobuf';
 import { MessageModel } from './message';
@@ -873,7 +873,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (setToExpire) {
       await model.setToExpire();
     }
-    MessageController.getInstance().register(messageId, model);
+    getMessageController().register(messageId, model);
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: this.id,

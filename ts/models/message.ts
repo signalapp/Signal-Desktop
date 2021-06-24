@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue, Utils } from '../../ts/session';
 import { getConversationController } from '../../ts/session/conversations';
-import { MessageController } from '../../ts/session/messages';
 import { DataMessage } from '../../ts/session/messages/outgoing';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../ts/session/types';
@@ -34,6 +33,7 @@ import {
 import { acceptOpenGroupInvitation } from '../interactions/messageInteractions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { getV2OpenGroupRoom } from '../data/opengroups';
+import { getMessageController } from '../session/messages';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
@@ -262,7 +262,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async cleanup() {
-    MessageController.getInstance().unregister(this.id);
+    getMessageController().unregister(this.id);
     await window.Signal.Migrations.deleteExternalMessageFiles(this.attributes);
   }
 
