@@ -16,12 +16,6 @@ const userConfigSlice = createSlice({
   name: 'userConfig',
   initialState: initialUserConfigState,
   reducers: {
-    updateUserConfig(state: UserConfigState, action: PayloadAction<UserConfigState>) {
-      return {
-        ...state,
-        audioAutoplay: true,
-      };
-    },
     toggleAudioAutoplay: state => {
       state.audioAutoplay = !state.audioAutoplay;
     },
@@ -29,5 +23,5 @@ const userConfigSlice = createSlice({
 });
 
 const { actions, reducer } = userConfigSlice;
-export const { updateUserConfig, toggleAudioAutoplay } = actions;
+export const { toggleAudioAutoplay } = actions;
 export const userConfigReducer = reducer;
