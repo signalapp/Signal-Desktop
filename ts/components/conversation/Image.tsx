@@ -20,6 +20,8 @@ export type Props = {
 
   height?: number;
   width?: number;
+  cropWidth?: number;
+  cropHeight?: number;
   tabIndex?: number;
 
   overlayText?: string;
@@ -158,6 +160,8 @@ export class Image extends React.Component<Props> {
       theme,
       url,
       width = 0,
+      cropWidth = 0,
+      cropHeight = 0,
     } = this.props;
 
     const { caption, pending } = attachment || { caption: null, pending: true };
@@ -204,8 +208,10 @@ export class Image extends React.Component<Props> {
           curveTopLeft ? 'module-image--curved-top-left' : null,
           curveTopRight ? 'module-image--curved-top-right' : null,
           smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
-          softCorners ? 'module-image--soft-corners' : null
+          softCorners ? 'module-image--soft-corners' : null,
+          cropWidth || cropHeight ? 'module-image--cropped' : null
         )}
+        style={{ width: width - cropWidth, height: height - cropHeight }}
       >
         {pending ? (
           this.renderPending()

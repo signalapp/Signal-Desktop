@@ -280,21 +280,38 @@ export function getGridDimensions(
   }
 
   if (attachments.length === 2) {
+    // A B
     return {
       height: 150,
       width: 300,
     };
   }
 
+  if (attachments.length === 3) {
+    // A A B
+    // A A C
+    return {
+      height: 200,
+      width: 300,
+    };
+  }
+
   if (attachments.length === 4) {
+    // A B
+    // C D
     return {
       height: 300,
       width: 300,
     };
   }
 
+  // A A A B B B
+  // A A A B B B
+  // A A A B B B
+  // C C D D E E
+  // C C D D E E
   return {
-    height: 200,
+    height: 250,
     width: 300,
   };
 }

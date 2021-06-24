@@ -1662,8 +1662,8 @@ export class Message extends React.Component<Props, State> {
 
     if (attachments && attachments.length) {
       if (isGIF(attachments)) {
-        // Message container border + image border
-        return GIF_SIZE + 4;
+        // Message container border
+        return GIF_SIZE + 2;
       }
 
       if (isSticker) {
