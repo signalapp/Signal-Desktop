@@ -145,6 +145,13 @@ async function _runJob(job: any) {
       await _finishJob(null, id);
       return;
     }
+    const isTrusted = found.isTrustedForAttachmentDownload();
+
+    if (!isTrusted) {
+      logger.info('_runJob: sender conversation not trusted yet, deleting job');
+      await _finishJob(null, id);
+      return;
+    }
 
     if (isOpenGroupV2 && (!openGroupV2Details?.serverUrl || !openGroupV2Details.roomId)) {
       window?.log?.warn(
