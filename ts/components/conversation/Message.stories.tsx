@@ -720,43 +720,52 @@ story.add('Image', () => {
   return renderBothDirections(props);
 });
 
-story.add('Multiple Images', () => {
-  const props = createProps({
-    attachments: [
-      {
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      },
-      {
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      },
-      {
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      },
-      {
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      },
-    ],
-    status: 'sent',
-  });
+for (let i = 2; i <= 5; i += 1) {
+  story.add(`Multiple Images x${i}`, () => {
+    const props = createProps({
+      attachments: [
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+      ].slice(0, i),
+      status: 'sent',
+    });
 
-  return renderBothDirections(props);
-});
+    return renderBothDirections(props);
+  });
+}
 
 story.add('Image with Caption', () => {
   const props = createProps({
@@ -788,6 +797,25 @@ story.add('GIF', () => {
         height: 332,
       },
     ],
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('GIF in a group', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        url: '/fixtures/cat-gif.mp4',
+        width: 400,
+        height: 332,
+      },
+    ],
+    conversationType: 'group',
     status: 'sent',
   });
 
