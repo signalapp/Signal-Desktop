@@ -49,6 +49,9 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
           await Promise.all(
             messagesInConvo.map(async message => {
               const msgAttachments = message.get('attachments');
+              if (message.get('direction') !== 'incoming') {
+                return;
+              }
               if (!msgAttachments || msgAttachments.length === 0) {
                 return;
               }
