@@ -13,8 +13,6 @@ import { concatUInt8Array, getSodium } from '../session/crypto';
 import { getConversationController } from '../session/conversations';
 import { getAllEncryptionKeyPairsForGroup } from '../../ts/data/data';
 import { ECKeyPair } from './keypairs';
-import { KeyPairRequestManager } from './keyPairRequestManager';
-import { requestEncryptionKeyPair } from '../session/group';
 import { handleConfigurationMessage } from './configMessage';
 import { ConversationTypeEnum } from '../models/conversation';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
@@ -107,14 +105,6 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
     window?.log?.warn('decryptWithSessionProtocol for medium group message throw:', e);
     const groupPubKey = PubKey.cast(envelope.source);
 
-    // To enable back if we decide to enable encryption key pair request work again
-    if (window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
-      const keypairRequestManager = KeyPairRequestManager.getInstance();
-      if (keypairRequestManager.canTriggerRequestWith(groupPubKey)) {
-        keypairRequestManager.markRequestSendFor(groupPubKey, Date.now());
-        await requestEncryptionKeyPair(groupPubKey);
-      }
-    }
     // IMPORTANT do not remove the message from the cache just yet.
     // We will try to decrypt it once we get the encryption keypair.
     // for that to work, we need to throw an error just like here.

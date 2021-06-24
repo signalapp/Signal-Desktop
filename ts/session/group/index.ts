@@ -539,31 +539,3 @@ export async function buildEncryptionKeyPairWrappers(
   );
   return wrappers;
 }
-
-export async function requestEncryptionKeyPair(groupPublicKey: string | PubKey) {
-  if (!window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
-    throw new Error('useRequestEncryptionKeyPair is disabled');
-  }
-
-  const groupConvo = getConversationController().get(PubKey.cast(groupPublicKey).key);
-
-  if (!groupConvo) {
-    window?.log?.warn(
-      'requestEncryptionKeyPair: Trying to request encryption key pair from unknown group'
-    );
-    return;
-  }
-
-  const ourNumber = UserUtils.getOurPubKeyFromCache();
-  if (!groupConvo.get('members').includes(ourNumber.key)) {
-    window?.log?.info('requestEncryptionKeyPair: We are not a member of this group.');
-    return;
-  }
-
-  const ecRequestMessage = new ClosedGroupEncryptionPairRequestMessage({
-    groupId: groupPublicKey,
-    timestamp: Date.now(),
-  });
-
-  await getMessageQueue().sendToGroup(ecRequestMessage);
-}

@@ -484,14 +484,11 @@ async function performIfValid(
   } else if (groupUpdate.type === Type.MEMBER_LEFT) {
     await handleClosedGroupMemberLeft(envelope, convo);
   } else if (groupUpdate.type === Type.ENCRYPTION_KEY_PAIR_REQUEST) {
-    if (window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
-      await handleClosedGroupEncryptionKeyPairRequest(envelope, groupUpdate, convo);
-    } else {
-      window?.log?.warn(
-        'Received ENCRYPTION_KEY_PAIR_REQUEST message but it is not enabled for now.'
-      );
-      await removeFromCache(envelope);
-    }
+    window?.log?.warn(
+      'Received ENCRYPTION_KEY_PAIR_REQUEST message but it is not enabled for now.'
+    );
+    await removeFromCache(envelope);
+
     // if you add a case here, remember to add it where performIfValid is called too.
   }
 
@@ -830,26 +827,6 @@ async function sendLatestKeyPairToUsers(
       await getMessageQueue().sendToPubKey(PubKey.cast(member), keypairsMessage);
     })
   );
-}
-
-async function handleClosedGroupEncryptionKeyPairRequest(
-  envelope: EnvelopePlus,
-  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
-  groupConvo: ConversationModel
-) {
-  if (!window.lokiFeatureFlags.useRequestEncryptionKeyPair) {
-    throw new Error('useRequestEncryptionKeyPair is disabled');
-  }
-  const sender = envelope.senderIdentity;
-  const groupPublicKey = envelope.source;
-  // Guard against self-sends
-  if (UserUtils.isUsFromCache(sender)) {
-    window?.log?.info('Dropping self send message of type ENCRYPTION_KEYPAIR_REQUEST');
-    await removeFromCache(envelope);
-    return;
-  }
-  await sendLatestKeyPairToUsers(groupConvo, groupPublicKey, [sender]);
-  return removeFromCache(envelope);
 }
 
 export async function createClosedGroup(groupName: string, members: Array<string>) {

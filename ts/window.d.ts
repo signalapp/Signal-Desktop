@@ -48,7 +48,6 @@ declare global {
       useOnionRequests: boolean;
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
-      useRequestEncryptionKeyPair: boolean;
       padOutgoingAttachments: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;

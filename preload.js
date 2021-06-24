@@ -55,7 +55,6 @@ window.lokiFeatureFlags = {
   useOnionRequests: true,
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
-  useRequestEncryptionKeyPair: false,
   padOutgoingAttachments: true,
 };
 
@@ -394,7 +393,6 @@ if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
     useOnionRequests: false,
     useFileOnionRequests: false,
-    useRequestEncryptionKeyPair: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.sinon = require('sinon');
