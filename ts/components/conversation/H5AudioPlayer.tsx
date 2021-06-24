@@ -11,9 +11,8 @@ export const AudioPlayerWithEncryptedFile = (props: {
   src: string;
   contentType: string;
   playbackSpeed: number;
-  changeTestList?: any;
-  shouldPlay?: boolean
-  index?: number
+  playNextMessage?: (index: number) => void;
+  playableMessageIndex?: number
   nextMessageToPlay?: number
 }) => {
   const theme = useTheme();
@@ -29,14 +28,20 @@ export const AudioPlayerWithEncryptedFile = (props: {
   }, [playbackSpeed]);
 
   useEffect(() => {
-    if (props.index == props.nextMessageToPlay) {
+    if (props.playableMessageIndex == props.nextMessageToPlay) {
       player.current?.audio.current?.play();
     }
   })
 
   const onEnded = () => {
-    if (window.inboxStore?.getState().userConfig.audioAutoplay === true) {
-      props.changeTestList(props.index);
+    // if audio autoplay is enabled, call method to start playing 
+    // the next playable message
+    if (
+      window.inboxStore?.getState().userConfig.audioAutoplay === true &&
+      props.playNextMessage &&
+      props.playableMessageIndex
+    ) {
+      props.playNextMessage(props.playableMessageIndex);
     }
   }
 

@@ -253,8 +253,7 @@ export interface MessageRegularProps {
   markRead: (readAt: number) => Promise<void>;
   theme: DefaultTheme;
 
-  shouldPlay?: boolean;
-  index?: number;
+  playableMessageIndex?: number;
   nextMessageToPlay?: number;
-  changeTestList: (value: any) => any;
+  playNextMessage?: (value: number) => any;
 }
