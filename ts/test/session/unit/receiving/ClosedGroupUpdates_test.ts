@@ -17,7 +17,7 @@ describe('ClosedGroupUpdates', () => {
   // const groupId = TestUtils.generateFakePubKey().key;
   // const members = TestUtils.generateFakePubKeys(10);
   // const sender = members[3].key;
-  // const getConvo = sandbox.stub(ConversationController.getInstance(), 'get');
+  // const getConvo = sandbox.stub(ConversationController, 'get');
   // beforeEach(async () => {
   //   // Utils Stubs
   //   sandbox.stub(UserUtils, 'getCurrentDevicePubKey').resolves(ourNumber);

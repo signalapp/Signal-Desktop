@@ -1,32 +1,33 @@
 // You can see MessageController for in memory registered messages.
 // Ee register messages to it everytime we send one, so that when an event happens we can find which message it was based on this id.
 
-import { getMessagesByConversation } from '../../../ts/data/data';
-import { ConversationModel } from '../../models/conversation';
-import { MessageCollection, MessageModel } from '../../models/message';
+import { MessageModel } from '../../models/message';
 
 type MessageControllerEntry = {
   message: MessageModel;
   timestamp: number;
 };
+let messageControllerInstance: MessageController | null;
+
+export const getMessageController = () => {
+  if (messageControllerInstance) {
+    return messageControllerInstance;
+  }
+  messageControllerInstance = new MessageController();
+  return messageControllerInstance;
+};
 
 // It's not only data from the db which is stored on the MessageController entries, we could fetch this again. What we cannot fetch from the db and which is stored here is all listeners a particular messages is linked to for instance. We will be able to get rid of this once we don't use backbone models at all
 export class MessageController {
-  private static instance: MessageController | null;
   private readonly messageLookup: Map<string, MessageControllerEntry>;
 
-  private constructor() {
+  /**
+   * Not to be used directly. Instead call getMessageController()
+   */
+  constructor() {
     this.messageLookup = new Map();
     // cleanup every hour the cache
     setInterval(this.cleanup, 3600 * 1000);
-  }
-
-  public static getInstance() {
-    if (MessageController.instance) {
-      return MessageController.instance;
-    }
-    MessageController.instance = new MessageController();
-    return MessageController.instance;
   }
 
   public register(id: string, message: MessageModel) {

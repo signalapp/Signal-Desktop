@@ -7,7 +7,7 @@ import {
 } from '../opengroup/opengroupV2/JoinOpenGroupV2';
 import { getOpenGroupV2ConversationId } from '../opengroup/utils/OpenGroupUtils';
 import { SignalService } from '../protobuf';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
@@ -28,7 +28,7 @@ async function handleOurProfileUpdate(
     );
     const { profileKey, profilePicture, displayName } = configMessage;
 
-    const ourConversation = ConversationController.getInstance().get(ourPubkey);
+    const ourConversation = getConversationController().get(ourPubkey);
     if (!ourConversation) {
       window?.log?.error('We need a convo with ourself at all times');
       return;
@@ -106,7 +106,7 @@ async function handleGroupsAndContactsFromConfigMessage(
       continue;
     }
     const roomConvoId = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
-    if (!ConversationController.getInstance().get(roomConvoId)) {
+    if (!getConversationController().get(roomConvoId)) {
       window?.log?.info(
         `triggering join of public chat '${currentOpenGroupUrl}' from ConfigurationMessage`
       );
@@ -120,7 +120,7 @@ async function handleGroupsAndContactsFromConfigMessage(
           if (!c.publicKey) {
             return;
           }
-          const contactConvo = await ConversationController.getInstance().getOrCreateAndWait(
+          const contactConvo = await getConversationController().getOrCreateAndWait(
             toHex(c.publicKey),
             ConversationTypeEnum.PRIVATE
           );

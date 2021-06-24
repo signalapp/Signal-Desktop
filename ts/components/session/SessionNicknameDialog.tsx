@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ConversationController } from '../../session/conversations/ConversationController';
+import { getConversationController } from '../../session/conversations';
 import { SessionButton } from './SessionButton';
 
 import _ from 'lodash';
@@ -42,7 +42,7 @@ export const SessionNicknameDialog = (props: Props) => {
     if (!conversationId) {
       throw new Error('Cant save without conversation id');
     }
-    const conversation = ConversationController.getInstance().get(conversationId);
+    const conversation = getConversationController().get(conversationId);
     await conversation.setNickname(nickname);
     onClickClose();
   };

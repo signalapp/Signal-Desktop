@@ -1,1 +1,3 @@
-export * from './ConversationController';
+import { getConversationController } from './ConversationController';
+
+export { getConversationController };

@@ -1,4 +1,4 @@
 import * as Outgoing from './outgoing';
-import { MessageController } from './MessageController';
+import { getMessageController } from './MessageController';
 
-export { Outgoing, MessageController };
+export { Outgoing, getMessageController };

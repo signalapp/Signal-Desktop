@@ -2,7 +2,7 @@ import React from 'react';
 import { DefaultTheme } from 'styled-components';
 import { ConversationModel } from '../../models/conversation';
 import { ApiV2 } from '../../opengroup/opengroupV2';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { Flex } from '../basic/Flex';
@@ -47,7 +47,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     const { removingInProgress, firstLoading } = this.state;
     const hasMods = this.state.modList.length !== 0;
 
-    const convo = ConversationController.getInstance().get(this.props.conversationId);
+    const convo = getConversationController().get(this.props.conversationId);
 
     const chatName = convo.get('name');
 
@@ -134,11 +134,11 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
 
   private refreshModList() {
     let modPubKeys: Array<string> = [];
-    const convo = ConversationController.getInstance().get(this.props.conversationId);
+    const convo = getConversationController().get(this.props.conversationId);
 
     modPubKeys = convo.getGroupAdmins() || [];
 
-    const convos = ConversationController.getInstance().getConversations();
+    const convos = getConversationController().getConversations();
     const moderatorsConvos = modPubKeys
       .map(
         pubKey =>
@@ -190,7 +190,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         removingInProgress: true,
       });
       let res;
-      const convo = ConversationController.getInstance().get(this.props.conversationId);
+      const convo = getConversationController().get(this.props.conversationId);
 
       const roomInfos = convo.toOpenGroupV2();
       const modsToRemove = _.compact(removedMods.map(m => PubKey.from(m)));

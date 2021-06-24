@@ -9,7 +9,7 @@ import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils, UserUtils } from '../session/utils';
 import { getMessageQueue } from '../session';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
@@ -95,7 +95,7 @@ async function updateProfile(
     newProfile.avatar = null;
   }
 
-  const conv = await ConversationController.getInstance().getOrCreateAndWait(
+  const conv = await getConversationController().getOrCreateAndWait(
     conversation.id,
     ConversationTypeEnum.PRIVATE
   );
@@ -290,7 +290,7 @@ export async function handleDataMessage(
     envelope.source = dataMessage.syncTarget;
   }
 
-  const senderConversation = await ConversationController.getInstance().getOrCreateAndWait(
+  const senderConversation = await getConversationController().getOrCreateAndWait(
     senderPubKey,
     ConversationTypeEnum.PRIVATE
   );
@@ -430,15 +430,12 @@ async function handleProfileUpdate(
   if (!isIncoming) {
     // We update our own profileKey if it's different from what we have
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-    const me = ConversationController.getInstance().getOrCreate(
-      ourNumber,
-      ConversationTypeEnum.PRIVATE
-    );
+    const me = getConversationController().getOrCreate(ourNumber, ConversationTypeEnum.PRIVATE);
 
     // Will do the save for us if needed
     await me.setProfileKey(profileKey);
   } else {
-    const sender = await ConversationController.getInstance().getOrCreateAndWait(
+    const sender = await getConversationController().getOrCreateAndWait(
       convoId,
       ConversationTypeEnum.PRIVATE
     );
@@ -618,10 +615,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     conversationId = source;
   }
 
-  const conversation = await ConversationController.getInstance().getOrCreateAndWait(
-    conversationId,
-    type
-  );
+  const conversation = await getConversationController().getOrCreateAndWait(conversationId, type);
 
   if (!conversation) {
     window?.log?.warn('Skipping handleJob for unknown convo: ', conversationId);

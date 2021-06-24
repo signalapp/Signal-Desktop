@@ -1,5 +1,5 @@
 import { ConversationModel } from '../models/conversation';
-import { ConversationController } from '../session/conversations';
+import { getConversationController } from '../session/conversations';
 import { MentionsInputState } from '../state/ducks/mentionsInput';
 
 // tslint:disable: no-unnecessary-class
@@ -11,7 +11,7 @@ export class FindMember {
   ): Promise<ConversationModel | null> {
     let groupMembers;
 
-    const groupConvos = ConversationController.getInstance()
+    const groupConvos = getConversationController()
       .getConversations()
       .filter((d: any) => {
         return !d.isPrivate();
@@ -33,13 +33,11 @@ export class FindMember {
       const publicMembers = (await window.inboxStore?.getState()
         .mentionsInput) as MentionsInputState;
       const memberConversations = publicMembers
-        .map(publicMember =>
-          ConversationController.getInstance().get(publicMember.authorPhoneNumber)
-        )
+        .map(publicMember => getConversationController().get(publicMember.authorPhoneNumber))
         .filter((c: any) => !!c);
       groupMembers = memberConversations;
     } else {
-      const privateConvos = ConversationController.getInstance()
+      const privateConvos = getConversationController()
         .getConversations()
         .filter((d: any) => d.isPrivate());
       const members = thisConvo.attributes.members;

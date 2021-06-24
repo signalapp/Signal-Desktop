@@ -136,22 +136,27 @@ async function processNormalAttachments(
   convo: ConversationModel
 ): Promise<number> {
   const isOpenGroupV2 = convo.isOpenGroupV2();
-  const openGroupV2Details = (isOpenGroupV2 && convo.toOpenGroupV2()) || undefined;
-  const attachments = await Promise.all(
-    normalAttachments.map(async (attachment: any, index: any) => {
-      return AttachmentDownloads.addJob(attachment, {
-        messageId: message.id,
-        type: 'attachment',
-        index,
-        isOpenGroupV2,
-        openGroupV2Details,
-      });
-    })
-  );
 
-  message.set({ attachments });
+  if (message.isTrustedForAttachmentDownload()) {
+    const openGroupV2Details = (isOpenGroupV2 && convo.toOpenGroupV2()) || undefined;
+    const attachments = await Promise.all(
+      normalAttachments.map(async (attachment: any, index: any) => {
+        return AttachmentDownloads.addJob(attachment, {
+          messageId: message.id,
+          type: 'attachment',
+          index,
+          isOpenGroupV2,
+          openGroupV2Details,
+        });
+      })
+    );
 
-  return attachments.length;
+    message.set({ attachments });
+
+    return attachments.length;
+  }
+  window.log.info('No downloading attachments yet as this user is not trusted for now.');
+  return 0;
 }
 
 async function processPreviews(message: MessageModel, convo: ConversationModel): Promise<number> {

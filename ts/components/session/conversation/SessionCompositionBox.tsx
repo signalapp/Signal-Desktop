@@ -27,7 +27,7 @@ import { SessionQuotedMessageComposition } from './SessionQuotedMessageCompositi
 import { Mention, MentionsInput } from 'react-mentions';
 import { CaptionEditor } from '../../CaptionEditor';
 import { DefaultTheme } from 'styled-components';
-import { ConversationController } from '../../../session/conversations';
+import { getConversationController } from '../../../session/conversations';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
@@ -483,7 +483,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
 
     const allMembers = allPubKeys.map(pubKey => {
-      const conv = ConversationController.getInstance().get(pubKey);
+      const conv = getConversationController().get(pubKey);
       let profileName = 'Anonymous';
       if (conv) {
         profileName = conv.getProfileName() || 'Anonymous';
@@ -761,9 +761,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Also, check for a message length change before firing it up, to avoid
     // catching ESC, tab, or whatever which is not typing
     if (message.length && message.length !== this.lastBumpTypingMessageLength) {
-      const conversationModel = ConversationController.getInstance().get(
-        this.props.selectedConversationKey
-      );
+      const conversationModel = getConversationController().get(this.props.selectedConversationKey);
       if (!conversationModel) {
         return;
       }

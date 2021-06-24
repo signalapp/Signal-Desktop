@@ -22,7 +22,7 @@ import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import { ConversationController } from '../../session/conversations';
+import { getConversationController } from '../../session/conversations';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { openGroupV2CompleteURLRegex } from '../../opengroup/utils/OpenGroupUtils';
 import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpenGroupV2';
@@ -352,7 +352,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const errorOnPubkey = PubKey.validateWithError(pubkeyorOns);
     if (!errorOnPubkey) {
       // this is a pubkey
-      await ConversationController.getInstance().getOrCreateAndWait(
+      await getConversationController().getOrCreateAndWait(
         pubkeyorOns,
         ConversationTypeEnum.PRIVATE
       );
@@ -372,7 +372,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           throw new Error('Got a resolved ONS but the returned entry is not a vlaid SessionID');
         }
         // this is a pubkey
-        await ConversationController.getInstance().getOrCreateAndWait(
+        await getConversationController().getOrCreateAndWait(
           resolvedSessionID,
           ConversationTypeEnum.PRIVATE
         );
