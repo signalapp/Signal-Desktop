@@ -407,6 +407,8 @@
   "linkVisitWarningTitle": "Open this link in your browser?",
   "linkVisitWarningMessage": "Are you sure you want to open $url$ in your browser?",
   "open": "Open",
+  "audioMessageAutoplayTitle": "Audio Message Autoplay",
+  "audioMessageAutoplayDescription": "Automatically play consecutively sent audio messages",
   "clickToTrustContact": "Click to download media",
   "trustThisContactDialogTitle": "Trust $name$?",
   "trustThisContactDialogDescription": "Are you sure you want to download media sent by $name$?"

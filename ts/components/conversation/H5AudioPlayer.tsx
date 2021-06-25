@@ -3,10 +3,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { useTheme } from 'styled-components';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 
-export const AudioPlayerWithEncryptedFile = (props: { src: string; contentType: string }) => {
+export const AudioPlayerWithEncryptedFile = (props: {
+  src: string;
+  contentType: string;
+  playNextMessage?: (index: number) => void;
+  playableMessageIndex?: number;
+  nextMessageToPlay?: number;
+}) => {
   const theme = useTheme();
 
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
@@ -20,6 +26,24 @@ export const AudioPlayerWithEncryptedFile = (props: { src: string; contentType: 
     }
   }, [playbackSpeed]);
 
+  useEffect(() => {
+    if (props.playableMessageIndex === props.nextMessageToPlay) {
+      player.current?.audio.current?.play();
+    }
+  });
+
+  const onEnded = () => {
+    // if audio autoplay is enabled, call method to start playing
+    // the next playable message
+    if (
+      window.inboxStore?.getState().userConfig.audioAutoplay === true &&
+      props.playNextMessage &&
+      props.playableMessageIndex !== undefined
+    ) {
+      props.playNextMessage(props.playableMessageIndex);
+    }
+  };
+
   return (
     <H5AudioPlayer
       src={urlToLoad}
@@ -28,6 +52,7 @@ export const AudioPlayerWithEncryptedFile = (props: { src: string; contentType: 
       showJumpControls={false}
       showDownloadProgress={false}
       listenInterval={100}
+      onEnded={onEnded}
       ref={player}
       customControlsSection={[
         RHAP_UI.MAIN_CONTROLS,
