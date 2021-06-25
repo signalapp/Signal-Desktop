@@ -272,7 +272,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
             return;
           }
 
-
           if (messageProps) {
             messageProps.nextMessageToPlay = this.state.nextMessageToPlay;
             messageProps.playableMessageIndex = playableMessageIndex;
@@ -384,12 +383,11 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
   }
 
-
   /**
    * Sets the targeted index for the next
    * @param index index of message that just completed
    */
-  private playNextMessage = (index: any) => {
+  private readonly playNextMessage = (index: any) => {
     const { messages } = this.props;
     let nextIndex: number | null = index - 1;
 
