@@ -1113,13 +1113,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public isTrustedForAttachmentDownload() {
-    const convoId = this.getSource();
-    if (!!this.get('isPublic') || isUsFromCache(convoId)) {
+    const senderConvoId = this.getSource();
+    const isClosedGroup = this.getConversation()?.isClosedGroup() || false;
+    if (!!this.get('isPublic') || isClosedGroup || isUsFromCache(senderConvoId)) {
       return true;
     }
     // check the convo from this user
     // we want the convo of the sender of this message
-    const senderConvo = getConversationController().get(convoId);
+    const senderConvo = getConversationController().get(senderConvoId);
     if (!senderConvo) {
       return false;
     }
