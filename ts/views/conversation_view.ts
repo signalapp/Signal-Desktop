@@ -3,7 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { AttachmentType } from '../types/Attachment';
+import {
+  AttachmentDraftType,
+  AttachmentType,
+  InMemoryAttachmentDraftType,
+  OnDiskAttachmentDraftType,
+} from '../types/Attachment';
+import { IMAGE_JPEG } from '../types/MIME';
 import { ConversationModel } from '../models/conversations';
 import {
   GroupV2PendingMemberType,
@@ -28,30 +34,19 @@ import * as Bytes from '../Bytes';
 import {
   canReply,
   getAttachmentsForMessage,
-  getPropsForQuote,
   isOutgoing,
   isTapToView,
 } from '../state/selectors/message';
 import { getMessagesByConversation } from '../state/selectors/conversations';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
-
-type GetLinkPreviewImageResult = {
-  data: ArrayBuffer;
-  size: number;
-  contentType: string;
-  width?: number;
-  height?: number;
-  blurHash: string;
-};
-
-type GetLinkPreviewResult = {
-  title: string;
-  url: string;
-  image?: GetLinkPreviewImageResult;
-  description: string | null;
-  date: number | null;
-};
+import { autoOrientImage } from '../util/autoOrientImage';
+import { canvasToBlob } from '../util/canvasToBlob';
+import {
+  LinkPreviewImage,
+  LinkPreviewResult,
+  LinkPreviewWithDomain,
+} from '../types/LinkPreview';
 
 type AttachmentOptions = {
   messageId: string;
@@ -421,21 +416,12 @@ Whisper.ConversationView = Whisper.View.extend({
     this.loadingScreen.render();
     this.loadingScreen.$el.prependTo(this.$('.discussion-container'));
 
-    const attachmentListEl = $(
-      '<div class="module-composition-area__attachment-list"></div>'
-    );
-
-    this.attachmentListView = new Whisper.ReactWrapperView({
-      el: attachmentListEl,
-      Component: window.Signal.Components.AttachmentList,
-      props: this.getPropsForAttachmentList(),
-    });
-
     this.setupHeader();
     this.setupTimeline();
-    this.setupCompositionArea({ attachmentListEl: attachmentListEl[0] });
+    this.setupCompositionArea();
 
     this.linkPreviewAbortController = null;
+    this.updateAttachmentsView();
   },
 
   events: {
@@ -615,7 +601,9 @@ Whisper.ConversationView = Whisper.View.extend({
     window.reduxActions.conversations.setSelectedConversationHeaderTitle();
   },
 
-  setupCompositionArea({ attachmentListEl }: any) {
+  setupCompositionArea() {
+    window.reduxActions.composer.resetComposer();
+
     const { model }: { model: ConversationModel } = this;
 
     const compositionApi = { current: null };
@@ -650,7 +638,6 @@ Whisper.ConversationView = Whisper.View.extend({
       getQuotedMessage: () => model.get('quotedMessageId'),
       clearQuotedMessage: () => this.setQuoteMessage(null),
       micCellEl,
-      attachmentListEl,
       onAccept: () => {
         this.syncMessageRequestResponse(
           'onAccept',
@@ -697,6 +684,21 @@ Whisper.ConversationView = Whisper.View.extend({
             });
           },
         });
+      },
+
+      onAddAttachment: this.onChooseAttachment.bind(this),
+      onClickAttachment: this.onClickAttachment.bind(this),
+      onCloseAttachment: this.onCloseAttachment.bind(this),
+      onClearAttachments: this.clearAttachments.bind(this),
+      onSelectMediaQuality: (isHQ: boolean) => {
+        window.reduxActions.composer.setMediaQualitySetting(isHQ);
+      },
+
+      onClickQuotedMessage: (id?: string) => this.scrollToMessage(id),
+
+      onCloseLinkPreview: () => {
+        this.disableLinkPreviews = true;
+        this.removeLinkPreview();
       },
     };
 
@@ -1444,9 +1446,6 @@ Whisper.ConversationView = Whisper.View.extend({
     this.timelineView.remove();
     this.compositionAreaView.remove();
 
-    if (this.attachmentListView) {
-      this.attachmentListView.remove();
-    }
     if (this.captionEditorView) {
       this.captionEditorView.remove();
     }
@@ -1467,9 +1466,6 @@ Whisper.ConversationView = Whisper.View.extend({
     }
     if (this.scrollDownButton) {
       this.scrollDownButton.remove();
-    }
-    if (this.quoteView) {
-      this.quoteView.remove();
     }
     if (this.lightboxView) {
       this.lightboxView.remove();
@@ -1587,37 +1583,6 @@ Whisper.ConversationView = Whisper.View.extend({
     });
   },
 
-  getPropsForAttachmentList() {
-    const { model }: { model: ConversationModel } = this;
-    const draftAttachments = model.get('draftAttachments') || [];
-
-    return {
-      // In conversation model/redux
-      attachments: draftAttachments.map(attachment => {
-        let url = '';
-        if (attachment.screenshotPath) {
-          url = getAbsoluteDraftPath(attachment.screenshotPath);
-        } else if (attachment.path) {
-          url = getAbsoluteDraftPath(attachment.path);
-        } else {
-          window.log.warn(
-            'getPropsForAttachmentList: Attachment was missing both screenshotPath and path fields'
-          );
-        }
-
-        return {
-          ...attachment,
-          url,
-        };
-      }),
-      // Passed in from ConversationView
-      onAddAttachment: this.onChooseAttachment.bind(this),
-      onClickAttachment: this.onClickAttachment.bind(this),
-      onCloseAttachment: this.onCloseAttachment.bind(this),
-      onClose: this.clearAttachments.bind(this),
-    };
-  },
-
   onClickAttachment(attachment: any) {
     const getProps = () => ({
       url: attachment.url,
@@ -1663,9 +1628,7 @@ Whisper.ConversationView = Whisper.View.extend({
     window.Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
   },
 
-  async deleteDraftAttachment(
-    attachment: Readonly<{ screenshotPath?: string; path?: string }>
-  ) {
+  async deleteDraftAttachment(attachment: AttachmentType) {
     if (attachment.screenshotPath) {
       await deleteDraftFile(attachment.screenshotPath);
     }
@@ -1679,7 +1642,7 @@ Whisper.ConversationView = Whisper.View.extend({
     window.Signal.Data.updateConversation(model.attributes);
   },
 
-  async addAttachment(attachment: any) {
+  async addAttachment(attachment: InMemoryAttachmentDraftType) {
     const { model }: { model: ConversationModel } = this;
     const onDisk = await this.writeDraftAttachment(attachment);
 
@@ -1690,6 +1653,26 @@ Whisper.ConversationView = Whisper.View.extend({
     this.updateAttachmentsView();
 
     await this.saveModel();
+  },
+
+  resolveOnDiskAttachment(
+    attachment: OnDiskAttachmentDraftType
+  ): AttachmentDraftType {
+    let url = '';
+    if (attachment.screenshotPath) {
+      url = getAbsoluteDraftPath(attachment.screenshotPath);
+    } else if (attachment.path) {
+      url = getAbsoluteDraftPath(attachment.path);
+    } else {
+      window.log.warn(
+        'resolveOnDiskAttachment: Attachment was missing both screenshotPath and path fields'
+      );
+    }
+
+    return {
+      ...attachment,
+      url,
+    };
   },
 
   async onCloseAttachment(attachment: any) {
@@ -1801,14 +1784,21 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   updateAttachmentsView() {
-    this.attachmentListView.update(this.getPropsForAttachmentList());
+    const draftAttachments = this.model.get('draftAttachments') || [];
+    window.reduxActions.composer.replaceAttachments(
+      draftAttachments.map((att: AttachmentType) =>
+        this.resolveOnDiskAttachment(att)
+      )
+    );
     this.toggleMicrophone();
     if (this.hasFiles()) {
       this.removeLinkPreview();
     }
   },
 
-  async writeDraftAttachment(attachment: any) {
+  async writeDraftAttachment(
+    attachment: InMemoryAttachmentDraftType
+  ): Promise<OnDiskAttachmentDraftType> {
     let toWrite = attachment;
 
     if (toWrite.data) {
@@ -1869,7 +1859,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    let attachment;
+    let attachment: InMemoryAttachmentDraftType;
 
     try {
       if (window.Signal.Util.GoogleChrome.isImageTypeSupported(file.type)) {
@@ -1949,7 +1939,7 @@ Whisper.ConversationView = Whisper.View.extend({
     return true;
   },
 
-  async handleVideoAttachment(file: any) {
+  async handleVideoAttachment(file: any): Promise<InMemoryAttachmentDraftType> {
     const objectUrl = URL.createObjectURL(file);
     if (!objectUrl) {
       throw new Error('Failed to create object url for video!');
@@ -1980,11 +1970,10 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  async handleImageAttachment(file: any) {
+  async handleImageAttachment(file: any): Promise<InMemoryAttachmentDraftType> {
     const blurHash = await window.imageToBlurHash(file);
     if (MIME.isJPEG(file.type)) {
-      const rotatedDataUrl = await window.autoOrientImage(file);
-      const rotatedBlob = window.dataURLToBlobSync(rotatedDataUrl);
+      const rotatedBlob = await autoOrientImage(file);
       const { contentType, file: resizedBlob, fileName } = await this.autoScale(
         {
           contentType: file.type,
@@ -1992,7 +1981,7 @@ Whisper.ConversationView = Whisper.View.extend({
           file: rotatedBlob,
         }
       );
-      const data = await await VisualAttachment.blobToArrayBuffer(resizedBlob);
+      const data = await VisualAttachment.blobToArrayBuffer(resizedBlob);
 
       return {
         fileName: fileName || file.name,
@@ -2008,7 +1997,7 @@ Whisper.ConversationView = Whisper.View.extend({
       fileName: file.name,
       file,
     });
-    const data = await await VisualAttachment.blobToArrayBuffer(resizedBlob);
+    const data = await VisualAttachment.blobToArrayBuffer(resizedBlob);
     return {
       fileName: fileName || file.name,
       contentType,
@@ -2028,7 +2017,7 @@ Whisper.ConversationView = Whisper.View.extend({
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(file);
       const img = document.createElement('img');
-      img.onload = () => {
+      img.onload = async () => {
         URL.revokeObjectURL(url);
 
         const maxSize = 6000 * 1024;
@@ -2054,7 +2043,7 @@ Whisper.ConversationView = Whisper.View.extend({
           return;
         }
 
-        const targetContentType = 'image/jpeg';
+        const targetContentType = IMAGE_JPEG;
         const canvas = window.loadImage.scale(img, {
           canvas: true,
           maxWidth,
@@ -2066,9 +2055,9 @@ Whisper.ConversationView = Whisper.View.extend({
         let blob;
         do {
           i -= 1;
-          blob = window.dataURLToBlobSync(
-            canvas.toDataURL(targetContentType, quality)
-          );
+          // We want to do these operations in serial.
+          // eslint-disable-next-line no-await-in-loop
+          blob = await canvasToBlob(canvas, targetContentType, quality);
           quality = (quality * maxSize) / blob.size;
           // NOTE: During testing with a large image, we observed the
           // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
@@ -3780,11 +3769,6 @@ Whisper.ConversationView = Whisper.View.extend({
       await this.saveModel();
     }
 
-    if (this.quoteView) {
-      this.quoteView.remove();
-      this.quoteView = null;
-    }
-
     if (message) {
       const quotedMessage = window.MessageController.register(
         message.id,
@@ -3806,47 +3790,15 @@ Whisper.ConversationView = Whisper.View.extend({
   renderQuotedMessage() {
     const { model }: { model: ConversationModel } = this;
 
-    if (this.quoteView) {
-      this.quoteView.remove();
-      this.quoteView = null;
-    }
     if (!this.quotedMessage) {
+      window.reduxActions.composer.setQuotedMessage(undefined);
       return;
     }
 
-    const props = getPropsForQuote(
-      {
-        conversationId: model.id,
-        quote: this.quote,
-      },
-      findAndFormatContact,
-      window.ConversationController.getOurConversationIdOrThrow()
-    );
-
-    const contact = this.quotedMessage.getContact();
-
-    this.quoteView = new Whisper.ReactWrapperView({
-      className: 'quote-wrapper',
-      Component: window.Signal.Components.Quote,
-      elCallback: (el: any) =>
-        this.$(this.compositionApi.current.attSlotRef.current).prepend(el),
-      props: {
-        ...props,
-        withContentAbove: true,
-        onClick: () => this.scrollToMessage(this.quotedMessage.id),
-        onClose: () => {
-          // This can't be the normal 'onClose' because that is always run when this
-          //   view is removed from the DOM, and would clear the draft quote.
-          this.setQuoteMessage(null);
-        },
-      },
+    window.reduxActions.composer.setQuotedMessage({
+      conversationId: model.id,
+      quote: this.quote,
     });
-
-    if (contact) {
-      this.quoteView.listenTo(contact, 'change', () => {
-        this.renderQuotedMessage();
-      });
-    }
   },
 
   showInvalidMessageToast(messageText?: string): boolean {
@@ -3939,7 +3891,13 @@ Whisper.ConversationView = Whisper.View.extend({
         this.quote,
         this.getLinkPreview(),
         undefined, // sticker
-        mentions
+        mentions,
+        {
+          sendHQImages:
+            window.reduxStore &&
+            window.reduxStore.getState().composer
+              .shouldSendHighQualityAttachments,
+        }
       );
 
       this.compositionApi.current.reset();
@@ -3947,6 +3905,7 @@ Whisper.ConversationView = Whisper.View.extend({
       this.setQuoteMessage(null);
       this.resetLinkPreview();
       this.clearAttachments();
+      window.reduxActions.composer.resetComposer();
     } catch (error) {
       window.log.error(
         'Error pulling attached files before send',
@@ -4068,7 +4027,7 @@ Whisper.ConversationView = Whisper.View.extend({
   async getStickerPackPreview(
     url: string,
     abortSignal: Readonly<AbortSignal>
-  ): Promise<null | GetLinkPreviewResult> {
+  ): Promise<null | LinkPreviewResult> {
     const isPackDownloaded = (pack: any) =>
       pack && (pack.status === 'downloaded' || pack.status === 'installed');
     const isPackValid = (pack: any) =>
@@ -4144,7 +4103,7 @@ Whisper.ConversationView = Whisper.View.extend({
   async getGroupPreview(
     url: string,
     abortSignal: Readonly<AbortSignal>
-  ): Promise<null | GetLinkPreviewResult> {
+  ): Promise<null | LinkPreviewResult> {
     const urlObject = maybeParseUrl(url);
     if (!urlObject) {
       return null;
@@ -4187,7 +4146,7 @@ Whisper.ConversationView = Whisper.View.extend({
         : window.i18n('GroupV2--join--member-count--multiple', {
             count: result.memberCount.toString(),
           });
-    let image: undefined | GetLinkPreviewImageResult;
+    let image: undefined | LinkPreviewImage;
 
     if (result.avatar) {
       try {
@@ -4198,10 +4157,10 @@ Whisper.ConversationView = Whisper.View.extend({
         image = {
           data,
           size: data.byteLength,
-          contentType: 'image/jpeg',
+          contentType: IMAGE_JPEG,
           blurHash: await window.imageToBlurHash(
             new Blob([data], {
-              type: 'image/jpeg',
+              type: IMAGE_JPEG,
             })
           ),
         };
@@ -4229,7 +4188,7 @@ Whisper.ConversationView = Whisper.View.extend({
   async getPreview(
     url: string,
     abortSignal: Readonly<AbortSignal>
-  ): Promise<null | GetLinkPreviewResult> {
+  ): Promise<null | LinkPreviewResult> {
     if (window.Signal.LinkPreviews.isStickerPack(url)) {
       return this.getStickerPackPreview(url, abortSignal);
     }
@@ -4410,32 +4369,10 @@ Whisper.ConversationView = Whisper.View.extend({
     if (this.forwardMessageModal) {
       return;
     }
-    if (this.previewView) {
-      this.previewView.remove();
-      this.previewView = null;
-    }
-    if (!this.currentlyMatchedLink) {
-      return;
-    }
-
-    const first = (this.preview && this.preview[0]) || null;
-    const props = {
-      ...first,
-      domain: first && window.Signal.LinkPreviews.getDomain(first.url),
-      isLoaded: Boolean(first),
-      onClose: () => {
-        this.disableLinkPreviews = true;
-        this.removeLinkPreview();
-      },
-    };
-
-    this.previewView = new Whisper.ReactWrapperView({
-      className: 'preview-wrapper',
-      Component: window.Signal.Components.StagedLinkPreview,
-      elCallback: (el: any) =>
-        this.$(this.compositionApi.current.attSlotRef.current).prepend(el),
-      props,
-    });
+    window.reduxActions.composer.setLinkPreviewResult(
+      Boolean(this.currentlyMatchedLink),
+      this.getLinkPreviewWithDomain()
+    );
   },
 
   getLinkPreview() {
@@ -4459,6 +4396,18 @@ Whisper.ConversationView = Whisper.View.extend({
 
       return item;
     });
+  },
+
+  getLinkPreviewWithDomain(): LinkPreviewWithDomain | undefined {
+    if (!this.preview || !this.preview.length) {
+      return undefined;
+    }
+
+    const [preview] = this.preview;
+    return {
+      ...preview,
+      domain: window.Signal.LinkPreviews.getDomain(preview.url),
+    };
   },
 
   // Called whenever the user changes the message composition field. But only

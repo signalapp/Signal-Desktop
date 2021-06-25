@@ -984,6 +984,7 @@ export async function startApp(): Promise<void> {
         store.dispatch
       ),
       calling: bindActionCreators(actionCreators.calling, store.dispatch),
+      composer: bindActionCreators(actionCreators.composer, store.dispatch),
       conversations: bindActionCreators(
         actionCreators.conversations,
         store.dispatch

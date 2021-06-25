@@ -1914,19 +1914,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.js",
-    "line": "      bb.append(arrayBuffer)",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/boom/lib/index.js",
     "line": "        error = exports.wrap(data, statusCode, message);",
@@ -13435,14 +13422,6 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-10-26T19:12:24.410Z",
     "reasonDetail": "Doesn't refer to a DOM element."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionArea.js",
-    "line": "    const attSlotRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Needed for the composition area."
   },
   {
     "rule": "React-useRef",

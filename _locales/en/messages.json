@@ -5605,5 +5605,29 @@
   "ConversationDetailsHeader--add-group-description": {
     "message": "Add group description...",
     "description": "Placeholder text in the details header for those that can edit the group description"
+  },
+  "MediaQualitySelector--button": {
+    "message": "Select media quality",
+    "description": "aria-label for the media quality selector button"
+  },
+  "MediaQualitySelector--title": {
+    "message": "Media Quality",
+    "description": "Popup selector title"
+  },
+  "MediaQualitySelector--standard-quality-title": {
+    "message": "Standard",
+    "description": "Title for option for standard quality"
+  },
+  "MediaQualitySelector--standard-quality-description": {
+    "message": "Faster, less data",
+    "description": "Description of standard quality selector"
+  },
+  "MediaQualitySelector--high-quality-title": {
+    "message": "High",
+    "description": "Title for option for high quality"
+  },
+  "MediaQualitySelector--high-quality-description": {
+    "message": "Slower, more data",
+    "description": "Description of high quality selector"
   }
 }

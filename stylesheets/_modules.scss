@@ -10575,6 +10575,11 @@ $contact-modal-padding: 18px;
   }
 }
 
+.react-contextmenu-item--disabled.react-contextmenu-item--selected {
+  background-color: inherit;
+  cursor: inherit;
+}
+
 .react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,
 .react-contextmenu-item.react-contextmenu-item--selected.react-contextmenu-item--checked:before {
   color: $color-black;

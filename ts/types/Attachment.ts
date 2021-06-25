@@ -43,6 +43,7 @@ export type AttachmentType = {
     contentType: MIME.MIMEType;
     path: string;
   };
+  screenshotPath?: string;
   flags?: number;
   thumbnail?: ThumbnailType;
   isCorrupted?: boolean;
@@ -51,6 +52,29 @@ export type AttachmentType = {
   cdnId?: string;
   cdnKey?: string;
 };
+
+type BaseAttachmentDraftType = {
+  blurHash?: string;
+  contentType: MIME.MIMEType;
+  fileName: string;
+  screenshotContentType?: string;
+  screenshotSize?: number;
+  size: number;
+};
+
+export type InMemoryAttachmentDraftType = {
+  data?: ArrayBuffer;
+  screenshotData?: ArrayBuffer;
+} & BaseAttachmentDraftType;
+
+export type OnDiskAttachmentDraftType = {
+  path?: string;
+  screenshotPath?: string;
+} & BaseAttachmentDraftType;
+
+export type AttachmentDraftType = {
+  url: string;
+} & BaseAttachmentDraftType;
 
 export type ThumbnailType = {
   height: number;

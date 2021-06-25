@@ -484,14 +484,11 @@ try {
     window.nodeSetImmediate(() => {});
   }, 1000);
 
-  const { autoOrientImage } = require('./js/modules/auto_orient_image');
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
   const { isGroupCallingEnabled } = require('./ts/util/isGroupCallingEnabled');
   const { isValidGuid } = require('./ts/util/isValidGuid');
   const { ActiveWindowService } = require('./ts/services/ActiveWindowService');
 
-  window.autoOrientImage = autoOrientImage;
-  window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
   window.imageToBlurHash = imageToBlurHash;
   window.emojiData = require('emoji-datasource');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();

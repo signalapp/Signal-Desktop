@@ -6,12 +6,13 @@
 import { ProfileKeyCredentialRequestContext } from 'zkgroup';
 import { compact, sample } from 'lodash';
 import {
-  MessageModelCollectionType,
-  WhatIsThis,
-  MessageAttributesType,
-  ReactionModelType,
   ConversationAttributesType,
+  MessageAttributesType,
+  MessageModelCollectionType,
+  QuotedMessageType,
+  ReactionModelType,
   VerificationOptions,
+  WhatIsThis,
 } from '../model-types.d';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import { CallbackResultType, GroupV2InfoType } from '../textsecure/SendMessage';
@@ -40,7 +41,6 @@ import {
   verifyAccessKey,
 } from '../Crypto';
 import * as Bytes from '../Bytes';
-import { DataMessageClass } from '../textsecure.d';
 import { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util';
 import { migrateColor } from '../util/migrateColor';
@@ -3083,7 +3083,7 @@ export class ConversationModel extends window.Backbone
 
   async makeQuote(
     quotedMessage: typeof window.Whisper.MessageType
-  ): Promise<DataMessageClass.Quote> {
+  ): Promise<QuotedMessageType> {
     const { getName } = Contact;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = quotedMessage.getContact()!;
@@ -3100,13 +3100,15 @@ export class ConversationModel extends window.Backbone
 
     return {
       authorUuid: contact.get('uuid'),
-      bodyRanges: quotedMessage.get('bodyRanges'),
-      id: quotedMessage.get('sent_at'),
-      text: body || embeddedContactName,
-      isViewOnce: isTapToView(quotedMessage.attributes),
       attachments: isTapToView(quotedMessage.attributes)
         ? [{ contentType: 'image/jpeg', fileName: null }]
         : await this.getQuoteAttachment(attachments, preview, sticker),
+      bodyRanges: quotedMessage.get('bodyRanges'),
+      id: String(quotedMessage.get('sent_at')),
+      isViewOnce: isTapToView(quotedMessage.attributes),
+      messageId: quotedMessage.get('id'),
+      referencedMessageNotFound: false,
+      text: body || embeddedContactName,
     };
   }
 
@@ -3476,10 +3478,13 @@ export class ConversationModel extends window.Backbone
     mentions?: BodyRangesType,
     {
       dontClearDraft,
+      sendHQImages,
       timestamp,
-    }: { dontClearDraft: boolean; timestamp?: number } = {
-      dontClearDraft: false,
-    }
+    }: {
+      dontClearDraft?: boolean;
+      sendHQImages?: boolean;
+      timestamp?: number;
+    } = {}
   ): void {
     if (this.isGroupV1AndDisabled()) {
       return;
@@ -3530,6 +3535,7 @@ export class ConversationModel extends window.Backbone
         recipients,
         sticker,
         bodyRanges: mentions,
+        sendHQImages,
       });
 
       if (isDirectConversation(this.attributes)) {

@@ -150,8 +150,6 @@ declare global {
 
     moment: typeof moment;
     imageToBlurHash: typeof imageToBlurHash;
-    autoOrientImage: any;
-    dataURLToBlobSync: any;
     loadImage: any;
     isBehindProxy: () => boolean;
     getAutoLaunch: () => boolean;
@@ -220,7 +218,7 @@ declare global {
         getRegionCodeForNumber: (number: string) => string;
         parseNumber: (
           e164: string,
-          defaultRegionCode: string
+          defaultRegionCode?: string
         ) =>
           | { isValidNumber: false; error: unknown }
           | {
