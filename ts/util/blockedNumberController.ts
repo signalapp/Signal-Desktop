@@ -1,4 +1,4 @@
-import { getItemById, createOrUpdateItem } from '../data/data';
+import { createOrUpdateItem, getItemById } from '../data/data';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 

@@ -245,7 +245,7 @@ const doAppStartUp = () => {
   debounce(triggerAvatarReUploadIfNeeded, 200);
 
   // TODO: Investigate the case where we reconnect
-  getSwarmPollingInstance().start();
+  void getSwarmPollingInstance().start();
 };
 
 /**
