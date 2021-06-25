@@ -279,7 +279,21 @@ export class SessionMessagesList extends React.Component<Props, State> {
           const playNextMessage = (index: any) => {
             let nextIndex: number | null = index - 1;
 
-            if (index <= 0 || messages.length < index - 1) {
+            // to prevent autoplaying as soon as a message is received.
+            const latestMessagePlayed = index <= 0 || messages.length < index - 1;
+            if (latestMessagePlayed) {
+              nextIndex = null;
+              this.setState({
+                nextMessageToPlay: nextIndex,
+              });
+              return;
+            }
+
+            // stop auto-playing when the audio messages change author.
+            const prevAuthorNumber = messages[index].propsForMessage.authorPhoneNumber;
+            const nextAuthorNumber = messages[index - 1].propsForMessage.authorPhoneNumber;
+            const differentAuthor = prevAuthorNumber !== nextAuthorNumber;
+            if (differentAuthor) {
               nextIndex = null;
             }
 
