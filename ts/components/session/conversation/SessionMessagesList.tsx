@@ -25,6 +25,7 @@ import { DataExtractionNotification } from '../../conversation/DataExtractionNot
 interface State {
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
+  nextMessageToPlay: number | null;
 }
 
 interface Props {
@@ -68,6 +69,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     this.state = {
       showScrollButton: false,
+      nextMessageToPlay: null,
     };
     autoBind(this);
 
@@ -196,6 +198,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const { conversation, ourPrimary, selectedMessages } = this.props;
     const multiSelectMode = Boolean(selectedMessages.length);
     let currentMessageIndex = 0;
+    let playableMessageIndex = 0;
     const displayUnreadBannerIndex = this.displayUnreadBannerIndex(messages);
 
     return (
@@ -268,6 +271,13 @@ export class SessionMessagesList extends React.Component<Props, State> {
           if (!messageProps) {
             return;
           }
+
+          if (messageProps) {
+            messageProps.nextMessageToPlay = this.state.nextMessageToPlay;
+            messageProps.playableMessageIndex = playableMessageIndex;
+            messageProps.playNextMessage = this.playNextMessage;
+          }
+          playableMessageIndex++;
 
           if (messageProps.conversationType === ConversationTypeEnum.GROUP) {
             messageProps.weAreAdmin = conversation.groupAdmins?.includes(ourPrimary);
@@ -372,6 +382,37 @@ export class SessionMessagesList extends React.Component<Props, State> {
       void conversation.markRead(messages[0].attributes.received_at);
     }
   }
+
+  /**
+   * Sets the targeted index for the next
+   * @param index index of message that just completed
+   */
+  private readonly playNextMessage = (index: any) => {
+    const { messages } = this.props;
+    let nextIndex: number | null = index - 1;
+
+    // to prevent autoplaying as soon as a message is received.
+    const latestMessagePlayed = index <= 0 || messages.length < index - 1;
+    if (latestMessagePlayed) {
+      nextIndex = null;
+      this.setState({
+        nextMessageToPlay: nextIndex,
+      });
+      return;
+    }
+
+    // stop auto-playing when the audio messages change author.
+    const prevAuthorNumber = messages[index].propsForMessage.authorPhoneNumber;
+    const nextAuthorNumber = messages[index - 1].propsForMessage.authorPhoneNumber;
+    const differentAuthor = prevAuthorNumber !== nextAuthorNumber;
+    if (differentAuthor) {
+      nextIndex = null;
+    }
+
+    this.setState({
+      nextMessageToPlay: nextIndex,
+    });
+  };
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~ SCROLLING METHODS ~~~~~~~~~~~~~

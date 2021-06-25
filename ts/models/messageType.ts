@@ -253,4 +253,8 @@ export interface MessageRegularProps {
   onShowDetail: () => void;
   markRead: (readAt: number) => Promise<void>;
   theme: DefaultTheme;
+
+  playableMessageIndex?: number;
+  nextMessageToPlay?: number;
+  playNextMessage?: (value: number) => any;
 }

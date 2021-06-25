@@ -4,18 +4,18 @@ import { SettingsHeader } from './SessionSettingsHeader';
 import { SessionSettingListItem } from './SessionSettingListItem';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { BlockedNumberController, PasswordUtil } from '../../../util';
-import { ToastUtils } from '../../../session/utils';
 import { ConversationLookupType } from '../../../state/ducks/conversations';
 import { StateType } from '../../../state/reducer';
 import { getConversationController } from '../../../session/conversations';
 import { getConversationLookup } from '../../../state/selectors/conversations';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
 import { SpacerLG, SpacerXS } from '../../basic/Text';
 import { shell } from 'electron';
 import { SessionConfirmDialogProps } from '../SessionConfirm';
 import { mapDispatchToProps } from '../../../state/actions';
 import { unblockConvoById } from '../../../interactions/conversationInteractions';
+import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { sessionPassword } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../SessionPasswordModal';
 
@@ -264,10 +264,12 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     });
   }
 
+  /**
+   * If there's a custom afterClick function, execute it instead of automatically updating settings
+   * @param item setting item
+   * @param value new value to set
+   */
   public updateSetting(item: any, value?: string) {
-    // If there's a custom afterClick function,
-    // execute it instead of automatically updating settings
-
     if (item.setFn) {
       if (value) {
         item.setFn(value);
@@ -349,6 +351,23 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: SessionButtonColor.Danger,
         },
+      },
+      {
+        id: 'audio-message-autoplay-setting',
+        title: window.i18n('audioMessageAutoplayTitle'),
+        description: window.i18n('audioMessageAutoplayDescription'),
+        hidden: false,
+        type: SessionSettingType.Toggle,
+        category: SessionSettingCategory.Appearance,
+        setFn: () => {
+          window.inboxStore?.dispatch(toggleAudioAutoplay());
+        },
+        content: {
+          defaultValue: window.inboxStore?.getState().userConfig.audioAutoplay,
+        },
+        comparisonValue: undefined,
+        onClick: undefined,
+        confirmationDialogParams: undefined,
       },
       {
         id: 'notification-setting',

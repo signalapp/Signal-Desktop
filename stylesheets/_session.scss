@@ -1385,3 +1385,23 @@ input {
   padding: $session-margin-sm $session-margin-lg;
   border-radius: 4px;
 }
+
+.speedButton {
+  padding: $session-margin-xs;
+  opacity: 0.6;
+  transition: none;
+  &:hover {
+    @include themify($themes) {
+      opacity: 1;
+    }
+  }
+  .session-button {
+    transition: none;
+
+    &:hover {
+      @include themify($themes) {
+        color: themed('textColorOpposite');
+      }
+    }
+  }
+}
