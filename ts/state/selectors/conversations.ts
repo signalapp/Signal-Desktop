@@ -518,6 +518,7 @@ const getGroupCreationComposerState = createSelector(
   ): {
     groupName: string;
     groupAvatar: undefined | ArrayBuffer;
+    groupExpireTimer: number;
     selectedConversationIds: Array<string>;
   } => {
     switch (composerState?.step) {
@@ -532,6 +533,7 @@ const getGroupCreationComposerState = createSelector(
         return {
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
           selectedConversationIds: [],
         };
     }
@@ -546,6 +548,11 @@ export const getComposeGroupAvatar = createSelector(
 export const getComposeGroupName = createSelector(
   getGroupCreationComposerState,
   (composerState): string => composerState.groupName
+);
+
+export const getComposeGroupExpireTimer = createSelector(
+  getGroupCreationComposerState,
+  (composerState): number => composerState.groupExpireTimer
 );
 
 export const getComposeSelectedContacts = createSelector(

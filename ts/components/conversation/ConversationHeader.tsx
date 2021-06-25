@@ -13,7 +13,7 @@ import {
 } from 'react-contextmenu';
 
 import { Emojify } from './Emojify';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog';
+import { DisappearingTimeDialog } from '../DisappearingTimeDialog';
 import { Avatar, AvatarSize } from '../Avatar';
 import { InContactsIcon } from '../InContactsIcon';
 

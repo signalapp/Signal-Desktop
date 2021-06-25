@@ -50,6 +50,7 @@ export abstract class LeftPaneHelper<T> {
       i18n: LocalizerType;
       setComposeGroupAvatar: (_: undefined | ArrayBuffer) => unknown;
       setComposeGroupName: (_: string) => unknown;
+      setComposeGroupExpireTimer: (_: number) => void;
       onChangeComposeSearchTerm: (
         event: ChangeEvent<HTMLInputElement>
       ) => unknown;

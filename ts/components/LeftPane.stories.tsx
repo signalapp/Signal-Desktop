@@ -126,6 +126,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   setComposeSearchTerm: action('setComposeSearchTerm'),
   setComposeGroupAvatar: action('setComposeGroupAvatar'),
   setComposeGroupName: action('setComposeGroupName'),
+  setComposeGroupExpireTimer: action('setComposeGroupExpireTimer'),
   showArchivedConversations: action('showArchivedConversations'),
   showInbox: action('showInbox'),
   startComposing: action('startComposing'),
@@ -511,6 +512,56 @@ story.add('Captcha dialog: pending', () => (
         archivedConversations: [],
       },
       challengeStatus: 'pending',
+    })}
+  />
+));
+
+// Set group metadata
+
+story.add('Group Metadata: No Timer', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.SetGroupMetadata,
+        groupAvatar: undefined,
+        groupName: 'Group 1',
+        groupExpireTimer: 0,
+        hasError: false,
+        isCreating: false,
+        selectedContacts: defaultConversations,
+      },
+    })}
+  />
+));
+
+story.add('Group Metadata: Regular Timer', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.SetGroupMetadata,
+        groupAvatar: undefined,
+        groupName: 'Group 1',
+        groupExpireTimer: 24 * 3600,
+        hasError: false,
+        isCreating: false,
+        selectedContacts: defaultConversations,
+      },
+    })}
+  />
+));
+
+story.add('Group Metadata: Custom Timer', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.SetGroupMetadata,
+        groupAvatar: undefined,
+        groupName: 'Group 1',
+        groupExpireTimer: 7 * 3600,
+        hasError: false,
+        isCreating: false,
+        selectedContacts: defaultConversations,
+      },
     })}
   />
 ));

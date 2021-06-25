@@ -107,7 +107,7 @@ import { MessageDetail } from './components/conversation/MessageDetail';
 import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
-import { DisappearingTimeDialog } from './components/conversation/DisappearingTimeDialog';
+import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 import { MIMEType } from './types/MIME';
 import { AttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';

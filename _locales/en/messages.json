@@ -1805,7 +1805,7 @@
   },
   "disappearingMessages": {
     "message": "Disappearing messages",
-    "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+    "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
     "message": "Disappearing messages disabled",

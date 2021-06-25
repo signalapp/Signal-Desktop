@@ -56,7 +56,7 @@ const {
 } = require('../../ts/components/conversation/StagedLinkPreview');
 const {
   DisappearingTimeDialog,
-} = require('../../ts/components/conversation/DisappearingTimeDialog');
+} = require('../../ts/components/DisappearingTimeDialog');
 
 // State
 const { createTimeline } = require('../../ts/state/roots/createTimeline');
