@@ -33,7 +33,6 @@ const defaultRoomsSlice = createSlice({
     },
     updateDefaultRoomsInProgress(state, action) {
       const inProgress = action.payload as boolean;
-      window?.log?.info('fetching default rooms inProgress?', action.payload);
       return { ...state, inProgress };
     },
     updateDefaultBase64RoomData(state, action: PayloadAction<Base64Update>) {

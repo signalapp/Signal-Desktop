@@ -17,6 +17,12 @@ export const TTL_DEFAULT = {
   TTL_MAX: 14 * DURATION.DAYS,
 };
 
+export const SWARM_POLLING_TIMEOUT = {
+  ACTIVE: DURATION.SECONDS * 5,
+  MEDIUM_ACTIVE: DURATION.SECONDS * 60,
+  INACTIVE: DURATION.MINUTES * 60,
+};
+
 export const PROTOCOLS = {
   // tslint:disable-next-line: no-http-string
   HTTP: 'http:',
