@@ -50,7 +50,6 @@ interface State {
   expiring: boolean;
   expired: boolean;
   imageBroken: boolean;
-  playbackSpeed: number;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -69,7 +68,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       expiring: false,
       expired: false,
       imageBroken: false,
-      playbackSpeed: 1,
     };
     this.ctxMenuID = `ctx-menu-message-${uuid()}`;
   }
@@ -205,7 +203,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           }}
         >
           <AudioPlayerWithEncryptedFile
-            playbackSpeed={this.state.playbackSpeed}
             src={firstAttachment.url}
             contentType={firstAttachment.contentType}
             playNextMessage={this.props.playNextMessage}
@@ -576,11 +573,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           </Item>
         ) : null}
 
-        {isAudio(attachments) ? (
-          <Item onClick={this.updatePlaybackSpeed}>
-            {window.i18n('playAtCustomSpeed', this.state.playbackSpeed === 1 ? 2 : 1)}
-          </Item>
-        ) : null}
         <Item
           onClick={() => {
             MessageInteraction.copyBodyToClipboard(text);
@@ -825,15 +817,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         </div>
       </InView>
     );
-  }
-
-  /**
-   * Doubles / halves the playback speed based on the current playback speed.
-   */
-  private updatePlaybackSpeed() {
-    this.setState(prevState => ({
-      playbackSpeed: prevState.playbackSpeed === 1 ? 2 : 1,
-    }));
   }
 
   private handleContextMenu(e: any) {
