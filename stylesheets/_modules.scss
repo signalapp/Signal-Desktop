@@ -5383,6 +5383,9 @@ button.module-image__border-overlay:focus {
   display: flex;
   justify-content: space-between;
   padding-top: var(--title-bar-drag-area-height);
+  position: absolute;
+  width: 100%;
+  z-index: 2;
 }
 
 .module-incoming-call__contact {

@@ -1,5 +1,6 @@
 .App {
   height: 100%;
+  position: relative;
 
   &.light-theme {
     background-color: $color-white;
