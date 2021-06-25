@@ -45,6 +45,11 @@ export function createBatcher<ItemType>(
   const queue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
 
   function _kickBatchOff() {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+
     const itemsRef = items;
     items = [];
     queue.add(async () => {
@@ -58,15 +63,8 @@ export function createBatcher<ItemType>(
     if (items.length === 1) {
       // Set timeout once when we just pushed the first item so that the wait
       // time is bounded by `options.wait` and not extended by further pushes.
-      timeout = setTimeout(() => {
-        timeout = null;
-        _kickBatchOff();
-      }, options.wait);
+      timeout = setTimeout(_kickBatchOff, options.wait);
     } else if (items.length >= options.maxSize) {
-      if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
-      }
       _kickBatchOff();
     }
   }
@@ -97,10 +95,6 @@ export function createBatcher<ItemType>(
     window.log.info(
       `Flushing ${options.name} batcher items.length=${items.length}`
     );
-    if (timeout) {
-      clearTimeout(timeout);
-      timeout = null;
-    }
 
     while (anyPending()) {
       _kickBatchOff();
