@@ -1,14 +1,19 @@
 // Audio Player
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import H5AudioPlayer from 'react-h5-audio-player';
+import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
+import { getAudioAutoplay } from '../../state/selectors/userConfig';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 
 export const AudioPlayerWithEncryptedFile = (props: {
   src: string;
   contentType: string;
   playbackSpeed: number;
+  playNextMessage?: (index: number) => void;
+  playableMessageIndex?: number;
+  nextMessageToPlay?: number;
 }) => {
   const theme = useTheme();
   const { urlToLoad } = useEncryptedFileFetch(props.src, props.contentType);
@@ -22,6 +27,24 @@ export const AudioPlayerWithEncryptedFile = (props: {
     }
   }, [playbackSpeed]);
 
+  useEffect(() => {
+    if (props.playableMessageIndex === props.nextMessageToPlay) {
+      player.current?.audio.current?.play();
+    }
+  });
+
+  const onEnded = () => {
+    // if audio autoplay is enabled, call method to start playing
+    // the next playable message
+    if (
+      window.inboxStore?.getState().userConfig.audioAutoplay === true &&
+      props.playNextMessage &&
+      props.playableMessageIndex !== undefined
+    ) {
+      props.playNextMessage(props.playableMessageIndex);
+    }
+  };
+
   return (
     <H5AudioPlayer
       src={urlToLoad}
@@ -30,6 +53,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
       showJumpControls={false}
       showDownloadProgress={false}
       listenInterval={100}
+      onEnded={onEnded}
       ref={player}
       customIcons={{
         play: (
