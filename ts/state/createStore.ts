@@ -36,7 +36,6 @@ const persistedReducer = persistReducer(persistConfig, allReducers);
 
 // Exclude logger if we're in production mode
 const disableLogging = env === 'production' || true; // ALWAYS TURNED OFF
-// const middlewareList = disableLogging ? [promise, thunk] : [promise, logger, thunk ];
 const middlewareList = disableLogging ? [promise] : [promise, logger];
 
 export const createStore = (initialState: any) =>
