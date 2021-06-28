@@ -1203,6 +1203,7 @@ input {
   flex-direction: column;
   margin: $session-margin-sm;
   align-items: flex-start;
+  position: relative;
 
   .onion__node {
     display: flex;
@@ -1218,6 +1219,17 @@ input {
       margin: $session-margin-sm !important;
     }
   }
+
+    .onion__vertical-line {
+      border-left: 2px solid rgba($color: #585858, $alpha: 1.0);
+      height: 185px;
+      position: absolute;
+      left: 22px;
+
+      // node item padding (i.e. one destination) + icon padding + half sessionIcon.small height
+      top: 23.35px;
+      z-index: -1;
+    }
 }
 
 .session-nickname-wrapper {
