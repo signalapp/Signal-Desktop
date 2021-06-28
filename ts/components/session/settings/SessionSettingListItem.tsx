@@ -22,12 +22,12 @@ type Props = {
 };
 
 export const SessionSettingListItem = (props: Props) => {
-  const handleSlider = (value: any) => {
+  const handleSlider = (valueToForward: any) => {
     if (props.onSliderChange) {
-      props.onSliderChange(value);
+      props.onSliderChange(valueToForward);
     }
 
-    setSliderValue(value);
+    setSliderValue(valueToForward);
   };
 
   const [sliderValue, setSliderValue] = useState(null);
