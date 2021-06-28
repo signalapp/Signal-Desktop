@@ -102,8 +102,12 @@ export const icons = {
     ratio: 1,
   },
   [SessionIconType.Circle]: {
-    path: 'M 100, 100m -75, 0a 75,75 0 1,0 150,0a 75,75 0 1,0 -150,0',
-    viewBox: '0 0 200 200',
+    path: '\
+    M 0, 50\
+    a 50,50 0 1,1 100,0\
+    a 50,50 0 1,1 -100,0\
+  ',
+    viewBox: '0 0 100 100',
     ratio: 1,
   },
   [SessionIconType.CircleCheck]: {
