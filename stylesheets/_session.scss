@@ -470,6 +470,7 @@ label {
     }
     &__close > div {
       float: left;
+      padding: $session-margin-xs;
       margin: 0px;
     }
     &__icons > div {
@@ -1211,19 +1212,12 @@ input {
     align-items: center;
     margin: $session-margin-xs;
 
-    &__country {
-      margin: $session-margin-sm;
+    &:nth-child(2) {
+      margin-top: 0;
     }
 
-    &__growing-icon {
-      position: relative;
-      width: 20px;
-      height: 20px svg {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
+    &:nth-last-child(2) {
+      margin-bottom: 0;
     }
 
     .session-icon-button {
@@ -1231,13 +1225,27 @@ input {
     }
   }
 
+  .onion__node-list-lights {
+    position: relative;
+  }
+  .onion__node__country {
+    margin: $session-margin-sm;
+  }
+
+  .onion__growing-icon {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+
   .onion__vertical-line {
-    border-left: 2px solid $onionPathLineColor;
-    height: 182px;
+    background: $onionPathLineColor;
     position: absolute;
-    left: 11px;
-    top: 22px;
-    z-index: -1;
+    height: calc(100% - 2 * 15px);
+    margin: 15px calc(100% / 2 - 1px);
+
+    width: 1px;
+    // z-index: -1;
   }
 }
 
