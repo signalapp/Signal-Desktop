@@ -1742,7 +1742,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       });
     } catch (result) {
       const errors = (result && result.errors) || [new Error('Unknown error')];
-      this.saveErrors(errors);
+      // We don't save because we're about to save below.
+      this.saveErrors(errors, { skipSave: true });
     } finally {
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: window.Whisper.Message,
