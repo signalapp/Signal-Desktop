@@ -342,7 +342,7 @@ export async function selectGuardNodes(): Promise<Array<Snode>> {
 async function buildNewOnionPathsWorker() {
   window?.log?.info('LokiSnodeAPI::buildNewOnionPaths - building new onion paths...');
 
-  const allNodes = await SnodePool.getRandomSnodePool();
+  let allNodes = await SnodePool.getRandomSnodePool();
 
   if (guardNodes.length === 0) {
     // Not cached, load from DB
@@ -369,7 +369,8 @@ async function buildNewOnionPathsWorker() {
     // TODO: don't throw away potentially good guard nodes
     guardNodes = await exports.selectGuardNodes();
   }
-
+  // be sure to fetch again as that list might have been refreshed by selectGuardNodes
+  allNodes = await SnodePool.getRandomSnodePool();
   // TODO: select one guard node and 2 other nodes randomly
   let otherNodes = _.differenceBy(allNodes, guardNodes, 'pubkey_ed25519');
   if (otherNodes.length < 2) {

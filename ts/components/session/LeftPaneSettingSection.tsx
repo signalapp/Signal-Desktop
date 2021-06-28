@@ -120,7 +120,6 @@ const onDeleteAccount = () => {
       okTheme: SessionButtonColor.Danger,
       onClickOk: deleteAccount,
       onClickClose,
-      closeAfterClickOk: true,
     })
   );
 };
