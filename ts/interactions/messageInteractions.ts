@@ -173,7 +173,9 @@ const acceptOpenGroupInvitationV2 = (completeUrl: string, roomName?: string) => 
     updateConfirmModal({
       title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', roomName),
       message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', roomName),
-      onClickOk: () => joinOpenGroupV2WithUIEvents(completeUrl, true, false),
+      onClickOk: async () => {
+        await joinOpenGroupV2WithUIEvents(completeUrl, true, false);
+      },
 
       onClickClose,
     })
