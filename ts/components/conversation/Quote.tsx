@@ -239,14 +239,7 @@ export const QuoteText = (props: any) => {
 };
 
 export const QuoteAuthor = (props: any) => {
-  const {
-    authorProfileName,
-    authorPhoneNumber,
-    authorName,
-    isFromMe,
-    isIncoming,
-    isPublic,
-  } = props;
+  const { authorProfileName, authorPhoneNumber, authorName, isFromMe, isIncoming } = props;
 
   return (
     <div
@@ -263,7 +256,7 @@ export const QuoteAuthor = (props: any) => {
           name={authorName}
           profileName={authorProfileName}
           compact={true}
-          shouldShowPubkey={Boolean(isPublic)}
+          shouldShowPubkey={false} // never show the pubkey for quoted messages author
         />
       )}
     </div>
