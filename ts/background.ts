@@ -3016,7 +3016,7 @@ export async function startApp(): Promise<void> {
     return confirm();
   }
 
-  function createSentMessage(data: WhatIsThis, descriptor: WhatIsThis) {
+  function createSentMessage(data: WhatIsThis, descriptor: MessageDescriptor) {
     const now = Date.now();
     let sentTo = [];
 
