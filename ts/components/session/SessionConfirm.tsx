@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { update } from 'lodash';
 import { SpacerLG } from '../basic/Text';
+import { SessionSpinner } from './SessionSpinner';
 
 export interface SessionConfirmDialogProps {
   message?: string;
@@ -26,7 +27,6 @@ export interface SessionConfirmDialogProps {
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;
   theme?: DefaultTheme;
-  closeAfterClickOk?: boolean;
   shouldShowConfirm?: () => boolean | undefined;
 }
 
@@ -45,6 +45,8 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     shouldShowConfirm,
   } = props;
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const okText = props.okText || window.i18n('ok');
   const cancelText = props.cancelText || window.i18n('cancel');
   const showHeader = !!props.title;
@@ -53,9 +55,16 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
 
   const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
 
-  const onClickOkHandler = () => {
+  const onClickOkHandler = async () => {
     if (onClickOk) {
-      onClickOk();
+      setIsLoading(true);
+      try {
+        await onClickOk();
+      } catch (e) {
+        window.log.warn(e);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     window.inboxStore?.dispatch(updateConfirmModal(null));
@@ -99,6 +108,8 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
           className="session-confirm-sub-message subtle"
           html={messageSub}
         />
+
+        <SessionSpinner loading={isLoading} />
       </div>
 
       <div className="session-modal__button-group">
