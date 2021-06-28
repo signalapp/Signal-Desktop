@@ -8,8 +8,12 @@ import Electron from 'electron';
 const { shell } = Electron;
 
 import { useDispatch, useSelector } from 'react-redux';
-import { StateType } from '../state/reducer';
-import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
+import {
+  SessionIcon,
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from './session/icon';
 
 import { SessionWrapperModal } from './session/SessionWrapperModal';
 
@@ -56,7 +60,7 @@ const OnionPathModalInner = () => {
     <>
       <p className="onion__description">{window.i18n('onionPathIndicatorDescription')}</p>
       <div className="onion__node-list">
-              <div className="onion__vertical-line" />
+        <div className="onion__vertical-line" />
         {nodes.map((snode: Snode | any, index: number) => {
           return (
             <>
@@ -102,7 +106,7 @@ export const OnionNodeStatusLight = (props: OnionNodeStatusLightType): JSX.Eleme
       />
       {labelText ? (
         <>
-          <div className="onion-node__country">{labelText}</div>
+          <div className="onion__node__country">{labelText}</div>
         </>
       ) : null}
     </div>
@@ -117,15 +121,17 @@ export const ModalStatusLight = (props: StatusLightType) => {
   const theme = useSelector(getTheme);
 
   return (
-    <SessionIcon
-      borderRadius={50}
-      iconColor={color}
-      glowDuration={glowDuration}
-      glowStartDelay={glowStartDelay}
-      iconType={SessionIconType.Circle}
-      iconSize={SessionIconSize.Small}
-      theme={theme}
-    />
+    <div className="onion__growing-icon">
+      <SessionIcon
+        borderRadius={50}
+        iconColor={color}
+        glowDuration={glowDuration}
+        glowStartDelay={glowStartDelay}
+        iconType={SessionIconType.Circle}
+        iconSize={SessionIconSize.Small}
+        theme={theme}
+      />
+    </div>
   );
 };
 
