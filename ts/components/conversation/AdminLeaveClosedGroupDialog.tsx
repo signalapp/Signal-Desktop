@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { SessionWrapperModal } from '../session/SessionWrapperModal';
@@ -16,11 +16,15 @@ export const AdminLeaveClosedGroupDialog = (props: Props) => {
   const warningAsAdmin = `${window.i18n('leaveGroupConfirmationAdmin')}`;
   const okText = window.i18n('leaveAndRemoveForEveryone');
   const cancelText = window.i18n('cancel');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onClickOK = async () => {
+    setIsLoading(true);
     await getConversationController()
       .get(props.conversationId)
       .leaveClosedGroup();
+    setIsLoading(false);
+
     closeDialog();
   };
 
