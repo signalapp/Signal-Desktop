@@ -160,7 +160,7 @@
     "underscore": "1.12.1",
     "uuid": "3.3.2",
     "websocket": "1.0.28",
-    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#7ecf70be85e5a485ec870c1723b1c6247b9d549e",
+    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#3bb62fa44dc69560436a8c946ea48630f3230ed3",
     "zod": "3.0.2"
   },
   "devDependencies": {
@@ -287,10 +287,7 @@
     "@storybook/react/@storybook/core/node-fetch": "2.6.1",
     "fast-glob/glob-parent": "5.1.2",
     "read-last-lines/mz/thenify-all/thenify": "3.3.1",
-    "sharp/color/color-string": "1.5.5",
-    "zkgroup/ref-napi/node-addon-api": "2.0.1",
-    "zkgroup/ffi-napi/ref-napi/node-addon-api": "2.0.1",
-    "zkgroup/ref-array-napi/ref-napi/node-addon-api": "2.0.1"
+    "sharp/color/color-string": "1.5.5"
   },
   "engines": {
     "node": "14.16.0"

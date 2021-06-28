@@ -12347,34 +12347,6 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
     "path": "node_modules/ref-struct-di/node_modules/debug/src/browser.js",
     "line": "function load() {",
     "reasonCategory": "falseMatch",
