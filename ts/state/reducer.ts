@@ -14,6 +14,10 @@ import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
 import { modalReducer as modals, ModalState } from './ducks/modalDialog';
 import { userConfigReducer as userConfig, UserConfigState } from './ducks/userConfig';
 
+// tslint:disable-next-line: no-submodule-imports match-default-export-name
+import storage from 'redux-persist/lib/storage';
+import persistReducer from 'redux-persist/lib/persistReducer';
+
 export type StateType = {
   search: SearchStateType;
   user: UserStateType;
@@ -27,9 +31,15 @@ export type StateType = {
   userConfig: UserConfigState;
 };
 
+const conversationsPersistConfig = {
+  key: 'conversations',
+  storage,
+  whitelist: ['conversationLookup']
+}
+
 export const reducers = {
   search,
-  conversations,
+  conversations: persistReducer(conversationsPersistConfig, conversations),
   user,
   theme,
   section,

@@ -141,8 +141,8 @@ export const MenuItemPinConversation = (props: PinConversationMenuItemProps): JS
         isPinned: !isPinned
       }))
   }
-
-  return <Item onClick={togglePinConversation}>{(isPinned ? 'Unpin' : 'Pin') + ' Conversation'}</Item>
+  const menuText = isPinned ? window.i18n('unpinConversation'): window.i18n('pinConversation');
+  return <Item onClick={togglePinConversation}>{menuText}</Item>
 }
 
 export function getDeleteContactMenuItem(

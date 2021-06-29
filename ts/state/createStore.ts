@@ -6,7 +6,6 @@ import { persistReducer } from 'redux-persist';
 
 // tslint:disable-next-line: no-submodule-imports match-default-export-name
 import storage from 'redux-persist/lib/storage';
-import purgeStoredState from 'redux-persist/es/purgeStoredState';
 
 // @ts-ignore
 const env = window.getEnvironment();
@@ -30,7 +29,7 @@ const logger = createLogger({
 export const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['userConfig', 'conversations'],
+  whitelist: ['userConfig']
 };
 
 const persistedReducer = persistReducer(persistConfig, allReducers);
@@ -41,7 +40,6 @@ const middlewareList = disableLogging ? [promise] : [promise, logger];
 
 export const createStore = (initialState: any) =>
   configureStore({
-    // reducer: allReducers,
     reducer: persistedReducer,
     preloadedState: initialState,
     middleware: (getDefaultMiddleware: any) => getDefaultMiddleware().concat(middlewareList),
