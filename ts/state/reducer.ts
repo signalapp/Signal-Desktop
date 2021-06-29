@@ -16,6 +16,8 @@ import { userConfigReducer as userConfig, UserConfigState } from './ducks/userCo
 
 // tslint:disable-next-line: no-submodule-imports match-default-export-name
 import storage from 'redux-persist/lib/storage';
+
+// tslint:disable-next-line: no-submodule-imports match-default-export-name
 import persistReducer from 'redux-persist/lib/persistReducer';
 
 export type StateType = {
@@ -34,8 +36,8 @@ export type StateType = {
 const conversationsPersistConfig = {
   key: 'conversations',
   storage,
-  whitelist: ['conversationLookup']
-}
+  whitelist: ['conversationLookup'],
+};
 
 export const reducers = {
   search,

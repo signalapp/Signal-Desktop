@@ -408,12 +408,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       left: !!this.get('left'),
       groupAdmins,
       members,
-      isPinned: this.getIsPinned() || false
+      isPinned: this.getIsPinned() || false,
     };
-  }
-
-  private getIsPinned() {
-    return window.inboxStore?.getState().conversations.conversationLookup[this.id].isPinned;
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>) {
@@ -506,9 +502,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
               fileName: fileName || null,
               thumbnail: thumbnail
                 ? {
-                  ...(await loadAttachmentData(thumbnail)),
-                  objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-                }
+                    ...(await loadAttachmentData(thumbnail)),
+                    objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+                  }
                 : null,
             };
           })
@@ -531,9 +527,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
               fileName: null,
               thumbnail: image
                 ? {
-                  ...(await loadAttachmentData(image)),
-                  objectUrl: getAbsoluteAttachmentPath(image.path),
-                }
+                    ...(await loadAttachmentData(image)),
+                    objectUrl: getAbsoluteAttachmentPath(image.path),
+                  }
                 : null,
             };
           })
@@ -1440,6 +1436,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const { expireTimer } = json;
 
     return typeof expireTimer === 'number' && expireTimer > 0;
+  }
+
+  private getIsPinned() {
+    return window.inboxStore?.getState().conversations.conversationLookup[this.id].isPinned;
   }
 }
 

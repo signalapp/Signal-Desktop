@@ -82,7 +82,7 @@ export interface ConversationType {
   avatarPath?: string; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
-  isPinned?: boolean
+  isPinned?: boolean;
 }
 
 export type ConversationLookupType = {

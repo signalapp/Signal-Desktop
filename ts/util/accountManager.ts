@@ -137,7 +137,7 @@ async function bouncyDeleteAccount(reason?: string) {
     window.localStorage.setItem('restart-reason', reason || '');
     if (window.inboxStore) {
       // warrick: this part might be redundant due to localStorage getting cleared.
-      persistStore(window.inboxStore).purge();
+      await persistStore(window.inboxStore).purge();
     }
   };
   try {

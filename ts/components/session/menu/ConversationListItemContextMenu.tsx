@@ -13,7 +13,7 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
   getMarkAllReadMenuItem,
-  MenuItemPinConversation
+  MenuItemPinConversation,
 } from './Menu';
 
 export type PropsContextConversationItem = {
@@ -47,7 +47,9 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
   const isGroup = type === 'group';
 
   const isConversation = conversationListItemType === ConversationListItemType.Conversation;
-  const pinMenuItem = isConversation ? <MenuItemPinConversation conversationId={conversationId} /> : null;
+  const pinMenuItem = isConversation ? (
+    <MenuItemPinConversation conversationId={conversationId} />
+  ) : null;
 
   return (
     <>

@@ -1,7 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
 import { AutoSizer, List } from 'react-virtualized';
-
 import { MainViewController } from '../MainViewController';
 import {
   ConversationListItemProps,
@@ -11,7 +9,7 @@ import {
 import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../SearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
-import { debounce } from 'lodash';
+import _, { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
 import { RowRendererParamsType } from '../LeftPane';
@@ -30,8 +28,6 @@ import { joinOpenGroupV2WithUIEvents } from '../../opengroup/opengroupV2/JoinOpe
 import autoBind from 'auto-bind';
 import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
 import { SNodeAPI } from '../../session/snode_api';
-
-import { createClosedGroup } from '../../receiver/closedGroups';
 
 export interface Props {
   searchTerm: string;
@@ -89,8 +85,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       throw new Error('renderRow: Tried to render without conversations');
     }
 
-    conversations = _.sortBy([...conversations], (convo) => {
-      return convo.isPinned ? -1 : 1
+    conversations = _.sortBy([...conversations], convo => {
+      return convo.isPinned ? -1 : 1;
     });
 
     const conversation = conversations[index];
@@ -107,8 +103,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   };
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
-    let { conversations } = this.props;
-    const { openConversationExternal, searchResults } = this.props;
+    const { conversations, openConversationExternal, searchResults } = this.props;
     const contacts = searchResults?.contacts || [];
 
     if (searchResults) {

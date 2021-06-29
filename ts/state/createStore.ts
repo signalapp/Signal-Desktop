@@ -29,7 +29,7 @@ const logger = createLogger({
 export const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['userConfig']
+  whitelist: ['userConfig'],
 };
 
 const persistedReducer = persistReducer(persistConfig, allReducers);

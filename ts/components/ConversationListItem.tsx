@@ -79,14 +79,14 @@ class ConversationListItem extends React.PureComponent<Props> {
       unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
     }
 
-    const pinIcon = (conversationListItemType === ConversationListItemType.Conversation && isPinned) ?
-      <SessionIcon
-        iconType={SessionIconType.Pin}
-        iconColor={this.props.theme.colors.textColorSubtle}
-        iconSize={SessionIconSize.Tiny} />
-      :
-      null;
-
+    const pinIcon =
+      conversationListItemType === ConversationListItemType.Conversation && isPinned ? (
+        <SessionIcon
+          iconType={SessionIconType.Pin}
+          iconColor={this.props.theme.colors.textColorSubtle}
+          iconSize={SessionIconSize.Tiny}
+        />
+      ) : null;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -97,7 +97,6 @@ class ConversationListItem extends React.PureComponent<Props> {
           )}
         >
           {this.renderUser()}
-
         </div>
 
         {pinIcon}
