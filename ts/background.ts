@@ -55,6 +55,10 @@ import { ReadReceipts } from './messageModifiers/ReadReceipts';
 import { ReadSyncs } from './messageModifiers/ReadSyncs';
 import { ViewSyncs } from './messageModifiers/ViewSyncs';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
+import {
+  SystemTraySetting,
+  parseSystemTraySetting,
+} from './types/SystemTraySetting';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -463,6 +467,12 @@ export async function startApp(): Promise<void> {
         window.storage.put('hide-menu-bar', value);
         window.setAutoHideMenuBar(value);
         window.setMenuBarVisibility(!value);
+      },
+      getSystemTraySetting: (): SystemTraySetting =>
+        parseSystemTraySetting(window.storage.get('system-tray-setting')),
+      setSystemTraySetting: (value: Readonly<SystemTraySetting>) => {
+        window.storage.put('system-tray-setting', value);
+        window.updateSystemTraySetting(value);
       },
 
       getNotificationSetting: () =>

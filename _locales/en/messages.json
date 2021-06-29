@@ -1527,6 +1527,14 @@
     "message": "Spell check will be disabled the next time Signal starts.",
     "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
   },
+  "SystemTraySetting__minimize-to-system-tray": {
+    "message": "Minimize to system tray",
+    "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+  },
+  "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+    "message": "Start minimized to tray",
+    "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+  },
   "autoLaunchDescription": {
     "message": "Open at computer login",
     "description": "Description for the automatic launch setting"

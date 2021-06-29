@@ -1060,6 +1060,14 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.system-tray-setting-container'),",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-24T23:16:24.537Z",
+    "reasonDetail": "Interacting with already-existing DOM nodes"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",

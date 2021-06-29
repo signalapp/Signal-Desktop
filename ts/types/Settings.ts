@@ -49,3 +49,11 @@ export enum TitleBarVisibility {
 // This should match the "logic" in `stylesheets/_global.scss`.
 export const getTitleBarVisibility = (): TitleBarVisibility =>
   OS.isMacOS() ? TitleBarVisibility.Hidden : TitleBarVisibility.Visible;
+
+/**
+ * Returns `true` if you can minimize the app to the system tray. Users can override this
+ * option with a command line flag, but that is not officially supported.
+ *
+ * We may add support for Linux in the future.
+ */
+export const isSystemTraySupported = OS.isWindows;

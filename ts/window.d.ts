@@ -121,6 +121,7 @@ import { ConversationColorType, CustomColorType } from './types/Colors';
 import { MessageController } from './util/MessageController';
 import { isValidGuid } from './util/isValidGuid';
 import { StateType } from './state/reducer';
+import { SystemTraySetting } from './types/SystemTraySetting';
 
 export { Long } from 'long';
 
@@ -251,6 +252,7 @@ declare global {
     setAutoHideMenuBar: (value: WhatIsThis) => void;
     setBadgeCount: (count: number) => void;
     setMenuBarVisibility: (value: WhatIsThis) => void;
+    updateSystemTraySetting: (value: SystemTraySetting) => void;
     showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
     storage: Storage;

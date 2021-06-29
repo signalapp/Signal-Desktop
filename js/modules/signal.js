@@ -57,6 +57,9 @@ const {
 const {
   DisappearingTimeDialog,
 } = require('../../ts/components/DisappearingTimeDialog');
+const {
+  SystemTraySettingsCheckboxes,
+} = require('../../ts/components/conversation/SystemTraySettingsCheckboxes');
 
 // State
 const { createTimeline } = require('../../ts/state/roots/createTimeline');
@@ -341,6 +344,7 @@ exports.setup = (options = {}) => {
     ProgressModal,
     StagedLinkPreview,
     DisappearingTimeDialog,
+    SystemTraySettingsCheckboxes,
     Types: {
       Message: MediaGalleryMessage,
     },

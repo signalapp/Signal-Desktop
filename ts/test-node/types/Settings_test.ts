@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import os from 'os';
@@ -165,6 +165,24 @@ describe('Settings', () => {
     it('returns true on Linux', () => {
       sandbox.stub(process, 'platform').value('linux');
       assert.isTrue(Settings.isDrawAttentionSupported());
+    });
+  });
+
+  describe('isSystemTraySupported', () => {
+    it('returns false on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      assert.isFalse(Settings.isSystemTraySupported());
+    });
+
+    it('returns true on Windows 8', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      assert.isTrue(Settings.isSystemTraySupported());
+    });
+
+    it('returns false on Linux', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isFalse(Settings.isSystemTraySupported());
     });
   });
 });

@@ -157,6 +157,12 @@ try {
   window.setMenuBarVisibility = visibility =>
     ipc.send('set-menu-bar-visibility', visibility);
 
+  window.updateSystemTraySetting = (
+    systemTraySetting /* : Readonly<SystemTraySetting> */
+  ) => {
+    ipc.send('update-system-tray-setting', systemTraySetting);
+  };
+
   window.restart = () => {
     window.log.info('restart');
     ipc.send('restart');
@@ -231,6 +237,8 @@ try {
   installSetter('theme-setting', 'setThemeSetting');
   installGetter('hide-menu-bar', 'getHideMenuBar');
   installSetter('hide-menu-bar', 'setHideMenuBar');
+  installGetter('system-tray-setting', 'getSystemTraySetting');
+  installSetter('system-tray-setting', 'setSystemTraySetting');
 
   installGetter('notification-setting', 'getNotificationSetting');
   installSetter('notification-setting', 'setNotificationSetting');

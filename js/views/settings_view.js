@@ -1,4 +1,4 @@
-// Copyright 2016-2020 Signal Messenger, LLC
+// Copyright 2016-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global i18n: false */
@@ -274,6 +274,16 @@
           setFn: window.setHideMenuBar,
         });
       }
+      new window.Whisper.ReactWrapperView({
+        el: this.$('.system-tray-setting-container'),
+        Component: window.Signal.Components.SystemTraySettingsCheckboxes,
+        props: {
+          i18n,
+          initialValue: window.initialData.systemTray,
+          isSystemTraySupported: Settings.isSystemTraySupported(),
+          onChange: window.setSystemTraySetting,
+        },
+      });
       new CheckboxView({
         el: this.$('.always-relay-calls-setting'),
         name: 'always-relay-calls-setting',
