@@ -893,6 +893,7 @@ export declare namespace ReceiptMessageClass {
   class Type {
     static DELIVERY: number;
     static READ: number;
+    static VIEWED: number;
   }
 }
 
