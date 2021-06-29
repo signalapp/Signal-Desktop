@@ -116,7 +116,7 @@ export class ConversationController {
 
     conversation.initialPromise = create();
     conversation.initialPromise.then(async () => {
-      if (window.inboxStore) {
+      if (window?.inboxStore) {
         window.inboxStore?.dispatch(
           conversationActions.conversationAdded(conversation.id, conversation.getProps())
         );
@@ -242,7 +242,7 @@ export class ConversationController {
       window.log.info(`deleteContact !isPrivate, convo removed from DB: ${id}`);
 
       this.conversations.remove(conversation);
-      if (window.inboxStore) {
+      if (window?.inboxStore) {
         window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
         window.inboxStore?.dispatch(
           conversationActions.conversationChanged(conversation.id, conversation.getProps())
@@ -310,7 +310,7 @@ export class ConversationController {
   public reset() {
     this._initialPromise = Promise.resolve();
     this._initialFetchComplete = false;
-    if (window.inboxStore) {
+    if (window?.inboxStore) {
       window.inboxStore?.dispatch(conversationActions.removeAllConversations());
     }
     this.conversations.reset([]);

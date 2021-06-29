@@ -69,7 +69,6 @@ export class MessageController {
     });
   }
 
-  // tslint:disable-next-line: function-name
   public get(identifier: string) {
     return this.messageLookup.get(identifier);
   }
