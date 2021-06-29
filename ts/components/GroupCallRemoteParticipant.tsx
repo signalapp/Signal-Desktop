@@ -129,7 +129,9 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       //   for other participants, or pixel data from a previous frame. That's why we
       //   return early and use the `frameWidth` and `frameHeight`.
       const frameBuffer = getFrameBuffer();
-      const frameDimensions = videoFrameSource.receiveVideoFrame(frameBuffer);
+      const frameDimensions = videoFrameSource.receiveVideoFrame(
+        Buffer.from(frameBuffer)
+      );
       if (!frameDimensions) {
         return;
       }
