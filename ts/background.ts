@@ -9,7 +9,7 @@ import {
   PlaintextContent,
 } from '@signalapp/signal-client';
 
-import { DataMessageClass } from './textsecure.d';
+import { DataMessageClass, SyncMessageClass } from './textsecure.d';
 import { SessionResetsType } from './textsecure/Types.d';
 import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
@@ -3018,12 +3018,21 @@ export async function startApp(): Promise<void> {
 
   function createSentMessage(data: WhatIsThis, descriptor: MessageDescriptor) {
     const now = Date.now();
-    let sentTo = [];
+    const timestamp = data.timestamp || now;
 
-    if (data.unidentifiedStatus && data.unidentifiedStatus.length) {
-      sentTo = data.unidentifiedStatus.map(
-        (item: WhatIsThis) => item.destinationUuid || item.destination
-      );
+    const unidentifiedStatus: Array<SyncMessageClass.Sent.UnidentifiedDeliveryStatus> = Array.isArray(
+      data.unidentifiedStatus
+    )
+      ? data.unidentifiedStatus
+      : [];
+
+    let sentTo: Array<string> = [];
+
+    if (unidentifiedStatus.length) {
+      sentTo = unidentifiedStatus
+        .map(item => item.destinationUuid || item.destination)
+        .filter(isNotNil);
+
       const unidentified = window._.filter(data.unidentifiedStatus, item =>
         Boolean(item.unidentified)
       );
@@ -3037,17 +3046,18 @@ export async function startApp(): Promise<void> {
       source: window.textsecure.storage.user.getNumber(),
       sourceUuid: window.textsecure.storage.user.getUuid(),
       sourceDevice: data.device,
-      sent_at: data.timestamp,
+      sent_at: timestamp,
       serverTimestamp: data.serverTimestamp,
       sent_to: sentTo,
       received_at: data.receivedAtCounter,
       received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
+      timestamp,
       type: 'outgoing',
       sent: true,
       unidentifiedDeliveries: data.unidentifiedDeliveries || [],
       expirationStartTimestamp: Math.min(
-        data.expirationStartTimestamp || data.timestamp || now,
+        data.expirationStartTimestamp || timestamp,
         now
       ),
     } as WhatIsThis);
