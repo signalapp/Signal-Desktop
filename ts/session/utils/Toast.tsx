@@ -191,12 +191,12 @@ export function pushOnlyAdminCanRemove() {
   );
 }
 
-export function pushUserNeedsToHaveJoined() {
-  pushToastWarning(
-    'userNeedsToHaveJoined',
-    window.i18n('userNeedsToHaveJoined'),
-    window.i18n('userNeedsToHaveJoinedDesc')
-  );
+export function pushFailedToAddAsModerator() {
+  pushToastWarning('failedToAddAsModerator', window.i18n('failedToAddAsModerator'));
+}
+
+export function pushFailedToRemoveFromModerator() {
+  pushToastWarning('failedToRemoveFromModerator', window.i18n('failedToRemoveFromModerator'));
 }
 
 export function pushUserAddedToModerators() {
@@ -209,12 +209,4 @@ export function pushUserRemovedFromModerators() {
 
 export function pushInvalidPubKey() {
   pushToastSuccess('invalidPubKey', window.i18n('invalidPubkeyFormat'));
-}
-
-export function pushErrorHappenedWhileRemovingModerator() {
-  pushToastError(
-    'errorHappenedWhileRemovingModerator',
-    window.i18n('errorHappenedWhileRemovingModerator'),
-    window.i18n('errorHappenedWhileRemovingModeratorDesc')
-  );
 }

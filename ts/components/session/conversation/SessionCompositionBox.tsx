@@ -802,12 +802,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     const { isBlocked, isPrivate, left, isKickedFromGroup } = this.props;
 
-    // deny sending of message if our app version is expired
-    if (window.extension.expiredStatus() === true) {
-      ToastUtils.pushToastError('expiredWarning', window.i18n('expiredWarning'));
-      return;
-    }
-
     if (isBlocked && isPrivate) {
       ToastUtils.pushUnblockToSend();
       return;

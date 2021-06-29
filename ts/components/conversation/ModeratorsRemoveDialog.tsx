@@ -205,7 +205,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
       if (!res) {
         window?.log?.warn('failed to remove moderators:', res);
 
-        ToastUtils.pushUserNeedsToHaveJoined();
+        ToastUtils.pushFailedToRemoveFromModerator();
       } else {
         window?.log?.info(`${removedMods} removed from moderators...`);
         ToastUtils.pushUserRemovedFromModerators();

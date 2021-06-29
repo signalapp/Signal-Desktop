@@ -47,7 +47,7 @@ export const AddModeratorsDialog = (props: Props) => {
       if (!isAdded) {
         window?.log?.warn('failed to add moderators:', isAdded);
 
-        ToastUtils.pushUserNeedsToHaveJoined();
+        ToastUtils.pushFailedToAddAsModerator();
       } else {
         window?.log?.info(`${pubkey.key} added as moderator...`);
         ToastUtils.pushUserAddedToModerators();
