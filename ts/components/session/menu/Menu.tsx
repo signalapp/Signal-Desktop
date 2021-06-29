@@ -25,8 +25,6 @@ import {
   showUpdateGroupNameByConvoId,
   unblockConvoById,
 } from '../../../interactions/conversationInteractions';
-import { purgeStoredState } from 'redux-persist';
-import { persistConfig, _purgedStoredState } from '../../../state/createStore';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -142,10 +140,6 @@ export const MenuItemPinConversation = (props: PinConversationMenuItemProps): JS
         ...conversation,
         isPinned: !isPinned
       }))
-
-    if (isPinned) {
-      // purgeStoredState(persistConfig);
-    }
   }
 
   return <Item onClick={togglePinConversation}>{(isPinned ? 'Unpin' : 'Pin') + ' Conversation'}</Item>

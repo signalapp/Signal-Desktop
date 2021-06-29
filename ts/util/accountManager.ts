@@ -9,6 +9,7 @@ import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
 import _ from 'underscore';
+import { persistStore } from 'redux-persist';
 
 /**
  * Might throw
@@ -134,6 +135,10 @@ async function bouncyDeleteAccount(reason?: string) {
     await window.Signal.Data.removeOtherData();
     // 'unlink' => toast will be shown on app restart
     window.localStorage.setItem('restart-reason', reason || '');
+    if (window.inboxStore) {
+      // warrick: this part might be redundant due to localStorage getting cleared.
+      persistStore(window.inboxStore).purge();
+    }
   };
   try {
     window?.log?.info('DeleteAccount => Sending a last SyncConfiguration');

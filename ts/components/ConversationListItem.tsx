@@ -23,7 +23,11 @@ import { DefaultTheme, withTheme } from 'styled-components';
 import { PubKey } from '../session/types';
 import { ConversationType, openConversationExternal } from '../state/ducks/conversations';
 import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
-import { SessionButtonColor } from './session/SessionButton';
+
+export enum ConversationListItemType {
+  Conversation = 'conversation',
+  Contact = 'contact',
+}
 
 export interface ConversationListItemProps extends ConversationType {
   index?: number; // used to force a refresh when one conversation is removed on top of the list
@@ -33,6 +37,7 @@ export interface ConversationListItemProps extends ConversationType {
 type PropsHousekeeping = {
   style?: Object;
   theme: DefaultTheme;
+  conversationListItemType: ConversationListItemType;
 };
 
 type Props = ConversationListItemProps & PropsHousekeeping;
@@ -65,7 +70,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderHeader() {
-    const { unreadCount, mentionedUs, activeAt, isPinned } = this.props;
+    const { unreadCount, mentionedUs, activeAt, isPinned, conversationListItemType } = this.props;
 
     let atSymbol = null;
     let unreadCountDiv = null;
@@ -73,6 +78,15 @@ class ConversationListItem extends React.PureComponent<Props> {
       atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
       unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
     }
+
+    const pinIcon = (conversationListItemType === ConversationListItemType.Conversation && isPinned) ?
+      <SessionIcon
+        iconType={SessionIconType.Pin}
+        iconColor={this.props.theme.colors.textColorSubtle}
+        iconSize={SessionIconSize.Tiny} />
+      :
+      null;
+
 
     return (
       <div className="module-conversation-list-item__header">
@@ -85,13 +99,8 @@ class ConversationListItem extends React.PureComponent<Props> {
           {this.renderUser()}
 
         </div>
-        {isPinned ?
-          <SessionIcon
-            iconType={SessionIconType.Pin}
-            iconColor={this.props.theme.colors.textColorSubtle}
-            iconSize={SessionIconSize.Tiny} />
-          : null
-        }
+
+        {pinIcon}
         {unreadCountDiv}
         {atSymbol}
         {

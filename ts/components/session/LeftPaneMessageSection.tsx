@@ -5,6 +5,7 @@ import { AutoSizer, List } from 'react-virtualized';
 import { MainViewController } from '../MainViewController';
 import {
   ConversationListItemProps,
+  ConversationListItemType,
   ConversationListItemWithDetails,
 } from '../ConversationListItem';
 import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
@@ -97,6 +98,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return (
       <ConversationListItemWithDetails
         key={key}
+        conversationListItemType={ConversationListItemType.Conversation}
         style={style}
         {...conversation}
         onClick={openConversationExternal}

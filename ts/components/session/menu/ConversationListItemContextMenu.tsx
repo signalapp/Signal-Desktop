@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { animation, Menu } from 'react-contexify';
 import { ConversationTypeEnum } from '../../../models/conversation';
+import { ConversationListItemType } from '../../ConversationListItem';
 
 import {
   getBlockMenuItem,
@@ -19,6 +20,7 @@ export type PropsContextConversationItem = {
   id: string;
   triggerId: string;
   type: ConversationTypeEnum;
+  conversationListItemType: ConversationListItemType;
   isMe: boolean;
   isPublic?: boolean;
   isBlocked?: boolean;
@@ -39,15 +41,18 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     type,
     left,
     isKickedFromGroup,
-    theme,
+    conversationListItemType,
   } = props;
 
   const isGroup = type === 'group';
 
+  const isConversation = conversationListItemType === ConversationListItemType.Conversation;
+  const pinMenuItem = isConversation ? <MenuItemPinConversation conversationId={conversationId} /> : null;
+
   return (
     <>
       <Menu id={triggerId} animation={animation.fade}>
-        <MenuItemPinConversation conversationId={conversationId} />
+        {pinMenuItem}
         {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
         {getCopyMenuItem(isPublic, isGroup, conversationId)}
         {getMarkAllReadMenuItem(conversationId)}
