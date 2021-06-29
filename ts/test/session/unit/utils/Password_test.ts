@@ -40,6 +40,7 @@ describe('Password Util', () => {
         'TiJf@lk^jsO^z8MUn%)[Sd~UPQ)ci9CGS@jb<^',
         '$u&%{r]apg#G@3dQdCkB_p8)gxhNFr=K&yfM_M8O&2Z.vQyvx',
         'bf^OMnYku*iX;{Piw_0zvz',
+        '@@@@/???\\4545',
         '#'.repeat(50),
       ];
       valid.forEach(pass => {
