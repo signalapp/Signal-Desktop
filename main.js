@@ -128,7 +128,11 @@ const { maybeParseUrl, setUrlSearchParams } = require('./ts/util/url');
 const sql = new MainSQL();
 
 let systemTrayService;
-const systemTraySettingCache = new SystemTraySettingCache(sql, process.argv);
+const systemTraySettingCache = new SystemTraySettingCache(
+  sql,
+  process.argv,
+  app.getVersion()
+);
 
 const challengeHandler = new ChallengeMainHandler();
 

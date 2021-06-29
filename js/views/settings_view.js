@@ -280,7 +280,9 @@
         props: {
           i18n,
           initialValue: window.initialData.systemTray,
-          isSystemTraySupported: Settings.isSystemTraySupported(),
+          isSystemTraySupported: Settings.isSystemTraySupported(
+            window.getVersion()
+          ),
           onChange: window.setSystemTraySetting,
         },
       });

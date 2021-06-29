@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as OS from '../OS';
+import { isBeta } from '../util/version';
 
 const MIN_WINDOWS_VERSION = '8.0.0';
 
@@ -53,7 +54,7 @@ export const getTitleBarVisibility = (): TitleBarVisibility =>
 /**
  * Returns `true` if you can minimize the app to the system tray. Users can override this
  * option with a command line flag, but that is not officially supported.
- *
- * We may add support for Linux in the future.
  */
-export const isSystemTraySupported = OS.isWindows;
+export const isSystemTraySupported = (appVersion: string): boolean =>
+  // We eventually want to support Linux in production.
+  OS.isWindows() || (OS.isLinux() && isBeta(appVersion));

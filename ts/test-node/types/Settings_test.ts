@@ -171,18 +171,23 @@ describe('Settings', () => {
   describe('isSystemTraySupported', () => {
     it('returns false on macOS', () => {
       sandbox.stub(process, 'platform').value('darwin');
-      assert.isFalse(Settings.isSystemTraySupported());
+      assert.isFalse(Settings.isSystemTraySupported('1.2.3'));
     });
 
     it('returns true on Windows 8', () => {
       sandbox.stub(process, 'platform').value('win32');
       sandbox.stub(os, 'release').returns('8.0.0');
-      assert.isTrue(Settings.isSystemTraySupported());
+      assert.isTrue(Settings.isSystemTraySupported('1.2.3'));
     });
 
-    it('returns false on Linux', () => {
+    it('returns false on Linux production', () => {
       sandbox.stub(process, 'platform').value('linux');
-      assert.isFalse(Settings.isSystemTraySupported());
+      assert.isFalse(Settings.isSystemTraySupported('1.2.3'));
+    });
+
+    it('returns true on Linux beta', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isTrue(Settings.isSystemTraySupported('1.2.3-beta.4'));
     });
   });
 });

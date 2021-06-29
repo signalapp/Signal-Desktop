@@ -26,16 +26,21 @@ describe('SystemTraySettingCache', () => {
   });
 
   it('returns MinimizeToAndStartInSystemTray if passed the --start-in-tray argument', async () => {
-    const justOneArg = new SystemTraySettingCache(sql, ['--start-in-tray']);
+    const justOneArg = new SystemTraySettingCache(
+      sql,
+      ['--start-in-tray'],
+      '1.2.3'
+    );
     assert.strictEqual(
       await justOneArg.get(),
       SystemTraySetting.MinimizeToAndStartInSystemTray
     );
 
-    const bothArgs = new SystemTraySettingCache(sql, [
-      '--start-in-tray',
-      '--use-tray-icon',
-    ]);
+    const bothArgs = new SystemTraySettingCache(
+      sql,
+      ['--start-in-tray', '--use-tray-icon'],
+      '1.2.3'
+    );
     assert.strictEqual(
       await bothArgs.get(),
       SystemTraySetting.MinimizeToAndStartInSystemTray
@@ -45,7 +50,7 @@ describe('SystemTraySettingCache', () => {
   });
 
   it('returns MinimizeToSystemTray if passed the --use-tray-icon argument', async () => {
-    const cache = new SystemTraySettingCache(sql, ['--use-tray-icon']);
+    const cache = new SystemTraySettingCache(sql, ['--use-tray-icon'], '1.2.3');
     assert.strictEqual(
       await cache.get(),
       SystemTraySetting.MinimizeToSystemTray
@@ -57,7 +62,7 @@ describe('SystemTraySettingCache', () => {
   it('returns DoNotUseSystemTray if system tray is supported but no preference is stored', async () => {
     sandbox.stub(process, 'platform').value('win32');
 
-    const cache = new SystemTraySettingCache(sql, []);
+    const cache = new SystemTraySettingCache(sql, [], '1.2.3');
     assert.strictEqual(await cache.get(), SystemTraySetting.DoNotUseSystemTray);
   });
 
@@ -66,7 +71,7 @@ describe('SystemTraySettingCache', () => {
 
     sqlCallStub.resolves({ value: 'garbage' });
 
-    const cache = new SystemTraySettingCache(sql, []);
+    const cache = new SystemTraySettingCache(sql, [], '1.2.3');
     assert.strictEqual(await cache.get(), SystemTraySetting.DoNotUseSystemTray);
   });
 
@@ -75,7 +80,7 @@ describe('SystemTraySettingCache', () => {
 
     sqlCallStub.resolves({ value: 'MinimizeToSystemTray' });
 
-    const cache = new SystemTraySettingCache(sql, []);
+    const cache = new SystemTraySettingCache(sql, [], '1.2.3');
     assert.strictEqual(
       await cache.get(),
       SystemTraySetting.MinimizeToSystemTray
@@ -85,7 +90,7 @@ describe('SystemTraySettingCache', () => {
   it('only kicks off one request to the database if multiple sources ask at once', async () => {
     sandbox.stub(process, 'platform').value('win32');
 
-    const cache = new SystemTraySettingCache(sql, []);
+    const cache = new SystemTraySettingCache(sql, [], '1.2.3');
 
     await Promise.all([cache.get(), cache.get(), cache.get()]);
 
@@ -95,7 +100,7 @@ describe('SystemTraySettingCache', () => {
   it('returns DoNotUseSystemTray if system tray is unsupported and there are no CLI flags', async () => {
     sandbox.stub(process, 'platform').value('darwin');
 
-    const cache = new SystemTraySettingCache(sql, []);
+    const cache = new SystemTraySettingCache(sql, [], '1.2.3');
     assert.strictEqual(await cache.get(), SystemTraySetting.DoNotUseSystemTray);
 
     sinon.assert.notCalled(sqlCallStub);

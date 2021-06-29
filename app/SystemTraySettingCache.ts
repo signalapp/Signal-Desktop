@@ -20,7 +20,8 @@ export class SystemTraySettingCache {
 
   constructor(
     private readonly sql: Pick<MainSQL, 'sqlCall'>,
-    private readonly argv: Array<string>
+    private readonly argv: Array<string>,
+    private readonly appVersion: string
   ) {}
 
   async get(): Promise<SystemTraySetting> {
@@ -51,7 +52,7 @@ export class SystemTraySettingCache {
       log.info(
         `getSystemTraySetting saw --use-tray-icon flag. Returning ${result}`
       );
-    } else if (isSystemTraySupported()) {
+    } else if (isSystemTraySupported(this.appVersion)) {
       const { value } = (await this.sql.sqlCall('getItemById', [
         'system-tray-setting',
       ])) || { value: undefined };
