@@ -20,6 +20,9 @@ export const SessionIconButton = (props: SProps) => {
     isSelected,
     notificationCount,
     theme,
+    glowDuration,
+    glowStartDelay,
+    noScale,
   } = props;
   const clickHandler = (e: any) => {
     if (props.onClick) {
@@ -42,6 +45,9 @@ export const SessionIconButton = (props: SProps) => {
         iconColor={iconColor}
         iconRotation={iconRotation}
         theme={themeToUSe}
+        glowDuration={glowDuration}
+        glowStartDelay={glowStartDelay}
+        noScale={noScale}
       />
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
     </div>

@@ -164,6 +164,9 @@ export const ActionPanelOnionStatusLight = (props: {
       iconType={SessionIconType.Circle}
       iconColor={iconColor}
       onClick={handleClick}
+      glowDuration={10}
+      glowStartDelay={0}
+      noScale={true}
       isSelected={isSelected}
       theme={theme}
     />
