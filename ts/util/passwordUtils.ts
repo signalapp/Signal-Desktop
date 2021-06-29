@@ -33,7 +33,7 @@ export const validatePassword = (phrase: string) => {
   }
 
   // Restrict characters to letters, numbers and symbols
-  const characterRegex = /^[a-zA-Z0-9-!()._`~@#$%^&*+=[\]{}|<>,;: ]+$/;
+  const characterRegex = /^[a-zA-Z0-9-!?/\\()._`~@#$%^&*+=[\]{}|<>,;: ]+$/;
   if (!characterRegex.test(trimmed)) {
     return window?.i18n ? window?.i18n('passwordCharacterError') : ERRORS.CHARACTER;
   }

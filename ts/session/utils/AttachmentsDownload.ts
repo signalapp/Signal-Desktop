@@ -90,7 +90,6 @@ export async function addJob(attachment: any, job: any = {}) {
   };
 }
 
-// tslint:disable: function-name
 async function _tick() {
   await _maybeStartJob();
   timeout = setTimeout(_tick, TICK_INTERVAL);

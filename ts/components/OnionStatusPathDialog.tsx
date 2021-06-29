@@ -8,7 +8,6 @@ import Electron from 'electron';
 const { shell } = Electron;
 
 import { useDispatch, useSelector } from 'react-redux';
-import { StateType } from '../state/reducer';
 import { SessionIcon, SessionIconButton, SessionIconSize, SessionIconType } from './session/icon';
 
 import { SessionWrapperModal } from './session/SessionWrapperModal';
@@ -27,6 +26,7 @@ import {
 // tslint:disable-next-line: no-submodule-imports
 import useNetworkState from 'react-use/lib/useNetworkState';
 import { SessionSpinner } from './session/SessionSpinner';
+import { Flex } from './basic/Flex';
 
 export type StatusLightType = {
   glowStartDelay: number;
@@ -56,53 +56,57 @@ const OnionPathModalInner = () => {
     <>
       <p className="onion__description">{window.i18n('onionPathIndicatorDescription')}</p>
       <div className="onion__node-list">
-        {nodes.map((snode: Snode | any, index: number) => {
-          return (
-            <OnionNodeStatusLight
-              glowDuration={glowDuration}
-              glowStartDelay={index}
-              label={snode.label}
-              snode={snode}
-              key={index}
-            />
-          );
-        })}
+        <Flex container={true}>
+          <div className="onion__node-list-lights">
+            <div className="onion__vertical-line" />
+
+            <Flex container={true} flexDirection="column" alignItems="center" height="100%">
+              {nodes.map((_snode: Snode | any, index: number) => {
+                return (
+                  <OnionNodeStatusLight
+                    glowDuration={glowDuration}
+                    glowStartDelay={index}
+                    key={index}
+                  />
+                );
+              })}
+            </Flex>
+          </div>
+          <Flex container={true} flexDirection="column" alignItems="flex-start">
+            {nodes.map((snode: Snode | any, index: number) => {
+              let labelText = snode.label
+                ? snode.label
+                : countryLookup.byIso(ip2country(snode.ip))?.country;
+              if (!labelText) {
+                labelText = window.i18n('unknownCountry');
+              }
+              return labelText ? <div className="onion__node__country">{labelText}</div> : null;
+            })}
+          </Flex>
+        </Flex>
       </div>
     </>
   );
 };
 
 export type OnionNodeStatusLightType = {
-  snode: Snode;
-  label?: string;
   glowStartDelay: number;
   glowDuration: number;
 };
 
 /**
- * Component containing a coloured status light and an adjacent country label.
+ * Component containing a coloured status light.
  */
 export const OnionNodeStatusLight = (props: OnionNodeStatusLightType): JSX.Element => {
-  const { snode, label, glowStartDelay, glowDuration } = props;
+  const { glowStartDelay, glowDuration } = props;
   const theme = useTheme();
 
-  let labelText = label ? label : countryLookup.byIso(ip2country(snode.ip))?.country;
-  if (!labelText) {
-    labelText = window.i18n('unknownCountry');
-  }
   return (
-    <div className="onion__node">
-      <ModalStatusLight
-        glowDuration={glowDuration}
-        glowStartDelay={glowStartDelay}
-        color={theme.colors.accent}
-      />
-      {labelText ? (
-        <>
-          <div className="onion-node__country">{labelText}</div>
-        </>
-      ) : null}
-    </div>
+    <ModalStatusLight
+      glowDuration={glowDuration}
+      glowStartDelay={glowStartDelay}
+      color={theme.colors.accent}
+    />
   );
 };
 
@@ -114,15 +118,17 @@ export const ModalStatusLight = (props: StatusLightType) => {
   const theme = useSelector(getTheme);
 
   return (
-    <SessionIcon
-      borderRadius={50}
-      iconColor={color}
-      glowDuration={glowDuration}
-      glowStartDelay={glowStartDelay}
-      iconType={SessionIconType.Circle}
-      iconSize={SessionIconSize.Small}
-      theme={theme}
-    />
+    <div className="onion__growing-icon">
+      <SessionIcon
+        borderRadius={50}
+        iconColor={color}
+        glowDuration={glowDuration}
+        glowStartDelay={glowStartDelay}
+        iconType={SessionIconType.Circle}
+        iconSize={SessionIconSize.Tiny}
+        theme={theme}
+      />
+    </div>
   );
 };
 
@@ -154,7 +160,7 @@ export const ActionPanelOnionStatusLight = (props: {
 
   return (
     <SessionIconButton
-      iconSize={SessionIconSize.Medium}
+      iconSize={SessionIconSize.Small}
       iconType={SessionIconType.Circle}
       iconColor={iconColor}
       onClick={handleClick}

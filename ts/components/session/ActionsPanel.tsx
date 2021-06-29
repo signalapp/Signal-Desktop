@@ -245,9 +245,7 @@ const doAppStartUp = () => {
   debounce(triggerAvatarReUploadIfNeeded, 200);
 
   // TODO: Investigate the case where we reconnect
-  const ourKey = UserUtils.getOurPubKeyStrFromCache();
-  getSwarmPollingInstance().addPubkey(ourKey);
-  getSwarmPollingInstance().start();
+  void getSwarmPollingInstance().start();
 };
 
 /**

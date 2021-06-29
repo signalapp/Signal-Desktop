@@ -134,7 +134,7 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
     if (!res) {
       window?.log?.warn('failed to remove moderator:', res);
 
-      ToastUtils.pushErrorHappenedWhileRemovingModerator();
+      ToastUtils.pushFailedToRemoveFromModerator();
     } else {
       window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
       ToastUtils.pushUserRemovedFromModerators();
@@ -154,7 +154,7 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
     if (!res) {
       window?.log?.warn('failed to add moderator:', res);
 
-      ToastUtils.pushUserNeedsToHaveJoined();
+      ToastUtils.pushFailedToAddAsModerator();
     } else {
       window?.log?.info(`${pubKeyToAdd.key} added to moderators...`);
       ToastUtils.pushUserAddedToModerators();

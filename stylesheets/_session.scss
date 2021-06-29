@@ -470,6 +470,7 @@ label {
     }
     &__close > div {
       float: left;
+      padding: $session-margin-xs;
       margin: 0px;
     }
     &__icons > div {
@@ -1203,6 +1204,7 @@ input {
   flex-direction: column;
   margin: $session-margin-sm;
   align-items: flex-start;
+  position: relative;
 
   .onion__node {
     display: flex;
@@ -1210,13 +1212,40 @@ input {
     align-items: center;
     margin: $session-margin-xs;
 
-    * {
-      margin: $session-margin-sm;
+    &:nth-child(2) {
+      margin-top: 0;
+    }
+
+    &:nth-last-child(2) {
+      margin-bottom: 0;
     }
 
     .session-icon-button {
       margin: $session-margin-sm !important;
     }
+  }
+
+  .onion__node-list-lights {
+    position: relative;
+  }
+  .onion__node__country {
+    margin: $session-margin-sm;
+  }
+
+  .onion__growing-icon {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .onion__vertical-line {
+    background: $onionPathLineColor;
+    position: absolute;
+    height: calc(100% - 2 * 15px);
+    margin: 15px calc(100% / 2 - 1px);
+
+    width: 1px;
+    // z-index: -1;
   }
 }
 
