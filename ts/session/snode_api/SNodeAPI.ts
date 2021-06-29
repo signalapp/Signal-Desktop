@@ -24,10 +24,13 @@ import {
   toHex,
 } from '../utils/String';
 import { Snode } from '../../data/data';
+import { updateIsOnline } from '../../state/ducks/onion';
 
 // ONS name can have [a-zA-Z0-9_-] except that - is not allowed as start or end
 // do not define a regex but rather create it on the fly to avoid https://stackoverflow.com/questions/3891641/regex-test-only-works-every-other-time
 export const onsNameRegex = '^\\w([\\w-]*[\\w])?$';
+
+export const ERROR_CODE_NO_CONNECT = 'ENETUNREACH: No network connection.';
 
 const getSslAgentForSeedNode = (seedNodeHost: string, isSsl = false) => {
   let filePrefix = '';
@@ -527,9 +530,12 @@ export async function retrieveNextMessages(
 
     try {
       const json = JSON.parse(result.body);
+      window.inboxStore?.dispatch(updateIsOnline(true));
+
       return json.messages || [];
     } catch (e) {
       window?.log?.warn('exception while parsing json of nextMessage:', e);
+      window.inboxStore?.dispatch(updateIsOnline(true));
 
       return [];
     }
@@ -538,6 +544,11 @@ export async function retrieveNextMessages(
       'Got an error while retrieving next messages. Not retrying as we trigger fetch often:',
       e
     );
+    if (e.message === ERROR_CODE_NO_CONNECT) {
+      window.inboxStore?.dispatch(updateIsOnline(false));
+    } else {
+      window.inboxStore?.dispatch(updateIsOnline(true));
+    }
     return [];
   }
 }

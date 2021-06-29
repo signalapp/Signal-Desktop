@@ -13,6 +13,7 @@ import { hrefPnServerDev, hrefPnServerProd } from '../../pushnotification/PnServ
 let snodeFailureCount: Record<string, number> = {};
 
 import { Snode } from '../../data/data';
+import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 
 // tslint:disable-next-line: variable-name
 export const TEST_resetSnodeFailureCount = () => {
@@ -783,6 +784,7 @@ const sendOnionRequest = async ({
     // we are talking to a snode...
     agent: snodeHttpsAgent,
     abortSignal,
+    timeout: 5000,
   };
 
   const guardUrl = `https://${guardNode.ip}:${guardNode.port}/onion_req/v2`;
@@ -859,7 +861,7 @@ export async function lokiOnionFetch(
         return onionFetchRetryable(targetNode, body, associatedWith);
       },
       {
-        retries: 9,
+        retries: 4,
         factor: 1,
         minTimeout: 1000,
         maxTimeout: 2000,
@@ -875,6 +877,10 @@ export async function lokiOnionFetch(
   } catch (e) {
     window?.log?.warn('onionFetchRetryable failed ', e);
     // console.warn('error to show to user');
+    if (e?.errno === 'ENETUNREACH') {
+      // better handle the no connection state
+      throw new Error(ERROR_CODE_NO_CONNECT);
+    }
     throw e;
   }
 }

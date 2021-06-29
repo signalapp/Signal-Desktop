@@ -20,11 +20,10 @@ import { onionPathModal } from '../state/ducks/modalDialog';
 import {
   getFirstOnionPath,
   getFirstOnionPathLength,
+  getIsOnline,
   getOnionPathsCount,
 } from '../state/selectors/onions';
 
-// tslint:disable-next-line: no-submodule-imports
-import useNetworkState from 'react-use/lib/useNetworkState';
 import { SessionSpinner } from './session/SessionSpinner';
 import { Flex } from './basic/Flex';
 
@@ -36,9 +35,10 @@ export type StatusLightType = {
 
 const OnionPathModalInner = () => {
   const onionPath = useSelector(getFirstOnionPath);
+  const isOnline = useSelector(getIsOnline);
   // including the device and destination in calculation
   const glowDuration = onionPath.length + 2;
-  if (!onionPath || onionPath.length === 0) {
+  if (!isOnline || !onionPath || onionPath.length === 0) {
     return <SessionSpinner loading={true} />;
   }
 
@@ -144,7 +144,7 @@ export const ActionPanelOnionStatusLight = (props: {
   const theme = useTheme();
   const onionPathsCount = useSelector(getOnionPathsCount);
   const firstPathLength = useSelector(getFirstOnionPathLength);
-  const isOnline = useNetworkState().online;
+  const isOnline = useSelector(getIsOnline);
 
   // Set icon color based on result
   const red = theme.colors.destructive;
