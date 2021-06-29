@@ -496,8 +496,8 @@ export async function storeOnNode(targetNode: Snode, params: SendParams): Promis
       e,
       `destination ${targetNode.ip}:${targetNode.port}`
     );
+    throw e;
   }
-  return false;
 }
 
 /** */

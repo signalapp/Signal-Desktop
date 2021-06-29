@@ -38,6 +38,9 @@ export interface SnodeResponse {
 
 export const NEXT_NODE_NOT_FOUND_PREFIX = 'Next node not found: ';
 
+export const CLOCK_OUT_OF_SYNC_MESSAGE_ERROR =
+  'You clock is out of sync with the network. Check your clock';
+
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
 async function encryptForPubKey(pubKeyX25519hex: string, reqObj: any): Promise<DestinationContext> {
@@ -196,9 +199,8 @@ async function buildOnionGuardNodePayload(
 function process406Error(statusCode: number) {
   if (statusCode === 406) {
     // clock out of sync
-    console.warn('clock out of sync todo');
     // this will make the pRetry stop
-    throw new pRetry.AbortError('You clock is out of sync with the network. Check your clock.');
+    throw new pRetry.AbortError(CLOCK_OUT_OF_SYNC_MESSAGE_ERROR);
   }
 }
 
@@ -880,6 +882,10 @@ export async function lokiOnionFetch(
     if (e?.errno === 'ENETUNREACH') {
       // better handle the no connection state
       throw new Error(ERROR_CODE_NO_CONNECT);
+    }
+    if (e?.message === CLOCK_OUT_OF_SYNC_MESSAGE_ERROR) {
+      window?.log?.warn('Its an clock out of sync error ');
+      throw new pRetry.AbortError(CLOCK_OUT_OF_SYNC_MESSAGE_ERROR);
     }
     throw e;
   }
