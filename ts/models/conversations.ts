@@ -3184,7 +3184,9 @@ export class ConversationModel extends window.Backbone
         timestamp
       );
 
-      const attributes = ({
+      // We are only creating this model so we can use its sync message
+      // sending functionality. It will not be saved to the database.
+      const message = new window.Whisper.Message({
         id: window.getGuid(),
         type: 'outgoing',
         conversationId: this.get('id'),
@@ -3193,16 +3195,9 @@ export class ConversationModel extends window.Backbone
         received_at_ms: timestamp,
         recipients,
         deletedForEveryoneTimestamp: targetTimestamp,
-        // TODO: DESKTOP-722
-      } as unknown) as typeof window.Whisper.MessageAttributesType;
-
-      if (isDirectConversation(this.attributes)) {
-        attributes.destination = destination;
-      }
-
-      // We are only creating this model so we can use its sync message
-      // sending functionality. It will not be saved to the database.
-      const message = new window.Whisper.Message(attributes);
+        timestamp,
+        ...(isDirectConversation(this.attributes) ? { destination } : {}),
+      });
 
       // We're offline!
       if (!window.textsecure.messaging) {
@@ -3318,7 +3313,9 @@ export class ConversationModel extends window.Backbone
 
       const expireTimer = this.get('expireTimer');
 
-      const attributes = ({
+      // We are only creating this model so we can use its sync message
+      // sending functionality. It will not be saved to the database.
+      const message = new window.Whisper.Message({
         id: window.getGuid(),
         type: 'outgoing',
         conversationId: this.get('id'),
@@ -3327,16 +3324,9 @@ export class ConversationModel extends window.Backbone
         received_at_ms: timestamp,
         recipients,
         reaction: outgoingReaction,
-        // TODO: DESKTOP-722
-      } as unknown) as typeof window.Whisper.MessageAttributesType;
-
-      if (isDirectConversation(this.attributes)) {
-        attributes.destination = destination;
-      }
-
-      // We are only creating this model so we can use its sync message
-      // sending functionality. It will not be saved to the database.
-      const message = new window.Whisper.Message(attributes);
+        timestamp,
+        ...(isDirectConversation(this.attributes) ? { destination } : {}),
+      });
 
       // This is to ensure that the functions in send() and sendSyncMessage() don't save
       //   anything to the database.
