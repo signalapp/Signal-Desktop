@@ -15,8 +15,6 @@ import Measure from 'react-measure';
 
 import { ScrollDownButton } from './ScrollDownButton';
 
-import { GlobalAudioProvider } from '../GlobalAudioContext';
-
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
@@ -1424,9 +1422,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         >
           {timelineWarning}
 
-          <GlobalAudioProvider conversationId={id}>
-            {autoSizer}
-          </GlobalAudioProvider>
+          {autoSizer}
+
           {shouldShowScrollDownButton ? (
             <ScrollDownButton
               conversationId={id}

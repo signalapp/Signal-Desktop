@@ -24,7 +24,7 @@ export { Contact } from '../../components/conversation/MessageDetail';
 export type OwnProps = {
   contacts: Array<Contact>;
   errors: Array<Error>;
-  message: MessagePropsDataType;
+  message: Omit<MessagePropsDataType, 'renderingContext'>;
   receivedAt: number;
   sentAt: number;
 

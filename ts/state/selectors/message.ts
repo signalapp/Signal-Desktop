@@ -309,7 +309,7 @@ export function getPropsForMessage(
   readReceiptSetting: boolean,
   regionCode: string,
   accountSelector: (identifier?: string) => boolean
-): PropsForMessage {
+): Omit<PropsForMessage, 'renderingContext'> {
   const contact = getContact(
     message,
     conversationSelector,

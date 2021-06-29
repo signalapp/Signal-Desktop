@@ -175,7 +175,8 @@ const globalContents: Contents = {
 export const GlobalAudioContext = React.createContext<Contents>(globalContents);
 
 export type GlobalAudioProps = {
-  conversationId: string;
+  conversationId: string | undefined;
+  isPaused: boolean;
   children?: React.ReactNode | React.ReactChildren;
 };
 
@@ -185,6 +186,7 @@ export type GlobalAudioProps = {
  */
 export const GlobalAudioProvider: React.FC<GlobalAudioProps> = ({
   conversationId,
+  isPaused,
   children,
 }) => {
   // When moving between conversations - stop audio
@@ -193,6 +195,13 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProps> = ({
       globalContents.audio.pause();
     };
   }, [conversationId]);
+
+  // Pause when requested by parent
+  React.useEffect(() => {
+    if (isPaused) {
+      globalContents.audio.pause();
+    }
+  }, [isPaused]);
 
   return (
     <GlobalAudioContext.Provider value={globalContents}>

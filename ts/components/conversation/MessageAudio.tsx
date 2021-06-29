@@ -14,6 +14,7 @@ import { ComputePeaksResult } from '../GlobalAudioContext';
 export type Props = {
   direction?: 'incoming' | 'outgoing';
   id: string;
+  renderingContext: string;
   i18n: LocalizerType;
   attachment: AttachmentType;
   withContentAbove: boolean;
@@ -28,7 +29,8 @@ export type Props = {
 
   computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
   activeAudioID: string | undefined;
-  setActiveAudioID: (id: string | undefined) => void;
+  activeAudioContext: string | undefined;
+  setActiveAudioID: (id: string | undefined, context: string) => void;
 };
 
 type ButtonProps = {
@@ -121,14 +123,19 @@ const Button: React.FC<ButtonProps> = props => {
  * toggle Play/Pause button.
  *
  * A global audio player is used for playback and access is managed by the
- * `activeAudioID` property. Whenever `activeAudioID` property is equal to `id`
- * the instance of the `MessageAudio` assumes the ownership of the `Audio`
- * instance and fully manages it.
+ * `activeAudioID` and `activeAudioContext` properties. Whenever both
+ * `activeAudioID` and `activeAudioContext` are equal to `id` and `context`
+ * respectively the instance of the `MessageAudio` assumes the ownership of the
+ * `Audio` instance and fully manages it.
+ *
+ * `context` is required for displaying separate MessageAudio instances in
+ * MessageDetails and Message React components.
  */
 export const MessageAudio: React.FC<Props> = (props: Props) => {
   const {
     i18n,
     id,
+    renderingContext,
     direction,
     attachment,
     withContentAbove,
@@ -142,12 +149,14 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     computePeaks,
 
     activeAudioID,
+    activeAudioContext,
     setActiveAudioID,
   } = props;
 
   assert(audio !== null, 'GlobalAudioContext always provides audio');
 
-  const isActive = activeAudioID === id;
+  const isActive =
+    activeAudioID === id && activeAudioContext === renderingContext;
 
   const waveformRef = useRef<HTMLDivElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(isActive && !audio.paused);
@@ -317,7 +326,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
     if (!isActive && !isPlaying) {
       window.log.info('MessageAudio: changing owner', id);
-      setActiveAudioID(id);
+      setActiveAudioID(id, renderingContext);
 
       // Pause old audio
       if (!audio.paused) {

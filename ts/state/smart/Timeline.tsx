@@ -77,6 +77,7 @@ function renderItem(
 function renderLastSeenIndicator(id: string): JSX.Element {
   return <SmartLastSeenIndicator id={id} />;
 }
+
 function renderHeroRow(
   id: string,
   onHeightChange: () => unknown,
