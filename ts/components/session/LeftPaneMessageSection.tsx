@@ -1,5 +1,5 @@
 import React from 'react';
-
+import _ from 'lodash';
 import { AutoSizer, List } from 'react-virtualized';
 
 import { MainViewController } from '../MainViewController';
@@ -81,11 +81,16 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element => {
-    const { conversations, openConversationExternal } = this.props;
+    const { openConversationExternal } = this.props;
+    let { conversations } = this.props;
 
     if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
     }
+
+    conversations = _.sortBy([...conversations], (convo) => {
+      return convo.isPinned ? -1 : 1
+    });
 
     const conversation = conversations[index];
 
@@ -100,7 +105,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   };
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
-    const { conversations, openConversationExternal, searchResults } = this.props;
+    let { conversations } = this.props;
+    const { openConversationExternal, searchResults } = this.props;
     const contacts = searchResults?.contacts || [];
 
     if (searchResults) {

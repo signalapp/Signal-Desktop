@@ -6,6 +6,7 @@ import { persistReducer } from 'redux-persist';
 
 // tslint:disable-next-line: no-submodule-imports match-default-export-name
 import storage from 'redux-persist/lib/storage';
+import purgeStoredState from 'redux-persist/es/purgeStoredState';
 
 // @ts-ignore
 const env = window.getEnvironment();
@@ -26,10 +27,10 @@ const logger = createLogger({
   logger: directConsole,
 });
 
-const persistConfig = {
+export const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['userConfig'],
+  whitelist: ['userConfig', 'conversations'],
 };
 
 const persistedReducer = persistReducer(persistConfig, allReducers);

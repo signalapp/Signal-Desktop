@@ -4,8 +4,8 @@ import { NotificationForConvoOption, TimerOption } from '../../conversation/Conv
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
 import { useDispatch } from 'react-redux';
+import { actions as conversationActions } from '../../../state/ducks/conversations';
 import {
-  adminLeaveClosedGroup,
   changeNickNameModal,
   updateConfirmModal,
 } from '../../../state/ducks/modalDialog';
@@ -25,6 +25,8 @@ import {
   showUpdateGroupNameByConvoId,
   unblockConvoById,
 } from '../../../interactions/conversationInteractions';
+import { purgeStoredState } from 'redux-persist';
+import { persistConfig, _purgedStoredState } from '../../../state/createStore';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -123,6 +125,30 @@ export function getInviteContactMenuItem(
     );
   }
   return null;
+}
+
+export interface PinConversationMenuItemProps {
+  conversationId: string;
+}
+
+export const MenuItemPinConversation = (props: PinConversationMenuItemProps): JSX.Element | null => {
+  const { conversationId } = props;
+  const conversation = getConversationController().get(conversationId).getProps();
+  const { isPinned } = conversation;
+
+  const togglePinConversation = () => {
+    window.inboxStore?.dispatch(conversationActions.conversationChanged(conversationId,
+      {
+        ...conversation,
+        isPinned: !isPinned
+      }))
+
+    if (isPinned) {
+      // purgeStoredState(persistConfig);
+    }
+  }
+
+  return <Item onClick={togglePinConversation}>{(isPinned ? 'Unpin' : 'Pin') + ' Conversation'}</Item>
 }
 
 export function getDeleteContactMenuItem(
@@ -297,7 +323,7 @@ export function getDisappearingMenuItem(
       // Remove the && false to make context menu work with RTL support
       <Submenu
         label={window.i18n('disappearingMessages') as any}
-        // rtl={isRtlMode && false}
+      // rtl={isRtlMode && false}
       >
         {(timerOptions || []).map(item => (
           <Item
@@ -330,7 +356,7 @@ export function getNotificationForConvoMenuItem(
       // Remove the && false to make context menu work with RTL support
       <Submenu
         label={window.i18n('notificationForConvo') as any}
-        // rtl={isRtlMode && false}
+      // rtl={isRtlMode && false}
       >
         {(notificationForConvoOptions || []).map(item => {
           const disabled = item.value === currentNotificationSetting;

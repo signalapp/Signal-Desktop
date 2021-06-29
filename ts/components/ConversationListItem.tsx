@@ -22,6 +22,8 @@ import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageSta
 import { DefaultTheme, withTheme } from 'styled-components';
 import { PubKey } from '../session/types';
 import { ConversationType, openConversationExternal } from '../state/ducks/conversations';
+import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
+import { SessionButtonColor } from './session/SessionButton';
 
 export interface ConversationListItemProps extends ConversationType {
   index?: number; // used to force a refresh when one conversation is removed on top of the list
@@ -63,7 +65,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderHeader() {
-    const { unreadCount, mentionedUs, activeAt } = this.props;
+    const { unreadCount, mentionedUs, activeAt, isPinned } = this.props;
 
     let atSymbol = null;
     let unreadCountDiv = null;
@@ -81,7 +83,15 @@ class ConversationListItem extends React.PureComponent<Props> {
           )}
         >
           {this.renderUser()}
+
         </div>
+        {isPinned ?
+          <SessionIcon
+            iconType={SessionIconType.Pin}
+            iconColor={this.props.theme.colors.textColorSubtle}
+            iconSize={SessionIconSize.Tiny} />
+          : null
+        }
         {unreadCountDiv}
         {atSymbol}
         {

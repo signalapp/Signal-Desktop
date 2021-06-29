@@ -12,6 +12,7 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
   getMarkAllReadMenuItem,
+  MenuItemPinConversation
 } from './Menu';
 
 export type PropsContextConversationItem = {
@@ -46,6 +47,7 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
   return (
     <>
       <Menu id={triggerId} animation={animation.fade}>
+        <MenuItemPinConversation conversationId={conversationId} />
         {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
         {getCopyMenuItem(isPublic, isGroup, conversationId)}
         {getMarkAllReadMenuItem(conversationId)}
