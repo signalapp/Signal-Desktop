@@ -30,6 +30,7 @@ const defaultMessage: MessageDataPropsType = {
   conversationType: 'direct',
   direction: 'incoming',
   id: 'my-message',
+  renderingContext: 'storybook',
   isBlocked: false,
   isMessageRequestAccepted: true,
   previews: [],

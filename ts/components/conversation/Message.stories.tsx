@@ -47,19 +47,22 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
 );
 
 const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
-  const [activeAudioID, setActiveAudioID] = React.useState<string | undefined>(
-    undefined
-  );
+  const [active, setActive] = React.useState<{
+    id?: string;
+    context?: string;
+  }>({});
   const audio = React.useMemo(() => new Audio(), []);
 
   return (
     <MessageAudio
       {...props}
       id="storybook"
+      renderingContext="storybook"
       audio={audio}
       computePeaks={computePeaks}
-      setActiveAudioID={setActiveAudioID}
-      activeAudioID={activeAudioID}
+      setActiveAudioID={(id, context) => setActive({ id, context })}
+      activeAudioID={active.id}
+      activeAudioContext={active.context}
     />
   );
 };
@@ -101,6 +104,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     undefined,
   i18n,
   id: text('id', overrideProps.id || ''),
+  renderingContext: 'storybook',
   interactionMode: overrideProps.interactionMode || 'keyboard',
   isSticker: isBoolean(overrideProps.isSticker)
     ? overrideProps.isSticker

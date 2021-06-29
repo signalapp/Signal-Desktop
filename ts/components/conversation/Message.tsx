@@ -89,6 +89,7 @@ export type DirectionType = typeof Directions[number];
 
 export type AudioAttachmentProps = {
   id: string;
+  renderingContext: string;
   i18n: LocalizerType;
   buttonRef: React.RefObject<HTMLButtonElement>;
   direction: DirectionType;
@@ -103,6 +104,7 @@ export type AudioAttachmentProps = {
 
 export type PropsData = {
   id: string;
+  renderingContext: string;
   contactNameColor?: ContactNameColorType;
   conversationColor: ConversationColorType;
   customColor?: CustomColorType;
@@ -751,6 +753,7 @@ export class Message extends React.Component<Props, State> {
       direction,
       i18n,
       id,
+      renderingContext,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       quote,
@@ -849,6 +852,7 @@ export class Message extends React.Component<Props, State> {
         i18n,
         buttonRef: this.audioButtonRef,
         id,
+        renderingContext,
         direction,
         theme,
         attachment: firstAttachment,

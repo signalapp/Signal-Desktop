@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { noop } from 'lodash';
 
-import { GlobalAudioProvider } from '../GlobalAudioContext';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import {
@@ -46,7 +45,7 @@ export type Props = {
   contacts: Array<Contact>;
   contactNameColor?: ContactNameColorType;
   errors: Array<Error>;
-  message: MessagePropsDataType;
+  message: Omit<MessagePropsDataType, 'renderingContext'>;
   receivedAt: number;
   sentAt: number;
 
@@ -266,57 +265,54 @@ export class MessageDetail extends React.Component<Props> {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       <div className="module-message-detail" tabIndex={0} ref={this.focusRef}>
         <div className="module-message-detail__message-container">
-          <GlobalAudioProvider conversationId={message.conversationId}>
-            <Message
-              {...message}
-              checkForAccount={checkForAccount}
-              clearSelectedMessage={clearSelectedMessage}
-              contactNameColor={contactNameColor}
-              deleteMessage={deleteMessage}
-              deleteMessageForEveryone={deleteMessageForEveryone}
-              disableMenu
-              disableScroll
-              displayTapToViewMessage={displayTapToViewMessage}
-              downloadAttachment={downloadAttachment}
-              doubleCheckMissingQuoteReference={
-                doubleCheckMissingQuoteReference
-              }
-              i18n={i18n}
-              interactionMode={interactionMode}
-              kickOffAttachmentDownload={kickOffAttachmentDownload}
-              markAttachmentAsCorrupted={markAttachmentAsCorrupted}
-              onHeightChange={noop}
-              openConversation={openConversation}
-              openLink={openLink}
-              reactToMessage={reactToMessage}
-              renderAudioAttachment={renderAudioAttachment}
-              renderEmojiPicker={renderEmojiPicker}
-              replyToMessage={replyToMessage}
-              retrySend={retrySend}
-              showForwardMessageModal={showForwardMessageModal}
-              scrollToQuotedMessage={() => {
-                assert(
-                  false,
-                  'scrollToQuotedMessage should never be called because scrolling is disabled'
-                );
-              }}
-              showContactDetail={showContactDetail}
-              showContactModal={showContactModal}
-              showExpiredIncomingTapToViewToast={
-                showExpiredIncomingTapToViewToast
-              }
-              showExpiredOutgoingTapToViewToast={
-                showExpiredOutgoingTapToViewToast
-              }
-              showMessageDetail={() => {
-                assert(
-                  false,
-                  "showMessageDetail should never be called because the menu is disabled (and we're already in the message detail!)"
-                );
-              }}
-              showVisualAttachment={showVisualAttachment}
-            />
-          </GlobalAudioProvider>
+          <Message
+            {...message}
+            renderingContext="conversation/MessageDetail"
+            checkForAccount={checkForAccount}
+            clearSelectedMessage={clearSelectedMessage}
+            contactNameColor={contactNameColor}
+            deleteMessage={deleteMessage}
+            deleteMessageForEveryone={deleteMessageForEveryone}
+            disableMenu
+            disableScroll
+            displayTapToViewMessage={displayTapToViewMessage}
+            downloadAttachment={downloadAttachment}
+            doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
+            i18n={i18n}
+            interactionMode={interactionMode}
+            kickOffAttachmentDownload={kickOffAttachmentDownload}
+            markAttachmentAsCorrupted={markAttachmentAsCorrupted}
+            onHeightChange={noop}
+            openConversation={openConversation}
+            openLink={openLink}
+            reactToMessage={reactToMessage}
+            renderAudioAttachment={renderAudioAttachment}
+            renderEmojiPicker={renderEmojiPicker}
+            replyToMessage={replyToMessage}
+            retrySend={retrySend}
+            showForwardMessageModal={showForwardMessageModal}
+            scrollToQuotedMessage={() => {
+              assert(
+                false,
+                'scrollToQuotedMessage should never be called because scrolling is disabled'
+              );
+            }}
+            showContactDetail={showContactDetail}
+            showContactModal={showContactModal}
+            showExpiredIncomingTapToViewToast={
+              showExpiredIncomingTapToViewToast
+            }
+            showExpiredOutgoingTapToViewToast={
+              showExpiredOutgoingTapToViewToast
+            }
+            showMessageDetail={() => {
+              assert(
+                false,
+                "showMessageDetail should never be called because the menu is disabled (and we're already in the message detail!)"
+              );
+            }}
+            showVisualAttachment={showVisualAttachment}
+          />
         </div>
         <table className="module-message-detail__info">
           <tbody>

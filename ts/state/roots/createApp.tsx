@@ -7,9 +7,12 @@ import { Provider } from 'react-redux';
 import { Store } from 'redux';
 
 import { SmartApp } from '../smart/App';
+import { SmartGlobalAudioProvider } from '../smart/GlobalAudioProvider';
 
 export const createApp = (store: Store): ReactElement => (
   <Provider store={store}>
-    <SmartApp />
+    <SmartGlobalAudioProvider>
+      <SmartApp />
+    </SmartGlobalAudioProvider>
   </Provider>
 );
