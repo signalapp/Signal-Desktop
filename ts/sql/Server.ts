@@ -1913,6 +1913,28 @@ function updateToSchemaVersion34(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion34: success!');
 }
 
+function updateToSchemaVersion35(currentVersion: number, db: Database) {
+  if (currentVersion >= 35) {
+    return;
+  }
+
+  db.transaction(() => {
+    db.exec(`
+      CREATE INDEX expiring_message_by_conversation_and_received_at
+      ON messages
+      (
+        expirationStartTimestamp,
+        expireTimer,
+        conversationId,
+        received_at
+      );
+    `);
+
+    db.pragma('user_version = 35');
+  })();
+  console.log('updateToSchemaVersion35: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1948,6 +1970,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion32,
   updateToSchemaVersion33,
   updateToSchemaVersion34,
+  updateToSchemaVersion35,
 ];
 
 function updateSchema(db: Database): void {
@@ -3358,6 +3381,7 @@ async function getUnreadByConversationAndMarkRead(
     db.prepare<Query>(
       `
       UPDATE messages
+      INDEXED BY expiring_message_by_conversation_and_received_at
       SET
         expirationStartTimestamp = $expirationStartTimestamp,
         json = json_patch(json, $jsonPatch)
@@ -3380,8 +3404,9 @@ async function getUnreadByConversationAndMarkRead(
     const rows = db
       .prepare<Query>(
         `
-        SELECT id, json
-        FROM messages WHERE
+        SELECT id, json FROM messages
+        INDEXED BY messages_unread
+        WHERE
           unread = $unread AND
           conversationId = $conversationId AND
           received_at <= $newestUnreadId
