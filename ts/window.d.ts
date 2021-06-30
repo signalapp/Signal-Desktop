@@ -10,7 +10,6 @@ import moment from 'moment';
 import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
 import { imageToBlurHash } from './util/imageToBlurHash';
-import * as LinkPreviews from '../js/modules/link_previews.d';
 import * as Util from './util';
 import {
   ConversationModelCollectionType,
@@ -439,7 +438,6 @@ declare global {
         VisualAttachment: any;
       };
       Util: typeof Util;
-      LinkPreviews: typeof LinkPreviews;
       GroupChange: {
         renderChange: (change: unknown, things: unknown) => Array<string>;
       };

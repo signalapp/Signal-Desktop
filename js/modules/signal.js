@@ -21,7 +21,6 @@ const Stickers = require('./stickers');
 const Settings = require('./settings');
 const RemoteConfig = require('../../ts/RemoteConfig');
 const Util = require('../../ts/util');
-const LinkPreviews = require('./link_previews');
 
 // Components
 const {
@@ -445,7 +444,6 @@ exports.setup = (options = {}) => {
     Groups,
     GroupChange,
     IndexedDB,
-    LinkPreviews,
     Migrations,
     Notifications,
     OS,

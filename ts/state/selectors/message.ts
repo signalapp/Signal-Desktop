@@ -25,7 +25,7 @@ import {
 import { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification';
 import { QuotedAttachmentType } from '../../components/conversation/Quote';
 
-import { getDomain, isStickerPack } from '../../../js/modules/link_previews';
+import { getDomain, isStickerPack } from '../../types/LinkPreview';
 
 import { ContactType, contactSelector } from '../../types/Contact';
 import { BodyRangesType } from '../../types/Util';

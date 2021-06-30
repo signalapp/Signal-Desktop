@@ -7,7 +7,7 @@ const {
   findLinks,
   isLinkSafeToPreview,
   isLinkSneaky,
-} = require('../../js/modules/link_previews');
+} = require('../../ts/types/LinkPreview');
 
 describe('Link previews', () => {
   describe('#isLinkSafeToPreview', () => {
@@ -49,6 +49,15 @@ describe('Link previews', () => {
         'https://github.com/signalapp/Signal-Desktop',
         'https://github.com/signalapp/Signal-Android',
       ];
+
+      const actual = findLinks(text);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('returns all links after emojis without spaces in between', () => {
+      const text = '😎https://github.com/signalapp/Signal-Desktop😛';
+
+      const expected = ['https://github.com/signalapp/Signal-Desktop'];
 
       const actual = findLinks(text);
       assert.deepEqual(expected, actual);

@@ -47,6 +47,7 @@ import {
   LinkPreviewResult,
   LinkPreviewWithDomain,
 } from '../types/LinkPreview';
+import * as LinkPreview from '../types/LinkPreview';
 
 type AttachmentOptions = {
   messageId: string;
@@ -3982,7 +3983,7 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    const links = window.Signal.LinkPreviews.findLinks(message, caretLocation);
+    const links = LinkPreview.findLinks(message, caretLocation);
     const { currentlyMatchedLink } = this;
     if (links.includes(currentlyMatchedLink)) {
       return;
@@ -3993,7 +3994,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const link = links.find(
       item =>
-        window.Signal.LinkPreviews.isLinkSafeToPreview(item) &&
+        LinkPreview.isLinkSafeToPreview(item) &&
         !this.excludedPreviewUrls.includes(item)
     );
     if (!link) {
@@ -4189,15 +4190,15 @@ Whisper.ConversationView = Whisper.View.extend({
     url: string,
     abortSignal: Readonly<AbortSignal>
   ): Promise<null | LinkPreviewResult> {
-    if (window.Signal.LinkPreviews.isStickerPack(url)) {
+    if (LinkPreview.isStickerPack(url)) {
       return this.getStickerPackPreview(url, abortSignal);
     }
-    if (window.Signal.LinkPreviews.isGroupLink(url)) {
+    if (LinkPreview.isGroupLink(url)) {
       return this.getGroupPreview(url, abortSignal);
     }
 
     // This is already checked elsewhere, but we want to be extra-careful.
-    if (!window.Signal.LinkPreviews.isLinkSafeToPreview(url)) {
+    if (!LinkPreview.isLinkSafeToPreview(url)) {
       return null;
     }
 
@@ -4211,10 +4212,7 @@ Whisper.ConversationView = Whisper.View.extend({
     const { title, imageHref, description, date } = linkPreviewMetadata;
 
     let image;
-    if (
-      imageHref &&
-      window.Signal.LinkPreviews.isLinkSafeToPreview(imageHref)
-    ) {
+    if (imageHref && LinkPreview.isLinkSafeToPreview(imageHref)) {
       let objectUrl: void | string;
       try {
         const fullSizeImage = await window.textsecure.messaging.fetchLinkPreviewImage(
@@ -4406,7 +4404,7 @@ Whisper.ConversationView = Whisper.View.extend({
     const [preview] = this.preview;
     return {
       ...preview,
-      domain: window.Signal.LinkPreviews.getDomain(preview.url),
+      domain: LinkPreview.getDomain(preview.url),
     };
   },
 

@@ -6,7 +6,9 @@ import React from 'react';
 import LinkifyIt from 'linkify-it';
 
 import { RenderTextCallbackType } from '../../types/Util';
-import { isLinkSneaky } from '../../../js/modules/link_previews';
+import { isLinkSneaky } from '../../types/LinkPreview';
+import { splitByEmoji } from '../../util/emoji';
+import { missingCaseError } from '../../util/missingCaseError';
 
 const linkify = LinkifyIt()
   // This is all of the TLDs in place in 2010, according to [Wikipedia][0]. Note that
@@ -55,10 +57,6 @@ export class Linkify extends React.Component<Props> {
     | null
     | Array<JSX.Element | string | null> {
     const { text, renderNonLink } = this.props;
-    const matchData = linkify.match(text) || [];
-    const results: Array<JSX.Element | string> = [];
-    let last = 0;
-    let count = 1;
 
     // We have to do this, because renderNonLink is not required in our Props object,
     //  but it is always provided via defaultProps.
@@ -66,19 +64,34 @@ export class Linkify extends React.Component<Props> {
       return null;
     }
 
-    if (matchData.length === 0) {
-      return renderNonLink({ text, key: 0 });
-    }
+    const chunkData: Array<{
+      chunk: string;
+      matchData: LinkifyIt.Match[];
+    }> = splitByEmoji(text).map(({ type, value: chunk }) => {
+      if (type === 'text') {
+        return { chunk, matchData: linkify.match(chunk) || [] };
+      }
 
-    matchData.forEach(
-      (match: {
-        index: number;
-        url: string;
-        lastIndex: number;
-        text: string;
-      }) => {
+      if (type === 'emoji') {
+        return { chunk, matchData: [] };
+      }
+
+      throw missingCaseError(type);
+    });
+
+    const results: Array<JSX.Element | string> = [];
+    let last = 0;
+    let count = 1;
+
+    chunkData.forEach(({ chunk, matchData }) => {
+      if (matchData.length === 0) {
+        results.push(renderNonLink({ text: chunk, key: 0 }));
+        return;
+      }
+
+      matchData.forEach(match => {
         if (last < match.index) {
-          const textWithNoLink = text.slice(last, match.index);
+          const textWithNoLink = chunk.slice(last, match.index);
           count += 1;
           results.push(renderNonLink({ text: textWithNoLink, key: count }));
         }
@@ -96,13 +109,13 @@ export class Linkify extends React.Component<Props> {
         }
 
         last = match.lastIndex;
-      }
-    );
+      });
 
-    if (last < text.length) {
-      count += 1;
-      results.push(renderNonLink({ text: text.slice(last), key: count }));
-    }
+      if (last < chunk.length) {
+        count += 1;
+        results.push(renderNonLink({ text: chunk.slice(last), key: count }));
+      }
+    });
 
     return results;
   }
