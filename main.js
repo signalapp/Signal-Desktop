@@ -666,6 +666,18 @@ async function readyForUpdates() {
   }
 }
 
+async function forceUpdate() {
+  try {
+    logger.info('starting force update');
+    await updater.force();
+  } catch (error) {
+    logger.error(
+      'Error during force update:',
+      error && error.stack ? error.stack : error
+    );
+  }
+}
+
 ipc.once('ready-for-updates', readyForUpdates);
 
 const TEN_MINUTES = 10 * 60 * 1000;
@@ -1404,6 +1416,7 @@ function setupMenu(options) {
     platform,
     setupAsNewDevice,
     setupAsStandalone,
+    forceUpdate,
   };
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);

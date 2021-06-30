@@ -24,6 +24,7 @@ type OptionsType = {
   openSupportPage: () => unknown;
   setupAsNewDevice: () => unknown;
   setupAsStandalone: () => unknown;
+  forceUpdate: () => unknown;
   showAbout: () => unknown;
   showDebugLog: () => unknown;
   showKeyboardShortcuts: () => unknown;
@@ -52,6 +53,7 @@ export const createTemplate = (
     platform,
     setupAsNewDevice,
     setupAsStandalone,
+    forceUpdate,
     showAbout,
     showDebugLog,
     showKeyboardShortcuts,
@@ -159,6 +161,14 @@ export const createTemplate = (
               {
                 role: 'toggleDevTools' as const,
                 label: messages.viewMenuToggleDevTools.message,
+              },
+            ]
+          : []),
+        ...(devTools && platform !== 'linux'
+          ? [
+              {
+                label: messages.forceUpdate.message,
+                click: forceUpdate,
               },
             ]
           : []),

@@ -1,51 +1,5 @@
 [
   {
-    "label": "Signal Desktop",
-    "submenu": [
-      {
-        "label": "About Signal Desktop",
-        "click": null
-      },
-      {
-        "type": "separator"
-      },
-      {
-        "label": "Preferences…",
-        "accelerator": "CommandOrControl+,",
-        "click": null
-      },
-      {
-        "type": "separator"
-      },
-      {
-        "label": "Services",
-        "role": "services"
-      },
-      {
-        "type": "separator"
-      },
-      {
-        "label": "Hide",
-        "role": "hide"
-      },
-      {
-        "label": "Hide Others",
-        "role": "hideOthers"
-      },
-      {
-        "label": "Show All",
-        "role": "unhide"
-      },
-      {
-        "type": "separator"
-      },
-      {
-        "label": "Quit Signal",
-        "role": "quit"
-      }
-    ]
-  },
-  {
     "label": "&File",
     "submenu": [
       {
@@ -60,12 +14,16 @@
         "click": null
       },
       {
+        "accelerator": "CommandOrControl+,",
+        "label": "Preferences…",
+        "click": null
+      },
+      {
         "type": "separator"
       },
       {
-        "accelerator": "CmdOrCtrl+W",
-        "label": "Close Window",
-        "role": "close"
+        "label": "Quit Signal",
+        "role": "quit"
       }
     ]
   },
@@ -106,22 +64,6 @@
       {
         "label": "Select All",
         "role": "selectAll"
-      },
-      {
-        "type": "separator"
-      },
-      {
-        "label": "Speech",
-        "submenu": [
-          {
-            "label": "Start speaking",
-            "role": "startSpeaking"
-          },
-          {
-            "label": "Stop speaking",
-            "role": "stopSpeaking"
-          }
-        ]
       }
     ]
   },
@@ -133,7 +75,7 @@
         "role": "resetZoom"
       },
       {
-        "accelerator": "Command+=",
+        "accelerator": "Control+=",
         "label": "Zoom In",
         "role": "zoomIn"
       },
@@ -174,24 +116,7 @@
     "submenu": [
       {
         "label": "Minimize",
-        "accelerator": "CmdOrCtrl+M",
         "role": "minimize"
-      },
-      {
-        "label": "Zoom",
-        "role": "zoom"
-      },
-      {
-        "label": "Show",
-        "accelerator": "CmdOrCtrl+Shift+0",
-        "click": null
-      },
-      {
-        "type": "separator"
-      },
-      {
-        "label": "Bring All to Front",
-        "role": "front"
       }
     ]
   },
@@ -225,6 +150,13 @@
       },
       {
         "label": "Join the Beta",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "About Signal Desktop",
         "click": null
       }
     ]

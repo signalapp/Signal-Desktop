@@ -663,6 +663,10 @@
     "message": "Debug Log",
     "description": "View menu item to open the debug log (title case)"
   },
+  "forceUpdate": {
+    "message": "Force Update",
+    "description": "View menu item to force the app to update download and install"
+  },
   "helpMenuShowKeyboardShortcuts": {
     "message": "Show Keyboard Shortcuts",
     "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
