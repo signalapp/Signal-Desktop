@@ -66,7 +66,7 @@ exports.autoOrientJPEG = async (attachment, _, message) => {
   );
   const xcodedDataBlob = await scaleImageToLevel(
     dataBlob,
-    message.sendHQImages
+    message ? message.sendHQImages : false
   );
   const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
