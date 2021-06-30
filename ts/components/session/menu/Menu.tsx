@@ -3,7 +3,7 @@ import React from 'react';
 import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeNickNameModal, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { getConversationController } from '../../../session/conversations';
 import {
