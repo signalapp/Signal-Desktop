@@ -1100,7 +1100,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         isPinned: value,
       });
       await this.commit();
-      console.log(this);
     }
   }
 

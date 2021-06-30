@@ -4,7 +4,6 @@ import { NotificationForConvoOption, TimerOption } from '../../conversation/Conv
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
 import { useDispatch } from 'react-redux';
-import { actions as conversationActions } from '../../../state/ducks/conversations';
 import { changeNickNameModal, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { getConversationController } from '../../../session/conversations';
 import {
@@ -131,7 +130,7 @@ export const MenuItemPinConversation = (
 ): JSX.Element | null => {
   const { conversationId } = props;
   const conversation = getConversationController().get(conversationId);
-  let isPinned = conversation.getIsPinned();
+  const isPinned = conversation.getIsPinned();
 
   const togglePinConversation = async () => {
     await conversation.setIsPinned(!isPinned);
