@@ -20,7 +20,7 @@ const storageMap = new Map();
 
 // To replicate logic we have on the client side
 global.window = {
-  SignalContext: new SignalContext(),
+  SignalContext: undefined,
   log: {
     info: (...args) => console.log(...args),
     warn: (...args) => console.warn(...args),
@@ -37,6 +37,21 @@ global.window = {
   },
   isValidGuid,
 };
+
+const fakeIPC = {
+  sendSync(channel) {
+    // See `ts/context/NativeThemeListener.ts`
+    if (channel === 'native-theme:init') {
+      return { shouldUseDarkColors: true };
+    }
+
+    throw new Error(`Unsupported sendSync channel: ${channel}`);
+  },
+
+  on() {},
+};
+
+global.window.SignalContext = new SignalContext(fakeIPC);
 
 // For ducks/network.getEmptyState()
 global.navigator = {};

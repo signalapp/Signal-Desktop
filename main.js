@@ -122,6 +122,7 @@ const {
 } = require('./ts/types/Settings');
 const { Environment } = require('./ts/environment');
 const { ChallengeMainHandler } = require('./ts/main/challengeMain');
+const { NativeThemeNotifier } = require('./ts/main/NativeThemeNotifier');
 const { PowerChannel } = require('./ts/main/powerChannel');
 const { maybeParseUrl, setUrlSearchParams } = require('./ts/util/url');
 
@@ -135,6 +136,9 @@ const systemTraySettingCache = new SystemTraySettingCache(
 );
 
 const challengeHandler = new ChallengeMainHandler();
+
+const nativeThemeNotifier = new NativeThemeNotifier();
+nativeThemeNotifier.initialize();
 
 let sqlInitTimeStart = 0;
 let sqlInitTimeEnd = 0;
@@ -303,6 +307,8 @@ function handleCommonWindowEvents(window) {
   window.webContents.on('preload-error', (event, preloadPath, error) => {
     console.error(`Preload error in ${preloadPath}: `, error.message);
   });
+
+  nativeThemeNotifier.addWindow(window);
 }
 
 const DEFAULT_WIDTH = 800;

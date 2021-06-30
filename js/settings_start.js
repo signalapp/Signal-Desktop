@@ -20,7 +20,7 @@ async function applyTheme() {
 
 applyTheme();
 
-window.subscribeToSystemThemeChange(() => {
+window.SignalContext.nativeThemeListener.subscribe(() => {
   applyTheme();
 });
 

@@ -15,7 +15,7 @@ const {
 
 const { Context: SignalContext } = require('./ts/context');
 
-window.SignalContext = new SignalContext();
+window.SignalContext = new SignalContext(ipcRenderer);
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;

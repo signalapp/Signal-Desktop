@@ -19,7 +19,6 @@ const {
 const { makeGetter } = require('../preload_utils');
 
 const { dialog } = remote;
-const { nativeTheme } = remote.require('electron');
 
 const { Context: SignalContext } = require('../ts/context');
 
@@ -29,7 +28,7 @@ const MAX_STICKER_DIMENSION = STICKER_SIZE;
 const MAX_WEBP_STICKER_BYTE_LENGTH = 100 * 1024;
 const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
 
-window.SignalContext = new SignalContext();
+window.SignalContext = new SignalContext(ipc);
 
 setEnvironment(parseEnvironment(config.environment));
 
@@ -280,6 +279,7 @@ const getThemeSetting = makeGetter('theme-setting');
 async function resolveTheme() {
   const theme = (await getThemeSetting()) || 'system';
   if (process.platform === 'darwin' && theme === 'system') {
+    const { theme: nativeTheme } = window.SignalContext.nativeThemeListener;
     return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
   }
   return theme;
@@ -293,8 +293,6 @@ async function applyTheme() {
 
 window.addEventListener('DOMContentLoaded', applyTheme);
 
-nativeTheme.on('updated', () => {
-  applyTheme();
-});
+window.SignalContext.nativeThemeListener.subscribe(() => applyTheme());
 
 window.log.info('sticker-creator preload complete...');

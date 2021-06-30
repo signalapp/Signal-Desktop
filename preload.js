@@ -19,14 +19,14 @@ try {
     parseEnvironment,
     Environment,
   } = require('./ts/environment');
+  const ipc = electron.ipcRenderer;
 
   const { remote } = electron;
   const { app } = remote;
-  const { nativeTheme } = remote.require('electron');
 
   const { Context: SignalContext } = require('./ts/context');
 
-  window.SignalContext = new SignalContext();
+  window.SignalContext = new SignalContext(ipc);
 
   window.sqlInitializer = require('./ts/sql/initialize');
 
@@ -77,19 +77,6 @@ try {
     app.setLoginItemSettings({ openAtLogin: Boolean(value) });
   };
 
-  function setSystemTheme() {
-    window.systemTheme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
-  }
-
-  setSystemTheme();
-
-  window.subscribeToSystemThemeChange = fn => {
-    nativeTheme.on('updated', () => {
-      setSystemTheme();
-      fn();
-    });
-  };
-
   window.isBeforeVersion = (toCheck, baseVersion) => {
     try {
       return semver.lt(toCheck, baseVersion);
@@ -113,7 +100,6 @@ try {
     }
   };
 
-  const ipc = electron.ipcRenderer;
   const localeMessages = ipc.sendSync('locale-data');
 
   window.setBadgeCount = count => ipc.send('set-badge-count', count);
