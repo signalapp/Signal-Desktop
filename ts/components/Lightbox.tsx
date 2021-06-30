@@ -107,6 +107,8 @@ const styles = {
     right: 0,
     textAlign: 'center',
     color: 'white',
+    fontWeight: 'bold',
+    textShadow: '0 0 1px black, 0 0 2px black, 0 0 3px black, 0 0 4px black',
     padding: '1em',
     paddingLeft: '3em',
     paddingRight: '3em',
