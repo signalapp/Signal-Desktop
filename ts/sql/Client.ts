@@ -415,9 +415,14 @@ function _updateJob(id: number, data: ClientJobUpdateType) {
         `SQL channel job ${id} (${fnName}) failed in ${end - start}ms`
       );
 
-      if (error && error.message && error.message.includes('SQLITE_CORRUPT')) {
+      if (
+        error &&
+        error.message &&
+        (error.message.includes('SQLITE_CORRUPT') ||
+          error.message.includes('database disk image is malformed'))
+      ) {
         window.log.error(
-          'Detected SQLITE_CORRUPT error; restarting the application immediately'
+          `Detected corruption. Restarting the application immediately. Error: ${error.message}`
         );
         window.restart();
       }
