@@ -135,10 +135,6 @@ async function bouncyDeleteAccount(reason?: string) {
     await window.Signal.Data.removeOtherData();
     // 'unlink' => toast will be shown on app restart
     window.localStorage.setItem('restart-reason', reason || '');
-    if (window.inboxStore) {
-      // warrick: this part might be redundant due to localStorage getting cleared.
-      await persistStore(window.inboxStore).purge();
-    }
   };
   try {
     window?.log?.info('DeleteAccount => Sending a last SyncConfiguration');

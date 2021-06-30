@@ -23,11 +23,8 @@ import { DefaultTheme, withTheme } from 'styled-components';
 import { PubKey } from '../session/types';
 import { ConversationType, openConversationExternal } from '../state/ducks/conversations';
 import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
-
-export enum ConversationListItemType {
-  Conversation = 'conversation',
-  Contact = 'contact',
-}
+import { useSelector } from 'react-redux';
+import { SectionType } from './session/ActionsPanel';
 
 export interface ConversationListItemProps extends ConversationType {
   index?: number; // used to force a refresh when one conversation is removed on top of the list
@@ -37,7 +34,6 @@ export interface ConversationListItemProps extends ConversationType {
 type PropsHousekeeping = {
   style?: Object;
   theme: DefaultTheme;
-  conversationListItemType: ConversationListItemType;
 };
 
 type Props = ConversationListItemProps & PropsHousekeeping;
@@ -70,7 +66,7 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderHeader() {
-    const { unreadCount, mentionedUs, activeAt, isPinned, conversationListItemType } = this.props;
+    const { unreadCount, mentionedUs, activeAt, isPinned } = this.props;
 
     let atSymbol = null;
     let unreadCountDiv = null;
@@ -79,8 +75,11 @@ class ConversationListItem extends React.PureComponent<Props> {
       unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
     }
 
+    const isMessagesSection =
+      window.inboxStore?.getState().section.focusedSection === SectionType.Message;
+
     const pinIcon =
-      conversationListItemType === ConversationListItemType.Conversation && isPinned ? (
+      isMessagesSection && isPinned ? (
         <SessionIcon
           iconType={SessionIconType.Pin}
           iconColor={this.props.theme.colors.textColorSubtle}

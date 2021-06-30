@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { animation, Menu } from 'react-contexify';
 import { ConversationTypeEnum } from '../../../models/conversation';
-import { ConversationListItemType } from '../../ConversationListItem';
+import { SectionType } from '../ActionsPanel';
 
 import {
   getBlockMenuItem,
@@ -20,7 +20,6 @@ export type PropsContextConversationItem = {
   id: string;
   triggerId: string;
   type: ConversationTypeEnum;
-  conversationListItemType: ConversationListItemType;
   isMe: boolean;
   isPublic?: boolean;
   isBlocked?: boolean;
@@ -41,13 +40,13 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     type,
     left,
     isKickedFromGroup,
-    conversationListItemType,
   } = props;
 
   const isGroup = type === 'group';
 
-  const isConversation = conversationListItemType === ConversationListItemType.Conversation;
-  const pinMenuItem = isConversation ? (
+  const isMessagesSection =
+    window.inboxStore?.getState().section.focusedSection === SectionType.Message;
+  const pinMenuItem = isMessagesSection ? (
     <MenuItemPinConversation conversationId={conversationId} />
   ) : null;
 

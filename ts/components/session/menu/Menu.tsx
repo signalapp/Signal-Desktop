@@ -130,18 +130,11 @@ export const MenuItemPinConversation = (
   props: PinConversationMenuItemProps
 ): JSX.Element | null => {
   const { conversationId } = props;
-  const conversation = getConversationController()
-    .get(conversationId)
-    .getProps();
-  const { isPinned } = conversation;
+  const conversation = getConversationController().get(conversationId);
+  let isPinned = conversation.getIsPinned();
 
-  const togglePinConversation = () => {
-    window.inboxStore?.dispatch(
-      conversationActions.conversationChanged(conversationId, {
-        ...conversation,
-        isPinned: !isPinned,
-      })
-    );
+  const togglePinConversation = async () => {
+    await conversation.setIsPinned(!isPinned);
   };
   const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');
   return <Item onClick={togglePinConversation}>{menuText}</Item>;
