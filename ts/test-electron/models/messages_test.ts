@@ -1,16 +1,10 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
-import {
-  isEndSession,
-  isGroupUpdate,
-  isIncoming,
-  isOutgoing,
-} from '../../state/selectors/message';
 
 describe('Message', () => {
   const i18n = setupI18n('en', enMessages);
@@ -121,37 +115,6 @@ describe('Message', () => {
         source,
       });
       message.getContact();
-    });
-  });
-
-  describe('isIncoming', () => {
-    it('checks if is incoming message', () => {
-      const messages = new window.Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.notOk(isIncoming(message.attributes));
-      message = messages.add({ type: 'incoming' });
-      assert.ok(isIncoming(message.attributes));
-    });
-  });
-
-  describe('isOutgoing', () => {
-    it('checks if is outgoing message', () => {
-      const messages = new window.Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.ok(isOutgoing(message.attributes));
-      message = messages.add({ type: 'incoming' });
-      assert.notOk(isOutgoing(message.attributes));
-    });
-  });
-
-  describe('isGroupUpdate', () => {
-    it('checks if is group update', () => {
-      const messages = new window.Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.notOk(isGroupUpdate(message.attributes));
-
-      message = messages.add({ group_update: { left: 'You' } });
-      assert.ok(isGroupUpdate(message.attributes));
     });
   });
 
@@ -552,17 +515,6 @@ describe('Message', () => {
         }).getNotificationText(),
         'Photo'
       );
-    });
-  });
-
-  describe('isEndSession', () => {
-    it('checks if it is end of the session', () => {
-      const messages = new window.Whisper.MessageCollection();
-      let message = messages.add(attributes);
-      assert.notOk(isEndSession(message.attributes));
-
-      message = messages.add({ type: 'incoming', source, flags: true });
-      assert.ok(isEndSession(message.attributes));
     });
   });
 });

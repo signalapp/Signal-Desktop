@@ -207,11 +207,15 @@ export function getPropsForBubble(
   };
 }
 
-export function isIncoming(message: MessageAttributesType): boolean {
+export function isIncoming(
+  message: Pick<MessageAttributesType, 'type'>
+): boolean {
   return message.type === 'incoming';
 }
 
-export function isOutgoing(message: MessageAttributesType): boolean {
+export function isOutgoing(
+  message: Pick<MessageAttributesType, 'type'>
+): boolean {
   return message.type === 'outgoing';
 }
 
@@ -639,7 +643,9 @@ function getPropsForVerificationNotification(
 
 // Group Update (V1)
 
-export function isGroupUpdate(message: MessageAttributesType): boolean {
+export function isGroupUpdate(
+  message: Pick<MessageAttributesType, 'group_update'>
+): boolean {
   return Boolean(message.group_update);
 }
 
@@ -725,7 +731,9 @@ function getPropsForGroupNotification(
 
 // End Session
 
-export function isEndSession(message: MessageAttributesType): boolean {
+export function isEndSession(
+  message: Pick<MessageAttributesType, 'flags'>
+): boolean {
   const flag = window.textsecure.protobuf.DataMessage.Flags.END_SESSION;
   // eslint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
