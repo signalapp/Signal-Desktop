@@ -64,6 +64,7 @@ const ConversationListItem = (props: Props) => {
     isMe,
     isPinned,
     isTyping,
+    type,
     lastMessage,
     memberAvatars,
   } = props;
@@ -71,11 +72,6 @@ const ConversationListItem = (props: Props) => {
   const key: string = `conversation-item-${phoneNumber}`;
 
   const dispatch = useDispatch();
-
-  const menuProps: PropsContextConversationItem = {
-    ...props,
-    triggerId,
-  };
 
   return (
     <div key={key}>
@@ -124,7 +120,7 @@ const ConversationListItem = (props: Props) => {
         </div>
       </div>
       <Portal>
-        <ConversationListItemContextMenu {...menuProps} />
+        <ConversationListItemContextMenu id={id} triggerId={triggerId} type={type} isMe={isMe} />
       </Portal>
     </div>
   );

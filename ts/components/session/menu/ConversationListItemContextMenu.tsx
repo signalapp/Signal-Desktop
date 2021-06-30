@@ -1,6 +1,8 @@
 import React from 'react';
 import { animation, Menu } from 'react-contexify';
+import { useSelector } from 'react-redux';
 import { ConversationTypeEnum } from '../../../models/conversation';
+import { getFocusedSection } from '../../../state/selectors/section';
 import { SectionType } from '../ActionsPanel';
 
 import {
@@ -43,9 +45,7 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
   } = props;
 
   const isGroup = type === 'group';
-
-  const isMessagesSection =
-    window.inboxStore?.getState().section.focusedSection === SectionType.Message;
+  const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
   const pinMenuItem = isMessagesSection ? (
     <MenuItemPinConversation conversationId={conversationId} />
   ) : null;
