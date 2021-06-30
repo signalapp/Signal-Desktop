@@ -2284,6 +2284,10 @@ export async function startApp(): Promise<void> {
     }
   }
 
+  window.subscribeToSystemThemeChange(() => {
+    onChangeTheme();
+  });
+
   const FIVE_MINUTES = 5 * 60 * 1000;
 
   // Note: once this function returns, there still might be messages being processed on

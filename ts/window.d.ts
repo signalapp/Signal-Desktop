@@ -166,6 +166,8 @@ declare global {
 
     WhatIsThis: WhatIsThis;
 
+    subscribeToSystemThemeChange: (fn: () => void) => void;
+
     registerScreenShareControllerRenderer: (
       f: (
         component: typeof CallingScreenSharingController,
