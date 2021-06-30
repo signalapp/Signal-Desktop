@@ -85,7 +85,8 @@ export class Linkify extends React.Component<Props> {
 
     chunkData.forEach(({ chunk, matchData }) => {
       if (matchData.length === 0) {
-        results.push(renderNonLink({ text: chunk, key: 0 }));
+        count += 1;
+        results.push(renderNonLink({ text: chunk, key: count }));
         return;
       }
 
