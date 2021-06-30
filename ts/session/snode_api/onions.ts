@@ -13,6 +13,7 @@ import { hrefPnServerDev, hrefPnServerProd } from '../../pushnotification/PnServ
 let snodeFailureCount: Record<string, number> = {};
 
 import { Snode } from '../../data/data';
+import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 
 // tslint:disable-next-line: variable-name
 export const TEST_resetSnodeFailureCount = () => {
@@ -36,6 +37,9 @@ export interface SnodeResponse {
 }
 
 export const NEXT_NODE_NOT_FOUND_PREFIX = 'Next node not found: ';
+
+export const CLOCK_OUT_OF_SYNC_MESSAGE_ERROR =
+  'Your clock is out of sync with the network. Check your clock.';
 
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
@@ -195,9 +199,8 @@ async function buildOnionGuardNodePayload(
 function process406Error(statusCode: number) {
   if (statusCode === 406) {
     // clock out of sync
-    console.warn('clock out of sync todo');
     // this will make the pRetry stop
-    throw new pRetry.AbortError('You clock is out of sync with the network. Check your clock.');
+    throw new pRetry.AbortError(CLOCK_OUT_OF_SYNC_MESSAGE_ERROR);
   }
 }
 
@@ -783,6 +786,7 @@ const sendOnionRequest = async ({
     // we are talking to a snode...
     agent: snodeHttpsAgent,
     abortSignal,
+    timeout: 5000,
   };
 
   const guardUrl = `https://${guardNode.ip}:${guardNode.port}/onion_req/v2`;
@@ -859,7 +863,7 @@ export async function lokiOnionFetch(
         return onionFetchRetryable(targetNode, body, associatedWith);
       },
       {
-        retries: 9,
+        retries: 4,
         factor: 1,
         minTimeout: 1000,
         maxTimeout: 2000,
@@ -875,6 +879,14 @@ export async function lokiOnionFetch(
   } catch (e) {
     window?.log?.warn('onionFetchRetryable failed ', e);
     // console.warn('error to show to user');
+    if (e?.errno === 'ENETUNREACH') {
+      // better handle the no connection state
+      throw new Error(ERROR_CODE_NO_CONNECT);
+    }
+    if (e?.message === CLOCK_OUT_OF_SYNC_MESSAGE_ERROR) {
+      window?.log?.warn('Its an clock out of sync error ');
+      throw new pRetry.AbortError(CLOCK_OUT_OF_SYNC_MESSAGE_ERROR);
+    }
     throw e;
   }
 }

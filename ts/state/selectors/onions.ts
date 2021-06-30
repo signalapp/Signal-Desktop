@@ -21,3 +21,8 @@ export const getFirstOnionPathLength = createSelector(
   getFirstOnionPath,
   (state: Array<Snode>): number => state.length || 0
 );
+
+export const getIsOnline = createSelector(
+  getOnionPaths,
+  (state: OnionState): boolean => state.isOnline
+);

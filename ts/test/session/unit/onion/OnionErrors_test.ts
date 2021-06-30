@@ -216,7 +216,7 @@ describe('OnionPathsErrors', () => {
           throw new Error('Error expected');
         } catch (e) {
           expect(e.message).to.equal(
-            'You clock is out of sync with the network. Check your clock.'
+            'Your clock is out of sync with the network. Check your clock.'
           );
           // this makes sure that this call would not be retried
           expect(e.name).to.equal('AbortError');
@@ -237,7 +237,7 @@ describe('OnionPathsErrors', () => {
           throw new Error('Error expected');
         } catch (e) {
           expect(e.message).to.equal(
-            'You clock is out of sync with the network. Check your clock.'
+            'Your clock is out of sync with the network. Check your clock.'
           );
           // this makes sure that this call would not be retried
           expect(e.name).to.equal('AbortError');

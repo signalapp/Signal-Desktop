@@ -51,7 +51,6 @@ export const getSwarmPollingInstance = () => {
 };
 
 export class SwarmPolling {
-  private ourPubkey: PubKey | undefined;
   private groupPolling: Array<{ pubkey: PubKey; lastPolledTimestamp: number }>;
   private readonly lastHashes: { [key: string]: PubkeyToHash };
 
@@ -61,7 +60,6 @@ export class SwarmPolling {
   }
 
   public async start(waitForFirstPoll = false): Promise<void> {
-    this.ourPubkey = UserUtils.getOurPubKeyFromCache();
     this.loadGroupIds();
     if (waitForFirstPoll) {
       await this.TEST_pollForAllKeys();
@@ -74,7 +72,6 @@ export class SwarmPolling {
    * Used fo testing only
    */
   public TEST_reset() {
-    this.ourPubkey = undefined;
     this.groupPolling = [];
   }
 
@@ -88,10 +85,6 @@ export class SwarmPolling {
   public removePubkey(pk: PubKey | string) {
     const pubkey = PubKey.cast(pk);
     window?.log?.info('Swarm removePubkey: removing pubkey from polling', pubkey.key);
-
-    if (this.ourPubkey && PubKey.cast(pk).isEqual(this.ourPubkey)) {
-      this.ourPubkey = undefined;
-    }
     this.groupPolling = this.groupPolling.filter(group => !pubkey.isEqual(group.pubkey));
   }
 
@@ -132,9 +125,8 @@ export class SwarmPolling {
    */
   public async TEST_pollForAllKeys() {
     // we always poll as often as possible for our pubkey
-    const directPromise = this.ourPubkey
-      ? this.TEST_pollOnceForKey(this.ourPubkey, false)
-      : Promise.resolve();
+    const ourPubkey = UserUtils.getOurPubKeyFromCache();
+    const directPromise = this.TEST_pollOnceForKey(ourPubkey, false);
 
     const now = Date.now();
     const groupPromises = this.groupPolling.map(async group => {

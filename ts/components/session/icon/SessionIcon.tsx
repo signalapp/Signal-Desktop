@@ -12,6 +12,7 @@ export type SessionIconProps = {
   glowDuration?: number;
   borderRadius?: number;
   glowStartDelay?: number;
+  noScale?: boolean;
   theme?: DefaultTheme;
 };
 
@@ -46,6 +47,7 @@ type StyledSvgProps = {
   borderRadius?: number;
   glowDuration?: number;
   glowStartDelay?: number;
+  noScale?: boolean;
   iconColor?: string;
 };
 
@@ -91,16 +93,22 @@ const animation = (props: {
   glowDuration?: number;
   glowStartDelay?: number;
   iconColor?: string;
+  noScale?: boolean;
 }) => {
   if (props.rotateDuration) {
     return css`
       ${rotate} ${props.rotateDuration}s infinite linear;
     `;
-  } else if (
-    props.glowDuration !== undefined &&
-    props.glowStartDelay !== undefined &&
-    props.iconColor
-  ) {
+  }
+  if (props.noScale) {
+    return css``;
+  }
+
+  if (props.glowDuration === 10) {
+    console.warn('scake', props);
+  }
+
+  if (props.glowDuration !== undefined && props.glowStartDelay !== undefined && props.iconColor) {
     return css`
       ${glow(
         props.iconColor,
@@ -108,9 +116,9 @@ const animation = (props: {
         props.glowStartDelay
       )} ${props.glowDuration}s ease infinite;
     `;
-  } else {
-    return;
   }
+
+  return;
 };
 
 //tslint:disable no-unnecessary-callback-wrapper
@@ -119,6 +127,7 @@ const Svg = styled.svg<StyledSvgProps>`
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   animation: ${props => animation(props)};
   border-radius: ${props => props.borderRadius};
+  filter: ${props => (props.noScale ? `drop-shadow(0px 0px 4px ${props.iconColor})` : '')};
 `;
 //tslint:enable no-unnecessary-callback-wrapper
 
@@ -132,6 +141,7 @@ const SessionSvg = (props: {
   rotateDuration?: number;
   glowDuration?: number;
   glowStartDelay?: number;
+  noScale?: boolean;
   borderRadius?: number;
   theme: DefaultTheme;
 }) => {
@@ -146,6 +156,7 @@ const SessionSvg = (props: {
     glowDuration: props.glowDuration,
     glowStartDelay: props.glowStartDelay,
     iconColor: props.iconColor,
+    noScale: props.noScale,
   };
 
   return (
@@ -166,6 +177,7 @@ export const SessionIcon = (props: SessionIconProps) => {
     glowDuration,
     borderRadius,
     glowStartDelay,
+    noScale,
   } = props;
   let { iconSize, iconRotation } = props;
   iconSize = iconSize || SessionIconSize.Medium;
@@ -189,6 +201,7 @@ export const SessionIcon = (props: SessionIconProps) => {
       rotateDuration={rotateDuration}
       glowDuration={glowDuration}
       glowStartDelay={glowStartDelay}
+      noScale={noScale}
       borderRadius={borderRadius}
       iconRotation={iconRotation}
       iconColor={iconColor}

@@ -846,7 +846,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const chatParams = {
         identifier: this.id,
         body,
-        timestamp: this.get('sent_at') || Date.now(),
+        timestamp: Date.now(), // force a new timestamp to handle user fixed his clock
         expireTimer: this.get('expireTimer'),
         attachments,
         preview,
