@@ -55,6 +55,10 @@
         "message": "Preferências…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
+    "appMenuServices": {
+        "message": "Serviços",
+        "description": "Application menu item for macOS 'Services'"
+    },
     "appMenuHide": {
         "message": "Ocultar",
         "description": "Application menu command to hide the window"
@@ -804,7 +808,7 @@
         "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
-        "message": "Esta pessoa está em seus contatos.",
+        "message": "Essa pessoa está em seus contatos.",
         "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
@@ -2265,15 +2269,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "Mídia efêmera",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "Foto efêmera",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "Vídeo efêmero",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "Essa mensagem foi excluída.",
@@ -3427,7 +3431,17 @@
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
         "message": "A tela inteira",
-        "description": "Title for the select your screen sharing sources modal"
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Tela $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
     },
     "calling__SelectPresentingSourcesModal--window": {
         "message": "Uma janela",
@@ -4822,7 +4836,7 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
-        "message": "Esta pessoa não está usando Signal",
+        "message": "Essa pessoa não está usando Signal",
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
@@ -4910,7 +4924,7 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--requests-and-invites": {
-        "message": "Pedidos & convites",
+        "message": "Pedidos e convites",
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
@@ -5444,11 +5458,11 @@
         "description": "Displayed when delete-for-everyone has failed to send to all recepients"
     },
     "ChatColorPicker__delete--title": {
-        "message": "Apagar cor",
+        "message": "Remover cor",
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "Essa cor personalizada é usada em $num$ conversas. Deseja apagá-la de todas as conversas?",
+        "message": "Essa cor personalizada é usada em $num$ conversas. Deseja removê-la de todas as conversas?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -5469,16 +5483,24 @@
         "message": "Redefinir a cor da conversa",
         "description": "Button label for resetting chat colors"
     },
+    "ChatColorPicker__resetDefault": {
+        "message": "Redefinir as cores das conversas",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
     "ChatColorPicker__resetAll": {
         "message": "Redefinir as cores de todas as conversas",
         "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Redefinir padrão",
+        "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
         "message": "Redefinir",
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Deseja substituir as cores de todas as conversas?",
+        "message": "Deseja redefinir as cores de todas as conversas?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
