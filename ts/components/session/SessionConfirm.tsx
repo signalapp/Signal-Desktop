@@ -17,7 +17,7 @@ export interface SessionConfirmDialogProps {
   title?: string;
   onOk?: any;
   onClose?: any;
-  onClickOk?: () => any;
+  onClickOk?: () => Promise<void> | void;
   onClickClose?: () => any;
   okText?: string;
   cancelText?: string;

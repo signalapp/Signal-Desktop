@@ -58,6 +58,9 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
 
               const downloadedAttachments = await Promise.all(
                 msgAttachments.map(async (attachment: any, index: any) => {
+                  if (attachment.path) {
+                    return { ...attachment, pending: false };
+                  }
                   return AttachmentDownloads.addJob(attachment, {
                     messageId: message.id,
                     type: 'attachment',

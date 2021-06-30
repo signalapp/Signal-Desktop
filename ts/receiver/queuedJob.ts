@@ -318,7 +318,6 @@ async function handleRegularMessage(
 
   if (existingExpireTimer) {
     message.set({ expireTimer: existingExpireTimer });
-    message.set({ expirationStartTimestamp: now });
   }
 
   // Expire timer updates are now explicit.

@@ -70,11 +70,11 @@ export async function sendMessage(
     );
     throw e;
   }
-  if (!snode) {
+  if (!usedNodes || usedNodes.length === 0) {
     throw new window.textsecure.EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
-  } else {
-    window?.log?.info(
-      `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${snode.ip}:${snode.port}`
-    );
   }
+
+  window?.log?.info(
+    `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${snode.ip}:${snode.port}`
+  );
 }

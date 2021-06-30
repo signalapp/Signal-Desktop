@@ -3,10 +3,12 @@ import { Snode } from '../../data/data';
 
 export type OnionState = {
   snodePaths: Array<Array<Snode>>;
+  isOnline: boolean;
 };
 
 export const initialOnionPathState = {
   snodePaths: new Array<Array<Snode>>(),
+  isOnline: false,
 };
 
 /**
@@ -17,12 +19,15 @@ const onionSlice = createSlice({
   initialState: initialOnionPathState,
   reducers: {
     updateOnionPaths(state: OnionState, action: PayloadAction<Array<Array<Snode>>>) {
-      return { snodePaths: action.payload };
+      return { ...state, snodePaths: action.payload };
+    },
+    updateIsOnline(state: OnionState, action: PayloadAction<boolean>) {
+      return { ...state, isOnline: action.payload };
     },
   },
 });
 
 // destructures
 const { actions, reducer } = onionSlice;
-export const { updateOnionPaths } = actions;
+export const { updateOnionPaths, updateIsOnline } = actions;
 export const defaultOnionReducer = reducer;
