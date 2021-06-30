@@ -1,84 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
+import { useDispatch } from 'react-redux';
 
-interface Props {
+type Props = {
   active: boolean;
-  onClick: any;
+  onClick: () => void;
   confirmationDialogParams?: any | undefined;
+};
 
-  updateConfirmModal?: any;
-}
+export const SessionToggle = (props: Props) => {
+  const [active, setActive] = useState(false);
 
-interface State {
-  active: boolean;
-}
+  const dispatch = useDispatch();
 
-export class SessionToggle extends React.PureComponent<Props, State> {
-  public static defaultProps = {
-    onClick: () => null,
-  };
+  useEffect(() => {
+    setActive(props.active);
+  }, []);
 
-  constructor(props: any) {
-    super(props);
-    this.clickHandler = this.clickHandler.bind(this);
-
-    const { active } = this.props;
-
-    this.state = {
-      active: active,
-    };
-  }
-
-  public render() {
-    return (
-      <div
-        className={classNames('session-toggle', this.state.active ? 'active' : '')}
-        role="button"
-        onClick={this.clickHandler}
-      >
-        <div className="knob" />
-      </div>
-    );
-  }
-
-  private clickHandler(event: any) {
+  const clickHandler = (event: any) => {
     const stateManager = (e: any) => {
-      this.setState({
-        active: !this.state.active,
-      });
-
-      if (this.props.onClick) {
-        e.stopPropagation();
-        this.props.onClick();
-      }
+      setActive(!active);
+      e.stopPropagation();
+      props.onClick();
     };
 
-    if (
-      this.props.confirmationDialogParams &&
-      this.props.updateConfirmModal &&
-      this.props.confirmationDialogParams.shouldShowConfirm()
-    ) {
+    if (props.confirmationDialogParams && props.confirmationDialogParams.shouldShowConfirm()) {
       // If item needs a confirmation dialog to turn ON, render it
       const closeConfirmModal = () => {
-        this.props.updateConfirmModal(null);
+        dispatch(updateConfirmModal(null));
       };
 
-      this.props.updateConfirmModal({
-        onClickOk: () => {
-          stateManager(event);
-          closeConfirmModal();
-        },
-        onClickClose: () => {
-          this.props.updateConfirmModal(null);
-        },
-        ...this.props.confirmationDialogParams,
-        updateConfirmModal,
-      });
+      dispatch(
+        updateConfirmModal({
+          onClickOk: () => {
+            stateManager(event);
+            closeConfirmModal();
+          },
+          onClickClose: () => {
+            updateConfirmModal(null);
+          },
+          ...props.confirmationDialogParams,
+          updateConfirmModal,
+        })
+      );
 
       return;
     }
 
     stateManager(event);
-  }
-}
+  };
+
+  return (
+    <div
+      className={classNames('session-toggle', active ? 'active' : '')}
+      role="button"
+      onClick={clickHandler}
+    >
+      <div className="knob" />
+    </div>
+  );
+};

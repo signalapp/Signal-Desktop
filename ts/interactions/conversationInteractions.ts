@@ -36,6 +36,7 @@ import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsMana
 import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../fileserver';
 import { fromBase64ToArray, toHex } from '../session/utils/String';
+import { SessionButtonColor } from '../components/session/SessionButton';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -219,8 +220,8 @@ export function showLeaveGroupByConvoId(conversationId: string) {
       updateConfirmModal({
         title,
         message,
-        onClickOk: () => {
-          void conversation.leaveClosedGroup();
+        onClickOk: async () => {
+          await conversation.leaveClosedGroup();
           onClickClose();
         },
         onClickClose,
@@ -302,8 +303,8 @@ export function deleteMessagesByConvoIdWithConfirmation(conversationId: string) 
     window?.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
-  const onClickOk = () => {
-    void deleteMessagesByConvoIdNoConfirmation(conversationId);
+  const onClickOk = async () => {
+    await deleteMessagesByConvoIdNoConfirmation(conversationId);
     onClickClose();
   };
 
@@ -312,6 +313,7 @@ export function deleteMessagesByConvoIdWithConfirmation(conversationId: string) 
       title: window.i18n('deleteMessages'),
       message: window.i18n('deleteConversationConfirmation'),
       onClickOk,
+      okTheme: SessionButtonColor.Danger,
       onClickClose,
     })
   );

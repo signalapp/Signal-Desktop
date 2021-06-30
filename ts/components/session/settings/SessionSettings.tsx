@@ -40,7 +40,6 @@ export interface SettingsViewProps {
   // pass the conversation as props, so our render is called everytime they change.
   // we have to do this to make the list refresh on unblock()
   conversations?: ConversationLookupType;
-  updateConfirmModal?: any;
 }
 
 interface State {
@@ -156,7 +155,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
                     onSliderChange={sliderFn}
                     content={content}
                     confirmationDialogParams={setting.confirmationDialogParams}
-                    updateConfirmModal={this.props.updateConfirmModal}
                   />
                 )}
               </div>
