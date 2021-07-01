@@ -1070,11 +1070,14 @@ function processQuoteAttachment(
 }
 
 export function canReply(
-  message: MessageAttributesType,
+  message: Pick<
+    MessageAttributesType,
+    'conversationId' | 'deletedForEveryone' | 'sent_to' | 'type'
+  >,
   conversationSelector: GetConversationByIdType
 ): boolean {
   const conversation = getConversation(message, conversationSelector);
-  const { delivered, errors } = message;
+  const { deletedForEveryone, sent_to: sentTo } = message;
 
   if (!conversation) {
     return false;
@@ -1097,17 +1100,17 @@ export function canReply(
   }
 
   // We cannot reply if this message is deleted for everyone
-  if (message.deletedForEveryone) {
+  if (deletedForEveryone) {
     return false;
   }
 
-  // We can reply if this is outgoing and delivered to at least one recipient
-  if (isOutgoing(message) && delivered && delivered > 0) {
-    return true;
+  // We can reply if this is outgoing and sent to at least one recipient
+  if (isOutgoing(message)) {
+    return (sentTo || []).length > 0;
   }
 
-  // We can reply if there are no errors
-  if (!errors || (errors && errors.length === 0)) {
+  // We can reply to incoming messages
+  if (isIncoming(message)) {
     return true;
   }
 
