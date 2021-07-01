@@ -4,7 +4,7 @@ import https from 'https';
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { OnionPaths } from '../onions';
-import { fromBase64ToArrayBuffer, toHex } from '../utils/String';
+import {  toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { incrementBadPathCountOrDrop } from '../onions/onionPath';
 import _ from 'lodash';
@@ -395,7 +395,7 @@ export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: s
   } catch (e) {
     // just try to get a json object from what is inside (for PN requests), if it fails, continue ()
   }
-  const ciphertextBuffer = fromBase64ToArrayBuffer(parsedCiphertext);
+  const ciphertextBuffer = await window.callWorker('fromBase64ToArrayBuffer', parsedCiphertext);
 
   const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(symmetricKey, ciphertextBuffer);
 

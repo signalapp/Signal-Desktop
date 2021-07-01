@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { MessageModel } from '../models/message';
 import { saveMessage } from '../../ts/data/data';
-import { fromBase64ToArrayBuffer } from '../session/utils/String';
 import { AttachmentDownloads } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
 import {
@@ -54,8 +53,8 @@ export async function downloadAttachment(attachment: any) {
 
     data = await window.textsecure.crypto.decryptAttachment(
       data,
-      fromBase64ToArrayBuffer(key),
-      fromBase64ToArrayBuffer(digest)
+      await window.callWorker('fromBase64ToArrayBuffer', key),
+      await window.callWorker('fromBase64ToArrayBuffer', digest)
     );
 
     if (!size || size !== data.byteLength) {

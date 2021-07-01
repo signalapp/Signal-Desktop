@@ -3,6 +3,7 @@
 
 const functions = {
   arrayBufferToStringBase64,
+  fromBase64ToArrayBuffer,
 };
 
 onmessage = async e => {
@@ -35,4 +36,8 @@ function prepareErrorForPostMessage(error) {
 
 function arrayBufferToStringBase64(arrayBuffer) {
   return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
+}
+
+function fromBase64ToArrayBuffer(value) {
+  return dcodeIO.ByteBuffer.wrap(value, 'base64').toArrayBuffer();
 }

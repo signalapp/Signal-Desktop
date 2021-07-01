@@ -47,7 +47,7 @@ export const parseMessages = async (
     window?.log?.info('no new messages');
     return [];
   }
-  const chunks = _.chunk(rawMessages, 10);
+  const chunks = _.chunk(rawMessages, 1000);
 
   const handleChunk = async (chunk: Array<Record<string, any>>) => {
     return Promise.all(
@@ -65,8 +65,14 @@ export const parseMessages = async (
           }
           // Validate the message signature
           const senderPubKey = PubKey.cast(opengroupv2Message.sender).withoutPrefix();
-          const signature = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedSignature);
-          const messageData = fromBase64ToArrayBuffer(opengroupv2Message.base64EncodedData);
+          const signature = await window.callWorker(
+            'fromBase64ToArrayBuffer',
+            opengroupv2Message.base64EncodedSignature
+          );
+          const messageData = await window.callWorker(
+            'fromBase64ToArrayBuffer',
+            opengroupv2Message.base64EncodedData
+          );
           // throws if signature failed
           await window.libsignal.Curve.async.verifySignature(
             fromHex(senderPubKey),

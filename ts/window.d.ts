@@ -84,5 +84,9 @@ declare global {
     LokiPushNotificationServer: any;
     globalOnlineStatus: boolean;
     confirmationDialog: any;
+    callWorker: (
+      fnName: 'arrayBufferToStringBase64' | 'fromBase64ToArrayBuffer',
+      ...args
+    ) => Promise<any>;
   }
 }

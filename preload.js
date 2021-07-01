@@ -296,7 +296,6 @@ const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
 const utilWorker = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
 
 window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
-
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
   window.nodeSetImmediate(() => {});
