@@ -145,12 +145,6 @@ module.exports = grunt => {
       },
     },
     exec: {
-      'tx-pull-new': {
-        cmd: 'tx pull -a --minimum-perc=80',
-      },
-      'tx-pull': {
-        cmd: 'tx pull',
-      },
       transpile: {
         cmd: 'yarn transpile',
       },
@@ -187,29 +181,6 @@ module.exports = grunt => {
       // ignore grunt and grunt-cli
       grunt.loadNpmTasks(key);
     }
-  });
-
-  // Transifex does not understand placeholders, so this task patches all non-en
-  // locales with missing placeholders
-  grunt.registerTask('locale-patch', () => {
-    const en = grunt.file.readJSON('_locales/en/messages.json');
-    grunt.file.recurse('_locales', (abspath, rootdir, subdir, filename) => {
-      if (subdir === 'en' || filename !== 'messages.json') {
-        return;
-      }
-      const messages = grunt.file.readJSON(abspath);
-
-      // eslint-disable-next-line no-restricted-syntax
-      for (const key in messages) {
-        if (en[key] !== undefined && messages[key] !== undefined) {
-          if (en[key].placeholders !== undefined && messages[key].placeholders === undefined) {
-            messages[key].placeholders = en[key].placeholders;
-          }
-        }
-      }
-
-      grunt.file.write(abspath, `${JSON.stringify(messages, null, 4)}\n`);
-    });
   });
 
   function updateLocalConfig(update) {
@@ -426,7 +397,6 @@ module.exports = grunt => {
       .then(done);
   });
 
-  grunt.registerTask('tx', ['exec:tx-pull-new', 'exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
   grunt.registerTask('test', ['unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
