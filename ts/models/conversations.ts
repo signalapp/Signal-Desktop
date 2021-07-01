@@ -4601,7 +4601,7 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  async setProfileAvatar(avatarPath: string): Promise<void> {
+  async setProfileAvatar(avatarPath: undefined | null | string): Promise<void> {
     if (!avatarPath) {
       return;
     }
