@@ -2855,7 +2855,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           attributes.active_at = now;
           conversation.set(attributes);
 
-          if (dataMessage.expireTimer) {
+          if (
+            dataMessage.expireTimer &&
+            !isExpirationTimerUpdate(dataMessage)
+          ) {
             message.set({ expireTimer: dataMessage.expireTimer });
           }
 

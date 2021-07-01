@@ -41,6 +41,7 @@ import {
   Sessions,
   SignedPreKeys,
 } from '../LibSignalStores';
+import { assert } from '../util/assert';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { BatcherType, createBatcher } from '../util/batcher';
 import { sleep } from '../util/sleep';
@@ -2581,16 +2582,35 @@ class MessageReceiverInner extends EventTarget {
       decrypted.expireTimer = 0;
     }
 
-    if (decrypted.flags & FLAGS.END_SESSION) {
+    const isEndSession = Boolean(decrypted.flags & FLAGS.END_SESSION);
+    const isExpirationTimerUpdate = Boolean(
+      decrypted.flags & FLAGS.EXPIRATION_TIMER_UPDATE
+    );
+    const isProfileKeyUpdate = Boolean(
+      decrypted.flags & FLAGS.PROFILE_KEY_UPDATE
+    );
+    // The following assertion codifies an assumption: 0 or 1 flags are set, but never
+    //   more. This assumption is fine as of this writing, but may not always be.
+    const flagCount = [
+      isEndSession,
+      isExpirationTimerUpdate,
+      isProfileKeyUpdate,
+    ].filter(Boolean).length;
+    assert(
+      flagCount <= 1,
+      `Expected exactly <=1 flags to be set, but got ${flagCount}`
+    );
+
+    if (isEndSession) {
       decrypted.body = null;
       decrypted.attachments = [];
       decrypted.group = null;
       return Promise.resolve(decrypted);
     }
-    if (decrypted.flags & FLAGS.EXPIRATION_TIMER_UPDATE) {
+    if (isExpirationTimerUpdate) {
       decrypted.body = null;
       decrypted.attachments = [];
-    } else if (decrypted.flags & FLAGS.PROFILE_KEY_UPDATE) {
+    } else if (isProfileKeyUpdate) {
       decrypted.body = null;
       decrypted.attachments = [];
     } else if (decrypted.flags !== 0) {

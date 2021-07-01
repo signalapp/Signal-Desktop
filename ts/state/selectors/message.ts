@@ -545,7 +545,7 @@ export function isMessageHistoryUnsynced(
 // Expiration Timer Update
 
 export function isExpirationTimerUpdate(
-  message: MessageAttributesType
+  message: Pick<MessageAttributesType, 'flags'>
 ): boolean {
   const flag =
     window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
