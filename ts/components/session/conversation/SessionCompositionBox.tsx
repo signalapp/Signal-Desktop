@@ -37,7 +37,11 @@ import { getMentionsInput } from '../../../state/selectors/mentionsInput';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../SessionButton';
 import { SessionConfirmDialogProps } from '../SessionConfirm';
-import { createOrUpdateItem, getItemById, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
+import {
+  createOrUpdateItem,
+  getItemById,
+  hasLinkPreviewPopupBeenDisplayed,
+} from '../../../data/data';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -241,10 +245,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private async showLinkSharingConfirmationModalDialog(e: any) {
     const pastedText = e.clipboardData.getData('text');
     if (this.isURL(pastedText)) {
-      const alreadyDisplayedPopup = (await getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
+      const alreadyDisplayedPopup =
+        (await getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
       window.inboxStore?.dispatch(
         updateConfirmModal({
-          shouldShowConfirm: () => !window.getSettingValue('link-preview-setting') && !alreadyDisplayedPopup,
+          shouldShowConfirm: () =>
+            !window.getSettingValue('link-preview-setting') && !alreadyDisplayedPopup,
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: SessionButtonColor.Danger,
