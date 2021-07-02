@@ -201,8 +201,10 @@ async function handToAutoUpdate(
       try {
         serverUrl = getServerUrl(server);
 
-        autoUpdater.on('error', (error: Error) => {
-          logger.error('autoUpdater: error', getPrintableError(error));
+        autoUpdater.on('error', (...args) => {
+          logger.error('autoUpdater: error', ...args.map(getPrintableError));
+
+          const [error] = args;
           reject(error);
         });
         autoUpdater.on('update-downloaded', () => {

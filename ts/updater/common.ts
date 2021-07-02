@@ -372,7 +372,10 @@ export async function deleteTempDir(targetDir: string): Promise<void> {
   await rimrafPromise(targetDir);
 }
 
-export function getPrintableError(error: Error): Error | string {
+export function getPrintableError(error: Error | string): Error | string {
+  if (typeof error === 'string') {
+    return error;
+  }
   return error && error.stack ? error.stack : error;
 }
 
