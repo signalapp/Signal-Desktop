@@ -35,7 +35,7 @@ function getImageTag({
       src={img}
       aria-label={match}
       className={classNames('emoji', sizeClass)}
-      title={match}
+      alt={match}
     />
   );
 }
