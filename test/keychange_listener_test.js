@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global ConversationController, SignalProtocolStore, Whisper */
@@ -10,37 +10,38 @@ describe('KeyChangeListener', () => {
   const newKey = window.Signal.Crypto.getRandomBytes(33);
   let store;
 
+  let convo;
+
   beforeEach(async () => {
+    window.ConversationController.reset();
+    await window.ConversationController.load();
+    await window.ConversationController.loadPromise();
+
+    convo = window.ConversationController.dangerouslyCreateAndAdd({
+      id: phoneNumberWithKeyChange,
+      type: 'private',
+    });
+    await window.Signal.Data.saveConversation(convo.attributes);
+
     store = new SignalProtocolStore();
     await store.hydrateCaches();
     Whisper.KeyChangeListener.init(store);
     return store.saveIdentity(addressString, oldKey);
   });
 
-  afterEach(() => {
-    return store.removeIdentityKey(phoneNumberWithKeyChange);
+  afterEach(async () => {
+    await window.Signal.Data.removeAllMessagesInConversation(convo.id, {
+      logId: phoneNumberWithKeyChange,
+      MessageCollection: Whisper.MessageCollection,
+    });
+    await window.Signal.Data.removeConversation(convo.id, {
+      Conversation: Whisper.Conversation,
+    });
+
+    await store.removeIdentityKey(phoneNumberWithKeyChange);
   });
 
   describe('When we have a conversation with this contact', () => {
-    let convo;
-    before(async () => {
-      convo = ConversationController.dangerouslyCreateAndAdd({
-        id: phoneNumberWithKeyChange,
-        type: 'private',
-      });
-      await window.Signal.Data.saveConversation(convo.attributes);
-    });
-
-    after(async () => {
-      await window.Signal.Data.removeAllMessagesInConversation(convo.id, {
-        logId: phoneNumberWithKeyChange,
-        MessageCollection: Whisper.MessageCollection,
-      });
-      await window.Signal.Data.removeConversation(convo.id, {
-        Conversation: Whisper.Conversation,
-      });
-    });
-
     it('generates a key change notice in the private conversation with this contact', done => {
       const original = convo.addKeyChange;
       convo.addKeyChange = keyChangedId => {
@@ -54,29 +55,22 @@ describe('KeyChangeListener', () => {
 
   describe('When we have a group with this contact', () => {
     let groupConvo;
-    let convo;
-    before(async () => {
-      convo = ConversationController.dangerouslyCreateAndAdd({
-        id: phoneNumberWithKeyChange,
-        type: 'private',
-      });
+
+    beforeEach(async () => {
       groupConvo = ConversationController.dangerouslyCreateAndAdd({
         id: 'groupId',
         type: 'group',
         members: [convo.id],
       });
-      await window.Signal.Data.saveConversation(convo.attributes);
       await window.Signal.Data.saveConversation(groupConvo.attributes);
     });
-    after(async () => {
+
+    afterEach(async () => {
       await window.Signal.Data.removeAllMessagesInConversation(groupConvo.id, {
         logId: phoneNumberWithKeyChange,
         MessageCollection: Whisper.MessageCollection,
       });
       await window.Signal.Data.removeConversation(groupConvo.id, {
-        Conversation: Whisper.Conversation,
-      });
-      await window.Signal.Data.removeConversation(convo.id, {
         Conversation: Whisper.Conversation,
       });
     });
