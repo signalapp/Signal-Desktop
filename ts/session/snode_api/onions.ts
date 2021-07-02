@@ -4,7 +4,7 @@ import https from 'https';
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { OnionPaths } from '../onions';
-import {  toHex } from '../utils/String';
+import { toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { incrementBadPathCountOrDrop } from '../onions/onionPath';
 import _ from 'lodash';

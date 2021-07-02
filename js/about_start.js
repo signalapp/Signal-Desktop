@@ -1,12 +1,8 @@
 /* global $: false */
 
-// Add version
-const version = window.getVersion();
-$('.version').text(`v${version}`);
-
-if (/beta/.test(version)) {
-  $('.commitHash').text(window.getCommitHash());
-}
+// Add version and commit hash
+$('.version').text(`v${window.getVersion()}`);
+$('.commitHash').text(window.getCommitHash());
 
 // Add debugging metadata - environment if not production, app instance name
 const states = [];
@@ -28,6 +24,3 @@ $(document).on('keyup', e => {
     window.closeAbout();
   }
 });
-
-// Localize the privacy string
-$('.privacy').text(window.i18n('privacyPolicy'));
