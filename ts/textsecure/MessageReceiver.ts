@@ -521,11 +521,11 @@ class MessageReceiverInner extends EventTarget {
 
       if (headers.includes('X-Signal-Key: true')) {
         plaintext = await Crypto.decryptWebsocketMessage(
-          request.body,
+          typedArrayToArrayBuffer(request.body),
           this.signalingKey
         );
       } else {
-        plaintext = request.body.toArrayBuffer();
+        plaintext = typedArrayToArrayBuffer(request.body);
       }
 
       try {
@@ -583,7 +583,7 @@ class MessageReceiverInner extends EventTarget {
   }
 
   calculateMessageAge(
-    headers: Array<string>,
+    headers: ReadonlyArray<string>,
     serverTimestamp?: number
   ): number {
     let messageAgeSec = 0; // Default to 0 in case of unreliable parameters.

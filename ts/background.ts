@@ -59,6 +59,7 @@ import {
   SystemTraySetting,
   parseSystemTraySetting,
 } from './types/SystemTraySetting';
+import { SignalService as Proto } from './protobuf';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -119,15 +120,12 @@ export async function startApp(): Promise<void> {
 
   const reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
-  window.textsecure.protobuf.onLoad(() => {
-    window.storage.onready(() => {
-      senderCertificateService.initialize({
-        WebAPI: window.WebAPI,
-        navigator,
-        onlineEventTarget: window,
-        SenderCertificate: window.textsecure.protobuf.SenderCertificate,
-        storage: window.storage,
-      });
+  window.storage.onready(() => {
+    senderCertificateService.initialize({
+      WebAPI: window.WebAPI,
+      navigator,
+      onlineEventTarget: window,
+      storage: window.storage,
     });
   });
 
@@ -2876,7 +2874,7 @@ export async function startApp(): Promise<void> {
       destinationUuid: data.sourceUuid,
     });
 
-    const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
+    const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
@@ -3198,7 +3196,7 @@ export async function startApp(): Promise<void> {
       sourceUuid: window.textsecure.storage.user.getUuid(),
     });
 
-    const { PROFILE_KEY_UPDATE } = window.textsecure.protobuf.DataMessage.Flags;
+    const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
@@ -3514,9 +3512,7 @@ export async function startApp(): Promise<void> {
         );
 
         try {
-          const {
-            ContentHint,
-          } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+          const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
           const result = await window.textsecure.messaging.sendSenderKeyDistributionMessage(
             {
@@ -3739,9 +3735,7 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     // 3. Determine how to represent this to the user. Three different options.
 
@@ -3844,8 +3838,7 @@ export async function startApp(): Promise<void> {
 
     const { eventType } = ev;
 
-    const FETCH_LATEST_ENUM =
-      window.textsecure.protobuf.SyncMessage.FetchLatest.Type;
+    const FETCH_LATEST_ENUM = Proto.SyncMessage.FetchLatest.Type;
 
     switch (eventType) {
       case FETCH_LATEST_ENUM.LOCAL_PROFILE:
@@ -4008,13 +4001,13 @@ export async function startApp(): Promise<void> {
     }
 
     switch (ev.verified.state) {
-      case window.textsecure.protobuf.Verified.State.DEFAULT:
+      case Proto.Verified.State.DEFAULT:
         state = 'DEFAULT';
         break;
-      case window.textsecure.protobuf.Verified.State.VERIFIED:
+      case Proto.Verified.State.VERIFIED:
         state = 'VERIFIED';
         break;
-      case window.textsecure.protobuf.Verified.State.UNVERIFIED:
+      case Proto.Verified.State.UNVERIFIED:
         state = 'UNVERIFIED';
         break;
       default:

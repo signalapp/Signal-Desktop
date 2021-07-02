@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-bitwise */
 /* eslint-disable more/no-then */
-import { ByteBufferClass } from '../window.d';
 import {
   decryptAes256CbcPkcsPadding,
   encryptAes256CbcPkcsPadding,
@@ -145,11 +144,9 @@ async function verifyDigest(
 const Crypto = {
   // Decrypts message into a raw string
   async decryptWebsocketMessage(
-    message: ByteBufferClass,
+    decodedMessage: ArrayBuffer,
     signalingKey: ArrayBuffer
   ): Promise<ArrayBuffer> {
-    const decodedMessage = message.toArrayBuffer();
-
     if (signalingKey.byteLength !== 52) {
       throw new Error('Got invalid length signalingKey');
     }

@@ -104,6 +104,7 @@
     "js-yaml": "3.13.1",
     "linkify-it": "2.2.0",
     "lodash": "4.17.21",
+    "long": "4.0.0",
     "lru-cache": "6.0.0",
     "mac-screen-capture-permissions": "2.0.0",
     "memoizee": "0.4.14",

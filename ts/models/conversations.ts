@@ -724,7 +724,7 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    const MEMBER_ROLES = window.textsecure.protobuf.Member.Role;
+    const MEMBER_ROLES = Proto.Member.Role;
 
     const role = this.isAdmin(conversationId)
       ? MEMBER_ROLES.DEFAULT
@@ -1183,9 +1183,7 @@ export class ConversationModel extends window.Backbone
         }
       );
 
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       const sendOptions = await getSendOptions(this.attributes);
       if (isDirectConversation(this.attributes)) {
@@ -1612,8 +1610,7 @@ export class ConversationModel extends window.Backbone
     { fromSync = false, viaStorageServiceSync = false } = {}
   ): Promise<void> {
     try {
-      const messageRequestEnum =
-        window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+      const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
       const isLocalAction = !fromSync && !viaStorageServiceSync;
       const ourConversationId = window.ConversationController.getOurConversationId();
 
@@ -1793,8 +1790,7 @@ export class ConversationModel extends window.Backbone
       }
     }
 
-    const messageRequestEnum =
-      window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     // Ensure active_at is set, because this is an event that justifies putting the group
     //   in the left pane.
@@ -2901,7 +2897,7 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    const MEMBER_ROLES = window.textsecure.protobuf.Member.Role;
+    const MEMBER_ROLES = Proto.Member.Role;
 
     return member.role === MEMBER_ROLES.ADMINISTRATOR;
   }
@@ -2916,8 +2912,7 @@ export class ConversationModel extends window.Backbone
 
     const members = this.get('membersV2') || [];
     return members.map(member => ({
-      isAdmin:
-        member.role === window.textsecure.protobuf.Member.Role.ADMINISTRATOR,
+      isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
       conversationId: member.conversationId,
     }));
   }
@@ -3213,9 +3208,7 @@ export class ConversationModel extends window.Backbone
           profileKey = await ourProfileKeyService.get();
         }
 
-        const {
-          ContentHint,
-        } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+        const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
         if (isDirectConversation(this.attributes)) {
           return window.textsecure.messaging.sendMessageToIdentifier({
@@ -3363,9 +3356,7 @@ export class ConversationModel extends window.Backbone
       }
 
       const options = await getSendOptions(this.attributes);
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       const promise = (() => {
         if (isDirectConversation(this.attributes)) {
@@ -3621,9 +3612,7 @@ export class ConversationModel extends window.Backbone
 
       const conversationType = this.get('type');
       const options = await getSendOptions(this.attributes);
-      const {
-        ContentHint,
-      } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       let promise;
       if (conversationType === Message.GROUP) {
@@ -3845,7 +3834,7 @@ export class ConversationModel extends window.Backbone
       value
     );
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
     const addFromInviteLink = value
       ? ACCESS_ENUM.ANY
       : ACCESS_ENUM.UNSATISFIABLE;
@@ -3889,7 +3878,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
     const addFromInviteLink = value
       ? ACCESS_ENUM.ADMINISTRATOR
@@ -3927,7 +3916,7 @@ export class ConversationModel extends window.Backbone
         ),
     });
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
     this.set({
       accessControl: {
         addFromInviteLink:
@@ -3952,7 +3941,7 @@ export class ConversationModel extends window.Backbone
         ),
     });
 
-    const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
     this.set({
       accessControl: {
         addFromInviteLink:
@@ -4030,8 +4019,7 @@ export class ConversationModel extends window.Backbone
       sent_at: timestamp,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
-      flags:
-        window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+      flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
         expireTimer,
         source,
@@ -4068,8 +4056,7 @@ export class ConversationModel extends window.Backbone
     let promise;
 
     if (isMe(this.attributes)) {
-      const flags =
-        window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+      const flags = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
       const dataMessage = await window.textsecure.messaging.getDataMessage({
         attachments: [],
         // body
@@ -4166,7 +4153,7 @@ export class ConversationModel extends window.Backbone
         destination: this.get('e164'),
         destinationUuid: this.get('uuid'),
         recipients: this.getRecipients(),
-        flags: window.textsecure.protobuf.DataMessage.Flags.END_SESSION,
+        flags: Proto.DataMessage.Flags.END_SESSION,
         // TODO: DESKTOP-722
       } as unknown) as MessageAttributesType);
 
@@ -4887,8 +4874,7 @@ export class ConversationModel extends window.Backbone
       return true;
     }
 
-    const accessControlEnum =
-      window.textsecure.protobuf.AccessControl.AccessRequired;
+    const accessControlEnum = Proto.AccessControl.AccessRequired;
     const accessControl = this.get('accessControl');
     const canAnyoneChangeTimer =
       accessControl &&
@@ -4913,7 +4899,7 @@ export class ConversationModel extends window.Backbone
     return (
       this.areWeAdmin() ||
       this.get('accessControl')?.attributes ===
-        window.textsecure.protobuf.AccessControl.AccessRequired.MEMBER
+        Proto.AccessControl.AccessRequired.MEMBER
     );
   }
 
@@ -4922,7 +4908,7 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    const memberEnum = window.textsecure.protobuf.Member.Role;
+    const memberEnum = Proto.Member.Role;
     const members = this.get('membersV2') || [];
     const myId = window.ConversationController.getOurConversationId();
     const me = members.find(item => item.conversationId === myId);

@@ -4,33 +4,32 @@
 // We allow `any`s because it's arduous to set up "real" WebAPIs and storages.
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import * as fs from 'fs';
-import * as path from 'path';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
-import { arrayBufferToBase64 } from '../../Crypto';
-import { SenderCertificateClass } from '../../textsecure';
+import * as Bytes from '../../Bytes';
+import { typedArrayToArrayBuffer } from '../../Crypto';
 import { SenderCertificateMode } from '../../textsecure/OutgoingMessage';
+import { SignalService as Proto } from '../../protobuf';
 
 import { SenderCertificateService } from '../../services/senderCertificate';
+
+import SenderCertificate = Proto.SenderCertificate;
 
 describe('SenderCertificateService', () => {
   const FIFTEEN_MINUTES = 15 * 60 * 1000;
 
-  let fakeValidCertificate: SenderCertificateClass;
+  let fakeValidCertificate: SenderCertificate;
   let fakeValidCertificateExpiry: number;
   let fakeServer: any;
   let fakeWebApi: typeof window.WebAPI;
   let fakeNavigator: { onLine: boolean };
   let fakeWindow: EventTarget;
   let fakeStorage: any;
-  let SenderCertificate: typeof SenderCertificateClass;
 
   function initializeTestService(): SenderCertificateService {
     const result = new SenderCertificateService();
     result.initialize({
-      SenderCertificate,
       WebAPI: fakeWebApi,
       navigator: fakeNavigator,
       onlineEventTarget: fakeWindow,
@@ -39,27 +38,6 @@ describe('SenderCertificateService', () => {
     return result;
   }
 
-  before(done => {
-    const protoPath = path.join(
-      __dirname,
-      '..',
-      '..',
-      '..',
-      'protos',
-      'UnidentifiedDelivery.proto'
-    );
-    fs.readFile(protoPath, 'utf8', (err, proto) => {
-      if (err) {
-        done(err);
-        return;
-      }
-      ({ SenderCertificate } = global.window.dcodeIO.ProtoBuf.loadProto(
-        proto
-      ).build('signalservice'));
-      done();
-    });
-  });
-
   beforeEach(() => {
     fakeValidCertificate = new SenderCertificate();
     fakeValidCertificateExpiry = Date.now() + 604800000;
@@ -67,11 +45,15 @@ describe('SenderCertificateService', () => {
     certificate.expires = global.window.dcodeIO.Long.fromNumber(
       fakeValidCertificateExpiry
     );
-    fakeValidCertificate.certificate = certificate.toArrayBuffer();
+    fakeValidCertificate.certificate = SenderCertificate.Certificate.encode(
+      certificate
+    ).finish();
 
     fakeServer = {
       getSenderCertificate: sinon.stub().resolves({
-        certificate: arrayBufferToBase64(fakeValidCertificate.toArrayBuffer()),
+        certificate: Bytes.toBase64(
+          SenderCertificate.encode(fakeValidCertificate).finish()
+        ),
       }),
     };
     fakeWebApi = { connect: sinon.stub().returns(fakeServer) };
@@ -133,12 +115,16 @@ describe('SenderCertificateService', () => {
 
       assert.deepEqual(await service.get(SenderCertificateMode.WithE164), {
         expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
-        serialized: fakeValidCertificate.toArrayBuffer(),
+        serialized: typedArrayToArrayBuffer(
+          SenderCertificate.encode(fakeValidCertificate).finish()
+        ),
       });
 
       sinon.assert.calledWithMatch(fakeStorage.put, 'senderCertificate', {
         expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
-        serialized: fakeValidCertificate.toArrayBuffer(),
+        serialized: typedArrayToArrayBuffer(
+          SenderCertificate.encode(fakeValidCertificate).finish()
+        ),
       });
 
       sinon.assert.calledWith(fakeServer.getSenderCertificate, false);
@@ -149,12 +135,16 @@ describe('SenderCertificateService', () => {
 
       assert.deepEqual(await service.get(SenderCertificateMode.WithoutE164), {
         expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
-        serialized: fakeValidCertificate.toArrayBuffer(),
+        serialized: typedArrayToArrayBuffer(
+          SenderCertificate.encode(fakeValidCertificate).finish()
+        ),
       });
 
       sinon.assert.calledWithMatch(fakeStorage.put, 'senderCertificateNoE164', {
         expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
-        serialized: fakeValidCertificate.toArrayBuffer(),
+        serialized: typedArrayToArrayBuffer(
+          SenderCertificate.encode(fakeValidCertificate).finish()
+        ),
       });
 
       sinon.assert.calledWith(fakeServer.getSenderCertificate, true);
@@ -228,9 +218,13 @@ describe('SenderCertificateService', () => {
       certificate.expires = global.window.dcodeIO.Long.fromNumber(
         Date.now() - 1000
       );
-      expiredCertificate.certificate = certificate.toArrayBuffer();
+      expiredCertificate.certificate = SenderCertificate.Certificate.encode(
+        certificate
+      ).finish();
       fakeServer.getSenderCertificate.resolves({
-        certificate: arrayBufferToBase64(expiredCertificate.toArrayBuffer()),
+        certificate: Bytes.toBase64(
+          SenderCertificate.encode(expiredCertificate).finish()
+        ),
       });
 
       assert.isUndefined(await service.get(SenderCertificateMode.WithE164));

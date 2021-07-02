@@ -98,7 +98,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     return;
   }
 
-  const ACCESS_ENUM = window.textsecure.protobuf.AccessControl.AccessRequired;
+  const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
   if (
     result.addFromInviteLink !== ACCESS_ENUM.ADMINISTRATOR &&
     result.addFromInviteLink !== ACCESS_ENUM.ANY

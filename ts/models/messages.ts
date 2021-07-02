@@ -78,6 +78,7 @@ import { ReadSyncs } from '../messageModifiers/ReadSyncs';
 import { ViewSyncs } from '../messageModifiers/ViewSyncs';
 import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as LinkPreview from '../types/LinkPreview';
+import { SignalService as Proto } from '../protobuf';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -175,10 +176,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
     }
 
-    this.CURRENT_PROTOCOL_VERSION =
-      window.textsecure.protobuf.DataMessage.ProtocolVersion.CURRENT;
-    this.INITIAL_PROTOCOL_VERSION =
-      window.textsecure.protobuf.DataMessage.ProtocolVersion.INITIAL;
+    this.CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
+    this.INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
     this.OUR_NUMBER = window.textsecure.storage.user.getNumber();
     this.OUR_UUID = window.textsecure.storage.user.getUuid();
 
@@ -439,11 +438,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (isGroupV2Change(attributes)) {
-      const { protobuf } = window.textsecure;
       const change = this.get('groupV2Change');
 
       const lines = window.Signal.GroupChange.renderChange(change, {
-        AccessControlEnum: protobuf.AccessControl.AccessRequired,
+        AccessControlEnum: Proto.AccessControl.AccessRequired,
         i18n: window.i18n,
         ourConversationId: window.ConversationController.getOurConversationId(),
         renderContact: (conversationId: string) => {
@@ -459,7 +457,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           _i18n: unknown,
           placeholders: Array<string>
         ) => window.i18n(key, placeholders),
-        RoleEnum: protobuf.Member.Role,
+        RoleEnum: Proto.Member.Role,
       });
 
       return { text: lines.join(' ') };
@@ -1285,9 +1283,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     let promise;
     const options = await getSendOptions(conversation.attributes);
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     if (isDirectConversation(conversation.attributes)) {
       const [identifier] = recipients;
@@ -1427,9 +1423,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return this.sendSyncMessageOnly(dataMessage);
     }
 
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
     const parentConversation = this.getConversation();
     const groupId = parentConversation?.get('groupId');
     const {
@@ -1440,7 +1434,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       groupId && isGroupV1(parentConversation?.attributes)
         ? {
             id: groupId,
-            type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
+            type: Proto.GroupContext.Type.DELIVER,
           }
         : undefined;
 
@@ -2385,7 +2379,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const sourceUuid = message.get('sourceUuid');
     const type = message.get('type');
     const conversationId = message.get('conversationId');
-    const GROUP_TYPES = window.textsecure.protobuf.GroupContext.Type;
+    const GROUP_TYPES = Proto.GroupContext.Type;
 
     const fromContact = this.getContact();
     if (fromContact) {
@@ -2568,8 +2562,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const hasGroupV2Prop = Boolean(initialMessage.groupV2);
       const isV1GroupUpdate =
         initialMessage.group &&
-        initialMessage.group.type !==
-          window.textsecure.protobuf.GroupContext.Type.DELIVER;
+        initialMessage.group.type !== Proto.GroupContext.Type.DELIVER;
 
       // Drop an incoming GroupV2 message if we or the sender are not part of the group
       //   after applying the message's associated group changes.

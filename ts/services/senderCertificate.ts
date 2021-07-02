@@ -6,14 +6,18 @@ import {
   serializedCertificateSchema,
   SerializedCertificateType,
 } from '../textsecure/OutgoingMessage';
-import { SenderCertificateClass } from '../textsecure';
-import { base64ToArrayBuffer } from '../Crypto';
+import * as Bytes from '../Bytes';
+import { typedArrayToArrayBuffer } from '../Crypto';
 import { assert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
+import { normalizeNumber } from '../util/normalizeNumber';
 import { waitForOnline } from '../util/waitForOnline';
 import * as log from '../logging/log';
 import { connectToServerWithStoredCredentials } from '../util/connectToServerWithStoredCredentials';
 import { StorageInterface } from '../types/Storage.d';
+import { SignalService as Proto } from '../protobuf';
+
+import SenderCertificate = Proto.SenderCertificate;
 
 function isWellFormed(data: unknown): data is SerializedCertificateType {
   return serializedCertificateSchema.safeParse(data).success;
@@ -25,8 +29,6 @@ const CLOCK_SKEW_THRESHOLD = 15 * 60 * 1000;
 // This is exported for testing.
 export class SenderCertificateService {
   private WebAPI?: typeof window.WebAPI;
-
-  private SenderCertificate?: typeof SenderCertificateClass;
 
   private fetchPromises: Map<
     SenderCertificateMode,
@@ -40,7 +42,6 @@ export class SenderCertificateService {
   private storage?: StorageInterface;
 
   initialize({
-    SenderCertificate,
     WebAPI,
     navigator,
     onlineEventTarget,
@@ -49,12 +50,10 @@ export class SenderCertificateService {
     WebAPI: typeof window.WebAPI;
     navigator: Readonly<{ onLine: boolean }>;
     onlineEventTarget: EventTarget;
-    SenderCertificate: typeof SenderCertificateClass;
     storage: StorageInterface;
   }): void {
     log.info('Sender certificate service initialized');
 
-    this.SenderCertificate = SenderCertificate;
     this.WebAPI = WebAPI;
     this.navigator = navigator;
     this.onlineEventTarget = onlineEventTarget;
@@ -134,9 +133,9 @@ export class SenderCertificateService {
   private async fetchAndSaveCertificate(
     mode: SenderCertificateMode
   ): Promise<undefined | SerializedCertificateType> {
-    const { SenderCertificate, storage, navigator, onlineEventTarget } = this;
+    const { storage, navigator, onlineEventTarget } = this;
     assert(
-      SenderCertificate && storage && navigator && onlineEventTarget,
+      storage && navigator && onlineEventTarget,
       'Sender certificate service method was called before it was initialized'
     );
 
@@ -160,12 +159,12 @@ export class SenderCertificateService {
       );
       return undefined;
     }
-    const certificate = base64ToArrayBuffer(certificateString);
+    const certificate = Bytes.fromBase64(certificateString);
     const decodedContainer = SenderCertificate.decode(certificate);
     const decodedCert = decodedContainer.certificate
       ? SenderCertificate.Certificate.decode(decodedContainer.certificate)
       : undefined;
-    const expires = decodedCert?.expires?.toNumber();
+    const expires = normalizeNumber(decodedCert?.expires);
 
     if (!isExpirationValid(expires)) {
       log.warn(
@@ -178,7 +177,7 @@ export class SenderCertificateService {
 
     const serializedCertificate = {
       expires: expires - CLOCK_SKEW_THRESHOLD,
-      serialized: certificate,
+      serialized: typedArrayToArrayBuffer(certificate),
     };
 
     await storage.put(modeToStorageKey(mode), serializedCertificate);

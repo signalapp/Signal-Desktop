@@ -72,6 +72,7 @@ import {
 } from '../calling/constants';
 import { notify } from './notify';
 import { getSendOptions } from '../util/getSendOptions';
+import { SignalService as Proto } from '../protobuf';
 
 const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   HttpMethod,
@@ -800,9 +801,7 @@ export class CallingClass {
     const timestamp = Date.now();
 
     // We "fire and forget" because sending this message is non-essential.
-    const {
-      ContentHint,
-    } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
     wrapWithSyncMessageSend({
       conversation,
       logId: `sendToGroup/groupCallUpdate/${conversationId}-${eraId}`,

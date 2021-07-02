@@ -11,6 +11,7 @@ const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
 const client = require('@signalapp/signal-client');
 const { deriveStickerPackKey } = require('../ts/Crypto');
+const { SignalService: Proto } = require('../ts/protobuf');
 const {
   getEnvironment,
   setEnvironment,
@@ -219,24 +220,24 @@ window.encryptAndUpload = async (
     'imageData'
   );
 
-  const manifestProto = new window.textsecure.protobuf.StickerPack();
+  const manifestProto = new Proto.StickerPack();
   manifestProto.title = manifest.title;
   manifestProto.author = manifest.author;
   manifestProto.stickers = stickers.map(({ emoji }, id) => {
-    const s = new window.textsecure.protobuf.StickerPack.Sticker();
+    const s = new Proto.StickerPack.Sticker();
     s.id = id;
     s.emoji = emoji;
 
     return s;
   });
-  const coverSticker = new window.textsecure.protobuf.StickerPack.Sticker();
+  const coverSticker = new Proto.StickerPack.Sticker();
   coverSticker.id =
     uniqueStickers.length === stickers.length ? 0 : uniqueStickers.length - 1;
   coverSticker.emoji = '';
   manifestProto.cover = coverSticker;
 
   const encryptedManifest = await encrypt(
-    manifestProto.toArrayBuffer(),
+    Proto.StickerPack.encode(manifestProto).finish(),
     encryptionKey,
     iv
   );
