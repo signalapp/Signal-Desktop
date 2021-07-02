@@ -4293,7 +4293,7 @@ button.module-image__border-overlay:focus {
 
 .module-typing-animation {
   display: inline-flex;
-  flex-directin: row;
+  flex-direction: row;
   align-items: center;
 
   height: 8px;
@@ -4308,6 +4308,7 @@ button.module-image__border-overlay:focus {
   height: 6px;
   width: 6px;
   opacity: 0.4;
+  will-change: transform, opacity;
 
   @include dark-theme {
     background-color: $color-white;
@@ -4315,15 +4316,15 @@ button.module-image__border-overlay:focus {
   @include light-theme {
     background-color: $color-gray-60;
   }
+
+  animation: typing-animation 1600ms ease infinite;
+}
+
+.module-left-pane .module-typing-animation__dot {
+  animation-name: typing-animation-bare;
 }
 
 .module-typing-animation__dot--light {
-  border-radius: 50%;
-
-  height: 6px;
-  width: 6px;
-  opacity: 0.4;
-
   background-color: $color-white;
 
   @include light-theme {
@@ -4331,7 +4332,7 @@ button.module-image__border-overlay:focus {
   }
 }
 
-@keyframes typing-animation-first {
+@keyframes typing-animation {
   0% {
     opacity: 0.4;
   }
@@ -4344,42 +4345,24 @@ button.module-image__border-overlay:focus {
   }
 }
 
-@keyframes typing-animation-second {
-  10% {
+@keyframes typing-animation-bare {
+  0% {
     opacity: 0.4;
   }
-  30% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-@keyframes typing-animation-third {
   20% {
-    opacity: 0.4;
+    opacity: 1;
   }
   40% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
-  60% {
     opacity: 0.4;
   }
-}
-
-.module-typing-animation__dot--first {
-  animation: typing-animation-first 1600ms ease infinite;
 }
 
 .module-typing-animation__dot--second {
-  animation: typing-animation-second 1600ms ease infinite;
+  animation-delay: 160ms;
 }
 
 .module-typing-animation__dot--third {
-  animation: typing-animation-third 1600ms ease infinite;
+  animation-delay: 320ms;
 }
 
 .module-typing-animation__spacer {
