@@ -438,11 +438,13 @@ export default class OutgoingMessage {
               ciphertextMessage.type()
             );
 
+            const content = ciphertextMessage.serialize().toString('base64');
+
             return {
               type,
               destinationDeviceId,
               destinationRegistrationId,
-              content: ciphertextMessage.serialize().toString('base64'),
+              content,
             };
           }
         );

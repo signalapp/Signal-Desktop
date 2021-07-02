@@ -1186,20 +1186,21 @@ export class ConversationModel extends window.Backbone
       const {
         ContentHint,
       } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
+
       const sendOptions = await getSendOptions(this.attributes);
       if (isDirectConversation(this.attributes)) {
         handleMessageSend(
-          window.textsecure.messaging.sendMessageProtoAndWait(
+          window.textsecure.messaging.sendMessageProtoAndWait({
             timestamp,
-            groupMembers,
-            contentMessage,
-            ContentHint.IMPLICIT,
-            undefined,
-            {
+            recipients: groupMembers,
+            proto: contentMessage,
+            contentHint: ContentHint.IMPLICIT,
+            groupId: undefined,
+            options: {
               ...sendOptions,
               online: true,
-            }
-          )
+            },
+          })
         );
       } else {
         handleMessageSend(
@@ -3204,7 +3205,7 @@ export class ConversationModel extends window.Backbone
         throw new Error('Cannot send DOE while offline!');
       }
 
-      const options = await getSendOptions(this.attributes);
+      const sendOptions = await getSendOptions(this.attributes);
 
       const promise = (async () => {
         let profileKey: ArrayBuffer | undefined;
@@ -3217,36 +3218,36 @@ export class ConversationModel extends window.Backbone
         } = window.textsecure.protobuf.UnidentifiedSenderMessage.Message;
 
         if (isDirectConversation(this.attributes)) {
-          return window.textsecure.messaging.sendMessageToIdentifier(
-            destination,
-            undefined, // body
-            [], // attachments
-            undefined, // quote
-            [], // preview
-            undefined, // sticker
-            undefined, // reaction
-            targetTimestamp,
+          return window.textsecure.messaging.sendMessageToIdentifier({
+            identifier: destination,
+            messageText: undefined,
+            attachments: [],
+            quote: undefined,
+            preview: [],
+            sticker: undefined,
+            reaction: undefined,
+            deletedForEveryoneTimestamp: targetTimestamp,
             timestamp,
-            undefined, // expireTimer
-            ContentHint.DEFAULT,
-            undefined, // groupId
+            expireTimer: undefined,
+            contentHint: ContentHint.DEFAULT,
+            groupId: undefined,
             profileKey,
-            options
-          );
+            options: sendOptions,
+          });
         }
 
-        return window.Signal.Util.sendToGroup(
-          {
+        return window.Signal.Util.sendToGroup({
+          groupSendOptions: {
             groupV1: this.getGroupV1Info(),
             groupV2: this.getGroupV2Info(),
             deletedForEveryoneTimestamp: targetTimestamp,
             timestamp,
             profileKey,
           },
-          this,
-          ContentHint.DEFAULT,
-          options
-        );
+          conversation: this,
+          contentHint: ContentHint.DEFAULT,
+          sendOptions,
+        });
       })();
 
       // This is to ensure that the functions in send() and sendSyncMessage() don't save
@@ -3341,7 +3342,6 @@ export class ConversationModel extends window.Backbone
       if (this.get('profileSharing')) {
         profileKey = await ourProfileKeyService.get();
       }
-
       // Special-case the self-send case - we send only a sync message
       if (isMe(this.attributes)) {
         const dataMessage = await window.textsecure.messaging.getDataMessage({
@@ -3369,26 +3369,26 @@ export class ConversationModel extends window.Backbone
 
       const promise = (() => {
         if (isDirectConversation(this.attributes)) {
-          return window.textsecure.messaging.sendMessageToIdentifier(
-            destination,
-            undefined, // body
-            [], // attachments
-            undefined, // quote
-            [], // preview
-            undefined, // sticker
-            outgoingReaction,
-            undefined, // deletedForEveryoneTimestamp
+          return window.textsecure.messaging.sendMessageToIdentifier({
+            identifier: destination,
+            messageText: undefined,
+            attachments: [],
+            quote: undefined,
+            preview: [],
+            sticker: undefined,
+            reaction: outgoingReaction,
+            deletedForEveryoneTimestamp: undefined,
             timestamp,
             expireTimer,
-            ContentHint.DEFAULT,
-            undefined, // groupId
+            contentHint: ContentHint.DEFAULT,
+            groupId: undefined,
             profileKey,
-            options
-          );
+            options,
+          });
         }
 
-        return window.Signal.Util.sendToGroup(
-          {
+        return window.Signal.Util.sendToGroup({
+          groupSendOptions: {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             groupV1: this.getGroupV1Info()!,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -3398,10 +3398,10 @@ export class ConversationModel extends window.Backbone
             expireTimer,
             profileKey,
           },
-          this,
-          ContentHint.DEFAULT,
-          options
-        );
+          conversation: this,
+          contentHint: ContentHint.DEFAULT,
+          sendOptions: options,
+        });
       })();
 
       const result = await message.send(handleMessageSend(promise));
@@ -3627,8 +3627,8 @@ export class ConversationModel extends window.Backbone
 
       let promise;
       if (conversationType === Message.GROUP) {
-        promise = window.Signal.Util.sendToGroup(
-          {
+        promise = window.Signal.Util.sendToGroup({
+          groupSendOptions: {
             attachments: finalAttachments,
             expireTimer,
             groupV1: this.getGroupV1Info(),
@@ -3641,27 +3641,27 @@ export class ConversationModel extends window.Backbone
             timestamp: now,
             mentions,
           },
-          this,
-          ContentHint.RESENDABLE,
-          options
-        );
+          conversation: this,
+          contentHint: ContentHint.RESENDABLE,
+          sendOptions: options,
+        });
       } else {
-        promise = window.textsecure.messaging.sendMessageToIdentifier(
-          destination,
-          messageBody,
-          finalAttachments,
+        promise = window.textsecure.messaging.sendMessageToIdentifier({
+          identifier: destination,
+          messageText: messageBody,
+          attachments: finalAttachments,
           quote,
           preview,
           sticker,
-          null, // reaction
-          undefined, // deletedForEveryoneTimestamp
-          now,
+          reaction: null,
+          deletedForEveryoneTimestamp: undefined,
+          timestamp: now,
           expireTimer,
-          ContentHint.RESENDABLE,
-          undefined, // groupId
+          contentHint: ContentHint.RESENDABLE,
+          groupId: undefined,
           profileKey,
-          options
-        );
+          options,
+        });
       }
 
       return message.send(handleMessageSend(promise));

@@ -1298,8 +1298,8 @@ export async function modifyGroupV2({
         const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
         const promise = handleMessageSend(
-          window.Signal.Util.sendToGroup(
-            {
+          window.Signal.Util.sendToGroup({
+            groupSendOptions: {
               groupV2: conversation.getGroupV2Info({
                 groupChange: typedArrayToArrayBuffer(groupChangeBuffer),
                 includePendingMembers: true,
@@ -1309,9 +1309,9 @@ export async function modifyGroupV2({
               profileKey,
             },
             conversation,
-            ContentHint.DEFAULT,
-            sendOptions
-          )
+            contentHint: ContentHint.DEFAULT,
+            sendOptions,
+          })
         );
 
         // We don't save this message; we just use it to ensure that a sync message is
@@ -1676,16 +1676,16 @@ export async function createGroupV2({
     conversation,
     logId: `sendToGroup/${logId}`,
     send: async () =>
-      window.Signal.Util.sendToGroup(
-        {
+      window.Signal.Util.sendToGroup({
+        groupSendOptions: {
           groupV2: groupV2Info,
           timestamp,
           profileKey,
         },
         conversation,
-        ContentHint.DEFAULT,
-        sendOptions
-      ),
+        contentHint: ContentHint.DEFAULT,
+        sendOptions,
+      }),
     timestamp,
   });
 
@@ -2207,8 +2207,8 @@ export async function initiateMigrationToGroupV2(
     logId: `sendToGroup/${logId}`,
     send: async () =>
       // Minimal message to notify group members about migration
-      window.Signal.Util.sendToGroup(
-        {
+      window.Signal.Util.sendToGroup({
+        groupSendOptions: {
           groupV2: conversation.getGroupV2Info({
             includePendingMembers: true,
           }),
@@ -2216,9 +2216,9 @@ export async function initiateMigrationToGroupV2(
           profileKey: ourProfileKey,
         },
         conversation,
-        ContentHint.DEFAULT,
-        sendOptions
-      ),
+        contentHint: ContentHint.DEFAULT,
+        sendOptions,
+      }),
     timestamp,
   });
 }
@@ -2278,17 +2278,15 @@ export async function wrapWithSyncMessageSend({
     );
   }
 
-  await sender.sendSyncMessage(
-    dataMessage,
+  await sender.sendSyncMessage({
+    encodedDataMessage: dataMessage,
     timestamp,
-    ourConversation.get('e164'),
-    ourConversation.get('uuid'),
-    null, // expirationStartTimestamp
-    [], // sentTo
-    [], // unidentifiedDeliveries
-    undefined, // isUpdate
-    undefined // options
-  );
+    destination: ourConversation.get('e164'),
+    destinationUuid: ourConversation.get('uuid'),
+    expirationStartTimestamp: null,
+    sentTo: [],
+    unidentifiedDeliveries: [],
+  });
 }
 
 export async function waitThenRespondToGroupV2Migration(

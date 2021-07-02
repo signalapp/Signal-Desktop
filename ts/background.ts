@@ -181,12 +181,12 @@ export async function startApp(): Promise<void> {
             } = await window.ConversationController.prepareForSend(c.get('id'));
             // eslint-disable-next-line no-await-in-loop
             await wrap(
-              window.textsecure.messaging.sendDeliveryReceipt(
+              window.textsecure.messaging.sendDeliveryReceipt({
                 e164,
                 uuid,
                 timestamps,
-                sendOptions
-              )
+                options: sendOptions,
+              })
             );
           } catch (error) {
             window.log.error(

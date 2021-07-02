@@ -55,13 +55,19 @@ const MAX_RECURSION = 5;
 
 // Public API:
 
-export async function sendToGroup(
-  groupSendOptions: GroupSendOptionsType,
-  conversation: ConversationModel,
-  contentHint: number,
-  sendOptions?: SendOptionsType,
-  isPartialSend?: boolean
-): Promise<CallbackResultType> {
+export async function sendToGroup({
+  groupSendOptions,
+  conversation,
+  contentHint,
+  sendOptions,
+  isPartialSend,
+}: {
+  groupSendOptions: GroupSendOptionsType;
+  conversation: ConversationModel;
+  contentHint: number;
+  sendOptions?: SendOptionsType;
+  isPartialSend?: boolean;
+}): Promise<CallbackResultType> {
   assert(
     window.textsecure.messaging,
     'sendToGroup: textsecure.messaging not available!'
@@ -145,14 +151,14 @@ export async function sendContentMessageToGroup({
   const groupId = isGroupV2(conversation.attributes)
     ? conversation.get('groupId')
     : undefined;
-  return window.textsecure.messaging.sendGroupProto(
+  return window.textsecure.messaging.sendGroupProto({
     recipients,
-    contentMessage,
+    proto: contentMessage,
     timestamp,
     contentHint,
     groupId,
-    { ...sendOptions, online }
-  );
+    options: { ...sendOptions, online },
+  });
 }
 
 // The Primary Sender Key workflow
@@ -433,14 +439,14 @@ export async function sendToGroupViaSenderKey(options: {
 
   // 12. Send normal message to the leftover normal recipients. Then combine normal send
   //    result with result from sender key send for final return value.
-  const normalSendResult = await window.textsecure.messaging.sendGroupProto(
-    normalRecipients,
-    contentMessage,
+  const normalSendResult = await window.textsecure.messaging.sendGroupProto({
+    recipients: normalRecipients,
+    proto: contentMessage,
     timestamp,
     contentHint,
     groupId,
-    { ...sendOptions, online }
-  );
+    options: { ...sendOptions, online },
+  });
 
   return {
     dataMessage: contentMessage.dataMessage?.toArrayBuffer(),

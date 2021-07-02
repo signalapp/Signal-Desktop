@@ -1278,6 +1278,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         sticker: stickerWithData,
         timestamp: this.get('sent_at'),
       });
+
       return this.sendSyncMessageOnly(dataMessage);
     }
 
@@ -1290,22 +1291,23 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     if (isDirectConversation(conversation.attributes)) {
       const [identifier] = recipients;
-      promise = window.textsecure.messaging.sendMessageToIdentifier(
+
+      promise = window.textsecure.messaging.sendMessageToIdentifier({
         identifier,
-        body,
+        messageText: body,
         attachments,
-        quoteWithData,
-        previewWithData,
-        stickerWithData,
-        null,
-        this.get('deletedForEveryoneTimestamp'),
-        this.get('sent_at'),
-        this.get('expireTimer'),
-        ContentHint.RESENDABLE,
-        undefined, // groupId
+        quote: quoteWithData,
+        preview: previewWithData,
+        sticker: stickerWithData,
+        reaction: null,
+        deletedForEveryoneTimestamp: this.get('deletedForEveryoneTimestamp'),
+        timestamp: this.get('sent_at'),
+        expireTimer: this.get('expireTimer'),
+        contentHint: ContentHint.RESENDABLE,
+        groupId: undefined,
         profileKey,
-        options
-      );
+        options,
+      });
     } else {
       const initialGroupV2 = conversation.getGroupV2Info();
       const groupId = conversation.get('groupId');
@@ -1326,12 +1328,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             members: recipients,
           };
 
-      // Important to ensure that we don't consider this receipient list to be the entire
-      //   member list.
-      const partialSend = true;
-
-      promise = window.Signal.Util.sendToGroup(
-        {
+      promise = window.Signal.Util.sendToGroup({
+        groupSendOptions: {
           messageText: body,
           timestamp: this.get('sent_at'),
           attachments,
@@ -1345,10 +1343,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           groupV1,
         },
         conversation,
-        ContentHint.RESENDABLE,
-        options,
-        partialSend
-      );
+        contentHint: ContentHint.RESENDABLE,
+        // Important to ensure that we don't consider this recipient list to be the
+        //   entire member list.
+        isPartialSend: true,
+        sendOptions: options,
+      });
     }
 
     return this.send(handleMessageSend(promise));
@@ -1423,6 +1423,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         sticker: stickerWithData,
         timestamp: this.get('sent_at'),
       });
+
       return this.sendSyncMessageOnly(dataMessage);
     }
 
@@ -1465,7 +1466,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           senderKeyInfo.distributionId
         );
 
-        window.dcodeIO.ByteBuffer.wrap(
+        contentMessage.senderKeyDistributionMessage = window.dcodeIO.ByteBuffer.wrap(
           window.Signal.Crypto.typedArrayToArrayBuffer(
             senderKeyDistributionMessage.serialize()
           )
@@ -1473,16 +1474,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
-    const promise = window.textsecure.messaging.sendMessageProtoAndWait(
+    const promise = window.textsecure.messaging.sendMessageProtoAndWait({
       timestamp,
-      [identifier],
-      contentMessage,
-      ContentHint.RESENDABLE,
-      groupId && isGroupV2(parentConversation?.attributes)
-        ? groupId
-        : undefined,
-      sendOptions
-    );
+      recipients: [identifier],
+      proto: contentMessage,
+      contentHint: ContentHint.RESENDABLE,
+      groupId:
+        groupId && isGroupV2(parentConversation?.attributes)
+          ? groupId
+          : undefined,
+      options: sendOptions,
+    });
 
     return this.send(wrap(promise));
   }
@@ -1780,18 +1782,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const conv = this.getConversation()!;
 
       return wrap(
-        window.textsecure.messaging.sendSyncMessage(
-          dataMessage,
-          this.get('sent_at'),
-          conv.get('e164'),
-          conv.get('uuid'),
-          this.get('expirationStartTimestamp') || null,
-          this.get('sent_to'),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          this.get('unidentifiedDeliveries')!,
+        window.textsecure.messaging.sendSyncMessage({
+          encodedDataMessage: dataMessage,
+          timestamp: this.get('sent_at'),
+          destination: conv.get('e164'),
+          destinationUuid: conv.get('uuid'),
+          expirationStartTimestamp:
+            this.get('expirationStartTimestamp') || null,
+          sentTo: this.get('sent_to') || [],
+          unidentifiedDeliveries: this.get('unidentifiedDeliveries') || [],
           isUpdate,
-          sendOptions
-        )
+          options: sendOptions,
+        })
       ).then(async (result: unknown) => {
         this.set({
           synced: true,

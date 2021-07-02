@@ -807,12 +807,12 @@ export class CallingClass {
       conversation,
       logId: `sendToGroup/groupCallUpdate/${conversationId}-${eraId}`,
       send: () =>
-        window.Signal.Util.sendToGroup(
-          { groupCallUpdate: { eraId }, groupV2, timestamp },
+        window.Signal.Util.sendToGroup({
+          groupSendOptions: { groupCallUpdate: { eraId }, groupV2, timestamp },
           conversation,
-          ContentHint.DEFAULT,
-          sendOptions
-        ),
+          contentHint: ContentHint.DEFAULT,
+          sendOptions,
+        }),
       timestamp,
     }).catch(err => {
       window.log.error(
