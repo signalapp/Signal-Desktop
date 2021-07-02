@@ -59,7 +59,6 @@ declare global {
     showResetSessionIdDialog: any;
     storage: any;
     textsecure: LibTextsecure;
-    toggleLinkPreview: any;
     toggleMediaPermissions: any;
     toggleMenuBar: any;
     toggleSpellCheck: any;

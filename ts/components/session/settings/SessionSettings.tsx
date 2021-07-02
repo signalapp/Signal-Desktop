@@ -9,7 +9,7 @@ import { StateType } from '../../../state/reducer';
 import { getConversationController } from '../../../session/conversations';
 import { getConversationLookup } from '../../../state/selectors/conversations';
 import { connect, useSelector } from 'react-redux';
-import { getPasswordHash } from '../../../../ts/data/data';
+import { getPasswordHash, createOrUpdateItem, hasLinkPreviewPopupBeenDisplayed } from '../../../../ts/data/data';
 import { SpacerLG, SpacerXS } from '../../basic/Text';
 import { shell } from 'electron';
 import { SessionConfirmDialogProps } from '../SessionConfirm';
@@ -339,7 +339,13 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         hidden: false,
         type: SessionSettingType.Toggle,
         category: SessionSettingCategory.Appearance,
-        setFn: window.toggleLinkPreview,
+        setFn: () => {
+          const newValue = !window.getSettingValue('link-preview-setting');
+          window.setSettingValue('link-preview-setting', newValue);
+          if (!newValue) {
+            createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+          }
+        },
         content: undefined,
         comparisonValue: undefined,
         onClick: undefined,

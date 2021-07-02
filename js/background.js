@@ -340,11 +340,6 @@
       window.libsession.Utils.ToastUtils.pushSpellCheckDirty();
     };
 
-    window.toggleLinkPreview = () => {
-      const newValue = !window.getSettingValue('link-preview-setting');
-      window.setSettingValue('link-preview-setting', newValue);
-    };
-
     window.toggleMediaPermissions = () => {
       const value = window.getMediaPermissions();
       window.setMediaPermissions(!value);
