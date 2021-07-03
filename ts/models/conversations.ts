@@ -4601,13 +4601,18 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  async setProfileAvatar(avatarPath: string): Promise<void> {
-    if (!avatarPath) {
-      return;
+  async setProfileAvatar(avatarPath: undefined | null | string): Promise<void> {
+    if (isMe(this.attributes)) {
+      if (avatarPath) {
+        window.storage.put('avatarUrl', avatarPath);
+      } else {
+        window.storage.remove('avatarUrl');
+      }
     }
 
-    if (isMe(this.attributes)) {
-      window.storage.put('avatarUrl', avatarPath);
+    if (!avatarPath) {
+      this.set({ profileAvatar: undefined });
+      return;
     }
 
     const avatar = await window.textsecure.messaging.getAvatar(avatarPath);
