@@ -23,13 +23,22 @@ export const AvatarPlaceHolder = (props: Props) => {
   const { borderColor, colors, pubkey, diameter, name } = props;
   const [sha512Seed, setSha512Seed] = useState(undefined as string | undefined);
   useEffect(() => {
+    let isSubscribed = true;
+
     if (!pubkey) {
-      setSha512Seed(undefined);
+      if (isSubscribed) {
+        setSha512Seed(undefined);
+      }
       return;
     }
     void sha512FromPubkey(pubkey).then(sha => {
-      setSha512Seed(sha);
+      if (isSubscribed) {
+        setSha512Seed(sha);
+      }
     });
+    return () => {
+      isSubscribed = false;
+    };
   }, [pubkey, name]);
 
   const diameterWithoutBorder = diameter - 2;
