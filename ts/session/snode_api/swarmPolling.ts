@@ -1,5 +1,5 @@
 import { PubKey } from '../types';
-import { getSwarmFor } from './snodePool';
+import * as snodePool from './snodePool';
 import { retrieveNextMessages } from './SNodeAPI';
 import { SignalService } from '../../protobuf';
 import * as Receiver from '../../receiver/receiver';
@@ -12,9 +12,10 @@ import {
   updateLastHash,
 } from '../../../ts/data/data';
 
-import { StringUtils } from '../../session/utils';
-import { getConversationController } from '../conversations';
+import { StringUtils, UserUtils } from '../../session/utils';
 import { ConversationModel } from '../../models/conversation';
+import { DURATION, SWARM_POLLING_TIMEOUT } from '../constants';
+import { getConversationController } from '../conversations';
 
 type PubkeyToHash = { [key: string]: string };
 
@@ -50,49 +51,125 @@ export const getSwarmPollingInstance = () => {
 };
 
 export class SwarmPolling {
-  private pubkeys: Array<PubKey>;
-  private groupPubkeys: Array<PubKey>;
+  private groupPolling: Array<{ pubkey: PubKey; lastPolledTimestamp: number }>;
   private readonly lastHashes: { [key: string]: PubkeyToHash };
 
   constructor() {
-    this.pubkeys = [];
-    this.groupPubkeys = [];
+    this.groupPolling = [];
     this.lastHashes = {};
   }
 
-  public start(): void {
+  public async start(waitForFirstPoll = false): Promise<void> {
     this.loadGroupIds();
-    void this.pollForAllKeys();
-  }
-
-  public addGroupId(pubkey: PubKey) {
-    if (this.groupPubkeys.findIndex(m => m.key === pubkey.key) === -1) {
-      window?.log?.info('Swarm addGroupId: adding pubkey to polling', pubkey.key);
-      this.groupPubkeys.push(pubkey);
+    if (waitForFirstPoll) {
+      await this.TEST_pollForAllKeys();
+    } else {
+      void this.TEST_pollForAllKeys();
     }
   }
 
-  public addPubkey(pk: PubKey | string) {
-    const pubkey = PubKey.cast(pk);
-    if (this.pubkeys.findIndex(m => m.key === pubkey.key) === -1) {
-      this.pubkeys.push(pubkey);
+  /**
+   * Used fo testing only
+   */
+  public TEST_reset() {
+    this.groupPolling = [];
+  }
+
+  public addGroupId(pubkey: PubKey) {
+    if (this.groupPolling.findIndex(m => m.pubkey.key === pubkey.key) === -1) {
+      window?.log?.info('Swarm addGroupId: adding pubkey to polling', pubkey.key);
+      this.groupPolling.push({ pubkey, lastPolledTimestamp: 0 });
     }
   }
 
   public removePubkey(pk: PubKey | string) {
     const pubkey = PubKey.cast(pk);
     window?.log?.info('Swarm removePubkey: removing pubkey from polling', pubkey.key);
-
-    this.pubkeys = this.pubkeys.filter(key => !pubkey.isEqual(key));
-    this.groupPubkeys = this.groupPubkeys.filter(key => !pubkey.isEqual(key));
+    this.groupPolling = this.groupPolling.filter(group => !pubkey.isEqual(group.pubkey));
   }
 
-  protected async pollOnceForKey(pubkey: PubKey, isGroup: boolean) {
+  /**
+   * Only public for testing
+   * As of today, we pull closed group pubkeys as follow:
+   * if activeAt is not set, poll only once per hour
+   * if activeAt is less than an hour old, poll every 5 seconds or so
+   * if activeAt is less than a day old, poll every minutes only.
+   * If activeAt is more than a day old, poll only once per hour
+   */
+  public TEST_getPollingTimeout(convoId: PubKey) {
+    const convo = getConversationController().get(convoId.key);
+    if (!convo) {
+      return SWARM_POLLING_TIMEOUT.INACTIVE;
+    }
+    const activeAt = convo.get('active_at');
+    if (!activeAt) {
+      return SWARM_POLLING_TIMEOUT.INACTIVE;
+    }
+
+    const currentTimestamp = Date.now();
+
+    // consider that this is an active group if activeAt is less than an hour old
+    if (currentTimestamp - activeAt <= DURATION.HOURS * 1) {
+      return SWARM_POLLING_TIMEOUT.ACTIVE;
+    }
+
+    if (currentTimestamp - activeAt <= DURATION.DAYS * 1) {
+      return SWARM_POLLING_TIMEOUT.MEDIUM_ACTIVE;
+    }
+
+    return SWARM_POLLING_TIMEOUT.INACTIVE;
+  }
+
+  /**
+   * Only public for testing
+   */
+  public async TEST_pollForAllKeys() {
+    // we always poll as often as possible for our pubkey
+    const ourPubkey = UserUtils.getOurPubKeyFromCache();
+    const directPromise = this.TEST_pollOnceForKey(ourPubkey, false);
+
+    const now = Date.now();
+    const groupPromises = this.groupPolling.map(async group => {
+      const convoPollingTimeout = this.TEST_getPollingTimeout(group.pubkey);
+
+      const diff = now - group.lastPolledTimestamp;
+
+      const loggingId =
+        getConversationController()
+          .get(group.pubkey.key)
+          ?.idForLogging() || group.pubkey.key;
+
+      if (diff >= convoPollingTimeout) {
+        (window?.log?.info || console.warn)(
+          `Polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
+        );
+        return this.TEST_pollOnceForKey(group.pubkey, true);
+      }
+      (window?.log?.info || console.warn)(
+        `Not polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
+      );
+
+      return Promise.resolve();
+    });
+    try {
+      await Promise.all(_.concat(directPromise, groupPromises));
+    } catch (e) {
+      (window?.log?.info || console.warn)('pollForAllKeys swallowing exception: ', e);
+      throw e;
+    } finally {
+      setTimeout(this.TEST_pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
+    }
+  }
+
+  /**
+   * Only exposed as public for testing
+   */
+  public async TEST_pollOnceForKey(pubkey: PubKey, isGroup: boolean) {
     // NOTE: sometimes pubkey is string, sometimes it is object, so
     // accept both until this is fixed:
     const pkStr = pubkey.key;
 
-    const snodes = await getSwarmFor(pkStr);
+    const snodes = await snodePool.getSwarmFor(pkStr);
 
     // Select nodes for which we already have lastHashes
     const alreadyPolled = snodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
@@ -123,6 +200,19 @@ export class SwarmPolling {
     // Merge results into one list of unique messages
     const messages = _.uniqBy(_.flatten(results), (x: any) => x.hash);
 
+    if (isGroup) {
+      // update the last fetched timestamp
+      this.groupPolling = this.groupPolling.map(group => {
+        if (PubKey.isEqual(pubkey, group.pubkey)) {
+          return {
+            ...group,
+            lastPolledTimestamp: Date.now(),
+          };
+        }
+        return group;
+      });
+    }
+
     const newMessages = await this.handleSeenMessages(messages);
 
     newMessages.forEach((m: Message) => {
@@ -133,7 +223,7 @@ export class SwarmPolling {
 
   // Fetches messages for `pubkey` from `node` potentially updating
   // the lash hash record
-  protected async pollNodeForKey(node: Snode, pubkey: PubKey): Promise<Array<any>> {
+  private async pollNodeForKey(node: Snode, pubkey: PubKey): Promise<Array<any>> {
     const edkey = node.pubkey_ed25519;
 
     const pkStr = pubkey.key;
@@ -186,24 +276,6 @@ export class SwarmPolling {
       await saveSeenMessageHashes(newHashes);
     }
     return newMessages;
-  }
-
-  private async pollForAllKeys() {
-    const directPromises = this.pubkeys.map(async pk => {
-      return this.pollOnceForKey(pk, false);
-    });
-
-    const groupPromises = this.groupPubkeys.map(async pk => {
-      return this.pollOnceForKey(pk, true);
-    });
-    try {
-      await Promise.all(_.concat(directPromises, groupPromises));
-    } catch (e) {
-      window?.log?.warn('pollForAllKeys swallowing exception: ', e);
-      throw e;
-    } finally {
-      setTimeout(this.pollForAllKeys.bind(this), 2000);
-    }
   }
 
   private async updateLastHash(

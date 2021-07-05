@@ -152,6 +152,10 @@ export class PubKey {
     return key.replace(PubKey.PREFIX_GROUP_TEXTSECURE, '');
   }
 
+  public static isEqual(comparator1: PubKey | string, comparator2: PubKey | string) {
+    return PubKey.cast(comparator1).isEqual(comparator2);
+  }
+
   public isEqual(comparator: PubKey | string) {
     return comparator instanceof PubKey
       ? this.key === comparator.key

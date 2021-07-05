@@ -134,7 +134,7 @@ export async function removeSenderFromModerator(sender: string, convoId: string)
     if (!res) {
       window?.log?.warn('failed to remove moderator:', res);
 
-      ToastUtils.pushErrorHappenedWhileRemovingModerator();
+      ToastUtils.pushFailedToRemoveFromModerator();
     } else {
       window?.log?.info(`${pubKeyToRemove.key} removed from moderators...`);
       ToastUtils.pushUserRemovedFromModerators();
@@ -154,7 +154,7 @@ export async function addSenderAsModerator(sender: string, convoId: string) {
     if (!res) {
       window?.log?.warn('failed to add moderator:', res);
 
-      ToastUtils.pushUserNeedsToHaveJoined();
+      ToastUtils.pushFailedToAddAsModerator();
     } else {
       window?.log?.info(`${pubKeyToAdd.key} added to moderators...`);
       ToastUtils.pushUserAddedToModerators();
@@ -173,7 +173,9 @@ const acceptOpenGroupInvitationV2 = (completeUrl: string, roomName?: string) => 
     updateConfirmModal({
       title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', roomName),
       message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', roomName),
-      onClickOk: () => joinOpenGroupV2WithUIEvents(completeUrl, true, false),
+      onClickOk: async () => {
+        await joinOpenGroupV2WithUIEvents(completeUrl, true, false);
+      },
 
       onClickClose,
     })

@@ -25,6 +25,7 @@ import {
   showUpdateGroupNameByConvoId,
   unblockConvoById,
 } from '../../../interactions/conversationInteractions';
+import { SessionButtonColor } from '../SessionButton';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -162,9 +163,9 @@ export function getDeleteContactMenuItem(
             ? window.i18n('leaveGroupConfirmation')
             : window.i18n('deleteContactConfirmation'),
           onClickClose,
-          onClickOk: () => {
-            void getConversationController().deleteContact(conversationId);
-            onClickClose();
+          okTheme: SessionButtonColor.Danger,
+          onClickOk: async () => {
+            await getConversationController().deleteContact(conversationId);
           },
         })
       );

@@ -44,6 +44,7 @@ import { NotificationForConvoOption } from '../components/conversation/Conversat
 import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../state/ducks/modalDialog';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
+import { DURATION, SWARM_POLLING_TIMEOUT } from '../session/constants';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',

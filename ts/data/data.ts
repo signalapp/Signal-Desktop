@@ -1,7 +1,7 @@
 import Electron from 'electron';
 
 const { ipcRenderer } = Electron;
-// tslint:disable: function-name no-require-imports no-var-requires one-variable-per-declaration no-void-expression
+// tslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression
 
 import _ from 'lodash';
 import { ConversationCollection, ConversationModel } from '../models/conversation';
@@ -64,6 +64,7 @@ export type ServerToken = {
 
 export const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
 export const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
+export const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
 
 const channelsToMake = {
   shutdown,

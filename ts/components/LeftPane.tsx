@@ -7,7 +7,6 @@ import { openConversationExternal } from '../state/ducks/conversations';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
 import { SessionTheme } from '../state/ducks/SessionTheme';
-import { SessionOffline } from './session/network/SessionOffline';
 import { SessionExpiredWarning } from './session/network/SessionExpiredWarning';
 import { getFocusedSection } from '../state/selectors/section';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,7 +43,6 @@ const InnerLeftPaneMessageSection = (props: { isExpired: boolean }) => {
 
   return (
     <>
-      <SessionOffline />
       {props.isExpired && <SessionExpiredWarning />}
       <LeftPaneMessageSection
         theme={theme}
@@ -74,7 +72,6 @@ const InnerLeftPaneContactSection = () => {
 
   return (
     <>
-      <SessionOffline />
       <LeftPaneContactSection
         openConversationExternal={(id, messageId) =>
           dispatch(openConversationExternal(id, messageId))

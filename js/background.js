@@ -340,11 +340,6 @@
       window.libsession.Utils.ToastUtils.pushSpellCheckDirty();
     };
 
-    window.toggleLinkPreview = () => {
-      const newValue = !window.getSettingValue('link-preview-setting');
-      window.setSettingValue('link-preview-setting', newValue);
-    };
-
     window.toggleMediaPermissions = () => {
       const value = window.getMediaPermissions();
       window.setMediaPermissions(!value);
@@ -450,11 +445,6 @@
     }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
 
     window.NewReceiver.queueAllCached();
-    window
-      .getSwarmPollingInstance()
-      .addPubkey(window.libsession.Utils.UserUtils.getOurPubKeyStrFromCache());
-
-    window.getSwarmPollingInstance().start();
     window.libsession.Utils.AttachmentDownloads.start({
       logger: window.log,
     });
