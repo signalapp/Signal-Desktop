@@ -31,7 +31,7 @@ export type AttachmentType = {
   /** For messages not already on disk, this will be a data url */
   url?: string;
   size?: number;
-  fileSize?: number;
+  fileSize?: string;
   pending?: boolean;
   width?: number;
   height?: number;
@@ -43,6 +43,7 @@ export type AttachmentType = {
     contentType: MIME.MIMEType;
     path: string;
   };
+  screenshotPath?: string;
   flags?: number;
   thumbnail?: ThumbnailType;
   isCorrupted?: boolean;
@@ -51,6 +52,29 @@ export type AttachmentType = {
   cdnId?: string;
   cdnKey?: string;
 };
+
+type BaseAttachmentDraftType = {
+  blurHash?: string;
+  contentType: MIME.MIMEType;
+  fileName: string;
+  screenshotContentType?: string;
+  screenshotSize?: number;
+  size: number;
+};
+
+export type InMemoryAttachmentDraftType = {
+  data?: ArrayBuffer;
+  screenshotData?: ArrayBuffer;
+} & BaseAttachmentDraftType;
+
+export type OnDiskAttachmentDraftType = {
+  path?: string;
+  screenshotPath?: string;
+} & BaseAttachmentDraftType;
+
+export type AttachmentDraftType = {
+  url: string;
+} & BaseAttachmentDraftType;
 
 export type ThumbnailType = {
   height: number;
@@ -280,21 +304,38 @@ export function getGridDimensions(
   }
 
   if (attachments.length === 2) {
+    // A B
     return {
       height: 150,
       width: 300,
     };
   }
 
+  if (attachments.length === 3) {
+    // A A B
+    // A A C
+    return {
+      height: 200,
+      width: 300,
+    };
+  }
+
   if (attachments.length === 4) {
+    // A B
+    // C D
     return {
       height: 300,
       width: 300,
     };
   }
 
+  // A A A B B B
+  // A A A B B B
+  // A A A B B B
+  // C C D D E E
+  // C C D D E E
   return {
-    height: 200,
+    height: 250,
     width: 300,
   };
 }

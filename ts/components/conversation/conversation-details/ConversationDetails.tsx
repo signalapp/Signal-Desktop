@@ -5,15 +5,12 @@ import React, { useState, ReactNode } from 'react';
 
 import { ConversationType } from '../../../state/ducks/conversations';
 import { assert } from '../../../util/assert';
-import * as expirationTimer from '../../../util/expirationTimer';
 
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
 
-import { Select } from '../../Select';
-
-import { DisappearingTimeDialog } from '../DisappearingTimeDialog';
+import { DisappearingTimerSelect } from '../../DisappearingTimerSelect';
 
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
@@ -39,7 +36,6 @@ enum ModalState {
   EditingGroupDescription,
   EditingGroupTitle,
   AddingGroupMembers,
-  CustomDisappearingTimeout,
 }
 
 export type StateProps = {
@@ -113,15 +109,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     addGroupMembersRequestState,
     setAddGroupMembersRequestState,
   ] = useState<RequestState>(RequestState.Inactive);
-
-  const updateExpireTimer = (value: string) => {
-    const intValue = parseInt(value, 10);
-    if (intValue === -1) {
-      setModalState(ModalState.CustomDisappearingTimeout);
-    } else {
-      setDisappearingMessages(intValue);
-    }
-  };
 
   if (conversation === undefined) {
     throw new Error('ConversationDetails rendered without a conversation');
@@ -218,54 +205,9 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         />
       );
       break;
-    case ModalState.CustomDisappearingTimeout:
-      modalNode = (
-        <DisappearingTimeDialog
-          i18n={i18n}
-          initialValue={conversation.expireTimer}
-          onSubmit={value => {
-            setModalState(ModalState.NothingOpen);
-            setDisappearingMessages(value);
-          }}
-          onClose={() => setModalState(ModalState.NothingOpen)}
-        />
-      );
-      break;
     default:
       throw missingCaseError(modalState);
   }
-
-  const expireTimer: number = conversation.expireTimer || 0;
-
-  let expirationTimerOptions: ReadonlyArray<{
-    readonly value: number;
-    readonly text: string;
-  }> = expirationTimer.DEFAULT_DURATIONS_IN_SECONDS.map(seconds => {
-    const text = expirationTimer.format(i18n, seconds, {
-      capitalizeOff: true,
-    });
-    return {
-      value: seconds,
-      text,
-    };
-  });
-
-  const isCustomTimeSelected = !expirationTimer.DEFAULT_DURATIONS_SET.has(
-    expireTimer
-  );
-
-  // Custom time...
-  expirationTimerOptions = [
-    ...expirationTimerOptions,
-    {
-      value: -1,
-      text: i18n(
-        isCustomTimeSelected
-          ? 'selectedCustomDisappearingTimeOption'
-          : 'customDisappearingTimeOption'
-      ),
-    },
-  ];
 
   return (
     <div className="conversation-details-panel">
@@ -297,16 +239,11 @@ export const ConversationDetails: React.ComponentType<Props> = ({
             info={i18n('ConversationDetails--disappearing-messages-info')}
             label={i18n('ConversationDetails--disappearing-messages-label')}
             right={
-              <Select
-                onChange={updateExpireTimer}
-                value={isCustomTimeSelected ? -1 : expireTimer}
-                options={expirationTimerOptions}
+              <DisappearingTimerSelect
+                i18n={i18n}
+                value={conversation.expireTimer || 0}
+                onChange={setDisappearingMessages}
               />
-            }
-            rightInfo={
-              isCustomTimeSelected
-                ? expirationTimer.format(i18n, expireTimer)
-                : undefined
             }
           />
         ) : null}

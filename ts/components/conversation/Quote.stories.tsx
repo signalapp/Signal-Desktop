@@ -50,6 +50,7 @@ const defaultMessageProps: MessagesProps = {
   ),
   i18n,
   id: 'messageId',
+  renderingContext: 'storybook',
   interactionMode: 'keyboard',
   isBlocked: false,
   isMessageRequestAccepted: true,

@@ -10,6 +10,7 @@ import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverabil
 import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import type { RetryItemType } from '../util/retryPlaceholders';
 import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig';
+import { SystemTraySetting } from './SystemTraySetting';
 
 import type { GroupCredentialType } from '../textsecure/WebAPI';
 import type {
@@ -32,6 +33,7 @@ export type StorageAccessType = {
   'call-ringtone-notification': boolean;
   'call-system-notification': boolean;
   'hide-menu-bar': boolean;
+  'system-tray-setting': SystemTraySetting;
   'incoming-call-notification': boolean;
   'notification-draw-attention': boolean;
   'notification-setting': 'message' | 'name' | 'count' | 'off';

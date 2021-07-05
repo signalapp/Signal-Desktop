@@ -42,11 +42,21 @@ story.add('Image', () => {
   return <Lightbox {...props} />;
 });
 
-story.add('Image with Caption', () => {
+story.add('Image with Caption (normal image)', () => {
   const props = createProps({
     caption:
       'This is the user-provided caption. It can get long and wrap onto multiple lines.',
     objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
+  });
+
+  return <Lightbox {...props} />;
+});
+
+story.add('Image with Caption (all-white image)', () => {
+  const props = createProps({
+    caption:
+      'This is the user-provided caption. It should be visible on light backgrounds.',
+    objectURL: '/fixtures/2000x2000-white.png',
   });
 
   return <Lightbox {...props} />;

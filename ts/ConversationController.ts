@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, reduce, uniq, without } from 'lodash';
+import { debounce, uniq, without } from 'lodash';
 import PQueue from 'p-queue';
 
 import dataInterface from './sql/Client';
@@ -13,6 +13,7 @@ import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
 import { ConversationModel } from './models/conversations';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert } from './util/assert';
+import { map, reduce } from './util/iterables';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 import { deprecated } from './util/deprecated';
 import { getSendOptions } from './util/getSendOptions';
@@ -103,7 +104,7 @@ export function start(): void {
       };
 
       const newUnreadCount = reduce(
-        this.map((m: ConversationModel) =>
+        map(this, (m: ConversationModel) =>
           canCount(m) ? getUnreadCount(m) : 0
         ),
         (item: number, memo: number) => (item || 0) + memo,

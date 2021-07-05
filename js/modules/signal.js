@@ -21,7 +21,6 @@ const Stickers = require('./stickers');
 const Settings = require('./settings');
 const RemoteConfig = require('../../ts/RemoteConfig');
 const Util = require('../../ts/util');
-const LinkPreviews = require('./link_previews');
 
 // Components
 const {
@@ -56,7 +55,10 @@ const {
 } = require('../../ts/components/conversation/StagedLinkPreview');
 const {
   DisappearingTimeDialog,
-} = require('../../ts/components/conversation/DisappearingTimeDialog');
+} = require('../../ts/components/DisappearingTimeDialog');
+const {
+  SystemTraySettingsCheckboxes,
+} = require('../../ts/components/conversation/SystemTraySettingsCheckboxes');
 
 // State
 const { createTimeline } = require('../../ts/state/roots/createTimeline');
@@ -341,6 +343,7 @@ exports.setup = (options = {}) => {
     ProgressModal,
     StagedLinkPreview,
     DisappearingTimeDialog,
+    SystemTraySettingsCheckboxes,
     Types: {
       Message: MediaGalleryMessage,
     },
@@ -441,7 +444,6 @@ exports.setup = (options = {}) => {
     Groups,
     GroupChange,
     IndexedDB,
-    LinkPreviews,
     Migrations,
     Notifications,
     OS,

@@ -17,6 +17,7 @@ import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
 import { createStream } from 'rotating-file-stream';
 
+import { setLogAtLevel } from './log';
 import { Environment, getEnvironment } from '../environment';
 
 import {
@@ -327,6 +328,8 @@ function isProbablyObjectHasBeenDestroyedError(err: unknown): boolean {
 
 // This blows up using mocha --watch, so we ensure it is run just once
 if (!console._log) {
+  setLogAtLevel(logAtLevel);
+
   console._log = console.log;
   console.log = _.partial(logAtLevel, LogLevel.Info);
   console._error = console.error;

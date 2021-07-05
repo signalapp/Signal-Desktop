@@ -170,7 +170,7 @@ exports._withSchemaVersion = ({ schemaVersion, upgrade }) => {
 //                         Promise Message
 exports._mapAttachments = upgradeAttachment => async (message, context) => {
   const upgradeWithContext = attachment =>
-    upgradeAttachment(attachment, context);
+    upgradeAttachment(attachment, context, message);
   const attachments = await Promise.all(
     (message.attachments || []).map(upgradeWithContext)
   );

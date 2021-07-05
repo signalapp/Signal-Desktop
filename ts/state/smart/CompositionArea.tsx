@@ -9,11 +9,12 @@ import { StateType } from '../reducer';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 
 import { selectRecentEmojis } from '../selectors/emojis';
-import { getIntl } from '../selectors/user';
+import { getIntl, getUserConversationId } from '../selectors/user';
 import {
   getConversationSelector,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
+import { getPropsForQuote } from '../selectors/message';
 import {
   getBlessedStickerPacks,
   getInstalledStickerPacks,
@@ -25,12 +26,14 @@ import {
 
 type ExternalProps = {
   id: string;
+  onClickQuotedMessage: (id?: string) => unknown;
 };
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { id } = props;
+  const { id, onClickQuotedMessage } = props;
 
-  const conversation = getConversationSelector(state)(id);
+  const conversationSelector = getConversationSelector(state);
+  const conversation = conversationSelector(id);
   if (!conversation) {
     throw new Error(`Conversation id ${id} not found!`);
   }
@@ -54,6 +57,14 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     get(state.items, ['showStickerPickerHint'], false) &&
     receivedPacks.length > 0;
 
+  const {
+    attachments: draftAttachments,
+    linkPreviewLoading,
+    linkPreviewResult,
+    quotedMessage,
+    shouldSendHighQualityAttachments,
+  } = state.composer;
+
   const recentEmojis = selectRecentEmojis(state);
 
   return {
@@ -61,6 +72,23 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     i18n: getIntl(state),
     draftText,
     draftBodyRanges,
+    // AttachmentsList
+    draftAttachments,
+    // MediaQualitySelector
+    shouldSendHighQualityAttachments,
+    // StagedLinkPreview
+    linkPreviewLoading,
+    linkPreviewResult,
+    // Quote
+    quotedMessageProps: quotedMessage
+      ? getPropsForQuote(
+          quotedMessage,
+          conversationSelector,
+          getUserConversationId(state)
+        )
+      : undefined,
+    onClickQuotedMessage: () =>
+      onClickQuotedMessage(quotedMessage?.quote?.messageId),
     // Emojis
     recentEmojis,
     skinTone: get(state, ['items', 'skinTone'], 0),

@@ -19,14 +19,14 @@ try {
     parseEnvironment,
     Environment,
   } = require('./ts/environment');
+  const ipc = electron.ipcRenderer;
 
   const { remote } = electron;
   const { app } = remote;
-  const { nativeTheme } = remote.require('electron');
 
   const { Context: SignalContext } = require('./ts/context');
 
-  window.SignalContext = new SignalContext();
+  window.SignalContext = new SignalContext(ipc);
 
   window.sqlInitializer = require('./ts/sql/initialize');
 
@@ -77,19 +77,6 @@ try {
     app.setLoginItemSettings({ openAtLogin: Boolean(value) });
   };
 
-  function setSystemTheme() {
-    window.systemTheme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
-  }
-
-  setSystemTheme();
-
-  window.subscribeToSystemThemeChange = fn => {
-    nativeTheme.on('updated', () => {
-      setSystemTheme();
-      fn();
-    });
-  };
-
   window.isBeforeVersion = (toCheck, baseVersion) => {
     try {
       return semver.lt(toCheck, baseVersion);
@@ -113,7 +100,6 @@ try {
     }
   };
 
-  const ipc = electron.ipcRenderer;
   const localeMessages = ipc.sendSync('locale-data');
 
   window.setBadgeCount = count => ipc.send('set-badge-count', count);
@@ -156,6 +142,12 @@ try {
 
   window.setMenuBarVisibility = visibility =>
     ipc.send('set-menu-bar-visibility', visibility);
+
+  window.updateSystemTraySetting = (
+    systemTraySetting /* : Readonly<SystemTraySetting> */
+  ) => {
+    ipc.send('update-system-tray-setting', systemTraySetting);
+  };
 
   window.restart = () => {
     window.log.info('restart');
@@ -231,6 +223,8 @@ try {
   installSetter('theme-setting', 'setThemeSetting');
   installGetter('hide-menu-bar', 'getHideMenuBar');
   installSetter('hide-menu-bar', 'setHideMenuBar');
+  installGetter('system-tray-setting', 'getSystemTraySetting');
+  installSetter('system-tray-setting', 'setSystemTraySetting');
 
   installGetter('notification-setting', 'getNotificationSetting');
   installSetter('notification-setting', 'setNotificationSetting');
@@ -484,14 +478,11 @@ try {
     window.nodeSetImmediate(() => {});
   }, 1000);
 
-  const { autoOrientImage } = require('./js/modules/auto_orient_image');
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
   const { isGroupCallingEnabled } = require('./ts/util/isGroupCallingEnabled');
   const { isValidGuid } = require('./ts/util/isValidGuid');
   const { ActiveWindowService } = require('./ts/services/ActiveWindowService');
 
-  window.autoOrientImage = autoOrientImage;
-  window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
   window.imageToBlurHash = imageToBlurHash;
   window.emojiData = require('emoji-datasource');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();

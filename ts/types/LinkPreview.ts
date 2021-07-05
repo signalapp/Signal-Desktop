@@ -1,44 +1,59 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const { isNumber, compact, isEmpty, range } = require('lodash');
-const nodeUrl = require('url');
-const LinkifyIt = require('linkify-it');
-const { maybeParseUrl } = require('../../ts/util/url');
+import { isNumber, compact, isEmpty, range } from 'lodash';
+import nodeUrl from 'url';
+import LinkifyIt from 'linkify-it';
+
+import { maybeParseUrl } from '../util/url';
+import { replaceEmojiWithSpaces } from '../util/emoji';
+
+import { AttachmentType } from './Attachment';
+
+export type LinkPreviewImage = AttachmentType & {
+  data: ArrayBuffer;
+};
+
+export type LinkPreviewResult = {
+  title: string;
+  url: string;
+  image?: LinkPreviewImage;
+  description: string | null;
+  date: number | null;
+};
+
+export type LinkPreviewWithDomain = {
+  domain: string;
+} & LinkPreviewResult;
 
 const linkify = LinkifyIt();
 
-module.exports = {
-  findLinks,
-  getDomain,
-  isGroupLink,
-  isLinkSafeToPreview,
-  isLinkSneaky,
-  isStickerPack,
-};
-
-function isLinkSafeToPreview(href) {
+export function isLinkSafeToPreview(href: string): boolean {
   const url = maybeParseUrl(href);
   return Boolean(url && url.protocol === 'https:' && !isLinkSneaky(href));
 }
 
-function isStickerPack(link) {
-  return (link || '').startsWith('https://signal.art/addstickers/');
+export function isStickerPack(link = ''): boolean {
+  return link.startsWith('https://signal.art/addstickers/');
 }
 
-function isGroupLink(link) {
-  return (link || '').startsWith('https://signal.group/');
+export function isGroupLink(link = ''): boolean {
+  return link.startsWith('https://signal.group/');
 }
 
-function findLinks(text, caretLocation) {
+export function findLinks(text: string, caretLocation?: number): Array<string> {
   const haveCaretLocation = isNumber(caretLocation);
   const textLength = text ? text.length : 0;
 
-  const matches = linkify.match(text || '') || [];
+  const matches = linkify.match(text ? replaceEmojiWithSpaces(text) : '') || [];
   return compact(
     matches.map(match => {
       if (!haveCaretLocation) {
         return match.text;
+      }
+
+      if (caretLocation === undefined) {
+        return null;
       }
 
       if (match.lastIndex === textLength && caretLocation === textLength) {
@@ -54,9 +69,9 @@ function findLinks(text, caretLocation) {
   );
 }
 
-function getDomain(href) {
+export function getDomain(href: string): string | undefined {
   const url = maybeParseUrl(href);
-  return url ? url.hostname : null;
+  return url ? url.hostname : undefined;
 }
 
 // See <https://tools.ietf.org/html/rfc3986>.
@@ -93,7 +108,7 @@ const VALID_URI_CHARACTERS = new Set([
 const ASCII_PATTERN = new RegExp('[\\u0020-\\u007F]', 'g');
 const MAX_HREF_LENGTH = 2 ** 12;
 
-function isLinkSneaky(href) {
+export function isLinkSneaky(href: string): boolean {
   // This helps users avoid extremely long links (which could be hiding something
   //   sketchy) and also sidesteps the performance implications of extremely long hrefs.
   if (href.length > MAX_HREF_LENGTH) {

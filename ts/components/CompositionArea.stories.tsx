@@ -32,6 +32,25 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   micCellEl,
   onChooseAttachment: action('onChooseAttachment'),
+  // AttachmentList
+  draftAttachments: [],
+  onAddAttachment: action('onAddAttachment'),
+  onClearAttachments: action('onClearAttachments'),
+  onClickAttachment: action('onClickAttachment'),
+  onCloseAttachment: action('onCloseAttachment'),
+  // StagedLinkPreview
+  linkPreviewLoading: Boolean(overrideProps.linkPreviewLoading),
+  linkPreviewResult: overrideProps.linkPreviewResult,
+  onCloseLinkPreview: action('onCloseLinkPreview'),
+  // Quote
+  quotedMessageProps: overrideProps.quotedMessageProps,
+  onClickQuotedMessage: action('onClickQuotedMessage'),
+  setQuotedMessage: action('setQuotedMessage'),
+  // MediaQualitySelector
+  onSelectMediaQuality: action('onSelectMediaQuality'),
+  shouldSendHighQualityAttachments: Boolean(
+    overrideProps.shouldSendHighQualityAttachments
+  ),
   // CompositionInput
   onSubmit: action('onSubmit'),
   onEditorStateChange: action('onEditorStateChange'),

@@ -10,7 +10,6 @@ import moment from 'moment';
 import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
 import { imageToBlurHash } from './util/imageToBlurHash';
-import * as LinkPreviews from '../js/modules/link_previews.d';
 import * as Util from './util';
 import {
   ConversationModelCollectionType,
@@ -107,7 +106,7 @@ import { MessageDetail } from './components/conversation/MessageDetail';
 import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
-import { DisappearingTimeDialog } from './components/conversation/DisappearingTimeDialog';
+import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 import { MIMEType } from './types/MIME';
 import { AttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
@@ -121,6 +120,7 @@ import { ConversationColorType, CustomColorType } from './types/Colors';
 import { MessageController } from './util/MessageController';
 import { isValidGuid } from './util/isValidGuid';
 import { StateType } from './state/reducer';
+import { SystemTraySetting } from './types/SystemTraySetting';
 
 export { Long } from 'long';
 
@@ -150,8 +150,6 @@ declare global {
 
     moment: typeof moment;
     imageToBlurHash: typeof imageToBlurHash;
-    autoOrientImage: any;
-    dataURLToBlobSync: any;
     loadImage: any;
     isBehindProxy: () => boolean;
     getAutoLaunch: () => boolean;
@@ -220,7 +218,7 @@ declare global {
         getRegionCodeForNumber: (number: string) => string;
         parseNumber: (
           e164: string,
-          defaultRegionCode: string
+          defaultRegionCode?: string
         ) =>
           | { isValidNumber: false; error: unknown }
           | {
@@ -253,6 +251,7 @@ declare global {
     setAutoHideMenuBar: (value: WhatIsThis) => void;
     setBadgeCount: (count: number) => void;
     setMenuBarVisibility: (value: WhatIsThis) => void;
+    updateSystemTraySetting: (value: SystemTraySetting) => void;
     showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
     storage: Storage;
@@ -439,7 +438,6 @@ declare global {
         VisualAttachment: any;
       };
       Util: typeof Util;
-      LinkPreviews: typeof LinkPreviews;
       GroupChange: {
         renderChange: (change: unknown, things: unknown) => Array<string>;
       };

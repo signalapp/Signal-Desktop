@@ -8,7 +8,6 @@ import {
   LastMessageStatus,
   MessageAttributesType,
   ShallowChallengeError,
-  WhatIsThis,
 } from '../../model-types.d';
 
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
@@ -26,7 +25,7 @@ import {
 import { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification';
 import { QuotedAttachmentType } from '../../components/conversation/Quote';
 
-import { getDomain, isStickerPack } from '../../../js/modules/link_previews';
+import { getDomain, isStickerPack } from '../../types/LinkPreview';
 
 import { ContactType, contactSelector } from '../../types/Contact';
 import { BodyRangesType } from '../../types/Util';
@@ -208,11 +207,15 @@ export function getPropsForBubble(
   };
 }
 
-export function isIncoming(message: MessageAttributesType): boolean {
+export function isIncoming(
+  message: Pick<MessageAttributesType, 'type'>
+): boolean {
   return message.type === 'incoming';
 }
 
-export function isOutgoing(message: MessageAttributesType): boolean {
+export function isOutgoing(
+  message: Pick<MessageAttributesType, 'type'>
+): boolean {
   return message.type === 'outgoing';
 }
 
@@ -310,7 +313,7 @@ export function getPropsForMessage(
   readReceiptSetting: boolean,
   regionCode: string,
   accountSelector: (identifier?: string) => boolean
-): PropsForMessage {
+): Omit<PropsForMessage, 'renderingContext'> {
   const contact = getContact(
     message,
     conversationSelector,
@@ -640,7 +643,9 @@ function getPropsForVerificationNotification(
 
 // Group Update (V1)
 
-export function isGroupUpdate(message: MessageAttributesType): boolean {
+export function isGroupUpdate(
+  message: Pick<MessageAttributesType, 'group_update'>
+): boolean {
   return Boolean(message.group_update);
 }
 
@@ -726,7 +731,9 @@ function getPropsForGroupNotification(
 
 // End Session
 
-export function isEndSession(message: MessageAttributesType): boolean {
+export function isEndSession(
+  message: Pick<MessageAttributesType, 'flags'>
+): boolean {
   const flag = window.textsecure.protobuf.DataMessage.Flags.END_SESSION;
   // eslint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
@@ -940,7 +947,7 @@ export function getPropsForEmbeddedContact(
 }
 
 export function getPropsForAttachment(
-  attachment: WhatIsThis
+  attachment: AttachmentType
 ): AttachmentType | null {
   if (!attachment) {
     return null;
@@ -950,10 +957,12 @@ export function getPropsForAttachment(
 
   return {
     ...attachment,
-    fileSize: size ? filesize(size) : null,
+    fileSize: size ? filesize(size) : undefined,
     isVoiceMessage: isVoiceMessage(attachment),
     pending,
-    url: path ? window.Signal.Migrations.getAbsoluteAttachmentPath(path) : null,
+    url: path
+      ? window.Signal.Migrations.getAbsoluteAttachmentPath(path)
+      : undefined,
     screenshot: screenshot
       ? {
           ...screenshot,
@@ -961,7 +970,7 @@ export function getPropsForAttachment(
             screenshot.path
           ),
         }
-      : null,
+      : undefined,
     thumbnail: thumbnail
       ? {
           ...thumbnail,
@@ -969,7 +978,7 @@ export function getPropsForAttachment(
             thumbnail.path
           ),
         }
-      : null,
+      : undefined,
   };
 }
 

@@ -20,6 +20,7 @@ import * as groups from '../../groups';
 import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
 import { assert } from '../../util/assert';
+import * as universalExpireTimer from '../../util/universalExpireTimer';
 import { trigger } from '../../shims/events';
 
 import {
@@ -208,9 +209,9 @@ export type PreJoinConversationType = {
 };
 
 export enum ComposerStep {
-  StartDirectConversation,
-  ChooseGroupMembers,
-  SetGroupMetadata,
+  StartDirectConversation = 'StartDirectConversation',
+  ChooseGroupMembers = 'ChooseGroupMembers',
+  SetGroupMetadata = 'SetGroupMetadata',
 }
 
 export enum OneTimeModalState {
@@ -222,6 +223,7 @@ export enum OneTimeModalState {
 type ComposerGroupCreationState = {
   groupAvatar: undefined | ArrayBuffer;
   groupName: string;
+  groupExpireTimer: number;
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
   selectedConversationIds: Array<string>;
@@ -557,6 +559,10 @@ type SetComposeGroupNameActionType = {
   type: 'SET_COMPOSE_GROUP_NAME';
   payload: { groupName: string };
 };
+type SetComposeGroupExpireTimerActionType = {
+  type: 'SET_COMPOSE_GROUP_EXPIRE_TIMER';
+  payload: { groupExpireTimer: number };
+};
 type SetComposeSearchTermActionType = {
   type: 'SET_COMPOSE_SEARCH_TERM';
   payload: { searchTerm: string };
@@ -625,6 +631,7 @@ export type ConversationActionType =
   | SelectedConversationChangedActionType
   | SetComposeGroupAvatarActionType
   | SetComposeGroupNameActionType
+  | SetComposeGroupExpireTimerActionType
   | SetComposeSearchTermActionType
   | SetConversationHeaderTitleActionType
   | SetIsNearBottomActionType
@@ -679,6 +686,7 @@ export const actions = {
   selectMessage,
   setComposeGroupAvatar,
   setComposeGroupName,
+  setComposeGroupExpireTimer,
   setComposeSearchTerm,
   setIsNearBottom,
   setLoadCountdownStart,
@@ -903,6 +911,7 @@ function createGroup(): ThunkAction<
       const conversation = await groups.createGroupV2({
         name: composer.groupName.trim(),
         avatar: composer.groupAvatar,
+        expireTimer: composer.groupExpireTimer,
         conversationIds: composer.selectedConversationIds,
       });
       dispatch({
@@ -1189,6 +1198,15 @@ function setComposeGroupName(groupName: string): SetComposeGroupNameActionType {
   return {
     type: 'SET_COMPOSE_GROUP_NAME',
     payload: { groupName },
+  };
+}
+
+function setComposeGroupExpireTimer(
+  groupExpireTimer: number
+): SetComposeGroupExpireTimerActionType {
+  return {
+    type: 'SET_COMPOSE_GROUP_EXPIRE_TIMER',
+    payload: { groupExpireTimer },
   };
 }
 
@@ -2346,6 +2364,7 @@ export function reducer(
     let maximumGroupSizeModalState: OneTimeModalState;
     let groupName: string;
     let groupAvatar: undefined | ArrayBuffer;
+    let groupExpireTimer: number;
 
     switch (state.composer?.step) {
       case ComposerStep.ChooseGroupMembers:
@@ -2357,6 +2376,7 @@ export function reducer(
           maximumGroupSizeModalState,
           groupName,
           groupAvatar,
+          groupExpireTimer,
         } = state.composer);
         break;
       default:
@@ -2364,6 +2384,7 @@ export function reducer(
         recommendedGroupSizeModalState = OneTimeModalState.NeverShown;
         maximumGroupSizeModalState = OneTimeModalState.NeverShown;
         groupName = '';
+        groupExpireTimer = universalExpireTimer.get();
         break;
     }
 
@@ -2379,6 +2400,7 @@ export function reducer(
         maximumGroupSizeModalState,
         groupName,
         groupAvatar,
+        groupExpireTimer,
       },
     };
   }
@@ -2398,6 +2420,7 @@ export function reducer(
             ...pick(composer, [
               'groupAvatar',
               'groupName',
+              'groupExpireTimer',
               'maximumGroupSizeModalState',
               'recommendedGroupSizeModalState',
               'selectedConversationIds',
@@ -2445,6 +2468,25 @@ export function reducer(
           composer: {
             ...composer,
             groupName: action.payload.groupName,
+          },
+        };
+      default:
+        assert(false, 'Setting compose group name at this step is a no-op');
+        return state;
+    }
+  }
+
+  if (action.type === 'SET_COMPOSE_GROUP_EXPIRE_TIMER') {
+    const { composer } = state;
+
+    switch (composer?.step) {
+      case ComposerStep.ChooseGroupMembers:
+      case ComposerStep.SetGroupMetadata:
+        return {
+          ...state,
+          composer: {
+            ...composer,
+            groupExpireTimer: action.payload.groupExpireTimer,
           },
         };
       default:

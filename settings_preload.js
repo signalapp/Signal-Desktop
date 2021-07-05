@@ -3,7 +3,7 @@
 
 /* global window */
 
-const { ipcRenderer, remote } = require('electron');
+const { ipcRenderer } = require('electron');
 
 const url = require('url');
 const i18n = require('./js/modules/i18n');
@@ -18,30 +18,15 @@ const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 setEnvironment(parseEnvironment(config.environment));
 
-const { nativeTheme } = remote.require('electron');
-
 const { Context: SignalContext } = require('./ts/context');
 
-window.SignalContext = new SignalContext();
+window.SignalContext = new SignalContext(ipcRenderer);
 
 window.platform = process.platform;
 window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);
 window.appStartInitialSpellcheckSetting =
   config.appStartInitialSpellcheckSetting === 'true';
-
-function setSystemTheme() {
-  window.systemTheme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
-}
-
-setSystemTheme();
-
-window.subscribeToSystemThemeChange = fn => {
-  nativeTheme.on('updated', () => {
-    setSystemTheme();
-    fn();
-  });
-};
 
 window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
@@ -64,6 +49,8 @@ window.getThemeSetting = makeGetter('theme-setting');
 window.setThemeSetting = makeSetter('theme-setting');
 window.getHideMenuBar = makeGetter('hide-menu-bar');
 window.setHideMenuBar = makeSetter('hide-menu-bar');
+window.getSystemTraySetting = makeGetter('system-tray-setting');
+window.setSystemTraySetting = makeSetter('system-tray-setting');
 
 window.getSpellCheck = makeGetter('spell-check');
 window.setSpellCheck = makeSetter('spell-check');

@@ -1060,6 +1060,14 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.system-tray-setting-container'),",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-24T23:16:24.537Z",
+    "reasonDetail": "Interacting with already-existing DOM nodes"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
@@ -1910,19 +1918,6 @@
     "rule": "jQuery-append(",
     "path": "node_modules/blob/index.js",
     "line": "    bb.append(ary[i]);",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.js",
-    "line": "      bb.append(arrayBuffer)",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -12360,34 +12355,6 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/ref-napi/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-02T18:54:41.261Z"
-  },
-  {
-    "rule": "jQuery-load(",
     "path": "node_modules/ref-struct-di/node_modules/debug/src/browser.js",
     "line": "function load() {",
     "reasonCategory": "falseMatch",
@@ -13439,14 +13406,6 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.js",
-    "line": "    const attSlotRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-10-26T19:12:24.410Z",
-    "reasonDetail": "Needed for the composition area."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionArea.js",
     "line": "    const micCellRef = React.useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-26T19:12:24.410Z",
@@ -13590,6 +13549,22 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-11-17T23:29:38.698Z",
     "reasonDetail": "Doesn't touch the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.js",
+    "line": "    const lastReceivedVideoAt = react_1.useRef(-Infinity);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-17T20:46:02.342Z",
+    "reasonDetail": "Doesn't reference the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/GroupCallRemoteParticipant.tsx",
+    "line": "    const lastReceivedVideoAt = useRef(-Infinity);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-06-17T20:46:02.342Z",
+    "reasonDetail": "Doesn't reference the DOM."
   },
   {
     "rule": "React-useRef",

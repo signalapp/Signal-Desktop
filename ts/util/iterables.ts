@@ -155,6 +155,18 @@ class MapIterator<T, ResultT> implements Iterator<ResultT> {
   }
 }
 
+export function reduce<T, TResult>(
+  iterable: Iterable<T>,
+  fn: (result: TResult, value: T) => TResult,
+  accumulator: TResult
+): TResult {
+  let result = accumulator;
+  for (const value of iterable) {
+    result = fn(result, value);
+  }
+  return result;
+}
+
 export function take<T>(iterable: Iterable<T>, amount: number): Iterable<T> {
   return new TakeIterable(iterable, amount);
 }

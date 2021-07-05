@@ -47,19 +47,22 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
 );
 
 const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
-  const [activeAudioID, setActiveAudioID] = React.useState<string | undefined>(
-    undefined
-  );
+  const [active, setActive] = React.useState<{
+    id?: string;
+    context?: string;
+  }>({});
   const audio = React.useMemo(() => new Audio(), []);
 
   return (
     <MessageAudio
       {...props}
       id="storybook"
+      renderingContext="storybook"
       audio={audio}
       computePeaks={computePeaks}
-      setActiveAudioID={setActiveAudioID}
-      activeAudioID={activeAudioID}
+      setActiveAudioID={(id, context) => setActive({ id, context })}
+      activeAudioID={active.id}
+      activeAudioContext={active.context}
     />
   );
 };
@@ -101,6 +104,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     undefined,
   i18n,
   id: text('id', overrideProps.id || ''),
+  renderingContext: 'storybook',
   interactionMode: overrideProps.interactionMode || 'keyboard',
   isSticker: isBoolean(overrideProps.isSticker)
     ? overrideProps.isSticker
@@ -720,43 +724,52 @@ story.add('Image', () => {
   return renderBothDirections(props);
 });
 
-story.add('Multiple Images', () => {
-  const props = createProps({
-    attachments: [
-      {
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      },
-      {
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      },
-      {
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      },
-      {
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        contentType: IMAGE_JPEG,
-        width: 128,
-        height: 128,
-      },
-    ],
-    status: 'sent',
-  });
+for (let i = 2; i <= 5; i += 1) {
+  story.add(`Multiple Images x${i}`, () => {
+    const props = createProps({
+      attachments: [
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+        {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          contentType: IMAGE_JPEG,
+          width: 128,
+          height: 128,
+        },
+      ].slice(0, i),
+      status: 'sent',
+    });
 
-  return renderBothDirections(props);
-});
+    return renderBothDirections(props);
+  });
+}
 
 story.add('Image with Caption', () => {
   const props = createProps({
@@ -794,6 +807,25 @@ story.add('GIF', () => {
   return renderBothDirections(props);
 });
 
+story.add('GIF in a group', () => {
+  const props = createProps({
+    attachments: [
+      {
+        contentType: VIDEO_MP4,
+        flags: SignalService.AttachmentPointer.Flags.GIF,
+        fileName: 'cat-gif.mp4',
+        url: '/fixtures/cat-gif.mp4',
+        width: 400,
+        height: 332,
+      },
+    ],
+    conversationType: 'group',
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
 story.add('Not Downloaded GIF', () => {
   const props = createProps({
     attachments: [
@@ -801,7 +833,7 @@ story.add('Not Downloaded GIF', () => {
         contentType: VIDEO_MP4,
         flags: SignalService.AttachmentPointer.Flags.GIF,
         fileName: 'cat-gif.mp4',
-        fileSize: 188610,
+        fileSize: '188.61 KB',
         blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         width: 400,
         height: 332,
@@ -821,7 +853,7 @@ story.add('Pending GIF', () => {
         contentType: VIDEO_MP4,
         flags: SignalService.AttachmentPointer.Flags.GIF,
         fileName: 'cat-gif.mp4',
-        fileSize: 188610,
+        fileSize: '188.61 KB',
         blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         width: 400,
         height: 332,

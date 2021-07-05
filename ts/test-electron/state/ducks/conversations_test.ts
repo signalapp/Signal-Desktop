@@ -454,6 +454,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: undefined,
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -482,6 +483,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             isCreating: false as const,
             hasError: true as const,
           },
@@ -517,6 +519,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -567,6 +570,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.Showing,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -592,6 +596,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -612,6 +617,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.Shown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -634,6 +640,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.Showing,
@@ -659,6 +666,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -679,6 +687,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: 'abc123',
             searchTerm: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.Shown,
@@ -703,6 +712,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: 'Foo Bar Group',
           groupAvatar: new Uint8Array([1, 2, 3]).buffer,
+          groupExpireTimer: 0,
           isCreating: false as const,
           hasError: true as const,
         },
@@ -748,6 +758,7 @@ describe('both/state/ducks/conversations', () => {
         sinon.assert.calledWith(createGroupStub, {
           name: 'Foo Bar Group',
           avatar: new Uint8Array([1, 2, 3]).buffer,
+          expireTimer: 0,
           conversationIds: ['abc123'],
         });
       });
@@ -1205,6 +1216,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'foo',
             groupAvatar: new ArrayBuffer(2),
+            groupExpireTimer: 0,
             isCreating: false as const,
             hasError: false as const,
           },
@@ -1230,6 +1242,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'foo',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             isCreating: false as const,
             hasError: false as const,
           },
@@ -1255,6 +1268,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             isCreating: false as const,
             hasError: false as const,
           },
@@ -1424,6 +1438,7 @@ describe('both/state/ducks/conversations', () => {
             cantAddContactIdForModal: undefined,
             searchTerm: 'to be cleared',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             groupName: '',
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
@@ -1451,6 +1466,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
             isCreating: false,
             hasError: false as const,
           },
@@ -1515,6 +1531,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1530,6 +1547,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = showChooseGroupMembers();
@@ -1549,6 +1567,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'Foo Bar Group',
             groupAvatar: new Uint8Array([4, 2]).buffer,
+            groupExpireTimer: 0,
             isCreating: false,
             hasError: false as const,
           },
@@ -1566,6 +1585,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: 'Foo Bar Group',
           groupAvatar: new Uint8Array([4, 2]).buffer,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1584,6 +1604,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1605,6 +1626,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
     });
@@ -1622,6 +1644,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = startSettingGroupMetadata();
@@ -1634,6 +1657,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
           isCreating: false,
           hasError: false,
         });
@@ -1651,6 +1675,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'Foo Bar Group',
             groupAvatar: new Uint8Array([6, 9]).buffer,
+            groupExpireTimer: 0,
           },
         };
         const action = startSettingGroupMetadata();
@@ -1663,6 +1688,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: 'Foo Bar Group',
           groupAvatar: new Uint8Array([6, 9]).buffer,
+          groupExpireTimer: 0,
           isCreating: false,
           hasError: false as const,
         });
@@ -1678,6 +1704,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: 'Foo Bar Group',
             groupAvatar: new Uint8Array([4, 2]).buffer,
+            groupExpireTimer: 0,
             isCreating: false,
             hasError: false as const,
           },
@@ -1731,6 +1758,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const one = reducer(zero, getAction('abc', zero));
@@ -1745,6 +1773,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1760,6 +1789,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction('abc', state);
@@ -1774,6 +1804,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1792,6 +1823,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
@@ -1806,6 +1838,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1824,6 +1857,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
@@ -1838,6 +1872,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.NeverShown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1858,6 +1893,7 @@ describe('both/state/ducks/conversations', () => {
               maximumGroupSizeModalState: OneTimeModalState.NeverShown,
               groupName: '',
               groupAvatar: undefined,
+              groupExpireTimer: 0,
             },
           };
           const action = getAction(uuid(), state);
@@ -1881,6 +1917,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
@@ -1895,6 +1932,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.Showing,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1913,6 +1951,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.Shown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(newUuid, state);
@@ -1927,6 +1966,7 @@ describe('both/state/ducks/conversations', () => {
           maximumGroupSizeModalState: OneTimeModalState.Shown,
           groupName: '',
           groupAvatar: undefined,
+          groupExpireTimer: 0,
         });
       });
 
@@ -1942,6 +1982,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(uuid(), state);
@@ -1969,6 +2010,7 @@ describe('both/state/ducks/conversations', () => {
               maximumGroupSizeModalState: OneTimeModalState.NeverShown,
               groupName: '',
               groupAvatar: undefined,
+              groupExpireTimer: 0,
             },
           };
           const action = getAction(uuid(), state);
@@ -1995,6 +2037,7 @@ describe('both/state/ducks/conversations', () => {
             maximumGroupSizeModalState: OneTimeModalState.NeverShown,
             groupName: '',
             groupAvatar: undefined,
+            groupExpireTimer: 0,
           },
         };
         const action = getAction(uuid(), state);

@@ -9,7 +9,7 @@ import {
   PlaintextContent,
 } from '@signalapp/signal-client';
 
-import { DataMessageClass } from './textsecure.d';
+import { DataMessageClass, SyncMessageClass } from './textsecure.d';
 import { SessionResetsType } from './textsecure/Types.d';
 import { MessageAttributesType } from './model-types.d';
 import { WhatIsThis } from './window.d';
@@ -55,6 +55,10 @@ import { ReadReceipts } from './messageModifiers/ReadReceipts';
 import { ReadSyncs } from './messageModifiers/ReadSyncs';
 import { ViewSyncs } from './messageModifiers/ViewSyncs';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
+import {
+  SystemTraySetting,
+  parseSystemTraySetting,
+} from './types/SystemTraySetting';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -463,6 +467,12 @@ export async function startApp(): Promise<void> {
         window.storage.put('hide-menu-bar', value);
         window.setAutoHideMenuBar(value);
         window.setMenuBarVisibility(!value);
+      },
+      getSystemTraySetting: (): SystemTraySetting =>
+        parseSystemTraySetting(window.storage.get('system-tray-setting')),
+      setSystemTraySetting: (value: Readonly<SystemTraySetting>) => {
+        window.storage.put('system-tray-setting', value);
+        window.updateSystemTraySetting(value);
       },
 
       getNotificationSetting: () =>
@@ -984,6 +994,7 @@ export async function startApp(): Promise<void> {
         store.dispatch
       ),
       calling: bindActionCreators(actionCreators.calling, store.dispatch),
+      composer: bindActionCreators(actionCreators.composer, store.dispatch),
       conversations: bindActionCreators(
         actionCreators.conversations,
         store.dispatch
@@ -2284,6 +2295,10 @@ export async function startApp(): Promise<void> {
     }
   }
 
+  window.SignalContext.nativeThemeListener.subscribe(() => {
+    onChangeTheme();
+  });
+
   const FIVE_MINUTES = 5 * 60 * 1000;
 
   // Note: once this function returns, there still might be messages being processed on
@@ -3015,14 +3030,23 @@ export async function startApp(): Promise<void> {
     return confirm();
   }
 
-  function createSentMessage(data: WhatIsThis, descriptor: WhatIsThis) {
+  function createSentMessage(data: WhatIsThis, descriptor: MessageDescriptor) {
     const now = Date.now();
-    let sentTo = [];
+    const timestamp = data.timestamp || now;
 
-    if (data.unidentifiedStatus && data.unidentifiedStatus.length) {
-      sentTo = data.unidentifiedStatus.map(
-        (item: WhatIsThis) => item.destinationUuid || item.destination
-      );
+    const unidentifiedStatus: Array<SyncMessageClass.Sent.UnidentifiedDeliveryStatus> = Array.isArray(
+      data.unidentifiedStatus
+    )
+      ? data.unidentifiedStatus
+      : [];
+
+    let sentTo: Array<string> = [];
+
+    if (unidentifiedStatus.length) {
+      sentTo = unidentifiedStatus
+        .map(item => item.destinationUuid || item.destination)
+        .filter(isNotNil);
+
       const unidentified = window._.filter(data.unidentifiedStatus, item =>
         Boolean(item.unidentified)
       );
@@ -3036,17 +3060,18 @@ export async function startApp(): Promise<void> {
       source: window.textsecure.storage.user.getNumber(),
       sourceUuid: window.textsecure.storage.user.getUuid(),
       sourceDevice: data.device,
-      sent_at: data.timestamp,
+      sent_at: timestamp,
       serverTimestamp: data.serverTimestamp,
       sent_to: sentTo,
       received_at: data.receivedAtCounter,
       received_at_ms: data.receivedAtDate,
       conversationId: descriptor.id,
+      timestamp,
       type: 'outgoing',
       sent: true,
       unidentifiedDeliveries: data.unidentifiedDeliveries || [],
       expirationStartTimestamp: Math.min(
-        data.expirationStartTimestamp || data.timestamp || now,
+        data.expirationStartTimestamp || timestamp,
         now
       ),
     } as WhatIsThis);

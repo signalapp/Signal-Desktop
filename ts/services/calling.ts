@@ -50,8 +50,8 @@ import {
 } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
 import { ConversationModel } from '../models/conversations';
+import * as Bytes from '../Bytes';
 import {
-  base64ToArrayBuffer,
   uuidToArrayBuffer,
   arrayBufferToUuid,
   typedArrayToArrayBuffer,
@@ -384,8 +384,8 @@ export class CallingClass {
     return getMembershipList(conversationId).map(
       member =>
         new GroupMemberInfo(
-          uuidToArrayBuffer(member.uuid),
-          typedArrayToArrayBuffer(member.uuidCiphertext)
+          Buffer.from(uuidToArrayBuffer(member.uuid)),
+          Buffer.from(member.uuidCiphertext)
         )
     );
   }
@@ -425,11 +425,11 @@ export class CallingClass {
     if (!proof) {
       throw new Error('No membership proof. Cannot peek group call');
     }
-    const membershipProof = new TextEncoder().encode(proof).buffer;
+    const membershipProof = Bytes.fromString(proof);
 
     return RingRTC.peekGroupCall(
       this.sfuUrl,
-      membershipProof,
+      Buffer.from(membershipProof),
       this.getGroupCallMembers(conversationId)
     );
   }
@@ -468,7 +468,7 @@ export class CallingClass {
       throw new Error('Missing SFU URL; not connecting group call');
     }
 
-    const groupIdBuffer = base64ToArrayBuffer(groupId);
+    const groupIdBuffer = Buffer.from(Bytes.fromBase64(groupId));
 
     let updateMessageState = GroupCallUpdateMessageState.SentNothing;
     let isRequestingMembershipProof = false;
@@ -548,8 +548,7 @@ export class CallingClass {
             secretParams,
           });
           if (proof) {
-            const proofArray = new TextEncoder().encode(proof);
-            groupCall.setMembershipProof(proofArray.buffer);
+            groupCall.setMembershipProof(Buffer.from(Bytes.fromString(proof)));
           }
         } catch (err) {
           window.log.error('Failed to fetch membership proof', err);
@@ -672,7 +671,7 @@ export class CallingClass {
   ): GroupCallPeekInfoType {
     return {
       uuids: peekInfo.joinedMembers.map(uuidBuffer => {
-        let uuid = arrayBufferToUuid(uuidBuffer);
+        let uuid = arrayBufferToUuid(typedArrayToArrayBuffer(uuidBuffer));
         if (!uuid) {
           window.log.error(
             'Calling.formatGroupCallPeekInfoForRedux: could not convert peek UUID ArrayBuffer to string; using fallback UUID'
@@ -681,7 +680,9 @@ export class CallingClass {
         }
         return uuid;
       }),
-      creatorUuid: peekInfo.creator && arrayBufferToUuid(peekInfo.creator),
+      creatorUuid:
+        peekInfo.creator &&
+        arrayBufferToUuid(typedArrayToArrayBuffer(peekInfo.creator)),
       eraId: peekInfo.eraId,
       maxDevices: peekInfo.maxDevices ?? Infinity,
       deviceCount: peekInfo.deviceCount,
@@ -718,7 +719,9 @@ export class CallingClass {
         ? this.formatGroupCallPeekInfoForRedux(peekInfo)
         : undefined,
       remoteParticipants: remoteDeviceStates.map(remoteDeviceState => {
-        let uuid = arrayBufferToUuid(remoteDeviceState.userId);
+        let uuid = arrayBufferToUuid(
+          typedArrayToArrayBuffer(remoteDeviceState.userId)
+        );
         if (!uuid) {
           window.log.error(
             'Calling.formatGroupCallForRedux: could not convert remote participant UUID ArrayBuffer to string; using fallback UUID'
@@ -1315,13 +1318,13 @@ export class CallingClass {
 
     RingRTC.handleCallingMessage(
       remoteUserId,
-      sourceUuid,
+      sourceUuid ? Buffer.from(sourceUuid) : null,
       remoteDeviceId,
       this.localDeviceId,
       messageAgeSec,
       callingMessage,
-      senderIdentityKey,
-      receiverIdentityKey
+      Buffer.from(senderIdentityKey),
+      Buffer.from(receiverIdentityKey)
     );
   }
 
@@ -1395,17 +1398,17 @@ export class CallingClass {
   }
 
   private async handleSendCallMessage(
-    recipient: ArrayBuffer,
-    data: ArrayBuffer
+    recipient: Uint8Array,
+    data: Uint8Array
   ): Promise<boolean> {
-    const userId = arrayBufferToUuid(recipient);
+    const userId = arrayBufferToUuid(typedArrayToArrayBuffer(recipient));
     if (!userId) {
       window.log.error('handleSendCallMessage(): bad recipient UUID');
       return false;
     }
     const message = new CallingMessage();
     message.opaque = new OpaqueMessage();
-    message.opaque.data = data;
+    message.opaque.data = Buffer.from(data);
     return this.handleOutgoingSignaling(userId, message);
   }
 
@@ -1585,7 +1588,7 @@ export class CallingClass {
     url: string,
     method: HttpMethod,
     headers: { [name: string]: string },
-    body: ArrayBuffer | undefined
+    body: Uint8Array | undefined
   ) {
     if (!window.textsecure.messaging) {
       RingRTC.httpRequestFailed(requestId, 'We are offline');
@@ -1607,14 +1610,14 @@ export class CallingClass {
         url,
         httpMethod,
         headers,
-        body
+        body ? typedArrayToArrayBuffer(body) : undefined
       );
     } catch (err) {
       if (err.code !== -1) {
         // WebAPI treats certain response codes as errors, but RingRTC still needs to
         // see them. It does not currently look at the response body, so we're giving
         // it an empty one.
-        RingRTC.receivedHttpResponse(requestId, err.code, new ArrayBuffer(0));
+        RingRTC.receivedHttpResponse(requestId, err.code, Buffer.alloc(0));
       } else {
         window.log.error('handleSendHttpRequest: fetch failed with error', err);
         RingRTC.httpRequestFailed(requestId, String(err));
@@ -1625,7 +1628,7 @@ export class CallingClass {
     RingRTC.receivedHttpResponse(
       requestId,
       result.response.status,
-      result.data
+      Buffer.from(result.data)
     );
   }
 
@@ -1749,7 +1752,9 @@ export class CallingClass {
     if (!peekInfo || !peekInfo.eraId || !peekInfo.creator) {
       return;
     }
-    const creatorUuid = arrayBufferToUuid(peekInfo.creator);
+    const creatorUuid = arrayBufferToUuid(
+      typedArrayToArrayBuffer(peekInfo.creator)
+    );
     if (!creatorUuid) {
       window.log.error('updateCallHistoryForGroupCall(): bad creator UUID');
       return;

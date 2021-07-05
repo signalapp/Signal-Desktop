@@ -77,6 +77,7 @@ import { ReadReceipts } from '../messageModifiers/ReadReceipts';
 import { ReadSyncs } from '../messageModifiers/ReadSyncs';
 import { ViewSyncs } from '../messageModifiers/ViewSyncs';
 import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
+import * as LinkPreview from '../types/LinkPreview';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -1742,7 +1743,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       });
     } catch (result) {
       const errors = (result && result.errors) || [new Error('Unknown error')];
-      this.saveErrors(errors);
+      // We don't save because we're about to save below.
+      this.saveErrors(errors, { skipSave: true });
     } finally {
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: window.Whisper.Message,
@@ -2643,13 +2645,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       try {
         const now = new Date().getTime();
 
-        const urls = window.Signal.LinkPreviews.findLinks(dataMessage.body);
+        const urls = LinkPreview.findLinks(dataMessage.body);
         const incomingPreview = dataMessage.preview || [];
         const preview = incomingPreview.filter(
           (item: typeof window.WhatIsThis) =>
             (item.image || item.title) &&
             urls.includes(item.url) &&
-            window.Signal.LinkPreviews.isLinkSafeToPreview(item.url)
+            LinkPreview.isLinkSafeToPreview(item.url)
         );
         if (preview.length < incomingPreview.length) {
           window.log.info(

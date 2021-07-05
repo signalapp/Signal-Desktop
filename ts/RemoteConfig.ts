@@ -10,6 +10,7 @@ export type ConfigKeyType =
   | 'desktop.groupCalling'
   | 'desktop.gv2'
   | 'desktop.mandatoryProfileSharing'
+  | 'desktop.mediaQuality.levels'
   | 'desktop.messageRequests'
   | 'desktop.retryReceiptLifespan'
   | 'desktop.retryRespondMaxAge'

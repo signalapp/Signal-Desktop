@@ -154,6 +154,10 @@
       {
         "label": "Toggle Developer Tools",
         "role": "toggleDevTools"
+      },
+      {
+        "label": "Force Update",
+        "click": null
       }
     ]
   },

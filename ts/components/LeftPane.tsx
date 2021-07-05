@@ -98,6 +98,7 @@ export type PropsType = {
   setComposeSearchTerm: (composeSearchTerm: string) => void;
   setComposeGroupAvatar: (_: undefined | ArrayBuffer) => void;
   setComposeGroupName: (_: string) => void;
+  setComposeGroupExpireTimer: (_: number) => void;
   showArchivedConversations: () => void;
   showInbox: () => void;
   startComposing: () => void;
@@ -139,6 +140,7 @@ export const LeftPane: React.FC<PropsType> = ({
   setComposeSearchTerm,
   setComposeGroupAvatar,
   setComposeGroupName,
+  setComposeGroupExpireTimer,
   showArchivedConversations,
   showInbox,
   startComposing,
@@ -342,6 +344,7 @@ export const LeftPane: React.FC<PropsType> = ({
     i18n,
     setComposeGroupAvatar,
     setComposeGroupName,
+    setComposeGroupExpireTimer,
     onChangeComposeSearchTerm: event => {
       setComposeSearchTerm(event.target.value);
     },

@@ -14,6 +14,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
       const showChooseGroupMembers = sinon.fake();
       const helper = new LeftPaneSetGroupMetadataHelper({
         groupAvatar: undefined,
+        groupExpireTimer: 0,
         groupName: '',
         hasError: false,
         isCreating: false,
@@ -29,6 +30,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
     it("returns undefined (i.e., you can't go back) if a request is active", () => {
       const helper = new LeftPaneSetGroupMetadataHelper({
         groupAvatar: undefined,
+        groupExpireTimer: 0,
         groupName: 'Foo Bar',
         hasError: false,
         isCreating: true,
@@ -46,6 +48,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
       assert.strictEqual(
         new LeftPaneSetGroupMetadataHelper({
           groupAvatar: undefined,
+          groupExpireTimer: 0,
           groupName: '',
           hasError: false,
           isCreating: false,
@@ -59,6 +62,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
       assert.strictEqual(
         new LeftPaneSetGroupMetadataHelper({
           groupAvatar: undefined,
+          groupExpireTimer: 0,
           groupName: '',
           hasError: false,
           isCreating: false,
@@ -77,6 +81,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
       assert.isUndefined(
         new LeftPaneSetGroupMetadataHelper({
           groupAvatar: undefined,
+          groupExpireTimer: 0,
           groupName: '',
           hasError: false,
           isCreating: false,
@@ -92,6 +97,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
       ];
       const helper = new LeftPaneSetGroupMetadataHelper({
         groupAvatar: undefined,
+        groupExpireTimer: 0,
         groupName: '',
         hasError: false,
         isCreating: false,

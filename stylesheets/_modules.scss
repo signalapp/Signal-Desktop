@@ -2366,64 +2366,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 // Module: Timer Notification
-
-.module-timer-notification {
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-timer-notification__icon-container {
-  margin-left: auto;
-  margin-right: auto;
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.module-timer-notification__icon {
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-60);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-05);
-  }
-}
-
-.module-timer-notification__icon--disabled {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/timer-disabled-24.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/timer-disabled-24.svg',
-      $color-gray-05
-    );
-  }
-}
-
-.module-timer-notification__icon-label {
-  margin-left: 6px;
-
-  // Didn't seem centered otherwise
-  margin-top: 1px;
-}
-
 // Module: Universal Timer Notification
 
+.module-timer-notification,
 .module-universal-timer-notification {
   text-align: center;
 
@@ -2432,6 +2377,53 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     color: $color-gray-05;
+  }
+
+  &__icon-container {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  &__icon {
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    opacity: 0.6;
+
+    @include light-theme {
+      @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-60);
+    }
+    @include dark-theme {
+      @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-05);
+    }
+
+    &--disabled {
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/timer-disabled-24.svg',
+          $color-gray-60
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/timer-disabled-24.svg',
+          $color-gray-05
+        );
+      }
+    }
+  }
+
+  &__icon-label {
+    margin-left: 4px;
+
+    // Didn't seem centered otherwise
+    margin-top: 1px;
+
+    opacity: 0.8;
   }
 }
 
@@ -3070,8 +3062,7 @@ button.module-conversation-details__action-button {
       margin-right: 12px;
     }
 
-    &__info,
-    &__right-info {
+    &__info {
       @include font-body-2;
       margin-top: 4px;
 
@@ -3088,14 +3079,6 @@ button.module-conversation-details__action-button {
       position: relative;
       color: $color-gray-45;
       min-width: 143px;
-    }
-
-    &__right-info {
-      position: absolute;
-
-      @include font-subtitle;
-
-      padding-left: 14px;
     }
 
     &__actions {
@@ -3938,7 +3921,6 @@ button.module-conversation-details__action-button {
 .module-image {
   position: relative;
   display: inline-block;
-  margin: 1px;
   vertical-align: middle;
   overflow: hidden;
 }
@@ -4061,6 +4043,10 @@ button.module-conversation-details__action-button {
   border-radius: 4px;
 }
 
+.module-image--cropped {
+  overflow: hidden;
+}
+
 .module-image--curved-top-left {
   border-top-left-radius: 16px;
 }
@@ -4105,8 +4091,6 @@ button.module-conversation-details__action-button {
 }
 
 .module-image--gif {
-  border-radius: 18px;
-
   &__filesize {
     position: absolute;
     top: 10px;
@@ -4279,7 +4263,7 @@ button.module-image__border-overlay:focus {
   flex-direction: row;
   align-items: center;
 
-  margin: -1px;
+  gap: 1px;
 }
 
 .module-image-grid--one-image {
@@ -4294,6 +4278,7 @@ button.module-image__border-overlay:focus {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
+  gap: 1px;
 }
 
 .module-image-grid__row {
@@ -4301,6 +4286,7 @@ button.module-image__border-overlay:focus {
   flex-direction: row;
   align-items: center;
   flex-grow: 1;
+  gap: 1px;
 }
 
 // Module: Typing Animation
@@ -5380,6 +5366,9 @@ button.module-image__border-overlay:focus {
   display: flex;
   justify-content: space-between;
   padding-top: var(--title-bar-drag-area-height);
+  position: absolute;
+  width: 100%;
+  z-index: 2;
 }
 
 .module-incoming-call__contact {
@@ -6999,6 +6988,21 @@ button.module-image__border-overlay:focus {
   &__form {
     display: flex;
     flex-direction: column;
+
+    &__expire-timer {
+      display: flex;
+      flex-direction: row;
+
+      margin: 0 16px 16px 16px;
+
+      &__label {
+        margin-right: 12px;
+      }
+
+      .module-disappearing-timer-select {
+        width: 144px;
+      }
+    }
   }
 }
 
@@ -10572,6 +10576,11 @@ $contact-modal-padding: 18px;
   }
 }
 
+.react-contextmenu-item--disabled.react-contextmenu-item--selected {
+  background-color: inherit;
+  cursor: inherit;
+}
+
 .react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,
 .react-contextmenu-item.react-contextmenu-item--selected.react-contextmenu-item--checked:before {
   color: $color-black;
@@ -10620,11 +10629,6 @@ $contact-modal-padding: 18px;
 
   &--deleted-for-everyone {
     font-style: italic;
-  }
-
-  &--gif {
-    border-radius: inherit;
-    background: inherit;
   }
 }
 

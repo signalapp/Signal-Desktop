@@ -16,6 +16,7 @@ export type Props = {
 
   direction?: 'incoming' | 'outgoing';
   id: string;
+  renderingContext: string;
   i18n: LocalizerType;
   attachment: AttachmentType;
   withContentAbove: boolean;

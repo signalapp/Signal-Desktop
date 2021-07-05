@@ -31,6 +31,12 @@ import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileS
 import { countStickers } from './stickers/lib';
 import { LocalizerType } from '../types/Util';
 import { EmojiPickDataType } from './emoji/EmojiPicker';
+import { AttachmentType, isImageAttachment } from '../types/Attachment';
+import { AttachmentList } from './conversation/AttachmentList';
+import { MediaQualitySelector } from './MediaQualitySelector';
+import { Quote, Props as QuoteProps } from './conversation/Quote';
+import { StagedLinkPreview } from './conversation/StagedLinkPreview';
+import { LinkPreviewWithDomain } from '../types/LinkPreview';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
@@ -50,14 +56,24 @@ export type OwnProps = {
     setDisabled: (disabled: boolean) => void;
     setShowMic: (showMic: boolean) => void;
     setMicActive: (micActive: boolean) => void;
-    attSlotRef: React.RefObject<HTMLDivElement>;
     reset: InputApi['reset'];
     resetEmojiResults: InputApi['resetEmojiResults'];
   }>;
   readonly micCellEl?: HTMLElement;
-  readonly attCellEl?: HTMLElement;
-  readonly attachmentListEl?: HTMLElement;
+  readonly draftAttachments: Array<AttachmentType>;
+  readonly shouldSendHighQualityAttachments: boolean;
   onChooseAttachment(): unknown;
+  onAddAttachment(): unknown;
+  onClickAttachment(): unknown;
+  onCloseAttachment(): unknown;
+  onClearAttachments(): unknown;
+  onSelectMediaQuality(isHQ: boolean): unknown;
+  readonly quotedMessageProps?: QuoteProps;
+  onClickQuotedMessage(): unknown;
+  setQuotedMessage(message: undefined): unknown;
+  linkPreviewLoading: boolean;
+  linkPreviewResult?: LinkPreviewWithDomain;
+  onCloseLinkPreview(): unknown;
 };
 
 export type Props = Pick<
@@ -103,9 +119,25 @@ const emptyElement = (el: HTMLElement) => {
 
 export const CompositionArea = ({
   i18n,
-  attachmentListEl,
   micCellEl,
   onChooseAttachment,
+  // AttachmentList
+  draftAttachments,
+  onAddAttachment,
+  onClearAttachments,
+  onClickAttachment,
+  onCloseAttachment,
+  // StagedLinkPreview
+  linkPreviewLoading,
+  linkPreviewResult,
+  onCloseLinkPreview,
+  // Quote
+  quotedMessageProps,
+  onClickQuotedMessage,
+  setQuotedMessage,
+  // MediaQualitySelector
+  onSelectMediaQuality,
+  shouldSendHighQualityAttachments,
   // CompositionInput
   onSubmit,
   compositionApi,
@@ -198,9 +230,6 @@ export const CompositionArea = ({
       receivedPacks,
     }) > 0;
 
-  // A ref to grab a slot where backbone can insert link previews and attachments
-  const attSlotRef = React.useRef<HTMLDivElement>(null);
-
   if (compositionApi) {
     // Using a React.MutableRefObject, so we need to reassign this prop.
     // eslint-disable-next-line no-param-reassign
@@ -210,7 +239,6 @@ export const CompositionArea = ({
       setDisabled,
       setShowMic,
       setMicActive,
-      attSlotRef,
       reset: () => {
         if (inputApiRef.current) {
           inputApiRef.current.reset();
@@ -251,27 +279,31 @@ export const CompositionArea = ({
     return noop;
   }, [micCellRef, micCellEl, large, dirty, showMic]);
 
-  React.useLayoutEffect(() => {
-    const { current: attSlot } = attSlotRef;
-    if (attSlot && attachmentListEl) {
-      attSlot.appendChild(attachmentListEl);
-    }
+  const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
-    return noop;
-  }, [attSlotRef, attachmentListEl]);
-
-  const emojiButtonFragment = (
-    <div className="module-composition-area__button-cell">
-      <EmojiButton
-        i18n={i18n}
-        doSend={handleForceSend}
-        onPickEmoji={insertEmoji}
-        onClose={focusInput}
-        recentEmojis={recentEmojis}
-        skinTone={skinTone}
-        onSetSkinTone={onSetSkinTone}
-      />
-    </div>
+  const leftHandSideButtonsFragment = (
+    <>
+      <div className="module-composition-area__button-cell">
+        <EmojiButton
+          i18n={i18n}
+          doSend={handleForceSend}
+          onPickEmoji={insertEmoji}
+          onClose={focusInput}
+          recentEmojis={recentEmojis}
+          skinTone={skinTone}
+          onSetSkinTone={onSetSkinTone}
+        />
+      </div>
+      {showMediaQualitySelector ? (
+        <div className="module-composition-area__button-cell">
+          <MediaQualitySelector
+            i18n={i18n}
+            isHighQuality={shouldSendHighQualityAttachments}
+            onSelectQuality={onSelectMediaQuality}
+          />
+        </div>
+      ) : null}
+    </>
   );
 
   const micButtonFragment = showMic ? (
@@ -480,15 +512,52 @@ export const CompositionArea = ({
           'module-composition-area__row',
           'module-composition-area__row--column'
         )}
-        ref={attSlotRef}
-      />
+      >
+        {quotedMessageProps && (
+          <div className="quote-wrapper">
+            <Quote
+              {...quotedMessageProps}
+              i18n={i18n}
+              onClick={onClickQuotedMessage}
+              onClose={() => {
+                // This one is for redux...
+                setQuotedMessage(undefined);
+                // and this is for conversation_view.
+                clearQuotedMessage();
+              }}
+              withContentAbove
+            />
+          </div>
+        )}
+        {linkPreviewLoading && (
+          <div className="preview-wrapper">
+            <StagedLinkPreview
+              {...(linkPreviewResult || {})}
+              i18n={i18n}
+              onClose={onCloseLinkPreview}
+            />
+          </div>
+        )}
+        {draftAttachments.length ? (
+          <div className="module-composition-area__attachment-list">
+            <AttachmentList
+              attachments={draftAttachments}
+              i18n={i18n}
+              onAddAttachment={onAddAttachment}
+              onClickAttachment={onClickAttachment}
+              onClose={onClearAttachments}
+              onCloseAttachment={onCloseAttachment}
+            />
+          </div>
+        ) : null}
+      </div>
       <div
         className={classNames(
           'module-composition-area__row',
           large ? 'module-composition-area__row--padded' : null
         )}
       >
-        {!large ? emojiButtonFragment : null}
+        {!large ? leftHandSideButtonsFragment : null}
         <div className="module-composition-area__input">
           <CompositionInput
             i18n={i18n}
@@ -523,7 +592,7 @@ export const CompositionArea = ({
             'module-composition-area__row--control-row'
           )}
         >
-          {emojiButtonFragment}
+          {leftHandSideButtonsFragment}
           {stickerButtonFragment}
           {attButton}
           {!dirty ? micButtonFragment : null}

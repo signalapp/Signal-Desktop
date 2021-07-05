@@ -269,7 +269,6 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                   domain={linkPreview.url}
                   i18n={i18n}
                   image={linkPreview.image}
-                  isLoaded
                   onClose={() => removeLinkPreview()}
                   title={linkPreview.title}
                 />

@@ -55,6 +55,10 @@
         "message": "Tùy chỉnh...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
+    "appMenuServices": {
+        "message": "Services",
+        "description": "Application menu item for macOS 'Services'"
+    },
     "appMenuHide": {
         "message": "Ẩn",
         "description": "Application menu command to hide the window"
@@ -1144,7 +1148,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Delivery issue",
+        "message": "Lỗi chuyển tin nhắn",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
@@ -2265,15 +2269,15 @@
     },
     "message--getDescription--disappearing-media": {
         "message": "Đa phương tiện xem một lần",
-        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+        "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
         "message": "Ảnh xem một lần",
-        "description": "Shown in notifications and in the left pane when a message is a view once photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo. Also shown when quoting a view once photo."
     },
     "message--getDescription--disappearing-video": {
         "message": "Video xem một lần",
-        "description": "Shown in notifications and in the left pane when a message is a view once video."
+        "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
         "message": "Tin nhắn này đã bị xóa.",
@@ -3427,7 +3431,17 @@
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
         "message": "Entire screen",
-        "description": "Title for the select your screen sharing sources modal"
+        "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
+    },
+    "calling__SelectPresentingSourcesModal--screen": {
+        "message": "Screen $id$",
+        "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
+        "placeholders": {
+            "id": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
     },
     "calling__SelectPresentingSourcesModal--window": {
         "message": "A window",
@@ -5469,9 +5483,17 @@
         "message": "Reset chat color",
         "description": "Button label for resetting chat colors"
     },
+    "ChatColorPicker__resetDefault": {
+        "message": "Reset Chat Colors",
+        "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
+    },
     "ChatColorPicker__resetAll": {
         "message": "Reset all chat colors",
         "description": "Button label for resetting all chat colors"
+    },
+    "ChatColorPicker__confirm-reset-default": {
+        "message": "Reset default",
+        "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
         "message": "Đặt lại",

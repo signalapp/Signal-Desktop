@@ -7,6 +7,7 @@ import { reducer as accounts } from './ducks/accounts';
 import { reducer as app } from './ducks/app';
 import { reducer as audioPlayer } from './ducks/audioPlayer';
 import { reducer as calling } from './ducks/calling';
+import { reducer as composer } from './ducks/composer';
 import { reducer as conversations } from './ducks/conversations';
 import { reducer as emojis } from './ducks/emojis';
 import { reducer as expiration } from './ducks/expiration';
@@ -25,6 +26,7 @@ export const reducer = combineReducers({
   app,
   audioPlayer,
   calling,
+  composer,
   conversations,
   emojis,
   expiration,

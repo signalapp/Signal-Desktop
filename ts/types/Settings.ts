@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as OS from '../OS';
+import { isBeta } from '../util/version';
 
 const MIN_WINDOWS_VERSION = '8.0.0';
 
@@ -49,3 +50,11 @@ export enum TitleBarVisibility {
 // This should match the "logic" in `stylesheets/_global.scss`.
 export const getTitleBarVisibility = (): TitleBarVisibility =>
   OS.isMacOS() ? TitleBarVisibility.Hidden : TitleBarVisibility.Visible;
+
+/**
+ * Returns `true` if you can minimize the app to the system tray. Users can override this
+ * option with a command line flag, but that is not officially supported.
+ */
+export const isSystemTraySupported = (appVersion: string): boolean =>
+  // We eventually want to support Linux in production.
+  OS.isWindows() || (OS.isLinux() && isBeta(appVersion));

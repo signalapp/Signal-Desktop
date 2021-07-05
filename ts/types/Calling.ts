@@ -134,7 +134,7 @@ export type GroupCallVideoRequest = {
 
 // Should match RingRTC's VideoFrameSource
 export type VideoFrameSource = {
-  receiveVideoFrame(buffer: ArrayBuffer): [number, number] | undefined;
+  receiveVideoFrame(buffer: Buffer): [number, number] | undefined;
 };
 
 // Must be kept in sync with RingRTC.AudioDevice

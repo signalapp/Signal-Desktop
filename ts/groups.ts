@@ -48,7 +48,6 @@ import {
   getClientZkGroupCipher,
   getClientZkProfileOperations,
 } from './util/zkgroup';
-import * as universalExpireTimer from './util/universalExpireTimer';
 import {
   computeHash,
   deriveMasterKeyFromGroupV1,
@@ -1477,10 +1476,12 @@ export async function fetchMembershipProof({
 export async function createGroupV2({
   name,
   avatar,
+  expireTimer,
   conversationIds,
 }: Readonly<{
   name: string;
   avatar: undefined | ArrayBuffer;
+  expireTimer: undefined | number;
   conversationIds: Array<string>;
 }>): Promise<ConversationModel> {
   // Ensure we have the credentials we need before attempting GroupsV2 operations
@@ -1709,7 +1710,6 @@ export async function createGroupV2({
   window.MessageController.register(model.id, model);
   conversation.trigger('newmessage', model);
 
-  const expireTimer = universalExpireTimer.get();
   if (expireTimer) {
     await conversation.updateExpirationTimer(expireTimer);
   }

@@ -19,16 +19,16 @@ const PLATFORMS = [
     label: 'Windows',
     platform: 'win32',
     fixtures: {
-      default: './fixtures/menu-windows-linux',
-      setup: './fixtures/menu-windows-linux-setup',
+      default: './fixtures/menu-windows',
+      setup: './fixtures/menu-windows-setup',
     },
   },
   {
     label: 'Linux',
     platform: 'linux',
     fixtures: {
-      default: './fixtures/menu-windows-linux',
-      setup: './fixtures/menu-windows-linux-setup',
+      default: './fixtures/menu-linux',
+      setup: './fixtures/menu-linux-setup',
     },
   },
 ];
@@ -60,6 +60,7 @@ describe('SignalMenu', () => {
                 includeSetup,
                 setupAsNewDevice: null,
                 setupAsStandalone: null,
+                forceUpdate: null,
                 showAbout: null,
                 showDebugLog: null,
                 showKeyboardShortcuts: null,

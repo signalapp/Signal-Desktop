@@ -11,6 +11,7 @@ import {
   groupBy,
   isIterable,
   map,
+  reduce,
   size,
   take,
 } from '../../util/iterables';
@@ -308,6 +309,23 @@ describe('iterable utilities', () => {
       assert.deepEqual(iterator.next(), { value: 1, done: false });
       assert.deepEqual(iterator.next(), { value: 4, done: false });
       assert.deepEqual(iterator.next(), { value: 9, done: false });
+    });
+  });
+
+  describe('reduce', () => {
+    it('returns the accumulator when passed an empty iterable', () => {
+      const fn = sinon.fake();
+
+      assert.strictEqual(reduce([], fn, 123), 123);
+
+      sinon.assert.notCalled(fn);
+    });
+
+    it('iterates over the iterable, ultimately returning a result', () => {
+      assert.strictEqual(
+        reduce(new Set([1, 2, 3, 4]), (result, n) => result + n, 89),
+        99
+      );
     });
   });
 

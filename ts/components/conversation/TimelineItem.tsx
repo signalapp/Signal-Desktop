@@ -80,7 +80,7 @@ type LinkNotificationType = {
 };
 type MessageType = {
   type: 'message';
-  data: MessageProps;
+  data: Omit<MessageProps, 'renderingContext'>;
 };
 type UnsupportedMessageType = {
   type: 'unsupportedMessage';
@@ -189,7 +189,13 @@ export class TimelineItem extends React.PureComponent<PropsType> {
 
     if (item.type === 'message') {
       return (
-        <Message {...this.props} {...item.data} i18n={i18n} theme={theme} />
+        <Message
+          {...this.props}
+          {...item.data}
+          i18n={i18n}
+          theme={theme}
+          renderingContext="conversation/TimelineItem"
+        />
       );
     }
 

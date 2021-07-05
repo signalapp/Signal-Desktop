@@ -65,12 +65,6 @@ function getMainWindow() {
   return mainWindow;
 }
 
-// Tray icon and related objects
-let tray = null;
-const startInTray = process.argv.some(arg => arg === '--start-in-tray');
-const usingTrayIcon =
-  startInTray || process.argv.some(arg => arg === '--use-tray-icon');
-
 const config = require('./app/config').default;
 
 // Very important to put before the single instance check, since it is based on the
@@ -91,8 +85,13 @@ const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 const bounce = require('./ts/services/bounce');
 const updater = require('./ts/updater/index');
-const createTrayIcon = require('./app/tray_icon').default;
-const dockIcon = require('./ts/dock_icon');
+const { SystemTrayService } = require('./app/SystemTrayService');
+const { SystemTraySettingCache } = require('./app/SystemTraySettingCache');
+const {
+  SystemTraySetting,
+  shouldMinimizeToSystemTray,
+  parseSystemTraySetting,
+} = require('./ts/types/SystemTraySetting');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./ts/logging/main_process_logging');
 const { MainSQL } = require('./ts/sql/main');
@@ -123,11 +122,23 @@ const {
 } = require('./ts/types/Settings');
 const { Environment } = require('./ts/environment');
 const { ChallengeMainHandler } = require('./ts/main/challengeMain');
+const { NativeThemeNotifier } = require('./ts/main/NativeThemeNotifier');
 const { PowerChannel } = require('./ts/main/powerChannel');
 const { maybeParseUrl, setUrlSearchParams } = require('./ts/util/url');
 
 const sql = new MainSQL();
+
+let systemTrayService;
+const systemTraySettingCache = new SystemTraySettingCache(
+  sql,
+  process.argv,
+  app.getVersion()
+);
+
 const challengeHandler = new ChallengeMainHandler();
+
+const nativeThemeNotifier = new NativeThemeNotifier();
+nativeThemeNotifier.initialize();
 
 let sqlInitTimeStart = 0;
 let sqlInitTimeEnd = 0;
@@ -137,7 +148,8 @@ let appStartInitialSpellcheckSetting = true;
 const defaultWebPrefs = {
   devTools:
     process.argv.some(arg => arg === '--enable-dev-tools') ||
-    config.environment !== Environment.Production,
+    config.environment !== Environment.Production ||
+    isBeta(app.getVersion()),
 };
 
 async function getSpellCheckSetting() {
@@ -173,14 +185,6 @@ function showWindow() {
   } else {
     mainWindow.show();
   }
-
-  // toggle the visibility of the show/hide tray icon menu entries
-  if (tray) {
-    tray.updateContextMenu();
-  }
-
-  // show the app on the Dock in case it was hidden before
-  dockIcon.show();
 }
 
 if (!process.mas) {
@@ -303,6 +307,8 @@ function handleCommonWindowEvents(window) {
   window.webContents.on('preload-error', (event, preloadPath, error) => {
     console.error(`Preload error in ${preloadPath}: `, error.message);
   });
+
+  nativeThemeNotifier.addWindow(window);
 }
 
 const DEFAULT_WIDTH = 800;
@@ -393,6 +399,10 @@ async function createWindow() {
     delete windowOptions.autoHideMenuBar;
   }
 
+  const startInTray =
+    (await systemTraySettingCache.get()) ===
+    SystemTraySetting.MinimizeToAndStartInSystemTray;
+
   const visibleOnAnyScreen = _.some(screen.getAllDisplays(), display => {
     if (!_.isNumber(windowOptions.x) || !_.isNumber(windowOptions.y)) {
       return false;
@@ -415,11 +425,14 @@ async function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
   mainWindowCreated = true;
   setupSpellChecker(mainWindow, locale.messages);
-  if (!usingTrayIcon && windowConfig && windowConfig.maximized) {
+  if (!startInTray && windowConfig) {
     mainWindow.maximize();
   }
-  if (!usingTrayIcon && windowConfig && windowConfig.fullscreen) {
+  if (!startInTray && windowConfig && windowConfig.fullscreen) {
     mainWindow.setFullScreen(true);
+  }
+  if (systemTrayService) {
+    systemTrayService.setMainWindow(mainWindow);
   }
 
   function captureAndSaveWindowStats() {
@@ -532,17 +545,10 @@ async function createWindow() {
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
+    const usingTrayIcon = shouldMinimizeToSystemTray(
+      await systemTraySettingCache.get()
+    );
     if (!windowState.shouldQuit() && (usingTrayIcon || OS.isMacOS())) {
-      // toggle the visibility of the show/hide tray icon menu entries
-      if (tray) {
-        tray.updateContextMenu();
-      }
-
-      // hide the app from the Dock on macOS if the tray icon is enabled
-      if (usingTrayIcon) {
-        dockIcon.hide();
-      }
-
       return;
     }
 
@@ -559,7 +565,10 @@ async function createWindow() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    mainWindow = null;
+    mainWindow = undefined;
+    if (systemTrayService) {
+      systemTrayService.setMainWindow(mainWindow);
+    }
   });
 
   mainWindow.on('enter-full-screen', () => {
@@ -579,7 +588,6 @@ async function createWindow() {
       return;
     }
 
-    // allow to start minimised in tray
     if (!startInTray) {
       console.log('showing main window');
       mainWindow.show();
@@ -653,6 +661,18 @@ async function readyForUpdates() {
   } catch (error) {
     logger.error(
       'Error starting update checks:',
+      error && error.stack ? error.stack : error
+    );
+  }
+}
+
+async function forceUpdate() {
+  try {
+    logger.info('starting force update');
+    await updater.force();
+  } catch (error) {
+    logger.error(
+      'Error during force update:',
       error && error.stack ? error.stack : error
     );
   }
@@ -1359,11 +1379,13 @@ app.on('ready', async () => {
 
   ready = true;
 
-  if (usingTrayIcon) {
-    tray = createTrayIcon(getMainWindow, locale.messages);
-  }
-
   setupMenu();
+
+  systemTrayService = new SystemTrayService({ messages: locale.messages });
+  systemTrayService.setMainWindow(mainWindow);
+  systemTrayService.setEnabled(
+    shouldMinimizeToSystemTray(await systemTraySettingCache.get())
+  );
 
   ensureFilePermissions([
     'config.json',
@@ -1394,6 +1416,7 @@ function setupMenu(options) {
     platform,
     setupAsNewDevice,
     setupAsStandalone,
+    forceUpdate,
   };
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);
@@ -1560,6 +1583,19 @@ ipc.on('set-menu-bar-visibility', (event, visibility) => {
   }
 });
 
+ipc.on('update-system-tray-setting', (
+  _event,
+  rawSystemTraySetting /* : Readonly<unknown> */
+) => {
+  const systemTraySetting = parseSystemTraySetting(rawSystemTraySetting);
+  systemTraySettingCache.set(systemTraySetting);
+
+  if (systemTrayService) {
+    const isEnabled = shouldMinimizeToSystemTray(systemTraySetting);
+    systemTrayService.setEnabled(isEnabled);
+  }
+});
+
 ipc.on('close-about', () => {
   if (aboutWindow) {
     aboutWindow.close();
@@ -1582,9 +1618,9 @@ ipc.on('show-screen-share', (event, sourceName) => {
   showScreenShareWindow(sourceName);
 });
 
-ipc.on('update-tray-icon', (event, unreadCount) => {
-  if (tray) {
-    tray.updateIcon(unreadCount);
+ipc.on('update-tray-icon', (_event, unreadCount) => {
+  if (systemTrayService) {
+    systemTrayService.setUnreadCount(unreadCount);
   }
 });
 
@@ -1644,6 +1680,8 @@ installSettingsGetter('theme-setting');
 installSettingsSetter('theme-setting');
 installSettingsGetter('hide-menu-bar');
 installSettingsSetter('hide-menu-bar');
+installSettingsGetter('system-tray-setting');
+installSettingsSetter('system-tray-setting');
 
 installSettingsGetter('notification-setting');
 installSettingsSetter('notification-setting');
