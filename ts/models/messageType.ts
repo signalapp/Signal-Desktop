@@ -192,6 +192,11 @@ export const fillMessageAttributesWithDefaults = (
   return defaulted;
 };
 
+export type QuoteClickOptions = {
+  quoteAuthor: string;
+  quoteId: number;
+  referencedMessageNotFound: boolean;
+};
 export interface MessageRegularProps {
   disableMenu?: boolean;
   isDeletable: boolean;
@@ -251,6 +256,7 @@ export interface MessageRegularProps {
   onDeleteMessage: (messageId: string) => void;
   onShowDetail: () => void;
   markRead: (readAt: number) => Promise<void>;
+  onQuoteClick: (options: QuoteClickOptions) => Promise<void>;
   theme: DefaultTheme;
 
   playableMessageIndex?: number;

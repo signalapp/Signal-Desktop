@@ -80,34 +80,29 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     window.contextMenuShown = false;
 
-    // this.generateProps(false);
+    this.getProps();
   }
 
   public getProps(): MessageModelProps {
-    const propsForTimerNotification = this.getPropsForTimerNotification();
-    const propsForGroupNotification = this.getPropsForGroupNotification();
-    const propsForGroupInvitation = this.getPropsForGroupInvitation();
-    const propsForDataExtractionNotification = this.getPropsForDataExtractionNotification();
-    const propsForSearchResult = this.getPropsForSearchResult();
-    const propsForMessage = this.getPropsForMessage();
-
+    perfStart(`getPropsMessage-${this.id}`);
     const messageProps: MessageModelProps = {
-      propsForMessage,
-      propsForSearchResult,
-      propsForDataExtractionNotification,
-      propsForGroupInvitation,
-      propsForGroupNotification,
-      propsForTimerNotification,
+      propsForMessage: this.getPropsForMessage(),
+      propsForSearchResult: this.getPropsForSearchResult(),
+      propsForDataExtractionNotification: this.getPropsForDataExtractionNotification(),
+      propsForGroupInvitation: this.getPropsForGroupInvitation(),
+      propsForGroupNotification: this.getPropsForGroupNotification(),
+      propsForTimerNotification: this.getPropsForTimerNotification(),
     };
+    perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
+
     return messageProps;
   }
 
   // Keep props ready
-  public generateProps(triggerEvent = true): MessageModelProps {
+  public generateProps(): MessageModelProps {
     const messageProps = this.getProps();
-    if (triggerEvent) {
-      window.inboxStore?.dispatch(conversationActions.messageChanged(messageProps));
-    }
+    window.inboxStore?.dispatch(conversationActions.messageChanged(messageProps));
+
     return messageProps;
   }
 

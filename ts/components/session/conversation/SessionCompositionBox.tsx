@@ -242,7 +242,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     if (this.isURL(pastedText)) {
       window.inboxStore?.dispatch(
         updateConfirmModal({
-          shouldShowConfirm: () => !window.getSettingValue('link-preview-setting'),
+          shouldShowConfirm: !window.getSettingValue('link-preview-setting'),
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: SessionButtonColor.Danger,

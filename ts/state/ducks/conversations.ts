@@ -198,8 +198,9 @@ async function getMessages(
   });
 
   // Set first member of series here.
-  const messageModelsProps: Array<SortedMessageModelProps> = messageSet.models.map(m => {
-    return { ...m.getProps(), firstMessageOfSeries: true };
+  const messageModelsProps: Array<SortedMessageModelProps> = [];
+  messageSet.models.forEach(m => {
+    messageModelsProps.push({ ...m.getProps(), firstMessageOfSeries: true });
   });
 
   const isPublic = conversation.isPublic();
@@ -262,14 +263,15 @@ const fetchMessagesForConversation = createAsyncThunk(
     const time = afterTimestamp - beforeTimestamp;
     window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
 
+    const mapped = messagesProps.map(m => {
+      return {
+        ...m,
+        firstMessageOfSeries: true,
+      };
+    });
     return {
       conversationKey,
-      messagesProps: messagesProps.map(m => {
-        return {
-          ...m,
-          firstMessageOfSeries: true,
-        };
-      }),
+      messagesProps: mapped,
     };
   }
 );
@@ -521,9 +523,9 @@ function sortMessages(
   // we order by serverTimestamp for public convos
   // be sure to update the sorting order to fetch messages from the DB too at getMessagesByConversation
   if (isPublic) {
-    return messages.sort(
-      (a: any, b: any) => b.attributes.serverTimestamp - a.attributes.serverTimestamp
-    );
+    return messages.sort((a, b) => {
+      return (b.propsForMessage.serverTimestamp || 0) - (a.propsForMessage.serverTimestamp || 0);
+    });
   }
   if (messages.some(n => !n.propsForMessage.timestamp && !n.propsForMessage.receivedAt)) {
     throw new Error('Found some messages without any timestamp set');
@@ -532,9 +534,9 @@ function sortMessages(
   // for non public convos, we order by sent_at or received_at timestamp.
   // we assume that a message has either a sent_at or a received_at field set.
   const messagesSorted = messages.sort(
-    (a: any, b: any) =>
-      (b.attributes.sent_at || b.attributes.received_at) -
-      (a.attributes.sent_at || a.attributes.received_at)
+    (a, b) =>
+      (b.propsForMessage.timestamp || b.propsForMessage.receivedAt || 0) -
+      (a.propsForMessage.timestamp || a.propsForMessage.receivedAt || 0)
   );
 
   return messagesSorted;
@@ -737,7 +739,7 @@ export function reducer(
     if (conversationKey === state.selectedConversation) {
       return {
         ...state,
-        messages: { ...messagesProps },
+        messages: messagesProps,
       };
     }
     return state;

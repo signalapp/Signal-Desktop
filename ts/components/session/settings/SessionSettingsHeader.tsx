@@ -6,10 +6,9 @@ interface Props extends SettingsViewProps {
   // tslint:disable-next-line: react-unused-props-and-state
   categoryTitle: string;
   // tslint:disable-next-line: react-unused-props-and-state
-  theme: DefaultTheme;
 }
 
-const SettingsHeaderInner = (props: Props) => {
+export const SettingsHeader = (props: Props) => {
   const { categoryTitle } = props;
   return (
     <div className="session-settings-header">
@@ -17,5 +16,3 @@ const SettingsHeaderInner = (props: Props) => {
     </div>
   );
 };
-
-export const SettingsHeader = withTheme(SettingsHeaderInner);

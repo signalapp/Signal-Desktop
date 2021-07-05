@@ -13,7 +13,7 @@ import { ConversationTypeEnum } from '../../models/conversation';
 
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 
-interface QuoteProps {
+export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
   authorPhoneNumber: string;
   authorProfileName?: string;
@@ -24,10 +24,13 @@ interface QuoteProps {
   convoId: string;
   isPublic?: boolean;
   withContentAbove: boolean;
-  onClick?: (e: any) => void;
   text: string;
   referencedMessageNotFound: boolean;
-}
+};
+
+export type QuotePropsWithListener = QuotePropsWithoutListener & {
+  onClick?: (e: any) => void;
+};
 
 export interface QuotedAttachmentType {
   contentType: MIME.MIMEType;
@@ -43,7 +46,7 @@ interface Attachment {
   objectUrl?: string;
 }
 
-function validateQuote(quote: QuoteProps): boolean {
+function validateQuote(quote: QuotePropsWithoutListener): boolean {
   if (quote.text) {
     return true;
   }
@@ -295,7 +298,7 @@ export const QuoteReferenceWarning = (props: any) => {
   );
 };
 
-export const Quote = (props: QuoteProps) => {
+export const Quote = (props: QuotePropsWithListener) => {
   const [imageBroken, setImageBroken] = useState(false);
 
   const handleImageErrorBound = null;

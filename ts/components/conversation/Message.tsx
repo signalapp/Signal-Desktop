@@ -379,9 +379,11 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       multiSelectMode,
     } = this.props;
 
-    if (!quote || !quote.authorPhoneNumber) {
+    if (!quote || !quote.authorPhoneNumber || !quote.messageId) {
       return null;
     }
+    const quoteId = _.toNumber(quote.messageId);
+    const { authorPhoneNumber, referencedMessageNotFound } = quote;
 
     const withContentAbove = conversationType === 'group' && direction === 'incoming';
 
@@ -398,8 +400,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             this.props.onSelectMessage(id);
             return;
           }
-          const { authorPhoneNumber, messageId: quoteId, referencedMessageNotFound } = quote;
-          quote?.onClick({
+          void this.props.onQuoteClick?.({
             quoteAuthor: authorPhoneNumber,
             quoteId,
             referencedMessageNotFound,
@@ -812,7 +813,19 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
             {this.renderAttachment()}
             {this.renderPreview()}
             {this.renderText()}
-            <MessageMetadata {...this.props} isShowingImage={this.isShowingImage()} />
+            <MessageMetadata
+              {..._.omit(
+                this.props,
+                'onSelectMessage',
+                'onDeleteMessage',
+                'onReply',
+                'onShowDetail',
+                'onClickAttachment',
+                'onDownload',
+                'onQuoteClick'
+              )}
+              isShowingImage={this.isShowingImage()}
+            />
           </div>
           {this.renderError(!isIncoming)}
           {this.renderContextMenu()}

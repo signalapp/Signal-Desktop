@@ -40,11 +40,6 @@ const getCategories = () => {
       hidden: false,
     },
     {
-      id: SessionSettingCategory.Permissions,
-      title: window.i18n('permissionSettingsTitle'),
-      hidden: true,
-    },
-    {
       id: SessionSettingCategory.Notifications,
       title: window.i18n('notificationsSettingsTitle'),
       hidden: false,

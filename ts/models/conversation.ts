@@ -943,7 +943,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const allProps: Array<MessageModelProps> = [];
 
     for (const nowRead of oldUnreadNowRead) {
-      allProps.push(nowRead.generateProps(false));
+      allProps.push(nowRead.getProps());
     }
     window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
 

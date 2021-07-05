@@ -27,7 +27,7 @@ export interface SessionConfirmDialogProps {
   sessionIcon?: SessionIconType;
   iconSize?: SessionIconSize;
   theme?: DefaultTheme;
-  shouldShowConfirm?: () => boolean | undefined;
+  shouldShowConfirm?: boolean | undefined;
 }
 
 const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
@@ -70,7 +70,7 @@ const SessionConfirmInner = (props: SessionConfirmDialogProps) => {
     window.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
-  if (shouldShowConfirm && !shouldShowConfirm()) {
+  if (shouldShowConfirm && !shouldShowConfirm) {
     return null;
   }
 

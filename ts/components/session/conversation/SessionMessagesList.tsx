@@ -20,7 +20,7 @@ import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
 import { getConversationController } from '../../../session/conversations';
 import { MessageModel } from '../../../models/message';
-import { MessageRegularProps } from '../../../models/messageType';
+import { MessageRegularProps, QuoteClickOptions } from '../../../models/messageType';
 import { getMessageById, getMessagesBySentAt } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../models/conversation';
@@ -238,7 +238,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
               key={`unread-indicator-${messageProps.propsForMessage.id}`}
             />
           );
-          console.warn('key', messageProps.propsForMessage.id);
           currentMessageIndex = currentMessageIndex + 1;
 
           if (groupNotificationProps) {
@@ -349,21 +348,14 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     regularProps.isQuotedMessageToAnimate = messageId === this.state.animateQuotedMessageId;
 
-    if (regularProps.quote) {
-      regularProps.quote.onClick = (options: {
-        quoteAuthor: string;
-        quoteId: any;
-        referencedMessageNotFound: boolean;
-      }) => {
-        void this.scrollToQuoteMessage(options);
-      };
-    }
+    // tslint:disable-next-line: no-async-without-await
+    const onQuoteClick = regularProps.quote ? this.scrollToQuoteMessage : async () => {};
 
     regularProps.nextMessageToPlay = this.state.nextMessageToPlay;
     regularProps.playableMessageIndex = playableMessageIndex;
     regularProps.playNextMessage = this.playNextMessage;
 
-    return <Message {...regularProps} key={messageId} />;
+    return <Message {...regularProps} onQuoteClick={onQuoteClick} key={messageId} />;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -563,7 +555,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     this.updateReadMessages();
   }
 
-  private async scrollToQuoteMessage(options: any = {}) {
+  private async scrollToQuoteMessage(options: QuoteClickOptions) {
     const { quoteAuthor, quoteId, referencedMessageNotFound } = options;
 
     // For simplicity's sake, we show the 'not found' toast no matter what if we were
