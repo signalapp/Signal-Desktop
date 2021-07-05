@@ -630,7 +630,7 @@ export async function incrementBadSnodeCountOrDrop({
     } catch (e) {
       window?.log?.warn(
         'dropSnodeFromPath, got error while patching up... incrementing the whole path as bad',
-        e
+        e.message
       );
       // If dropSnodeFromPath throws, it means there is an issue patching up the path, increment the whole path issues count
       // but using the guardNode we got instead of the snodeEd25519.

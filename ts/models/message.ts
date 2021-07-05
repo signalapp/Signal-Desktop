@@ -35,6 +35,7 @@ import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMes
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { getMessageController } from '../session/messages';
 import { isUsFromCache } from '../session/utils/User';
+import { perfEnd, perfStart } from '../session/utils/Performamce';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
@@ -73,18 +74,22 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   // Keep props ready
   public generateProps(triggerEvent = true) {
-    if (this.isExpirationTimerUpdate()) {
-      this.propsForTimerNotification = this.getPropsForTimerNotification();
-    } else if (this.isGroupUpdate()) {
-      this.propsForGroupNotification = this.getPropsForGroupNotification();
-    } else if (this.isGroupInvitation()) {
-      this.propsForGroupInvitation = this.getPropsForGroupInvitation();
-    } else if (this.isDataExtractionNotification()) {
-      this.propsForDataExtractionNotification = this.getPropsForDataExtractionNotification();
-    } else {
-      this.propsForSearchResult = this.getPropsForSearchResult();
-      this.propsForMessage = this.getPropsForMessage();
-    }
+    const propsForTimerNotification = this.isExpirationTimerUpdate()
+      ? this.getPropsForTimerNotification()
+      : null;
+    const propsForGroupNotification = this.isGroupUpdate()
+      ? this.getPropsForGroupNotification()
+      : null;
+    const propsForGroupInvitation = this.isGroupInvitation()
+      ? this.getPropsForGroupInvitation()
+      : null;
+    const propsForDataExtractionNotification = this.isDataExtractionNotification()
+      ? this.getPropsForDataExtractionNotification()
+      : null;
+    const propsForSearchResult = this.getPropsForSearchResult();
+    const propsForMessage = this.getPropsForMessage();
+
+    const messageProps = { propsForMessage };
 
     if (triggerEvent) {
       window.inboxStore?.dispatch(conversationActions.messageChanged(this));
@@ -1039,8 +1044,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (!this.attributes.id) {
       throw new Error('A message always needs an id');
     }
+
+    perfStart(`messageCommit-${this.attributes.id}`);
     const id = await saveMessage(this.attributes);
     this.generateProps();
+    perfEnd(`messageCommit-${this.attributes.id}`, 'messageCommit');
+
     return id;
   }
 

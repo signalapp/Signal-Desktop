@@ -45,6 +45,7 @@ import { useDispatch } from 'react-redux';
 import { updateConfirmModal } from '../state/ducks/modalDialog';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../session/constants';
+import { perfEnd, perfStart } from '../session/utils/Performamce';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -858,6 +859,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async commit() {
+    perfStart(`conversationCommit-${this.attributes.id}`);
+
     // write to DB
     await updateConversation(this.attributes);
     window.inboxStore?.dispatch(
@@ -866,6 +869,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         isSelected: false,
       })
     );
+    perfEnd(`conversationCommit-${this.attributes.id}`, 'conversationCommit');
   }
 
   public async addSingleMessage(messageAttributes: MessageAttributesOptionals, setToExpire = true) {

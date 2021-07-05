@@ -37,6 +37,7 @@ import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../fileserver';
 import { fromBase64ToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
+import { perfEnd, perfStart } from '../session/utils/Performamce';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -254,7 +255,10 @@ export function showRemoveModeratorsByConvoId(conversationId: string) {
 
 export async function markAllReadByConvoId(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
+  perfStart(`markAllReadByConvoId-${conversationId}`);
+
   await conversation.markReadBouncy(Date.now());
+  perfEnd(`markAllReadByConvoId-${conversationId}`, 'markAllReadByConvoId');
 }
 
 export async function setNotificationForConvoId(
@@ -354,7 +358,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     // this is a reupload. no need to generate a new profileKey
     profileKey = window.textsecure.storage.get('profileKey');
     if (!profileKey) {
-      window.log.warn('our profileKey not found');
+      window.log.info('our profileKey not found');
       return;
     }
     const currentAttachmentPath = ourConvo.getAvatarPath();

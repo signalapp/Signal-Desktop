@@ -20,7 +20,7 @@
     "start-swarm-test": "cross-env NODE_ENV=swarm-testing NODE_APP_INSTANCE=$MULTI electron .",
     "grunt": "grunt",
     "grunt:dev": "yarn clean-transpile; yarn grunt dev --force",
-    "icon-gen": "cp images/session/session_icon_1024.png --output=./build/icon.png",
+    "icon-gen": "cp images/session/session_icon_1024.png ./build/icon.png",
     "generate": "yarn icon-gen && yarn grunt --force",
     "build-release": "cross-env SIGNAL_ENV=production electron-builder --config.extraMetadata.environment=production --publish=never --config.directories.output=release",
     "build-module-protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js --force-long",

@@ -122,7 +122,7 @@ export async function dropSnodeFromPath(snodeEd25519: string) {
 export async function getOnionPath(toExclude?: Snode): Promise<Array<Snode>> {
   let attemptNumber = 0;
   while (onionPaths.length < minimumGuardCount) {
-    window?.log?.error(
+    window?.log?.warn(
       `Must have at least ${minimumGuardCount} good onion paths, actual: ${onionPaths.length}, attempt #${attemptNumber} fetching more...`
     );
     // eslint-disable-next-line no-await-in-loop

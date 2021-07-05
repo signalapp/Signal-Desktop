@@ -16,7 +16,7 @@ const mentionsInputSlice = createSlice({
   initialState: initialMentionsState,
   reducers: {
     updateMentionsMembers(state, action) {
-      window?.log?.warn('updating mentions input members', action.payload);
+      window?.log?.warn('updating mentions input members length', action.payload?.length);
       return action.payload as MentionsInputState;
     },
   },
