@@ -20,7 +20,18 @@ import {
 import autoBind from 'auto-bind';
 import { saveMessage } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from './conversation';
-import { actions as conversationActions } from '../state/ducks/conversations';
+import {
+  actions as conversationActions,
+  FindAndFormatContactType,
+  PropsForExpirationTimer,
+  PropsForGroupUpdate,
+  PropsForGroupUpdateAdd,
+  PropsForGroupUpdateArray,
+  PropsForGroupUpdateGeneral,
+  PropsForGroupUpdateKicked,
+  PropsForGroupUpdateName,
+  PropsForGroupUpdateRemove,
+} from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
 import { isOpenGroupV2 } from '../opengroup/utils/OpenGroupUtils';
@@ -35,7 +46,7 @@ import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMes
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { getMessageController } from '../session/messages';
 import { isUsFromCache } from '../session/utils/User';
-import { perfEnd, perfStart } from '../session/utils/Performamce';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   public propsForTimerNotification: any;
@@ -74,25 +85,26 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   // Keep props ready
   public generateProps(triggerEvent = true) {
-    const propsForTimerNotification = this.isExpirationTimerUpdate()
-      ? this.getPropsForTimerNotification()
-      : null;
-    const propsForGroupNotification = this.isGroupUpdate()
-      ? this.getPropsForGroupNotification()
-      : null;
-    const propsForGroupInvitation = this.isGroupInvitation()
-      ? this.getPropsForGroupInvitation()
-      : null;
+    const propsForTimerNotification = this.getPropsForTimerNotification();
+    const propsForGroupNotification = this.getPropsForGroupNotification();
+    const propsForGroupInvitation = this.getPropsForGroupInvitation();
     const propsForDataExtractionNotification = this.isDataExtractionNotification()
       ? this.getPropsForDataExtractionNotification()
       : null;
     const propsForSearchResult = this.getPropsForSearchResult();
     const propsForMessage = this.getPropsForMessage();
 
-    const messageProps = { propsForMessage };
+    const messageProps = {
+      propsForMessage,
+      propsForSearchResult,
+      propsForDataExtractionNotification,
+      propsForGroupInvitation,
+      propsForGroupNotification,
+      propsForTimerNotification,
+    };
 
     if (triggerEvent) {
-      window.inboxStore?.dispatch(conversationActions.messageChanged(this));
+      window.inboxStore?.dispatch(conversationActions.messageChanged(messageProps));
     }
   }
 
@@ -272,39 +284,35 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await window.Signal.Migrations.deleteExternalMessageFiles(this.attributes);
   }
 
-  public getPropsForTimerNotification() {
+  public getPropsForTimerNotification(): PropsForExpirationTimer {
+    if (!this.isExpirationTimerUpdate()) {
+      return null;
+    }
     const timerUpdate = this.get('expirationTimerUpdate');
     if (!timerUpdate || !timerUpdate.source) {
       return null;
     }
 
     const { expireTimer, fromSync, source } = timerUpdate;
-    const timespan = window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0);
+    const timespan = window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0) as
+      | string
+      | null;
     const disabled = !expireTimer;
 
-    const basicProps = {
-      type: 'fromOther',
+    const basicProps: PropsForExpirationTimer = {
       ...this.findAndFormatContact(source),
       timespan,
       disabled,
+      type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
     };
-
-    if (fromSync) {
-      return {
-        ...basicProps,
-        type: 'fromSync',
-      };
-    } else if (UserUtils.isUsFromCache(source)) {
-      return {
-        ...basicProps,
-        type: 'fromMe',
-      };
-    }
 
     return basicProps;
   }
 
   public getPropsForGroupInvitation() {
+    if (!this.isGroupInvitation()) {
+      return null;
+    }
     const invitation = this.get('groupInvitation');
 
     let direction = this.get('direction');
@@ -350,7 +358,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return getConversationController().get(pubkey);
   }
 
-  public findAndFormatContact(pubkey: string) {
+  public findAndFormatContact(pubkey: string): FindAndFormatContactType {
     const contactModel = this.findContact(pubkey);
     let profileName;
     if (pubkey === window.storage.get('primaryDevicePubKey')) {
@@ -360,84 +368,96 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     return {
-      phoneNumber: pubkey,
-      color: null,
-      avatarPath: contactModel ? contactModel.getAvatarPath() : null,
-      name: contactModel ? contactModel.getName() : null,
-      profileName,
-      title: contactModel ? contactModel.getTitle() : null,
+      phoneNumber: pubkey as string,
+      avatarPath: (contactModel ? contactModel.getAvatarPath() : null) as string | null,
+      name: (contactModel ? contactModel.getName() : null) as string | null,
+      profileName: profileName as string | null,
+      title: (contactModel ? contactModel.getTitle() : null) as string | null,
     };
   }
 
-  public getPropsForGroupNotification() {
+  public getPropsForGroupNotification(): PropsForGroupUpdate {
+    if (!this.isGroupUpdate()) {
+      return null;
+    }
     const groupUpdate = this.get('group_update');
-    const changes = [];
+    const changes: PropsForGroupUpdateArray = [];
 
     if (!groupUpdate.name && !groupUpdate.left && !groupUpdate.joined) {
-      changes.push({
+      const change: PropsForGroupUpdateGeneral = {
         type: 'general',
-      });
+      };
+      changes.push(change);
     }
 
     if (groupUpdate.joined) {
-      changes.push({
+      const change: PropsForGroupUpdateAdd = {
         type: 'add',
         contacts: _.map(
           Array.isArray(groupUpdate.joined) ? groupUpdate.joined : [groupUpdate.joined],
           phoneNumber => this.findAndFormatContact(phoneNumber)
         ),
-      });
+      };
+      changes.push(change);
     }
 
     if (groupUpdate.kicked === 'You') {
-      changes.push({
+      const change: PropsForGroupUpdateKicked = {
         type: 'kicked',
         isMe: true,
-      });
+      };
+      changes.push(change);
     } else if (groupUpdate.kicked) {
-      changes.push({
+      const change: PropsForGroupUpdateKicked = {
         type: 'kicked',
+        isMe: false,
         contacts: _.map(
           Array.isArray(groupUpdate.kicked) ? groupUpdate.kicked : [groupUpdate.kicked],
           phoneNumber => this.findAndFormatContact(phoneNumber)
         ),
-      });
+      };
+      changes.push(change);
     }
 
     if (groupUpdate.left === 'You') {
-      changes.push({
+      const change: PropsForGroupUpdateRemove = {
         type: 'remove',
         isMe: true,
-      });
+      };
+      changes.push(change);
     } else if (groupUpdate.left) {
       if (
         Array.isArray(groupUpdate.left) &&
         groupUpdate.left.length === 1 &&
         groupUpdate.left[0] === UserUtils.getOurPubKeyStrFromCache()
       ) {
-        changes.push({
+        const change: PropsForGroupUpdateRemove = {
           type: 'remove',
           isMe: true,
-        });
+        };
+        changes.push(change);
       } else if (
         typeof groupUpdate.left === 'string' ||
         (Array.isArray(groupUpdate.left) && groupUpdate.left.length === 1)
       ) {
-        changes.push({
+        const change: PropsForGroupUpdateRemove = {
           type: 'remove',
+          isMe: false,
           contacts: _.map(
             Array.isArray(groupUpdate.left) ? groupUpdate.left : [groupUpdate.left],
             phoneNumber => this.findAndFormatContact(phoneNumber)
           ),
-        });
+        };
+        changes.push(change);
       }
     }
 
     if (groupUpdate.name) {
-      changes.push({
+      const change: PropsForGroupUpdateName = {
         type: 'name',
-        newName: groupUpdate.name,
-      });
+        newName: groupUpdate.name as string,
+      };
+      changes.push(change);
     }
 
     return {

@@ -16,7 +16,7 @@ import { ECKeyPair } from './keypairs';
 import { handleConfigurationMessage } from './configMessage';
 import { ConversationTypeEnum } from '../models/conversation';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
-import { perfEnd, perfStart } from '../session/utils/Performamce';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {

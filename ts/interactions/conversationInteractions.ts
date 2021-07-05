@@ -37,7 +37,7 @@ import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../fileserver';
 import { fromBase64ToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
-import { perfEnd, perfStart } from '../session/utils/Performamce';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {

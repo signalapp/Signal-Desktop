@@ -53,6 +53,63 @@ export type MessageTypeInConvo = {
 
 export type LastMessageStatusType = MessageDeliveryStatus | null;
 
+export type FindAndFormatContactType = {
+  phoneNumber: string;
+  avatarPath: string | null;
+  name: string | null;
+  profileName: string | null;
+  title: string | null;
+};
+
+export type PropsForExpirationTimer = {
+  timespan: string | null;
+  disabled: boolean;
+  phoneNumber: string;
+  avatarPath: string | null;
+  name: string | null;
+  profileName: string | null;
+  title: string | null;
+  type: 'fromMe' | 'fromSync' | 'fromOther';
+} | null;
+
+export type PropsForGroupUpdateGeneral = {
+  type: 'general';
+};
+
+export type PropsForGroupUpdateAdd = {
+  type: 'add';
+  contacts?: Array<FindAndFormatContactType>;
+};
+
+export type PropsForGroupUpdateKicked = {
+  type: 'kicked';
+  isMe: boolean;
+  contacts?: Array<FindAndFormatContactType>;
+};
+
+export type PropsForGroupUpdateRemove = {
+  type: 'remove';
+  isMe: boolean;
+  contacts?: Array<FindAndFormatContactType>;
+};
+
+export type PropsForGroupUpdateName = {
+  type: 'name';
+  newName: string;
+};
+
+export type PropsForGroupUpdateArray = Array<
+  | PropsForGroupUpdateGeneral
+  | PropsForGroupUpdateAdd
+  | PropsForGroupUpdateKicked
+  | PropsForGroupUpdateName
+  | PropsForGroupUpdateRemove
+>;
+
+export type PropsForGroupUpdate = {
+  changes: PropsForGroupUpdateArray;
+} | null;
+
 export type LastMessageType = {
   status: LastMessageStatusType;
   text: string | null;
