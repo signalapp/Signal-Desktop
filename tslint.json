@@ -73,7 +73,7 @@
       }
     ],
     // Adding select dev dependencies here for now, may turn on all in the future
-    "no-implicit-dependencies": [true, ["dashdash", "electron"]],
+    "no-implicit-dependencies": [true, ["electron"]],
     // Maybe will turn on:
     // We're not trying to be comprehensive with JSDoc right now. We have the style guide.
     "completed-docs": false,

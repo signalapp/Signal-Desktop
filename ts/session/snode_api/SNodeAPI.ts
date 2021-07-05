@@ -542,7 +542,7 @@ export async function retrieveNextMessages(
   } catch (e) {
     window?.log?.warn(
       'Got an error while retrieving next messages. Not retrying as we trigger fetch often:',
-      e
+      e.message
     );
     if (e.message === ERROR_CODE_NO_CONNECT) {
       window.inboxStore?.dispatch(updateIsOnline(false));

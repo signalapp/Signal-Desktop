@@ -1,6 +1,5 @@
 build/**
 components/**
-coverage/**
 dist/**
 mnemonic_languages/**
 

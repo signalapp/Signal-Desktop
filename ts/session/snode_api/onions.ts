@@ -402,6 +402,7 @@ export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: s
   return { plaintext: new TextDecoder().decode(plaintextBuffer), ciphertextBuffer };
 }
 
+const STATUS_NO_STATUS = 8888;
 /**
  * Only exported for testing purpose
  */
@@ -413,8 +414,8 @@ export async function processOnionResponse({
   associatedWith,
   lsrpcEd25519Key,
 }: {
-  response: { text: () => Promise<string>; status: number };
-  symmetricKey: ArrayBuffer;
+  response?: { text: () => Promise<string>; status: number };
+  symmetricKey?: ArrayBuffer;
   guardNode: Snode;
   lsrpcEd25519Key?: string;
   abortSignal?: AbortSignal;
@@ -425,13 +426,13 @@ export async function processOnionResponse({
   processAbortedRequest(abortSignal);
 
   try {
-    ciphertext = await response.text();
+    ciphertext = (await response?.text()) || '';
   } catch (e) {
     window?.log?.warn(e);
   }
 
   await processOnionRequestErrorOnPath(
-    response.status,
+    response?.status || STATUS_NO_STATUS,
     ciphertext,
     guardNode.pubkey_ed25519,
     lsrpcEd25519Key,
@@ -455,10 +456,12 @@ export async function processOnionResponse({
     ciphertextBuffer = decoded.ciphertextBuffer;
   } catch (e) {
     window?.log?.error('[path] lokiRpc::processingOnionResponse - decode error', e);
-    window?.log?.error(
-      '[path] lokiRpc::processingOnionResponse - symmetricKey',
-      toHex(symmetricKey)
-    );
+    if (symmetricKey) {
+      window?.log?.error(
+        '[path] lokiRpc::processingOnionResponse - symmetricKey',
+        toHex(symmetricKey)
+      );
+    }
     if (ciphertextBuffer) {
       window?.log?.error(
         '[path] lokiRpc::processingOnionResponse - ciphertextBuffer',
@@ -666,13 +669,22 @@ const sendOnionRequestHandlingSnodeEject = async ({
 }): Promise<SnodeResponse> => {
   // this sendOnionRequest() call has to be the only one like this.
   // If you need to call it, call it through sendOnionRequestHandlingSnodeEject because this is the one handling path rebuilding and known errors
-  const { response, decodingSymmetricKey } = await sendOnionRequest({
-    nodePath,
-    destX25519Any,
-    finalDestOptions,
-    finalRelayOptions,
-    abortSignal,
-  });
+  let response, decodingSymmetricKey;
+  try {
+    // this might throw a timeout error
+    const result = await sendOnionRequest({
+      nodePath,
+      destX25519Any,
+      finalDestOptions,
+      finalRelayOptions,
+      abortSignal,
+    });
+
+    response = result.response;
+    decodingSymmetricKey = result.decodingSymmetricKey;
+  } catch (e) {
+    window.log.warn('sendOnionRequest', e);
+  }
   // this call will handle the common onion failure logic.
   // if an error is not retryable a AbortError is triggered, which is handled by pRetry and retries are stopped
   const processed = await processOnionResponse({
@@ -877,7 +889,7 @@ export async function lokiOnionFetch(
 
     return retriedResult;
   } catch (e) {
-    window?.log?.warn('onionFetchRetryable failed ', e);
+    window?.log?.warn('onionFetchRetryable failed ', e.message);
     // console.warn('error to show to user');
     if (e?.errno === 'ENETUNREACH') {
       // better handle the no connection state

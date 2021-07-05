@@ -177,7 +177,7 @@ export const sendViaOnion = async (
         });
       },
       {
-        retries: 9, // each path can fail 3 times before being dropped, we have 3 paths at most
+        retries: 4, // each path can fail 3 times before being dropped, we have 3 paths at most
         factor: 2,
         minTimeout: 100,
         maxTimeout: 4000,
