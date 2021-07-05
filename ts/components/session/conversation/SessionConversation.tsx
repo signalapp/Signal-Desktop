@@ -715,7 +715,7 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   private onClickAttachment(attachment: any, message: any) {
-    // message is MessageTypeInConvo.propsForMessage I think
+    // message is MessageModelProps.propsForMessage I think
     const media = (message.attachments || []).map((attachmentForMedia: any) => {
       return {
         objectURL: attachmentForMedia.url,

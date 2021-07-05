@@ -1,12 +1,13 @@
 import React from 'react';
+import { PropsForSearchResults } from '../state/ducks/conversations';
 import { ConversationListItemProps, ConversationListItemWithDetails } from './ConversationListItem';
-import { MessageSearchResult, MessageSearchResultProps } from './MessageSearchResult';
+import { MessageSearchResult } from './MessageSearchResult';
 
 export type SearchResultsProps = {
   contacts: Array<ConversationListItemProps>;
   conversations: Array<ConversationListItemProps>;
   hideMessagesHeader: boolean;
-  messages: Array<MessageSearchResultProps>;
+  messages: Array<PropsForSearchResults>;
   searchTerm: string;
 };
 

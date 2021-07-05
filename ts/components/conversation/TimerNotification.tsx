@@ -5,17 +5,9 @@ import { Intl } from '../Intl';
 import { missingCaseError } from '../../util/missingCaseError';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 import { ThemeContext } from 'styled-components';
+import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 
-type Props = {
-  type: 'fromOther' | 'fromMe' | 'fromSync';
-  phoneNumber: string;
-  profileName?: string;
-  name?: string;
-  disabled: boolean;
-  timespan: string;
-};
-
-export const TimerNotification = (props: Props) => {
+export const TimerNotification = (props: PropsForExpirationTimer) => {
   function renderContents() {
     const { phoneNumber, profileName, timespan, type, disabled } = props;
     const changeKey = disabled ? 'disabledDisappearingMessages' : 'theyChangedTheTimer';

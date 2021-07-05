@@ -42,6 +42,7 @@ import { MessageInteraction } from '../../interactions';
 import autoBind from 'auto-bind';
 import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
 import { ClickToTrustSender } from './message/ClickToTrustSender';
+import { getMessageById } from '../../data/data';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -526,7 +527,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       onSelectMessage,
       onDeleteMessage,
       onDownload,
-      onRetrySend,
       onShowDetail,
       isPublic,
       isOpenGroupV2,
@@ -582,7 +582,18 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
         </Item>
         <Item onClick={this.onReplyPrivate}>{window.i18n('replyToMessage')}</Item>
         <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
-        {showRetry ? <Item onClick={onRetrySend}>{window.i18n('resend')}</Item> : null}
+        {showRetry ? (
+          <Item
+            onClick={async () => {
+              const found = await getMessageById(id);
+              if (found) {
+                await found.retrySend();
+              }
+            }}
+          >
+            {window.i18n('resend')}
+          </Item>
+        ) : null}
         {isDeletable ? (
           <>
             <Item
@@ -692,17 +703,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
-    const {
-      direction,
-      id,
-      selected,
-      multiSelectMode,
-      conversationType,
-      isPublic,
-      text,
-      isUnread,
-      markRead,
-    } = this.props;
+    const { direction, id, selected, multiSelectMode, conversationType, isUnread } = this.props;
     const { expired, expiring } = this.state;
 
     if (expired) {
@@ -728,11 +729,12 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
       divClasses.push('flash-green-once');
     }
 
-    const onVisible = (inView: boolean) => {
+    const onVisible = async (inView: boolean) => {
       if (inView && shouldMarkReadWhenVisible) {
+        const found = await getMessageById(id);
         // mark the message as read.
         // this will trigger the expire timer.
-        void markRead(Date.now());
+        void found?.markRead(Date.now());
       }
     };
 

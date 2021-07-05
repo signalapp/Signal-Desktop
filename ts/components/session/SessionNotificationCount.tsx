@@ -28,11 +28,11 @@ const StyledCountContainer = styled.div<{ shouldRender: boolean }>`
   /* cursor:  */
 `;
 
-const StyledCount = styled.div<{ overflow: boolean }>`
+const StyledCount = styled.div<{ countOverflow: boolean }>`
   position: relative;
-  font-size: ${props => (props.overflow ? '0.5em' : '0.6em')};
-  margin-top: ${props => (props.overflow ? '0.35em' : '0em')};
-  margin-left: ${props => (props.overflow ? '-0.45em' : '0em')};
+  font-size: ${props => (props.countOverflow ? '0.5em' : '0.6em')};
+  margin-top: ${props => (props.countOverflow ? '0.35em' : '0em')};
+  margin-left: ${props => (props.countOverflow ? '-0.45em' : '0em')};
 `;
 
 const StyledCountSup = styled.div`
@@ -50,7 +50,7 @@ export const SessionNotificationCount = (props: Props) => {
   if (overflow) {
     return (
       <StyledCountContainer shouldRender={shouldRender}>
-        <StyledCount overflow={overflow}>
+        <StyledCount countOverflow={overflow}>
           {9}
           <StyledCountSup>+</StyledCountSup>
         </StyledCount>
@@ -59,7 +59,7 @@ export const SessionNotificationCount = (props: Props) => {
   }
   return (
     <StyledCountContainer shouldRender={shouldRender}>
-      <StyledCount overflow={overflow}>{count}</StyledCount>
+      <StyledCount countOverflow={overflow}>{count}</StyledCount>
     </StyledCountContainer>
   );
 };

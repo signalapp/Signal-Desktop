@@ -6,50 +6,22 @@ import { getConversationController } from '../../session/conversations';
 import { MessageModel } from '../../models/message';
 import { getMessagesByConversation } from '../../data/data';
 import { ConversationTypeEnum } from '../../models/conversation';
-import { MessageDeliveryStatus } from '../../models/messageType';
+import {
+  MessageDeliveryStatus,
+  MessageModelType,
+  PropsForDataExtractionNotification,
+} from '../../models/messageType';
 
-// State
-
-export type MessageType = {
-  id: string;
-  conversationId: string;
-  receivedAt: number;
-
-  snippet: string;
-
-  from: {
-    phoneNumber: string;
-    isMe?: boolean;
-    name?: string;
-    color?: string;
-    profileName?: string;
-    avatarPath?: string;
-  };
-
-  to: {
-    groupName?: string;
-    phoneNumber: string;
-    isMe?: boolean;
-    name?: string;
-    profileName?: string;
-  };
-
-  isSelected?: boolean;
+export type MessageModelProps = {
+  propsForMessage: PropsForMessage;
+  propsForSearchResult: PropsForSearchResults | null;
+  propsForGroupInvitation: PropsForGroupInvitation | null;
+  propsForTimerNotification: PropsForExpirationTimer | null;
+  propsForDataExtractionNotification: PropsForDataExtractionNotification | null;
+  propsForGroupNotification: PropsForGroupUpdate | null;
 };
 
-export type MessageTypeInConvo = {
-  id: string;
-  conversationId: string;
-  attributes: any;
-  propsForMessage: Object;
-  propsForSearchResult: Object;
-  propsForGroupInvitation: Object;
-  propsForTimerNotification: Object;
-  propsForGroupNotification: Object;
-  firstMessageOfSeries: boolean;
-  receivedAt: number;
-  getPropsForMessageDetail(): Promise<any>;
-};
+export type MessagePropsDetails = {};
 
 export type LastMessageStatusType = MessageDeliveryStatus | null;
 
@@ -59,10 +31,11 @@ export type FindAndFormatContactType = {
   name: string | null;
   profileName: string | null;
   title: string | null;
+  isMe: boolean;
 };
 
 export type PropsForExpirationTimer = {
-  timespan: string | null;
+  timespan: string;
   disabled: boolean;
   phoneNumber: string;
   avatarPath: string | null;
@@ -70,7 +43,7 @@ export type PropsForExpirationTimer = {
   profileName: string | null;
   title: string | null;
   type: 'fromMe' | 'fromSync' | 'fromOther';
-} | null;
+};
 
 export type PropsForGroupUpdateGeneral = {
   type: 'general';
@@ -98,17 +71,64 @@ export type PropsForGroupUpdateName = {
   newName: string;
 };
 
-export type PropsForGroupUpdateArray = Array<
+export type PropsForGroupUpdateType =
   | PropsForGroupUpdateGeneral
   | PropsForGroupUpdateAdd
   | PropsForGroupUpdateKicked
   | PropsForGroupUpdateName
-  | PropsForGroupUpdateRemove
->;
+  | PropsForGroupUpdateRemove;
+
+export type PropsForGroupUpdateArray = Array<PropsForGroupUpdateType>;
 
 export type PropsForGroupUpdate = {
   changes: PropsForGroupUpdateArray;
-} | null;
+};
+
+export type PropsForGroupInvitation = {
+  serverName: string;
+  url: string;
+  direction: MessageModelType;
+  acceptUrl: string;
+  messageId: string;
+};
+
+export type PropsForSearchResults = {
+  from: FindAndFormatContactType;
+  to: FindAndFormatContactType;
+  id: string;
+  conversationId: string;
+  receivedAt: number | undefined;
+  snippet?: string; //not sure about the type of snippet
+};
+
+export type PropsForMessage = {
+  text: string | null;
+  id: string;
+  direction: MessageModelType;
+  timestamp: number | undefined;
+  receivedAt: number | undefined;
+  serverTimestamp: number | undefined;
+  status: LastMessageStatusType;
+  authorName: string | null;
+  authorProfileName: string | null;
+  authorPhoneNumber: string;
+  conversationType: ConversationTypeEnum;
+  convoId: string;
+  attachments: any;
+  previews: any;
+  quote: any;
+  authorAvatarPath: string | null;
+  isUnread: boolean;
+  expirationLength: number;
+  expirationTimestamp: number | null;
+  isPublic: boolean;
+  isOpenGroupV2: boolean;
+  isKickedFromGroup: boolean | undefined;
+  isTrustedForAttachmentDownload: boolean;
+  weAreAdmin: boolean;
+  isSenderAdmin: boolean;
+  isDeletable: boolean;
+};
 
 export type LastMessageType = {
   status: LastMessageStatusType;
@@ -148,13 +168,13 @@ export type ConversationLookupType = {
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
-  messages: Array<MessageTypeInConvo>;
+  messages: Array<SortedMessageModelProps>;
 };
 
 async function getMessages(
   conversationKey: string,
   numMessages: number
-): Promise<Array<MessageTypeInConvo>> {
+): Promise<Array<SortedMessageModelProps>> {
   const conversation = getConversationController().get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
@@ -178,55 +198,78 @@ async function getMessages(
   });
 
   // Set first member of series here.
-  const messageModels = messageSet.models;
+  const messageModelsProps: Array<SortedMessageModelProps> = messageSet.models.map(m => {
+    return { ...m.getProps(), firstMessageOfSeries: true };
+  });
 
   const isPublic = conversation.isPublic();
-  const messagesPickedUp = messageModels.map(makeMessageTypeFromMessageModel);
 
-  const sortedMessage = sortMessages(messagesPickedUp, isPublic);
+  const sortedMessageProps = sortMessages(messageModelsProps, isPublic);
 
   // no need to do that `firstMessageOfSeries` on a private chat
   if (conversation.isPrivate()) {
-    return sortedMessage;
+    return sortedMessageProps;
   }
-  return updateFirstMessageOfSeries(sortedMessage);
+  return updateFirstMessageOfSeries(sortedMessageProps);
 }
 
-const updateFirstMessageOfSeries = (messageModels: Array<any>) => {
+export type SortedMessageModelProps = MessageModelProps & {
+  firstMessageOfSeries: boolean;
+};
+
+const updateFirstMessageOfSeries = (
+  messageModelsProps: Array<MessageModelProps>
+): Array<SortedMessageModelProps> => {
   // messages are got from the more recent to the oldest, so we need to check if
   // the next messages in the list is still the same author.
   // The message is the first of the series if the next message is not from the same author
-  for (let i = 0; i < messageModels.length; i++) {
+  const sortedMessageProps: Array<SortedMessageModelProps> = [];
+  for (let i = 0; i < messageModelsProps.length; i++) {
     // Handle firstMessageOfSeries for conditional avatar rendering
     let firstMessageOfSeries = true;
-    const currentSender = messageModels[i].propsForMessage?.authorPhoneNumber;
+    const currentSender = messageModelsProps[i].propsForMessage?.authorPhoneNumber;
     const nextSender =
-      i < messageModels.length - 1
-        ? messageModels[i + 1].propsForMessage?.authorPhoneNumber
+      i < messageModelsProps.length - 1
+        ? messageModelsProps[i + 1].propsForMessage?.authorPhoneNumber
         : undefined;
     if (i >= 0 && currentSender === nextSender) {
       firstMessageOfSeries = false;
     }
-    if (messageModels[i].propsForMessage) {
-      messageModels[i].propsForMessage.firstMessageOfSeries = firstMessageOfSeries;
-    }
+
+    sortedMessageProps.push({ ...messageModelsProps[i], firstMessageOfSeries });
   }
-  return messageModels;
+  return sortedMessageProps;
+};
+
+type FetchedMessageResults = {
+  conversationKey: string;
+  messagesProps: Array<SortedMessageModelProps>;
 };
 
 const fetchMessagesForConversation = createAsyncThunk(
   'messages/fetchByConversationKey',
-  async ({ conversationKey, count }: { conversationKey: string; count: number }) => {
+  async ({
+    conversationKey,
+    count,
+  }: {
+    conversationKey: string;
+    count: number;
+  }): Promise<FetchedMessageResults> => {
     const beforeTimestamp = Date.now();
-    const messages = await getMessages(conversationKey, count);
+    const messagesProps = await getMessages(conversationKey, count);
     const afterTimestamp = Date.now();
 
     const time = afterTimestamp - beforeTimestamp;
-    window?.log?.info(`Loading ${messages.length} messages took ${time}ms to load.`);
+    window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
 
     return {
       conversationKey,
-      messages,
+      messagesProps: messagesProps.map(m => {
+        return {
+          ...m,
+          firstMessageOfSeries: true,
+        };
+      }),
     };
   }
 );
@@ -266,17 +309,17 @@ export type MessageExpiredActionType = {
 };
 export type MessageChangedActionType = {
   type: 'MESSAGE_CHANGED';
-  payload: MessageModel;
+  payload: MessageModelProps;
 };
 export type MessagesChangedActionType = {
   type: 'MESSAGES_CHANGED';
-  payload: Array<MessageModel>;
+  payload: Array<MessageModelProps>;
 };
 export type MessageAddedActionType = {
   type: 'MESSAGE_ADDED';
   payload: {
     conversationKey: string;
-    messageModel: MessageModel;
+    messageModelProps: MessageModelProps;
   };
 };
 export type MessageDeletedActionType = {
@@ -304,7 +347,7 @@ export type FetchMessagesForConversationType = {
   type: 'messages/fetchByConversationKey/fulfilled';
   payload: {
     conversationKey: string;
-    messages: Array<MessageModel>;
+    messages: Array<MessageModelProps>;
   };
 };
 
@@ -389,32 +432,32 @@ function messageExpired({
   };
 }
 
-function messageChanged(messageModel: MessageModel): MessageChangedActionType {
+function messageChanged(messageModelProps: MessageModelProps): MessageChangedActionType {
   return {
     type: 'MESSAGE_CHANGED',
-    payload: messageModel,
+    payload: messageModelProps,
   };
 }
 
-function messagesChanged(messageModels: Array<MessageModel>): MessagesChangedActionType {
+function messagesChanged(messageModelsProps: Array<MessageModelProps>): MessagesChangedActionType {
   return {
     type: 'MESSAGES_CHANGED',
-    payload: messageModels,
+    payload: messageModelsProps,
   };
 }
 
 function messageAdded({
   conversationKey,
-  messageModel,
+  messageModelProps,
 }: {
   conversationKey: string;
-  messageModel: MessageModel;
+  messageModelProps: MessageModelProps;
 }): MessageAddedActionType {
   return {
     type: 'MESSAGE_ADDED',
     payload: {
       conversationKey,
-      messageModel,
+      messageModelProps,
     },
   };
 }
@@ -464,31 +507,6 @@ export function openConversationExternal(
 
 // Reducer
 
-const toPickFromMessageModel = [
-  'attributes',
-  'id',
-  'propsForSearchResult',
-  'propsForMessage',
-  'receivedAt',
-  'conversationId',
-  'firstMessageOfSeries',
-  'propsForGroupInvitation',
-  'propsForTimerNotification',
-  'propsForGroupNotification',
-  'propsForDataExtractionNotification',
-  // FIXME below are what is needed to fetch on the fly messageDetails. This is not the react way
-  'getPropsForMessageDetail',
-  'get',
-  'getConversation',
-  'isIncoming',
-  'findAndFormatContact',
-  'findContact',
-  'getStatus',
-  'getMessagePropStatus',
-  'hasErrors',
-  'isOutgoing',
-];
-
 function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
@@ -496,14 +514,10 @@ function getEmptyState(): ConversationsStateType {
   };
 }
 
-const makeMessageTypeFromMessageModel = (message: MessageModel) => {
-  return _.pick(message as any, toPickFromMessageModel) as MessageTypeInConvo;
-};
-
 function sortMessages(
-  messages: Array<MessageTypeInConvo>,
+  messages: Array<SortedMessageModelProps>,
   isPublic: boolean
-): Array<MessageTypeInConvo> {
+): Array<SortedMessageModelProps> {
   // we order by serverTimestamp for public convos
   // be sure to update the sorting order to fetch messages from the DB too at getMessagesByConversation
   if (isPublic) {
@@ -511,7 +525,7 @@ function sortMessages(
       (a: any, b: any) => b.attributes.serverTimestamp - a.attributes.serverTimestamp
     );
   }
-  if (messages.some(n => !n.attributes.sent_at && !n.attributes.received_at)) {
+  if (messages.some(n => !n.propsForMessage.timestamp && !n.propsForMessage.receivedAt)) {
     throw new Error('Found some messages without any timestamp set');
   }
 
@@ -528,10 +542,12 @@ function sortMessages(
 
 function handleMessageAdded(state: ConversationsStateType, action: MessageAddedActionType) {
   const { messages } = state;
-  const { conversationKey, messageModel } = action.payload;
+  const { conversationKey, messageModelProps: addedMessageProps } = action.payload;
   if (conversationKey === state.selectedConversation) {
-    const addedMessage = makeMessageTypeFromMessageModel(messageModel);
-    const messagesWithNewMessage = [...messages, addedMessage];
+    const messagesWithNewMessage = [
+      ...messages,
+      { ...addedMessageProps, firstMessageOfSeries: true },
+    ];
     const convo = state.conversationLookup[state.selectedConversation];
     const isPublic = convo?.isPublic || false;
 
@@ -551,9 +567,11 @@ function handleMessageAdded(state: ConversationsStateType, action: MessageAddedA
 function handleMessageChanged(state: ConversationsStateType, action: MessageChangedActionType) {
   const { payload } = action;
 
-  const messageInStoreIndex = state?.messages?.findIndex(m => m.id === payload.id);
+  const messageInStoreIndex = state?.messages?.findIndex(
+    m => m.propsForMessage.id === payload.propsForMessage.id
+  );
   if (messageInStoreIndex >= 0) {
-    const changedMessage = _.pick(payload as any, toPickFromMessageModel) as MessageTypeInConvo;
+    const changedMessage = { ...payload, firstMessageOfSeries: true };
     // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
     const editedMessages = [
       ...state.messages.slice(0, messageInStoreIndex),
@@ -561,7 +579,7 @@ function handleMessageChanged(state: ConversationsStateType, action: MessageChan
       ...state.messages.slice(messageInStoreIndex + 1),
     ];
 
-    const convo = state.conversationLookup[payload.get('conversationId')];
+    const convo = state.conversationLookup[payload.propsForMessage.convoId];
     const isPublic = convo?.isPublic || false;
     // reorder the messages depending on the timestamp (we might have an updated serverTimestamp now)
     const sortedMessage = sortMessages(editedMessages, isPublic);
@@ -598,7 +616,7 @@ function handleMessageExpiredOrDeleted(
   if (conversationKey === state.selectedConversation) {
     // search if we find this message id.
     // we might have not loaded yet, so this case might not happen
-    const messageInStoreIndex = state?.messages.findIndex(m => m.id === messageId);
+    const messageInStoreIndex = state?.messages.findIndex(m => m.propsForMessage.id === messageId);
     if (messageInStoreIndex >= 0) {
       // we cannot edit the array directly, so slice the first part, and slice the second part,
       // keeping the index removed out
@@ -714,15 +732,12 @@ export function reducer(
 
   // this is called once the messages are loaded from the db for the currently selected conversation
   if (action.type === fetchMessagesForConversation.fulfilled.type) {
-    const { messages, conversationKey } = action.payload as any;
+    const { messagesProps, conversationKey } = action.payload as FetchedMessageResults;
     // double check that this update is for the shown convo
     if (conversationKey === state.selectedConversation) {
-      const lightMessages = messages.map((m: any) => _.pick(m, toPickFromMessageModel)) as Array<
-        MessageTypeInConvo
-      >;
       return {
         ...state,
-        messages: lightMessages,
+        messages: { ...messagesProps },
       };
     }
     return state;

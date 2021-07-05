@@ -109,7 +109,7 @@ export interface DataExtractionNotificationMsg {
   referencedAttachmentTimestamp: number; // the attachment timestamp he screenshot
 }
 
-export type DataExtractionNotificationProps = DataExtractionNotificationMsg & {
+export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
 };
 
@@ -247,7 +247,6 @@ export interface MessageRegularProps {
   onClickLinkPreview?: (url: string) => void;
   onSelectMessage: (messageId: string) => void;
   onReply?: (messagId: number) => void;
-  onRetrySend?: () => void;
   onDownload?: (attachment: AttachmentType) => void;
   onDeleteMessage: (messageId: string) => void;
   onShowDetail: () => void;

@@ -4,11 +4,7 @@ import { NotificationForConvoOption, TimerOption } from '../../conversation/Conv
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
 import { useDispatch } from 'react-redux';
-import {
-  adminLeaveClosedGroup,
-  changeNickNameModal,
-  updateConfirmModal,
-} from '../../../state/ducks/modalDialog';
+import { changeNickNameModal, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { getConversationController } from '../../../session/conversations';
 import {
   blockConvoById,
@@ -134,6 +130,8 @@ export function getDeleteContactMenuItem(
   isKickedFromGroup: boolean | undefined,
   conversationId: string
 ): JSX.Element | null {
+  const dispatch = useDispatch();
+
   if (
     showDeleteContact(
       Boolean(isMe),
@@ -150,7 +148,6 @@ export function getDeleteContactMenuItem(
       menuItemText = window.i18n('delete');
     }
 
-    const dispatch = useDispatch();
     const onClickClose = () => {
       dispatch(updateConfirmModal(null));
     };

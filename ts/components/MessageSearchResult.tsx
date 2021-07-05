@@ -7,31 +7,7 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 
 import { DefaultTheme, withTheme } from 'styled-components';
-
-export type MessageSearchResultProps = {
-  id: string;
-  conversationId: string;
-  receivedAt: number;
-
-  snippet: string;
-
-  from: {
-    phoneNumber: string;
-    isMe?: boolean;
-    name?: string;
-    color?: string;
-    profileName?: string;
-    avatarPath?: string;
-  };
-
-  to: {
-    groupName?: string;
-    phoneNumber: string;
-    isMe?: boolean;
-    name?: string;
-    profileName?: string;
-  };
-};
+import { PropsForSearchResults } from '../state/ducks/conversations';
 
 type PropsHousekeeping = {
   isSelected?: boolean;
@@ -39,7 +15,7 @@ type PropsHousekeeping = {
   onClick: (conversationId: string, messageId?: string) => void;
 };
 
-type Props = MessageSearchResultProps & PropsHousekeeping;
+type Props = PropsForSearchResults & PropsHousekeeping;
 
 class MessageSearchResultInner extends React.PureComponent<Props> {
   public renderFromName() {
@@ -59,10 +35,11 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
     }
 
     return (
+      // tslint:disable: use-simple-attributes
       <ContactName
         phoneNumber={from.phoneNumber}
-        name={from.name}
-        profileName={from.profileName}
+        name={from.name || ''}
+        profileName={from.profileName || ''}
         module="module-message-search-result__header__name"
         shouldShowPubkey={false}
       />
@@ -80,8 +57,8 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
           <span className="module-mesages-search-result__header__group">
             <ContactName
               phoneNumber={to.phoneNumber}
-              name={to.name}
-              profileName={to.profileName}
+              name={to.name || ''}
+              profileName={to.profileName || ''}
               shouldShowPubkey={false}
             />
           </span>
@@ -98,7 +75,7 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
 
     return (
       <Avatar
-        avatarPath={from.avatarPath}
+        avatarPath={from.avatarPath || ''}
         name={userName}
         size={AvatarSize.S}
         pubkey={from.phoneNumber}
@@ -135,7 +112,7 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
             </div>
           </div>
           <div className="module-message-search-result__body">
-            <MessageBodyHighlight text={snippet} />
+            <MessageBodyHighlight text={snippet || ''} />
           </div>
         </div>
       </div>

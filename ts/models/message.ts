@@ -11,10 +11,11 @@ import { PubKey } from '../../ts/session/types';
 import { UserUtils } from '../../ts/session/utils';
 import {
   DataExtractionNotificationMsg,
-  DataExtractionNotificationProps,
   fillMessageAttributesWithDefaults,
   MessageAttributes,
   MessageAttributesOptionals,
+  MessageModelType,
+  PropsForDataExtractionNotification,
 } from './messageType';
 
 import autoBind from 'auto-bind';
@@ -23,7 +24,11 @@ import { ConversationModel, ConversationTypeEnum } from './conversation';
 import {
   actions as conversationActions,
   FindAndFormatContactType,
+  LastMessageStatusType,
+  MessageModelProps,
+  MessagePropsDetails,
   PropsForExpirationTimer,
+  PropsForGroupInvitation,
   PropsForGroupUpdate,
   PropsForGroupUpdateAdd,
   PropsForGroupUpdateArray,
@@ -31,6 +36,8 @@ import {
   PropsForGroupUpdateKicked,
   PropsForGroupUpdateName,
   PropsForGroupUpdateRemove,
+  PropsForMessage,
+  PropsForSearchResults,
 } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { buildSyncMessage } from '../session/utils/syncUtils';
@@ -49,13 +56,6 @@ import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
-  public propsForTimerNotification: any;
-  public propsForGroupNotification: any;
-  public propsForGroupInvitation: any;
-  public propsForDataExtractionNotification?: DataExtractionNotificationProps;
-  public propsForSearchResult: any;
-  public propsForMessage: any;
-
   constructor(attributes: MessageAttributesOptionals) {
     const filledAttrs = fillMessageAttributesWithDefaults(attributes);
     super(filledAttrs);
@@ -80,21 +80,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     window.contextMenuShown = false;
 
-    this.generateProps(false);
+    // this.generateProps(false);
   }
 
-  // Keep props ready
-  public generateProps(triggerEvent = true) {
+  public getProps(): MessageModelProps {
     const propsForTimerNotification = this.getPropsForTimerNotification();
     const propsForGroupNotification = this.getPropsForGroupNotification();
     const propsForGroupInvitation = this.getPropsForGroupInvitation();
-    const propsForDataExtractionNotification = this.isDataExtractionNotification()
-      ? this.getPropsForDataExtractionNotification()
-      : null;
+    const propsForDataExtractionNotification = this.getPropsForDataExtractionNotification();
     const propsForSearchResult = this.getPropsForSearchResult();
     const propsForMessage = this.getPropsForMessage();
 
-    const messageProps = {
+    const messageProps: MessageModelProps = {
       propsForMessage,
       propsForSearchResult,
       propsForDataExtractionNotification,
@@ -102,10 +99,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       propsForGroupNotification,
       propsForTimerNotification,
     };
+    return messageProps;
+  }
 
+  // Keep props ready
+  public generateProps(triggerEvent = true): MessageModelProps {
+    const messageProps = this.getProps();
     if (triggerEvent) {
       window.inboxStore?.dispatch(conversationActions.messageChanged(messageProps));
     }
+    return messageProps;
   }
 
   public idForLogging() {
@@ -284,7 +287,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await window.Signal.Migrations.deleteExternalMessageFiles(this.attributes);
   }
 
-  public getPropsForTimerNotification(): PropsForExpirationTimer {
+  public getPropsForTimerNotification(): PropsForExpirationTimer | null {
     if (!this.isExpirationTimerUpdate()) {
       return null;
     }
@@ -294,9 +297,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { expireTimer, fromSync, source } = timerUpdate;
-    const timespan = window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0) as
-      | string
-      | null;
+    const timespan = window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0) as string;
     const disabled = !expireTimer;
 
     const basicProps: PropsForExpirationTimer = {
@@ -309,7 +310,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return basicProps;
   }
 
-  public getPropsForGroupInvitation() {
+  public getPropsForGroupInvitation(): PropsForGroupInvitation | null {
     if (!this.isGroupInvitation()) {
       return null;
     }
@@ -332,18 +333,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       serverName: invitation.name,
       url: serverAddress,
       direction,
-      onJoinClick: () => {
-        acceptOpenGroupInvitation(invitation.url, invitation.name);
-      },
+      acceptUrl: invitation.url,
+      messageId: this.id as string,
     };
   }
 
-  public getPropsForDataExtractionNotification(): DataExtractionNotificationProps | undefined {
+  public getPropsForDataExtractionNotification(): PropsForDataExtractionNotification | null {
+    if (!this.isDataExtractionNotification()) {
+      return null;
+    }
     const dataExtractionNotification = this.get('dataExtractionNotification');
 
     if (!dataExtractionNotification) {
       window.log.warn('dataExtractionNotification should not happen');
-      return;
+      return null;
     }
 
     const contact = this.findAndFormatContact(dataExtractionNotification.source);
@@ -361,8 +364,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public findAndFormatContact(pubkey: string): FindAndFormatContactType {
     const contactModel = this.findContact(pubkey);
     let profileName;
-    if (pubkey === window.storage.get('primaryDevicePubKey')) {
+    let isMe = false;
+    UserUtils.getOurPubKeyStrFromCache();
+    if (pubkey === UserUtils.getOurPubKeyStrFromCache()) {
       profileName = window.i18n('you');
+      isMe = true;
     } else {
       profileName = contactModel ? contactModel.getProfileName() : null;
     }
@@ -373,10 +379,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       name: (contactModel ? contactModel.getName() : null) as string | null,
       profileName: profileName as string | null,
       title: (contactModel ? contactModel.getTitle() : null) as string | null,
+      isMe,
     };
   }
 
-  public getPropsForGroupNotification(): PropsForGroupUpdate {
+  public getPropsForGroupNotification(): PropsForGroupUpdate | null {
     if (!this.isGroupUpdate()) {
       return null;
     }
@@ -465,7 +472,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
   }
 
-  public getMessagePropStatus() {
+  public getMessagePropStatus(): LastMessageStatusType {
     if (this.hasErrors()) {
       return 'error';
     }
@@ -492,42 +499,31 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return 'sending';
   }
 
-  public getPropsForSearchResult() {
+  public getPropsForSearchResult(): PropsForSearchResults {
     const fromNumber = this.getSource();
     const from = this.findAndFormatContact(fromNumber);
-    if (fromNumber === UserUtils.getOurPubKeyStrFromCache()) {
-      (from as any).isMe = true;
-    }
 
     const toNumber = this.get('conversationId');
-    let to = this.findAndFormatContact(toNumber) as any;
-    if (toNumber === UserUtils.getOurPubKeyStrFromCache()) {
-      to.isMe = true;
-    } else if (fromNumber === toNumber) {
-      to = {
-        isMe: true,
-      };
-    }
+    const to = this.findAndFormatContact(toNumber);
 
     return {
       from,
       to,
-
       // isSelected: this.isSelected,
-
-      id: this.id,
+      id: this.id as string,
       conversationId: this.get('conversationId'),
       receivedAt: this.get('received_at'),
       snippet: this.get('snippet'),
     };
   }
 
-  public getPropsForMessage(options: any = {}) {
-    const phoneNumber = this.getSource();
-    const contact = this.findAndFormatContact(phoneNumber);
-    const contactModel = this.findContact(phoneNumber);
+  public getPropsForMessage(options: any = {}): PropsForMessage {
+    const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
+    const sender = this.getSource();
+    const senderContact = this.findAndFormatContact(sender);
+    const senderContactModel = this.findContact(sender);
 
-    const authorAvatarPath = contactModel ? contactModel.getAvatarPath() : null;
+    const authorAvatarPath = senderContactModel ? senderContactModel.getAvatarPath() : null;
 
     const expirationLength = this.get('expireTimer') * 1000;
     const expireTimerStart = this.get('expirationStartTimestamp');
@@ -536,26 +532,35 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const conversation = this.getConversation();
 
-    const convoId = conversation ? conversation.id : undefined;
     const isGroup = !!conversation && !conversation.isPrivate();
     const isPublic = !!this.get('isPublic');
     const isPublicOpenGroupV2 = isOpenGroupV2(this.getConversation()?.id || '');
 
     const attachments = this.get('attachments') || [];
     const isTrustedForAttachmentDownload = this.isTrustedForAttachmentDownload();
+    const groupAdmins = (isGroup && conversation?.get('groupAdmins')) || [];
+    const weAreAdmin = groupAdmins.includes(ourPubkey) || false;
+    // a message is deletable if
+    // either we sent it,
+    // or the convo is not a public one (in this case, we will only be able to delete for us)
+    // or the convo is public and we are an admin
+    const isDeletable = sender === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
 
-    return {
+    const isSenderAdmin = groupAdmins.includes(sender);
+
+    const props: PropsForMessage = {
       text: this.createNonBreakingLastSeparator(this.get('body')),
-      id: this.id,
-      direction: this.isIncoming() ? 'incoming' : 'outgoing',
+      id: this.id as string,
+      direction: (this.isIncoming() ? 'incoming' : 'outgoing') as MessageModelType,
       timestamp: this.get('sent_at'),
+      receivedAt: this.get('received_at'),
       serverTimestamp: this.get('serverTimestamp'),
       status: this.getMessagePropStatus(),
-      authorName: contact.name,
-      authorProfileName: contact.profileName,
-      authorPhoneNumber: contact.phoneNumber,
+      authorName: senderContact.name,
+      authorProfileName: senderContact.profileName,
+      authorPhoneNumber: senderContact.phoneNumber,
       conversationType: isGroup ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE,
-      convoId,
+      convoId: this.get('conversationId'),
       attachments: attachments
         .filter((attachment: any) => !attachment.error)
         .map((attachment: any) => this.getPropsForAttachment(attachment)),
@@ -567,12 +572,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       expirationTimestamp,
       isPublic,
       isOpenGroupV2: isPublicOpenGroupV2,
-      isKickedFromGroup: conversation && conversation.get('isKickedFromGroup'),
+      isKickedFromGroup: conversation?.get('isKickedFromGroup'),
       isTrustedForAttachmentDownload,
-
-      onRetrySend: this.retrySend,
-      markRead: this.markRead,
+      weAreAdmin,
+      isDeletable,
+      isSenderAdmin,
     };
+
+    return props;
   }
 
   public createNonBreakingLastSeparator(text?: string) {
@@ -639,7 +646,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public getPropsForQuote(options: any = {}) {
-    const { noClick } = options;
     const quote = this.get('quote');
 
     if (!quote) {
@@ -652,16 +658,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const authorName = contact ? contact.getContactProfileNameOrShortenedPubKey() : null;
 
     const isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
-    const onClick = noClick
-      ? null
-      : (event: any) => {
-          event.stopPropagation();
-          this.trigger('scroll-to-message', {
-            author,
-            id,
-            referencedMessageNotFound,
-          });
-        };
 
     const firstAttachment = quote.attachments && quote.attachments[0];
 
@@ -672,12 +668,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       authorPhoneNumber: author,
       messageId: id,
       authorName,
-      onClick,
       referencedMessageNotFound,
     };
   }
 
-  public getPropsForAttachment(attachment: any) {
+  public getPropsForAttachment(attachment: {
+    path?: string;
+    pending?: boolean;
+    flags: number;
+    size: number;
+    screenshot: any;
+    thumbnail: any;
+  }) {
     if (!attachment) {
       return null;
     }
@@ -709,7 +711,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
   }
 
-  public async getPropsForMessageDetail() {
+  public async getPropsForMessageDetail(): Promise<MessagePropsDetails> {
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
     //   back to the conversation's current recipients
@@ -754,12 +756,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       finalContacts,
       contact => `${contact.isPrimaryDevice ? '0' : '1'}${contact.phoneNumber}`
     );
-
-    return {
+    const toRet: MessagePropsDetails = {
       sentAt: this.get('sent_at'),
       receivedAt: this.get('received_at'),
       message: {
-        ...this.propsForMessage,
+        ...this.getPropsForMessage(),
         disableMenu: true,
         // To ensure that group avatar doesn't show up
         conversationType: ConversationTypeEnum.PRIVATE,
@@ -767,6 +768,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       errors,
       contacts: sortedContacts,
     };
+
+    return toRet;
   }
 
   public copyPubKey() {

@@ -5,7 +5,8 @@ import {
   ConversationLookupType,
   ConversationsStateType,
   ConversationType,
-  MessageTypeInConvo,
+  MessageModelProps,
+  SortedMessageModelProps,
 } from '../ducks/conversations';
 
 import { getIntl, getOurNumber } from './user';
@@ -46,7 +47,7 @@ export const getOurPrimaryConversation = createSelector(
 
 export const getMessagesOfSelectedConversation = createSelector(
   getConversations,
-  (state: ConversationsStateType): Array<MessageTypeInConvo> => state.messages
+  (state: ConversationsStateType): Array<SortedMessageModelProps> => state.messages
 );
 
 function getConversationTitle(conversation: ConversationType, testingi18n?: LocalizerType): string {

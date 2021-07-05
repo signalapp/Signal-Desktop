@@ -440,7 +440,7 @@ export async function handleMessageJob(
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: conversation.id,
-        messageModel: message,
+        messageModelProps: message.getProps(),
       })
     );
     getMessageController().register(message.id, message);

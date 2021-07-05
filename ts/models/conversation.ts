@@ -26,6 +26,7 @@ import {
   actions as conversationActions,
   ConversationType as ReduxConversationType,
   LastMessageStatusType,
+  MessageModelProps,
 } from '../state/ducks/conversations';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
@@ -885,7 +886,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     window.inboxStore?.dispatch(
       conversationActions.messageAdded({
         conversationKey: this.id,
-        messageModel: model,
+        messageModelProps: model.getProps(),
       })
     );
     const unreadCount = await this.getUnreadCount();
@@ -939,11 +940,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
 
     await saveMessages(oldUnreadNowReadAttrs);
+    const allProps: Array<MessageModelProps> = [];
 
     for (const nowRead of oldUnreadNowRead) {
-      nowRead.generateProps(false);
+      allProps.push(nowRead.generateProps(false));
     }
-    window.inboxStore?.dispatch(conversationActions.messagesChanged(oldUnreadNowRead));
+    window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
 
     // Some messages we're marking read are local notifications with no sender
     read = _.filter(read, m => Boolean(m.sender));
