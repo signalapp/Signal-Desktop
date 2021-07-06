@@ -149,9 +149,9 @@ export const MenuItemPinConversation = (
       dispatch(conversationUnpinned());
     } else {
       ToastUtils.pushToastWarning(
-        'setPasswordSuccessToast',
-        window.i18n('removePasswordTitle'),
-        window.i18n('removePasswordToastDescription')
+        'pinConversationLimitToast',
+        window.i18n('pinConversationLimitTitle'),
+        window.i18n('pinConversationLimitToastDescription', maxNumberOfPinnedConversations)
       );
     }
   };
