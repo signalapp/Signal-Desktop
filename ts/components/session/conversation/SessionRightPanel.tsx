@@ -36,6 +36,8 @@ import { ItemClickEvent } from '../../conversation/media-gallery/types/ItemClick
 import { MediaItemType } from '../../LightboxGallery';
 // tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
+import { useSelector } from 'react-redux';
+import { getTimerOptions } from '../../../state/selectors/timerOptions';
 
 type Props = {
   id: string;
@@ -44,7 +46,6 @@ type Props = {
   phoneNumber: string;
   memberCount: number;
   avatarPath: string | null;
-  timerOptions: Array<TimerOption>;
   isPublic: boolean;
   isAdmin: boolean;
   isKickedFromGroup: boolean;
@@ -194,6 +195,8 @@ export const SessionRightPanelWithDetails = (props: Props) => {
   const [onItemClick, setOnItemClick] = useState<any>(undefined);
   const theme = useTheme();
 
+  console.warn('props', props);
+
   useEffect(() => {
     let isRunning = true;
 
@@ -269,7 +272,6 @@ export const SessionRightPanelWithDetails = (props: Props) => {
     id,
     memberCount,
     name,
-    timerOptions,
     isKickedFromGroup,
     left,
     isPublic,
@@ -288,6 +290,8 @@ export const SessionRightPanelWithDetails = (props: Props) => {
     : left
     ? window.i18n('youLeftTheGroup')
     : window.i18n('leaveGroup');
+
+  const timerOptions = useSelector(getTimerOptions).timerOptions;
 
   const disappearingMessagesOptions = timerOptions.map(option => {
     return {

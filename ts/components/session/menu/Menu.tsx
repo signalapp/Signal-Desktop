@@ -3,7 +3,7 @@ import React from 'react';
 import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeNickNameModal, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { getConversationController } from '../../../session/conversations';
 import {
@@ -22,6 +22,7 @@ import {
   unblockConvoById,
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
+import { getTimerOptions } from '../../../state/selectors/timerOptions';
 
 function showTimerOptions(
   isPublic: boolean,
@@ -278,7 +279,6 @@ export function getDisappearingMenuItem(
   isKickedFromGroup: boolean | undefined,
   left: boolean | undefined,
   isBlocked: boolean | undefined,
-  timerOptions: Array<TimerOption>,
   conversationId: string
 ): JSX.Element | null {
   if (
@@ -291,13 +291,15 @@ export function getDisappearingMenuItem(
   ) {
     const isRtlMode = isRtlBody();
 
+    const timerOptions = useSelector(getTimerOptions).timerOptions;
+
     return (
       // Remove the && false to make context menu work with RTL support
       <Submenu
         label={window.i18n('disappearingMessages') as any}
         // rtl={isRtlMode && false}
       >
-        {(timerOptions || []).map(item => (
+        {timerOptions.map(item => (
           <Item
             key={item.value}
             onClick={async () => {

@@ -312,7 +312,6 @@ export class SessionConversation extends React.Component<Props, State> {
             isShowing={showOptionsPane}
           />
         </div>
-        )
       </SessionTheme>
     );
   }
@@ -381,10 +380,6 @@ export class SessionConversation extends React.Component<Props, State> {
       left: conversation.get('left'),
       expirationSettingName,
       showBackButton: Boolean(messageDetailShowProps),
-      timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
-        name: item.getName(),
-        value: item.get('seconds'),
-      })),
       notificationForConvo,
       currentNotificationSetting: conversation.get('triggerNotificationsFor'),
       hasNickname: !!conversation.getNickname(),
@@ -466,12 +461,6 @@ export class SessionConversation extends React.Component<Props, State> {
       isPublic: conversation.isPublic(),
       isAdmin,
       isBlocked: conversation.isBlocked(),
-
-      timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
-        name: item.getName(),
-        value: item.get('seconds'),
-      })),
-
       onGoBack: () => {
         this.toggleRightPanel();
       },

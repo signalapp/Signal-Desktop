@@ -28,7 +28,6 @@ export type PropsConversationHeaderMenu = {
   left?: boolean;
   isGroup: boolean;
   isAdmin: boolean;
-  timerOptions: Array<TimerOption>;
   notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
   isPrivate: boolean;
@@ -46,7 +45,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     isGroup,
     isKickedFromGroup,
     isAdmin,
-    timerOptions,
     isBlocked,
     isPrivate,
     left,
@@ -58,14 +56,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   return (
     <>
       <Menu id={triggerId} animation={animation.fade}>
-        {getDisappearingMenuItem(
-          isPublic,
-          isKickedFromGroup,
-          left,
-          isBlocked,
-          timerOptions,
-          conversationId
-        )}
+        {getDisappearingMenuItem(isPublic, isKickedFromGroup, left, isBlocked, conversationId)}
         {getNotificationForConvoMenuItem(
           isKickedFromGroup,
           left,

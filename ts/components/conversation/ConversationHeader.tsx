@@ -16,6 +16,7 @@ import {
 import { contextMenu } from 'react-contexify';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
+import autoBind from 'auto-bind';
 
 export interface TimerOption {
   name: string;
@@ -51,7 +52,6 @@ interface Props {
 
   expirationSettingName?: string;
   showBackButton: boolean;
-  timerOptions: Array<TimerOption>;
   notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
   hasNickname?: boolean;
@@ -75,7 +75,7 @@ class ConversationHeaderInner extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
 
-    this.onAvatarClick = this.onAvatarClick.bind(this);
+    autoBind(this);
   }
 
   public renderBackButton() {

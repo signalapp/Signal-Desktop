@@ -13,6 +13,7 @@ import {
 import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
 import { modalReducer as modals, ModalState } from './ducks/modalDialog';
 import { userConfigReducer as userConfig, UserConfigState } from './ducks/userConfig';
+import { timerOptionReducer as timerOptions, TimerOptionsState } from './ducks/timerOptions';
 
 export type StateType = {
   search: SearchStateType;
@@ -25,6 +26,7 @@ export type StateType = {
   onionPaths: OnionState;
   modals: ModalState;
   userConfig: UserConfigState;
+  timerOptions: TimerOptionsState;
 };
 
 export const reducers = {
@@ -38,6 +40,7 @@ export const reducers = {
   onionPaths,
   modals,
   userConfig,
+  timerOptions,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

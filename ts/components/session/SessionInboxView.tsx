@@ -22,6 +22,7 @@ import { SessionMainPanel } from '../SessionMainPanel';
 // tslint:disable-next-line: no-submodule-imports
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
+import { TimerOptionsArray, TimerOptionsState } from '../../state/ducks/timerOptions';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -90,6 +91,13 @@ export class SessionInboxView extends React.Component<any, State> {
 
     const fullFilledConversations = await Promise.all(filledConversations);
 
+    const timerOptions: TimerOptionsArray = window.Whisper.ExpirationTimerOptions.map(
+      (item: any) => ({
+        name: item.getName(),
+        value: item.get('seconds'),
+      })
+    );
+
     const initialState: StateType = {
       conversations: {
         conversationLookup: makeLookup(fullFilledConversations, 'id'),
@@ -106,6 +114,9 @@ export class SessionInboxView extends React.Component<any, State> {
       onionPaths: initialOnionPathState,
       modals: initialModalState,
       userConfig: initialUserConfigState,
+      timerOptions: {
+        timerOptions,
+      },
     };
 
     this.store = createStore(initialState);
