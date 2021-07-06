@@ -25,9 +25,9 @@ export const groupMediaItemsByDate = (
   const referenceDateTime = moment.utc(timestamp);
 
   const sortedMediaItem = sortBy(mediaItems, mediaItem => {
-    const { message } = mediaItem;
+    const { messageTimestamp } = mediaItem;
 
-    return -message.received_at;
+    return -messageTimestamp;
   });
   const messagesWithSection = sortedMediaItem.map(withSection(referenceDateTime));
   const groupedMediaItem = groupBy(messagesWithSection, 'type');
@@ -102,8 +102,8 @@ const withSection = (referenceDateTime: moment.Moment) => (
   const thisWeek = moment(referenceDateTime).startOf('isoWeek');
   const thisMonth = moment(referenceDateTime).startOf('month');
 
-  const { message } = mediaItem;
-  const mediaItemReceivedDate = moment.utc(message.received_at);
+  const { messageTimestamp } = mediaItem;
+  const mediaItemReceivedDate = moment.utc(messageTimestamp);
   if (mediaItemReceivedDate.isAfter(today)) {
     return {
       order: 0,

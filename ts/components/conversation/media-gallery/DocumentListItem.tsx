@@ -5,46 +5,30 @@ import moment from 'moment';
 // tslint:disable-next-line:match-default-export-name
 import formatFileSize from 'filesize';
 
-interface Props {
+type Props = {
   // Required
   timestamp: number;
 
   // Optional
   fileName?: string;
-  fileSize?: number;
+  fileSize?: number | null;
   onClick?: () => void;
   shouldShowSeparator?: boolean;
-}
+};
 
-export class DocumentListItem extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    shouldShowSeparator: true,
-  };
+export const DocumentListItem = (props: Props) => {
+  const { shouldShowSeparator, fileName, fileSize, timestamp } = props;
 
-  public render() {
-    const { shouldShowSeparator } = this.props;
+  const defaultShowSeparator = shouldShowSeparator === undefined ? true : shouldShowSeparator;
 
-    return (
-      <div
-        className={classNames(
-          'module-document-list-item',
-          shouldShowSeparator ? 'module-document-list-item--with-separator' : null
-        )}
-      >
-        {this.renderContent()}
-      </div>
-    );
-  }
-
-  private renderContent() {
-    const { fileName, fileSize, timestamp } = this.props;
-
-    return (
-      <div
-        className="module-document-list-item__content"
-        role="button"
-        onClick={this.props.onClick}
-      >
+  return (
+    <div
+      className={classNames(
+        'module-document-list-item',
+        defaultShowSeparator ? 'module-document-list-item--with-separator' : null
+      )}
+    >
+      <div className="module-document-list-item__content" role="button" onClick={props.onClick}>
         <div className="module-document-list-item__icon" />
         <div className="module-document-list-item__metadata">
           <span className="module-document-list-item__file-name">{fileName}</span>
@@ -56,6 +40,6 @@ export class DocumentListItem extends React.Component<Props> {
           {moment(timestamp).format('ddd, MMM D, Y')}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};

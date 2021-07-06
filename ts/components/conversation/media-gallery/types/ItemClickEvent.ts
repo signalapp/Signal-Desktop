@@ -1,8 +1,6 @@
-import { AttachmentType } from '../../../../types/Attachment';
-import { Message } from './Message';
+import { MediaItemType } from '../../../LightboxGallery';
 
 export interface ItemClickEvent {
-  message: Message;
-  attachment: AttachmentType;
+  mediaItem: MediaItemType;
   type: 'media' | 'documents';
 }

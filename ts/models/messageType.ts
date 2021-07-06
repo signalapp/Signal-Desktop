@@ -228,7 +228,6 @@ export interface MessageRegularProps {
     authorProfileName?: string;
     authorName?: string;
     messageId?: string;
-    onClick: (data: any) => void;
     referencedMessageNotFound: boolean;
   };
   previews: Array<any>;
@@ -261,5 +260,5 @@ export interface MessageRegularProps {
 
   playableMessageIndex?: number;
   nextMessageToPlay?: number;
-  playNextMessage?: (value: number) => any;
+  playNextMessage?: (value: number) => void;
 }

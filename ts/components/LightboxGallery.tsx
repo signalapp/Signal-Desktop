@@ -5,9 +5,8 @@ import React, { useEffect, useState } from 'react';
 
 import * as MIME from '../types/MIME';
 import { Lightbox } from './Lightbox';
-import { Message } from './conversation/media-gallery/types/Message';
 
-import { AttachmentType } from '../types/Attachment';
+import { AttachmentTypeWithPath } from '../types/Attachment';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
 
@@ -16,22 +15,16 @@ export interface MediaItemType {
   thumbnailObjectUrl?: string;
   contentType: MIME.MIMEType;
   index: number;
-  attachment: AttachmentType;
-  message: Message;
+  attachment: AttachmentTypeWithPath;
   messageTimestamp: number;
   messageSender: string;
+  messageId: string;
 }
 
 type Props = {
   close: () => void;
   media: Array<MediaItemType>;
-  onSave?: (options: {
-    attachment: AttachmentType;
-    message: Message;
-    index: number;
-    messageTimestamp?: number;
-    messageSender: string;
-  }) => void;
+  onSave?: (saveData: MediaItemType) => void;
   selectedIndex: number;
 };
 
@@ -66,16 +59,10 @@ export const LightboxGallery = (props: Props) => {
     }
 
     const mediaItem = media[currentIndex];
-    onSave({
-      attachment: mediaItem.attachment,
-      message: mediaItem.message,
-      index: mediaItem.index,
-      messageTimestamp: mediaItem.messageTimestamp || mediaItem?.message?.sent_at,
-      messageSender: mediaItem.messageSender || (mediaItem?.message as any)?.source,
-    });
+    onSave(mediaItem);
   };
 
-  const objectURL = selectedMedia.objectURL || 'images/alert-outline.svg';
+  const objectURL = selectedMedia?.objectURL || 'images/alert-outline.svg';
   const { attachment } = selectedMedia;
 
   const saveCallback = onSave ? handleSave : undefined;

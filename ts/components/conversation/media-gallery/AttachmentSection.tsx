@@ -30,23 +30,23 @@ export class AttachmentSection extends React.Component<Props> {
 
     return mediaItems.map((mediaItem, position, array) => {
       const shouldShowSeparator = position < array.length - 1;
-      const { message, index, attachment } = mediaItem;
+      const { index, attachment, messageTimestamp, messageId } = mediaItem;
 
       const onClick = this.createClickHandler(mediaItem);
       switch (type) {
         case 'media':
           return (
-            <MediaGridItem key={`${message.id}-${index}`} mediaItem={mediaItem} onClick={onClick} />
+            <MediaGridItem key={`${messageId}-${index}`} mediaItem={mediaItem} onClick={onClick} />
           );
         case 'documents':
           return (
             <DocumentListItem
-              key={`${message.id}-${index}`}
+              key={`${messageId}-${index}`}
               fileName={attachment.fileName}
               fileSize={attachment.size}
               shouldShowSeparator={shouldShowSeparator}
               onClick={onClick}
-              timestamp={message.received_at}
+              timestamp={messageTimestamp}
             />
           );
         default:
@@ -57,12 +57,11 @@ export class AttachmentSection extends React.Component<Props> {
 
   private readonly createClickHandler = (mediaItem: MediaItemType) => () => {
     const { onItemClick, type } = this.props;
-    const { message, attachment } = mediaItem;
 
     if (!onItemClick) {
       return;
     }
 
-    onItemClick({ type, message, attachment });
+    onItemClick({ mediaItem, type });
   };
 }

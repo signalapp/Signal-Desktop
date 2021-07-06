@@ -15,6 +15,9 @@ describe('Attachment', () => {
         fileName: 'funny-cat.mov',
         url: 'funny-cat.mov',
         contentType: MIME.IMAGE_GIF,
+        fileSize: null,
+        screenshot: null,
+        thumbnail: null,
       };
       assert.strictEqual(Attachment.getFileExtension(input), 'gif');
     });
@@ -24,6 +27,9 @@ describe('Attachment', () => {
         fileName: 'funny-cat.mov',
         url: 'funny-cat.mov',
         contentType: MIME.VIDEO_QUICKTIME,
+        fileSize: null,
+        screenshot: null,
+        thumbnail: null,
       };
       assert.strictEqual(Attachment.getFileExtension(input), 'mov');
     });
@@ -33,6 +39,9 @@ describe('Attachment', () => {
         fileName: 'funny-cat.odt',
         url: 'funny-cat.odt',
         contentType: MIME.ODT,
+        fileSize: null,
+        screenshot: null,
+        thumbnail: null,
       };
       assert.strictEqual(Attachment.getFileExtension(input), 'odt');
     });
@@ -45,6 +54,9 @@ describe('Attachment', () => {
           fileName: 'funny-cat.mov',
           url: 'funny-cat.mov',
           contentType: MIME.VIDEO_QUICKTIME,
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         };
         const actual = Attachment.getSuggestedFilename({ attachment });
         const expected = 'funny-cat.mov';
@@ -55,6 +67,9 @@ describe('Attachment', () => {
           fileName: 'funny-cat.mov',
           url: 'funny-cat.mov',
           contentType: MIME.VIDEO_QUICKTIME,
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         };
         const actual = Attachment.getSuggestedFilename({
           attachment,
@@ -68,6 +83,9 @@ describe('Attachment', () => {
           fileName: 'funny-cat.ini',
           url: 'funny-cat.ini',
           contentType: '',
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         };
         const actual = Attachment.getSuggestedFilename({
           attachment,
@@ -82,6 +100,9 @@ describe('Attachment', () => {
           fileName: 'funny-cat.txt',
           url: 'funny-cat.txt',
           contentType: 'text/plain',
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         };
         const actual = Attachment.getSuggestedFilename({
           attachment,
@@ -95,6 +116,9 @@ describe('Attachment', () => {
           fileName: 'funny-cat.json',
           url: 'funny-cat.json',
           contentType: '',
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         };
         const actual = Attachment.getSuggestedFilename({
           attachment,
@@ -110,6 +134,9 @@ describe('Attachment', () => {
           contentType: MIME.VIDEO_QUICKTIME,
           url: 'funny-cat.mov',
           fileName: 'funny-cat.mov',
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         };
         const timestamp = moment('2000-01-01').toDate();
         const actual = Attachment.getSuggestedFilename({
@@ -126,6 +153,9 @@ describe('Attachment', () => {
           fileName: '',
           url: 'funny-cat.mov',
           contentType: MIME.VIDEO_QUICKTIME,
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         };
         const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
         const actual = Attachment.getSuggestedFilename({
@@ -142,6 +172,9 @@ describe('Attachment', () => {
           fileName: 'funny-cat.mov',
           url: 'funny-cat.mov',
           contentType: MIME.VIDEO_QUICKTIME,
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         };
         const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
         const actual = Attachment.getSuggestedFilename({

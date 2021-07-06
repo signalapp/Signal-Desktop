@@ -26,22 +26,44 @@ export interface AttachmentType {
   url: string;
   videoUrl?: string;
   size?: number;
-  fileSize?: string;
+  fileSize: string | null;
   pending?: boolean;
   width?: number;
   height?: number;
-  screenshot?: {
+  screenshot: {
     height: number;
     width: number;
     url: string;
     contentType: MIME.MIMEType;
-  };
-  thumbnail?: {
+  } | null;
+  thumbnail: {
     height: number;
     width: number;
     url: string;
     contentType: MIME.MIMEType;
-  };
+  } | null;
+}
+
+export interface AttachmentTypeWithPath extends AttachmentType {
+  path: string;
+  id: number;
+  flags?: number;
+  error?: any;
+
+  screenshot: {
+    height: number;
+    width: number;
+    url: string;
+    contentType: MIME.MIMEType;
+    path?: string;
+  } | null;
+  thumbnail: {
+    height: number;
+    width: number;
+    url: string;
+    contentType: MIME.MIMEType;
+    path?: string;
+  } | null;
 }
 
 // UI-focused functions

@@ -8,6 +8,7 @@ import { AttachmentType } from '../types/Attachment';
 import { SessionInput } from './session/SessionInput';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import { darkTheme, lightTheme } from '../state/ducks/SessionTheme';
+import autoBind from 'auto-bind';
 
 interface Props {
   attachment: AttachmentType;
@@ -31,8 +32,7 @@ export class CaptionEditor extends React.Component<Props, State> {
     this.state = {
       caption: caption || '',
     };
-    this.onSave = this.onSave.bind(this);
-    this.onChange = this.onChange.bind(this);
+    autoBind(this);
     this.inputRef = React.createRef();
   }
 

@@ -56,7 +56,7 @@ interface Props {
     messageTimestamp,
   }: {
     attachment: any;
-    messageTimestamp?: number;
+    messageTimestamp: number;
     messageSender: string;
   }) => void;
   onDeleteSelectedMessages: () => Promise<void>;
@@ -336,12 +336,17 @@ export class SessionMessagesList extends React.Component<Props, State> {
     };
 
     regularProps.onClickAttachment = (attachment: AttachmentType) => {
-      this.props.onClickAttachment(attachment, messageProps);
+      this.props.onClickAttachment(attachment, messageProps.propsForMessage);
     };
     regularProps.onDownload = (attachment: AttachmentType) => {
+      const messageTimestamp =
+        messageProps.propsForMessage.timestamp ||
+        messageProps.propsForMessage.serverTimestamp ||
+        messageProps.propsForMessage.receivedAt ||
+        0;
       this.props.onDownloadAttachment({
         attachment,
-        messageTimestamp: messageProps.propsForMessage.timestamp,
+        messageTimestamp,
         messageSender: messageProps.propsForMessage.authorPhoneNumber,
       });
     };

@@ -27,6 +27,7 @@ import {
   LastMessageStatusType,
   MessageModelProps,
   MessagePropsDetails,
+  PropsForAttachment,
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
@@ -54,6 +55,7 @@ import { getV2OpenGroupRoom } from '../data/opengroups';
 import { getMessageController } from '../session/messages';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
+import { AttachmentType, AttachmentTypeWithPath } from '../types/Attachment';
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   constructor(attributes: MessageAttributesOptionals) {
@@ -94,7 +96,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       propsForTimerNotification: this.getPropsForTimerNotification(),
     };
     perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
-
     return messageProps;
   }
 
@@ -623,7 +624,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const previews = this.get('preview') || [];
 
     return previews.map((preview: any) => {
-      let image = null;
+      let image: PropsForAttachment | null = null;
       try {
         if (preview.image) {
           image = this.getPropsForAttachment(preview.image);
@@ -667,29 +668,39 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
   }
 
-  public getPropsForAttachment(attachment: {
-    path?: string;
-    pending?: boolean;
-    flags: number;
-    size: number;
-    screenshot: any;
-    thumbnail: any;
-  }) {
+  public getPropsForAttachment(attachment: AttachmentTypeWithPath): PropsForAttachment | null {
     if (!attachment) {
       return null;
     }
 
-    const { path, pending, flags, size, screenshot, thumbnail } = attachment;
-
-    return {
-      ...attachment,
-      fileSize: size ? filesize(size) : null,
-      isVoiceMessage:
-        flags &&
-        // eslint-disable-next-line no-bitwise
-        // tslint:disable-next-line: no-bitwise
-        flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+    const {
+      id,
+      path,
+      contentType,
+      width,
+      height,
       pending,
+      flags,
+      size,
+      screenshot,
+      thumbnail,
+      fileName,
+    } = attachment;
+
+    const isVoiceMessage =
+      // tslint:disable-next-line: no-bitwise
+      Boolean(flags && flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE) || false;
+    return {
+      id: id ? `${id}` : undefined,
+      contentType,
+      size: size || 0,
+      width: width || 0,
+      height: height || 0,
+      path,
+      fileName,
+      fileSize: size ? filesize(size) : null,
+      isVoiceMessage,
+      pending: Boolean(pending),
       url: path ? window.Signal.Migrations.getAbsoluteAttachmentPath(path) : null,
       screenshot: screenshot
         ? {
@@ -1140,18 +1151,23 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public isTrustedForAttachmentDownload() {
-    const senderConvoId = this.getSource();
-    const isClosedGroup = this.getConversation()?.isClosedGroup() || false;
-    if (!!this.get('isPublic') || isClosedGroup || isUsFromCache(senderConvoId)) {
-      return true;
-    }
-    // check the convo from this user
-    // we want the convo of the sender of this message
-    const senderConvo = getConversationController().get(senderConvoId);
-    if (!senderConvo) {
+    try {
+      const senderConvoId = this.getSource();
+      const isClosedGroup = this.getConversation()?.isClosedGroup() || false;
+      if (!!this.get('isPublic') || isClosedGroup || isUsFromCache(senderConvoId)) {
+        return true;
+      }
+      // check the convo from this user
+      // we want the convo of the sender of this message
+      const senderConvo = getConversationController().get(senderConvoId);
+      if (!senderConvo) {
+        return false;
+      }
+      return senderConvo.get('isTrustedForAttachmentDownload') || false;
+    } catch (e) {
+      window.log.warn('isTrustedForAttachmentDownload: error; ', e.message);
       return false;
     }
-    return senderConvo.get('isTrustedForAttachmentDownload') || false;
   }
 }
 export class MessageCollection extends Backbone.Collection<MessageModel> {}

@@ -917,7 +917,7 @@ async function callChannel(name: string): Promise<any> {
 export async function getMessagesWithVisualMediaAttachments(
   conversationId: string,
   options?: { limit: number }
-): Promise<any> {
+): Promise<Array<MessageAttributes>> {
   return channels.getMessagesWithVisualMediaAttachments(conversationId, {
     limit: options?.limit,
   });
@@ -926,7 +926,7 @@ export async function getMessagesWithVisualMediaAttachments(
 export async function getMessagesWithFileAttachments(
   conversationId: string,
   options?: { limit: number }
-): Promise<any> {
+): Promise<Array<MessageAttributes>> {
   return channels.getMessagesWithFileAttachments(conversationId, {
     limit: options?.limit,
   });

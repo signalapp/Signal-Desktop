@@ -71,7 +71,7 @@ export function getUnpaddedAttachment(
 
 export function addAttachmentPadding(data: ArrayBuffer): ArrayBuffer {
   const originalUInt = new Uint8Array(data);
-  window?.log?.info('Adding attchment padding...');
+  window?.log?.info('Adding attachment padding...');
 
   const paddedSize = Math.max(
     541,

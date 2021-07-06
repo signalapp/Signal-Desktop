@@ -592,6 +592,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
                 ...ret.image,
                 url: URL.createObjectURL(blob),
                 fileName: 'preview',
+                fileSize: null,
+                screenshot: null,
+                thumbnail: null,
               };
               image = imageAttachment;
             }

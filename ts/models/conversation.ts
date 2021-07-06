@@ -892,7 +892,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const unreadCount = await this.getUnreadCount();
     this.set({ unreadCount });
     await this.commit();
-
     return model;
   }
 
@@ -971,12 +970,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         (m: any) => m.get('received_at') > newestUnreadDate
       );
       const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-      return !stillUnread.some(
-        (m: any) =>
-          m.propsForMessage &&
-          m.propsForMessage.text &&
-          m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
-      );
+      return !stillUnread.some(m => m.getPropsForMessage()?.text?.indexOf(`@${ourNumber}`) !== -1);
     })();
 
     if (mentionRead) {

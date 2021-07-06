@@ -669,7 +669,8 @@ const sendOnionRequestHandlingSnodeEject = async ({
 }): Promise<SnodeResponse> => {
   // this sendOnionRequest() call has to be the only one like this.
   // If you need to call it, call it through sendOnionRequestHandlingSnodeEject because this is the one handling path rebuilding and known errors
-  let response, decodingSymmetricKey;
+  let response;
+  let decodingSymmetricKey;
   try {
     // this might throw a timeout error
     const result = await sendOnionRequest({

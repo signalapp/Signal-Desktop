@@ -17,11 +17,11 @@ import { SessionMessagesList } from './SessionMessagesList';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
 
-import { AttachmentType, save } from '../../../types/Attachment';
+import { AttachmentType, AttachmentTypeWithPath, save } from '../../../types/Attachment';
 import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
-import { ConversationType } from '../../../state/ducks/conversations';
+import { ConversationType, PropsForMessage } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
@@ -39,6 +39,7 @@ import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
 import { SessionButtonColor } from '../SessionButton';
+import { usingClosedConversationDetails } from '../usingClosedConversationDetails';
 interface State {
   // Message sending progress
   messageProgressVisible: boolean;
@@ -74,7 +75,7 @@ interface State {
 
 export interface LightBoxOptions {
   media: Array<MediaItemType>;
-  attachment: any;
+  attachment: AttachmentTypeWithPath;
 }
 
 interface Props {
@@ -249,7 +250,6 @@ export class SessionConversation extends React.Component<Props, State> {
     return (
       <SessionTheme theme={this.props.theme}>
         <div className="conversation-header">{this.renderHeader()}</div>
-
         {/* <SessionProgress
             visible={this.state.messageProgressVisible}
             value={this.state.sendingProgress}
@@ -257,7 +257,6 @@ export class SessionConversation extends React.Component<Props, State> {
             sendStatus={this.state.sendingProgressStatus}
             resetProgress={this.resetSendingProgress}
           /> */}
-
         <div
           // if you change the classname, also update it on onKeyDown
           className={classNames('conversation-content', selectionMode && 'selection-mode')}
@@ -306,10 +305,13 @@ export class SessionConversation extends React.Component<Props, State> {
             theme={this.props.theme}
           />
         </div>
-
         <div className={classNames('conversation-item__options-pane', showOptionsPane && 'show')}>
-          <SessionRightPanelWithDetails {...this.getRightPanelProps()} />
+          <SessionRightPanelWithDetails
+            {...this.getRightPanelProps()}
+            isShowing={showOptionsPane}
+          />
         </div>
+        )
       </SessionTheme>
     );
   }
@@ -457,7 +459,7 @@ export class SessionConversation extends React.Component<Props, State> {
       phoneNumber: conversation.getNumber(),
       profileName: conversation.getProfileName(),
       avatarPath: conversation.getAvatarPath(),
-      isKickedFromGroup: conversation.get('isKickedFromGroup'),
+      isKickedFromGroup: Boolean(conversation.get('isKickedFromGroup')),
       left: conversation.get('left'),
       isGroup: !conversation.isPrivate(),
       isPublic: conversation.isPublic(),
@@ -714,20 +716,25 @@ export class SessionConversation extends React.Component<Props, State> {
     });
   }
 
-  private onClickAttachment(attachment: any, message: any) {
-    // message is MessageModelProps.propsForMessage I think
-    const media = (message.attachments || []).map((attachmentForMedia: any) => {
+  private onClickAttachment(attachment: AttachmentTypeWithPath, propsForMessage: PropsForMessage) {
+    let index = -1;
+    const media = (propsForMessage.attachments || []).map(attachmentForMedia => {
+      index++;
+      const messageTimestamp =
+        propsForMessage.timestamp || propsForMessage.serverTimestamp || propsForMessage.receivedAt;
+
       return {
-        objectURL: attachmentForMedia.url,
+        index: _.clone(index),
+        objectURL: attachmentForMedia.url || undefined,
         contentType: attachmentForMedia.contentType,
         attachment: attachmentForMedia,
-        messageSender: message.authorPhoneNumber,
-        messageTimestamp: message.direction !== 'outgoing' ? message.timestamp : undefined, // do not set this field when the message was sent from us
-        // if it is set, this will trigger a sending of DataExtractionNotification to that user, but for an attachment we sent ourself.
+        messageSender: propsForMessage.authorPhoneNumber,
+        messageTimestamp,
+        messageId: propsForMessage.id,
       };
     });
     const lightBoxOptions: LightBoxOptions = {
-      media,
+      media: media as any,
       attachment,
     };
     this.setState({ lightBoxOptions });
@@ -820,8 +827,9 @@ export class SessionConversation extends React.Component<Props, State> {
   private renderLightBox({ media, attachment }: LightBoxOptions) {
     const selectedIndex =
       media.length > 1
-        ? media.findIndex((mediaMessage: any) => mediaMessage.attachment.path === attachment.path)
+        ? media.findIndex(mediaMessage => mediaMessage.attachment.path === attachment.path)
         : 0;
+    console.warn('renderLightBox', { media, attachment });
     return (
       <LightboxGallery
         media={media}
@@ -837,15 +845,11 @@ export class SessionConversation extends React.Component<Props, State> {
   // THIS DOES NOT DOWNLOAD ANYTHING! it just saves it where the user wants
   private async saveAttachment({
     attachment,
-    message,
-    index,
     messageTimestamp,
     messageSender,
   }: {
     attachment: AttachmentType;
-    message?: Message;
-    index?: number;
-    messageTimestamp?: number;
+    messageTimestamp: number;
     messageSender: string;
   }) {
     const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
@@ -854,7 +858,7 @@ export class SessionConversation extends React.Component<Props, State> {
       attachment,
       document,
       getAbsolutePath: getAbsoluteAttachmentPath,
-      timestamp: messageTimestamp || message?.received_at,
+      timestamp: messageTimestamp,
     });
 
     await sendDataExtractionNotification(
@@ -937,6 +941,9 @@ export class SessionConversation extends React.Component<Props, State> {
             videoUrl: objectUrl,
             url,
             isVoiceMessage: false,
+            fileSize: null,
+            screenshot: null,
+            thumbnail: null,
           },
         ]);
       } catch (error) {
@@ -958,6 +965,9 @@ export class SessionConversation extends React.Component<Props, State> {
             contentType,
             url: urlImage,
             isVoiceMessage: false,
+            fileSize: null,
+            screenshot: null,
+            thumbnail: null,
           },
         ]);
         return;
@@ -973,6 +983,9 @@ export class SessionConversation extends React.Component<Props, State> {
           contentType,
           url,
           isVoiceMessage: false,
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         },
       ]);
     };
@@ -1017,6 +1030,9 @@ export class SessionConversation extends React.Component<Props, State> {
             fileName,
             url: '',
             isVoiceMessage: false,
+            fileSize: null,
+            screenshot: null,
+            thumbnail: null,
           },
         ]);
       }
@@ -1033,6 +1049,9 @@ export class SessionConversation extends React.Component<Props, State> {
           fileName,
           isVoiceMessage: false,
           url: '',
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
         },
       ]);
     }

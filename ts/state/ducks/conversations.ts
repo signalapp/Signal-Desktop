@@ -11,6 +11,7 @@ import {
   MessageModelType,
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
+import { AttachmentType } from '../../types/Attachment';
 
 export type MessageModelProps = {
   propsForMessage: PropsForMessage;
@@ -101,6 +102,34 @@ export type PropsForSearchResults = {
   snippet?: string; //not sure about the type of snippet
 };
 
+export type PropsForAttachment = {
+  id?: string;
+  contentType: string;
+  size: number;
+  width?: number;
+  height?: number;
+  url: string;
+  path?: string;
+  fileSize: string | null;
+  isVoiceMessage: boolean;
+  pending: boolean;
+  fileName: string;
+  screenshot: {
+    contentType: string;
+    width: number;
+    height: number;
+    url?: string;
+    path?: string;
+  } | null;
+  thumbnail: {
+    contentType: string;
+    width: number;
+    height: number;
+    url?: string;
+    path?: string;
+  } | null;
+};
+
 export type PropsForMessage = {
   text: string | null;
   id: string;
@@ -114,7 +143,7 @@ export type PropsForMessage = {
   authorPhoneNumber: string;
   conversationType: ConversationTypeEnum;
   convoId: string;
-  attachments: any;
+  attachments: Array<PropsForAttachment>;
   previews: any;
   quote: any;
   authorAvatarPath: string | null;
