@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ConversationListItemWithDetails } from '../ConversationListItem';
+import { MemoConversationListItemWithDetails } from '../ConversationListItem';
 import { RowRendererParamsType } from '../LeftPane';
 import { AutoSizer, List } from 'react-virtualized';
 import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
@@ -38,7 +38,7 @@ export class LeftPaneContactSection extends React.Component<Props> {
     const item = directContacts[index];
 
     return (
-      <ConversationListItemWithDetails
+      <MemoConversationListItemWithDetails
         key={item.id}
         style={style}
         {...item}

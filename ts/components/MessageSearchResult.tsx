@@ -108,7 +108,7 @@ class MessageSearchResultInner extends React.PureComponent<Props> {
           <div className="module-message-search-result__header">
             {this.renderFrom()}
             <div className="module-message-search-result__header__timestamp">
-              <Timestamp timestamp={receivedAt} theme={this.props.theme} />
+              <Timestamp timestamp={receivedAt} />
             </div>
           </div>
           <div className="module-message-search-result__body">

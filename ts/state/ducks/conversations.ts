@@ -168,7 +168,7 @@ export interface ConversationType {
   id: string;
   name?: string;
   profileName?: string;
-  hasNickname?: boolean;
+  hasNickname: boolean;
   index?: number;
 
   activeAt?: number;
@@ -176,7 +176,7 @@ export interface ConversationType {
   phoneNumber: string;
   type: ConversationTypeEnum;
   isMe: boolean;
-  isPublic?: boolean;
+  isPublic: boolean;
   unreadCount: number;
   mentionedUs: boolean;
   isSelected: boolean;

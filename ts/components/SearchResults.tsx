@@ -1,6 +1,9 @@
 import React from 'react';
 import { PropsForSearchResults } from '../state/ducks/conversations';
-import { ConversationListItemProps, ConversationListItemWithDetails } from './ConversationListItem';
+import {
+  ConversationListItemProps,
+  MemoConversationListItemWithDetails,
+} from './ConversationListItem';
 import { MessageSearchResult } from './MessageSearchResult';
 
 export type SearchResultsProps = {
@@ -46,7 +49,7 @@ export class SearchResults extends React.Component<Props> {
               {window.i18n('conversationsHeader')}
             </div>
             {conversations.map(conversation => (
-              <ConversationListItemWithDetails
+              <MemoConversationListItemWithDetails
                 key={conversation.phoneNumber}
                 {...conversation}
                 onClick={openConversationExternal}
@@ -82,7 +85,7 @@ export class SearchResults extends React.Component<Props> {
       <div className="module-search-results__contacts">
         <div className="module-search-results__contacts-header">{header}</div>
         {items.map(contact => (
-          <ConversationListItemWithDetails
+          <MemoConversationListItemWithDetails
             key={contact.phoneNumber}
             {...contact}
             onClick={openConversationExternal}

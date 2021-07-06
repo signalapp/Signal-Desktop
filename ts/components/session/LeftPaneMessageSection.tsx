@@ -5,7 +5,7 @@ import { AutoSizer, List } from 'react-virtualized';
 import { MainViewController } from '../MainViewController';
 import {
   ConversationListItemProps,
-  ConversationListItemWithDetails,
+  MemoConversationListItemWithDetails,
 } from '../ConversationListItem';
 import { ConversationType as ReduxConversationType } from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../SearchResults';
@@ -90,7 +90,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const conversation = conversations[index];
 
     return (
-      <ConversationListItemWithDetails
+      <MemoConversationListItemWithDetails
         key={key}
         style={style}
         {...conversation}

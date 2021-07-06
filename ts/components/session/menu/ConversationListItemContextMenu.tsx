@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { animation, Menu } from 'react-contexify';
+import _ from 'underscore';
 import { ConversationTypeEnum } from '../../../models/conversation';
 
 import {
@@ -15,21 +16,20 @@ import {
 } from './Menu';
 
 export type PropsContextConversationItem = {
-  id: string;
+  conversationId: string;
   triggerId: string;
   type: ConversationTypeEnum;
   isMe: boolean;
-  isPublic?: boolean;
-  isBlocked?: boolean;
-  hasNickname?: boolean;
-  isKickedFromGroup?: boolean;
-  left?: boolean;
-  theme?: any;
+  isPublic: boolean;
+  isBlocked: boolean;
+  hasNickname: boolean;
+  isKickedFromGroup: boolean;
+  left: boolean;
 };
 
-export const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
+const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
   const {
-    id: conversationId,
+    conversationId,
     triggerId,
     isBlocked,
     isMe,
@@ -38,25 +38,29 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     type,
     left,
     isKickedFromGroup,
-    theme,
   } = props;
 
   const isGroup = type === 'group';
-
   return (
-    <>
-      <Menu id={triggerId} animation={animation.fade}>
-        {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
-        {getCopyMenuItem(isPublic, isGroup, conversationId)}
-        {getMarkAllReadMenuItem(conversationId)}
-        {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
-        {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
+    <Menu id={triggerId} animation={animation.fade}>
+      {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
+      {getCopyMenuItem(isPublic, isGroup, conversationId)}
+      {getMarkAllReadMenuItem(conversationId)}
+      {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
+      {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
 
-        {getDeleteMessagesMenuItem(isPublic, conversationId)}
-        {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
-        {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
-        {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
-      </Menu>
-    </>
+      {getDeleteMessagesMenuItem(isPublic, conversationId)}
+      {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
+      {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
+      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
+    </Menu>
   );
 };
+
+function propsAreEqual(prev: PropsContextConversationItem, next: PropsContextConversationItem) {
+  return _.isEqual(prev, next);
+}
+export const MemoConversationListItemContextMenu = React.memo(
+  ConversationListItemContextMenu,
+  propsAreEqual
+);

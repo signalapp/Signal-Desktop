@@ -19,8 +19,8 @@ const timerOptionSlice = createSlice({
   name: 'timerOptions',
   initialState: initialTimerOptionsState,
   reducers: {
-    updateTimerOptions: (_state, action: PayloadAction<TimerOptionsArray>) => {
-      return { timerOptions: action.payload };
+    updateTimerOptions: (state, action: PayloadAction<TimerOptionsArray>) => {
+      return { ...state, timerOptions: action.payload };
     },
   },
 });

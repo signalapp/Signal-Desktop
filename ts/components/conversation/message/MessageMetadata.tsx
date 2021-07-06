@@ -91,7 +91,6 @@ export const MessageMetadata = (props: Props) => {
           extended={true}
           withImageNoCaption={withImageNoCaption}
           isConversationListItem={false}
-          theme={theme}
         />
       )}
       <MetadataBadges
@@ -115,7 +114,6 @@ export const MessageMetadata = (props: Props) => {
       {showStatus ? (
         <OutgoingMessageStatus
           iconColor={messageStatusColor}
-          theme={theme}
           status={status}
           // do not show the error status, another component is shown on the right of the message itself here
           isInMessageView={true}

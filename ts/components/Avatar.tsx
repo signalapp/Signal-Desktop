@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { AvatarPlaceHolder, ClosedGroupAvatar } from './AvatarPlaceHolder';
 import { ConversationAvatar } from './session/usingClosedConversationDetails';
 import { useEncryptedFileFetch } from '../hooks/useEncryptedFileFetch';
+import _ from 'underscore';
 
 export enum AvatarSize {
   XS = 28,
@@ -84,7 +85,7 @@ const AvatarImage = (props: {
   );
 };
 
-export const Avatar = (props: Props) => {
+const AvatarInner = (props: Props) => {
   const { avatarPath, base64Data, size, memberAvatars, name } = props;
   const [imageBroken, setImageBroken] = useState(false);
   // contentType is not important
@@ -130,3 +131,5 @@ export const Avatar = (props: Props) => {
     </div>
   );
 };
+
+export const Avatar = React.memo(AvatarInner, _.isEqual);

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { DefaultTheme } from 'styled-components';
+import styled, { DefaultTheme, useTheme } from 'styled-components';
 import { MessageDeliveryStatus } from '../../../models/messageType';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../../session/icon';
 import { OpacityMetadataComponent } from './MessageMetadata';
@@ -10,13 +10,12 @@ const MessageStatusSendingContainer = styled(props => <OpacityMetadataComponent 
   margin-inline-start: 5px;
 `;
 
-const MessageStatusSending = (props: { theme: DefaultTheme; iconColor: string }) => {
+const MessageStatusSending = (props: { iconColor: string }) => {
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
         rotateDuration={2}
         iconColor={props.iconColor}
-        theme={props.theme}
         iconType={SessionIconType.Sending}
         iconSize={SessionIconSize.Tiny}
       />
@@ -24,12 +23,11 @@ const MessageStatusSending = (props: { theme: DefaultTheme; iconColor: string })
   );
 };
 
-const MessageStatusSent = (props: { theme: DefaultTheme; iconColor: string }) => {
+const MessageStatusSent = (props: { iconColor: string }) => {
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
         iconColor={props.iconColor}
-        theme={props.theme}
         iconType={SessionIconType.CircleCheck}
         iconSize={SessionIconSize.Tiny}
       />
@@ -37,12 +35,11 @@ const MessageStatusSent = (props: { theme: DefaultTheme; iconColor: string }) =>
   );
 };
 
-const MessageStatusRead = (props: { theme: DefaultTheme; iconColor: string }) => {
+const MessageStatusRead = (props: { iconColor: string }) => {
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
         iconColor={props.iconColor}
-        theme={props.theme}
         iconType={SessionIconType.DoubleCheckCircleFilled}
         iconSize={SessionIconSize.Tiny}
       />
@@ -50,12 +47,12 @@ const MessageStatusRead = (props: { theme: DefaultTheme; iconColor: string }) =>
   );
 };
 
-const MessageStatusError = (props: { theme: DefaultTheme }) => {
+const MessageStatusError = () => {
+  const theme = useTheme();
   return (
     <MessageStatusSendingContainer>
       <SessionIcon
-        iconColor={props.theme.colors.destructive}
-        theme={props.theme}
+        iconColor={theme.colors.destructive}
         iconType={SessionIconType.Error}
         iconSize={SessionIconSize.Tiny}
       />
@@ -65,7 +62,6 @@ const MessageStatusError = (props: { theme: DefaultTheme }) => {
 
 export const OutgoingMessageStatus = (props: {
   status?: MessageDeliveryStatus;
-  theme: DefaultTheme;
   iconColor: string;
   isInMessageView?: boolean;
 }) => {
@@ -80,7 +76,7 @@ export const OutgoingMessageStatus = (props: {
       if (props.isInMessageView) {
         return null;
       }
-      return <MessageStatusError {...props} />;
+      return <MessageStatusError />;
     default:
       return null;
   }

@@ -188,7 +188,7 @@ export const SessionIcon = (props: SessionIconProps) => {
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
-  if (!theme) {
+  if (!themeToUse) {
     window?.log?.error('Missing theme props in SessionIcon');
   }
 

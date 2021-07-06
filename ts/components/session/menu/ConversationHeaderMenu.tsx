@@ -16,27 +16,27 @@ import {
   getRemoveModeratorsMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';
-import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
+import { NotificationForConvoOption } from '../../conversation/ConversationHeader';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
+import _ from 'lodash';
 
 export type PropsConversationHeaderMenu = {
   conversationId: string;
   triggerId: string;
   isMe: boolean;
-  isPublic?: boolean;
-  isKickedFromGroup?: boolean;
-  left?: boolean;
+  isPublic: boolean;
+  isKickedFromGroup: boolean;
+  left: boolean;
   isGroup: boolean;
   isAdmin: boolean;
   notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
   isPrivate: boolean;
   isBlocked: boolean;
-  theme: any;
-  hasNickname?: boolean;
+  hasNickname: boolean;
 };
 
-export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
+const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   const {
     conversationId,
     triggerId,
@@ -54,32 +54,35 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   } = props;
 
   return (
-    <>
-      <Menu id={triggerId} animation={animation.fade}>
-        {getDisappearingMenuItem(isPublic, isKickedFromGroup, left, isBlocked, conversationId)}
-        {getNotificationForConvoMenuItem(
-          isKickedFromGroup,
-          left,
-          isBlocked,
-          notificationForConvo,
-          currentNotificationSetting,
-          conversationId
-        )}
-        {getBlockMenuItem(isMe, isPrivate, isBlocked, conversationId)}
+    <Menu id={triggerId} animation={animation.fade}>
+      {getDisappearingMenuItem(isPublic, isKickedFromGroup, left, isBlocked, conversationId)}
+      {getNotificationForConvoMenuItem(
+        isKickedFromGroup,
+        left,
+        isBlocked,
+        notificationForConvo,
+        currentNotificationSetting,
+        conversationId
+      )}
+      {getBlockMenuItem(isMe, isPrivate, isBlocked, conversationId)}
 
-        {getCopyMenuItem(isPublic, isGroup, conversationId)}
-        {getMarkAllReadMenuItem(conversationId)}
-        {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
-        {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
-        {getDeleteMessagesMenuItem(isPublic, conversationId)}
-        {getAddModeratorsMenuItem(isAdmin, isKickedFromGroup, conversationId)}
-        {getRemoveModeratorsMenuItem(isAdmin, isKickedFromGroup, conversationId)}
-        {getUpdateGroupNameMenuItem(isAdmin, isKickedFromGroup, left, conversationId)}
-        {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
-        {/* TODO: add delete group */}
-        {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
-        {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
-      </Menu>
-    </>
+      {getCopyMenuItem(isPublic, isGroup, conversationId)}
+      {getMarkAllReadMenuItem(conversationId)}
+      {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
+      {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
+      {getDeleteMessagesMenuItem(isPublic, conversationId)}
+      {getAddModeratorsMenuItem(isAdmin, isKickedFromGroup, conversationId)}
+      {getRemoveModeratorsMenuItem(isAdmin, isKickedFromGroup, conversationId)}
+      {getUpdateGroupNameMenuItem(isAdmin, isKickedFromGroup, left, conversationId)}
+      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
+      {/* TODO: add delete group */}
+      {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
+      {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
+    </Menu>
   );
 };
+
+function propsAreEqual(prev: PropsConversationHeaderMenu, next: PropsConversationHeaderMenu) {
+  return _.isEqual(prev, next);
+}
+export const MemoConversationHeaderMenu = React.memo(ConversationHeaderMenu, propsAreEqual);

@@ -9,12 +9,9 @@ import {
   ConversationAvatar,
   usingClosedConversationDetails,
 } from '../session/usingClosedConversationDetails';
-import {
-  ConversationHeaderMenu,
-  PropsConversationHeaderMenu,
-} from '../session/menu/ConversationHeaderMenu';
+import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
 import { contextMenu } from 'react-contexify';
-import { DefaultTheme, withTheme } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
 import autoBind from 'auto-bind';
 
@@ -54,7 +51,7 @@ interface Props {
   showBackButton: boolean;
   notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
-  hasNickname?: boolean;
+  hasNickname: boolean;
 
   isBlocked: boolean;
 
@@ -68,32 +65,137 @@ interface Props {
   onGoBack: () => void;
 
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
-  theme: DefaultTheme;
 }
+
+const SelectionOverlay = (props: {
+  onDeleteSelectedMessages: () => void;
+  onCloseOverlay: () => void;
+  isPublic: boolean;
+}) => {
+  const { onDeleteSelectedMessages, onCloseOverlay, isPublic } = props;
+  const { i18n } = window;
+  const theme = useTheme();
+
+  const isServerDeletable = isPublic;
+  const deleteMessageButtonText = i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
+
+  return (
+    <div className="message-selection-overlay">
+      <div className="close-button">
+        <SessionIconButton
+          iconType={SessionIconType.Exit}
+          iconSize={SessionIconSize.Medium}
+          onClick={onCloseOverlay}
+          theme={theme}
+        />
+      </div>
+
+      <div className="button-group">
+        <SessionButton
+          buttonType={SessionButtonType.Default}
+          buttonColor={SessionButtonColor.Danger}
+          text={deleteMessageButtonText}
+          onClick={onDeleteSelectedMessages}
+        />
+      </div>
+    </div>
+  );
+};
+
+const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) => {
+  const { showBackButton } = props;
+  const theme = useTheme();
+  if (showBackButton) {
+    return <></>;
+  }
+  return (
+    <div
+      role="button"
+      onClick={(e: any) => {
+        contextMenu.show({
+          id: props.triggerId,
+          event: e,
+        });
+      }}
+    >
+      <SessionIconButton
+        iconType={SessionIconType.Ellipses}
+        iconSize={SessionIconSize.Medium}
+        theme={theme}
+      />
+    </div>
+  );
+};
+
+const ExpirationLength = (props: { expirationSettingName?: string }) => {
+  const { expirationSettingName } = props;
+
+  if (!expirationSettingName) {
+    return null;
+  }
+
+  return (
+    <div className="module-conversation-header__expiration">
+      <div className="module-conversation-header__expiration__clock-icon" />
+      <div className="module-conversation-header__expiration__setting">{expirationSettingName}</div>
+    </div>
+  );
+};
+
+const AvatarHeader = (props: {
+  avatarPath?: string;
+  memberAvatars?: Array<ConversationAvatar>;
+  name?: string;
+  phoneNumber: string;
+  profileName?: string;
+  showBackButton: boolean;
+  onAvatarClick?: (pubkey: string) => void;
+}) => {
+  const { avatarPath, memberAvatars, name, phoneNumber, profileName } = props;
+  const userName = name || profileName || phoneNumber;
+
+  return (
+    <span className="module-conversation-header__avatar">
+      <Avatar
+        avatarPath={avatarPath}
+        name={userName}
+        size={AvatarSize.S}
+        onAvatarClick={() => {
+          // do not allow right panel to appear if another button is shown on the SessionConversation
+          if (props.onAvatarClick && !props.showBackButton) {
+            props.onAvatarClick(phoneNumber);
+          }
+        }}
+        memberAvatars={memberAvatars}
+        pubkey={phoneNumber}
+      />
+    </span>
+  );
+};
+
+const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) => {
+  const { onGoBack, showBackButton } = props;
+  const theme = useTheme();
+  if (!showBackButton) {
+    return null;
+  }
+
+  return (
+    <SessionIconButton
+      iconType={SessionIconType.Chevron}
+      iconSize={SessionIconSize.Large}
+      iconRotation={90}
+      onClick={onGoBack}
+      theme={theme}
+    />
+  );
+};
 
 class ConversationHeaderInner extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
 
     autoBind(this);
-  }
-
-  public renderBackButton() {
-    const { onGoBack, showBackButton } = this.props;
-
-    if (!showBackButton) {
-      return null;
-    }
-
-    return (
-      <SessionIconButton
-        iconType={SessionIconType.Chevron}
-        iconSize={SessionIconSize.Large}
-        iconRotation={90}
-        onClick={onGoBack}
-        theme={this.props.theme}
-      />
-    );
   }
 
   public renderTitle() {
@@ -147,146 +249,65 @@ class ConversationHeaderInner extends React.Component<Props> {
     );
   }
 
-  public renderAvatar() {
-    const { avatarPath, memberAvatars, name, phoneNumber, profileName } = this.props;
-
-    const userName = name || profileName || phoneNumber;
-
-    return (
-      <span className="module-conversation-header__avatar">
-        <Avatar
-          avatarPath={avatarPath}
-          name={userName}
-          size={AvatarSize.S}
-          onAvatarClick={() => {
-            this.onAvatarClick(phoneNumber);
-          }}
-          memberAvatars={memberAvatars}
-          pubkey={phoneNumber}
-        />
-      </span>
-    );
-  }
-
-  public renderExpirationLength() {
-    const { expirationSettingName } = this.props;
-
-    if (!expirationSettingName) {
-      return null;
-    }
-
-    return (
-      <div className="module-conversation-header__expiration">
-        <div className="module-conversation-header__expiration__clock-icon" />
-        <div className="module-conversation-header__expiration__setting">
-          {expirationSettingName}
-        </div>
-      </div>
-    );
-  }
-
-  public renderSelectionOverlay() {
-    const { onDeleteSelectedMessages, onCloseOverlay, isPublic } = this.props;
-    const { i18n } = window;
-
-    const isServerDeletable = isPublic;
-    const deleteMessageButtonText = i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
-
-    return (
-      <div className="message-selection-overlay">
-        <div className="close-button">
-          <SessionIconButton
-            iconType={SessionIconType.Exit}
-            iconSize={SessionIconSize.Medium}
-            onClick={onCloseOverlay}
-            theme={this.props.theme}
-          />
-        </div>
-
-        <div className="button-group">
-          <SessionButton
-            buttonType={SessionButtonType.Default}
-            buttonColor={SessionButtonColor.Danger}
-            text={deleteMessageButtonText}
-            onClick={onDeleteSelectedMessages}
-          />
-        </div>
-      </div>
-    );
-  }
-
   public render() {
-    const { isKickedFromGroup, selectionMode } = this.props;
+    const { isKickedFromGroup, selectionMode, expirationSettingName, showBackButton } = this.props;
     const triggerId = 'conversation-header';
+    console.warn('conversation header render', this.props);
 
     return (
       <div className="module-conversation-header">
         <div className="conversation-header--items-wrapper">
-          {this.renderBackButton()}
+          <BackButton onGoBack={this.props.onGoBack} showBackButton={this.props.showBackButton} />
+
           <div className="module-conversation-header__title-container">
             <div className="module-conversation-header__title-flex">
-              {this.renderTripleDotsMenu(triggerId)}
+              <TripleDotsMenu triggerId={triggerId} showBackButton={showBackButton} />
               {this.renderTitle()}
             </div>
           </div>
-          {!isKickedFromGroup && this.renderExpirationLength()}
+          {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
 
-          {!selectionMode && this.renderAvatar()}
+          {!selectionMode && (
+            <AvatarHeader
+              onAvatarClick={this.props.onAvatarClick}
+              phoneNumber={this.props.phoneNumber}
+              showBackButton={this.props.showBackButton}
+              avatarPath={this.props.avatarPath}
+              memberAvatars={this.props.memberAvatars}
+              name={this.props.name}
+              profileName={this.props.profileName}
+            />
+          )}
 
-          <ConversationHeaderMenu {...this.getHeaderMenuProps(triggerId)} />
+          <MemoConversationHeaderMenu
+            conversationId={this.props.id}
+            triggerId={triggerId}
+            isMe={this.props.isMe}
+            isPublic={this.props.isPublic}
+            isGroup={this.props.isGroup}
+            isKickedFromGroup={isKickedFromGroup}
+            isAdmin={this.props.isAdmin}
+            isBlocked={this.props.isBlocked}
+            isPrivate={this.props.isPrivate}
+            left={this.props.left}
+            hasNickname={this.props.hasNickname}
+            notificationForConvo={this.props.notificationForConvo}
+            currentNotificationSetting={this.props.currentNotificationSetting}
+          />
         </div>
 
-        {selectionMode && this.renderSelectionOverlay()}
-      </div>
-    );
-  }
-
-  public onAvatarClick(userPubKey: string) {
-    // do not allow right panel to appear if another button is shown on the SessionConversation
-    if (this.props.onAvatarClick && !this.props.showBackButton) {
-      this.props.onAvatarClick(userPubKey);
-    }
-  }
-
-  public highlightMessageSearch() {
-    // This is a temporary fix. In future we want to search
-    // messages in the current conversation
-    ($('.session-search-input input') as any).focus();
-  }
-
-  private getHeaderMenuProps(triggerId: string): PropsConversationHeaderMenu {
-    return {
-      triggerId,
-      conversationId: this.props.id,
-      ...this.props,
-    };
-  }
-
-  private renderTripleDotsMenu(triggerId: string) {
-    const { showBackButton } = this.props;
-    if (showBackButton) {
-      return <></>;
-    }
-    return (
-      <div
-        role="button"
-        onClick={(e: any) => {
-          contextMenu.show({
-            id: triggerId,
-            event: e,
-          });
-        }}
-      >
-        <SessionIconButton
-          iconType={SessionIconType.Ellipses}
-          iconSize={SessionIconSize.Medium}
-          theme={this.props.theme}
-        />
+        {selectionMode && (
+          <SelectionOverlay
+            isPublic={this.props.isPublic}
+            onCloseOverlay={this.props.onCloseOverlay}
+            onDeleteSelectedMessages={this.props.onDeleteSelectedMessages}
+          />
+        )}
       </div>
     );
   }
 }
 
 export const ConversationHeaderWithDetails = usingClosedConversationDetails(
-  withTheme(ConversationHeaderInner)
+  ConversationHeaderInner
 );

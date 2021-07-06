@@ -41,10 +41,6 @@ function showNotificationConvo(
   return !left && !isKickedFromGroup && !isBlocked;
 }
 
-function showMemberMenu(isPublic: boolean, isGroup: boolean): boolean {
-  return !isPublic && isGroup;
-}
-
 function showBlock(isMe: boolean, isPrivate: boolean): boolean {
   return !isMe && isPrivate;
 }
