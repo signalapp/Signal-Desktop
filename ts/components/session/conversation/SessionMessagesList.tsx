@@ -35,7 +35,7 @@ interface State {
 interface Props {
   selectedMessages: Array<string>;
   conversationKey: string;
-  messages: Array<SortedMessageModelProps>;
+  messagesProps: Array<SortedMessageModelProps>;
   conversation: ConversationType;
   ourPrimary: string;
   messageContainerRef: React.RefObject<any>;
@@ -98,8 +98,11 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
   public componentDidUpdate(prevProps: Props, _prevState: State) {
     const isSameConvo = prevProps.conversationKey === this.props.conversationKey;
-    const messageLengthChanged = prevProps.messages.length !== this.props.messages.length;
-    if (!isSameConvo || (prevProps.messages.length === 0 && this.props.messages.length !== 0)) {
+    const messageLengthChanged = prevProps.messagesProps.length !== this.props.messagesProps.length;
+    if (
+      !isSameConvo ||
+      (prevProps.messagesProps.length === 0 && this.props.messagesProps.length !== 0)
+    ) {
       // displayed conversation changed. We have a bit of cleaning to do here
       this.scrollOffsetBottomPx = Number.MAX_VALUE;
       this.ignoreScrollEvents = true;
@@ -133,7 +136,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   public render() {
-    const { conversationKey, conversation, messages } = this.props;
+    const { conversationKey, conversation, messagesProps } = this.props;
     const { showScrollButton } = this.state;
 
     let displayedName = null;
@@ -157,7 +160,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
           key="typing-bubble"
         />
 
-        {this.renderMessages(messages)}
+        {this.renderMessages()}
 
         <SessionScrollButton
           show={showScrollButton}
@@ -206,8 +209,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
     return findFirstUnreadIndex;
   }
 
-  private renderMessages(messagesProps: Array<SortedMessageModelProps>) {
-    const { selectedMessages } = this.props;
+  private renderMessages() {
+    const { selectedMessages, messagesProps } = this.props;
     const multiSelectMode = Boolean(selectedMessages.length);
     let currentMessageIndex = 0;
     let playableMessageIndex = 0;
@@ -367,9 +370,9 @@ export class SessionMessagesList extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~ MESSAGE HANDLING ~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private updateReadMessages() {
-    const { messages, conversationKey } = this.props;
+    const { messagesProps, conversationKey } = this.props;
 
-    if (!messages || messages.length === 0) {
+    if (!messagesProps || messagesProps.length === 0) {
       return;
     }
 
@@ -384,7 +387,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
 
     if (this.getScrollOffsetBottomPx() === 0) {
-      void conversation.markRead(messages[0].propsForMessage.receivedAt);
+      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt);
     }
   }
 
@@ -393,11 +396,11 @@ export class SessionMessagesList extends React.Component<Props, State> {
    * @param index index of message that just completed
    */
   private readonly playNextMessage = (index: any) => {
-    const { messages } = this.props;
+    const { messagesProps } = this.props;
     let nextIndex: number | undefined = index - 1;
 
     // to prevent autoplaying as soon as a message is received.
-    const latestMessagePlayed = index <= 0 || messages.length < index - 1;
+    const latestMessagePlayed = index <= 0 || messagesProps.length < index - 1;
     if (latestMessagePlayed) {
       nextIndex = undefined;
       this.setState({
@@ -407,8 +410,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
 
     // stop auto-playing when the audio messages change author.
-    const prevAuthorNumber = messages[index].propsForMessage.authorPhoneNumber;
-    const nextAuthorNumber = messages[index - 1].propsForMessage.authorPhoneNumber;
+    const prevAuthorNumber = messagesProps[index].propsForMessage.authorPhoneNumber;
+    const nextAuthorNumber = messagesProps[index - 1].propsForMessage.authorPhoneNumber;
     const differentAuthor = prevAuthorNumber !== nextAuthorNumber;
     if (differentAuthor) {
       nextIndex = undefined;
@@ -464,28 +467,27 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const shouldFetchMoreMessages = scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
 
     if (shouldFetchMoreMessages) {
-      const { messages } = this.props;
-      const numMessages =
-        this.props.messages.length + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
-      const oldLen = messages.length;
-      const previousTopMessage = messages[oldLen - 1]?.propsForMessage.id;
+      const { messagesProps } = this.props;
+      const numMessages = messagesProps.length + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
+      const oldLen = messagesProps.length;
+      const previousTopMessage = messagesProps[oldLen - 1]?.propsForMessage.id;
 
       fetchMessagesForConversation({ conversationKey, count: numMessages });
-      if (previousTopMessage && oldLen !== messages.length) {
+      if (previousTopMessage && oldLen !== messagesProps.length) {
         this.scrollToMessage(previousTopMessage);
       }
     }
   }
 
   private scrollToUnread() {
-    const { messages, conversation } = this.props;
+    const { messagesProps, conversation } = this.props;
     if (conversation.unreadCount > 0) {
       let message;
-      if (messages.length > conversation.unreadCount) {
+      if (messagesProps.length > conversation.unreadCount) {
         // if we have enough message to show one more message, show one more to include the unread banner
-        message = messages[conversation.unreadCount - 1];
+        message = messagesProps[conversation.unreadCount - 1];
       } else {
-        message = messages[conversation.unreadCount - 1];
+        message = messagesProps[conversation.unreadCount - 1];
       }
 
       if (message) {
@@ -493,7 +495,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       }
     }
 
-    if (this.ignoreScrollEvents && messages.length > 0) {
+    if (this.ignoreScrollEvents && messagesProps.length > 0) {
       this.ignoreScrollEvents = false;
       this.updateReadMessages();
     }
@@ -563,6 +565,8 @@ export class SessionMessagesList extends React.Component<Props, State> {
   private async scrollToQuoteMessage(options: QuoteClickOptions) {
     const { quoteAuthor, quoteId, referencedMessageNotFound } = options;
 
+    const { messagesProps } = this.props;
+
     // For simplicity's sake, we show the 'not found' toast no matter what if we were
     //   not able to find the referenced message when the quote was received.
     if (referencedMessageNotFound) {
@@ -570,7 +574,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       return;
     }
     // Look for message in memory first, which would tell us if we could scroll to it
-    const targetMessage = this.props.messages.find(item => {
+    const targetMessage = messagesProps.find(item => {
       const messageAuthor = item.propsForMessage?.authorPhoneNumber;
 
       if (!messageAuthor || quoteAuthor !== messageAuthor) {

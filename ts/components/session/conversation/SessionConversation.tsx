@@ -1,18 +1,16 @@
-// tslint:disable: no-backbone-get-set-outside-model
-
 import React from 'react';
 
 import classNames from 'classnames';
 
 import { SessionCompositionBox, StagedAttachmentType } from './SessionCompositionBox';
 
-import { ClosedGroup, Constants, Utils } from '../../../session';
+import { Constants } from '../../../session';
 import _ from 'lodash';
 import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { DefaultTheme } from 'styled-components';
 import { SessionMessagesList } from './SessionMessagesList';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 import { Message } from '../../conversation/media-gallery/types/Message';
@@ -21,7 +19,11 @@ import { AttachmentType, AttachmentTypeWithPath, save } from '../../../types/Att
 import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
-import { ConversationType, PropsForMessage } from '../../../state/ducks/conversations';
+import {
+  ConversationType,
+  PropsForMessage,
+  SortedMessageModelProps,
+} from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
 import { MessageDetail } from '../../conversation/MessageDetail';
@@ -39,7 +41,6 @@ import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
 import { SessionButtonColor } from '../SessionButton';
-import { usingClosedConversationDetails } from '../usingClosedConversationDetails';
 interface State {
   // Message sending progress
   messageProgressVisible: boolean;
@@ -83,7 +84,7 @@ interface Props {
   selectedConversationKey: string;
   selectedConversation?: ConversationType;
   theme: DefaultTheme;
-  messages: Array<any>;
+  messagesProps: Array<SortedMessageModelProps>;
   actions: any;
 }
 
@@ -216,9 +217,9 @@ export class SessionConversation extends React.Component<Props, State> {
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
-    const { selectedConversation, selectedConversationKey, messages, actions } = this.props;
+    const { selectedConversation, selectedConversationKey, messagesProps, actions } = this.props;
 
-    if (!selectedConversation || !messages) {
+    if (!selectedConversation || !messagesProps) {
       // return an empty message view
       return <MessageView />;
     }
@@ -414,7 +415,7 @@ export class SessionConversation extends React.Component<Props, State> {
       selectedConversation,
       selectedConversationKey,
       ourNumber,
-      messages,
+      messagesProps,
       actions,
     } = this.props;
     const { quotedMessageTimestamp, selectedMessages } = this.state;
@@ -423,7 +424,7 @@ export class SessionConversation extends React.Component<Props, State> {
       selectedMessages,
       ourPrimary: ourNumber,
       conversationKey: selectedConversationKey,
-      messages,
+      messagesProps,
       resetSelection: this.resetSelection,
       quotedMessageTimestamp,
       conversation: selectedConversation as ConversationType,
@@ -529,15 +530,15 @@ export class SessionConversation extends React.Component<Props, State> {
 
   public async deleteMessagesById(messageIds: Array<string>, askUserForConfirmation: boolean) {
     // Get message objects
-    const { selectedConversationKey, selectedConversation, messages } = this.props;
+    const { selectedConversationKey, selectedConversation, messagesProps } = this.props;
 
     const conversationModel = getConversationController().getOrThrow(selectedConversationKey);
     if (!selectedConversation) {
       window?.log?.info('No valid selected conversation.');
       return;
     }
-    const selectedMessages = messages.filter(message =>
-      messageIds.find(selectedMessage => selectedMessage === message.id)
+    const selectedMessages = messagesProps.filter(message =>
+      messageIds.find(selectedMessage => selectedMessage === message.propsForMessage.id)
     );
 
     const multiple = selectedMessages.length > 1;
@@ -557,7 +558,7 @@ export class SessionConversation extends React.Component<Props, State> {
     })();
 
     const doDelete = async () => {
-      let toDeleteLocally;
+      let toDeleteLocallyIds: Array<string>;
 
       if (selectedConversation.isPublic) {
         // Get our Moderator status
@@ -568,7 +569,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
         const isAdmin = conversationModel.isAdmin(ourDevicePubkey);
         const isAllOurs = selectedMessages.every(
-          message => ourDevicePubkey === message.attributes.source
+          message => ourDevicePubkey === message.propsForMessage.authorPhoneNumber
         );
 
         if (!isAllOurs && !isAdmin) {
@@ -578,18 +579,18 @@ export class SessionConversation extends React.Component<Props, State> {
           return;
         }
 
-        toDeleteLocally = await deleteOpenGroupMessages(selectedMessages, conversationModel);
-        if (toDeleteLocally.length === 0) {
+        toDeleteLocallyIds = await deleteOpenGroupMessages(selectedMessages, conversationModel);
+        if (toDeleteLocallyIds.length === 0) {
           // Message failed to delete from server, show error?
           return;
         }
       } else {
-        toDeleteLocally = selectedMessages;
+        toDeleteLocallyIds = selectedMessages.map(pro => pro.propsForMessage.id);
       }
 
       await Promise.all(
-        toDeleteLocally.map(async message => {
-          await conversationModel.removeMessage(message.id);
+        toDeleteLocallyIds.map(async msgId => {
+          await conversationModel.removeMessage(msgId);
         })
       );
 
@@ -684,15 +685,19 @@ export class SessionConversation extends React.Component<Props, State> {
       return;
     }
     if (!_.isEqual(this.state.quotedMessageTimestamp, quotedMessageTimestamp)) {
-      const { messages, selectedConversationKey } = this.props;
+      const { messagesProps, selectedConversationKey } = this.props;
       const conversationModel = getConversationController().getOrThrow(selectedConversationKey);
 
       let quotedMessageProps = null;
       if (quotedMessageTimestamp) {
-        const quotedMessage = messages.find(m => m.attributes.sent_at === quotedMessageTimestamp);
+        const quotedMessage = messagesProps.find(
+          m =>
+            m.propsForMessage.timestamp === quotedMessageTimestamp ||
+            m.propsForMessage.serverTimestamp === quotedMessageTimestamp
+        );
 
         if (quotedMessage) {
-          const quotedMessageModel = await getMessageById(quotedMessage.id);
+          const quotedMessageModel = await getMessageById(quotedMessage.propsForMessage.id);
           if (quotedMessageModel) {
             quotedMessageProps = await conversationModel.makeQuote(quotedMessageModel);
           }

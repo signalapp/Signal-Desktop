@@ -551,6 +551,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       timestamp: this.get('sent_at'),
       receivedAt: this.get('received_at'),
       serverTimestamp: this.get('serverTimestamp'),
+      serverId: this.get('serverId'),
       status: this.getMessagePropStatus(),
       authorName: senderContact.name,
       authorProfileName: senderContact.profileName,

@@ -11,7 +11,6 @@ import {
   MessageModelType,
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
-import { AttachmentType } from '../../types/Attachment';
 
 export type MessageModelProps = {
   propsForMessage: PropsForMessage;
@@ -137,6 +136,7 @@ export type PropsForMessage = {
   timestamp: number | undefined;
   receivedAt: number | undefined;
   serverTimestamp: number | undefined;
+  serverId: number | undefined;
   status: LastMessageStatusType;
   authorName: string | null;
   authorProfileName: string | null;

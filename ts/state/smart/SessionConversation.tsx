@@ -15,7 +15,7 @@ const mapStateToProps = (state: StateType) => {
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
     theme: getTheme(state),
-    messages: getMessagesOfSelectedConversation(state),
+    messagesProps: getMessagesOfSelectedConversation(state),
     ourNumber: getOurNumber(state),
   };
 };
