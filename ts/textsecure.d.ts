@@ -1099,6 +1099,7 @@ export declare class SyncMessageClass {
   messageRequestResponse?: SyncMessageClass.MessageRequestResponse;
   fetchLatest?: SyncMessageClass.FetchLatest;
   keys?: SyncMessageClass.Keys;
+  viewed?: Array<SyncMessageClass.Viewed>;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -1123,6 +1124,11 @@ export declare namespace SyncMessageClass {
     groupIds?: Array<ProtoBinaryType>;
   }
   class Read {
+    sender: string | null;
+    senderUuid: string | null;
+    timestamp?: ProtoBigNumberType;
+  }
+  class Viewed {
     sender: string | null;
     senderUuid: string | null;
     timestamp?: ProtoBigNumberType;
