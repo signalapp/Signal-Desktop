@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
+import { conversationPinned, conversationUnpinned } from '../../../state/ducks/conversations';
 import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
@@ -22,6 +24,9 @@ import {
   unblockConvoById,
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
+import { ToastUtils } from '../../../session/utils';
+
+const maxNumberOfPinnedConversations = 5;
 
 function showTimerOptions(
   isPublic: boolean,
@@ -132,10 +137,25 @@ export const MenuItemPinConversation = (
   const { conversationId } = props;
   const conversation = getConversationController().get(conversationId);
   const isPinned = conversation.getIsPinned();
+  const dispatch = useDispatch();
+  const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
 
   const togglePinConversation = async () => {
-    await conversation.setIsPinned(!isPinned);
+    if (!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) {
+      await conversation.setIsPinned(!isPinned);
+      dispatch(conversationPinned());
+    } else if (isPinned) {
+      await conversation.setIsPinned(!isPinned);
+      dispatch(conversationUnpinned());
+    } else {
+      ToastUtils.pushToastWarning(
+        'setPasswordSuccessToast',
+        window.i18n('removePasswordTitle'),
+        window.i18n('removePasswordToastDescription')
+      );
+    }
   };
+
   const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');
   return <Item onClick={togglePinConversation}>{menuText}</Item>;
 };

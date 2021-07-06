@@ -213,3 +213,7 @@ export const getMe = createSelector(
 export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
   return state.unreadCount;
 });
+
+export const getNumberOfPinnedConversations = createSelector(getConversations, (state): number => {
+  return state.pinnedConversations;
+});

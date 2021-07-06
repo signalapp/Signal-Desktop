@@ -93,6 +93,7 @@ export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
   messages: Array<MessageTypeInConvo>;
+  pinnedConversations: number;
 };
 
 async function getMessages(
@@ -243,6 +244,14 @@ export type SelectedConversationChangedActionType = {
     messageId?: string;
   };
 };
+export type ConversationPinnedActionType = {
+  type: 'CONVERSATION_PINNED';
+  payload: null;
+};
+export type ConversationUnpinnedActionType = {
+  type: 'CONVERSATION_UNPINNED';
+  payload: null;
+};
 
 export type FetchMessagesForConversationType = {
   type: 'messages/fetchByConversationKey/fulfilled';
@@ -265,6 +274,8 @@ export type ConversationActionType =
   | MessagesChangedActionType
   | SelectedConversationChangedActionType
   | SelectedConversationChangedActionType
+  | ConversationPinnedActionType
+  | ConversationUnpinnedActionType
   | FetchMessagesForConversationType;
 
 // Action Creators
@@ -282,6 +293,8 @@ export const actions = {
   messagesChanged,
   fetchMessagesForConversation,
   openConversationExternal,
+  conversationPinned,
+  conversationUnpinned,
 };
 
 function conversationAdded(id: string, data: ConversationType): ConversationAddedActionType {
@@ -406,6 +419,20 @@ export function openConversationExternal(
   };
 }
 
+export function conversationPinned(): ConversationPinnedActionType {
+  return {
+    type: 'CONVERSATION_PINNED',
+    payload: null,
+  };
+}
+
+export function conversationUnpinned(): ConversationUnpinnedActionType {
+  return {
+    type: 'CONVERSATION_UNPINNED',
+    payload: null,
+  };
+}
+
 // Reducer
 
 const toPickFromMessageModel = [
@@ -437,6 +464,7 @@ function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
     messages: [],
+    pinnedConversations: 0,
   };
 }
 
@@ -583,6 +611,30 @@ function handleConversationReset(
   return state;
 }
 
+function handleConversationPinned(
+  state: ConversationsStateType,
+  action: ConversationPinnedActionType
+) {
+  const { pinnedConversations } = state;
+
+  return {
+    ...state,
+    pinnedConversations: pinnedConversations + 1,
+  };
+}
+
+function handleConversationUnpinned(
+  state: ConversationsStateType,
+  action: ConversationUnpinnedActionType
+) {
+  const { pinnedConversations } = state;
+
+  return {
+    ...state,
+    pinnedConversations: (pinnedConversations > 0) ? pinnedConversations - 1 : 0,
+  };
+}
+
 // tslint:disable: cyclomatic-complexity
 // tslint:disable: max-func-body-length
 export function reducer(
@@ -689,6 +741,14 @@ export function reducer(
 
   if (action.type === 'CONVERSATION_RESET') {
     return handleConversationReset(state, action);
+  }
+
+  if (action.type === 'CONVERSATION_PINNED') {
+    return handleConversationPinned(state, action);
+  }
+
+  if (action.type === 'CONVERSATION_UNPINNED') {
+    return handleConversationUnpinned(state, action);
   }
 
   return state;
