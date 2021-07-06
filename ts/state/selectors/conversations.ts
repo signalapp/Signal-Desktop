@@ -223,6 +223,10 @@ export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): n
 });
 
 export const getNumberOfPinnedConversations = createSelector(getConversations, (state): number => {
-  const values = Object.values(state.conversationLookup);
-  return values.filter(conversation => conversation.isPinned).length;
+  let count = 0;
+  for (let key in state.conversationLookup) {
+    let value = state.conversationLookup[key];
+    if (value.isPinned) count++;
+  }
+  return count;
 });
