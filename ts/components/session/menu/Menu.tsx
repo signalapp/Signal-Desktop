@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
-import { conversationPinned, conversationUnpinned } from '../../../state/ducks/conversations';
 import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
@@ -141,12 +140,8 @@ export const MenuItemPinConversation = (
   const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
 
   const togglePinConversation = async () => {
-    if (!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) {
+    if ((!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) || isPinned) {
       await conversation.setIsPinned(!isPinned);
-      dispatch(conversationPinned());
-    } else if (isPinned) {
-      await conversation.setIsPinned(!isPinned);
-      dispatch(conversationUnpinned());
     } else {
       ToastUtils.pushToastWarning(
         'pinConversationLimitToast',

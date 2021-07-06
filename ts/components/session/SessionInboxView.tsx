@@ -90,13 +90,10 @@ export class SessionInboxView extends React.Component<any, State> {
 
     const fullFilledConversations = await Promise.all(filledConversations);
 
-    const pinnedConversations = conversations.filter( (conversation) => conversation.isPinned).length;
-
     const initialState: StateType = {
       conversations: {
         conversationLookup: makeLookup(fullFilledConversations, 'id'),
         messages: [],
-        pinnedConversations: pinnedConversations,
       },
       user: {
         ourNumber: UserUtils.getOurPubKeyStrFromCache(),
