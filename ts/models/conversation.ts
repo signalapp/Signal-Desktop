@@ -91,7 +91,7 @@ export interface ConversationAttributes {
   accessKey?: any;
   triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
-  isPinned?: boolean;
+  isPinned: boolean;
 }
 
 export interface ConversationAttributesOptionals {
@@ -129,7 +129,7 @@ export interface ConversationAttributesOptionals {
   accessKey?: any;
   triggerNotificationsFor?: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload?: boolean;
-  isPinned?: boolean;
+  isPinned: boolean;
 }
 
 /**
@@ -407,7 +407,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       left: !!this.get('left'),
       groupAdmins,
       members,
-      isPinned: this.getIsPinned(),
+      isPinned: this.isPinned(),
     };
   }
 
@@ -1234,7 +1234,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return this.get('name') || window.i18n('unknown');
   }
 
-  public getIsPinned() {
+  public isPinned() {
     return this.get('isPinned');
   }
 

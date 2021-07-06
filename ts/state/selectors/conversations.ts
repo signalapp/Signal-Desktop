@@ -64,6 +64,14 @@ const collator = new Intl.Collator();
 
 export const _getConversationComparator = (testingi18n?: LocalizerType) => {
   return (left: ConversationType, right: ConversationType): number => {
+    // Pin is the first criteria to check
+    if (left.isPinned && !right.isPinned) {
+      return -1;
+    }
+    if (!left.isPinned && right.isPinned) {
+      return 1;
+    }
+    // Then if none is pinned, check other criteria
     const leftActiveAt = left.activeAt;
     const rightActiveAt = right.activeAt;
     if (leftActiveAt && !rightActiveAt) {

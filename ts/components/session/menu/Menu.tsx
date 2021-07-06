@@ -135,7 +135,7 @@ export const MenuItemPinConversation = (
 ): JSX.Element | null => {
   const { conversationId } = props;
   const conversation = getConversationController().get(conversationId);
-  const isPinned = conversation.getIsPinned();
+  const isPinned = conversation.isPinned();
   const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
 
   const togglePinConversation = async () => {

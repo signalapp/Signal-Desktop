@@ -77,16 +77,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element => {
-    const { openConversationExternal } = this.props;
-    let { conversations } = this.props;
+    const { conversations, openConversationExternal } = this.props;
 
     if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
     }
-
-    conversations = _.sortBy([...conversations], convo => {
-      return convo.isPinned ? -1 : 1;
-    });
 
     const conversation = conversations[index];
 

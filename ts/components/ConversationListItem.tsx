@@ -155,7 +155,7 @@ export interface ConversationListItemHeaderProps {
   unreadCount: number;
   mentionedUs: boolean;
   activeAt?: number;
-  isPinned?: boolean;
+  isPinned: boolean;
 
   name?: string;
   phoneNumber: string;
