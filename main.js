@@ -425,7 +425,7 @@ async function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
   mainWindowCreated = true;
   setupSpellChecker(mainWindow, locale.messages);
-  if (!startInTray && windowConfig) {
+  if (!startInTray && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
   if (!startInTray && windowConfig && windowConfig.fullscreen) {
