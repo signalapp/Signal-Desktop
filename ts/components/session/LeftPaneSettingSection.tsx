@@ -128,7 +128,7 @@ const LeftPaneBottomButtons = () => {
   const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
 
   return (
-    <div className="left-pane-setting-bottom-buttons">
+    <div className="left-pane-setting-bottom-buttons" key={1}>
       <SessionButton
         text={dangerButtonText}
         buttonType={SessionButtonType.SquareOutline}

@@ -423,6 +423,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             <SessionMemberListItem
               isSelected={focused}
               index={index++}
+              key={suggestion.id}
               member={{
                 id: `${suggestion.id}`,
                 authorPhoneNumber: `${suggestion.id}`,

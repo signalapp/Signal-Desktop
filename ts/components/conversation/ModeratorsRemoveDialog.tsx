@@ -102,7 +102,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
         member={member}
-        key={index}
+        key={member.id}
         index={index}
         isSelected={selectedContacts.some(m => m === member.id)}
         onSelect={(selectedMember: ContactType) => {

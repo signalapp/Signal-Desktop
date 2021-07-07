@@ -169,7 +169,6 @@ export interface ConversationType {
   name?: string;
   profileName?: string;
   hasNickname: boolean;
-  index?: number;
 
   activeAt?: number;
   lastMessage?: LastMessageType;
