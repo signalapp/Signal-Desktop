@@ -297,10 +297,6 @@
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
-    window.showResetSessionIdDialog = () => {
-      appView.showResetSessionIdDialog();
-    };
-
     // Set user's launch count.
     const prevLaunchCount = window.getSettingValue('launch-count');
     const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;

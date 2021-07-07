@@ -88,6 +88,7 @@ export class MockConversation {
       zombies: [],
       triggerNotificationsFor: 'all',
       isTrustedForAttachmentDownload: false,
+      isPinned: false,
     };
   }
 

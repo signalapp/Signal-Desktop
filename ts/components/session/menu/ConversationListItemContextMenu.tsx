@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { animation, Menu } from 'react-contexify';
 import { ConversationTypeEnum } from '../../../models/conversation';
 
@@ -12,6 +12,7 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
   getMarkAllReadMenuItem,
+  getPinConversationMenuItem,
 } from './Menu';
 
 export type PropsContextConversationItem = {
@@ -38,7 +39,6 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     type,
     left,
     isKickedFromGroup,
-    theme,
   } = props;
 
   const isGroup = type === 'group';
@@ -46,6 +46,7 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
   return (
     <>
       <Menu id={triggerId} animation={animation.fade}>
+        {getPinConversationMenuItem(conversationId)}
         {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
         {getCopyMenuItem(isPublic, isGroup, conversationId)}
         {getMarkAllReadMenuItem(conversationId)}

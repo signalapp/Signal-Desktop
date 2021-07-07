@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ActionsPanel, SectionType } from './session/ActionsPanel';
+import { ActionsPanel } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 
 import { openConversationExternal } from '../state/ducks/conversations';
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getLeftPaneLists } from '../state/selectors/conversations';
 import { getQuery, getSearchResults, isSearching } from '../state/selectors/search';
 import { clearSearch, search, updateSearchTerm } from '../state/ducks/search';
+import { SectionType } from '../state/ducks/section';
 import { getTheme } from '../state/selectors/theme';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5

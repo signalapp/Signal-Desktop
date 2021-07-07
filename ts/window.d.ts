@@ -48,6 +48,7 @@ declare global {
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
       padOutgoingAttachments: boolean;
+      enablePinConversations: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;
     onLogin: any;
@@ -56,7 +57,6 @@ declare global {
     getSeedNodeList: () => Array<any> | undefined;
     setPassword: any;
     setSettingValue: any;
-    showResetSessionIdDialog: any;
     storage: any;
     textsecure: LibTextsecure;
     toggleMediaPermissions: any;
@@ -78,8 +78,6 @@ declare global {
       expired: (boolean) => void;
       expiredStatus: () => boolean;
     };
-    lightTheme: DefaultTheme;
-    darkTheme: DefaultTheme;
     LokiPushNotificationServer: any;
     globalOnlineStatus: boolean;
     confirmationDialog: any;
