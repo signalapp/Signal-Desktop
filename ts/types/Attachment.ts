@@ -181,6 +181,15 @@ export function isImageAttachment(
       isImageTypeSupported(attachment.contentType)
   );
 }
+
+export function canBeTranscoded(
+  attachment?: AttachmentType
+): attachment is AttachmentType {
+  return Boolean(
+    isImageAttachment(attachment) && !MIME.isGif(attachment.contentType)
+  );
+}
+
 export function hasImage(
   attachments?: Array<AttachmentType>
 ): string | boolean | undefined {
