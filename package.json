@@ -162,7 +162,7 @@
     "uuid": "3.3.2",
     "websocket": "1.0.28",
     "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#3bb62fa44dc69560436a8c946ea48630f3230ed3",
-    "zod": "3.0.2"
+    "zod": "3.5.1"
   },
   "devDependencies": {
     "@babel/core": "7.14.3",
@@ -279,7 +279,7 @@
     "ts-loader": "4.1.0",
     "ts-node": "8.3.0",
     "typed-scss-modules": "0.0.11",
-    "typescript": "4.1.3",
+    "typescript": "4.3.5",
     "webpack": "5.30.0",
     "webpack-cli": "4.6.0",
     "webpack-dev-server": "3.11.2"

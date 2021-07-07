@@ -77,7 +77,6 @@ const items: Record<string, TimelineItemType> = {
   'id-2.5': {
     type: 'unsupportedMessage',
     data: {
-      id: 'id-2.5',
       canProcessNow: false,
       contact: {
         id: '061d3783-5736-4145-b1a2-6b6cf1156393',
