@@ -46,9 +46,10 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
 
   const isGroup = type === 'group';
   const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
-  const pinMenuItem = isMessagesSection ? (
-    <MenuItemPinConversation conversationId={conversationId} />
-  ) : null;
+  const pinMenuItem =
+    isMessagesSection && window.lokiFeatureFlags.enablePinConversations ? (
+      <MenuItemPinConversation conversationId={conversationId} />
+    ) : null;
 
   return (
     <>

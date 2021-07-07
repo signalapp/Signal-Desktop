@@ -48,6 +48,7 @@ declare global {
       useFileOnionRequests: boolean;
       useFileOnionRequestsV2: boolean;
       padOutgoingAttachments: boolean;
+      enablePinConversations: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;
     onLogin: any;
