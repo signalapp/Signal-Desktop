@@ -130,28 +130,32 @@ export interface PinConversationMenuItemProps {
   conversationId: string;
 }
 
-export const MenuItemPinConversation = (
-  props: PinConversationMenuItemProps
+export const getPinConversationMenuItem = (
+  isMessagesSection: boolean,
+  conversationId: string
 ): JSX.Element | null => {
-  const { conversationId } = props;
-  const conversation = getConversationController().get(conversationId);
-  const isPinned = conversation.isPinned();
-  const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
+  if (isMessagesSection && window.lokiFeatureFlags.enablePinConversations) {
+    const conversation = getConversationController().get(conversationId);
+    const isPinned = conversation.isPinned();
+    const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
 
-  const togglePinConversation = async () => {
-    if ((!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) || isPinned) {
-      await conversation.setIsPinned(!isPinned);
-    } else {
-      ToastUtils.pushToastWarning(
-        'pinConversationLimitToast',
-        window.i18n('pinConversationLimitTitle'),
-        window.i18n('pinConversationLimitToastDescription', maxNumberOfPinnedConversations)
-      );
-    }
-  };
+    const togglePinConversation = async () => {
+      if ((!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) || isPinned) {
+        await conversation.setIsPinned(!isPinned);
+      } else {
+        ToastUtils.pushToastWarning(
+          'pinConversationLimitToast',
+          window.i18n('pinConversationLimitTitle'),
+          window.i18n('pinConversationLimitToastDescription', maxNumberOfPinnedConversations)
+        );
+      }
+    };
 
-  const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');
-  return <Item onClick={togglePinConversation}>{menuText}</Item>;
+    const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');
+    return <Item onClick={togglePinConversation}>{menuText}</Item>;
+  } else {
+    return null;
+  }
 };
 
 export function getDeleteContactMenuItem(

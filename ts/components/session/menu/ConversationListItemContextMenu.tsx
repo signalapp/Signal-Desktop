@@ -15,7 +15,7 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
   getMarkAllReadMenuItem,
-  MenuItemPinConversation,
+  getPinConversationMenuItem,
 } from './Menu';
 
 export type PropsContextConversationItem = {
@@ -46,15 +46,11 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
 
   const isGroup = type === 'group';
   const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
-  const pinMenuItem =
-    isMessagesSection && window.lokiFeatureFlags.enablePinConversations ? (
-      <MenuItemPinConversation conversationId={conversationId} />
-    ) : null;
 
   return (
     <>
       <Menu id={triggerId} animation={animation.fade}>
-        {pinMenuItem}
+        {getPinConversationMenuItem(isMessagesSection, conversationId)}
         {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
         {getCopyMenuItem(isPublic, isGroup, conversationId)}
         {getMarkAllReadMenuItem(conversationId)}
