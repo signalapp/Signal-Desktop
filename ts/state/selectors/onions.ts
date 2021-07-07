@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
 
 import { StateType } from '../reducer';
-import { SectionType } from '../../components/session/ActionsPanel';
 import { OnionState } from '../ducks/onion';
 import { Snode } from '../../data/data';
+import { SectionType } from '../../state/ducks/section';
 
 export const getOnionPaths = (state: StateType): OnionState => state.onionPaths;
 

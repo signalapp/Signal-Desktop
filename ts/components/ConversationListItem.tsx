@@ -28,8 +28,7 @@ import {
 } from '../state/ducks/conversations';
 import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
 import { useDispatch, useSelector } from 'react-redux';
-import { SectionType } from './session/ActionsPanel';
-import { getTheme } from '../state/selectors/theme';
+import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
 
 export interface ConversationListItemProps extends ConversationType {

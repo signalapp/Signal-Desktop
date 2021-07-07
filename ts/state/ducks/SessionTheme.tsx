@@ -163,6 +163,3 @@ export const inversedTheme = (theme: DefaultTheme): DefaultTheme => {
 export const SessionTheme = ({ children, theme }: { children: any; theme: DefaultTheme }) => (
   <ThemeProvider theme={theme}>{children}</ThemeProvider>
 );
-
-window.lightTheme = lightTheme;
-window.darkTheme = darkTheme;

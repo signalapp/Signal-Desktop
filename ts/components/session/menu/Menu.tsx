@@ -7,6 +7,7 @@ import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeNickNameModal, updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { SectionType } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import {
   blockConvoById,
@@ -24,7 +25,6 @@ import {
   unblockConvoById,
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
-import { SectionType } from '../ActionsPanel';
 import { ToastUtils } from '../../../session/utils';
 
 const maxNumberOfPinnedConversations = 5;
@@ -132,9 +132,7 @@ export interface PinConversationMenuItemProps {
   conversationId: string;
 }
 
-export const getPinConversationMenuItem = (
-  conversationId: string
-): JSX.Element | null => {
+export const getPinConversationMenuItem = (conversationId: string): JSX.Element | null => {
   const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
   if (isMessagesSection && window.lokiFeatureFlags.enablePinConversations) {
     const conversation = getConversationController().get(conversationId);

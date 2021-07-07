@@ -94,16 +94,5 @@
       window.focus(); // FIXME
       return Promise.resolve();
     },
-    showResetSessionIdDialog() {
-      const theme = this.getThemeObject();
-      const resetSessionIDDialog = new Whisper.SessionIDResetDialog({ theme });
-
-      this.el.prepend(resetSessionIDDialog.el);
-    },
-    getThemeObject() {
-      const themeSettings = storage.get('theme-setting') || 'light';
-      const theme = themeSettings === 'light' ? window.lightTheme : window.darkTheme;
-      return theme;
-    },
   });
 })();
