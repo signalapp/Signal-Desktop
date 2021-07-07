@@ -6,7 +6,6 @@ const is = require('@sindresorhus/is');
 const { arrayBufferToBlob, blobToArrayBuffer } = require('blob-util');
 const AttachmentTS = require('../../../ts/types/Attachment');
 const GoogleChrome = require('../../../ts/util/GoogleChrome');
-const MIME = require('../../../ts/types/MIME');
 const { toLogFormat } = require('./errors');
 const { scaleImageToLevel } = require('../../../ts/util/scaleImageToLevel');
 const {
@@ -51,7 +50,7 @@ exports.isValid = rawAttachment => {
 // NOTE: This step strips all EXIF metadata from JPEG images as
 // part of re-encoding the image:
 exports.autoOrientJPEG = async (attachment, _, message) => {
-  if (!MIME.isJPEG(attachment.contentType)) {
+  if (!AttachmentTS.canBeTranscoded(attachment)) {
     return attachment;
   }
 
