@@ -1,9 +1,6 @@
 import React from 'react';
 import { animation, Menu } from 'react-contexify';
-import { useSelector } from 'react-redux';
 import { ConversationTypeEnum } from '../../../models/conversation';
-import { getFocusedSection } from '../../../state/selectors/section';
-import { SectionType } from '../ActionsPanel';
 
 import {
   getBlockMenuItem,
@@ -45,12 +42,11 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
   } = props;
 
   const isGroup = type === 'group';
-  const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
 
   return (
     <>
       <Menu id={triggerId} animation={animation.fade}>
-        {getPinConversationMenuItem(isMessagesSection, conversationId)}
+        {getPinConversationMenuItem(conversationId)}
         {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
         {getCopyMenuItem(isPublic, isGroup, conversationId)}
         {getMarkAllReadMenuItem(conversationId)}

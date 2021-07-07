@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
+import { getFocusedSection } from '../../../state/selectors/section';
 import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
 import { Item, Submenu } from 'react-contexify';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
@@ -23,6 +24,7 @@ import {
   unblockConvoById,
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
+import { SectionType } from '../ActionsPanel';
 import { ToastUtils } from '../../../session/utils';
 
 const maxNumberOfPinnedConversations = 5;
@@ -131,9 +133,9 @@ export interface PinConversationMenuItemProps {
 }
 
 export const getPinConversationMenuItem = (
-  isMessagesSection: boolean,
   conversationId: string
 ): JSX.Element | null => {
+  const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
   if (isMessagesSection && window.lokiFeatureFlags.enablePinConversations) {
     const conversation = getConversationController().get(conversationId);
     const isPinned = conversation.isPinned();
@@ -153,9 +155,8 @@ export const getPinConversationMenuItem = (
 
     const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');
     return <Item onClick={togglePinConversation}>{menuText}</Item>;
-  } else {
-    return null;
   }
+  return null;
 };
 
 export function getDeleteContactMenuItem(
