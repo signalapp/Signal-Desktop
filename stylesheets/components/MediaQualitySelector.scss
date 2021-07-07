@@ -23,6 +23,11 @@
     opacity: 0.5;
     width: 32px;
 
+    &:focus,
+    &:hover {
+      opacity: 1;
+    }
+
     &::after {
       content: '';
       display: block;
@@ -106,6 +111,7 @@
       }
     }
 
+    &--focused,
     &:focus,
     &:active {
       border-radius: 6px;
