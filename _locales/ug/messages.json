@@ -673,6 +673,10 @@
         "message": "سازلاش خاتىرىسى",
         "description": "View menu item to open the debug log (title case)"
     },
+    "forceUpdate": {
+        "message": "مەجبۇرىي يېڭىلاش",
+        "description": "View menu item to force the app to update download and install"
+    },
     "helpMenuShowKeyboardShortcuts": {
         "message": "ھەرپتاختا قىسقا يولىنى كۆرسەت",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
@@ -1557,6 +1561,14 @@
         "message": "كېيىنكى قېتىم Signal قوزغالغاندا ئىملا تەكشۈرۈش چەكلىنىدۇ.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "سىستېما قوندۇرمىسىغا كىچىكلەت",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "قوندۇرمىغا كىچىكلىتىشنى قوزغات",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "كومپيۇتېردا تىزىمغا كىرگەندە ئاچىدۇ",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1849,7 @@
     },
     "disappearingMessages": {
         "message": "غايىب ئۇچۇرلار",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "غايىب ئۇچۇر چەكلەندى",
@@ -5620,5 +5632,29 @@
     "ConversationDetailsHeader--add-group-description": {
         "message": "گۇرۇپپا تونۇشتۇرۇشى قوش…",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "ۋاسىتە سۈپىتىنى تاللاش",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "ۋاسىتە سۈپىتى",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "ئۆلچەملىك",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "تېزرەك، سانلىق مەلۇماتنى ئاز ئىشلىتىدۇ",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "يۇقىرى",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "ئاستىراق، سانلىق مەلۇماتنى كۆپ ئىشلىتىدۇ",
+        "description": "Description of high quality selector"
     }
 }

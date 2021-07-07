@@ -673,6 +673,10 @@
         "message": "Registre de depuració",
         "description": "View menu item to open the debug log (title case)"
     },
+    "forceUpdate": {
+        "message": "Força l'actualització",
+        "description": "View menu item to force the app to update download and install"
+    },
     "helpMenuShowKeyboardShortcuts": {
         "message": "Mostra les dreceres del teclat",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
@@ -1557,6 +1561,14 @@
         "message": "La comprovació d'ortografia es desactivarà el proper cop que s'iniciï el Signal.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
+    "SystemTraySetting__minimize-to-system-tray": {
+        "message": "Minimitza a la safata del sistema",
+        "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
+    },
+    "SystemTraySetting__minimize-to-and-start-in-system-tray": {
+        "message": "Comença minimitzada a la safata",
+        "description": "In the settings, shown next to the checkbox option for starting in the system tray"
+    },
     "autoLaunchDescription": {
         "message": "Obre en entrar a l'ordinador",
         "description": "Description for the automatic launch setting"
@@ -1837,7 +1849,7 @@
     },
     "disappearingMessages": {
         "message": "Missatges efímers",
-        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages"
+        "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
     },
     "disappearingMessagesDisabled": {
         "message": "S'han desactivat els missatges efímers",
@@ -5620,5 +5632,29 @@
     "ConversationDetailsHeader--add-group-description": {
         "message": "Afegiu-hi una descripció del grup...",
         "description": "Placeholder text in the details header for those that can edit the group description"
+    },
+    "MediaQualitySelector--button": {
+        "message": "Seleccioneu la qualitat dels mitjans",
+        "description": "aria-label for the media quality selector button"
+    },
+    "MediaQualitySelector--title": {
+        "message": "Qualitat dels mitjans",
+        "description": "Popup selector title"
+    },
+    "MediaQualitySelector--standard-quality-title": {
+        "message": "Estàndard",
+        "description": "Title for option for standard quality"
+    },
+    "MediaQualitySelector--standard-quality-description": {
+        "message": "Més ràpid, menys dades",
+        "description": "Description of standard quality selector"
+    },
+    "MediaQualitySelector--high-quality-title": {
+        "message": "Alta",
+        "description": "Title for option for high quality"
+    },
+    "MediaQualitySelector--high-quality-description": {
+        "message": "Més lent, més dades",
+        "description": "Description of high quality selector"
     }
 }
