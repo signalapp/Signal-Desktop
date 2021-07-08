@@ -89,13 +89,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const conversation = conversations[index];
 
-    return (
-      <MemoConversationListItemWithDetails
-        style={style}
-        {...conversation}
-        onClick={openConversationExternal}
-      />
-    );
+    return <MemoConversationListItemWithDetails style={style} {...conversation} />;
   };
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {

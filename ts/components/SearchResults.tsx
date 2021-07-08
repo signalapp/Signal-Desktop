@@ -49,10 +49,7 @@ export class SearchResults extends React.Component<Props> {
               {window.i18n('conversationsHeader')}
             </div>
             {conversations.map(conversation => (
-              <MemoConversationListItemWithDetails
-                {...conversation}
-                onClick={openConversationExternal}
-              />
+              <MemoConversationListItemWithDetails {...conversation} />
             ))}
           </div>
         ) : null}
@@ -66,11 +63,7 @@ export class SearchResults extends React.Component<Props> {
               </div>
             )}
             {messages.map(message => (
-              <MessageSearchResult
-                key={message.id}
-                {...message}
-                onClick={openConversationExternal}
-              />
+              <MessageSearchResult key={message.id} {...message} />
             ))}
           </div>
         ) : null}
@@ -78,13 +71,11 @@ export class SearchResults extends React.Component<Props> {
     );
   }
   private renderContacts(header: string, items: Array<ConversationListItemProps>) {
-    const { openConversationExternal } = this.props;
-
     return (
       <div className="module-search-results__contacts">
         <div className="module-search-results__contacts-header">{header}</div>
         {items.map(contact => (
-          <MemoConversationListItemWithDetails {...contact} onClick={openConversationExternal} />
+          <MemoConversationListItemWithDetails {...contact} />
         ))}
       </div>
     );

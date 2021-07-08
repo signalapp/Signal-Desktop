@@ -5,15 +5,18 @@ import { Avatar, AvatarSize } from '../Avatar';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
-import {
-  ConversationAvatar,
-  usingClosedConversationDetails,
-} from '../session/usingClosedConversationDetails';
+import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
 import { contextMenu } from 'react-contexify';
 import { useTheme } from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
-import autoBind from 'auto-bind';
+import {
+  getConversationHeaderProps,
+  getConversationHeaderTitleProps,
+  getSelectedConversation,
+} from '../../state/selectors/conversations';
+import { useSelector } from 'react-redux';
+import { useMembersAvatars } from '../../hooks/useMembersAvatar';
 
 export interface TimerOption {
   name: string;
@@ -25,7 +28,7 @@ export interface NotificationForConvoOption {
   value: ConversationNotificationSettingType;
 }
 
-interface Props {
+export type ConversationHeaderProps = {
   id: string;
   name?: string;
 
@@ -37,7 +40,7 @@ interface Props {
   isGroup: boolean;
   isPrivate: boolean;
   isPublic: boolean;
-  isAdmin: boolean;
+  weAreAdmin: boolean;
 
   // We might not always have the full list of members,
   // e.g. for open groups where we could have thousands
@@ -48,7 +51,7 @@ interface Props {
   subscriberCount?: number;
 
   expirationSettingName?: string;
-  showBackButton: boolean;
+  // showBackButton: boolean;
   notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
   hasNickname: boolean;
@@ -57,15 +60,15 @@ interface Props {
 
   isKickedFromGroup: boolean;
   left: boolean;
-  selectionMode: boolean; // is the UI on the message selection mode or not
+  // selectionMode: boolean; // is the UI on the message selection mode or not
 
-  onCloseOverlay: () => void;
-  onDeleteSelectedMessages: () => void;
-  onAvatarClick?: (pubkey: string) => void;
-  onGoBack: () => void;
+  // onCloseOverlay: () => void;
+  // onDeleteSelectedMessages: () => void;
+  // onAvatarClick?: (pubkey: string) => void;
+  // onGoBack: () => void;
 
-  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
-}
+  // memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
+};
 
 const SelectionOverlay = (props: {
   onDeleteSelectedMessages: () => void;
@@ -191,123 +194,173 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
   );
 };
 
-class ConversationHeaderInner extends React.Component<Props> {
-  public constructor(props: Props) {
-    super(props);
+export type ConversationHeaderTitleProps = {
+  phoneNumber: string;
+  profileName?: string;
+  isMe: boolean;
+  isGroup: boolean;
+  isPublic: boolean;
+  members: Array<any>;
+  subscriberCount?: number;
+  isKickedFromGroup: boolean;
+  name?: string;
+};
 
-    autoBind(this);
+const ConversationHeaderTitle = () => {
+  const headerTitleProps = useSelector(getConversationHeaderTitleProps);
+  if (!headerTitleProps) {
+    return null;
   }
 
-  public renderTitle() {
-    const {
-      phoneNumber,
-      profileName,
-      isGroup,
-      isPublic,
-      members,
-      subscriberCount,
-      isMe,
-      isKickedFromGroup,
-      name,
-    } = this.props;
-    const { i18n } = window;
+  const {
+    phoneNumber,
+    profileName,
+    isGroup,
+    isPublic,
+    members,
+    subscriberCount,
+    isMe,
+    isKickedFromGroup,
+    name,
+  } = headerTitleProps;
 
-    if (isMe) {
-      return <div className="module-conversation-header__title">{i18n('noteToSelf')}</div>;
+  const { i18n } = window;
+
+  if (isMe) {
+    return <div className="module-conversation-header__title">{i18n('noteToSelf')}</div>;
+  }
+
+  const memberCount: number = (() => {
+    if (!isGroup) {
+      return 0;
     }
 
-    const memberCount: number = (() => {
-      if (!isGroup) {
-        return 0;
-      }
-
-      if (isPublic) {
-        return subscriberCount || 0;
-      } else {
-        return members.length;
-      }
-    })();
-
-    let text = '';
-    if (isGroup && memberCount > 0) {
-      const count = String(memberCount);
-      text = i18n('members', [count]);
+    if (isPublic) {
+      return subscriberCount || 0;
+    } else {
+      return members.length;
     }
+  })();
 
-    const textEl =
-      text === '' || isKickedFromGroup ? null : (
-        <span className="module-conversation-header__title-text">{text}</span>
-      );
+  let text = '';
+  if (isGroup && memberCount > 0) {
+    const count = String(memberCount);
+    text = i18n('members', [count]);
+  }
 
-    const title = profileName || name || phoneNumber;
-
-    return (
-      <div className="module-conversation-header__title">
-        <span className="module-contact-name__profile-name">{title}</span>
-        {textEl}
-      </div>
+  const textEl =
+    text === '' || isKickedFromGroup ? null : (
+      <span className="module-conversation-header__title-text">{text}</span>
     );
+
+  const title = profileName || name || phoneNumber;
+
+  return (
+    <div className="module-conversation-header__title">
+      <span className="module-contact-name__profile-name">{title}</span>
+      {textEl}
+    </div>
+  );
+};
+
+export type ConversationHeaderNonReduxProps = {
+  showBackButton: boolean;
+  selectionMode: boolean;
+  onDeleteSelectedMessages: () => void;
+  onCloseOverlay: () => void;
+  onAvatarClick: () => void;
+  onGoBack: () => void;
+};
+
+export const ConversationHeaderWithDetails = (
+  headerPropsNonRedux: ConversationHeaderNonReduxProps
+) => {
+  const headerProps = useSelector(getConversationHeaderProps);
+  const selectedConversation = useSelector(getSelectedConversation);
+  const memberDetails = useMembersAvatars(selectedConversation);
+
+  if (!headerProps) {
+    return null;
   }
+  const {
+    isKickedFromGroup,
+    expirationSettingName,
+    phoneNumber,
+    avatarPath,
+    name,
+    profileName,
+    id,
+    isMe,
+    isPublic,
+    notificationForConvo,
+    currentNotificationSetting,
+    hasNickname,
+    weAreAdmin,
+    isBlocked,
+    left,
+    isPrivate,
+    isGroup,
+  } = headerProps;
 
-  public render() {
-    const { isKickedFromGroup, selectionMode, expirationSettingName, showBackButton } = this.props;
-    const triggerId = 'conversation-header';
-    console.warn('conversation header render', this.props);
+  const {
+    onGoBack,
+    onAvatarClick,
+    onCloseOverlay,
+    onDeleteSelectedMessages,
+    showBackButton,
+    selectionMode,
+  } = headerPropsNonRedux;
+  const triggerId = 'conversation-header';
 
-    return (
-      <div className="module-conversation-header">
-        <div className="conversation-header--items-wrapper">
-          <BackButton onGoBack={this.props.onGoBack} showBackButton={this.props.showBackButton} />
+  return (
+    <div className="module-conversation-header">
+      <div className="conversation-header--items-wrapper">
+        <BackButton onGoBack={onGoBack} showBackButton={showBackButton} />
 
-          <div className="module-conversation-header__title-container">
-            <div className="module-conversation-header__title-flex">
-              <TripleDotsMenu triggerId={triggerId} showBackButton={showBackButton} />
-              {this.renderTitle()}
-            </div>
+        <div className="module-conversation-header__title-container">
+          <div className="module-conversation-header__title-flex">
+            <TripleDotsMenu triggerId={triggerId} showBackButton={showBackButton} />
+            <ConversationHeaderTitle />
           </div>
-          {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
-
-          {!selectionMode && (
-            <AvatarHeader
-              onAvatarClick={this.props.onAvatarClick}
-              phoneNumber={this.props.phoneNumber}
-              showBackButton={this.props.showBackButton}
-              avatarPath={this.props.avatarPath}
-              memberAvatars={this.props.memberAvatars}
-              name={this.props.name}
-              profileName={this.props.profileName}
-            />
-          )}
-
-          <MemoConversationHeaderMenu
-            conversationId={this.props.id}
-            triggerId={triggerId}
-            isMe={this.props.isMe}
-            isPublic={this.props.isPublic}
-            isGroup={this.props.isGroup}
-            isKickedFromGroup={isKickedFromGroup}
-            isAdmin={this.props.isAdmin}
-            isBlocked={this.props.isBlocked}
-            isPrivate={this.props.isPrivate}
-            left={this.props.left}
-            hasNickname={this.props.hasNickname}
-            notificationForConvo={this.props.notificationForConvo}
-            currentNotificationSetting={this.props.currentNotificationSetting}
-          />
         </div>
+        {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
 
-        {selectionMode && (
-          <SelectionOverlay
-            isPublic={this.props.isPublic}
-            onCloseOverlay={this.props.onCloseOverlay}
-            onDeleteSelectedMessages={this.props.onDeleteSelectedMessages}
+        {!selectionMode && (
+          <AvatarHeader
+            onAvatarClick={onAvatarClick}
+            phoneNumber={phoneNumber}
+            showBackButton={showBackButton}
+            avatarPath={avatarPath}
+            memberAvatars={memberDetails}
+            name={name}
+            profileName={profileName}
           />
         )}
-      </div>
-    );
-  }
-}
 
-export const ConversationHeaderWithDetails = usingClosedConversationDetails(
-  ConversationHeaderInner
-);
+        <MemoConversationHeaderMenu
+          conversationId={id}
+          triggerId={triggerId}
+          isMe={isMe}
+          isPublic={isPublic}
+          isGroup={isGroup}
+          isKickedFromGroup={isKickedFromGroup}
+          weAreAdmin={weAreAdmin}
+          isBlocked={isBlocked}
+          isPrivate={isPrivate}
+          left={left}
+          hasNickname={hasNickname}
+          notificationForConvo={notificationForConvo}
+          currentNotificationSetting={currentNotificationSetting}
+        />
+      </div>
+
+      {selectionMode && (
+        <SelectionOverlay
+          isPublic={isPublic}
+          onCloseOverlay={onCloseOverlay}
+          onDeleteSelectedMessages={onDeleteSelectedMessages}
+        />
+      )}
+    </div>
+  );
+};

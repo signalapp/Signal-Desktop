@@ -41,13 +41,6 @@ interface Props {
   messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
   deleteMessage: (messageId: string) => void;
-  fetchMessagesForConversation: ({
-    conversationKey,
-    count,
-  }: {
-    conversationKey: string;
-    count: number;
-  }) => void;
   replyToMessage: (messageId: number) => Promise<void>;
   showMessageDetails: (messageProps: any) => void;
   onClickAttachment: (attachment: any, message: any) => void;
@@ -428,7 +421,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
   private async handleScroll() {
     const messageContainer = this.messageContainerRef?.current;
 
-    const { fetchMessagesForConversation, conversationKey } = this.props;
+    const { conversationKey } = this.props;
     if (!messageContainer) {
       return;
     }
@@ -472,7 +465,9 @@ export class SessionMessagesList extends React.Component<Props, State> {
       const oldLen = messagesProps.length;
       const previousTopMessage = messagesProps[oldLen - 1]?.propsForMessage.id;
 
-      fetchMessagesForConversation({ conversationKey, count: numMessages });
+      window.inboxStore?.dispatch(
+        fetchMessagesForConversation({ conversationKey, count: numMessages })
+      );
       if (previousTopMessage && oldLen !== messagesProps.length) {
         this.scrollToMessage(previousTopMessage);
       }
@@ -631,4 +626,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const clientHeight = messageContainer.clientHeight;
     return scrollHeight - scrollTop - clientHeight;
   }
+}
+function fetchMessagesForConversation(arg0: { conversationKey: string; count: number }): any {
+  throw new Error('Function not implemented.');
 }

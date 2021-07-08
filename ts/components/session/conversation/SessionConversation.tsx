@@ -7,7 +7,10 @@ import { SessionCompositionBox, StagedAttachmentType } from './SessionCompositio
 import { Constants } from '../../../session';
 import _ from 'lodash';
 import { AttachmentUtil, GoogleChrome } from '../../../util';
-import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
+import {
+  ConversationHeaderNonReduxProps,
+  ConversationHeaderWithDetails,
+} from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
@@ -32,26 +35,12 @@ import { getMessageById, getPubkeysInPublicConversation } from '../../../data/da
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 import { deleteOpenGroupMessages } from '../../../interactions/conversationInteractions';
-import {
-  ConversationNotificationSetting,
-  ConversationNotificationSettingType,
-  ConversationTypeEnum,
-} from '../../../models/conversation';
+import { ConversationTypeEnum } from '../../../models/conversation';
 import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
 import { SessionButtonColor } from '../SessionButton';
 interface State {
-  // Message sending progress
-  messageProgressVisible: boolean;
-  sendingProgress: number;
-  prevSendingProgress: number;
-  // Sending failed:  -1
-  // Not send yet:     0
-  // Sending message:  1
-  // Sending success:  2
-  sendingProgressStatus: -1 | 0 | 1 | 2;
-
   unreadCount: number;
   selectedMessages: Array<string>;
 
@@ -99,10 +88,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const unreadCount = this.props.selectedConversation?.unreadCount || 0;
     this.state = {
-      messageProgressVisible: false,
-      sendingProgress: 0,
-      prevSendingProgress: 0,
-      sendingProgressStatus: 0,
       unreadCount,
       selectedMessages: [],
       showOverlay: false,
@@ -248,13 +233,6 @@ export class SessionConversation extends React.Component<Props, State> {
     return (
       <SessionTheme theme={this.props.theme}>
         <div className="conversation-header">{this.renderHeader()}</div>
-        {/* <SessionProgress
-            visible={this.state.messageProgressVisible}
-            value={this.state.sendingProgress}
-            prevValue={this.state.prevSendingProgress}
-            sendStatus={this.state.sendingProgressStatus}
-            resetProgress={this.resetSendingProgress}
-          /> */}
         <div
           // if you change the classname, also update it on onKeyDown
           className={classNames('conversation-content', selectionMode && 'selection-mode')}
@@ -285,13 +263,8 @@ export class SessionConversation extends React.Component<Props, State> {
             selectedConversation={selectedConversation}
             sendMessage={sendMessageFn}
             stagedAttachments={stagedAttachments}
-            onMessageSending={this.onMessageSending}
-            onMessageSuccess={this.onMessageSuccess}
-            onMessageFailure={this.onMessageFailure}
             onLoadVoiceNoteView={this.onLoadVoiceNoteView}
             onExitVoiceNoteView={this.onExitVoiceNoteView}
-            showLeftPaneSection={actions.showLeftPaneSection}
-            showSettingsSection={actions.showSettingsSection}
             quotedMessageProps={quotedMessageProps}
             removeQuotedMessage={() => {
               void this.replyToMessage(undefined);
@@ -340,62 +313,20 @@ export class SessionConversation extends React.Component<Props, State> {
     });
   }
 
-  public getHeaderProps() {
-    const { selectedConversationKey, ourNumber } = this.props;
-    const { selectedMessages, messageDetailShowProps } = this.state;
-    const conversation = getConversationController().getOrThrow(selectedConversationKey);
-    const expireTimer = conversation.get('expireTimer');
-    const expirationSettingName = expireTimer
-      ? window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
-      : null;
-
-    const members = conversation.get('members') || [];
-
-    // exclude mentions_only settings for private chats as this does not make much sense
-    const notificationForConvo = ConversationNotificationSetting.filter(n =>
-      conversation.isPrivate() ? n !== 'mentions_only' : true
-    ).map((n: ConversationNotificationSettingType) => {
-      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
-      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
-    });
+  public getHeaderProps(): ConversationHeaderNonReduxProps {
+    console.warn('generating new header props');
 
     const headerProps = {
-      id: conversation.id,
-      name: conversation.getName(),
-      phoneNumber: conversation.getNumber(),
-      profileName: conversation.getProfileName(),
-      avatarPath: conversation.getAvatarPath(),
-      isMe: conversation.isMe(),
-      isBlocked: conversation.isBlocked(),
-      isGroup: !conversation.isPrivate(),
-      isPrivate: conversation.isPrivate(),
-      isPublic: conversation.isPublic(),
-      isAdmin: conversation.isAdmin(ourNumber),
-      members,
-      subscriberCount: conversation.get('subscriberCount'),
-      isKickedFromGroup: conversation.get('isKickedFromGroup'),
-      left: conversation.get('left'),
-      expirationSettingName,
-      showBackButton: Boolean(messageDetailShowProps),
-      notificationForConvo,
-      currentNotificationSetting: conversation.get('triggerNotificationsFor'),
-      hasNickname: !!conversation.getNickname(),
-      selectionMode: !!selectedMessages.length,
-
+      showBackButton: Boolean(this.state.messageDetailShowProps),
+      selectionMode: !!this.state.selectedMessages.length,
       onDeleteSelectedMessages: this.deleteSelectedMessages,
-
-      onCloseOverlay: () => {
-        this.setState({ selectedMessages: [] });
-      },
+      onCloseOverlay: this.resetSelection,
+      onAvatarClick: this.toggleRightPanel,
 
       onGoBack: () => {
         this.setState({
           messageDetailShowProps: undefined,
         });
-      },
-
-      onAvatarClick: (pubkey: any) => {
-        this.toggleRightPanel();
       },
     };
 
@@ -403,13 +334,7 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   public getMessagesListProps() {
-    const {
-      selectedConversation,
-      selectedConversationKey,
-      ourNumber,
-      messagesProps,
-      actions,
-    } = this.props;
+    const { selectedConversation, selectedConversationKey, ourNumber, messagesProps } = this.props;
     const { quotedMessageTimestamp, selectedMessages } = this.state;
 
     return {
@@ -422,7 +347,6 @@ export class SessionConversation extends React.Component<Props, State> {
       conversation: selectedConversation as ConversationType,
       selectMessage: this.selectMessage,
       deleteMessage: this.deleteMessage,
-      fetchMessagesForConversation: actions.fetchMessagesForConversation,
       replyToMessage: this.replyToMessage,
       showMessageDetails: this.showMessageDetails,
       onClickAttachment: this.onClickAttachment,
@@ -475,45 +399,6 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~ MESSAGE HANDLING ~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  public updateSendingProgress(value: number, status: -1 | 0 | 1 | 2) {
-    // If you're sending a new message, reset previous value to zero
-    const prevSendingProgress = status === 1 ? 0 : this.state.sendingProgress;
-
-    this.setState({
-      sendingProgress: value,
-      prevSendingProgress,
-      sendingProgressStatus: status,
-    });
-  }
-
-  public resetSendingProgress() {
-    this.setState({
-      sendingProgress: 0,
-      prevSendingProgress: 0,
-      sendingProgressStatus: 0,
-    });
-  }
-
-  public onMessageSending() {
-    // Set sending state 5% to show message sending
-    const initialValue = 5;
-    this.updateSendingProgress(initialValue, 1);
-    if (this.state.quotedMessageTimestamp) {
-      this.setState({
-        quotedMessageTimestamp: undefined,
-        quotedMessageProps: undefined,
-      });
-    }
-  }
-
-  public onMessageSuccess() {
-    this.updateSendingProgress(100, 2);
-  }
-
-  public onMessageFailure() {
-    this.updateSendingProgress(100, -1);
-  }
-
   public async deleteMessagesById(messageIds: Array<string>, askUserForConfirmation: boolean) {
     // Get message objects
     const { selectedConversationKey, selectedConversation, messagesProps } = this.props;

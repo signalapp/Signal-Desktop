@@ -9,14 +9,11 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import {
-  ConversationAvatar,
-  usingClosedConversationDetails,
-} from './session/usingClosedConversationDetails';
+import { ConversationAvatar } from './session/usingClosedConversationDetails';
 import { MemoConversationListItemContextMenu } from './session/menu/ConversationListItemContextMenu';
 import { createPortal } from 'react-dom';
 import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
-import { DefaultTheme, useTheme } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { PubKey } from '../session/types';
 import {
   ConversationType,
@@ -24,11 +21,10 @@ import {
   openConversationExternal,
 } from '../state/ducks/conversations';
 import _ from 'underscore';
+import { useMembersAvatars } from '../hooks/useMembersAvatar';
+import { useDispatch } from 'react-redux';
 
-export interface ConversationListItemProps extends ConversationType {
-  index?: number; // used to force a refresh when one conversation is removed on top of the list
-  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
-}
+export interface ConversationListItemProps extends ConversationType {}
 
 type PropsHousekeeping = {
   style?: Object;
@@ -42,14 +38,14 @@ const Portal = ({ children }: { children: any }) => {
 
 const AvatarItem = (props: {
   avatarPath?: string;
-  phoneNumber: string;
+  conversationId: string;
   memberAvatars?: Array<ConversationAvatar>;
   name?: string;
   profileName?: string;
 }) => {
-  const { avatarPath, name, phoneNumber, profileName, memberAvatars } = props;
+  const { avatarPath, name, conversationId, profileName, memberAvatars } = props;
 
-  const userName = name || profileName || phoneNumber;
+  const userName = name || profileName || conversationId;
 
   return (
     <div className="module-conversation-list-item__avatar-container">
@@ -58,7 +54,7 @@ const AvatarItem = (props: {
         name={userName}
         size={AvatarSize.S}
         memberAvatars={memberAvatars}
-        pubkey={phoneNumber}
+        pubkey={conversationId}
       />
     </div>
   );
@@ -68,13 +64,13 @@ const UserItem = (props: {
   name?: string;
   profileName?: string;
   isMe: boolean;
-  phoneNumber: string;
+  conversationId: string;
 }) => {
-  const { name, phoneNumber, profileName, isMe } = props;
+  const { name, conversationId, profileName, isMe } = props;
 
-  const shortenedPubkey = PubKey.shorten(phoneNumber);
+  const shortenedPubkey = PubKey.shorten(conversationId);
 
-  const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
+  const displayedPubkey = profileName ? shortenedPubkey : conversationId;
   const displayName = isMe ? window.i18n('noteToSelf') : profileName;
 
   let shouldShowPubkey = false;
@@ -145,9 +141,9 @@ const HeaderItem = (props: {
   activeAt?: number;
   name?: string;
   profileName?: string;
-  phoneNumber: string;
+  conversationId: string;
 }) => {
-  const { unreadCount, mentionedUs, activeAt, isMe, phoneNumber, profileName, name } = props;
+  const { unreadCount, mentionedUs, activeAt, isMe, conversationId, profileName, name } = props;
 
   let atSymbol = null;
   let unreadCountDiv = null;
@@ -164,7 +160,12 @@ const HeaderItem = (props: {
           unreadCount > 0 ? 'module-conversation-list-item__header__name--with-unread' : null
         )}
       >
-        <UserItem isMe={isMe} phoneNumber={phoneNumber} name={name} profileName={profileName} />
+        <UserItem
+          isMe={isMe}
+          conversationId={conversationId}
+          name={name}
+          profileName={profileName}
+        />
       </div>
       {unreadCountDiv}
       {atSymbol}
@@ -183,12 +184,11 @@ const HeaderItem = (props: {
 };
 
 const ConversationListItem = (props: Props) => {
-  console.warn('ConversationListItem', props.id.substr(-1), ': ', props);
+  // console.warn('ConversationListItem', props.id.substr(-1), ': ', props);
   const {
     activeAt,
-    phoneNumber,
     unreadCount,
-    id,
+    id: conversationId,
     isSelected,
     isBlocked,
     style,
@@ -196,7 +196,6 @@ const ConversationListItem = (props: Props) => {
     isMe,
     name,
     profileName,
-    memberAvatars,
     isTyping,
     lastMessage,
     hasNickname,
@@ -206,15 +205,19 @@ const ConversationListItem = (props: Props) => {
     isPublic,
     avatarPath,
   } = props;
-  const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
-  const key = `conversation-item-${phoneNumber}`;
+  const triggerId = `conversation-item-${conversationId}-ctxmenu`;
+  const key = `conversation-item-${conversationId}`;
+
+  const membersAvatar = useMembersAvatars(props);
+
+  const dispatch = useDispatch();
 
   return (
     <div key={key}>
       <div
         role="button"
         onClick={() => {
-          window.inboxStore?.dispatch(openConversationExternal(id));
+          dispatch(openConversationExternal(conversationId));
         }}
         onContextMenu={(e: any) => {
           contextMenu.show({
@@ -232,9 +235,9 @@ const ConversationListItem = (props: Props) => {
         )}
       >
         <AvatarItem
-          phoneNumber={phoneNumber}
+          conversationId={conversationId}
           avatarPath={avatarPath}
-          memberAvatars={memberAvatars}
+          memberAvatars={membersAvatar}
           profileName={profileName}
           name={name}
         />
@@ -244,7 +247,7 @@ const ConversationListItem = (props: Props) => {
             unreadCount={unreadCount}
             activeAt={activeAt}
             isMe={isMe}
-            phoneNumber={phoneNumber}
+            conversationId={conversationId}
             name={name}
             profileName={profileName}
           />
@@ -254,7 +257,7 @@ const ConversationListItem = (props: Props) => {
       <Portal>
         <MemoConversationListItemContextMenu
           triggerId={triggerId}
-          conversationId={id}
+          conversationId={conversationId}
           hasNickname={hasNickname}
           isBlocked={isBlocked}
           isKickedFromGroup={isKickedFromGroup}
@@ -268,6 +271,4 @@ const ConversationListItem = (props: Props) => {
   );
 };
 
-export const MemoConversationListItemWithDetails = usingClosedConversationDetails(
-  React.memo(ConversationListItem, _.isEqual)
-);
+export const MemoConversationListItemWithDetails = React.memo(ConversationListItem, _.isEqual);

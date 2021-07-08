@@ -37,13 +37,7 @@ export class LeftPaneContactSection extends React.Component<Props> {
     const { directContacts } = this.props;
     const item = directContacts[index];
 
-    return (
-      <MemoConversationListItemWithDetails
-        style={style}
-        {...item}
-        onClick={this.props.openConversationExternal}
-      />
-    );
+    return <MemoConversationListItemWithDetails style={style} {...item} />;
   };
 
   private renderContacts() {

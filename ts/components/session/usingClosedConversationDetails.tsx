@@ -3,7 +3,6 @@ import { PubKey } from '../../session/types';
 import React from 'react';
 import * as _ from 'lodash';
 import { getConversationController } from '../../session/conversations';
-import { ConversationTypeEnum } from '../../models/conversation';
 
 export type ConversationAvatar = {
   avatarPath?: string;
@@ -25,24 +24,24 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
     }
 
     public componentDidMount() {
-      void this.fetchClosedConversationDetails();
+      this.fetchClosedConversationDetails();
     }
 
     public componentWillReceiveProps() {
-      void this.fetchClosedConversationDetails();
+      this.fetchClosedConversationDetails();
     }
 
     public render() {
       return <WrappedComponent memberAvatars={this.state.memberAvatars} {...this.props} />;
     }
 
-    private async fetchClosedConversationDetails() {
+    private fetchClosedConversationDetails() {
       const { isPublic, type, conversationType, isGroup, phoneNumber, id } = this.props;
 
       if (!isPublic && (conversationType === 'group' || type === 'group' || isGroup)) {
         const groupId = id || phoneNumber;
         const ourPrimary = UserUtils.getOurPubKeyFromCache();
-        let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
+        let members = GroupUtils.getGroupMembers(PubKey.cast(groupId));
 
         const ourself = members.find(m => m.key !== ourPrimary.key);
         // add ourself back at the back, so it's shown only if only 1 member and we are still a member
@@ -53,11 +52,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         }
         // no need to forward more than 2 conversations for rendering the group avatar
         members = members.slice(0, 2);
-        const memberConvos = await Promise.all(
-          members.map(async m =>
-            getConversationController().getOrCreateAndWait(m.key, ConversationTypeEnum.PRIVATE)
-          )
-        );
+        const memberConvos = _.compact(members.map(m => getConversationController().get(m.key)));
         const memberAvatars = memberConvos.map(m => {
           return {
             avatarPath: m.getAvatar()?.url || undefined,

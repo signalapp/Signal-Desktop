@@ -28,7 +28,7 @@ export type PropsConversationHeaderMenu = {
   isKickedFromGroup: boolean;
   left: boolean;
   isGroup: boolean;
-  isAdmin: boolean;
+  weAreAdmin: boolean;
   notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
   isPrivate: boolean;
@@ -44,7 +44,7 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     isPublic,
     isGroup,
     isKickedFromGroup,
-    isAdmin,
+    weAreAdmin,
     isBlocked,
     isPrivate,
     left,
@@ -71,9 +71,9 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
       {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
       {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
       {getDeleteMessagesMenuItem(isPublic, conversationId)}
-      {getAddModeratorsMenuItem(isAdmin, isKickedFromGroup, conversationId)}
-      {getRemoveModeratorsMenuItem(isAdmin, isKickedFromGroup, conversationId)}
-      {getUpdateGroupNameMenuItem(isAdmin, isKickedFromGroup, left, conversationId)}
+      {getAddModeratorsMenuItem(weAreAdmin, isKickedFromGroup, conversationId)}
+      {getRemoveModeratorsMenuItem(weAreAdmin, isKickedFromGroup, conversationId)}
+      {getUpdateGroupNameMenuItem(weAreAdmin, isKickedFromGroup, left, conversationId)}
       {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
       {/* TODO: add delete group */}
       {getInviteContactMenuItem(isGroup, isPublic, conversationId)}

@@ -13,6 +13,10 @@ import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
+import {
+  ConversationHeaderProps,
+  ConversationHeaderTitleProps,
+} from '../../components/conversation/ConversationHeader';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -159,47 +163,11 @@ export const _getLeftPaneLists = (
   };
 };
 
-export const _getSessionConversationInfo = (
-  lookup: ConversationLookupType,
-  comparator: (left: ConversationType, right: ConversationType) => number,
-  selectedConversation?: string
-): {
-  conversation: ConversationType | undefined;
-  selectedConversation?: string;
-} => {
-  const values = Object.values(lookup);
-  const sorted = values.sort(comparator);
-
-  let conversation;
-  const max = sorted.length;
-
-  for (let i = 0; i < max; i += 1) {
-    const conv = sorted[i];
-
-    if (conv.id === selectedConversation) {
-      conversation = conv;
-      break;
-    }
-  }
-
-  return {
-    conversation,
-    selectedConversation,
-  };
-};
-
 export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
   getSelectedConversationKey,
   _getLeftPaneLists
-);
-
-export const getSessionConversationInfo = createSelector(
-  getConversationLookup,
-  getConversationComparator,
-  getSelectedConversationKey,
-  _getSessionConversationInfo
 );
 
 export const getMe = createSelector(
@@ -211,4 +179,57 @@ export const getMe = createSelector(
 
 export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
   return state.unreadCount;
+});
+
+export const getConversationHeaderTitleProps = createSelector(getSelectedConversation, (state):
+  | ConversationHeaderTitleProps
+  | undefined => {
+  if (!state) {
+    return undefined;
+  }
+  return {
+    isKickedFromGroup: state.isKickedFromGroup,
+    phoneNumber: state.phoneNumber,
+    isMe: state.isMe,
+    members: state.members || [],
+    isPublic: state.isPublic,
+    profileName: state.profileName,
+    name: state.name,
+    subscriberCount: state.subscriberCount,
+    isGroup: state.type === 'group',
+  };
+});
+
+export const getConversationHeaderProps = createSelector(getSelectedConversation, (state):
+  | ConversationHeaderProps
+  | undefined => {
+  if (!state) {
+    return undefined;
+  }
+
+  const expirationSettingName = state.expireTimer
+    ? window.Whisper.ExpirationTimerOptions.getName(state.expireTimer || 0)
+    : null;
+
+  return {
+    id: state.id,
+    isPrivate: state.isPrivate,
+    notificationForConvo: state.notificationForConvo,
+    currentNotificationSetting: state.currentNotificationSetting,
+    isBlocked: state.isBlocked,
+    left: state.left,
+    avatarPath: state.avatarPath,
+    expirationSettingName: expirationSettingName,
+    hasNickname: state.hasNickname,
+    weAreAdmin: state.weAreAdmin,
+    isKickedFromGroup: state.isKickedFromGroup,
+    phoneNumber: state.phoneNumber,
+    isMe: state.isMe,
+    members: state.members || [],
+    isPublic: state.isPublic,
+    profileName: state.profileName,
+    name: state.name,
+    subscriberCount: state.subscriberCount,
+    isGroup: state.isGroup,
+  };
 });

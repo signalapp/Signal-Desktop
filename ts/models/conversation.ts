@@ -381,10 +381,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     return this.get('moderators');
   }
+
   public getProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
 
-    const members = this.isGroup() && !this.isPublic() ? this.get('members') : undefined;
+    const members = this.isGroup() && !this.isPublic() ? this.get('members') : [];
+
+    // exclude mentions_only settings for private chats as this does not make much sense
+    const notificationForConvo = ConversationNotificationSetting.filter(n =>
+      this.isPrivate() ? n !== 'mentions_only' : true
+    ).map((n: ConversationNotificationSettingType) => {
+      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
+      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
+    });
+    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+
     // isSelected is overriden by redux
     return {
       isSelected: false,
@@ -392,6 +403,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       activeAt: this.get('active_at'),
       avatarPath: this.getAvatarPath() || undefined,
       type: this.isPrivate() ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
+      weAreAdmin: this.isAdmin(ourNumber),
+      isGroup: !this.isPrivate(),
+      currentNotificationSetting: this.get('triggerNotificationsFor'),
+
+      notificationForConvo,
+      isPrivate: this.isPrivate(),
       isMe: this.isMe(),
       isPublic: this.isPublic(),
       isTyping: !!this.typingTimer,
@@ -401,7 +418,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       unreadCount: this.get('unreadCount') || 0,
       mentionedUs: this.get('mentionedUs') || false,
       isBlocked: this.isBlocked(),
-      phoneNumber: this.id,
+      phoneNumber: this.getNumber(),
       lastMessage: {
         status: this.get('lastMessageStatus'),
         text: this.get('lastMessage'),
@@ -411,6 +428,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       left: !!this.get('left'),
       groupAdmins,
       members,
+      expireTimer: this.get('expireTimer') || 0,
+      subscriberCount: this.get('subscriberCount') || 0,
     };
   }
 
