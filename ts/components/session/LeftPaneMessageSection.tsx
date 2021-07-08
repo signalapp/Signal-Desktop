@@ -91,7 +91,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     return (
       <MemoConversationListItemWithDetails
-        key={key}
         style={style}
         {...conversation}
         onClick={openConversationExternal}

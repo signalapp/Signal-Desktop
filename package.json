@@ -40,7 +40,8 @@
     "transpile": "tsc --incremental",
     "transpile:watch": "tsc -w",
     "clean-transpile": "rimraf 'ts/**/*.js ts/*.js' 'ts/*.js.map' 'ts/**/*.js.map' && rimraf tsconfig.tsbuildinfo;",
-    "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test"
+    "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test",
+    "build:webpack:sql-worker": "cross-env NODE_ENV=production webpack -c webpack-sql-worker.config.ts"
   },
   "dependencies": {
     "@journeyapps/sqlcipher": "https://github.com/Bilb/node-sqlcipher.git#98039b72e197171b69358b900bc179ffc22e1f32",
@@ -49,6 +50,7 @@
     "abort-controller": "3.0.0",
     "auto-bind": "^4.0.0",
     "backbone": "1.3.3",
+    "better-sqlite3": "https://github.com/signalapp/better-sqlite3#2fa02d2484e9f9a10df5ac7ea4617fb2dff30006",
     "blob-util": "1.3.0",
     "blueimp-canvas-to-blob": "3.14.0",
     "blueimp-load-image": "2.18.0",
@@ -124,6 +126,8 @@
   },
   "devDependencies": {
     "@types/backbone": "^1.4.2",
+    "@types/better-sqlite3": "5.4.1",
+
     "@types/blueimp-load-image": "^2.23.8",
     "@types/buffer-crc32": "^0.2.0",
     "@types/bytebuffer": "^5.0.41",
@@ -162,6 +166,7 @@
     "@types/styled-components": "^5.1.4",
     "@types/tmp": "^0.2.0",
     "@types/uuid": "3.4.4",
+    "@types/webpack": "^5.28.0",
     "arraybuffer-loader": "1.0.3",
     "asar": "0.14.0",
     "bower": "1.8.2",
@@ -205,7 +210,9 @@
     "tslint-microsoft-contrib": "6.0.0",
     "tslint-react": "3.6.0",
     "typescript": "^4.2.3",
-    "webpack": "4.4.1"
+    "webpack": "5.30.0",
+    "webpack-cli": "4.6.0",
+    "webpack-dev-server": "3.11.2"
   },
   "engines": {
     "node": "^10.19.0"
@@ -260,6 +267,10 @@
       ],
       "icon": "build/icons/png"
     },
+    "asarUnpack": [
+      "ts/sql/mainWorker.bundle.js",
+      "node_modules/better-sqlite3/build/Release/better_sqlite3.node"
+    ],
     "deb": {
       "depends": [
         "libnotify4",
@@ -328,6 +339,9 @@
       "!node_modules/@journeyapps/sqlcipher/build/*",
       "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
       "!build/*.js",
+      "!node_modules/better-sqlite3/deps/*",
+      "!node_modules/better-sqlite3/src/*",
+      "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
       "!dev-app-update.yml"
     ],
     "afterPack": "./build/afterPackHook.js"

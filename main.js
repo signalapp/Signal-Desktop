@@ -679,7 +679,7 @@ async function removeDB() {
 async function showMainWindow(sqlKey, passwordAttempt = false) {
   const userDataPath = await getRealPath(app.getPath('userData'));
 
-  await sql.initialize({
+  sql.initialize({
     configDir: userDataPath,
     key: sqlKey,
     messages: locale.messages,
@@ -897,7 +897,8 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
 
   try {
     // Check if the hash we have stored matches the hash of the old passphrase.
-    const hash = await sql.getPasswordHash();
+    const hash = sql.getPasswordHash();
+
     const hashMatches = oldPhrase && passwordUtil.matchesHash(oldPhrase, hash);
     if (hash && !hashMatches) {
       const incorrectOldPassword = locale.messages.invalidOldPassword;
@@ -909,13 +910,13 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
 
     if (_.isEmpty(passPhrase)) {
       const defaultKey = getDefaultSQLKey();
-      await sql.setSQLPassword(defaultKey);
-      await sql.removePasswordHash();
+      sql.setSQLPassword(defaultKey);
+      sql.removePasswordHash();
       userConfig.set('dbHasPassword', false);
     } else {
-      await sql.setSQLPassword(passPhrase);
+      sql.setSQLPassword(passPhrase);
       const newHash = passwordUtil.generateHash(passPhrase);
-      await sql.savePasswordHash(newHash);
+      sql.savePasswordHash(newHash);
       userConfig.set('dbHasPassword', true);
     }
 

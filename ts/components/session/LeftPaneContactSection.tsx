@@ -39,7 +39,6 @@ export class LeftPaneContactSection extends React.Component<Props> {
 
     return (
       <MemoConversationListItemWithDetails
-        key={item.id}
         style={style}
         {...item}
         onClick={this.props.openConversationExternal}

@@ -215,6 +215,9 @@ function _cleanData(data: any): any {
     } else if (_.isObject(value)) {
       // eslint-disable-next-line no-param-reassign
       data[key] = _cleanData(value);
+    } else if (_.isBoolean(value)) {
+      // eslint-disable-next-line no-param-reassign
+      data[key] = value ? 1 : 0;
     } else if (
       typeof value !== 'string' &&
       typeof value !== 'number' &&
@@ -863,7 +866,7 @@ export async function saveAttachmentDownloadJob(job: any): Promise<void> {
   await channels.saveAttachmentDownloadJob(job);
 }
 export async function setAttachmentDownloadJobPending(id: string, pending: boolean): Promise<void> {
-  await channels.setAttachmentDownloadJobPending(id, pending);
+  await channels.setAttachmentDownloadJobPending(id, pending ? 1 : 0);
 }
 export async function resetAttachmentDownloadPending(): Promise<void> {
   await channels.resetAttachmentDownloadPending();

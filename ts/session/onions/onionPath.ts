@@ -178,7 +178,7 @@ export async function incrementBadPathCountOrDrop(snodeEd25519: string) {
   const guardNodeEd25519 = onionPaths[pathWithSnodeIndex][0].pubkey_ed25519;
 
   window?.log?.info(
-    `\t\tincrementBadPathCountOrDrop starting with guard ${ed25519Str(guardNodeEd25519)}`
+    `incrementBadPathCountOrDrop starting with guard ${ed25519Str(guardNodeEd25519)}`
   );
 
   const pathWithIssues = onionPaths[pathWithSnodeIndex];

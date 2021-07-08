@@ -50,7 +50,6 @@ export class SearchResults extends React.Component<Props> {
             </div>
             {conversations.map(conversation => (
               <MemoConversationListItemWithDetails
-                key={conversation.phoneNumber}
                 {...conversation}
                 onClick={openConversationExternal}
               />
@@ -85,11 +84,7 @@ export class SearchResults extends React.Component<Props> {
       <div className="module-search-results__contacts">
         <div className="module-search-results__contacts-header">{header}</div>
         {items.map(contact => (
-          <MemoConversationListItemWithDetails
-            key={contact.phoneNumber}
-            {...contact}
-            onClick={openConversationExternal}
-          />
+          <MemoConversationListItemWithDetails {...contact} onClick={openConversationExternal} />
         ))}
       </div>
     );

@@ -20,14 +20,14 @@ function initialize() {
   }
   initialized = true;
 
-  ipcMain.on(SQL_CHANNEL_KEY, async (event, jobId, callName, ...args) => {
+  ipcMain.on(SQL_CHANNEL_KEY, (event, jobId, callName, ...args) => {
     try {
       const fn = sql[callName];
       if (!fn) {
         throw new Error(`sql channel: ${callName} is not an available function`);
       }
 
-      const result = await fn(...args);
+      const result = fn(...args);
 
       event.sender.send(`${SQL_CHANNEL_KEY}-done`, jobId, null, result);
     } catch (error) {
@@ -40,7 +40,7 @@ function initialize() {
     }
   });
 
-  ipcMain.on(ERASE_SQL_KEY, async event => {
+  ipcMain.on(ERASE_SQL_KEY, event => {
     try {
       removeUserConfig();
       removeEphemeralConfig();
