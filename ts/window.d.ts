@@ -40,6 +40,8 @@ declare global {
     getFriendsFromContacts: any;
     getSettingValue: any;
     i18n: LocalizerType;
+    isFocused: any;
+    setFocusListener: (listener: any) => any;
     libloki: Libloki;
     libsignal: LibsignalProtocol;
     log: any;

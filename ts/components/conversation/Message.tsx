@@ -713,7 +713,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     const isShowingImage = this.isShowingImage();
 
     const isIncoming = direction === 'incoming';
-    const shouldMarkReadWhenVisible = isIncoming && isUnread;
+    const shouldMarkReadWhenVisible = isIncoming && isUnread && window.isFocused();
     const divClasses = ['session-message-wrapper'];
 
     if (selected) {

@@ -75,6 +75,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     this.messageContainerRef = this.props.messageContainerRef;
     this.ignoreScrollEvents = true;
+    window.setFocusListener(() => this.updateReadMessages());
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -378,7 +379,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       return;
     }
 
-    if (this.getScrollOffsetBottomPx() === 0) {
+    if (this.getScrollOffsetBottomPx() === 0 && window.isFocused()) {
       void conversation.markRead(messages[0].attributes.received_at);
     }
   }
