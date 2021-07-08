@@ -1,21 +1,11 @@
-<!-- Copyright 2014-2020 Signal Messenger, LLC -->
+<!-- Copyright 2014-2021 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 # Signal Desktop
 
-Signal Desktop is an Electron application that links with Signal
-on [Android](https://github.com/signalapp/Signal-Android)
-or [iOS](https://github.com/signalapp/Signal-iOS).
+Signal Desktop links with Signal on [Android](https://github.com/signalapp/Signal-Android) or [iOS](https://github.com/signalapp/Signal-iOS) and lets you message from your Windows, macOS, and Linux computers.
 
-## Install the production version: https://signal.org/download/
-
-## Install the beta
-
-You can install the beta version of Signal Desktop alongside the production version. The beta uses different data and install locations.
-
-- _Windows:_ First, download [this file](https://updates.signal.org/desktop/beta.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<installer location>`. Then run the installer.
-- _macOS:_ First, download [this file](https://updates.signal.org/desktop/beta-mac.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<package location>`. Then unzip that package and copy the `.app` file into the `/Applications` folder using Finder.
-- _Linux:_ Follow the production instructions to set up the APT repository and run `apt install signal-desktop-beta`.
+[Install the production version](https://signal.org/download/) or help us out by [installing the beta version](https://support.signal.org/hc/articles/360007318471-Signal-Beta).
 
 ## Got a question?
 
