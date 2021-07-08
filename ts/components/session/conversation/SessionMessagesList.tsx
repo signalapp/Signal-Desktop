@@ -10,11 +10,7 @@ import { contextMenu } from 'react-contexify';
 import { AttachmentType } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
-import {
-  ConversationType,
-  MessageModelProps,
-  SortedMessageModelProps,
-} from '../../../state/ducks/conversations';
+import { ReduxConversationType, SortedMessageModelProps } from '../../../state/ducks/conversations';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
@@ -36,7 +32,7 @@ interface Props {
   selectedMessages: Array<string>;
   conversationKey: string;
   messagesProps: Array<SortedMessageModelProps>;
-  conversation: ConversationType;
+  conversation: ReduxConversationType;
   ourPrimary: string;
   messageContainerRef: React.RefObject<any>;
   selectMessage: (messageId: string) => void;
@@ -129,7 +125,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   public render() {
-    const { conversationKey, conversation, messagesProps } = this.props;
+    const { conversationKey, conversation } = this.props;
     const { showScrollButton } = this.state;
 
     let displayedName = null;

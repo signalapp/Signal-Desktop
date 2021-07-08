@@ -24,9 +24,9 @@ import {
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import {
   actions as conversationActions,
-  ConversationType as ReduxConversationType,
   LastMessageStatusType,
   MessageModelProps,
+  ReduxConversationType,
 } from '../state/ducks/conversations';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';

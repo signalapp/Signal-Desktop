@@ -23,7 +23,7 @@ import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import {
-  ConversationType,
+  ReduxConversationType,
   PropsForMessage,
   SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
@@ -40,6 +40,7 @@ import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
 import { SessionButtonColor } from '../SessionButton';
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 interface State {
   unreadCount: number;
   selectedMessages: Array<string>;
@@ -70,10 +71,9 @@ export interface LightBoxOptions {
 interface Props {
   ourNumber: string;
   selectedConversationKey: string;
-  selectedConversation?: ConversationType;
+  selectedConversation?: ReduxConversationType;
   theme: DefaultTheme;
   messagesProps: Array<SortedMessageModelProps>;
-  actions: any;
 }
 
 export class SessionConversation extends React.Component<Props, State> {
@@ -199,7 +199,7 @@ export class SessionConversation extends React.Component<Props, State> {
     } = this.state;
     const selectionMode = !!selectedMessages.length;
 
-    const { selectedConversation, selectedConversationKey, messagesProps, actions } = this.props;
+    const { selectedConversation, selectedConversationKey, messagesProps } = this.props;
 
     if (!selectedConversation || !messagesProps) {
       // return an empty message view
@@ -227,9 +227,6 @@ export class SessionConversation extends React.Component<Props, State> {
     };
     const showMessageDetails = !!messageDetailShowProps;
 
-    const isPublic = selectedConversation.isPublic || false;
-
-    const isPrivate = selectedConversation.type === ConversationTypeEnum.PRIVATE;
     return (
       <SessionTheme theme={this.props.theme}>
         <div className="conversation-header">{this.renderHeader()}</div>
@@ -257,8 +254,8 @@ export class SessionConversation extends React.Component<Props, State> {
             isBlocked={selectedConversation.isBlocked}
             left={selectedConversation.left}
             isKickedFromGroup={selectedConversation.isKickedFromGroup}
-            isPrivate={isPrivate}
-            isPublic={isPublic}
+            isPrivate={selectedConversation.isPrivate}
+            isPublic={selectedConversation.isPublic}
             selectedConversationKey={selectedConversationKey}
             selectedConversation={selectedConversation}
             sendMessage={sendMessageFn}
@@ -307,10 +304,12 @@ export class SessionConversation extends React.Component<Props, State> {
       Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
       unreadCount
     );
-    this.props.actions.fetchMessagesForConversation({
-      conversationKey: selectedConversationKey,
-      count: messagesToFetch,
-    });
+    window.inboxStore?.dispatch(
+      fetchMessagesForConversation({
+        conversationKey: selectedConversationKey,
+        count: messagesToFetch,
+      })
+    );
   }
 
   public getHeaderProps(): ConversationHeaderNonReduxProps {
@@ -337,6 +336,9 @@ export class SessionConversation extends React.Component<Props, State> {
     const { selectedConversation, selectedConversationKey, ourNumber, messagesProps } = this.props;
     const { quotedMessageTimestamp, selectedMessages } = this.state;
 
+    if (!selectedConversation) {
+      throw new Error();
+    }
     return {
       selectedMessages,
       ourPrimary: ourNumber,
@@ -344,7 +346,7 @@ export class SessionConversation extends React.Component<Props, State> {
       messagesProps,
       resetSelection: this.resetSelection,
       quotedMessageTimestamp,
-      conversation: selectedConversation as ConversationType,
+      conversation: selectedConversation,
       selectMessage: this.selectMessage,
       deleteMessage: this.deleteMessage,
       replyToMessage: this.replyToMessage,
@@ -490,18 +492,19 @@ export class SessionConversation extends React.Component<Props, State> {
 
     if (askUserForConfirmation) {
       const onClickClose = () => {
-        this.props.actions.updateConfirmModal(null);
+        window.inboxStore?.dispatch(updateConfirmModal(null));
       };
 
-      this.props.actions.updateConfirmModal({
-        title,
-        message: warningMessage,
-        okText,
-        okTheme: SessionButtonColor.Danger,
-        onClickOk: doDelete,
-        onClickClose,
-        closeAfterClick: true,
-      });
+      window.inboxStore?.dispatch(
+        updateConfirmModal({
+          title,
+          message: warningMessage,
+          okText,
+          okTheme: SessionButtonColor.Danger,
+          onClickOk: doDelete,
+          onClickClose,
+        })
+      );
     } else {
       void doDelete();
     }
@@ -987,4 +990,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     window.inboxStore?.dispatch(updateMentionsMembers(allMembers));
   }
+}
+function fetchMessagesForConversation(arg0: { conversationKey: string; count: number }): any {
+  throw new Error('Function not implemented.');
 }

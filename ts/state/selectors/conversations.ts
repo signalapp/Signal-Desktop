@@ -4,8 +4,7 @@ import { StateType } from '../reducer';
 import {
   ConversationLookupType,
   ConversationsStateType,
-  ConversationType,
-  MessageModelProps,
+  ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
 
@@ -36,7 +35,7 @@ export const getSelectedConversationKey = createSelector(
 
 export const getSelectedConversation = createSelector(
   getConversations,
-  (state: ConversationsStateType): ConversationType | undefined => {
+  (state: ConversationsStateType): ReduxConversationType | undefined => {
     return state.selectedConversation
       ? state.conversationLookup[state.selectedConversation]
       : undefined;
@@ -45,7 +44,7 @@ export const getSelectedConversation = createSelector(
 
 export const getOurPrimaryConversation = createSelector(
   getConversations,
-  (state: ConversationsStateType): ConversationType =>
+  (state: ConversationsStateType): ReduxConversationType =>
     state.conversationLookup[window.storage.get('primaryDevicePubKey')]
 );
 
@@ -54,7 +53,10 @@ export const getMessagesOfSelectedConversation = createSelector(
   (state: ConversationsStateType): Array<SortedMessageModelProps> => state.messages
 );
 
-function getConversationTitle(conversation: ConversationType, testingi18n?: LocalizerType): string {
+function getConversationTitle(
+  conversation: ReduxConversationType,
+  testingi18n?: LocalizerType
+): string {
   if (conversation.name) {
     return conversation.name;
   }
@@ -68,7 +70,7 @@ function getConversationTitle(conversation: ConversationType, testingi18n?: Loca
 const collator = new Intl.Collator();
 
 export const _getConversationComparator = (testingi18n?: LocalizerType) => {
-  return (left: ConversationType, right: ConversationType): number => {
+  return (left: ReduxConversationType, right: ReduxConversationType): number => {
     const leftActiveAt = left.activeAt;
     const rightActiveAt = right.activeAt;
     if (leftActiveAt && !rightActiveAt) {
@@ -91,18 +93,18 @@ export const getConversationComparator = createSelector(getIntl, _getConversatio
 // export only because we use it in some of our tests
 export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
-  comparator: (left: ConversationType, right: ConversationType) => number,
+  comparator: (left: ReduxConversationType, right: ReduxConversationType) => number,
   selectedConversation?: string
 ): {
-  conversations: Array<ConversationType>;
-  contacts: Array<ConversationType>;
+  conversations: Array<ReduxConversationType>;
+  contacts: Array<ReduxConversationType>;
   unreadCount: number;
 } => {
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
 
-  const conversations: Array<ConversationType> = [];
-  const directConversations: Array<ConversationType> = [];
+  const conversations: Array<ReduxConversationType> = [];
+  const directConversations: Array<ReduxConversationType> = [];
 
   let index = 0;
 
@@ -172,9 +174,18 @@ export const getLeftPaneLists = createSelector(
 
 export const getMe = createSelector(
   [getConversationLookup, getOurNumber],
-  (lookup: ConversationLookupType, ourNumber: string): ConversationType => {
+  (lookup: ConversationLookupType, ourNumber: string): ReduxConversationType => {
     return lookup[ourNumber];
   }
+);
+
+export const getDirectContacts = createSelector(
+  getLeftPaneLists,
+  (state: {
+    conversations: Array<ReduxConversationType>;
+    contacts: Array<ReduxConversationType>;
+    unreadCount: number;
+  }) => state.contacts
 );
 
 export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {

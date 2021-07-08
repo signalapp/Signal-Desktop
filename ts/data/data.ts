@@ -11,7 +11,7 @@ import { HexKeyPair } from '../receiver/keypairs';
 import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
-import { ConversationType } from '../state/ducks/conversations';
+import { ReduxConversationType } from '../state/ducks/conversations';
 import { channels } from './channels';
 import { channelsToMake as channelstoMakeOpenGroupV2 } from './opengroups';
 
@@ -511,7 +511,7 @@ export async function removeAllClosedGroupEncryptionKeyPairs(
 }
 
 // Conversation
-export async function saveConversation(data: ConversationType): Promise<void> {
+export async function saveConversation(data: ReduxConversationType): Promise<void> {
   const cleaned = _.omit(data, 'isOnline');
   await channels.saveConversation(cleaned);
 }
@@ -524,7 +524,7 @@ export async function getConversationById(id: string): Promise<ConversationModel
   return undefined;
 }
 
-export async function updateConversation(data: ConversationType): Promise<void> {
+export async function updateConversation(data: ReduxConversationType): Promise<void> {
   await channels.updateConversation(data);
 }
 

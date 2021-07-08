@@ -2,9 +2,9 @@ import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { getConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';
-import { ConversationType } from '../state/ducks/conversations';
+import { ReduxConversationType } from '../state/ducks/conversations';
 
-export function useMembersAvatars(conversation: ConversationType | undefined) {
+export function useMembersAvatars(conversation: ReduxConversationType | undefined) {
   const [membersAvatars, setMembersAvatars] = useState<
     | Array<{
         avatarPath: string | undefined;

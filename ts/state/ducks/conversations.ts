@@ -168,7 +168,7 @@ export type LastMessageType = {
   text: string | null;
 };
 
-export interface ConversationType {
+export interface ReduxConversationType {
   id: string;
   name?: string;
   profileName?: string;
@@ -202,7 +202,7 @@ export interface ConversationType {
 }
 
 export type ConversationLookupType = {
-  [key: string]: ConversationType;
+  [key: string]: ReduxConversationType;
 };
 
 export type ConversationsStateType = {
@@ -322,14 +322,14 @@ type ConversationAddedActionType = {
   type: 'CONVERSATION_ADDED';
   payload: {
     id: string;
-    data: ConversationType;
+    data: ReduxConversationType;
   };
 };
 type ConversationChangedActionType = {
   type: 'CONVERSATION_CHANGED';
   payload: {
     id: string;
-    data: ConversationType;
+    data: ReduxConversationType;
   };
 };
 type ConversationRemovedActionType = {
@@ -425,7 +425,7 @@ export const actions = {
   openConversationExternal,
 };
 
-function conversationAdded(id: string, data: ConversationType): ConversationAddedActionType {
+function conversationAdded(id: string, data: ReduxConversationType): ConversationAddedActionType {
   return {
     type: 'CONVERSATION_ADDED',
     payload: {
@@ -434,7 +434,10 @@ function conversationAdded(id: string, data: ConversationType): ConversationAdde
     },
   };
 }
-function conversationChanged(id: string, data: ConversationType): ConversationChangedActionType {
+function conversationChanged(
+  id: string,
+  data: ReduxConversationType
+): ConversationChangedActionType {
   return {
     type: 'CONVERSATION_CHANGED',
     payload: {

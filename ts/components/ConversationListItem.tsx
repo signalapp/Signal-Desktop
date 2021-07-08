@@ -16,15 +16,15 @@ import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageSta
 import { useTheme } from 'styled-components';
 import { PubKey } from '../session/types';
 import {
-  ConversationType,
   LastMessageType,
   openConversationExternal,
+  ReduxConversationType,
 } from '../state/ducks/conversations';
 import _ from 'underscore';
 import { useMembersAvatars } from '../hooks/useMembersAvatar';
 import { useDispatch } from 'react-redux';
 
-export interface ConversationListItemProps extends ConversationType {}
+export interface ConversationListItemProps extends ReduxConversationType {}
 
 type PropsHousekeeping = {
   style?: Object;

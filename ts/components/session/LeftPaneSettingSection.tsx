@@ -154,7 +154,7 @@ export const LeftPaneSettingSection = () => {
   const theme = useSelector(getTheme);
   return (
     <div className="left-pane-setting-section">
-      <LeftPaneSectionHeader label={window.i18n('settingsHeader')} theme={theme} />
+      <LeftPaneSectionHeader label={window.i18n('settingsHeader')} />
       <div className="left-pane-setting-content">
         <LeftPaneSettingsCategories />
         <LeftPaneBottomButtons />

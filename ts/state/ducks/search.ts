@@ -6,9 +6,9 @@ import { searchConversations, searchMessages } from '../../../ts/data/data';
 import { makeLookup } from '../../util/makeLookup';
 
 import {
-  ConversationType,
   MessageExpiredActionType,
   PropsForSearchResults,
+  ReduxConversationType,
   RemoveAllConversationsActionType,
   SelectedConversationChangedActionType,
 } from './conversations';
@@ -242,7 +242,7 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
   const { ourNumber, noteToSelf } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
 
-  const searchResults: Array<ConversationType> = await searchConversations(query);
+  const searchResults: Array<ReduxConversationType> = await searchConversations(query);
 
   // Split into two groups - active conversations and items just from address book
   let conversations: Array<string> = [];

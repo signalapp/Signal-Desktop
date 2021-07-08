@@ -28,7 +28,7 @@ import { Mention, MentionsInput } from 'react-mentions';
 import { CaptionEditor } from '../../CaptionEditor';
 import { DefaultTheme } from 'styled-components';
 import { getConversationController } from '../../../session/conversations';
-import { ConversationType } from '../../../state/ducks/conversations';
+import { ReduxConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
 import { SectionType } from '../ActionsPanel';
@@ -72,7 +72,7 @@ interface Props {
   isKickedFromGroup: boolean;
   left: boolean;
   selectedConversationKey: string;
-  selectedConversation: ConversationType | undefined;
+  selectedConversation: ReduxConversationType | undefined;
   isPublic: boolean;
 
   quotedMessageProps?: ReplyingToMessageProps;
