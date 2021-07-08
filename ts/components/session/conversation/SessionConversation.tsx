@@ -54,7 +54,6 @@ interface State {
 
   unreadCount: number;
   selectedMessages: Array<string>;
-  displayScrollToBottomButton: boolean;
 
   showOverlay: boolean;
   showRecordingView: boolean;
@@ -106,7 +105,6 @@ export class SessionConversation extends React.Component<Props, State> {
       sendingProgressStatus: 0,
       unreadCount,
       selectedMessages: [],
-      displayScrollToBottomButton: false,
       showOverlay: false,
       showRecordingView: false,
       showOptionsPane: false,
@@ -176,7 +174,6 @@ export class SessionConversation extends React.Component<Props, State> {
       this.setState({
         showOptionsPane: false,
         selectedMessages: [],
-        displayScrollToBottomButton: false,
         showOverlay: false,
         showRecordingView: false,
         stagedAttachments: [],

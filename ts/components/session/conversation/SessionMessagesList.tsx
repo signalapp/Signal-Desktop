@@ -559,7 +559,14 @@ export class SessionMessagesList extends React.Component<Props, State> {
       return;
     }
     messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
-    this.updateReadMessages();
+    const { messagesProps, conversationKey } = this.props;
+
+    if (!messagesProps || messagesProps.length === 0) {
+      return;
+    }
+
+    const conversation = getConversationController().getOrThrow(conversationKey);
+    void conversation.markRead(messagesProps[0].propsForMessage.receivedAt);
   }
 
   private async scrollToQuoteMessage(options: QuoteClickOptions) {
