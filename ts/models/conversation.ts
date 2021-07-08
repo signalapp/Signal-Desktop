@@ -189,8 +189,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     autoBind(this);
 
     this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
-    this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000);
-    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000 });
+    this.updateLastMessage = _.throttle(this.bouncyUpdateLastMessage.bind(this), 1000, {
+      trailing: true,
+      leading: true,
+    });
+    this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
+      trailing: true,
+      leading: true,
+    });
+    this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
     this.markRead = _.debounce(this.markReadBouncy, 1000, { leading: true });
     // Listening for out-of-band data updates
@@ -878,17 +885,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return message;
   }
 
-  public async commit() {
-    perfStart(`conversationCommit-${this.attributes.id}`);
-
-    // write to DB
-    await updateConversation(this.attributes);
+  public triggerUIRefresh() {
     window.inboxStore?.dispatch(
       conversationActions.conversationChanged(this.id, {
         ...this.getProps(),
         isSelected: false,
       })
     );
+  }
+
+  public async commit() {
+    perfStart(`conversationCommit-${this.attributes.id}`);
+    // write to DB
+    await updateConversation(this.attributes);
+    this.triggerUIRefresh();
     perfEnd(`conversationCommit-${this.attributes.id}`, 'conversationCommit');
   }
 
