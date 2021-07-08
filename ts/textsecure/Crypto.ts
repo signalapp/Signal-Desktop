@@ -81,7 +81,7 @@ declare global {
         | DhImportKeyParams
         | AesKeyAlgorithm,
       extractable: boolean,
-      keyUsages: string[]
+      keyUsages: Array<string>
     ): Promise<CryptoKey>;
 
     importKey(
@@ -107,7 +107,7 @@ declare global {
         | DhImportKeyParams
         | AesKeyAlgorithm,
       extractable: boolean,
-      keyUsages: string[]
+      keyUsages: Array<string>
     ): Promise<CryptoKey>;
   }
 }

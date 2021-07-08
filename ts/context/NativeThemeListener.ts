@@ -10,8 +10,11 @@ export interface MinimalIPC {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sendSync(channel: string): any;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  on(channel: string, listener: (event: unknown, ...args: any[]) => void): this;
+  on(
+    channel: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    listener: (event: unknown, ...args: ReadonlyArray<any>) => void
+  ): this;
 }
 
 export type SystemThemeHolder = { systemTheme: 'dark' | 'light' };

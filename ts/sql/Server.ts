@@ -248,7 +248,7 @@ const dataInterface: ServerInterface = {
 };
 export default dataInterface;
 
-type DatabaseQueryCache = Map<string, Statement<any[]>>;
+type DatabaseQueryCache = Map<string, Statement<Array<any>>>;
 
 const statementCache = new WeakMap<Database, DatabaseQueryCache>();
 

@@ -117,6 +117,8 @@ const rules = {
 const typescriptRules = {
   ...rules,
 
+  '@typescript-eslint/array-type': ['error', { default: 'generic' }],
+
   // Overrides recommended by typescript-eslint
   //   https://github.com/typescript-eslint/typescript-eslint/releases/tag/v4.0.0
   '@typescript-eslint/no-redeclare': 'error',
