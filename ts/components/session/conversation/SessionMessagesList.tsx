@@ -10,7 +10,11 @@ import { contextMenu } from 'react-contexify';
 import { AttachmentType } from '../../../types/Attachment';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
-import { ReduxConversationType, SortedMessageModelProps } from '../../../state/ducks/conversations';
+import {
+  fetchMessagesForConversation,
+  ReduxConversationType,
+  SortedMessageModelProps,
+} from '../../../state/ducks/conversations';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { ToastUtils } from '../../../session/utils';
 import { TypingBubble } from '../../conversation/TypingBubble';
@@ -303,20 +307,12 @@ export class SessionMessagesList extends React.Component<Props, State> {
     multiSelectMode: boolean,
     playableMessageIndex: number
   ) {
-    const regularProps: MessageRegularProps = { ...messageProps.propsForMessage };
-
     const messageId = messageProps.propsForMessage.id;
+
     const selected =
       !!messageProps?.propsForMessage.id && this.props.selectedMessages.includes(messageId);
 
-    regularProps.selected = selected;
-    regularProps.firstMessageOfSeries = firstMessageOfSeries;
-
-    regularProps.multiSelectMode = multiSelectMode;
-    regularProps.onSelectMessage = this.props.selectMessage;
-    regularProps.onDeleteMessage = this.props.deleteMessage;
-    regularProps.onReply = this.props.replyToMessage;
-    regularProps.onShowDetail = async () => {
+    const onShowDetail = async () => {
       const found = await getMessageById(messageId);
       if (found) {
         const messageDetailsProps = await found.getPropsForMessageDetail();
@@ -327,10 +323,16 @@ export class SessionMessagesList extends React.Component<Props, State> {
       }
     };
 
-    regularProps.onClickAttachment = (attachment: AttachmentType) => {
+    const onClickAttachment = (attachment: AttachmentType) => {
       this.props.onClickAttachment(attachment, messageProps.propsForMessage);
     };
-    regularProps.onDownload = (attachment: AttachmentType) => {
+
+    // tslint:disable-next-line: no-async-without-await
+    const onQuoteClick = messageProps.propsForMessage.quote
+      ? this.scrollToQuoteMessage
+      : async () => {};
+
+    const onDownload = (attachment: AttachmentType) => {
       const messageTimestamp =
         messageProps.propsForMessage.timestamp ||
         messageProps.propsForMessage.serverTimestamp ||
@@ -343,14 +345,23 @@ export class SessionMessagesList extends React.Component<Props, State> {
       });
     };
 
-    regularProps.isQuotedMessageToAnimate = messageId === this.state.animateQuotedMessageId;
-
-    // tslint:disable-next-line: no-async-without-await
-    const onQuoteClick = regularProps.quote ? this.scrollToQuoteMessage : async () => {};
-
-    regularProps.nextMessageToPlay = this.state.nextMessageToPlay;
-    regularProps.playableMessageIndex = playableMessageIndex;
-    regularProps.playNextMessage = this.playNextMessage;
+    const regularProps: MessageRegularProps = {
+      ...messageProps.propsForMessage,
+      selected,
+      firstMessageOfSeries,
+      multiSelectMode,
+      isQuotedMessageToAnimate: messageId === this.state.animateQuotedMessageId,
+      nextMessageToPlay: this.state.nextMessageToPlay,
+      playableMessageIndex,
+      onSelectMessage: this.props.selectMessage,
+      onDeleteMessage: this.props.deleteMessage,
+      onReply: this.props.replyToMessage,
+      onShowDetail,
+      onClickAttachment,
+      onDownload,
+      playNextMessage: this.playNextMessage,
+      onQuoteClick,
+    };
 
     return <Message {...regularProps} onQuoteClick={onQuoteClick} key={messageId} />;
   }
@@ -461,7 +472,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       const oldLen = messagesProps.length;
       const previousTopMessage = messagesProps[oldLen - 1]?.propsForMessage.id;
 
-      window.inboxStore?.dispatch(
+      (window.inboxStore?.dispatch as any)(
         fetchMessagesForConversation({ conversationKey, count: numMessages })
       );
       if (previousTopMessage && oldLen !== messagesProps.length) {
@@ -622,7 +633,4 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const clientHeight = messageContainer.clientHeight;
     return scrollHeight - scrollTop - clientHeight;
   }
-}
-function fetchMessagesForConversation(arg0: { conversationKey: string; count: number }): any {
-  throw new Error('Function not implemented.');
 }

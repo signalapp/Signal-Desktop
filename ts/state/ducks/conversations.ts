@@ -137,7 +137,7 @@ export type PropsForMessage = {
   text: string | null;
   id: string;
   direction: MessageModelType;
-  timestamp: number | undefined;
+  timestamp: number;
   receivedAt: number | undefined;
   serverTimestamp: number | undefined;
   serverId: number | undefined;
@@ -161,6 +161,7 @@ export type PropsForMessage = {
   weAreAdmin: boolean;
   isSenderAdmin: boolean;
   isDeletable: boolean;
+  isExpired: boolean;
 };
 
 export type LastMessageType = {
@@ -287,7 +288,7 @@ type FetchedMessageResults = {
   messagesProps: Array<SortedMessageModelProps>;
 };
 
-const fetchMessagesForConversation = createAsyncThunk(
+export const fetchMessagesForConversation = createAsyncThunk(
   'messages/fetchByConversationKey',
   async ({
     conversationKey,

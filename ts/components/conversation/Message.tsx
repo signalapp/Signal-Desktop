@@ -29,7 +29,6 @@ import _ from 'lodash';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import uuid from 'uuid';
 import { InView } from 'react-intersection-observer';
-import { withTheme } from 'styled-components';
 import { MessageMetadata } from './message/MessageMetadata';
 import { PubKey } from '../../session/types';
 import { MessageRegularProps } from '../../models/messageType';
@@ -56,7 +55,7 @@ interface State {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-class MessageInner extends React.PureComponent<MessageRegularProps, State> {
+export class Message extends React.PureComponent<MessageRegularProps, State> {
   public expirationCheckInterval: any;
   public expiredTimeout: any;
   public ctxMenuID: string;
@@ -279,14 +278,7 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
 
   // tslint:disable-next-line cyclomatic-complexity
   public renderPreview() {
-    const {
-      attachments,
-      conversationType,
-      direction,
-      onClickLinkPreview,
-      previews,
-      quote,
-    } = this.props;
+    const { attachments, conversationType, direction, previews, quote } = this.props;
 
     // Attachments take precedence over Link Previews
     if (attachments && attachments.length) {
@@ -316,11 +308,6 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
           'module-message__link-preview',
           withContentAbove ? 'module-message__link-preview--with-content-above' : null
         )}
-        onClick={() => {
-          if (onClickLinkPreview) {
-            onClickLinkPreview(first.url);
-          }
-        }}
       >
         {first.image && previewHasImage && isFullSizeImage ? (
           <ImageGrid
@@ -898,5 +885,3 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
     await removeSenderFromModerator(this.props.authorPhoneNumber, this.props.convoId);
   }
 }
-
-export const Message = withTheme(MessageInner);

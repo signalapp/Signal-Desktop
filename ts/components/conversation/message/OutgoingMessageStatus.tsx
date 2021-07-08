@@ -61,7 +61,7 @@ const MessageStatusError = () => {
 };
 
 export const OutgoingMessageStatus = (props: {
-  status?: MessageDeliveryStatus;
+  status?: MessageDeliveryStatus | null;
   iconColor: string;
   isInMessageView?: boolean;
 }) => {

@@ -51,7 +51,7 @@ export interface MessageAttributes {
    * timestamp is the sent_at timestamp, which is the envelope.timestamp
    */
   timestamp?: number;
-  status: MessageDeliveryStatus;
+  status?: MessageDeliveryStatus;
   dataMessage: any;
   sent_to: any;
   sent: boolean;
@@ -202,20 +202,20 @@ export interface MessageRegularProps {
   isDeletable: boolean;
   isAdmin?: boolean;
   weAreAdmin?: boolean;
-  text?: string;
+  text: string | null;
   id: string;
   collapseMetadata?: boolean;
   direction: MessageModelType;
   timestamp: number;
   serverTimestamp?: number;
-  status?: MessageDeliveryStatus;
+  status?: MessageDeliveryStatus | null;
   // What if changed this over to a single contact like quote, and put the events on it?
   contact?: Contact & {
     onSendMessage?: () => void;
     onClick?: () => void;
   };
-  authorName?: string;
-  authorProfileName?: string;
+  authorName?: string | null;
+  authorProfileName?: string | null;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
   conversationType: ConversationTypeEnum;
@@ -247,16 +247,13 @@ export interface MessageRegularProps {
   isQuotedMessageToAnimate?: boolean;
   isTrustedForAttachmentDownload: boolean;
 
-  onClickAttachment?: (attachment: AttachmentType) => void;
-  onClickLinkPreview?: (url: string) => void;
+  onClickAttachment: (attachment: AttachmentType) => void;
   onSelectMessage: (messageId: string) => void;
-  onReply?: (messagId: number) => void;
-  onDownload?: (attachment: AttachmentType) => void;
+  onReply: (messagId: number) => void;
+  onDownload: (attachment: AttachmentType) => void;
   onDeleteMessage: (messageId: string) => void;
   onShowDetail: () => void;
-  markRead: (readAt: number) => Promise<void>;
   onQuoteClick: (options: QuoteClickOptions) => Promise<void>;
-  theme: DefaultTheme;
 
   playableMessageIndex?: number;
   nextMessageToPlay?: number;

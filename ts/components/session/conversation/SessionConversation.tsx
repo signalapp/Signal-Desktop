@@ -26,6 +26,7 @@ import {
   ReduxConversationType,
   PropsForMessage,
   SortedMessageModelProps,
+  fetchMessagesForConversation,
 } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
@@ -304,7 +305,7 @@ export class SessionConversation extends React.Component<Props, State> {
       Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
       unreadCount
     );
-    window.inboxStore?.dispatch(
+    (window.inboxStore?.dispatch as any)(
       fetchMessagesForConversation({
         conversationKey: selectedConversationKey,
         count: messagesToFetch,
@@ -990,7 +991,4 @@ export class SessionConversation extends React.Component<Props, State> {
 
     window.inboxStore?.dispatch(updateMentionsMembers(allMembers));
   }
-}
-function fetchMessagesForConversation(arg0: { conversationKey: string; count: number }): any {
-  throw new Error('Function not implemented.');
 }

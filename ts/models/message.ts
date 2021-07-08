@@ -548,7 +548,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       text: this.createNonBreakingLastSeparator(this.get('body')),
       id: this.id as string,
       direction: (this.isIncoming() ? 'incoming' : 'outgoing') as MessageModelType,
-      timestamp: this.get('sent_at'),
+      timestamp: this.get('sent_at') || 0,
       receivedAt: this.get('received_at'),
       serverTimestamp: this.get('serverTimestamp'),
       serverId: this.get('serverId'),
@@ -574,6 +574,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       weAreAdmin,
       isDeletable,
       isSenderAdmin,
+      isExpired: this.isExpired(),
     };
 
     return props;
