@@ -24,6 +24,7 @@ import {
   waitThenRespondToGroupV2Migration,
 } from '../groups';
 import { assert } from '../util/assert';
+import { normalizeUuid } from '../util/normalizeUuid';
 import { missingCaseError } from '../util/missingCaseError';
 import {
   PhoneNumberSharingMode,
@@ -719,13 +720,18 @@ export async function mergeGroupV2Record(
 
 export async function mergeContactRecord(
   storageID: string,
-  contactRecord: ContactRecordClass
+  originalContactRecord: ContactRecordClass
 ): Promise<boolean> {
-  window.normalizeUuids(
-    contactRecord,
-    ['serviceUuid'],
-    'storageService.mergeContactRecord'
-  );
+  const contactRecord = {
+    ...originalContactRecord,
+
+    serviceUuid: originalContactRecord.serviceUuid
+      ? normalizeUuid(
+          originalContactRecord.serviceUuid,
+          'ContactRecord.serviceUuid'
+        )
+      : undefined,
+  };
 
   const e164 = contactRecord.serviceE164 || undefined;
   const uuid = contactRecord.serviceUuid || undefined;

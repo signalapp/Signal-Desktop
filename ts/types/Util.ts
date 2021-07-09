@@ -4,8 +4,8 @@
 export type BodyRangeType = {
   start: number;
   length: number;
-  mentionUuid: string;
-  replacementText: string;
+  mentionUuid?: string;
+  replacementText?: string;
   conversationID?: string;
 };
 

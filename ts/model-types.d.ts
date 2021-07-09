@@ -58,7 +58,7 @@ export type QuotedMessageType = {
   author?: string;
   authorUuid?: string;
   bodyRanges?: BodyRangesType;
-  id: string;
+  id: number;
   referencedMessageNotFound: boolean;
   isViewOnce: boolean;
   text?: string;
@@ -190,6 +190,8 @@ export type MessageAttributesType = {
   // Backwards-compatibility with prerelease data schema
   invitedGV2Members?: Array<GroupV2PendingMemberType>;
   droppedGV2MemberIds?: Array<string>;
+
+  sendHQImages?: boolean;
 };
 
 export type ConversationAttributesTypeType = 'private' | 'group';

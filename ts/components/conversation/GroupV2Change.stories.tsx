@@ -8,6 +8,7 @@ import { storiesOf } from '@storybook/react';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { GroupV2ChangeType } from '../../groups';
+import { SignalService as Proto } from '../../protobuf';
 import { SmartContactRendererType } from '../../groupChange';
 import { GroupV2Change } from './GroupV2Change';
 
@@ -20,25 +21,8 @@ const CONTACT_C = 'CONTACT_C';
 const ADMIN_A = 'ADMIN_A';
 const INVITEE_A = 'INVITEE_A';
 
-class AccessControlEnum {
-  static UNKNOWN = 0;
-
-  static ANY = 1;
-
-  static MEMBER = 2;
-
-  static ADMINISTRATOR = 3;
-
-  static UNSATISFIABLE = 4;
-}
-
-class RoleEnum {
-  static UNKNOWN = 0;
-
-  static ADMINISTRATOR = 1;
-
-  static DEFAULT = 2;
-}
+const AccessControlEnum = Proto.AccessControl.AccessRequired;
+const RoleEnum = Proto.Member.Role;
 
 const renderContact: SmartContactRendererType = (conversationId: string) => (
   <React.Fragment key={conversationId}>
@@ -48,13 +32,11 @@ const renderContact: SmartContactRendererType = (conversationId: string) => (
 
 const renderChange = (change: GroupV2ChangeType, groupName?: string) => (
   <GroupV2Change
-    AccessControlEnum={AccessControlEnum}
     change={change}
     groupName={groupName}
     i18n={i18n}
     ourConversationId={OUR_ID}
     renderContact={renderContact}
-    RoleEnum={RoleEnum}
   />
 );
 

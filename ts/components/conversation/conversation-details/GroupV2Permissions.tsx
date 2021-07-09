@@ -6,14 +6,12 @@ import React from 'react';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { LocalizerType } from '../../../types/Util';
 import { getAccessControlOptions } from '../../../util/getAccessControlOptions';
-import { AccessControlClass } from '../../../textsecure.d';
 
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
 
 export type PropsType = {
-  accessEnum: typeof AccessControlClass.AccessRequired;
   conversation?: ConversationType;
   i18n: LocalizerType;
   setAccessControlAttributesSetting: (value: number) => void;
@@ -21,7 +19,6 @@ export type PropsType = {
 };
 
 export const GroupV2Permissions: React.ComponentType<PropsType> = ({
-  accessEnum,
   conversation,
   i18n,
   setAccessControlAttributesSetting,
@@ -37,7 +34,7 @@ export const GroupV2Permissions: React.ComponentType<PropsType> = ({
   const updateAccessControlMembers = (value: string) => {
     setAccessControlMembersSetting(Number(value));
   };
-  const accessControlOptions = getAccessControlOptions(accessEnum, i18n);
+  const accessControlOptions = getAccessControlOptions(i18n);
 
   return (
     <PanelSection>

@@ -12,9 +12,10 @@ import {
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
+import { strictAssert } from '../util/assert';
+import { dropNull } from '../util/dropNull';
 import { map, filter, find } from '../util/iterables';
 import { isNotNil } from '../util/isNotNil';
-import { DataMessageClass } from '../textsecure.d';
 import { ConversationModel } from './conversations';
 import { MessageStatusType } from '../components/conversation/Message';
 import {
@@ -23,9 +24,17 @@ import {
 } from '../state/smart/MessageDetail';
 import { getCallingNotificationText } from '../util/callingNotification';
 import { CallbackResultType } from '../textsecure/SendMessage';
+import { ProcessedDataMessage, ProcessedQuote } from '../textsecure/Types.d';
 import * as expirationTimer from '../util/expirationTimer';
 
 import { ReactionType } from '../types/Reactions';
+import {
+  copyStickerToAttachments,
+  deletePackReference,
+  savePackMetadata,
+  getStickerPackStatus,
+} from '../types/Stickers';
+import * as Stickers from '../types/Stickers';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 import { ourProfileKeyService } from '../services/ourProfileKey';
@@ -107,12 +116,6 @@ const {
   loadStickerData,
   upgradeMessageSchema,
 } = window.Signal.Migrations;
-const {
-  copyStickerToAttachments,
-  deletePackReference,
-  savePackMetadata,
-  getStickerPackStatus,
-} = window.Signal.Stickers;
 const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
 
 const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
@@ -124,7 +127,7 @@ const includesAny = <T>(haystack: Array<T>, ...needles: Array<T>) =>
 export function isQuoteAMatch(
   message: MessageModel | null | undefined,
   conversationId: string,
-  quote: QuotedMessageType | DataMessageClass.Quote
+  quote: QuotedMessageType
 ): message is MessageModel {
   if (!message) {
     return false;
@@ -614,7 +617,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const stickerData = this.get('sticker');
     if (stickerData) {
-      const sticker = window.Signal.Stickers.getSticker(
+      const sticker = Stickers.getSticker(
         stickerData.packId,
         stickerData.stickerId
       );
@@ -624,7 +627,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
       return {
         text: window.i18n('message--getNotificationText--stickers'),
-        emoji,
+        emoji: dropNull(emoji),
       };
     }
 
@@ -1460,11 +1463,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           senderKeyInfo.distributionId
         );
 
-        contentMessage.senderKeyDistributionMessage = window.dcodeIO.ByteBuffer.wrap(
-          window.Signal.Crypto.typedArrayToArrayBuffer(
-            senderKeyDistributionMessage.serialize()
-          )
-        );
+        contentMessage.senderKeyDistributionMessage = senderKeyDistributionMessage.serialize();
       }
     }
 
@@ -2217,18 +2216,48 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   // eslint-disable-next-line class-methods-use-this
   async copyFromQuotedMessage(
-    message: DataMessageClass,
+    quote: ProcessedQuote | undefined,
     conversationId: string
-  ): Promise<DataMessageClass> {
-    const { quote } = message;
+  ): Promise<QuotedMessageType | undefined> {
     if (!quote) {
-      return message;
+      return undefined;
     }
 
     const { id } = quote;
+    strictAssert(id, 'Quote must have an id');
+
+    const result: QuotedMessageType = {
+      ...quote,
+
+      id,
+
+      attachments: quote.attachments.slice(),
+      bodyRanges: quote.bodyRanges.map(({ start, length, mentionUuid }) => {
+        strictAssert(
+          start !== undefined && start !== null,
+          'Received quote with a bodyRange.start == null'
+        );
+        strictAssert(
+          length !== undefined && length !== null,
+          'Received quote with a bodyRange.length == null'
+        );
+
+        return {
+          start,
+          length,
+          mentionUuid: dropNull(mentionUuid),
+        };
+      }),
+
+      // Just placeholder values for the fields
+      referencedMessageNotFound: false,
+      isViewOnce: false,
+      messageId: '',
+    };
+
     const inMemoryMessages = window.MessageController.filterBySentAt(id);
     const matchingMessage = find(inMemoryMessages, item =>
-      isQuoteAMatch(item, conversationId, quote)
+      isQuoteAMatch(item, conversationId, result)
     );
 
     let queryMessage: undefined | MessageModel;
@@ -2241,35 +2270,35 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         MessageCollection: window.Whisper.MessageCollection,
       });
       const found = collection.find(item =>
-        isQuoteAMatch(item, conversationId, quote)
+        isQuoteAMatch(item, conversationId, result)
       );
 
       if (!found) {
-        quote.referencedMessageNotFound = true;
-        return message;
+        result.referencedMessageNotFound = true;
+        return result;
       }
 
       queryMessage = window.MessageController.register(found.id, found);
     }
 
     if (queryMessage) {
-      await this.copyQuoteContentFromOriginal(queryMessage, quote);
+      await this.copyQuoteContentFromOriginal(queryMessage, result);
     }
 
-    return message;
+    return result;
   }
 
   // eslint-disable-next-line class-methods-use-this
   async copyQuoteContentFromOriginal(
     originalMessage: MessageModel,
-    quote: QuotedMessageType | DataMessageClass.Quote
+    quote: QuotedMessageType
   ): Promise<void> {
     const { attachments } = quote;
     const firstAttachment = attachments ? attachments[0] : undefined;
 
     if (isTapToView(originalMessage.attributes)) {
       // eslint-disable-next-line no-param-reassign
-      quote.text = null;
+      quote.text = undefined;
       // eslint-disable-next-line no-param-reassign
       quote.attachments = [
         {
@@ -2362,7 +2391,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   handleDataMessage(
-    initialMessage: DataMessageClass,
+    initialMessage: ProcessedDataMessage,
     confirm: () => void,
     options: { data?: typeof window.WhatIsThis } = {}
   ): WhatIsThis {
@@ -2631,16 +2660,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         });
       }
 
-      const withQuoteReference = await this.copyFromQuotedMessage(
-        initialMessage,
-        conversation.id
-      );
+      const withQuoteReference = {
+        ...initialMessage,
+        quote: await this.copyFromQuotedMessage(
+          initialMessage.quote,
+          conversation.id
+        ),
+      };
       const dataMessage = await upgradeMessageSchema(withQuoteReference);
 
       try {
         const now = new Date().getTime();
 
-        const urls = LinkPreview.findLinks(dataMessage.body);
+        const urls = LinkPreview.findLinks(dataMessage.body || '');
         const incomingPreview = dataMessage.preview || [];
         const preview = incomingPreview.filter(
           (item: typeof window.WhatIsThis) =>

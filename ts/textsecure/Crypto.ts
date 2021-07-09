@@ -184,7 +184,7 @@ const Crypto = {
   async decryptAttachment(
     encryptedBin: ArrayBuffer,
     keys: ArrayBuffer,
-    theirDigest: ArrayBuffer
+    theirDigest?: ArrayBuffer
   ): Promise<ArrayBuffer> {
     if (keys.byteLength !== 64) {
       throw new Error('Got invalid length attachment keys');

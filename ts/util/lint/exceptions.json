@@ -199,13 +199,6 @@
     "updated": "2020-07-21T18:34:59.251Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "js/modules/stickers.js",
-    "line": "async function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T17:48:30.675Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/permissions_popup_start.js",
     "line": "$(document).on('keydown', e => {",
@@ -14140,6 +14133,20 @@
     "line": "  wrap(",
     "reasonCategory": "falseMatch",
     "updated": "2020-02-07T19:52:28.522Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/types/Stickers.js",
+    "line": "async function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-07-02T02:57:58.052Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/types/Stickers.ts",
+    "line": "export async function load(): Promise<void> {",
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T17:48:30.675Z"
   },
   {
     "rule": "React-useRef",

@@ -22,7 +22,6 @@ import {
   GumVideoCapturer,
   HangupMessage,
   HangupType,
-  OfferType,
   OpaqueMessage,
   PeekInfo,
   RingRTC,
@@ -38,7 +37,6 @@ import {
   GroupCallPeekInfoType,
 } from '../state/ducks/calling';
 import { getConversationCallMode } from '../state/ducks/conversations';
-import { EnvelopeClass } from '../textsecure.d';
 import {
   CallMode,
   AudioDevice,
@@ -57,12 +55,14 @@ import {
   typedArrayToArrayBuffer,
 } from '../Crypto';
 import { assert } from '../util/assert';
+import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
 import {
   fetchMembershipProof,
   getMembershipList,
   wrapWithSyncMessageSend,
 } from '../groups';
+import { ProcessedEnvelope } from '../textsecure/Types.d';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
 import {
@@ -73,6 +73,9 @@ import {
 import { notify } from './notify';
 import { getSendOptions } from '../util/getSendOptions';
 import { SignalService as Proto } from '../protobuf';
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
 
 const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   HttpMethod,
@@ -119,6 +122,135 @@ function translateSourceName(
   }
 
   return name;
+}
+
+function protoToCallingMessage({
+  offer,
+  answer,
+  iceCandidates,
+  legacyHangup,
+  busy,
+  hangup,
+  supportsMultiRing,
+  destinationDeviceId,
+  opaque,
+}: Proto.ICallingMessage): CallingMessage {
+  return {
+    offer: offer
+      ? {
+          ...shallowDropNull(offer),
+
+          type: dropNull(offer.type) as number,
+          opaque: offer.opaque ? Buffer.from(offer.opaque) : undefined,
+        }
+      : undefined,
+    answer: answer
+      ? {
+          ...shallowDropNull(answer),
+          opaque: answer.opaque ? Buffer.from(answer.opaque) : undefined,
+        }
+      : undefined,
+    iceCandidates: iceCandidates
+      ? iceCandidates.map(candidate => {
+          return {
+            ...shallowDropNull(candidate),
+            opaque: candidate.opaque
+              ? Buffer.from(candidate.opaque)
+              : undefined,
+          };
+        })
+      : undefined,
+    legacyHangup: legacyHangup
+      ? {
+          ...shallowDropNull(legacyHangup),
+          type: dropNull(legacyHangup.type) as number,
+        }
+      : undefined,
+    busy: shallowDropNull(busy),
+    hangup: hangup
+      ? {
+          ...shallowDropNull(hangup),
+          type: dropNull(hangup.type) as number,
+        }
+      : undefined,
+    supportsMultiRing: dropNull(supportsMultiRing),
+    destinationDeviceId: dropNull(destinationDeviceId),
+    opaque: opaque
+      ? {
+          data: opaque.data ? Buffer.from(opaque.data) : undefined,
+        }
+      : undefined,
+  };
+}
+
+function bufferToProto(
+  value: Buffer | { toArrayBuffer(): ArrayBuffer } | undefined
+): Uint8Array | undefined {
+  if (!value) {
+    return undefined;
+  }
+  if (value instanceof Uint8Array) {
+    return value;
+  }
+
+  return new FIXMEU8(value.toArrayBuffer());
+}
+
+function callingMessageToProto({
+  offer,
+  answer,
+  iceCandidates,
+  legacyHangup,
+  busy,
+  hangup,
+  supportsMultiRing,
+  destinationDeviceId,
+  opaque,
+}: CallingMessage): Proto.ICallingMessage {
+  return {
+    offer: offer
+      ? {
+          ...offer,
+          type: offer.type as number,
+          opaque: bufferToProto(offer.opaque),
+        }
+      : undefined,
+    answer: answer
+      ? {
+          ...answer,
+          opaque: bufferToProto(answer.opaque),
+        }
+      : undefined,
+    iceCandidates: iceCandidates
+      ? iceCandidates.map(candidate => {
+          return {
+            ...candidate,
+            opaque: bufferToProto(candidate.opaque),
+          };
+        })
+      : undefined,
+    legacyHangup: legacyHangup
+      ? {
+          ...legacyHangup,
+          type: legacyHangup.type as number,
+        }
+      : undefined,
+    busy,
+    hangup: hangup
+      ? {
+          ...hangup,
+          type: hangup.type as number,
+        }
+      : undefined,
+    supportsMultiRing,
+    destinationDeviceId,
+    opaque: opaque
+      ? {
+          ...opaque,
+          data: bufferToProto(opaque.data),
+        }
+      : undefined,
+  };
 }
 
 export class CallingClass {
@@ -1231,8 +1363,8 @@ export class CallingClass {
   }
 
   async handleCallingMessage(
-    envelope: EnvelopeClass,
-    callingMessage: CallingMessage
+    envelope: ProcessedEnvelope,
+    callingMessage: Proto.ICallingMessage
   ): Promise<void> {
     window.log.info('CallingClass.handleCallingMessage()');
 
@@ -1298,9 +1430,10 @@ export class CallingClass {
 
       await this.handleOutgoingSignaling(remoteUserId, message);
 
+      const ProtoOfferType = Proto.CallingMessage.Offer.Type;
       this.addCallHistoryForFailedIncomingCall(
         conversation,
-        callingMessage.offer.type === OfferType.VideoCall,
+        callingMessage.offer.type === ProtoOfferType.OFFER_VIDEO_CALL,
         envelope.timestamp
       );
 
@@ -1321,7 +1454,7 @@ export class CallingClass {
       remoteDeviceId,
       this.localDeviceId,
       messageAgeSec,
-      callingMessage,
+      protoToCallingMessage(callingMessage),
       Buffer.from(senderIdentityKey),
       Buffer.from(receiverIdentityKey)
     );
@@ -1428,7 +1561,7 @@ export class CallingClass {
     try {
       await window.textsecure.messaging.sendCallingMessage(
         remoteUserId,
-        message,
+        callingMessageToProto(message),
         sendOptions
       );
 

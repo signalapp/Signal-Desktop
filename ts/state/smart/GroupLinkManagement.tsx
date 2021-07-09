@@ -10,10 +10,8 @@ import {
 } from '../../components/conversation/conversation-details/GroupLinkManagement';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
-import { AccessControlClass } from '../../textsecure.d';
 
 export type SmartGroupLinkManagementProps = {
-  accessEnum: typeof AccessControlClass.AccessRequired;
   changeHasGroupLink: (value: boolean) => void;
   conversationId: string;
   copyGroupLink: (groupLink: string) => void;

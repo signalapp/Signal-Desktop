@@ -1,17 +1,50 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable no-restricted-syntax */
 
-/* global
-  textsecure,
-  Signal,
-  log,
-  navigator,
-  reduxStore,
-  reduxActions,
-  URLSearchParams
-*/
+import { isNumber, pick, reject, groupBy, values } from 'lodash';
+import pMap from 'p-map';
+import Queue from 'p-queue';
 
-const BLESSED_PACKS = {
+import { strictAssert } from '../util/assert';
+import { dropNull } from '../util/dropNull';
+import { makeLookup } from '../util/makeLookup';
+import { maybeParseUrl } from '../util/url';
+import { base64ToArrayBuffer, deriveStickerPackKey } from '../Crypto';
+import type {
+  StickerType,
+  StickerPackType,
+  StickerPackStatusType,
+} from '../sql/Interface';
+import Data from '../sql/Client';
+import { SignalService as Proto } from '../protobuf';
+
+export type RecentStickerType = Readonly<{
+  stickerId: number;
+  packId: string;
+}>;
+
+export type BlessedType = Pick<StickerPackType, 'key' | 'status'>;
+
+export type InitialState = {
+  packs: Record<string, StickerPackType>;
+  recentStickers: Array<RecentStickerType>;
+  blessedPacks: Record<string, boolean>;
+};
+
+export type DownloadMap = Record<
+  string,
+  {
+    id: string;
+    key: string;
+    status?: StickerPackStatusType;
+  }
+>;
+
+// TODO: remove once we move away from ArrayBuffers
+const FIXMEU8 = Uint8Array;
+
+export const BLESSED_PACKS: Record<string, BlessedType> = {
   '9acc9e8aba563d26a4994e69263e3b25': {
     key: 'Wm3/OUjCjvubeq+T7MN1xp/DFueAd+0mhnoU0QoPahI=',
     status: 'downloaded',
@@ -30,104 +63,81 @@ const BLESSED_PACKS = {
   },
 };
 
-const VALID_PACK_ID_REGEXP = /^[0-9a-f]{32}$/i;
+const STICKER_PACK_DEFAULTS: StickerPackType = {
+  id: '',
+  key: '',
 
-const { isNumber, pick, reject, groupBy, values } = require('lodash');
-const pMap = require('p-map');
-const Queue = require('p-queue').default;
-
-const { makeLookup } = require('../../ts/util/makeLookup');
-const { maybeParseUrl } = require('../../ts/util/url');
-const {
-  base64ToArrayBuffer,
-  deriveStickerPackKey,
-} = require('../../ts/Crypto');
-const {
-  addStickerPackReference,
-  createOrUpdateSticker,
-  createOrUpdateStickerPack,
-  deleteStickerPack,
-  deleteStickerPackReference,
-  getAllStickerPacks,
-  getAllStickers,
-  getRecentStickers,
-  updateStickerPackStatus,
-} = require('../../ts/sql/Client').default;
-
-module.exports = {
-  BLESSED_PACKS,
-  copyStickerToAttachments,
-  deletePack,
-  deletePackReference,
-  downloadStickerPack,
-  downloadEphemeralPack,
-  getDataFromLink,
-  getInitialState,
-  getInstalledStickerPacks,
-  getSticker,
-  getStickerPack,
-  getStickerPackStatus,
-  load,
-  maybeDeletePack,
-  downloadQueuedPacks,
-  isPackIdValid,
-  redactPackId,
-  removeEphemeralPack,
-  savePackMetadata,
+  author: '',
+  coverStickerId: 0,
+  createdAt: 0,
+  downloadAttempts: 0,
+  status: 'ephemeral',
+  stickerCount: 0,
+  stickers: {},
+  title: '',
 };
 
-let initialState = null;
-let packsToDownload = null;
+const VALID_PACK_ID_REGEXP = /^[0-9a-f]{32}$/i;
+
+let initialState: InitialState | undefined;
+let packsToDownload: DownloadMap | undefined;
 const downloadQueue = new Queue({ concurrency: 1, timeout: 1000 * 60 * 2 });
 
-async function load() {
+export async function load(): Promise<void> {
   const [packs, recentStickers] = await Promise.all([
     getPacksForRedux(),
     getRecentStickersForRedux(),
   ]);
 
+  const blessedPacks: Record<string, boolean> = Object.create(null);
+  for (const key of Object.keys(BLESSED_PACKS)) {
+    blessedPacks[key] = true;
+  }
+
   initialState = {
     packs,
     recentStickers,
-    blessedPacks: BLESSED_PACKS,
+    blessedPacks,
   };
 
   packsToDownload = capturePacksToDownload(packs);
 }
 
-function getDataFromLink(link) {
+export function getDataFromLink(
+  link: string
+): undefined | { id: string; key: string } {
   const url = maybeParseUrl(link);
   if (!url) {
-    return null;
+    return undefined;
   }
 
   const { hash } = url;
   if (!hash) {
-    return null;
+    return undefined;
   }
 
   let params;
   try {
     params = new URLSearchParams(hash.slice(1));
   } catch (err) {
-    return null;
+    return undefined;
   }
 
   const id = params.get('pack_id');
   if (!isPackIdValid(id)) {
-    return null;
+    return undefined;
   }
 
   const key = params.get('pack_key');
   if (!key) {
-    return null;
+    return undefined;
   }
 
   return { id, key };
 }
 
-function getInstalledStickerPacks() {
-  const state = reduxStore.getState();
+export function getInstalledStickerPacks(): Array<StickerPackType> {
+  const state = window.reduxStore.getState();
   const { stickers } = state;
   const { packs } = stickers;
   if (!packs) {
@@ -138,20 +148,24 @@ function getInstalledStickerPacks() {
   return items.filter(pack => pack.status === 'installed');
 }
 
-function downloadQueuedPacks() {
+export function downloadQueuedPacks(): void {
+  strictAssert(packsToDownload, 'Stickers not initialized');
+
   const ids = Object.keys(packsToDownload);
-  ids.forEach(id => {
+  for (const id of ids) {
     const { key, status } = packsToDownload[id];
 
     // The queuing is done inside this function, no need to await here
     downloadStickerPack(id, key, { finalStatus: status });
-  });
+  }
 
   packsToDownload = {};
 }
 
-function capturePacksToDownload(existingPackLookup) {
-  const toDownload = Object.create(null);
+function capturePacksToDownload(
+  existingPackLookup: Record<string, StickerPackType>
+): DownloadMap {
+  const toDownload: DownloadMap = Object.create(null);
 
   // First, ensure that blessed packs are in good shape
   const blessedIds = Object.keys(BLESSED_PACKS);
@@ -190,7 +204,7 @@ function capturePacksToDownload(existingPackLookup) {
 
     if (doesPackNeedDownload(existing)) {
       const status =
-        existing.attemptedStatus === 'installed' ? 'installed' : null;
+        existing.attemptedStatus === 'installed' ? 'installed' : undefined;
       toDownload[id] = {
         id,
         key: existing.key,
@@ -202,7 +216,7 @@ function capturePacksToDownload(existingPackLookup) {
   return toDownload;
 }
 
-function doesPackNeedDownload(pack) {
+function doesPackNeedDownload(pack?: StickerPackType): boolean {
   if (!pack) {
     return true;
   }
@@ -226,14 +240,14 @@ function doesPackNeedDownload(pack) {
   return true;
 }
 
-async function getPacksForRedux() {
+async function getPacksForRedux(): Promise<Record<string, StickerPackType>> {
   const [packs, stickers] = await Promise.all([
-    getAllStickerPacks(),
-    getAllStickers(),
+    Data.getAllStickerPacks(),
+    Data.getAllStickers(),
   ]);
 
   const stickersByPack = groupBy(stickers, sticker => sticker.packId);
-  const fullSet = packs.map(pack => ({
+  const fullSet: Array<StickerPackType> = packs.map(pack => ({
     ...pack,
     stickers: makeLookup(stickersByPack[pack.id] || [], 'id'),
   }));
@@ -241,40 +255,41 @@ async function getPacksForRedux() {
   return makeLookup(fullSet, 'id');
 }
 
-async function getRecentStickersForRedux() {
-  const recent = await getRecentStickers();
+async function getRecentStickersForRedux(): Promise<Array<RecentStickerType>> {
+  const recent = await Data.getRecentStickers();
   return recent.map(sticker => ({
     packId: sticker.packId,
     stickerId: sticker.id,
   }));
 }
 
-function getInitialState() {
+export function getInitialState(): InitialState {
+  strictAssert(initialState !== undefined, 'Stickers not initialized');
   return initialState;
 }
 
-function isPackIdValid(packId) {
+export function isPackIdValid(packId: unknown): packId is string {
   return typeof packId === 'string' && VALID_PACK_ID_REGEXP.test(packId);
 }
 
-function redactPackId(packId) {
+export function redactPackId(packId: string): string {
   return `[REDACTED]${packId.slice(-3)}`;
 }
 
 function getReduxStickerActions() {
-  const actions = reduxActions;
+  const actions = window.reduxActions;
+  strictAssert(actions && actions.stickers, 'Redux not ready');
 
-  if (actions && actions.stickers) {
-    return actions.stickers;
-  }
-
-  return {};
+  return actions.stickers;
 }
 
-async function decryptSticker(packKey, ciphertext) {
+async function decryptSticker(
+  packKey: string,
+  ciphertext: ArrayBuffer
+): Promise<ArrayBuffer> {
   const binaryKey = base64ToArrayBuffer(packKey);
   const derivedKey = await deriveStickerPackKey(binaryKey);
-  const plaintext = await textsecure.crypto.decryptAttachment(
+  const plaintext = await window.textsecure.crypto.decryptAttachment(
     ciphertext,
     derivedKey
   );
@@ -282,26 +297,35 @@ async function decryptSticker(packKey, ciphertext) {
   return plaintext;
 }
 
-async function downloadSticker(packId, packKey, proto, options) {
-  const { ephemeral } = options || {};
+async function downloadSticker(
+  packId: string,
+  packKey: string,
+  proto: Proto.StickerPack.ISticker,
+  { ephemeral }: { ephemeral?: boolean } = {}
+): Promise<Omit<StickerType, 'isCoverOnly'>> {
+  const { id, emoji } = proto;
+  strictAssert(id !== undefined && id !== null, "Sticker id can't be null");
 
-  const ciphertext = await textsecure.messaging.getSticker(packId, proto.id);
+  const ciphertext = await window.textsecure.messaging.getSticker(packId, id);
   const plaintext = await decryptSticker(packKey, ciphertext);
 
   const sticker = ephemeral
-    ? await Signal.Migrations.processNewEphemeralSticker(plaintext, options)
-    : await Signal.Migrations.processNewSticker(plaintext, options);
+    ? await window.Signal.Migrations.processNewEphemeralSticker(plaintext)
+    : await window.Signal.Migrations.processNewSticker(plaintext);
 
   return {
-    ...pick(proto, ['id', 'emoji']),
+    id,
+    emoji: dropNull(emoji),
     ...sticker,
     packId,
   };
 }
 
-async function savePackMetadata(packId, packKey, options = {}) {
-  const { messageId } = options;
-
+export async function savePackMetadata(
+  packId: string,
+  packKey: string,
+  { messageId }: { messageId?: string } = {}
+): Promise<void> {
   const existing = getStickerPack(packId);
   if (existing) {
     return;
@@ -309,20 +333,23 @@ async function savePackMetadata(packId, packKey, options = {}) {
 
   const { stickerPackAdded } = getReduxStickerActions();
   const pack = {
+    ...STICKER_PACK_DEFAULTS,
+
     id: packId,
     key: packKey,
-    status: 'known',
+    status: 'known' as const,
   };
   stickerPackAdded(pack);
 
-  await createOrUpdateStickerPack(pack);
+  await Data.createOrUpdateStickerPack(pack);
   if (messageId) {
-    await addStickerPackReference(messageId, packId);
+    await Data.addStickerPackReference(messageId, packId);
   }
 }
 
-async function removeEphemeralPack(packId) {
+export async function removeEphemeralPack(packId: string): Promise<void> {
   const existing = getStickerPack(packId);
+  strictAssert(existing, `No existing sticker pack with id: ${packId}`);
   if (
     existing.status !== 'ephemeral' &&
     !(existing.status === 'error' && existing.attemptedStatus === 'ephemeral')
@@ -335,16 +362,18 @@ async function removeEphemeralPack(packId) {
 
   const stickers = values(existing.stickers);
   const paths = stickers.map(sticker => sticker.path);
-  await pMap(paths, Signal.Migrations.deleteTempFile, {
+  await pMap(paths, window.Signal.Migrations.deleteTempFile, {
     concurrency: 3,
-    timeout: 1000 * 60 * 2,
   });
 
   // Remove it from database in case it made it there
-  await deleteStickerPack(packId);
+  await Data.deleteStickerPack(packId);
 }
 
-async function downloadEphemeralPack(packId, packKey) {
+export async function downloadEphemeralPack(
+  packId: string,
+  packKey: string
+): Promise<void> {
   const {
     stickerAdded,
     stickerPackAdded,
@@ -358,7 +387,7 @@ async function downloadEphemeralPack(packId, packKey) {
       existingPack.status === 'installed' ||
       existingPack.status === 'pending')
   ) {
-    log.warn(
+    window.log.warn(
       `Ephemeral download for pack ${redactPackId(
         packId
       )} requested, we already know about it. Skipping.`
@@ -369,17 +398,19 @@ async function downloadEphemeralPack(packId, packKey) {
   try {
     // Synchronous placeholder to help with race conditions
     const placeholder = {
+      ...STICKER_PACK_DEFAULTS,
+
       id: packId,
       key: packKey,
-      status: 'ephemeral',
+      status: 'ephemeral' as const,
     };
     stickerPackAdded(placeholder);
 
-    const ciphertext = await textsecure.messaging.getStickerPackManifest(
+    const ciphertext = await window.textsecure.messaging.getStickerPackManifest(
       packId
     );
     const plaintext = await decryptSticker(packKey, ciphertext);
-    const proto = textsecure.protobuf.StickerPack.decode(plaintext);
+    const proto = Proto.StickerPack.decode(new FIXMEU8(plaintext));
     const firstStickerProto = proto.stickers ? proto.stickers[0] : null;
     const stickerCount = proto.stickers.length;
 
@@ -402,16 +433,20 @@ async function downloadEphemeralPack(packId, packKey) {
     const coverIncludedInList = nonCoverStickers.length < stickerCount;
 
     const pack = {
+      ...STICKER_PACK_DEFAULTS,
+
       id: packId,
       key: packKey,
       coverStickerId,
       stickerCount,
-      status: 'ephemeral',
+      status: 'ephemeral' as const,
       ...pick(proto, ['title', 'author']),
     };
     stickerPackAdded(pack);
 
-    const downloadStickerJob = async stickerProto => {
+    const downloadStickerJob = async (
+      stickerProto: Proto.StickerPack.ISticker
+    ): Promise<void> => {
       const stickerInfo = await downloadSticker(packId, packKey, stickerProto, {
         ephemeral: true,
       });
@@ -438,7 +473,6 @@ async function downloadEphemeralPack(packId, packKey) {
     // Then the rest
     await pMap(nonCoverStickers, downloadStickerJob, {
       concurrency: 3,
-      timeout: 1000 * 60 * 2,
     });
   } catch (error) {
     // Because the user could install this pack while we are still downloading this
@@ -451,20 +485,30 @@ async function downloadEphemeralPack(packId, packKey) {
         status: 'error',
       });
     }
-    log.error(
+    window.log.error(
       `Ephemeral download error for sticker pack ${redactPackId(packId)}:`,
       error && error.stack ? error.stack : error
     );
   }
 }
 
-async function downloadStickerPack(packId, packKey, options = {}) {
+export type DownloadStickerPackOptions = Readonly<{
+  messageId?: string;
+  fromSync?: boolean;
+  finalStatus?: StickerPackStatusType;
+}>;
+
+export async function downloadStickerPack(
+  packId: string,
+  packKey: string,
+  options: DownloadStickerPackOptions = {}
+): Promise<void> {
   // This will ensure that only one download process is in progress at any given time
   return downloadQueue.add(async () => {
     try {
       await doDownloadStickerPack(packId, packKey, options);
     } catch (error) {
-      log.error(
+      window.log.error(
         'doDownloadStickerPack threw an error:',
         error && error.stack ? error.stack : error
       );
@@ -472,8 +516,15 @@ async function downloadStickerPack(packId, packKey, options = {}) {
   });
 }
 
-async function doDownloadStickerPack(packId, packKey, options = {}) {
-  const { messageId, fromSync } = options;
+async function doDownloadStickerPack(
+  packId: string,
+  packKey: string,
+  {
+    finalStatus = 'downloaded',
+    messageId,
+    fromSync = false,
+  }: DownloadStickerPackOptions
+): Promise<void> {
   const {
     stickerAdded,
     stickerPackAdded,
@@ -481,7 +532,6 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
     installStickerPack,
   } = getReduxStickerActions();
 
-  const finalStatus = options.finalStatus || 'downloaded';
   if (finalStatus !== 'downloaded' && finalStatus !== 'installed') {
     throw new Error(
       `doDownloadStickerPack: invalid finalStatus of ${finalStatus} requested.`
@@ -490,7 +540,7 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
 
   const existing = getStickerPack(packId);
   if (!doesPackNeedDownload(existing)) {
-    log.warn(
+    window.log.warn(
       `Download for pack ${redactPackId(
         packId
       )} requested, but it does not need re-download. Skipping.`
@@ -503,14 +553,14 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
   const downloadAttempts =
     (existing ? existing.downloadAttempts || 0 : 0) + attemptIncrement;
   if (downloadAttempts > 3) {
-    log.warn(
+    window.log.warn(
       `Refusing to attempt another download for pack ${redactPackId(
         packId
       )}, attempt number ${downloadAttempts}`
     );
 
-    if (existing.status !== 'error') {
-      await updateStickerPackStatus(packId, 'error');
+    if (existing && existing.status !== 'error') {
+      await Data.updateStickerPackStatus(packId, 'error');
       stickerPackUpdated(packId, {
         status: 'error',
       });
@@ -519,32 +569,34 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
     return;
   }
 
-  let coverProto;
-  let coverStickerId;
-  let coverIncludedInList;
-  let nonCoverStickers;
+  let coverProto: Proto.StickerPack.ISticker | undefined;
+  let coverStickerId: number | undefined;
+  let coverIncludedInList = false;
+  let nonCoverStickers: Array<Proto.StickerPack.ISticker> = [];
 
   try {
     // Synchronous placeholder to help with race conditions
     const placeholder = {
+      ...STICKER_PACK_DEFAULTS,
+
       id: packId,
       key: packKey,
       attemptedStatus: finalStatus,
       downloadAttempts,
-      status: 'pending',
+      status: 'pending' as const,
     };
     stickerPackAdded(placeholder);
 
-    const ciphertext = await textsecure.messaging.getStickerPackManifest(
+    const ciphertext = await window.textsecure.messaging.getStickerPackManifest(
       packId
     );
     const plaintext = await decryptSticker(packKey, ciphertext);
-    const proto = textsecure.protobuf.StickerPack.decode(plaintext);
-    const firstStickerProto = proto.stickers ? proto.stickers[0] : null;
+    const proto = Proto.StickerPack.decode(new FIXMEU8(plaintext));
+    const firstStickerProto = proto.stickers ? proto.stickers[0] : undefined;
     const stickerCount = proto.stickers.length;
 
     coverProto = proto.cover || firstStickerProto;
-    coverStickerId = coverProto ? coverProto.id : null;
+    coverStickerId = dropNull(coverProto ? coverProto.id : undefined);
 
     if (!coverProto || !isNumber(coverStickerId)) {
       throw new Error(
@@ -568,7 +620,7 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
     //   - 'downloaded'
     //   - 'error'
     //   - 'installed'
-    const pack = {
+    const pack: StickerPackType = {
       id: packId,
       key: packKey,
       attemptedStatus: finalStatus,
@@ -576,28 +628,32 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
       downloadAttempts,
       stickerCount,
       status: 'pending',
+      createdAt: Date.now(),
+      stickers: {},
       ...pick(proto, ['title', 'author']),
     };
-    await createOrUpdateStickerPack(pack);
+    await Data.createOrUpdateStickerPack(pack);
     stickerPackAdded(pack);
 
     if (messageId) {
-      await addStickerPackReference(messageId, packId);
+      await Data.addStickerPackReference(messageId, packId);
     }
   } catch (error) {
-    log.error(
+    window.log.error(
       `Error downloading manifest for sticker pack ${redactPackId(packId)}:`,
       error && error.stack ? error.stack : error
     );
 
     const pack = {
+      ...STICKER_PACK_DEFAULTS,
+
       id: packId,
       key: packKey,
       attemptedStatus: finalStatus,
       downloadAttempts,
-      status: 'error',
+      status: 'error' as const,
     };
-    await createOrUpdateStickerPack(pack);
+    await Data.createOrUpdateStickerPack(pack);
     stickerPackAdded(pack);
 
     return;
@@ -606,13 +662,15 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
   // We have a separate try/catch here because we're starting to download stickers here
   //   and we want to preserve more of the pack on an error.
   try {
-    const downloadStickerJob = async stickerProto => {
+    const downloadStickerJob = async (
+      stickerProto: Proto.StickerPack.ISticker
+    ): Promise<void> => {
       const stickerInfo = await downloadSticker(packId, packKey, stickerProto);
       const sticker = {
         ...stickerInfo,
         isCoverOnly: !coverIncludedInList && stickerInfo.id === coverStickerId,
       };
-      await createOrUpdateSticker(sticker);
+      await Data.createOrUpdateSticker(sticker);
       stickerAdded(sticker);
     };
 
@@ -622,7 +680,6 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
     // Then the rest
     await pMap(nonCoverStickers, downloadStickerJob, {
       concurrency: 3,
-      timeout: 1000 * 60 * 2,
     });
 
     // Allow for the user marking this pack as installed in the middle of our download;
@@ -636,19 +693,19 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
       await installStickerPack(packId, packKey, { fromSync });
     } else {
       // Mark the pack as complete
-      await updateStickerPackStatus(packId, finalStatus);
+      await Data.updateStickerPackStatus(packId, finalStatus);
       stickerPackUpdated(packId, {
         status: finalStatus,
       });
     }
   } catch (error) {
-    log.error(
+    window.log.error(
       `Error downloading stickers for sticker pack ${redactPackId(packId)}:`,
       error && error.stack ? error.stack : error
     );
 
     const errorStatus = 'error';
-    await updateStickerPackStatus(packId, errorStatus);
+    await Data.updateStickerPackStatus(packId, errorStatus);
     if (stickerPackUpdated) {
       stickerPackUpdated(packId, {
         attemptedStatus: finalStatus,
@@ -658,45 +715,53 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
   }
 }
 
-function getStickerPack(packId) {
-  const state = reduxStore.getState();
+export function getStickerPack(packId: string): StickerPackType | undefined {
+  const state = window.reduxStore.getState();
   const { stickers } = state;
   const { packs } = stickers;
   if (!packs) {
-    return null;
+    return undefined;
   }
 
   return packs[packId];
 }
 
-function getStickerPackStatus(packId) {
+export function getStickerPackStatus(
+  packId: string
+): StickerPackStatusType | undefined {
   const pack = getStickerPack(packId);
   if (!pack) {
-    return null;
+    return undefined;
   }
 
   return pack.status;
 }
 
-function getSticker(packId, stickerId) {
+export function getSticker(
+  packId: string,
+  stickerId: number
+): StickerType | undefined {
   const pack = getStickerPack(packId);
 
   if (!pack || !pack.stickers) {
-    return null;
+    return undefined;
   }
 
   return pack.stickers[stickerId];
 }
 
-async function copyStickerToAttachments(packId, stickerId) {
+export async function copyStickerToAttachments(
+  packId: string,
+  stickerId: number
+): Promise<StickerType | undefined> {
   const sticker = getSticker(packId, stickerId);
   if (!sticker) {
-    return null;
+    return undefined;
   }
 
   const { path } = sticker;
-  const absolutePath = Signal.Migrations.getAbsoluteStickerPath(path);
-  const newPath = await Signal.Migrations.copyIntoAttachmentsDirectory(
+  const absolutePath = window.Signal.Migrations.getAbsoluteStickerPath(path);
+  const newPath = await window.Signal.Migrations.copyIntoAttachmentsDirectory(
     absolutePath
   );
 
@@ -709,7 +774,7 @@ async function copyStickerToAttachments(packId, stickerId) {
 // In the case where a sticker pack is uninstalled, we want to delete it if there are no
 //   more references left. We'll delete a nonexistent reference, then check if there are
 //   any references left, just like usual.
-async function maybeDeletePack(packId) {
+export async function maybeDeletePack(packId: string): Promise<void> {
   // This hardcoded string is fine because message ids are GUIDs
   await deletePackReference('NOT-USED', packId);
 }
@@ -717,7 +782,10 @@ async function maybeDeletePack(packId) {
 // We don't generally delete packs outright; we just remove references to them, and if
 //   the last reference is deleted, we finally then remove the pack itself from database
 //   and from disk.
-async function deletePackReference(messageId, packId) {
+export async function deletePackReference(
+  messageId: string,
+  packId: string
+): Promise<void> {
   const isBlessed = Boolean(BLESSED_PACKS[packId]);
   if (isBlessed) {
     return;
@@ -725,7 +793,7 @@ async function deletePackReference(messageId, packId) {
 
   // This call uses locking to prevent race conditions with other reference removals,
   //   or an incoming message creating a new message->pack reference
-  const paths = await deleteStickerPackReference(messageId, packId);
+  const paths = await Data.deleteStickerPackReference(messageId, packId);
 
   // If we don't get a list of paths back, then the sticker pack was not deleted
   if (!paths || !paths.length) {
@@ -735,14 +803,13 @@ async function deletePackReference(messageId, packId) {
   const { removeStickerPack } = getReduxStickerActions();
   removeStickerPack(packId);
 
-  await pMap(paths, Signal.Migrations.deleteSticker, {
+  await pMap(paths, window.Signal.Migrations.deleteSticker, {
     concurrency: 3,
-    timeout: 1000 * 60 * 2,
   });
 }
 
 // The override; doesn't honor our ref-counting scheme - just deletes it all.
-async function deletePack(packId) {
+export async function deletePack(packId: string): Promise<void> {
   const isBlessed = Boolean(BLESSED_PACKS[packId]);
   if (isBlessed) {
     return;
@@ -750,13 +817,12 @@ async function deletePack(packId) {
 
   // This call uses locking to prevent race conditions with other reference removals,
   //   or an incoming message creating a new message->pack reference
-  const paths = await deleteStickerPack(packId);
+  const paths = await Data.deleteStickerPack(packId);
 
   const { removeStickerPack } = getReduxStickerActions();
   removeStickerPack(packId);
 
-  await pMap(paths, Signal.Migrations.deleteSticker, {
+  await pMap(paths, window.Signal.Migrations.deleteSticker, {
     concurrency: 3,
-    timeout: 1000 * 60 * 2,
   });
 }

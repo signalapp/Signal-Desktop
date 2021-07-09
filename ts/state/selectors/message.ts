@@ -32,6 +32,7 @@ import { BodyRangesType } from '../../types/Util';
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { ConversationColors } from '../../types/Colors';
 import { CallMode } from '../../types/Calling';
+import { SignalService as Proto } from '../../protobuf';
 import { AttachmentType, isVoiceMessage } from '../../types/Attachment';
 
 import { CallingNotificationType } from '../../util/callingNotification';
@@ -430,8 +431,7 @@ function getPropsForUnsupportedMessage(
   ourNumber: string | undefined,
   ourUuid: string | undefined
 ): PropsForUnsupportedMessage {
-  const CURRENT_PROTOCOL_VERSION =
-    window.textsecure.protobuf.DataMessage.ProtocolVersion.CURRENT;
+  const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
 
   const requiredVersion = message.requiredProtocolVersion;
   const canProcessNow = Boolean(
@@ -463,9 +463,6 @@ function getPropsForGroupV2Change(
   conversationSelector: GetConversationByIdType,
   ourConversationId: string
 ): GroupsV2Props {
-  const AccessControlEnum =
-    window.textsecure.protobuf.AccessControl.AccessRequired;
-  const RoleEnum = window.textsecure.protobuf.Member.Role;
   const change = message.groupV2Change;
 
   if (!change) {
@@ -476,8 +473,6 @@ function getPropsForGroupV2Change(
 
   return {
     groupName: conversation?.type === 'group' ? conversation?.name : undefined,
-    AccessControlEnum,
-    RoleEnum,
     ourConversationId,
     change,
   };
@@ -547,8 +542,7 @@ export function isMessageHistoryUnsynced(
 export function isExpirationTimerUpdate(
   message: Pick<MessageAttributesType, 'flags'>
 ): boolean {
-  const flag =
-    window.textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+  const flag = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
   // eslint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
 }
@@ -734,7 +728,7 @@ function getPropsForGroupNotification(
 export function isEndSession(
   message: Pick<MessageAttributesType, 'flags'>
 ): boolean {
-  const flag = window.textsecure.protobuf.DataMessage.Flags.END_SESSION;
+  const flag = Proto.DataMessage.Flags.END_SESSION;
   // eslint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
 }

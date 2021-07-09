@@ -6,8 +6,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-classes-per-file */
 
-import EventTarget from './EventTarget';
+import EventTarget, { EventHandler } from './EventTarget';
 import MessageReceiver from './MessageReceiver';
+import { ContactSyncEvent, GroupSyncEvent } from './messageReceiverEvents';
 import MessageSender from './SendMessage';
 import { assert } from '../util/assert';
 
@@ -20,9 +21,9 @@ class SyncRequestInner extends EventTarget {
 
   timeout: any;
 
-  oncontact: Function;
+  oncontact: (event: ContactSyncEvent) => void;
 
-  ongroup: Function;
+  ongroup: (event: GroupSyncEvent) => void;
 
   timeoutMillis: number;
 
@@ -43,10 +44,10 @@ class SyncRequestInner extends EventTarget {
     }
 
     this.oncontact = this.onContactSyncComplete.bind(this);
-    receiver.addEventListener('contactsync', this.oncontact);
+    receiver.addEventListener('contactSync', this.oncontact);
 
     this.ongroup = this.onGroupSyncComplete.bind(this);
-    receiver.addEventListener('groupsync', this.ongroup);
+    receiver.addEventListener('groupSync', this.ongroup);
 
     this.timeoutMillis = timeoutMillis || 60000;
   }
@@ -126,9 +127,15 @@ class SyncRequestInner extends EventTarget {
 export default class SyncRequest {
   private inner: SyncRequestInner;
 
-  addEventListener: (name: string, handler: Function) => void;
+  addEventListener: (
+    name: 'success' | 'timeout',
+    handler: EventHandler
+  ) => void;
 
-  removeEventListener: (name: string, handler: Function) => void;
+  removeEventListener: (
+    name: 'success' | 'timeout',
+    handler: EventHandler
+  ) => void;
 
   constructor(
     sender: MessageSender,

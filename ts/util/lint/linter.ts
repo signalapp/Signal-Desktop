@@ -57,6 +57,7 @@ const excludedFilesRegexps = [
   '^sticker-creator/dist/bundle.js',
   '^test/test.js',
   '^ts/test[^/]*/.+',
+  '^ts/sql/mainWorker.bundle.js',
 
   // Copied from dependency
   '^js/Mp3LameEncoder.min.js',

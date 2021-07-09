@@ -13,7 +13,7 @@ describe('both/state/ducks/composer', () => {
     conversationId: '123',
     quote: {
       attachments: [],
-      id: '456',
+      id: 456,
       isViewOnce: false,
       messageId: '789',
       referencedMessageNotFound: false,
@@ -114,7 +114,7 @@ describe('both/state/ducks/composer', () => {
       const nextState = reducer(state, setQuotedMessage(QUOTED_MESSAGE));
 
       assert.equal(nextState.quotedMessage?.conversationId, '123');
-      assert.equal(nextState.quotedMessage?.quote?.id, '456');
+      assert.equal(nextState.quotedMessage?.quote?.id, 456);
     });
   });
 });

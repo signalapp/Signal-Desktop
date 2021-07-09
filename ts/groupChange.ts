@@ -6,8 +6,8 @@ import { LocalizerType } from './types/Util';
 import { ReplacementValuesType } from './types/I18N';
 import { missingCaseError } from './util/missingCaseError';
 
-import { AccessControlClass, MemberClass } from './textsecure.d';
 import { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
+import { SignalService as Proto } from './protobuf';
 
 export type SmartContactRendererType = (conversationId: string) => FullJSXType;
 export type StringRendererType = (
@@ -17,14 +17,15 @@ export type StringRendererType = (
 ) => FullJSXType;
 
 export type RenderOptionsType = {
-  AccessControlEnum: typeof AccessControlClass.AccessRequired;
   from?: string;
   i18n: LocalizerType;
   ourConversationId: string;
   renderContact: SmartContactRendererType;
   renderString: StringRendererType;
-  RoleEnum: typeof MemberClass.Role;
 };
+
+const AccessControlEnum = Proto.AccessControl.AccessRequired;
+const RoleEnum = Proto.Member.Role;
 
 export function renderChange(
   change: GroupV2ChangeType,
@@ -45,13 +46,11 @@ export function renderChangeDetail(
   options: RenderOptionsType
 ): FullJSXType {
   const {
-    AccessControlEnum,
     from,
     i18n,
     ourConversationId,
     renderContact,
     renderString,
-    RoleEnum,
   } = options;
   const fromYou = Boolean(from && from === ourConversationId);
 

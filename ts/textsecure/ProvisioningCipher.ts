@@ -14,7 +14,8 @@ import {
 } from '../Crypto';
 import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 import { SignalService as Proto } from '../protobuf';
-import { assert } from '../util/assert';
+import { strictAssert } from '../util/assert';
+import { normalizeUuid } from '../util/normalizeUuid';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -35,7 +36,7 @@ class ProvisioningCipherInner {
   async decrypt(
     provisionEnvelope: Proto.ProvisionEnvelope
   ): Promise<ProvisionDecryptResult> {
-    assert(
+    strictAssert(
       provisionEnvelope.publicKey && provisionEnvelope.body,
       'Missing required fields in ProvisionEnvelope'
     );
@@ -79,19 +80,17 @@ class ProvisioningCipherInner {
       new FIXMEU8(plaintext)
     );
     const privKey = provisionMessage.identityKeyPrivate;
-    assert(privKey, 'Missing identityKeyPrivate in ProvisionMessage');
+    strictAssert(privKey, 'Missing identityKeyPrivate in ProvisionMessage');
 
     const keyPair = createKeyPair(typedArrayToArrayBuffer(privKey));
-    window.normalizeUuids(
-      provisionMessage,
-      ['uuid'],
-      'ProvisioningCipher.decrypt'
-    );
+
+    const { uuid } = provisionMessage;
+    strictAssert(uuid, 'Missing uuid in provisioning message');
 
     const ret: ProvisionDecryptResult = {
       identityKeyPair: keyPair,
       number: provisionMessage.number,
-      uuid: provisionMessage.uuid,
+      uuid: normalizeUuid(uuid, 'ProvisionMessage.uuid'),
       provisioningCode: provisionMessage.provisioningCode,
       userAgent: provisionMessage.userAgent,
       readReceipts: provisionMessage.readReceipts,

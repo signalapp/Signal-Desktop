@@ -51,6 +51,9 @@ export type AttachmentType = {
   cdnNumber?: number;
   cdnId?: string;
   cdnKey?: string;
+
+  /** Legacy field. Used only for downloading old attachments */
+  id?: number;
 };
 
 type BaseAttachmentDraftType = {

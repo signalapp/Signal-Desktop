@@ -26,7 +26,7 @@
 
 import { connection as WebSocket, IMessage } from 'websocket';
 
-import EventTarget from './EventTarget';
+import EventTarget, { EventHandler } from './EventTarget';
 
 import { dropNull } from '../util/dropNull';
 import { isOlderThan } from '../util/timestamp';
@@ -120,6 +120,12 @@ export type WebSocketResourceOptions = {
   keepalive?: KeepAliveOptionsType | true;
 };
 
+export class CloseEvent extends Event {
+  constructor(public readonly code: number, public readonly reason: string) {
+    super('close');
+  }
+}
+
 export default class WebSocketResource extends EventTarget {
   private outgoingId = 1;
 
@@ -157,6 +163,15 @@ export default class WebSocketResource extends EventTarget {
     socket.on('close', () => {
       this.closed = true;
     });
+  }
+
+  public addEventListener(
+    name: 'close',
+    handler: (ev: CloseEvent) => void
+  ): void;
+
+  public addEventListener(name: string, handler: EventHandler): void {
+    return super.addEventListener(name, handler);
   }
 
   public sendRequest(
@@ -204,10 +219,7 @@ export default class WebSocketResource extends EventTarget {
       }
 
       window.log.warn('Dispatching our own socket close event');
-      const ev = new Event('close');
-      ev.code = code;
-      ev.reason = reason;
-      this.dispatchEvent(ev);
+      this.dispatchEvent(new CloseEvent(code, reason || 'normal'));
     }, 5000);
   }
 

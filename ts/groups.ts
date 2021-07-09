@@ -1370,6 +1370,13 @@ export function idForLogging(groupId: string | undefined): string {
 }
 
 export function deriveGroupFields(masterKey: Uint8Array): GroupFields {
+  if (masterKey.length !== MASTER_KEY_LENGTH) {
+    throw new Error(
+      `deriveGroupFields: masterKey had length ${masterKey.length}, ` +
+        `expected ${MASTER_KEY_LENGTH}`
+    );
+  }
+
   const cacheKey = Bytes.toBase64(masterKey);
   const cached = groupFieldsCache.get(cacheKey);
   if (cached) {

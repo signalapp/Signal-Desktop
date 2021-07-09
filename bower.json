@@ -11,7 +11,6 @@
     "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git"
   },
   "devDependencies": {
-    "mock-socket": "~0.3.2"
   },
   "preen": {
     "bytebuffer": [
@@ -19,9 +18,6 @@
     ],
     "long": [
       "dist/Long.js"
-    ],
-    "mock-socket": [
-      "dist/mock-socket.js"
     ],
     "mp3lameencoder": [
       "lib/Mp3LameEncoder.js"

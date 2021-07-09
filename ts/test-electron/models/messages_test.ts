@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { SignalService as Proto } from '../../protobuf';
 
 describe('Message', () => {
   const i18n = setupI18n('en', enMessages);
@@ -384,8 +385,7 @@ describe('Message', () => {
         title: 'voice message',
         attachment: {
           contentType: 'audio/ogg',
-          flags:
-            window.textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
+          flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
         },
         expectedText: 'Voice Message',
         expectedEmoji: '🎤',

@@ -7,58 +7,58 @@ const { Stickers } = Signal;
 
 describe('Stickers', () => {
   describe('getDataFromLink', () => {
-    it('returns null for invalid URLs', () => {
-      assert.isNull(Stickers.getDataFromLink('https://'));
-      assert.isNull(Stickers.getDataFromLink('signal.art/addstickers/'));
+    it('returns undefined for invalid URLs', () => {
+      assert.isUndefined(Stickers.getDataFromLink('https://'));
+      assert.isUndefined(Stickers.getDataFromLink('signal.art/addstickers/'));
     });
 
-    it("returns null for URLs that don't have a hash", () => {
-      assert.isNull(
+    it("returns undefined for URLs that don't have a hash", () => {
+      assert.isUndefined(
         Stickers.getDataFromLink('https://signal.art/addstickers/')
       );
-      assert.isNull(
+      assert.isUndefined(
         Stickers.getDataFromLink('https://signal.art/addstickers/#')
       );
     });
 
-    it('returns null when no key or pack ID is found', () => {
-      assert.isNull(
+    it('returns undefined when no key or pack ID is found', () => {
+      assert.isUndefined(
         Stickers.getDataFromLink(
           'https://signal.art/addstickers/#pack_id=c8c83285b547872ac4c589d64a6edd6a'
         )
       );
-      assert.isNull(
+      assert.isUndefined(
         Stickers.getDataFromLink(
           'https://signal.art/addstickers/#pack_id=c8c83285b547872ac4c589d64a6edd6a&pack_key='
         )
       );
-      assert.isNull(
+      assert.isUndefined(
         Stickers.getDataFromLink(
           'https://signal.art/addstickers/#pack_key=59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e'
         )
       );
-      assert.isNull(
+      assert.isUndefined(
         Stickers.getDataFromLink(
           'https://signal.art/addstickers/#pack_key=59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e&pack_id='
         )
       );
     });
 
-    it('returns null when the pack ID is invalid', () => {
-      assert.isNull(
+    it('returns undefined when the pack ID is invalid', () => {
+      assert.isUndefined(
         Stickers.getDataFromLink(
           'https://signal.art/addstickers/#pack_id=garbage&pack_key=59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e'
         )
       );
     });
 
-    it('returns null if the ID or key are passed as arrays', () => {
-      assert.isNull(
+    it('returns undefined if the ID or key are passed as arrays', () => {
+      assert.isUndefined(
         Stickers.getDataFromLink(
           'https://signal.art/addstickers/#pack_id[]=c8c83285b547872ac4c589d64a6edd6a&pack_key=59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e'
         )
       );
-      assert.isNull(
+      assert.isUndefined(
         Stickers.getDataFromLink(
           'https://signal.art/addstickers/#pack_id=c8c83285b547872ac4c589d64a6edd6a&pack_key[]=59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e'
         )

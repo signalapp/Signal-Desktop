@@ -14,7 +14,9 @@ import {
   VerificationOptions,
   WhatIsThis,
 } from '../model-types.d';
+import { AttachmentType } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
+import * as Stickers from '../types/Stickers';
 import { CallbackResultType, GroupV2InfoType } from '../textsecure/SendMessage';
 import { ConversationType } from '../state/ducks/conversations';
 import {
@@ -3100,7 +3102,7 @@ export class ConversationModel extends window.Backbone
         ? [{ contentType: 'image/jpeg', fileName: null }]
         : await this.getQuoteAttachment(attachments, preview, sticker),
       bodyRanges: quotedMessage.get('bodyRanges'),
-      id: String(quotedMessage.get('sent_at')),
+      id: quotedMessage.get('sent_at'),
       isViewOnce: isTapToView(quotedMessage.attributes),
       messageId: quotedMessage.get('id'),
       referencedMessageNotFound: false,
@@ -3109,8 +3111,8 @@ export class ConversationModel extends window.Backbone
   }
 
   async sendStickerMessage(packId: string, stickerId: number): Promise<void> {
-    const packData = window.Signal.Stickers.getStickerPack(packId);
-    const stickerData = window.Signal.Stickers.getSticker(packId, stickerId);
+    const packData = Stickers.getStickerPack(packId);
+    const stickerData = Stickers.getSticker(packId, stickerId);
     if (!stickerData || !packData) {
       window.log.warn(
         `Attempted to send nonexistent (${packId}, ${stickerId}) sticker!`
@@ -3152,7 +3154,7 @@ export class ConversationModel extends window.Backbone
       },
     };
 
-    this.sendMessage(null, [], null, [], sticker);
+    this.sendMessage(undefined, [], undefined, [], sticker);
     window.reduxActions.stickers.useSticker(packId, stickerId);
   }
 
@@ -3451,10 +3453,10 @@ export class ConversationModel extends window.Backbone
   }
 
   sendMessage(
-    body: string | null,
-    attachments: Array<WhatIsThis>,
-    quote: WhatIsThis,
-    preview: WhatIsThis,
+    body: string | undefined,
+    attachments: Array<AttachmentType>,
+    quote?: QuotedMessageType,
+    preview?: WhatIsThis,
     sticker?: WhatIsThis,
     mentions?: BodyRangesType,
     {
@@ -3503,6 +3505,7 @@ export class ConversationModel extends window.Backbone
 
       // Here we move attachments to disk
       const messageWithSchema = await upgradeMessageSchema({
+        timestamp: now,
         type: 'outgoing',
         body,
         conversationId: this.id,
@@ -3575,7 +3578,7 @@ export class ConversationModel extends window.Backbone
       }
 
       const attachmentsWithData = await Promise.all(
-        messageWithSchema.attachments.map(loadAttachmentData)
+        messageWithSchema.attachments?.map(loadAttachmentData) ?? []
       );
 
       const {
@@ -5086,7 +5089,7 @@ export class ConversationModel extends window.Backbone
     isTyping: boolean;
     senderId: string;
     fromMe: boolean;
-    senderDevice: string;
+    senderDevice: number;
   }): void {
     const { isTyping, senderId, fromMe, senderDevice } = options;
 

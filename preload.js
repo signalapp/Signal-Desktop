@@ -509,25 +509,6 @@ try {
   // https://stackoverflow.com/a/23299989
   window.isValidE164 = maybeE164 => /^\+?[1-9]\d{1,14}$/.test(maybeE164);
 
-  window.normalizeUuids = (obj, paths, context) => {
-    if (!obj) {
-      return;
-    }
-    paths.forEach(path => {
-      const val = _.get(obj, path);
-      if (val) {
-        if (!val || !window.isValidGuid(val)) {
-          window.log.warn(
-            `Normalizing invalid uuid: ${val} at path ${path} in context "${context}"`
-          );
-        }
-        if (val && val.toLowerCase) {
-          _.set(obj, path, val.toLowerCase());
-        }
-      }
-    });
-  };
-
   window.React = require('react');
   window.ReactDOM = require('react-dom');
   window.moment = require('moment');

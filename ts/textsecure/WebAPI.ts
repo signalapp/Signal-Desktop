@@ -33,7 +33,7 @@ import { Long } from '../window.d';
 import { assert } from '../util/assert';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
-import { isPackIdValid, redactPackId } from '../../js/modules/stickers';
+import { isPackIdValid, redactPackId } from '../types/Stickers';
 import {
   arrayBufferToBase64,
   base64ToArrayBuffer,
@@ -53,7 +53,6 @@ import { calculateAgreement, generateKeyPair } from '../Curve';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 
 import {
-  AvatarUploadAttributesClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
@@ -2161,7 +2160,7 @@ export function initialize({
       return Proto.GroupExternalCredential.decode(new FIXMEU8(response));
     }
 
-    function verifyAttributes(attributes: AvatarUploadAttributesClass) {
+    function verifyAttributes(attributes: Proto.IAvatarUploadAttributes) {
       const {
         key,
         credential,
@@ -2213,8 +2212,8 @@ export function initialize({
         responseType: 'arraybuffer',
         host: storageUrl,
       });
-      const attributes = window.textsecure.protobuf.AvatarUploadAttributes.decode(
-        response
+      const attributes = Proto.AvatarUploadAttributes.decode(
+        new FIXMEU8(response)
       );
 
       const verified = verifyAttributes(attributes);

@@ -18,6 +18,7 @@ import { Storage } from './textsecure/Storage';
 import {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
+  ProcessedAttachment,
 } from './textsecure/Types.d';
 
 export type UnprocessedType = {
@@ -31,6 +32,7 @@ export type UnprocessedType = {
   source?: string;
   sourceDevice?: number;
   sourceUuid?: string;
+  messageAgeSec?: number;
   version: number;
 };
 
@@ -71,7 +73,6 @@ type DeviceNameProtobufTypes = {
 
 type GroupsProtobufTypes = {
   AvatarUploadAttributes: typeof AvatarUploadAttributesClass;
-  Member: typeof MemberClass;
   MemberPendingProfileKey: typeof MemberPendingProfileKeyClass;
   MemberPendingAdminApproval: typeof MemberPendingAdminApprovalClass;
   AccessControl: typeof AccessControlClass;
@@ -86,9 +87,6 @@ type GroupsProtobufTypes = {
 
 type SignalServiceProtobufTypes = {
   AttachmentPointer: typeof AttachmentPointerClass;
-  ContactDetails: typeof ContactDetailsClass;
-  Content: typeof ContentClass;
-  DataMessage: typeof DataMessageClass;
   Envelope: typeof EnvelopeClass;
   GroupContext: typeof GroupContextClass;
   GroupContextV2: typeof GroupContextV2Class;
@@ -159,31 +157,7 @@ export declare class AvatarUploadAttributesClass {
   signature?: string;
 }
 
-export declare class MemberClass {
-  static decode: (
-    data: ArrayBuffer | ByteBufferClass,
-    encoding?: string
-  ) => MemberClass;
-
-  userId?: ProtoBinaryType;
-  role?: MemberRoleEnum;
-  profileKey?: ProtoBinaryType;
-  presentation?: ProtoBinaryType;
-  joinedAtVersion?: number;
-
-  // Note: only role and presentation are required when creating a group
-}
-
 export type MemberRoleEnum = number;
-
-// Note: we need to use namespaces to express nested classes in Typescript
-export declare namespace MemberClass {
-  class Role {
-    static UNKNOWN: number;
-    static DEFAULT: number;
-    static ADMINISTRATOR: number;
-  }
-}
 
 export declare class MemberPendingProfileKeyClass {
   static decode: (
@@ -191,7 +165,6 @@ export declare class MemberPendingProfileKeyClass {
     encoding?: string
   ) => MemberPendingProfileKeyClass;
 
-  member?: MemberClass;
   addedByUserId?: ProtoBinaryType;
   timestamp?: ProtoBigNumberType;
 }
@@ -245,7 +218,6 @@ export declare class GroupClass {
   disappearingMessagesTimer?: ProtoBinaryType;
   accessControl?: AccessControlClass;
   version?: number;
-  members?: Array<MemberClass>;
   membersPendingProfileKey?: Array<MemberPendingProfileKeyClass>;
   membersPendingAdminApproval?: Array<MemberPendingAdminApprovalClass>;
   inviteLinkPassword?: ProtoBinaryType;
@@ -299,7 +271,6 @@ export declare namespace GroupChangeClass {
 // Note: we need to use namespaces to express nested classes in Typescript
 export declare namespace GroupChangeClass.Actions {
   class AddMemberAction {
-    added?: MemberClass;
     joinFromInviteLink?: boolean;
   }
 
@@ -480,7 +451,7 @@ export declare class AttachmentPointerClass {
     GIF: number;
   };
 
-  cdnId?: ProtoBigNumberType;
+  cdnId?: string;
   cdnKey?: string;
   contentType?: string;
   key?: ProtoBinaryType;
@@ -493,183 +464,15 @@ export declare class AttachmentPointerClass {
   height?: number;
   caption?: string;
   blurHash?: string;
-  uploadTimestamp?: ProtoBigNumberType;
   cdnNumber?: number;
 }
 
-export type DownloadAttachmentType = {
+export type DownloadAttachmentType = Omit<
+  ProcessedAttachment,
+  'digest' | 'key'
+> & {
   data: ArrayBuffer;
-  cdnId?: ProtoBigNumberType;
-  cdnKey?: string;
-  contentType?: string;
-  size?: number;
-  thumbnail?: ProtoBinaryType;
-  fileName?: string;
-  flags?: number;
-  width?: number;
-  height?: number;
-  caption?: string;
-  blurHash?: string;
-  uploadTimestamp?: ProtoBigNumberType;
-  cdnNumber?: number;
 };
-
-export declare class ContactDetailsClass {
-  static decode: (
-    data: ArrayBuffer | ByteBufferClass,
-    encoding?: string
-  ) => ContactDetailsClass;
-
-  number?: string;
-  uuid?: string;
-  name?: string;
-  avatar?: ContactDetailsClass.Avatar;
-  color?: string;
-  verified?: VerifiedClass;
-  profileKey?: ProtoBinaryType;
-  blocked?: boolean;
-  expireTimer?: number;
-  inboxPosition?: number;
-}
-
-// Note: we need to use namespaces to express nested classes in Typescript
-export declare namespace ContactDetailsClass {
-  class Avatar {
-    contentType?: string;
-    length?: number;
-  }
-}
-
-export declare class ContentClass {
-  static decode: (
-    data: ArrayBuffer | ByteBufferClass,
-    encoding?: string
-  ) => ContentClass;
-  toArrayBuffer: () => ArrayBuffer;
-
-  dataMessage?: DataMessageClass;
-  syncMessage?: SyncMessageClass;
-  callingMessage?: CallingMessageClass;
-  nullMessage?: NullMessageClass;
-  receiptMessage?: ReceiptMessageClass;
-  typingMessage?: TypingMessageClass;
-  senderKeyDistributionMessage?: ByteBufferClass;
-  decryptionErrorMessage?: ByteBufferClass;
-}
-
-export declare class DataMessageClass {
-  static decode: (
-    data: ArrayBuffer | ByteBufferClass,
-    encoding?: string
-  ) => DataMessageClass;
-  toArrayBuffer(): ArrayBuffer;
-
-  body?: string | null;
-  attachments?: Array<AttachmentPointerClass>;
-  group?: GroupContextClass | null;
-  groupV2?: GroupContextV2Class | null;
-  flags?: number;
-  expireTimer?: number;
-  profileKey?: ProtoBinaryType;
-  timestamp?: ProtoBigNumberType;
-  quote?: DataMessageClass.Quote;
-  contact?: Array<DataMessageClass.Contact>;
-  preview?: Array<DataMessageClass.Preview>;
-  sticker?: DataMessageClass.Sticker;
-  requiredProtocolVersion?: number;
-  isViewOnce?: boolean;
-  reaction?: DataMessageClass.Reaction;
-  delete?: DataMessageClass.Delete;
-  bodyRanges?: Array<DataMessageClass.BodyRange>;
-  groupCallUpdate?: DataMessageClass.GroupCallUpdate;
-}
-
-// Note: we need to use namespaces to express nested classes in Typescript
-export declare namespace DataMessageClass {
-  // Note: deep nesting
-  class Contact {
-    name: any;
-    number: any;
-    email: any;
-    address: any;
-    avatar: any;
-    organization?: string;
-  }
-
-  class Flags {
-    static END_SESSION: number;
-    static EXPIRATION_TIMER_UPDATE: number;
-    static PROFILE_KEY_UPDATE: number;
-  }
-
-  class Preview {
-    url?: string;
-    title?: string;
-    image?: AttachmentPointerClass;
-    description?: string;
-    date?: ProtoBigNumberType;
-  }
-
-  class ProtocolVersion {
-    static INITIAL: number;
-    static MESSAGE_TIMERS: number;
-    static VIEW_ONCE: number;
-    static VIEW_ONCE_VIDEO: number;
-    static REACTIONS: number;
-    static MENTIONS: number;
-    static CURRENT: number;
-  }
-
-  // Note: deep nesting
-  class Quote {
-    id?: ProtoBigNumberType | null;
-    authorUuid?: string | null;
-    text?: string | null;
-    attachments?: Array<DataMessageClass.Quote.QuotedAttachment>;
-    bodyRanges?: Array<DataMessageClass.BodyRange>;
-
-    // Added later during processing
-    referencedMessageNotFound?: boolean;
-    isViewOnce?: boolean;
-  }
-
-  class BodyRange {
-    start?: number;
-    length?: number;
-    mentionUuid?: string;
-  }
-
-  class Reaction {
-    emoji: string | null;
-    remove: boolean;
-    targetAuthorUuid: string | null;
-    targetTimestamp: ProtoBigNumberType | null;
-  }
-
-  class Delete {
-    targetSentTimestamp?: ProtoBigNumberType;
-  }
-
-  class Sticker {
-    packId?: ProtoBinaryType;
-    packKey?: ProtoBinaryType;
-    stickerId?: number;
-    data?: AttachmentPointerClass;
-  }
-
-  class GroupCallUpdate {
-    eraId?: string;
-  }
-}
-
-// Note: we need to use namespaces to express nested classes in Typescript
-export declare namespace DataMessageClass.Quote {
-  class QuotedAttachment {
-    contentType?: string;
-    fileName?: string;
-    thumbnail?: AttachmentPointerClass;
-  }
-}
 
 declare class DeviceNameClass {
   static decode: (
@@ -1140,7 +943,6 @@ export declare namespace SyncMessageClass {
     destination?: string;
     destinationUuid?: string;
     timestamp?: ProtoBigNumberType;
-    message?: DataMessageClass;
     expirationStartTimestamp?: ProtoBigNumberType;
     unidentifiedStatus?: Array<SyncMessageClass.Sent.UnidentifiedDeliveryStatus>;
     isRecipientUpdate?: boolean;

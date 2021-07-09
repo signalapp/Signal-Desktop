@@ -60,8 +60,6 @@ window.hexToArrayBuffer = str => {
   return ret;
 };
 
-window.MockSocket.prototype.addEventListener = () => null;
-
 window.Whisper = window.Whisper || {};
 window.Whisper.events = {
   on() {},

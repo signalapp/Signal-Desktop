@@ -33,6 +33,7 @@ import { ReactionType } from '../types/Reactions';
 import { StoredJob } from '../jobs/types';
 import { assert } from '../util/assert';
 import { combineNames } from '../util/combineNames';
+import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
@@ -301,6 +302,7 @@ function rowToSticker(row: StickerRow): StickerType {
   return {
     ...row,
     isCoverOnly: Boolean(row.isCoverOnly),
+    emoji: dropNull(row.emoji),
   };
 }
 
@@ -4416,13 +4418,13 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
     )
     .all({ id });
   const payload = {
-    attemptedStatus,
+    attemptedStatus: attemptedStatus ?? null,
     author,
     coverStickerId,
     createdAt: createdAt || Date.now(),
     downloadAttempts: downloadAttempts || 1,
     id,
-    installedAt,
+    installedAt: installedAt ?? null,
     key,
     lastUsed: lastUsed || null,
     status,
@@ -4563,7 +4565,7 @@ async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
     )
     `
   ).run({
-    emoji,
+    emoji: emoji ?? null,
     height,
     id,
     isCoverOnly: isCoverOnly ? 1 : 0,
