@@ -35,7 +35,7 @@ export async function send(
     encryption
   );
   const envelope = await buildEnvelope(envelopeType, device.key, timestamp, cipherText);
-  window?.log?.debug('Sending envelope', envelope, ' to ', device.key);
+  window?.log?.debug('Sending envelope with timestamp: ', envelope.timestamp, ' to ', device.key);
   const data = wrapEnvelope(envelope);
 
   return pRetry(

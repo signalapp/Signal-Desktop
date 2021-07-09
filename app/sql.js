@@ -103,7 +103,6 @@ module.exports = {
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
-  isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
 
   // open group v2
@@ -1804,8 +1803,6 @@ function saveMessage(data) {
     unread,
   };
 
-  console.warn('payload: ', payload);
-
   globalInstance
     .prepare(
       `INSERT OR REPLACE INTO ${MESSAGES_TABLE} (
@@ -2690,16 +2687,6 @@ function addClosedGroupEncryptionKeyPair(groupPublicKey, keypair, instance) {
       timestamp,
       json: objectToJSON(keypair),
     });
-}
-
-function isKeyPairAlreadySaved(
-  groupPublicKey,
-  newKeyPairInHex // : HexKeyPair
-) {
-  const allKeyPairs = getAllEncryptionKeyPairsForGroup(groupPublicKey);
-  return (allKeyPairs || []).some(
-    k => newKeyPairInHex.publicHex === k.publicHex && newKeyPairInHex.privateHex === k.privateHex
-  );
 }
 
 function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey) {

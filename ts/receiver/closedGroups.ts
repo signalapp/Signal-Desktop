@@ -16,7 +16,6 @@ import {
   addClosedGroupEncryptionKeyPair,
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
-  isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
 } from '../../ts/data/data';
 import {
@@ -39,6 +38,52 @@ import { MessageModel } from '../models/message';
 import { updateConfirmModal } from '../state/ducks/modalDialog';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
+
+// this is a cache of the keypairs stored in the db.
+const cacheOfClosedGroupKeyPairs: Map<string, Array<HexKeyPair>> = new Map();
+
+export async function getAllCachedECKeyPair(groupPubKey: string) {
+  let keyPairsFound = cacheOfClosedGroupKeyPairs.get(groupPubKey);
+
+  if (!keyPairsFound) {
+    keyPairsFound = (await getAllEncryptionKeyPairsForGroup(groupPubKey)) || [];
+    cacheOfClosedGroupKeyPairs.set(groupPubKey, keyPairsFound);
+  }
+
+  return keyPairsFound;
+}
+
+/**
+ *
+ * @returns true if this keypair was not already saved for this publickey
+ */
+export async function addKeyPairToCacheAndDBIfNeeded(
+  groupPubKey: string,
+  keyPair: HexKeyPair
+): Promise<boolean> {
+  const existingKeyPairs = await getAllCachedECKeyPair(groupPubKey);
+
+  const alreadySaved = existingKeyPairs.some(k => {
+    return k.privateHex === keyPair.privateHex && k.publicHex === keyPair.publicHex;
+  });
+
+  if (alreadySaved) {
+    return false;
+  }
+
+  await addClosedGroupEncryptionKeyPair(groupPubKey, keyPair);
+
+  if (!cacheOfClosedGroupKeyPairs.has(groupPubKey)) {
+    cacheOfClosedGroupKeyPairs.set(groupPubKey, []);
+  }
+  cacheOfClosedGroupKeyPairs.get(groupPubKey)?.push(keyPair);
+  return true;
+}
+
+export async function innerRemoveAllClosedGroupEncryptionKeyPairs(groupPubKey: string) {
+  cacheOfClosedGroupKeyPairs.set(groupPubKey, []);
+  await removeAllClosedGroupEncryptionKeyPairs(groupPubKey);
+}
 
 export async function handleClosedGroupControlMessage(
   envelope: EnvelopePlus,
@@ -199,7 +244,7 @@ export async function handleNewClosedGroup(
         encryptionKeyPair!.publicKey,
         encryptionKeyPair!.privateKey
       );
-      const isKeyPairAlreadyHere = await isKeyPairAlreadySaved(
+      const isKeyPairAlreadyHere = await addKeyPairToCacheAndDBIfNeeded(
         groupId,
         ecKeyPairAlreadyExistingConvo.toHexKeyPair()
       );
@@ -207,15 +252,12 @@ export async function handleNewClosedGroup(
       await maybeConvo.updateExpirationTimer(expireTimer, sender, Date.now());
 
       if (isKeyPairAlreadyHere) {
-        await getAllEncryptionKeyPairsForGroup(groupId);
         window.log.info('Dropping already saved keypair for group', groupId);
         await removeFromCache(envelope);
         return;
       }
 
       window.log.info(`Received the encryptionKeyPair for new group ${groupId}`);
-
-      await addClosedGroupEncryptionKeyPair(groupId, ecKeyPairAlreadyExistingConvo.toHexKeyPair());
       await removeFromCache(envelope);
       window.log.warn(
         'Closed group message of type NEW: the conversation already exists, but we saved the new encryption keypair'
@@ -272,7 +314,7 @@ export async function handleNewClosedGroup(
   const ecKeyPair = new ECKeyPair(encryptionKeyPair!.publicKey, encryptionKeyPair!.privateKey);
   window?.log?.info(`Received the encryptionKeyPair for new group ${groupId}`);
 
-  await addClosedGroupEncryptionKeyPair(groupId, ecKeyPair.toHexKeyPair());
+  await addKeyPairToCacheAndDBIfNeeded(groupId, ecKeyPair.toHexKeyPair());
 
   // start polling for this new group
   getSwarmPollingInstance().addGroupId(PubKey.cast(groupId));
@@ -291,7 +333,7 @@ export async function markGroupAsLeftOrKicked(
   groupConvo: ConversationModel,
   isKicked: boolean
 ) {
-  await removeAllClosedGroupEncryptionKeyPairs(groupPublicKey);
+  await innerRemoveAllClosedGroupEncryptionKeyPairs(groupPublicKey);
 
   if (isKicked) {
     groupConvo.set('isKickedFromGroup', true);
@@ -408,17 +450,17 @@ async function handleClosedGroupEncryptionKeyPair(
   // Store it if needed
   const newKeyPairInHex = keyPair.toHexKeyPair();
 
-  const isKeyPairAlreadyHere = await isKeyPairAlreadySaved(groupPublicKey, newKeyPairInHex);
+  const isKeyPairAlreadyHere = await addKeyPairToCacheAndDBIfNeeded(
+    groupPublicKey,
+    newKeyPairInHex
+  );
 
   if (isKeyPairAlreadyHere) {
-    const existingKeyPairs = await getAllEncryptionKeyPairsForGroup(groupPublicKey);
     window?.log?.info('Dropping already saved keypair for group', groupPublicKey);
     await removeFromCache(envelope);
     return;
   }
   window?.log?.info('Got a new encryption keypair for group', groupPublicKey);
-
-  await addClosedGroupEncryptionKeyPair(groupPublicKey, keyPair.toHexKeyPair());
   await removeFromCache(envelope);
   // trigger decrypting of all this group messages we did not decrypt successfully yet.
   await queueAllCachedFromSource(groupPublicKey);
@@ -893,12 +935,9 @@ export async function createClosedGroup(groupName: string, members: Array<string
   if (allInvitesSent) {
     const newHexKeypair = encryptionKeyPair.toHexKeyPair();
 
-    const isHexKeyPairSaved = await isKeyPairAlreadySaved(groupPublicKey, newHexKeypair);
+    const isHexKeyPairSaved = await addKeyPairToCacheAndDBIfNeeded(groupPublicKey, newHexKeypair);
 
-    if (!isHexKeyPairSaved) {
-      // tslint:disable-next-line: no-non-null-assertion
-      await addClosedGroupEncryptionKeyPair(groupPublicKey, encryptionKeyPair.toHexKeyPair());
-    } else {
+    if (isHexKeyPairSaved) {
       window?.log?.info('Dropping already saved keypair for group', groupPublicKey);
     }
 

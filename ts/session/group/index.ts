@@ -21,6 +21,7 @@ import { MessageModel } from '../../models/message';
 import { MessageModelType } from '../../models/messageType';
 import { getMessageController } from '../messages';
 import {
+  addKeyPairToCacheAndDBIfNeeded,
   distributingClosedGroupEncryptionKeyPairs,
   markGroupAsLeftOrKicked,
 } from '../../receiver/closedGroups';
@@ -504,7 +505,7 @@ async function generateAndSendNewEncryptionKeyPair(
 
     distributingClosedGroupEncryptionKeyPairs.delete(toHex(groupId));
 
-    await addClosedGroupEncryptionKeyPair(toHex(groupId), newKeyPair.toHexKeyPair());
+    await addKeyPairToCacheAndDBIfNeeded(toHex(groupId), newKeyPair.toHexKeyPair());
   };
   // this is to be sent to the group pubkey adress
   await getMessageQueue().sendToGroup(keypairsMessage, messageSentCallback);

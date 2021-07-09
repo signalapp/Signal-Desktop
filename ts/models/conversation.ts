@@ -193,9 +193,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       trailing: true,
       leading: true,
     });
-    this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
+    this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 300, {
       trailing: true,
-      leading: true,
     });
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 1000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
@@ -484,7 +483,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return unreadCount;
   }
 
-  public queueJob(callback: any) {
+  public queueJob(callback: () => Promise<void>) {
     // tslint:disable-next-line: no-promise-as-boolean
     const previous = this.pending || Promise.resolve();
 

@@ -154,7 +154,6 @@ const channelsToMake = {
   getAllEncryptionKeyPairsForGroup,
   getLatestClosedGroupEncryptionKeyPair,
   addClosedGroupEncryptionKeyPair,
-  isKeyPairAlreadySaved,
   removeAllClosedGroupEncryptionKeyPairs,
   removeOneOpenGroupV1Message,
 
@@ -495,13 +494,6 @@ export async function addClosedGroupEncryptionKeyPair(
   keypair: HexKeyPair
 ): Promise<void> {
   await channels.addClosedGroupEncryptionKeyPair(groupPublicKey, keypair);
-}
-
-export async function isKeyPairAlreadySaved(
-  groupPublicKey: string,
-  keypair: HexKeyPair
-): Promise<boolean> {
-  return channels.isKeyPairAlreadySaved(groupPublicKey, keypair);
 }
 
 export async function removeAllClosedGroupEncryptionKeyPairs(

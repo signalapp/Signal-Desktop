@@ -590,8 +590,6 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
   source = source || msg.get('source');
 
-  const isOurDevice = UserUtils.isUsFromCache(source);
-
   // Conversation Id is:
   //  - primarySource if it is an incoming DM message,
   //  - destination if it is an outgoing message,

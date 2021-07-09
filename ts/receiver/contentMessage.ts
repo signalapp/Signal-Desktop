@@ -11,12 +11,12 @@ import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { getConversationController } from '../session/conversations';
-import { getAllEncryptionKeyPairsForGroup } from '../../ts/data/data';
-import { ECKeyPair } from './keypairs';
+import { ECKeyPair, HexKeyPair } from './keypairs';
 import { handleConfigurationMessage } from './configMessage';
 import { ConversationTypeEnum } from '../models/conversation';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { perfEnd, perfStart } from '../session/utils/Performance';
+import { getAllCachedECKeyPair } from './closedGroups';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -43,7 +43,11 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
       window?.log?.warn('received medium group message but not for an existing medium group');
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }
-    const encryptionKeyPairs = await getAllEncryptionKeyPairsForGroup(hexEncodedGroupPublicKey);
+    console.time('getAllEncryptionKeyPairsForGroup');
+
+    const encryptionKeyPairs = await getAllCachedECKeyPair(hexEncodedGroupPublicKey);
+    console.timeEnd('getAllEncryptionKeyPairsForGroup');
+
     const encryptionKeyPairsCount = encryptionKeyPairs?.length;
     if (!encryptionKeyPairs?.length) {
       throw new Error(`No group keypairs for group ${hexEncodedGroupPublicKey}`); // noGroupKeyPair
