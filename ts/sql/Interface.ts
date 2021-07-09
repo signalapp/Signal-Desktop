@@ -15,8 +15,11 @@ import type { ConversationModel } from '../models/conversations';
 import type { StoredJob } from '../jobs/types';
 import type { ReactionType } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
+import type { BodyRangesType } from '../types/Util';
 import { StorageAccessType } from '../types/Storage.d';
 import type { AttachmentType } from '../types/Attachment';
+import type { SendState } from '../messages/MessageSendState';
+import type { MessageRowWithJoinedSends } from './rowToMessage';
 
 export type AttachmentDownloadJobTypeType =
   | 'long-message'
@@ -69,21 +72,17 @@ export type ItemType<K extends ItemKeyType> = {
   value: StorageAccessType[K];
 };
 export type MessageType = MessageAttributesType;
-export type MessageTypeUnhydrated = {
-  json: string;
-};
 export type PreKeyType = {
   id: number;
   privateKey: ArrayBuffer;
   publicKey: ArrayBuffer;
 };
-export type SearchResultMessageType = {
-  json: string;
+export type SearchResultMessageType = MessageRowWithJoinedSends & {
   snippet: string;
 };
 export type ClientSearchResultMessageType = MessageType & {
   json: string;
-  bodyRanges: [];
+  bodyRanges: BodyRangesType;
   snippet: string;
 };
 export type SenderKeyType = {
@@ -255,6 +254,15 @@ export type DataInterface = {
   ) => Promise<void>;
   getNextTapToViewMessageTimestampToAgeOut: () => Promise<undefined | number>;
 
+  updateMessageSendState(
+    params: Readonly<
+      {
+        messageId: string;
+        destinationConversationId: string;
+      } & SendState
+    >
+  ): Promise<void>;
+
   getUnprocessedCount: () => Promise<number>;
   getAllUnprocessed: () => Promise<Array<UnprocessedType>>;
   updateUnprocessedAttempts: (id: string, attempts: number) => Promise<void>;
@@ -345,6 +353,20 @@ export type DataInterface = {
       value: CustomColorType;
     }
   ) => Promise<void>;
+
+  // For testing only
+
+  _getSendStates: (
+    options: Readonly<{
+      messageId: string;
+      destinationConversationId: string;
+    }>
+  ) => Promise<
+    Array<{
+      updatedAt: number;
+      status: string;
+    }>
+  >;
 };
 
 // The reason for client/server divergence is the need to inject Backbone models and
@@ -377,11 +399,11 @@ export type ServerInterface = DataInterface & {
       sentAt?: number;
       messageId?: string;
     }
-  ) => Promise<Array<MessageTypeUnhydrated>>;
+  ) => Promise<Array<MessageRowWithJoinedSends>>;
   getNewerMessagesByConversation: (
     conversationId: string,
     options?: { limit?: number; receivedAt?: number; sentAt?: number }
-  ) => Promise<Array<MessageTypeUnhydrated>>;
+  ) => Promise<Array<MessageRowWithJoinedSends>>;
   getLastConversationActivity: (options: {
     conversationId: string;
     ourConversationId: string;

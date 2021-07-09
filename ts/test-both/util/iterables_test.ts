@@ -9,11 +9,14 @@ import {
   filter,
   find,
   groupBy,
+  isEmpty,
   isIterable,
   map,
   reduce,
+  repeat,
   size,
   take,
+  zipObject,
 } from '../../util/iterables';
 
 describe('iterable utilities', () => {
@@ -58,6 +61,15 @@ describe('iterable utilities', () => {
           })()
         )
       );
+    });
+  });
+
+  describe('repeat', () => {
+    it('repeats the same value forever', () => {
+      const result = repeat('foo');
+
+      const truncated = [...take(result, 10)];
+      assert.deepEqual(truncated, Array(10).fill('foo'));
     });
   });
 
@@ -261,6 +273,28 @@ describe('iterable utilities', () => {
     });
   });
 
+  describe('isEmpty', () => {
+    it('returns true for empty iterables', () => {
+      assert.isTrue(isEmpty(''));
+      assert.isTrue(isEmpty([]));
+      assert.isTrue(isEmpty(new Set()));
+    });
+
+    it('returns false for non-empty iterables', () => {
+      assert.isFalse(isEmpty(' '));
+      assert.isFalse(isEmpty([1, 2]));
+      assert.isFalse(isEmpty(new Set([3, 4])));
+    });
+
+    it('does not "look past" the first element', () => {
+      function* numbers() {
+        yield 1;
+        throw new Error('this should never happen');
+      }
+      assert.isFalse(isEmpty(numbers()));
+    });
+  });
+
   describe('map', () => {
     it('returns an empty iterable when passed an empty iterable', () => {
       const fn = sinon.fake();
@@ -350,6 +384,25 @@ describe('iterable utilities', () => {
       assert.deepEqual([...take(set, 3)], [1, 2, 3]);
       assert.deepEqual([...take(set, 4)], [1, 2, 3]);
       assert.deepEqual([...take(set, 10000)], [1, 2, 3]);
+    });
+  });
+
+  describe('zipObject', () => {
+    it('zips up an object', () => {
+      assert.deepEqual(zipObject(['foo', 'bar'], [1, 2]), { foo: 1, bar: 2 });
+    });
+
+    it('stops if the keys "run out" first', () => {
+      assert.deepEqual(zipObject(['foo', 'bar'], [1, 2, 3, 4, 5, 6]), {
+        foo: 1,
+        bar: 2,
+      });
+    });
+
+    it('stops if the values "run out" first', () => {
+      assert.deepEqual(zipObject(['foo', 'bar', 'baz'], [1]), {
+        foo: 1,
+      });
     });
   });
 });

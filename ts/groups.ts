@@ -2291,8 +2291,8 @@ export async function wrapWithSyncMessageSend({
     destination: ourConversation.get('e164'),
     destinationUuid: ourConversation.get('uuid'),
     expirationStartTimestamp: null,
-    sentTo: [],
-    unidentifiedDeliveries: [],
+    conversationIdsSentTo: [],
+    conversationIdsWithSealedSender: new Set(),
   });
 }
 

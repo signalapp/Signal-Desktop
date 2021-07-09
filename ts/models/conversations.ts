@@ -55,7 +55,15 @@ import { handleMessageSend } from '../util/handleMessageSend';
 import { getConversationMembers } from '../util/getConversationMembers';
 import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
-import { filter, map, take } from '../util/iterables';
+import { SendStatus } from '../messages/MessageSendState';
+import {
+  concat,
+  filter,
+  map,
+  take,
+  repeat,
+  zipObject,
+} from '../util/iterables';
 import * as universalExpireTimer from '../util/universalExpireTimer';
 import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import {
@@ -3172,7 +3180,6 @@ export class ConversationModel extends window.Backbone
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
-    const recipients = this.getRecipients();
 
     return this.queueJob('sendDeleteForEveryone', async () => {
       window.log.info(
@@ -3191,10 +3198,8 @@ export class ConversationModel extends window.Backbone
         sent_at: timestamp,
         received_at: window.Signal.Util.incrementMessageCounter(),
         received_at_ms: timestamp,
-        recipients,
         deletedForEveryoneTimestamp: targetTimestamp,
         timestamp,
-        ...(isDirectConversation(this.attributes) ? { destination } : {}),
       });
 
       // We're offline!
@@ -3295,7 +3300,6 @@ export class ConversationModel extends window.Backbone
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
-    const recipients = this.getRecipients();
 
     return this.queueJob('sendReactionMessage', async () => {
       window.log.info(
@@ -3318,10 +3322,8 @@ export class ConversationModel extends window.Backbone
         sent_at: timestamp,
         received_at: window.Signal.Util.incrementMessageCounter(),
         received_at_ms: timestamp,
-        recipients,
         reaction: outgoingReaction,
         timestamp,
-        ...(isDirectConversation(this.attributes) ? { destination } : {}),
       });
 
       // This is to ensure that the functions in send() and sendSyncMessage() don't save
@@ -3503,6 +3505,18 @@ export class ConversationModel extends window.Backbone
         now
       );
 
+      const recipientMaybeConversations = map(recipients, identifier =>
+        window.ConversationController.get(identifier)
+      );
+      const recipientConversations = filter(
+        recipientMaybeConversations,
+        isNotNil
+      );
+      const recipientConversationIds = concat(
+        map(recipientConversations, c => c.id),
+        [window.ConversationController.getOurConversationIdOrThrow()]
+      );
+
       // Here we move attachments to disk
       const messageWithSchema = await upgradeMessageSchema({
         timestamp: now,
@@ -3520,6 +3534,13 @@ export class ConversationModel extends window.Backbone
         sticker,
         bodyRanges: mentions,
         sendHQImages,
+        sendStateByConversationId: zipObject(
+          recipientConversationIds,
+          repeat({
+            status: SendStatus.Pending,
+            updatedAt: now,
+          })
+        ),
       });
 
       if (isDirectConversation(this.attributes)) {
@@ -3563,17 +3584,13 @@ export class ConversationModel extends window.Backbone
 
       // We're offline!
       if (!window.textsecure.messaging) {
-        const errors = [
-          ...(this.contactCollection && this.contactCollection.length
-            ? this.contactCollection
-            : [this]),
-        ].map(contact => {
+        const errors = map(recipientConversationIds, conversationId => {
           const error = new Error('Network is not available') as CustomError;
           error.name = 'SendMessageNetworkError';
-          error.identifier = contact.get('id');
+          error.identifier = conversationId;
           return error;
         });
-        await message.saveErrors(errors);
+        await message.saveErrors([...errors]);
         return null;
       }
 
@@ -3752,6 +3769,7 @@ export class ConversationModel extends window.Backbone
         (previewMessage
           ? getMessagePropStatus(
               previewMessage.attributes,
+              ourConversationId,
               window.storage.get('read-receipt-setting', false)
             )
           : null) || null,
@@ -4032,9 +4050,6 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown) as MessageAttributesType);
 
-    if (isDirectConversation(this.attributes)) {
-      model.set({ destination: this.getSendTarget() });
-    }
     const id = await window.Signal.Data.saveMessage(model.attributes, {
       Message: window.Whisper.Message,
     });
@@ -4127,9 +4142,6 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown) as MessageAttributesType);
 
-    if (isDirectConversation(this.attributes)) {
-      model.set({ destination: this.id });
-    }
     const id = await window.Signal.Data.saveMessage(model.attributes, {
       Message: window.Whisper.Message,
     });

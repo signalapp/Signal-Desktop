@@ -3350,7 +3350,9 @@ Whisper.ConversationView = Whisper.View.extend({
     }
 
     const getProps = () => ({
-      ...message.getPropsForMessageDetail(),
+      ...message.getPropsForMessageDetail(
+        window.ConversationController.getOurConversationIdOrThrow()
+      ),
       ...this.getMessageActions(),
     });
 
@@ -3746,7 +3748,14 @@ Whisper.ConversationView = Whisper.View.extend({
         })
       : undefined;
 
-    if (message && !canReply(message.attributes, findAndFormatContact)) {
+    if (
+      message &&
+      !canReply(
+        message.attributes,
+        window.ConversationController.getOurConversationIdOrThrow(),
+        findAndFormatContact
+      )
+    ) {
       return;
     }
 

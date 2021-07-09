@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { SendStatus } from '../../messages/MessageSendState';
 
 describe('Conversations', () => {
   async function resetConversationController(): Promise<void> {
@@ -19,9 +20,9 @@ describe('Conversations', () => {
 
     // Creating a fake conversation
     const conversation = new window.Whisper.Conversation({
-      id: '8c45efca-67a4-4026-b990-9537d5d1a08f',
+      id: window.getGuid(),
       e164: '+15551234567',
-      uuid: '2f2734aa-f69d-4c1c-98eb-50eb0fc512d7',
+      uuid: window.getGuid(),
       type: 'private',
       inbox_position: 0,
       isPinned: false,
@@ -33,7 +34,6 @@ describe('Conversations', () => {
       version: 0,
     });
 
-    const destinationE164 = '+15557654321';
     window.textsecure.storage.user.setNumberAndDeviceId(
       ourNumber,
       2,
@@ -42,27 +42,29 @@ describe('Conversations', () => {
     window.textsecure.storage.user.setUuidAndDeviceId(ourUuid, 2);
     await window.ConversationController.loadPromise();
 
+    await window.Signal.Data.saveConversation(conversation.attributes);
+
     // Creating a fake message
     const now = Date.now();
     let message = new window.Whisper.Message({
       attachments: [],
       body: 'bananas',
       conversationId: conversation.id,
-      delivered: 1,
-      delivered_to: [destinationE164],
-      destination: destinationE164,
       expirationStartTimestamp: now,
       hasAttachments: false,
       hasFileAttachments: false,
       hasVisualMediaAttachments: false,
-      id: 'd8f2b435-e2ef-46e0-8481-07e68af251c6',
+      id: window.getGuid(),
       received_at: now,
-      recipients: [destinationE164],
-      sent: true,
       sent_at: now,
-      sent_to: [destinationE164],
       timestamp: now,
       type: 'outgoing',
+      sendStateByConversationId: {
+        [conversation.id]: {
+          status: SendStatus.Sent,
+          updatedAt: now,
+        },
+      },
     });
 
     // Saving to db and updating the convo's last message
@@ -71,7 +73,7 @@ describe('Conversations', () => {
       Message: window.Whisper.Message,
     });
     message = window.MessageController.register(message.id, message);
-    await window.Signal.Data.saveConversation(conversation.attributes);
+    await window.Signal.Data.updateConversation(conversation.attributes);
     await conversation.updateLastMessage();
 
     // Should be set to bananas because that's the last message sent.

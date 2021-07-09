@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual, noop, omit, union } from 'lodash';
 import {
   CustomError,
   GroupV1Update,
@@ -12,12 +12,13 @@ import {
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
+import { concat, filter, find, map, reduce } from '../util/iterables';
+import { isNotNil } from '../util/isNotNil';
+import { isNormalNumber } from '../util/isNormalNumber';
+import { SyncMessageClass } from '../textsecure.d';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
-import { map, filter, find } from '../util/iterables';
-import { isNotNil } from '../util/isNotNil';
 import { ConversationModel } from './conversations';
-import { MessageStatusType } from '../components/conversation/Message';
 import {
   OwnProps as SmartMessageDetailPropsType,
   Contact as SmartMessageDetailContact,
@@ -38,6 +39,18 @@ import * as Stickers from '../types/Stickers';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 import { ourProfileKeyService } from '../services/ourProfileKey';
+import {
+  SendAction,
+  SendActionType,
+  SendStateByConversationId,
+  SendStatus,
+  isMessageJustForMe,
+  isSent,
+  sendStateReducer,
+  someSendStatus,
+} from '../messages/MessageSendState';
+import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
+import { getOwn } from '../util/getOwn';
 import { markRead } from '../services/MessageUpdater';
 import {
   isDirectConversation,
@@ -121,9 +134,6 @@ const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
 const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
 const { bytesFromString } = window.Signal.Crypto;
 
-const includesAny = <T>(haystack: Array<T>, ...needles: Array<T>) =>
-  needles.some(needle => haystack.includes(needle));
-
 export function isQuoteAMatch(
   message: MessageModel | null | undefined,
   conversationId: string,
@@ -145,6 +155,8 @@ export function isQuoteAMatch(
     message.getContactId() === authorConversationId
   );
 }
+
+const isCustomError = (e: unknown): e is CustomError => e instanceof Error;
 
 export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   static updateTimers: () => void;
@@ -177,6 +189,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           logger: window.log,
         })
       );
+    }
+
+    const sendStateByConversationId = migrateLegacySendAttributes(
+      this.attributes,
+      window.ConversationController.get.bind(window.ConversationController),
+      window.ConversationController.getOurConversationIdOrThrow()
+    );
+    if (sendStateByConversationId) {
+      this.set('sendStateByConversationId', sendStateByConversationId, {
+        silent: true,
+      });
     }
 
     this.CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
@@ -240,35 +263,41 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
   }
 
-  getPropsForMessageDetail(): PropsForMessageDetail {
+  getPropsForMessageDetail(ourConversationId: string): PropsForMessageDetail {
     const newIdentity = window.i18n('newIdentity');
     const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
-    const unidentifiedLookup = (
-      this.get('unidentifiedDeliveries') || []
-    ).reduce((accumulator: Record<string, boolean>, identifier: string) => {
-      accumulator[
-        window.ConversationController.getConversationId(identifier) as string
-      ] = true;
-      return accumulator;
-    }, Object.create(null) as Record<string, boolean>);
+    const sendStateByConversationId =
+      this.get('sendStateByConversationId') || {};
 
-    // We include numbers we didn't successfully send to so we can display errors.
-    // Older messages don't have the recipients included on the message, so we fall
-    //   back to the conversation's current recipients
+    const unidentifiedDeliveries = this.get('unidentifiedDeliveries') || [];
+    const unidentifiedDeliveriesSet = new Set(
+      map(
+        unidentifiedDeliveries,
+        identifier =>
+          window.ConversationController.getConversationId(identifier) as string
+      )
+    );
+
+    let conversationIds: Array<string>;
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    const conversationIds = isIncoming(this.attributes)
-      ? [this.getContactId()!]
-      : _.union(
-          (this.get('sent_to') || []).map(
-            (id: string) => window.ConversationController.getConversationId(id)!
-          ),
-          (
-            this.get('recipients') || this.getConversation()!.getRecipients()
-          ).map(
-            (id: string) => window.ConversationController.getConversationId(id)!
-          )
+    if (isIncoming(this.attributes)) {
+      conversationIds = [this.getContactId()!];
+    } else if (!isEmpty(sendStateByConversationId)) {
+      if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
+        conversationIds = [ourConversationId];
+      } else {
+        conversationIds = Object.keys(sendStateByConversationId).filter(
+          id => id !== ourConversationId
         );
+      }
+    } else {
+      // Older messages don't have the recipients included on the message, so we fall back
+      //   to the conversation's current recipients
+      conversationIds = (this.getConversation()?.getRecipients() || []).map(
+        (id: string) => window.ConversationController.getConversationId(id)!
+      );
+    }
     /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     // This will make the error message for outgoing key errors a bit nicer
@@ -294,9 +323,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       return window.ConversationController.getConversationId(identifier);
     });
-    const finalContacts: Array<SmartMessageDetailContact> = (
-      conversationIds || []
-    ).map(
+    const finalContacts: Array<SmartMessageDetailContact> = conversationIds.map(
       (id: string): SmartMessageDetailContact => {
         const errorsForContact = errorsGroupedById[id];
         const isOutgoingKeyError = Boolean(
@@ -304,12 +331,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
         const isUnidentifiedDelivery =
           window.storage.get('unidentifiedDeliveryIndicators', false) &&
-          this.isUnidentifiedDelivery(id, unidentifiedLookup);
+          this.isUnidentifiedDelivery(id, unidentifiedDeliveriesSet);
+
+        let status = getOwn(sendStateByConversationId, id)?.status || null;
+
+        // If a message was only sent to yourself (Note to Self or a lonely group), it
+        //   is shown read.
+        if (id === ourConversationId && status && isSent(status)) {
+          status = SendStatus.Read;
+        }
 
         return {
           ...findAndFormatContact(id),
-
-          status: this.getStatus(id),
+          status,
           errors: errorsForContact,
           isOutgoingKeyError,
           isUnidentifiedDelivery,
@@ -344,7 +378,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       message: getPropsForMessage(
         this.attributes,
         findAndFormatContact,
-        window.ConversationController.getOurConversationIdOrThrow(),
+        ourConversationId,
         this.OUR_NUMBER,
         this.OUR_UUID,
         undefined,
@@ -365,33 +399,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   // Dependencies of prop-generation functions
   getConversation(): ConversationModel | undefined {
     return window.ConversationController.get(this.get('conversationId'));
-  }
-
-  private getStatus(identifier: string): MessageStatusType | null {
-    const conversation = window.ConversationController.get(identifier);
-
-    if (!conversation) {
-      return null;
-    }
-
-    const e164 = conversation.get('e164');
-    const uuid = conversation.get('uuid');
-    const conversationId = conversation.get('id');
-
-    const readBy = this.get('read_by') || [];
-    if (includesAny(readBy, conversationId, e164, uuid)) {
-      return 'read';
-    }
-    const deliveredTo = this.get('delivered_to') || [];
-    if (includesAny(deliveredTo, conversationId, e164, uuid)) {
-      return 'delivered';
-    }
-    const sentTo = this.get('sent_to') || [];
-    if (includesAny(sentTo, conversationId, e164, uuid)) {
-      return 'sent';
-    }
-
-    return null;
   }
 
   getNotificationData(): { emoji?: string; text: string } {
@@ -1056,13 +1063,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   isUnidentifiedDelivery(
     contactId: string,
-    lookup: Record<string, unknown>
+    unidentifiedDeliveriesSet: Readonly<Set<string>>
   ): boolean {
     if (isIncoming(this.attributes)) {
       return Boolean(this.get('unidentifiedDeliveryReceived'));
     }
 
-    return Boolean(lookup[contactId]);
+    return unidentifiedDeliveriesSet.has(contactId);
   }
 
   getSource(): string | undefined {
@@ -1203,44 +1210,64 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = this.getConversation()!;
-    const exists = (v: string | null): v is string => Boolean(v);
-    const intendedRecipients = (this.get('recipients') || [])
-      .map(identifier =>
-        window.ConversationController.getConversationId(identifier)
-      )
-      .filter(exists);
-    const successfulRecipients = (this.get('sent_to') || [])
-      .map(identifier =>
-        window.ConversationController.getConversationId(identifier)
-      )
-      .filter(exists);
-    const currentRecipients = conversation
-      .getRecipients()
-      .map(identifier =>
-        window.ConversationController.getConversationId(identifier)
-      )
-      .filter(exists);
+    const currentRecipients = new Set<string>(
+      conversation
+        .getRecipients()
+        .map(identifier =>
+          window.ConversationController.getConversationId(identifier)
+        )
+        .filter(isNotNil)
+    );
 
     const profileKey = conversation.get('profileSharing')
       ? await ourProfileKeyService.get()
       : undefined;
 
     // Determine retry recipients and get their most up-to-date addressing information
-    let recipients = _.intersection(intendedRecipients, currentRecipients);
-    recipients = _.without(recipients, ...successfulRecipients)
-      .map(id => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const c = window.ConversationController.get(id)!;
-        return c.getSendTarget();
-      })
-      .filter((recipient): recipient is string => recipient !== undefined);
+    const oldSendStateByConversationId =
+      this.get('sendStateByConversationId') || {};
+
+    const recipients: Array<string> = [];
+    const newSendStateByConversationId = { ...oldSendStateByConversationId };
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [conversationId, sendState] of Object.entries(
+      oldSendStateByConversationId
+    )) {
+      if (isSent(sendState.status)) {
+        continue;
+      }
+
+      const isStillInConversation = currentRecipients.has(conversationId);
+      if (!isStillInConversation) {
+        continue;
+      }
+
+      const recipient = window.ConversationController.get(
+        conversationId
+      )?.getSendTarget();
+      if (!recipient) {
+        continue;
+      }
+
+      newSendStateByConversationId[conversationId] = sendStateReducer(
+        sendState,
+        {
+          type: SendActionType.ManuallyRetried,
+          updatedAt: Date.now(),
+        }
+      );
+      recipients.push(recipient);
+    }
+
+    this.set('sendStateByConversationId', newSendStateByConversationId);
+
+    await window.Signal.Data.saveMessage(this.attributes, {
+      Message: window.Whisper.Message,
+    });
 
     if (!recipients.length) {
       window.log.warn('retrySend: Nobody to send to!');
-
-      return window.Signal.Data.saveMessage(this.attributes, {
-        Message: window.Whisper.Message,
-      });
+      return undefined;
     }
 
     const attachmentsWithData = await Promise.all(
@@ -1366,12 +1393,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   public hasSuccessfulDelivery(): boolean {
-    const recipients = this.get('recipients') || [];
-    if (recipients.length === 0) {
-      return true;
-    }
-
-    return (this.get('sent_to') || []).length !== 0;
+    const sendStateByConversationId = this.get('sendStateByConversationId');
+    const withoutMe = omit(
+      sendStateByConversationId,
+      window.ConversationController.getOurConversationIdOrThrow()
+    );
+    return isEmpty(withoutMe) || someSendStatus(withoutMe, isSent);
   }
 
   // Called when the user ran into an error with a specific user, wants to send to them
@@ -1507,154 +1534,184 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async send(
     promise: Promise<CallbackResultType | void | null>
   ): Promise<void | Array<void>> {
-    const conversation = this.getConversation();
-    const updateLeftPane = conversation?.debouncedUpdateLastMessage;
-    if (updateLeftPane) {
-      updateLeftPane();
+    const updateLeftPane =
+      this.getConversation()?.debouncedUpdateLastMessage || noop;
+
+    updateLeftPane();
+
+    let result:
+      | { success: true; value: CallbackResultType }
+      | {
+          success: false;
+          value: CustomError | CallbackResultType;
+        };
+    try {
+      const value = await (promise as Promise<CallbackResultType>);
+      result = { success: true, value };
+    } catch (err) {
+      result = { success: false, value: err };
     }
 
-    return (promise as Promise<CallbackResultType>)
-      .then(async result => {
-        if (updateLeftPane) {
-          updateLeftPane();
-        }
+    updateLeftPane();
 
-        // This is used by sendSyncMessage, then set to null
-        if (result.dataMessage) {
-          this.set({ dataMessage: result.dataMessage });
-        }
+    const attributesToUpdate: Partial<MessageAttributesType> = {};
 
-        const sentTo = this.get('sent_to') || [];
-        this.set({
-          sent_to: _.union(sentTo, result.successfulIdentifiers),
-          sent: true,
-          expirationStartTimestamp: Date.now(),
-          unidentifiedDeliveries: _.union(
-            this.get('unidentifiedDeliveries') || [],
-            result.unidentifiedDeliveries
-          ),
-        });
+    // This is used by sendSyncMessage, then set to null
+    if ('dataMessage' in result.value && result.value.dataMessage) {
+      attributesToUpdate.dataMessage = result.value.dataMessage;
+    }
 
-        if (!this.doNotSave) {
-          await window.Signal.Data.saveMessage(this.attributes, {
-            Message: window.Whisper.Message,
-          });
-        }
+    const sendStateByConversationId = {
+      ...(this.get('sendStateByConversationId') || {}),
+    };
 
-        if (updateLeftPane) {
-          updateLeftPane();
-        }
-        this.sendSyncMessage();
-      })
-      .catch((result: CustomError | CallbackResultType) => {
-        if (updateLeftPane) {
-          updateLeftPane();
-        }
+    const successfulIdentifiers: Array<string> =
+      'successfulIdentifiers' in result.value &&
+      Array.isArray(result.value.successfulIdentifiers)
+        ? result.value.successfulIdentifiers
+        : [];
+    const sentToAtLeastOneRecipient =
+      result.success || Boolean(successfulIdentifiers.length);
 
-        if ('dataMessage' in result && result.dataMessage) {
-          this.set({ dataMessage: result.dataMessage });
-        }
+    successfulIdentifiers.forEach(identifier => {
+      const conversation = window.ConversationController.get(identifier);
+      if (!conversation) {
+        return;
+      }
 
-        let promises = [];
+      // If we successfully sent to a user, we can remove our unregistered flag.
+      if (conversation.isEverUnregistered()) {
+        conversation.setRegistered();
+      }
 
-        // If we successfully sent to a user, we can remove our unregistered flag.
-        let successfulIdentifiers: Array<string>;
-        if ('successfulIdentifiers' in result) {
-          ({ successfulIdentifiers = [] } = result);
-        } else {
-          successfulIdentifiers = [];
-        }
-        successfulIdentifiers.forEach((identifier: string) => {
-          const c = window.ConversationController.get(identifier);
-          if (c && c.isEverUnregistered()) {
-            c.setRegistered();
+      const previousSendState = getOwn(
+        sendStateByConversationId,
+        conversation.id
+      );
+      if (previousSendState) {
+        sendStateByConversationId[conversation.id] = sendStateReducer(
+          previousSendState,
+          {
+            type: SendActionType.Sent,
+            updatedAt: Date.now(),
           }
-        });
+        );
+      }
+    });
 
-        const isError = (e: unknown): e is CustomError => e instanceof Error;
+    const previousUnidentifiedDeliveries =
+      this.get('unidentifiedDeliveries') || [];
+    const newUnidentifiedDeliveries =
+      'unidentifiedDeliveries' in result.value &&
+      Array.isArray(result.value.unidentifiedDeliveries)
+        ? result.value.unidentifiedDeliveries
+        : [];
 
-        if (isError(result)) {
-          this.saveErrors(result);
-          if (result.name === 'SignedPreKeyRotationError') {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            promises.push(window.getAccountManager()!.rotateSignedPreKey());
-          } else if (result.name === 'OutgoingIdentityKeyError') {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const c = window.ConversationController.get(result.number)!;
-            promises.push(c.getProfiles());
-          }
-        } else {
-          if (successfulIdentifiers.length > 0) {
-            const sentTo = this.get('sent_to') || [];
+    const promises: Array<Promise<unknown>> = [];
 
-            // If we just found out that we couldn't send to a user because they are no
-            //   longer registered, we will update our unregistered flag. In groups we
-            //   will not event try to send to them for 6 hours. And we will never try
-            //   to fetch them on startup again.
-            // The way to discover registration once more is:
-            //   1) any attempt to send to them in 1:1 conversation
-            //   2) the six-hour time period has passed and we send in a group again
-            const unregisteredUserErrors = _.filter(
-              result.errors,
-              error => error.name === 'UnregisteredUserError'
-            );
-            unregisteredUserErrors.forEach(error => {
-              const c = window.ConversationController.get(error.identifier);
-              if (c) {
-                c.setUnregistered();
-              }
-            });
+    let errors: Array<CustomError>;
+    if (isCustomError(result.value)) {
+      errors = [result.value];
+    } else if (Array.isArray(result.value.errors)) {
+      ({ errors } = result.value);
+    } else {
+      errors = [];
+    }
 
-            // In groups, we don't treat unregistered users as a user-visible
-            //   error. The message will look successful, but the details
-            //   screen will show that we didn't send to these unregistered users.
-            const filteredErrors = _.reject(
-              result.errors,
-              error => error.name === 'UnregisteredUserError'
-            );
+    // In groups, we don't treat unregistered users as a user-visible
+    //   error. The message will look successful, but the details
+    //   screen will show that we didn't send to these unregistered users.
+    const errorsToSave: Array<CustomError> = [];
 
-            // We don't start the expiration timer if there are real errors
-            //   left after filtering out all of the unregistered user errors.
-            const expirationStartTimestamp = filteredErrors.length
-              ? null
-              : Date.now();
+    let hadSignedPreKeyRotationError = false;
+    errors.forEach(error => {
+      const conversation =
+        window.ConversationController.get(error.identifier) ||
+        window.ConversationController.get(error.number);
 
-            this.saveErrors(filteredErrors);
-
-            this.set({
-              sent_to: _.union(sentTo, result.successfulIdentifiers),
-              sent: true,
-              expirationStartTimestamp,
-              unidentifiedDeliveries: _.union(
-                this.get('unidentifiedDeliveries') || [],
-                result.unidentifiedDeliveries
-              ),
-            });
-            promises.push(this.sendSyncMessage());
-          } else if (result.errors) {
-            this.saveErrors(result.errors);
-          }
-          promises = promises.concat(
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            _.map(result.errors, error => {
-              if (error.name === 'OutgoingIdentityKeyError') {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const c = window.ConversationController.get(
-                  error.identifier || error.number
-                )!;
-                promises.push(c.getProfiles());
-              }
-            })
+      if (conversation) {
+        const previousSendState = getOwn(
+          sendStateByConversationId,
+          conversation.id
+        );
+        if (previousSendState) {
+          sendStateByConversationId[conversation.id] = sendStateReducer(
+            previousSendState,
+            {
+              type: SendActionType.Failed,
+              updatedAt: Date.now(),
+            }
           );
         }
+      }
 
-        if (updateLeftPane) {
-          updateLeftPane();
+      let shouldSaveError = true;
+      switch (error.name) {
+        case 'SignedPreKeyRotationError':
+          hadSignedPreKeyRotationError = true;
+          break;
+        case 'OutgoingIdentityKeyError': {
+          if (conversation) {
+            promises.push(conversation.getProfiles());
+          }
+          break;
         }
+        case 'UnregisteredUserError':
+          shouldSaveError = false;
+          // If we just found out that we couldn't send to a user because they are no
+          //   longer registered, we will update our unregistered flag. In groups we
+          //   will not event try to send to them for 6 hours. And we will never try
+          //   to fetch them on startup again.
+          //
+          // The way to discover registration once more is:
+          //   1) any attempt to send to them in 1:1 conversation
+          //   2) the six-hour time period has passed and we send in a group again
+          conversation?.setUnregistered();
+          break;
+        default:
+          break;
+      }
 
-        return Promise.all(promises);
+      if (shouldSaveError) {
+        errorsToSave.push(error);
+      }
+    });
+
+    if (hadSignedPreKeyRotationError) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      promises.push(window.getAccountManager()!.rotateSignedPreKey());
+    }
+
+    attributesToUpdate.sendStateByConversationId = sendStateByConversationId;
+    attributesToUpdate.expirationStartTimestamp = sentToAtLeastOneRecipient
+      ? Date.now()
+      : undefined;
+    attributesToUpdate.unidentifiedDeliveries = union(
+      previousUnidentifiedDeliveries,
+      newUnidentifiedDeliveries
+    );
+    // We may overwrite this in the `saveErrors` call below.
+    attributesToUpdate.errors = [];
+
+    this.set(attributesToUpdate);
+    // We skip save because we'll save in the next step.
+    this.saveErrors(errorsToSave, { skipSave: true });
+
+    if (!this.doNotSave) {
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: window.Whisper.Message,
       });
+    }
+
+    updateLeftPane();
+
+    if (sentToAtLeastOneRecipient) {
+      promises.push(this.sendSyncMessage());
+    }
+
+    await Promise.all(promises);
+
+    updateLeftPane();
   }
 
   // Currently used only for messages that have to be retried when the server
@@ -1681,12 +1738,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const sendOptions = await getSendOptions(conv.attributes);
 
-      // We don't have to check `sent_to` here, because:
-      //
-      // 1. This happens only in private conversations
-      // 2. Messages to different device ids for the same identifier are sent
-      //    in a single request to the server. So partial success is not
-      //    possible.
       await this.send(
         handleMessageSend(
           // TODO: DESKTOP-724
@@ -1718,23 +1769,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const updateLeftPane = conv?.debouncedUpdateLastMessage;
 
     try {
-      this.set({
-        // These are the same as a normal send()
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        sent_to: [conv.getSendTarget()!],
-        sent: true,
-        expirationStartTimestamp: Date.now(),
-      });
+      this.set({ expirationStartTimestamp: Date.now() });
       const result: typeof window.WhatIsThis = await this.sendSyncMessage();
       this.set({
         // We have to do this afterward, since we didn't have a previous send!
         unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
-
-        // These are unique to a Note to Self message - immediately read/delivered
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        delivered_to: [window.ConversationController.getOurConversationId()!],
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        read_by: [window.ConversationController.getOurConversationId()!],
       });
     } catch (result) {
       const errors = (result && result.errors) || [new Error('Unknown error')];
@@ -1754,6 +1793,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async sendSyncMessage(): Promise<WhatIsThis> {
     const ourNumber = window.textsecure.storage.user.getNumber();
     const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+
     const {
       wrap,
       sendOptions,
@@ -1774,6 +1815,34 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const conv = this.getConversation()!;
 
+      const sendEntries = Object.entries(
+        this.get('sendStateByConversationId') || {}
+      );
+      const sentEntries = filter(sendEntries, ([_conversationId, { status }]) =>
+        isSent(status)
+      );
+      const allConversationIdsSentTo = map(
+        sentEntries,
+        ([conversationId]) => conversationId
+      );
+      const conversationIdsSentTo = filter(
+        allConversationIdsSentTo,
+        conversationId => conversationId !== ourConversationId
+      );
+
+      const unidentifiedDeliveries = this.get('unidentifiedDeliveries') || [];
+      const maybeConversationsWithSealedSender = map(
+        unidentifiedDeliveries,
+        identifier => window.ConversationController.get(identifier)
+      );
+      const conversationsWithSealedSender = filter(
+        maybeConversationsWithSealedSender,
+        isNotNil
+      );
+      const conversationIdsWithSealedSender = new Set(
+        map(conversationsWithSealedSender, c => c.id)
+      );
+
       return wrap(
         window.textsecure.messaging.sendSyncMessage({
           encodedDataMessage: dataMessage,
@@ -1782,15 +1851,38 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           destinationUuid: conv.get('uuid'),
           expirationStartTimestamp:
             this.get('expirationStartTimestamp') || null,
-          sentTo: this.get('sent_to') || [],
-          unidentifiedDeliveries: this.get('unidentifiedDeliveries') || [],
+          conversationIdsSentTo,
+          conversationIdsWithSealedSender,
           isUpdate,
           options: sendOptions,
         })
       ).then(async (result: unknown) => {
+        let newSendStateByConversationId: undefined | SendStateByConversationId;
+        const sendStateByConversationId =
+          this.get('sendStateByConversationId') || {};
+        const ourOldSendState = getOwn(
+          sendStateByConversationId,
+          ourConversationId
+        );
+        if (ourOldSendState) {
+          const ourNewSendState = sendStateReducer(ourOldSendState, {
+            type: SendActionType.Sent,
+            updatedAt: Date.now(),
+          });
+          if (ourNewSendState !== ourOldSendState) {
+            newSendStateByConversationId = {
+              ...sendStateByConversationId,
+              [ourConversationId]: ourNewSendState,
+            };
+          }
+        }
+
         this.set({
           synced: true,
           dataMessage: null,
+          ...(newSendStateByConversationId
+            ? { sendStateByConversationId: newSendStateByConversationId }
+            : {}),
         });
 
         // Return early, skip the save
@@ -2455,29 +2547,66 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             `handleDataMessage: Updating message ${message.idForLogging()} with received transcript`
           );
 
-          let sentTo = [];
-          let unidentifiedDeliveries = [];
-          if (Array.isArray(data.unidentifiedStatus)) {
-            sentTo = data.unidentifiedStatus.map(
-              (item: typeof window.WhatIsThis) => item.destination
-            );
-
-            const unidentified = _.filter(data.unidentifiedStatus, item =>
-              Boolean(item.unidentified)
-            );
-            unidentifiedDeliveries = unidentified.map(item => item.destination);
-          }
-
           const toUpdate = window.MessageController.register(
             existingMessage.id,
             existingMessage
           );
+
+          const unidentifiedDeliveriesSet = new Set<string>(
+            toUpdate.get('unidentifiedDeliveries') ?? []
+          );
+          const sendStateByConversationId = {
+            ...(toUpdate.get('sendStateByConversationId') || {}),
+          };
+
+          const unidentifiedStatus: Array<SyncMessageClass.Sent.UnidentifiedDeliveryStatus> = Array.isArray(
+            data.unidentifiedStatus
+          )
+            ? data.unidentifiedStatus
+            : [];
+
+          unidentifiedStatus.forEach(
+            ({ destinationUuid, destination, unidentified }) => {
+              const identifier = destinationUuid || destination;
+              if (!identifier) {
+                return;
+              }
+
+              const destinationConversationId = window.ConversationController.ensureContactIds(
+                {
+                  uuid: destinationUuid,
+                  e164: destination,
+                  highTrust: true,
+                }
+              );
+              if (!destinationConversationId) {
+                return;
+              }
+
+              const previousSendState = getOwn(
+                sendStateByConversationId,
+                destinationConversationId
+              );
+              if (previousSendState) {
+                sendStateByConversationId[
+                  destinationConversationId
+                ] = sendStateReducer(previousSendState, {
+                  type: SendActionType.Sent,
+                  updatedAt: isNormalNumber(data.timestamp)
+                    ? data.timestamp
+                    : Date.now(),
+                });
+              }
+
+              if (unidentified) {
+                unidentifiedDeliveriesSet.add(identifier);
+              }
+            }
+          );
+
           toUpdate.set({
-            sent_to: _.union(toUpdate.get('sent_to'), sentTo),
-            unidentifiedDeliveries: _.union(
-              toUpdate.get('unidentifiedDeliveries'),
-              unidentifiedDeliveries
-            ),
+            sendStateByConversationId,
+            unidentifiedDeliveries: [...unidentifiedDeliveriesSet],
           });
           await window.Signal.Data.saveMessage(toUpdate.attributes, {
             Message: window.Whisper.Message,
@@ -3083,19 +3212,62 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     let changed = false;
 
     if (type === 'outgoing') {
-      const receipts = DeliveryReceipts.getSingleton().forMessage(
-        conversation,
-        message
+      const sendActions = concat<{
+        destinationConversationId: string;
+        action: SendAction;
+      }>(
+        DeliveryReceipts.getSingleton()
+          .forMessage(conversation, message)
+          .map(receipt => ({
+            destinationConversationId: receipt.get('deliveredTo'),
+            action: {
+              type: SendActionType.GotDeliveryReceipt,
+              updatedAt: receipt.get('timestamp'),
+            },
+          })),
+        ReadReceipts.getSingleton()
+          .forMessage(conversation, message)
+          .map(receipt => ({
+            destinationConversationId: receipt.get('reader'),
+            action: {
+              type: SendActionType.GotReadReceipt,
+              updatedAt: receipt.get('timestamp'),
+            },
+          }))
       );
-      receipts.forEach(receipt => {
-        message.set({
-          delivered: (message.get('delivered') || 0) + 1,
-          delivered_to: _.union(message.get('delivered_to') || [], [
-            receipt.get('deliveredTo'),
-          ]),
-        });
+
+      const oldSendStateByConversationId =
+        this.get('sendStateByConversationId') || {};
+
+      const newSendStateByConversationId = reduce(
+        sendActions,
+        (
+          result: SendStateByConversationId,
+          { destinationConversationId, action }
+        ) => {
+          const oldSendState = getOwn(result, destinationConversationId);
+          if (!oldSendState) {
+            window.log.warn(
+              `Got a receipt for a conversation (${destinationConversationId}), but we have no record of sending to them`
+            );
+            return result;
+          }
+
+          const newSendState = sendStateReducer(oldSendState, action);
+          return {
+            ...result,
+            [destinationConversationId]: newSendState,
+          };
+        },
+        oldSendStateByConversationId
+      );
+
+      if (
+        !isEqual(oldSendStateByConversationId, newSendStateByConversationId)
+      ) {
+        message.set('sendStateByConversationId', newSendStateByConversationId);
         changed = true;
-      });
+      }
     }
 
     if (type === 'incoming') {
@@ -3125,34 +3297,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           unreadCount: (conversation.get('unreadCount') || 0) + 1,
           isArchived: false,
         });
-      }
-    }
-
-    if (type === 'outgoing') {
-      const reads = ReadReceipts.getSingleton().forMessage(
-        conversation,
-        message
-      );
-      if (reads.length) {
-        const readBy = reads.map(receipt => receipt.get('reader'));
-        message.set({
-          read_by: _.union(message.get('read_by'), readBy),
-        });
-        changed = true;
-      }
-
-      // A sync'd message to ourself is automatically considered read/delivered
-      if (isFirstRun && isMe(conversation.attributes)) {
-        message.set({
-          read_by: conversation.getRecipients(),
-          delivered_to: conversation.getRecipients(),
-        });
-        changed = true;
-      }
-
-      if (isFirstRun) {
-        message.set({ recipients: conversation.getRecipients() });
-        changed = true;
       }
     }
 
@@ -3211,6 +3355,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       (isIncoming(attributes) ||
         getMessagePropStatus(
           attributes,
+          window.ConversationController.getOurConversationIdOrThrow(),
           window.storage.get('read-receipt-setting', false)
         ) !== 'partial-sent')
     ) {

@@ -48,7 +48,6 @@ import {
   ItemKeyType,
   ItemType,
   MessageType,
-  MessageTypeUnhydrated,
   PreKeyType,
   SearchResultMessageType,
   SenderKeyType,
@@ -62,8 +61,10 @@ import {
   UnprocessedUpdateType,
 } from './Interface';
 import Server from './Server';
+import { MessageRowWithJoinedSends, rowToMessage } from './rowToMessage';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
+import { SendState } from '../messages/MessageSendState';
 
 // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
@@ -201,6 +202,8 @@ const dataInterface: ClientInterface = {
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
+  updateMessageSendState,
+
   getUnprocessedCount,
   getAllUnprocessed,
   getUnprocessedById,
@@ -248,6 +251,7 @@ const dataInterface: ClientInterface = {
   // Test-only
 
   _getAllMessages,
+  _getSendStates,
 
   // Client-side only
 
@@ -941,17 +945,17 @@ async function searchConversations(query: string) {
   return conversations;
 }
 
-function handleSearchMessageJSON(
-  messages: Array<SearchResultMessageType>
+function handleSearchMessageRows(
+  rows: ReadonlyArray<SearchResultMessageType>
 ): Array<ClientSearchResultMessageType> {
-  return messages.map(message => ({
-    json: message.json,
+  return rows.map(row => ({
+    json: row.json,
 
     // Empty array is a default value. `message.json` has the real field
     bodyRanges: [],
 
-    ...JSON.parse(message.json),
-    snippet: message.snippet,
+    ...rowToMessage(row),
+    snippet: row.snippet,
   }));
 }
 
@@ -961,7 +965,7 @@ async function searchMessages(
 ) {
   const messages = await channels.searchMessages(query, { limit });
 
-  return handleSearchMessageJSON(messages);
+  return handleSearchMessageRows(messages);
 }
 
 async function searchMessagesInConversation(
@@ -975,7 +979,7 @@ async function searchMessagesInConversation(
     { limit }
   );
 
-  return handleSearchMessageJSON(messages);
+  return handleSearchMessageRows(messages);
 }
 
 // Message
@@ -1051,6 +1055,16 @@ async function _getAllMessages({
   const messages = await channels._getAllMessages();
 
   return new MessageCollection(messages);
+}
+
+// For testing only
+function _getSendStates(
+  options: Readonly<{
+    messageId: string;
+    destinationConversationId: string;
+  }>
+) {
+  return channels._getSendStates(options);
 }
 
 async function getAllMessageIds() {
@@ -1129,8 +1143,10 @@ async function addReaction(reactionObj: ReactionType) {
   return channels.addReaction(reactionObj);
 }
 
-function handleMessageJSON(messages: Array<MessageTypeUnhydrated>) {
-  return messages.map(message => JSON.parse(message.json));
+function handleMessageRows(
+  rows: ReadonlyArray<MessageRowWithJoinedSends>
+): Array<MessageType> {
+  return rows.map(row => rowToMessage(row));
 }
 
 async function getOlderMessagesByConversation(
@@ -1159,7 +1175,7 @@ async function getOlderMessagesByConversation(
     }
   );
 
-  return new MessageCollection(handleMessageJSON(messages));
+  return new MessageCollection(handleMessageRows(messages));
 }
 async function getNewerMessagesByConversation(
   conversationId: string,
@@ -1184,7 +1200,7 @@ async function getNewerMessagesByConversation(
     }
   );
 
-  return new MessageCollection(handleMessageJSON(messages));
+  return new MessageCollection(handleMessageRows(messages));
 }
 async function getLastConversationActivity({
   conversationId,
@@ -1240,6 +1256,17 @@ async function migrateConversationMessages(
   currentId: string
 ) {
   await channels.migrateConversationMessages(obsoleteId, currentId);
+}
+
+async function updateMessageSendState(
+  params: Readonly<
+    {
+      messageId: string;
+      destinationConversationId: string;
+    } & SendState
+  >
+): Promise<void> {
+  await channels.updateMessageSendState(params);
 }
 
 async function removeAllMessagesInConversation(
