@@ -3,6 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 
 import { assert } from 'chai';
+import Long from 'long';
 
 import {
   processDataMessage,
@@ -47,6 +48,24 @@ describe('processDataMessage', () => {
     });
 
     assert.deepStrictEqual(out.attachments, [PROCESSED_ATTACHMENT]);
+  });
+
+  it('should process attachments with 0 cdnId', async () => {
+    const out = await check({
+      attachments: [
+        {
+          ...UNPROCESSED_ATTACHMENT,
+          cdnId: new Long(0),
+        },
+      ],
+    });
+
+    assert.deepStrictEqual(out.attachments, [
+      {
+        ...PROCESSED_ATTACHMENT,
+        cdnId: undefined,
+      },
+    ]);
   });
 
   it('should throw on too many attachments', async () => {

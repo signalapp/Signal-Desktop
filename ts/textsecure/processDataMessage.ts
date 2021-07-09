@@ -43,10 +43,14 @@ export function processAttachment(
   if (!attachment) {
     return undefined;
   }
+
+  const { cdnId } = attachment;
+  const hasCdnId = cdnId instanceof Long ? !cdnId.isZero() : Boolean(cdnId);
+
   return {
     ...shallowDropNull(attachment),
 
-    cdnId: attachment.cdnId ? attachment.cdnId.toString() : undefined,
+    cdnId: hasCdnId ? String(cdnId) : undefined,
     key: attachment.key ? Bytes.toBase64(attachment.key) : undefined,
     digest: attachment.digest ? Bytes.toBase64(attachment.digest) : undefined,
   };
