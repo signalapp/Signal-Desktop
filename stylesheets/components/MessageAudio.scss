@@ -1,13 +1,21 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+$audio-attachment-button-size: 36px;
+$audio-attachment-button-margin-big: 12px;
+$audio-attachment-button-margin-small: 4px;
+
 .module-message__audio-attachment {
   display: flex;
+  flex-direction: column;
+  margin-top: 2px;
+}
 
+.module-message__audio-attachment__button-and-waveform {
+  display: flex;
   flex-direction: row;
   align-items: center;
-
-  margin-top: 2px;
+  margin-bottom: 5px;
 }
 
 /* The separator between audio and text */
@@ -16,7 +24,7 @@
   padding-bottom: 12px;
   margin-bottom: 7px;
 
-  .module-message__audio-attachment--incoming & {
+  &.module-message__audio-attachment--incoming {
     @include light-theme {
       border-color: $color-black-alpha-20;
     }
@@ -36,14 +44,19 @@
 
 .module-message__audio-attachment__button,
 .module-message__audio-attachment__spinner {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-
   @include button-reset;
+
+  flex-shrink: 0;
+  width: $audio-attachment-button-size;
+  height: $audio-attachment-button-size;
+  margin-right: $audio-attachment-button-margin-big;
 
   outline: none;
   border-radius: 18px;
+
+  @media (min-width: 0px) and (max-width: 799px) {
+    margin-right: $audio-attachment-button-margin-small;
+  }
 
   &::before {
     display: block;
@@ -93,7 +106,6 @@
 
 .module-message__audio-attachment__waveform {
   flex-shrink: 0;
-  margin-left: 12px;
 
   display: flex;
   align-items: center;
@@ -154,12 +166,29 @@
   }
 }
 
+.module-message__audio-attachment__metadata {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .module-message__audio-attachment--outgoing & {
+    flex-direction: row-reverse;
+  }
+
+  .module-message__audio-attachment--outgoing &,
+  .module-message__audio-attachment--with-content-below & {
+    margin-left: $audio-attachment-button-size +
+      $audio-attachment-button-margin-big;
+    @media (min-width: 0px) and (max-width: 799px) {
+      margin-left: $audio-attachment-button-size +
+        $audio-attachment-button-margin-small;
+    }
+  }
+}
+
 .module-message__audio-attachment__countdown {
   flex-shrink: 1;
-
-  /* Prevent text from jumping when countdown changes */
-  min-width: 32px;
-  text-align: right;
 
   user-select: none;
 
@@ -176,21 +205,5 @@
 
   .module-message__audio-attachment--outgoing & {
     color: $color-white-alpha-80;
-  }
-}
-
-@media (min-width: 0px) and (max-width: 799px) {
-  .module-message__audio-attachment__waveform {
-    margin-left: 4px;
-  }
-
-  /* Clip the countdown text when it is too long on small screens */
-  .module-message__audio-attachment__countdown {
-    margin-left: 4px;
-
-    max-width: 46px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }

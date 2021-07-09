@@ -16,11 +16,10 @@ import {
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
-import { ExpireTimer } from './ExpireTimer';
+import { MessageMetadata } from './MessageMetadata';
 import { ImageGrid } from './ImageGrid';
 import { GIF } from './GIF';
 import { Image } from './Image';
-import { Timestamp } from './Timestamp';
 import { ContactName } from './ContactName';
 import { Quote, QuotedAttachmentType } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
@@ -88,15 +87,22 @@ export const Directions = ['incoming', 'outgoing'] as const;
 export type DirectionType = typeof Directions[number];
 
 export type AudioAttachmentProps = {
-  id: string;
   renderingContext: string;
   i18n: LocalizerType;
   buttonRef: React.RefObject<HTMLButtonElement>;
-  direction: DirectionType;
   theme: ThemeType | undefined;
   attachment: AttachmentType;
   withContentAbove: boolean;
   withContentBelow: boolean;
+
+  direction: DirectionType;
+  expirationLength?: number;
+  expirationTimestamp?: number;
+  id: string;
+  showMessageDetail: (id: string) => void;
+  status?: MessageStatusType;
+  textPending?: boolean;
+  timestamp: number;
 
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
@@ -549,82 +555,9 @@ export class Message extends React.Component<Props, State> {
     return isMessageRequestAccepted && !isBlocked;
   }
 
-  public renderTimestamp(): JSX.Element {
-    const {
-      direction,
-      i18n,
-      id,
-      isSticker,
-      isTapToViewExpired,
-      showMessageDetail,
-      status,
-      text,
-      timestamp,
-    } = this.props;
-
-    const isShowingImage = this.isShowingImage();
-    const withImageNoCaption = Boolean(!isSticker && !text && isShowingImage);
-
-    const isError = status === 'error' && direction === 'outgoing';
-    const isPartiallySent =
-      status === 'partial-sent' && direction === 'outgoing';
-    const isPaused = status === 'paused';
-
-    if (isError || isPartiallySent || isPaused) {
-      let statusInfo: React.ReactChild;
-      if (isError) {
-        statusInfo = i18n('sendFailed');
-      } else if (isPaused) {
-        statusInfo = i18n('sendPaused');
-      } else {
-        statusInfo = (
-          <button
-            type="button"
-            className="module-message__metadata__tapable"
-            onClick={(event: React.MouseEvent) => {
-              event.stopPropagation();
-              event.preventDefault();
-
-              showMessageDetail(id);
-            }}
-          >
-            {i18n('partiallySent')}
-          </button>
-        );
-      }
-
-      return (
-        <span
-          className={classNames({
-            'module-message__metadata__date': true,
-            'module-message__metadata__date--with-sticker': isSticker,
-            [`module-message__metadata__date--${direction}`]: !isSticker,
-            'module-message__metadata__date--with-image-no-caption': withImageNoCaption,
-          })}
-        >
-          {statusInfo}
-        </span>
-      );
-    }
-
-    const metadataDirection = isSticker ? undefined : direction;
-
-    return (
-      <Timestamp
-        i18n={i18n}
-        timestamp={timestamp}
-        extended
-        direction={metadataDirection}
-        withImageNoCaption={withImageNoCaption}
-        withSticker={isSticker}
-        withTapToViewExpired={isTapToViewExpired}
-        module="module-message__metadata__date"
-      />
-    );
-  }
-
   public renderMetadata(): JSX.Element | null {
     const {
+      attachments,
       collapseMetadata,
       direction,
       expirationLength,
@@ -632,68 +565,40 @@ export class Message extends React.Component<Props, State> {
       isSticker,
       isTapToViewExpired,
       status,
+      i18n,
       text,
       textPending,
+      timestamp,
+      id,
+      showMessageDetail,
     } = this.props;
 
     if (collapseMetadata) {
       return null;
     }
 
-    const isShowingImage = this.isShowingImage();
-    const withImageNoCaption = Boolean(!isSticker && !text && isShowingImage);
-    const metadataDirection = isSticker ? undefined : direction;
+    // The message audio component renders its own metadata because it positions the
+    //   metadata in line with some of its own.
+    if (isAudio(attachments) && !text) {
+      return null;
+    }
 
     return (
-      <div
-        className={classNames(
-          'module-message__metadata',
-          `module-message__metadata--${direction}`,
-          this.hasReactions()
-            ? 'module-message__metadata--with-reactions'
-            : null,
-          withImageNoCaption
-            ? 'module-message__metadata--with-image-no-caption'
-            : null
-        )}
-      >
-        {this.renderTimestamp()}
-        {expirationLength && expirationTimestamp ? (
-          <ExpireTimer
-            direction={metadataDirection}
-            expirationLength={expirationLength}
-            expirationTimestamp={expirationTimestamp}
-            withImageNoCaption={withImageNoCaption}
-            withSticker={isSticker}
-            withTapToViewExpired={isTapToViewExpired}
-          />
-        ) : null}
-        {textPending ? (
-          <div className="module-message__metadata__spinner-container">
-            <Spinner svgSize="small" size="14px" direction={direction} />
-          </div>
-        ) : null}
-        {!textPending &&
-        direction === 'outgoing' &&
-        status !== 'error' &&
-        status !== 'partial-sent' ? (
-          <div
-            className={classNames(
-              'module-message__metadata__status-icon',
-              `module-message__metadata__status-icon--${status}`,
-              isSticker
-                ? 'module-message__metadata__status-icon--with-sticker'
-                : null,
-              withImageNoCaption
-                ? 'module-message__metadata__status-icon--with-image-no-caption'
-                : null,
-              isTapToViewExpired
-                ? 'module-message__metadata__status-icon--with-tap-to-view-expired'
-                : null
-            )}
-          />
-        ) : null}
-      </div>
+      <MessageMetadata
+        direction={direction}
+        expirationLength={expirationLength}
+        expirationTimestamp={expirationTimestamp}
+        hasText={Boolean(text)}
+        i18n={i18n}
+        id={id}
+        isShowingImage={this.isShowingImage()}
+        isSticker={isSticker}
+        isTapToViewExpired={isTapToViewExpired}
+        showMessageDetail={showMessageDetail}
+        status={status}
+        textPending={textPending}
+        timestamp={timestamp}
+      />
     );
   }
 
@@ -751,19 +656,24 @@ export class Message extends React.Component<Props, State> {
       collapseMetadata,
       conversationType,
       direction,
+      expirationLength,
+      expirationTimestamp,
       i18n,
       id,
-      renderingContext,
+      isSticker,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       quote,
-      showVisualAttachment,
-      isSticker,
-      text,
-      theme,
       reducedMotion,
-
       renderAudioAttachment,
+      renderingContext,
+      showMessageDetail,
+      showVisualAttachment,
+      status,
+      text,
+      textPending,
+      theme,
+      timestamp,
     } = this.props;
 
     const { imageBroken } = this.state;
@@ -851,13 +761,20 @@ export class Message extends React.Component<Props, State> {
       return renderAudioAttachment({
         i18n,
         buttonRef: this.audioButtonRef,
-        id,
         renderingContext,
-        direction,
         theme,
         attachment: firstAttachment,
         withContentAbove,
         withContentBelow,
+
+        direction,
+        expirationLength,
+        expirationTimestamp,
+        id,
+        showMessageDetail,
+        status,
+        textPending,
+        timestamp,
 
         kickOffAttachmentDownload() {
           kickOffAttachmentDownload({
@@ -1698,9 +1615,7 @@ export class Message extends React.Component<Props, State> {
     return undefined;
   }
 
-  // Messy return here.
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  public isShowingImage() {
+  public isShowingImage(): boolean {
     const { isTapToView, attachments, previews } = this.props;
     const { imageBroken } = this.state;
 

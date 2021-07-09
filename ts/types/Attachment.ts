@@ -118,31 +118,27 @@ export function getExtensionForDisplay({
   return undefined;
 }
 
-export function isAudio(
-  attachments?: Array<AttachmentType>
-): boolean | undefined {
-  return (
+export function isAudio(attachments?: Array<AttachmentType>): boolean {
+  return Boolean(
     attachments &&
-    attachments[0] &&
-    attachments[0].contentType &&
-    !attachments[0].isCorrupted &&
-    MIME.isAudio(attachments[0].contentType)
+      attachments[0] &&
+      attachments[0].contentType &&
+      !attachments[0].isCorrupted &&
+      MIME.isAudio(attachments[0].contentType)
   );
 }
 
-export function canDisplayImage(
-  attachments?: Array<AttachmentType>
-): boolean | 0 | undefined {
+export function canDisplayImage(attachments?: Array<AttachmentType>): boolean {
   const { height, width } =
     attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
 
-  return (
+  return Boolean(
     height &&
-    height > 0 &&
-    height <= 4096 &&
-    width &&
-    width > 0 &&
-    width <= 4096
+      height > 0 &&
+      height <= 4096 &&
+      width &&
+      width > 0 &&
+      width <= 4096
   );
 }
 
@@ -164,14 +160,12 @@ export function getUrl(attachment: AttachmentType): string | undefined {
   return attachment.url;
 }
 
-export function isImage(
-  attachments?: Array<AttachmentType>
-): boolean | undefined {
-  return (
+export function isImage(attachments?: Array<AttachmentType>): boolean {
+  return Boolean(
     attachments &&
-    attachments[0] &&
-    attachments[0].contentType &&
-    isImageTypeSupported(attachments[0].contentType)
+      attachments[0] &&
+      attachments[0].contentType &&
+      isImageTypeSupported(attachments[0].contentType)
   );
 }
 
@@ -193,13 +187,11 @@ export function canBeTranscoded(
   );
 }
 
-export function hasImage(
-  attachments?: Array<AttachmentType>
-): string | boolean | undefined {
-  return (
+export function hasImage(attachments?: Array<AttachmentType>): boolean {
+  return Boolean(
     attachments &&
-    attachments[0] &&
-    (attachments[0].url || attachments[0].pending || attachments[0].blurHash)
+      attachments[0] &&
+      (attachments[0].url || attachments[0].pending || attachments[0].blurHash)
   );
 }
 

@@ -8,17 +8,27 @@ import { noop } from 'lodash';
 import { assert } from '../../util/assert';
 import { LocalizerType } from '../../types/Util';
 import { hasNotDownloaded, AttachmentType } from '../../types/Attachment';
+import type { DirectionType, MessageStatusType } from './Message';
 
 import { ComputePeaksResult } from '../GlobalAudioContext';
+import { MessageMetadata } from './MessageMetadata';
 
 export type Props = {
-  direction?: 'incoming' | 'outgoing';
-  id: string;
   renderingContext: string;
   i18n: LocalizerType;
   attachment: AttachmentType;
   withContentAbove: boolean;
   withContentBelow: boolean;
+
+  // Message properties. Many are needed for rendering metadata
+  direction: DirectionType;
+  expirationLength?: number;
+  expirationTimestamp?: number;
+  id: string;
+  showMessageDetail: (id: string) => void;
+  status?: MessageStatusType;
+  textPending?: boolean;
+  timestamp: number;
 
   // See: GlobalAudioContext.tsx
   audio: HTMLAudioElement;
@@ -134,12 +144,19 @@ const Button: React.FC<ButtonProps> = props => {
 export const MessageAudio: React.FC<Props> = (props: Props) => {
   const {
     i18n,
-    id,
     renderingContext,
-    direction,
     attachment,
     withContentAbove,
     withContentBelow,
+
+    direction,
+    expirationLength,
+    expirationTimestamp,
+    id,
+    showMessageDetail,
+    status,
+    textPending,
+    timestamp,
 
     buttonRef,
     kickOffAttachmentDownload,
@@ -492,6 +509,29 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
   const countDown = duration - currentTime;
 
+  const metadata = (
+    <div className={`${CSS_BASE}__metadata`}>
+      {!withContentBelow && (
+        <MessageMetadata
+          direction={direction}
+          expirationLength={expirationLength}
+          expirationTimestamp={expirationTimestamp}
+          hasText={withContentBelow}
+          i18n={i18n}
+          id={id}
+          isShowingImage={false}
+          isSticker={false}
+          isTapToViewExpired={false}
+          showMessageDetail={showMessageDetail}
+          status={status}
+          textPending={textPending}
+          timestamp={timestamp}
+        />
+      )}
+      <div className={`${CSS_BASE}__countdown`}>{timeToText(countDown)}</div>
+    </div>
+  );
+
   return (
     <div
       className={classNames(
@@ -501,9 +541,11 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         withContentAbove ? `${CSS_BASE}--with-content-above` : null
       )}
     >
-      {button}
-      {waveform}
-      <div className={`${CSS_BASE}__countdown`}>{timeToText(countDown)}</div>
+      <div className={`${CSS_BASE}__button-and-waveform`}>
+        {button}
+        {waveform}
+      </div>
+      {metadata}
     </div>
   );
 };
