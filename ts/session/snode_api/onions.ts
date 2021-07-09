@@ -1,4 +1,4 @@
-import { default as insecureNodeFetch } from 'node-fetch';
+import { default as insecureNodeFetch, RequestInit } from 'node-fetch';
 import https from 'https';
 
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
@@ -793,14 +793,18 @@ const sendOnionRequest = async ({
 
   const guardNode = nodePath[0];
 
-  const guardFetchOptions = {
+  const guardFetchOptions: RequestInit = {
     method: 'POST',
     body: payload,
     // we are talking to a snode...
     agent: snodeHttpsAgent,
-    abortSignal,
-    timeout: 5000,
+    headers: {},
+    timeout: 10000,
   };
+
+  if (abortSignal) {
+    guardFetchOptions.signal = abortSignal as any;
+  }
 
   const guardUrl = `https://${guardNode.ip}:${guardNode.port}/onion_req/v2`;
   // no logs for that one insecureNodeFetch as we do need to call insecureNodeFetch to our guardNode
