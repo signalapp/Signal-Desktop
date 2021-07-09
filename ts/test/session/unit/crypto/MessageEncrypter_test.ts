@@ -98,10 +98,6 @@ describe('MessageEncrypter', () => {
   };
 
   beforeEach(() => {
-    TestUtils.stubWindow('libsignal', {
-      SignalProtocolAddress: sandbox.stub(),
-    } as any);
-
     TestUtils.stubWindow('textsecure', {
       storage: {
         protocol: sandbox.stub(),

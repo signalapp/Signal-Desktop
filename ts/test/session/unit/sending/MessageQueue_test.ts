@@ -42,10 +42,6 @@ describe('MessageQueue', () => {
     // Utils Stubs
     sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
-    TestUtils.stubWindow('libsignal', {
-      SignalProtocolAddress: sandbox.stub(),
-    } as any);
-
     // Message Sender Stubs
     sendStub = sandbox.stub(MessageSender, 'send').resolves();
     messageSentHandlerFailedStub = sandbox
