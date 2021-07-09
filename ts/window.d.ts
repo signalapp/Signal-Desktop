@@ -85,7 +85,7 @@ declare global {
     globalOnlineStatus: boolean;
     confirmationDialog: any;
     callWorker: (
-      fnName: 'arrayBufferToStringBase64' | 'fromBase64ToArrayBuffer',
+      fnName: 'arrayBufferToStringBase64' | 'fromBase64ToArrayBuffer' | 'verifySignature',
       ...args
     ) => Promise<any>;
   }

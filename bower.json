@@ -37,8 +37,7 @@
       "components/protobuf/**/*.js"
     ],
     "libloki": [
-      "node_modules/long/dist/long.js",
-      "components/JSBI/dist/jsbi.mjs"
+      "node_modules/long/dist/long.js"
     ]
   }
 }

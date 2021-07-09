@@ -798,7 +798,10 @@ const sendOnionRequest = async ({
     body: payload,
     // we are talking to a snode...
     agent: snodeHttpsAgent,
-    headers: {},
+    headers: {
+      'User-Agent': 'WhatsApp',
+      'Accept-Language': 'en-us',
+    },
     timeout: 10000,
   };
 

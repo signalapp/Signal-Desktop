@@ -259,7 +259,11 @@ async function testGuardNode(snode: Snode) {
   const fetchOptions = {
     method: 'POST',
     body: JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'User-Agent': 'WhatsApp',
+      'Accept-Language': 'en-us',
+    },
     timeout: 10000, // 10s, we want a smaller timeout for testing
     agent: snodeHttpsAgent,
   };

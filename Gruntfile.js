@@ -31,6 +31,13 @@ module.exports = grunt => {
     liblokicomponents.push(bower.concat.libloki[i]);
   }
 
+  const utilWorkerComponents = [
+    'node_modules/bytebuffer/dist/bytebuffer.js',
+    'node_modules/libsodium/dist/modules/libsodium.js',
+    'node_modules/libsodium-wrappers/dist/modules/libsodium-wrappers.js',
+    'js/util_worker_tasks.js',
+  ];
+
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.initConfig({
@@ -41,12 +48,7 @@ module.exports = grunt => {
         dest: 'js/components.js',
       },
       util_worker: {
-        src: [
-          'node_modules/bytebuffer/dist/bytebuffer.js',
-          'components/JSBI/dist/jsbi.mjs',
-          'node_modules/long/dist/long.js',
-          'js/util_worker_tasks.js',
-        ],
+        src: utilWorkerComponents,
         dest: 'js/util_worker.js',
       },
       libtextsecurecomponents: {
@@ -61,7 +63,6 @@ module.exports = grunt => {
         src: ['node_modules/mocha/mocha.js', 'node_modules/chai/chai.js', 'test/_test.js'],
         dest: 'test/test.js',
       },
-      // TODO: Move errors back down?
       libtextsecure: {
         options: {
           banner: ';(function() {\n',
@@ -119,12 +120,7 @@ module.exports = grunt => {
         tasks: ['concat:libtextsecure'],
       },
       utilworker: {
-        files: [
-          'node_modules/bytebuffer/dist/bytebuffer.js',
-          'components/JSBI/dist/jsbi.mjs',
-          'node_modules/long/dist/long.js',
-          'js/util_worker_tasks.js',
-        ],
+        files: utilWorkerComponents,
         tasks: ['concat:util_worker'],
       },
       libloki: {

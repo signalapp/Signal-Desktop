@@ -19,7 +19,6 @@ module.exports = {
   encryptFile,
   encryptSymmetric,
   fromEncodedBinaryToArrayBuffer,
-  getAccessKeyVerifier,
   getRandomBytes,
   getViewOfArrayBuffer,
   getZeroes,
@@ -29,7 +28,6 @@ module.exports = {
   splitBytes,
   stringFromBytes,
   trimBytes,
-  verifyAccessKey,
 };
 
 function arrayBufferToBase64(arrayBuffer) {
@@ -99,23 +97,6 @@ async function deriveAccessKey(profileKey) {
   const plaintext = getZeroes(16);
   const accessKey = await _encrypt_aes_gcm(profileKey, iv, plaintext);
   return _getFirstBytes(accessKey, 16);
-}
-
-async function getAccessKeyVerifier(accessKey) {
-  const plaintext = getZeroes(32);
-  const hmac = await hmacSha256(accessKey, plaintext);
-
-  return hmac;
-}
-
-async function verifyAccessKey(accessKey, theirVerifier) {
-  const ourVerifier = await getAccessKeyVerifier(accessKey);
-
-  if (constantTimeEqual(ourVerifier, theirVerifier)) {
-    return true;
-  }
-
-  return false;
 }
 
 const IV_LENGTH = 16;
