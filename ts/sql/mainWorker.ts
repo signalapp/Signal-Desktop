@@ -39,6 +39,13 @@ port.on('message', async ({ seq, request }: WrappedWorkerRequest) => {
       return;
     }
 
+    if (request.type === 'removeDB') {
+      await db.removeDB();
+
+      respond(seq, undefined, undefined);
+      return;
+    }
+
     if (request.type === 'sqlCall') {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const method = (db as any)[request.method];

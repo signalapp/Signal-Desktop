@@ -23,6 +23,9 @@ export type WorkerRequest =
       readonly type: 'close';
     }
   | {
+      readonly type: 'removeDB';
+    }
+  | {
       readonly type: 'sqlCall';
       readonly method: string;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -115,6 +118,10 @@ export class MainSQL {
 
     await this.send({ type: 'close' });
     await this.onExit;
+  }
+
+  public async removeDB(): Promise<void> {
+    await this.send({ type: 'removeDB' });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
