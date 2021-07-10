@@ -1318,7 +1318,7 @@ app.on('ready', async () => {
         `Database startup error:\n\n${redactAll(sqlError.stack)}`
       );
     } else {
-      await sql.sqlCall('removeDB', []);
+      await sql.removeDB();
       removeUserConfig();
       app.relaunch();
     }
