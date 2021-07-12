@@ -31,14 +31,20 @@ import { getConversationController } from '../../../session/conversations';
 import { ReduxConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
-import { SectionType } from '../ActionsPanel';
 import { SessionSettingCategory } from '../settings/SessionSettings';
 import { getMentionsInput } from '../../../state/selectors/mentionsInput';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import {
+  SectionType,
+  showLeftPaneSection,
+  showSettingsSection,
+} from '../../../state/ducks/section';
 import { SessionButtonColor } from '../SessionButton';
-import { SessionConfirmDialogProps } from '../SessionConfirm';
-import { showLeftPaneSection, showSettingsSection } from '../../../state/ducks/section';
-import { pushAudioPermissionNeeded } from '../../../session/utils/Toast';
+import {
+  createOrUpdateItem,
+  getItemById,
+  hasLinkPreviewPopupBeenDisplayed,
+} from '../../../data/data';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -215,7 +221,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           imgBlob = item.getAsFile();
           break;
         case 'text':
-          this.showLinkSharingConfirmationModalDialog(e);
+          void this.showLinkSharingConfirmationModalDialog(e);
           break;
         default:
       }
@@ -234,17 +240,23 @@ export class SessionCompositionBox extends React.Component<Props, State> {
    * Check if what is pasted is a URL and prompt confirmation for a setting change
    * @param e paste event
    */
-  private showLinkSharingConfirmationModalDialog(e: any) {
+  private async showLinkSharingConfirmationModalDialog(e: any) {
     const pastedText = e.clipboardData.getData('text');
     if (this.isURL(pastedText)) {
+      const alreadyDisplayedPopup =
+        (await getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
       window.inboxStore?.dispatch(
         updateConfirmModal({
-          shouldShowConfirm: !window.getSettingValue('link-preview-setting'),
+          shouldShowConfirm:
+            !window.getSettingValue('link-preview-setting') && !alreadyDisplayedPopup,
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: SessionButtonColor.Danger,
           onClickOk: () => {
             window.setSettingValue('link-preview-setting', true);
+          },
+          onClickClose: async () => {
+            await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: true });
           },
         })
       );

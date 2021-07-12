@@ -200,6 +200,8 @@ export interface ReduxConversationType {
 
   currentNotificationSetting: ConversationNotificationSettingType;
   notificationForConvo: Array<NotificationForConvoOption>;
+
+  isPinned: boolean;
 }
 
 export type ConversationLookupType = {

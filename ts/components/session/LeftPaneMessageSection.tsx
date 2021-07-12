@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { AutoSizer, List } from 'react-virtualized';
-
 import { MainViewController } from '../MainViewController';
 import {
   ConversationListItemProps,
@@ -10,9 +8,8 @@ import {
 import { openConversationExternal, ReduxConversationType } from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../SearchResults';
 import { SessionSearchInput } from './SessionSearchInput';
-import { debounce } from 'lodash';
+import _, { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { SearchOptions } from '../../types/Search';
 import { RowRendererParamsType } from '../LeftPane';
 import { SessionClosableOverlay, SessionClosableOverlayType } from './SessionClosableOverlay';
 import { SessionIconType } from './icon';
@@ -20,7 +17,6 @@ import { ContactType } from './SessionMemberListItem';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
-import { DefaultTheme } from 'styled-components';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { getConversationController } from '../../session/conversations';
 import { ConversationTypeEnum } from '../../models/conversation';

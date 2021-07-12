@@ -16,7 +16,6 @@ import {
   getMessagesByConversation,
   getUnreadByConversation,
   getUnreadCountByConversation,
-  removeAllMessagesInConversation,
   removeMessage as dataRemoveMessage,
   saveMessages,
   updateConversation,
@@ -41,11 +40,7 @@ import { ConversationInteraction } from '../interactions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
 import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
-import { NotificationForConvoOption } from '../components/conversation/ConversationHeader';
-import { useDispatch } from 'react-redux';
-import { updateConfirmModal } from '../state/ducks/modalDialog';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
-import { DURATION, SWARM_POLLING_TIMEOUT } from '../session/constants';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 
 export enum ConversationTypeEnum {
@@ -98,6 +93,7 @@ export interface ConversationAttributes {
   accessKey?: any;
   triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
+  isPinned: boolean;
 }
 
 export interface ConversationAttributesOptionals {
@@ -135,6 +131,7 @@ export interface ConversationAttributesOptionals {
   accessKey?: any;
   triggerNotificationsFor?: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload?: boolean;
+  isPinned: boolean;
 }
 
 /**
@@ -164,6 +161,7 @@ export const fillConvoAttributesWithDefaults = (
     active_at: 0,
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
     isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
+    isPinned: false,
   });
 };
 
@@ -436,6 +434,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       members,
       expireTimer: this.get('expireTimer') || 0,
       subscriberCount: this.get('subscriberCount') || 0,
+      isPinned: this.isPinned(),
     };
   }
 
@@ -1122,6 +1121,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.commit();
     }
   }
+
+  public async setIsPinned(value: boolean) {
+    if (value !== this.get('isPinned')) {
+      this.set({
+        isPinned: value,
+      });
+      await this.commit();
+    }
+  }
+
   public async setGroupName(name: string) {
     const profileName = this.get('name');
     if (profileName !== name) {
@@ -1251,6 +1260,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return this.get('name');
     }
     return this.get('name') || window.i18n('unknown');
+  }
+
+  public isPinned() {
+    return this.get('isPinned');
   }
 
   public getTitle() {

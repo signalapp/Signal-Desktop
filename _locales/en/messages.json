@@ -409,5 +409,9 @@
   "audioMessageAutoplayDescription": "Automatically play consecutively sent audio messages",
   "clickToTrustContact": "Click to download media",
   "trustThisContactDialogTitle": "Trust $name$?",
-  "trustThisContactDialogDescription": "Are you sure you want to download media sent by $name$?"
+  "trustThisContactDialogDescription": "Are you sure you want to download media sent by $name$?",
+  "pinConversation": "Pin Conversation",
+  "unpinConversation": "Unpin Conversation",
+  "pinConversationLimitTitle": "Pinned conversations limit",
+  "pinConversationLimitToastDescription": "You can only pin $number$ conversations"
 }

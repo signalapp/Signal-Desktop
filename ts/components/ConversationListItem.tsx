@@ -22,8 +22,12 @@ import {
 } from '../state/ducks/conversations';
 import _ from 'underscore';
 import { useMembersAvatars } from '../hooks/useMembersAvatar';
-import { useDispatch } from 'react-redux';
+import { SessionIcon, SessionIconSize, SessionIconType } from './session/icon';
+import { useDispatch, useSelector } from 'react-redux';
+import { SectionType } from '../state/ducks/section';
+import { getFocusedSection } from '../state/selectors/section';
 
+// tslint:disable-next-line: no-empty-interface
 export interface ConversationListItemProps extends ReduxConversationType {}
 
 type PropsHousekeeping = {
@@ -36,26 +40,73 @@ const Portal = ({ children }: { children: any }) => {
   return createPortal(children, document.querySelector('.inbox.index') as Element);
 };
 
-const AvatarItem = (props: {
-  avatarPath?: string;
-  conversationId: string;
-  memberAvatars?: Array<ConversationAvatar>;
+const HeaderItem = (props: {
+  unreadCount: number;
+  isMe: boolean;
+  mentionedUs: boolean;
+  activeAt?: number;
   name?: string;
   profileName?: string;
+  conversationId: string;
+  isPinned: boolean;
 }) => {
-  const { avatarPath, name, conversationId, profileName, memberAvatars } = props;
+  const {
+    unreadCount,
+    mentionedUs,
+    activeAt,
+    isMe,
+    isPinned,
+    conversationId,
+    profileName,
+    name,
+  } = props;
+  const theme = useTheme();
 
-  const userName = name || profileName || conversationId;
+  let atSymbol = null;
+  let unreadCountDiv = null;
+  if (unreadCount > 0) {
+    atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
+    unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
+  }
 
-  return (
-    <div className="module-conversation-list-item__avatar-container">
-      <Avatar
-        avatarPath={avatarPath}
-        name={userName}
-        size={AvatarSize.S}
-        memberAvatars={memberAvatars}
-        pubkey={conversationId}
+  const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
+
+  const pinIcon =
+    isMessagesSection && isPinned ? (
+      <SessionIcon
+        iconType={SessionIconType.Pin}
+        iconColor={theme.colors.textColorSubtle}
+        iconSize={SessionIconSize.Tiny}
       />
+    ) : null;
+  return (
+    <div className="module-conversation-list-item__header">
+      <div
+        className={classNames(
+          'module-conversation-list-item__header__name',
+          unreadCount > 0 ? 'module-conversation-list-item__header__name--with-unread' : null
+        )}
+      >
+        <UserItem
+          isMe={isMe}
+          conversationId={conversationId}
+          name={name}
+          profileName={profileName}
+        />
+      </div>
+      {pinIcon}
+      {unreadCountDiv}
+      {atSymbol}
+      {
+        <div
+          className={classNames(
+            'module-conversation-list-item__header__date',
+            unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
+          )}
+        >
+          {<Timestamp timestamp={activeAt} extended={false} isConversationListItem={true} />}
+        </div>
+      }
     </div>
   );
 };
@@ -93,12 +144,11 @@ const UserItem = (props: {
 };
 
 const MessageItem = (props: {
-  isTyping: boolean;
   lastMessage?: LastMessageType;
+  isTyping: boolean;
   unreadCount: number;
 }) => {
   const { lastMessage, isTyping, unreadCount } = props;
-
   const theme = useTheme();
 
   if (!lastMessage && !isTyping) {
@@ -134,51 +184,26 @@ const MessageItem = (props: {
   );
 };
 
-const HeaderItem = (props: {
-  unreadCount: number;
-  isMe: boolean;
-  mentionedUs: boolean;
-  activeAt?: number;
+const AvatarItem = (props: {
+  avatarPath?: string;
+  conversationId: string;
+  memberAvatars?: Array<ConversationAvatar>;
   name?: string;
   profileName?: string;
-  conversationId: string;
 }) => {
-  const { unreadCount, mentionedUs, activeAt, isMe, conversationId, profileName, name } = props;
+  const { avatarPath, name, conversationId, profileName, memberAvatars } = props;
 
-  let atSymbol = null;
-  let unreadCountDiv = null;
-  if (unreadCount > 0) {
-    atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
-    unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
-  }
+  const userName = name || profileName || conversationId;
 
   return (
-    <div className="module-conversation-list-item__header">
-      <div
-        className={classNames(
-          'module-conversation-list-item__header__name',
-          unreadCount > 0 ? 'module-conversation-list-item__header__name--with-unread' : null
-        )}
-      >
-        <UserItem
-          isMe={isMe}
-          conversationId={conversationId}
-          name={name}
-          profileName={profileName}
-        />
-      </div>
-      {unreadCountDiv}
-      {atSymbol}
-      {
-        <div
-          className={classNames(
-            'module-conversation-list-item__header__date',
-            unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
-          )}
-        >
-          {<Timestamp timestamp={activeAt} extended={false} isConversationListItem={true} />}
-        </div>
-      }
+    <div className="module-conversation-list-item__avatar-container">
+      <Avatar
+        avatarPath={avatarPath}
+        name={userName}
+        size={AvatarSize.S}
+        memberAvatars={memberAvatars}
+        pubkey={conversationId}
+      />
     </div>
   );
 };
@@ -195,6 +220,7 @@ const ConversationListItem = (props: Props) => {
     mentionedUs,
     isMe,
     name,
+    isPinned,
     profileName,
     isTyping,
     lastMessage,
@@ -247,6 +273,7 @@ const ConversationListItem = (props: Props) => {
             unreadCount={unreadCount}
             activeAt={activeAt}
             isMe={isMe}
+            isPinned={isPinned}
             conversationId={conversationId}
             name={name}
             profileName={profileName}

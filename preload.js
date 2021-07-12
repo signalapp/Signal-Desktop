@@ -56,6 +56,7 @@ window.lokiFeatureFlags = {
   useFileOnionRequests: true,
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   padOutgoingAttachments: true,
+  enablePinConversations: false,
 };
 
 if (typeof process.env.NODE_ENV === 'string' && process.env.NODE_ENV.includes('test-integration')) {

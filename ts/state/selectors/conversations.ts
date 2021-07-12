@@ -71,6 +71,14 @@ const collator = new Intl.Collator();
 
 export const _getConversationComparator = (testingi18n?: LocalizerType) => {
   return (left: ReduxConversationType, right: ReduxConversationType): number => {
+    // Pin is the first criteria to check
+    if (left.isPinned && !right.isPinned) {
+      return -1;
+    }
+    if (!left.isPinned && right.isPinned) {
+      return 1;
+    }
+    // Then if none is pinned, check other criteria
     const leftActiveAt = left.activeAt;
     const rightActiveAt = right.activeAt;
     if (leftActiveAt && !rightActiveAt) {
@@ -243,4 +251,9 @@ export const getConversationHeaderProps = createSelector(getSelectedConversation
     subscriberCount: state.subscriberCount,
     isGroup: state.isGroup,
   };
+});
+
+export const getNumberOfPinnedConversations = createSelector(getConversations, (state): number => {
+  const values = Object.values(state.conversationLookup);
+  return values.filter(conversation => conversation.isPinned).length;
 });

@@ -297,10 +297,6 @@
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
-    window.showResetSessionIdDialog = () => {
-      appView.showResetSessionIdDialog();
-    };
-
     // Set user's launch count.
     const prevLaunchCount = window.getSettingValue('launch-count');
     const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
@@ -338,11 +334,6 @@
       const newValue = currentValue !== undefined ? !currentValue : false;
       window.Events.setSpellCheck(newValue);
       window.libsession.Utils.ToastUtils.pushSpellCheckDirty();
-    };
-
-    window.toggleLinkPreview = () => {
-      const newValue = !window.getSettingValue('link-preview-setting');
-      window.setSettingValue('link-preview-setting', newValue);
     };
 
     window.toggleMediaPermissions = () => {

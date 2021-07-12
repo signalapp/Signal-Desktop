@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ActionsPanel, SectionType } from './session/ActionsPanel';
+import { ActionsPanel } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
@@ -8,11 +8,10 @@ import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
 import { SessionTheme } from '../state/ducks/SessionTheme';
 import { SessionExpiredWarning } from './session/network/SessionExpiredWarning';
 import { getFocusedSection } from '../state/selectors/section';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getLeftPaneLists } from '../state/selectors/conversations';
 import { getQuery, getSearchResults, isSearching } from '../state/selectors/search';
-import { clearSearch, search, updateSearchTerm } from '../state/ducks/search';
-import { useTheme } from 'styled-components';
+import { SectionType } from '../state/ducks/section';
 import { getTheme } from '../state/selectors/theme';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5

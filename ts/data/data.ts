@@ -64,6 +64,7 @@ export type ServerToken = {
 
 export const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
 export const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
+export const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
 
 const channelsToMake = {
   shutdown,

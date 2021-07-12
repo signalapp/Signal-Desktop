@@ -13,6 +13,7 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
   getMarkAllReadMenuItem,
+  getPinConversationMenuItem,
 } from './Menu';
 
 export type PropsContextConversationItem = {
@@ -43,12 +44,12 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
   const isGroup = type === 'group';
   return (
     <Menu id={triggerId} animation={animation.fade}>
+      {getPinConversationMenuItem(conversationId)}
       {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
       {getCopyMenuItem(isPublic, isGroup, conversationId)}
       {getMarkAllReadMenuItem(conversationId)}
       {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
       {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
-
       {getDeleteMessagesMenuItem(isPublic, conversationId)}
       {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
       {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}

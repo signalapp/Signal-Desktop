@@ -26,7 +26,7 @@ const logger = createLogger({
   logger: directConsole,
 });
 
-const persistConfig = {
+export const persistConfig = {
   key: 'root',
   storage,
   whitelist: ['userConfig'],
@@ -40,7 +40,6 @@ const middlewareList = disableLogging ? [promise] : [promise, logger];
 
 export const createStore = (initialState: any) =>
   configureStore({
-    // reducer: allReducers,
     reducer: persistedReducer,
     preloadedState: initialState,
     middleware: (getDefaultMiddleware: any) => getDefaultMiddleware().concat(middlewareList),

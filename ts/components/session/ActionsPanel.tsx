@@ -30,7 +30,7 @@ import { applyTheme } from '../../state/ducks/theme';
 import { getFocusedSection } from '../../state/selectors/section';
 import { useInterval } from '../../hooks/useInterval';
 import { clearSearch } from '../../state/ducks/search';
-import { showLeftPaneSection } from '../../state/ducks/section';
+import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
 
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 import { getOpenGroupManager } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
@@ -46,16 +46,6 @@ import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 import { ActionPanelOnionStatusLight } from '../OnionStatusPathDialog';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
-
-export enum SectionType {
-  Profile,
-  Message,
-  Contact,
-  Channel,
-  Settings,
-  Moon,
-  PathIndicator,
-}
 
 const Section = (props: { type: SectionType; avatarPath?: string }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -143,15 +133,6 @@ const Section = (props: { type: SectionType; avatarPath?: string }) => {
   );
 };
 
-const showResetSessionIDDialogIfNeeded = async () => {
-  const userED25519KeyPairHex = await UserUtils.getUserED25519KeyPair();
-  if (userED25519KeyPairHex) {
-    return;
-  }
-
-  window.showResetSessionIdDialog();
-};
-
 const cleanUpMediasInterval = DURATION.MINUTES * 30;
 
 const setupTheme = () => {
@@ -230,7 +211,6 @@ const doAppStartUp = () => {
   void setupTheme();
 
   // keep that one to make sure our users upgrade to new sessionIDS
-  void showResetSessionIDDialogIfNeeded();
   void removeAllV1OpenGroups();
 
   // this generates the key to encrypt attachments locally
