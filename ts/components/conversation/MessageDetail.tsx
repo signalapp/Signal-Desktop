@@ -130,24 +130,6 @@ export class MessageDetail extends React.Component<Props> {
     );
   }
 
-  public renderDeleteButton(): JSX.Element {
-    const { deleteMessage, i18n, message } = this.props;
-
-    return (
-      <div className="module-message-detail__delete-button-container">
-        <button
-          type="button"
-          onClick={() => {
-            deleteMessage(message.id);
-          }}
-          className="module-message-detail__delete-button"
-        >
-          {i18n('deleteThisMessage')}
-        </button>
-      </div>
-    );
-  }
-
   public renderContact(contact: Contact): JSX.Element {
     const { i18n, message, showSafetyNumber, sendAnyway } = this.props;
     const errors = contact.errors || [];
@@ -357,7 +339,6 @@ export class MessageDetail extends React.Component<Props> {
           </tbody>
         </table>
         {this.renderContacts()}
-        {this.renderDeleteButton()}
       </div>
     );
   }

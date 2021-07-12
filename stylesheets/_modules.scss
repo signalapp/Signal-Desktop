@@ -3171,37 +3171,6 @@ button.module-conversation-details__action-button {
   }
 }
 
-.module-message-detail__delete-button-container {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.module-message-detail__delete-button {
-  @include button-reset;
-
-  @include keyboard-mode {
-    &:focus {
-      outline: -webkit-focus-ring-color auto 5px;
-    }
-  }
-
-  border-radius: 5px;
-  margin: 1em auto;
-  padding: 1em;
-
-  background-color: $color-accent-red;
-  color: $color-white;
-
-  @include light-theme {
-    border: solid 1px $color-gray-45;
-    box-shadow: 0 0 10px -3px $color-black-alpha-60;
-  }
-  @include dark-theme {
-    border: solid 1px $color-gray-25;
-    box-shadow: 0 0 10px -3px $color-white-alpha-60;
-  }
-}
-
 .module-message-detail__contact-container {
   margin: 20px;
 }
