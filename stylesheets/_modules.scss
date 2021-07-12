@@ -3302,10 +3302,16 @@ button.module-conversation-details__action-button {
   display: inline-block;
 
   @include light-theme {
-    @include color-svg('../images/unidentified-delivery.svg', $color-gray-60);
+    @include color-svg(
+      '../images/icons/v2/unidentified-delivery-solid-20.svg',
+      $color-gray-60
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/unidentified-delivery.svg', $color-gray-25);
+    @include color-svg(
+      '../images/icons/v2/unidentified-delivery-solid-20.svg',
+      $color-gray-25
+    );
   }
 }
 
