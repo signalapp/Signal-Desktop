@@ -973,22 +973,6 @@ ipc.on('get-auto-update-setting', event => {
   event.returnValue = typeof configValue !== 'boolean' ? true : configValue;
 });
 
-async function blake2bDigest(event, input) {
-  const sodium = await getSodium();
-
-  try {
-    const res = sodium.crypto_generichash(32, input);
-
-    event.reply('blake2b-digest-response', null, res);
-  } catch (err) {
-    event.reply('blake2b-digest-response', err);
-  }
-}
-
-ipc.on('blake2b-digest', (event, input) => {
-  blake2bDigest(event, input);
-});
-
 ipc.on('set-auto-update-setting', (event, enabled) => {
   userConfig.set('autoUpdate', !!enabled);
 

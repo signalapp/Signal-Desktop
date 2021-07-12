@@ -81,13 +81,6 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 window.CONSTANTS = new (function() {
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
-
-  // Minimum nodes version for LNS lookup
-  this.LNS_CAPABLE_NODES_VERSION = '2.0.3';
-  this.LNS_MAX_LENGTH = 64;
-  // Conforms to naming rules here
-  // https://loki.network/2020/03/25/loki-name-system-the-facts/
-  this.LNS_REGEX = `^[a-zA-Z0-9_]([a-zA-Z0-9_-]{0,${this.LNS_MAX_LENGTH - 2}}[a-zA-Z0-9_]){0,1}$`;
 })();
 
 window.versionInfo = {
@@ -101,16 +94,6 @@ window.wrapDeferred = deferredToPromise;
 
 const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
-
-window.blake2b = input =>
-  new Promise((resolve, reject) => {
-    ipc.once('blake2b-digest-response', (_, error, res) => {
-      // eslint-disable-next-line no-unused-expressions
-      error ? reject(error) : resolve(res);
-    });
-
-    ipc.send('blake2b-digest', input);
-  });
 
 window.updateZoomFactor = () => {
   const zoomFactor = window.getSettingValue('zoom-factor-setting') || 100;
