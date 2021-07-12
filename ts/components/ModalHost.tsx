@@ -17,6 +17,7 @@ export type PropsType = {
 export const ModalHost = React.memo(
   ({ onEscape, onClose, children, noMouseClose, theme }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
+    const [isMouseDown, setIsMouseDown] = React.useState(false);
 
     useEffect(() => {
       const div = document.createElement('div');
@@ -51,13 +52,23 @@ export const ModalHost = React.memo(
 
     // This makes it easier to write dialogs to be hosted here; they won't have to worry
     //   as much about preventing propagation of mouse events.
-    const handleCancel = React.useCallback(
+    const handleMouseDown = React.useCallback(
       (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
+          setIsMouseDown(true);
+        }
+      },
+      [setIsMouseDown]
+    );
+    const handleMouseUp = React.useCallback(
+      (e: React.MouseEvent) => {
+        setIsMouseDown(false);
+
+        if (e.target === e.currentTarget && isMouseDown) {
           onClose();
         }
       },
-      [onClose]
+      [onClose, isMouseDown, setIsMouseDown]
     );
 
     return root
@@ -68,7 +79,8 @@ export const ModalHost = React.memo(
               'module-modal-host__overlay',
               theme ? themeClassName(theme) : undefined
             )}
-            onClick={noMouseClose ? undefined : handleCancel}
+            onMouseDown={noMouseClose ? undefined : handleMouseDown}
+            onMouseUp={noMouseClose ? undefined : handleMouseUp}
           >
             {children}
           </div>,
