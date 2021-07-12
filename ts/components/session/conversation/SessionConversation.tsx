@@ -16,17 +16,16 @@ import { SessionTheme } from '../../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
 import { SessionMessagesList } from './SessionMessagesList';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
-import { Message } from '../../conversation/media-gallery/types/Message';
 
 import { AttachmentType, AttachmentTypeWithPath, save } from '../../../types/Attachment';
 import { ToastUtils, UserUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import {
-  ReduxConversationType,
-  PropsForMessage,
-  SortedMessageModelProps,
   fetchMessagesForConversation,
+  PropsForMessage,
+  ReduxConversationType,
+  SortedMessageModelProps,
 } from '../../../state/ducks/conversations';
 import { MessageView } from '../../MainViewController';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
@@ -36,7 +35,6 @@ import { getMessageById, getPubkeysInPublicConversation } from '../../../data/da
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
 import { deleteOpenGroupMessages } from '../../../interactions/conversationInteractions';
-import { ConversationTypeEnum } from '../../../models/conversation';
 import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 

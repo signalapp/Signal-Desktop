@@ -5,16 +5,18 @@ import { RowRendererParamsType } from '../LeftPane';
 import { AutoSizer, List } from 'react-virtualized';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { useSelector } from 'react-redux';
-import { getDirectContacts, getLeftPaneLists } from '../../state/selectors/conversations';
-import { isSearching } from '../../state/selectors/search';
+import { getDirectContacts } from '../../state/selectors/conversations';
 
-const renderRow = ({ index, key, style }: RowRendererParamsType) => {
-  const showSearch = useSelector(isSearching);
+const renderRow = (props: RowRendererParamsType) => {
+  const { index, key, style } = props;
 
-  const lists = showSearch ? undefined : useSelector(getLeftPaneLists);
+  const directContacts = (props.parent as any)?.props?.directContacts || [];
 
-  const directContacts = lists?.contacts || [];
-  const item = directContacts[index];
+  const item = directContacts?.[index];
+
+  if (!item) {
+    return null;
+  }
 
   return <MemoConversationListItemWithDetails style={style} key={key} {...item} />;
 };
@@ -25,6 +27,7 @@ const ContactListItemSection = () => {
   if (!directContacts) {
     return null;
   }
+
   const length = Number(directContacts.length);
 
   return (

@@ -23,7 +23,7 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v1
         with:
-          node-version: 10.19.0
+          node-version: 14.16.0
 
       - name: Chocolatey Install Action
         if: runner.os == 'Windows'

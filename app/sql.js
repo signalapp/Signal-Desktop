@@ -8,9 +8,7 @@ const { remove: removeUserConfig } = require('./user_config');
 
 const { map, isString, fromPairs, forEach, last, isEmpty, isObject, isNumber } = require('lodash');
 
-// To get long stack traces
-//   https://github.com/mapbox/node-sqlite3/wiki/API#sqlite3verbose
-// sql.verbose();
+/* eslint-disable camelcase */
 
 module.exports = {
   initialize,
@@ -1407,7 +1405,7 @@ function createOrUpdate(table, data, instance) {
     )`
     )
     .run({
-      id: id,
+      id,
       json: objectToJSON(data),
     });
 }
@@ -1483,15 +1481,7 @@ function getConversationCount() {
 }
 
 function saveConversation(data) {
-  const {
-    id,
-    // eslint-disable-next-line camelcase
-    active_at,
-    type,
-    members,
-    name,
-    profileName,
-  } = data;
+  const { id, active_at, type, members, name, profileName } = data;
 
   globalInstance
     .prepare(
@@ -1700,7 +1690,7 @@ function searchMessages(query, { limit } = {}) {
     LIMIT $limit;`
     )
     .all({
-      query: query,
+      query,
       limit: limit || 100,
     });
 
@@ -2119,7 +2109,7 @@ function getLastHashBySnode(convoId, snode) {
   const row = globalInstance
     .prepare('SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;')
     .get({
-      snode: snode,
+      snode,
       id: convoId,
     });
 
@@ -2226,8 +2216,8 @@ function saveUnprocessed(data) {
 
 function updateUnprocessedAttempts(id, attempts) {
   globalInstance.prepare('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;').run({
-    id: id,
-    attempts: attempts,
+    id,
+    attempts,
   });
 }
 function updateUnprocessedWithData(id, data = {}) {

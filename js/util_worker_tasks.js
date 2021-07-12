@@ -1,4 +1,5 @@
-/* global dcodeIO */
+/* global dcodeIO, Internal */
+/* eslint-disable no-console */
 /* eslint-disable strict */
 
 const functions = {
