@@ -112,16 +112,6 @@ window.blake2b = input =>
     ipc.send('blake2b-digest', input);
   });
 
-window.decryptLnsEntry = (key, value) =>
-  new Promise((resolve, reject) => {
-    ipc.once('decrypt-lns-response', (_, error, res) => {
-      // eslint-disable-next-line no-unused-expressions
-      error ? reject(error) : resolve(res);
-    });
-
-    ipc.send('decrypt-lns-entry', key, value);
-  });
-
 window.updateZoomFactor = () => {
   const zoomFactor = window.getSettingValue('zoom-factor-setting') || 100;
   window.setZoomFactor(zoomFactor / 100);
