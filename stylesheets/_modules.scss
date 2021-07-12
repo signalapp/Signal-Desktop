@@ -448,6 +448,7 @@
 .module-message__container--with-tap-to-view {
   min-width: 148px;
   cursor: pointer;
+  user-select: none;
 }
 
 .module-message__container--with-tap-to-view-pending {
@@ -660,6 +661,7 @@
 
 .module-message__generic-attachment__icon-container {
   position: relative;
+  user-select: none;
 }
 .module-message__generic-attachment__spinner-container {
   padding-left: 4px;
@@ -734,6 +736,7 @@
   @include font-body-2-bold;
 
   margin-top: 2px;
+  user-select: none;
 
   // Handling really long filenames - cut them off
   overflow-x: hidden;
@@ -763,6 +766,7 @@
   @include font-body-2;
 
   margin-top: 3px;
+  user-select: none;
 
   @include light-theme {
     color: $color-white;
@@ -911,6 +915,7 @@
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  user-select: none;
 
   &__profile-name {
     @include font-caption-bold-italic;
@@ -1069,6 +1074,7 @@
 
 .module-message__metadata__date {
   @include font-caption;
+  user-select: none;
 
   @include light-theme {
     color: $color-white-alpha-80;
@@ -1272,6 +1278,7 @@
   z-index: 2;
   height: 22px;
   display: flex;
+  user-select: none;
 
   &--incoming {
     align-self: flex-end;
@@ -4076,6 +4083,7 @@ button.module-conversation-details__action-button {
 
     font-size: 11px;
     line-height: 14px;
+    user-select: none;
   }
 }
 
@@ -8965,6 +8973,7 @@ button.module-image__border-overlay:focus {
 .module-last-seen-indicator {
   padding-top: 25px;
   padding-bottom: 35px;
+  user-select: none;
 }
 
 .module-last-seen-indicator__bar {
