@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, isObject, map, omit, reduce } from 'lodash';
+import { isNumber, isObject, map, reduce } from 'lodash';
 import filesize from 'filesize';
 
 import {
@@ -46,15 +46,6 @@ import {
   GetConversationByIdType,
   isMissingRequiredProfileSharing,
 } from './conversations';
-import {
-  SendStatus,
-  isDelivered,
-  isMessageJustForMe,
-  isRead,
-  isSent,
-  maxStatus,
-  someSendStatus,
-} from '../../messages/MessageSendState';
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
@@ -229,9 +220,7 @@ export function isOutgoing(
   return message.type === 'outgoing';
 }
 
-export function hasErrors(
-  message: Pick<MessageAttributesType, 'errors'>
-): boolean {
+export function hasErrors(message: MessageAttributesType): boolean {
   return message.errors ? message.errors.length > 0 : false;
 }
 
@@ -369,7 +358,7 @@ export function getPropsForMessage(
     bodyRanges: processBodyRanges(message.bodyRanges, conversationSelector),
     canDeleteForEveryone: canDeleteForEveryone(message),
     canDownload: canDownload(message, conversationSelector),
-    canReply: canReply(message, ourConversationId, conversationSelector),
+    canReply: canReply(message, conversationSelector),
     contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
     conversationColor: conversation?.conversationColor ?? ConversationColors[0],
     conversationId: message.conversationId,
@@ -393,11 +382,7 @@ export function getPropsForMessage(
     quote: getPropsForQuote(message, conversationSelector, ourConversationId),
     reactions,
     selectedReaction,
-    status: getMessagePropStatus(
-      message,
-      ourConversationId,
-      readReceiptSetting
-    ),
+    status: getMessagePropStatus(message, readReceiptSetting),
     text: createNonBreakingLastSeparator(message.body),
     textPending: message.bodyPending,
     timestamp: message.sent_at,
@@ -897,54 +882,38 @@ function createNonBreakingLastSeparator(text?: string): string {
 }
 
 export function getMessagePropStatus(
-  message: Pick<
-    MessageAttributesType,
-    'type' | 'errors' | 'sendStateByConversationId'
-  >,
-  ourConversationId: string,
+  message: MessageAttributesType,
   readReceiptSetting: boolean
 ): LastMessageStatus | undefined {
+  const { sent } = message;
+  const sentTo = message.sent_to || [];
+
+  if (hasErrors(message)) {
+    if (getLastChallengeError(message)) {
+      return 'paused';
+    }
+    if (sent || sentTo.length > 0) {
+      return 'partial-sent';
+    }
+    return 'error';
+  }
   if (!isOutgoing(message)) {
     return undefined;
   }
 
-  if (getLastChallengeError(message)) {
-    return 'paused';
-  }
-
-  const { sendStateByConversationId = {} } = message;
-
-  if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
-    const status =
-      sendStateByConversationId[ourConversationId]?.status ??
-      SendStatus.Pending;
-    const sent = isSent(status);
-    if (hasErrors(message)) {
-      return sent ? 'partial-sent' : 'error';
-    }
-    return sent ? 'read' : 'sending';
-  }
-
-  const sendStates = Object.values(
-    omit(sendStateByConversationId, ourConversationId)
-  );
-  const highestSuccessfulStatus = sendStates.reduce(
-    (result: SendStatus, { status }) => maxStatus(result, status),
-    SendStatus.Pending
-  );
-
-  if (hasErrors(message)) {
-    return isSent(highestSuccessfulStatus) ? 'partial-sent' : 'error';
-  }
-  if (readReceiptSetting && isRead(highestSuccessfulStatus)) {
+  const readBy = message.read_by || [];
+  if (readReceiptSetting && readBy.length > 0) {
     return 'read';
   }
-  if (isDelivered(highestSuccessfulStatus)) {
+  const { delivered } = message;
+  const deliveredTo = message.delivered_to || [];
+  if (delivered || deliveredTo.length > 0) {
     return 'delivered';
   }
-  if (isSent(highestSuccessfulStatus)) {
+  if (sent || sentTo.length > 0) {
     return 'sent';
   }
+
   return 'sending';
 }
 
@@ -1097,16 +1066,12 @@ function processQuoteAttachment(
 export function canReply(
   message: Pick<
     MessageAttributesType,
-    | 'conversationId'
-    | 'deletedForEveryone'
-    | 'sendStateByConversationId'
-    | 'type'
+    'conversationId' | 'deletedForEveryone' | 'sent_to' | 'type'
   >,
-  ourConversationId: string,
   conversationSelector: GetConversationByIdType
 ): boolean {
   const conversation = getConversation(message, conversationSelector);
-  const { deletedForEveryone, sendStateByConversationId } = message;
+  const { deletedForEveryone, sent_to: sentTo } = message;
 
   if (!conversation) {
     return false;
@@ -1135,10 +1100,7 @@ export function canReply(
 
   // We can reply if this is outgoing and sent to at least one recipient
   if (isOutgoing(message)) {
-    return (
-      isMessageJustForMe(sendStateByConversationId, ourConversationId) ||
-      someSendStatus(omit(sendStateByConversationId, ourConversationId), isSent)
-    );
+    return (sentTo || []).length > 0;
   }
 
   // We can reply to incoming messages
@@ -1226,7 +1188,7 @@ export function getAttachmentsForMessage(
 }
 
 export function getLastChallengeError(
-  message: Pick<MessageAttributesType, 'errors'>
+  message: MessageAttributesType
 ): ShallowChallengeError | undefined {
   const { errors } = message;
   if (!errors) {

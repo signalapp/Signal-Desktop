@@ -47,7 +47,7 @@ import {
   LinkPreviewImage,
   LinkPreviewMetadata,
 } from '../linkPreviews/linkPreviewFetch';
-import { concat, isEmpty, map } from '../util/iterables';
+import { concat } from '../util/iterables';
 import { SignalService as Proto } from '../protobuf';
 
 export type SendMetadataType = {
@@ -996,8 +996,8 @@ export default class MessageSender {
     destination,
     destinationUuid,
     expirationStartTimestamp,
-    conversationIdsSentTo = [],
-    conversationIdsWithSealedSender = new Set(),
+    sentTo,
+    unidentifiedDeliveries,
     isUpdate,
     options,
   }: {
@@ -1006,8 +1006,8 @@ export default class MessageSender {
     destination: string | undefined;
     destinationUuid: string | null | undefined;
     expirationStartTimestamp: number | null;
-    conversationIdsSentTo?: Iterable<string>;
-    conversationIdsWithSealedSender?: Set<string>;
+    sentTo?: Array<string>;
+    unidentifiedDeliveries?: Array<string>;
     isUpdate?: boolean;
     options?: SendOptionsType;
   }): Promise<CallbackResultType | void> {
@@ -1035,33 +1035,38 @@ export default class MessageSender {
       sentMessage.expirationStartTimestamp = expirationStartTimestamp;
     }
 
+    const unidentifiedLookup = (unidentifiedDeliveries || []).reduce(
+      (accumulator, item) => {
+        // eslint-disable-next-line no-param-reassign
+        accumulator[item] = true;
+        return accumulator;
+      },
+      Object.create(null)
+    );
+
     if (isUpdate) {
       sentMessage.isRecipientUpdate = true;
     }
 
     // Though this field has 'unidenified' in the name, it should have entries for each
     //   number we sent to.
-    if (!isEmpty(conversationIdsSentTo)) {
-      sentMessage.unidentifiedStatus = [
-        ...map(conversationIdsSentTo, conversationId => {
-          const status = new Proto.SyncMessage.Sent.UnidentifiedDeliveryStatus();
-          const conv = window.ConversationController.get(conversationId);
-          if (conv) {
-            const e164 = conv.get('e164');
-            if (e164) {
-              status.destination = e164;
-            }
-            const uuid = conv.get('uuid');
-            if (uuid) {
-              status.destinationUuid = uuid;
-            }
+    if (sentTo && sentTo.length) {
+      sentMessage.unidentifiedStatus = sentTo.map(identifier => {
+        const status = new Proto.SyncMessage.Sent.UnidentifiedDeliveryStatus();
+        const conv = window.ConversationController.get(identifier);
+        if (conv) {
+          const e164 = conv.get('e164');
+          if (e164) {
+            status.destination = e164;
           }
-          status.unidentified = conversationIdsWithSealedSender.has(
-            conversationId
-          );
-          return status;
-        }),
-      ];
+          const uuid = conv.get('uuid');
+          if (uuid) {
+            status.destinationUuid = uuid;
+          }
+        }
+        status.unidentified = Boolean(unidentifiedLookup[identifier]);
+        return status;
+      });
     }
 
     const syncMessage = this.createSyncMessage();
@@ -1682,8 +1687,8 @@ export default class MessageSender {
       destination: e164,
       destinationUuid: uuid,
       expirationStartTimestamp: null,
-      conversationIdsSentTo: [],
-      conversationIdsWithSealedSender: new Set(),
+      sentTo: [],
+      unidentifiedDeliveries: [],
       options,
     }).catch(logError('resetSession/sendSync error:'));
 

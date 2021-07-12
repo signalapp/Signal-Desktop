@@ -5,19 +5,9 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { setup as setupI18n } from '../../../js/modules/i18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { SendStatus } from '../../messages/MessageSendState';
-import MessageSender from '../../textsecure/SendMessage';
-import type { StorageAccessType } from '../../types/Storage.d';
 import { SignalService as Proto } from '../../protobuf';
 
 describe('Message', () => {
-  const STORAGE_KEYS_TO_RESTORE: Array<keyof StorageAccessType> = [
-    'number_id',
-    'uuid_id',
-  ];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const oldStorageValues = new Map<keyof StorageAccessType, any>();
-
   const i18n = setupI18n('en', enMessages);
 
   const attributes = {
@@ -43,25 +33,16 @@ describe('Message', () => {
   before(async () => {
     window.ConversationController.reset();
     await window.ConversationController.load();
-
-    STORAGE_KEYS_TO_RESTORE.forEach(key => {
-      oldStorageValues.set(key, window.textsecure.storage.get(key));
-    });
     window.textsecure.storage.put('number_id', `${me}.2`);
     window.textsecure.storage.put('uuid_id', `${ourUuid}.2`);
   });
 
   after(async () => {
+    window.textsecure.storage.remove('number_id');
+    window.textsecure.storage.remove('uuid_id');
+
     await window.Signal.Data.removeAll();
     await window.storage.fetch();
-
-    oldStorageValues.forEach((oldValue, key) => {
-      if (oldValue) {
-        window.textsecure.storage.put(key, oldValue);
-      } else {
-        window.textsecure.storage.remove(key);
-      }
-    });
   });
 
   beforeEach(function beforeEach() {
@@ -74,92 +55,25 @@ describe('Message', () => {
 
   // NOTE: These tests are incomplete.
   describe('send', () => {
-    let oldMessageSender: undefined | MessageSender;
-
-    beforeEach(function beforeEach() {
-      oldMessageSender = window.textsecure.messaging;
-
-      window.textsecure.messaging =
-        oldMessageSender ?? new MessageSender('username', 'password');
-      this.sandbox
-        .stub(window.textsecure.messaging, 'sendSyncMessage')
-        .resolves();
-    });
-
-    afterEach(() => {
-      if (oldMessageSender) {
-        window.textsecure.messaging = oldMessageSender;
-      } else {
-        // `window.textsecure.messaging` can be undefined in tests. Instead of updating
-        //   the real type, I just ignore it.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        delete (window.textsecure as any).messaging;
-      }
-    });
-
-    it('updates `sendStateByConversationId`', async function test() {
-      this.sandbox.useFakeTimers(1234);
-
-      const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
-      const conversation1 = await window.ConversationController.getOrCreateAndWait(
-        'a072df1d-7cee-43e2-9e6b-109710a2131c',
-        'private'
-      );
-      const conversation2 = await window.ConversationController.getOrCreateAndWait(
-        '62bd8ef1-68da-4cfd-ac1f-3ea85db7473e',
-        'private'
-      );
-
-      const message = createMessage({
-        type: 'outgoing',
-        conversationId: (
-          await window.ConversationController.getOrCreateAndWait(
-            '71cc190f-97ba-4c61-9d41-0b9444d721f9',
-            'group'
-          )
-        ).id,
-        sendStateByConversationId: {
-          [ourConversationId]: {
-            status: SendStatus.Pending,
-            updatedAt: 123,
-          },
-          [conversation1.id]: {
-            status: SendStatus.Pending,
-            updatedAt: 123,
-          },
-          [conversation2.id]: {
-            status: SendStatus.Pending,
-            updatedAt: 456,
-          },
-        },
-      });
+    it("saves the result's dataMessage", async () => {
+      const message = createMessage({ type: 'outgoing', source });
 
       const fakeDataMessage = new ArrayBuffer(0);
-      const ignoredUuid = window.getGuid();
-
-      const promise = Promise.resolve({
-        successfulIdentifiers: [conversation1.get('uuid'), ignoredUuid],
-        errors: [
-          Object.assign(new Error('failed'), {
-            identifier: conversation2.get('uuid'),
-          }),
-        ],
+      const result = {
         dataMessage: fakeDataMessage,
-      });
+      };
+      const promise = Promise.resolve(result);
       await message.send(promise);
 
-      const result = message.get('sendStateByConversationId') || {};
-      assert.hasAllKeys(result, [
-        ourConversationId,
-        conversation1.id,
-        conversation2.id,
-      ]);
-      assert.strictEqual(result[ourConversationId]?.status, SendStatus.Sent);
-      assert.strictEqual(result[ourConversationId]?.updatedAt, 1234);
-      assert.strictEqual(result[conversation1.id]?.status, SendStatus.Sent);
-      assert.strictEqual(result[conversation1.id]?.updatedAt, 1234);
-      assert.strictEqual(result[conversation2.id]?.status, SendStatus.Failed);
-      assert.strictEqual(result[conversation2.id]?.updatedAt, 1234);
+      assert.strictEqual(message.get('dataMessage'), fakeDataMessage);
+    });
+
+    it('updates the `sent` attribute', async () => {
+      const message = createMessage({ type: 'outgoing', source, sent: false });
+
+      await message.send(Promise.resolve({}));
+
+      assert.isTrue(message.get('sent'));
     });
 
     it('saves errors from promise rejections with errors', async () => {

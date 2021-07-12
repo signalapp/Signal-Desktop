@@ -3,15 +3,12 @@
 
 /* eslint-disable max-classes-per-file */
 
-import { isEqual } from 'lodash';
 import { Collection, Model } from 'backbone';
 
 import { ConversationModel } from '../models/conversations';
 import { MessageModel } from '../models/messages';
 import { MessageModelCollectionType } from '../model-types.d';
 import { isOutgoing } from '../state/selectors/message';
-import { getOwn } from '../util/getOwn';
-import { SendActionType, sendStateReducer } from '../messages/MessageSendState';
 
 type ReadReceiptAttributesType = {
   reader: string;
@@ -89,64 +86,46 @@ export class ReadReceipts extends Collection<ReadReceiptModel> {
   }
 
   async onReceipt(receipt: ReadReceiptModel): Promise<void> {
-    const reader = receipt.get('reader');
-    const timestamp = receipt.get('timestamp');
-
     try {
-      const messages = await window.Signal.Data.getMessagesBySentAt(timestamp, {
-        MessageCollection: window.Whisper.MessageCollection,
-      });
+      const messages = await window.Signal.Data.getMessagesBySentAt(
+        receipt.get('timestamp'),
+        {
+          MessageCollection: window.Whisper.MessageCollection,
+        }
+      );
 
       const message = await getTargetMessage(receipt.get('reader'), messages);
 
       if (!message) {
-        window.log.info('No message for read receipt', reader, timestamp);
+        window.log.info(
+          'No message for read receipt',
+          receipt.get('reader'),
+          receipt.get('timestamp')
+        );
         return;
       }
 
-      const oldSendStateByConversationId =
-        message.get('sendStateByConversationId') || {};
-      const oldSendState = getOwn(oldSendStateByConversationId, reader);
-      if (oldSendState) {
-        const newSendState = sendStateReducer(oldSendState, {
-          type: SendActionType.GotReadReceipt,
-          updatedAt: timestamp,
-        });
+      const readBy = message.get('read_by') || [];
+      const expirationStartTimestamp = message.get('expirationStartTimestamp');
 
-        // The send state may not change. This can happen if we get read receipts after
-        //   we get viewed receipts, or if we get double read receipts, or things like
-        //   that.
-        if (!isEqual(oldSendState, newSendState)) {
-          message.set('sendStateByConversationId', {
-            ...oldSendStateByConversationId,
-            [reader]: newSendState,
-          });
+      readBy.push(receipt.get('reader'));
+      message.set({
+        read_by: readBy,
+        expirationStartTimestamp: expirationStartTimestamp || Date.now(),
+        sent: true,
+      });
 
-          await window.Signal.Data.updateMessageSendState({
-            messageId: message.id,
-            destinationConversationId: reader,
-            ...newSendState,
-          });
+      window.Signal.Util.queueUpdateMessage(message.attributes);
 
-          // notify frontend listeners
-          const conversation = window.ConversationController.get(
-            message.get('conversationId')
-          );
-          const updateLeftPane = conversation
-            ? conversation.debouncedUpdateLastMessage
-            : undefined;
-          if (updateLeftPane) {
-            updateLeftPane();
-          }
-        }
-      } else {
-        window.log.warn(
-          `Got a read receipt from someone (${reader}), but the message (sent at ${message.get(
-            'sent_at'
-          )}) wasn't sent to them. It was sent to ${
-            Object.keys(oldSendStateByConversationId).length
-          } recipients`
-        );
+      // notify frontend listeners
+      const conversation = window.ConversationController.get(
+        message.get('conversationId')
+      );
+      const updateLeftPane = conversation
+        ? conversation.debouncedUpdateLastMessage
+        : undefined;
+      if (updateLeftPane) {
+        updateLeftPane();
       }
 
       this.remove(receipt);

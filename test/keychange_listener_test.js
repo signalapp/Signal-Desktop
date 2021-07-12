@@ -4,38 +4,11 @@
 /* global ConversationController, SignalProtocolStore, Whisper */
 
 describe('KeyChangeListener', () => {
-  const STORAGE_KEYS_TO_RESTORE = ['number_id', 'uuid_id'];
-  const oldStorageValues = new Map();
-
   const phoneNumberWithKeyChange = '+13016886524'; // nsa
   const addressString = `${phoneNumberWithKeyChange}.1`;
   const oldKey = window.Signal.Crypto.getRandomBytes(33);
   const newKey = window.Signal.Crypto.getRandomBytes(33);
   let store;
-
-  before(async () => {
-    window.ConversationController.reset();
-    await window.ConversationController.load();
-
-    STORAGE_KEYS_TO_RESTORE.forEach(key => {
-      oldStorageValues.set(key, window.textsecure.storage.get(key));
-    });
-    window.textsecure.storage.put('number_id', '+14155555556.2');
-    window.textsecure.storage.put('uuid_id', `${window.getGuid()}.2`);
-  });
-
-  after(async () => {
-    await window.Signal.Data.removeAll();
-    await window.storage.fetch();
-
-    oldStorageValues.forEach((oldValue, key) => {
-      if (oldValue) {
-        window.textsecure.storage.put(key, oldValue);
-      } else {
-        window.textsecure.storage.remove(key);
-      }
-    });
-  });
 
   let convo;
 

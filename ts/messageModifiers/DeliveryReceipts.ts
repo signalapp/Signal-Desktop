@@ -3,15 +3,13 @@
 
 /* eslint-disable max-classes-per-file */
 
-import { isEqual } from 'lodash';
+import { union } from 'lodash';
 import { Collection, Model } from 'backbone';
 
 import { ConversationModel } from '../models/conversations';
 import { MessageModel } from '../models/messages';
 import { MessageModelCollectionType } from '../model-types.d';
 import { isIncoming } from '../state/selectors/message';
-import { getOwn } from '../util/getOwn';
-import { SendActionType, sendStateReducer } from '../messages/MessageSendState';
 
 type DeliveryReceiptAttributesType = {
   timestamp: number;
@@ -84,67 +82,48 @@ export class DeliveryReceipts extends Collection<DeliveryReceiptModel> {
   }
 
   async onReceipt(receipt: DeliveryReceiptModel): Promise<void> {
-    const deliveredTo = receipt.get('deliveredTo');
-    const timestamp = receipt.get('timestamp');
-
     try {
-      const messages = await window.Signal.Data.getMessagesBySentAt(timestamp, {
-        MessageCollection: window.Whisper.MessageCollection,
-      });
+      const messages = await window.Signal.Data.getMessagesBySentAt(
+        receipt.get('timestamp'),
+        {
+          MessageCollection: window.Whisper.MessageCollection,
+        }
+      );
 
-      const message = await getTargetMessage(deliveredTo, messages);
+      const message = await getTargetMessage(
+        receipt.get('deliveredTo'),
+        messages
+      );
       if (!message) {
         window.log.info(
           'No message for delivery receipt',
-          deliveredTo,
-          timestamp
+          receipt.get('deliveredTo'),
+          receipt.get('timestamp')
         );
         return;
       }
 
-      const oldSendStateByConversationId =
-        message.get('sendStateByConversationId') || {};
-      const oldSendState = getOwn(oldSendStateByConversationId, deliveredTo);
-      if (oldSendState) {
-        const newSendState = sendStateReducer(oldSendState, {
-          type: SendActionType.GotDeliveryReceipt,
-          updatedAt: timestamp,
-        });
+      const deliveries = message.get('delivered') || 0;
+      const deliveredTo = message.get('delivered_to') || [];
+      const expirationStartTimestamp = message.get('expirationStartTimestamp');
+      message.set({
+        delivered_to: union(deliveredTo, [receipt.get('deliveredTo')]),
+        delivered: deliveries + 1,
+        expirationStartTimestamp: expirationStartTimestamp || Date.now(),
+        sent: true,
+      });
 
-        // The send state may not change. This can happen if the message was marked read
-        //   before we got the delivery receipt, or if we got double delivery receipts, or
-        //   things like that.
-        if (!isEqual(oldSendState, newSendState)) {
-          message.set('sendStateByConversationId', {
-            ...oldSendStateByConversationId,
-            [deliveredTo]: newSendState,
-          });
+      window.Signal.Util.queueUpdateMessage(message.attributes);
 
-          await window.Signal.Data.updateMessageSendState({
-            messageId: message.id,
-            destinationConversationId: deliveredTo,
-            ...newSendState,
-          });
-
-          // notify frontend listeners
-          const conversation = window.ConversationController.get(
-            message.get('conversationId')
-          );
-          const updateLeftPane = conversation
-            ? conversation.debouncedUpdateLastMessage
-            : undefined;
-          if (updateLeftPane) {
-            updateLeftPane();
-          }
-        }
-      } else {
-        window.log.warn(
-          `Got a delivery receipt from someone (${deliveredTo}), but the message (sent at ${message.get(
-            'sent_at'
-          )}) wasn't sent to them. It was sent to ${
-            Object.keys(oldSendStateByConversationId).length
-          } recipients`
-        );
+      // notify frontend listeners
+      const conversation = window.ConversationController.get(
+        message.get('conversationId')
+      );
+      const updateLeftPane = conversation
+        ? conversation.debouncedUpdateLastMessage
+        : undefined;
+      if (updateLeftPane) {
+        updateLeftPane();
       }
 
       this.remove(receipt);

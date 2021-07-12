@@ -45,15 +45,21 @@ export type OutgoingMessage = Readonly<
 
     // Required
     attachments: Array<Attachment>;
+    delivered: number;
+    delivered_to: Array<string>;
+    destination: string; // PhoneNumber
     expirationStartTimestamp: number;
     id: string;
     received_at: number;
+    sent: boolean;
+    sent_to: Array<string>; // Array<PhoneNumber>
 
     // Optional
     body?: string;
     expireTimer?: number;
     messageTimer?: number; // deprecated
     isViewOnce?: number;
+    recipients?: Array<string>; // Array<PhoneNumber>
     synced: boolean;
   } & SharedMessageProperties &
     MessageSchemaVersion5 &
