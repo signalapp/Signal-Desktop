@@ -75,7 +75,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     this.messageContainerRef = this.props.messageContainerRef;
     this.ignoreScrollEvents = true;
-    window.setFocusListener(() => this.updateReadMessages());
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
