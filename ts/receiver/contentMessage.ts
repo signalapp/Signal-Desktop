@@ -43,10 +43,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
       window?.log?.warn('received medium group message but not for an existing medium group');
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }
-    console.time('getAllEncryptionKeyPairsForGroup');
-
     const encryptionKeyPairs = await getAllCachedECKeyPair(hexEncodedGroupPublicKey);
-    console.timeEnd('getAllEncryptionKeyPairsForGroup');
 
     const encryptionKeyPairsCount = encryptionKeyPairs?.length;
     if (!encryptionKeyPairs?.length) {
