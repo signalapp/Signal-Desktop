@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { getDirectContacts, getLeftPaneLists } from '../../state/selectors/conversations';
 import { isSearching } from '../../state/selectors/search';
 
-const renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | undefined => {
+const renderRow = ({ index, key, style }: RowRendererParamsType) => {
   const showSearch = useSelector(isSearching);
 
   const lists = showSearch ? undefined : useSelector(getLeftPaneLists);
@@ -48,7 +48,6 @@ const ContactListItemSection = () => {
 };
 
 export const LeftPaneContactSection = () => {
-  debugger;
   return (
     <div className="left-pane-contact-section">
       <LeftPaneSectionHeader label={window.i18n('contactsHeader')} />
