@@ -1,4 +1,4 @@
-/* global dcodeIO, libsignal */
+/* global dcodeIO */
 /* eslint-disable strict */
 
 const functions = {
@@ -43,14 +43,21 @@ function fromBase64ToArrayBuffer(value) {
   return dcodeIO.ByteBuffer.wrap(value, 'base64').toArrayBuffer();
 }
 
-async function verifySignature(senderPubKey, messageData, signature) {
+async function verifySignature(senderPubKey, messageBase64, signatureBase64) {
   try {
-    const result = sodium.crypto_sign_verify_detached(signature, messageData, senderPubKey);
-    console.warn('sodium result', result);
-    return result;
-    // libsignal.Curve.async.verifySignature(senderPubKey, messageData, signature);
+    const messageData = new Uint8Array(fromBase64ToArrayBuffer(messageBase64));
+    const signature = new Uint8Array(fromBase64ToArrayBuffer(signatureBase64));
+
+    // verify returns true if the signature is not correct
+    const verifyRet = Internal.curve25519.verify(senderPubKey, messageData, signature);
+    if (verifyRet) {
+      console.warn('Invalid signature');
+      return false;
+    }
+
+    return true;
   } catch (e) {
-    console.warn('verifySignature:', e);
+    console.warn('verifySignature got an error:', e);
     return false;
   }
 }

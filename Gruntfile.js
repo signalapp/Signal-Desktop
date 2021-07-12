@@ -33,8 +33,8 @@ module.exports = grunt => {
 
   const utilWorkerComponents = [
     'node_modules/bytebuffer/dist/bytebuffer.js',
-    'node_modules/libsodium/dist/modules/libsodium.js',
-    'node_modules/libsodium-wrappers/dist/modules/libsodium-wrappers.js',
+    'js/curve/curve25519_compiled.js',
+    'js/curve/curve25519_wrapper.js',
     'js/util_worker_tasks.js',
   ];
 

@@ -44,7 +44,7 @@ export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
 export const parseMessages = async (
   rawMessages: Array<Record<string, any>>
 ): Promise<Array<OpenGroupMessageV2>> => {
-  if (!rawMessages) {
+  if (!rawMessages || rawMessages.length === 0) {
     window?.log?.info('no new messages');
     return [];
   }
@@ -64,50 +64,19 @@ export const parseMessages = async (
         continue;
       }
       // Validate the message signature
-      console.time(`worker1-${opengroupv2Message?.serverId}`);
       const senderPubKey = PubKey.cast(opengroupv2Message.sender).withoutPrefix();
-      const signature = (await window.callWorker(
-        'fromBase64ToArrayBuffer',
+
+      const signatureValid = (await window.callWorker(
+        'verifySignature',
+        fromHexToArray(senderPubKey),
+        opengroupv2Message.base64EncodedData,
         opengroupv2Message.base64EncodedSignature
-      )) as ArrayBuffer;
-      console.timeEnd(`worker1-${opengroupv2Message?.serverId}`);
-      console.time(`worker2-${opengroupv2Message?.serverId}`);
-
-      const messageData = (await window.callWorker(
-        'fromBase64ToArrayBuffer',
-        opengroupv2Message.base64EncodedData
-      )) as ArrayBuffer;
-      console.timeEnd(`worker2-${opengroupv2Message?.serverId}`);
-
-      // throws if signature failed
-      console.time(`verifySignature-${opengroupv2Message?.serverId}`);
-
-      // const senderEd = (await getSodium()).crypto_sign_ed25519_sk_to_curve25519(
-      //   fromHexToArray(senderPubKey),
-      //   'uint8array'
-      // );
-
-      const valid = (await getSodium()).crypto_sign_verify_detached(
-        new Uint8Array(signature),
-        new Uint8Array(messageData),
-        fromHexToArray(senderPubKey)
-      );
-
-      // const signatureValid = (await window.callWorker(
-      //   'verifySignature',
-      //   fromHexToArray(senderPubKey),
-      //   new Uint8Array(messageData),
-      //   new Uint8Array(signature)
-      // )) as boolean;
-      if (!valid) {
-        console.timeEnd(`verifySignature-${opengroupv2Message?.serverId}`);
+      )) as boolean;
+      if (!signatureValid) {
         throw new Error('opengroup message signature invalisd');
       }
-      console.timeEnd(`verifySignature-${opengroupv2Message?.serverId}`);
 
       parsedMessages.push(opengroupv2Message);
-      // as we are not running in a worker, just give some time for UI events
-      await sleepFor(5);
     } catch (e) {
       window?.log?.error('An error happened while fetching getMessages output:', e);
     }
