@@ -739,10 +739,10 @@ class MessageInner extends React.PureComponent<MessageRegularProps, State> {
 
     return (
       <ReadableMessage
-      id={id}
-      className={classNames(divClasses)}
-      onChange={onVisible}
-      onContextMenu={this.handleContextMenu}
+        id={id}
+        className={classNames(divClasses)}
+        onChange={onVisible}
+        onContextMenu={this.handleContextMenu}
       >
         {this.renderAvatar()}
         <div
