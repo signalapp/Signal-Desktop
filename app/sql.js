@@ -180,8 +180,8 @@ function migrateSchemaVersion(db) {
   if (userVersion > 0) {
     return;
   }
-
   const schemaVersion = getSchemaVersion(db);
+
   const newUserVersion = schemaVersion > 18 ? 16 : schemaVersion;
   console.log(
     'migrateSchemaVersion: Migrating from schema_version ' +
@@ -192,13 +192,19 @@ function migrateSchemaVersion(db) {
 }
 
 function getUserVersion(db) {
-  return db.pragma('user_version', { simple: true });
+  try {
+    return db.pragma('user_version', { simple: true });
+  } catch (e) {
+    console.warn('getUserVersion error', e);
+    return 0;
+  }
 }
 
 function setUserVersion(db, version) {
   if (!isNumber(version)) {
     throw new Error(`setUserVersion: version ${version} is not a number`);
   }
+
   db.pragma(`user_version = ${version}`);
 }
 
@@ -207,40 +213,62 @@ function openAndMigrateDatabase(filePath, key) {
 
   // First, we try to open the database without any cipher changes
   try {
-    db = new SQL(filePath);
+    db = new SQL(filePath, { verbose: null });
+
     keyDatabase(db, key);
     switchToWAL(db);
     migrateSchemaVersion(db);
+    // Because foreign key support is not enabled by default! // actually, Session does not care
+    // db.pragma('foreign_keys = ON');
 
     return db;
   } catch (error) {
     if (db) {
       db.close();
     }
-    console.log('migrateDatabase: Migration without cipher change failed');
+    console.log('migrateDatabase: Migration without cipher change failed', error);
   }
 
   // If that fails, we try to open the database with 3.x compatibility to extract the
   //   user_version (previously stored in schema_version, blown away by cipher_migrate).
-  db = new SQL(filePath);
-  keyDatabase(db, key);
 
-  // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
-  // db.pragma('cipher_compatibility = 3');
-  // FIXME audric
-  console.warn('Why is the cipher_compatibility = 3 failing?');
-  migrateSchemaVersion(db);
-  db.close();
+  let db1;
+  try {
+    db1 = new SQL(filePath, { verbose: null });
+    keyDatabase(db1, key);
 
+    // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
+    db1.pragma('cipher_compatibility = 3');
+    migrateSchemaVersion(db1);
+    db1.close();
+  } catch (error) {
+    if (db1) {
+      db1.close();
+    }
+    console.log('migrateDatabase: migrateSchemaVersion failed', error);
+    return null;
+  }
   // After migrating user_version -> schema_version, we reopen database, because we can't
   //   migrate to the latest ciphers after we've modified the defaults.
-  db = new SQL(filePath);
-  keyDatabase(db, key);
+  let db2;
+  try {
+    db2 = new SQL(filePath, { verbose: null });
+    keyDatabase(db2, key);
 
-  db.pragma('cipher_migrate');
-  switchToWAL(db);
+    db2.pragma('cipher_migrate');
+    switchToWAL(db2);
 
-  return db;
+    // Because foreign key support is not enabled by default!
+    db2.pragma('foreign_keys = ON');
+
+    return db2;
+  } catch (error) {
+    if (db2) {
+      db2.close();
+    }
+    console.log('migrateDatabase: switchToWAL failed');
+    return null;
+  }
 }
 
 const INVALID_KEY = /[^0-9A-Fa-f]/;
@@ -250,12 +278,7 @@ function openAndSetUpSQLCipher(filePath, { key }) {
     throw new Error(`setupSQLCipher: key '${key}' is not valid`);
   }
 
-  const db = openAndMigrateDatabase(filePath, key);
-
-  // Because foreign key support is not enabled by default!
-  db.pragma('foreign_keys = ON');
-
-  return db;
+  return openAndMigrateDatabase(filePath, key);
 }
 
 function setSQLPassword(password) {
@@ -1221,7 +1244,6 @@ function _initializePaths(configDir) {
   mkdirp.sync(dbDir);
 
   databaseFilePath = path.join(dbDir, 'db.sqlite');
-  console.warn('databaseFilePath', databaseFilePath);
 }
 
 function initialize({ configDir, key, messages, passwordAttempt }) {
