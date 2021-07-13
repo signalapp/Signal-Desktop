@@ -76,6 +76,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
           currentNotificationSetting,
           conversationId
         )}
+        {getPinConversationMenuItem(conversationId)}
         {getBlockMenuItem(isMe, isPrivate, isBlocked, conversationId)}
 
         {getCopyMenuItem(isPublic, isGroup, conversationId)}
