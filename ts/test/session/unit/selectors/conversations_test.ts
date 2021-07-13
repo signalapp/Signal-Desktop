@@ -1,5 +1,8 @@
 import { assert } from 'chai';
-import { ConversationTypeEnum } from '../../../../models/conversation';
+import {
+  ConversationNotificationSetting,
+  ConversationTypeEnum,
+} from '../../../../models/conversation';
 
 import { ConversationLookupType } from '../../../../state/ducks/conversations';
 import {
@@ -28,6 +31,8 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: false,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
         id2: {
           id: 'id2',
@@ -45,13 +50,14 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: false,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
         id3: {
           id: 'id3',
           activeAt: 20,
           name: 'C',
           phoneNumber: 'notused',
-
           type: ConversationTypeEnum.PRIVATE,
           isMe: false,
           unreadCount: 1,
@@ -62,6 +68,8 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: false,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
         id4: {
           id: 'id4',
@@ -78,6 +86,8 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: false,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
         id5: {
           id: 'id5',
@@ -94,6 +104,8 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: false,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
       };
       const comparator = _getConversationComparator(i18n);
@@ -126,6 +138,8 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: false,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
         id2: {
           id: 'id2',
@@ -143,6 +157,8 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: false,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
         id3: {
           id: 'id3',
@@ -160,6 +176,8 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: true,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
         id4: {
           id: 'id4',
@@ -176,6 +194,8 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: true,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
         id5: {
           id: 'id5',
@@ -192,6 +212,8 @@ describe('state/selectors/conversations', () => {
           isKickedFromGroup: false,
           left: false,
           isPinned: false,
+          notificationForConvo: [],
+          currentNotificationSetting: ConversationNotificationSetting[0],
         },
       };
       const comparator = _getConversationComparator(i18n);

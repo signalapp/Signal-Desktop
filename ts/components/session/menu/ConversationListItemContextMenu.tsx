@@ -1,6 +1,10 @@
 import React from 'react';
 import { animation, Menu } from 'react-contexify';
-import { ConversationTypeEnum } from '../../../models/conversation';
+import {
+  ConversationNotificationSettingType,
+  ConversationTypeEnum,
+} from '../../../models/conversation';
+import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
 import {
   getBlockMenuItem,
@@ -12,6 +16,7 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
   getMarkAllReadMenuItem,
+  getNotificationForConvoMenuItem,
   getPinConversationMenuItem,
 } from './Menu';
 
@@ -26,6 +31,8 @@ export type PropsContextConversationItem = {
   isKickedFromGroup?: boolean;
   left?: boolean;
   theme?: any;
+  notificationForConvo: Array<NotificationForConvoOption>;
+  currentNotificationSetting: ConversationNotificationSettingType;
 };
 
 export const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
@@ -39,6 +46,8 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
     type,
     left,
     isKickedFromGroup,
+    notificationForConvo,
+    currentNotificationSetting,
   } = props;
 
   const isGroup = type === 'group';
@@ -46,6 +55,14 @@ export const ConversationListItemContextMenu = (props: PropsContextConversationI
   return (
     <>
       <Menu id={triggerId} animation={animation.fade}>
+        {getNotificationForConvoMenuItem(
+          isKickedFromGroup,
+          left,
+          isBlocked,
+          notificationForConvo,
+          currentNotificationSetting,
+          conversationId
+        )}
         {getPinConversationMenuItem(conversationId)}
         {getBlockMenuItem(isMe, type === ConversationTypeEnum.PRIVATE, isBlocked, conversationId)}
         {getCopyMenuItem(isPublic, isGroup, conversationId)}

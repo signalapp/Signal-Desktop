@@ -13,11 +13,13 @@ import {
   getLeaveGroupMenuItem,
   getMarkAllReadMenuItem,
   getNotificationForConvoMenuItem,
+  getPinConversationMenuItem,
   getRemoveModeratorsMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';
-import { NotificationForConvoOption, TimerOption } from '../../conversation/ConversationHeader';
+import { TimerOption } from '../../conversation/ConversationHeader';
 import { ConversationNotificationSettingType } from '../../../models/conversation';
+import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
 export type PropsConversationHeaderMenu = {
   conversationId: string;
@@ -74,6 +76,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
           currentNotificationSetting,
           conversationId
         )}
+        {getPinConversationMenuItem(conversationId)}
         {getBlockMenuItem(isMe, isPrivate, isBlocked, conversationId)}
 
         {getCopyMenuItem(isPublic, isGroup, conversationId)}

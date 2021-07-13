@@ -352,13 +352,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const members = conversation.get('members') || [];
 
-    // exclude mentions_only settings for private chats as this does not make much sense
-    const notificationForConvo = ConversationNotificationSetting.filter(n =>
-      conversation.isPrivate() ? n !== 'mentions_only' : true
-    ).map((n: ConversationNotificationSettingType) => {
-      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
-      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
-    });
+    const notificationForConvo = conversation.getConversationNotificationSettingType();
 
     const headerProps = {
       id: conversation.id,
