@@ -1937,6 +1937,16 @@ function updateToSchemaVersion35(currentVersion: number, db: Database) {
   console.log('updateToSchemaVersion35: success!');
 }
 
+// Reverted
+function updateToSchemaVersion36(currentVersion: number, db: Database) {
+  if (currentVersion >= 36) {
+    return;
+  }
+
+  db.pragma('user_version = 36');
+  console.log('updateToSchemaVersion36: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1973,6 +1983,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion33,
   updateToSchemaVersion34,
   updateToSchemaVersion35,
+  updateToSchemaVersion36,
 ];
 
 function updateSchema(db: Database): void {
