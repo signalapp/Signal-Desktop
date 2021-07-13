@@ -12,10 +12,8 @@ module.exports = {
   globals: {
     assert: true,
     assertEqualArrayBuffers: true,
-    dcodeIO: true,
     getString: true,
     hexToArrayBuffer: true,
-    PROTO_ROOT: true,
     stringToArrayBuffer: true,
   },
 

@@ -10,11 +10,6 @@ import { CustomColorType } from './types/Colors';
 import { DeviceType } from './textsecure/Types';
 import { SendOptionsType } from './textsecure/SendMessage';
 import { SendMessageChallengeData } from './textsecure/Errors';
-import {
-  AccessRequiredEnum,
-  MemberRoleEnum,
-  SyncMessageClass,
-} from './textsecure.d';
 import { UserMessage } from './types/Message';
 import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
@@ -24,6 +19,10 @@ import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisi
 import { ConversationColorType } from './types/Colors';
 import { AttachmentType, ThumbnailType } from './types/Attachment';
 import { ContactType } from './types/Contact';
+import { SignalService as Proto } from './protobuf';
+
+import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
+import MemberRoleEnum = Proto.Member.Role;
 
 export type WhatIsThis = any;
 

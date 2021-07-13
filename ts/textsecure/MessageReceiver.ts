@@ -193,7 +193,7 @@ class MessageReceiverInner extends EventTarget {
 
   server: WebAPIType;
 
-  serverTrustRoot: ArrayBuffer;
+  serverTrustRoot: Uint8Array;
 
   signalingKey: ArrayBuffer;
 
@@ -239,9 +239,7 @@ class MessageReceiverInner extends EventTarget {
     if (!options.serverTrustRoot) {
       throw new Error('Server trust root is required!');
     }
-    this.serverTrustRoot = MessageReceiverInner.stringToArrayBufferBase64(
-      options.serverTrustRoot
-    );
+    this.serverTrustRoot = Bytes.fromBase64(options.serverTrustRoot);
 
     this.number_id = oldUsername
       ? utils.unencodeNumber(oldUsername)[0]
@@ -285,18 +283,6 @@ class MessageReceiverInner extends EventTarget {
       processBatch: this.cacheRemoveBatch.bind(this),
     });
   }
-
-  static stringToArrayBuffer = (string: string): ArrayBuffer =>
-    window.dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
-
-  static arrayBufferToString = (arrayBuffer: ArrayBuffer): string =>
-    window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary');
-
-  static stringToArrayBufferBase64 = (string: string): ArrayBuffer =>
-    window.dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
-
-  static arrayBufferToStringBase64 = (arrayBuffer: ArrayBuffer): string =>
-    window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
 
   async connect(socket?: WebSocket): Promise<void> {
     if (this.calledClose) {
@@ -2479,8 +2465,8 @@ class MessageReceiverInner extends EventTarget {
 
     const paddedData = await Crypto.decryptAttachment(
       encrypted,
-      MessageReceiverInner.stringToArrayBufferBase64(key),
-      MessageReceiverInner.stringToArrayBufferBase64(digest)
+      typedArrayToArrayBuffer(Bytes.fromBase64(key)),
+      typedArrayToArrayBuffer(Bytes.fromBase64(digest))
     );
 
     if (!isNumber(size)) {
@@ -2688,14 +2674,4 @@ export default class MessageReceiver {
   checkSocket: () => void;
 
   getProcessedCount: () => number;
-
-  static stringToArrayBuffer = MessageReceiverInner.stringToArrayBuffer;
-
-  static arrayBufferToString = MessageReceiverInner.arrayBufferToString;
-
-  static stringToArrayBufferBase64 =
-    MessageReceiverInner.stringToArrayBufferBase64;
-
-  static arrayBufferToStringBase64 =
-    MessageReceiverInner.arrayBufferToStringBase64;
 }

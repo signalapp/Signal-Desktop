@@ -36,7 +36,6 @@ setEnvironment(parseEnvironment(config.environment));
 window.sqlInitializer = require('../ts/sql/initialize');
 
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
-window.PROTO_ROOT = '../../protos';
 window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
 window.getGuid = require('uuid/v4');

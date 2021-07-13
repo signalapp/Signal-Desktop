@@ -20,7 +20,6 @@
     ></script>
 
     <script type="text/javascript" src="../components.js"></script>
-    <script type="text/javascript" src="../protobufs.js" data-cover></script>
     <script
       type="text/javascript"
       src="../protocol_wrapper.js"
@@ -38,7 +37,6 @@
     ></script>
 
     <script type="text/javascript" src="helpers_test.js"></script>
-    <script type="text/javascript" src="crypto_test.js"></script>
     <script type="text/javascript" src="generate_keys_test.js"></script>
     <script type="text/javascript" src="task_with_timeout_test.js"></script>
     <script type="text/javascript" src="account_manager_test.js"></script>
@@ -50,10 +48,8 @@
 
     <!-- Uncomment to start tests without code coverage enabled -->
     <script type="text/javascript">
-      window.textsecure.protobuf.onLoad(() => {
-        mocha.run();
-        window.Signal.conversationControllerStart();
-      });
+      mocha.run();
+      window.Signal.conversationControllerStart();
     </script>
   </body>
 </html>

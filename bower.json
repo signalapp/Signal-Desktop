@@ -13,12 +13,6 @@
   "devDependencies": {
   },
   "preen": {
-    "bytebuffer": [
-      "dist/ByteBufferAB.js"
-    ],
-    "long": [
-      "dist/Long.js"
-    ],
     "mp3lameencoder": [
       "lib/Mp3LameEncoder.js"
     ],

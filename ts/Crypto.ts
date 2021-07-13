@@ -1,9 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { Buffer } from 'buffer';
 import pProps from 'p-props';
 import { chunk } from 'lodash';
+import Long from 'long';
 import { HKDF } from '@signalapp/signal-client';
+
 import { calculateAgreement, generateKeyPair } from './Curve';
 
 import {
@@ -34,37 +37,43 @@ export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
 }
 
 export function arrayBufferToBase64(arrayBuffer: ArrayBuffer): string {
-  return window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
+  // NOTE: We can't use `Bytes.toBase64` here because this runs in both
+  // node and electron contexts.
+  return Buffer.from(arrayBuffer).toString('base64');
 }
 
 export function arrayBufferToHex(arrayBuffer: ArrayBuffer): string {
-  return window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('hex');
+  return Buffer.from(arrayBuffer).toString('hex');
 }
 
 export function base64ToArrayBuffer(base64string: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(base64string, 'base64'));
 }
 
 export function hexToArrayBuffer(hexString: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(hexString, 'hex').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(hexString, 'hex'));
 }
 
 export function fromEncodedBinaryToArrayBuffer(key: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(key, 'binary'));
+}
+
+export function arrayBufferToEncodedBinary(arrayBuffer: ArrayBuffer): string {
+  return Buffer.from(arrayBuffer).toString('binary');
 }
 
 export function bytesFromString(string: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(string));
 }
 export function stringFromBytes(buffer: ArrayBuffer): string {
-  return window.dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');
+  return Buffer.from(buffer).toString();
 }
 export function hexFromBytes(buffer: ArrayBuffer): string {
-  return window.dcodeIO.ByteBuffer.wrap(buffer).toString('hex');
+  return Buffer.from(buffer).toString('hex');
 }
 
 export function bytesFromHexString(string: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();
+  return typedArrayToArrayBuffer(Buffer.from(string, 'hex'));
 }
 
 export async function deriveStickerPackKey(
@@ -115,10 +124,16 @@ export async function computeHash(data: ArrayBuffer): Promise<string> {
 
 // High-level Operations
 
+export type EncryptedDeviceName = {
+  ephemeralPublic: ArrayBuffer;
+  syntheticIv: ArrayBuffer;
+  ciphertext: ArrayBuffer;
+};
+
 export async function encryptDeviceName(
   deviceName: string,
   identityPublic: ArrayBuffer
-): Promise<Record<string, ArrayBuffer>> {
+): Promise<EncryptedDeviceName> {
   const plaintext = bytesFromString(deviceName);
   const ephemeralKeyPair = generateKeyPair();
   const masterSecret = calculateAgreement(
@@ -143,15 +158,7 @@ export async function encryptDeviceName(
 }
 
 export async function decryptDeviceName(
-  {
-    ephemeralPublic,
-    syntheticIv,
-    ciphertext,
-  }: {
-    ephemeralPublic: ArrayBuffer;
-    syntheticIv: ArrayBuffer;
-    ciphertext: ArrayBuffer;
-  },
+  { ephemeralPublic, syntheticIv, ciphertext }: EncryptedDeviceName,
   identityPrivate: ArrayBuffer
 ): Promise<string> {
   const masterSecret = calculateAgreement(ephemeralPublic, identityPrivate);
@@ -661,21 +668,18 @@ export async function encryptCdsDiscoveryRequest(
   phoneNumbers: ReadonlyArray<string>
 ): Promise<Record<string, unknown>> {
   const nonce = getRandomBytes(32);
-  const numbersArray = new window.dcodeIO.ByteBuffer(
-    phoneNumbers.length * 8,
-    window.dcodeIO.ByteBuffer.BIG_ENDIAN
+  const numbersArray = Buffer.concat(
+    phoneNumbers.map(number => {
+      // Long.fromString handles numbers with or without a leading '+'
+      return new Uint8Array(Long.fromString(number).toBytesBE());
+    })
   );
-  phoneNumbers.forEach(number => {
-    // Long.fromString handles numbers with or without a leading '+'
-    numbersArray.writeLong(window.dcodeIO.ByteBuffer.Long.fromString(number));
-  });
 
   // We've written to the array, so offset === byteLength; we need to reset it. Then we'll
   //   have access to everything in the array when we generate an ArrayBuffer from it.
-  numbersArray.reset();
   const queryDataPlaintext = concatenateBytes(
     nonce,
-    numbersArray.toArrayBuffer()
+    typedArrayToArrayBuffer(numbersArray)
   );
 
   const queryDataKey = getRandomBytes(32);
@@ -785,7 +789,5 @@ export function trimForDisplay(arrayBuffer: ArrayBuffer): ArrayBuffer {
       break;
     }
   }
-  return window.dcodeIO.ByteBuffer.wrap(padded)
-    .slice(0, paddingEnd)
-    .toArrayBuffer();
+  return typedArrayToArrayBuffer(padded.slice(0, paddingEnd));
 }

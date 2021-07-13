@@ -30,7 +30,6 @@ try {
 
   window.sqlInitializer = require('./ts/sql/initialize');
 
-  window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
   setEnvironment(parseEnvironment(config.environment));

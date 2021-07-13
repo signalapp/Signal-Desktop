@@ -18,11 +18,7 @@ import {
   ReactionAttributesType,
   ReactionModelType,
 } from './model-types.d';
-import {
-  ContactRecordIdentityState,
-  TextSecureType,
-  DownloadAttachmentType,
-} from './textsecure.d';
+import { TextSecureType, DownloadAttachmentType } from './textsecure.d';
 import { Storage } from './textsecure/Storage';
 import {
   ChallengeHandler,
@@ -177,7 +173,6 @@ declare global {
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;
-    dcodeIO: DCodeIOType;
     receivedAtCounter: number;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
@@ -553,49 +548,8 @@ declare global {
   }
 }
 
-export type DCodeIOType = {
-  ByteBuffer: typeof ByteBufferClass & {
-    BIG_ENDIAN: number;
-    LITTLE_ENDIAN: number;
-    Long: DCodeIOType['Long'];
-  };
-  Long: Long & {
-    MAX_VALUE: Long;
-    equals: (other: Long | number | string) => boolean;
-    fromBits: (low: number, high: number, unsigned: boolean) => number;
-    fromNumber: (value: number, unsigned?: boolean) => Long;
-    fromString: (str: string | null) => Long;
-    isLong: (obj: unknown) => obj is Long;
-  };
-  ProtoBuf: WhatIsThis;
-};
-
 export class CertificateValidatorType {
   validate: (cerficate: any, certificateTime: number) => Promise<void>;
-}
-
-export class ByteBufferClass {
-  constructor(value?: any, littleEndian?: number);
-  static wrap: (
-    value: any,
-    encoding?: string,
-    littleEndian?: number
-  ) => ByteBufferClass;
-  buffer: ArrayBuffer;
-  toString: (type: string) => string;
-  toArrayBuffer: () => ArrayBuffer;
-  toBinary: () => string;
-  slice: (start: number, end?: number) => ByteBufferClass;
-  append: (data: ArrayBuffer) => void;
-  limit: number;
-  offset: 0;
-  readInt: (offset: number) => number;
-  readLong: (offset: number) => Long;
-  readShort: (offset: number) => number;
-  readVarint32: () => number;
-  reset: () => void;
-  writeLong: (l: Long) => void;
-  skip: (length: number) => void;
 }
 
 export class GumVideoCapturer {

@@ -8562,13 +8562,6 @@
     "updated": "2021-05-20T20:01:50.505Z"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/make-dir/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
     "rule": "jQuery-html(",
     "path": "node_modules/marked/lib/marked.js",
     "line": "      return this.renderer.html(this.token.text);",
@@ -12994,13 +12987,6 @@
     "line": "  function wrap(func, wrapper) {",
     "reasonCategory": "falseMatch",
     "updated": "2021-05-07T18:18:03.022Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/update-notifier/index.js",
-    "line": "\t\t\t\t\tchalk().cyan(format(' sudo chown -R $USER:$(id -gn $USER) %s ', xdgBasedir().config));",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
   },
   {
     "rule": "jQuery-$(",

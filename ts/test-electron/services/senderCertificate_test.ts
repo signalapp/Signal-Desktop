@@ -7,6 +7,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
+import Long from 'long';
 import * as Bytes from '../../Bytes';
 import { typedArrayToArrayBuffer } from '../../Crypto';
 import { SenderCertificateMode } from '../../textsecure/OutgoingMessage';
@@ -42,9 +43,7 @@ describe('SenderCertificateService', () => {
     fakeValidCertificate = new SenderCertificate();
     fakeValidCertificateExpiry = Date.now() + 604800000;
     const certificate = new SenderCertificate.Certificate();
-    certificate.expires = global.window.dcodeIO.Long.fromNumber(
-      fakeValidCertificateExpiry
-    );
+    certificate.expires = Long.fromNumber(fakeValidCertificateExpiry);
     fakeValidCertificate.certificate = SenderCertificate.Certificate.encode(
       certificate
     ).finish();
@@ -215,9 +214,7 @@ describe('SenderCertificateService', () => {
 
       const expiredCertificate = new SenderCertificate();
       const certificate = new SenderCertificate.Certificate();
-      certificate.expires = global.window.dcodeIO.Long.fromNumber(
-        Date.now() - 1000
-      );
+      certificate.expires = Long.fromNumber(Date.now() - 1000);
       expiredCertificate.certificate = SenderCertificate.Certificate.encode(
         certificate
       ).finish();

@@ -5,7 +5,6 @@
 
 mocha.setup('bdd');
 window.assert = chai.assert;
-window.PROTO_ROOT = '../protos';
 
 const OriginalReporter = mocha._reporter;
 

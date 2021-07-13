@@ -11,6 +11,8 @@ import {
   hmacSha256,
   sha256,
   verifyHmacSha256,
+  base64ToArrayBuffer,
+  typedArrayToArrayBuffer,
 } from '../Crypto';
 
 declare global {
@@ -335,10 +337,7 @@ const Crypto = {
     encryptedProfileName: string,
     key: ArrayBuffer
   ): Promise<{ given: ArrayBuffer; family: ArrayBuffer | null }> {
-    const data = window.dcodeIO.ByteBuffer.wrap(
-      encryptedProfileName,
-      'base64'
-    ).toArrayBuffer();
+    const data = base64ToArrayBuffer(encryptedProfileName);
     return Crypto.decryptProfile(data, key).then(decrypted => {
       const padded = new Uint8Array(decrypted);
 
@@ -364,13 +363,9 @@ const Crypto = {
       const foundFamilyName = familyEnd > givenEnd + 1;
 
       return {
-        given: window.dcodeIO.ByteBuffer.wrap(padded)
-          .slice(0, givenEnd)
-          .toArrayBuffer(),
+        given: typedArrayToArrayBuffer(padded.slice(0, givenEnd)),
         family: foundFamilyName
-          ? window.dcodeIO.ByteBuffer.wrap(padded)
-              .slice(givenEnd + 1, familyEnd)
-              .toArrayBuffer()
+          ? typedArrayToArrayBuffer(padded.slice(givenEnd + 1, familyEnd))
           : null,
       };
     });
