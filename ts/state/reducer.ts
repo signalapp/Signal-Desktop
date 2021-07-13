@@ -10,6 +10,10 @@ import {
   defaultMentionsInputReducer as mentionsInput,
   MentionsInputState,
 } from './ducks/mentionsInput';
+import {
+  ConversationScreenState,
+  defaultConversationScreenReducer as conversationScreen,
+} from './ducks/conversationScreen';
 import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
 import { modalReducer as modals, ModalState } from './ducks/modalDialog';
 import { userConfigReducer as userConfig, UserConfigState } from './ducks/userConfig';
@@ -27,6 +31,7 @@ export type StateType = {
   modals: ModalState;
   userConfig: UserConfigState;
   timerOptions: TimerOptionsState;
+  conversationScreen: ConversationScreenState;
 };
 
 export const reducers = {
@@ -41,6 +46,7 @@ export const reducers = {
   modals,
   userConfig,
   timerOptions,
+  conversationScreen,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

@@ -15,8 +15,19 @@ import {
   getConversationHeaderTitleProps,
   getSelectedConversation,
 } from '../../state/selectors/conversations';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMembersAvatars } from '../../hooks/useMembersAvatar';
+import {
+  closeMessageDetailsView,
+  openRightPanel,
+  resetSelectedMessageIds,
+} from '../../state/ducks/conversationScreen';
+import {
+  getSelectedMessageIds,
+  isMessageDetailView,
+  isMessageSelectionMode,
+} from '../../state/selectors/conversationScreen';
+import { deleteMessagesById } from '../../interactions/conversationInteractions';
 
 export interface TimerOption {
   name: string;
@@ -51,7 +62,6 @@ export type ConversationHeaderProps = {
   subscriberCount?: number;
 
   expirationSettingName?: string;
-  // showBackButton: boolean;
   notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
   hasNickname: boolean;
@@ -60,14 +70,6 @@ export type ConversationHeaderProps = {
 
   isKickedFromGroup: boolean;
   left: boolean;
-  // selectionMode: boolean; // is the UI on the message selection mode or not
-
-  // onCloseOverlay: () => void;
-  // onDeleteSelectedMessages: () => void;
-  // onAvatarClick?: (pubkey: string) => void;
-  // onGoBack: () => void;
-
-  // memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 };
 
 const SelectionOverlay = (props: {
@@ -263,21 +265,16 @@ const ConversationHeaderTitle = () => {
   );
 };
 
-export type ConversationHeaderNonReduxProps = {
-  showBackButton: boolean;
-  selectionMode: boolean;
-  onDeleteSelectedMessages: () => void;
-  onCloseOverlay: () => void;
-  onAvatarClick: () => void;
-  onGoBack: () => void;
-};
-
-export const ConversationHeaderWithDetails = (
-  headerPropsNonRedux: ConversationHeaderNonReduxProps
-) => {
+export const ConversationHeaderWithDetails = () => {
   const headerProps = useSelector(getConversationHeaderProps);
+
+  const isSelectionMode = useSelector(isMessageSelectionMode);
+  const selectedMessageIds = useSelector(getSelectedMessageIds);
   const selectedConversation = useSelector(getSelectedConversation);
   const memberDetails = useMembersAvatars(selectedConversation);
+  const isMessageDetailOpened = useSelector(isMessageDetailView);
+
+  const dispatch = useDispatch();
 
   if (!headerProps) {
     return null;
@@ -302,34 +299,33 @@ export const ConversationHeaderWithDetails = (
     isGroup,
   } = headerProps;
 
-  const {
-    onGoBack,
-    onAvatarClick,
-    onCloseOverlay,
-    onDeleteSelectedMessages,
-    showBackButton,
-    selectionMode,
-  } = headerPropsNonRedux;
   const triggerId = 'conversation-header';
 
   return (
     <div className="module-conversation-header">
       <div className="conversation-header--items-wrapper">
-        <BackButton onGoBack={onGoBack} showBackButton={showBackButton} />
+        <BackButton
+          onGoBack={() => {
+            dispatch(closeMessageDetailsView());
+          }}
+          showBackButton={isMessageDetailOpened}
+        />
 
         <div className="module-conversation-header__title-container">
           <div className="module-conversation-header__title-flex">
-            <TripleDotsMenu triggerId={triggerId} showBackButton={showBackButton} />
+            <TripleDotsMenu triggerId={triggerId} showBackButton={isMessageDetailOpened} />
             <ConversationHeaderTitle />
           </div>
         </div>
         {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
 
-        {!selectionMode && (
+        {!isSelectionMode && (
           <AvatarHeader
-            onAvatarClick={onAvatarClick}
+            onAvatarClick={() => {
+              dispatch(openRightPanel());
+            }}
             phoneNumber={phoneNumber}
-            showBackButton={showBackButton}
+            showBackButton={isMessageDetailOpened}
             avatarPath={avatarPath}
             memberAvatars={memberDetails}
             name={name}
@@ -354,11 +350,13 @@ export const ConversationHeaderWithDetails = (
         />
       </div>
 
-      {selectionMode && (
+      {isSelectionMode && (
         <SelectionOverlay
           isPublic={isPublic}
-          onCloseOverlay={onCloseOverlay}
-          onDeleteSelectedMessages={onDeleteSelectedMessages}
+          onCloseOverlay={() => dispatch(resetSelectedMessageIds())}
+          onDeleteSelectedMessages={() => {
+            void deleteMessagesById(selectedMessageIds, id, true);
+          }}
         />
       )}
     </div>

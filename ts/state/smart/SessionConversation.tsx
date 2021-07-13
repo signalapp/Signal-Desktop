@@ -9,6 +9,11 @@ import {
   getSelectedConversationKey,
 } from '../selectors/conversations';
 import { getOurNumber } from '../selectors/user';
+import {
+  getSelectedMessageIds,
+  isMessageDetailView,
+  isRightPanelShowing,
+} from '../selectors/conversationScreen';
 
 const mapStateToProps = (state: StateType) => {
   return {
@@ -17,6 +22,9 @@ const mapStateToProps = (state: StateType) => {
     theme: getTheme(state),
     messagesProps: getMessagesOfSelectedConversation(state),
     ourNumber: getOurNumber(state),
+    showMessageDetails: isMessageDetailView(state),
+    isRightPanelShowing: isRightPanelShowing(state),
+    selectedMessages: getSelectedMessageIds(state),
   };
 };
 

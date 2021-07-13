@@ -7,18 +7,15 @@ import { SessionCompositionBox, StagedAttachmentType } from './SessionCompositio
 import { Constants } from '../../../session';
 import _ from 'lodash';
 import { AttachmentUtil, GoogleChrome } from '../../../util';
-import {
-  ConversationHeaderNonReduxProps,
-  ConversationHeaderWithDetails,
-} from '../../conversation/ConversationHeader';
+import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
 import { DefaultTheme } from 'styled-components';
-import { SessionMessagesList } from './SessionMessagesList';
+import { SessionMessageListProps, SessionMessagesList } from './SessionMessagesList';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 
 import { AttachmentType, AttachmentTypeWithPath, save } from '../../../types/Attachment';
-import { ToastUtils, UserUtils } from '../../../session/utils';
+import { ToastUtils } from '../../../session/utils';
 import * as MIME from '../../../types/MIME';
 import { SessionFileDropzone } from './SessionFileDropzone';
 import {
@@ -34,22 +31,15 @@ import { getConversationController } from '../../../session/conversations';
 import { getMessageById, getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { getDecryptedMediaUrl } from '../../../session/crypto/DecryptedAttachmentsManager';
-import { deleteOpenGroupMessages } from '../../../interactions/conversationInteractions';
 import { updateMentionsMembers } from '../../../state/ducks/mentionsInput';
 import { sendDataExtractionNotification } from '../../../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 
-import { SessionButtonColor } from '../SessionButton';
-import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { resetSelectedMessageIds } from '../../../state/ducks/conversationScreen';
 interface State {
   unreadCount: number;
-  selectedMessages: Array<string>;
 
   showOverlay: boolean;
   showRecordingView: boolean;
-  showOptionsPane: boolean;
-
-  // if set, the `More Info` of a message screen is shown on top of the conversation.
-  messageDetailShowProps?: any; // FIXME set the type for this
 
   stagedAttachments: Array<StagedAttachmentType>;
   isDraggingFile: boolean;
@@ -73,6 +63,9 @@ interface Props {
   selectedConversation?: ReduxConversationType;
   theme: DefaultTheme;
   messagesProps: Array<SortedMessageModelProps>;
+  selectedMessages: Array<string>;
+  showMessageDetails: boolean;
+  isRightPanelShowing: boolean;
 }
 
 export class SessionConversation extends React.Component<Props, State> {
@@ -88,10 +81,8 @@ export class SessionConversation extends React.Component<Props, State> {
     const unreadCount = this.props.selectedConversation?.unreadCount || 0;
     this.state = {
       unreadCount,
-      selectedMessages: [],
       showOverlay: false,
       showRecordingView: false,
-      showOptionsPane: false,
       stagedAttachments: [],
       isDraggingFile: false,
     };
@@ -155,14 +146,12 @@ export class SessionConversation extends React.Component<Props, State> {
     }
     if (newConversationKey !== oldConversationKey) {
       void this.loadInitialMessages();
+      window.inboxStore?.dispatch(resetSelectedMessageIds());
       this.setState({
-        showOptionsPane: false,
-        selectedMessages: [],
         showOverlay: false,
         showRecordingView: false,
         stagedAttachments: [],
         isDraggingFile: false,
-        messageDetailShowProps: undefined,
         quotedMessageProps: undefined,
         quotedMessageTimestamp: undefined,
       });
@@ -188,24 +177,28 @@ export class SessionConversation extends React.Component<Props, State> {
   public render() {
     const {
       showRecordingView,
-      showOptionsPane,
       quotedMessageProps,
       lightBoxOptions,
-      selectedMessages,
       isDraggingFile,
       stagedAttachments,
-      messageDetailShowProps,
     } = this.state;
-    const selectionMode = !!selectedMessages.length;
 
-    const { selectedConversation, selectedConversationKey, messagesProps } = this.props;
+    const {
+      selectedConversation,
+      selectedConversationKey,
+      messagesProps,
+      showMessageDetails,
+      selectedMessages,
+      isRightPanelShowing,
+    } = this.props;
 
     if (!selectedConversation || !messagesProps) {
       // return an empty message view
       return <MessageView />;
     }
+
+    const selectionMode = selectedMessages.length > 0;
     const conversationModel = getConversationController().get(selectedConversationKey);
-    // TODO VINCE: OPTIMISE FOR NEW SENDING???
     const sendMessageFn = (
       body: any,
       attachments: any,
@@ -224,11 +217,12 @@ export class SessionConversation extends React.Component<Props, State> {
           .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
       }
     };
-    const showMessageDetails = !!messageDetailShowProps;
 
     return (
       <SessionTheme theme={this.props.theme}>
-        <div className="conversation-header">{this.renderHeader()}</div>
+        <div className="conversation-header">
+          <ConversationHeaderWithDetails />
+        </div>
         <div
           // if you change the classname, also update it on onKeyDown
           className={classNames('conversation-content', selectionMode && 'selection-mode')}
@@ -237,7 +231,7 @@ export class SessionConversation extends React.Component<Props, State> {
           role="navigation"
         >
           <div className={classNames('conversation-info-panel', showMessageDetails && 'show')}>
-            {showMessageDetails && <MessageDetail {...messageDetailShowProps} />}
+            <MessageDetail />
           </div>
 
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
@@ -272,19 +266,13 @@ export class SessionConversation extends React.Component<Props, State> {
             theme={this.props.theme}
           />
         </div>
-        <div className={classNames('conversation-item__options-pane', showOptionsPane && 'show')}>
-          <SessionRightPanelWithDetails
-            {...this.getRightPanelProps()}
-            isShowing={showOptionsPane}
-          />
+        <div
+          className={classNames('conversation-item__options-pane', isRightPanelShowing && 'show')}
+        >
+          <SessionRightPanelWithDetails {...this.getRightPanelProps()} />
         </div>
       </SessionTheme>
     );
-  }
-
-  public renderHeader() {
-    const headerProps = this.getHeaderProps();
-    return <ConversationHeaderWithDetails {...headerProps} />;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -311,226 +299,25 @@ export class SessionConversation extends React.Component<Props, State> {
     );
   }
 
-  public getHeaderProps(): ConversationHeaderNonReduxProps {
-    console.warn('generating new header props');
+  public getMessagesListProps(): SessionMessageListProps {
+    const { messagesProps } = this.props;
 
-    const headerProps = {
-      showBackButton: Boolean(this.state.messageDetailShowProps),
-      selectionMode: !!this.state.selectedMessages.length,
-      onDeleteSelectedMessages: this.deleteSelectedMessages,
-      onCloseOverlay: this.resetSelection,
-      onAvatarClick: this.toggleRightPanel,
-
-      onGoBack: () => {
-        this.setState({
-          messageDetailShowProps: undefined,
-        });
-      },
-    };
-
-    return headerProps;
-  }
-
-  public getMessagesListProps() {
-    const { selectedConversation, selectedConversationKey, ourNumber, messagesProps } = this.props;
-    const { quotedMessageTimestamp, selectedMessages } = this.state;
-
-    if (!selectedConversation) {
-      throw new Error();
-    }
     return {
-      selectedMessages,
-      ourPrimary: ourNumber,
-      conversationKey: selectedConversationKey,
       messagesProps,
-      resetSelection: this.resetSelection,
-      quotedMessageTimestamp,
-      conversation: selectedConversation,
-      selectMessage: this.selectMessage,
-      deleteMessage: this.deleteMessage,
+      messageContainerRef: this.messageContainerRef,
       replyToMessage: this.replyToMessage,
-      showMessageDetails: this.showMessageDetails,
       onClickAttachment: this.onClickAttachment,
       onDownloadAttachment: this.saveAttachment,
-      messageContainerRef: this.messageContainerRef,
-      onDeleteSelectedMessages: this.deleteSelectedMessages,
     };
   }
 
   // tslint:disable-next-line: max-func-body-length
   public getRightPanelProps() {
-    const { selectedConversationKey } = this.props;
-    const conversation = getConversationController().getOrThrow(selectedConversationKey);
-    const ourPrimary = window.storage.get('primaryDevicePubKey');
-
-    const members = conversation.get('members') || [];
-    const isAdmin = conversation.isMediumGroup()
-      ? true
-      : conversation.isPublic()
-      ? conversation.isAdmin(ourPrimary)
-      : false;
-
     return {
-      id: conversation.id,
-      name: conversation.getName(),
-      memberCount: members.length,
-      phoneNumber: conversation.getNumber(),
-      profileName: conversation.getProfileName(),
-      avatarPath: conversation.getAvatarPath(),
-      isKickedFromGroup: Boolean(conversation.get('isKickedFromGroup')),
-      left: conversation.get('left'),
-      isGroup: !conversation.isPrivate(),
-      isPublic: conversation.isPublic(),
-      isAdmin,
-      isBlocked: conversation.isBlocked(),
-      onGoBack: () => {
-        this.toggleRightPanel();
-      },
       onShowLightBox: (lightBoxOptions?: LightBoxOptions) => {
         this.setState({ lightBoxOptions });
       },
     };
-  }
-
-  public toggleRightPanel() {
-    const { showOptionsPane } = this.state;
-    this.setState({ showOptionsPane: !showOptionsPane });
-  }
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~ MESSAGE HANDLING ~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  public async deleteMessagesById(messageIds: Array<string>, askUserForConfirmation: boolean) {
-    // Get message objects
-    const { selectedConversationKey, selectedConversation, messagesProps } = this.props;
-
-    const conversationModel = getConversationController().getOrThrow(selectedConversationKey);
-    if (!selectedConversation) {
-      window?.log?.info('No valid selected conversation.');
-      return;
-    }
-    const selectedMessages = messagesProps.filter(message =>
-      messageIds.find(selectedMessage => selectedMessage === message.propsForMessage.id)
-    );
-
-    const multiple = selectedMessages.length > 1;
-
-    // In future, we may be able to unsend private messages also
-    // isServerDeletable also defined in ConversationHeader.tsx for
-    // future reference
-    const isServerDeletable = selectedConversation.isPublic;
-
-    const warningMessage = (() => {
-      if (selectedConversation.isPublic) {
-        return multiple
-          ? window.i18n('deleteMultiplePublicWarning')
-          : window.i18n('deletePublicWarning');
-      }
-      return multiple ? window.i18n('deleteMultipleWarning') : window.i18n('deleteWarning');
-    })();
-
-    const doDelete = async () => {
-      let toDeleteLocallyIds: Array<string>;
-
-      if (selectedConversation.isPublic) {
-        // Get our Moderator status
-        const ourDevicePubkey = UserUtils.getOurPubKeyStrFromCache();
-        if (!ourDevicePubkey) {
-          return;
-        }
-
-        const isAdmin = conversationModel.isAdmin(ourDevicePubkey);
-        const isAllOurs = selectedMessages.every(
-          message => ourDevicePubkey === message.propsForMessage.authorPhoneNumber
-        );
-
-        if (!isAllOurs && !isAdmin) {
-          ToastUtils.pushMessageDeleteForbidden();
-
-          this.setState({ selectedMessages: [] });
-          return;
-        }
-
-        toDeleteLocallyIds = await deleteOpenGroupMessages(selectedMessages, conversationModel);
-        if (toDeleteLocallyIds.length === 0) {
-          // Message failed to delete from server, show error?
-          return;
-        }
-      } else {
-        toDeleteLocallyIds = selectedMessages.map(pro => pro.propsForMessage.id);
-      }
-
-      await Promise.all(
-        toDeleteLocallyIds.map(async msgId => {
-          await conversationModel.removeMessage(msgId);
-        })
-      );
-
-      // Update view and trigger update
-      this.setState({ selectedMessages: [] }, ToastUtils.pushDeleted);
-    };
-
-    let title = '';
-
-    // Note:  keep that i18n logic separated so the scripts in tools/ find the usage of those
-    if (isServerDeletable) {
-      if (multiple) {
-        title = window.i18n('deleteMessagesForEveryone');
-      } else {
-        title = window.i18n('deleteMessageForEveryone');
-      }
-    } else {
-      if (multiple) {
-        title = window.i18n('deleteMessages');
-      } else {
-        title = window.i18n('deleteMessage');
-      }
-    }
-
-    const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
-
-    if (askUserForConfirmation) {
-      const onClickClose = () => {
-        window.inboxStore?.dispatch(updateConfirmModal(null));
-      };
-
-      window.inboxStore?.dispatch(
-        updateConfirmModal({
-          title,
-          message: warningMessage,
-          okText,
-          okTheme: SessionButtonColor.Danger,
-          onClickOk: doDelete,
-          onClickClose,
-        })
-      );
-    } else {
-      void doDelete();
-    }
-  }
-
-  public async deleteSelectedMessages() {
-    await this.deleteMessagesById(this.state.selectedMessages, true);
-  }
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~ MESSAGE SELECTION ~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  public selectMessage(messageId: string) {
-    const selectedMessages = this.state.selectedMessages.includes(messageId)
-      ? // Add to array if not selected. Else remove.
-        this.state.selectedMessages.filter(id => id !== messageId)
-      : [...this.state.selectedMessages, messageId];
-
-    this.setState({ selectedMessages });
-  }
-
-  public deleteMessage(messageId: string) {
-    this.setState({ selectedMessages: [messageId] }, this.deleteSelectedMessages);
-  }
-
-  public resetSelection() {
-    this.setState({ selectedMessages: [] });
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -539,8 +326,8 @@ export class SessionConversation extends React.Component<Props, State> {
   private onLoadVoiceNoteView() {
     this.setState({
       showRecordingView: true,
-      selectedMessages: [],
     });
+    window.inboxStore?.dispatch(resetSelectedMessageIds());
   }
 
   private onExitVoiceNoteView() {
@@ -582,18 +369,6 @@ export class SessionConversation extends React.Component<Props, State> {
     }
   }
 
-  private showMessageDetails(messageProps: any) {
-    messageProps.onDeleteMessage = async (id: string) => {
-      await this.deleteMessagesById([id], false);
-      this.setState({ messageDetailShowProps: undefined });
-    };
-
-    this.setState({
-      messageDetailShowProps: messageProps,
-      showOptionsPane: false,
-    });
-  }
-
   private onClickAttachment(attachment: AttachmentTypeWithPath, propsForMessage: PropsForMessage) {
     let index = -1;
     const media = (propsForMessage.attachments || []).map(attachmentForMedia => {
@@ -626,7 +401,7 @@ export class SessionConversation extends React.Component<Props, State> {
     if (!messageContainer) {
       return;
     }
-    const selectionMode = !!this.state.selectedMessages.length;
+    const selectionMode = !!this.props.selectedMessages.length;
     const recordingMode = this.state.showRecordingView;
     const pageHeight = messageContainer.clientHeight;
     const arrowScrollPx = 50;
@@ -642,7 +417,7 @@ export class SessionConversation extends React.Component<Props, State> {
       switch (event.key) {
         case 'Escape':
           if (selectionMode) {
-            this.resetSelection();
+            window.inboxStore?.dispatch(resetSelectedMessageIds());
           }
           break;
         // Scrolling

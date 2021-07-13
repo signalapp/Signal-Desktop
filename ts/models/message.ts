@@ -1,7 +1,7 @@
 import Backbone from 'backbone';
 // tslint:disable-next-line: match-default-export-name
 import filesize from 'filesize';
-import _ from 'lodash';
+import _, { noop } from 'lodash';
 import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue, Utils } from '../../ts/session';
 import { getConversationController } from '../../ts/session/conversations';
@@ -765,16 +765,23 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       contact => `${contact.isPrimaryDevice ? '0' : '1'}${contact.phoneNumber}`
     );
     const toRet: MessagePropsDetails = {
-      sentAt: this.get('sent_at'),
-      receivedAt: this.get('received_at'),
+      sentAt: this.get('sent_at') || 0,
+      receivedAt: this.get('received_at') || 0,
       message: {
         ...this.getPropsForMessage(),
         disableMenu: true,
         // To ensure that group avatar doesn't show up
         conversationType: ConversationTypeEnum.PRIVATE,
+        multiSelectMode: false,
+        firstMessageOfSeries: false,
+        onClickAttachment: noop,
+        onReply: noop,
+        onDownload: noop,
+        // tslint:disable-next-line: no-async-without-await  no-empty
+        onQuoteClick: async () => {},
       },
       errors,
-      contacts: sortedContacts,
+      contacts: sortedContacts || [],
     };
 
     return toRet;

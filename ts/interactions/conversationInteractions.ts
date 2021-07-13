@@ -28,6 +28,7 @@ import {
 } from '../state/ducks/modalDialog';
 import {
   createOrUpdateItem,
+  getMessageById,
   lastAvatarUploadTimestamp,
   removeAllMessagesInConversation,
 } from '../data/data';
@@ -38,6 +39,7 @@ import { FSv2 } from '../fileserver';
 import { fromBase64ToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
 import { perfEnd, perfStart } from '../session/utils/Performance';
+import { resetSelectedMessageIds } from '../state/ducks/conversationScreen';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -86,8 +88,8 @@ export async function copyPublicKeyByConvoId(convoId: string) {
  * @param messages the list of MessageModel to delete
  * @param convo the conversation to delete from (only v2 opengroups are supported)
  */
-export async function deleteOpenGroupMessages(
-  messages: Array<SortedMessageModelProps>,
+async function deleteOpenGroupMessages(
+  messages: Array<MessageModel>,
   convo: ConversationModel
 ): Promise<Array<string>> {
   if (!convo.isPublic()) {
@@ -100,13 +102,13 @@ export async function deleteOpenGroupMessages(
     // so logic here is to delete each messages and get which one where not removed
     const validServerIdsToRemove = _.compact(
       messages.map(msg => {
-        return msg.propsForMessage.serverId;
+        return msg.get('serverId');
       })
     );
 
     const validMessageModelsToRemove = _.compact(
       messages.map(msg => {
-        const serverId = msg.propsForMessage.serverId;
+        const serverId = msg.get('serverId');
         if (serverId) {
           return msg;
         }
@@ -124,7 +126,7 @@ export async function deleteOpenGroupMessages(
     // remove only the messages we managed to remove on the server
     if (allMessagesAreDeleted) {
       window?.log?.info('Removed all those serverIds messages successfully');
-      return validMessageModelsToRemove.map(m => m.propsForMessage.id);
+      return validMessageModelsToRemove.map(m => m.id as string);
     } else {
       window?.log?.info(
         'failed to remove all those serverIds message. not removing them locally neither'
@@ -427,5 +429,107 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     window.log.info(
       `Reuploading avatar finished at ${newTimestampReupload}, newAttachmentPointer ${fileUrl}`
     );
+  }
+}
+
+export async function deleteMessagesById(
+  messageIds: Array<string>,
+  conversationId: string,
+  askUserForConfirmation: boolean
+) {
+  const conversationModel = getConversationController().getOrThrow(conversationId);
+  const selectedMessages = _.compact(await Promise.all(messageIds.map(getMessageById)));
+
+  const moreThanOne = selectedMessages.length > 1;
+
+  // In future, we may be able to unsend private messages also
+  // isServerDeletable also defined in ConversationHeader.tsx for
+  // future reference
+  const isServerDeletable = conversationModel.isPublic();
+
+  const doDelete = async () => {
+    let toDeleteLocallyIds: Array<string>;
+
+    if (isServerDeletable) {
+      // Get our Moderator status
+      const ourDevicePubkey = UserUtils.getOurPubKeyStrFromCache();
+      if (!ourDevicePubkey) {
+        return;
+      }
+
+      const isAdmin = conversationModel.isAdmin(ourDevicePubkey);
+      const isAllOurs = selectedMessages.every(message => ourDevicePubkey === message.getSource());
+
+      if (!isAllOurs && !isAdmin) {
+        ToastUtils.pushMessageDeleteForbidden();
+
+        window.inboxStore?.dispatch(resetSelectedMessageIds());
+        return;
+      }
+
+      toDeleteLocallyIds = await deleteOpenGroupMessages(selectedMessages, conversationModel);
+      if (toDeleteLocallyIds.length === 0) {
+        // Message failed to delete from server, show error?
+        return;
+      }
+    } else {
+      toDeleteLocallyIds = selectedMessages.map(m => m.id as string);
+    }
+
+    await Promise.all(
+      toDeleteLocallyIds.map(async msgId => {
+        await conversationModel.removeMessage(msgId);
+      })
+    );
+
+    // Update view and trigger update
+    window.inboxStore?.dispatch(resetSelectedMessageIds());
+    ToastUtils.pushDeleted();
+  };
+
+  if (askUserForConfirmation) {
+    let title = '';
+
+    // Note:  keep that i18n logic separated so the scripts in tools/ find the usage of those
+    if (isServerDeletable) {
+      if (moreThanOne) {
+        title = window.i18n('deleteMessagesForEveryone');
+      } else {
+        title = window.i18n('deleteMessageForEveryone');
+      }
+    } else {
+      if (moreThanOne) {
+        title = window.i18n('deleteMessages');
+      } else {
+        title = window.i18n('deleteMessage');
+      }
+    }
+
+    const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
+
+    const onClickClose = () => {
+      window.inboxStore?.dispatch(updateConfirmModal(null));
+    };
+
+    const warningMessage = (() => {
+      if (isServerDeletable) {
+        return moreThanOne
+          ? window.i18n('deleteMultiplePublicWarning')
+          : window.i18n('deletePublicWarning');
+      }
+      return moreThanOne ? window.i18n('deleteMultipleWarning') : window.i18n('deleteWarning');
+    })();
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title,
+        message: warningMessage,
+        okText,
+        okTheme: SessionButtonColor.Danger,
+        onClickOk: doDelete,
+        onClickClose,
+      })
+    );
+  } else {
+    void doDelete();
   }
 }

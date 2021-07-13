@@ -12,6 +12,7 @@ import {
 import {
   MessageDeliveryStatus,
   MessageModelType,
+  MessageRegularProps,
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
 import { NotificationForConvoOption } from '../../components/conversation/ConversationHeader';
@@ -25,7 +26,25 @@ export type MessageModelProps = {
   propsForGroupNotification: PropsForGroupUpdate | null;
 };
 
-export type MessagePropsDetails = {};
+export type ContactPropsMessageDetail = {
+  status: string | null;
+  phoneNumber: string;
+  name?: string | null;
+  profileName?: string | null;
+  avatarPath?: string | null;
+  isOutgoingKeyError: boolean;
+
+  errors?: Array<Error>;
+};
+
+export type MessagePropsDetails = {
+  sentAt: number;
+  receivedAt: number;
+
+  message: MessageRegularProps;
+  errors: Array<Error>;
+  contacts: Array<ContactPropsMessageDetail>;
+};
 
 export type LastMessageStatusType = MessageDeliveryStatus | null;
 

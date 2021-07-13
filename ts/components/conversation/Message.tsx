@@ -42,6 +42,12 @@ import autoBind from 'auto-bind';
 import { AudioPlayerWithEncryptedFile } from './H5AudioPlayer';
 import { ClickToTrustSender } from './message/ClickToTrustSender';
 import { getMessageById } from '../../data/data';
+import { showMessageDetailsView } from '../../state/ducks/conversationScreen';
+import { deleteMessagesById } from '../../interactions/conversationInteractions';
+import { getSelectedMessage } from '../../state/selectors/search';
+import { connect } from 'react-redux';
+import { StateType } from '../../state/reducer';
+import { getSelectedMessageIds, isMessageSelected } from '../../state/selectors/conversationScreen';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
@@ -55,12 +61,14 @@ interface State {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-export class Message extends React.PureComponent<MessageRegularProps, State> {
+type Props = MessageRegularProps & { selectedMessages: Array<string> };
+
+class MessageInner extends React.PureComponent<Props, State> {
   public expirationCheckInterval: any;
   public expiredTimeout: any;
   public ctxMenuID: string;
 
-  public constructor(props: MessageRegularProps) {
+  public constructor(props: Props) {
     super(props);
     autoBind(this);
 
@@ -144,7 +152,6 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
       quote,
       onClickAttachment,
       multiSelectMode,
-      onSelectMessage,
       isTrustedForAttachmentDownload,
     } = this.props;
     const { imageBroken } = this.state;
@@ -186,7 +193,7 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
             onError={this.handleImageError}
             onClickAttachment={(attachment: AttachmentType) => {
               if (multiSelectMode) {
-                onSelectMessage(id);
+                window.inboxStore?.dispatch(toggleSelectedMessageId(id));
               } else if (onClickAttachment) {
                 onClickAttachment(attachment);
               }
@@ -384,7 +391,8 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
           e.preventDefault();
           e.stopPropagation();
           if (multiSelectMode && id) {
-            this.props.onSelectMessage(id);
+            window.inboxStore?.dispatch(toggleSelectedMessageId(id));
+
             return;
           }
           void this.props.onQuoteClick?.({
@@ -512,10 +520,7 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
       status,
       isDeletable,
       id,
-      onSelectMessage,
-      onDeleteMessage,
       onDownload,
-      onShowDetail,
       isPublic,
       isOpenGroupV2,
       weAreAdmin,
@@ -537,6 +542,16 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
       setTimeout(() => {
         window.contextMenuShown = false;
       }, 100);
+    };
+
+    const onShowDetail = async () => {
+      const found = await getMessageById(this.props.id);
+      if (found) {
+        const messageDetailsProps = await found.getPropsForMessageDetail();
+        window.inboxStore?.dispatch(showMessageDetailsView(messageDetailsProps));
+      } else {
+        window.log.warn(`Message ${this.props.id} not found in db`);
+      }
     };
 
     const selectMessageText = window.i18n('selectMessage');
@@ -586,14 +601,14 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
           <>
             <Item
               onClick={() => {
-                onSelectMessage(id);
+                window.inboxStore?.dispatch(toggleSelectedMessageId(id));
               }}
             >
               {selectMessageText}
             </Item>
             <Item
               onClick={() => {
-                onDeleteMessage(id);
+                void deleteMessagesById([id], convoId, false);
               }}
             >
               {deleteMessageText}
@@ -691,12 +706,21 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   public render() {
-    const { direction, id, selected, multiSelectMode, conversationType, isUnread } = this.props;
+    const {
+      direction,
+      id,
+      multiSelectMode,
+      conversationType,
+      isUnread,
+      selectedMessages,
+    } = this.props;
     const { expired, expiring } = this.state;
 
     if (expired) {
       return null;
     }
+
+    const selected = selectedMessages.includes(id) || false;
 
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
@@ -762,7 +786,7 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
             }
 
             if (id) {
-              this.props.onSelectMessage(id);
+              window.inboxStore?.dispatch(toggleSelectedMessageId(id));
             }
           }}
         >
@@ -791,7 +815,7 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
               }
 
               if (id) {
-                this.props.onSelectMessage(id);
+                window.inboxStore?.dispatch(toggleSelectedMessageId(id));
               }
             }}
           >
@@ -803,10 +827,8 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
             <MessageMetadata
               {..._.omit(
                 this.props,
-                'onSelectMessage',
                 'onDeleteMessage',
                 'onReply',
-                'onShowDetail',
                 'onClickAttachment',
                 'onDownload',
                 'onQuoteClick'
@@ -885,3 +907,16 @@ export class Message extends React.PureComponent<MessageRegularProps, State> {
     await removeSenderFromModerator(this.props.authorPhoneNumber, this.props.convoId);
   }
 }
+function toggleSelectedMessageId(id: string): any {
+  throw new Error('Function not implemented.');
+}
+
+const mapStateToProps = (state: StateType) => {
+  return {
+    selectedMessages: getSelectedMessageIds(state),
+  };
+};
+
+const smart = connect(mapStateToProps);
+
+export const Message = smart(MessageInner);

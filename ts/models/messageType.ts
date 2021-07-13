@@ -238,7 +238,6 @@ export interface MessageRegularProps {
   convoId: string;
   isPublic?: boolean;
   isOpenGroupV2?: boolean;
-  selected: boolean;
   isKickedFromGroup: boolean;
   // whether or not to show check boxes
   multiSelectMode: boolean;
@@ -248,11 +247,8 @@ export interface MessageRegularProps {
   isTrustedForAttachmentDownload: boolean;
 
   onClickAttachment: (attachment: AttachmentType) => void;
-  onSelectMessage: (messageId: string) => void;
   onReply: (messagId: number) => void;
   onDownload: (attachment: AttachmentType) => void;
-  onDeleteMessage: (messageId: string) => void;
-  onShowDetail: () => void;
   onQuoteClick: (options: QuoteClickOptions) => Promise<void>;
 
   playableMessageIndex?: number;

@@ -169,7 +169,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
   public throttledBumpTyping: any;
   public throttledNotify: any;
-  public markRead: (newestUnreadDate: number, providedOptions: any) => Promise<void>;
+  public markRead: (newestUnreadDate: number, providedOptions?: any) => Promise<void>;
   public initialPromise: any;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;

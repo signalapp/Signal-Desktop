@@ -223,7 +223,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   const updates: any = {
     name: details.name,
     members: details.members,
-    color: details.color,
     type: 'group',
     is_medium_group: true,
   };

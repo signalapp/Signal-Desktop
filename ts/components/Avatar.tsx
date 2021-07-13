@@ -16,7 +16,7 @@ export enum AvatarSize {
 }
 
 type Props = {
-  avatarPath?: string;
+  avatarPath?: string | null;
   name?: string; // display name, profileName or phoneNumber, whatever is set first
   pubkey?: string;
   size: AvatarSize;

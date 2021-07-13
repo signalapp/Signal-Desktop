@@ -36,26 +36,16 @@ import { ItemClickEvent } from '../../conversation/media-gallery/types/ItemClick
 import { MediaItemType } from '../../LightboxGallery';
 // tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
+import { closeRightPanel } from '../../../state/ducks/conversationScreen';
+import { isRightPanelShowing } from '../../../state/selectors/conversationScreen';
+import { getSelectedConversation } from '../../../state/selectors/conversations';
+import { useMembersAvatars } from '../../../hooks/useMembersAvatar';
 
 type Props = {
-  id: string;
-  name?: string;
-  profileName?: string;
-  phoneNumber: string;
-  memberCount: number;
-  avatarPath: string | null;
-  isPublic: boolean;
-  isAdmin: boolean;
-  isKickedFromGroup: boolean;
-  left: boolean;
-  isBlocked: boolean;
-  isShowing: boolean;
-  isGroup: boolean;
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 
-  onGoBack: () => void;
   onShowLightBox: (lightboxOptions?: LightBoxOptions) => void;
 };
 
@@ -187,40 +177,109 @@ async function getMediaGalleryProps(
   };
 }
 
+const HeaderItem = () => {
+  const selectedConversation = useSelector(getSelectedConversation);
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const memberDetails = useMembersAvatars(selectedConversation);
+
+  if (!selectedConversation) {
+    return null;
+  }
+  const {
+    avatarPath,
+    isPublic,
+    id,
+    weAreAdmin,
+    isKickedFromGroup,
+    profileName,
+    phoneNumber,
+    isBlocked,
+    left,
+    name,
+  } = selectedConversation;
+
+  const showInviteContacts = (isPublic || weAreAdmin) && !isKickedFromGroup && !isBlocked && !left;
+  const userName = name || profileName || phoneNumber;
+
+  return (
+    <div className="group-settings-header">
+      <SessionIconButton
+        iconType={SessionIconType.Chevron}
+        iconSize={SessionIconSize.Medium}
+        iconRotation={270}
+        onClick={() => {
+          dispatch(closeRightPanel());
+        }}
+        theme={theme}
+      />
+      <Avatar
+        avatarPath={avatarPath || ''}
+        name={userName}
+        size={AvatarSize.XL}
+        memberAvatars={memberDetails}
+        pubkey={id}
+      />
+      <div className="invite-friends-container">
+        {showInviteContacts && (
+          <SessionIconButton
+            iconType={SessionIconType.AddUser}
+            iconSize={SessionIconSize.Medium}
+            onClick={() => {
+              if (selectedConversation) {
+                showInviteContactByConvoId(selectedConversation.id);
+              }
+            }}
+            theme={theme}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
 // tslint:disable: cyclomatic-complexity
 // tslint:disable: max-func-body-length
 export const SessionRightPanelWithDetails = (props: Props) => {
   const [documents, setDocuments] = useState<Array<MediaItemType>>([]);
   const [media, setMedia] = useState<Array<MediaItemType>>([]);
   const [onItemClick, setOnItemClick] = useState<any>(undefined);
-  const theme = useTheme();
+
+  const selectedConversation = useSelector(getSelectedConversation);
+  const isShowing = useSelector(isRightPanelShowing);
 
   console.warn('props', props);
 
   useEffect(() => {
     let isRunning = true;
 
-    if (props.isShowing) {
-      void getMediaGalleryProps(props.id, media, props.onShowLightBox).then(results => {
-        console.warn('results2', results);
+    if (isShowing && selectedConversation) {
+      void getMediaGalleryProps(selectedConversation.id, media, props.onShowLightBox).then(
+        results => {
+          console.warn('results2', results);
 
-        if (isRunning) {
-          setDocuments(results.documents);
-          setMedia(results.media);
-          setOnItemClick(results.onItemClick);
+          if (isRunning) {
+            setDocuments(results.documents);
+            setMedia(results.media);
+            setOnItemClick(results.onItemClick);
+          }
         }
-      });
+      );
     }
 
     return () => {
       isRunning = false;
       return;
     };
-  }, [props.isShowing, props.id]);
+  }, [isShowing, selectedConversation?.id]);
 
   useInterval(async () => {
-    if (props.isShowing) {
-      const results = await getMediaGalleryProps(props.id, media, props.onShowLightBox);
+    if (isShowing && selectedConversation) {
+      const results = await getMediaGalleryProps(
+        selectedConversation.id,
+        media,
+        props.onShowLightBox
+      );
       console.warn('results', results);
       if (results.documents.length !== documents.length || results.media.length !== media.length) {
         setDocuments(results.documents);
@@ -230,56 +289,22 @@ export const SessionRightPanelWithDetails = (props: Props) => {
     }
   }, 10000);
 
-  function renderHeader() {
-    const { memberAvatars, onGoBack, avatarPath, profileName, phoneNumber } = props;
-
-    const showInviteContacts = (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked && !left;
-    const userName = name || profileName || phoneNumber;
-
-    return (
-      <div className="group-settings-header">
-        <SessionIconButton
-          iconType={SessionIconType.Chevron}
-          iconSize={SessionIconSize.Medium}
-          iconRotation={270}
-          onClick={onGoBack}
-          theme={theme}
-        />
-        <Avatar
-          avatarPath={avatarPath || ''}
-          name={userName}
-          size={AvatarSize.XL}
-          memberAvatars={memberAvatars}
-          pubkey={id}
-        />
-        <div className="invite-friends-container">
-          {showInviteContacts && (
-            <SessionIconButton
-              iconType={SessionIconType.AddUser}
-              iconSize={SessionIconSize.Medium}
-              onClick={() => {
-                showInviteContactByConvoId(props.id);
-              }}
-              theme={theme}
-            />
-          )}
-        </div>
-      </div>
-    );
+  if (!selectedConversation) {
+    return null;
   }
 
   const {
     id,
-    memberCount,
+    subscriberCount,
     name,
     isKickedFromGroup,
     left,
     isPublic,
-    isAdmin,
+    weAreAdmin,
     isBlocked,
     isGroup,
-  } = props;
-  const showMemberCount = !!(memberCount && memberCount > 0);
+  } = selectedConversation;
+  const showMemberCount = !!(subscriberCount && subscriberCount > 0);
   const commonNoShow = isKickedFromGroup || left || isBlocked;
   const hasDisappearingMessages = !isPublic && !commonNoShow;
   const leaveGroupString = isPublic
@@ -301,8 +326,8 @@ export const SessionRightPanelWithDetails = (props: Props) => {
     };
   });
 
-  const showUpdateGroupNameButton = isAdmin && !commonNoShow;
-  const showAddRemoveModeratorsButton = isAdmin && !commonNoShow && isPublic;
+  const showUpdateGroupNameButton = weAreAdmin && !commonNoShow;
+  const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
 
   const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
 
@@ -316,13 +341,13 @@ export const SessionRightPanelWithDetails = (props: Props) => {
   console.warn('onItemClick', onItemClick);
   return (
     <div className="group-settings">
-      {renderHeader()}
+      <HeaderItem />
       <h2>{name}</h2>
       {showMemberCount && (
         <>
           <SpacerLG />
           <div role="button" className="subtle">
-            {window.i18n('members', memberCount)}
+            {window.i18n('members', subscriberCount)}
           </div>
           <SpacerLG />
         </>

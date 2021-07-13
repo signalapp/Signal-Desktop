@@ -21,10 +21,17 @@ import { TypingBubble } from '../../conversation/TypingBubble';
 import { getConversationController } from '../../../session/conversations';
 import { MessageModel } from '../../../models/message';
 import { MessageRegularProps, QuoteClickOptions } from '../../../models/messageType';
-import { getMessageById, getMessagesBySentAt } from '../../../data/data';
+import { getMessagesBySentAt } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../models/conversation';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
+import { StateType } from '../../../state/reducer';
+import { getSelectedMessageIds } from '../../../state/selectors/conversationScreen';
+import { connect } from 'react-redux';
+import {
+  getSelectedConversation,
+  getSelectedConversationKey,
+} from '../../../state/selectors/conversations';
 
 interface State {
   showScrollButton: boolean;
@@ -32,31 +39,27 @@ interface State {
   nextMessageToPlay: number | undefined;
 }
 
-interface Props {
+type Props = SessionMessageListProps & {
+  conversationKey?: string;
   selectedMessages: Array<string>;
-  conversationKey: string;
+
+  conversation?: ReduxConversationType;
+};
+
+export type SessionMessageListProps = {
   messagesProps: Array<SortedMessageModelProps>;
-  conversation: ReduxConversationType;
-  ourPrimary: string;
   messageContainerRef: React.RefObject<any>;
-  selectMessage: (messageId: string) => void;
-  deleteMessage: (messageId: string) => void;
+
   replyToMessage: (messageId: number) => Promise<void>;
-  showMessageDetails: (messageProps: any) => void;
   onClickAttachment: (attachment: any, message: any) => void;
-  onDownloadAttachment: ({
-    attachment,
-    messageTimestamp,
-  }: {
+  onDownloadAttachment: (toDownload: {
     attachment: any;
     messageTimestamp: number;
     messageSender: string;
   }) => void;
-  onDeleteSelectedMessages: () => Promise<void>;
-}
+};
 
-export class SessionMessagesList extends React.Component<Props, State> {
-  private readonly messageContainerRef: React.RefObject<any>;
+class SessionMessagesListInner extends React.Component<Props, State> {
   private scrollOffsetBottomPx: number = Number.MAX_VALUE;
   private ignoreScrollEvents: boolean;
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
@@ -70,7 +73,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
     };
     autoBind(this);
 
-    this.messageContainerRef = this.props.messageContainerRef;
     this.ignoreScrollEvents = true;
   }
 
@@ -114,7 +116,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
         if (this.getScrollOffsetBottomPx() === 0) {
           this.scrollToBottom();
         } else {
-          const messageContainer = this.messageContainerRef?.current;
+          const messageContainer = this.props.messageContainerRef?.current;
 
           if (messageContainer) {
             const scrollHeight = messageContainer.scrollHeight;
@@ -132,6 +134,10 @@ export class SessionMessagesList extends React.Component<Props, State> {
     const { conversationKey, conversation } = this.props;
     const { showScrollButton } = this.state;
 
+    if (!conversationKey || !conversation) {
+      return null;
+    }
+
     let displayedName = null;
     if (conversation.type === ConversationTypeEnum.PRIVATE) {
       displayedName = getConversationController().getContactProfileNameOrShortenedPubKey(
@@ -143,7 +149,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       <div
         className="messages-container"
         onScroll={this.handleScroll}
-        ref={this.messageContainerRef}
+        ref={this.props.messageContainerRef}
       >
         <TypingBubble
           phoneNumber={conversationKey}
@@ -166,6 +172,9 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
   private displayUnreadBannerIndex(messages: Array<SortedMessageModelProps>) {
     const { conversation } = this.props;
+    if (!conversation) {
+      return -1;
+    }
     if (conversation.unreadCount === 0) {
       return -1;
     }
@@ -309,20 +318,6 @@ export class SessionMessagesList extends React.Component<Props, State> {
   ) {
     const messageId = messageProps.propsForMessage.id;
 
-    const selected =
-      !!messageProps?.propsForMessage.id && this.props.selectedMessages.includes(messageId);
-
-    const onShowDetail = async () => {
-      const found = await getMessageById(messageId);
-      if (found) {
-        const messageDetailsProps = await found.getPropsForMessageDetail();
-
-        this.props.showMessageDetails(messageDetailsProps);
-      } else {
-        window.log.warn(`Message ${messageId} not found in db`);
-      }
-    };
-
     const onClickAttachment = (attachment: AttachmentType) => {
       this.props.onClickAttachment(attachment, messageProps.propsForMessage);
     };
@@ -347,16 +342,12 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
     const regularProps: MessageRegularProps = {
       ...messageProps.propsForMessage,
-      selected,
       firstMessageOfSeries,
       multiSelectMode,
       isQuotedMessageToAnimate: messageId === this.state.animateQuotedMessageId,
       nextMessageToPlay: this.state.nextMessageToPlay,
       playableMessageIndex,
-      onSelectMessage: this.props.selectMessage,
-      onDeleteMessage: this.props.deleteMessage,
       onReply: this.props.replyToMessage,
-      onShowDetail,
       onClickAttachment,
       onDownload,
       playNextMessage: this.playNextMessage,
@@ -372,7 +363,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
   private updateReadMessages() {
     const { messagesProps, conversationKey } = this.props;
 
-    if (!messagesProps || messagesProps.length === 0) {
+    if (!messagesProps || messagesProps.length === 0 || !conversationKey) {
       return;
     }
 
@@ -387,7 +378,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
     }
 
     if (this.getScrollOffsetBottomPx() === 0) {
-      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt);
+      void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0);
     }
   }
 
@@ -426,10 +417,10 @@ export class SessionMessagesList extends React.Component<Props, State> {
   // ~~~~~~~~~~~~ SCROLLING METHODS ~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private async handleScroll() {
-    const messageContainer = this.messageContainerRef?.current;
+    const messageContainer = this.props.messageContainerRef?.current;
 
     const { conversationKey } = this.props;
-    if (!messageContainer) {
+    if (!messageContainer || !conversationKey) {
       return;
     }
     contextMenu.hideAll();
@@ -483,6 +474,9 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
   private scrollToUnread() {
     const { messagesProps, conversation } = this.props;
+    if (!conversation) {
+      return;
+    }
     if (conversation.unreadCount > 0) {
       let message;
       if (messagesProps.length > conversation.unreadCount) {
@@ -542,7 +536,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
       );
     }
 
-    const messageContainer = this.messageContainerRef.current;
+    const messageContainer = this.props.messageContainerRef.current;
     if (!messageContainer) {
       return;
     }
@@ -556,19 +550,19 @@ export class SessionMessagesList extends React.Component<Props, State> {
   }
 
   private scrollToBottom() {
-    const messageContainer = this.messageContainerRef.current;
+    const messageContainer = this.props.messageContainerRef.current;
     if (!messageContainer) {
       return;
     }
     messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
     const { messagesProps, conversationKey } = this.props;
 
-    if (!messagesProps || messagesProps.length === 0) {
+    if (!messagesProps || messagesProps.length === 0 || !conversationKey) {
       return;
     }
 
     const conversation = getConversationController().getOrThrow(conversationKey);
-    void conversation.markRead(messagesProps[0].propsForMessage.receivedAt);
+    void conversation.markRead(messagesProps[0].propsForMessage.receivedAt || 0);
   }
 
   private async scrollToQuoteMessage(options: QuoteClickOptions) {
@@ -622,7 +616,7 @@ export class SessionMessagesList extends React.Component<Props, State> {
 
   // basically the offset in px from the bottom of the view (most recent message)
   private getScrollOffsetBottomPx() {
-    const messageContainer = this.messageContainerRef?.current;
+    const messageContainer = this.props.messageContainerRef?.current;
 
     if (!messageContainer) {
       return Number.MAX_VALUE;
@@ -634,3 +628,15 @@ export class SessionMessagesList extends React.Component<Props, State> {
     return scrollHeight - scrollTop - clientHeight;
   }
 }
+
+const mapStateToProps = (state: StateType) => {
+  return {
+    selectedMessages: getSelectedMessageIds(state),
+    conversationKey: getSelectedConversationKey(state),
+    conversation: getSelectedConversation(state),
+  };
+};
+
+const smart = connect(mapStateToProps);
+
+export const SessionMessagesList = smart(SessionMessagesListInner);
