@@ -22,12 +22,6 @@ module.exports = grunt => {
     components.push(bower.concat.app[i]);
   }
 
-  const libtextsecurecomponents = [];
-  // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (const i in bower.concat.libtextsecure) {
-    libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
-  }
-
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.initConfig({
@@ -36,10 +30,6 @@ module.exports = grunt => {
       components: {
         src: components,
         dest: 'js/components.js',
-      },
-      libtextsecurecomponents: {
-        src: libtextsecurecomponents,
-        dest: 'libtextsecure/components.js',
       },
       test: {
         src: [
@@ -87,10 +77,6 @@ module.exports = grunt => {
       },
     },
     watch: {
-      libtextsecure: {
-        files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
-        tasks: ['concat:libtextsecure'],
-      },
       protobuf: {
         files: ['./protos/SignalService.proto'],
         tasks: ['exec:build-protobuf'],

@@ -52,7 +52,6 @@ const excludedFilesRegexps = [
   '^js/components.js',
   '^js/curve/',
   '^js/util_worker.js',
-  '^libtextsecure/components.js',
   '^libtextsecure/test/test.js',
   '^sticker-creator/dist/bundle.js',
   '^test/test.js',
