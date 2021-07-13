@@ -36,6 +36,7 @@ import { getSwarmPollingInstance } from '../session/snode_api';
 import { MessageModel } from '../models/message';
 
 import { updateConfirmModal } from '../state/ducks/modalDialog';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -409,11 +410,14 @@ async function handleClosedGroupEncryptionKeyPair(
   }
   let plaintext: Uint8Array;
   try {
+    perfStart(`encryptionKeyPair-${envelope.id}`);
+
     const buffer = await decryptWithSessionProtocol(
       envelope,
       ourWrapper.encryptedKeyPair,
       ECKeyPair.fromKeyPair(ourKeyPair)
     );
+    perfEnd(`encryptionKeyPair-${envelope.id}`, 'encryptionKeyPair');
 
     if (!buffer || buffer.byteLength === 0) {
       throw new Error();

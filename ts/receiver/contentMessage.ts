@@ -28,7 +28,10 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
     } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;
     }
+    perfStart(`innerHandleContentMessage-${envelope.id}`);
+
     await innerHandleContentMessage(envelope, plaintext);
+    perfEnd(`innerHandleContentMessage-${envelope.id}`, 'innerHandleContentMessage');
   } catch (e) {
     window?.log?.warn(e);
   }
@@ -131,6 +134,7 @@ export async function decryptWithSessionProtocol(
   x25519KeyPair: ECKeyPair,
   isClosedGroup?: boolean
 ): Promise<ArrayBuffer> {
+  perfStart(`decryptWithSessionProtocol-${envelope.id}`);
   const recipientX25519PrivateKey = x25519KeyPair.privateKeyData;
   const hex = toHex(new Uint8Array(x25519KeyPair.publicKeyData));
 
@@ -147,6 +151,8 @@ export async function decryptWithSessionProtocol(
     new Uint8Array(recipientX25519PrivateKey)
   );
   if (plaintextWithMetadata.byteLength <= signatureSize + ed25519PublicKeySize) {
+    perfEnd(`decryptWithSessionProtocol-${envelope.id}`, 'decryptWithSessionProtocol');
+
     throw new Error('Decryption failed.'); // throw Error.decryptionFailed;
   }
 
@@ -167,11 +173,15 @@ export async function decryptWithSessionProtocol(
   );
 
   if (!isValid) {
+    perfEnd(`decryptWithSessionProtocol-${envelope.id}`, 'decryptWithSessionProtocol');
+
     throw new Error('Invalid message signature.'); //throw Error.invalidSignature
   }
   // 4. ) Get the sender's X25519 public key
   const senderX25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(senderED25519PublicKey);
   if (!senderX25519PublicKey) {
+    perfEnd(`decryptWithSessionProtocol-${envelope.id}`, 'decryptWithSessionProtocol');
+
     throw new Error('Decryption failed.'); // Error.decryptionFailed
   }
 
@@ -181,6 +191,8 @@ export async function decryptWithSessionProtocol(
   } else {
     envelope.source = `05${toHex(senderX25519PublicKey)}`;
   }
+  perfEnd(`decryptWithSessionProtocol-${envelope.id}`, 'decryptWithSessionProtocol');
+
   return plaintext;
 }
 
@@ -195,16 +207,25 @@ async function decryptUnidentifiedSender(
   window?.log?.info('received unidentified sender message');
   try {
     const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
+
     if (!userX25519KeyPair) {
       throw new Error('Failed to find User x25519 keypair from stage'); // noUserX25519KeyPair
     }
+
     const ecKeyPair = ECKeyPair.fromArrayBuffer(
       userX25519KeyPair.pubKey,
       userX25519KeyPair.privKey
     );
+
     // keep the await so the try catch works as expected
+    perfStart(`decryptUnidentifiedSender-${envelope.id}`);
+
     const retSessionProtocol = await decryptWithSessionProtocol(envelope, ciphertext, ecKeyPair);
-    return removeMessagePadding(retSessionProtocol);
+
+    const ret = removeMessagePadding(retSessionProtocol);
+    perfEnd(`decryptUnidentifiedSender-${envelope.id}`, 'decryptUnidentifiedSender');
+
+    return ret;
   } catch (e) {
     window?.log?.warn('decryptWithSessionProtocol for unidentified message throw:', e);
     return null;
@@ -241,12 +262,15 @@ async function decrypt(envelope: EnvelopePlus, ciphertext: ArrayBuffer): Promise
       return null;
     }
 
+    perfStart(`updateCache-${envelope.id}`);
+
     await updateCache(envelope, plaintext).catch((error: any) => {
       window?.log?.error(
         'decrypt failed to save decrypted message contents to cache:',
         error && error.stack ? error.stack : error
       );
     });
+    perfEnd(`updateCache-${envelope.id}`, 'updateCache');
 
     return plaintext;
   } catch (error) {
