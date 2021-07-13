@@ -45,7 +45,7 @@ const cacheOfClosedGroupKeyPairs: Map<string, Array<HexKeyPair>> = new Map();
 export async function getAllCachedECKeyPair(groupPubKey: string) {
   let keyPairsFound = cacheOfClosedGroupKeyPairs.get(groupPubKey);
 
-  if (!keyPairsFound) {
+  if (!keyPairsFound || keyPairsFound.length === 0) {
     keyPairsFound = (await getAllEncryptionKeyPairsForGroup(groupPubKey)) || [];
     cacheOfClosedGroupKeyPairs.set(groupPubKey, keyPairsFound);
   }
@@ -414,6 +414,7 @@ async function handleClosedGroupEncryptionKeyPair(
       ourWrapper.encryptedKeyPair,
       ECKeyPair.fromKeyPair(ourKeyPair)
     );
+
     if (!buffer || buffer.byteLength === 0) {
       throw new Error();
     }

@@ -290,7 +290,6 @@
       "password.html",
       "debug_log.html",
       "_locales/**",
-      "libloki/modules/*.js",
       "mnemonic_languages/**",
       "protos/*",
       "js/**",

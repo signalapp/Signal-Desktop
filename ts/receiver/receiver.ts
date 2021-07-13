@@ -1,5 +1,3 @@
-// TODO: fix libloki and textsecure not being available here yet
-
 import { EnvelopePlus } from './types';
 export { downloadAttachment } from './attachments';
 import { v4 as uuidv4 } from 'uuid';

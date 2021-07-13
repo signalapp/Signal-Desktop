@@ -7,10 +7,8 @@ mnemonic_languages/**
 js/curve/*
 js/components.js
 js/libtextsecure.js
-js/libloki.js
 js/util_worker.js
 libtextsecure/components.js
-libloki/test/test.js
 libtextsecure/test/test.js
 test/test.js
 
@@ -24,8 +22,3 @@ test/blanket_mocha.js
 # TypeScript generated files
 ts/**/*.js
 **/ts/**/*.js
-
-
-# Libloki specific files
-libloki/test/components.js
-libloki/modules/mnemonic.js

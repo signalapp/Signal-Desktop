@@ -153,18 +153,26 @@ export async function requestNewAuthToken({
     window?.log?.warn('Parsing failed');
     return null;
   }
-  const ciphertext = await window.callWorker('fromBase64ToArrayBuffer', base64EncodedCiphertext);
-  const ephemeralPublicKey = await window.callWorker(
+  const ciphertext = (await window.callWorker(
+    'fromBase64ToArrayBuffer',
+    base64EncodedCiphertext
+  )) as ArrayBuffer;
+  const ephemeralPublicKey = (await window.callWorker(
     'fromBase64ToArrayBuffer',
     base64EncodedEphemeralPublicKey
-  );
+  )) as ArrayBuffer;
   try {
-    const symmetricKey = await window.libloki.crypto.deriveSymmetricKey(
-      ephemeralPublicKey,
-      userKeyPair.privKey
-    );
+    const symmetricKey = (await window.callWorker(
+      'deriveSymmetricKey',
+      new Uint8Array(ephemeralPublicKey),
+      new Uint8Array(userKeyPair.privKey)
+    )) as ArrayBuffer;
 
-    const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(symmetricKey, ciphertext);
+    const plaintextBuffer = await window.callWorker(
+      'DecryptAESGCM',
+      new Uint8Array(symmetricKey),
+      new Uint8Array(ciphertext)
+    );
 
     const token = toHex(plaintextBuffer);
 

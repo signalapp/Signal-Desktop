@@ -68,7 +68,7 @@ export const parseMessages = async (
 
       const signatureValid = (await window.callWorker(
         'verifySignature',
-        fromHexToArray(senderPubKey),
+        senderPubKey,
         opengroupv2Message.base64EncodedData,
         opengroupv2Message.base64EncodedSignature
       )) as boolean;

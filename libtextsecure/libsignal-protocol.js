@@ -1,6 +1,12 @@
+
+var libsignal
 ; (function () {
   var Internal = {};
-  window.libsignal = {};
+  libsignal = typeof window === 'undefined' ? {} : window.libsignal || {};
+  if (typeof window !== 'undefined') {
+    window.libsignal = libsignal;
+  }
+
   // The Module object: Our interface to the outside world. We import
   // and export values on it, and do the work to get that through
   // closure compiler if necessary. There are various ways Module can be used:
@@ -35178,7 +35184,7 @@
   (function () {
     'use strict';
 
-    var crypto = window.crypto;
+    var crypto = typeof window === 'undefined' ? self.crypto : window.crypto || {};
 
     if (!crypto || !crypto.subtle || typeof crypto.getRandomValues !== 'function') {
       throw new Error('WebCrypto not found');

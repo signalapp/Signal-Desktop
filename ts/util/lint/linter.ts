@@ -56,7 +56,6 @@ const excludedFiles = [
   '^js/components.js',
   '^js/curve/',
   '^js/libtextsecure.js',
-  '^js/libloki.js',
   '^js/util_worker.js',
   '^libtextsecure/components.js',
   '^libtextsecure/test/test.js',
@@ -66,7 +65,6 @@ const excludedFiles = [
   '^libtextsecure/libsignal-protocol.js',
 
   // Test files
-  '^libloki/test/*',
   '^libtextsecure/test/*',
   '^test/*',
 

@@ -104,12 +104,6 @@ describe('MessageEncrypter', () => {
       },
     });
 
-    TestUtils.stubWindow('libloki', {
-      crypto: {
-        encryptForPubkey: sinon.fake.returns(''),
-      } as any,
-    });
-
     sandbox.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
     sandbox.stub(UserUtils, 'getUserED25519KeyPair').resolves(ourUserEd25516Keypair);
   });

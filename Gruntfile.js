@@ -25,16 +25,11 @@ module.exports = grunt => {
     libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
   }
 
-  const liblokicomponents = [];
-  // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (const i in bower.concat.libloki) {
-    liblokicomponents.push(bower.concat.libloki[i]);
-  }
-
   const utilWorkerComponents = [
     'node_modules/bytebuffer/dist/bytebuffer.js',
     'js/curve/curve25519_compiled.js',
     'js/curve/curve25519_wrapper.js',
+    'libtextsecure/libsignal-protocol.js',
     'js/util_worker_tasks.js',
   ];
 
@@ -54,10 +49,6 @@ module.exports = grunt => {
       libtextsecurecomponents: {
         src: libtextsecurecomponents,
         dest: 'libtextsecure/components.js',
-      },
-      liblokicomponents: {
-        src: liblokicomponents,
-        dest: 'libloki/test/components.js',
       },
       test: {
         src: ['node_modules/mocha/mocha.js', 'node_modules/chai/chai.js', 'test/_test.js'],
@@ -83,14 +74,6 @@ module.exports = grunt => {
           'libtextsecure/message_receiver.js',
         ],
         dest: 'js/libtextsecure.js',
-      },
-      libloki: {
-        src: ['libloki/crypto.js', 'libloki/service_nodes.js', 'libloki/storage.js'],
-        dest: 'js/libloki.js',
-      },
-      lokitest: {
-        src: ['node_modules/mocha/mocha.js', 'node_modules/chai/chai.js', 'libloki/test/_test.js'],
-        dest: 'libloki/test/test.js',
       },
       libtextsecuretest: {
         src: [
@@ -122,10 +105,6 @@ module.exports = grunt => {
       utilworker: {
         files: utilWorkerComponents,
         tasks: ['concat:util_worker'],
-      },
-      libloki: {
-        files: ['./libloki/*.js'],
-        tasks: ['concat:libloki'],
       },
       protobuf: {
         files: ['./protos/SignalService.proto'],

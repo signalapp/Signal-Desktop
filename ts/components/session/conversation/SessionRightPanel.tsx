@@ -281,7 +281,6 @@ export const SessionRightPanelWithDetails = (props: Props) => {
   } = props;
   const showMemberCount = !!(memberCount && memberCount > 0);
   const commonNoShow = isKickedFromGroup || left || isBlocked;
-  console.warn('AUDRIC: render right panel');
   const hasDisappearingMessages = !isPublic && !commonNoShow;
   const leaveGroupString = isPublic
     ? window.i18n('leaveGroup')

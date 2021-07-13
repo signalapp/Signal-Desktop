@@ -4,7 +4,7 @@ import https from 'https';
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { OnionPaths } from '../onions';
-import { toHex } from '../utils/String';
+import { fromHex, toHex } from '../utils/String';
 import pRetry from 'p-retry';
 import { incrementBadPathCountOrDrop } from '../onions/onionPath';
 import _ from 'lodash';
@@ -49,7 +49,7 @@ async function encryptForPubKey(pubKeyX25519hex: string, reqObj: any): Promise<D
   const textEncoder = new TextEncoder();
   const plaintext = textEncoder.encode(reqStr);
 
-  return window.libloki.crypto.encryptForPubkey(pubKeyX25519hex, plaintext);
+  return window.callWorker('encryptForPubkey', pubKeyX25519hex, plaintext);
 }
 
 export type DestinationRelayV2 = {
@@ -77,8 +77,7 @@ async function encryptForRelayV2(
   };
 
   const plaintext = encodeCiphertextPlusJson(ctx.ciphertext, reqObj);
-
-  return window.libloki.crypto.encryptForPubkey(relayX25519hex, plaintext);
+  return window.callWorker('encryptForPubkey', relayX25519hex, plaintext);
 }
 
 /// Encode ciphertext as (len || binary) and append payloadJson as utf8
@@ -397,7 +396,11 @@ export async function decodeOnionResult(symmetricKey: ArrayBuffer, ciphertext: s
   }
   const ciphertextBuffer = await window.callWorker('fromBase64ToArrayBuffer', parsedCiphertext);
 
-  const plaintextBuffer = await window.libloki.crypto.DecryptAESGCM(symmetricKey, ciphertextBuffer);
+  const plaintextBuffer = await window.callWorker(
+    'DecryptAESGCM',
+    new Uint8Array(symmetricKey),
+    new Uint8Array(ciphertextBuffer)
+  );
 
   return { plaintext: new TextDecoder().decode(plaintextBuffer), ciphertextBuffer };
 }
@@ -765,7 +768,7 @@ const sendOnionRequest = async ({
       const bodyEncoded = textEncoder.encode(body);
 
       const plaintext = encodeCiphertextPlusJson(bodyEncoded, options);
-      destCtx = await window.libloki.crypto.encryptForPubkey(destX25519hex, plaintext);
+      destCtx = await window.callWorker('encryptForPubkey', destX25519hex, plaintext);
     } else {
       destCtx = await encryptForPubKey(destX25519hex, options);
     }

@@ -35,9 +35,6 @@
     "libtextsecure": [
       "node_modules/long/dist/long.js",
       "components/protobuf/**/*.js"
-    ],
-    "libloki": [
-      "node_modules/long/dist/long.js"
     ]
   }
 }

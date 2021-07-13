@@ -8,7 +8,6 @@ dist/**
 js/components.js
 js/util_worker.js
 js/libtextsecure.js
-js/libloki.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 stylesheets/*.css
@@ -19,10 +18,6 @@ ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
 ts/util/lint/exceptions.json
-
-# Libloki specific files
-libloki/test/test.js
-libloki/test/components.js
 
 # Third-party files
 node_modules/**
