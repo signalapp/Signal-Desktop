@@ -4,6 +4,7 @@ import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../../../models/conversation';
+import { NotificationForConvoOption } from '../../../state/ducks/conversations';
 
 import {
   getBlockMenuItem,
@@ -18,7 +19,6 @@ import {
   getNotificationForConvoMenuItem,
   getPinConversationMenuItem,
 } from './Menu';
-import { NotificationForConvoOption } from '../../conversation/ConversationHeader';
 
 export type PropsContextConversationItem = {
   id: string;

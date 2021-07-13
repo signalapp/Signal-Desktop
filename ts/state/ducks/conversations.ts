@@ -10,7 +10,6 @@ import {
   ConversationTypeEnum,
 } from '../../models/conversation';
 import { MessageDeliveryStatus } from '../../models/messageType';
-import { NotificationForConvoOption } from '../../components/conversation/ConversationHeader';
 
 // State
 
@@ -89,6 +88,11 @@ export interface ConversationType {
   isPinned: boolean;
   notificationForConvo: Array<NotificationForConvoOption>;
   currentNotificationSetting: ConversationNotificationSettingType;
+}
+
+export interface NotificationForConvoOption {
+  name: string;
+  value: ConversationNotificationSettingType;
 }
 
 export type ConversationLookupType = {

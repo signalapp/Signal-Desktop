@@ -16,15 +16,11 @@ import {
 import { contextMenu } from 'react-contexify';
 import { DefaultTheme, withTheme } from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
+import { NotificationForConvoOption } from '../../state/ducks/conversations';
 
 export interface TimerOption {
   name: string;
   value: number;
-}
-
-export interface NotificationForConvoOption {
-  name: string;
-  value: ConversationNotificationSettingType;
 }
 
 interface Props {
